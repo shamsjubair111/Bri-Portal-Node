@@ -131,73 +131,52 @@ const Branch = () => {
     const subdata = new FormData(event.target);
 
 
+
+
     //  watch form data values
-    // for (var value of subdata.values()) {
-     
-    // }
+    for (var value of subdata) {
+      console.log(value);
+    }
 
    
 
-   if(branchIdValue){
-    put('Branch/Update', subdata).then((res) => {
-      // (res.status === 200 && res.data.isSuccess === true) ?
-      // status = 'success' : status = res.data.message;
-      // status = res.data.message;
-      // data = res.data.result;
-
-      //     addToast(res.data.message, {
-      //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
-      //     // autoDismiss: true,
-      //   })
-
-      // console.log(res);
-    
-    
-
-      if (res?.status === 200 && res?.data?.isSuccess === true) {
-        setSubmitData(true);
-               addToast(res.data.message, {
-           appearance: 'success',
-       autoDismiss: true,
-      })
-        history.push({
-          pathname: "/branchList"
-         
-        });
-      }
-    });
-   }
- 
-    else{
-      Axios.post(`${rootUrl}Branch/Create`, subdata).then((res) => {
-        // (res.status === 200 && res.data.isSuccess === true) ?
-        // status = 'success' : status = res.data.message;
-        // status = res.data.message;
-        // data = res.data.result;
-  
-        //     addToast(res.data.message, {
-        //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
-        //     // autoDismiss: true,
-        //   })
-  
-        // console.log(res);
+  //  if(branchIdValue){
+  //   put('Branch/Update', subdata).then((res) => {
       
-        localStorage.setItem("branchId",res?.data?.result?.id);
+
+  //     if (res?.status === 200 && res?.data?.isSuccess === true) {
+  //       setSubmitData(true);
+  //              addToast(res.data.message, {
+  //          appearance: 'success',
+  //      autoDismiss: true,
+  //     })
+  //       history.push({
+  //         pathname: "/branchList"
+         
+  //       });
+  //     }
+  //   });
+  //  }
+ 
+  //   else{
+  //     Axios.post(`${rootUrl}Branch/Create`, subdata).then((res) => {
+      
+  //       localStorage.setItem("branchId",res?.data?.result?.id);
         
-        const uniID = res?.data?.result?.id;
-        console.log((res));
+  //       const uniID = res?.data?.result?.id;
+  //       console.log((res));
   
-        if (res?.status === 200 && res?.data?.isSuccess === true) {
-          setSubmitData(true);
-               addToast(res.data.message, {
-             appearance:'success',
-              autoDismiss: true,
-            })
+  //       if (res?.status === 200 && res?.data?.isSuccess === true) {
+  //         setSubmitData(true);
+  //              addToast(res.data.message, {
+  //            appearance:'success',
+  //             autoDismiss: true,
+  //           })
         
-          history.push("/branchList");
-        }
-      });
-    }
+  //         history.push("/branchList");
+  //       }
+  //     });
+  //   }
 
    
   };
@@ -379,6 +358,7 @@ const Branch = () => {
                       onChange={(opt) => selectCountry(opt.label, opt.value)}
                       name="countryId"
                       id="countryId"
+                      defaultValue={countryValue}
                       required
 
                     />
@@ -402,6 +382,7 @@ const Branch = () => {
                       onChange={(opt) => selectState(opt.label, opt.value)}
                       name="stateId"
                       id="stateId"
+                      defaultValue={stateValue}
                       required
                     />
 

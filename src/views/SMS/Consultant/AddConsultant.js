@@ -1,12 +1,15 @@
 
 import Axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Select from "react-select";
+import { useToasts } from 'react-toast-notifications';
 
 import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button } from 'reactstrap';
 import { rootUrl } from '../../../constants/constants';
+import get from '../../../helpers/get';
+import post from '../../../helpers/post';
 import ConsultantFile from './ConsultantFile';
 
 
@@ -15,37 +18,55 @@ import ConsultantFile from './ConsultantFile';
 
 const AddConsultant = () => {
 
-    const history = useHistory();
-      const [activetab, setActivetab] = useState("1");
-      const [submitData, setSubmitData] = useState(false);
-      
-
-
-      // Getting File Or Image Type data from redux
-      const rightToWorkFile = useSelector( (state)=> state?.ConsultantFileReducer?.profileImage);
-
-   
-
-      const addressFile = useSelector( (state)=> state?.ConsultantFileReducer?.proofOfAddress);
-
-      const idOrImageFile = useSelector( (state)=> state?.ConsultantFileReducer?.idOrPassport);
-
-      const profileImage = useSelector( (state)=> state?.ConsultantFileReducer?.profileImage);
-
-      const coverImage = useSelector( (state)=> state?.ConsultantFileReducer?.coverImage);
-
-      console.log(rightToWorkFile,addressFile,idOrImageFile,profileImage,coverImage);
-
-     
-
-      
-
-      // 
-
     
-   
+    const [submitData, setSubmitData] = useState(false);
+    const [nameTitle, setNameTitle] = useState([]);
+    const [consParent, setConsParent] = useState([]);
+    const [consType, setConsType] = useState([]);
+    const [nameLabel, setNameLabel] = useState("Name title");
+    const [nameValue, setNameValue] = useState(0);
+    const [parentLabel, setParentLabel] = useState("Parent consultant");
+    const [parentValue, setParentValue] = useState(0);
+    const [typeLabel, setTypeLabel] = useState("Consultant type");
+    const [typeValue, setTypeValue] = useState(0);
 
+    const history = useHistory();
+    const { addToast } = useToasts();
+      
 
+    useEffect(()=>{
+      get("NameTittleDD/index").then(res=>{
+        setNameTitle(res);
+      });
+
+      get("ConsultantDD/index").then(res=>{
+        setConsParent(res);
+      });
+
+      get("ConsultantTypeDD/index").then(res=>{
+        setConsType(res);
+      })
+
+    },[]);
+    
+    const nameTitleMenu = nameTitle?.map(titleOptions => ({label:titleOptions?.name, value:titleOptions?.id}));
+    const consParentMenu = consParent?.map(consParentOptions => ({label:consParentOptions?.name, value:consParentOptions?.id}));
+    const consTypeMenu = consType?.map(consTypeOptions => ({label:consTypeOptions?.name, value:consTypeOptions?.id}));
+    
+    const selectNameTitle = (label, value) => {
+      setNameLabel(label);
+      setNameValue(value);
+    }
+
+    const selectParentCons = (label, value) => {
+      setParentLabel(label);
+      setParentValue(value);
+    }
+
+    const selectConsType = (label, value) => {
+      setTypeLabel(label);
+      setTypeValue(value);
+    }
       
   // on submit form
   const handleSubmit = (event) => {
@@ -54,57 +75,24 @@ const AddConsultant = () => {
     
 
     //  watch form data values
-    // for (var value of subdata.values()) {
-     
+    // for (var value of subdata) {
+    //   console.log(value);
     // }
 
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-
-    Axios.post(`${rootUrl}University/Create`, subdata, config).then((res) => {
-      // (res.status === 200 && res.data.isSuccess === true) ?
-      // status = 'success' : status = res.data.message;
-      // status = res.data.message;
-      // data = res.data.result;
-
-      //     addToast(res.data.message, {
-      //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
-      //     // autoDismiss: true,
-      //   })
-
-    
-      localStorage.setItem("id",res.data.result.id);
-      const uniID = res.data.result.id;
-
+    post("Consultant/Register", subdata).then(res=>{
       if (res.status === 200 && res.data.isSuccess === true) {
-        setSubmitData(true);
+        addToast(res?.data?.message, {
+          appearance:'success',
+          autoDismiss: true,
+        });
         history.push({
-          pathname: "/addUniversityCampus",
-          id: uniID,
+          pathname: "/consGeneralInformation",
         });
       }
-    });
+    })
+
   };
 
-
-      const toggle = (tab) => {
-        setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
-        }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
-      };
 
     const backToDashboard = () =>{
        
@@ -115,7 +103,7 @@ const AddConsultant = () => {
         <div>
              <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Consultant Information</h3>
+          <h3 className="text-light">Consultant Registration</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}
@@ -127,18 +115,6 @@ const AddConsultant = () => {
 
       <Card>
         <CardBody>
-          <Nav tabs>
-            <NavItem>
-              <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
-                General Information
-              </NavLink>
-            </NavItem>
-           
-
-          </Nav>
-
-          <TabContent activeTab={activetab}>
-            <TabPane tabId="1">
               <Form  onSubmit={handleSubmit} className="mt-5">
 
               <FormGroup row className="has-icon-left position-relative">
@@ -149,7 +125,53 @@ const AddConsultant = () => {
                   </Col>
                   <Col md="6">
                     <Select
-                    
+                      options={consTypeMenu}
+                      value={{ label: typeLabel, value: typeValue }}
+                      onChange={(opt) => selectConsType(opt.label, opt.value)}
+                      name="consultantTypeId"
+                      id="consultantTypeId"
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Parent consultant <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={consParentMenu}
+                      value={{ label: parentLabel, value: parentValue }}
+                      onChange={(opt) => selectParentCons(opt.label, opt.value)}
+                      name="parentConsultantId"
+                      id="parentConsultantId"
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Name title <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                    options={nameTitleMenu}
+                    value={{ label: nameLabel, value: nameValue }}
+                    onChange={(opt) => selectNameTitle(opt.label, opt.value)}
+                    name="nameTittleId"
+                    id="nameTittleId"
                     />
 
                     {/* <div className="form-control-position">
@@ -227,102 +249,15 @@ const AddConsultant = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Residency status <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                    
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Account status <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                    
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Branch <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                    
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Parent Consultant <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                    
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Visa type <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                    
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Have right to work <span className="text-danger">*</span>{" "}
+                      Phone number <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
                    <Input
-                      className='ms-1'
-                      type="checkbox"
-                      name="haveRightToWork"
-                      id="haveRightToWork"
-                      
+                      type="text"
+                      name="phoneNumber"
+                      id="phoneNumber"
+                      placeholder="Enter phone number"
                       required
                     />
 
@@ -331,105 +266,6 @@ const AddConsultant = () => {
                                     </div> */}
                   </Col>
                 </FormGroup>
-
-              
-
-             
-
-             
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Comission group <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                    
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-               
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                    Proof of right to work <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                
-              <ConsultantFile value={1}></ConsultantFile>
-                   
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                    Proof of address <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-          
-                  <ConsultantFile value={2}></ConsultantFile>
-                   
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                    Id or passport <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                
-                  <ConsultantFile value={3}></ConsultantFile>
-                   
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                    Profile image <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                
-                  <ConsultantFile value={4}></ConsultantFile>
-
-                   
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                    Cover image <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    
-            
-                  <ConsultantFile value={5}></ConsultantFile>
-                   
-                  </Col>
-                </FormGroup>
-
-               
-
-               
-              
-
-
 
                 <FormGroup
                   className="has-icon-left position-relative"
@@ -447,8 +283,6 @@ const AddConsultant = () => {
                   </Button.Ripple>
                 </FormGroup>
               </Form>
-            </TabPane>
-          </TabContent>
         </CardBody>
       </Card>
             

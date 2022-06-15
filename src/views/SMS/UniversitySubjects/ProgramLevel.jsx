@@ -257,7 +257,7 @@ return (
                 <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                   <ModalBody>
-                    <p>Are You Sure to Delete this {localStorage.getItem('ProgramName')} ? Once Deleted it can't be Undone!</p>
+                    <p>Are You Sure to Delete this <b>{localStorage.getItem('ProgramName')}</b> ? Once Deleted it can't be Undone!</p>
                   </ModalBody>
 
                   <ModalFooter>
