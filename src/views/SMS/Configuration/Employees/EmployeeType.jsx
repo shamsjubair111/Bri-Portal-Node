@@ -1,0 +1,284 @@
+import React, { createRef, useEffect, useState } from 'react'
+import { connect } from "react-redux";
+import { Table } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, Card, CardHeader, CardTitle, CardBody, } from 'reactstrap';
+import { User } from "react-feather"
+import { useToasts } from "react-toast-notifications";
+
+import { useDispatch } from 'react-redux';
+import { StoreEmployeeTypeData } from '../../../../redux/actions/SMS/Employees/EmployeesTypeAction'
+import { useHistory } from 'react-router';
+import get from '../../../../helpers/get';
+
+import post from '../../../../helpers/post';
+import remove from '../../../../helpers/remove';
+import put from '../../../../helpers/put';
+const EmployeeType = (props) => {
+
+  const myForm = createRef();
+  const [success, setSuccess] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [employeesTypeName, setemployeesTypeName] = useState('');
+  const [selected, setSelected] = useState('');
+  const { addToast } = useToasts();
+  const dispatch = useDispatch();
+  const [deleteModal, setDeleteModal] = useState(false);
+  const EmployeesTypeList = props.EmployeesTypeList[0];
+  const history = useHistory();
+
+  const closeModal = () => {
+    setModalOpen(false)
+    setSelected('');
+    setemployeesTypeName('')
+    localStorage.removeItem('updateemployeesType')
+  }
+
+  useEffect(() => {
+    const returnValue = get(`EmployeType/Index`).then((data) => {
+     
+      dispatch(StoreEmployeeTypeData(data))
+    })
+  }, [dispatch])
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const subdata = {
+      Name: employeesTypeName
+    }
+
+
+    const returnValue = post(`EmployeType/Create`, subdata).then((action) => {
+      setSuccess(!success)
+      setModalOpen(false)
+      console.log(action)
+     
+      addToast(action?.data?.message, {
+        appearance: 'success',
+        autoDismiss: true,
+      })
+      setemployeesTypeName('')
+      setSelected('')
+      get(`EmployeType/Index`).then((data) => {
+     
+        dispatch(StoreEmployeeTypeData(data))
+      })
+    });
+  }
+
+
+  const handleUpdate = (p) => {
+    setModalOpen(true)
+    setSelected(p.name)
+    localStorage.setItem('updateemployeesType', p.id)
+  }
+
+  const changingemployeesType = (v) => {
+    setemployeesTypeName(v)
+    setSelected(v)
+  }
+  const toggleDanger = (p) => {
+    localStorage.setItem('employeesTypeId', p.id)
+    localStorage.setItem('employeesTypeName', p.name)
+    setDeleteModal(true)
+  }
+
+  const handleDeletePermission = (id) => {
+ 
+    const returnValue = remove(`EmployeType/Delete/${id}`).then((action) => {
+      setDeleteModal(false);
+      setSuccess(!success);
+      console.log(action);
+      
+        addToast(action, {
+          appearance:  'error',
+          autoDismiss: true,
+        })
+        localStorage.removeItem('employeesTypeId')
+        localStorage.removeItem('employeesTypeName')
+        get(`EmployeType/Index`).then((data) => {
+     
+          dispatch(StoreEmployeeTypeData(data))
+        })
+
+       
+    })
+  }
+
+  const handleUpdateSubmit = () => {
+
+    const id = localStorage.getItem('updateemployeesType');
+
+    const subData = {
+      Name: selected,
+      Id: id
+    }
+
+    const returnvalue = put(`EmployeType/Update`, subData).then((action) => {
+      setSuccess(!success)
+      setModalOpen(false)
+    
+      if(action?.status == 200){
+        addToast(action?.data?.message, {
+          appearance:  'success',
+          autoDismiss: true
+        })
+        setSelected('')
+        localStorage.removeItem('updateemployeesType')
+        get(`EmployeType/Index`).then((data) => {
+       
+          dispatch(StoreEmployeeTypeData(data))
+        })
+      }
+      
+    })
+  }
+
+  // employee count click
+  const handleEmpCount = (id,name) => {
+    history.push({
+      pathname: '/employeeList',
+      id: id,
+      name: name
+    })
+  }
+  // redirect to dashboard
+  const backToDashboard = () => {
+    history.push("/")
+  }
+
+  return (
+
+    <div>
+      <Card className='uapp-card-bg'>
+        <CardHeader className="page-header">
+
+          <h3 className='text-light'>Employee Type </h3>
+          <div className="page-header-back-to-home">
+            <span onClick={backToDashboard} className='text-light'> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+          </div>
+
+        </CardHeader>
+      </Card>
+
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Employee Type</CardTitle>
+          <Button color="success" onClick={() => setModalOpen(true)}>Add Employee Type</Button>
+        </CardHeader>
+        <CardBody>
+
+          <Modal isOpen={modalOpen} toggle={() => setModalOpen(!modalOpen)} className="uapp-modal">
+            <ModalHeader>Add Employees Type</ModalHeader>
+            <ModalBody>
+              <Form ref={myForm} onSubmit={handleSubmit}>
+
+                <Input
+                  type="number"
+                  name="Id"
+                  id="Id"
+                  hidden
+                />
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="4">
+                    <span>Add Employees Type</span>
+                  </Col>
+                  <Col md="8">
+                    <Input
+                      type="text"
+                      name="Name"
+                      id="Name"
+                      value={selected}
+                      placeholder="Employees Type"
+                      onChange={(e) => changingemployeesType(e.target.value)}
+                      required
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+                  <Button color="danger" className="mr-1 mt-3" onClick={() => closeModal()}>Close</Button>
+
+                  {
+                    localStorage.getItem("updateemployeesType") ?
+                      <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> :
+                      <Button.Ripple
+                        color="primary"
+                        type="submit"
+                        className="mr-1 mt-3"
+
+                      >
+                        Submit
+                      </Button.Ripple>
+
+                  }
+
+                </FormGroup>
+
+              </Form>
+            </ModalBody>
+          </Modal>
+
+          <Table>
+            <thead>
+              <tr>
+                <th>SL/NO</th>
+                <th>Name</th>
+                <th className="text-center"> Total Employee</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                EmployeesTypeList?.map((etype, i) => <tr key={etype.id}>
+                  <th scope="row">{i + 1}</th>
+                  <td>{etype.name}</td>
+                  <td className="text-center">
+                    <span onClick={()=>handleEmpCount(etype.id, etype.name)} className="badge badge-pill badge-primary cursor-pointer">  {etype.employeeCount} </span>
+                  </td>
+                  <td>
+
+                    <Button onClick={() => toggleDanger(etype)} color="danger" className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button>
+                    <Button onClick={() => handleUpdate(etype)} color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
+
+                    <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+
+                      <ModalBody>
+                        <p>Are You Sure to Delete this {localStorage.getItem('employeesTypeName')} ? Once Deleted it can't be Undone!</p>
+                      </ModalBody>
+
+                      <ModalFooter>
+                        <Button onClick={() => handleDeletePermission(localStorage.getItem('employeesTypeId'))} color="danger">YES</Button>
+                        <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                      </ModalFooter>
+
+                    </Modal>
+                  </td>
+                </tr>
+
+                )}
+
+
+            </tbody>
+          </Table>
+
+        </CardBody>
+      </Card>
+
+
+
+
+
+
+    </div>
+  );
+
+}
+const mapStateToProps = state => ({
+
+  EmployeesTypeList: state.employeeTypeDataReducer.employeeType,
+})
+export default connect(mapStateToProps)(EmployeeType);

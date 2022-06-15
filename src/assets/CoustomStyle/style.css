@@ -1,0 +1,440 @@
+.uapp-bg {
+  background: #1e98b0 !important;
+}
+.badge-primary {
+  background: #1e98b0 !important;
+}
+.btn-primary {
+  border-color: #1e98b0 !important;
+  background-color: #1e98b0 !important;
+}
+.dropdown-menu-header {
+  background: #1e98b0 !important;
+  text-align: center;
+}
+body .custom-nav.content .coustom-wrapper.content-wrapper {
+  padding: calc(2.2rem - 0.4rem) 1.5rem 0 !important;
+  margin-top: 5rem !important;
+}
+[dir] .card {
+  margin-bottom: 1.2rem !important;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 25px 0px rgb(0 0 0 / 10%);
+}
+.search-card-body {
+  padding-bottom: 0.75rem !important;
+}
+[dir] .dropdown-notification .dropdown-menu.dropdown-menu-right::before {
+  background: #1e98b0 !important;
+  border-color: #1e98b0 !important;
+}
+/*Uapp btn*/
+.uapp-submit-btn {
+  color: #fff;
+  background: #1e98b0;
+  border: 1px solid #1e98b0 !important;
+  padding: 10px 30px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.uapp-btn {
+  color: #707070;
+  background: #fff;
+  border: 1px solid #1e98b0 !important;
+  padding: 8px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.uapp-btn:hover {
+  color: #fff;
+  background: #1e98b0;
+  border-color: #1e98b0;
+}
+
+/* End Uapp btn*/
+/* nav-toggle  */
+.dropdown-item:hover,
+[dir]
+  .header-navbar
+  .navbar-container
+  ul.nav
+  li.dropdown-user
+  .dropdown-menu-right
+  .dropdown-item:active {
+  background: #1d94ab !important;
+}
+.text-uapp {
+  color: #20a8d8;
+}
+
+.text-uapp:hover {
+  color: #1985ac;
+}
+
+.uapp-navbar.header-navbar
+  .navbar-container
+  ul.navbar-nav
+  li
+  > .nav-link
+  svg:hover {
+  color: #1985ac;
+}
+
+@media (max-width: 678px) {
+  .show-max-678 {
+    display: block;
+  }
+
+  .hide-min-678 {
+    display: none;
+  }
+
+  .brand-logo img {
+    width: 59px;
+    height: 48px;
+  }
+}
+
+@media (min-width: 678px) {
+  .hide-min-678 {
+    display: block;
+  }
+
+  .show-max-678 {
+    display: none;
+  }
+
+  .brand-logo img {
+    width: 200px;
+    margin-left: 5px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .header-navbar .navbar-header .navbar-brand {
+    position: relative !important;
+    top: 0;
+  }
+
+  .header-navbar .navbar-header {
+    padding: 0rem 0rem;
+  }
+
+  .header-navbar .navbar-header .navbar-brand {
+    left: 0%;
+    transform: translate(0%, 0);
+  }
+}
+/*  End nav-toggle  */
+
+/*  uapp-sidbar  */
+.main-menu.uapp-sidbar {
+  top: 77px;
+  z-index: 1211;
+  position: fixed;
+  display: table-cell;
+  height: 100%;
+  overflow: hidden;
+  width: 200px;
+  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: #fff;
+}
+
+.main-menu.uapp-sidbar.menu-light .navigation {
+  background: #fff;
+}
+
+.main-menu.uapp-sidbar.menu-light .navigation li a {
+  color: #1d94ab;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  transition: padding 0.35s ease 0s !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.uapp-sidbar.menu-light .navigation .navigation-header {
+  color: #1d94ab;
+  line-height: 1.5;
+  letter-spacing: 0.01rem;
+  font-weight: 400;
+}
+
+.uapp-sidbar.menu-light .navigation .nav-item.uapp-nav-item.active a {
+  background: linear-gradient(118deg, #1d94ab, #1d94ab) !important;
+  color: #fff;
+  box-shadow: none !important;
+  border-radius: 25px 0 0 25px;
+}
+
+.uapp-sidbar.menu-light .navigation .nav-item.uapp-nav-item.active .d-flex {
+  box-shadow: none !important;
+}
+
+[dir] .main-menu.menu-light .navigation > .uapp-nav-item.active > a {
+  color: #fff !important;
+  background: #1d94ab;
+  border-radius: 25px 0 0 25px;
+}
+
+.uapp-nav-item.active {
+  padding: 0px 0px 0px 15px;
+}
+
+[dir] .main-menu.menu-light .navigation > .uapp-nav-item.active {
+  padding: 0px 0px 0px 4px !important;
+}
+.main-menu.menu-light .navigation > .uapp-nav-item.active i {
+  color: #fff !important;
+}
+.uapp-sidbar.main-menu.menu-light .navigation > .uapp-nav-item {
+  padding: 0;
+}
+.uapp-sidbar.main-menu ul.navigation-main .nav-item svg:first-child {
+  margin-right: 0.4rem;
+}
+.uapp-sidbar.main-menu ul.navigation-main .nav-item i:first-child {
+  font-size: 16px;
+  display: inline-block;
+  width: 1.09375rem;
+  margin-right: 1rem;
+  color: #1d94ab;
+  text-align: center;
+}
+
+.uapp-sidbar.main-menu.menu-light .navigation > li ul li a {
+  color: #1d94ab !important;
+  background: #fff;
+  border-radius: 25px 0 0 25px;
+}
+
+.uapp-sidbar.main-menu.menu-light .navigation > li ul li.active a {
+  color: #fff !important;
+  background: #1d94ab;
+  border-radius: 25px 0 0 25px;
+}
+.uapp-sidbar.main-menu.menu-light .navigation > li ul li.active i {
+  color: #fff !important;
+}
+
+.uapp-sidbar.main-menu.menu-light .navigation > li ul li.active {
+  background: none !important;
+  box-shadow: none !important;
+}
+.vertical-layout
+  .main-menu.uapp-sidbar.theme-primary
+  .navigation
+  .nav-item
+  .menu-content
+  li.active {
+  box-shadow: none !important;
+}
+
+.main-menu.menu-light .navigation li a {
+  padding: 14px 15px;
+}
+.vertical-layout.menu-collapsed .main-menu.collapsed {
+  width: 72px !important;
+  transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+/* // End uapp-sidbar // */
+
+.uapp-navbar.header-navbar.floating-nav {
+  position: fixed;
+  width: 100%;
+  z-index: 1211;
+}
+.react-toast-notifications__container.css-nvf14r-ToastContainer {
+  z-index: 2000 !important;
+}
+.uapp-navbar.header-navbar.floating-nav {
+  margin: 0;
+  border-radius: 0rem !important;
+}
+
+.vertical-layout.menu-collapsed .app-content .header-navbar {
+  width: 100%;
+}
+
+.uapp-navbar.navbar {
+  padding: 0.5rem 0rem !important;
+}
+
+.uapp-navbar.header-navbar .navbar-container {
+  padding-left: 0rem;
+  margin-left: 0;
+}
+.nav-item.uapp-nav-item.has-sub.open {
+  display: block !important;
+}
+@media (max-width: 1200px) {
+  .vertical-layout .app-content .header-navbar.floating-nav {
+    width: calc(100% - 0rem) !important;
+  }
+}
+
+/*uapp footer*/
+.uapp-footer ul {
+  margin: 0;
+  padding: 0;
+}
+
+.uapp-footer-list {
+  width: 100%;
+  display: flex;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  justify-content: center;
+}
+
+.uapp-footer-list li {
+  list-style: none;
+  margin-right: 16px;
+}
+
+.uapp-footer-list li a {
+  white-space: pre-line;
+  text-decoration: none;
+  margin: 0;
+}
+
+.footer-text {
+  font-size: 12px;
+}
+
+footer.footer {
+  border-top: 2px solid #eee;
+  padding-top: 1rem !important;
+  padding-bottom: 0.5rem !important;
+  padding-left: 1.1rem !important;
+  padding-right: 1.1rem !important;
+}
+
+.uapp-footer-img {
+  text-align: center !important;
+}
+
+.uapp-footer-img img {
+  width: 200px;
+}
+
+@media (max-width: 767px) {
+  .footer-text {
+    text-align: center !important;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+}
+@media (min-width: 992px) {
+  .uapp-footer-main.footer {
+    margin-left: 200px;
+  }
+}
+/*main body*/
+@media (max-width: 1200px) {
+  .vertical-layout .app-content {
+    margin-left: 0;
+  }
+
+  .vertical-layout .uapp-footer-main.footer {
+    margin-left: 0;
+  }
+}
+@media (min-width: 1200px) {
+  .vertical-layout .app-content {
+    margin-left: 200px;
+  }
+}
+
+/* uapp-modal */
+.uapp-modal .modal-content {
+  margin-top: 30%;
+}
+.tooltip {
+  z-index: 10000;
+  /* left: 5px !important; */
+}
+.menuIcon {
+  color: #329bc1 !important;
+}
+
+.btn-warning {
+  position: relative;
+
+  cursor: pointer;
+  font-size: 15px;
+
+  line-height: 1.5;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #ffc100;
+  border: 0;
+  transition: 0.2s;
+  overflow: hidden;
+}
+
+.btn-warning input[type="file"] {
+  cursor: context-menu;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  transform: scale(3);
+  opacity: 0;
+}
+
+.btn-warning:hover {
+  background-color: #d9a400;
+}
+
+/*
+fixt table*/
+
+/*.tableFixHead {
+  overflow-y: auto;
+  height: 450px;
+}
+
+  .tableFixHead thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .tableFixHead tbody th {
+    position: sticky;
+    left: 0;
+  }*/
+
+/* Just common table stuff. Really. */
+/*table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px 16px;
+}
+
+th {
+  background: #eee;
+}*/
+
+.btn-clear {
+  cursor: pointer;
+}
+
+.btn-clear :hover {
+  
+  cursor: pointer;
+  transform: scale(1.3);
+  transition: 0.1s;
+}
+
+.icon-hover-style{
+  cursor: pointer;
+}
+
