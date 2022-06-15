@@ -3,8 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import Select from "react-select";
 import get from '../../../helpers/get';
+import post from '../../../helpers/post';
+import { useToasts } from "react-toast-notifications";
 
 const ContactInformation = () => {
+
+
+  const {addToast} = useToasts();
+
 
     const history = useHistory();
     const [activetab, setActivetab] = useState("3");
@@ -77,11 +83,31 @@ const ContactInformation = () => {
 
            // select  Address Type
   const selectAddressType = (label, value) => {
-    setCountryLabel(label);
-    setCountryValue(value);
+    setAddressTypeLabel(label);
+    setAddressTypeValue(value);
     
    
    
+  }
+
+  const handleSubmit = (event) => {
+
+  event.preventDefault();
+    const subData = new FormData(event.target);
+
+    post('StudentContactInformation/Create',subData)
+    .then(res => {
+      console.log(res);
+      if(res?.status == 200){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        history.push('/addStudentEducationalInformation');
+
+      }
+    })
+
   }
 
 
@@ -159,7 +185,14 @@ const ContactInformation = () => {
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="3">
-              <Form   className="mt-5">
+              <Form onSubmit={handleSubmit}  className="mt-5">
+
+              <input
+              type='hidden'
+              name='studentId'
+              id='studentId'
+              value={localStorage.getItem('applictionStudentId')}
+              />
 
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -169,9 +202,9 @@ const ContactInformation = () => {
                   </Col>
                   <Col md="6">
                    <Input
-                      type="number"
-                      name="lastName"
-                      id="lastName"
+                      type="text"
+                      name="cellPhoneNumber"
+                      id="cellPhoneNumber"
                      placeholder='Enter cell phone number'
                       required
                     />
@@ -190,9 +223,9 @@ const ContactInformation = () => {
                   </Col>
                   <Col md="6">
                    <Input
-                      type="number"
-                      name="lastName"
-                      id="lastName"
+                      type="string"
+                      name="addressLine"
+                      id="addressLine"
                      placeholder='Enter address line'
                       required
                     />
@@ -211,9 +244,9 @@ const ContactInformation = () => {
                   </Col>
                   <Col md="6">
                    <Input
-                      type="number"
-                      name="lastName"
-                      id="lastName"
+                      type="string"
+                      name="city"
+                      id="city"
                      placeholder='Enter city'
                       required
                     />
@@ -232,9 +265,9 @@ const ContactInformation = () => {
                   </Col>
                   <Col md="6">
                    <Input
-                      type="number"
-                      name="lastName"
-                      id="lastName"
+                      type="string"
+                      name="state"
+                      id="state"
                      placeholder='Enter state'
                       required
                     />
@@ -248,14 +281,14 @@ const ContactInformation = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Zip  Coode <span className="text-danger">*</span>{" "}
+                      Zip  Code <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
                    <Input
-                      type="number"
-                      name="lastName"
-                      id="lastName"
+                      type="string"
+                      name="zipCode "
+                      id="zipCode"
                      placeholder='Enter zip code'
                       required
                     />
@@ -300,8 +333,8 @@ const ContactInformation = () => {
                       options={addressTypeName}
                       value={{ label: addressTypeLabel, value: addressTypeValue }}
                       onChange={(opt) => selectAddressType(opt.label, opt.value)}
-                      name="countryId"
-                      id="countryId"
+                      name="addressTypeId"
+                      id="addressTypeId"
                       required
 
                     />
