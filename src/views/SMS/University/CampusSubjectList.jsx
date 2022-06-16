@@ -353,12 +353,12 @@ const CampusSubjectList = () => {
                           </Button>
                         </Link>
 
-                          <Link to={`editSubject/${sub?.id}`}>
+                          {/* <Link to={`editSubject/${sub?.id}`}> */}
                             <Button color="dark" className="mx-1 btn-sm">
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
-                          </Link>
+                          {/* </Link> */}
 
                           <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
