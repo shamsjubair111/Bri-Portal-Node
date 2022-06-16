@@ -302,7 +302,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/consultantProfile" component={ConsultantProfile} />
           <AppRoute path="/addConsultant" component={AddConsultant} />
           <AppRoute path="/addConsultantType" component={AddConsultantType} />
-          <AppRoute path="/consGeneralInformation" component={ConsGeneralInformation} />
+          <AppRoute path="/addConsGeneralInformation" component={ConsGeneralInformation} />
           
 
          <AppRoute path="/addUniversityCampus" component={AddUniversityCampus} />

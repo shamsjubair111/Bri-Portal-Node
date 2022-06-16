@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
+import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import Select from "react-select";
 import {
@@ -31,44 +32,184 @@ import { rootUrl } from "../../../constants/constants";
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import ConsultantFile from './ConsultantFile';
+import { useToasts } from 'react-toast-notifications';
 
 const ConsGeneralInformation = () => {
 
     const [activetab, setActivetab] = useState("1");
     const [submitData, setSubmitData] = useState(false);
     const [nameTitle, setNameTitle] = useState([]);
-    const [nameLabel, setNameLabel] = useState("Name title");
+    const [consType, setConsType] = useState([]);
+    const [countries, setCountries] = useState([]);
+    const [resCountry, setResCountry] = useState([]);
+    const [nationality, setNationality] = useState([]);
+    const [consParent, setConsParent] = useState([]);
+    const [branch, setBranch] = useState([]);
+    const [nameLabel, setNameLabel] = useState("Name title...");
     const [nameValue, setNameValue] = useState(0);
+    const [typeLabel, setTypeLabel] = useState("Consultant type...");
+    const [typeValue, setTypeValue] = useState(0);
+    const [countryLabel, setCountryLabel] = useState("Country of residency...");
+    const [countryValue, setCountryValue] = useState(0);
+    const [resCountryLabel, setResCountryLabel] = useState("Residency status...");
+    const [resCountryValue, setResCountryValue] = useState(0);
+    const [nationLabel, setNationLabel] = useState("Nationality...");
+    const [nationValue, setNationValue] = useState(0);
+    const [parentLabel, setParentLabel] = useState("Parent consultant");
+    const [parentValue, setParentValue] = useState(0);
+    const [branchLabel, setBranchLabel] = useState("Branch...")
+    const [branchValue, setBranchValue] = useState(0);
+    const [rightToWork, setRightToWork] = useState(false);
 
     const history = useHistory();
+    const { addToast } = useToasts();
 
     useEffect(()=>{
       get("NameTittleDD/index").then(res=>{
           setNameTitle(res);
       });
+
+      get("ConsultantTypeDD/index").then(res=>{
+        setConsType(res);
+      });
+
+      get("CountryDD/index").then(res=>{
+        console.log("countries", res);
+        setCountries(res);
+      });
+
+      get("ResidencyStatusDD/index").then(res=>{
+        console.log("residencyCountry", res);
+        setResCountry(res);
+      });
+
+      get("NationalityDD/index").then(res=>{
+        setNationality(res);
+      });
+
+      get("ConsultantDD/index").then(res=>{
+        setConsParent(res);
+      });
+
+      get("BranchDD/index").then(res=>{
+        setBranch(res);
+      });
     },[]);
 
     const nameTitleMenu = nameTitle?.map(titleOptions => ({label:titleOptions?.name, value:titleOptions?.id}));
+    const consTypeMenu = consType?.map(consTypeOptions => ({label:consTypeOptions?.name, value:consTypeOptions?.id}));
+    const countryMenu = countries?.map(countryOptions => ({label:countryOptions?.name, value:countryOptions?.id}));
+    const resCountryMenu = resCountry?.map(resCountryOptions => ({label:resCountryOptions?.name, value:resCountryOptions?.id}));
+    const nationalityMenu = nationality?.map(nationalityOptions => ({label:nationalityOptions?.name, value:nationalityOptions?.id}));
+    const consParentMenu = consParent?.map(consParentOptions => ({label:consParentOptions?.name, value:consParentOptions?.id}));
+    const branchMenu = branch?.map(branchOptions => ({label:branchOptions?.name, value:branchOptions?.id}));
 
     const selectNameTitle = (label, value) => {
         setNameLabel(label);
         setNameValue(value);
       }
 
+    const selectConsType = (label, value) => {
+      setTypeLabel(label);
+      setTypeValue(value);
+    }
+
+    const selectCountry = (label, value) => {
+      setCountryLabel(label);
+      setCountryValue(value);
+    }
+
+    const selectResCountry = (label, value) => {
+      setResCountryLabel(label);
+      setResCountryValue(value);
+    }
+
+    const selectNationality = (label, value) => {
+      setNationLabel(label);
+      setNationValue(value);
+    }
+
+    const selectParentCons = (label, value) => {
+      setParentLabel(label);
+      setParentValue(value);
+    }
+    const selectBranch = (label, value) => {
+      setBranchLabel(label);
+      setBranchValue(value);
+    }
+
+    
+
     // Getting File Or Image Type data from redux
-    // const rightToWorkFile = useSelector( (state)=> state?.ConsultantFileReducer?.profileImage);
 
-   
 
-    // const addressFile = useSelector( (state)=> state?.ConsultantFileReducer?.proofOfAddress);
+    const rightToWorkFile = useSelector( (state)=> state?.ConsultantFileReducer?.profileImage);
 
-    // const idOrImageFile = useSelector( (state)=> state?.ConsultantFileReducer?.idOrPassport);
+    const addressFile = useSelector( (state)=> state?.ConsultantFileReducer?.proofOfAddress);
 
-    // const profileImage = useSelector( (state)=> state?.ConsultantFileReducer?.profileImage);
+    const idOrImageFile = useSelector( (state)=> state?.ConsultantFileReducer?.idOrPassport);
 
-    // const coverImage = useSelector( (state)=> state?.ConsultantFileReducer?.coverImage);
+    const profileImage = useSelector( (state)=> state?.ConsultantFileReducer?.profileImage);
 
-    // console.log(rightToWorkFile,addressFile,idOrImageFile,profileImage,coverImage);
+    // console.log(rightToWorkFile,addressFile,idOrImageFile,profileImage);
+
+    const handleChange = (e) => {
+      
+      let isChecked = e.target.checked;
+      setRightToWork(isChecked);
+     
+    } 
+
+    const handleSubmit = (e) =>{
+      e.preventDefault();
+      const subdata = new FormData(e.target);
+      subdata.append('HaveRightToWork',rightToWork);
+      subdata.append("ConsultantProfileImage", profileImage[0]?.originFileObj);
+      subdata.append("IdOrPassport", idOrImageFile[0]?.originFileObj);
+      subdata.append("ProofOfRightToWork", rightToWorkFile[0]?.originFileObj);
+      subdata.append("ProofOfAddress", addressFile[0]?.originFileObj);
+
+      //  watch form data values
+    // for (var value of subdata) {
+    //   console.log(value);
+    // }
+
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+
+      post(`Consultant/Create`, subdata, config).then((res) => {
+        // (res.status === 200 && res.data.isSuccess === true) ?
+        // status = 'success' : status = res.data.message;
+        // status = res.data.message;
+        // data = res.data.result;
+  
+        //     addToast(res.data.message, {
+        //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
+        //     // autoDismiss: true,
+        //   })
+  
+        console.log(res);
+      
+        // localStorage.setItem("id",res.data.result.id);
+        // const uniID = res.data.result.id;
+  
+        if (res.status === 200 && res.data.isSuccess === true) {
+          setSubmitData(true);
+          addToast(res?.data?.message, {
+            appearance:'success',
+            autoDismiss: true,
+          });
+          // history.push({
+          //   pathname: "/addUniversityCampus",
+          //   id: uniID,
+          // });
+        }
+      });
+
+    }
 
     // tab toggle
   const toggle = (tab) => {
@@ -122,7 +263,24 @@ const ConsGeneralInformation = () => {
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="1">
-              <Form  onSubmit='' className="mt-5">
+              <Form  onSubmit={handleSubmit} className="mt-5">
+
+              <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Consultant Type <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={consTypeMenu}
+                      value={{ label: typeLabel, value: typeValue }}
+                      onChange={(opt) => selectConsType(opt.label, opt.value)}
+                      name="consultantTypeId"
+                      id="consultantTypeId"
+                    />
+                  </Col>
+                </FormGroup>
 
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -152,7 +310,7 @@ const ConsGeneralInformation = () => {
                       type="text"
                       name="firstName"
                       id="firstName"
-                      placeholder="Enter First Name"
+                      placeholder="First Name"
                       required
                     />
                   </Col>
@@ -169,7 +327,7 @@ const ConsGeneralInformation = () => {
                       type="text"
                       name="lastName"
                       id="lastName"
-                      placeholder="Enter Last Name"
+                      placeholder="Last Name"
                       required
                     />
                   </Col>
@@ -178,16 +336,16 @@ const ConsGeneralInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Consultant Type <span className="text-danger">*</span>{" "}
+                      Email <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
-                    <Select
-                    //   options={uniMenu}
-                    //   value={{ label: uniLabel, value: uniValue }}
-                    //   onChange={(opt) => selectUniversity(opt.label, opt.value)}
-                      name="consultantTypeId"
-                      id="consultantTypeId"
+                    <Input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="Email"
+                      required
                     />
                   </Col>
                 </FormGroup>
@@ -209,54 +367,19 @@ const ConsGeneralInformation = () => {
                   </Col>
                 </FormGroup>
 
-
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Current Zip/Post Code <span className="text-danger">*</span>{" "}
+                      Parent consultant <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
-                    <Input
-                      type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Enter current zip/post code"
-                      required
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Street Address
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="streetAddress"
-                      id="streetAddress"
-                      placeholder="Enter street address"
-                      required
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      City
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="city"
-                      id="city"
-                      placeholder="Enter city"
-                      required
+                    <Select
+                      options={consParentMenu}
+                      value={{ label: parentLabel, value: parentValue }}
+                      onChange={(opt) => selectParentCons(opt.label, opt.value)}
+                      name="parentConsultantId"
+                      id="parentConsultantId"
                     />
                   </Col>
                 </FormGroup>
@@ -269,11 +392,42 @@ const ConsGeneralInformation = () => {
                   </Col>
                   <Col md="6">
                     <Select
-                    //   options={departmentMenu}
-                    //   value={{ label: depLabel, value: depValue }}
-                    //   onChange={(opt) => selectDepartment(opt.label, opt.value)}
+                      options={countryMenu}
+                      value={{ label: countryLabel, value: countryValue }}
+                      onChange={(opt) => selectCountry(opt.label, opt.value)}
                       name="countryOfResidencyId"
                       id="countryOfResidencyId"
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                    <Col md="2">
+                      <span>
+                        Have right to work? <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="6" className='ms-4'>
+                     <Input
+                        type="checkbox"
+                        onChange={handleChange}
+                      />
+                    </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Branch <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={branchMenu}
+                      value={{ label: branchLabel, value: branchValue }}
+                      onChange={(opt) => selectBranch(opt.label, opt.value)}
+                      name="branchId"
+                      id="branchId"
                     />
                   </Col>
                 </FormGroup>
@@ -286,9 +440,9 @@ const ConsGeneralInformation = () => {
                   </Col>
                   <Col md="6">
                     <Select
-                    //   options={subDepMenu}
-                    //   value={{ label: subDepLabel, value: subDepValue }}
-                    //   onChange={(opt) => selectSubDepartment(opt.label, opt.value)}
+                      options={nationalityMenu}
+                      value={{ label: nationLabel, value: nationValue }}
+                      onChange={(opt) => selectNationality(opt.label, opt.value)}
                       name="nationalityId"
                       id="nationalityId"
                     />
@@ -303,9 +457,9 @@ const ConsGeneralInformation = () => {
                   </Col>
                   <Col md="6">
                     <Select
-                    //   options={subDepMenu}
-                    //   value={{ label: subDepLabel, value: subDepValue }}
-                    //   onChange={(opt) => selectSubDepartment(opt.label, opt.value)}
+                      options={resCountryMenu}
+                      value={{ label: resCountryLabel, value: resCountryValue }}
+                      onChange={(opt) => selectResCountry(opt.label, opt.value)}
                       name="residencyStatusId"
                       id="residencyStatusId"
                     />

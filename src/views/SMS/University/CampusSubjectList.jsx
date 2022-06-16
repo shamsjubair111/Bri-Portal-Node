@@ -296,7 +296,7 @@ const CampusSubjectList = () => {
                 </thead>
                 <tbody>
                   {subList?.map((sub, i) => (
-                    <tr key={sub.id} style={{ textAlign: "center" }}>
+                    <tr key={sub?.id} style={{ textAlign: "center" }}>
                       <td>{serialNum + i}</td>
                       <td>
                         {sub?.name}
@@ -353,12 +353,12 @@ const CampusSubjectList = () => {
                           </Button>
                         </Link>
 
-                          {/* <Link to={`editSubject/${sub?.id}`}> */}
+                          <Link to={`/editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
-                          {/* </Link> */}
+                          </Link>
 
                           <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
@@ -369,7 +369,7 @@ const CampusSubjectList = () => {
                       <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                           <ModalBody>
-                            <p>Are You Sure to Delete this {localStorage.getItem('subName')} ? Once Deleted it can't be Undone!</p>
+                            <p>Are You Sure to Delete this <b>{localStorage.getItem('subName')}</b> ? Once Deleted it can't be Undone!</p>
                           </ModalBody>
 
                           <ModalFooter>

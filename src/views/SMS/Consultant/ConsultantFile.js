@@ -79,33 +79,22 @@ const  ConsultantFile = (props) => {
  
 
 if(props.value === 1){
-  dispatch(ProofOfRightToWorkData(FileList))
-}
-
-else if(props.value === 2){
-  dispatch(ProofOfAddress(FileList))
-}
-
-else if(props.value === 3){
-  dispatch(IdOrPassport(FileList))
-}
-
-else if(props.value === 4){
   dispatch(ProfileImage(FileList))
 }
 
-else if(props.value === 5){
-  dispatch(CoverImage(FileList))
+else if(props.value === 2){
+  dispatch(IdOrPassport(FileList))
+}
+
+else if(props.value === 3){
+  dispatch(ProofOfRightToWorkData(FileList))
+}
+
+else if(props.value === 4){
+  dispatch(ProofOfAddress(FileList))
 }
 
 
-
-
-
-
-  
-   
-  
     return (
       <>
         <Upload

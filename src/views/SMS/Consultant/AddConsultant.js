@@ -86,7 +86,7 @@ const AddConsultant = () => {
           autoDismiss: true,
         });
         history.push({
-          pathname: "/consGeneralInformation",
+          pathname: "/addConsGeneralInformation",
         });
       }
     })
