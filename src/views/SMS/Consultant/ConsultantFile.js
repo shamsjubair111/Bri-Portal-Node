@@ -87,10 +87,14 @@ else if(props.value === 2){
 }
 
 else if(props.value === 3){
-  dispatch(ProofOfRightToWorkData(FileList))
+  dispatch(IdOrPassport(FileList))
 }
 
 else if(props.value === 4){
+  dispatch(ProofOfRightToWorkData(FileList))
+}
+
+else if(props.value === 5){
   dispatch(ProofOfAddress(FileList))
 }
 

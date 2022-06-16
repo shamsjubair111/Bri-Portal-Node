@@ -151,6 +151,8 @@ const ConsGeneralInformation = () => {
 
     const profileImage = useSelector( (state)=> state?.ConsultantFileReducer?.profileImage);
 
+    const coverImage = useSelector( (state)=> state?.ConsultantFileReducer?.coverImage);
+
     // console.log(rightToWorkFile,addressFile,idOrImageFile,profileImage);
 
     const handleChange = (e) => {
@@ -168,6 +170,7 @@ const ConsGeneralInformation = () => {
       subdata.append("IdOrPassport", idOrImageFile[0]?.originFileObj);
       subdata.append("ProofOfRightToWork", rightToWorkFile[0]?.originFileObj);
       subdata.append("ProofOfAddress", addressFile[0]?.originFileObj);
+      subdata.append("ConsultantCoverImage", coverImage[0]?.originFileObj);
 
       //  watch form data values
     // for (var value of subdata) {
@@ -483,12 +486,13 @@ const ConsGeneralInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                    Id or passport
+                    Cover Photo
                     </span>
                   </Col>
                   <Col md="6">
                 
                   <ConsultantFile value={2}></ConsultantFile>
+
                    
                   </Col>
                 </FormGroup>
@@ -496,7 +500,7 @@ const ConsGeneralInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                    Proof of Your Right to Work Self-Employed in the UK (BRP/Visa)
+                    Id or passport
                     </span>
                   </Col>
                   <Col md="6">
@@ -509,12 +513,25 @@ const ConsGeneralInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
+                    Proof of Your Right to Work Self-Employed in the UK (BRP/Visa)
+                    </span>
+                  </Col>
+                  <Col md="6">
+                
+                  <ConsultantFile value={4}></ConsultantFile>
+                   
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
                     Proof of address <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
           
-                  <ConsultantFile value={4}></ConsultantFile>
+                  <ConsultantFile value={5}></ConsultantFile>
                    
                   </Col>
                 </FormGroup>
