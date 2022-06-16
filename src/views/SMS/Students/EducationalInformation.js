@@ -67,18 +67,19 @@ const EducationalInformation = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+        if (tab == "3") {
+          history.push("/addStudentContactInformation");
+        }
+
+       
       };
 
       const styleLabelBold = {
@@ -297,61 +298,73 @@ const handleUpdate = (id) => {
         <TabContent activeTab={activetab}>
           <TabPane tabId="4">
 
+        <div className='row'>
 
 
-          {
-            eduDetails?.map((edu, i) => <div key={edu.id} style={{ textAlign: "left" }}>
-              <Card className="CampusCard">
-                <CardBody className="shadow">
+        {
+          eduDetails?.map((edu, i) => <div className='col-md-6 mt-2' key={edu.id} style={{ textAlign: "left" }}>
+            <Card className="CampusCard shadow-style">
+              <CardBody className="shadow">
 
-                  <div className="CampusCardAction">
-                   <div className=""> 
-                      <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(edu.id)}> <i className="fas fa-edit"></i> </button>
-                   </div>
+                
 
-                   <div className=""> 
-                      <button type="button" className="btn btn-outline-danger" onClick={() => toggleDanger(edu)} ><i className="fas fa-trash-alt"></i></button>
-                   </div>
-                  </div>
+              <Row>
+                <Col md="5">
+                    <h5> {edu?.nameOfInstitution}  </h5>
+                    <h6> {edu?.attendedInstitutionFrom}</h6>
+                    <p> {edu?.attendedInstitutionTo}</p>
+                    <p> {edu?.finalGrade}</p>
+                    <p> {edu?.programLevel?.name}</p>
+                </Col>
 
-                <Row>
-                  <Col md="6">
-                      <h5> {edu?.nameOfInstitution}  </h5>
-                      <h6> {edu?.attendedInstitutionFrom}</h6>
-                      <p> {edu?.attendedInstitutionTo}</p>
-                      <p> {edu?.finalGrade}</p>
-                      <p> {edu?.programLevel?.name}</p>
-                  </Col>
+                  <Col md="5">
+                  
+                    <p>Country of Education : {edu?.countryOfEducation?.name}</p>
+                    <p>Institution Address : {edu?.instituteAddress}</p>
+                    <p>institution Contact Number : {edu?.instituteContactNumber}</p>
+                    <p>Qualification Subject : {edu?.qualificationSubject}</p>
+               
+                    
+                </Col>
 
-                    <Col md="6">
-                      <p>Country of Education : {edu?.countryOfEducation?.name}</p>
-                      <p>Institution Address : {edu?.instituteAddress}</p>
-                      <p>institution Contact Number : {edu?.instituteContactNumber}</p>
-                      <p>Qualification Subject : {edu?.qualificationSubject}</p>
-                 
-                      
-                  </Col>
+                  <Col md="2">
+                  
+               <div className="CampusCardAction">
+                 <div className=""> 
+                    <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(edu.id)}> <i className="fas fa-edit"></i> </button>
+                 </div>
+
+                 <div className=""> 
+                    <button type="button" className="btn btn-outline-danger" onClick={() => toggleDanger(edu)} ><i className="fas fa-trash-alt"></i></button>
+                 </div>
+                </div>
+                    
+                </Col>
 
 
-                </Row>           
-            
-                </CardBody>
+              </Row>           
+          
+              </CardBody>
 
-                <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
-                  <ModalBody>
-                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
-                  </ModalBody>
+              <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                <ModalBody>
+                  <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                </ModalBody>
 
-                  <ModalFooter>
-                    <Button onClick={()=> handleDeletePermission(edu)} color="danger">YES</Button>
-                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                  </ModalFooter>
-               </Modal>
+                <ModalFooter>
+                  <Button onClick={()=> handleDeletePermission(edu)} color="danger">YES</Button>
+                  <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                </ModalFooter>
+             </Modal>
 
-              </Card>
-            </div>)
+            </Card>
+          </div>)
 
-          }
+        }
+
+        </div>
+
+        
 
           {
             showForm &&

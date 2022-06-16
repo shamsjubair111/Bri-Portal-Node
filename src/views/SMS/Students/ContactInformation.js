@@ -45,19 +45,20 @@ const ContactInformation = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+       
       };
+
+      const cancelForm = () => {
+        history.push('/addStudentInformation');
+      }
 
 
       const countryName = country?.map((branchCountry) => ({
@@ -346,16 +347,23 @@ const ContactInformation = () => {
                 </FormGroup>
 
                 <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple>
-                </FormGroup>
+             className="has-icon-left position-relative"
+             style={{ display: "flex", justifyContent: "space-between" }}
+           >
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 btn-warning"
+               onClick= {cancelForm}
+             >
+               Previous
+             </Button.Ripple>
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 badge-primary"
+             >
+               Submit
+             </Button.Ripple>
+           </FormGroup>
 
              
               </Form>

@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button } from 'reactstrap';
 import get from '../../../helpers/get';
+import post from '../../../helpers/post';
+import { useToasts } from "react-toast-notifications";
 
 const PersonalStatement = () => {
 
     const history = useHistory();
 
     const [activetab, setActivetab] = useState("7");
+
+    const {addToast} = useToasts();
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
 
@@ -17,24 +21,58 @@ const PersonalStatement = () => {
         history.push('/');
     }
 
+    const cancelForm = () => {
+      history.push('/');
+    }
+
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+        if (tab == "3") {
+          history.push("/addStudentContactInformation");
+        }
+
+        if (tab == "4") {
+          history.push("/addStudentEducationalInformation");
+        }
+
+        if (tab == "5") {
+          history.push("/addExperience");
+        }
+
+        if (tab == "6") {
+          history.push("/addReference");
+        }
+
+        
       };
 
-      const handleRegisterStudent = (event) => {
+      const handlePersonalStatement = (event) => {
         event.preventDefault();
+
+        const subData = new FormData(event.target);
+
+        post('PersonalStatement/Create',subData)
+        .then(res => {
+          console.log(res);
+          if(res?.status == 200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+              
+            })
+            history.push('/addOtherInformation');
+          }
+
+        })
+
       }
 
 
@@ -113,7 +151,7 @@ const PersonalStatement = () => {
 
           </Nav>
 
-          <Form onSubmit={handleRegisterStudent} className="mt-5">
+          <Form onSubmit={handlePersonalStatement} className="mt-5">
 
             
                 
@@ -142,16 +180,23 @@ const PersonalStatement = () => {
 
       
         <FormGroup
-          className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
+        className="has-icon-left position-relative"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Button.Ripple
+          type="submit"
+          className="mr-1 mt-3 btn-warning"
+          onClick= {cancelForm}
         >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
-        </FormGroup>
+          Cancel
+        </Button.Ripple>
+        <Button.Ripple
+          type="submit"
+          className="mr-1 mt-3 badge-primary"
+        >
+          Submit
+        </Button.Ripple>
+      </FormGroup>
       </Form>
       
 

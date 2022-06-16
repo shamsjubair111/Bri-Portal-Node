@@ -69,18 +69,7 @@ const styleLabelBold = {
 
 const toggle = (tab) => {
   setActivetab(tab);
-  if (tab == "2") {
-    history.push("/addUniversityCampus");
-  }
-  // if (tab == "3") {
-  //   history.push("/addUniversityFinancial");
-  // }
-  // if (tab == "4") {
-  //   history.push("/addUniversityFeatures");
-  // }
-  // if (tab == "5") {
-  //   history.push("/addUniversityGallery");
-  // }
+  
 };
 
  // on change radio button
@@ -165,6 +154,12 @@ const handleSubmit = (event) => {
   })
 
 }
+
+
+const cancelForm = () => {
+  history.push('/');
+}
+
 
 
 
@@ -522,17 +517,24 @@ const handleSubmit = (event) => {
 
            
 
-              <FormGroup
-                className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 badge-primary"
-                >
-                  Submit
-                </Button.Ripple>
-              </FormGroup>
+             <FormGroup
+             className="has-icon-left position-relative"
+             style={{ display: "flex", justifyContent: "space-between" }}
+           >
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 btn-warning"
+               onClick= {cancelForm}
+             >
+               Cancel
+             </Button.Ripple>
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 badge-primary"
+             >
+               Submit
+             </Button.Ripple>
+           </FormGroup>
 
            
             </Form>

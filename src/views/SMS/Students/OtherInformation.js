@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, Label, FormGroup, Col, Input, Button } from 'reactstrap';
 import get from '../../../helpers/get';
+import { useToasts } from "react-toast-notifications";
+import post from '../../../helpers/post';
 
 const OtherInformation = () => {
 
@@ -20,6 +22,8 @@ const OtherInformation = () => {
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
 
+    const {addToast} = useToasts();
+
     const backToDashboard = () =>{
        
         history.push('/');
@@ -27,22 +31,53 @@ const OtherInformation = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+        if (tab == "3") {
+          history.push("/addStudentContactInformation");
+        }
+
+        if (tab == "4") {
+          history.push("/addStudentEducationalInformation");
+        }
+
+        if (tab == "5") {
+          history.push("/addExperience");
+        }
+
+        if (tab == "6") {
+          history.push("/addReference");
+        }
+
+        if (tab == "7") {
+          history.push("/addPersonalStatement");
+        }
+        
       };
 
-      const handleRegisterStudent = (event) => {
+      const handleOtherInformation = (event) => {
+
         event.preventDefault();
+
+        const subData = new FormData(event.target);
+
+        post('OtherInformation/Create', subData)
+        .then(res => {
+          console.log(res);
+          if(res?.status == 200){
+            addToast(res?.data?.message,{
+              appearance:'success',
+              autoDismiss:true
+            })
+
+          }
+        })
       }
 
       const handleDisability = (event) => {
@@ -132,7 +167,7 @@ const OtherInformation = () => {
 
       </Nav>
 
-          <Form onSubmit={handleRegisterStudent} className="mt-5">
+          <Form onSubmit={handleOtherInformation} className="mt-5">
 
             
                 
@@ -172,6 +207,10 @@ const OtherInformation = () => {
 
         
         
+          {
+
+            disability === 'true' ? 
+
             <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
             <span>
@@ -189,6 +228,12 @@ const OtherInformation = () => {
   
           </FormGroup>
 
+          :
+
+          null
+
+
+          }
         
 
         
@@ -221,22 +266,32 @@ const OtherInformation = () => {
           </Col>
         </FormGroup>
 
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-        <span>
-           Criminal convictions Description <span className="text-danger">*</span>{" "}
-        </span>
-      </Col>
-      <Col md="6">
-  
+      {
+         crime === 'true' ?
 
-      <Input type="textarea" name='CriminalConvictionsDescription' id='CriminalConvictionsDescription' rows={4}/>
+         <FormGroup row className="has-icon-left position-relative">
+         <Col md="2">
+         <span>
+            Criminal convictions Description <span className="text-danger">*</span>{" "}
+         </span>
+       </Col>
+       <Col md="6">
+   
+ 
+       <Input type="textarea" name='CriminalConvictionsDescription' id='CriminalConvictionsDescription' rows={4}/>
+ 
+ 
+     </Col>
+ 
+ 
+       </FormGroup>
+
+       :
+
+       null
 
 
-    </Col>
-
-
-      </FormGroup>
+      }
 
       
         <FormGroup

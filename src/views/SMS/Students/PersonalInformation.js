@@ -62,7 +62,7 @@ const PersonalInformation = () => {
     useEffect(()=>{
       get('NameTittle/GetAll')
       .then(res => {
-        console.log(res);
+        console.log('title',res);
         setTitle(res);
       })
 
@@ -92,10 +92,12 @@ const PersonalInformation = () => {
           setNationality(res);
       })
 
-      get('Consultant/Index')
+      get('ConsultantDD/index')
       .then(res => {
-          console.log(res);
+          console.log('r',res);
           setConsultant(res);
+          setConsultantLabel(res?.name);
+          setConsultantValue(res?.id);
       })
 
       get('StudentType/Index')
@@ -104,13 +106,19 @@ const PersonalInformation = () => {
           setStudentType(res);
       })
 
-      get(`Consultant/Get/${consultantValueId}`)
-      .then(res => {
-        console.log('Cid',res);
-        setConsultantLabel(res?.firstName);
-        setConsultantValue(res?.id);
-      })
+      // get(`Consultant/Get/${consultantValueId}`)
+      // .then(res => {
+      //   console.log('Cid',res);
+      //   setConsultantLabel(res?.firstName);
+      //   setConsultantValue(res?.id);
+      // })
 
+      get(`Student/Get/${localStorage.getItem('applictionStudentId')}`)
+      .then(res => {
+        console.log('abc',res);
+        setConsultantLabel(res?.consultant?.firstName + ' ' + res?.consultant?.lastName );
+          setConsultantValue(res?.consultantId);
+      })
 
 
     },[])
@@ -122,19 +130,16 @@ const PersonalInformation = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        
       };
+
+      const cancelForm = () => {
+        history.push('/');
+      }
 
       const nameTitle = title?.map((singleTitle) => ({
         label: singleTitle.name,
@@ -216,7 +221,7 @@ setNationalityValue(value);
 
 
   const consultantName = consultant?.map((branchCountry) => ({
-    label: branchCountry.firstName,
+    label: branchCountry.name,
     value: branchCountry.id,
   }));
 
@@ -728,16 +733,23 @@ const handleSubmit = (event) => {
                 ></FormGroup>
 
                 <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple>
-                </FormGroup>
+             className="has-icon-left position-relative"
+             style={{ display: "flex", justifyContent: "space-between" }}
+           >
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 btn-warning"
+               onClick= {cancelForm}
+             >
+               Cancel
+             </Button.Ripple>
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 badge-primary"
+             >
+               Submit
+             </Button.Ripple>
+           </FormGroup>
               </Form>
             </TabPane>
           </TabContent>

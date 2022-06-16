@@ -4,6 +4,8 @@ import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
+import remove from '../../../helpers/remove';
+import put from '../../../helpers/put';
 
 const Experience = () => {
 
@@ -12,6 +14,7 @@ const Experience = () => {
 
     const [activetab, setActivetab] = useState("5");
     const [working, setWorking] = useState(false);
+    const [endDate, setEndDate] = useState('');
 
     const [info, setInfo] = useState([]);
 
@@ -21,11 +24,13 @@ const Experience = () => {
 
     const [deleteModal, setDeleteModal] = useState(false);
     const [showForm,setShowForm]=useState(false);
+    const [value, setValue] = useState({});
 
     const handleChange = (e) => {
       
       let isChecked = e.target.checked;
       setWorking(isChecked);
+      console.log(isChecked);
      
     } 
 
@@ -55,18 +60,23 @@ const Experience = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+        if (tab == "3") {
+          history.push("/addStudentContactInformation");
+        }
+
+        if (tab == "4") {
+          history.push("/addStudentEducationalInformation");
+        }
+
+        
       };
 
       const handleRegisterStudent = (event) => {
@@ -74,11 +84,40 @@ const Experience = () => {
 
         const subData = new FormData(event.target);
         subData.append('isStillWorking',working);
+        {
+          (value?.end) ?
+            subData.append('endDate',null)
+            :
+            subData.append('endDate',endDate)
+          
+        }
 
         for( var a of subData.values()){
           console.log(a);
         }
 
+       if(value?.id){
+
+        put('Experience/Update',subData)
+        .then(res => {
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          });
+          get(`Experience/GetByStudentId/${studentIdVal}`)
+          .then(res => {
+           
+            setInfo(res);
+            
+    
+          })
+          setShowForm(false);
+
+        })
+
+       }
+
+       else{
         post('Experience/Create',subData)
         .then(res => {
           console.log(res);
@@ -86,6 +125,7 @@ const Experience = () => {
             appearance: 'success',
             autoDismiss: true
           })
+          setShowForm(false);
           get(`Experience/GetByStudentId/${studentIdVal}`)
           .then(res => {
            
@@ -97,18 +137,39 @@ const Experience = () => {
 
 
         })
+       }
+
       }
 
 
       
-const toggleDanger = (p) => {
-  console.log(p);
+const toggleDanger = (id) => {
+   localStorage.setItem('deleteExperienceId',id);
+ 
   setDeleteModal(true)
 }
 
-const handleDeletePermission = (data) => {
+const handleDeletePermission = () => {
 
-  console.log(data);
+  remove(`Experience/Delete/${localStorage.getItem('deleteExperienceId')}`)
+  .then(res => {
+    console.log(res);
+    addToast(res,{
+      appearance:'error',
+      autoDismiss: true
+    })
+    setDeleteModal(false);
+    get(`Experience/GetByStudentId/${studentIdVal}`)
+      .then(res => {
+        console.log(res);
+        setInfo(res);
+        
+
+      })
+
+  })
+
+  
 
  
 
@@ -121,6 +182,13 @@ const handleUpdate = (id) => {
   console.log(id);
 
   setShowForm(true);
+  get(`Experience/Get/${id}`)
+  .then(res => {
+    setValue(res);
+    console.log(res);
+    setWorking(res?.isStillWorking);
+
+  })
    
    
 }
@@ -129,7 +197,7 @@ const handleUpdate = (id) => {
   // redirect to Next Page
   const onNextPage = () => {
     
-    history.push('/addExperience',
+    history.push('/addReference',
      
     );
   };
@@ -137,6 +205,7 @@ const handleUpdate = (id) => {
 
   const onShow=()=>{
     setShowForm(true);
+
   
   }
 
@@ -225,24 +294,32 @@ const handleUpdate = (id) => {
                    </div>
 
                    <div className=""> 
-                      <button type="button" className="btn btn-outline-danger" onClick={() => toggleDanger(inf)} ><i className="fas fa-trash-alt"></i></button>
+                      <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(inf.id)} ><i className="fas fa-trash-alt"></i></button>
                    </div>
                   </div>
 
                 <Row>
                   <Col md="6">
-                      <h5>   </h5>
-                      <h6> </h6>
-                      <p> </p>
-                      <p> </p>
-                      <p> </p>
+                      <h5>Company Name: {inf?.companyName}   </h5>
+                      
+                      <p>Eployment Details: {inf?.employeementDetails} </p>
+                     
+                      
                   </Col>
 
                     <Col md="6">
-                      <p>Country of Education : </p>
-                      <p>Institution Address : </p>
-                      <p>institution Contact Number : </p>
-                      <p>Qualification Subject : </p>
+                      <p>Job Title : {inf?.jobTitle} </p>
+                      <p>Start Date : {inf?.startDate} </p>
+                      {
+                        !inf?.isStillWorking ?
+
+                        <p>End Date : {inf?.endDate} </p>
+
+                        :
+
+                        <p>Currently Working</p>
+                      }
+                     
                  
                       
                   </Col>
@@ -258,7 +335,7 @@ const handleUpdate = (id) => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button onClick={()=> handleDeletePermission(inf)} color="danger">YES</Button>
+                    <Button onClick={handleDeletePermission} color="danger">YES</Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
                </Modal>
@@ -268,158 +345,224 @@ const handleUpdate = (id) => {
 
           }
    
+          {
+            (info.length < 1 || showForm) ?
+            
             <Form onSubmit={handleRegisterStudent} className="mt-5">
 
             
                 
-                <input 
-                type='hidden'
-                name='studentId'
-                id='studentId'
-                value={studentIdVal}
-                />
+            <input 
+            type='hidden'
+            name='studentId'
+            id='studentId'
+            value={studentIdVal}
+            />
+
+           {
+            (value?.id)?
+
+            <input
+            type='hidden'
+            name='id'
+            id='id'
+            value={value?.id}
+            />
+
+            :
+
+            null
 
 
-              <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Job Title <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6">
-               <Input
-                  type="text"
-                  name="jobTitle"
-                  id="jobTitle"
-                  placeholder="Enter job title"
-                  required
-                />
-  
+           }
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Job Title <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6">
+           <Input
+              type="text"
+              name="jobTitle"
+              id="jobTitle"
+              placeholder="Enter job title"
+              required
+              defaultValue={value?.jobTitle}
+            />
+
+       
+          </Col>
+        </FormGroup>
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Employment Details <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6">
+           <Input
+              type="text"
+              name="employeementDetails"
+              id="employeementDetails"
+              placeholder="Enter employment details"
+              required
+              defaultValue={value?.employeementDetails}
+            />
+
+       
+          </Col>
+        </FormGroup>
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Company Name <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6">
+           <Input
+              type="text"
+              name="companyName"
+              id="companyName"
+              placeholder="Enter company name"
+              required
+              defaultValue={value?.companyName}
+            />
+
+       
+          </Col>
+        </FormGroup>
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Start Date <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6">
+           <Input
+              type="date"
+              name="startDate"
+              id="startDate"
+              defaultValue={value?.startDate}
+              required
+            />
+
+       
+          </Col>
+        </FormGroup>
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Still Working? <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6" className='ms-4'>
+           <Input
+              type="checkbox"
+              defaultChecked={value.isStillWorking}
            
-              </Col>
-            </FormGroup>
-
-              <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Employment Details <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6">
-               <Input
-                  type="text"
-                  name="employeementDetails"
-                  id="employeementDetails"
-                  placeholder="Enter employment details"
-                  required
-                />
-  
+              onChange={handleChange}
+              
            
-              </Col>
-            </FormGroup>
+            />
 
-              <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Company Name <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6">
-               <Input
-                  type="text"
-                  name="companyName"
-                  id="companyName"
-                  placeholder="Enter company name"
-                  required
-                />
-  
            
-              </Col>
-            </FormGroup>
 
-              <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Start Date <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6">
-               <Input
-                  type="date"
-                  name="startDate"
-                  id="startDate"
-                  
-                  required
-                />
-  
-           
-              </Col>
-            </FormGroup>
+       
+          </Col>
+        </FormGroup>
 
-              <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Still Working? <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6" className='ms-4'>
-               <Input
-                  type="checkbox"
+        {
+            !working  ?
+
+            <FormGroup row className="has-icon-left position-relative">
+            <Col md="2">
+              <span>
+                End Date <span className="text-danger">*</span>{" "}
+              </span>
+            </Col>
+            <Col md="6">
+             <Input
+                type="date"
+               
                 
-               
-                  onChange={handleChange}
-                  
-               
-                />
+                onChange={(e)=> setEndDate(e.target.value)}
+                defaultValue={value?.endDate}
+                
+                required
+              />
 
-               
-  
-           
-              </Col>
-            </FormGroup>
+         
+            </Col>
+          </FormGroup>
 
-            {
-                !working ?
+          :
 
-                <FormGroup row className="has-icon-left position-relative">
-                <Col md="2">
-                  <span>
-                    End Date <span className="text-danger">*</span>{" "}
-                  </span>
-                </Col>
-                <Col md="6">
-                 <Input
-                    type="date"
-                    name="endtDate"
-                    id="endDate"
-                    
-                    required
-                  />
-    
-             
-                </Col>
-              </FormGroup>
-
-              :
-
-              null
+          null
 
 
-            }
 
-            
-              <FormGroup
-                className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 badge-primary"
-                >
-                  Submit
-                </Button.Ripple>
-              </FormGroup>
-            </Form>
+
+        }
+
+       
+
+        {
+          (value?.id) ?
+
+          <FormGroup
+          className="has-icon-left position-relative"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Button.Ripple
+            type="submit"
+            className="mr-1 mt-3 badge-primary"
+          >
+            Update
+          </Button.Ripple>
+        </FormGroup>
+
+        :
+
+          <FormGroup
+          className="has-icon-left position-relative"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Button.Ripple
+            type="submit"
+            className="mr-1 mt-3 badge-primary"
+          >
+            Submit
+          </Button.Ripple>
+        </FormGroup>
+
+        }
+        
+         
+        </Form>
+
+        :
+
+        <>
+          
+
+        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+
+       
+        <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+        <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
+        </FormGroup>
+
+        
+        </>
+
+        
+          }
        
       </CardBody>
     </Card>

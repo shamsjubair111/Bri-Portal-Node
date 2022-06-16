@@ -438,3 +438,7 @@ th {
   cursor: pointer;
 }
 
+.shadow-style{
+  border: 2px solid #1e98b0 ;
+  
+}
