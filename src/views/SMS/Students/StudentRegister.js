@@ -100,6 +100,7 @@ setConsultantValue(value);
           localStorage.setItem('personalInfoConsultantId',res?.data?.result?.consultantId);
           localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
           localStorage.setItem('registerUserId',res?.data?.result?.userId);
+          localStorage.setItem('registerEmail',res?.data?.result?.email);
 
 
           // localStorage.setItem('')

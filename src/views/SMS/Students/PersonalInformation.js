@@ -672,6 +672,7 @@ const handleSubmit = (event) => {
                       id="email"
                       placeholder="Enter email"
                       onChange={(e)=> setEmail(e.target.value)}
+                      defaultValue={localStorage.getItem('registerEmail')}
                       required
                     />
 
