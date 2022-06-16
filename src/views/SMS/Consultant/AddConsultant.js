@@ -80,14 +80,18 @@ const AddConsultant = () => {
     // }
 
     post("Consultant/Register", subdata).then(res=>{
+      console.log("consultant",res);
+      var consId = res?.data?.result?.id;
       if (res.status === 200 && res.data.isSuccess === true) {
         addToast(res?.data?.message, {
           appearance:'success',
           autoDismiss: true,
         });
-        history.push({
-          pathname: "/addConsGeneralInformation",
-        });
+        if(consId){
+          history.push({
+            pathname: `/addConsGeneralInformation/${consId}`,
+          });
+        }
       }
     })
 

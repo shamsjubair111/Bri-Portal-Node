@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
 import { connect, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
+import { useLocation } from 'react-router-dom';
 import Select from "react-select";
 import {
   Card,
@@ -36,6 +36,9 @@ import { useToasts } from 'react-toast-notifications';
 
 const ConsGeneralInformation = () => {
 
+    let location = useLocation();
+
+
     const [activetab, setActivetab] = useState("1");
     const [submitData, setSubmitData] = useState(false);
     const [nameTitle, setNameTitle] = useState([]);
@@ -63,6 +66,8 @@ const ConsGeneralInformation = () => {
 
     const history = useHistory();
     const { addToast } = useToasts();
+
+    const {id} = useParams();
 
     useEffect(()=>{
       get("NameTittleDD/index").then(res=>{
@@ -173,9 +178,9 @@ const ConsGeneralInformation = () => {
       subdata.append("ConsultantCoverImage", coverImage[0]?.originFileObj);
 
       //  watch form data values
-    // for (var value of subdata) {
-    //   console.log(value);
-    // }
+    for (var value of subdata) {
+      console.log(value);
+    }
 
       const config = {
         headers: {
@@ -184,15 +189,7 @@ const ConsGeneralInformation = () => {
       };
 
       post(`Consultant/Create`, subdata, config).then((res) => {
-        // (res.status === 200 && res.data.isSuccess === true) ?
-        // status = 'success' : status = res.data.message;
-        // status = res.data.message;
-        // data = res.data.result;
-  
-        //     addToast(res.data.message, {
-        //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
-        //     // autoDismiss: true,
-        //   })
+        
   
         console.log(res);
       
@@ -205,10 +202,9 @@ const ConsGeneralInformation = () => {
             appearance:'success',
             autoDismiss: true,
           });
-          // history.push({
-          //   pathname: "/addUniversityCampus",
-          //   id: uniID,
-          // });
+          history.push({
+            pathname: `/addUniversityCampus/${id}`,
+          });
         }
       });
 
@@ -218,7 +214,7 @@ const ConsGeneralInformation = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "2") {
-    //   history.push("/addSubjectFee");
+      history.push(`/addBankDetails/${id}`);
     }
   };
 
@@ -253,20 +249,33 @@ const ConsGeneralInformation = () => {
             <NavItem>
               {submitData ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                  
+                  Bank Details
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "2"}>
-                  
+                  Bank Details
                 </NavLink>
               )}
             </NavItem>
+
+            {/* <NavItem>
+              <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                Bank Details
+              </NavLink>
+            </NavItem> */}
 
           </Nav>
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="1">
               <Form  onSubmit={handleSubmit} className="mt-5">
+
+              <input 
+                type='hidden'
+                name='userId'
+                id='UserId'
+                value={id} 
+              />
 
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -510,18 +519,23 @@ const ConsGeneralInformation = () => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                    Proof of Your Right to Work Self-Employed in the UK (BRP/Visa)
-                    </span>
-                  </Col>
-                  <Col md="6">
-                
-                  <ConsultantFile value={4}></ConsultantFile>
-                   
-                  </Col>
-                </FormGroup>
+                {
+                  rightToWork === true ?
+                  <FormGroup row className="has-icon-left position-relative">
+                    <Col md="2">
+                      <span>
+                      Proof of Your Right to Work Self-Employed in the UK (BRP/Visa)
+                      </span>
+                    </Col>
+                    <Col md="6">
+                  
+                    <ConsultantFile value={4}></ConsultantFile>
+                     
+                    </Col>
+                  </FormGroup>
+                  :
+                  null
+                }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

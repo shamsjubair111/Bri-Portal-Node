@@ -83,7 +83,7 @@ if(props.value === 1){
 }
 
 else if(props.value === 2){
-  dispatch(IdOrPassport(FileList))
+  dispatch(CoverImage(FileList))
 }
 
 else if(props.value === 3){
