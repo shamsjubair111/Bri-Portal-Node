@@ -203,7 +203,7 @@ const ConsGeneralInformation = () => {
             autoDismiss: true,
           });
           history.push({
-            pathname: `/addUniversityCampus/${id}`,
+            pathname: `/addBankDetails/${id}`,
           });
         }
       });
