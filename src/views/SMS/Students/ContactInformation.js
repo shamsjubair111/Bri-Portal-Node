@@ -21,19 +21,32 @@ const ContactInformation = () => {
     const [addressType,setAddressType] = useState([]);
     const [addressTypeLabel, setAddressTypeLabel] = useState("Address type");
       const [addressTypeValue, setAddressTypeValue] = useState(0);
+      const [oneData, setOneData] = useState({});
 
     useEffect(() => {
 
-        get('Country/Index')
+        get('CountryDD/index')
         .then(res => {
             console.log(res);
             setCountry(res);
         })
 
-        get('AddressType/GetAll')
+        get('AddressTypeDD/Index')
         .then(res => {
             console.log(res);
             setAddressType(res);
+        })
+
+
+        get(`StudentContactInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+        .then(res => {
+          console.log('Contact information from local storage', res);
+          setOneData(res);
+          setCountryLabel(res?.country?.name);
+          setCountryValue(res?.country?.id);
+          setAddressTypeLabel(res?.addressType?.name);
+          setAddressTypeValue(res?.addressType?.id);
+
         })
 
 
@@ -208,6 +221,7 @@ const ContactInformation = () => {
                       id="cellPhoneNumber"
                      placeholder='Enter cell phone number'
                       required
+                      defaultValue={oneData?.cellPhoneNumber}
                     />
 
                     {/* <div className="form-control-position">
@@ -229,11 +243,9 @@ const ContactInformation = () => {
                       id="addressLine"
                      placeholder='Enter address line'
                       required
+                      defaultValue={oneData?.addressLine}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
                   </Col>
                 </FormGroup>
 
@@ -250,6 +262,7 @@ const ContactInformation = () => {
                       id="city"
                      placeholder='Enter city'
                       required
+                      defaultValue={oneData?.city}
                     />
 
                     {/* <div className="form-control-position">
@@ -271,11 +284,10 @@ const ContactInformation = () => {
                       id="state"
                      placeholder='Enter state'
                       required
+                      defaultValue={oneData?.state}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                  
                   </Col>
                 </FormGroup>
 
@@ -288,15 +300,14 @@ const ContactInformation = () => {
                   <Col md="6">
                    <Input
                       type="string"
-                      name="zipCode "
+                      name="zipCode"
                       id="zipCode"
                      placeholder='Enter zip code'
                       required
+                      defaultValue={oneData?.zipCode}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 
@@ -317,9 +328,7 @@ const ContactInformation = () => {
 
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                  
                   </Col>
                 </FormGroup>
 

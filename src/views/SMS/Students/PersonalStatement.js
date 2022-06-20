@@ -7,13 +7,27 @@ import { useToasts } from "react-toast-notifications";
 
 const PersonalStatement = () => {
 
+
+
     const history = useHistory();
 
     const [activetab, setActivetab] = useState("7");
 
     const {addToast} = useToasts();
 
+    const [statement, setStatement] = useState('');
+
     const studentIdVal = localStorage.getItem('applictionStudentId');
+
+    useEffect(()=>{
+
+      get(`PersonalStatement/GetByStudentId/${studentIdVal}`)
+      .then(res => {
+        console.log(res);
+        setStatement(res?.statement);
+      })
+
+    },[])
 
 
     const backToDashboard = () =>{
@@ -171,7 +185,10 @@ const PersonalStatement = () => {
         <Col md="6">
     
 
-        <Input type="textarea" name="statement" id="statement" rows={15}/>
+        <Input type="textarea" name="statement" id="statement" rows={15}
+        defaultValue={statement}
+        />
+      
 
       </Col>
 

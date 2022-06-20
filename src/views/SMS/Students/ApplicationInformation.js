@@ -19,10 +19,13 @@ const ApplicationInformation = () => {
   const [studentType, setStudentType] = useState([]);
   const [studentTypeLabel, setStudentTypeLabel] = useState('Student type');
   const [studentTypeValue, setStudentTypeValue] = useState(0);
+  const [dateOfMoveToUk, setDateOfMoveToUk] = useState('');
+  const [financeDetails, setFinanceDetails] = useState('');
 
   const [visaStatus, setVisaStatus] = useState([]);
   const [visaStatusLabel, setVisaStatusLabel] = useState('Visa status');
   const [visaStatusValue, setVisaStatusValue] = useState(0);
+  const [code, setCode] = useState('');
 
 
   const applicationStudentTypeId =  localStorage.getItem('applictionStudentTypeId');
@@ -36,13 +39,13 @@ const ApplicationInformation = () => {
 
   useEffect(()=>{
 
-    get('StudentType/Index')
+    get('StudentTypeDD/Index')
     .then(res => {
       console.log(res);
       setStudentType(res);
     })
 
-    get('VisaStatus/GetAll')
+    get('VisaTypeDD/Index')
     .then(res => {
       console.log(res);
       setVisaStatus(res);
@@ -53,6 +56,25 @@ const ApplicationInformation = () => {
       console.log('bbbbbbbbbbbbbbbbbbb',res);
       setStudentTypeValue(res?.id);
       setStudentTypeLabel(res?.name);
+    })
+
+
+    get(`ApplicationInfo/GetByStudentId/${applicationStudentId}`)
+    .then(res => {
+      console.log('application post response', res);
+      setStudentTypeLabel(res?.student?.studentType?.name);
+      setStudentTypeValue(res?.student?.studentType?.id);
+      setDateOfMoveToUk(res?.dateOfMoveToUk);
+      setIsStayedOutsideUkInLastThreeYears(res?.isStayedOutsideEU_UkinLast3Years);
+      setPresettlementStatus(res?.isHavePre_Settlementstatus);
+      setIsAppliedStudentFinance(res?.isAppliedStudentFinance);
+      setFinanceDetails(res?.financeApplicationDetails);
+      setCode(res?.code);
+      setIsApplyingFromInside(res?.isApplyingFromInside);
+      setVisaStatusLabel(res?.visaStatus);
+      setVisaStatusValue(res?.visaStatusId);
+
+
     })
 
   },[])
@@ -142,7 +164,7 @@ const handleSubmit = (event) => {
 
   post('ApplicationInfo/Create',subData)
   .then(res => {
-    console.log(res);
+    console.log('application response',res);
     if(res?.status ==200){
       addToast(res?.data?.message,{
         appearance: 'success',
@@ -312,11 +334,12 @@ const cancelForm = () => {
             </Col>
             <Col md="6">
              <Input
-                type="number"
-                name="lastName"
-                id="lastName"
+                type="text"
+                name="financeApplicationDetails"
+                id="financeApplicationDetails"
                placeholder='Enter finance application details'
                 required
+                defaultValue={financeDetails}
               />
 
             
@@ -331,11 +354,12 @@ const cancelForm = () => {
             </Col>
             <Col md="6">
              <Input
-                type="number"
-                name="lastName"
-                id="lastName"
+                type="text"
+                name="code"
+                id="code"
                placeholder='Enter code'
                 required
+                defaultValue={code}
               />
 
             
@@ -395,8 +419,8 @@ const cancelForm = () => {
                     options={visaStatusName}
                     value={{ label: visaStatusLabel, value: visaStatusValue }}
                     onChange={(opt) => selectVisaStatus(opt.label, opt.value)}
-                    name="countryId"
-                    id="countryId"
+                    name="visaStatusId"
+                    id="visaStatusId"
                     required
 
                   />

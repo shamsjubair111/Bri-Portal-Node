@@ -282,24 +282,18 @@ const handleUpdate = (id) => {
            
 
           </Nav>
+          <div className='row'>
+        
       
           {
-            info?.map((inf, i) => <div key={inf.id} style={{ textAlign: "left" }}>
-              <Card className="CampusCard">
+            info?.map((inf, i) => <div className='col-md-6 mt-2' key={inf.id} style={{ textAlign: "left" }}>
+              <Card className="CampusCard shadow-style">
                 <CardBody className="shadow">
 
-                  <div className="CampusCardAction">
-                   <div className=""> 
-                      <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(inf.id)}> <i className="fas fa-edit"></i> </button>
-                   </div>
-
-                   <div className=""> 
-                      <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(inf.id)} ><i className="fas fa-trash-alt"></i></button>
-                   </div>
-                  </div>
+                
 
                 <Row>
-                  <Col md="6">
+                  <Col md="4">
                       <h5>Company Name: {inf?.companyName}   </h5>
                       
                       <p>Eployment Details: {inf?.employeementDetails} </p>
@@ -307,7 +301,7 @@ const handleUpdate = (id) => {
                       
                   </Col>
 
-                    <Col md="6">
+                    <Col md="5">
                       <p>Job Title : {inf?.jobTitle} </p>
                       <p>Start Date : {inf?.startDate} </p>
                       {
@@ -322,6 +316,24 @@ const handleUpdate = (id) => {
                      
                  
                       
+             
+                  
+                  
+                  
+                  </Col>
+
+                  <Col md="3">
+
+                  <div className="CampusCardAction">
+                  <div className=""> 
+                     <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(inf.id)}> <i className="fas fa-edit"></i> </button>
+                  </div>
+
+                  <div className=""> 
+                     <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(inf.id)} ><i className="fas fa-trash-alt"></i></button>
+                  </div>
+                 </div>
+
                   </Col>
 
 
@@ -344,6 +356,8 @@ const handleUpdate = (id) => {
             </div>)
 
           }
+
+          </div>
    
           {
             (info.length < 1 || showForm) ?

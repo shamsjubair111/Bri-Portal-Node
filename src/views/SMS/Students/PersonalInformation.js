@@ -23,6 +23,8 @@ const PersonalInformation = () => {
 
     const {addToast} = useToasts();
 
+    const [oneData, setOneData] = useState({});
+
 
     const [activetab, setActivetab] = useState("2");
     const [submitData, setSubmitData] = useState(false);
@@ -115,9 +117,24 @@ const PersonalInformation = () => {
 
       get(`Student/Get/${localStorage.getItem('applictionStudentId')}`)
       .then(res => {
-        console.log('abc',res);
+        console.log('fetching student info from api',res);
         setConsultantLabel(res?.consultant?.firstName + ' ' + res?.consultant?.lastName );
           setConsultantValue(res?.consultantId);
+          setFirstName(res?.firstName);
+          setLastName(res?.lastName);
+          setEmail(res?.email);
+          setTitleLabel(res?.nameTittle?.name);
+          setTitleValue(res?.nameTittle?.id);
+          setNumber(res?.phoneNumber);
+          setPassport(res?.passportNumber);
+          setGenderLabel(res?.gender?.name);
+          setGenderValue(res?.gender?.id);
+          setMaritalStatusLabel(res?.maritalStatus?.name);
+          setMaritalStatusValue(res?.maritalStatus?.id);
+          setNationalityLabel(res?.nationality?.name);
+          setNationalityValue(res?.nationality?.id);
+          setCountryLabel(res?.country?.name);
+          setCountryValue(res?.country?.id);
       })
 
 
@@ -297,7 +314,7 @@ const handleSubmit = (event) => {
 
   put('Student/Update',subData)
   .then(res => {
-    console.log(res);
+    console.log('posted data',res);
     if(res?.status ==200){
       addToast(res?.data?.message,{
         appearance: 'success',
@@ -475,6 +492,7 @@ const handleSubmit = (event) => {
                       placeholder="Enter first name"
                       required
                       onChange={(e) => setFirstName(e.target.value)}
+                      defaultValue={FirstName}
                     />
 
                     {/* <div className="form-control-position">
@@ -498,6 +516,7 @@ const handleSubmit = (event) => {
                       placeholder="Enter last name"
                       onChange={(e)=> setLastName(e.target.value)}
                       required
+                      defaultValue={LastName}
                     />
 
                     {/* <div className="form-control-position">
@@ -542,6 +561,7 @@ const handleSubmit = (event) => {
                      placeholder='Enter phone number'
                      onChange={(e)=>setNumber(e.target.value)}
                       required
+                      defaultValue={number}
                     />
 
                     {/* <div className="form-control-position">
@@ -558,12 +578,13 @@ const handleSubmit = (event) => {
                   </Col>
                   <Col md="6">
                    <Input
-                      type="number"
+                      type="text"
                       name="passportNumber"
                       id="passportNumber"
                      placeholder='Enter passport number'
                      onChange={(e)=> setPassport(e.target.value)}
                       required
+                      defaultValue={passport}
                     />
 
                     {/* <div className="form-control-position">
@@ -609,6 +630,7 @@ const handleSubmit = (event) => {
                       name="genderId"
                       id="genderId"
                       required
+                      
 
                     />
 
@@ -677,7 +699,7 @@ const handleSubmit = (event) => {
                       id="email"
                       placeholder="Enter email"
                       onChange={(e)=> setEmail(e.target.value)}
-                      defaultValue={localStorage.getItem('registerEmail')}
+                      defaultValue={Email}
                       required
                     />
 
@@ -689,27 +711,7 @@ const handleSubmit = (event) => {
 
                
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Password <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                   <Input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Enter password"
-                      onChange={(e)=> setPassword(e.target.value)}
-                      required
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
+             
 
 
 

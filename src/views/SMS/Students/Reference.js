@@ -36,7 +36,7 @@ const Reference = () => {
 
     useEffect(()=>{
 
-        get('Country/Index')
+        get('CountryDD/index')
         .then(res => {
             console.log(res);
             setCountry(res);
@@ -48,7 +48,7 @@ const Reference = () => {
             setRefList(res);
         })
 
-        get(`ReferenceType/GetAll`)
+        get(`ReferenceTypeDD/Index`)
         .then(res => {
             console.log(res);
             setReference(res);
@@ -212,6 +212,11 @@ const onShow=()=>{
           autoDismiss: true
         })
         setShowForm(false);
+        get(`Reference/GetByStudentId/${studentIdVal}`)
+        .then(res => {
+            console.log(res);
+            setRefList(res);
+        })
 
       })
 
@@ -316,23 +321,18 @@ const onShow=()=>{
        
 
       </Nav>
+
+      <div className='row'>
+
 {
-      refList?.map((ref, i) => <div key={ref.id} style={{ textAlign: "left" }}>
-      <Card className="CampusCard">
+      refList?.map((ref, i) => <div className='col-md-6 mt-2' key={ref.id} style={{ textAlign: "left" }}>
+      <Card className="CampusCard shadow-style">
         <CardBody className="shadow">
 
-          <div className="CampusCardAction">
-           <div className=""> 
-              <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(ref.id)}> <i className="fas fa-edit"></i> </button>
-           </div>
-
-           <div className=""> 
-              <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(ref.id)} ><i className="fas fa-trash-alt"></i></button>
-           </div>
-          </div>
+        
 
         <Row>
-          <Col md="6">
+          <Col md="4">
               <h5>Reference Name: {ref?.referenceName}   </h5>
               
               <p>Reference Type: {ref?.referenceType?.name}  </p>
@@ -342,13 +342,27 @@ const onShow=()=>{
               
           </Col>
 
-            <Col md="6">
+            <Col md="5">
               <p>Address Line : {ref?.addressLine}  </p>
               <p>Institute Company : {ref?.institute_Company}  </p>
              
              
          
               
+          </Col>
+
+          <Col md="3">
+
+          <div className="CampusCardAction">
+          <div className=""> 
+             <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(ref.id)}> <i className="fas fa-edit"></i> </button>
+          </div>
+
+          <div className=""> 
+             <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(ref.id)} ><i className="fas fa-trash-alt"></i></button>
+          </div>
+         </div>
+
           </Col>
 
 
@@ -370,7 +384,11 @@ const onShow=()=>{
       </Card>
     </div>)
 
+    
+
   }
+
+  </div>
 
        {
         (showForm ||   refList?.length < 1) ?  

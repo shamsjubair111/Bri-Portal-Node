@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
+import put from '../../../helpers/put';
 
 
 const EducationalInformation = () => {
@@ -39,13 +40,13 @@ const EducationalInformation = () => {
 
   useEffect(()=>{
 
-    get('ProgramLevel/Index')
+    get('ProgramLevelDD/Index')
     .then(res => {
         console.log(res);
         setProgramLevel(res);
     })
 
-    get('Country/Index')
+    get('CountryDD/index')
     .then(res => {
         console.log(res);
         setCountry(res);
@@ -133,9 +134,10 @@ const handleSubmit = (event) => {
 
   const subData = new FormData(event.target);
 
-  post('EducationInformation/Create',subData)
+ if(oneData?.id){
+  put(`EducationInformation/Update`,subData)
   .then(res => {
-    console.log(res);
+    console.log('update done',res);
     addToast(res?.data?.message,{
       appearance: 'success',
       autoDismiss: true
@@ -149,6 +151,26 @@ const handleSubmit = (event) => {
       setShowForm(false);
     })
   })
+ }
+
+ else{
+  post('EducationInformation/Create',subData)
+  .then(res => {
+    console.log('Educatinal information Post ',res);
+    addToast(res?.data?.message,{
+      appearance: 'success',
+      autoDismiss: true
+    })
+    get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+    .then(res => {
+      setEduDetails(res);
+      setRadioPracticalTraining()
+      console.log('Edu details', res);
+     
+      setShowForm(false);
+    })
+  })
+ }
 
 }
 
@@ -190,7 +212,7 @@ const handleUpdate = (id) => {
   get(`EducationInformation/Get/${id}`)
   .then(res => {
 
-    console.log(res);
+    console.log('one Data value found',res);
     setOneData(res);
     setProgramLevelLabel(res?.programLevel?.name);
     setProgramLevelValue(res?.programLevel?.id);
@@ -309,7 +331,7 @@ const handleUpdate = (id) => {
                 
 
               <Row>
-                <Col md="5">
+                <Col md="4">
                     <h5> {edu?.nameOfInstitution}  </h5>
                     <h6> {edu?.attendedInstitutionFrom}</h6>
                     <p> {edu?.attendedInstitutionTo}</p>
@@ -327,7 +349,7 @@ const handleUpdate = (id) => {
                     
                 </Col>
 
-                  <Col md="2">
+                  <Col md="3">
                   
                <div className="CampusCardAction">
                  <div className=""> 
@@ -377,6 +399,20 @@ const handleUpdate = (id) => {
              id='studentId'
              value={localStorage?.getItem('applictionStudentId')}          
             />
+
+          {
+            (oneData?.id) ?
+
+            <input type='hidden'
+            name='id'
+            id='id'
+            value={oneData?.id}
+            />
+
+            : 
+
+            null
+          }
         
 
             <FormGroup row className="has-icon-left position-relative">
