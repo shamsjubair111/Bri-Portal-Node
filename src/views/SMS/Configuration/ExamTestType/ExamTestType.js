@@ -36,7 +36,7 @@ const ExamTestType = () => {
    get(`ExamTestType/Index`).then((action)=>{
 
     setExamTestType(action);
-    console.log(action);
+    console.log('ExamTestType',action);
    
   
     }).catch();

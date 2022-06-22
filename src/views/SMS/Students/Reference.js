@@ -14,7 +14,7 @@ const Reference = () => {
     const history = useHistory();
     
 
-    const [activetab, setActivetab] = useState("6")
+    const [activetab, setActivetab] = useState("7")
     const [deleteModal, setDeleteModal] = useState(false);
 
     const [country,setCountry] = useState([]);
@@ -84,6 +84,9 @@ const Reference = () => {
         }
 
         if (tab == "5") {
+          history.push("/addTestScore");
+        }
+        if (tab == "6") {
           history.push("/addExperience");
         }
 
@@ -294,27 +297,34 @@ const onShow=()=>{
             Educational
           </NavLink>
         </NavItem>
-       
+     
+
         <NavItem>
           <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
-            Experience
+            Test Score
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink  active={activetab === "6"} onClick={() => toggle("6")}>
+            Experience
+          </NavLink>
+        </NavItem>
+       
+        <NavItem>
+          <NavLink  active={activetab === "7"} onClick={() => toggle("7")}>
             Reference
           </NavLink>
         </NavItem>
        
         <NavItem>
-          <NavLink disabled active={activetab === "7"} onClick={() => toggle("7")}>
+          <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
             Personal Statement
           </NavLink>
         </NavItem>
        
         <NavItem>
-          <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
+          <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
             Others
           </NavLink>
         </NavItem>

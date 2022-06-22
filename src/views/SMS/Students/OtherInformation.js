@@ -18,7 +18,7 @@ const OtherInformation = () => {
 
     const [crime, setCrime] = useState(false);
 
-    const [activetab, setActivetab] = useState("8");
+    const [activetab, setActivetab] = useState("9");
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
 
@@ -48,14 +48,18 @@ const OtherInformation = () => {
         }
 
         if (tab == "5") {
-          history.push("/addExperience");
+          history.push("/addTestScore");
         }
 
         if (tab == "6") {
-          history.push("/addReference");
+          history.push("/addExperience");
         }
 
         if (tab == "7") {
+          history.push("/addReference");
+        }
+
+        if (tab == "8") {
           history.push("/addPersonalStatement");
         }
         
@@ -139,27 +143,34 @@ const OtherInformation = () => {
             Educational
           </NavLink>
         </NavItem>
-       
+     
+
         <NavItem>
           <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
-            Experience
+            Test Score
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink  active={activetab === "6"} onClick={() => toggle("6")}>
-            Reference
+            Experience
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink  active={activetab === "7"} onClick={() => toggle("7")}>
-            Personal Statement
+            Reference
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink  active={activetab === "8"} onClick={() => toggle("8")}>
+            Personal Statement
+          </NavLink>
+        </NavItem>
+       
+        <NavItem>
+          <NavLink  active={activetab === "9"} onClick={() => toggle("9")}>
             Others
           </NavLink>
         </NavItem>

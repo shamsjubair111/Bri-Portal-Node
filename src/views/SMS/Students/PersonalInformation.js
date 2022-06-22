@@ -372,27 +372,33 @@ const handleSubmit = (event) => {
                 Educational
               </NavLink>
             </NavItem>
-           
+
             <NavItem>
               <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
-                Experience
+                Test Score
               </NavLink>
             </NavItem>
            
             <NavItem>
               <NavLink disabled active={activetab === "6"} onClick={() => toggle("6")}>
-                Reference
+                Experience
               </NavLink>
             </NavItem>
            
             <NavItem>
               <NavLink disabled active={activetab === "7"} onClick={() => toggle("7")}>
-                Personal Statement
+                Reference
               </NavLink>
             </NavItem>
            
             <NavItem>
               <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
+                Personal Statement
+              </NavLink>
+            </NavItem>
+           
+            <NavItem>
+              <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
                 Others
               </NavLink>
             </NavItem>
