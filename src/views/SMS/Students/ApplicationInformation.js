@@ -125,7 +125,7 @@ const toggle = (tab) => {
   }
 
 
-  const studentTypeName = studentType?.map((branchCountry) => ({
+  const studentTypeName = studentType.map((branchCountry) => ({
     label: branchCountry.name,
     value: branchCountry.id,
   }));
@@ -141,7 +141,7 @@ setStudentTypeValue(value);
 
 }
 
-  const visaStatusName = visaStatus?.map((branchCountry) => ({
+  const visaStatusName = visaStatus.map((branchCountry) => ({
     label: branchCountry.name,
     value: branchCountry.id,
   }));
@@ -165,8 +165,8 @@ const handleSubmit = (event) => {
   post('ApplicationInfo/Create',subData)
   .then(res => {
     console.log('application response',res);
-    if(res?.status ==200){
-      addToast(res?.data?.message,{
+    if(res?.status == 200){
+      addToast(res.data.message,{
         appearance: 'success',
         autoDismiss: true
       })

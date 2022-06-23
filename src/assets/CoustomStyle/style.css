@@ -451,3 +451,32 @@ th {
   padding-left: 20px;
 }
 
+.file-upload-border{
+  border: 1px solid #c1c1c1;
+}
+
+.input-custom-style{
+  width: 92%;
+
+}
+
+.document-title{
+  color: #1e98b0;
+}
+
+.document-type-style{
+  color: #5d5b5b;
+}
+
+.div-background{
+  background-color: #1e98b0;
+}
+
+.flex-style{
+  display:  flex;
+  justify-content: space-between;
+}
+
+.cross-icon-style{
+  cursor: pointer;
+}

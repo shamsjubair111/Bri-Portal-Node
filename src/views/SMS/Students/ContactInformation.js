@@ -5,6 +5,7 @@ import Select from "react-select";
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
+import put from '../../../helpers/put';
 
 const ContactInformation = () => {
 
@@ -109,18 +110,39 @@ const ContactInformation = () => {
   event.preventDefault();
     const subData = new FormData(event.target);
 
-    post('StudentContactInformation/Create',subData)
-    .then(res => {
-      console.log(res);
-      if(res?.status == 200){
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        history.push('/addStudentEducationalInformation');
+     if(oneData?.id){
 
-      }
-    })
+      put('StudentContactInformation/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          history.push('/addStudentEducationalInformation');
+  
+        }
+      })
+
+     }
+
+     else{
+
+      post('StudentContactInformation/Create',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          history.push('/addStudentEducationalInformation');
+  
+        }
+      })
+
+     }
 
   }
 
@@ -213,6 +235,24 @@ const ContactInformation = () => {
               id='studentId'
               value={localStorage.getItem('applictionStudentId')}
               />
+
+              {
+                (oneData?.id) ? 
+                
+                <input
+                type='hidden'
+                name='id'
+                id='id'
+                value={oneData?.id}
+
+                />
+
+                :
+
+                null
+
+
+              }
 
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

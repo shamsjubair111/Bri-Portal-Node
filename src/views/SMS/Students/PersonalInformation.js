@@ -119,6 +119,7 @@ const PersonalInformation = () => {
       .then(res => {
         console.log('fetching student info from api',res);
         setConsultantLabel(res?.consultant?.firstName + ' ' + res?.consultant?.lastName );
+        setOneData(res);
           setConsultantValue(res?.consultantId);
           setFirstName(res?.firstName);
           setLastName(res?.lastName);

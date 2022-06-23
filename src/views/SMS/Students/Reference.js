@@ -215,6 +215,7 @@ const onShow=()=>{
           autoDismiss: true
         })
         setShowForm(false);
+        setOneData({});
         get(`Reference/GetByStudentId/${studentIdVal}`)
         .then(res => {
             console.log(res);

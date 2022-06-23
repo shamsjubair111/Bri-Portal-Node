@@ -99,7 +99,7 @@ const Experience = () => {
           console.log(a);
         }
 
-       if(value?.id){
+       if(value.id){
 
         put('Experience/Update',subData)
         .then(res => {
@@ -107,6 +107,7 @@ const Experience = () => {
             appearance: 'success',
             autoDismiss: true
           });
+          setValue({});
           get(`Experience/GetByStudentId/${studentIdVal}`)
           .then(res => {
            
@@ -189,7 +190,7 @@ const handleUpdate = (id) => {
   .then(res => {
     setValue(res);
     console.log(res);
-    setWorking(res?.isStillWorking);
+    setWorking(res.isStillWorking);
 
   })
    
@@ -389,7 +390,7 @@ const handleUpdate = (id) => {
             type='hidden'
             name='id'
             id='id'
-            value={value?.id}
+            value={value.id}
             />
 
             :
@@ -412,7 +413,7 @@ const handleUpdate = (id) => {
               id="jobTitle"
               placeholder="Enter job title"
               required
-              defaultValue={value?.jobTitle}
+              defaultValue={value.jobTitle}
             />
 
        
@@ -432,7 +433,7 @@ const handleUpdate = (id) => {
               id="employeementDetails"
               placeholder="Enter employment details"
               required
-              defaultValue={value?.employeementDetails}
+              defaultValue={value.employeementDetails}
             />
 
        
@@ -452,7 +453,7 @@ const handleUpdate = (id) => {
               id="companyName"
               placeholder="Enter company name"
               required
-              defaultValue={value?.companyName}
+              defaultValue={value.companyName}
             />
 
        
@@ -470,7 +471,7 @@ const handleUpdate = (id) => {
               type="date"
               name="startDate"
               id="startDate"
-              defaultValue={value?.startDate}
+              defaultValue={value.startDate}
               required
             />
 
@@ -515,7 +516,7 @@ const handleUpdate = (id) => {
                
                 
                 onChange={(e)=> setEndDate(e.target.value)}
-                defaultValue={value?.endDate}
+                defaultValue={value.endDate}
                 
                 required
               />
@@ -536,7 +537,7 @@ const handleUpdate = (id) => {
        
 
         {
-          (value?.id) ?
+          (value.id) ?
 
           <FormGroup
           className="has-icon-left position-relative"

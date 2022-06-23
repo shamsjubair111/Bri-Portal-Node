@@ -231,7 +231,7 @@ const handleUpdate = (id) => {
   // redirect to Next Page
   const onNextPage = () => {
     
-    history.push('/addExperience',
+    history.push('/addTestScore',
      
     );
   };
@@ -412,7 +412,7 @@ const handleUpdate = (id) => {
             <input type='hidden'
             name='id'
             id='id'
-            value={oneData?.id}
+            value={oneData.id}
             />
 
             : 
@@ -432,7 +432,7 @@ const handleUpdate = (id) => {
                 type="text"
                 name="nameOfInstitution"
                 id="nameOfInstitution"
-                defaultValue={oneData?.nameOfInstitution}
+                defaultValue={oneData.nameOfInstitution}
                 placeholder="Enter name of institution"
                 required
               />
@@ -452,7 +452,7 @@ const handleUpdate = (id) => {
                       type="date"
                       name="attendedInstitutionFrom"
                       id="attendedInstitutionFrom"
-                      defaultValue={oneData?.attendedInstitutionFrom}
+                      defaultValue={oneData.attendedInstitutionFrom}
                       
                       required
                     />
@@ -474,7 +474,7 @@ const handleUpdate = (id) => {
                       type="date"
                       name="attendedInstitutionTo"
                       id="attendedInstitutionTo"
-                      defaultValue={oneData?.attendedInstitutionTo}
+                      defaultValue={oneData.attendedInstitutionTo}
                       
                       required
                     />
@@ -522,7 +522,7 @@ const handleUpdate = (id) => {
                   id="qualificationSubject"
                   placeholder="Enter qualification subject"
                   required
-                  defaultValue={oneData?.qualificationSubject}
+                  defaultValue={oneData.qualificationSubject}
                 />
   
            
@@ -542,7 +542,7 @@ const handleUpdate = (id) => {
                   id="duration"
                   placeholder="Enter duration"
                   required
-                  defaultValue={oneData?.duration}
+                  defaultValue={oneData.duration}
                   
                 />
   
@@ -563,7 +563,7 @@ const handleUpdate = (id) => {
                   id="finalGrade"
                   placeholder="Enter final grade"
                   required
-                  defaultValue={oneData?.finalGrade}
+                  defaultValue={oneData.finalGrade}
 
                 />
   
@@ -609,7 +609,7 @@ const handleUpdate = (id) => {
                     id="languageOfInstitution"
                     placeholder="Enter language of institution"
                     required
-                    defaultValue={oneData?.languageOfInstitution}
+                    defaultValue={oneData.languageOfInstitution}
                   />
 
              
@@ -629,7 +629,7 @@ const handleUpdate = (id) => {
                     id="instituteContactNumber"
                     placeholder="Enter institute contact number"
                     required
-                    defaultValue={oneData?.instituteContactNumber}
+                    defaultValue={oneData.instituteContactNumber}
                   />
 
              
@@ -649,7 +649,7 @@ const handleUpdate = (id) => {
                     id="instituteAddress"
                     placeholder="Enter Institute address"
                     required
-                    defaultValue={oneData?.instituteAddress}
+                    defaultValue={oneData.instituteAddress}
                   />
 
              

@@ -198,6 +198,7 @@ const AddReference = lazy(() => import("./views/SMS/Students/Reference"))
 const AddPersonalStatement = lazy(() => import("./views/SMS/Students/PersonalStatement"))
 const AddOtherInformation = lazy(() => import("./views/SMS/Students/OtherInformation"))
 const AddTestScore = lazy(() => import("./views/SMS/Students/TestScore"))
+const UploadDocument = lazy(() => import("./views/SMS/Students/DocumentUpload"))
 
 const ExamTestType = lazy(() => import("./views/SMS/Configuration/ExamTestType/ExamTestType"))
 const ExamTestTypeAttribute = lazy(() => import("./views/SMS/Configuration/ExamTestType/ExamTestTypeAttribute"))
@@ -368,6 +369,8 @@ class AppRouter extends React.Component {
          <AppRoute path="/addPersonalStatement" component={AddPersonalStatement} />
          <AppRoute path="/addOtherInformation" component={AddOtherInformation} />
          <AppRoute path="/addTestScore" component={AddTestScore} />
+         <AppRoute path="/uploadDocument" component={UploadDocument} />
+
 
          <AppRoute path="/examTestType" component={ExamTestType} />
          <AppRoute path="/examTestTypeAttribute" component={ExamTestTypeAttribute} />
