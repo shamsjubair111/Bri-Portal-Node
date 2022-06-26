@@ -66,10 +66,10 @@ const BankDetails = () => {
     // tab toggle
     const toggle = (tab) => {
       setActivetab(tab);
-      if (tab == "1") {
+      if (tab === "1") {
         history.push(`/addConsGeneralInformation/${id}`);
       }
-      if (tab == "2") {
+      if (tab === "2") {
         history.push(`/addBankDetails/${id}`);
       }
     };
