@@ -78,7 +78,7 @@ const AddNewIntakes = () => {
         //     }
 
         post(`Intake/Create`, subData).then(action => {
-            addToast(action, {
+            addToast(action?.data?.message, {
                 appearance: 'success',
                 autoDismiss: true,
               })
