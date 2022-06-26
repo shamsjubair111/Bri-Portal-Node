@@ -5,6 +5,7 @@ import Select from "react-select";
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
+import put from '../../../helpers/put';
 
 const ContactInformation = () => {
 
@@ -21,19 +22,32 @@ const ContactInformation = () => {
     const [addressType,setAddressType] = useState([]);
     const [addressTypeLabel, setAddressTypeLabel] = useState("Address type");
       const [addressTypeValue, setAddressTypeValue] = useState(0);
+      const [oneData, setOneData] = useState({});
 
     useEffect(() => {
 
-        get('Country/Index')
+        get('CountryDD/index')
         .then(res => {
             console.log(res);
             setCountry(res);
         })
 
-        get('AddressType/GetAll')
+        get('AddressTypeDD/Index')
         .then(res => {
             console.log(res);
             setAddressType(res);
+        })
+
+
+        get(`StudentContactInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+        .then(res => {
+          console.log('Contact information from local storage', res);
+          setOneData(res);
+          setCountryLabel(res?.country?.name);
+          setCountryValue(res?.country?.id);
+          setAddressTypeLabel(res?.addressType?.name);
+          setAddressTypeValue(res?.addressType?.id);
+
         })
 
 
@@ -45,19 +59,20 @@ const ContactInformation = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+       
       };
+
+      const cancelForm = () => {
+        history.push('/addStudentInformation');
+      }
 
 
       const countryName = country?.map((branchCountry) => ({
@@ -95,18 +110,39 @@ const ContactInformation = () => {
   event.preventDefault();
     const subData = new FormData(event.target);
 
-    post('StudentContactInformation/Create',subData)
-    .then(res => {
-      console.log(res);
-      if(res?.status == 200){
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        history.push('/addStudentEducationalInformation');
+     if(oneData?.id){
 
-      }
-    })
+      put('StudentContactInformation/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          history.push('/addStudentEducationalInformation');
+  
+        }
+      })
+
+     }
+
+     else{
+
+      post('StudentContactInformation/Create',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          history.push('/addStudentEducationalInformation');
+  
+        }
+      })
+
+     }
 
   }
 
@@ -155,27 +191,33 @@ const ContactInformation = () => {
               Educational
             </NavLink>
           </NavItem>
-         
+
           <NavItem>
             <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
-              Experience
+              Test Score
             </NavLink>
           </NavItem>
          
           <NavItem>
             <NavLink disabled active={activetab === "6"} onClick={() => toggle("6")}>
-              Reference
+              Experience
             </NavLink>
           </NavItem>
          
           <NavItem>
             <NavLink disabled active={activetab === "7"} onClick={() => toggle("7")}>
-              Personal Statement
+              Reference
             </NavLink>
           </NavItem>
          
           <NavItem>
             <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
+              Personal Statement
+            </NavLink>
+          </NavItem>
+         
+          <NavItem>
+            <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
               Others
             </NavLink>
           </NavItem>
@@ -194,6 +236,24 @@ const ContactInformation = () => {
               value={localStorage.getItem('applictionStudentId')}
               />
 
+              {
+                (oneData?.id) ? 
+                
+                <input
+                type='hidden'
+                name='id'
+                id='id'
+                value={oneData?.id}
+
+                />
+
+                :
+
+                null
+
+
+              }
+
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
@@ -207,6 +267,7 @@ const ContactInformation = () => {
                       id="cellPhoneNumber"
                      placeholder='Enter cell phone number'
                       required
+                      defaultValue={oneData?.cellPhoneNumber}
                     />
 
                     {/* <div className="form-control-position">
@@ -228,11 +289,9 @@ const ContactInformation = () => {
                       id="addressLine"
                      placeholder='Enter address line'
                       required
+                      defaultValue={oneData?.addressLine}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
                   </Col>
                 </FormGroup>
 
@@ -249,6 +308,7 @@ const ContactInformation = () => {
                       id="city"
                      placeholder='Enter city'
                       required
+                      defaultValue={oneData?.city}
                     />
 
                     {/* <div className="form-control-position">
@@ -270,11 +330,10 @@ const ContactInformation = () => {
                       id="state"
                      placeholder='Enter state'
                       required
+                      defaultValue={oneData?.state}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                  
                   </Col>
                 </FormGroup>
 
@@ -287,15 +346,14 @@ const ContactInformation = () => {
                   <Col md="6">
                    <Input
                       type="string"
-                      name="zipCode "
+                      name="zipCode"
                       id="zipCode"
                      placeholder='Enter zip code'
                       required
+                      defaultValue={oneData?.zipCode}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 
@@ -316,9 +374,7 @@ const ContactInformation = () => {
 
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                  
                   </Col>
                 </FormGroup>
 
@@ -346,16 +402,23 @@ const ContactInformation = () => {
                 </FormGroup>
 
                 <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple>
-                </FormGroup>
+             className="has-icon-left position-relative"
+             style={{ display: "flex", justifyContent: "space-between" }}
+           >
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 btn-warning"
+               onClick= {cancelForm}
+             >
+               Previous
+             </Button.Ripple>
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 badge-primary"
+             >
+               Submit
+             </Button.Ripple>
+           </FormGroup>
 
              
               </Form>

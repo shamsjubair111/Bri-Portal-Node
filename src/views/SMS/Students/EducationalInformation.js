@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
+import put from '../../../helpers/put';
 
 
 const EducationalInformation = () => {
@@ -39,13 +40,13 @@ const EducationalInformation = () => {
 
   useEffect(()=>{
 
-    get('ProgramLevel/Index')
+    get('ProgramLevelDD/Index')
     .then(res => {
         console.log(res);
         setProgramLevel(res);
     })
 
-    get('Country/Index')
+    get('CountryDD/index')
     .then(res => {
         console.log(res);
         setCountry(res);
@@ -67,18 +68,19 @@ const EducationalInformation = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+        if (tab == "3") {
+          history.push("/addStudentContactInformation");
+        }
+
+       
       };
 
       const styleLabelBold = {
@@ -132,9 +134,10 @@ const handleSubmit = (event) => {
 
   const subData = new FormData(event.target);
 
-  post('EducationInformation/Create',subData)
+ if(oneData?.id){
+  put(`EducationInformation/Update`,subData)
   .then(res => {
-    console.log(res);
+    console.log('update done',res);
     addToast(res?.data?.message,{
       appearance: 'success',
       autoDismiss: true
@@ -148,6 +151,26 @@ const handleSubmit = (event) => {
       setShowForm(false);
     })
   })
+ }
+
+ else{
+  post('EducationInformation/Create',subData)
+  .then(res => {
+    console.log('Educatinal information Post ',res);
+    addToast(res?.data?.message,{
+      appearance: 'success',
+      autoDismiss: true
+    })
+    get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+    .then(res => {
+      setEduDetails(res);
+      setRadioPracticalTraining()
+      console.log('Edu details', res);
+     
+      setShowForm(false);
+    })
+  })
+ }
 
 }
 
@@ -189,7 +212,7 @@ const handleUpdate = (id) => {
   get(`EducationInformation/Get/${id}`)
   .then(res => {
 
-    console.log(res);
+    console.log('one Data value found',res);
     setOneData(res);
     setProgramLevelLabel(res?.programLevel?.name);
     setProgramLevelValue(res?.programLevel?.id);
@@ -208,7 +231,7 @@ const handleUpdate = (id) => {
   // redirect to Next Page
   const onNextPage = () => {
     
-    history.push('/addExperience',
+    history.push('/addTestScore',
      
     );
   };
@@ -266,27 +289,33 @@ const handleUpdate = (id) => {
             Educational
           </NavLink>
         </NavItem>
-       
+
         <NavItem>
-          <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
-            Experience
+          <NavLink disabled  active={activetab === "5"} onClick={() => toggle("5")}>
+            Test Score
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink disabled active={activetab === "6"} onClick={() => toggle("6")}>
-            Reference
+            Experience
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink disabled active={activetab === "7"} onClick={() => toggle("7")}>
-            Personal Statement
+            Reference
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
+            Personal Statement
+          </NavLink>
+        </NavItem>
+       
+        <NavItem>
+          <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
             Others
           </NavLink>
         </NavItem>
@@ -297,61 +326,73 @@ const handleUpdate = (id) => {
         <TabContent activeTab={activetab}>
           <TabPane tabId="4">
 
+        <div className='row'>
 
 
-          {
-            eduDetails?.map((edu, i) => <div key={edu.id} style={{ textAlign: "left" }}>
-              <Card className="CampusCard">
-                <CardBody className="shadow">
+        {
+          eduDetails?.map((edu, i) => <div className='col-md-6 mt-2' key={edu.id} style={{ textAlign: "left" }}>
+            <Card className="CampusCard shadow-style">
+              <CardBody className="shadow">
 
-                  <div className="CampusCardAction">
-                   <div className=""> 
-                      <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(edu.id)}> <i className="fas fa-edit"></i> </button>
-                   </div>
+                
 
-                   <div className=""> 
-                      <button type="button" className="btn btn-outline-danger" onClick={() => toggleDanger(edu)} ><i className="fas fa-trash-alt"></i></button>
-                   </div>
-                  </div>
+              <Row>
+                <Col md="4">
+                    <h5> {edu?.nameOfInstitution}  </h5>
+                    <h6> {edu?.attendedInstitutionFrom}</h6>
+                    <p> {edu?.attendedInstitutionTo}</p>
+                    <p> {edu?.finalGrade}</p>
+                    <p> {edu?.programLevel?.name}</p>
+                </Col>
 
-                <Row>
-                  <Col md="6">
-                      <h5> {edu?.nameOfInstitution}  </h5>
-                      <h6> {edu?.attendedInstitutionFrom}</h6>
-                      <p> {edu?.attendedInstitutionTo}</p>
-                      <p> {edu?.finalGrade}</p>
-                      <p> {edu?.programLevel?.name}</p>
-                  </Col>
+                  <Col md="5">
+                  
+                    <p>Country of Education : {edu?.countryOfEducation?.name}</p>
+                    <p>Institution Address : {edu?.instituteAddress}</p>
+                    <p>institution Contact Number : {edu?.instituteContactNumber}</p>
+                    <p>Qualification Subject : {edu?.qualificationSubject}</p>
+               
+                    
+                </Col>
 
-                    <Col md="6">
-                      <p>Country of Education : {edu?.countryOfEducation?.name}</p>
-                      <p>Institution Address : {edu?.instituteAddress}</p>
-                      <p>institution Contact Number : {edu?.instituteContactNumber}</p>
-                      <p>Qualification Subject : {edu?.qualificationSubject}</p>
-                 
-                      
-                  </Col>
+                  <Col md="3">
+                  
+               <div className="CampusCardAction">
+                 <div className=""> 
+                    <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(edu.id)}> <i className="fas fa-edit"></i> </button>
+                 </div>
+
+                 <div className=""> 
+                    <button type="button" className="btn btn-outline-danger" onClick={() => toggleDanger(edu)} ><i className="fas fa-trash-alt"></i></button>
+                 </div>
+                </div>
+                    
+                </Col>
 
 
-                </Row>           
-            
-                </CardBody>
+              </Row>           
+          
+              </CardBody>
 
-                <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
-                  <ModalBody>
-                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
-                  </ModalBody>
+              <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                <ModalBody>
+                  <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                </ModalBody>
 
-                  <ModalFooter>
-                    <Button onClick={()=> handleDeletePermission(edu)} color="danger">YES</Button>
-                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                  </ModalFooter>
-               </Modal>
+                <ModalFooter>
+                  <Button onClick={()=> handleDeletePermission(edu)} color="danger">YES</Button>
+                  <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                </ModalFooter>
+             </Modal>
 
-              </Card>
-            </div>)
+            </Card>
+          </div>)
 
-          }
+        }
+
+        </div>
+
+        
 
           {
             showForm &&
@@ -364,6 +405,20 @@ const handleUpdate = (id) => {
              id='studentId'
              value={localStorage?.getItem('applictionStudentId')}          
             />
+
+          {
+            (oneData?.id) ?
+
+            <input type='hidden'
+            name='id'
+            id='id'
+            value={oneData.id}
+            />
+
+            : 
+
+            null
+          }
         
 
             <FormGroup row className="has-icon-left position-relative">
@@ -377,7 +432,7 @@ const handleUpdate = (id) => {
                 type="text"
                 name="nameOfInstitution"
                 id="nameOfInstitution"
-                defaultValue={oneData?.nameOfInstitution}
+                defaultValue={oneData.nameOfInstitution}
                 placeholder="Enter name of institution"
                 required
               />
@@ -397,7 +452,7 @@ const handleUpdate = (id) => {
                       type="date"
                       name="attendedInstitutionFrom"
                       id="attendedInstitutionFrom"
-                      defaultValue={oneData?.attendedInstitutionFrom}
+                      defaultValue={oneData.attendedInstitutionFrom}
                       
                       required
                     />
@@ -419,7 +474,7 @@ const handleUpdate = (id) => {
                       type="date"
                       name="attendedInstitutionTo"
                       id="attendedInstitutionTo"
-                      defaultValue={oneData?.attendedInstitutionTo}
+                      defaultValue={oneData.attendedInstitutionTo}
                       
                       required
                     />
@@ -467,7 +522,7 @@ const handleUpdate = (id) => {
                   id="qualificationSubject"
                   placeholder="Enter qualification subject"
                   required
-                  defaultValue={oneData?.qualificationSubject}
+                  defaultValue={oneData.qualificationSubject}
                 />
   
            
@@ -487,7 +542,7 @@ const handleUpdate = (id) => {
                   id="duration"
                   placeholder="Enter duration"
                   required
-                  defaultValue={oneData?.duration}
+                  defaultValue={oneData.duration}
                   
                 />
   
@@ -508,7 +563,7 @@ const handleUpdate = (id) => {
                   id="finalGrade"
                   placeholder="Enter final grade"
                   required
-                  defaultValue={oneData?.finalGrade}
+                  defaultValue={oneData.finalGrade}
 
                 />
   
@@ -554,7 +609,7 @@ const handleUpdate = (id) => {
                     id="languageOfInstitution"
                     placeholder="Enter language of institution"
                     required
-                    defaultValue={oneData?.languageOfInstitution}
+                    defaultValue={oneData.languageOfInstitution}
                   />
 
              
@@ -574,7 +629,7 @@ const handleUpdate = (id) => {
                     id="instituteContactNumber"
                     placeholder="Enter institute contact number"
                     required
-                    defaultValue={oneData?.instituteContactNumber}
+                    defaultValue={oneData.instituteContactNumber}
                   />
 
              
@@ -594,7 +649,7 @@ const handleUpdate = (id) => {
                     id="instituteAddress"
                     placeholder="Enter Institute address"
                     required
-                    defaultValue={oneData?.instituteAddress}
+                    defaultValue={oneData.instituteAddress}
                   />
 
              

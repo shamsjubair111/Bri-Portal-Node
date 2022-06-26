@@ -19,10 +19,13 @@ const ApplicationInformation = () => {
   const [studentType, setStudentType] = useState([]);
   const [studentTypeLabel, setStudentTypeLabel] = useState('Student type');
   const [studentTypeValue, setStudentTypeValue] = useState(0);
+  const [dateOfMoveToUk, setDateOfMoveToUk] = useState('');
+  const [financeDetails, setFinanceDetails] = useState('');
 
   const [visaStatus, setVisaStatus] = useState([]);
   const [visaStatusLabel, setVisaStatusLabel] = useState('Visa status');
   const [visaStatusValue, setVisaStatusValue] = useState(0);
+  const [code, setCode] = useState('');
 
 
   const applicationStudentTypeId =  localStorage.getItem('applictionStudentTypeId');
@@ -36,13 +39,13 @@ const ApplicationInformation = () => {
 
   useEffect(()=>{
 
-    get('StudentType/Index')
+    get('StudentTypeDD/Index')
     .then(res => {
-      console.log(res);
+      console.log('Student Type Dropdown',res);
       setStudentType(res);
     })
 
-    get('VisaStatus/GetAll')
+    get('VisaTypeDD/Index')
     .then(res => {
       console.log(res);
       setVisaStatus(res);
@@ -53,6 +56,25 @@ const ApplicationInformation = () => {
       console.log('bbbbbbbbbbbbbbbbbbb',res);
       setStudentTypeValue(res?.id);
       setStudentTypeLabel(res?.name);
+    })
+
+
+    get(`ApplicationInfo/GetByStudentId/${applicationStudentId}`)
+    .then(res => {
+      console.log('application post response', res);
+      setStudentTypeLabel(res?.student?.studentType?.name);
+      setStudentTypeValue(res?.student?.studentType?.id);
+      setDateOfMoveToUk(res?.dateOfMoveToUk);
+      setIsStayedOutsideUkInLastThreeYears(res?.isStayedOutsideEU_UkinLast3Years);
+      setPresettlementStatus(res?.isHavePre_Settlementstatus);
+      setIsAppliedStudentFinance(res?.isAppliedStudentFinance);
+      setFinanceDetails(res?.financeApplicationDetails);
+      setCode(res?.code);
+      setIsApplyingFromInside(res?.isApplyingFromInside);
+      setVisaStatusLabel(res?.visaStatus);
+      setVisaStatusValue(res?.visaStatusId);
+
+
     })
 
   },[])
@@ -69,18 +91,7 @@ const styleLabelBold = {
 
 const toggle = (tab) => {
   setActivetab(tab);
-  if (tab == "2") {
-    history.push("/addUniversityCampus");
-  }
-  // if (tab == "3") {
-  //   history.push("/addUniversityFinancial");
-  // }
-  // if (tab == "4") {
-  //   history.push("/addUniversityFeatures");
-  // }
-  // if (tab == "5") {
-  //   history.push("/addUniversityGallery");
-  // }
+  
 };
 
  // on change radio button
@@ -114,7 +125,7 @@ const toggle = (tab) => {
   }
 
 
-  const studentTypeName = studentType?.map((branchCountry) => ({
+  const studentTypeName = studentType.map((branchCountry) => ({
     label: branchCountry.name,
     value: branchCountry.id,
   }));
@@ -130,7 +141,7 @@ setStudentTypeValue(value);
 
 }
 
-  const visaStatusName = visaStatus?.map((branchCountry) => ({
+  const visaStatusName = visaStatus.map((branchCountry) => ({
     label: branchCountry.name,
     value: branchCountry.id,
   }));
@@ -153,9 +164,9 @@ const handleSubmit = (event) => {
 
   post('ApplicationInfo/Create',subData)
   .then(res => {
-    console.log(res);
-    if(res?.status ==200){
-      addToast(res?.data?.message,{
+    console.log('application response',res);
+    if(res?.status == 200){
+      addToast(res.data.message,{
         appearance: 'success',
         autoDismiss: true
       })
@@ -165,6 +176,12 @@ const handleSubmit = (event) => {
   })
 
 }
+
+
+const cancelForm = () => {
+  history.push('/');
+}
+
 
 
 
@@ -214,29 +231,35 @@ const handleSubmit = (event) => {
           </NavItem>
 
           <NavItem>
-
             <NavLink disabled  active={activetab === "5"} onClick={() => toggle("5")}>
-              Experience 
+              Test Score
             </NavLink>
           </NavItem>
 
           <NavItem>
 
             <NavLink disabled  active={activetab === "6"} onClick={() => toggle("6")}>
-              Reference
+              Experience 
             </NavLink>
           </NavItem>
 
           <NavItem>
 
             <NavLink disabled  active={activetab === "7"} onClick={() => toggle("7")}>
-              Personal Statement
+              Reference
             </NavLink>
           </NavItem>
 
           <NavItem>
 
             <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
+              Personal Statement
+            </NavLink>
+          </NavItem>
+
+          <NavItem>
+
+            <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
               Others
             </NavLink>
           </NavItem>
@@ -317,11 +340,12 @@ const handleSubmit = (event) => {
             </Col>
             <Col md="6">
              <Input
-                type="number"
-                name="lastName"
-                id="lastName"
+                type="text"
+                name="financeApplicationDetails"
+                id="financeApplicationDetails"
                placeholder='Enter finance application details'
                 required
+                defaultValue={financeDetails}
               />
 
             
@@ -336,11 +360,12 @@ const handleSubmit = (event) => {
             </Col>
             <Col md="6">
              <Input
-                type="number"
-                name="lastName"
-                id="lastName"
+                type="text"
+                name="code"
+                id="code"
                placeholder='Enter code'
                 required
+                defaultValue={code}
               />
 
             
@@ -400,8 +425,8 @@ const handleSubmit = (event) => {
                     options={visaStatusName}
                     value={{ label: visaStatusLabel, value: visaStatusValue }}
                     onChange={(opt) => selectVisaStatus(opt.label, opt.value)}
-                    name="countryId"
-                    id="countryId"
+                    name="visaStatusId"
+                    id="visaStatusId"
                     required
 
                   />
@@ -522,17 +547,24 @@ const handleSubmit = (event) => {
 
            
 
-              <FormGroup
-                className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 badge-primary"
-                >
-                  Submit
-                </Button.Ripple>
-              </FormGroup>
+             <FormGroup
+             className="has-icon-left position-relative"
+             style={{ display: "flex", justifyContent: "space-between" }}
+           >
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 btn-warning"
+               onClick= {cancelForm}
+             >
+               Cancel
+             </Button.Ripple>
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 badge-primary"
+             >
+               Submit
+             </Button.Ripple>
+           </FormGroup>
 
            
             </Form>

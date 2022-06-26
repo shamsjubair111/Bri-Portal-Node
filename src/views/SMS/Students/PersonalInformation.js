@@ -23,6 +23,8 @@ const PersonalInformation = () => {
 
     const {addToast} = useToasts();
 
+    const [oneData, setOneData] = useState({});
+
 
     const [activetab, setActivetab] = useState("2");
     const [submitData, setSubmitData] = useState(false);
@@ -62,7 +64,7 @@ const PersonalInformation = () => {
     useEffect(()=>{
       get('NameTittle/GetAll')
       .then(res => {
-        console.log(res);
+        console.log('title',res);
         setTitle(res);
       })
 
@@ -92,10 +94,12 @@ const PersonalInformation = () => {
           setNationality(res);
       })
 
-      get('Consultant/Index')
+      get('ConsultantDD/index')
       .then(res => {
-          console.log(res);
+          console.log('r',res);
           setConsultant(res);
+          setConsultantLabel(res?.name);
+          setConsultantValue(res?.id);
       })
 
       get('StudentType/Index')
@@ -104,13 +108,35 @@ const PersonalInformation = () => {
           setStudentType(res);
       })
 
-      get(`Consultant/Get/${consultantValueId}`)
-      .then(res => {
-        console.log('Cid',res);
-        setConsultantLabel(res?.firstName);
-        setConsultantValue(res?.id);
-      })
+      // get(`Consultant/Get/${consultantValueId}`)
+      // .then(res => {
+      //   console.log('Cid',res);
+      //   setConsultantLabel(res?.firstName);
+      //   setConsultantValue(res?.id);
+      // })
 
+      get(`Student/Get/${localStorage.getItem('applictionStudentId')}`)
+      .then(res => {
+        console.log('fetching student info from api',res);
+        setConsultantLabel(res?.consultant?.firstName + ' ' + res?.consultant?.lastName );
+        setOneData(res);
+          setConsultantValue(res?.consultantId);
+          setFirstName(res?.firstName);
+          setLastName(res?.lastName);
+          setEmail(res?.email);
+          setTitleLabel(res?.nameTittle?.name);
+          setTitleValue(res?.nameTittle?.id);
+          setNumber(res?.phoneNumber);
+          setPassport(res?.passportNumber);
+          setGenderLabel(res?.gender?.name);
+          setGenderValue(res?.gender?.id);
+          setMaritalStatusLabel(res?.maritalStatus?.name);
+          setMaritalStatusValue(res?.maritalStatus?.id);
+          setNationalityLabel(res?.nationality?.name);
+          setNationalityValue(res?.nationality?.id);
+          setCountryLabel(res?.country?.name);
+          setCountryValue(res?.country?.id);
+      })
 
 
     },[])
@@ -122,19 +148,16 @@ const PersonalInformation = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        
       };
+
+      const cancelForm = () => {
+        history.push('/');
+      }
 
       const nameTitle = title?.map((singleTitle) => ({
         label: singleTitle.name,
@@ -216,7 +239,7 @@ setNationalityValue(value);
 
 
   const consultantName = consultant?.map((branchCountry) => ({
-    label: branchCountry.firstName,
+    label: branchCountry.name,
     value: branchCountry.id,
   }));
 
@@ -292,7 +315,7 @@ const handleSubmit = (event) => {
 
   put('Student/Update',subData)
   .then(res => {
-    console.log(res);
+    console.log('posted data',res);
     if(res?.status ==200){
       addToast(res?.data?.message,{
         appearance: 'success',
@@ -350,27 +373,33 @@ const handleSubmit = (event) => {
                 Educational
               </NavLink>
             </NavItem>
-           
+
             <NavItem>
               <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
-                Experience
+                Test Score
               </NavLink>
             </NavItem>
            
             <NavItem>
               <NavLink disabled active={activetab === "6"} onClick={() => toggle("6")}>
-                Reference
+                Experience
               </NavLink>
             </NavItem>
            
             <NavItem>
               <NavLink disabled active={activetab === "7"} onClick={() => toggle("7")}>
-                Personal Statement
+                Reference
               </NavLink>
             </NavItem>
            
             <NavItem>
               <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
+                Personal Statement
+              </NavLink>
+            </NavItem>
+           
+            <NavItem>
+              <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
                 Others
               </NavLink>
             </NavItem>
@@ -470,6 +499,7 @@ const handleSubmit = (event) => {
                       placeholder="Enter first name"
                       required
                       onChange={(e) => setFirstName(e.target.value)}
+                      defaultValue={FirstName}
                     />
 
                     {/* <div className="form-control-position">
@@ -493,6 +523,7 @@ const handleSubmit = (event) => {
                       placeholder="Enter last name"
                       onChange={(e)=> setLastName(e.target.value)}
                       required
+                      defaultValue={LastName}
                     />
 
                     {/* <div className="form-control-position">
@@ -537,6 +568,7 @@ const handleSubmit = (event) => {
                      placeholder='Enter phone number'
                      onChange={(e)=>setNumber(e.target.value)}
                       required
+                      defaultValue={number}
                     />
 
                     {/* <div className="form-control-position">
@@ -553,12 +585,13 @@ const handleSubmit = (event) => {
                   </Col>
                   <Col md="6">
                    <Input
-                      type="number"
+                      type="text"
                       name="passportNumber"
                       id="passportNumber"
                      placeholder='Enter passport number'
                      onChange={(e)=> setPassport(e.target.value)}
                       required
+                      defaultValue={passport}
                     />
 
                     {/* <div className="form-control-position">
@@ -604,6 +637,7 @@ const handleSubmit = (event) => {
                       name="genderId"
                       id="genderId"
                       required
+                      
 
                     />
 
@@ -672,7 +706,7 @@ const handleSubmit = (event) => {
                       id="email"
                       placeholder="Enter email"
                       onChange={(e)=> setEmail(e.target.value)}
-                      defaultValue={localStorage.getItem('registerEmail')}
+                      defaultValue={Email}
                       required
                     />
 
@@ -684,27 +718,7 @@ const handleSubmit = (event) => {
 
                
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Password <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                   <Input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Enter password"
-                      onChange={(e)=> setPassword(e.target.value)}
-                      required
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
+             
 
 
 
@@ -728,16 +742,23 @@ const handleSubmit = (event) => {
                 ></FormGroup>
 
                 <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple>
-                </FormGroup>
+             className="has-icon-left position-relative"
+             style={{ display: "flex", justifyContent: "space-between" }}
+           >
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 btn-warning"
+               onClick= {cancelForm}
+             >
+               Cancel
+             </Button.Ripple>
+             <Button.Ripple
+               type="submit"
+               className="mr-1 mt-3 badge-primary"
+             >
+               Submit
+             </Button.Ripple>
+           </FormGroup>
               </Form>
             </TabPane>
           </TabContent>
