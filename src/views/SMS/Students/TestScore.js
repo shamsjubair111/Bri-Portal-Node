@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalFooter, ModalBody } from 'reactstrap';
 import Select from "react-select";
 import { useHistory } from 'react-router-dom';
 import get from '../../../helpers/get';
+import InputComponent from './InputComponent';
+
+import { useToasts } from "react-toast-notifications";
+import post from '../../../helpers/post';
+import remove from '../../../helpers/remove';
+import EditInputComponent from './EditInputComponent';
 
 const TestScore = () => {
 
 
     const [activetab, setActivetab] = useState("5");
+    
+
+    const [success, setSuccess] = useState(false);
+
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [showForm,setShowForm]=useState(false);
 
     const applicationStudentId = localStorage.getItem('applictionStudentId');
 
@@ -15,10 +27,17 @@ const TestScore = () => {
     const [ELqualificationLabel, setELQualificationLabel] = useState('Select');
     const [ELqualificationValue, ELsetQualificationValue] = useState(0);
 
+    const {addToast} = useToasts();
+
+    const [courseInfo, setCourseInfo] = useState([]);
+
+    const [oneData, setOneData] = useState({});
 
 
     const [qualificationLabel, setQualificationLabel] = useState('NO');
     const [qualificationValue, setQualificationValue] = useState(0);
+
+    const [examTestTypeAttributeData, setExamTestTypeAttributeData] = useState([]);
 
     useEffect(()=>{
 
@@ -27,10 +46,51 @@ const TestScore = () => {
         console.log('Exam test type data fetch',res);
         setQualification(res);
 
+
+
       })
 
 
-    },[])
+      get(`StudentTestScore/StudentTestScoreValue/${localStorage.getItem('applictionStudentId')}`)
+      .then(res => {
+        console.log('Courses Record',res);
+        setCourseInfo(res);
+      })
+
+
+    },[success])
+
+
+    const handleDeleteData = () => {
+
+      remove(`StudentTestScore/Delete/${localStorage.getItem('studentTestScroreId')}`)
+      .then(res => {
+        console.log(res);
+        addToast(res,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+        setDeleteModal(false);
+        setSuccess(!success);
+      })
+      
+    }
+
+
+    const goBackward = () => {
+      history.push('/addStudentEducationalInformation');
+    }
+
+    const handleForward = () => {
+      history.push('/addExperience');
+    }
+
+    const toggleDanger = (p) => {
+
+      localStorage.setItem('studentTestScroreId',p.studentTestScroreId);
+
+      setDeleteModal(true)
+    }
 
     const testOptions = [
 
@@ -61,10 +121,52 @@ const TestScore = () => {
     ELsetQualificationValue(value);
 
   console.log(label, value);
+
+  get(`ExamTestTypeAttribute/GetByExamTestType/${value}`)
+  .then(res => {
+    console.log('on Change exam test type',res);
+    setExamTestTypeAttributeData(res);
+  })
   
   
   
   
+  }
+
+  const handleEdit = (data) => {
+    // console.log(data);
+    get(`StudentTestScore/GetByStudentTestScore/${data.studentTestScroreId}`)
+    .then(res => {
+      console.log(res);
+      setOneData(res);
+
+    })
+  }
+
+  const handleSubmit = (event) => {
+
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+
+    for (var x of subData.values()){
+      console.log(x);
+    }
+
+    post('ExamTestTypeAttributeValue/Create',subData)
+    .then(res => {
+      console.log(res);
+      if(res?.status == 200){
+        addToast(res?.data?.message, {
+          appearance: 'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+       
+
+      }
+    })
+
   }
 
 
@@ -115,7 +217,7 @@ const TestScore = () => {
         
       };
 
-
+   
     
 
       
@@ -202,16 +304,94 @@ const TestScore = () => {
 
         </Nav>
 
-        <div className='container test-score-div-1-style mt-4'>
+       
 
-        <span className='test-score-span-1-style'>Do You Hold an English Language Qualification Such as GCSE English Language, IELTS, Pearson etc ?</span>
+    {
+      courseInfo?.length <=0 && 
+      <div className='container test-score-div-1-style mt-4'>
+      <span className='test-score-span-1-style'>Do You Hold an English Language Qualification Such as GCSE English Language, IELTS, Pearson etc ?</span>
+      </div>
+    }
+
+      
+
+        <div className='row mt-3'>
+
+
+        {
+          courseInfo?.map((course, i) => <div className='col-md-6 mt-2' key={i} style={{ textAlign: "left" }}>
+            <Card className="CampusCard shadow-style">
+              <CardBody className="shadow">
+
+              <div className='d-flex justify-content-space-between'>
+              <h5>Course Title: {course.examTestTypeName}</h5>
+              <div className="CampusCardAction">
+              <div className=""> 
+                 <button type="button" onClick={()=> handleEdit(course)} className="btn btn-outline-info"> <i className="fas fa-edit"></i> </button>
+              </div>
+
+              <div className=""> 
+                 <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(course)} ><i className="fas fa-trash-alt"></i></button>
+              </div>
+             </div>
+              </div>
+
+                {
+                  (course?.attributeItem)?.map((c,i)=>
+                  
+                  <Row key={i} >
+
+                  <Col md="6">
+                  <h6>{c.attritbuteName}: {c.attritbuteValue}</h6>
+                   
+                  </Col>
+  
+                 
+  
+  
+  
+                </Row>  
+                  
+                  )
+
+                
+
+           
+
+                }    
+          
+              </CardBody>
+
+              <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                <ModalBody>
+                  <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                  <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                </ModalFooter>
+             </Modal>
+
+            </Card>
+          </div>)
+
+        }
 
         </div>
 
 
         <TabContent activeTab={activetab}>
         <TabPane tabId="5">
-          <Form    className="mt-5">
+          <Form onSubmit={handleSubmit}   className="mt-5">
+
+          <input
+          type='hidden'
+          name='studentId'
+          id='studentId'
+          value={localStorage.getItem('applictionStudentId')}
+          
+          />
 
        
 
@@ -252,8 +432,8 @@ const TestScore = () => {
           options={qualificationOptions}
                     value={{ label: ELqualificationLabel, value: ELqualificationValue }}
                     onChange={(opt) => selectQualification(opt.label, opt.value)}
-                    name=""
-                    id=""
+                    name="examType"
+                    id="examType"
                    
              
               required
@@ -264,25 +444,37 @@ const TestScore = () => {
           </Col>
         </FormGroup>
 
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>
-            Please Confirm Overall Result/Grade  <span className="text-danger">*</span>{" "}
-          </span>
-        </Col>
-        <Col md="6">
-        <Input
-        type='text'
-        placeholder='Enter Overall Score'
-       
-        />
 
+        {
+
+          examTestTypeAttributeData?.map((data,i) => 
+
+         <>
+         
+         <InputComponent
+         key={i}
+         data={data}
+         ></InputComponent>
+
+         <EditInputComponent
+         
+         key={i+1}
+         data={data}
+         
+         >
+         </EditInputComponent>
+         
+         </>
           
-        </Col>
-      </FormGroup>
+          )
+
+         }
+
+    
           
           </>
 
+     
 
           :
 
@@ -291,219 +483,45 @@ const TestScore = () => {
 
          }
 
-          <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Please Specify Qualification Name  <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6">
-              <Input
-              type='text'
-              placeholder='Enter Name of Qualification'
-             
-              />
 
-                
-              </Col>
-            </FormGroup>
+
+       
+
+       
+
+         
 
         
 
 
-            <div className='container test-score-div-1-style mb-4'>
+         
 
-            <span className='test-score-span-1-style'>Please State Component Score</span>
-    
-            </div>
+         
 
-           {
-            ELqualificationLabel == 'IELTS' ?
-            
-            <>
-            
-            <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Speaking  <span className="text-danger">*</span>{" "}
-              </span>
-            </Col>
-            <Col md="6">
-           <Input
-           type='text'
-           placeholder='Enter Speaking Score'
+         <br/>
+        
+
+
           
-           />
 
-              
-            </Col>
-          </FormGroup>
-
-            <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Listening  <span className="text-danger">*</span>{" "}
-              </span>
-            </Col>
-            <Col md="6">
-            <Input
-           type='text'
-           placeholder='Enter Listening Score'
-          
-           />
-
-              
-            </Col>
-          </FormGroup>
-
-            <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Writing  <span className="text-danger">*</span>{" "}
-              </span>
-            </Col>
-            <Col md="6">
-            <Input
-            type='text'
-            placeholder='Enter writing Score'
+           <FormGroup row
+           className="has-icon-left position-relative"
+           style={{ display: "flex", justifyContent: "end" }}
+         >
            
-            />
+       <Col md="5">
+       
+       <Button.Ripple
+       type="submit"
+       className="mr-1 mt-3 badge-primary"
+     >
+       Save
+     </Button.Ripple>
 
-              
-            </Col>
-          </FormGroup>
-
-            <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Reading  <span className="text-danger">*</span>{" "}
-              </span>
-            </Col>
-            <Col md="6">
-            <Input
-            type='text'
-            placeholder='Enter reading Score'
-           
-            />
-
-              
-            </Col>
-          </FormGroup>
-
-            <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Exam Date  <span className="text-danger">*</span>{" "}
-              </span>
-            </Col>
-            <Col md="6">
-            <Input
-            type='date'
-            
-            />
-
-              
-            </Col>
-          </FormGroup>
-
-            </>
-
-            :
-
-            null
-
-
-
-           }
-
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-              Literacy  <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-          <Input
-          type='text'
-          placeholder='Enter Speaking Score'
-         
-          />
-
-            
-          </Col>
-        </FormGroup>
-
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-              Comprehension  <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-          <Input
-          type='text'
-          placeholder='Enter Listening Score'
-         
-          />
-
-            
-          </Col>
-        </FormGroup>
-
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-              Conversation  <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-          <Input
-          type='text'
-          placeholder='Enter Writing Score'
-         
-          />
-
-            
-          </Col>
-        </FormGroup>
-
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-              Production  <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-          <Input
-          type='text'
-          placeholder='Enter Reading Score'
-         
-          />
-
-            
-          </Col>
-        </FormGroup>
-
-        <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Exam Date  <span className="text-danger">*</span>{" "}
-              </span>
-            </Col>
-            <Col md="6">
-            <Input
-            type='date'
-            
-            
-            />
-
-              
-            </Col>
-          </FormGroup>
-
-
+       </Col>
 
           
+         </FormGroup>
 
            <FormGroup
            className="has-icon-left position-relative"
@@ -512,15 +530,19 @@ const TestScore = () => {
            <Button.Ripple
              type="submit"
              className="mr-1 mt-3 btn-warning"
+             onClick={goBackward}
              
            >
              Previous
            </Button.Ripple>
+           
+
            <Button.Ripple
              type="submit"
              className="mr-1 mt-3 badge-primary"
+             onClick={handleForward}
            >
-             Save and Next
+             Next
            </Button.Ripple>
          </FormGroup>
 

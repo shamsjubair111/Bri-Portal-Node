@@ -29,9 +29,11 @@ const ExamTestTypeAttribute = () => {
     const history = useHistory();
     const location = useLocation();
 
+    const examTestTypeAttributeId = localStorage.getItem('examTestTypeAttributeId');
+
     
      if(location?.examTestTypeId){
-      localStorage.setItem('examTestTypeId',location?.examTestTypeId);
+      localStorage.setItem('examTestTypeAttributeId',location?.examTestTypeId);
      }
 
     const [examTestTypeAttribute, setExamTestTypeAttribute] = useState([]);
@@ -53,16 +55,21 @@ const ExamTestTypeAttribute = () => {
 
         get('FieldType/GetAll')
         .then(res => {
-          // console.log(res);
+          console.log(res);
           setFieldType(res);
         })
 
 
-        get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeId')}`)
+        get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeAttributeId')}`)
         .then(res => {
           console.log(res);
           setExamTestTypeAttribute(res);
         })
+
+        // get(`ExamTestTypeAttribute/GetByExamTestType/${examTestTypeAttributeId}`)
+        // .then(res => {
+        //   console.log(res);
+        // })
 
     },[])
 
@@ -107,6 +114,10 @@ const handleSubmit = (e) => {
   e.preventDefault();
   const subData = new FormData(e.target);
 
+  for(var y of subData.values()){
+    console.log(typeof(y));
+  }
+
   post('ExamTestTypeAttribute/Create',subData)
   .then(res => {
     console.log(res);
@@ -115,7 +126,7 @@ const handleSubmit = (e) => {
       autoDismiss: true
 
     })
-    get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeId')}`)
+    get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeAttributeId')}`)
     .then(res => {
       console.log(res);
       setExamTestTypeAttribute(res);
@@ -129,11 +140,12 @@ const handleDelete = (data) => {
   remove(`ExamTestTypeAttribute/Delete/${data?.id}`)
   .then(res => {
     console.log(res);
+    setDeleteModal(false);
     addToast(res,{
       appearance: 'error',
       autoDismiss: true
     })
-    get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeId')}`)
+    get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeAttributeId')}`)
     .then(res => {
       console.log(res);
       setExamTestTypeAttribute(res);
@@ -179,7 +191,7 @@ const handleDelete = (data) => {
           type='hidden'
           name='examTestTypeId'
           id='examTestTypeId'
-          value={localStorage.getItem('examTestTypeId')}
+          value={localStorage.getItem('examTestTypeAttributeId')}
           />
         
          <FormGroup row className="has-icon-left position-relative">
@@ -270,7 +282,8 @@ const handleDelete = (data) => {
                   examTestTypeAttribute?.map((exam, i) => <tr key={exam?.id}>
                   
                     <td>{exam?.name}</td>
-                    <td>{exam?.fieldType?.name}</td>
+                    <td>{exam?.fieldTypeName}</td>
+                   
 
                    
                     <td>

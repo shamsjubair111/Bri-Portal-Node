@@ -16,7 +16,8 @@ const Experience = () => {
     const [working, setWorking] = useState(false);
     const [endDate, setEndDate] = useState('');
 
-    const [info, setInfo] = useState([]);
+  
+     const [info, setInfo] = useState([]);
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
 
@@ -24,7 +25,11 @@ const Experience = () => {
 
     const [deleteModal, setDeleteModal] = useState(false);
     const [showForm,setShowForm]=useState(false);
-    const [value, setValue] = useState({});
+    const [value, setValue] = useState({}); 
+
+    const [sDate, setSDate] = useState('');
+    const [eDate, setEDate] = useState('');
+
 
     const handleChange = (e) => {
       
@@ -44,6 +49,15 @@ const Experience = () => {
       .then(res => {
         console.log(res);
         setInfo(res);
+
+        var datee =res?.startDate;
+        var utcDate = new Date(datee);
+        var localeDte = utcDate.toLocaleString("en-CA");
+        var localeDte2 = localeDte.split(",")[0];
+        var localeDte3 = localeDte2.replace('/', '-');
+        
+        console.log(localeDte);
+        setSDate(localeDte3.replace('/', '-'));
         
 
       })
@@ -189,6 +203,23 @@ const handleUpdate = (id) => {
   get(`Experience/Get/${id}`)
   .then(res => {
     setValue(res);
+
+    // 
+
+    var datee =res?.startDate;
+var utcDate = new Date(datee);
+var localeDte = utcDate.toLocaleString("en-CA");
+var localeDte2 = localeDte.split(",")[0];
+var localeDte3 = localeDte2.replace('/', '-');
+
+console.log(localeDte);
+setSDate(localeDte3.replace('/', '-'));
+
+
+
+
+    // 
+    
     console.log(res);
     setWorking(res.isStillWorking);
 
@@ -197,6 +228,7 @@ const handleUpdate = (id) => {
    
 }
 
+console.log('trying', sDate?.split(",")[0]);
 
   // redirect to Next Page
   const onNextPage = () => {
@@ -471,7 +503,7 @@ const handleUpdate = (id) => {
               type="date"
               name="startDate"
               id="startDate"
-              defaultValue={value.startDate}
+              defaultValue={sDate}
               required
             />
 

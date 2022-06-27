@@ -176,6 +176,13 @@ const handleDeleteUniCountry = (id) => {
   
   }
 
+  const handleCheckExamTestTypeAttribute = (id) => {
+    console.log(id);
+    localStorage.setItem('examTestTypeAttributeId',id);
+    history.push('/examTestTypeAttribute');
+
+  }
+
 
   const idVal =localStorage.getItem('updateExamTestTypeValue');
 
@@ -291,7 +298,7 @@ const handleDeleteUniCountry = (id) => {
                       <th style={{ textAlign: "center" }} scope="row">{i + 1}</th>
                       <td>{exam?.name}</td>
                       <td>               
-                      <Button color="primary" className="mx-1 btn-sm">
+                      <Button color="primary" onClick={()=>handleCheckExamTestTypeAttribute(exam.id)} className="mx-1 btn-sm">
                       {" "}
                       <i className="fas fa-eye"></i>{" "}
                     </Button>

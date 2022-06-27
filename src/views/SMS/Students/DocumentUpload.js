@@ -158,7 +158,7 @@ const DocumentUpload = () => {
 
         </Nav>
 
-        <div className='row gx-0'>
+        <div className='row gy-3'>
 
      
 
