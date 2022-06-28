@@ -299,11 +299,6 @@ const UniversityDetails = () => {
 
       <div className="uapp-employee-profile">
         <Row>
-
-        
-
-
-
           <Col md="12"> 
            <Card className="uapp-employee-profile-right">
              <div className="uapp-profile-CardHeader">
@@ -325,7 +320,7 @@ const UniversityDetails = () => {
                  </div>
 
             </CardBody>
-        </Card>
+          </Card>
 
           
           </Col>
@@ -358,7 +353,7 @@ const UniversityDetails = () => {
 
          
 
-      <Card className="uapp-employee-search">
+       <Card className="uapp-employee-search">
           <CardBody>
 
           {loading ? (
@@ -429,7 +424,7 @@ const UniversityDetails = () => {
           }
 
           </CardBody>
-      </Card>
+        </Card>
 
       {/* intake filter */}
       <Card className="uapp-card-bg">

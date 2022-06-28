@@ -106,6 +106,7 @@ const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultan
 const ConsGeneralInformation = lazy(() => import("./views/SMS/Consultant/ConsGeneralInformation"))
 const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
 
+// University Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
 const AddSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/SubDepartment.jsx"))
 const AddProgramLevel = lazy(() => import("./views/SMS/UniversitySubjects/ProgramLevel.jsx"))
@@ -188,7 +189,9 @@ const BranchManagerInformation = lazy(() => import("./views/SMS/Branches/BranchM
 const BranchTeamEmployeeInformation = lazy(() => import("./views/SMS/Branches/BranchManager/BranchTeamEmployeeInformation"))
 const AdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManager"))
 
-
+// Student
+const StudentList = lazy(() => import("./views/SMS/Students/StudentList"))
+const StudentProfile = lazy(() => import("./views/SMS/Students/StudentProfile"))
 const PersonalInformation = lazy(() => import("./views/SMS/Students/PersonalInformation"))
 const ContactInformation = lazy(() => import("./views/SMS/Students/ContactInformation"))
 const ApplicationInformation = lazy(() => import("./views/SMS/Students/ApplicationInformation"))
@@ -361,6 +364,8 @@ class AppRouter extends React.Component {
          <AppRoute path="/updateBranchManagerInformation/:id" component={BranchManagerInformation} />
          <AppRoute path="/teamEmployee/:teamId" component={BranchTeamEmployeeInformation} />
 
+         <AppRoute path="/studentList" component={StudentList} />
+         <AppRoute path="/studentProfile/:sId" component={StudentProfile} />
          <AppRoute path="/addStudentInformation" component={PersonalInformation} />
          <AppRoute path="/addStudentContactInformation" component={ContactInformation} />
          <AppRoute path="/addStudentApplicationInformation" component={ApplicationInformation} />
