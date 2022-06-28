@@ -102,6 +102,9 @@ const UpdateIntake = () => {
             appearance: 'success',
             autoDismiss: true,
           })
+          history.push({
+            pathname: "/intake",
+          });
         });
       }
 
