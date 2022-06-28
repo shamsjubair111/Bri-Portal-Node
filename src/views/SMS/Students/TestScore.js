@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalFooter, ModalBody } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalFooter, ModalBody, ModalHeader } from 'reactstrap';
 import Select from "react-select";
 import { useHistory } from 'react-router-dom';
 import get from '../../../helpers/get';
@@ -33,17 +33,21 @@ const TestScore = () => {
 
     const [oneData, setOneData] = useState({});
 
+    const [edit,setEdit] = useState(false);
+
 
     const [qualificationLabel, setQualificationLabel] = useState('NO');
     const [qualificationValue, setQualificationValue] = useState(0);
 
     const [examTestTypeAttributeData, setExamTestTypeAttributeData] = useState([]);
 
+    const [modalOpen, setModalOpen] = useState(false);
+
     useEffect(()=>{
 
       get('ExamTestType/Index')
       .then(res => {
-        console.log('Exam test type data fetch',res);
+        // console.log('Exam test type data fetch',res);
         setQualification(res);
 
 
@@ -53,7 +57,7 @@ const TestScore = () => {
 
       get(`StudentTestScore/StudentTestScoreValue/${localStorage.getItem('applictionStudentId')}`)
       .then(res => {
-        console.log('Courses Record',res);
+        // console.log('Courses Record',res);
         setCourseInfo(res);
       })
 
@@ -65,7 +69,7 @@ const TestScore = () => {
 
       remove(`StudentTestScore/Delete/${localStorage.getItem('studentTestScroreId')}`)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         addToast(res,{
           appearance: 'error',
           autoDismiss: true
@@ -76,6 +80,12 @@ const TestScore = () => {
       
     }
 
+    // on Close Modal
+const closeModal = () => {
+  setModalOpen(false);
+
+
+}
 
     const goBackward = () => {
       history.push('/addStudentEducationalInformation');
@@ -120,11 +130,15 @@ const TestScore = () => {
     setELQualificationLabel(label);
     ELsetQualificationValue(value);
 
-  console.log(label, value);
+    localStorage.setItem('qualificationValue', value);
+
+
+
+  // console.log(label, value);
 
   get(`ExamTestTypeAttribute/GetByExamTestType/${value}`)
   .then(res => {
-    console.log('on Change exam test type',res);
+    // console.log('on Change exam test type',res);
     setExamTestTypeAttributeData(res);
   })
   
@@ -134,13 +148,19 @@ const TestScore = () => {
   }
 
   const handleEdit = (data) => {
+
+    setEdit(true);
     // console.log(data);
     get(`StudentTestScore/GetByStudentTestScore/${data.studentTestScroreId}`)
     .then(res => {
-      console.log(res);
-      setOneData(res);
+      console.log(res[0]);
+      setOneData(res[0]);
+      setELQualificationLabel(res[0]?.examTestTypeName);
+    ELsetQualificationValue(res[0]?.examTestTypeId);
 
     })
+    
+    
   }
 
   const handleSubmit = (event) => {
@@ -150,7 +170,7 @@ const TestScore = () => {
     const subData = new FormData(event.target);
 
     for (var x of subData.values()){
-      console.log(x);
+      // console.log(x);
     }
 
     post('ExamTestTypeAttributeValue/Create',subData)
@@ -182,7 +202,7 @@ const TestScore = () => {
   setQualificationLabel(label);
   setQualificationValue(value);
 
-  console.log(label, value);
+  // console.log(label, value);
   
   
   
@@ -395,76 +415,87 @@ const TestScore = () => {
 
        
 
-          <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Please Select <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6">
-              <Select
-                    options={testSignleOptions}
-                    value={{ label: qualificationLabel, value: qualificationValue }}
-                    onChange={(opt) => selectQualificationType(opt.label, opt.value)}
-                    name=""
-                    id=""
-                    required
+  {
 
-                  />
+    !edit?
 
-                
-              </Col>
-            </FormGroup>
+    <>
+    
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span>
+        Please Select <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+    <Select
+          options={testSignleOptions}
+          value={{ label: qualificationLabel, value: qualificationValue }}
+          onChange={(opt) => selectQualificationType(opt.label, opt.value)}
+          name=""
+          id=""
+          required
+
+        />
+
+      
+    </Col>
+  </FormGroup>
+
+ 
 
          {
           qualificationLabel == 'Yes' ? 
 
           <>
 
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-              Please Select the Type of English Language Qualification <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-          <Select
-          options={qualificationOptions}
-                    value={{ label: ELqualificationLabel, value: ELqualificationValue }}
-                    onChange={(opt) => selectQualification(opt.label, opt.value)}
-                    name="examType"
-                    id="examType"
-                   
-             
-              required
-
-            />
+          
 
             
-          </Col>
-        </FormGroup>
+
+            <FormGroup row className="has-icon-left position-relative">
+            <Col md="2">
+              <span>
+                Please Select the Type of English Language Qualification <span className="text-danger">*</span>{" "}
+              </span>
+            </Col>
+            <Col md="6">
+            <Select
+            options={qualificationOptions}
+                      value={{ label: ELqualificationLabel, value: ELqualificationValue }}
+                      onChange={(opt) => selectQualification(opt.label, opt.value)}
+                      name="examType"
+                      id="examType"
+                     
+               
+                required
+  
+              />
+  
+              
+            </Col>
+          </FormGroup>
+
+        
+       
 
 
         {
 
           examTestTypeAttributeData?.map((data,i) => 
 
-         <>
-         
-         <InputComponent
-         key={i}
-         data={data}
-         ></InputComponent>
+     
 
-         <EditInputComponent
-         
-         key={i+1}
-         data={data}
-         
-         >
-         </EditInputComponent>
-         
-         </>
+      
+
+           <InputComponent
+           key={i}
+           data={data}
+           ></InputComponent>
+
+
+
+        
           
           )
 
@@ -483,45 +514,105 @@ const TestScore = () => {
 
          }
 
-
-
-       
-
-       
-
-         
-
-        
-
-
-         
-
-         
-
          <br/>
         
 
 
           
 
-           <FormGroup row
-           className="has-icon-left position-relative"
-           style={{ display: "flex", justifyContent: "end" }}
-         >
-           
-       <Col md="5">
-       
-       <Button.Ripple
-       type="submit"
-       className="mr-1 mt-3 badge-primary"
-     >
-       Save
-     </Button.Ripple>
+         <FormGroup row
+         className="has-icon-left position-relative"
+         style={{ display: "flex", justifyContent: "end" }}
+       >
+         
+     <Col md="5">
+     
+     <Button.Ripple
+     type="submit"
+     className="mr-1 mt-3 badge-primary"
+   >
+     Save
+   </Button.Ripple>
 
-       </Col>
+     </Col>
+
+        
+       </FormGroup>
+
+    
+    </>
+
+    : 
+
+    <div>
+
+    <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
+      <ModalHeader>Add University Type</ModalHeader>
+      <ModalBody>
+        <Form onSubmit={handleSubmit} >
+         
+           
+          
+              <Input
+                type="hidden"
+                name="studentId"
+                id="studentId"
+                value={localStorage.getItem('applictionStudentId')}
+               
+              />
+
+           
+  
+       
+
+          <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+            <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
+
+            
+           
+              <Button.Ripple
+                color="warning"
+                type="submit"
+                className="mr-1 mt-3"
+               
+              >
+                Submit
+              </Button.Ripple>
 
           
-         </FormGroup>
+
+          </FormGroup>
+
+        </Form>
+      </ModalBody>
+
+    </Modal>
+    <div>
+
+    </div>
+  </div>
+
+  }
+  
+
+
+
+
+       
+
+       
+
+         
+
+        
+
+
+         
+
+         
+
+      
 
            <FormGroup
            className="has-icon-left position-relative"

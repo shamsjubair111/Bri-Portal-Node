@@ -5,7 +5,7 @@ import Select from "react-select";
 const InputComponent = (props) => {
   
 
-  console.log(props?.data?.fieldTypeId);
+  console.log(props?.data);
 
   return (
     <div>
