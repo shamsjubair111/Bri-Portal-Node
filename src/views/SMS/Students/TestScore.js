@@ -149,6 +149,8 @@ const closeModal = () => {
 
   const handleEdit = (data) => {
 
+     setModalOpen(true);
+
     setEdit(true);
     // console.log(data);
     get(`StudentTestScore/GetByStudentTestScore/${data.studentTestScroreId}`)
@@ -560,6 +562,12 @@ const closeModal = () => {
                 value={localStorage.getItem('applictionStudentId')}
                
               />
+
+              {
+
+                
+
+              }
 
            
   
