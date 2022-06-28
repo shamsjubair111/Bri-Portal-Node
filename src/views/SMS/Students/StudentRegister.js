@@ -27,13 +27,13 @@ const StudentRegister = () => {
   useEffect(()=>{
 
 
-    get('StudentType/Index')
+    get('StudentTypeDD/Index')
     .then(res => {
       console.log(res);
       setStudentType(res);
     })
 
-    get('Consultant/Index')
+    get('ConsultantDD/index')
     .then(res => {
       console.log(res);
       setConsultant(res);
@@ -59,7 +59,7 @@ setStudentTypeValue(value);
 
   
   const consultantName = consultant?.map((cons) => ({
-    label: cons.firstName,
+    label: cons.name,
     value: cons.id,
   }));
 
@@ -70,6 +70,10 @@ const selectConsultant = (label, value) => {
 setconsultantLabel(label);
 setConsultantValue(value);
 
+}
+
+const cancelForm = () => {
+  history.push('/');
 }
 
 
@@ -263,6 +267,13 @@ setConsultantValue(value);
                 className="has-icon-left position-relative"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
+                <Button.Ripple
+                  type="submit"
+                  className="mr-1 mt-3 btn-warning"
+                  onClick= {cancelForm}
+                >
+                  Cancel
+                </Button.Ripple>
                 <Button.Ripple
                   type="submit"
                   className="mr-1 mt-3 badge-primary"

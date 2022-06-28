@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button } from 'reactstrap';
+import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button, Row, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import Select from "react-select";
 import get from '../../../helpers/get';
+import post from '../../../helpers/post';
+import { useToasts } from "react-toast-notifications";
+import remove from '../../../helpers/remove';
+import put from '../../../helpers/put';
+
 
 const Reference = () => {
 
     const history = useHistory();
     
 
-    const [activetab, setActivetab] = useState("6");
+    const [activetab, setActivetab] = useState("7")
+    const [deleteModal, setDeleteModal] = useState(false);
 
     const [country,setCountry] = useState([]);
     const [countryLabel, setCountryLabel] = useState("Country");
@@ -18,6 +24,11 @@ const Reference = () => {
     const [reference,setReference] = useState([]);
     const [referenceLabel, setReferenceLabel] = useState("Reference type");
       const [referenceValue, setReferenceValue] = useState(0);
+      const [refList, setRefList] = useState([]);
+      const [showForm, setShowForm] = useState(false);
+      const [oneData, setOneData] = useState({});
+
+      const {addToast} = useToasts();
   
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
@@ -25,13 +36,19 @@ const Reference = () => {
 
     useEffect(()=>{
 
-        get('Country/Index')
+        get('CountryDD/index')
         .then(res => {
             console.log(res);
             setCountry(res);
         })
 
-        get('ReferenceType/GetAll')
+        get(`Reference/GetByStudentId/${studentIdVal}`)
+        .then(res => {
+            console.log(res);
+            setRefList(res);
+        })
+
+        get(`ReferenceTypeDD/Index`)
         .then(res => {
             console.log(res);
             setReference(res);
@@ -50,18 +67,30 @@ const Reference = () => {
 
     const toggle = (tab) => {
         setActivetab(tab);
-        if (tab == "2") {
-          history.push("/addUniversityCampus");
+        if (tab == "1") {
+          history.push("/addStudentApplicationInformation");
         }
-        // if (tab == "3") {
-        //   history.push("/addUniversityFinancial");
-        // }
-        // if (tab == "4") {
-        //   history.push("/addUniversityFeatures");
-        // }
-        // if (tab == "5") {
-        //   history.push("/addUniversityGallery");
-        // }
+
+        if (tab == "2") {
+          history.push("/addStudentInformation");
+        }
+
+        if (tab == "3") {
+          history.push("/addStudentContactInformation");
+        }
+
+        if (tab == "4") {
+          history.push("/addStudentEducationalInformation");
+        }
+
+        if (tab == "5") {
+          history.push("/addTestScore");
+        }
+        if (tab == "6") {
+          history.push("/addExperience");
+        }
+
+        
       };
 
       const handleRegisterStudent = (event) => {
@@ -98,6 +127,128 @@ const Reference = () => {
     
    
    
+  }
+
+      
+  const toggleDanger = (id) => {
+    console.log(id);
+    localStorage.setItem('deleteReferenceId',id);
+  
+   setDeleteModal(true)
+ }
+ 
+ const handleDeletePermission = () => {
+ 
+   
+ 
+   
+ remove(`Reference/Delete/${localStorage.getItem('deleteReferenceId')}`)
+ .then(res => {
+  console.log(res);
+  addToast(res,{
+    appearance: 'error',
+    autoDismiss: true
+  })
+  setDeleteModal(false);
+  get(`Reference/GetByStudentId/${studentIdVal}`)
+  .then(res => {
+      console.log(res);
+      setRefList(res);
+  })
+
+ })
+  
+ 
+  
+ }
+ 
+ const handleUpdate = (id) => {
+  
+  setShowForm(true);
+ 
+   console.log(id);
+   get(`Reference/Get/${id}`)
+   .then(res => {
+    console.log(res);
+
+    setOneData(res);
+    setCountryLabel(res?.country?.name);
+    setCountryValue(res?.country?.id);
+    setReferenceLabel(res?.referenceType?.name);
+    setReferenceValue(res?.referenceType?.id);
+   })
+ 
+  
+    
+    
+ }
+ 
+
+
+// redirect to Next Page
+const onNextPage = () => {
+  
+  history.push('/addPersonalStatement',
+   
+  );
+};
+
+
+const onShow=()=>{
+  setShowForm(true);
+
+
+}
+
+  const handleRegisterReference = (event) => {
+
+    event.preventDefault();
+    const subData = new FormData(event.target);
+
+    if(oneData?.id){
+
+      put('Reference/Update',subData)
+      .then(res => {
+        console.log(res);
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        setShowForm(false);
+        setOneData({});
+        get(`Reference/GetByStudentId/${studentIdVal}`)
+        .then(res => {
+            console.log(res);
+            setRefList(res);
+        })
+
+      })
+
+    }
+
+    else{
+      post('Reference/Create',subData)
+    .then(res => {
+      console.log(res);
+      if(res?.status == 200){
+
+        setShowForm(false);
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        get(`Reference/GetByStudentId/${studentIdVal}`)
+        .then(res => {
+            console.log(res);
+            setRefList(res);
+        })
+
+
+      }
+
+    })
+    }
+
   }
 
 
@@ -147,27 +298,34 @@ const Reference = () => {
             Educational
           </NavLink>
         </NavItem>
-       
+     
+
         <NavItem>
           <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
-            Experience
+            Test Score
           </NavLink>
         </NavItem>
        
         <NavItem>
           <NavLink  active={activetab === "6"} onClick={() => toggle("6")}>
+            Experience
+          </NavLink>
+        </NavItem>
+       
+        <NavItem>
+          <NavLink  active={activetab === "7"} onClick={() => toggle("7")}>
             Reference
           </NavLink>
         </NavItem>
        
         <NavItem>
-          <NavLink disabled active={activetab === "7"} onClick={() => toggle("7")}>
+          <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
             Personal Statement
           </NavLink>
         </NavItem>
        
         <NavItem>
-          <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
+          <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
             Others
           </NavLink>
         </NavItem>
@@ -175,217 +333,331 @@ const Reference = () => {
 
       </Nav>
 
-          <Form onSubmit={handleRegisterStudent} className="mt-5">
+      <div className='row'>
+
+{
+      refList?.map((ref, i) => <div className='col-md-6 mt-2' key={ref.id} style={{ textAlign: "left" }}>
+      <Card className="CampusCard shadow-style">
+        <CardBody className="shadow">
+
+        
+
+        <Row>
+          <Col md="4">
+              <h5>Reference Name: {ref?.referenceName}   </h5>
+              
+              <p>Reference Type: {ref?.referenceType?.name}  </p>
+
+              <p>Email: {ref?.emailAddress}  </p>
+             
+              
+          </Col>
+
+            <Col md="5">
+              <p>Address Line : {ref?.addressLine}  </p>
+              <p>Institute Company : {ref?.institute_Company}  </p>
+             
+             
+         
+              
+          </Col>
+
+          <Col md="3">
+
+          <div className="CampusCardAction">
+          <div className=""> 
+             <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(ref.id)}> <i className="fas fa-edit"></i> </button>
+          </div>
+
+          <div className=""> 
+             <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(ref.id)} ><i className="fas fa-trash-alt"></i></button>
+          </div>
+         </div>
+
+          </Col>
+
+
+        </Row>           
+    
+        </CardBody>
+
+        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+          <ModalBody>
+            <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button onClick={handleDeletePermission} color="danger">YES</Button>
+            <Button onClick={() => setDeleteModal(false)}>NO</Button>
+          </ModalFooter>
+       </Modal>
+
+      </Card>
+    </div>)
+
+    
+
+  }
+
+  </div>
+
+       {
+        (showForm ||   refList?.length < 1) ?  
+
+        <Form onSubmit={handleRegisterReference} className="mt-5">
 
             
                 
-          <input 
+        <input 
+        type='hidden'
+        name='studentId'
+        id='studentId'
+        value={studentIdVal}
+        />
+
+        {
+          (oneData?.id) ?
+
+          <input
           type='hidden'
-          name='studentId'
-          id='studentId'
-          value={studentIdVal}
+          name='id'
+          id='id'
+          value={oneData?.id}
+          />
+
+          :
+
+          null
+
+        }
+
+        
+        <FormGroup row className="has-icon-left position-relative">
+        <Col md="2">
+          <span>
+             Reference Type <span className="text-danger">*</span>{" "}
+          </span>
+        </Col>
+        <Col md="6">
+          <Select
+            options={referenceName}
+            value={{ label: referenceLabel, value: referenceValue }}
+            onChange={(opt) => selectReference(opt.label, opt.value)}
+            name="referenceTypeId"
+            id="referenceTypeId"
+            required
+
+
           />
 
           
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-               Reference Type <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-            <Select
-              options={referenceName}
-              value={{ label: referenceLabel, value: referenceValue }}
-              onChange={(opt) => selectReference(opt.label, opt.value)}
-              name="referenceTypeId"
-              id="referenceTypeId"
-              required
-
-            />
-
-            {/* <div className="form-control-position">
-                                <User size={15} />
-                            </div> */}
-          </Col>
-        </FormGroup>
-
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>
-            Reference Name <span className="text-danger">*</span>{" "}
-          </span>
-        </Col>
-        <Col md="6">
-         <Input
-            type="text"
-            name="referenceName"
-            id="referenceName"
-            placeholder="Enter reference name"
-            required
-          />
-
-     
-        </Col>
-      </FormGroup>
-
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>
-            Institute/Company <span className="text-danger">*</span>{" "}
-          </span>
-        </Col>
-        <Col md="6">
-         <Input
-            type="text"
-            name="institute_Company"
-            id="institute_Company"
-            placeholder="Enter institute/company"
-            required
-          />
-
-     
-        </Col>
-      </FormGroup>
-
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>
-            Phone Number <span className="text-danger">*</span>{" "}
-          </span>
-        </Col>
-        <Col md="6">
-         <Input
-            type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="Enter phone number"
-            required
-          />
-
-     
-        </Col>
-      </FormGroup>
-
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>
-            Email Address <span className="text-danger">*</span>{" "}
-          </span>
-        </Col>
-        <Col md="6">
-         <Input
-            type="text"
-            name="emailAddress"
-            id="emailAddress"
-            placeholder="Enter email address"
-            required
-          />
-
-     
         </Col>
       </FormGroup>
 
       <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-               Country <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-            <Select
-              options={countryName}
-              value={{ label: countryLabel, value: countryValue }}
-              onChange={(opt) => selectCountry(opt.label, opt.value)}
-              name="countryId"
-              id="countryId"
-              required
+      <Col md="2">
+        <span>
+          Reference Name <span className="text-danger">*</span>{" "}
+        </span>
+      </Col>
+      <Col md="6">
+       <Input
+          type="text"
+          name="referenceName"
+          id="referenceName"
+          placeholder="Enter reference name"
+          required
+          defaultValue={oneData?.referenceName}
+        />
 
-            />
+   
+      </Col>
+    </FormGroup>
 
-            {/* <div className="form-control-position">
-                                <User size={15} />
-                            </div> */}
-          </Col>
-        </FormGroup>
+      <FormGroup row className="has-icon-left position-relative">
+      <Col md="2">
+        <span>
+          Institute/Company <span className="text-danger">*</span>{" "}
+        </span>
+      </Col>
+      <Col md="6">
+       <Input
+          type="text"
+          name="institute_Company"
+          id="institute_Company"
+          placeholder="Enter institute/company"
+          required
+          defaultValue={oneData?.institute_Company}
+        />
 
-        <FormGroup row className="has-icon-left position-relative">
+   
+      </Col>
+    </FormGroup>
+
+      <FormGroup row className="has-icon-left position-relative">
+      <Col md="2">
+        <span>
+          Phone Number <span className="text-danger">*</span>{" "}
+        </span>
+      </Col>
+      <Col md="6">
+       <Input
+          type="text"
+          name="phoneNumber"
+          id="phoneNumber"
+          placeholder="Enter phone number"
+          required
+          defaultValue={oneData?.phoneNumber}
+        />
+
+   
+      </Col>
+    </FormGroup>
+
+      <FormGroup row className="has-icon-left position-relative">
+      <Col md="2">
+        <span>
+          Email Address <span className="text-danger">*</span>{" "}
+        </span>
+      </Col>
+      <Col md="6">
+       <Input
+          type="text"
+          name="emailAddress"
+          id="emailAddress"
+          placeholder="Enter email address"
+          required
+          defaultValue={oneData?.emailAddress}
+        />
+
+   
+      </Col>
+    </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
         <Col md="2">
           <span>
-            Adress Line <span className="text-danger">*</span>{" "}
+             Country <span className="text-danger">*</span>{" "}
           </span>
         </Col>
         <Col md="6">
-         <Input
-            type="text"
-            name="addressLine"
-            id="addressLine"
-            placeholder="Enter address line"
+          <Select
+            options={countryName}
+            value={{ label: countryLabel, value: countryValue }}
+            onChange={(opt) => selectCountry(opt.label, opt.value)}
+            name="countryId"
+            id="countryId"
             required
+
           />
 
-     
-        </Col>
-      </FormGroup>
-      
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>
-            City <span className="text-danger">*</span>{" "}
-          </span>
-        </Col>
-        <Col md="6">
-         <Input
-            type="text"
-            name="city"
-            id="city"
-            placeholder="Enter city"
-            required
-          />
-
-     
+          {/* <div className="form-control-position">
+                              <User size={15} />
+                          </div> */}
         </Col>
       </FormGroup>
 
+      <FormGroup row className="has-icon-left position-relative">
+      <Col md="2">
+        <span>
+          Adress Line <span className="text-danger">*</span>{" "}
+        </span>
+      </Col>
+      <Col md="6">
+       <Input
+          type="text"
+          name="addressLine"
+          id="addressLine"
+          placeholder="Enter address line"
+          required
+          defaultValue={oneData?.addressLine}
+        />
 
-        <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>
-            State <span className="text-danger">*</span>{" "}
-          </span>
-        </Col>
-        <Col md="6">
-         <Input
-            type="text"
-            name="state"
-            id="state"
-            placeholder="Enter state"
-            required
-          />
+   
+      </Col>
+    </FormGroup>
+    
+      <FormGroup row className="has-icon-left position-relative">
+      <Col md="2">
+        <span>
+          City <span className="text-danger">*</span>{" "}
+        </span>
+      </Col>
+      <Col md="6">
+       <Input
+          type="text"
+          name="city"
+          id="city"
+          placeholder="Enter city"
+          required
+          defaultValue={oneData?.city}
+        />
+
+
+   
+      </Col>
+    </FormGroup>
+
+
+      <FormGroup row className="has-icon-left position-relative">
+      <Col md="2">
+        <span>
+          State <span className="text-danger">*</span>{" "}
+        </span>
+      </Col>
+      <Col md="6">
+       <Input
+          type="text"
+          name="state"
+          id="state"
+          placeholder="Enter state"
+          required
+          defaultValue={oneData?.state}
+        />
+
+   
+      </Col>
+    </FormGroup>
+
+   
 
      
-        </Col>
-      </FormGroup>
 
-     
+    
 
-       
-
-      
-
-      
-        <FormGroup
-          className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
+    
+      <FormGroup
+        className="has-icon-left position-relative"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Button.Ripple
+          type="submit"
+          className="mr-1 mt-3 badge-primary"
         >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
-        </FormGroup>
-      </Form>
+          Submit
+        </Button.Ripple>
+      </FormGroup>
+    </Form>
+
+
+    :
+       
+      
+
+      
+      
+
+    <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+
+   
+    <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+    <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
+    </FormGroup>
+
+       }
+
+      
+
       
 
    

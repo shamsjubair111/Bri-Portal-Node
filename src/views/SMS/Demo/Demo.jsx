@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, useSelector } from "react-redux";
 import { useDispatch } from 'react-redux'
 import { UncontrolledTooltip, Button } from 'reactstrap';
@@ -11,50 +11,85 @@ import { roleDataReducer } from '../../../redux/reducers/SMS/RoleReducer';
 
 
 
-const Demo = (props) => {
+const Demo = () => {
   const dispatch = useDispatch()
 
   const role = useSelector((state) => state.roleDataReducer.roles)
+
+  const [formType, setFormType] = useState([]);
  
   // Fetching get api
   useEffect(()=>{
-    const returnValue = get('api/Permission/Get/1').then((action)=>{
-      
-      // action.length && dispatch(StoreCommentData(action))
+
+    get('Practice/GetAttribute')
+    .then(res => {
+      console.log('dynamic form', res);
+      setFormType(res);
     })
+  
   },[]);
+
+const handleSubmit  = (event) => {
+
+  event.preventDefault();
+
+  const subdata = new FormData(event.target);
+
+  for (var x of subdata.values()){
+    console.log(x);
+  }
+
+}
+
 
 
   // Fetching post api
-  const subdata = {
-    name: '',
-    value: 7811
-  }
+ 
 
-   const clickApi = () => {
-     const returnPostStat = post('api/Permission/Create',subdata).then()
-   }
 
 
 
   return (
     <div>
-      <h1>demo page</h1>
-      <button onClick={clickApi}>Click</button>
-                  <p id="positionLeft">Hello</p>
-                  <UncontrolledTooltip
-                    placement="top"
-                    target="positionLeft"
-                  >
-                    Tooltip on Bottom
-                  </UncontrolledTooltip>
+    <form onSubmit={handleSubmit}>
+    {
+      formType.map(form => 
+        <div className=' mb-3 row '>
+        
+        <div className='col-md-2'>
+        <p>{form?.name}</p>
+        </div>
+
+        <div className = 'col-md-4'>
+        
+        <input className='w-100 p-2'
+        type={form?.type}
+        name={form?.name}
+        id={form?.name}
+        />
+        
+        </div>
+    
+        
+        </div>
+    
+        )
+    }
+
+
+    <button type='submit' className='btn btn-danger mx-auto mt-2'>
+    Submit
+    </button>
+
+    </form>
+
+    
+
+      
+      
     </div>
   )
 }
-const mapStateToProps = state => ({
-  // countryList: state.country.list
-  commentList: state.commentDataReducer.commentData,
-  roleList: state.roleDataReducer.roles
-})
 
-export default connect(mapStateToProps)(Demo);
+
+export default Demo;
