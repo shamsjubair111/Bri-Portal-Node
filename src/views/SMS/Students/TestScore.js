@@ -9,16 +9,20 @@ import { useToasts } from "react-toast-notifications";
 import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
 import EditInputComponent from './EditInputComponent';
+import put from '../../../helpers/put';
 
 const TestScore = () => {
 
 
     const [activetab, setActivetab] = useState("5");
+
+    const [greData, setGreData] = useState({});
     
 
     const [success, setSuccess] = useState(false);
 
     const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteModal2, setDeleteModal2] = useState(false);
     const [showForm,setShowForm]=useState(false);
 
     const applicationStudentId = localStorage.getItem('applictionStudentId');
@@ -32,8 +36,12 @@ const TestScore = () => {
     const [courseInfo, setCourseInfo] = useState([]);
 
     const [oneData, setOneData] = useState({});
+    const [twoData, setTwoData] = useState({});
 
     const [edit,setEdit] = useState(false);
+    const [add, setAdd] = useState(false);
+    const [addGRE, setAddGRE] = useState(false);
+    const [addGMAT, setAddGMAT] = useState(false);
 
 
     const [qualificationLabel, setQualificationLabel] = useState('NO');
@@ -42,6 +50,8 @@ const TestScore = () => {
     const [examTestTypeAttributeData, setExamTestTypeAttributeData] = useState([]);
 
     const [modalOpen, setModalOpen] = useState(false);
+
+    const [greCheck, setGreCheck] = useState(false);
 
     useEffect(()=>{
 
@@ -57,10 +67,16 @@ const TestScore = () => {
 
       get(`StudentTestScore/StudentTestScoreValue/${localStorage.getItem('applictionStudentId')}`)
       .then(res => {
-        // console.log('Courses Record',res);
+        console.log('Courses Record',res);
         setCourseInfo(res);
       })
 
+
+      get(`GreScore/GetbyStudent/${localStorage.getItem('applictionStudentId')}`)
+      .then(res =>{
+        console.log('fetch GRE data form API', res);
+        setGreData(res);
+      })
 
     },[success])
 
@@ -82,6 +98,7 @@ const TestScore = () => {
 
     // on Close Modal
 const closeModal = () => {
+  setOneData({});
   setModalOpen(false);
 
 
@@ -100,6 +117,13 @@ const closeModal = () => {
       localStorage.setItem('studentTestScroreId',p.studentTestScroreId);
 
       setDeleteModal(true)
+    }
+
+    const toggleDanger2 = (p) => {
+
+      console.log(p);
+
+      setDeleteModal2(true);
     }
 
     const testOptions = [
@@ -151,10 +175,11 @@ const closeModal = () => {
 
      setModalOpen(true);
 
-    setEdit(true);
-    // console.log(data);
+
+    console.log('data',data);
     get(`StudentTestScore/GetByStudentTestScore/${data.studentTestScroreId}`)
     .then(res => {
+      localStorage.setItem('studentTestScroreId',res[0]?.studentTestScroreId);
       console.log(res[0]);
       setOneData(res[0]);
       setELQualificationLabel(res[0]?.examTestTypeName);
@@ -163,6 +188,18 @@ const closeModal = () => {
     })
     
     
+  }
+
+  const handleEdit2 = () => {
+
+  }
+
+  const showGREForm = () => {
+    setAddGRE(true);
+  }
+
+  const showGMATForm = () => {
+    setAddGMAT(true);
   }
 
   const handleSubmit = (event) => {
@@ -184,12 +221,40 @@ const closeModal = () => {
           autoDismiss: true
         })
         setSuccess(!success);
+        setAdd(false);
        
 
       }
     })
 
   }
+
+  
+  
+  const  handleGREScore = (event) => {
+
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+    subData.append('haveGreExam',greCheck);
+
+    // for( var x of subData.values()){
+    //   console.log(x);
+    // }
+
+    post(`GreScore/Create`,subData)
+    .then(res => {
+      console.log(res);
+      if(res?.status ==200){
+        addToast(res?.data?.message,{
+          appearance:'success',
+          autoDismiss:true
+        })
+        
+      }
+    })
+
+  } 
 
 
 
@@ -239,6 +304,44 @@ const closeModal = () => {
         
       };
 
+
+      const handleSubmitUpdate = (event) => {
+        
+        event.preventDefault();
+
+        const subData = new FormData(event.target);
+
+        for(var x  of subData.values()){
+          console.log(x);
+
+        }
+
+        put(`ExamTestTypeAttributeValue/Update`,subData)
+        .then(res => {
+          if(res?.status ==200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            setModalOpen(false);
+           
+            get(`StudentTestScore/StudentTestScoreValue/${localStorage.getItem('applictionStudentId')}`)
+            .then(res => {
+              // console.log('Courses Record',res);
+              setCourseInfo(res);
+            })
+          }
+        })
+
+
+      }
+
+      const handleAdd = () => {
+        setELQualificationLabel('');
+
+        ELsetQualificationValue(0);
+        setAdd(true);
+      }
    
     
 
@@ -341,8 +444,8 @@ const closeModal = () => {
 
 
         {
-          courseInfo?.map((course, i) => <div className='col-md-6 mt-2' key={i} style={{ textAlign: "left" }}>
-            <Card className="CampusCard shadow-style">
+          courseInfo?.map((course, i) => <div className='col-md-6 mt-2 ' key={i} style={{ textAlign: "left" }}>
+            <Card className="CampusCard shadow-style test-score-card-style">
               <CardBody className="shadow">
 
               <div className='d-flex justify-content-space-between'>
@@ -395,16 +498,161 @@ const closeModal = () => {
                 </ModalFooter>
              </Modal>
 
+         
+
+             
+
             </Card>
+
+
           </div>)
 
         }
 
         </div>
 
+ 
+        <div className='row mt-3'>
+
+       <div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
+            <Card className="CampusCard shadow-style test-score-card-style">
+              <CardBody className="shadow">
+
+              <div className='d-flex justify-content-space-between'>
+              <h5>GRE Result</h5>
+              <div className="CampusCardAction">
+              <div className=""> 
+              <button type="button" onClick={()=> handleEdit2(greData)} className="btn btn-outline-info"> <i className="fas fa-edit"></i> </button>
+              </div>
+
+              <div className=""> 
+              <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger2(greData)} ><i className="fas fa-trash-alt"></i></button>
+              </div>
+             </div>
+
+              </div>
+
+              <h6>Quantitative Score: {greData?.quantitativeScore}</h6>
+              <h6>Quantitative Rank: {greData?.quantitativeRank}</h6>
+              <h6>Verbal Score: {greData?.verbalScore}</h6>
+              <h6>Verbal Rank: {greData?.verbalRank}</h6>
+              <h6>Writing Score: {greData?.writingScore}</h6>
+              <h6>Writing Rank: {greData?.writingRank}</h6>
+
+                 
+          
+              </CardBody>
+
+              <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                <ModalBody>
+                  <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                  <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                </ModalFooter>
+             </Modal>
+
+         
+
+             
+
+            </Card>
+
+
+          </div>
+
+        </div>
+
+        
+
+        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+           
+ 
+             
+            
+        <Button.Ripple
+          color="primary"
+          onClick={handleAdd}
+         
+          className="ms-md-2 mt-3"
+         
+        >
+          Add New
+        </Button.Ripple>
+
+    
+
+    </FormGroup>
+
+      {
+        !(greData?.length) > 0 ?
+
+        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+           
+ 
+             
+            
+        <Button.Ripple
+          color="primary"
+          onClick={showGREForm}
+          
+         
+          className="ms-md-2 mt-3"
+         
+        >
+          Add New GRE
+        </Button.Ripple>
+
+    
+
+    </FormGroup>
+
+    :
+
+    null
+
+      }
+
+        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+           
+ 
+             
+            
+        <Button.Ripple
+          color="primary"
+          onClick={showGMATForm}
+          
+         
+          className="ms-md-2 mt-3"
+         
+        >
+          Add New GMAT
+        </Button.Ripple>
+
+    
+
+    </FormGroup>
+
+  
+
+
+
 
         <TabContent activeTab={activetab}>
         <TabPane tabId="5">
+
+
+        {
+
+          add?
+      
+          <>
+
           <Form onSubmit={handleSubmit}   className="mt-5">
 
           <input
@@ -417,11 +665,7 @@ const closeModal = () => {
 
        
 
-  {
 
-    !edit?
-
-    <>
     
     <FormGroup row className="has-icon-left position-relative">
     <Col md="2">
@@ -541,17 +785,570 @@ const closeModal = () => {
         
        </FormGroup>
 
+       </Form>
+
     
     </>
 
     : 
 
+    null
+
+  }
+
+  {
+    addGRE?
+
+    <>
+
+    <Form onSubmit={handleGREScore}   className="mt-5">
+
+    <input
+    type='hidden'
+    name='studentId'
+    id='studentId'
+    value={localStorage.getItem('applictionStudentId')}
+    
+    />
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Have Gre Exam?
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+        className='ms-md-1'
+        type='checkbox'
+        
+        onChange={(e) => setGreCheck(e.target.checked)}
+      
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Gre Exam Date
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='date'
+        id='greExamDate'
+        name='greExamDate'
+        required
+       
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Verbal Score
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='verbalScore'
+        name='verbalScore'
+        required
+        placeholder='Enter Verbal Score'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Verbal Rank
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='verbalRank'
+        name='verbalRank'
+        required
+        placeholder='Enter Verbal Rank'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Quantitative Score
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='quantitativeScore'
+        name='quantitativeScore'
+        required
+        placeholder='Enter Quantitative Score'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Quantitative Rank
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='quantitativeRank'
+        name='quantitativeRank'
+        required
+        placeholder='Enter Quantitative Rank'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Writing Score
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='writingScore'
+        name='writingScore'
+        required
+        placeholder='Enter Writing Score'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Writing Rank
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='writingRank'
+        name='writingRank'
+        required
+        placeholder='Enter Writing Rank'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+ 
+  
+
+   <br/>
+  
+
+
+    
+
+   <FormGroup row
+   className="has-icon-left position-relative"
+   style={{ display: "flex", justifyContent: "end" }}
+ >
+   
+<Col md="5">
+
+<Button.Ripple
+type="submit"
+className="mr-1 mt-3 badge-primary"
+>
+Save
+</Button.Ripple>
+
+</Col>
+
+  
+ </FormGroup>
+
+ </Form>
+    
+
+
+
+    </>
+
+    :
+
+    null
+
+
+  }
+
+
+  {
+
+    addGMAT?
+
+    <>
+
+    <Form   className="mt-5">
+
+    <input
+    type='hidden'
+    name='studentId'
+    id='studentId'
+    value={localStorage.getItem('applictionStudentId')}
+    
+    />
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Have GMAT Exam?
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+        className='ms-md-1'
+        type='checkbox'
+        id='haveGmatExam'
+        name='haveGmatExam'
+        required
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Gmat Exam Date
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='date'
+        id='gmatExamDate'
+        name='gmatExamDate'
+        required
+       
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Verbal Score
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='verbalScore'
+        name='verbalScore'
+        required
+        placeholder='Enter Verbal Score'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Verbal Rank
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='verbalRank'
+        name='verbalRank'
+        required
+        placeholder='Enter Verbal Rank'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Quantitative Score
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='quantitativeScore'
+        name='quantitativeScore'
+        required
+        placeholder='Enter Quantitative Score'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Quantitative Rank
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='quantitativeRank'
+        name='quantitativeRank'
+        required
+        placeholder='Enter Quantitative Rank'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Writing Score
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='writingScore'
+        name='writingScore'
+        required
+        placeholder='Enter Writing Score'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Writing Rank
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='writingRank'
+        name='writingRank'
+        required
+        placeholder='Enter Writing Rank'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Total Score
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='totalScore'
+        name='totalScore'
+        required
+        placeholder='Enter Total Score'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+    <FormGroup row className="has-icon-left position-relative">
+    <Col md="2">
+      <span> Total Rank
+         <span className="text-danger">*</span>{" "}
+      </span>
+    </Col>
+    <Col md="6">
+
+
+
+      <Input
+
+        type='text'
+        id='totalRank'
+        name='totalRank'
+        required
+        placeholder='Enter Total Rank'
+
+      />
+
+
+    </Col>
+  </FormGroup>
+
+ 
+  
+
+   <br/>
+  
+
+
+    
+
+   <FormGroup row
+   className="has-icon-left position-relative"
+   style={{ display: "flex", justifyContent: "end" }}
+ >
+   
+<Col md="5">
+
+<Button.Ripple
+type="submit"
+className="mr-1 mt-3 badge-primary"
+>
+Save
+</Button.Ripple>
+
+</Col>
+
+  
+ </FormGroup>
+
+ </Form>
+
+    
+    
+    </>
+
+    :
+
+    null
+
+
+  }
+
+
+
     <div>
 
     <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
-      <ModalHeader>Add University Type</ModalHeader>
+      <ModalHeader>Update Course Information</ModalHeader>
       <ModalBody>
-        <Form onSubmit={handleSubmit} >
+        <Form onSubmit={handleSubmitUpdate} >
          
            
           
@@ -563,9 +1360,44 @@ const closeModal = () => {
                
               />
 
+              <Input
+                type="hidden"
+                name="studentTestScoreId"
+                id="studentTestScoreId"
+                value={localStorage.getItem('studentTestScroreId')}
+               
+              />
+
               {
 
-                
+                (oneData?.attributeItem)?.map(dataOne => 
+                  
+                  <FormGroup row className="has-icon-left position-relative">
+                  <Col md="5">
+                    <span>
+                      {dataOne?.attritbuteName} <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+          
+          
+          
+                    <Input
+          
+                      type={dataOne?.fieldTypeId==1?'date':dataOne?.fieldTypeId==2?'text':dataOne?.fieldTypeId==3?'number':'text'}
+                      id={dataOne?.attritbuteValueId}
+                      name={dataOne?.attritbuteValueId}
+                      required
+                      defaultValue={dataOne?.attritbuteValue}
+          
+                    />
+          
+          
+                  </Col>
+                </FormGroup>
+
+
+                  )
 
               }
 
@@ -601,7 +1433,7 @@ const closeModal = () => {
     </div>
   </div>
 
-  }
+
   
 
 
@@ -646,7 +1478,7 @@ const closeModal = () => {
          </FormGroup>
 
          
-          </Form>
+    
         </TabPane>
       </TabContent>
 
