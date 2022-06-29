@@ -11,6 +11,10 @@ const StudentProfile = () => {
 
     const [studentDetails, setStudentDetails] = useState({});
     const [date, setDate] = useState("");
+    const [isHaveDisability, setIsHaveDisability] = useState(false);
+    const [isHaveCriminalConvictions, setIsHaveCriminalConvictions] = useState(false);
+    const [educationInfos, setEducationInfos] = useState([]);
+    const [serialNum, setSerialNum] = useState(1);
 
     const history = useHistory();
     const {sId} = useParams();
@@ -19,6 +23,10 @@ const StudentProfile = () => {
        get(`StudentProfile/Get/${sId}`).then(res=>{
         console.log("profileData",res);
         setStudentDetails(res);
+        setIsHaveDisability(res?.profileOtherInfo?.isHaveDisability);
+        setIsHaveCriminalConvictions(res?.profileOtherInfo?.isHaveCriminalConvictions);
+        setEducationInfos(res?.educationInfos);
+        console.log("eduInfo", res?.educationInfos)
 
         var datee =res?.dateOfBirth;
         var utcDate = new Date(datee);
@@ -31,6 +39,10 @@ const StudentProfile = () => {
     const backToDashboard = () =>{
         history.push('/studentList');
     }
+
+    const tableStyle = {
+      overflowX: 'scroll',
+    };
 
     return (
         <div>
@@ -119,8 +131,24 @@ const StudentProfile = () => {
                 </CardBody>
                 </Card>
 
+                {/* personal statement */}
+                <div className=" info-item mt-4">
+                  <Card>  
+                   <CardBody>
+                    <div className="hedding-titel">
+                      <h5> <b>Personal Statement</b> </h5>
+                      <div className="bg-h"></div>
+                    </div>
+                    <div>
+                      <p className='pt-2'>{studentDetails?.profilePersonalStatement?.statement}</p>
+                    </div>
+                   </CardBody>
+                  </Card>
+                </div>
+
+            {/* personal info */}
             <div className=" info-item mt-4">
-            <Card>  
+              <Card>  
                  <CardBody>
                     <div className="hedding-titel">
                       <h5> <b>Personal Information</b>  </h5>
@@ -217,7 +245,7 @@ const StudentProfile = () => {
 
 
 
-
+          {/* contact info */}
           <div className=" info-item mt-4">
             <Card>  
                  <CardBody>
@@ -228,6 +256,16 @@ const StudentProfile = () => {
 
                     <Table className="table-bordered mt-4" >
                       <tbody>
+                        <tr>
+                          <td width="40%">
+                           <span> <b>Address Type:</b></span>
+                          </td>
+
+                          <td width="60%">
+                          {studentDetails?.studentContactInfos?.addressTypeName}
+                          </td>
+                        </tr>
+
                         <tr>
                           <td width="40%">
                           <span> <b>Phone number:</b></span>
@@ -300,7 +338,7 @@ const StudentProfile = () => {
 
                         <tr>
                           <td width="40%">
-                           <span> <b>{studentDetails?.studentContactInfos?.addressTypeName}:</b></span>
+                           <span> <b>Address Line:</b></span>
                           </td>
 
                           <td width="60%">
@@ -310,6 +348,157 @@ const StudentProfile = () => {
 
                         </tbody>
                       </Table>
+                 </CardBody>
+              </Card>
+          </div>
+
+          {/* other info */}
+          <div className=" info-item mt-4">
+            <Card>  
+                 <CardBody>
+                    <div className="hedding-titel">
+                      <h5> <b>Other Information</b> </h5>
+                      <div className="bg-h"></div>
+                    </div>
+
+                    <Table className="table-bordered mt-4" >
+                      <tbody>
+                        <tr>
+                          <td width="40%">
+                          <span> <b>Have Disability:</b></span>
+                          </td>
+
+                          <td width="60%">
+                            {
+                              isHaveDisability ? <span>Yes</span> : <span>No</span>
+                            }
+                          </td>
+                        </tr>
+
+                          {
+                            isHaveDisability ?
+                            <tr>
+                              <td width="40%">
+                               <span> <b>Disability Description:</b></span>
+                              </td>
+
+                              <td width="60%">
+                                {studentDetails?.profileOtherInfo?.disabilityDescription}
+                              </td>
+                            </tr>
+                              :
+                              null
+                          }
+
+                        <tr>
+                          <td width="40%">
+                          <span> <b>Have Criminal Convictions:</b></span>
+                          </td>
+
+                          <td width="60%">
+                            {
+                              isHaveCriminalConvictions ? <span>Yes</span> : <span>No</span>
+                            }
+                          </td>
+                        </tr>
+
+                        {
+                            isHaveCriminalConvictions ?
+                            <tr>
+                              <td width="40%">
+                               <span> <b>Criminal Convictions Description:</b></span>
+                              </td>
+
+                              <td width="60%">
+                                {studentDetails?.profileOtherInfo?.criminalConvictionsDescription}
+                              </td>
+                            </tr>
+                              :
+                              null
+                          }
+                        
+
+                        </tbody>
+                      </Table>
+                 </CardBody>
+              </Card>
+          </div>
+          
+          {/* educational info */}
+          <div className=" info-item mt-4">
+            <Card>  
+                 <CardBody>
+                    <div className="hedding-titel">
+                      <h5> <b>Educational Information</b> </h5>
+                      <div className="bg-h"></div>
+                    </div>
+
+                    <div className="table-responsive pt-3">
+                    <Table className="table-sm striped" style={tableStyle}>
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>#</th>
+                          <th>Institute</th>
+                          <th>Program Level</th>
+                          <th>Subject</th>
+                          <th>Duration</th>
+                          <th>Grade</th>
+                          <th>Still Studying</th>
+                          <th>Study Duration</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {educationInfos?.map((edu, i) => (
+                          <tr key={i} style={{ textAlign: "center" }}>
+                            <th scope='row'>{serialNum + i}</th>
+                            <td>
+                              {edu?.nameOfInstitution}
+                            </td>
+
+                            <td>
+                              {edu?.programLevelName}
+                            </td>
+                        
+                            <td>
+                              {edu?.qualificationSubject}
+                            </td>
+                        
+                            <td>
+                              {edu?.duration}
+                            </td>
+                        
+                            <td>
+                              {edu?.finalGrade}
+                            </td>
+                            <td>
+                              {edu?.stillStudying === false ? <span>No</span> : <span>Yes</span>}
+                            </td>
+                            <td>
+                              {/* {edu?.attendedInstitutionFrom} to  
+                              {
+                                edu?.stillStudying === true ? <span>{edu?.attendedInstitutionTo}</span>
+                                : <span>still studying</span>
+                              } */}
+                              {
+                                edu?.stillStudying === false ?
+                                <div>
+                                  {edu?.attendedInstitutionFrom} to {edu?.attendedInstitutionTo}
+                                </div>
+                                :
+                                <div>
+                                  {edu?.attendedInstitutionFrom} to {<div>
+                                    ongoing
+                                  </div>}
+                                </div>
+                              }
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+              
+
+                    </div>
                  </CardBody>
               </Card>
           </div>
@@ -326,10 +515,10 @@ const StudentProfile = () => {
 
                  </CardBody>
               </Card>
-          </div>
+           </div>
 
-                </div>
-            </Col>
+        </div>
+      </Col>
 
 
 
