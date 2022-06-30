@@ -65,6 +65,9 @@ const Experience = () => {
     },[])
    
 
+    const onPreviousPage = () => {
+      history.push('/addTestScore');
+    }
 
 
     const backToDashboard = () =>{
@@ -611,6 +614,12 @@ console.log('trying', sDate?.split(",")[0]);
 
        
         <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+    
+        </FormGroup>
+        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+
+       
+        <Button onClick={onPreviousPage} color="primary uapp-form-button">Previous</Button>
         <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
         </FormGroup>
 
