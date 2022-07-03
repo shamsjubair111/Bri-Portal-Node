@@ -4,6 +4,7 @@ import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,
 import get from '../../../helpers/get';
 import { useToasts } from "react-toast-notifications";
 import post from '../../../helpers/post';
+import put from '../../../helpers/put';
 
 const OtherInformation = () => {
 
@@ -14,6 +15,7 @@ const OtherInformation = () => {
 
    
 
+      const method = localStorage.getItem('method');
       
 
     const history = useHistory();
@@ -21,6 +23,8 @@ const OtherInformation = () => {
     const [disability, setDisability] = useState(false);
 
     const [crime, setCrime] = useState(false);
+
+    const [id, setId] = useState(0);
 
     const [activetab, setActivetab] = useState("9");
 
@@ -38,6 +42,7 @@ const OtherInformation = () => {
         setDisability(`${res?.isHaveDisability}`);
         setCrime(`${res?.isHaveCriminalConvictions}`);
         setData(res);
+        setId(res?.id);
       })
 
     },[])
@@ -89,7 +94,24 @@ const OtherInformation = () => {
 
         const subData = new FormData(event.target);
 
-        post('OtherInformation/Create', subData)
+        if(method == 'put'){
+
+          put('OtherInformation/Update',subData)
+          .then(res => {
+            if(res?.status ==200 ){
+              addToast(res?.data?.message,{
+                appearance:'success',
+                autoDismiss:true
+              })
+              localStorage.removeItem('method');
+            }
+          })
+
+        }
+
+        else{
+
+          post('OtherInformation/Create', subData)
         .then(res => {
           console.log(res);
           if(res?.status == 200){
@@ -100,6 +122,8 @@ const OtherInformation = () => {
 
           }
         })
+
+        }
       }
 
       const handleDisability = (event) => {
@@ -197,6 +221,14 @@ const OtherInformation = () => {
       </Nav>
 
           <Form onSubmit={handleOtherInformation} className="mt-5">
+
+          <input
+          type='hidden'
+          name='id'
+          id='id'
+          value={id}
+          
+          />
 
             
                 

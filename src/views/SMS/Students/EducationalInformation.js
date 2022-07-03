@@ -218,8 +218,31 @@ const handleUpdate = (id) => {
     setProgramLevelValue(res?.programLevel?.id);
     setCountryLabel(res?.countryOfEducation?.name);
     setCountryValue(res?.countryOfEducation?.id);
-    setFrom(res?.attendedInstitutionFrom);
-    setTo(res?.attendedInstitutionTo);
+
+    
+
+    const z= res?.attendedInstitutionFrom;
+
+    var utcDate = new Date(z);
+
+    var localeDte = utcDate.toLocaleString("en-CA");
+   
+    const x = localeDte.split("T");
+    const y= x[0].split(",");
+
+    setFrom(y[0]);
+
+    const a= res?.attendedInstitutionTo;
+
+    var utcDate = new Date(a);
+
+    var localeDte2 = utcDate.toLocaleString("en-CA");
+   
+    const b = localeDte2.split("T");
+    const c= b[0].split(",");
+
+    setTo(c[0]);
+
 
   })
   setShowForm(true);
@@ -452,7 +475,7 @@ const handleUpdate = (id) => {
                       type="date"
                       name="attendedInstitutionFrom"
                       id="attendedInstitutionFrom"
-                      defaultValue={oneData.attendedInstitutionFrom}
+                      defaultValue={from}
                       
                       required
                     />
@@ -474,7 +497,7 @@ const handleUpdate = (id) => {
                       type="date"
                       name="attendedInstitutionTo"
                       id="attendedInstitutionTo"
-                      defaultValue={oneData.attendedInstitutionTo}
+                      defaultValue={to}
                       
                       required
                     />

@@ -25,6 +25,10 @@ const PersonalInformation = () => {
 
     const [oneData, setOneData] = useState({});
 
+    const method = localStorage.getItem('method');
+
+    const [datee, setDatee] = useState("");
+
 
     const [activetab, setActivetab] = useState("2");
     const [submitData, setSubmitData] = useState(false);
@@ -136,10 +140,27 @@ const PersonalInformation = () => {
           setNationalityValue(res?.nationality?.id);
           setCountryLabel(res?.country?.name);
           setCountryValue(res?.country?.id);
+     
+
+          const z= res?.dateOfBirth;
+
+          var utcDate = new Date(z);
+  
+          var localeDte = utcDate.toLocaleString("en-CA");
+         
+          const x = localeDte.split("T");
+          const y= x[0].split(",");
+          setDatee(y[0]);
+
+
       })
 
 
     },[])
+
+
+
+
 
     const backToDashboard = () =>{
        
@@ -544,6 +565,7 @@ const handleSubmit = (event) => {
                       name="dateOfBirth"
                       id="dateOfBirth"
                       onChange={(e)=> SetDate(e.target.value)}
+                      defaultValue={datee}
                       
                       required
                     />

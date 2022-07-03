@@ -4,6 +4,7 @@ import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
+import put from '../../../helpers/put';
 
 const PersonalStatement = () => {
 
@@ -16,15 +17,19 @@ const PersonalStatement = () => {
     const {addToast} = useToasts();
 
     const [statement, setStatement] = useState('');
+    const [id, setId] = useState(0);
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
+
+    const method  = localStorage.getItem('method');
 
     useEffect(()=>{
 
       get(`PersonalStatement/GetByStudentId/${studentIdVal}`)
       .then(res => {
-        console.log(res);
+        console.log(res,'Personal Statement Check');
         setStatement(res?.statement);
+        setId(res?.id);
       })
 
     },[])
@@ -80,6 +85,23 @@ const PersonalStatement = () => {
 
         const subData = new FormData(event.target);
 
+       if(method == 'put'){
+
+        put('PersonalStatement/Update',subData)
+        .then(res => {
+          if(res?.status == 200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push('/addOtherInformation');
+          }
+        })
+
+       }
+
+       else{
+
         post('PersonalStatement/Create',subData)
         .then(res => {
           console.log(res);
@@ -93,6 +115,8 @@ const PersonalStatement = () => {
           }
 
         })
+
+       }
 
       }
 
@@ -181,7 +205,26 @@ const PersonalStatement = () => {
 
           <Form onSubmit={handlePersonalStatement} className="mt-5">
 
-            
+
+          
+          {
+
+            method == 'put' ?
+
+            <input
+            type='hidden'
+            name='id'
+            id='id'
+            value={id}
+
+            />
+
+            :
+
+            null
+
+
+          }
                 
           <input 
           type='hidden'

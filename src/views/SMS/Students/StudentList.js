@@ -34,6 +34,8 @@ import get from '../../../helpers/get';
 
 const StudentList = () => {
 
+ 
+
     const [serialNum, setSerialNum] = useState(1);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [studentList, setStudentList] = useState([]);
@@ -52,6 +54,8 @@ const StudentList = () => {
     const location = useLocation();
     const history = useHistory();
     const { addToast } = useToasts();
+
+
     
     useEffect(()=>{
         get("StudentTypeDD/Index").then(res=>{
@@ -120,6 +124,17 @@ const StudentList = () => {
       setSearchStr("");
       setCallApi((prev) => !prev);
     };
+
+    const handleEdit = (data) =>{
+      console.log(data);
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addStudentApplicationInformation');
+
+    }
 
     // on enter press
    const handleKeyDown = (event) => {
@@ -336,12 +351,12 @@ const StudentList = () => {
                           </Button>
                         </Link>
 
-                          <Link to={`editstudentject/${student?.id}`}>
-                            <Button color="dark" className="mx-1 btn-sm">
+                       
+                            <Button color="dark" className="mx-1 btn-sm" onClick={()=>handleEdit(student)}>
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
-                          </Link>
+                      
 
                           {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>

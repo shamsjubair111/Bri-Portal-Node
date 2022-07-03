@@ -5,6 +5,7 @@ import Select from "react-select";
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
+import put from '../../../helpers/put';
 
 
 
@@ -31,7 +32,11 @@ const ApplicationInformation = () => {
   const applicationStudentTypeId =  localStorage.getItem('applictionStudentTypeId');
   const applicationStudentId = localStorage.getItem('applictionStudentId');
 
+  const [applicationId, setApplicationId] = useState(0);
+
   const {addToast} = useToasts();
+
+  const method = localStorage.getItem('method');
  
 
 
@@ -65,14 +70,17 @@ const ApplicationInformation = () => {
       setStudentTypeLabel(res?.student?.studentType?.name);
       setStudentTypeValue(res?.student?.studentType?.id);
       setDateOfMoveToUk(res?.dateOfMoveToUk);
-      setIsStayedOutsideUkInLastThreeYears(res?.isStayedOutsideEU_UkinLast3Years);
-      setPresettlementStatus(res?.isHavePre_Settlementstatus);
-      setIsAppliedStudentFinance(res?.isAppliedStudentFinance);
+      setIsStayedOutsideUkInLastThreeYears(`${res?.isStayedOutsideEU_UkinLast3Years}`);
+      setPresettlementStatus(`${res?.isHavePre_Settlementstatus}`);
+      setIsAppliedStudentFinance(`${res?.isAppliedStudentFinance}`);
       setFinanceDetails(res?.financeApplicationDetails);
       setCode(res?.code);
-      setIsApplyingFromInside(res?.isApplyingFromInside);
+      setStudentTypeValue(res?.student?.studentType?.id);
+      setStudentTypeLabel(res?.student?.studentType?.name);
+      setIsApplyingFromInside(`${res?.isApplyingFromInside}`);
       setVisaStatusLabel(res?.visaStatus?.name);
       setVisaStatusValue(res?.visaStatusId);
+      setApplicationId(res?.id);
 
 
     })
@@ -139,6 +147,7 @@ setStudentTypeValue(value);
 
 
 
+
 }
 
   const visaStatusName = visaStatus?.map((branchCountry) => ({
@@ -161,19 +170,47 @@ const handleSubmit = (event) => {
 
   event.preventDefault();
   const subData = new FormData(event.target);
+  for( var x of subData.values()){
+    console.log(x);
+  }
 
-  post('ApplicationInfo/Create',subData)
-  .then(res => {
-    console.log('application response',res);
-    if(res?.status == 200){
-      addToast(res.data.message,{
-        appearance: 'success',
-        autoDismiss: true
-      })
-      history.push('/addStudentinformation');
-    }
+   if(method == 'put'){
 
-  })
+    put(`ApplicationInfo/Update`,subData)
+    .then(res => {
+      console.log('1st put response',res);
+      if(res?.status == 200){
+       
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        
+        history.push('/addStudentinformation');
+      }
+    })
+
+
+
+   }
+
+   else{
+
+
+    post('ApplicationInfo/Create',subData)
+    .then(res => {
+      console.log('application response',res);
+      if(res?.status == 200){
+        addToast(res.data.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        history.push('/addStudentinformation');
+      }
+  
+    })
+
+   }
 
 }
 
@@ -270,6 +307,21 @@ const cancelForm = () => {
         <TabContent activeTab={activetab}>
           <TabPane tabId="1">
             <Form onSubmit={handleSubmit}   className="mt-5">
+
+            {
+              method == 'put' ? 
+              <input
+              type='hidden'
+              name='id'
+              id='id'
+              value={applicationId}
+              
+              />
+
+              :
+
+              null
+            }
 
             <input
             type='hidden'
