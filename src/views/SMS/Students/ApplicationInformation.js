@@ -71,7 +71,7 @@ const ApplicationInformation = () => {
       setFinanceDetails(res?.financeApplicationDetails);
       setCode(res?.code);
       setIsApplyingFromInside(res?.isApplyingFromInside);
-      setVisaStatusLabel(res?.visaStatus);
+      setVisaStatusLabel(res?.visaStatus?.name);
       setVisaStatusValue(res?.visaStatusId);
 
 
@@ -125,7 +125,7 @@ const toggle = (tab) => {
   }
 
 
-  const studentTypeName = studentType.map((branchCountry) => ({
+  const studentTypeName = studentType?.map((branchCountry) => ({
     label: branchCountry.name,
     value: branchCountry.id,
   }));
@@ -141,7 +141,7 @@ setStudentTypeValue(value);
 
 }
 
-  const visaStatusName = visaStatus.map((branchCountry) => ({
+  const visaStatusName = visaStatus?.map((branchCountry) => ({
     label: branchCountry.name,
     value: branchCountry.id,
   }));

@@ -10,6 +10,10 @@ const OtherInformation = () => {
     const styleLabelBold = {
         // fontWeight: "bold"
       };
+
+
+   
+
       
 
     const history = useHistory();
@@ -23,6 +27,20 @@ const OtherInformation = () => {
     const studentIdVal = localStorage.getItem('applictionStudentId');
 
     const {addToast} = useToasts();
+
+    const [data, setData] = useState({});
+
+    useEffect(()=>{
+
+      get(`OtherInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+      .then(res => {
+        console.log('checking Other information', res);
+        setDisability(`${res?.isHaveDisability}`);
+        setCrime(`${res?.isHaveCriminalConvictions}`);
+        setData(res);
+      })
+
+    },[])
 
     const backToDashboard = () =>{
        
@@ -231,7 +249,9 @@ const OtherInformation = () => {
           <Col md="6">
       
   
-          <Input type="textarea" name='DisabilityDescription' id='DisabilityDescription' rows={4}/>
+          <Input type="textarea" name='DisabilityDescription' id='DisabilityDescription' rows={4}
+          defaultValue={data?.disabilityDescription}
+          />
 
   
         </Col>
@@ -289,7 +309,7 @@ const OtherInformation = () => {
        <Col md="6">
    
  
-       <Input type="textarea" name='CriminalConvictionsDescription' id='CriminalConvictionsDescription' rows={4}/>
+       <Input type="textarea" name='CriminalConvictionsDescription' id='CriminalConvictionsDescription' rows={4} defaultValue={data?.criminalConvictionsDescription}  />
  
  
      </Col>

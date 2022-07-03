@@ -35,8 +35,12 @@ const PersonalStatement = () => {
         history.push('/');
     }
 
-    const cancelForm = () => {
-      history.push('/');
+    const previousPage = () => {
+      history.push('/addReference');
+    }
+
+    const goNext = () =>{
+      history.push('/addOtherInformation');
     }
 
     const toggle = (tab) => {
@@ -208,20 +212,34 @@ const PersonalStatement = () => {
       
         <FormGroup
         className="has-icon-left position-relative"
-        style={{ display: "flex", justifyContent: "space-between" }}
+        style={{ display: "flex", justifyContent: "end" }}
       >
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 btn-warning"
-          onClick= {cancelForm}
-        >
-          Cancel
-        </Button.Ripple>
+       
         <Button.Ripple
           type="submit"
           className="mr-1 mt-3 badge-primary"
         >
           Submit
+        </Button.Ripple>
+      </FormGroup>
+
+        <FormGroup
+        className="has-icon-left position-relative"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Button.Ripple
+          type="submit"
+          className="mr-1 mt-3 btn-warning"
+          onClick= {previousPage}
+        >
+          Previous
+        </Button.Ripple>
+        <Button.Ripple
+          type="submit"
+          className="mr-1 mt-3 badge-primary"
+          onClick={goNext}
+        >
+          Next Page
         </Button.Ripple>
       </FormGroup>
       </Form>
