@@ -26,8 +26,9 @@ import {
     NavLink,
   } from "reactstrap";
 
-
-
+import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ReactToPrint from 'react-to-print';
 
 import Select from "react-select";
 import { useHistory, useLocation } from "react-router";
@@ -257,7 +258,13 @@ const SubjectList = (props) => {
     }
   };
 
-  
+  const handleExportXLSX = () => {
+    var wb = XLSX.utils.book_new(),
+    ws = XLSX.utils.json_to_sheet(subList);
+    XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+
+    XLSX.writeFile(wb, "MyExcel.xlsx");
+  };
 
   const componentRef = useRef();
 
@@ -384,7 +391,7 @@ const SubjectList = (props) => {
                       <DropdownItem>Export All</DropdownItem>
                       {/* <DropdownItem divider /> */}
                       <DropdownItem>
-                      
+                        <button onClick={handleExportXLSX}>Export XLSX</button>
 
                         {/* <ReactHTMLTableToExcel
                           id="test-table-xls-button"
@@ -400,7 +407,10 @@ const SubjectList = (props) => {
                       </DropdownItem>
 
                       <DropdownItem>
-                     
+                      <ReactToPrint
+                           trigger={() => <button>Print this out!</button>}
+                           content={() => componentRef.current}
+                         />
                       </DropdownItem>
                       <DropdownItem>
                          
