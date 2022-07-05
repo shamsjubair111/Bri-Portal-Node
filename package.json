@@ -80,6 +80,7 @@
     "reactjs-toastr": "^1.1.0",
     "reactstrap": "^8.10.1",
     "recharts": "^2.1.10",
+    "redocx": "^1.1.4",
     "redux": "^4.1.1",
     "redux-debounced": "~0.5.0",
     "redux-thunk": "^2.3.0",

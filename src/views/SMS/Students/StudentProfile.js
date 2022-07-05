@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {  Card, CardBody, Input, CardHeader,Label, Col,  Row, Table, Form, FormGroup, Button } from 'reactstrap';
 import get from '../../../helpers/get';
@@ -6,6 +6,7 @@ import get from '../../../helpers/get';
 import coverImage from '../../../assets/img/profile/user-uploads/cover.jpg';
 // import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
+import ReactToPrint from 'react-to-print';
 
 const StudentProfile = () => {
 
@@ -54,12 +55,25 @@ const StudentProfile = () => {
       overflowX: 'scroll',
     };
 
+    const componentRef = useRef();
+
     return (
-        <div>
+        <div ref={componentRef}>
         <Card className="uapp-card-bg">
           <CardHeader className="page-header">
 
-            <h3 className="text-light">Student Profile</h3>
+            <div className='d-flex align-items-center'>
+              <div className='mt-1'>
+                <h3 className="text-light">Student Profile</h3>
+              </div>
+              <div className='ms-2'>
+              <ReactToPrint
+                trigger={() => <span className="text-light cursor-pointer" title="Print to pdf"><i className="fas fa-print"></i></span>}
+                content={() => componentRef.current}
+              />
+              </div>
+            </div>
+            
             <div className="page-header-back-to-home" >
               <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
             </div>
