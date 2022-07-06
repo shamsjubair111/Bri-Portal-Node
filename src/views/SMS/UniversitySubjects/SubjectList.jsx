@@ -26,8 +26,8 @@ import {
     NavLink,
   } from "reactstrap";
 
-import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 
 import Select from "react-select";
@@ -388,10 +388,10 @@ const SubjectList = (props) => {
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
                     <DropdownMenu>
-                      <DropdownItem>Export All</DropdownItem>
+                      {/* <DropdownItem>Export All</DropdownItem> */}
                       {/* <DropdownItem divider /> */}
                       <DropdownItem>
-                        <button onClick={handleExportXLSX}>Export XLSX</button>
+                        <p onClick={handleExportXLSX}>Export to XLSX</p>
 
                         {/* <ReactHTMLTableToExcel
                           id="test-table-xls-button"
@@ -408,13 +408,11 @@ const SubjectList = (props) => {
 
                       <DropdownItem>
                       <ReactToPrint
-                           trigger={() => <button>Print this out!</button>}
+                           trigger={() => <p>Export to PDF</p>}
                            content={() => componentRef.current}
                          />
                       </DropdownItem>
-                      <DropdownItem>
-                         
-                      </DropdownItem>
+          
                     </DropdownMenu>
                   </Dropdown>
                 </Col>

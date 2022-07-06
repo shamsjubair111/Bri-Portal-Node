@@ -112,10 +112,7 @@ const handleUpdate = (type) => {
   .then(res=> {
     setPostId(res.id);
     setUName(res.name);
-  })
- 
-
-  
+  }) 
 }
 
 const handleUpdateSubmit = (e) => {

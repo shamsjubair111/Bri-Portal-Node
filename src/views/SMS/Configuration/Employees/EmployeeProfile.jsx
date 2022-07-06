@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router';
 import { Card, CardBody, CardHeader, ButtonGroup, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, Table, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
@@ -6,6 +6,7 @@ import { Card, CardBody, CardHeader, ButtonGroup, CardTitle, Button, Modal, Moda
 import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg'
 import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg'
 import get from '../../../../helpers/get';
+import ReactToPrint from 'react-to-print';
 
 const EmployeeProfile = () => {
 
@@ -41,16 +42,30 @@ const EmployeeProfile = () => {
   const backToDashboard = () => {
     history.push("/")
   }
+
+  const componentRef = useRef();
+
   return (
 
-    <div>
+    <div ref={componentRef}>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
 
-          <h3 className="text-light">Employee Profile</h3>
-          <div className="page-header-back-to-home" >
-            <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
-          </div>
+        <div className='d-flex align-items-center'>
+              <div className='mt-1'>
+                <h3 className="text-light">Employee Profile</h3>
+              </div>
+              <div className='ms-2'>
+              <ReactToPrint
+                trigger={() => <span className="text-light cursor-pointer" title="Print to pdf"><i className="fas fa-print"></i></span>}
+                content={() => componentRef.current}
+              />
+              </div>
+            </div>
+
+            <div className="page-header-back-to-home" >
+              <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+            </div>
 
         </CardHeader>
       </Card>

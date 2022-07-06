@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
     Card,
     CardBody,
@@ -31,6 +31,9 @@ import { Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import get from '../../../helpers/get';
+
+import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactToPrint from 'react-to-print';
 
 const StudentList = () => {
 
@@ -154,6 +157,16 @@ const StudentList = () => {
         history.push("/addStudentRegister");
       };
 
+      const handleExportXLSX = () => {
+        var wb = XLSX.utils.book_new(),
+        ws = XLSX.utils.json_to_sheet(studentData);
+        XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+    
+        XLSX.writeFile(wb, "MyExcel.xlsx");
+      };
+
+    const componentRef = useRef();
+    
     return (
         <div>
             <Card className="uapp-card-bg">
@@ -258,11 +271,28 @@ const StudentList = () => {
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
                     <DropdownMenu>
-                      <DropdownItem>Export All</DropdownItem>
-                      {/* <DropdownItem divider /> */}
-                      <DropdownItem>Export Excel</DropdownItem>
-                      <DropdownItem>Export PDF</DropdownItem>
-                      <DropdownItem>Export CSV</DropdownItem>
+                    <DropdownItem>
+                        <p onClick={handleExportXLSX}>Export to XLSX</p>
+
+                        {/* <ReactHTMLTableToExcel
+                          id="test-table-xls-button"
+                          className="download-table-xls-button"
+                          table="table-to-xls"
+                          filename="tablexls"
+                          sheet="tablexls"
+                          buttonText="Download as XLS"/> */}
+
+                        
+                           {/* <Button onClick={onDownload}> Export excel </Button> */}
+
+                      </DropdownItem>
+
+                      <DropdownItem>
+                      <ReactToPrint
+                           trigger={() => <p>Export to PDF</p>}
+                           content={() => componentRef.current}
+                         />
+                      </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
@@ -273,7 +303,7 @@ const StudentList = () => {
           {loading ? (
             <h2 className="text-center">Loading...</h2>
           ) : (
-            <div className="table-responsive">
+            <div className="table-responsive mb-3" ref={componentRef}>
               <Table className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>

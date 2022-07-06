@@ -295,7 +295,7 @@ const closeDeleteModal = () => {
                 type ={type}
                 >
                   
-                  <td>{index+1}</td>
+                  <th scope='row'>{index+1}</th>
                   <td>{type?.name}</td>
                   <td>{type?.studentCount}</td>
                   <td>
