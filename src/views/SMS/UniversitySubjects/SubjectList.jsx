@@ -391,15 +391,15 @@ const SubjectList = (props) => {
                       {/* <DropdownItem>Export All</DropdownItem> */}
                       {/* <DropdownItem divider /> */}
                       <DropdownItem>
-                        <p onClick={handleExportXLSX}>Export to XLSX</p>
+                        {/* <p onClick={handleExportXLSX}>Export to XLSX</p> */}
 
-                        {/* <ReactHTMLTableToExcel
+                        <ReactHTMLTableToExcel
                           id="test-table-xls-button"
-                          className="download-table-xls-button"
+                          className="download-table-xls-button btn btn-danger font-weight-bold "
                           table="table-to-xls"
                           filename="tablexls"
                           sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
+                          buttonText="Export to XLS"/>
 
                         
                            {/* <Button onClick={onDownload}> Export excel </Button> */}
