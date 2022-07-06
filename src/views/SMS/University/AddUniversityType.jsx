@@ -68,6 +68,8 @@ const handleSubmit = (event) => {
   //   name: universityType
   // }
 
+  console.log(postId);
+
   const subdata = new FormData(event.target);
   // for (const vale of subdata.values())
   // {
@@ -89,6 +91,7 @@ const handleSubmit = (event) => {
   }
 
   else{
+    setUName('');
     put(`UniversityType/Update`,subdata).then((action)=> {
       setSuccess(!success);
       setModalOpen(false)
@@ -97,6 +100,7 @@ const handleSubmit = (event) => {
         autoDismiss: true,
       })
       setUniversityType('');
+      setPostId(0);
     //  localStorage.removeItem('updateUni')
   
     })
@@ -112,7 +116,10 @@ const handleUpdate = (type) => {
   .then(res=> {
     setPostId(res.id);
     setUName(res.name);
-  }) 
+  })
+ 
+
+  
 }
 
 const handleUpdateSubmit = (e) => {
