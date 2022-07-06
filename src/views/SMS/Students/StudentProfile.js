@@ -55,6 +55,143 @@ const StudentProfile = () => {
       overflowX: 'scroll',
     };
 
+    const handleEditFromProfilePage = (data) =>{
+      console.log('Started Working',data);
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addStudentApplicationInformation');
+    }
+
+
+    const handleUpdatePersonalStatement = (data) => {
+
+      console.log('Checking Personal Statement Data',data);
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addPersonalStatement');
+
+    }
+
+    const handleUpdatePersonalInformation = (data) => {
+
+      console.log('Updating Personal Information',data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addStudentInformation');
+
+    }
+
+    const handleUpdateTestScores = (data) => {
+      console.log('Test Score Update', data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addTestScore');
+
+    }
+
+    const handleUpdateContactInformation = (data) => {
+
+      console.log('Updating Contact Information',data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addStudentContactInformation');
+
+
+    }
+
+    const handleUpdateOtherInformation = (data) => {
+
+      console.log('Updating Other Information', data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addOtherinformation');
+
+
+    }
+
+    const handleUpdateEducationalInformation = (data) => {
+
+
+      console.log('Updating Educational Information', data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addStudentEducationalInformation');
+
+
+
+    }
+
+    const handleUpdateGREAndGMATScores = (data) => {
+      console.log('Test Score Update', data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+
+     
+  
+
+      history.push('/addTestScore');
+
+    }
+
+    const handleUpdateExperience = (data) => {
+
+      console.log('Experience Update', data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addExperience');
+
+
+    }
+
+    const handleUpdateReference = (data) => {
+
+      console.log('Reference Update', data);
+
+      localStorage.setItem('applictionStudentId',data?.id);
+      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+      localStorage.setItem('method','put');
+  
+
+      history.push('/addReference');
+
+
+
+    }
+
+
+
     const componentRef = useRef();
 
     return (
@@ -109,7 +246,7 @@ const StudentProfile = () => {
                     </Col>
 
                     <Col> 
-                    <div className="uapp-employee-profile-Edit">
+                    <div className="uapp-employee-profile-Edit" onClick={()=>handleEditFromProfilePage(studentDetails)}>
                     <div className="text-right">
                       <span> <i className="fas fa-pencil-alt"></i> </span>
                     </div>
@@ -159,9 +296,16 @@ const StudentProfile = () => {
                 <div className=" info-item mt-4">
                   <Card>  
                    <CardBody>
-                    <div className="hedding-titel">
-                      <h5> <b>Personal Statement</b> </h5>
-                      <div className="bg-h"></div>
+                    <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Personal Statement</b> </h5>
+                     
+                    <div className="bg-h"></div>
+                    </div>
+                    <div className="text-right edit-style  p-3" onClick={()=>handleUpdatePersonalStatement(studentDetails)}>
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div>
+
                     </div>
                     <div>
                       <p className='pt-2'>{studentDetails?.profilePersonalStatement?.statement}</p>
@@ -174,10 +318,17 @@ const StudentProfile = () => {
             <div className=" info-item mt-4">
               <Card>  
                  <CardBody>
-                    <div className="hedding-titel">
-                      <h5> <b>Personal Information</b>  </h5>
-                      <div className="bg-h"></div>
-                    </div>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>Personal Information</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdatePersonalInformation(studentDetails)}>
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div>
+
+                 </div>
                       <Table className="table-bordered mt-4" >
                       <tbody>
                         <tr>
@@ -273,10 +424,17 @@ const StudentProfile = () => {
           <div className=" info-item mt-4">
             <Card>  
                  <CardBody>
-                    <div className="hedding-titel">
-                      <h5> <b>Contact Information</b> </h5>
-                      <div className="bg-h"></div>
-                    </div>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>Contact Information</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateContactInformation(studentDetails)}>
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div>
+
+                 </div>
 
                     <Table className="table-bordered mt-4" >
                       <tbody>
@@ -380,10 +538,17 @@ const StudentProfile = () => {
           <div className=" info-item mt-4">
             <Card>  
                  <CardBody>
-                    <div className="hedding-titel">
-                      <h5> <b>Other Information</b> </h5>
-                      <div className="bg-h"></div>
-                    </div>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>Other Information</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateOtherInformation(studentDetails)}>
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div>
+
+                 </div>
 
                     <Table className="table-bordered mt-4" >
                       <tbody>
@@ -452,10 +617,17 @@ const StudentProfile = () => {
           <div className=" info-item mt-4">
             <Card>  
                  <CardBody>
-                    <div className="hedding-titel">
-                      <h5> <b>Educational Information</b> </h5>
-                      <div className="bg-h"></div>
-                    </div>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>Educational Information</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateEducationalInformation(studentDetails)}>
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div>
+
+                 </div>
 
                     <div className="table-responsive pt-3">
                     <Table className="table-sm striped" style={tableStyle}>
@@ -534,10 +706,17 @@ const StudentProfile = () => {
           <Card className="test-score-card-style2">
             <CardBody className="">
 
-            <div className="hedding-titel mb-3">
-            <h5> <b>GRE </b> </h5>
+            <div className="hedding-titel d-flex justify-content-between">
+            <div>
+            <h5> <b>GRE Information</b> </h5>
+             
             <div className="bg-h"></div>
+            </div>
+            <div className="text-right edit-style  p-3" onClick={()=>handleUpdateGREAndGMATScores(studentDetails)}>
+            <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
           </div>
+
+            </div>
 
             <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
             <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
@@ -565,9 +744,16 @@ const StudentProfile = () => {
         <Card className=" test-score-card-style2">
           <CardBody className="">
 
-          <div className="hedding-titel mb-3">
-          <h5> <b>GMAT </b> </h5>
+          <div className="hedding-titel d-flex justify-content-between">
+          <div>
+          <h5> <b>GMAT Information</b> </h5>
+           
           <div className="bg-h"></div>
+          </div>
+          <div className="text-right edit-style  p-3" onClick={()=>handleUpdateGREAndGMATScores(studentDetails)}>
+          <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+        </div>
+
           </div>
 
           
@@ -602,10 +788,17 @@ const StudentProfile = () => {
           <div className=" info-item mt-4">
             <Card>  
                  <CardBody>
-                    <div className="hedding-titel">
-                      <h5> <b>English Test Score</b> </h5>
-                      <div className="bg-h"></div>
-                    </div>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>Test Scores</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateTestScores(studentDetails)}>
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div>
+
+                 </div>
 
                 
 
@@ -663,10 +856,17 @@ const StudentProfile = () => {
            <div className=" info-item mt-4">
            <Card>  
                 <CardBody>
-                   <div className="hedding-titel">
-                     <h5> <b>Experience</b> </h5>
-                     <div className="bg-h"></div>
-                   </div>
+                <div className="hedding-titel d-flex justify-content-between">
+                <div>
+                <h5> <b>Experience</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
+                <div className="text-right edit-style  p-3" onClick={()=>handleUpdateExperience(studentDetails)}>
+                <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+              </div>
+
+                </div>
 
                    <div className="table-responsive pt-3">
                    <Table className="table-sm striped" style={tableStyle}>
@@ -725,10 +925,17 @@ const StudentProfile = () => {
          <div className=" info-item mt-4">
            <Card>  
                 <CardBody>
-                   <div className="hedding-titel">
-                     <h5> <b>Reference</b> </h5>
-                     <div className="bg-h"></div>
-                   </div>
+                <div className="hedding-titel d-flex justify-content-between">
+                <div>
+                <h5> <b>Reference</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
+                <div className="text-right edit-style  p-3" onClick={()=>handleUpdateReference(studentDetails)}>
+                <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+              </div>
+
+                </div>
 
                    <div className="table-responsive pt-3">
                    <Table className="table-sm striped" style={tableStyle}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalFooter, ModalBody, ModalHeader } from 'reactstrap';
 import Select from "react-select";
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import get from '../../../helpers/get';
 import InputComponent from './InputComponent';
 
@@ -12,6 +12,9 @@ import EditInputComponent from './EditInputComponent';
 import put from '../../../helpers/put';
 
 const TestScore = () => {
+
+  const location = useLocation();
+
 
 
     const [activetab, setActivetab] = useState("5");
@@ -620,7 +623,7 @@ const closeModal3= () => {
       </div>
     }
 
-      
+       
 
         <div className='row mt-3'>
 
@@ -726,9 +729,19 @@ const closeModal3= () => {
 
 
  
-     
+        <section id='root'>
+       
+        <div className='row mt-3' >
 
-        <div className='row mt-3'>
+        <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+                    <div>
+                    <h5> <b>GRE & GMAT Score</b> </h5>
+                     
+                    <div className="bg-h"></div>
+                    </div>
+                   
+
+                    </div>
 
         {
 
@@ -855,6 +868,8 @@ const closeModal3= () => {
       }
 
       </div>
+
+     </section>
 
         
 

@@ -23,6 +23,7 @@ const ApplicationInformation = () => {
   const [dateOfMoveToUk, setDateOfMoveToUk] = useState('');
   const [financeDetails, setFinanceDetails] = useState('');
 
+
   const [visaStatus, setVisaStatus] = useState([]);
   const [visaStatusLabel, setVisaStatusLabel] = useState('Visa status');
   const [visaStatusValue, setVisaStatusValue] = useState(0);
@@ -69,7 +70,7 @@ const ApplicationInformation = () => {
       console.log('application post response', res);
       setStudentTypeLabel(res?.student?.studentType?.name);
       setStudentTypeValue(res?.student?.studentType?.id);
-      setDateOfMoveToUk(res?.dateOfMoveToUk);
+     
       setIsStayedOutsideUkInLastThreeYears(`${res?.isStayedOutsideEU_UkinLast3Years}`);
       setPresettlementStatus(`${res?.isHavePre_Settlementstatus}`);
       setIsAppliedStudentFinance(`${res?.isAppliedStudentFinance}`);
@@ -81,6 +82,16 @@ const ApplicationInformation = () => {
       setVisaStatusLabel(res?.visaStatus?.name);
       setVisaStatusValue(res?.visaStatusId);
       setApplicationId(res?.id);
+
+      var datee =res?.dateOfMoveToUk;
+      var utcDate = new Date(datee);
+      var localeDte = utcDate.toLocaleString("en-CA");
+      var localeDte2 = localeDte.split(",")[0];
+      var localeDte3 = localeDte2.replace('/', '-');
+      
+      console.log(localeDte);
+      setDateOfMoveToUk(localeDte3.replace('/', '-'));
+    
 
 
     })
@@ -518,6 +529,8 @@ const cancelForm = () => {
                       type="date"
                       name="DateOfMoveToUk"
                       id="DateOfMoveToUk"
+                      defaultValue={dateOfMoveToUk}
+
                       
                       required
                     />

@@ -92,6 +92,7 @@ const CampusList = lazy(() => import("./views/SMS/University/CampusList.jsx"))
 const CampusDetails = lazy(() => import("./views/SMS/University/CampusDetails.jsx"))
 const CampusSubjectList = lazy(() => import("./views/SMS/University/CampusSubjectList.jsx"))
 const AddUniversityGallery = lazy(() => import("./views/SMS/University/AddUniversityGallery.jsx"))
+const AddUniversityApplicationDocument = lazy(() => import("./views/SMS/University/AddUniversityApplicationDocument"))
 
 // intake
 const Intake = lazy(() => import("./views/SMS/University/Intake.js"))
@@ -296,6 +297,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/addUniversityCountry" component={AddUniversityCountry} />
          <AppRoute path="/addUniversityState" component={AddUniversityState} />
          <AppRoute path="/addUniversity" component={AddUniversity} />
+         <AppRoute path="/addUniversityApplicationDocument" component={AddUniversityApplicationDocument} />
 
           {/* intake */}
           <AppRoute path="/intake" component={Intake} />

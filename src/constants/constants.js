@@ -1,4 +1,4 @@
-export const rootUrl = `http://192.168.0.14:45457/`
+export const rootUrl = `http://192.168.0.14:45455/`
 // export const rootUrl = `https://192.168.0.7:45455/`
 
 // asif vai's api

@@ -179,6 +179,20 @@ const AddUniversityFinancial = (props) => {
                                 University Gallery
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                 {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+                                <NavLink
+                                active={activetab === '6'}
+                                onClick={() =>toggle('6')}
+                                >
+
+                                Application Document
+                                </NavLink>
+                            </NavItem>
                     </Nav>
 
                     <TabContent activeTab={activetab}>

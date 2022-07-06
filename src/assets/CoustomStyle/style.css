@@ -486,5 +486,19 @@ th {
 }
 
 .test-score-card-style2{
-  height: 260px;
+  height: 265px;
+}
+
+.text-right{
+  cursor: pointer;
+}
+
+.edit-style{
+  cursor: pointer;
+
+  
+}
+
+.pencil-style{
+  color: #607d8b;
 }
