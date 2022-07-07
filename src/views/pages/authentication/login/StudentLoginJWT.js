@@ -122,7 +122,7 @@ class StudentLoginJWT extends React.Component {
             <Button.Ripple className="uapp-submit-btn" color="primary" type="submit">
                 Login
               </Button.Ripple>
-              <Link to="/pages/studentRegister">Create a Student Account</Link>
+             
             </div>
             {/* {this.state.error && <span className="text-danger">{this.state.error}</span>} */}
           </Form>

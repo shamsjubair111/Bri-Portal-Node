@@ -8,6 +8,8 @@ import { useToasts } from 'react-toast-notifications';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
+import ProviderLogo from './ProviderLogo';
+import { useSelector } from 'react-redux';
 
 
 const ProviderForm = (props) => {
@@ -15,7 +17,7 @@ const ProviderForm = (props) => {
     const history = useHistory();
    
     useEffect(()=> {
-        get(`ProviderType/GetAll`)
+        get(`ProviderTypeDD/Index`)
         .then(res => setProviderType(res))
         .catch()
 
@@ -44,6 +46,9 @@ const ProviderForm = (props) => {
     const { addToast } = useToasts();
  
     
+    const providerLogo = useSelector((state) => state?.GeneralProviderlogoFile ?.ProviderLogoFile);
+
+    // console.log('Hello Provider Logo', providerLogo[0]?.originFileObj);
  
     
 
@@ -55,7 +60,14 @@ const ProviderForm = (props) => {
         event.preventDefault();
        
    
-        const subData = new FormData(event.target)
+        const subData = new FormData(event.target);
+        subData.append('providerLogo',providerLogo[0]?.originFileObj);
+
+        const config = {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
        
    
        //  watch form data values
@@ -64,10 +76,10 @@ const ProviderForm = (props) => {
         // }
    
        //  post form data and notify the response to user
-        const returnValue = post(`Provider/Create`,subData).then((action)=> {
+        const returnValue = post(`Provider/Create`,subData,config).then((action)=> {
          
          
-          addToast(action, {
+          addToast(action?.data?.message, {
            appearance:  'success',
            autoDismiss: true,
          })
@@ -86,15 +98,16 @@ const ProviderForm = (props) => {
 
     return (
         <div>
-            <Card>
-              <CardHeader className="page-header">
-              
-                  <h3>Assign Provider</h3>
-                  <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard}> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
-                  </div>
-              
-              </CardHeader>
+        <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-light">Assign Provider</h3>
+          <div className="page-header-back-to-home">
+            <span className="text-light" onClick={backToDashboard}>
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+            </span>
+          </div>
+        </CardHeader>
       </Card>
 
       <Card>
@@ -210,8 +223,8 @@ const ProviderForm = (props) => {
                     <Col md="10" lg="6">
                       <Input
                         type="text"
-                        name="userName"
-                        id="userName"
+                        name="username"
+                        id="username"
                         placeholder="Enter Your Username"
                         required
                         // onChange={(e)=>setIcon(e.target.value)}
@@ -222,39 +235,37 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                   <i id="passwordTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Password</span>
+                   <i id="addressLineTooltip" className="fas fa-info-circle menuIcon"></i>
+                      <span className="pl-2">Address Line </span>
                     </Col>
 
                     <UncontrolledTooltip
                     placement="top"
-                    target="passwordTooltip"
+                    target="addressLineTooltip"
 
                   >
-                    Your Password
+                    Address Line
                   </UncontrolledTooltip>
-                 
-
                   
 
                     <Col md="10" lg="6">
                       <Input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Enter Your Password"
+                        type="text"
+                        name="addressLine"
+                        id="addressLine"
+                        placeholder="Enter Address Line"
                         required
                         // onChange={(e)=>setIcon(e.target.value)}
                       />
 
                     </Col>
                   </FormGroup>
-                 
+
 
                   <FormGroup row>
                     <Col md="2">
                     <i id="typeTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Type</span>
+                      <span className="pl-2"> Provider Type</span>
                     </Col>
                    
                     <UncontrolledTooltip
@@ -262,7 +273,7 @@ const ProviderForm = (props) => {
                     target="typeTooltip"
 
                   >
-                    Your Provider Type
+                   Provider Type
                   </UncontrolledTooltip>
 
                     <Col md="10" lg="6">
@@ -275,6 +286,26 @@ const ProviderForm = (props) => {
                            required
                           
                            />
+
+                    </Col>
+                  </FormGroup>
+
+                  <FormGroup row>
+                    <Col md="2">
+                    <i id="logoTooltip" className="fas fa-info-circle menuIcon"></i>
+                      <span className="pl-2"> Provider Logo</span>
+                    </Col>
+                   
+                    <UncontrolledTooltip
+                    placement="top"
+                    target="logoTooltip"
+
+                  >
+                   Provider Logo
+                  </UncontrolledTooltip>
+
+                    <Col md="10" lg="6">
+                     <ProviderLogo></ProviderLogo>
 
                     </Col>
                   </FormGroup>

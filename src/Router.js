@@ -161,6 +161,9 @@ const Delete = lazy(() =>
 const ProviderForm = lazy(() =>
   import("./views/SMS/Provider/ProviderForm")
 )
+const AdminProviderForm = lazy(() =>
+  import("./views/SMS/Provider/Admin/AdminProviderForm")
+)
 const loginForm = lazy(() =>
   import("./views/core/auth/pages/loginForm")
 )
@@ -177,6 +180,7 @@ const AddSiteSetting = lazy(() => import("./views/SMS/Configuration/SiteSetting/
 const UpdateSiteSetting = lazy(() => import("./views/SMS/Configuration/SiteSetting/UpdateSiteSetting"))
 const Country = lazy(() => import("./views/core/country/pages/index"))
 const ProviderList = lazy(() => import("./views/SMS/Provider/ProviderList"))
+const ProviderAdminList = lazy(() => import("./views/SMS/Provider/Admin/ProviderAdminList"))
 const ProviderDetails = lazy(() => import("./views/SMS/Provider/ProviderDetails"))
 const UpdateProvider = lazy(() => import("./views/SMS/Provider/UpdateProvider"))
 const Branch = lazy(() => import("./views/SMS/Branches/Branch/Branch"))
@@ -216,6 +220,10 @@ const StudentType = lazy(() => import("./views/SMS/Students/StudentType.js"))
 // country
 
 const CountryList = lazy(() => import("./views/SMS/Configuration/Country/Country.js"))
+
+// Search
+
+const Search = lazy(() => import("./views/SMS/Search/Search"))
 
 
 // practice
@@ -342,6 +350,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/update/:id" component={Put} />
          <AppRoute path="/delete/:id" component={Delete} />
          <AppRoute path="/providerForm" component={ProviderForm} />
+         <AppRoute path="/adminProviderForm" component={AdminProviderForm} />
          <AppRoute path="/addEmployeeGeneralInfo" component={AddEmployeeGeneralInfo} />
          <AppRoute path="/addEmployeeContactInfo" component={AddEmployeeContactInfo} />
          <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} />
@@ -353,7 +362,11 @@ class AppRouter extends React.Component {
          <AppRoute path="/country" component={Country} />
          <AppRoute path="/editDepartment/:id" component={EditDepartment} />
          <AppRoute path="/editSubDepartment/:id" component={EditSubDepartment} />
+
          <AppRoute path="/providerList" component={ProviderList} />
+         <AppRoute path="/providerAdminList" component={ProviderAdminList} />
+
+
          <AppRoute path="/providerDetails/:id" component={ProviderDetails} />
          <AppRoute path="/updateProvider/:id" component={UpdateProvider} />
          <AppRoute path="/branchInformation" component={Branch} />
@@ -394,6 +407,8 @@ class AppRouter extends React.Component {
 
          <AppRoute path="/countryList" component={CountryList} />
 
+         <AppRoute path="/search" component={Search} />
+
 
 
 
@@ -416,7 +431,7 @@ class AppRouter extends React.Component {
            <>
         
       
-         <AppRoute path="/" component={StudentLogin} fullLayout />
+         <AppRoute exact path="/" component={StudentLogin} fullLayout />
 
          <AppRoute path="/pages/studentRegister" component={StudentRegister} fullLayout />
          <AppRoute path="/pages/consultantRegister" component={ConsultantRegister} fullLayout />

@@ -5,6 +5,8 @@ import { Button, Card, CardBody, CardHeader, Col, FormGroup, Input, Row, Uncontr
 import get from '../../../helpers/get';
 import put from '../../../helpers/put';
 import Select from 'react-select';
+import ProviderLogo from './ProviderLogo';
+import { useSelector } from 'react-redux';
 
 
 const UpdateProvider = () => {
@@ -16,19 +18,22 @@ const UpdateProvider = () => {
     const [title,setTitle] = useState('');
     const history = useHistory();
     const { addToast } = useToasts();
+
+    const providerLogo = useSelector((state) => state?.GeneralProviderlogoFile ?.ProviderLogoFile);
     
     const backToDashboard = () => {
         history.push('/providerList');
     } 
 
-    const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
+
 
    useEffect(()=> {
        get(`Provider/Get/${id}`)
        .then(res => {
            console.log(res);
            setProviderInfo(res);
-           setProviderTypeLabel(res?.providerType?.name)
+           setProviderTypeLabel(res?.providerType?.name);
+           setProviderTypeValue(res?.providerType?.id);
         
 
        })
@@ -44,6 +49,7 @@ const UpdateProvider = () => {
 
 },[])
 
+const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
    
    const selectProviderType = (label, value) => {
     setProviderTypeLabel(label);
@@ -54,10 +60,19 @@ const UpdateProvider = () => {
   const handleSubmit = (e) =>{
       e.preventDefault();
       const subData = new FormData(e.target);
+
+      subData.append('providerLogo',providerLogo[0]?.originFileObj);
+
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+
       for(let val of subData.values()){
           console.log(val);
       }
-      put(`Provider/Update`,subData)
+      put(`Provider/Update`,subData,config)
       .then(res => {
         // for (const val of subData.value()){
         //   console.log(val);
@@ -76,15 +91,16 @@ const UpdateProvider = () => {
 
     return (
         <div>
-            <Card>
-              <CardHeader className="page-header">
-              
-                  <h3>Update Provider Information</h3>
-                  <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard}> <i className="fas fa-arrow-circle-left"></i> Back to Provider List</span>
-                  </div>
-              
-              </CardHeader>
+        <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-light">Update Provider Information</h3>
+          <div className="page-header-back-to-home">
+            <span className="text-light" onClick={backToDashboard}>
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+            </span>
+          </div>
+        </CardHeader>
       </Card>
 
       <Card>
@@ -219,41 +235,40 @@ const UpdateProvider = () => {
                   </FormGroup>
 
                   <FormGroup row>
-                    <Col md="2">
-                   <i id="passwordTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Password</span>
-                    </Col>
+                  <Col md="2">
+                 <i id="addressLineTooltip" className="fas fa-info-circle menuIcon"></i>
+                    <span className="pl-2">Address Line </span>
+                  </Col>
 
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="passwordTooltip"
+                  <UncontrolledTooltip
+                  placement="top"
+                  target="addressLineTooltip"
 
-                  >
-                    Your Password
-                  </UncontrolledTooltip>
-                 
+                >
+                  Address Line
+                </UncontrolledTooltip>
+                
 
-                  
+                  <Col md="10" lg="6">
+                    <Input
+                      type="text"
+                      name="addressLine"
+                      id="addressLine"
+                      placeholder="Enter Address Line"
+                      required
+                      defaultValue={providerInfo?.addressLine}
+                    />
 
-                    <Col md="10" lg="6">
-                      <Input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Enter Your Password"
-                        required
-                        // onChange={(e)=>setIcon(e.target.value)}
-                        defaultValue={providerInfo?.password}
-                      />
+                  </Col>
+                </FormGroup>
 
-                    </Col>
-                  </FormGroup>
+                
                  
 
                   <FormGroup row>
                     <Col md="2">
                     <i id="typeTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Type</span>
+                      <span className="pl-2">Provider Type</span>
                     </Col>
                    
                     <UncontrolledTooltip
@@ -277,6 +292,26 @@ const UpdateProvider = () => {
 
                     </Col>
                   </FormGroup>
+
+                  <FormGroup row>
+                  <Col md="2">
+                  <i id="logoTooltip" className="fas fa-info-circle menuIcon"></i>
+                    <span className="pl-2"> Provider Logo</span>
+                  </Col>
+                 
+                  <UncontrolledTooltip
+                  placement="top"
+                  target="logoTooltip"
+
+                >
+                 Provider Logo
+                </UncontrolledTooltip>
+
+                  <Col md="10" lg="6">
+                   <ProviderLogo></ProviderLogo>
+
+                  </Col>
+                </FormGroup>
 
                   <Button.Ripple
                         type="submit"
