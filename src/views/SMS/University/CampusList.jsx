@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Row, Table } from 'reactstrap';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Row, Table, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup } from 'reactstrap';
 import get from '../../../helpers/get';
 import Select from "react-select";
 import { connect } from 'react-redux';
@@ -20,11 +20,12 @@ const CampusList = () => {
     const [serialNum, setSerialNum] = useState(1);
     const [entity, setEntity] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
 
     const history = useHistory();
-    // const location = useLocation();
-    // console.log('idddddd',location?.id);
+    const location = useLocation();
+    localStorage.setItem('uIdForCamp',location?.id);
 
 
     useEffect(() => {
@@ -35,26 +36,27 @@ const CampusList = () => {
         const search = "";
 
         get(
-          `UniversityCampus/index?page=${currentPage}&pageSize=${dataPerPage}&universityId=${localStorage.getItem('campusId')}&search=${searchStr}`
+          `UniversityCampus/index?universityId=${localStorage.getItem('universityId')}&search=${searchStr}`
         ).then((res) => {
           // setCampusList(res.models);
           console.log("pagination",res);
+          setCampusList(res);
           // setSerialNum(res?.firstSerialNumber);
           // setEntity(res?.totalEntity);
-          // setLoading(false);
+          setLoading(false);
         });
 
-        get(`UniversityCampus/GetByUniversity/${localStorage.getItem('universityId')}`).then(res =>{
+        // get(`UniversityCampus/GetByUniversity/${localStorage.getItem('universityId')}`).then(res =>{
 
-            setCampusList(res);
-            console.log("campList", res);
-            setLoading(false);
-        })
+        //     setCampusList(res);
+        //     console.log("campList", res);
+        //     setLoading(false);
+        // })
     
     
       
     
-      }, [callApi, currentPage, dataPerPage, searchStr]);
+      }, [callApi, currentPage, dataPerPage, searchStr, entity, loading, serialNum]);
       
 
       const handleSearch = () => {
@@ -85,17 +87,17 @@ const CampusList = () => {
       setCallApi((prev) => !prev);
     }
 
-    // const selectDataSize = (value) => {
-    //   setLoading(true);
-    //   setDataPerPage(value);
-    //   setCallApi((prev) => !prev);
-    // };
+    const selectDataSize = (value) => {
+      setLoading(true);
+      setDataPerPage(value);
+      setCallApi((prev) => !prev);
+    };
 
     //  change page
-  // const paginate = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  //   setCallApi((prev) => !prev);
-  // };
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setCallApi((prev) => !prev);
+  };
 
     // user select data per page
     const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
@@ -105,6 +107,22 @@ const CampusList = () => {
     const toggle = () => {
       setDropdownOpen((prev) => !prev);
     };
+
+    // on Close Modal
+    const closeModal = () => {
+      setModalOpen(false);
+    }
+
+  //   const universityCountryName = univerSityCountries?.map(uniCountry => ({ label: uniCountry.name, value: uniCountry.id }));
+  // const universityStateName = universityStates?.map(uniState => ({ label: uniState.name, value: uniState.id }));
+
+    const handleSubmit = e =>{
+      e.preventDefault();
+    }
+
+    const handleAddUniversityCampus = () =>{
+      history.push("/addUniversityCampus");
+    }
 
     const handleExportXLSX = () => {
       var wb = XLSX.utils.book_new(),
@@ -174,13 +192,14 @@ const CampusList = () => {
 
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              {/* <Button
-                // onClick={handleAddUniversity}
+              <Button
+                // onClick={handleAddUniversityCampus}
+                onClick={() => setModalOpen(true)}
                 className="btn btn-uapp-add "
               >
                 {" "}
                 <i className="fas fa-plus"></i> Add New{" "}
-              </Button> */}
+              </Button>
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -206,9 +225,20 @@ const CampusList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
-                    <DropdownMenu>
-                    <DropdownItem>
-                        <p onClick={handleExportXLSX}>Export to XLSX</p>
+                    <DropdownMenu className='bg-dd'>
+                    {/* <DropdownItem> */}
+                        
+                      <div className='d-flex justify-content-around align-items-center mt-2'>
+                        <div className='text-light cursor-pointer'>
+                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                        </div>
+                        <div className='text-light cursor-pointer'>
+                          <ReactToPrint
+                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                             content={() => componentRef.current}
+                           />
+                        </div>
+                      </div>
 
                         {/* <ReactHTMLTableToExcel
                           id="test-table-xls-button"
@@ -221,20 +251,289 @@ const CampusList = () => {
                         
                            {/* <Button onClick={onDownload}> Export excel </Button> */}
 
-                      </DropdownItem>
+                      {/* </DropdownItem> */}
 
-                      <DropdownItem>
-                      <ReactToPrint
-                           trigger={() => <p>Export to PDF</p>}
-                           content={() => componentRef.current}
-                         />
-                      </DropdownItem>
+                      {/* <DropdownItem> */}
+                      
+                      {/* </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
               </Row>
             </Col>
           </Row>
+
+          <div>
+
+            <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal2" size='lg'>
+              <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Add University Campus</span></ModalHeader>
+              <ModalBody>
+                <Form onSubmit={handleSubmit} >
+                <FormGroup row className="has-icon-left position-relative">
+                  <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem('universityId')} />
+                  {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Campus Name <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="Name"
+                      id="Name"  
+                      
+                    //  defaultValue={universityCampusObject?.name}
+                      placeholder="Enter University Name"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Campus Country <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+
+                    <Select
+                      // options={universityCountryName}
+                      // value={{ label: uniCountryLabel, value: uniCountryValue }}
+                      
+                      // onChange={opt => selectUniCountry(opt.label, opt.value)}
+                      name="CampusCountryId"
+                      id="CampusCountryId"
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Campus State <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+
+                    <Select
+                      // options={universityStateName}
+                      // value={{ label: uniStateLabel, value: unistateValue }}
+                      // onChange={opt => selectUniState(opt.label, opt.value)}
+                      name="CampusStateId"
+                      id="CampusStateId"
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Campus City <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="CampusCity"
+                      id="CampusCity"
+                      // defaultValue={universityCampusObject?.campusCity}
+                      placeholder="Enter Campus City Name"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Address Line<span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="AddressLine"
+                      id="AddressLine"
+                      // defaultValue={universityCampusObject?.addressLine}
+                      placeholder="Enter Address Line"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Total Student </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      name="TotalStudent"
+                      id="TotalStudent"
+                      // defaultValue={universityCampusObject?.totalStudent}
+                      placeholder="Enter Total Student"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>International Student </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      name="InternationalStudent"
+                      id="InternationalStudent"
+                      //  defaultValue={universityCampusObject?.internationalStudent}
+                      placeholder="Enter International Student"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Average Tution Fee </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      name="AvarageTutionFee"
+                      id="AvarageTutionFee"
+                      // defaultValue={universityCampusObject?.avarageTutionFee}
+                      placeholder="Avarage Tution Fee"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Average Living Cost </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      name="AvarageLivingCost"
+                      id="AvarageLivingCost"
+                      // defaultValue={universityCampusObject?.avarageLivingCost}
+                      placeholder="Avarage Living Cost"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Average Application Fee </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      name="AvarageApplicationFee"
+                      id="AvarageApplicationFee"
+                      // defaultValue={universityCampusObject?.avarageApplicationFee}
+                      placeholder="Avarage Application Fee"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Estimated Total Cost </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      name="EstimatedTotalCost"
+                      id="EstimatedTotalCost"
+                      // defaultValue={universityCampusObject?.estimatedTotalCost}
+                      placeholder="Estimated Total Cost"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Embeded Map </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="EmbededMap"
+                      id="EmbededMap"
+                      //  defaultValue={universityCampusObject?.embededMap}
+                      placeholder="Embeded Map"
+
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                  <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+                    <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
+
+                    
+                    {/* localStorage.getItem("updateUni") ? */}
+                      {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
+                      <Button.Ripple
+                        color="warning"
+                        type="submit"
+                        className="mr-1 mt-3"
+                       
+                      >
+                        Submit
+                      </Button.Ripple>
+
+                  
+
+                  </FormGroup>
+
+                </Form>
+              </ModalBody>
+
+            </Modal>
+            <div>
+
+            </div>
+          </div>
 
           {loading ? (
             <h2 className="text-center">Loading...</h2>

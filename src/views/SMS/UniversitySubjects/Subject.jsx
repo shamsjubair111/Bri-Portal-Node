@@ -53,7 +53,7 @@ const Subject = () => {
 
     useEffect(()=>{
 
-      get('University/GetAll').then(res=> {
+      get('UniversityDD/Index').then(res=> {
         setUniversityList(res);
       })
       .catch();

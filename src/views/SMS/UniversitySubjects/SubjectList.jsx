@@ -94,7 +94,7 @@ const SubjectList = (props) => {
     };
 
     useEffect(()=>{
-      get("University/GetAll").then(res =>{
+      get("UniversityDD/Index").then(res =>{
         setUList(res);
         dispatch(StoreUniversityListData(res));
       });
@@ -147,7 +147,7 @@ const SubjectList = (props) => {
         });
     
 
-    }, [success, currentPage, dataPerPage, callApi, searchStr, uniTypeId]);
+    }, [success, currentPage, dataPerPage, callApi, searchStr, uniTypeId, campValue, univerSList, uniValue, location.universityId]);
 
    
 
@@ -387,31 +387,41 @@ const SubjectList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
-                    <DropdownMenu>
+                    <DropdownMenu className='bg-dd'>
                       {/* <DropdownItem>Export All</DropdownItem> */}
                       {/* <DropdownItem divider /> */}
-                      <DropdownItem>
-                        {/* <p onClick={handleExportXLSX}>Export to XLSX</p> */}
+                      {/* <DropdownItem> */}
 
-                        <ReactHTMLTableToExcel
+                      <div className='d-flex justify-content-around align-items-center mt-2'>
+                        <div className='text-light cursor-pointer'>
+                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                        </div>
+                        <div className='text-light cursor-pointer'>
+                          <ReactToPrint
+                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                             content={() => componentRef.current}
+                           />
+                        </div>
+                      </div>
+                        
+                        
+
+                        {/* <ReactHTMLTableToExcel
                           id="test-table-xls-button"
-                          className="download-table-xls-button btn btn-danger font-weight-bold "
+                          className="download-table-xls-button button-export"
                           table="table-to-xls"
                           filename="tablexls"
                           sheet="tablexls"
-                          buttonText="Export to XLS"/>
+                          buttonText={<i class="far fa-file-excel"></i>}/> */}
 
                         
                            {/* <Button onClick={onDownload}> Export excel </Button> */}
 
-                      </DropdownItem>
+                      {/* </DropdownItem> */}
 
-                      <DropdownItem>
-                      <ReactToPrint
-                           trigger={() => <p>Export to PDF</p>}
-                           content={() => componentRef.current}
-                         />
-                      </DropdownItem>
+                      {/* <DropdownItem> */}
+                      
+                      {/* </DropdownItem> */}
           
                     </DropdownMenu>
                   </Dropdown>

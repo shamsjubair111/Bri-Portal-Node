@@ -66,7 +66,7 @@ const AddUniversityCampus = (props) => {
   useEffect(() => {
      setuniversityId(uniId);
     // const universityId = "10019";
-     get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
+     get(`UniversityCampus/GetByUniversity/${localStorage.getItem('universityId')}`).then((action) => {
       setuniversityCampusList(action);
       if(action.length>0){
         setShowForm(true);
@@ -371,20 +371,20 @@ const cancel=()=>{
 
                   <Row>
                     <Col md="6">
-                        <h5> {uniCampus.name} </h5>
-                        <h6> {uniCampus.university.name} ({uniCampus.university.shortName}) </h6>
-                        <p> {uniCampus.campusCity},  {uniCampus.universityState.name}, {uniCampus.universityCountry.name }  </p>
-                        <p> {uniCampus.addressLine}</p>
-                        <p> {uniCampus.addressLine}</p>
+                        <h5> {uniCampus?.name} </h5>
+                        <h6> {uniCampus?.university?.name} ({uniCampus?.university?.shortName}) </h6>
+                        <p> {uniCampus?.campusCity},  {uniCampus?.universityState?.name}, {uniCampus?.universityCountry?.name }  </p>
+                        <p> {uniCampus?.addressLine}</p>
+                        <p> {uniCampus?.addressLine}</p>
                     </Col>
 
                       <Col md="6">
-                        <p>Total Student : {uniCampus.totalStudent}</p>
-                        <p>International Student : {uniCampus.internationalStudent}</p>
-                        <p>Avarage Tution Fee : {uniCampus.avarageTutionFee}</p>
-                        <p>Avarage Living Cost : {uniCampus.avarageLivingCost}</p>
-                        <p>Avarage Application Fee : {uniCampus.avarageApplicationFee}</p>
-                        <p>Estimated TotalCost : {uniCampus.estimatedTotalCost}</p>
+                        <p>Total Student : {uniCampus?.totalStudent}</p>
+                        <p>International Student : {uniCampus?.internationalStudent}</p>
+                        <p>Avarage Tution Fee : {uniCampus?.avarageTutionFee}</p>
+                        <p>Avarage Living Cost : {uniCampus?.avarageLivingCost}</p>
+                        <p>Avarage Application Fee : {uniCampus?.avarageApplicationFee}</p>
+                        <p>Estimated TotalCost : {uniCampus?.estimatedTotalCost}</p>
                     </Col>
 
 

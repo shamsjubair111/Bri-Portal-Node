@@ -297,11 +297,11 @@ const UniversityList = (props) => {
 
   // redirect to campus list
   const redirectToCampusList = (id) =>{
+    localStorage.setItem('universityId', id);
     history.push({
       pathname :'/campusList',
       id
     });
-    localStorage.setItem('universityId', id)
   }
 
   // deleteing university 
@@ -482,9 +482,20 @@ const UniversityList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
-                    <DropdownMenu>
-                    <DropdownItem>
-                        <p onClick={handleExportXLSX}>Export to XLSX</p>
+                    <DropdownMenu className='bg-dd'>
+                    {/* <DropdownItem> */}
+                        
+                      <div className='d-flex justify-content-around align-items-center mt-2'>
+                        <div className='text-light cursor-pointer'>
+                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                        </div>
+                        <div className='text-light cursor-pointer'>
+                          <ReactToPrint
+                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                             content={() => componentRef.current}
+                           />
+                        </div>
+                      </div>
 
                         {/* <ReactHTMLTableToExcel
                           id="test-table-xls-button"
@@ -497,14 +508,11 @@ const UniversityList = (props) => {
                         
                            {/* <Button onClick={onDownload}> Export excel </Button> */}
 
-                      </DropdownItem>
+                      {/* </DropdownItem> */}
 
-                      <DropdownItem>
-                      <ReactToPrint
-                           trigger={() => <p>Export to PDF</p>}
-                           content={() => componentRef.current}
-                         />
-                      </DropdownItem>
+                      {/* <DropdownItem> */}
+                      
+                      {/* </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
                 </Col>

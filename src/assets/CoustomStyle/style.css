@@ -82,6 +82,18 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
   color: #1985ac;
 }
 
+.bg-dd {
+  background-color: #1d94ab;
+  /* border: none; */
+  /* height: 40px;
+  padding: 5px 15px; */
+  color: #ffffff;
+  font-size: 25px;
+  /* font-weight: 300; */
+  /* margin-top: 10px;
+  margin-right: 10px; */
+}
+
 @media (max-width: 678px) {
   .show-max-678 {
     display: block;
@@ -132,7 +144,7 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
 /*  uapp-sidbar  */
 .main-menu.uapp-sidbar {
   top: 77px;
-  z-index: 1211;
+  z-index: 1;
   position: fixed;
   display: table-cell;
   height: 100%;
@@ -246,7 +258,7 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
 .uapp-navbar.header-navbar.floating-nav {
   position: fixed;
   width: 100%;
-  z-index: 1211;
+  z-index: 1000;
 }
 .react-toast-notifications__container.css-nvf14r-ToastContainer {
   z-index: 2000 !important;
@@ -354,6 +366,16 @@ footer.footer {
 .uapp-modal .modal-content {
   margin-top: 30%;
 }
+
+.uapp-modal2 {
+  /* margin-top: 5%; */
+}
+
+.campus-modal-header-bg{
+  background-color: #1d94ab;
+}
+
+
 .tooltip {
   z-index: 10000;
   /* left: 5px !important; */
