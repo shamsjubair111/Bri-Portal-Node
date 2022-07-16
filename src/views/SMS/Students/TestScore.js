@@ -61,11 +61,13 @@ const TestScore = () => {
     const [greCheck, setGreCheck] = useState(false);
     const [gmatCheck, setGmatCheck] = useState(false);
 
+    const method = localStorage.getItem('method');
+
     useEffect(()=>{
 
       get('ExamTestType/Index')
       .then(res => {
-        // console.log('Exam test type data fetch',res);
+        console.log('Exam test type data fetch',res);
         setQualification(res);
 
 
@@ -290,11 +292,18 @@ const closeModal3= () => {
 
 
   const showGREForm = () => {
+    setAdd(false);
     setAddGRE(true);
+    setAddGMAT(false);
+   
+
   }
 
   const showGMATForm = () => {
+    setAdd(false);
+    setAddGRE(false);
     setAddGMAT(true);
+   
   }
 
   const handleSubmit = (event) => {
@@ -386,17 +395,36 @@ const closeModal3= () => {
         if (tab == "1") {
           history.push("/addStudentApplicationInformation");
         }
-
+      
         if (tab == "2") {
           history.push("/addStudentInformation");
         }
-
+      
         if (tab == "3") {
           history.push("/addStudentContactInformation");
         }
-
+      
         if (tab == "4") {
           history.push("/addStudentEducationalInformation");
+        }
+      
+        if (tab == "5") {
+          history.push("/addTestScore");
+        }
+      
+        if (tab == "6") {
+          history.push("/addExperience");
+        }
+      
+        if (tab == "7") {
+          history.push("/addReference");
+        }
+      
+        if (tab == "8") {
+          history.push("/addPersonalStatement");
+        }
+        if (tab == "9") {
+          history.push("/addOtherInformation");
         }
         
       };
@@ -432,6 +460,9 @@ const closeModal3= () => {
 
 
       }
+
+
+      
 
 
 
@@ -497,10 +528,12 @@ const closeModal3= () => {
       }
 
       const handleAdd = () => {
-        setELQualificationLabel('');
+        setELQualificationLabel('Select');
 
         ELsetQualificationValue(0);
         setAdd(true);
+        setAddGRE(false);
+        setAddGMAT(false);
       }
    
 
@@ -550,69 +583,141 @@ const closeModal3= () => {
 
       <Card>
       <CardBody>
-        <Nav tabs>
+      {
 
-        <NavItem>
-        <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
-          Application 
-        </NavLink>
-      </NavItem>
+        method == 'put'?
+     
+       <Nav tabs>
 
-          <NavItem>
-            <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
-              Personal 
-            </NavLink>
-          </NavItem>
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
 
-          <NavItem>
-            <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
-              Contact 
-            </NavLink>
-          </NavItem>
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
 
-         
-          <NavItem>
-            <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
-              Educational 
-            </NavLink>
-          </NavItem>
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
 
-          <NavItem>
-            <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
-              Test Score
-            </NavLink>
-          </NavItem>
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
 
-          <NavItem>
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
 
-            <NavLink disabled  active={activetab === "6"} onClick={() => toggle("6")}>
-              Experience 
-            </NavLink>
-          </NavItem>
+         <NavItem>
 
-          <NavItem>
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
 
-            <NavLink disabled  active={activetab === "7"} onClick={() => toggle("7")}>
-              Reference
-            </NavLink>
-          </NavItem>
+         <NavItem>
 
-          <NavItem>
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
 
-            <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
-              Personal Statement
-            </NavLink>
-          </NavItem>
+         <NavItem>
 
-          <NavItem>
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
 
-            <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
-              Others
-            </NavLink>
-          </NavItem>
-         
+         <NavItem>
 
-        </Nav>
+           <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+       :
+
+       <Nav tabs>
+
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
+
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
+
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+     }
 
        
 
@@ -704,15 +809,23 @@ const closeModal3= () => {
  
              
             
-        <Button.Ripple
-          color="primary"
-          onClick={handleAdd}
-         
-          className="ms-md-2 mt-3"
-         
-        >
-          Add New
-        </Button.Ripple>
+   {
+    courseInfo.length > 0 ?
+
+    <Button.Ripple
+    color="primary"
+    onClick={handleAdd}
+   
+    className="ms-md-2 mt-3"
+   
+  >
+    Add New
+  </Button.Ripple>
+
+  :
+
+  null
+   }
 
     
 
@@ -722,7 +835,239 @@ const closeModal3= () => {
 
     null
 
+    
+
        }
+
+       {
+
+        courseInfo.length <=0 ?
+    
+        <>
+
+        <Form onSubmit={handleSubmit}   className="my-5 pb-5">
+
+        <input
+        type='hidden'
+        name='studentId'
+        id='studentId'
+        value={localStorage.getItem('applictionStudentId')}
+        
+        />
+
+     
+
+
+  
+  <FormGroup row className="has-icon-left position-relative">
+  <Col md="2">
+    <span>
+      Please Select <span className="text-danger">*</span>{" "}
+    </span>
+  </Col>
+  <Col md="6">
+  <Select
+        options={testSignleOptions}
+        value={{ label: qualificationLabel, value: qualificationValue }}
+        onChange={(opt) => selectQualificationType(opt.label, opt.value)}
+        name=""
+        id=""
+        required
+
+      />
+
+    
+  </Col>
+</FormGroup>
+
+
+
+       {
+        qualificationLabel == 'Yes'  &&
+
+        <>
+
+        
+
+        
+
+          
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Please Select the Type of English Language Qualification <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6">
+          <Select
+          options={qualificationOptions}
+                    value={{ label: ELqualificationLabel, value: ELqualificationValue }}
+                    onChange={(opt) => selectQualification(opt.label, opt.value)}
+                    name="examType"
+                    id="examType"
+                   
+             
+              required
+
+            />
+
+            
+          </Col>
+        </FormGroup>
+
+      
+     
+
+
+      {
+
+        examTestTypeAttributeData?.map((data,i) => 
+
+   
+
+    
+
+         <InputComponent
+         key={i}
+         data={data}
+         ></InputComponent>
+
+
+
+      
+        
+        )
+
+       }
+
+  
+        
+        </>
+
+   
+
+      
+
+
+       }
+
+
+
+       {
+        
+        add ?
+
+        <>
+
+        
+
+        
+
+          
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Please Select the Type of English Language Qualification <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6">
+          <Select
+          options={qualificationOptions}
+                    value={{ label: ELqualificationLabel, value: ELqualificationValue }}
+                    onChange={(opt) => selectQualification(opt.label, opt.value)}
+                    name="examType"
+                    id="examType"
+                   
+             
+              required
+
+            />
+
+            
+          </Col>
+        </FormGroup>
+
+      
+     
+
+
+      {
+
+        examTestTypeAttributeData?.map((data,i) => 
+
+   
+
+    
+
+         <InputComponent
+         key={i}
+         data={data}
+         ></InputComponent>
+
+
+
+      
+        
+        )
+
+       }
+
+  
+        
+        </>
+
+   : 
+
+   null
+
+      
+
+
+       }
+
+       <br/>
+      
+
+
+        
+
+       <FormGroup row
+       className="has-icon-left position-relative"
+       style={{ display: "flex", justifyContent: "end" }}
+     >
+       
+   <Col md="5">
+   
+   <Button.Ripple
+   type="submit"
+   className="mr-1 mt-3 badge-primary"
+ >
+   Save
+ </Button.Ripple>
+
+   </Col>
+
+      
+     </FormGroup>
+
+     </Form>
+
+  
+  </>
+
+  : 
+
+  null
+
+}
+
+
+
+
+
+
 
         </div>
 
@@ -905,195 +1250,7 @@ const closeModal3= () => {
 
       }
 
-    {
-
-      (gmatData?.id) ?
       
-      null
-
-      :
-
-      <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-           
- 
-             
-            
-      <Button.Ripple
-        color="primary"
-        onClick={showGMATForm}
-        
-       
-        className="ms-md-2 mt-3"
-       
-      >
-        Add New GMAT
-      </Button.Ripple>
-
-  
-
-  </FormGroup>
-
-    }
-
-  
-
-
-
-
-        <TabContent activeTab={activetab}>
-        <TabPane tabId="5">
-
-
-        {
-
-          add?
-      
-          <>
-
-          <Form onSubmit={handleSubmit}   className="mt-5">
-
-          <input
-          type='hidden'
-          name='studentId'
-          id='studentId'
-          value={localStorage.getItem('applictionStudentId')}
-          
-          />
-
-       
-
-
-    
-    <FormGroup row className="has-icon-left position-relative">
-    <Col md="2">
-      <span>
-        Please Select <span className="text-danger">*</span>{" "}
-      </span>
-    </Col>
-    <Col md="6">
-    <Select
-          options={testSignleOptions}
-          value={{ label: qualificationLabel, value: qualificationValue }}
-          onChange={(opt) => selectQualificationType(opt.label, opt.value)}
-          name=""
-          id=""
-          required
-
-        />
-
-      
-    </Col>
-  </FormGroup>
-
- 
-
-         {
-          qualificationLabel == 'Yes' ? 
-
-          <>
-
-          
-
-            
-
-            <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Please Select the Type of English Language Qualification <span className="text-danger">*</span>{" "}
-              </span>
-            </Col>
-            <Col md="6">
-            <Select
-            options={qualificationOptions}
-                      value={{ label: ELqualificationLabel, value: ELqualificationValue }}
-                      onChange={(opt) => selectQualification(opt.label, opt.value)}
-                      name="examType"
-                      id="examType"
-                     
-               
-                required
-  
-              />
-  
-              
-            </Col>
-          </FormGroup>
-
-        
-       
-
-
-        {
-
-          examTestTypeAttributeData?.map((data,i) => 
-
-     
-
-      
-
-           <InputComponent
-           key={i}
-           data={data}
-           ></InputComponent>
-
-
-
-        
-          
-          )
-
-         }
-
-    
-          
-          </>
-
-     
-
-          :
-
-          null
-
-
-         }
-
-         <br/>
-        
-
-
-          
-
-         <FormGroup row
-         className="has-icon-left position-relative"
-         style={{ display: "flex", justifyContent: "end" }}
-       >
-         
-     <Col md="5">
-     
-     <Button.Ripple
-     type="submit"
-     className="mr-1 mt-3 badge-primary"
-   >
-     Save
-   </Button.Ripple>
-
-     </Col>
-
-        
-       </FormGroup>
-
-       </Form>
-
-    
-    </>
-
-    : 
-
-    null
-
-  }
-
   {
     addGRE?
 
@@ -1134,7 +1291,7 @@ const closeModal3= () => {
 
     <FormGroup row className="has-icon-left position-relative">
     <Col md="2">
-      <span> Gre Exam Date
+      <span> GRE Exam Date
          <span className="text-danger">*</span>{" "}
       </span>
     </Col>
@@ -1342,6 +1499,49 @@ Save
 
   }
 
+    {
+
+      (gmatData?.id) ?
+      
+      null
+
+      :
+
+      <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+           
+ 
+             
+            
+      <Button.Ripple
+        color="primary"
+        onClick={showGMATForm}
+        
+       
+        className="ms-md-2 mt-3"
+       
+      >
+        Add New GMAT
+      </Button.Ripple>
+
+  
+
+  </FormGroup>
+
+    }
+
+  
+
+
+
+
+        <TabContent activeTab={activetab}>
+        <TabPane tabId="5">
+
+
+       
+
+
 
   {
 
@@ -1385,7 +1585,7 @@ Save
 
     <FormGroup row className="has-icon-left position-relative">
     <Col md="2">
-      <span> Gmat Exam Date
+      <span> GMAT Exam Date
          <span className="text-danger">*</span>{" "}
       </span>
     </Col>

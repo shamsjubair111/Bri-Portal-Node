@@ -119,6 +119,7 @@ const OtherInformation = () => {
               appearance:'success',
               autoDismiss:true
             })
+            localStorage.removeItem('method');
 
           }
         })

@@ -53,28 +53,36 @@ const PersonalStatement = () => {
         if (tab == "1") {
           history.push("/addStudentApplicationInformation");
         }
-
+      
         if (tab == "2") {
           history.push("/addStudentInformation");
         }
-
+      
         if (tab == "3") {
           history.push("/addStudentContactInformation");
         }
-
+      
         if (tab == "4") {
           history.push("/addStudentEducationalInformation");
         }
+      
         if (tab == "5") {
           history.push("/addTestScore");
         }
-
+      
         if (tab == "6") {
           history.push("/addExperience");
         }
-
+      
         if (tab == "7") {
           history.push("/addReference");
+        }
+      
+        if (tab == "8") {
+          history.push("/addPersonalStatement");
+        }
+        if (tab == "9") {
+          history.push("/addOtherInformation");
         }
 
         
@@ -141,67 +149,141 @@ const PersonalStatement = () => {
 
       <Card>
       <CardBody>
-      <Nav tabs>
+      {
 
-          <NavItem>
-          <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
-            Application
-          </NavLink>
-        </NavItem>
+        method == 'put'?
+     
+       <Nav tabs>
 
-            <NavItem>
-              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                Personal
-              </NavLink>
-            </NavItem>
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "3"} onClick={() => toggle("3")}>
-                Contact
-              </NavLink>
-            </NavItem>
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
 
-         
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "4"} onClick={() => toggle("4")}>
-                Educational
-              </NavLink>
-            </NavItem>
-         
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
-                Test Score
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink  active={activetab === "6"} onClick={() => toggle("6")}>
-                Experience
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink  active={activetab === "7"} onClick={() => toggle("7")}>
-                Reference
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink  active={activetab === "8"} onClick={() => toggle("8")}>
-                Personal Statement
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
-                Others
-              </NavLink>
-            </NavItem>
-           
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
 
-          </Nav>
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+       :
+
+       <Nav tabs>
+
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
+
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
+
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+     }
 
           <Form onSubmit={handlePersonalStatement} className="mt-5">
 
