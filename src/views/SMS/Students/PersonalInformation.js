@@ -13,6 +13,8 @@ import { useToasts } from "react-toast-notifications";
 
 const PersonalInformation = () => {
 
+  const applicationStudentId = localStorage.getItem('applictionStudentId');
+
   const consultantValueId = localStorage.getItem('personalInfoConsultantId');
 
   const profileImageData = useSelector((state) => state?.StudentProfileImageReducer?.studentImage[0]);
@@ -33,7 +35,7 @@ const PersonalInformation = () => {
     const [activetab, setActivetab] = useState("2");
     const [submitData, setSubmitData] = useState(false);
     const [title,setTitle] = useState([]);
-    const [titleLabel,setTitleLabel] = useState('Title');
+    const [titleLabel,setTitleLabel] = useState('Select');
     const [titleValue,setTitleValue] = useState(0);
     const [country,setCountry] = useState([]);
     const [countryLabel, setCountryLabel] = useState("Country");
@@ -119,41 +121,44 @@ const PersonalInformation = () => {
       //   setConsultantValue(res?.id);
       // })
 
-      get(`Student/Get/${localStorage.getItem('applictionStudentId')}`)
-      .then(res => {
-        console.log('fetching student info from api',res);
-        setConsultantLabel(res?.consultant?.firstName + ' ' + res?.consultant?.lastName );
-        setOneData(res);
-          setConsultantValue(res?.consultantId);
-          setFirstName(res?.firstName);
-          setLastName(res?.lastName);
-          setEmail(res?.email);
-          setTitleLabel(res?.nameTittle?.name);
-          setTitleValue(res?.nameTittle?.id);
-          setNumber(res?.phoneNumber);
-          setPassport(res?.passportNumber);
-          setGenderLabel(res?.gender?.name);
-          setGenderValue(res?.gender?.id);
-          setMaritalStatusLabel(res?.maritalStatus?.name);
-          setMaritalStatusValue(res?.maritalStatus?.id);
-          setNationalityLabel(res?.nationality?.name);
-          setNationalityValue(res?.nationality?.id);
-          setCountryLabel(res?.country?.name);
-          setCountryValue(res?.country?.id);
-     
-
-          const z= res?.dateOfBirth;
-
-          var utcDate = new Date(z);
+      if(applicationStudentId){
+        get(`Student/Get/${localStorage.getItem('applictionStudentId')}`)
+        .then(res => {
+          console.log('fetching student info from api',res);
+          setConsultantLabel(res?.consultant?.firstName + ' ' + res?.consultant?.lastName );
+          setOneData(res);
+            setConsultantValue(res?.consultantId);
+            setFirstName(res?.firstName);
+            setLastName(res?.lastName);
+            setEmail(res?.email);
+            setTitleLabel(res?.nameTittle?.name == null ? 'Select Title' : res?.nameTittle?.name);
+            setTitleValue(res?.nameTittle?.id);
+            setNumber(res?.phoneNumber);
+            setPassport(res?.passportNumber);
+            setGenderLabel(res?.gender?.name == null ? 'Select Gender' : res?.gender?.name);
+            setGenderValue(res?.gender?.id);
+            setMaritalStatusLabel(res?.maritalStatus?.name == null? 'Select Marital Status'  : res?.maritalStatus?.name );
+            setMaritalStatusValue(res?.maritalStatus?.id);
+            setNationalityLabel(res?.nationality?.name == null? 'Select Nationality' : res?.nationality?.name );
+            setNationalityValue(res?.nationality?.id);
+            setCountryLabel(res?.country?.name == null ? 'Select Country' : res?.country?.name );
+            setCountryValue(res?.country?.id);
+       
   
-          var localeDte = utcDate.toLocaleString("en-CA");
-         
-          const x = localeDte.split("T");
-          const y= x[0].split(",");
-          setDatee(y[0]);
-
-
-      })
+            const z= res?.dateOfBirth;
+  
+            var utcDate = new Date(z);
+    
+            var localeDte = utcDate.toLocaleString("en-CA");
+           
+            const x = localeDte.split("T");
+            const y= x[0].split(",");
+            setDatee(y[0]);
+  
+  
+        })
+      }
+     
 
 
     },[])

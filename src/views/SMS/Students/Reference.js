@@ -18,11 +18,11 @@ const Reference = () => {
     const [deleteModal, setDeleteModal] = useState(false);
 
     const [country,setCountry] = useState([]);
-    const [countryLabel, setCountryLabel] = useState("Country");
+    const [countryLabel, setCountryLabel] = useState("Select Country");
       const [countryValue, setCountryValue] = useState(0);
 
     const [reference,setReference] = useState([]);
-    const [referenceLabel, setReferenceLabel] = useState("Reference type");
+    const [referenceLabel, setReferenceLabel] = useState("Select Reference type");
       const [referenceValue, setReferenceValue] = useState(0);
       const [refList, setRefList] = useState([]);
       const [showForm, setShowForm] = useState(false);

@@ -31,10 +31,13 @@ import { Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import get from '../../../helpers/get';
+import remove from '../../../helpers/remove.js';
 
 const StudentList = () => {
 
  
+     const [deleteModal, setDeleteModal] = useState(false);
+     const [success, setSuccess] = useState(false);
 
     const [serialNum, setSerialNum] = useState(1);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -71,7 +74,7 @@ const StudentList = () => {
           setSerialNum(res?.firstSerialNumber);       
           setLoading(false);
         })
-    },[currentPage, dataPerPage, callApi, searchStr, studentTypeValue])
+    },[currentPage, dataPerPage, callApi, searchStr, studentTypeValue, success])
 
     // student dropdown options
     const studentTypeOption = studentList?.map((std) => ({
@@ -153,6 +156,36 @@ const StudentList = () => {
     const handleAddStudent = () => {
         history.push("/addStudentRegister");
       };
+
+
+      // Delete Modal
+
+      const toggleDanger = (data) => {
+
+        console.log(data);
+  
+        setDeleteModal(true)
+      }
+
+
+      const handleDeleteData = (data) => {
+
+        remove(`Student/Delete/${data?.id}`)
+        .then(res => {
+          // console.log(res);
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        })
+        
+      }
+
+
+
+
 
     return (
         <div>
@@ -362,26 +395,23 @@ const StudentList = () => {
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
                           
-                          <Button color="danger" className="mx-1 btn-sm">
+                          <Button color="danger" className="mx-1 btn-sm" onClick = {()=> toggleDanger(student)}>
                             <i className="fas fa-trash-alt"></i>
                           </Button>
 
                         </ButtonGroup>
 
                      
-                      {/* <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
-
-                          <ModalBody>
-                            <p>Are You Sure to Delete this <b>{localStorage.getItem('studentName')}</b> ? Once Deleted it can't be Undone!</p>
-                          </ModalBody>
-
-                          <ModalFooter>
-                          
-                            <Button color="danger" onClick={() => handleDelete(localStorage.getItem('studentId'))}>YES</Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
-                          </ModalFooter>
-
-                      </Modal> */}
+                        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                        <ModalBody>
+                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                        </ModalBody>
+        
+                        <ModalFooter>
+                          <Button  color="danger" onClick={()=>handleDeleteData(student)}>YES</Button>
+                          <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                        </ModalFooter>
+                     </Modal>
 
 
 

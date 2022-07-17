@@ -14,7 +14,7 @@ const EducationalInformation = () => {
     const [activetab, setActivetab] = useState("4");
     const history = useHistory();
     const [programLevel, setProgramLevel] = useState([]);
-  const [programLevelLabel, setProgramLevelLabel] = useState('Program Level');
+  const [programLevelLabel, setProgramLevelLabel] = useState('Select Program Level');
   const [programLevelValue, setProgramLevelValue] = useState(0);
   const [radioPracticalTraining, setRadioPracticalTraining] = useState('false');
 
@@ -22,7 +22,7 @@ const EducationalInformation = () => {
   const [showForm,setShowForm]=useState(false);
 
   const [country,setCountry] = useState([]);
-  const [countryLabel, setCountryLabel] = useState("Country");
+  const [countryLabel, setCountryLabel] = useState("Select Country");
     const [countryValue, setCountryValue] = useState(0);
 
     const [eduDetails, setEduDetails] = useState([]);

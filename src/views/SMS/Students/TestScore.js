@@ -326,6 +326,14 @@ const closeModal3= () => {
         })
         setSuccess(!success);
         setAdd(false);
+        setELQualificationLabel('Select');
+        ELsetQualificationValue(0);
+        setQualificationLabel('No');
+        setQualificationValue(0);
+        setExamTestTypeAttributeData([]);
+
+     
+        
        
 
       }
@@ -333,7 +341,7 @@ const closeModal3= () => {
 
   }
 
-  
+  console.log(qualificationLabel, qualificationValue,'dummy');
   
   const  handleGREScore = (event) => {
 
@@ -528,9 +536,11 @@ const closeModal3= () => {
       }
 
       const handleAdd = () => {
-        setELQualificationLabel('Select');
+       
+       
 
-        ELsetQualificationValue(0);
+
+      
         setAdd(true);
         setAddGRE(false);
         setAddGMAT(false);
@@ -841,7 +851,7 @@ const closeModal3= () => {
 
        {
 
-        courseInfo.length <=0 ?
+        (courseInfo.length <=0 || add) ?
     
         <>
 
@@ -883,7 +893,7 @@ const closeModal3= () => {
 
 
        {
-        qualificationLabel == 'Yes'  &&
+        qualificationLabel == 'Yes'  ?
 
         <>
 
@@ -946,7 +956,10 @@ const closeModal3= () => {
         </>
 
    
+        :
 
+        null
+         
       
 
 
@@ -954,78 +967,7 @@ const closeModal3= () => {
 
 
 
-       {
-        
-        add ?
-
-        <>
-
-        
-
-        
-
-          
-
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-              Please Select the Type of English Language Qualification <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-          <Select
-          options={qualificationOptions}
-                    value={{ label: ELqualificationLabel, value: ELqualificationValue }}
-                    onChange={(opt) => selectQualification(opt.label, opt.value)}
-                    name="examType"
-                    id="examType"
-                   
-             
-              required
-
-            />
-
-            
-          </Col>
-        </FormGroup>
-
       
-     
-
-
-      {
-
-        examTestTypeAttributeData?.map((data,i) => 
-
-   
-
-    
-
-         <InputComponent
-         key={i}
-         data={data}
-         ></InputComponent>
-
-
-
-      
-        
-        )
-
-       }
-
-  
-        
-        </>
-
-   : 
-
-   null
-
-      
-
-
-       }
 
        <br/>
       

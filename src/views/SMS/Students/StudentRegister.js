@@ -24,6 +24,8 @@ const StudentRegister = () => {
   const [consultantValue, setConsultantValue] = useState(0);
 
 
+
+
   useEffect(()=>{
 
 
@@ -105,6 +107,7 @@ const cancelForm = () => {
           localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
           localStorage.setItem('registerUserId',res?.data?.result?.userId);
           localStorage.setItem('registerEmail',res?.data?.result?.email);
+          localStorage.removeItem('method');
 
 
           // localStorage.setItem('')

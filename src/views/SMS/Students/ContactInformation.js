@@ -45,9 +45,9 @@ const ContactInformation = () => {
         .then(res => {
           console.log('Contact information from local storage', res);
           setOneData(res);
-          setCountryLabel(res?.country?.name);
+          setCountryLabel(res?.country?.name == null ? 'Select Country' : res?.country?.name );
           setCountryValue(res?.country?.id);
-          setAddressTypeLabel(res?.addressType?.name);
+          setAddressTypeLabel(res?.addressType?.name == null ? 'Select Address Type' : res?.addressType?.name);
           setAddressTypeValue(res?.addressType?.id);
 
         })
