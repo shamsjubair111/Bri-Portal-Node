@@ -335,41 +335,51 @@ const PersonalStatement = () => {
         </FormGroup>
 
       
-        <FormGroup
+        <FormGroup row
         className="has-icon-left position-relative"
         style={{ display: "flex", justifyContent: "end" }}
       >
+        
+    <Col md="5">
+    
+    <Button.Ripple
+    type="submit"
+    className="mr-1 mt-3 badge-primary"
+  >
+    Submit
+  </Button.Ripple>
+ 
+    </Col>
+ 
        
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 badge-primary"
-        >
-          Submit
-        </Button.Ripple>
       </FormGroup>
 
-        <FormGroup
-        className="has-icon-left position-relative"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 btn-warning"
-          onClick= {previousPage}
-        >
-          Previous
-        </Button.Ripple>
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 badge-primary"
-          onClick={goNext}
-        >
-          Next Page
-        </Button.Ripple>
-      </FormGroup>
+       
       </Form>
       
 
+      <FormGroup
+      className="has-icon-left position-relative"
+      style={{ display: "flex", justifyContent: "space-between" }}
+    >
+      <Button.Ripple
+        type="submit"
+        className="mr-1 mt-3 btn-warning"
+        onClick= {previousPage}
+      >
+      <i className="fas fa-arrow-left-long me-1"></i>
+        Previous
+      </Button.Ripple>
+      <Button.Ripple
+        type="submit"
+        className="mr-1 mt-3 btn-warning"
+        onClick={goNext}
+        disabled = {statement == 'false' ? true : false}
+      >
+        Next Page
+        <i className="fas fa-arrow-right-long ms-1"></i>
+      </Button.Ripple>
+    </FormGroup>
    
            
        

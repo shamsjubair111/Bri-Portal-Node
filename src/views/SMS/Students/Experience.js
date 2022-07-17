@@ -669,31 +669,45 @@ console.log('trying', sDate?.split(",")[0]);
         {
           (value.id) ?
 
-          <FormGroup
+          <FormGroup row
           className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
+          style={{ display: "flex", justifyContent: "end" }}
         >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Update
-          </Button.Ripple>
+          
+      <Col md="5">
+      
+      <Button.Ripple
+      type="submit"
+      className="mr-1 mt-3 badge-primary"
+    >
+      Update
+    </Button.Ripple>
+   
+      </Col>
+   
+         
         </FormGroup>
 
         :
 
-          <FormGroup
-          className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
-        </FormGroup>
+        <FormGroup row
+        className="has-icon-left position-relative"
+        style={{ display: "flex", justifyContent: "end" }}
+      >
+        
+    <Col md="5">
+    
+    <Button.Ripple
+    type="submit"
+    className="mr-1 mt-3 badge-primary"
+  >
+    Submit
+  </Button.Ripple>
+ 
+    </Col>
+ 
+       
+      </FormGroup>
 
         }
         
@@ -711,18 +725,28 @@ console.log('trying', sDate?.split(",")[0]);
         <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
     
         </FormGroup>
-        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
-
-       
-        <Button onClick={onPreviousPage} color="primary uapp-form-button">Previous</Button>
-        <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
-        </FormGroup>
+    
 
         
         </>
 
         
           }
+
+          <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+
+       
+          <Button onClick={onPreviousPage}   className="ms-md-1 mt-3 btn-warning">
+          <i className="fas fa-arrow-left-long me-1"></i>
+          Previous</Button>
+          <Button onClick={onNextPage} className="me-md-1 mt-3 btn-warning"
+          disabled = {info?.length <=0 ? true : false}
+          >
+  
+          Next Page
+          <i className="fas fa-arrow-right-long ms-1"></i>
+          </Button>
+          </FormGroup>
        
       </CardBody>
     </Card>

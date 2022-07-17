@@ -21,6 +21,8 @@ const EducationalInformation = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [showForm,setShowForm]=useState(false);
 
+  const [success, setSuccess] = useState(false);
+
   const [country,setCountry] = useState([]);
   const [countryLabel, setCountryLabel] = useState("Select Country");
     const [countryValue, setCountryValue] = useState(0);
@@ -152,6 +154,24 @@ setCountryValue(value);
 
 
 }
+
+
+
+const goForward = () => {
+
+  history.push('/AddTestScore');
+  
+}
+
+const goBackward = () => {
+
+
+  history.push('/AddStudentContactInformation');
+
+}
+
+
+
 
 const handleSubmit = (event) => {
 
@@ -800,7 +820,9 @@ const handleUpdate = (id) => {
           }
 
           {
-            eduDetails?.length < 1 ? 
+            eduDetails?.length < 1  &&
+            <>
+
             <Form onSubmit={handleSubmit}   className="mt-5">
 
             <input
@@ -1037,37 +1059,78 @@ const handleUpdate = (id) => {
 
              
 
-              <FormGroup
+              <FormGroup row
                 className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
+                style={{ display: "flex", justifyContent: "end" }}
               >
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 badge-primary"
-                >
-                  Submit
-                </Button.Ripple>
+                
+            <Col md="5">
+            
+            <Button.Ripple
+            type="submit"
+            className="mr-1 mt-3 badge-primary"
+          >
+            Submit
+          </Button.Ripple>
+         
+            </Col>
+         
+               
               </FormGroup>
+
             </Form>
 
-
-            :
-
-          <>
           
+           
+            
+            </>
 
-          <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
 
-         
-          <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
-          <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
-          </FormGroup>
+            
 
-          
-          </>
-
+       
 
           }
+
+
+          {
+            eduDetails?.length > 0 && 
+            
+            <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+  
+         
+          <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+        
+          </FormGroup>
+          }
+           
+          <FormGroup
+          className="has-icon-left position-relative"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Button.Ripple
+            type="submit"
+            className="mr-1 mt-3 btn-warning"
+            onClick= {goBackward}
+          >
+          <i className="fas fa-arrow-left-long me-1"></i>
+            Previous
+
+          </Button.Ripple>
+          <Button.Ripple
+
+          onClick={goForward}
+            
+            className="mr-1 mt-3 btn-warning"
+            disabled = {eduDetails.length <= 0 ? true : false}
+          >
+            Next
+            <i className="fas fa-arrow-right-long ms-1"></i>
+          </Button.Ripple>
+        </FormGroup>
+
+
+       
 
            
           </TabPane>

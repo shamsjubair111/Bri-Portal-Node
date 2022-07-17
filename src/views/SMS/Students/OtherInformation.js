@@ -140,6 +140,10 @@ const OtherInformation = () => {
     }
   
 
+    const previousPage = () => {
+      history.push('/addPersonalStatement');
+    }
+
 
 
     return (
@@ -358,19 +362,40 @@ const OtherInformation = () => {
       }
 
       
-        <FormGroup
-          className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
-        </FormGroup>
+      <FormGroup row
+      className="has-icon-left position-relative"
+      style={{ display: "flex", justifyContent: "end" }}
+    >
+      
+  <Col md="5">
+  
+  <Button.Ripple
+  type="submit"
+  className="mr-1 mt-3 badge-primary"
+>
+  Submit
+</Button.Ripple>
+
+  </Col>
+
+     
+    </FormGroup>
       </Form>
       
+      <FormGroup
+      className="has-icon-left position-relative"
+      style={{ display: "flex", justifyContent: "space-between" }}
+    >
+      <Button.Ripple
+        type="submit"
+        className="mr-1 mt-3 btn-warning"
+        onClick= {previousPage}
+      >
+      <i className="fas fa-arrow-left-long me-1"></i>
+        Previous
+      </Button.Ripple>
+     
+    </FormGroup>
 
    
            

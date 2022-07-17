@@ -25,6 +25,8 @@ const PersonalInformation = () => {
 
     const {addToast} = useToasts();
 
+    const [success, setSuccess] = useState(false);
+
     const [oneData, setOneData] = useState({});
 
     const method = localStorage.getItem('method');
@@ -161,7 +163,7 @@ const PersonalInformation = () => {
      
 
 
-    },[])
+    },[success])
 
 
 
@@ -326,6 +328,18 @@ setStudentTypeValue(value);
 
 }
 
+const goForward = () => {
+
+  history.push('/AddStudentContactInformation');
+  
+}
+
+const goBackward = () => {
+
+  history.push('/AddStudentApplicationInformation');
+
+}
+
 
 const handleSubmit = (event) => {
 
@@ -378,7 +392,7 @@ const handleSubmit = (event) => {
         appearance: 'success',
         autoDismiss: true
       })
-      history.push('/addStudentContactInformation');
+      setSuccess(!success);
     }
   })
 
@@ -837,10 +851,11 @@ const handleSubmit = (event) => {
                       type="email"
                       name="email"
                       id="email"
-                      placeholder="Enter email"
-                      onChange={(e)=> setEmail(e.target.value)}
-                      defaultValue={Email}
-                      required
+                      
+                     
+                      value={Email}
+                      
+                      
                     />
 
                     {/* <div className="form-control-position">
@@ -868,31 +883,57 @@ const handleSubmit = (event) => {
                   </Col>
                 </FormGroup>
 
+                <FormGroup row
+                className="has-icon-left position-relative"
+                style={{ display: "flex", justifyContent: "end" }}
+              >
+                
+            <Col md="5">
+            
+            <Button.Ripple
+            type="submit"
+            className="mr-1 mt-3 badge-primary"
+          >
+            Submit
+          </Button.Ripple>
+         
+            </Col>
+         
+               
+              </FormGroup>
+
 
                 <FormGroup
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 ></FormGroup>
 
-                <FormGroup
-             className="has-icon-left position-relative"
-             style={{ display: "flex", justifyContent: "space-between" }}
-           >
-             <Button.Ripple
-               type="submit"
-               className="mr-1 mt-3 btn-warning"
-               onClick= {cancelForm}
-             >
-               Cancel
-             </Button.Ripple>
-             <Button.Ripple
-               type="submit"
-               className="mr-1 mt-3 badge-primary"
-             >
-               Submit
-             </Button.Ripple>
-           </FormGroup>
               </Form>
+              
+              <FormGroup
+              className="has-icon-left position-relative"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Button.Ripple
+                type="submit"
+                className="mr-1 mt-3 btn-warning"
+                onClick= {goBackward}
+              >
+              <i className="fas fa-arrow-left-long me-1"></i>
+                Previous
+ 
+              </Button.Ripple>
+              <Button.Ripple
+ 
+              onClick={goForward}
+                
+                className="mr-1 mt-3 btn-warning"
+                disabled = {oneData?.phoneNumber == null ? true : false}
+              >
+                Next
+                <i className="fas fa-arrow-right-long ms-1"></i>
+              </Button.Ripple>
+            </FormGroup>
             </TabPane>
           </TabContent>
         </CardBody>

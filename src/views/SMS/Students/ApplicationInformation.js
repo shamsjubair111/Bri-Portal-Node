@@ -23,6 +23,8 @@ const ApplicationInformation = () => {
   const [dateOfMoveToUk, setDateOfMoveToUk] = useState('');
   const [financeDetails, setFinanceDetails] = useState('');
 
+  const [success, setSuccess]  = useState(false);
+
 
   const [visaStatus, setVisaStatus] = useState([]);
   const [visaStatusLabel, setVisaStatusLabel] = useState('Visa status');
@@ -99,8 +101,14 @@ const ApplicationInformation = () => {
   },[])
 
 
-  const backToDashboard = () => {
-    history.push('/');
+  const goToNextPage = () => {
+
+    history.push('/addStudentInformation');
+  }
+
+
+  const backToStudentProfile = () => {
+    history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
 }
 
 const styleLabelBold = {
@@ -231,8 +239,9 @@ const handleSubmit = (event) => {
           appearance: 'success',
           autoDismiss: true
         })
+        setSuccess(!success);
         
-        history.push('/addStudentinformation');
+       
       }
     })
 
@@ -276,9 +285,9 @@ const cancelForm = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Application Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -720,29 +729,53 @@ const cancelForm = () => {
 
              }
 
+
+             <FormGroup row
+       className="has-icon-left position-relative"
+       style={{ display: "flex", justifyContent: "end" }}
+     >
+       
+   <Col md="5">
+   
+   <Button.Ripple
+   type="submit"
+   className="mr-1 mt-3 badge-primary"
+ >
+   Submit
+ </Button.Ripple>
+
+   </Col>
+
+      
+     </FormGroup>
            
 
-             <FormGroup
-             className="has-icon-left position-relative"
-             style={{ display: "flex", justifyContent: "space-between" }}
-           >
-             <Button.Ripple
-               type="submit"
-               className="mr-1 mt-3 btn-warning"
-               onClick= {cancelForm}
-             >
-               Cancel
-             </Button.Ripple>
-             <Button.Ripple
-               type="submit"
-               className="mr-1 mt-3 badge-primary"
-             >
-               Submit
-             </Button.Ripple>
-           </FormGroup>
+           
 
            
             </Form>
+            <FormGroup
+            className="has-icon-left position-relative"
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Button.Ripple
+              type="submit"
+              className="mr-1 mt-3 btn-warning"
+              onClick= {cancelForm}
+            >
+              Cancel
+            </Button.Ripple>
+            <Button.Ripple
+              onClick={goToNextPage}
+              disabled = {studentTypeValue !== 0 ? false : true}
+
+              className="mr-1 mt-3 btn-warning"
+            >
+            Next
+            <i className="fas fa-arrow-right-long ms-1"></i>
+           
+            </Button.Ripple>
+          </FormGroup>
           </TabPane>
         </TabContent>
       </CardBody>

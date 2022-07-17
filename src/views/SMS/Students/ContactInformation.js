@@ -11,6 +11,7 @@ const ContactInformation = () => {
 
 
   const {addToast} = useToasts();
+  const [success, setSuccess] = useState(false);
 
 
     const history = useHistory();
@@ -53,10 +54,23 @@ const ContactInformation = () => {
         })
 
 
-    },[] )
+    },[success] )
 
     const backToDashboard = () => {
         history.push('/');
+    }
+
+
+    const goForward = () => {
+
+      history.push('/AddStudentEducationalInformation');
+      
+    }
+    
+    const goBackward = () => {
+    
+      history.push('/AddStudentInformation');
+    
     }
 
     const toggle = (tab) => {
@@ -149,7 +163,7 @@ const ContactInformation = () => {
             appearance: 'success',
             autoDismiss: true
           })
-          history.push('/addStudentEducationalInformation');
+          setSuccess(!success);
   
         }
       })
@@ -505,27 +519,51 @@ const ContactInformation = () => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup
-             className="has-icon-left position-relative"
-             style={{ display: "flex", justifyContent: "space-between" }}
-           >
-             <Button.Ripple
-               type="submit"
-               className="mr-1 mt-3 btn-warning"
-               onClick= {cancelForm}
-             >
-               Previous
-             </Button.Ripple>
-             <Button.Ripple
-               type="submit"
-               className="mr-1 mt-3 badge-primary"
-             >
-               Submit
-             </Button.Ripple>
-           </FormGroup>
+                <FormGroup row
+                className="has-icon-left position-relative"
+                style={{ display: "flex", justifyContent: "end" }}
+              >
+                
+            <Col md="5">
+            
+            <Button.Ripple
+            type="submit"
+            className="mr-1 mt-3 badge-primary"
+          >
+            Submit
+          </Button.Ripple>
+         
+            </Col>
+         
+               
+              </FormGroup>
 
              
               </Form>
+              <FormGroup
+              className="has-icon-left position-relative"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Button.Ripple
+                type="submit"
+                className="mr-1 mt-3 btn-warning"
+                onClick= {goBackward}
+              >
+              <i className="fas fa-arrow-left-long me-1"></i>
+                Previous
+ 
+              </Button.Ripple>
+              <Button.Ripple
+ 
+              onClick={goForward}
+                
+                className="mr-1 mt-3 btn-warning"
+                disabled = {oneData == null ? true : false}
+              >
+                Next
+                <i className="fas fa-arrow-right-long ms-1"></i>
+              </Button.Ripple>
+            </FormGroup>
             </TabPane>
           </TabContent>
         </CardBody>

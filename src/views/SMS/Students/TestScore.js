@@ -2474,16 +2474,20 @@ Save
              onClick={goBackward}
              
            >
+           <i className="fas fa-arrow-left-long me-1"></i>
              Previous
            </Button.Ripple>
            
 
            <Button.Ripple
              type="submit"
-             className="mr-1 mt-3 badge-primary"
+             className="mr-1 mt-3 btn-warning"
              onClick={handleForward}
+             disabled = {courseInfo?.length >=1 ?  false : true }
+             
            >
              Next
+             <i className="fas fa-arrow-right-long ms-1"></i>
            </Button.Ripple>
          </FormGroup>
 
