@@ -102,11 +102,16 @@ const SubjectList = (props) => {
 
    
     useEffect(()=>{
-      get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
-        setCam(res);
-        dispatch(StoreUniversityCampusListData(res));
-      });
-    },[cam])
+      if(location?.universityId){
+        get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
+          setCam(res);
+          dispatch(StoreUniversityCampusListData(res));
+        });
+      }
+      else{
+        return;
+      }
+    },[cam]);
 
     // if(location?.universityId){
     //   get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
@@ -141,7 +146,7 @@ const SubjectList = (props) => {
   
         get(`Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${uTypeId ? uTypeId : uniValue}&search=${searchStr}`).then((res) => {
           setSubList(res?.models);
-          console.log("sublist",res?.models);
+          // console.log("sublist",res?.models);
           setEntity(res?.totalEntity);        
           setLoading(false);
         });

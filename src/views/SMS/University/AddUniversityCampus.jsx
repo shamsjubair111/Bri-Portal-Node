@@ -66,7 +66,7 @@ const AddUniversityCampus = (props) => {
   useEffect(() => {
      setuniversityId(uniId);
     // const universityId = "10019";
-     get(`UniversityCampus/GetByUniversity/${localStorage.getItem('universityId')}`).then((action) => {
+     get(`UniversityCampus/GetByUniversity/${localStorage.getItem('id')}`).then((action) => {
       setuniversityCampusList(action);
       if(action.length>0){
         setShowForm(true);
@@ -74,6 +74,7 @@ const AddUniversityCampus = (props) => {
         setShowForm(false);
         setSelectedId(0)
       }
+      console.log("actionnnn",action)
     });
   }, [success,uniId,universityId]);
 
@@ -215,7 +216,7 @@ const AddUniversityCampus = (props) => {
 
       setDeleteModal(false);
       setSuccess(!success);
-      addToast(action?.data?.message, {
+      addToast(action, {
         appearance:  'error',
         autoDismiss: true,
       })
@@ -449,7 +450,7 @@ const cancel=()=>{
                       id="Name"  
                       
                      defaultValue={universityCampusObject?.name}
-                      placeholder="Enter University Name"
+                      placeholder="Enter Campus Name"
                       required
                     />
                     {/* <div className="form-control-position">

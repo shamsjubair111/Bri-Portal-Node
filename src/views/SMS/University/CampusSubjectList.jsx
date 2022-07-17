@@ -139,7 +139,7 @@ const CampusSubjectList = () => {
 
     useEffect(()=>{
         get(`Subject/GetByCampusId?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${camId}&search=${searchStr}`).then(res=>{
-            console.log("subject",res);
+            // console.log("subject",res);
             setSubList(res?.models);
             setEntity(res?.totalEntity);
         })

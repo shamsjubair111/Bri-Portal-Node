@@ -71,7 +71,10 @@ const AddUniversityFeatures = () => {
               })
            
           }else{
-           
+            addToast(res.data.message, {
+                appearance: 'warning',
+                autoDismiss: true,
+              })
           }
   
         })
@@ -89,7 +92,7 @@ const AddUniversityFeatures = () => {
         if(tab == '3'){
             history.push('/addUniversityFinancial')
         }
-        if(tab == '3'){
+        if(tab == '4'){
             history.push('/addUniversityFeatures')
         }
         if(tab == '5'){

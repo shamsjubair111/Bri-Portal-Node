@@ -5,11 +5,16 @@ import get from '../../../helpers/get';
 import Select from "react-select";
 import { connect } from 'react-redux';
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
+import Axios from 'axios';
+import { rootUrl } from '../../../constants/constants';
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import post from '../../../helpers/post';
+import { useToasts } from "react-toast-notifications";
+import put from '../../../helpers/put';
 
-const CampusList = () => {
+const CampusList = (props) => {
 
     const [campusList, setCampusList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -21,7 +26,22 @@ const CampusList = () => {
     const [entity, setEntity] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [countryList, setCountryList] = useState([]);
+    const [uniStateLabel, setUniStateLabel] = useState('Select Country State...');
+    const [unistateValue, setUniStateValue] = useState(0);
+    const [uniCountryLabel, setUniCountryLabel] = useState('Select Campus Country...');
+    const [uniCountryValue, setUniCountryValue] = useState(0);
+    const [success, setSuccess] = useState(false);
+    const [universityId, setuniversityId] = useState(0);
+    const [submitData, setSubmitData] = useState(false);
+    const [campObj, setCampObj] = useState({});
+    const [selectedId, setSelectedId] = useState(0);
 
+    
+
+    const universityStates = props.univerSityStateList[0];
+
+    const { addToast } = useToasts();
 
     const history = useHistory();
     const location = useLocation();
@@ -38,25 +58,20 @@ const CampusList = () => {
         get(
           `UniversityCampus/index?universityId=${localStorage.getItem('universityId')}&search=${searchStr}`
         ).then((res) => {
-          // setCampusList(res.models);
+          
           console.log("pagination",res);
           setCampusList(res);
-          // setSerialNum(res?.firstSerialNumber);
-          // setEntity(res?.totalEntity);
+          
           setLoading(false);
         });
 
-        // get(`UniversityCampus/GetByUniversity/${localStorage.getItem('universityId')}`).then(res =>{
+        get("UniversityCountryDD/Index").then(res =>{
+          setCountryList(res);
+        })
+    
+      }, [callApi, currentPage, dataPerPage, searchStr, entity, loading, serialNum, success]);
 
-        //     setCampusList(res);
-        //     console.log("campList", res);
-        //     setLoading(false);
-        // })
-    
-    
-      
-    
-      }, [callApi, currentPage, dataPerPage, searchStr, entity, loading, serialNum]);
+      const countryDD = countryList.map(countryOptions =>({label:countryOptions?.name, value:countryOptions?.id}) );
       
 
       const handleSearch = () => {
@@ -111,18 +126,87 @@ const CampusList = () => {
     // on Close Modal
     const closeModal = () => {
       setModalOpen(false);
+      // setSelectedId(0);
     }
 
-  //   const universityCountryName = univerSityCountries?.map(uniCountry => ({ label: uniCountry.name, value: uniCountry.id }));
-  // const universityStateName = universityStates?.map(uniState => ({ label: uniState.name, value: uniState.id }));
+  const universityStateName = universityStates?.map(uniState => ({ label: uniState.name, value: uniState.id }));
 
-    const handleSubmit = e =>{
-      e.preventDefault();
+
+  const handleUpdate = (id) =>{
+    setModalOpen(true);
+
+    get(`UniversityCampus/Get/${id}`)
+    .then(res => {
+      setCampObj(res);
+      setUniCountryLabel(res?.universityCountry?.name);
+      setUniCountryValue(res?.campusCountryId);
+      setUniStateLabel(res?.universityState?.name);
+      setUniStateValue(res?.campusStateId);
+      setSelectedId(res?.id);
+    })
+    setCampObj('');
+  }
+
+    const handleSubmit = event =>{
+      event.preventDefault();
+      const subdata = new FormData(event.target);
+
+      if(selectedId === 0){
+        post(`UniversityCampus/Create`, subdata)
+      .then(res => {
+        setSuccess(!success);
+        setModalOpen(false);
+        
+        setuniversityId(res.data.result.universityId)
+        if (res.status === 200 && res.data.isSuccess === true) {
+          setSubmitData(false);
+          addToast(res.data.message, {
+            appearance: 'success',
+            autoDismiss: true,
+          })
+        }
+      })
+      }
+      else{
+        put(`UniversityCampus/Update`, subdata)
+          .then(res => {
+            
+            if (res.status === 200 && res.data.isSuccess === true) {
+              setSubmitData(false);
+              addToast(res.data.message, {
+                appearance: 'success',
+                autoDismiss: true,
+              })
+              setSelectedId(0);
+              setSuccess(!success);
+              setModalOpen(false);
+            }
+          
+          })
+      }
+
     }
 
-    const handleAddUniversityCampus = () =>{
-      history.push("/addUniversityCampus");
+    // select University Country
+    const selectUniCountry = (label, value) => {
+      setUniCountryLabel(label);
+      setUniCountryValue(value);
+      Axios.get(`${rootUrl}UniversityState/GetByCountry/${value}`)
+        .then(res => {
+          setUniStateLabel(res.data.result[0].name)
+          setUniStateValue(res.data.result[0].id)
+        })
     }
+
+    // select University State
+    const selectUniState = (label, value) => {
+      setUniStateLabel(label);
+      setUniStateValue(value);
+    }
+
+    // const handleAddUniversityCampus = () =>{
+    //   history.push("/addUniversityCampus");
+    // }
 
     const handleExportXLSX = () => {
       var wb = XLSX.utils.book_new(),
@@ -271,7 +355,7 @@ const CampusList = () => {
                 <Form onSubmit={handleSubmit} >
                 <FormGroup row className="has-icon-left position-relative">
                   <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem('universityId')} />
-                  {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
+                  <Input type="hidden" id="Id" name="Id" value={selectedId} />
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
@@ -284,8 +368,8 @@ const CampusList = () => {
                       name="Name"
                       id="Name"  
                       
-                    //  defaultValue={universityCampusObject?.name}
-                      placeholder="Enter University Name"
+                     defaultValue={campObj?.name}
+                      placeholder="Enter Campus Name"
                       required
                     />
                     {/* <div className="form-control-position">
@@ -301,10 +385,9 @@ const CampusList = () => {
                   <Col md="6">
 
                     <Select
-                      // options={universityCountryName}
-                      // value={{ label: uniCountryLabel, value: uniCountryValue }}
-                      
-                      // onChange={opt => selectUniCountry(opt.label, opt.value)}
+                      options={countryDD}
+                      value={{ label: uniCountryLabel, value: uniCountryValue }}
+                      onChange={opt => selectUniCountry(opt.label, opt.value)}
                       name="CampusCountryId"
                       id="CampusCountryId"
                     />
@@ -322,9 +405,9 @@ const CampusList = () => {
                   <Col md="6">
 
                     <Select
-                      // options={universityStateName}
-                      // value={{ label: uniStateLabel, value: unistateValue }}
-                      // onChange={opt => selectUniState(opt.label, opt.value)}
+                      options={universityStateName}
+                      value={{ label: uniStateLabel, value: unistateValue }}
+                      onChange={opt => selectUniState(opt.label, opt.value)}
                       name="CampusStateId"
                       id="CampusStateId"
                     />
@@ -344,7 +427,7 @@ const CampusList = () => {
                       type="text"
                       name="CampusCity"
                       id="CampusCity"
-                      // defaultValue={universityCampusObject?.campusCity}
+                      defaultValue={campObj?.campusCity}
                       placeholder="Enter Campus City Name"
                       required
                     />
@@ -363,7 +446,7 @@ const CampusList = () => {
                       type="text"
                       name="AddressLine"
                       id="AddressLine"
-                      // defaultValue={universityCampusObject?.addressLine}
+                      defaultValue={campObj?.addressLine}
                       placeholder="Enter Address Line"
                       required
                     />
@@ -382,7 +465,7 @@ const CampusList = () => {
                       type="number"
                       name="TotalStudent"
                       id="TotalStudent"
-                      // defaultValue={universityCampusObject?.totalStudent}
+                      defaultValue={campObj?.totalStudent}
                       placeholder="Enter Total Student"
                       required
                     />
@@ -401,7 +484,7 @@ const CampusList = () => {
                       type="number"
                       name="InternationalStudent"
                       id="InternationalStudent"
-                      //  defaultValue={universityCampusObject?.internationalStudent}
+                       defaultValue={campObj?.internationalStudent}
                       placeholder="Enter International Student"
                       required
                     />
@@ -420,7 +503,7 @@ const CampusList = () => {
                       type="number"
                       name="AvarageTutionFee"
                       id="AvarageTutionFee"
-                      // defaultValue={universityCampusObject?.avarageTutionFee}
+                      defaultValue={campObj?.avarageTutionFee}
                       placeholder="Avarage Tution Fee"
                       required
                     />
@@ -439,7 +522,7 @@ const CampusList = () => {
                       type="number"
                       name="AvarageLivingCost"
                       id="AvarageLivingCost"
-                      // defaultValue={universityCampusObject?.avarageLivingCost}
+                      defaultValue={campObj?.avarageLivingCost}
                       placeholder="Avarage Living Cost"
                       required
                     />
@@ -458,7 +541,7 @@ const CampusList = () => {
                       type="number"
                       name="AvarageApplicationFee"
                       id="AvarageApplicationFee"
-                      // defaultValue={universityCampusObject?.avarageApplicationFee}
+                      defaultValue={campObj?.avarageApplicationFee}
                       placeholder="Avarage Application Fee"
                       required
                     />
@@ -477,7 +560,7 @@ const CampusList = () => {
                       type="number"
                       name="EstimatedTotalCost"
                       id="EstimatedTotalCost"
-                      // defaultValue={universityCampusObject?.estimatedTotalCost}
+                      defaultValue={campObj?.estimatedTotalCost}
                       placeholder="Estimated Total Cost"
                       required
                     />
@@ -496,7 +579,7 @@ const CampusList = () => {
                       type="text"
                       name="EmbededMap"
                       id="EmbededMap"
-                      //  defaultValue={universityCampusObject?.embededMap}
+                       defaultValue={campObj?.embededMap}
                       placeholder="Embeded Map"
 
                     />
@@ -598,7 +681,7 @@ const CampusList = () => {
                                   <i className="fas fa-eye"></i>{" "}
                                 </Button>
                                 </Link>
-                                <Button color="dark" className="mx-1 btn-sm">
+                                <Button onClick={()=> handleUpdate(campus?.id)} color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button>
@@ -632,8 +715,6 @@ const CampusList = () => {
 // export default CampusList;
 
 const mapStateToProps = (state) => ({
-  univerSityTypeList: state.universityTypeDataReducer.universityTypes,
-  univerSityCountryList: state.universityCountryDataReducer.universityCountries,
   univerSityStateList: state.universityStateDataReducer.universityStates,
 });
 export default connect(mapStateToProps)(CampusList);

@@ -60,13 +60,18 @@ const AddUniversityFinancial = (props) => {
                 
                   if(res.status === 200 && res.data.isSuccess === true){
                     setSubmitData(true);
+                    addToast(res?.data?.message, {
+                        appearance: 'success',
+                        autoDismiss: true,
+                      })
                     history.push({
                         pathname: '/addUniversityFeatures',
                         id: uniID
                     })
-
-                    addToast(res.data.message, {
-                        appearance: 'success',
+                  }
+                  else{
+                    addToast(res?.data?.message, {
+                        appearance: 'warning',
                         autoDismiss: true,
                       })
                   }
@@ -85,7 +90,7 @@ const AddUniversityFinancial = (props) => {
     if(tab == '3'){
         history.push('/addUniversityFinancial')
     }
-    if(tab == '3'){
+    if(tab == '4'){
         history.push('/addUniversityFeatures')
     }
     if(tab == '5'){

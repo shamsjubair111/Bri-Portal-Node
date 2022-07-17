@@ -111,7 +111,7 @@ const UniversityList = (props) => {
       }
     }
 
-    get(`Provider/GetAll`).then((res) => {
+    get(`ProviderDD/Index`).then((res) => {
       setProviderList(res);
     });
 
@@ -161,9 +161,9 @@ const UniversityList = (props) => {
 
   
   const searchStateByCountry = (countryValue) =>{
-    get(`State/GetbyCountryId/${countryValue}`)
+    get(`UniversityStateDD/Index/${countryValue}`)
     .then(res =>{
-      console.log(res);
+      console.log("statebyCountry",res);
       dispatch(StoreUniversityStateData(res));
     })
   }
@@ -192,6 +192,8 @@ const UniversityList = (props) => {
 
   // add university handler
   const handleAddUniversity = () => {
+    localStorage.removeItem('editUniId');
+    localStorage.removeItem('editMethod');
     history.push("/addUniversity");
   };
 
@@ -333,6 +335,16 @@ const UniversityList = (props) => {
   }
 
   // deleting university end
+
+
+  const handleEdit = (data) =>{
+    console.log('editData',data);
+    localStorage.setItem('editUniId', data?.id);
+    localStorage.setItem('editMethod','put');
+
+    history.push('/addUniversity');
+  }
+
 
   const handleExportXLSX = () => {
     var wb = XLSX.utils.book_new(),
@@ -604,12 +616,12 @@ const UniversityList = (props) => {
                             <i className="fas fa-eye"></i>{" "}
                           </Button>
                           </Link> 
-                          <Link to= {`/updateUniversityInformation/${university?.id}`}>
-                          <Button color="dark" className="mx-1 btn-sm">
+                          {/* <Link to= {`/updateUniversityInformation/${university?.id}`}> */}
+                          <Button onClick={() => handleEdit(university)} color="dark" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-edit"></i>{" "}
                           </Button>
-                          </Link>
+                          {/* </Link> */}
                           <Button onClick={() => toggleDanger(university?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button>

@@ -35,6 +35,8 @@ import { padding } from "@mui/system";
 import get from "../../../helpers/get";
 import PicturesWall from "./UniversityLogo";
 import CoverPicturesWall from "./UniversityCover";
+import put from "../../../helpers/put";
+import { useToasts } from "react-toast-notifications";
 
 const AddUniversity = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
@@ -67,14 +69,35 @@ const AddUniversity = (props) => {
 
   const [logoFile, setLogoFile] = useState({});
   const [coverFile, setCoverFile] = useState({});
+  const [universityData, setUniversityData] = useState({});
+  const [uniId, setUniId] = useState(0);
+
+  const method = localStorage.getItem('editMethod');
+  
+  const {addToast} = useToasts();
 
   useEffect(()=>{
 
-    get('Provider/Index').then(res=> {
-      
-      setProvider(res?.models);
+    get('ProviderDD/Index').then(res=> {
+      setProvider(res);
     })
     .catch();
+
+    get(`University/get/${localStorage.getItem('editUniId')}`)
+    .then(res => {
+      console.log('uniIddata', res);
+      setUniversityData(res);
+      setProviderTypeLabel(res?.provider?.name);
+      setProviderTypeValue(res?.provider?.value);
+      setUniTypeLabel(res?.universityType?.name);
+      setUniTypeValue(res?.universityType?.id);
+      setUniCountryLabel(res?.universityCountry?.name);
+      setUniCountryValue(res?.universityCountry?.id);
+      setUniStateLabel(res?.universityState?.name);
+      setUniStateValue(res?.universityState?.id);
+      setUniId(res?.id);
+    })
+
   },[])
 
 
@@ -86,7 +109,7 @@ const AddUniversity = (props) => {
  
 
 
-  const [providerTypeLabel, setProviderTypeLabel]= useState('Select Provider Type...');
+  const [providerTypeLabel, setProviderTypeLabel]= useState('Select Provider...');
   const [providerTypeValue, setProviderTypeValue] = useState(0);
 
 
@@ -168,30 +191,38 @@ const AddUniversity = (props) => {
       },
     };
 
-    Axios.post(`${rootUrl}University/Create`, subdata, config).then((res) => {
-      // (res.status === 200 && res.data.isSuccess === true) ?
-      // status = 'success' : status = res.data.message;
-      // status = res.data.message;
-      // data = res.data.result;
-
-      //     addToast(res.data.message, {
-      //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
-      //     // autoDismiss: true,
-      //   })
-
-      console.log(res);
-    
-      localStorage.setItem("id",res.data.result.id);
-      const uniID = res.data.result.id;
-
-      if (res.status === 200 && res.data.isSuccess === true) {
-        setSubmitData(true);
-        history.push({
-          pathname: "/addUniversityCampus",
-          id: uniID,
-        });
-      }
-    });
+    if(method == 'put'){
+      put('University/Update', subdata, config)
+      .then(res => {
+        console.log('1st put response',res);
+        if(res?.status == 200){
+         
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          
+          history.push('/addUniversityCampus');
+        }
+      })
+    }
+    else{
+      Axios.post(`${rootUrl}University/Create`, subdata, config).then((res) => {
+        
+        console.log(res);
+      
+        localStorage.setItem("id",res.data.result.id);
+        const uniID = res.data.result.id;
+  
+        if (res.status === 200 && res.data.isSuccess === true) {
+          setSubmitData(true);
+          history.push({
+            pathname: "/addUniversityCampus",
+            id: uniID,
+          });
+        }
+      });
+    }
   };
 
   // select University Type
@@ -334,6 +365,36 @@ const AddUniversity = (props) => {
           <TabContent activeTab={activetab}>
             <TabPane tabId="1">
               <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
+
+                  {
+                  method == 'put' ?
+                  <>
+                  <input
+                  type='hidden'
+                  name='id'
+                  id='id'
+                  value={uniId}
+                  
+                  />
+
+                 <input
+                  type='hidden'
+                  name='providerId'
+                  id='providerId'
+                  value={universityData?.providerId}
+                  
+                  />
+
+                  </> 
+                  
+                  
+                  :
+                  
+                  null
+                }
+
+                 
+
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
@@ -367,6 +428,7 @@ const AddUniversity = (props) => {
                       type="text"
                       name="Name"
                       id="Name"
+                      defaultValue={universityData?.name}
                       placeholder="Enter University Name"
                       required
                     />
@@ -388,6 +450,7 @@ const AddUniversity = (props) => {
                       type="text"
                       name="ShortName"
                       id="ShortName"
+                      defaultValue={universityData?.shortName}
                       placeholder="Enter University Short Name"
                       required
                     />
@@ -471,6 +534,7 @@ const AddUniversity = (props) => {
                       type="text"
                       name="UniversityCity"
                       id="UniversityCity"
+                      defaultValue={universityData?.universityCity}
                       placeholder="Enter University City Name"
                       required
                     />
@@ -489,6 +553,7 @@ const AddUniversity = (props) => {
                       type="number"
                       name="GlobalRankNumber"
                       id="GlobalRankNumber"
+                      defaultValue={universityData?.globalRankNumber}
                       placeholder="Enter University Global Rank"
                       required
                     />
@@ -507,6 +572,7 @@ const AddUniversity = (props) => {
                       type="text"
                       name="FoundationYear"
                       id="FoundationYear"
+                      defaultValue={universityData?.foundationYear}
                       placeholder="Enter University Foundation Year"
                       required
                     />
@@ -526,7 +592,8 @@ const AddUniversity = (props) => {
                       name="Description"
                       id="Description"
                       rows="3"
-                      value={description}
+                      // value={description}
+                      defaultValue={universityData?.description}
                       placeholder="Description"
                       onChange={(e) => setDescription(e.target.value)}
                     />
@@ -547,6 +614,7 @@ const AddUniversity = (props) => {
                       name="PartTimeWorkInformation"
                       id="PartTimeWorkInformation"
                       rows="3"
+                      defaultValue={universityData?.partTimeWorkInformation}
                       placeholder="Enter Part Time Work Information"
                       required
                     />
