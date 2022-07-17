@@ -23,6 +23,8 @@ const StudentRegister = () => {
   const [consultantLabel, setconsultantLabel] = useState('Consultant');
   const [consultantValue, setConsultantValue] = useState(0);
 
+   const [val, setVal] = useState(0);
+
 
 
 
@@ -92,32 +94,39 @@ const cancelForm = () => {
       const handleRegisterStudent = (event) => {
 
         event.preventDefault();
-        const subdata = new FormData(event.target);
+        if(consultantValue == 0  || studentTypeValue == 0)    {
+          setVal(1);
+        }
 
-        // for( var x of subdata.values() ){
-        //   console.log(x);
-        // }
+        else{
+          setVal(0);
+        }
+        // const subdata = new FormData(event.target);
 
-        post('Student/Register',subdata)
-        .then(res => {
-          console.log('hello',res);
-          localStorage.setItem('applictionStudentTypeId',res?.data?.result?.studentTypeId);
-          localStorage.setItem('applictionStudentId',res?.data?.result?.id);
-          localStorage.setItem('personalInfoConsultantId',res?.data?.result?.consultantId);
-          localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
-          localStorage.setItem('registerUserId',res?.data?.result?.userId);
-          localStorage.setItem('registerEmail',res?.data?.result?.email);
-          localStorage.removeItem('method');
+        // // for( var x of subdata.values() ){
+        // //   console.log(x);
+        // // }
+
+        // post('Student/Register',subdata)
+        // .then(res => {
+        //   console.log('hello',res);
+        //   localStorage.setItem('applictionStudentTypeId',res?.data?.result?.studentTypeId);
+        //   localStorage.setItem('applictionStudentId',res?.data?.result?.id);
+        //   localStorage.setItem('personalInfoConsultantId',res?.data?.result?.consultantId);
+        //   localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
+        //   localStorage.setItem('registerUserId',res?.data?.result?.userId);
+        //   localStorage.setItem('registerEmail',res?.data?.result?.email);
+        //   localStorage.removeItem('method');
 
 
-          // localStorage.setItem('')
+        //   // localStorage.setItem('')
        
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          history.push('/addStudentApplicationInformation');
-        })
+        //   addToast(res?.data?.message,{
+        //     appearance: 'success',
+        //     autoDismiss: true
+        //   })
+        //   history.push('/addStudentApplicationInformation');
+        // })
         
       }
 
@@ -158,9 +167,14 @@ const cancelForm = () => {
                     onChange={(opt) => selectStudentType(opt.label, opt.value)}
                     name="studentTypeId"
                     id="studentTypeId"
-                    required
+                  
 
                   />
+                  {
+                        val == 1 && 
+                        <span className='text-danger'>Error</span>
+                  }
+                  
 
                   
                 </Col>
@@ -178,9 +192,13 @@ const cancelForm = () => {
                     onChange={(opt) => selectConsultant(opt.label, opt.value)}
                     name="consultantId"
                     id="consultantId"
-                    required
+                   
 
                   />
+                  {
+                    val == 1 && 
+                    <span className='text-danger'>Error</span>
+              }
 
                   
                 </Col>

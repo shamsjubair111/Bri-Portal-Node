@@ -5,6 +5,7 @@ import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,
 import { Toggle } from "react-toggle-component";
 import get from '../../../helpers/get';
 import StudentProfileImage from './StudentProfileImage';
+import EditStudentProfileimage from './EditStudentProfileimage';
 import { useSelector } from 'react-redux';
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
@@ -879,6 +880,9 @@ const handleSubmit = (event) => {
                   <Col md="6">
                 
                    <StudentProfileImage></StudentProfileImage>
+                   <EditStudentProfileimage
+                   oneData= {oneData}
+                   ></EditStudentProfileimage>
                    
                   </Col>
                 </FormGroup>

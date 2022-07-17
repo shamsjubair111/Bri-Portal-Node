@@ -7,6 +7,7 @@ import coverImage from '../../../assets/img/profile/user-uploads/cover.jpg';
 // import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
 import ReactToPrint from 'react-to-print';
+import { rootUrl } from '../../../constants/constants';
 
 const StudentProfile = () => {
 
@@ -240,7 +241,7 @@ const StudentProfile = () => {
                       <Col> 
                     <div className="uapp-employee-profile-image">
                     <div className="text-left">
-                       <img className="empProfileImg"  src={`${profileImage}`} alt='img-desc'/>
+                       <img className="empProfileImg"  src={rootUrl+studentDetails?.profileImage?.fileUrl}/>
                     </div>
                     </div>  
                     </Col>
