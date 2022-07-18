@@ -82,7 +82,7 @@ const CampusSubjectList = () => {
 
     // redirect to dashboard
     const backToDashboard = () => {
-        history.push("/");
+        history.push("/campusList");
       };
 
     const selectDataSize = (value) => {
@@ -182,7 +182,7 @@ const CampusSubjectList = () => {
                   <div className="page-header-back-to-home">
                     <span onClick={backToDashboard} className="text-light">
                       {" "}
-                      <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                      <i className="fas fa-arrow-circle-left"></i> Back to Campus list
                     </span>
                   </div>
                 </CardHeader>

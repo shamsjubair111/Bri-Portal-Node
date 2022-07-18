@@ -209,7 +209,7 @@ const AddUniversity = (props) => {
     else{
       Axios.post(`${rootUrl}University/Create`, subdata, config).then((res) => {
         
-        console.log(res);
+        console.log("unipostData",res);
       
         localStorage.setItem("id",res.data.result.id);
         const uniID = res.data.result.id;

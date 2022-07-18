@@ -65,8 +65,10 @@ const AddUniversityCampus = (props) => {
 
   useEffect(() => {
      setuniversityId(uniId);
+    //  localStorage.setItem('uniCampNId', universityId);
     // const universityId = "10019";
-     get(`UniversityCampus/GetByUniversity/${localStorage.getItem('id')}`).then((action) => {
+     get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
+      // get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
       setuniversityCampusList(action);
       if(action.length>0){
         setShowForm(true);
@@ -151,8 +153,8 @@ const AddUniversityCampus = (props) => {
       // setuniversityId(res.data.result.universityId)
       if (res.status === 200 && res.data.isSuccess === true) {
         setSubmitData(false);
-        addToast(res.data.message, {
-          appearance: res.data.message === 'University Campus update successfully.' ? 'success' : 'error',
+        addToast(res?.data?.message, {
+          appearance: 'success',
           autoDismiss: true,
         })
        setShowForm(true);
@@ -162,7 +164,6 @@ const AddUniversityCampus = (props) => {
     
     })
   }
-
 
 
   }
@@ -362,7 +363,7 @@ const cancel=()=>{
 
                     <div className="CampusCardAction">
                      <div className=""> 
-                        <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(uniCampus.id)}> <i className="fas fa-edit"></i> </button>
+                        <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(uniCampus?.id)}> <i className="fas fa-edit"></i> </button>
                      </div>
 
                      <div className=""> 
@@ -418,7 +419,7 @@ const cancel=()=>{
   <Form  onSubmit={handleSubmit} className="mt-5">
 
                 <FormGroup row className="has-icon-left position-relative">
-                  <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem("id")} />
+                  <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem('editUniId')} />
                   <Input type="hidden" id="Id" name="Id" value={selectedId} />
                 </FormGroup>
 
@@ -468,7 +469,7 @@ const cancel=()=>{
                     <Select
                       options={universityCountryName}
                       value={{ label: uniCountryLabel, value: uniCountryValue }}
-                      
+                      required
                       onChange={opt => selectUniCountry(opt.label, opt.value)}
                       name="CampusCountryId"
                       id="CampusCountryId"
@@ -489,6 +490,7 @@ const cancel=()=>{
                     <Select
                       options={universityStateName}
                       value={{ label: uniStateLabel, value: unistateValue }}
+                      required
                       onChange={opt => selectUniState(opt.label, opt.value)}
                       name="CampusStateId"
                       id="CampusStateId"

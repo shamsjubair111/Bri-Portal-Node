@@ -94,7 +94,7 @@ const CampusList = (props) => {
 
 
     const backToDashboard = () => {
-        history.push("/");
+        history.push("/universityList");
       };
 
     const handleClearSearch = () =>{
@@ -227,7 +227,7 @@ const CampusList = (props) => {
                 <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-light">
                       {" "}
-                      <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                      <i className="fas fa-arrow-circle-left"></i> Back to University List
                   </span>
                 </div>
             </CardHeader>

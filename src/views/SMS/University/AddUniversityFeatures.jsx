@@ -6,6 +6,8 @@ import { Card, CardBody, CardHeader, CardTitle, Button, Modal, ModalHeader, Moda
 // import { useDropzone } from "react-dropzone"
 import { rootUrl } from '../../../constants/constants';
 import { useToasts } from "react-toast-notifications";
+import get from '../../../helpers/get';
+import put from '../../../helpers/put';
 
 
 const AddUniversityFeatures = () => {
@@ -17,6 +19,11 @@ const AddUniversityFeatures = () => {
     const [radioWorkWhileStudying, setRadioWorkWhileStudying] = useState('false');
     const [radioConditionalOfferLetter, setRadioConditionalOfferLetter] = useState('false');
     const [radioAccommodations, setRadioAccommodations] = useState('false');
+
+    const [features, setFeatures] = useState({});
+    const [featureId, setFeatureId] = useState(0);
+
+    const method = localStorage.getItem('editMethod');
    
     const myForm = createRef();
     const location = useLocation();
@@ -30,7 +37,19 @@ const AddUniversityFeatures = () => {
         uniId = '';
     }
 
-  
+    useEffect(()=>{
+        get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
+        .then(res =>{
+            console.log('unifeatures', res);
+            setFeatures(res);
+            setFeatureId(res?.id);
+            setRadioPracticalTraining(`${res?.practicalTraining}`);
+            setRadioIntershipParticipation(`${res?.intershipParticipation}`);
+            setRadioWorkWhileStudying(`${res?.workWhileStudying}`);
+            setRadioConditionalOfferLetter(`${res?.conditionalOfferLetter}`);
+            setRadioAccommodations(`${res?.accommodations}`);
+        })
+    },[])
 
     // on submit form
     const handleSubmit = (event) => {
@@ -49,9 +68,27 @@ const AddUniversityFeatures = () => {
       //    'content-type': 'multipart/form-data'
       //  }
       //}
-  
-  
-      Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata)
+
+      if(method == 'put'){
+        put('UniversityFeatures/Update', subdata)
+        .then(res => {
+            console.log('1st put response',res);
+            if(res?.status == 200){
+             
+              addToast(res?.data?.message,{
+                appearance: 'success',
+                autoDismiss: true
+              })
+              
+              history.push({
+                pathname: '/addUniversityGallery',
+                id: localStorage.getItem('editUniId')
+            })
+            }
+          })
+      }
+      else{
+        Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata)
         .then(res => {
   
     
@@ -65,19 +102,22 @@ const AddUniversityFeatures = () => {
               id: uniID
             })
 
-            addToast(res.data.message, {
+            addToast(res?.data?.message, {
                 appearance: 'success',
                 autoDismiss: true,
               })
            
           }else{
-            addToast(res.data.message, {
+            addToast(res?.data?.message, {
                 appearance: 'warning',
                 autoDismiss: true,
               })
           }
   
         })
+      }
+  
+
 
     }
     // tab toggle
@@ -231,8 +271,26 @@ const AddUniversityFeatures = () => {
 
                             <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
 
+                                {
+                                  method == 'put' ?
+                                  <>
+                                  <input
+                                  type='hidden'
+                                  name='id'
+                                  id='id'
+                                  value={featureId}
+
+                                  />
+
+                                  </> 
+
+                                  :
+
+                                  null
+                                }
+
                                 <FormGroup row className="has-icon-left position-relative">
-                                        <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("id")} />
+                                        <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} />
                                 </FormGroup>
 
                                 <FormGroup row className="pt-3">
@@ -242,7 +300,13 @@ const AddUniversityFeatures = () => {
                                     <Col md="6">
 
                                         <FormGroup check inline>
-                                        <Input className="form-check-input" type="radio" id="PracticalTraining" onChange={onValueChangePracticalTraining} name="PracticalTraining" value='true' checked={radioPracticalTraining == 'true'} />
+                                        <Input className="form-check-input"
+                                         type="radio"
+                                         id="PracticalTraining"
+                                         value='true' 
+                                         onChange={onValueChangePracticalTraining}
+                                         name="PracticalTraining" 
+                                         checked={radioPracticalTraining == 'true'} />
                                         <Label className="form-check-label" check htmlFor="PracticalTraining" style={styleLabelBold}>Yes</Label>
 
                                         </FormGroup>
