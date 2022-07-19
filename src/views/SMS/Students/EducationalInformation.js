@@ -16,7 +16,7 @@ const EducationalInformation = () => {
     const [programLevel, setProgramLevel] = useState([]);
   const [programLevelLabel, setProgramLevelLabel] = useState('Select Program Level');
   const [programLevelValue, setProgramLevelValue] = useState(0);
-  const [radioPracticalTraining, setRadioPracticalTraining] = useState('false');
+ 
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [showForm,setShowForm]=useState(false);
@@ -37,6 +37,11 @@ const EducationalInformation = () => {
     const [to,setTo] = useState('');
 
     const method = localStorage.getItem('method');
+
+    const [programError, setProgramError] = useState(false);
+    const [countryError, setCountryError] = useState(false);
+
+   
 
   
     
@@ -65,10 +70,10 @@ const EducationalInformation = () => {
   },[])
 
 
-    const backToDashboard = () => {
+  const backToStudentProfile = () => {
+    history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+}
 
-        history.push('/');
-    }
 
     const toggle = (tab) => {
         setActivetab(tab);
@@ -115,13 +120,7 @@ const EducationalInformation = () => {
       };
 
 
-       // on change radio button
-
-    // onValueChangePracticalTraining
-    const onValueChangePracticalTraining = (event) => {
-        console.log(event.target.value);
-        setRadioPracticalTraining(event.target.value)
-    }
+  
   
   
     const programLevelName = programLevel?.map((branchCountry) => ({
@@ -132,6 +131,8 @@ const EducationalInformation = () => {
   
          // select  Student type
   const selectProgramLevel = (label, value) => {
+
+    setProgramError(false);
   setProgramLevelLabel(label);
   setProgramLevelValue(value);
   console.log(value);
@@ -148,6 +149,8 @@ const EducationalInformation = () => {
 
        // select  Country
 const selectCountry = (label, value) => {
+
+  setCountryError(false);
 setCountryLabel(label);
 setCountryValue(value);
 
@@ -179,43 +182,67 @@ const handleSubmit = (event) => {
 
   const subData = new FormData(event.target);
 
- if(oneData?.id){
-  put(`EducationInformation/Update`,subData)
-  .then(res => {
-    console.log('update done',res);
-    addToast(res?.data?.message,{
-      appearance: 'success',
-      autoDismiss: true
-    })
-    get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
-    .then(res => {
-      setEduDetails(res);
-      setRadioPracticalTraining()
-      console.log('Edu details', res);
-     
-      setShowForm(false);
-    })
-  })
- }
+  if(programLevelValue == 0){
+    setProgramError(true);
+  }
 
- else{
-  post('EducationInformation/Create',subData)
-  .then(res => {
-    console.log('Educatinal information Post ',res);
-    addToast(res?.data?.message,{
-      appearance: 'success',
-      autoDismiss: true
-    })
-    get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
-    .then(res => {
-      setEduDetails(res);
-      setRadioPracticalTraining()
-      console.log('Edu details', res);
-     
-      setShowForm(false);
-    })
-  })
- }
+  if(countryValue == 0){
+    setCountryError(true);
+  }
+
+  else{
+
+    if(oneData?.id){
+      put(`EducationInformation/Update`,subData)
+      .then(res => {
+        console.log('update done',res);
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+        .then(res => {
+          setEduDetails(res);
+         
+          console.log('Edu details', res);
+          setProgramLevelLabel('Select');
+          setProgramLevelValue(0);
+          setCountryLabel('Select');
+          setCountryValue(0);
+          setOneData({});
+         
+          setShowForm(false);
+        })
+      })
+     }
+    
+     else{
+      post('EducationInformation/Create',subData)
+      .then(res => {
+        console.log('Educatinal information Post ',res);
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+        .then(res => {
+          setEduDetails(res);
+          
+          console.log('Edu details', res);
+          setProgramLevelLabel('Select');
+          setProgramLevelValue(0);
+          setCountryLabel('Select');
+          setCountryValue(0);
+          
+         
+          setShowForm(false);
+        })
+      })
+     }
+
+  }
+
+ 
 
 }
 
@@ -307,6 +334,7 @@ const handleUpdate = (id) => {
 
   const onShow=()=>{
     setShowForm(true);
+   
   
   }
 
@@ -320,9 +348,9 @@ const handleUpdate = (id) => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Educational Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -645,6 +673,12 @@ const handleUpdate = (id) => {
                     required
 
                   />
+                  {
+
+                    programError && 
+
+                    <span className = 'text-danger'>Select Program Level</span>
+                  }
 
                   {/* <div className="form-control-position">
                                       <User size={15} />
@@ -730,6 +764,10 @@ const handleUpdate = (id) => {
             required
 
           />
+          {
+            countryError && 
+            <span className='text-danger'>Select Country</span>
+          }
            
 
          
@@ -805,17 +843,24 @@ const handleUpdate = (id) => {
               
 
 
-              <FormGroup
-                className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 badge-primary"
-                >
-                  Submit
-                </Button.Ripple>
-              </FormGroup>
+              <FormGroup row
+              className="has-icon-left position-relative"
+              style={{ display: "flex", justifyContent: "end" }}
+            >
+              
+          <Col md="5">
+          
+          <Button.Ripple
+          type="submit"
+          className="mr-1 mt-3 badge-primary"
+        >
+          Submit
+        </Button.Ripple>
+       
+          </Col>
+       
+             
+            </FormGroup>
             </Form>
           }
 
@@ -911,6 +956,12 @@ const handleUpdate = (id) => {
                     required
 
                   />
+                  {
+
+                    programError && 
+
+                    <span className = 'text-danger'>Select Program Level</span>
+                  }
 
                   {/* <div className="form-control-position">
                                       <User size={15} />
@@ -991,6 +1042,11 @@ const handleUpdate = (id) => {
             required
 
           />
+
+          {
+            countryError && 
+            <span className='text-danger'>Select Country</span>
+          }
            
 
          
@@ -1099,10 +1155,19 @@ const handleUpdate = (id) => {
             <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
   
          
-          <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+        
         
           </FormGroup>
           }
+
+          {
+            (eduDetails?.length > 0 && !showForm)     ?
+            <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+
+            :
+
+            null
+           }
            
           <FormGroup
           className="has-icon-left position-relative"

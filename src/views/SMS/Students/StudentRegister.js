@@ -23,7 +23,8 @@ const StudentRegister = () => {
   const [consultantLabel, setconsultantLabel] = useState('Consultant');
   const [consultantValue, setConsultantValue] = useState(0);
 
-   const [val, setVal] = useState(0);
+   const [consultantError, setConsultantError] = useState(false);
+   const [studentError, setStudentError] = useState(false);
 
 
 
@@ -55,6 +56,8 @@ const StudentRegister = () => {
 
        // select  Student type
 const selectStudentType = (label, value) => {
+
+setStudentError(false);  
 setStudentTypeLabel(label);
 setStudentTypeValue(value);
 
@@ -71,6 +74,8 @@ setStudentTypeValue(value);
 
        // select  consultant
 const selectConsultant = (label, value) => {
+
+setConsultantError(false);  
 setconsultantLabel(label);
 setConsultantValue(value);
 
@@ -94,39 +99,56 @@ const cancelForm = () => {
       const handleRegisterStudent = (event) => {
 
         event.preventDefault();
-        if(consultantValue == 0  || studentTypeValue == 0)    {
-          setVal(1);
+
+        if(studentTypeValue == 0){
+
+          setStudentError(true);
+
+          
+
         }
+
+        if(consultantValue == 0) {
+
+          setConsultantError(true);
+
+          
+         
+        }
+
+        
 
         else{
-          setVal(0);
+
+          const subdata = new FormData(event.target);
+
+          // for( var x of subdata.values() ){
+          //   console.log(x);
+          // }
+  
+          post('Student/Register',subdata)
+          .then(res => {
+            console.log('hello',res);
+            localStorage.setItem('applictionStudentTypeId',res?.data?.result?.studentTypeId);
+            localStorage.setItem('applictionStudentId',res?.data?.result?.id);
+            localStorage.setItem('personalInfoConsultantId',res?.data?.result?.consultantId);
+            localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
+            localStorage.setItem('registerUserId',res?.data?.result?.userId);
+            localStorage.setItem('registerEmail',res?.data?.result?.email);
+            localStorage.removeItem('method');
+  
+  
+            // localStorage.setItem('')
+         
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push('/addStudentApplicationInformation');
+          })
+          
         }
-        // const subdata = new FormData(event.target);
-
-        // // for( var x of subdata.values() ){
-        // //   console.log(x);
-        // // }
-
-        // post('Student/Register',subdata)
-        // .then(res => {
-        //   console.log('hello',res);
-        //   localStorage.setItem('applictionStudentTypeId',res?.data?.result?.studentTypeId);
-        //   localStorage.setItem('applictionStudentId',res?.data?.result?.id);
-        //   localStorage.setItem('personalInfoConsultantId',res?.data?.result?.consultantId);
-        //   localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
-        //   localStorage.setItem('registerUserId',res?.data?.result?.userId);
-        //   localStorage.setItem('registerEmail',res?.data?.result?.email);
-        //   localStorage.removeItem('method');
-
-
-        //   // localStorage.setItem('')
        
-        //   addToast(res?.data?.message,{
-        //     appearance: 'success',
-        //     autoDismiss: true
-        //   })
-        //   history.push('/addStudentApplicationInformation');
-        // })
         
       }
 
@@ -171,14 +193,16 @@ const cancelForm = () => {
 
                   />
                   {
-                        val == 1 && 
-                        <span className='text-danger'>Error</span>
+                    studentError &&
+                    <span className='text-danger'>Select Student Type</span>
                   }
+                
                   
 
                   
                 </Col>
               </FormGroup>
+
             <FormGroup row className="has-icon-left position-relative">
                 <Col md="2">
                   <span>
@@ -195,14 +219,17 @@ const cancelForm = () => {
                    
 
                   />
+
                   {
-                    val == 1 && 
-                    <span className='text-danger'>Error</span>
-              }
+                    consultantError &&
+                    <span className='text-danger'>Select Consultant</span>
+                  }
+                
 
                   
                 </Col>
               </FormGroup>
+
 
 
               <FormGroup row className="has-icon-left position-relative">

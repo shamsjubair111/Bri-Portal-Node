@@ -64,11 +64,10 @@ const Experience = () => {
       history.push('/addTestScore');
     }
 
-
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const toggle = (tab) => {
         setActivetab(tab);
@@ -277,9 +276,9 @@ console.log('trying', sDate?.split(",")[0]);
         <CardHeader className="page-header">
           <h3 className="text-light">Add Experience Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>

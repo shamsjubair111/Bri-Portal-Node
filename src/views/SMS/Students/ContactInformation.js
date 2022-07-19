@@ -25,6 +25,9 @@ const ContactInformation = () => {
       const [addressTypeValue, setAddressTypeValue] = useState(0);
       const [oneData, setOneData] = useState({});
 
+      const [countryError, setCountryError] = useState(false);
+      const [addressError, setAddressError] = useState(false);
+
       const method = localStorage.getItem('method');
 
     useEffect(() => {
@@ -47,18 +50,16 @@ const ContactInformation = () => {
           console.log('Contact information from local storage', res);
           setOneData(res);
           setCountryLabel(res?.country?.name == null ? 'Select Country' : res?.country?.name );
-          setCountryValue(res?.country?.id);
+          setCountryValue(res?.country?.id == null ? 0 :  res?.country?.id);
           setAddressTypeLabel(res?.addressType?.name == null ? 'Select Address Type' : res?.addressType?.name);
-          setAddressTypeValue(res?.addressType?.id);
+          setAddressTypeValue(res?.addressType?.id == null ? 0 : res?.addressType?.id);
 
         })
 
 
     },[success] )
 
-    const backToDashboard = () => {
-        history.push('/');
-    }
+  
 
 
     const goForward = () => {
@@ -113,10 +114,11 @@ const ContactInformation = () => {
        
       };
 
-      const cancelForm = () => {
-        history.push('/addStudentInformation');
-      }
 
+      const backToStudentProfile = () => {
+        history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+    }
+    
 
       const countryName = country?.map((branchCountry) => ({
         label: branchCountry.name,
@@ -126,6 +128,8 @@ const ContactInformation = () => {
 
            // select  Country
   const selectCountry = (label, value) => {
+
+    setCountryError(false);
     setCountryLabel(label);
     setCountryValue(value);
     
@@ -141,6 +145,8 @@ const ContactInformation = () => {
 
            // select  Address Type
   const selectAddressType = (label, value) => {
+
+    setAddressError(false);
     setAddressTypeLabel(label);
     setAddressTypeValue(value);
     
@@ -153,39 +159,58 @@ const ContactInformation = () => {
   event.preventDefault();
     const subData = new FormData(event.target);
 
-     if(oneData?.id){
+    if(countryValue == 0 ){
 
-      put('StudentContactInformation/Update',subData)
-      .then(res => {
-        console.log(res);
-        if(res?.status == 200){
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          setSuccess(!success);
+      setCountryError(true);
+      
+    
+    }
+
+    if(addressTypeValue == 0){
+
+      setAddressError(true);
+      
+    }
+
+    else{
+
+      if(oneData?.id){
+
+        put('StudentContactInformation/Update',subData)
+        .then(res => {
+          console.log(res);
+          if(res?.status == 200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            setSuccess(!success);
+    
+          }
+        })
   
-        }
-      })
-
-     }
-
-     else{
-
-      post('StudentContactInformation/Create',subData)
-      .then(res => {
-        console.log(res);
-        if(res?.status == 200){
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          history.push('/addStudentEducationalInformation');
+       }
   
-        }
-      })
+       else{
+  
+        post('StudentContactInformation/Create',subData)
+        .then(res => {
+          console.log(res);
+          if(res?.status == 200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push('/addStudentEducationalInformation');
+    
+          }
+        })
+  
+       }
 
-     }
+    }
+
+    
 
   }
 
@@ -197,9 +222,9 @@ const ContactInformation = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Contact Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -492,6 +517,13 @@ const ContactInformation = () => {
 
                     />
 
+                    {
+                      countryError && 
+
+                      <span className='text-danger'>Select Country</span>
+
+                    }
+
                   
                   </Col>
                 </FormGroup>
@@ -512,6 +544,12 @@ const ContactInformation = () => {
                       required
 
                     />
+
+                    {
+                      addressError && 
+
+                      <span className='text-danger'>Select Address Type</span>
+                    }
 
                     {/* <div className="form-control-position">
                                         <User size={15} />

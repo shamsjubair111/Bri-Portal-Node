@@ -48,7 +48,7 @@ const StudentProfile = () => {
        })
     },[])
 
-    const backToDashboard = () =>{
+    const backToStudentList = () =>{
         history.push('/studentList');
     }
 
@@ -213,7 +213,7 @@ const StudentProfile = () => {
             </div>
             
             <div className="page-header-back-to-home" >
-              <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+              <span onClick={backToStudentList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Student List</span>
             </div>
 
           </CardHeader>

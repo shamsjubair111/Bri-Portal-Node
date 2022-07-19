@@ -12,6 +12,8 @@ import put from '../../../helpers/put';
 const ApplicationInformation = () => {
 
   const history = useHistory();
+
+  const [applicationInformation, setApplicationInformation] = useState({});
   const [activetab, setActivetab] = useState("1");
   const [appliedStudentFinance, setIsAppliedStudentFinance] = useState('false');
   const [applyingFromInside, setIsApplyingFromInside] = useState('false');
@@ -70,6 +72,7 @@ const ApplicationInformation = () => {
     get(`ApplicationInfo/GetByStudentId/${applicationStudentId}`)
     .then(res => {
       console.log('application post response', res);
+      setApplicationInformation(res);
       setStudentTypeLabel(res?.student?.studentType?.name);
       setStudentTypeValue(res?.student?.studentType?.id);
      
@@ -246,6 +249,26 @@ const handleSubmit = (event) => {
     })
 
 
+
+   }
+
+   else if(applicationInformation?.id){
+
+    put(`ApplicationInfo/Update`,subData)
+    .then(res => {
+      console.log('2nd put response',res);
+      if(res?.status == 200){
+       
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+        history.push('/addStudentinformation');
+        
+       
+      }
+    })
 
    }
 
@@ -439,7 +462,7 @@ const cancelForm = () => {
             <Form onSubmit={handleSubmit}   className="mt-5">
 
             {
-              method == 'put' ? 
+              (method == 'put' || applicationInformation?.id) ? 
               <input
               type='hidden'
               name='id'

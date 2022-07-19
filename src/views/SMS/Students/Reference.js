@@ -35,6 +35,9 @@ const Reference = () => {
 
     const method = localStorage.getItem('method');
 
+    const [referenceError, setReferenceError] = useState(false);
+    const [countryError, setCountryError] = useState(false);
+
 
     useEffect(()=>{
 
@@ -62,10 +65,10 @@ const Reference = () => {
     },[])
 
 
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const toggle = (tab) => {
         setActivetab(tab);
@@ -120,6 +123,8 @@ const Reference = () => {
 
            // select  Country
   const selectCountry = (label, value) => {
+
+    setCountryError(false);
     setCountryLabel(label);
     setCountryValue(value);
     
@@ -136,6 +141,8 @@ const Reference = () => {
 
            // select  reference
   const selectReference = (label, value) => {
+
+    setReferenceError(false);
     setReferenceLabel(label);
     setReferenceValue(value);
     
@@ -229,49 +236,71 @@ const onShow=()=>{
     event.preventDefault();
     const subData = new FormData(event.target);
 
-    if(oneData?.id){
+    if(countryValue ==0 ){
+      setCountryError(true);
+    }
 
-      put('Reference/Update',subData)
-      .then(res => {
-        console.log(res);
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        setShowForm(false);
-        setOneData({});
-        get(`Reference/GetByStudentId/${studentIdVal}`)
-        .then(res => {
-            console.log(res);
-            setRefList(res);
-        })
-
-      })
-
+    if(referenceValue == 0){
+      setReferenceError(true);
     }
 
     else{
-      post('Reference/Create',subData)
-    .then(res => {
-      console.log(res);
-      if(res?.status == 200){
 
-        setShowForm(false);
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        get(`Reference/GetByStudentId/${studentIdVal}`)
+      if(oneData?.id){
+
+        put('Reference/Update',subData)
         .then(res => {
-            console.log(res);
-            setRefList(res);
+          console.log(res);
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setShowForm(false);
+          setOneData({});
+          get(`Reference/GetByStudentId/${studentIdVal}`)
+          .then(res => {
+              console.log(res);
+              setRefList(res);
+              setReferenceLabel('Select Reference Type');
+              setReferenceValue(0);
+              setCountryLabel('Select Country');
+              setCountryValue(0);
+          })
+  
         })
-
-
+  
+      }
+  
+      else{
+        post('Reference/Create',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+  
+          setShowForm(false);
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          get(`Reference/GetByStudentId/${studentIdVal}`)
+          .then(res => {
+              console.log(res);
+              setRefList(res);
+              setReferenceLabel('Select Reference Type');
+              setReferenceValue(0);
+              setCountryLabel('Select Country');
+              setCountryValue(0);
+          })
+  
+  
+        }
+  
+      })
       }
 
-    })
     }
+
+    
 
   }
 
@@ -284,9 +313,9 @@ const onShow=()=>{
         <CardHeader className="page-header">
           <h3 className="text-light">Add Reference Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -547,6 +576,10 @@ const onShow=()=>{
 
 
           />
+          {
+            referenceError && 
+            <span className='text-danger'>Select Reference Type</span>
+          }
 
           
         </Col>
@@ -648,6 +681,10 @@ const onShow=()=>{
             required
 
           />
+          {
+            countryError && 
+            <span className='text-danger'>Select Country</span>
+          }
 
           {/* <div className="form-control-position">
                               <User size={15} />

@@ -47,10 +47,10 @@ const OtherInformation = () => {
 
     },[])
 
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const toggle = (tab) => {
         setActivetab(tab);
@@ -109,6 +109,21 @@ const OtherInformation = () => {
 
         }
 
+        else if(id){
+
+          put('OtherInformation/Update',subData)
+          .then(res => {
+            if(res?.status ==200 ){
+              addToast(res?.data?.message,{
+                appearance:'success',
+                autoDismiss:true
+              })
+              localStorage.removeItem('method');
+            }
+          })
+
+        }
+
         else{
 
           post('OtherInformation/Create', subData)
@@ -153,9 +168,9 @@ const OtherInformation = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Other Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>

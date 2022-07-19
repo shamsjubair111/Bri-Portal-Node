@@ -5,11 +5,14 @@ import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,
 import { Toggle } from "react-toggle-component";
 import get from '../../../helpers/get';
 import StudentProfileImage from './StudentProfileImage';
-import EditStudentProfileimage from './EditStudentProfileimage';
+import { Image } from 'antd';
 import { useSelector } from 'react-redux';
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
 import { useToasts } from "react-toast-notifications";
+import { rootUrl } from '../../../constants/constants';
+import { useDispatch } from 'react-redux';
+import { StoreStudentProfileImageData } from '../../../redux/actions/SMS/Students/StudentProfileImageAction';
 
 
 const PersonalInformation = () => {
@@ -17,6 +20,8 @@ const PersonalInformation = () => {
   const applicationStudentId = localStorage.getItem('applictionStudentId');
 
   const consultantValueId = localStorage.getItem('personalInfoConsultantId');
+
+  const dispatch = useDispatch();
 
   const profileImageData = useSelector((state) => state?.StudentProfileImageReducer?.studentImage[0]);
 
@@ -56,8 +61,7 @@ const PersonalInformation = () => {
     const [consultantLabel, setConsultantLabel] = useState("Consultant");
       const [consultantValue, setConsultantValue] = useState(0);
     const [studentType,setStudentType] = useState([]);
-    const [studentTypeLabel, setStudentTypeLabel] = useState("Student Type");
-      const [studentTypeValue, setStudentTypeValue] = useState(0);
+    
 
       const [FirstName,setFirstName] = useState('');
       const [LastName,setLastName] = useState('');
@@ -68,6 +72,12 @@ const PersonalInformation = () => {
       const [passport,setPassport] = useState('');
       const [toggleData, setToggleData] = useState(false);
       const [studentView,setStudentview] = useState('');
+
+      const [titleError, setTitleError] = useState(false);
+      const [countryOfBirthError, setCountryOfBirthError] = useState(false);
+      const [genderError, setGenderError] = useState(false);
+      const [maritalStatusError, setMaritalStatusError]  = useState(false);
+      const [nationalityError, setNationalityError] = useState(false);
 
 
     useEffect(()=>{
@@ -135,17 +145,18 @@ const PersonalInformation = () => {
             setLastName(res?.lastName);
             setEmail(res?.email);
             setTitleLabel(res?.nameTittle?.name == null ? 'Select Title' : res?.nameTittle?.name);
-            setTitleValue(res?.nameTittle?.id);
+            setTitleValue(res?.nameTittle?.id == null ? 0 : res?.nameTittle?.id );
+
             setNumber(res?.phoneNumber);
             setPassport(res?.passportNumber);
             setGenderLabel(res?.gender?.name == null ? 'Select Gender' : res?.gender?.name);
-            setGenderValue(res?.gender?.id);
+            setGenderValue(res?.gender?.id == null ? 0 : res?.gender?.id);
             setMaritalStatusLabel(res?.maritalStatus?.name == null? 'Select Marital Status'  : res?.maritalStatus?.name );
-            setMaritalStatusValue(res?.maritalStatus?.id);
+            setMaritalStatusValue(res?.maritalStatus?.id == null ? 0 : res?.maritalStatus?.id );
             setNationalityLabel(res?.nationality?.name == null? 'Select Nationality' : res?.nationality?.name );
-            setNationalityValue(res?.nationality?.id);
+            setNationalityValue(res?.nationality?.id == null ? 0 : res?.nationality?.id);
             setCountryLabel(res?.country?.name == null ? 'Select Country' : res?.country?.name );
-            setCountryValue(res?.country?.id);
+            setCountryValue(res?.country?.id == null ? 0 : res?.country?.id );
        
   
             const z= res?.dateOfBirth;
@@ -215,9 +226,10 @@ const PersonalInformation = () => {
         
       };
 
-      const cancelForm = () => {
-        history.push('/');
-      }
+     
+      const backToStudentProfile = () => {
+        history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+    }
 
       const nameTitle = title?.map((singleTitle) => ({
         label: singleTitle.name,
@@ -227,6 +239,8 @@ const PersonalInformation = () => {
 
                // select  Title
   const selectTitle = (label, value) => {
+
+    setTitleError(false);
     setTitleLabel(label);
     setTitleValue(value);
     
@@ -243,6 +257,8 @@ const PersonalInformation = () => {
 
        // select  Country
 const selectCountry = (label, value) => {
+
+setCountryOfBirthError(false);  
 setCountryLabel(label);
 setCountryValue(value);
 
@@ -259,6 +275,8 @@ setCountryValue(value);
 
        // select  Gender
 const selectGender = (label, value) => {
+
+setGenderError(false);  
 setGenderLabel(label);
 setGenderValue(value);
 
@@ -274,6 +292,8 @@ setGenderValue(value);
 
        // select  Marital Status
 const selectMaritalStatus = (label, value) => {
+
+setMaritalStatusError(false);  
 setMaritalStatusLabel(label);
 setMaritalStatusValue(value);
 
@@ -289,6 +309,8 @@ setMaritalStatusValue(value);
 
        // select  Marital Status
 const selectNationality = (label, value) => {
+
+setNationalityError(false);  
 setNationalityLabel(label);
 setNationalityValue(value);
 
@@ -320,14 +342,7 @@ setConsultantValue(value);
   }));
 
 
-       // select  Student Type
-const selectStudentType = (label, value) => {
-setStudentTypeLabel(label);
-setStudentTypeValue(value);
 
-
-
-}
 
 const goForward = () => {
 
@@ -346,37 +361,16 @@ const handleSubmit = (event) => {
 
   event.preventDefault();
 
-  // const subData = {
 
-  //   id: localStorage.getItem('applictionStudentId'),
-  //   nameTitleId: titleValue,
-  //   firstName: FirstName,
-  //   lastName: LastName,
-  //   dateOfBirth: Dates,
-  //   phoneNumber: number,
-  //   passportNumber: passport,
-  //   birthCountryId: countryValue,
-  //   genderId: genderValue,
-  //   maritalStatusId: maritalStatusValue,
-  //   nationalityId: nationalityValue,
-  //   email: Email,
-  //   password: Password,
-  //   consultantId: consultantValue,
-  //   blacklisted: toggleData,
-  //   studentViewId: studentView,
-  //   profileImageFile: profileImageData?.originFileObj
-
-
-  // }
 
  
 
   const subData = new FormData(event.target);
   subData.append('profileImageFile',profileImageData?.originFileObj);
   
-  for( var x of subData.values()){
-    console.log(x);
-  }
+  // for( var x of subData.values()){
+  //   console.log(x);
+  // }
 
   const config = {
     headers: {
@@ -384,20 +378,50 @@ const handleSubmit = (event) => {
     }
   }
 
+  if(titleValue == 0 ){
+    setTitleError(true);
+    console.log('error 111111');
+  }
+  
+  if(countryValue == 0){
 
-  put('Student/Update',subData)
-  .then(res => {
-    console.log('posted data',res);
-    if(res?.status ==200){
-      addToast(res?.data?.message,{
-        appearance: 'success',
-        autoDismiss: true
-      })
-      setSuccess(!success);
-    }
-  })
+    setCountryOfBirthError(true);
 
+  }
 
+  if(genderValue == 0){
+
+    setGenderError(true);
+
+  }
+
+  if(maritalStatusValue == 0){
+    setMaritalStatusError(true);
+  }
+
+  if(nationalityValue == 0){
+    setNationalityError(true);
+  }
+
+  else{
+
+    put('Student/Update',subData)
+    .then(res => {
+      console.log('posted data',res);
+      if(res?.status ==200){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+       
+      }
+    })
+  
+
+  }
+
+  
 }
 
 
@@ -408,9 +432,9 @@ const handleSubmit = (event) => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Student Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -625,6 +649,10 @@ const handleSubmit = (event) => {
                       required
 
                     />
+                    {
+                      titleError && 
+                      <span className='text-danger'>Select Title</span>
+                    }
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -764,6 +792,10 @@ const handleSubmit = (event) => {
                       required
 
                     />
+                    {
+                      countryOfBirthError && 
+                      <span className='text-danger'>Select Country of Birth</span>
+                    }
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -789,6 +821,12 @@ const handleSubmit = (event) => {
 
                     />
 
+                    {
+                      genderError && 
+
+                      <span className='text-danger'>Select Gender</span>
+                    }
+
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -812,6 +850,14 @@ const handleSubmit = (event) => {
 
                     />
 
+                    {
+
+                      maritalStatusError && 
+
+                      <span className='text-danger'>Select Marital Status</span>
+
+                    }
+
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -834,6 +880,13 @@ const handleSubmit = (event) => {
                       required
 
                     />
+
+                    {
+                      nationalityError &&
+                      
+                      <span className='text-danger'>Select Nationality</span>
+
+                    }
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -878,11 +931,42 @@ const handleSubmit = (event) => {
                     </span>
                   </Col>
                   <Col md="6">
+
+                  <div className='row'>
+
+                  {
+                    (oneData?.profileImage !== null) ?
+
+                  <div className='col-md-3'>
+               
+
+                  <Image
+                  width={104} height={104}
+                  src={rootUrl+oneData?.profileImage?.fileUrl}
+                />
+
                 
-                   <StudentProfileImage></StudentProfileImage>
-                   <EditStudentProfileimage
-                   oneData= {oneData}
-                   ></EditStudentProfileimage>
+
+               
+                  </div>
+
+                  :
+
+                null
+
+                }
+
+                  <div className='col-md-3'>
+                  <StudentProfileImage></StudentProfileImage>
+                  </div>
+
+                     
+                  </div>
+
+                
+                
+                
+                  
                    
                   </Col>
                 </FormGroup>

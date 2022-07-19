@@ -1,8 +1,9 @@
 import { Upload, Modal } from 'antd';
 import "antd/dist/antd.css";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import { useDispatch } from 'react-redux';
+import get from '../../../helpers/get';
 import { StoreStudentProfileImageData } from '../../../redux/actions/SMS/Students/StudentProfileImageAction';
 
 
@@ -19,6 +20,9 @@ const  StudentProfileImage = () => {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [FileList, setFileList] = useState([]);
+
+
+
 
   const dispatch = useDispatch();
   
@@ -64,6 +68,7 @@ const  StudentProfileImage = () => {
 
 
 
+
 dispatch(StoreStudentProfileImageData(FileList));
 
 
@@ -90,7 +95,10 @@ dispatch(StoreStudentProfileImageData(FileList));
               return false;
           }}
         >
-           {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/></div>: ''}
+           {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+           <br/>
+           <span>Upload Image Here</span>
+           </div>: ''}
         </Upload>
         <Modal
           visible={previewVisible}

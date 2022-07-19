@@ -35,10 +35,10 @@ const PersonalStatement = () => {
     },[])
 
 
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const previousPage = () => {
       history.push('/addReference');
@@ -93,7 +93,7 @@ const PersonalStatement = () => {
 
         const subData = new FormData(event.target);
 
-       if(method == 'put'){
+       if(method == 'put' || id){
 
         put('PersonalStatement/Update',subData)
         .then(res => {
@@ -102,7 +102,7 @@ const PersonalStatement = () => {
               appearance: 'success',
               autoDismiss: true
             })
-            history.push('/addOtherInformation');
+            
           }
         })
 
@@ -138,9 +138,9 @@ const PersonalStatement = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Personal Statement</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -291,7 +291,7 @@ const PersonalStatement = () => {
           
           {
 
-            method == 'put' ?
+            (method == 'put' || id) ?
 
             <input
             type='hidden'

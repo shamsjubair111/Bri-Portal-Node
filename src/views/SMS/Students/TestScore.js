@@ -63,6 +63,8 @@ const TestScore = () => {
 
     const method = localStorage.getItem('method');
 
+    const [testError, setTestError] = useState(false);
+
     useEffect(()=>{
 
       get('ExamTestType/Index')
@@ -111,6 +113,12 @@ const TestScore = () => {
       })
       
     }
+
+
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
 
     const handleDeleteGreData = (data) => {
@@ -227,6 +235,7 @@ const closeModal3= () => {
   
         //  select  Student type
   const selectQualification = (label, value) => {
+    setTestError(false);
     setELQualificationLabel(label);
     ELsetQualificationValue(value);
 
@@ -312,32 +321,38 @@ const closeModal3= () => {
 
     const subData = new FormData(event.target);
 
-    for (var x of subData.values()){
-      // console.log(x);
+    if(ELqualificationValue == 0){
+      setTestError(true);
     }
 
-    post('ExamTestTypeAttributeValue/Create',subData)
-    .then(res => {
-      console.log(res);
-      if(res?.status == 200){
-        addToast(res?.data?.message, {
-          appearance: 'success',
-          autoDismiss: true
-        })
-        setSuccess(!success);
-        setAdd(false);
-        setELQualificationLabel('Select');
-        ELsetQualificationValue(0);
-        setQualificationLabel('No');
-        setQualificationValue(0);
-        setExamTestTypeAttributeData([]);
+    else{
 
-     
-        
+      post('ExamTestTypeAttributeValue/Create',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setExamTestTypeAttributeData([]);
+  
        
+          
+         
+  
+        }
+      })
 
-      }
-    })
+    }
+
+  
 
   }
 
@@ -393,9 +408,7 @@ const closeModal3= () => {
 
     const history = useHistory();
 
-    const backToDashboard = () => {
-        history.push('/');
-    }
+    
 
     const toggle = (tab) => {
         setActivetab(tab);
@@ -583,9 +596,9 @@ const closeModal3= () => {
         <CardHeader className="page-header">
           <h3 className="text-light">English Language / Test Score</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to StudentProfile
             </span>
           </div>
         </CardHeader>
@@ -922,6 +935,12 @@ const closeModal3= () => {
 
             />
 
+            {
+              testError && 
+
+              <span className='text-danger'>Enlish Language Test Must Be Selected </span>
+            }
+
             
           </Col>
         </FormGroup>
@@ -975,24 +994,32 @@ const closeModal3= () => {
 
         
 
-       <FormGroup row
-       className="has-icon-left position-relative"
-       style={{ display: "flex", justifyContent: "end" }}
-     >
+      {
+        qualificationLabel == 'NO' ? 
+        
+        null 
+        :
+
+        <FormGroup row
+        className="has-icon-left position-relative"
+        style={{ display: "flex", justifyContent: "end" }}
+      >
+        
+    <Col md="5">
+    
+    <Button.Ripple
+    type="submit"
+    className="mr-1 mt-3 badge-primary"
+  >
+    Save
+  </Button.Ripple>
+ 
+    </Col>
+ 
        
-   <Col md="5">
-   
-   <Button.Ripple
-   type="submit"
-   className="mr-1 mt-3 badge-primary"
- >
-   Save
- </Button.Ripple>
+      </FormGroup>
 
-   </Col>
-
-      
-     </FormGroup>
+      }
 
      </Form>
 
@@ -1408,24 +1435,29 @@ const closeModal3= () => {
 
     
 
-   <FormGroup row
-   className="has-icon-left position-relative"
-   style={{ display: "flex", justifyContent: "end" }}
+  
+    
+
+    <FormGroup row
+    className="has-icon-left position-relative"
+    style={{ display: "flex", justifyContent: "end" }}
+  >
+    
+ <Col md="5">
+ 
+ <Button.Ripple
+ type="submit"
+ className="mr-1 mt-3 badge-primary"
  >
+ Save
+ </Button.Ripple>
+ 
+ </Col>
+ 
    
-<Col md="5">
-
-<Button.Ripple
-type="submit"
-className="mr-1 mt-3 badge-primary"
->
-Save
-</Button.Ripple>
-
-</Col>
+  </FormGroup>
 
   
- </FormGroup>
 
  </Form>
     
@@ -1750,11 +1782,12 @@ Save
 
     
 
-   <FormGroup row
-   className="has-icon-left position-relative"
-   style={{ display: "flex", justifyContent: "end" }}
- >
-   
+
+  <FormGroup row
+  className="has-icon-left position-relative"
+  style={{ display: "flex", justifyContent: "end" }}
+>
+  
 <Col md="5">
 
 <Button.Ripple
@@ -1766,8 +1799,10 @@ Save
 
 </Col>
 
-  
- </FormGroup>
+ 
+</FormGroup>
+
+ 
 
  </Form>
 
@@ -2445,24 +2480,6 @@ Save
 
 
   
-
-
-
-
-       
-
-       
-
-         
-
-        
-
-
-         
-
-         
-
-      
 
            <FormGroup
            className="has-icon-left position-relative"
