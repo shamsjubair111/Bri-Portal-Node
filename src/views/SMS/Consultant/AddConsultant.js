@@ -1,5 +1,5 @@
 
-import Axios from 'axios';
+import Axios from 'axios'
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -19,16 +19,21 @@ import ConsultantFile from './ConsultantFile';
 const AddConsultant = () => {
 
     
-    const [submitData, setSubmitData] = useState(false);
+  
     const [nameTitle, setNameTitle] = useState([]);
     const [consParent, setConsParent] = useState([]);
     const [consType, setConsType] = useState([]);
-    const [nameLabel, setNameLabel] = useState("Name title");
+    const [nameLabel, setNameLabel] = useState("Name Title");
     const [nameValue, setNameValue] = useState(0);
-    const [parentLabel, setParentLabel] = useState("Parent consultant");
+    const [parentLabel, setParentLabel] = useState("Parent Consultant");
     const [parentValue, setParentValue] = useState(0);
-    const [typeLabel, setTypeLabel] = useState("Consultant type");
+    const [typeLabel, setTypeLabel] = useState("Consultant Type");
     const [typeValue, setTypeValue] = useState(0);
+
+    const [emailError, setEmailError] = useState(true);
+    const [consultantError, setConsultantError] = useState(false);
+    const [parentError, setParentError] = useState(false);
+    const [titleError, setTitleError] = useState(false);
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -54,24 +59,52 @@ const AddConsultant = () => {
     const consTypeMenu = consType?.map(consTypeOptions => ({label:consTypeOptions?.name, value:consTypeOptions?.id}));
     
     const selectNameTitle = (label, value) => {
+
+      setTitleError(false);
       setNameLabel(label);
       setNameValue(value);
     }
 
     const selectParentCons = (label, value) => {
+
+      setParentError(false);
       setParentLabel(label);
       setParentValue(value);
     }
 
     const selectConsType = (label, value) => {
+
+      setConsultantError(false);
       setTypeLabel(label);
       setTypeValue(value);
+    }
+
+    const handleEmail = (e) => {
+      console.log(e.target.value);
+
+      get(`Consultant/OnChangeEmail/${e.target.value}`)
+      .then(res => {
+        console.log('Checking Response', res);
+        setEmailError(res);
+      })
     }
       
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
+
+    if(nameValue == 0){
+      setTitleError(true);
+    }
+
+    if(parentValue == 0 ){
+      setParentError(true);
+    }
+
+    if(typeValue == 0){
+      setConsultantError(true);
+    }
     
 
     //  watch form data values
@@ -79,21 +112,27 @@ const AddConsultant = () => {
     //   console.log(value);
     // }
 
-    post("Consultant/Register", subdata).then(res=>{
-      console.log("consultant",res);
-      var consId = res?.data?.result?.id;
-      if (res.status === 200 && res.data.isSuccess === true) {
-        addToast(res?.data?.message, {
-          appearance:'success',
-          autoDismiss: true,
-        });
-        if(consId){
-          history.push({
-            pathname: `/addConsGeneralInformation/${consId}`,
+    else{
+
+
+      post("Consultant/Register", subdata).then(res=>{
+        console.log("consultant",res);
+        
+        if (res.status === 200 && res.data.isSuccess === true) {
+          addToast(res?.data?.message, {
+            appearance:'success',
+            autoDismiss: true,
           });
+          localStorage.setItem('consultantRegisterId', res?.data?.result?.id);
+          history.push('/addConsultantInformation');
+          
         }
-      }
-    })
+      })
+
+
+    }
+
+  
 
   };
 
@@ -105,6 +144,7 @@ const AddConsultant = () => {
 
     return (
         <div>
+
              <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Consultant Registration</h3>
@@ -124,7 +164,7 @@ const AddConsultant = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Consultant type <span className="text-danger">*</span>{" "}
+                      Consultant Type <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -136,16 +176,19 @@ const AddConsultant = () => {
                       id="consultantTypeId"
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    {
+
+                      consultantError && 
+                      <span className='text-danger'>Select Consultant Type</span>
+                    }
+
                   </Col>
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Parent consultant <span className="text-danger">*</span>{" "}
+                      Parent Consultant <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -157,16 +200,18 @@ const AddConsultant = () => {
                       id="parentConsultantId"
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   {
+                    parentError && 
+                    <span className='text-danger'>Select Parent Consultant</span>
+                   }
+
                   </Col>
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Name title <span className="text-danger">*</span>{" "}
+                      Name Title <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -178,9 +223,12 @@ const AddConsultant = () => {
                     id="nameTittleId"
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    {
+                      titleError && 
+                      <span className='text-danger'>Select Name Title</span>
+
+                    }
+
                   </Col>
                 </FormGroup>
 
@@ -188,7 +236,7 @@ const AddConsultant = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      First name <span className="text-danger">*</span>{" "}
+                      First Name <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -196,13 +244,11 @@ const AddConsultant = () => {
                       type="text"
                       name="firstName"
                       id="firstName"
-                      placeholder="Enter first name"
+                      placeholder="Enter First Name"
                       required
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -211,7 +257,7 @@ const AddConsultant = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Last name <span className="text-danger">*</span>{" "}
+                      Last Name <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -219,13 +265,11 @@ const AddConsultant = () => {
                       type="text"
                       name="lastName"
                       id="lastName"
-                      placeholder="Enter last name"
+                      placeholder="Enter Last Name"
                       required
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                  
                   </Col>
                 </FormGroup>
 
@@ -240,20 +284,26 @@ const AddConsultant = () => {
                       type="email"
                       name="email"
                       id="email"
-                      placeholder="Enter email"
+                      placeholder="Enter Email"
                       required
+                      onBlur={handleEmail}
                     />
+                     
+                    {
+                      !emailError ? 
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
+                    
                   </Col>
                 </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
+              <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Phone number <span className="text-danger">*</span>{" "}
+                      Phone Number  <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -261,13 +311,30 @@ const AddConsultant = () => {
                       type="text"
                       name="phoneNumber"
                       id="phoneNumber"
-                      placeholder="Enter phone number"
+                      placeholder="Enter Phone Number"
                       required
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Password <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                   <Input
+                      type="password"
+                      name="password"
+                      id="password"
+                      placeholder="Enter Password"
+                      required
+                    />
+
+                  
                   </Col>
                 </FormGroup>
 

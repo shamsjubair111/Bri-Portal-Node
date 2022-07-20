@@ -213,7 +213,7 @@ setStudentTypeValue(value);
   }));
 
 
-       // select  Student type
+      
 const selectVisaStatus = (label, value) => {
 setVisaStatusLabel(label);
 setVisaStatusValue(value);

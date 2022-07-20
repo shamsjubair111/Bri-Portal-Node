@@ -7,6 +7,8 @@ import get from '../../../helpers/get';
 import StudentProfileImage from './StudentProfileImage';
 import { Image } from 'antd';
 import { useSelector } from 'react-redux';
+import { Upload, Modal } from 'antd';
+import * as Icon from 'react-feather';
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
 import { useToasts } from "react-toast-notifications";
@@ -21,11 +23,11 @@ const PersonalInformation = () => {
 
   const consultantValueId = localStorage.getItem('personalInfoConsultantId');
 
-  const dispatch = useDispatch();
+  
 
-  const profileImageData = useSelector((state) => state?.StudentProfileImageReducer?.studentImage[0]);
+  
 
-  console.log('11111111',profileImageData);
+ 
 
     const history = useHistory();
 
@@ -41,7 +43,7 @@ const PersonalInformation = () => {
 
 
     const [activetab, setActivetab] = useState("2");
-    const [submitData, setSubmitData] = useState(false);
+    
     const [title,setTitle] = useState([]);
     const [titleLabel,setTitleLabel] = useState('Select');
     const [titleValue,setTitleValue] = useState(0);
@@ -78,6 +80,18 @@ const PersonalInformation = () => {
       const [genderError, setGenderError] = useState(false);
       const [maritalStatusError, setMaritalStatusError]  = useState(false);
       const [nationalityError, setNationalityError] = useState(false);
+
+
+
+      const [previewVisible, setPreviewVisible] = useState(false);
+      const [previewImage, setPreviewImage] = useState('');
+      const [previewTitle, setPreviewTitle] = useState('');
+      const [FileList, setFileList] = useState([]);
+    
+    
+    
+    
+      const dispatch = useDispatch();
 
 
     useEffect(()=>{
@@ -180,11 +194,64 @@ const PersonalInformation = () => {
 
 
 
+    // Trial start
 
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+
+    
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+
+
+const  handleCancel = () => {
+    setPreviewVisible(false);
+};
+
+const handlePreview = async file => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
+  }
+
+  
+
+  setPreviewImage(file.url || file.preview);
+  setPreviewVisible(true);
+  setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+};
+
+const handleChange = ({ fileList }) => {
+   setFileList(fileList);
+   
+  
+};
+
+// dispatch(StoreStudentProfileImageData(FileList));
+
+
+console.log('One two three', FileList[0]?.originFileObj);
+
+
+
+    // Trial End
+
+
+    // const profileImageData = useSelector((state) => state?.StudentProfileImageReducer?.studentImage);
+
+    // console.log('11111111',profileImageData);
+
+
+   
 
     const toggle = (tab) => {
         setActivetab(tab);
@@ -366,11 +433,12 @@ const handleSubmit = (event) => {
  
 
   const subData = new FormData(event.target);
-  subData.append('profileImageFile',profileImageData?.originFileObj);
+  subData.append('profileImageFile',FileList[0]?.originFileObj);
   
   // for( var x of subData.values()){
   //   console.log(x);
   // }
+  
 
   const config = {
     headers: {
@@ -414,6 +482,7 @@ const handleSubmit = (event) => {
           autoDismiss: true
         })
         setSuccess(!success);
+        setFileList([]);
        
       }
     })
@@ -423,6 +492,13 @@ const handleSubmit = (event) => {
 
   
 }
+
+
+
+
+
+
+
 
 
     return (
@@ -454,8 +530,8 @@ const handleSubmit = (event) => {
          </NavLink>
        </NavItem>
  
-           <NavItem>
-             <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+           <NavItem >
+             <NavLink  style={{ color: '#1e98b0'}} active={activetab === "2"} onClick={() => toggle("2")}>
                Personal 
              </NavLink>
            </NavItem>
@@ -957,7 +1033,36 @@ const handleSubmit = (event) => {
                 }
 
                   <div className='col-md-3'>
-                  <StudentProfileImage></StudentProfileImage>
+                  <>
+                  <Upload
+                   
+                    listType="picture-card"
+                    multiple={false}
+                    fileList={FileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                    beforeUpload={(file)=>{
+          
+                    
+                        
+                      
+                        return false;
+                    }}
+                  >
+                     {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+                     <br/>
+                     <span>Upload Image Here</span>
+                     </div>: ''}
+                  </Upload>
+                  <Modal
+                    visible={previewVisible}
+                    title={previewTitle}
+                    footer={null}
+                    onCancel={handleCancel}
+                  >
+                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                  </Modal>
+                </>
                   </div>
 
                      

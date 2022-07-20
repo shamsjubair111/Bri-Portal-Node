@@ -106,6 +106,8 @@ const AddConsultant = lazy(() => import("./views/SMS/Consultant/AddConsultant"))
 const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultantType"))
 const ConsGeneralInformation = lazy(() => import("./views/SMS/Consultant/ConsGeneralInformation"))
 const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
+const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
+
 
 // University Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
@@ -321,6 +323,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/addConsultantType" component={AddConsultantType} />
           <AppRoute path="/addConsGeneralInformation/:id" component={ConsGeneralInformation} />
           <AppRoute path="/addBankDetails/:id" component={BankDetails} />
+          <AppRoute path="/addConsultantInformation" component={AddConsultantInformation} />
           
 
          <AppRoute path="/addUniversityCampus" component={AddUniversityCampus} />
