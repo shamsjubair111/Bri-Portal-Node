@@ -47,10 +47,10 @@ const OtherInformation = () => {
 
     },[])
 
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const toggle = (tab) => {
         setActivetab(tab);
@@ -109,6 +109,21 @@ const OtherInformation = () => {
 
         }
 
+        else if(id){
+
+          put('OtherInformation/Update',subData)
+          .then(res => {
+            if(res?.status ==200 ){
+              addToast(res?.data?.message,{
+                appearance:'success',
+                autoDismiss:true
+              })
+              localStorage.removeItem('method');
+            }
+          })
+
+        }
+
         else{
 
           post('OtherInformation/Create', subData)
@@ -119,6 +134,7 @@ const OtherInformation = () => {
               appearance:'success',
               autoDismiss:true
             })
+            localStorage.removeItem('method');
 
           }
         })
@@ -139,6 +155,10 @@ const OtherInformation = () => {
     }
   
 
+    const previousPage = () => {
+      history.push('/addPersonalStatement');
+    }
+
 
 
     return (
@@ -148,9 +168,9 @@ const OtherInformation = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Other Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -357,19 +377,40 @@ const OtherInformation = () => {
       }
 
       
-        <FormGroup
-          className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
-        </FormGroup>
+      <FormGroup row
+      className="has-icon-left position-relative"
+      style={{ display: "flex", justifyContent: "end" }}
+    >
+      
+  <Col md="5">
+  
+  <Button.Ripple
+  type="submit"
+  className="mr-1 mt-3 badge-primary"
+>
+  Submit
+</Button.Ripple>
+
+  </Col>
+
+     
+    </FormGroup>
       </Form>
       
+      <FormGroup
+      className="has-icon-left position-relative"
+      style={{ display: "flex", justifyContent: "space-between" }}
+    >
+      <Button.Ripple
+        type="submit"
+        className="mr-1 mt-3 btn-warning"
+        onClick= {previousPage}
+      >
+      <i className="fas fa-arrow-left-long me-1"></i>
+        Previous
+      </Button.Ripple>
+     
+    </FormGroup>
 
    
            

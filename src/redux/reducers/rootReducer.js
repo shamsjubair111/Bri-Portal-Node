@@ -31,6 +31,7 @@ import { universityListReducer } from "./SMS/UniversityListReducer";
 import { universityCampusListReducer } from "./SMS/UniversityCampusListReducer";
 import { universityCountryDataReducer } from "./SMS/UniversityCountryReducer";
 import { universityProviderDataReducer } from "./SMS/Provider/UniversityProviderReducer";
+import { GeneralProviderlogoFile } from "./SMS/Provider/ProviderLogoFileReducer";
 import { universityStateDataReducer } from "./SMS/UniversityStateReducer";
 
 // UniversitySubject
@@ -133,7 +134,10 @@ const rootReducer = combineReducers({
   ConsultantFileReducer,
 
   //  Student profile image reducer
-  StudentProfileImageReducer
+  StudentProfileImageReducer,
+
+  // General Provider Logo
+  GeneralProviderlogoFile 
 
   
 

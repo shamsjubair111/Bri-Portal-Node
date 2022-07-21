@@ -17,6 +17,10 @@ import { StoreUniversityProviderData } from '../../../redux/actions/SMS/Provider
 
 
 const ProviderList = () => {
+
+
+  
+
     const history = useHistory();
     const [providerList, setProviderList] = useState([]);
     const [searchStr, setSearchStr] = useState('');
@@ -99,7 +103,7 @@ const ProviderList = () => {
       .then(res => {
       
         
-        addToast(res?.data?.message, {
+        addToast(res, {
           appearance:  'error',
           autoDismiss: true,
         })
@@ -179,14 +183,15 @@ const ProviderList = () => {
 
     return (
         <div>
-            <Card className="uapp-card-bg">
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-
           <h3 className="text-light">Provider List</h3>
-          <div className="page-header-back-to-home" >
-            <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+          <div className="page-header-back-to-home">
+            <span className="text-light" onClick={backToDashboard}>
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+            </span>
           </div>
-
         </CardHeader>
       </Card>
 

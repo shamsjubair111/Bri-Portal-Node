@@ -30,6 +30,8 @@ const Experience = () => {
     const [sDate, setSDate] = useState('');
     const [eDate, setEDate] = useState('');
 
+    const method = localStorage.getItem('method');
+
 
     const handleChange = (e) => {
       
@@ -62,31 +64,46 @@ const Experience = () => {
       history.push('/addTestScore');
     }
 
-
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
           history.push("/addStudentApplicationInformation");
         }
-
+      
         if (tab == "2") {
           history.push("/addStudentInformation");
         }
-
+      
         if (tab == "3") {
           history.push("/addStudentContactInformation");
         }
-
+      
         if (tab == "4") {
           history.push("/addStudentEducationalInformation");
         }
+      
         if (tab == "5") {
           history.push("/addTestScore");
+        }
+      
+        if (tab == "6") {
+          history.push("/addExperience");
+        }
+      
+        if (tab == "7") {
+          history.push("/addReference");
+        }
+      
+        if (tab == "8") {
+          history.push("/addPersonalStatement");
+        }
+        if (tab == "9") {
+          history.push("/addOtherInformation");
         }
 
         
@@ -259,9 +276,9 @@ console.log('trying', sDate?.split(",")[0]);
         <CardHeader className="page-header">
           <h3 className="text-light">Add Experience Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -269,66 +286,141 @@ console.log('trying', sDate?.split(",")[0]);
 
       <Card>
       <CardBody>
-      <Nav tabs>
+      {
 
-          <NavItem>
-          <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
-            Application
-          </NavLink>
-        </NavItem>
+        method == 'put'?
+     
+       <Nav tabs>
 
-            <NavItem>
-              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                Personal
-              </NavLink>
-            </NavItem>
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "3"} onClick={() => toggle("3")}>
-                Contact
-              </NavLink>
-            </NavItem>
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
 
-         
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "4"} onClick={() => toggle("4")}>
-                Educational
-              </NavLink>
-            </NavItem>
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
-                Test Score
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink  active={activetab === "6"} onClick={() => toggle("6")}>
-                Experience
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink disabled active={activetab === "7"} onClick={() => toggle("7")}>
-                Reference
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
-                Personal Statement
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
-                Others
-              </NavLink>
-            </NavItem>
-           
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
 
-          </Nav>
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+       :
+
+       <Nav tabs>
+
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
+
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
+
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+     }
           <div className='row'>
         
       
@@ -576,31 +668,45 @@ console.log('trying', sDate?.split(",")[0]);
         {
           (value.id) ?
 
-          <FormGroup
+          <FormGroup row
           className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
+          style={{ display: "flex", justifyContent: "end" }}
         >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Update
-          </Button.Ripple>
+          
+      <Col md="5">
+      
+      <Button.Ripple
+      type="submit"
+      className="mr-1 mt-3 badge-primary"
+    >
+      Update
+    </Button.Ripple>
+   
+      </Col>
+   
+         
         </FormGroup>
 
         :
 
-          <FormGroup
-          className="has-icon-left position-relative"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
-        </FormGroup>
+        <FormGroup row
+        className="has-icon-left position-relative"
+        style={{ display: "flex", justifyContent: "end" }}
+      >
+        
+    <Col md="5">
+    
+    <Button.Ripple
+    type="submit"
+    className="mr-1 mt-3 badge-primary"
+  >
+    Submit
+  </Button.Ripple>
+ 
+    </Col>
+ 
+       
+      </FormGroup>
 
         }
         
@@ -618,18 +724,28 @@ console.log('trying', sDate?.split(",")[0]);
         <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
     
         </FormGroup>
-        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
-
-       
-        <Button onClick={onPreviousPage} color="primary uapp-form-button">Previous</Button>
-        <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
-        </FormGroup>
+    
 
         
         </>
 
         
           }
+
+          <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+
+       
+          <Button onClick={onPreviousPage}   className="ms-md-1 mt-3 btn-warning">
+          <i className="fas fa-arrow-left-long me-1"></i>
+          Previous</Button>
+          <Button onClick={onNextPage} className="me-md-1 mt-3 btn-warning"
+          disabled = {info?.length <=0 ? true : false}
+          >
+  
+          Next Page
+          <i className="fas fa-arrow-right-long ms-1"></i>
+          </Button>
+          </FormGroup>
        
       </CardBody>
     </Card>

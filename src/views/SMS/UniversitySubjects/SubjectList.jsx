@@ -28,6 +28,7 @@ import {
 
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import * as XLSX from 'xlsx/xlsx.mjs';
+// import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import ReactToPrint from 'react-to-print';
 
 import Select from "react-select";

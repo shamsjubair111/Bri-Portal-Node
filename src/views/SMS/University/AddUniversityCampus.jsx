@@ -320,7 +320,7 @@ const cancel=()=>{
                   :
 
 
-                  <NavLink disabled
+                  <NavLink 
                     active={activetab === '3'}
                   >
 
@@ -334,7 +334,7 @@ const cancel=()=>{
             </NavItem>
 
             <NavItem>
-              <NavLink disabled
+              <NavLink 
                 active={activetab === '4'}
               >
 
@@ -343,11 +343,20 @@ const cancel=()=>{
             </NavItem>
 
             <NavItem>
-              <NavLink disabled
+              <NavLink 
                 active={activetab === '5'}
               >
 
                 University Gallery
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink 
+                active={activetab === '6'}
+              >
+
+                Application Document
               </NavLink>
             </NavItem>
 

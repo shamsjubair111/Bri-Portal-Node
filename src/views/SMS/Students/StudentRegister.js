@@ -23,6 +23,11 @@ const StudentRegister = () => {
   const [consultantLabel, setconsultantLabel] = useState('Consultant');
   const [consultantValue, setConsultantValue] = useState(0);
 
+   const [consultantError, setConsultantError] = useState(false);
+   const [studentError, setStudentError] = useState(false);
+
+
+
 
   useEffect(()=>{
 
@@ -51,6 +56,8 @@ const StudentRegister = () => {
 
        // select  Student type
 const selectStudentType = (label, value) => {
+
+setStudentError(false);  
 setStudentTypeLabel(label);
 setStudentTypeValue(value);
 
@@ -67,6 +74,8 @@ setStudentTypeValue(value);
 
        // select  consultant
 const selectConsultant = (label, value) => {
+
+setConsultantError(false);  
 setconsultantLabel(label);
 setConsultantValue(value);
 
@@ -90,31 +99,56 @@ const cancelForm = () => {
       const handleRegisterStudent = (event) => {
 
         event.preventDefault();
-        const subdata = new FormData(event.target);
 
-        // for( var x of subdata.values() ){
-        //   console.log(x);
-        // }
+        if(studentTypeValue == 0){
 
-        post('Student/Register',subdata)
-        .then(res => {
-          console.log('hello',res);
-          localStorage.setItem('applictionStudentTypeId',res?.data?.result?.studentTypeId);
-          localStorage.setItem('applictionStudentId',res?.data?.result?.id);
-          localStorage.setItem('personalInfoConsultantId',res?.data?.result?.consultantId);
-          localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
-          localStorage.setItem('registerUserId',res?.data?.result?.userId);
-          localStorage.setItem('registerEmail',res?.data?.result?.email);
+          setStudentError(true);
 
+          
 
-          // localStorage.setItem('')
-       
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
+        }
+
+        if(consultantValue == 0) {
+
+          setConsultantError(true);
+
+          
+         
+        }
+
+        
+
+        else{
+
+          const subdata = new FormData(event.target);
+
+          // for( var x of subdata.values() ){
+          //   console.log(x);
+          // }
+  
+          post('Student/Register',subdata)
+          .then(res => {
+            console.log('hello',res);
+            localStorage.setItem('applictionStudentTypeId',res?.data?.result?.studentTypeId);
+            localStorage.setItem('applictionStudentId',res?.data?.result?.id);
+            localStorage.setItem('personalInfoConsultantId',res?.data?.result?.consultantId);
+            localStorage.setItem('registerStudentViewId',res?.data?.result?.studentViewId);
+            localStorage.setItem('registerUserId',res?.data?.result?.userId);
+            localStorage.setItem('registerEmail',res?.data?.result?.email);
+            localStorage.removeItem('method');
+  
+  
+            // localStorage.setItem('')
+         
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push('/addStudentApplicationInformation');
           })
-          history.push('/addStudentApplicationInformation');
-        })
+          
+        }
+       
         
       }
 
@@ -155,13 +189,20 @@ const cancelForm = () => {
                     onChange={(opt) => selectStudentType(opt.label, opt.value)}
                     name="studentTypeId"
                     id="studentTypeId"
-                    required
+                  
 
                   />
+                  {
+                    studentError &&
+                    <span className='text-danger'>Select Student Type</span>
+                  }
+                
+                  
 
                   
                 </Col>
               </FormGroup>
+
             <FormGroup row className="has-icon-left position-relative">
                 <Col md="2">
                   <span>
@@ -175,13 +216,20 @@ const cancelForm = () => {
                     onChange={(opt) => selectConsultant(opt.label, opt.value)}
                     name="consultantId"
                     id="consultantId"
-                    required
+                   
 
                   />
+
+                  {
+                    consultantError &&
+                    <span className='text-danger'>Select Consultant</span>
+                  }
+                
 
                   
                 </Col>
               </FormGroup>
+
 
 
               <FormGroup row className="has-icon-left position-relative">

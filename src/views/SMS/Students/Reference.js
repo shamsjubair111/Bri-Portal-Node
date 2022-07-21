@@ -18,11 +18,11 @@ const Reference = () => {
     const [deleteModal, setDeleteModal] = useState(false);
 
     const [country,setCountry] = useState([]);
-    const [countryLabel, setCountryLabel] = useState("Country");
+    const [countryLabel, setCountryLabel] = useState("Select Country");
       const [countryValue, setCountryValue] = useState(0);
 
     const [reference,setReference] = useState([]);
-    const [referenceLabel, setReferenceLabel] = useState("Reference type");
+    const [referenceLabel, setReferenceLabel] = useState("Select Reference type");
       const [referenceValue, setReferenceValue] = useState(0);
       const [refList, setRefList] = useState([]);
       const [showForm, setShowForm] = useState(false);
@@ -32,6 +32,11 @@ const Reference = () => {
   
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
+
+    const method = localStorage.getItem('method');
+
+    const [referenceError, setReferenceError] = useState(false);
+    const [countryError, setCountryError] = useState(false);
 
 
     useEffect(()=>{
@@ -60,34 +65,46 @@ const Reference = () => {
     },[])
 
 
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
           history.push("/addStudentApplicationInformation");
         }
-
+      
         if (tab == "2") {
           history.push("/addStudentInformation");
         }
-
+      
         if (tab == "3") {
           history.push("/addStudentContactInformation");
         }
-
+      
         if (tab == "4") {
           history.push("/addStudentEducationalInformation");
         }
-
+      
         if (tab == "5") {
           history.push("/addTestScore");
         }
+      
         if (tab == "6") {
           history.push("/addExperience");
+        }
+      
+        if (tab == "7") {
+          history.push("/addReference");
+        }
+      
+        if (tab == "8") {
+          history.push("/addPersonalStatement");
+        }
+        if (tab == "9") {
+          history.push("/addOtherInformation");
         }
 
         
@@ -106,6 +123,8 @@ const Reference = () => {
 
            // select  Country
   const selectCountry = (label, value) => {
+
+    setCountryError(false);
     setCountryLabel(label);
     setCountryValue(value);
     
@@ -122,6 +141,8 @@ const Reference = () => {
 
            // select  reference
   const selectReference = (label, value) => {
+
+    setReferenceError(false);
     setReferenceLabel(label);
     setReferenceValue(value);
     
@@ -188,10 +209,20 @@ const Reference = () => {
 // redirect to Next Page
 const onNextPage = () => {
   
-  history.push('/addPersonalStatement',
+  history.push('/addPersonalStatement'
    
   );
 };
+
+
+const onPreviousPage = () => {
+
+  history.push('/addExperience'
+   
+  );
+
+}
+
 
 
 const onShow=()=>{
@@ -205,49 +236,71 @@ const onShow=()=>{
     event.preventDefault();
     const subData = new FormData(event.target);
 
-    if(oneData?.id){
+    if(countryValue ==0 ){
+      setCountryError(true);
+    }
 
-      put('Reference/Update',subData)
-      .then(res => {
-        console.log(res);
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        setShowForm(false);
-        setOneData({});
-        get(`Reference/GetByStudentId/${studentIdVal}`)
-        .then(res => {
-            console.log(res);
-            setRefList(res);
-        })
-
-      })
-
+    if(referenceValue == 0){
+      setReferenceError(true);
     }
 
     else{
-      post('Reference/Create',subData)
-    .then(res => {
-      console.log(res);
-      if(res?.status == 200){
 
-        setShowForm(false);
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        get(`Reference/GetByStudentId/${studentIdVal}`)
+      if(oneData?.id){
+
+        put('Reference/Update',subData)
         .then(res => {
-            console.log(res);
-            setRefList(res);
+          console.log(res);
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setShowForm(false);
+          setOneData({});
+          get(`Reference/GetByStudentId/${studentIdVal}`)
+          .then(res => {
+              console.log(res);
+              setRefList(res);
+              setReferenceLabel('Select Reference Type');
+              setReferenceValue(0);
+              setCountryLabel('Select Country');
+              setCountryValue(0);
+          })
+  
         })
-
-
+  
+      }
+  
+      else{
+        post('Reference/Create',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+  
+          setShowForm(false);
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          get(`Reference/GetByStudentId/${studentIdVal}`)
+          .then(res => {
+              console.log(res);
+              setRefList(res);
+              setReferenceLabel('Select Reference Type');
+              setReferenceValue(0);
+              setCountryLabel('Select Country');
+              setCountryValue(0);
+          })
+  
+  
+        }
+  
+      })
       }
 
-    })
     }
+
+    
 
   }
 
@@ -260,9 +313,9 @@ const onShow=()=>{
         <CardHeader className="page-header">
           <h3 className="text-light">Add Reference Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -271,67 +324,141 @@ const onShow=()=>{
 
       <Card>
       <CardBody>
-      <Nav tabs>
+      {
 
-      <NavItem>
-      <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
-        Application
-      </NavLink>
-    </NavItem>
-
-        <NavItem>
-          <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-            Personal
-          </NavLink>
-        </NavItem>
-
-        <NavItem>
-          <NavLink  active={activetab === "3"} onClick={() => toggle("3")}>
-            Contact
-          </NavLink>
-        </NavItem>
-
+        method == 'put'?
      
+       <Nav tabs>
 
-        <NavItem>
-          <NavLink  active={activetab === "4"} onClick={() => toggle("4")}>
-            Educational
-          </NavLink>
-        </NavItem>
-     
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
 
-        <NavItem>
-          <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
-            Test Score
-          </NavLink>
-        </NavItem>
-       
-        <NavItem>
-          <NavLink  active={activetab === "6"} onClick={() => toggle("6")}>
-            Experience
-          </NavLink>
-        </NavItem>
-       
-        <NavItem>
-          <NavLink  active={activetab === "7"} onClick={() => toggle("7")}>
-            Reference
-          </NavLink>
-        </NavItem>
-       
-        <NavItem>
-          <NavLink disabled active={activetab === "8"} onClick={() => toggle("8")}>
-            Personal Statement
-          </NavLink>
-        </NavItem>
-       
-        <NavItem>
-          <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
-            Others
-          </NavLink>
-        </NavItem>
-       
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
 
-      </Nav>
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
+
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+       :
+
+       <Nav tabs>
+
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
+
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
+
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+     }
 
       <div className='row'>
 
@@ -449,6 +576,10 @@ const onShow=()=>{
 
 
           />
+          {
+            referenceError && 
+            <span className='text-danger'>Select Reference Type</span>
+          }
 
           
         </Col>
@@ -550,6 +681,10 @@ const onShow=()=>{
             required
 
           />
+          {
+            countryError && 
+            <span className='text-danger'>Select Country</span>
+          }
 
           {/* <div className="form-control-position">
                               <User size={15} />
@@ -626,17 +761,24 @@ const onShow=()=>{
     
 
     
-      <FormGroup
-        className="has-icon-left position-relative"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 badge-primary"
-        >
-          Submit
-        </Button.Ripple>
-      </FormGroup>
+    <FormGroup row
+    className="has-icon-left position-relative"
+    style={{ display: "flex", justifyContent: "end" }}
+  >
+    
+<Col md="5">
+
+<Button.Ripple
+type="submit"
+className="mr-1 mt-3 badge-primary"
+>
+Submit
+</Button.Ripple>
+
+</Col>
+
+   
+  </FormGroup>
     </Form>
 
 
@@ -651,11 +793,25 @@ const onShow=()=>{
 
    
     <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
-    <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
+   
     </FormGroup>
 
        }
 
+       <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+
+       
+       <Button onClick={onPreviousPage}   className="ms-md-1 mt-3 btn-warning">
+       <i className="fas fa-arrow-left-long me-1"></i>
+       Previous</Button>
+       <Button onClick={onNextPage} className="me-md-1 mt-3 btn-warning"
+       disabled = {refList?.length <=0 ? true : false}
+       >
+
+       Next Page
+       <i className="fas fa-arrow-right-long ms-1"></i>
+       </Button>
+       </FormGroup>
       
 
       

@@ -1,10 +1,9 @@
 import { Upload, Modal } from 'antd';
 import "antd/dist/antd.css";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as Icon from 'react-feather';
 import { useDispatch } from 'react-redux';
-import get from '../../../helpers/get';
-import { StoreStudentProfileImageData } from '../../../redux/actions/SMS/Students/StudentProfileImageAction';
+import { StoreProviderDataLogoFile } from '../../../redux/actions/SMS/Provider/ProviderLogoFile';
 
 
 
@@ -13,16 +12,13 @@ import { StoreStudentProfileImageData } from '../../../redux/actions/SMS/Student
 
 
 
-const  StudentProfileImage = () => {
+const  ProviderLogo = () => {
 
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [FileList, setFileList] = useState([]);
-
-
-
 
   const dispatch = useDispatch();
   
@@ -48,7 +44,7 @@ const  StudentProfileImage = () => {
       file.preview = await getBase64(file.originFileObj);
     }
 
-    
+  
 
     setPreviewImage(file.url || file.preview);
     setPreviewVisible(true);
@@ -68,8 +64,7 @@ const  StudentProfileImage = () => {
 
 
 
-
-dispatch(StoreStudentProfileImageData(FileList));
+dispatch(StoreProviderDataLogoFile(FileList));
 
 
 
@@ -95,10 +90,7 @@ dispatch(StoreStudentProfileImageData(FileList));
               return false;
           }}
         >
-           {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
-           <br/>
-           <span>Upload Image Here</span>
-           </div>: ''}
+           {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/></div>: ''}
         </Upload>
         <Modal
           visible={previewVisible}
@@ -113,5 +105,5 @@ dispatch(StoreStudentProfileImageData(FileList));
   
 }
 
-export default StudentProfileImage;
+export default ProviderLogo;
 

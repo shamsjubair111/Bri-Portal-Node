@@ -360,6 +360,12 @@ const AddUniversity = (props) => {
               </NavLink>
             </NavItem>
 
+            <NavItem>
+              <NavLink disabled active={activetab === "6"}>
+                Application Document
+              </NavLink>
+            </NavItem>
+
           </Nav>
 
           <TabContent activeTab={activetab}>

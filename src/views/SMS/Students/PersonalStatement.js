@@ -35,10 +35,10 @@ const PersonalStatement = () => {
     },[])
 
 
-    const backToDashboard = () =>{
-       
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
+  
 
     const previousPage = () => {
       history.push('/addReference');
@@ -53,28 +53,36 @@ const PersonalStatement = () => {
         if (tab == "1") {
           history.push("/addStudentApplicationInformation");
         }
-
+      
         if (tab == "2") {
           history.push("/addStudentInformation");
         }
-
+      
         if (tab == "3") {
           history.push("/addStudentContactInformation");
         }
-
+      
         if (tab == "4") {
           history.push("/addStudentEducationalInformation");
         }
+      
         if (tab == "5") {
           history.push("/addTestScore");
         }
-
+      
         if (tab == "6") {
           history.push("/addExperience");
         }
-
+      
         if (tab == "7") {
           history.push("/addReference");
+        }
+      
+        if (tab == "8") {
+          history.push("/addPersonalStatement");
+        }
+        if (tab == "9") {
+          history.push("/addOtherInformation");
         }
 
         
@@ -85,7 +93,7 @@ const PersonalStatement = () => {
 
         const subData = new FormData(event.target);
 
-       if(method == 'put'){
+       if(method == 'put' || id){
 
         put('PersonalStatement/Update',subData)
         .then(res => {
@@ -94,7 +102,7 @@ const PersonalStatement = () => {
               appearance: 'success',
               autoDismiss: true
             })
-            history.push('/addOtherInformation');
+            
           }
         })
 
@@ -130,9 +138,9 @@ const PersonalStatement = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Personal Statement</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>
@@ -141,67 +149,141 @@ const PersonalStatement = () => {
 
       <Card>
       <CardBody>
-      <Nav tabs>
+      {
 
-          <NavItem>
-          <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
-            Application
-          </NavLink>
-        </NavItem>
+        method == 'put'?
+     
+       <Nav tabs>
 
-            <NavItem>
-              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                Personal
-              </NavLink>
-            </NavItem>
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "3"} onClick={() => toggle("3")}>
-                Contact
-              </NavLink>
-            </NavItem>
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
 
-         
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "4"} onClick={() => toggle("4")}>
-                Educational
-              </NavLink>
-            </NavItem>
-         
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
 
-            <NavItem>
-              <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
-                Test Score
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink  active={activetab === "6"} onClick={() => toggle("6")}>
-                Experience
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink  active={activetab === "7"} onClick={() => toggle("7")}>
-                Reference
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink  active={activetab === "8"} onClick={() => toggle("8")}>
-                Personal Statement
-              </NavLink>
-            </NavItem>
-           
-            <NavItem>
-              <NavLink disabled active={activetab === "9"} onClick={() => toggle("9")}>
-                Others
-              </NavLink>
-            </NavItem>
-           
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
 
-          </Nav>
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+       :
+
+       <Nav tabs>
+
+       <NavItem>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         Application 
+       </NavLink>
+     </NavItem>
+
+         <NavItem>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+             Personal 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             Contact 
+           </NavLink>
+         </NavItem>
+
+        
+         <NavItem>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             Educational 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             Test Score
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             Experience 
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             Reference
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             Personal Statement
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+
+           <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
+             Others
+           </NavLink>
+         </NavItem>
+        
+
+       </Nav>
+
+     }
 
           <Form onSubmit={handlePersonalStatement} className="mt-5">
 
@@ -209,7 +291,7 @@ const PersonalStatement = () => {
           
           {
 
-            method == 'put' ?
+            (method == 'put' || id) ?
 
             <input
             type='hidden'
@@ -253,41 +335,51 @@ const PersonalStatement = () => {
         </FormGroup>
 
       
-        <FormGroup
+        <FormGroup row
         className="has-icon-left position-relative"
         style={{ display: "flex", justifyContent: "end" }}
       >
+        
+    <Col md="5">
+    
+    <Button.Ripple
+    type="submit"
+    className="mr-1 mt-3 badge-primary"
+  >
+    Submit
+  </Button.Ripple>
+ 
+    </Col>
+ 
        
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 badge-primary"
-        >
-          Submit
-        </Button.Ripple>
       </FormGroup>
 
-        <FormGroup
-        className="has-icon-left position-relative"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 btn-warning"
-          onClick= {previousPage}
-        >
-          Previous
-        </Button.Ripple>
-        <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 badge-primary"
-          onClick={goNext}
-        >
-          Next Page
-        </Button.Ripple>
-      </FormGroup>
+       
       </Form>
       
 
+      <FormGroup
+      className="has-icon-left position-relative"
+      style={{ display: "flex", justifyContent: "space-between" }}
+    >
+      <Button.Ripple
+        type="submit"
+        className="mr-1 mt-3 btn-warning"
+        onClick= {previousPage}
+      >
+      <i className="fas fa-arrow-left-long me-1"></i>
+        Previous
+      </Button.Ripple>
+      <Button.Ripple
+        type="submit"
+        className="mr-1 mt-3 btn-warning"
+        onClick={goNext}
+        disabled = {statement == 'false' ? true : false}
+      >
+        Next Page
+        <i className="fas fa-arrow-right-long ms-1"></i>
+      </Button.Ripple>
+    </FormGroup>
    
            
        

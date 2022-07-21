@@ -56,7 +56,7 @@ class StudentLogin extends React.Component {
                   <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>
                   <CardHeader className="pb-1">
                     <CardTitle>
-                      <h4 className="mb-0">Student Login</h4>
+                      <h4 className="mb-0">Login</h4>
                     </CardTitle>
                   </CardHeader>
                   <p className=" pl-4 auth-title">
