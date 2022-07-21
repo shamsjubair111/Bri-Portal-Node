@@ -100,6 +100,13 @@ const AddNewIntakes = lazy(() => import("./views/SMS/University/AddNewIntakes.js
 const UpdateIntake = lazy(() => import("./views/SMS/University/UpdateIntake.jsx"))
 
 // consultant
+const ConsultantList = lazy(() => import("./views/SMS/Consultant/ConsultantList"))
+const ConsultantProfile = lazy(() => import("./views/SMS/Consultant/ConsultantProfile"))
+const AddConsultant = lazy(() => import("./views/SMS/Consultant/AddConsultant"))
+const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultantType"))
+const ConsGeneralInformation = lazy(() => import("./views/SMS/Consultant/ConsGeneralInformation"))
+const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
+const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
 
 
 
@@ -315,7 +322,13 @@ class AppRouter extends React.Component {
 
 
           {/* consultant */}
-          
+          <AppRoute path="/consultantList" component={ConsultantList} />
+          <AppRoute path="/consultantProfile" component={ConsultantProfile} />
+          <AppRoute path="/addConsultant" component={AddConsultant} />
+          <AppRoute path="/addConsultantType" component={AddConsultantType} />
+          <AppRoute path="/addConsGeneralInformation/:id" component={ConsGeneralInformation} />
+          <AppRoute path="/addBankDetails/:id" component={BankDetails} />
+          <AppRoute path="/addConsultantInformation" component={AddConsultantInformation} />
           
           
 
