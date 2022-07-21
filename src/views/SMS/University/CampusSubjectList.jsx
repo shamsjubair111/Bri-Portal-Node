@@ -139,7 +139,7 @@ const CampusSubjectList = () => {
 
     useEffect(()=>{
         get(`Subject/GetByCampusId?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${camId}&search=${searchStr}`).then(res=>{
-            // console.log("subject",res);
+            console.log("subject",res);
             setSubList(res?.models);
             setEntity(res?.totalEntity);
         })
@@ -168,7 +168,6 @@ const CampusSubjectList = () => {
       var wb = XLSX.utils.book_new(),
       ws = XLSX.utils.json_to_sheet(subList);
       XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
-  
       XLSX.writeFile(wb, "MyExcel.xlsx");
     };
   
@@ -268,9 +267,18 @@ const CampusSubjectList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
-                    <DropdownMenu>
-                    <DropdownItem>
-                        <p onClick={handleExportXLSX}>Export to XLSX</p>
+                    <DropdownMenu className='bg-dd'>
+                    <div className='d-flex justify-content-around align-items-center mt-2'>
+                          <div className='text-light cursor-pointer'>
+                             <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                          </div>
+                          <div className='text-light cursor-pointer'>
+                            <ReactToPrint
+                               trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                               content={() => componentRef.current}
+                             />
+                          </div>
+                        </div>
 
                         {/* <ReactHTMLTableToExcel
                           id="test-table-xls-button"
@@ -282,15 +290,6 @@ const CampusSubjectList = () => {
 
                         
                            {/* <Button onClick={onDownload}> Export excel </Button> */}
-
-                      </DropdownItem>
-
-                      <DropdownItem>
-                      <ReactToPrint
-                           trigger={() => <p>Export to PDF</p>}
-                           content={() => componentRef.current}
-                         />
-                      </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </Col>

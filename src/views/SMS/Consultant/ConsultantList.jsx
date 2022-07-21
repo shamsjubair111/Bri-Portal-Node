@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     Card,
     CardBody,
@@ -25,6 +25,9 @@ import { useHistory, useLocation } from "react-router";
 import get from "../../../helpers/get.js";
 import { rootUrl } from "../../../constants/constants.js";
 import { useState } from 'react';
+
+import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactToPrint from 'react-to-print';
 
 const ConsultantList = () => {
 
@@ -114,7 +117,7 @@ const ConsultantList = () => {
         setEntity(res?.totalEntity);
         setLoading(false);
       })
-    },[currentPage, dataPerPage, callApi, searchStr, entity])
+    },[currentPage, dataPerPage, callApi, searchStr, entity, loading])
 
     const handleDate = e =>{
       var datee = e;
@@ -123,6 +126,16 @@ const ConsultantList = () => {
       const x = localeDate.split(",")[0];
       return x;
     }
+
+    const handleExportXLSX = () => {
+      var wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(consultantList);
+      XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+  
+      XLSX.writeFile(wb, "MyExcel.xlsx");
+    };
+
+  const componentRef = useRef();
 
     return (
         <div>
@@ -232,12 +245,29 @@ const ConsultantList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem>Export All</DropdownItem>
-                      {/* <DropdownItem divider /> */}
-                      <DropdownItem>Export Excel</DropdownItem>
-                      <DropdownItem>Export PDF</DropdownItem>
-                      <DropdownItem>Export CSV</DropdownItem>
+                    <DropdownMenu className='bg-dd'>
+                    <div className='d-flex justify-content-around align-items-center mt-2'>
+                          <div className='text-light cursor-pointer'>
+                             <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                          </div>
+                          <div className='text-light cursor-pointer'>
+                            <ReactToPrint
+                               trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                               content={() => componentRef.current}
+                             />
+                          </div>
+                        </div>
+
+                        {/* <ReactHTMLTableToExcel
+                          id="test-table-xls-button"
+                          className="download-table-xls-button"
+                          table="table-to-xls"
+                          filename="tablexls"
+                          sheet="tablexls"
+                          buttonText="Download as XLS"/> */}
+
+                        
+                           {/* <Button onClick={onDownload}> Export excel </Button> */}
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
@@ -248,7 +278,7 @@ const ConsultantList = () => {
           {loading ? (
             <h2 className="text-center">Loading...</h2>
           ) : (
-            <div className="table-responsive">
+            <div className="table-responsive mb-2" ref={componentRef}>
               <Table className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
@@ -275,7 +305,7 @@ const ConsultantList = () => {
                     <tr key={consultant?.id} style={{ textAlign: "center" }}>
                       <th scope='row'>{serialNum + i}</th>
                       
-                      <td>
+                      <td style={{width: '10px'}}>
                         {consultant?.firstName} {consultant?.lastName}
                       </td>
                       <td>{consultant?.email}</td>

@@ -196,7 +196,13 @@ const StudentList = () => {
         
       }
 
-
+      const handleDate = e =>{
+        var datee = e;
+        var utcDate = new Date(datee);
+        var localeDate = utcDate.toLocaleString("en-CA");
+        const x = localeDate.split(",")[0];
+        return x;
+      }
 
 
 
@@ -234,7 +240,7 @@ const StudentList = () => {
                       name="search"
                       value={searchStr}
                       id="search"
-                      placeholder="Name"
+                      placeholder="Id, Name, Email"
                       onChange={searchValue}
                       onKeyDown={handleKeyDown}
                     />
@@ -387,7 +393,7 @@ const StudentList = () => {
                         {student?.consultant?.firstName} {student?.consultant?.lastName}
                       </td>
                       <td>
-                        {student?.createdOn}
+                        {handleDate(student?.createdOn)}
                       </td>
                       <td>
                         <Link to="/">Change</Link>

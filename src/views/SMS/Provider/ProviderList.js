@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-import { Card, CardBody, CardHeader, ButtonGroup, Button,  Input, Col, Row, Table, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Card, CardBody, CardHeader, ButtonGroup, Button,  Input, Col, Row, Table, Modal, ModalBody, ModalFooter,  Dropdown, DropdownMenu, DropdownToggle, } from 'reactstrap';
+
 import Select from 'react-select';
 
 import { useHistory } from 'react-router';
@@ -14,6 +15,9 @@ import remove from '../../../helpers/remove.js';
 import { useDispatch } from 'react-redux';
 
 import { StoreUniversityProviderData } from '../../../redux/actions/SMS/Provider/UniversityProvider.js';
+
+import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactToPrint from 'react-to-print';
 
 
 const ProviderList = () => {
@@ -30,6 +34,8 @@ const ProviderList = () => {
     const [callApi, setCallApi] = useState(false);
     const [serialNum, setSerialNum] = useState(0);
     const [entity, setEntity] = useState(0);
+
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
 
@@ -177,8 +183,21 @@ const ProviderList = () => {
         setCallApi((prev) => !prev);
       }
     }
+
+    // toggle dropdown
+    const toggle = () => {
+      setDropdownOpen((prev) => !prev);
+    };
  
-   
+    const handleExportXLSX = () => {
+      var wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(providerList);
+      XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+  
+      XLSX.writeFile(wb, "MyExcel.xlsx");
+    };
+
+  const componentRef = useRef();
 
 
     return (
@@ -224,7 +243,7 @@ const ProviderList = () => {
               name="searchstring"
               value={searchStr}
               id="searchstring"
-              placeholder="Name, Short Name"
+              placeholder="Name, Email"
               onChange={searchValue}
               onKeyDown={handleKeyDown}
             />
@@ -270,9 +289,64 @@ const ProviderList = () => {
           <Row className="mb-3">
 
             <Col lg="6" md="5" sm="6" xs="4">
-            <Link to ='/providerForm'>
-            <Button  className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add New </Button>
-            </Link>
+              <Link to ='/providerForm'>
+              <Button  className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add New </Button>
+              </Link>
+            </Col>
+
+            <Col lg="6" md="7" sm="6" xs="8">
+              <Row>
+                <Col lg="5" md="6"></Col>
+                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
+                  
+                </Col>
+                <Col md="3" sm="7" xs="7">
+                  
+                </Col>
+                <Col lg="2">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen}
+                    toggle={toggle}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-ellipsis-v"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className='bg-dd'>
+                    {/* <DropdownItem> */}
+                        <div className='d-flex justify-content-around align-items-center mt-2'>
+                          <div className='text-light cursor-pointer'>
+                             <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                          </div>
+                          <div className='text-light cursor-pointer'>
+                            <ReactToPrint
+                               trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                               content={() => componentRef.current}
+                             />
+                          </div>
+                        </div>
+
+                        {/* <ReactHTMLTableToExcel
+                          id="test-table-xls-button"
+                          className="download-table-xls-button"
+                          table="table-to-xls"
+                          filename="tablexls"
+                          sheet="tablexls"
+                          buttonText="Download as XLS"/> */}
+
+                        
+                           {/* <Button onClick={onDownload}> Export excel </Button> */}
+
+                      {/* </DropdownItem> */}
+
+                      {/* <DropdownItem> */}
+                      
+                      {/* </DropdownItem> */}
+                    </DropdownMenu>
+                  </Dropdown>
+                </Col>
+              </Row>
             </Col>
 
 
@@ -286,14 +360,13 @@ const ProviderList = () => {
             loading ?
               <h2 className="text-center">Loading...</h2>
               :
-              <div className="table-responsive">
+              <div className="table-responsive" ref={componentRef}>
                 <Table className="table-sm table-bordered" >
                   <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
                       <th>SL/NO</th>
-                                       
-                      <th>Email</th>                    
-                      <th>Name</th>                    
+                      <th>Name</th>           
+                      <th>Email</th>                                       
                       <th>Phone Number</th>
                       <th>University Count</th>
 
@@ -304,18 +377,22 @@ const ProviderList = () => {
 
                     {
                       providerList?.map((prov, i) => <tr key={prov.id} style={{ textAlign: "center" }}>
-                        <td>{serialNum + i}</td>
-                      
-                        <td>{prov?.email}</td>
+                        <th scope='row'>{serialNum + i}</th>
+                        
                         <td>{prov?.name}</td>
+                        <td>{prov?.email}</td>
                         <td>{prov?.phoneNumber}</td>
-                      <Link to={{
-                        pathname: '/universityList',
-                        providerName: prov?.name,
-                        providervalue: prov?.id
-                      }} style={{textDecoration: 'none' }} >
-                      <td className='hovv  badge-primary'>{prov?.universityCount}</td>
-                      </Link>
+
+                        <td>
+                          <Link to={{
+                             pathname: '/universityList',
+                             providerName: prov?.name,
+                             providervalue: prov?.id
+                             }} style={{textDecoration: 'none' }} >
+                             {/* <td className='hovv  badge-primary'>{prov?.universityCount}</td> */}
+                           <span className="badge badge-pill badge-primary"> {prov?.universityCount} </span>
+                          </Link>
+                        </td>
                        
                         <td style={{width: '8%'}} className="text-center">
                           <ButtonGroup variant="text">

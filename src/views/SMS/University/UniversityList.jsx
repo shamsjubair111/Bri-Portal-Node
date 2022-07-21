@@ -593,6 +593,7 @@ const UniversityList = (props) => {
                           50
                         </span>{" "}
                       </td>
+
                       <td>
                         {" "}
                         <span
@@ -608,6 +609,7 @@ const UniversityList = (props) => {
                           </Link>
                         </span>{" "}
                       </td>
+                      
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
                         <Link to= {`/universityDetails/${university?.id}`}>
