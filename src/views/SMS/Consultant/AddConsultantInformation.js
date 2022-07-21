@@ -7,10 +7,13 @@ import get from '../../../helpers/get';
 import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
 import { Image } from 'antd';
+import "antd/dist/antd.css";
+import put from '../../../helpers/put';
 
 const AddConsultantInformation = () => {
 
 
+    const {addToast} = useToasts();
     const history = useHistory();
     const [nameTitle, setNameTitle] = useState([]);
     const [consParent, setConsParent] = useState([]);
@@ -26,7 +29,7 @@ const AddConsultantInformation = () => {
     const [consultantError, setConsultantError] = useState(false);
     const [parentError, setParentError] = useState(false);
     const [titleError, setTitleError] = useState(false);
-    const { addToast } = useToasts();
+    
 
     const [account, setAccount] = useState([]);
     const [residency, setResidency] = useState([]);
@@ -52,10 +55,45 @@ const AddConsultantInformation = () => {
 
     // Profile Image States
 
-    const [previewVisible, setPreviewVisible] = useState(false);
-      const [previewImage, setPreviewImage] = useState('');
-      const [previewTitle, setPreviewTitle] = useState('');
-      const [FileList, setFileList] = useState([]);
+    const [previewVisible1, setPreviewVisible1] = useState(false);
+      const [previewImage1, setPreviewImage1] = useState('');
+      const [previewTitle1, setPreviewTitle1] = useState('');
+      const [FileList1, setFileList1] = useState([]);
+
+      
+    // Cover Image States
+    
+    const [previewVisible2, setPreviewVisible2] = useState(false);
+      const [previewImage2, setPreviewImage2] = useState('');
+      const [previewTitle2, setPreviewTitle2] = useState('');
+      const [FileList2, setFileList2] = useState([]);
+
+     
+      // Id or Passport States 
+    
+      const [previewVisible3, setPreviewVisible3] = useState(false);
+      const [previewImage3, setPreviewImage3] = useState('');
+      const [previewTitle3, setPreviewTitle3] = useState('');
+      const [FileList3, setFileList3] = useState([]);
+
+
+      // Proof of Address States
+      
+      const [previewVisible4, setPreviewVisible4] = useState(false);
+      const [previewImage4, setPreviewImage4] = useState('');
+      const [previewTitle4, setPreviewTitle4] = useState('');
+      const [FileList4, setFileList4] = useState([]);
+
+
+      // Proof of Right to Work States
+
+      const [previewVisible5, setPreviewVisible5] = useState(false);
+      const [previewImage5, setPreviewImage5] = useState('');
+      const [previewTitle5, setPreviewTitle5] = useState('');
+      const [FileList5, setFileList5] = useState([]);
+
+      
+
 
 
 
@@ -79,7 +117,7 @@ const AddConsultantInformation = () => {
             setNameLabel(res?.nameTitle?.name);
             setNameValue(res?.nameTitle?.id);
             setTypeLabel(res?.consultantType?.name);
-            setTypeValue(res?.consultantTupe?.value);
+            setTypeValue(res?.consultantType?.id);
             setParentLabel(res?.parentConsultantName);
             setParentValue(res?.parentConsultantId);
             setAccountLabel(res?.accountStatus?.statusName);
@@ -88,25 +126,25 @@ const AddConsultantInformation = () => {
 
         get('VisaTypeDD/Index')
         .then(res => {
-          console.log(res);
+          // console.log(res);
           setVisa(res);
         })
 
         get('BranchDD/index')
         .then(res => {
-          console.log(res);
+          // console.log(res);
           setBranch(res);
         })
 
         get('ResidencyStatusDD/index')
         .then(res => {
-          console.log(res);
+          // console.log(res);
           setResidency(res);
         })
 
         get(`AccountStatusDD/index/${localStorage.getItem('consultantRegisterId')}`)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           setAccount(res);
         })
   
@@ -117,7 +155,7 @@ const AddConsultantInformation = () => {
 
 
     
-function getBase64(file) {
+function getBase641(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -128,20 +166,20 @@ function getBase64(file) {
 
 
 
-const  handleCancel = () => {
-    setPreviewVisible(false);
+const  handleCancel1 = () => {
+    setPreviewVisible1(false);
 };
 
-const handlePreview = async file => {
+const handlePreview1 = async file => {
   if (!file.url && !file.preview) {
-    file.preview = await getBase64(file.originFileObj);
+    file.preview = await getBase641(file.originFileObj);
   }
 
   
 
-  setPreviewImage(file.url || file.preview);
-  setPreviewVisible(true);
-  setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+  setPreviewImage1(file.url || file.preview);
+  setPreviewVisible1(true);
+  setPreviewTitle1(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
 
 
 
@@ -149,8 +187,9 @@ const handlePreview = async file => {
 
 };
 
-const handleChange = ({ fileList }) => {
-   setFileList(fileList);
+const handleChange1 = ({ fileList }) => {
+  
+   setFileList1(fileList);
    
   
 };
@@ -158,17 +197,228 @@ const handleChange = ({ fileList }) => {
 // dispatch(StoreStudentProfileImageData(FileList));
 
 
-console.log('One two three', FileList[0]?.originFileObj);
+// console.log('Profile Image of Consultant', FileList1[0]?.originFileObj);
 
 
 
     // Profile Image Code End
+
+
+
+    // Cover Image Code Start
+
+    function getBase642(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+    
+    
+    
+    const  handleCancel2 = () => {
+        setPreviewVisible2(false);
+    };
+    
+    const handlePreview2 = async file => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase642(file.originFileObj);
+      }
+    
+      
+    
+      setPreviewImage2(file.url || file.preview);
+      setPreviewVisible2(true);
+      setPreviewTitle2(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+    
+    
+    
+    
+    
+    };
+    
+    const handleChange2 = ({ fileList }) => {
+      
+       setFileList2(fileList);
+       
+      
+    };
+    
+    // dispatch(StoreStudentProfileImageData(FileList));
+    
+    
+    // console.log('Cover Image of Consultant', FileList2[0]?.originFileObj);
+    
+    
+    
+        // Cover Image Code End
+
+
+        // Id or Passport Code Start
+
+
+        function getBase643(file) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+          });
+        }
+        
+        
+        
+        const  handleCancel3 = () => {
+            setPreviewVisible3(false);
+        };
+        
+        const handlePreview3 = async file => {
+          if (!file.url && !file.preview) {
+            file.preview = await getBase643(file.originFileObj);
+          }
+        
+          
+        
+          setPreviewImage3(file.url || file.preview);
+          setPreviewVisible3(true);
+          setPreviewTitle3(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+        
+        
+        
+        
+        
+        };
+        
+        const handleChange3 = ({ fileList }) => {
+          
+           setFileList3(fileList);
+           
+          
+        };
+        
+        // dispatch(StoreStudentProfileImageData(FileList));
+        
+        
+        // console.log('Id or Passport of Consultant', FileList3[0]?.originFileObj);
+
+
+
+
+
+        // Id or Passport Code End
+
+
+        // Proof of Address Code Start
+
+        function getBase644(file) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+          });
+        }
+        
+        
+        
+        const  handleCancel4 = () => {
+            setPreviewVisible4(false);
+        };
+        
+        const handlePreview4 = async file => {
+          if (!file.url && !file.preview) {
+            file.preview = await getBase644(file.originFileObj);
+          }
+        
+          
+        
+          setPreviewImage4(file.url || file.preview);
+          setPreviewVisible4(true);
+          setPreviewTitle4(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+        
+        
+        
+        
+        
+        };
+        
+        const handleChange4 = ({ fileList }) => {
+          
+           setFileList4(fileList);
+           
+          
+        };
+        
+        // dispatch(StoreStudentProfileImageData(FileList));
+        
+        
+        // console.log('Id or Passport of Consultant', FileList3[0]?.originFileObj);
+
+
+
+        // Proof of Address Code End
+
+
+        // Proof of Right to Work Code Start
+
+        function getBase645(file) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+          });
+        }
+        
+        
+        
+        const  handleCancel5 = () => {
+            setPreviewVisible5(false);
+        };
+        
+        const handlePreview5 = async file => {
+          if (!file.url && !file.preview) {
+            file.preview = await getBase645(file.originFileObj);
+          }
+        
+          
+        
+          setPreviewImage5(file.url || file.preview);
+          setPreviewVisible5(true);
+          setPreviewTitle5(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+        
+        
+        
+        
+        
+        };
+        
+        const handleChange5 = ({ fileList }) => {
+          
+           setFileList5(fileList);
+           
+          
+        };
+        
+        // dispatch(StoreStudentProfileImageData(FileList));
+        
+        
+        // console.log('Id or Passport of Consultant', FileList3[0]?.originFileObj);
+
+
+
+        // Proof of Right to Work Code End
+
+
 
       const nameTitleMenu = nameTitle?.map(titleOptions => ({label:titleOptions?.name, value:titleOptions?.id}));
     const consParentMenu = consParent?.map(consParentOptions => ({label:consParentOptions?.name, value:consParentOptions?.id}));
     const consTypeMenu = consType?.map(consTypeOptions => ({label:consTypeOptions?.name, value:consTypeOptions?.id}));
 
     const visaStatusName = visa?.map((v) => ({
+      
       label: v.name,
       value: v.id,
     }));
@@ -191,6 +441,8 @@ console.log('One two three', FileList[0]?.originFileObj);
   
         
   const selectVisaStatus = (label, value) => {
+
+    setVisaError(false);
   setVisaLabel(label);
   setVisaValue(value);
   
@@ -198,6 +450,8 @@ console.log('One two three', FileList[0]?.originFileObj);
   }
 
   const selectBranch = (label, value) => {
+
+    setBranchError(false);
   setBranchLabel(label);
   setBranchValue(value);
   
@@ -205,6 +459,8 @@ console.log('One two three', FileList[0]?.originFileObj);
   }
 
   const selectResidency = (label, value) => {
+
+    setResidencyError(false);
   setResidencyLabel(label);
   setResidencyValue(value);
   
@@ -238,6 +494,7 @@ console.log('One two three', FileList[0]?.originFileObj);
         setConsultantError(false);
         setTypeLabel(label);
         setTypeValue(value);
+        
       }
 
     const backToDashboard = () =>{
@@ -253,6 +510,18 @@ console.log('One two three', FileList[0]?.originFileObj);
     const handleSubmit = (event) =>{
 
         event.preventDefault();
+
+        const subData = new FormData(event.target);
+
+        subData.append('consultantProfileImage',FileList1[0]?.originFileObj)
+        subData.append('consultantCoverImage',FileList2[0]?.originFileObj)
+        subData.append('idOrPassport',FileList3[0]?.originFileObj)
+        subData.append('proofOfAddress',FileList4[0]?.originFileObj)
+        subData.append('proofOfRightToWork',FileList5[0]?.originFileObj)
+
+        for( var x of subData.values()){
+          console.log(x);
+        }
 
         if(nameValue == 0){
             setTitleError(true);
@@ -286,6 +555,18 @@ console.log('One two three', FileList[0]?.originFileObj);
 
           else{
 
+            put(`Consultant/Update`,subData)
+            .then(res => {
+              if(res?.status == 200){
+                addToast(res?.data?.message, {
+                  appearance: 'success',
+                  autoDismiss: true
+                })
+                history.push('/addBankDetails');
+
+              }
+            })
+
 
           }
 
@@ -312,6 +593,14 @@ console.log('One two three', FileList[0]?.originFileObj);
       <Card>
       <CardBody>
             <Form  onSubmit={handleSubmit} className="mt-5">
+
+            <input
+            type='hidden'
+            name='id'
+            id='id'
+            value={localStorage.getItem('consultantRegisterId')}
+            
+            />
 
             <FormGroup row className="has-icon-left position-relative">
                 <Col md="2">
@@ -593,9 +882,9 @@ console.log('One two three', FileList[0]?.originFileObj);
                    
                 listType="picture-card"
                 multiple={false}
-                fileList={FileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
+                fileList={FileList1}
+                onPreview={handlePreview1}
+                onChange={handleChange1}
                 beforeUpload={(file)=>{
       
                 
@@ -604,18 +893,18 @@ console.log('One two three', FileList[0]?.originFileObj);
                     return false;
                 }}
               >
-                 {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+                 {FileList1.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
                  <br/>
                  <span>Upload Image Here</span>
                  </div>: ''}
               </Upload>
               <Modal
-                visible={previewVisible}
-                title={previewTitle}
+                visible={previewVisible1}
+                title={previewTitle1}
                 footer={null}
-                onCancel={handleCancel}
+                onCancel={handleCancel1}
               >
-                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                <img alt="example" style={{ width: '100%' }} src={previewImage1} />
               </Modal>
 
                   
@@ -632,6 +921,35 @@ console.log('One two three', FileList[0]?.originFileObj);
                   </span>
                 </Col>
                 <Col md="6">
+
+                <Upload
+                   
+                listType="picture-card"
+                multiple={false}
+                fileList={FileList2}
+                onPreview={handlePreview2}
+                onChange={handleChange2}
+                beforeUpload={(file)=>{
+      
+                
+                    
+                  
+                    return false;
+                }}
+              >
+                 {FileList2.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+                 <br/>
+                 <span>Upload Image Here</span>
+                 </div>: ''}
+              </Upload>
+              <Modal
+                visible={previewVisible2}
+                title={previewTitle2}
+                footer={null}
+                onCancel={handleCancel2}
+              >
+                <img alt="example" style={{ width: '100%' }} src={previewImage2} />
+              </Modal>
                  
 
                   
@@ -649,6 +967,34 @@ console.log('One two three', FileList[0]?.originFileObj);
                 </Col>
                 <Col md="6">
                  
+                <Upload
+                   
+                listType="picture-card"
+                multiple={false}
+                fileList={FileList3}
+                onPreview={handlePreview3}
+                onChange={handleChange3}
+                beforeUpload={(file)=>{
+      
+                
+                    
+                  
+                    return false;
+                }}
+              >
+                 {FileList3.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+                 <br/>
+                 <span>Upload Image Here</span>
+                 </div>: ''}
+              </Upload>
+              <Modal
+                visible={previewVisible3}
+                title={previewTitle3}
+                footer={null}
+                onCancel={handleCancel3}
+              >
+                <img alt="example" style={{ width: '100%' }} src={previewImage3} />
+              </Modal>
 
                   
 
@@ -664,6 +1010,36 @@ console.log('One two three', FileList[0]?.originFileObj);
                   </span>
                 </Col>
                 <Col md="6">
+
+                <Upload
+                   
+                listType="picture-card"
+                multiple={false}
+                fileList={FileList4}
+                onPreview={handlePreview4}
+                onChange={handleChange4}
+                beforeUpload={(file)=>{
+      
+                
+                    
+                  
+                    return false;
+                }}
+              >
+                 {FileList4.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+                 <br/>
+                 <span>Upload Image Here</span>
+                 </div>: ''}
+              </Upload>
+              <Modal
+                visible={previewVisible4}
+                title={previewTitle4}
+                footer={null}
+                onCancel={handleCancel4}
+              >
+                <img alt="example" style={{ width: '100%' }} src={previewImage4} />
+              </Modal>
+
                  
 
                   
@@ -681,6 +1057,35 @@ console.log('One two three', FileList[0]?.originFileObj);
                 </Col>
                 <Col md="6">
                  
+                <Upload
+                   
+                listType="picture-card"
+                multiple={false}
+                fileList={FileList5}
+                onPreview={handlePreview5}
+                onChange={handleChange5}
+                beforeUpload={(file)=>{
+      
+                
+                    
+                  
+                    return false;
+                }}
+              >
+                 {FileList5.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+                 <br/>
+                 <span>Upload Image Here</span>
+                 </div>: ''}
+              </Upload>
+              <Modal
+                visible={previewVisible5}
+                title={previewTitle5}
+                footer={null}
+                onCancel={handleCancel5}
+              >
+                <img alt="example" style={{ width: '100%' }} src={previewImage5} />
+              </Modal>
+
 
                   
 

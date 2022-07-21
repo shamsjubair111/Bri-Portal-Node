@@ -10,7 +10,7 @@ import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,
 import { rootUrl } from '../../../constants/constants';
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
-import ConsultantFile from './ConsultantFile';
+
 
 
 
@@ -23,11 +23,11 @@ const AddConsultant = () => {
     const [nameTitle, setNameTitle] = useState([]);
     const [consParent, setConsParent] = useState([]);
     const [consType, setConsType] = useState([]);
-    const [nameLabel, setNameLabel] = useState("Name Title");
+    const [nameLabel, setNameLabel] = useState("Select Name Title");
     const [nameValue, setNameValue] = useState(0);
-    const [parentLabel, setParentLabel] = useState("Parent Consultant");
+    const [parentLabel, setParentLabel] = useState("Select Parent Consultant");
     const [parentValue, setParentValue] = useState(0);
-    const [typeLabel, setTypeLabel] = useState("Consultant Type");
+    const [typeLabel, setTypeLabel] = useState("Select Consultant Type");
     const [typeValue, setTypeValue] = useState(0);
 
     const [emailError, setEmailError] = useState(true);
