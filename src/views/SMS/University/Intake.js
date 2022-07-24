@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
     Card,
     CardBody,
@@ -27,6 +27,9 @@ import get from '../../../helpers/get';
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import remove from '../../../helpers/remove';
 import { useToasts } from 'react-toast-notifications';
+
+import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactToPrint from 'react-to-print';
 
 
 const Intake = () => {
@@ -110,6 +113,16 @@ const Intake = () => {
         })
       };
 
+      const handleExportXLSX = () => {
+        var wb = XLSX.utils.book_new(),
+        ws = XLSX.utils.json_to_sheet(intakeList);
+        XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+    
+        XLSX.writeFile(wb, "MyExcel.xlsx");
+      };
+    
+      const componentRef = useRef();
+
       
     return (
         <div>
@@ -163,12 +176,42 @@ const Intake = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem>Export All</DropdownItem>
+                    <DropdownMenu className='bg-dd'>
+                      {/* <DropdownItem>Export All</DropdownItem> */}
                       {/* <DropdownItem divider /> */}
-                      <DropdownItem>Export Excel</DropdownItem>
-                      <DropdownItem>Export PDF</DropdownItem>
-                      <DropdownItem>Export CSV</DropdownItem>
+                      {/* <DropdownItem> */}
+
+                      <div className='d-flex justify-content-around align-items-center mt-2'>
+                        <div className='text-light cursor-pointer'>
+                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                        </div>
+                        <div className='text-light cursor-pointer'>
+                          <ReactToPrint
+                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                             content={() => componentRef.current}
+                           />
+                        </div>
+                      </div>
+                        
+                        
+
+                        {/* <ReactHTMLTableToExcel
+                          id="test-table-xls-button"
+                          className="download-table-xls-button button-export"
+                          table="table-to-xls"
+                          filename="tablexls"
+                          sheet="tablexls"
+                          buttonText={<i class="far fa-file-excel"></i>}/> */}
+
+                        
+                           {/* <Button onClick={onDownload}> Export excel </Button> */}
+
+                      {/* </DropdownItem> */}
+
+                      {/* <DropdownItem> */}
+                      
+                      {/* </DropdownItem> */}
+          
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
@@ -179,7 +222,7 @@ const Intake = () => {
           {loading ? (
             <h2 className="text-center">Loading...</h2>
           ) : (
-            <div className="table-responsive">
+            <div className="table-responsive" ref={componentRef}>
               <Table className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>

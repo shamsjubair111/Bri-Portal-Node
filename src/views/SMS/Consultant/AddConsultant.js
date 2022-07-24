@@ -139,7 +139,7 @@ const AddConsultant = () => {
 
     const backToDashboard = () =>{
        
-        history.push('/');
+        history.push('/consultantList');
     }
 
     return (
@@ -151,7 +151,7 @@ const AddConsultant = () => {
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Consultant list
             </span>
           </div>
         </CardHeader>

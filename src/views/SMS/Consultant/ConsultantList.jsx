@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     Card,
     CardBody,
@@ -26,12 +26,13 @@ import get from "../../../helpers/get.js";
 import { rootUrl } from "../../../constants/constants.js";
 import { useState } from 'react';
 
+import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactToPrint from 'react-to-print';
+
 const ConsultantList = () => {
 
-    const [consTypeLabel, setConsTypeLabel] = useState("Consultant type");
-    const [consTypeValue, setConsTypeValue] = useState(0);
-    const [accStatusLabel, setAccStatusLabel] = useState("Account status");
-    const [accStatusValue, setAccStatusValue] = useState(0);
+    
+    const [consultantList, setConsultantList] = useState([]);
 
     const [entity, setEntity] = useState(0);
     const [callApi, setCallApi] = useState(false);
@@ -50,11 +51,11 @@ const ConsultantList = () => {
     const history = useHistory();
 
 
-    const selectConsType = (label, value) => {
-        setConsTypeLabel(label);
-        setConsTypeValue(value);
-        handleSearch();
-      };
+    // const selectConsType = (label, value) => {
+    //     setConsTypeLabel(label);
+    //     setConsTypeValue(value);
+    //     handleSearch();
+    //   };
 
       const searchValue = (e) => {
         setSearchStr(e.target.value);
@@ -84,10 +85,6 @@ const ConsultantList = () => {
 
     // on clear
      const handleClearSearch = () => {
-        setConsTypeLabel("Consultant type...");
-        setConsTypeValue(0);
-        setAccStatusLabel("Account status...");
-        setAccStatusValue(0);
         setSearchStr("");
         setCallApi((prev) => !prev);
      };
@@ -111,6 +108,35 @@ const ConsultantList = () => {
       history.push("/");
     };
 
+    useEffect(()=>{
+      get(`Consultant/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&searchstring=${searchStr}`)
+      .then(res => {
+        console.log("consultant List",res);
+        setConsultantList(res?.models);
+        setSerialNum(res?.firstSerialNumber);
+        setEntity(res?.totalEntity);
+        setLoading(false);
+      })
+    },[currentPage, dataPerPage, callApi, searchStr, entity, loading])
+
+    const handleDate = e =>{
+      var datee = e;
+      var utcDate = new Date(datee);
+      var localeDate = utcDate.toLocaleString("en-CA");
+      const x = localeDate.split(",")[0];
+      return x;
+    }
+
+    const handleExportXLSX = () => {
+      var wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(consultantList);
+      XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+  
+      XLSX.writeFile(wb, "MyExcel.xlsx");
+    };
+
+  const componentRef = useRef();
+
     return (
         <div>
              <Card className="uapp-card-bg">
@@ -129,34 +155,22 @@ const ConsultantList = () => {
         <Card className="uapp-employee-search">
             <CardBody className="search-card-body">
               <Row>
-                <Col lg="4" md="4" sm="6" xs="6">
-                  <Select
-                    // options={universityTypeName}
-                    value={{ label: consTypeLabel, value: consTypeValue }}
-                    // onChange={(opt) => selectUniType(opt.label, opt.value)}
-                    name="UniversityTypeId"
-                    id="UniversityTypeId"
-                  />
+                {/* <Col lg="4" md="4" sm="6" xs="6">
+                  
                 </Col>
 
                 <Col lg="4" md="4" sm="6" xs="6">
-                  <Select
-                    // options={universityCountryName}
-                    value={{ label: accStatusLabel, value: accStatusValue }}
-                    // onChange={(opt) => selectUniCountry(opt.label, opt.value)}
-                    name="UniversityCountryId"
-                    id="UniversityCountryId"
-                  />
-                </Col>
+                  
+                </Col> */}
 
-                <Col lg="4" md="4" sm="6" xs="6">
+                <Col lg="12">
                   <Input
                     style={{ height: "2.7rem" }}
                     type="text"
                     name="search"
                     value={searchStr}
                     id="search"
-                    placeholder="Name ,Short Name"
+                    placeholder="Name , Email"
                     onChange={searchValue}
                     onKeyDown={handleKeyDown}
                   />
@@ -231,12 +245,29 @@ const ConsultantList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-ellipsis-v"></i>
                     </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem>Export All</DropdownItem>
-                      {/* <DropdownItem divider /> */}
-                      <DropdownItem>Export Excel</DropdownItem>
-                      <DropdownItem>Export PDF</DropdownItem>
-                      <DropdownItem>Export CSV</DropdownItem>
+                    <DropdownMenu className='bg-dd'>
+                    <div className='d-flex justify-content-around align-items-center mt-2'>
+                          <div className='text-light cursor-pointer'>
+                             <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                          </div>
+                          <div className='text-light cursor-pointer'>
+                            <ReactToPrint
+                               trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                               content={() => componentRef.current}
+                             />
+                          </div>
+                        </div>
+
+                        {/* <ReactHTMLTableToExcel
+                          id="test-table-xls-button"
+                          className="download-table-xls-button"
+                          table="table-to-xls"
+                          filename="tablexls"
+                          sheet="tablexls"
+                          buttonText="Download as XLS"/> */}
+
+                        
+                           {/* <Button onClick={onDownload}> Export excel </Button> */}
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
@@ -244,53 +275,69 @@ const ConsultantList = () => {
             </Col>
           </Row>
 
-          {/* {loading ? (
+          {loading ? (
             <h2 className="text-center">Loading...</h2>
-          ) : ( */}
-            <div className="table-responsive">
+          ) : (
+            <div className="table-responsive mb-2" ref={componentRef}>
               <Table className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
-                    <th>Image</th>
                     <th>Name</th>
-                    <th>Type</th>
-                    <th>Account status</th>
                     <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Password</th>
+                    <th>Branch</th>
+                    <th>Parent Consultant</th>
+                    <th>Consultant Type</th>
+                    <th>Joining Date</th>
+                    <th>Account status</th>
+                    <th>Student</th>
+                    <th>Application</th>
+                    <th>Assosiates</th>
                     <th style={{ width: "8%" }} className="text-center">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {universityList?.map((university, i) => (
-                    <tr key={university.id} style={{ textAlign: "center" }}>
-                      <td>{serialNum + i}</td>
+                  {consultantList?.map((consultant, i) => (
+                    <tr key={consultant?.id} style={{ textAlign: "center" }}>
+                      <th scope='row'>{serialNum + i}</th>
+                      
+                      <td style={{width: '10px'}}>
+                        {consultant?.firstName} {consultant?.lastName}
+                      </td>
+                      <td>{consultant?.email}</td>
                       <td>
-                        {" "}
-                        <img
-                          className="Uapp-c-image"
-                          src={`${rootUrl}/${university.universityLogo.fileUrl?.slice(
-                            2,
-                            university.universityLogo.fileUrl.length
-                          )}`}
-                        />{" "}
+                        {consultant?.phoneNumber}
+                      </td>
+
+                      <td>
+                        <Link to='/'>Change</Link>
                       </td>
                       <td>
-                        {university?.name} ({university?.shortName})
+                        {consultant?.branch?.name}
                       </td>
-                      <td>{university?.universityType?.name}</td>
                       <td>
-                        {university?.universityCountry?.name} (
-                        {university?.universityState?.name})
+                        {consultant?.parentConsultantName}
+                      </td>
+                      <td>
+                        {consultant?.consultantType?.name}
+                      </td>
+                      <td>
+                        {handleDate(consultant?.createdOn)}
+                      </td>
+                      <td>
+                        {consultant?.accountStatus?.statusName}
                       </td>
                  
                       <td>
-                        <span onClick={()=>redirectToCampusList(university?.id)}
+                        <span onClick=''
                           className="badge badge-secondary"
                           style={{ cursor: "pointer" }}
                         >
-                          {university?.totalCampus}
+                          {consultant?.studentCount}
                         </span>
                       </td>
                     
@@ -300,7 +347,7 @@ const ConsultantList = () => {
                           className="badge badge-primary"
                           style={{ cursor: "pointer" }}
                         >
-                          50
+                          {0}
                         </span>{" "}
                       </td>
                       <td>
@@ -309,12 +356,13 @@ const ConsultantList = () => {
                           className="badge badge-warning"
                           style={{ cursor: "pointer" }}
                         >
-                          50
+                          {consultant?.childConsultantCount}
                         </span>{" "}
                       </td>
+
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        <Link to= {`/universityDetails/${university?.id}`}>
+                        <Link to= {`/universityDetails/${consultant?.id}`}>
                           <Button color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
@@ -330,11 +378,11 @@ const ConsultantList = () => {
                         </ButtonGroup>
                       </td>
                     </tr>
-                  ))} */}
+                  ))}
                 </tbody>
               </Table>
             </div>
-        {/* //   )} */}
+          )}
 
           <Pagination
             dataPerPage={dataPerPage}

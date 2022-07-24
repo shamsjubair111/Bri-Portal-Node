@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Button,
@@ -11,11 +11,18 @@ import {
   Table,
   Modal,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
 } from "reactstrap";
 import get from "../../../../helpers/get";
 import remove from "../../../../helpers/remove";
 import { useToasts } from "react-toast-notifications";
+
+import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactToPrint from 'react-to-print';
 
 const BranchList = () => {
   const {addToast} = useToasts();
@@ -23,6 +30,7 @@ const BranchList = () => {
   const [branchList, setBranchList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [serialNum, setSerialNum] = useState(1);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const history = useHistory();
   const backToDashboard = () => {
@@ -75,6 +83,21 @@ setDeleteModal(false);
 
 }
 
+// toggle dropdown
+const toggle = () => {
+  setDropdownOpen((prev) => !prev);
+};
+
+const handleExportXLSX = () => {
+  var wb = XLSX.utils.book_new(),
+  ws = XLSX.utils.json_to_sheet(branchList);
+  XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+
+  XLSX.writeFile(wb, "MyExcel.xlsx");
+};
+
+const componentRef = useRef();
+
 
 
   return (
@@ -105,12 +128,79 @@ setDeleteModal(false);
                 </Button>
               </Link>
             </Col>
+            
+            <Col lg="6" md="7" sm="6" xs="8">
+              <Row>
+                <Col lg="5" md="6"></Col>
+                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
+                  {/* Showing */}
+                </Col>
+                <Col md="3" sm="7" xs="7">
+                  {/* <Select
+                    options={dataSizeName}
+                    value={{ label: dataPerPage, value: dataPerPage }}
+                    onChange={(opt) => selectDataSize(opt.value)}
+                  /> */}
+                </Col>
+                <Col lg="2">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen}
+                    toggle={toggle}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-ellipsis-v"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className='bg-dd'>
+                      {/* <DropdownItem>Export All</DropdownItem> */}
+                      {/* <DropdownItem divider /> */}
+                      {/* <DropdownItem> */}
+
+                      <div className='d-flex justify-content-around align-items-center mt-2'>
+                        <div className='text-light cursor-pointer'>
+                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                        </div>
+                        <div className='text-light cursor-pointer'>
+                          <ReactToPrint
+                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                             content={() => componentRef.current}
+                           />
+                        </div>
+                      </div>
+                        
+                        
+
+                        {/* <ReactHTMLTableToExcel
+                          id="test-table-xls-button"
+                          className="download-table-xls-button button-export"
+                          table="table-to-xls"
+                          filename="tablexls"
+                          sheet="tablexls"
+                          buttonText={<i class="far fa-file-excel"></i>}/> */}
+
+                        
+                           {/* <Button onClick={onDownload}> Export excel </Button> */}
+
+                      {/* </DropdownItem> */}
+
+                      {/* <DropdownItem> */}
+                      
+                      {/* </DropdownItem> */}
+          
+                    </DropdownMenu>
+                  </Dropdown>
+                </Col>
+              </Row>
+            </Col>
+
+
           </Row>
 
           {loading ? (
             <h2 className="text-center">Loading...</h2>
           ) : (
-            <div className="table-responsive">
+            <div className="table-responsive" ref={componentRef}>
               <Table className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>

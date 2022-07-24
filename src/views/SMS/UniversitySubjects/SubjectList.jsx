@@ -99,7 +99,7 @@ const SubjectList = (props) => {
         setUList(res);
         dispatch(StoreUniversityListData(res));
       });
-    },[ulist]);
+    },[]);
 
    
     useEffect(()=>{
@@ -112,7 +112,7 @@ const SubjectList = (props) => {
       else{
         return;
       }
-    },[cam]);
+    },[]);
 
     // if(location?.universityId){
     //   get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
@@ -132,11 +132,12 @@ const SubjectList = (props) => {
         var unitype = univerSList?.find((s) => s.id === uTypeId);
       
         if (unitype === undefined) {
-          setUniLabel("University");
-        } else {
-          setUniLabel(unitype?.name);
-          setUniValue(uTypeId);
-        }
+          setUniLabel("Select University");
+        } 
+        // else {
+        //   setUniLabel(unitype?.name);
+        //   setUniValue(uTypeId);
+        // }
       }
 
       const camId = campValue !== 0 ? campValue : 0;
@@ -204,6 +205,8 @@ const SubjectList = (props) => {
     const selectUni = (label, value) => {
       setUniLabel(label);
       setUniValue(value);
+      setCampLabel("Select Campus");
+      setCampValue(0);
       searchCampusByUniversity(value);
       handleSearch();
     };
