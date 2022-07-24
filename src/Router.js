@@ -286,7 +286,7 @@ class AppRouter extends React.Component {
         <Switch>
           {/* SMS Client Routing */}
          {
-           !isAuth ?
+           isAuth ?
            <>
          <AppRoute exact path="/" component={analyticsDashboard} />
         
@@ -323,7 +323,7 @@ class AppRouter extends React.Component {
 
           {/* consultant */}
           <AppRoute path="/consultantList" component={ConsultantList} />
-          <AppRoute path="/consultantProfile" component={ConsultantProfile} />
+          <AppRoute path="/consultantProfile/:id" component={ConsultantProfile} />
           <AppRoute path="/addConsultant" component={AddConsultant} />
           <AppRoute path="/addConsultantType" component={AddConsultantType} />
           

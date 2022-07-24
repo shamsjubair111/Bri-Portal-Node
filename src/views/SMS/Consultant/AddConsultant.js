@@ -23,7 +23,7 @@ const AddConsultant = () => {
     const [nameTitle, setNameTitle] = useState([]);
     const [consParent, setConsParent] = useState([]);
     const [consType, setConsType] = useState([]);
-    const [nameLabel, setNameLabel] = useState("Select Name Title");
+    const [nameLabel, setNameLabel] = useState("Select Title");
     const [nameValue, setNameValue] = useState(0);
     const [parentLabel, setParentLabel] = useState("Select Parent Consultant");
     const [parentValue, setParentValue] = useState(0);
@@ -211,7 +211,7 @@ const AddConsultant = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Name Title <span className="text-danger">*</span>{" "}
+                       Title <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">

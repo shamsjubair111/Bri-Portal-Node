@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button } from 'reactstrap';
+import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button, Label } from 'reactstrap';
 import Select from "react-select";
 import { useToasts } from 'react-toast-notifications';
 import get from '../../../helpers/get';
@@ -51,6 +51,8 @@ const AddConsultantInformation = () => {
     const [visaError, setVisaError] = useState(false);
 
     const [consultantData, setConsultantData] = useState({});
+
+    const [work, setWork] = useState(false);
 
 
     // Profile Image States
@@ -503,6 +505,14 @@ const handleChange1 = ({ fileList }) => {
     }
 
 
+    // Have Right To Work Radio Button 
+
+    const handleWork = (event) => {
+      console.log(event.target.value);
+      setWork(event.target.value);
+      
+  }
+
     
 
     
@@ -686,7 +696,7 @@ const handleChange1 = ({ fileList }) => {
                     name="firstName"
                     id="firstName"
                     placeholder="Enter First Name"
-                    defaultValue={consultantData?.firstName}
+                    value={consultantData?.firstName}
                     required
                   />
 
@@ -708,7 +718,7 @@ const handleChange1 = ({ fileList }) => {
                     name="lastName"
                     id="lastName"
                     placeholder="Enter Last Name"
-                    defaultValue={consultantData?.lastName}
+                    value={consultantData?.lastName}
                     required
                   />
 
@@ -755,7 +765,7 @@ const handleChange1 = ({ fileList }) => {
                     name="phoneNumber"
                     id="phoneNumber"
                     placeholder="Enter Phone Number"
-                    defaultValue={consultantData?.phoneNumber}
+                    value={consultantData?.phoneNumber}
                     required
                   />
 
@@ -864,6 +874,31 @@ const handleChange1 = ({ fileList }) => {
                     visaError && 
                     <span className='text-danger'>Select Visa Status</span>
                   }
+
+                 
+
+                </Col>
+              </FormGroup>
+              <FormGroup row className="has-icon-left position-relative">
+                <Col md="2">
+                  <span>
+                    Have Right To Work <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 
+
+                <FormGroup check inline>
+                <Input className="form-check-input" type="radio" id="isHaveWork" onChange={handleWork} name="isHaveWork" value='true' checked={work == 'true'} />
+                <Label className="form-check-label" check htmlFor="isHaveWork" >Yes</Label>
+      
+                </FormGroup>
+      
+                <FormGroup check inline>
+                <Input className="form-check-input" type="radio" id="isHaveWork" onChange={handleWork} name="isHaveWork" value='false' checked={work == 'false'} />
+                <Label className="form-check-label" check htmlFor="isHaveWork" >No</Label>
+      
+                </FormGroup>
 
                  
 
@@ -1049,50 +1084,60 @@ const handleChange1 = ({ fileList }) => {
                 </Col>
               </FormGroup>
 
+             {
+
+              work == 'true' ?
+
               <FormGroup row className="has-icon-left position-relative">
-                <Col md="2">
-                  <span>
-                    Proof Of Right To Work <span className="text-danger">*</span>{" "}
-                  </span>
-                </Col>
-                <Col md="6">
+              <Col md="2">
+                <span>
+                  Proof Of Right To Work <span className="text-danger">*</span>{" "}
+                </span>
+              </Col>
+              <Col md="6">
+               
+              <Upload
                  
-                <Upload
-                   
-                listType="picture-card"
-                multiple={false}
-                fileList={FileList5}
-                onPreview={handlePreview5}
-                onChange={handleChange5}
-                beforeUpload={(file)=>{
-      
+              listType="picture-card"
+              multiple={false}
+              fileList={FileList5}
+              onPreview={handlePreview5}
+              onChange={handleChange5}
+              beforeUpload={(file)=>{
+    
+              
+                  
                 
-                    
-                  
-                    return false;
-                }}
-              >
-                 {FileList5.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
-                 <br/>
-                 <span>Upload Image Here</span>
-                 </div>: ''}
-              </Upload>
-              <Modal
-                visible={previewVisible5}
-                title={previewTitle5}
-                footer={null}
-                onCancel={handleCancel5}
-              >
-                <img alt="example" style={{ width: '100%' }} src={previewImage5} />
-              </Modal>
+                  return false;
+              }}
+            >
+               {FileList5.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+               <br/>
+               <span>Upload Image Here</span>
+               </div>: ''}
+            </Upload>
+            <Modal
+              visible={previewVisible5}
+              title={previewTitle5}
+              footer={null}
+              onCancel={handleCancel5}
+            >
+              <img alt="example" style={{ width: '100%' }} src={previewImage5} />
+            </Modal>
 
 
-                  
+                
 
-                 
+               
 
-                </Col>
-              </FormGroup>
+              </Col>
+            </FormGroup>
+
+            : 
+
+            null
+
+             }
 
             
 

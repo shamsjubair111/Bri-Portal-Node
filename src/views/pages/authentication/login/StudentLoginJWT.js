@@ -73,7 +73,7 @@ class StudentLoginJWT extends React.Component {
     return (
       <React.Fragment>
         <CardBody className="pt-1">
-          <Form action="/" onSubmit={this.handleLogin}>
+          <Form action="/" onSubmit={this.handleLogin} className='mb-2'>
             <FormGroup className="form-label-group position-relative has-icon-left" >
               <Input
                 type="email"
@@ -114,7 +114,7 @@ class StudentLoginJWT extends React.Component {
                 
               />
               <div className="float-right">
-                <Link to="/pages/forgot-password">Forgot Password?</Link>
+                <Link to="/pages/forgot-password" style={{textDecoration: 'none'}}>Forgot Password?</Link>
               </div>
             </FormGroup>
             <div className="d-flex justify-content-between">
@@ -124,8 +124,31 @@ class StudentLoginJWT extends React.Component {
               </Button.Ripple>
              
             </div>
-            {/* {this.state.error && <span className="text-danger">{this.state.error}</span>} */}
+           
           </Form>
+          <br/>
+
+            <button className="btn btn-outline-primary me-1"><i class="fab fa-google"></i></button>
+
+            <button className="btn btn-outline-primary mx-1"><i class="fab fa-apple"></i></button>
+
+            <button className="btn btn-outline-primary ms-1"><i class="fab fa-facebook"></i></button>
+
+            <br/>
+            <br/>
+
+            <Link to='/pages/studentRegister' style={{textDecoration: 'none'}}>Register as Student</Link>
+
+            <br/>
+           
+
+            <Link to='/pages/consultantRegister' style={{textDecoration: 'none'}}>Register as Consultant</Link>
+
+            <br/>
+           
+
+            <Link to='/pages/providerRegister' style={{textDecoration: 'none'}}>Register as Provider</Link>
+
         </CardBody>
       </React.Fragment>
     )

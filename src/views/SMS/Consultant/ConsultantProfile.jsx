@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {  useParams } from 'react-router-dom';
+import { Image } from 'antd';
+import "antd/dist/antd.css";
 import 
 { 
     Card, 
@@ -22,11 +25,38 @@ import { useHistory, useLocation } from 'react-router';
 // import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg'
 import coverImage from '../../../assets/img/profile/user-uploads/cover.jpg';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
+import get from '../../../helpers/get';
+import { rootUrl } from '../../../constants/constants';
 
 
 const ConsultantProfile = () => {
     const location = useLocation();
     const history = useHistory();
+    const {id} = useParams();
+
+    const [consultantData, setConsultantData] = useState({});
+    const [registrationDate, setRegistrationDate] = useState('');
+
+    useEffect(()=>{
+
+      get(`Consultant/Profile/${id}`)
+      .then(res => {
+        console.log('Consultant Profile Data Check', res);
+        setConsultantData(res);
+
+        var datee =res?.createdOn;
+      var utcDate = new Date(datee);
+      var localeDte = utcDate.toLocaleString("en-CA");
+      var localeDte2 = localeDte.split(",")[0];
+      var localeDte3 = localeDte2.replace('/', '-');
+      
+      console.log(localeDte);
+      setRegistrationDate(localeDte3.replace('/', '-'));
+
+
+      })
+
+    },[])
 
     // redirect to dashboard
         const backToDashboard = () => {
@@ -54,7 +84,8 @@ const ConsultantProfile = () => {
             <Card>
               <CardBody>
                   <div className="uapp-employee-cover-image">
-                    <div className="bg-image" style={{ backgroundImage: `url(${coverImage})` }}>   
+                    <div className="bg-image" >  
+                    <img src = {rootUrl+consultantData?.consultantCoverImageMedia?.fileUrl} /> 
                     <div className="uplode-cover-image">
                       <span> <i className="fas fa-camera" > </i ></span>
                       </div>               
@@ -68,8 +99,8 @@ const ConsultantProfile = () => {
                     <Col> 
                   <div className="uapp-employee-profile-image">
                   <div className="text-left">
-                     {/* <img className="empProfileImg"  src={`${finalImg}`} alt='img-desc'/> */}
-                     <img className="empProfileImg"  src='' alt='img-desc'/>
+                    
+                     <img className="empProfileImg"  src={rootUrl+consultantData?.consultantProfileImageMedia?.fileUrl} alt='img-desc'/>
                   </div>
                   </div>  
                   </Col>
@@ -92,13 +123,12 @@ const ConsultantProfile = () => {
 
                         <ul className="uapp-ul text-left">
                           <li> 
-                            {/* <h4>{employeeDetails.firstName} {employeeDetails.lastName}</h4> */}
-                            <h4>firstName lastName</h4>
+                          
+                            <h4>{consultantData?.nameTitle?.name} {consultantData?.firstName} {consultantData?.lastName} ({consultantData?.viewId})</h4>
                           </li>
 
                            <li> 
-                            {/* <h6>{employeeType.name}</h6> */}
-                            <h6>name</h6>
+                        
                           </li>
 
                           
@@ -109,11 +139,11 @@ const ConsultantProfile = () => {
                     <Col md="6"> 
                    <ul className="uapp-ul text-right">
                           <li> 
-                            <span> Email : </span>
+                            <span> Email : {consultantData?.email}</span>
                           </li>
                           
                           <li> 
-                            <span> Phone Number : </span>
+                            <span> Phone Number : {consultantData?.phoneNumber}</span>
                           </li>
 
                         </ul>
@@ -134,22 +164,77 @@ const ConsultantProfile = () => {
                     <tbody>
                       <tr>
                         <td width="40%">
-                          Name
+                         <b> Name:</b>
                         </td>
 
                         <td width="60%">
-                          Md.Jishan Ahammed
+                         {consultantData?.firstName} {consultantData?.lastName}
                         </td>
                       </tr>
                       <tr>
                         <td width="40%">
-                          Email
+                         <b> Consultant Type:</b>
                         </td>
 
                         <td width="60%">
-                          jishanahammed@gmail.com
+                         {consultantData?.consultantType?.name}
                         </td>
                       </tr>
+                      <tr>
+                        <td width="40%">
+                          <b>Branch:</b>
+                        </td>
+
+                        <td width="60%">
+                          {consultantData?.branch?.name}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="40%">
+                         <b> Account Status:</b>
+                        </td>
+
+                        <td width="60%">
+                         {consultantData?.accountStatus?.statusName}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="40%">
+                         <b> Residency Status: </b>
+                        </td>
+
+                        <td width="60%">
+                          {consultantData?.residencyStatus?.name}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="40%">
+                          <b>Visa Status: </b>
+                        </td>
+
+                        <td width="60%">
+                          {consultantData?.visaStatus?.name}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="40%">
+                          <b>Registration Date:</b>
+                        </td>
+
+                        <td width="60%">
+                         {registrationDate}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="40%">
+                          <b>Have Right To Work:</b>
+                        </td>
+
+                        <td width="60%">
+                         {consultantData?.haveRightToWork == null ? 'No' : 'Yes'}
+                        </td>
+                      </tr>
+                      
 
                       </tbody>
                     </Table>
@@ -174,20 +259,20 @@ const ConsultantProfile = () => {
                     <tbody>
                       <tr>
                         <td width="40%">
-                        <span> <i className="fas fa-phone"></i> Phone Number</span>
+                        <span className='fw-bold'> Phone Number:</span>
                         </td>
 
                         <td width="60%">
-                        {/* {employeeDetails.phoneNumber} */}
+                          {consultantData?.phoneNumber}
                         </td>
                       </tr>
                       <tr>
                         <td width="40%">
-                        <i className="far fa-envelope"> Email</i>
+                        <b>Email:</b>
                         </td>
 
                         <td width="60%">
-                        {/* {employeeDetails.email} */}
+                        {consultantData?.email}
                         </td>
                       </tr>
 
@@ -198,16 +283,76 @@ const ConsultantProfile = () => {
         </div>
 
         <div className=" info-item mt-4">
-          <Card>  
-               <CardBody>
-                  <div className="hedding-titel">
-                    <h5> Document </h5>
-                    <div className="bg-h"></div>
-                  </div>
+        <Card >
+        <div className="hedding-titel">
+        <h5> Document </h5>
+        <div className="bg-h"></div>
+      </div>
+         
+            <div className='row text-center'>
+
+            <div className ='col-md-4 col-sm-12'>
+
+            <Card className='shadow-lg'>  
+            <CardBody>
+
+            <Image
+            width={180} height={104}
+            src={rootUrl+consultantData?.idOrPassportMedia?.fileUrl}
+          />
+          
+          <br/>
+          <br/>
+
+            <span className='fw-bold'>Id or Passport</span>
+          
+            </CardBody>
+         </Card>
+            
+            </div>
+
+            <div className ='col-md-4 col-sm-12'>
+
+            <Card className='shadow-lg'>  
+            <CardBody>
+
+            <Image
+            width={180} height={104}
+            src={rootUrl+consultantData?.proofOfAddressMedia?.fileUrl}
+          />
+          
+          <br/>
+          <br/>
+
+            <span className='fw-bold'>Proof of Address</span>
+          
+            </CardBody>
+         </Card>
+            
+            </div>
+
+            <div className ='col-md-4 col-sm-12'>
+
+            <Card className='shadow-lg'>  
+            <CardBody>
+
+            <Image
+                    width={180} height={104}
+                    src={rootUrl+consultantData?.proofOfRightToWorkMedia?.fileUrl}
+                  />
+          
+          <br/>
+          <br/>
+
+            <span className='fw-bold'>Proof of Right to Work</span>
+          
+            </CardBody>
+         </Card>
+            
+            </div>
 
 
-
-               </CardBody>
+            </div>
             </Card>
         </div>
               
@@ -220,20 +365,35 @@ const ConsultantProfile = () => {
            <Card className="uapp-employee-profile-right">
              <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
-                  <img src={profileImage}/>
+                     
+                      {
+                        consultantData?.parentConsultant?.consultantProfileImageMedia == null ?
+                        <img src={profileImage}/>
+                        :
+                        <img src={rootUrl+consultantData?.parentConsultant?.consultantProfileImageMedia?.fileUrl}/>
+                        
+                      }
+                     
                 </div>    
                 
-                <h5> Md.Jamal Uddin</h5>
-                 <p> Admission Manager </p>  
+                <h5>{consultantData?.parentConsultant?.nameTitle?.name} {consultantData?.parentConsultant?.firstName} {consultantData?.parentConsultant?.lastName} </h5>
+                 <p> {consultantData?.parentConsultant?.consultantType?.name} </p>  
             </div>
               <CardBody>
 
-                 <div>
-                 <ul className="uapp-ul text-center">
-                     <li> admissionmanager.london@uapp.uk </li>
-                     <li> +880184000000000 </li>
-                     <li> 80-82 Nelson st, Whitechapel, E12DY, london United Kingdom </li>
-                   </ul>
+                 <div className="uapp-ul text-center">
+                 
+                     <span> Account Status: {consultantData?.parentConsultant?.accountStatus?.statusName} </span>
+                     <br/>
+                     <span> Branch: {consultantData?.parentConsultant?.branch?.name} </span>
+                     <br/>
+                     <span> {consultantData?.parentConsultant?.email} </span>
+                     <br/>
+                     <span> {consultantData?.parentConsultant?.phoneNumber} </span>
+                     <br/>
+                    
+                    
+                   
                  </div>
 
             </CardBody>

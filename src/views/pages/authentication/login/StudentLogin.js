@@ -39,7 +39,7 @@ class StudentLogin extends React.Component {
       
       <div>
         
-        <LoginNavbar />
+        
 
 
         <div className="bg-authentication" style={{ backgroundColor:"#fff" }}>
@@ -47,7 +47,7 @@ class StudentLogin extends React.Component {
             <Row className="m-0 justify-content-center">
               <Col lg="6" md="6" className="d-lg-block-bg d-none text-center align-self-center px-1 py-0">
                 <div className="flexbox-container" style={{ backgroundColor:"#EAF6F9" }}>
-               {/*   <img src={loginImg} alt="loginImg" />*/}
+             
                 </div>
               
               </Col>
@@ -59,9 +59,7 @@ class StudentLogin extends React.Component {
                       <h4 className="mb-0">Login</h4>
                     </CardTitle>
                   </CardHeader>
-                  <p className=" pl-4 auth-title">
-                    Welcome back, please login to your account.
-                  </p>
+              
                   <Nav tabs className="px-2">
 
 

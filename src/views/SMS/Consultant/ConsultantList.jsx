@@ -333,7 +333,7 @@ const ConsultantList = () => {
                       </td>
                  
                       <td>
-                        <span onClick=''
+                        <span
                           className="badge badge-secondary"
                           style={{ cursor: "pointer" }}
                         >
@@ -362,7 +362,7 @@ const ConsultantList = () => {
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        <Link to= {`/universityDetails/${consultant?.id}`}>
+                        <Link to= {`/consultantProfile/${consultant?.id}`}>
                           <Button color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
