@@ -118,8 +118,8 @@ const EmployeeGeneralInfo = (props) => {
                     localStorage.setItem("employeeId", res?.data?.result?.id);
                   
                     addToast(res.data.message, {
-                    appearance: res.data.message == 'Employee has been created successfully!' ? 'success': 'error',
-                    // autoDismiss: true,
+                    appearance: 'success',
+                    autoDismiss: true,
                   })
 
                   const uID = res.data.result.userId;

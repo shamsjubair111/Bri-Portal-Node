@@ -176,6 +176,11 @@ const EmployeeList = (props) => {
   
     const componentRef = useRef(employeeList);
 
+    const handleRedirectProfile = (id) => {
+      localStorage.setItem('empId', id);
+      history.push('/employeeProfile');
+    }
+
    
     return (
       <div>
@@ -320,7 +325,7 @@ const EmployeeList = (props) => {
                 <div className="table-responsive" ref={componentRef}>
                   <Table className="table-sm table-bordered" >
                     <thead className="thead-uapp-bg">
-                    <tr>
+                    <tr style={{ textAlign: "center" }}>
                         <th>SL/NO</th>
                         <th>Employee Type</th>
                         <th>Nationality</th>
@@ -334,32 +339,47 @@ const EmployeeList = (props) => {
                     <tbody>
 
                   {
-                      employeeList?.map((emp,i) => <tr key={emp.id}>
-                        <td>{serialNum+i}</td>
+                      employeeList?.map((emp,i) => <tr key={emp.id} style={{ textAlign: "center" }}>
+                        <th scope='row'>{serialNum+i}</th>
                         <td>{emp.employeeType.name}</td>
                         <td>{emp.nationality.name}</td>
                         <td className="cursor-pointer hyperlink-hover" onClick={() => handleEmpClick(emp.id)}> <span>  {`${emp.firstName} ${emp.lastName}`} </span> </td>
                         <td>{emp.email}</td>
                         <td>{emp.phoneNumber}</td>
                         <td className="text-center">
-                          <ButtonGroup variant="text">
-                            <Button  color="danger" onClick={toggleDanger}   className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button>
-                            <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
-    
-                      <ModalBody>
-                        <p>Are You Sure to Delete this? Once Deleted it can't be Undone!</p>
-                      </ModalBody>
 
-                      <ModalFooter>
-                        <Button color="danger" onClick={()=>handleDeleteStaff(emp?.id)}>YES</Button>
-                        <Button onClick={closeDeleteModal}>NO</Button>
-                      </ModalFooter>
+                        <ButtonGroup variant="text">
+                        {/* <Link to= {`/universityDetails`}> */}
+                          <Button onClick={()=> handleRedirectProfile(emp?.id)} color="primary" className="mx-1 btn-sm">
+                            {" "}
+                            <i className="fas fa-eye"></i>{" "}
+                          </Button>
+                          {/* </Link>  */}
+                          <Link to={`/employeeGeneralInfo/${emp?.id}`}>
+                          <Button  color="dark" className="mx-1 btn-sm">
+                            {" "}
+                            <i className="fas fa-edit"></i>{" "}
+                          </Button>
+                          </Link>
+                          <Button onClick={toggleDanger} color="danger" className="mx-1 btn-sm">
+                            <i className="fas fa-trash-alt"></i>
+                          </Button>
+                        </ButtonGroup>
 
-                    </Modal>
-                           <Link to={`/employeeGeneralInfo/${emp?.id}`}>
-                           <Button color="warning"  className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
-                           </Link>
-                          </ButtonGroup>
+                        <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
+                      
+                          <ModalBody>
+                            <p>Are You Sure to Delete this? Once Deleted it can't be Undone!</p>
+                          </ModalBody>
+                      
+                          <ModalFooter>
+                            <Button color="danger" onClick={()=>handleDeleteStaff(emp?.id)}>YES</Button>
+                            <Button onClick={closeDeleteModal}>NO</Button>
+                          </ModalFooter>
+                      
+                        </Modal>
+
+                        
                         </td>
                         
                       </tr>)
