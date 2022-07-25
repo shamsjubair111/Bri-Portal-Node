@@ -515,6 +515,10 @@ th {
   cursor: pointer;
 }
 
+.text-right1{
+  text-align: right;
+}
+
 .edit-style{
   cursor: pointer;
 

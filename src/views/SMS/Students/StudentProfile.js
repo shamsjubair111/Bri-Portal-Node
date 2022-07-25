@@ -241,7 +241,7 @@ const StudentProfile = () => {
                       <Col> 
                     <div className="uapp-employee-profile-image">
                     <div className="text-left">
-                       <img className="empProfileImg"  src={rootUrl+studentDetails?.profileImage?.fileUrl}/>
+                       <img className="empProfileImg"  src={rootUrl+studentDetails?.profileImage?.fileUrl} alt='profile_img'/>
                     </div>
                     </div>  
                     </Col>
@@ -277,7 +277,7 @@ const StudentProfile = () => {
                       </Col> 
 
                       <Col md="6"> 
-                     <ul className="uapp-ul text-right">
+                     <ul className="uapp-ul text-right1">
                             <li> 
                               <span> Email : {studentDetails?.email}</span>
                             </li>
@@ -290,7 +290,7 @@ const StudentProfile = () => {
                       </Col> 
                     </Row> 
                     </div> 
-                </CardBody>
+                  </CardBody>
                 </Card>
 
                 {/* personal statement */}

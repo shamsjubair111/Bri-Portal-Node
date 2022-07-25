@@ -7,6 +7,7 @@ import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg'
 import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg'
 import get from '../../../../helpers/get';
 import ReactToPrint from 'react-to-print';
+import { rootUrl } from '../../../../constants/constants';
 
 const EmployeeProfile = () => {
 
@@ -19,24 +20,22 @@ const EmployeeProfile = () => {
 
   // employee id from location
   const empId = location.id;
+  // console.log("id", empId);
  
 
   useEffect(() => {
-    const returnvalue = get(`Employee/EmployeeProfile/${empId}`).then((action) => {
+    // const returnvalue = get(`Employee/EmployeeProfile/${empId}`).then((action) => {
+    const returnvalue = get(`Employee/Profile/${localStorage.getItem('empId')}`).then((action) => {
       setemployeeDetails(action);
-   
+      console.log("datas", action);
       setemployeeImgDetails(action.profileImageMedia);
       setemployeeType(action.employeeType);
     })
   }, [])
 
-  const imgUrl = employeeImgDetails?.fileUrl;
-  const finalImg = imgUrl?.slice(2, imgUrl.length);
+  // const imgUrl = employeeImgDetails?.fileUrl;
+  // const finalImg = imgUrl?.slice(2, imgUrl.length);
   
-
-
-
-
 
   // redirect to dashboard
   const backToDashboard = () => {
@@ -80,10 +79,10 @@ const EmployeeProfile = () => {
             <Card>
               <CardBody>
                   <div className="uapp-employee-cover-image">
-                    <div className="bg-image" style={{ backgroundImage: `url(${coverImage})` }}>   
+                    <div className="bg-image">   
                     <div className="uplode-cover-image">
-                      <span> <i className="fas fa-camera" > </i ></span>
-                      </div>               
+                      <img src={rootUrl+employeeDetails?.coverImageMedia?.fileUrl} alt='cover_img'/>
+                    </div>               
                   </div>
                 </div>
 
@@ -94,7 +93,7 @@ const EmployeeProfile = () => {
                     <Col> 
                   <div className="uapp-employee-profile-image">
                   <div className="text-left">
-                     <img className="empProfileImg"  src={`${finalImg}`} alt='img-desc'/>
+                     <img className="empProfileImg"  src={rootUrl+employeeDetails?.profileImageMedia?.fileUrl} alt='profile_img'/>
                   </div>
                   </div>  
                   </Col>
@@ -117,11 +116,11 @@ const EmployeeProfile = () => {
 
                         <ul className="uapp-ul text-left">
                           <li> 
-                            <h4>{employeeDetails.firstName} {employeeDetails.lastName}</h4>
+                            <h4>{employeeDetails?.firstName} {employeeDetails?.lastName}</h4>
                           </li>
 
                            <li> 
-                            <h6>{employeeType.name}</h6>
+                            {/* <h6>{employeeType.name}</h6> */}
                           </li>
 
                           
@@ -130,13 +129,13 @@ const EmployeeProfile = () => {
                     </Col> 
 
                     <Col md="6"> 
-                   <ul className="uapp-ul text-right">
+                   <ul className="uapp-ul text-right1">
                           <li> 
-                            <span> Email : {employeeDetails.email}</span>
+                            <span> Email : {employeeDetails?.email}</span>
                           </li>
                           
                           <li> 
-                            <span> Phone Number : {employeeDetails.phoneNumber}</span>
+                            <span> Phone Number : {employeeDetails?.phoneNumber}</span>
                           </li>
 
                         </ul>
@@ -150,30 +149,40 @@ const EmployeeProfile = () => {
           <Card>  
                <CardBody>
                   <div className="hedding-titel">
-                    <h5> General Information  </h5>
+                    <h5> <b>General Information</b> </h5>
                     <div className="bg-h"></div>
                   </div>
                     <Table className="table-bordered mt-4" >
                     <tbody>
                       <tr>
                         <td width="40%">
-                          Name
+                          <b>Name:</b>
                         </td>
 
                         <td width="60%">
-                          Md.Jishan Ahammed
+                          {employeeDetails?.firstName} {employeeDetails?.lastName}
                         </td>
                       </tr>
+
                       <tr>
                         <td width="40%">
-                          Email
+                          <b>Employee type:</b>
                         </td>
 
                         <td width="60%">
-                          jishanahammed@gmail.com
+                          {employeeDetails?.employeeTypeName}
                         </td>
                       </tr>
 
+                      <tr>
+                        <td width="40%">
+                          <b>Nationality:</b>
+                        </td>
+
+                        <td width="60%">
+                          {employeeDetails?.nationalityName}
+                        </td>
+                      </tr>
                       </tbody>
                     </Table>
                </CardBody>
@@ -187,30 +196,101 @@ const EmployeeProfile = () => {
           <Card>  
                <CardBody>
                   <div className="hedding-titel">
-                    <h5> Contact Information </h5>
+                    <h5> <b>Contact Information</b> </h5>
                     <div className="bg-h"></div>
                   </div>
 
 
 
-                        <Table className="table-bordered mt-4" >
+                  <Table className="table-bordered mt-4" >
                     <tbody>
                       <tr>
                         <td width="40%">
-                        <span> <i className="fas fa-phone"></i> Phone Number</span>
+                        <span><b>Address type:</b></span>
                         </td>
 
                         <td width="60%">
-                        {employeeDetails.phoneNumber}
+                         {employeeDetails?.contactInfo?.addressType?.name}
                         </td>
                       </tr>
+
                       <tr>
                         <td width="40%">
-                        <i className="far fa-envelope"> Email</i>
+                        <span><b>Phone number:</b></span>
                         </td>
 
                         <td width="60%">
-                        {employeeDetails.email}
+                         {employeeDetails?.phoneNumber}
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td width="40%">
+                        <span><b>Cell phone number:</b></span>
+                        </td>
+
+                        <td width="60%">
+                         {employeeDetails?.contactInfo?.cellPhoneNumber}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td width="40%">
+                          <b>Email:</b>
+                        </td>
+
+                        <td width="60%">
+                        {employeeDetails?.email}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td width="40%">
+                          <b>Country:</b>
+                        </td>
+
+                        <td width="60%">
+                        {employeeDetails?.contactInfo?.country?.name}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td width="40%">
+                          <b>City:</b>
+                        </td>
+
+                        <td width="60%">
+                        {employeeDetails?.contactInfo?.city}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td width="40%">
+                          <b>State:</b>
+                        </td>
+
+                        <td width="60%">
+                        {employeeDetails?.contactInfo?.state}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td width="40%">
+                          <b>Zip code:</b>
+                        </td>
+
+                        <td width="60%">
+                        {employeeDetails?.contactInfo?.zipCode}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td width="40%">
+                          <b>Address line:</b>
+                        </td>
+
+                        <td width="60%">
+                        {employeeDetails?.contactInfo?.addressLine}
                         </td>
                       </tr>
 
@@ -220,22 +300,9 @@ const EmployeeProfile = () => {
             </Card>
         </div>
 
-        <div className=" info-item mt-4">
-          <Card>  
-               <CardBody>
-                  <div className="hedding-titel">
-                    <h5> Document </h5>
-                    <div className="bg-h"></div>
-                  </div>
-
-
-
-               </CardBody>
-            </Card>
-        </div>
               
-              </div>
-          </Col>
+      </div>
+    </Col>
 
 
 

@@ -3,6 +3,7 @@ import { Link, useParams, useHistory, useLocation } from 'react-router-dom';
 import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Row, Table, Form, FormGroup } from 'reactstrap';
 import get from '../../../helpers/get';
 import Select from "react-select";
+import { rootUrl } from '../../../constants/constants';
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 
@@ -281,11 +282,14 @@ const UniversityDetails = () => {
 
       }
 
-      
+      const tableStyle = {
+        overflowX: 'scroll',
+      };
+
    
     
     return (
-        <div>
+    <div>
             <Card className="uapp-card-bg">
         <CardHeader className="page-header">
 
@@ -294,27 +298,28 @@ const UniversityDetails = () => {
             <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to University List</span>
           </div>
 
-        </CardHeader>
-      </Card>
+          </CardHeader>
+        </Card>
 
       <div className="uapp-employee-profile">
-        <Row>
+
+        {/* <Row>
           <Col md="12"> 
-           <Card className="uapp-employee-profile-right">
-             <div className="uapp-profile-CardHeader">
+           <Card className="uapp-employee-profile-right" >
+             <div className="uapp-profile-CardHeader" style={{ backgroundImage:`url(${rootUrl+universityInfo?.universityLogo?.fileUrl})`}}>
                 <div className="uapp-circle-image margin-top-minus">
-                  <img src={universityInfo?.fileUrl} alt='university_image' />
+                  <img src={rootUrl+universityInfo?.universityLogo?.fileUrl} alt='university_image' />
                 </div>    
                 
                 <h5> {universityInfo?.name}</h5>
-                 {/* <p> {providerInfo?.providerType?.name} </p>   */}
+                 <p> {providerInfo?.providerType?.name} </p>  
             </div>
               <CardBody>
 
                  <div>
                  <ul className="uapp-ul text-center">
-                     {/* <li> {providerInfo?.email} </li>
-                     <li> {providerInfo?.phoneNumber} </li> */}
+                     <li> {providerInfo?.email} </li>
+                     <li> {providerInfo?.phoneNumber} </li>
                    
                    </ul>
                  </div>
@@ -324,61 +329,236 @@ const UniversityDetails = () => {
 
           
           </Col>
-        </Row>
+        </Row> */}
 
 
 
-        {/* for showing campus list */}
         <Row>
 
           <Col md='8'>
+
+          <Card>
+                <CardBody>
+                    <div className="uapp-employee-cover-image">
+                      <div className="bg-image">   
+                      <div className="uplode-cover-image">
+                        <img src={rootUrl+universityInfo?.coverPhoto?.fileUrl} alt='cover_img'/>
+                        </div>               
+                    </div>
+                  </div>
+
+
+
+                  <div className="uapp-employee-profile-image-edit">
+                    <Row>
+                      <Col> 
+                    <div className="uapp-employee-profile-image">
+                    <div className="text-left">
+                       <img className="empProfileImg" src={rootUrl+universityInfo?.universityLogo?.fileUrl} alt='profile_img'/>
+                    </div>
+                    </div>  
+                    </Col>
+
+                    <Col> 
+                    <div className="uapp-employee-profile-Edit">
+                    <div className="text-right">
+                      <span> <i className="fas fa-pencil-alt"></i> </span>
+                    </div>
+                    </div>  
+
+                        </Col> 
+                    </Row>            
+                   </div>     
+
+
+                      <div className="uapp-employee-profile-generalInfo"> 
+                       <Row>
+                         <Col md="6"> 
+
+                          <ul className="uapp-ul text-left">
+                            <li> 
+                              <h4>{universityInfo?.name} ({universityInfo?.shortName})</h4>
+                            </li>
+
+                             <li> 
+                              {/* <h6>{employeeType.name}</h6> */}
+                            </li>
+
+
+                          </ul>
+
+                      </Col> 
+
+                      <Col md="6"> 
+                     <ul className="uapp-ul text-right1">
+                            <li> 
+                              <span> Foundation year : {universityInfo?.foundationYear}</span>
+                            </li>
+
+                            <li> 
+                              <span> Global rank : {universityInfo?.globalRankNumber}</span>
+                            </li>
+
+                          </ul>
+                      </Col> 
+                    </Row> 
+                    </div> 
+                  </CardBody>
+                </Card>
+
+                <div className=" info-item mt-4">
+                  <Card>  
+                   <CardBody>
+                    <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Description</b> </h5>
+                     
+                    <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+
+                    </div>
+                    <div>
+                      <p className='pt-2'>{universityInfo?.description}</p>
+                    </div>
+                   </CardBody>
+                  </Card>
+                </div>
+
+                {/* university information starts here */}
+                <div className=" info-item mt-4">
+              <Card>  
+                 <CardBody>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>General Information</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div>
+
+                 </div>
+                      <Table className="table-bordered mt-4" >
+                      <tbody>
+                        
+                        <tr>
+                          <td width="40%">
+                            <b>Name:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.name} ({universityInfo?.shortName})
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>Type:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.universityType?.name}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>Country:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.universityCountry?.name}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>City:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.universityCity}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>State:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.universityState?.name}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>Global Rank:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.globalRankNumber}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>Foundation Year:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.foundationYear}
+                          </td>
+                        </tr>
+
+                        
+                        </tbody>
+                      </Table>
+                 </CardBody>
+              </Card>
+          </div>
+                {/* university information ends here */}
             
-          <Card className="uapp-card-bg">
-            <CardHeader className="page-header">
-                <h3 className="text-light">Description</h3>
-            </CardHeader>
-            </Card>
+            {/* camp list start */}
+            <div className=" info-item mt-4">
+            <Card>  
+                 <CardBody>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>Campus List</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
 
-            <Card>
-              <CardBody>
-                 <p>{universityInfo?.description}</p>
-              </CardBody>
-            </Card>
-            
-            <Card className="uapp-card-bg">
-            <CardHeader className="page-header">
-                <h3 className="text-light">Campus list</h3>
-            </CardHeader>
-            </Card>
-
-         
-
-       <Card className="uapp-employee-search">
-          <CardBody>
-
-          {loading ? (
-            <h2 className="text-center">Loading...</h2>
-          ) :
-          <div className="table-responsive">
-              <Table className="table-sm table-bordered">
-                <thead className="thead-uapp-bg">
-                  <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>Name</th> 
-                    <th>City</th>
-                    <th>Student</th>
-                    <th>Cost</th>
+                 </div>
+                  {loading ? (
+                      <h2 className="text-center">Loading...</h2>
+                    ) :
+                    <div className="table-responsive pt-3">
+                    <Table className="table-sm striped" style={tableStyle}>
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th scope='row'>#</th>
+                          <th>Name</th> 
+                          <th>City</th>
+                          <th>Student</th>
+                          {/* <th>Cost</th> */}
                     <th style={{ width: "8%" }} className="text-center">
                       Action
                     </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  { 
-
-                        campusList?.map((campus, i) => (
-                          <tr key={campus.id} style={{ textAlign: "center" }}>
-                            <td>{serialNum + i}</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {campusList?.map((campus, i) => (
+                          <tr key={i} style={{ textAlign: "center" }}>
+                            <th scope='row'>{serialNum + i}</th>
                             
                             <td>
                               {campus?.name}
@@ -392,12 +572,12 @@ const UniversityDetails = () => {
                             </td>
                             {/* <td>{campus?.internationalStudent}</td> */}
 
-                            <td>
+                            {/* <td>
                               Avg. Tution Fee = {campus?.avarageTutionFee} {<br />}
                               Avg. Living Cost = {campus?.avarageLivingCost} {<br />}
                               Avg. Application Fee = {campus?.avarageApplicationFee} {<br />}
                               Est. Total Cost = {campus?.estimatedTotalCost}
-                            </td>
+                            </td> */}
                             
                             <td style={{ width: "8%" }} className="text-center">
                               <ButtonGroup variant="text">
@@ -418,23 +598,119 @@ const UniversityDetails = () => {
                             </td>
                           </tr>
                         ))}
-                </tbody>
-              </Table>
-            </div>
-          }
+                      </tbody>
+                    </Table>
+              
 
-          </CardBody>
-        </Card>
+                    </div>
+                    }
+                 </CardBody>
+              </Card>
+          </div>
+            {/* camp list end */}
+
+
+            {/* all subject starts here */}
+            <div className=" info-item mt-4">
+            <Card>  
+                 <CardBody>
+                 <div className="hedding-titel d-flex justify-content-between">
+                 <div>
+                 <h5> <b>Subject List</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+                  {loading ? (
+                      <h2 className="text-center">Loading...</h2>
+                    ) :
+                    <div className="table-responsive pt-3">
+                    <Table className="table-sm striped" style={tableStyle}>
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th scope='row'>#</th>
+                          <th>Subject Name</th>
+                          <th>Program Level</th>
+                          <th>Department</th>
+                          <th>Sub Department</th>
+                          <th style={{ width: "8%" }} className="text-center">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {subList?.map((sub, i) => (
+                          <tr key={i} style={{ textAlign: "center" }}>
+                            <th scope='row'>{serialNum + i}</th>
+                            
+                            <td>
+                        {sub?.name}
+                      </td>
+
+                      <td>
+                        {sub?.programLevel?.name}
+                      </td>
+
+                      <td>
+                        {sub?.department?.name}
+                      </td>
+
+                      <td>
+                        {sub?.subDepartment?.departmentinfo?.name}
+                      </td>
+                            
+                            <td style={{ width: "8%" }} className="text-center">
+                              <ButtonGroup variant="text">
+                              <Link to= {`/campusDetails/${sub?.id}`}>
+                                <Button color="primary" className="mx-1 btn-sm">
+                                  {" "}
+                                  <i className="fas fa-eye"></i>{" "}
+                                </Button>
+                                </Link>
+                                {/* <Button color="dark" className="mx-1 btn-sm">
+                                  {" "}
+                                  <i className="fas fa-edit"></i>{" "}
+                                </Button>
+                                <Button color="danger" className="mx-1 btn-sm">
+                                  <i className="fas fa-trash-alt"></i>
+                                </Button> */}
+                              </ButtonGroup>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+              
+
+                    </div>
+                    }
+                 </CardBody>
+              </Card>
+          </div>
+            {/* all subject ends here */}
+            
+          
 
       {/* intake filter */}
-      <Card className="uapp-card-bg">
-         <CardHeader className="page-header">
-             <h3 className="text-light">Subject intake</h3>
-         </CardHeader>
-      </Card>
+      
+      <Card className="uapp-employee-search mt-4">
+            <CardBody className="search-card-body ms-3">
 
-      <Card className="uapp-employee-search">
-            <CardBody className="search-card-body">
+            <div className="hedding-titel d-flex justify-content-between mb-4 mt-3">
+                 <div>
+                 <h5> <b>Subject Intake</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
 
               <Form onSubmit={handleSubmit}>
               <FormGroup>
@@ -662,14 +938,22 @@ const UniversityDetails = () => {
           <Col md='4'>
 
           {/* For showing financial cost */}
-          <Card className="uapp-card-bg">
-            <CardHeader className="page-header">
-                <h3 className="text-light">Financial Cost</h3>
-            </CardHeader>
-            </Card>
-
+          
               <Card>
                 <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Financial Cost</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+
                  <div className='d-flex justify-content-between'>
                  <span>Avarage Tution Fee</span>
                     <p>{financialInfo?.avarageTutionFee}</p>
@@ -697,14 +981,22 @@ const UniversityDetails = () => {
               {/* financial cost end here */}
 
               {/* features */}
-              <Card className="uapp-card-bg">
-                <CardHeader className="page-header">
-                    <h3 className="text-light">Features</h3>
-                </CardHeader>
-
-            </Card>
+              
               <Card>
                 <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Features</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+
                 <div className='d-flex justify-content-between'>
                  <span>Accommodations</span>
                     <p>{universityFeatures?.accommodations === false ? <i className=" danger fas fa-times-circle"></i> : <i className="success fas fa-check-circle"></i>}</p>
