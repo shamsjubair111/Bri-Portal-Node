@@ -415,9 +415,9 @@ const UniversityDetails = () => {
                      
                     <div className="bg-h"></div>
                     </div>
-                    <div className="text-right edit-style  p-3" >
+                    {/* <div className="text-right edit-style  p-3" >
                     <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                  </div>
+                  </div> */}
 
                     </div>
                     <div>
@@ -938,14 +938,22 @@ const UniversityDetails = () => {
           <Col md='4'>
 
           {/* For showing financial cost */}
-          <Card className="uapp-card-bg">
-            <CardHeader className="page-header">
-                <h3 className="text-light">Financial Cost</h3>
-            </CardHeader>
-            </Card>
-
+          
               <Card>
                 <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Financial Cost</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+
                  <div className='d-flex justify-content-between'>
                  <span>Avarage Tution Fee</span>
                     <p>{financialInfo?.avarageTutionFee}</p>
@@ -973,14 +981,22 @@ const UniversityDetails = () => {
               {/* financial cost end here */}
 
               {/* features */}
-              <Card className="uapp-card-bg">
-                <CardHeader className="page-header">
-                    <h3 className="text-light">Features</h3>
-                </CardHeader>
-
-            </Card>
+              
               <Card>
                 <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Features</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+
                 <div className='d-flex justify-content-between'>
                  <span>Accommodations</span>
                     <p>{universityFeatures?.accommodations === false ? <i className=" danger fas fa-times-circle"></i> : <i className="success fas fa-check-circle"></i>}</p>
