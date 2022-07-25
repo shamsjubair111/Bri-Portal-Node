@@ -63,6 +63,14 @@ const ConsultantProfile = () => {
           history.push("/")
         }
 
+
+        const handleUpdateBankDetailsFromProfile = () =>{
+
+          localStorage.setItem('consultantRegisterId',id);
+
+          history.push('/addBankDetails');
+        }
+
     return (
         <div>
           <Card className="uapp-card-bg">
@@ -281,6 +289,29 @@ const ConsultantProfile = () => {
                </CardBody>
             </Card>
         </div>
+
+
+             {/* Bank Details */}
+             <div className=" info-item mt-4">
+             <Card>  
+              <CardBody>
+               <div className="hedding-titel d-flex justify-content-between">
+               <div>
+               <h5> <b>Bank Details</b> </h5>
+                
+               <div className="bg-h"></div>
+               </div>
+               <div className="text-right edit-style  p-3" >
+               <span> <i className="fas fa-pencil-alt pencil-style" onClick={handleUpdateBankDetailsFromProfile}></i> </span>
+             </div>
+
+               </div>
+               <div>
+                 
+               </div>
+              </CardBody>
+             </Card>
+           </div>
 
         <div className=" info-item mt-4">
         <Card >

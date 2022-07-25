@@ -16,11 +16,15 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
+    Modal,
+    ModalBody,
+    ModalFooter
   } from "reactstrap";
   import { Link } from "react-router-dom";
   import Select from "react-select";
   import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import { useHistory, useLocation } from "react-router";
+import { useToasts } from 'react-toast-notifications';
 
 import get from "../../../helpers/get.js";
 import { rootUrl } from "../../../constants/constants.js";
@@ -28,6 +32,7 @@ import { useState } from 'react';
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import remove from '../../../helpers/remove.js';
 
 const ConsultantList = () => {
 
@@ -43,6 +48,9 @@ const ConsultantList = () => {
     const [searchStr, setSearchStr] = useState("");
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [success,setSuccess] = useState(false);
+    const {addToast} = useToasts();
     // const [uniStateLabel, setUniStateLabel] = useState("State");
     // const [unistateValue, setUniStateValue] = useState(0);
     // const [providerLabel, setProviderLabel] = useState("Provider");
@@ -108,6 +116,8 @@ const ConsultantList = () => {
       history.push("/");
     };
 
+
+
     useEffect(()=>{
       get(`Consultant/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&searchstring=${searchStr}`)
       .then(res => {
@@ -117,7 +127,7 @@ const ConsultantList = () => {
         setEntity(res?.totalEntity);
         setLoading(false);
       })
-    },[currentPage, dataPerPage, callApi, searchStr, entity, loading])
+    },[currentPage, dataPerPage, callApi, searchStr, entity, loading, success])
 
     const handleDate = e =>{
       var datee = e;
@@ -125,6 +135,46 @@ const ConsultantList = () => {
       var localeDate = utcDate.toLocaleString("en-CA");
       const x = localeDate.split(",")[0];
       return x;
+    }
+
+    // Edit Consultant Information
+
+    const handleEdit = (data) =>{
+
+      console.log(data);
+      localStorage.setItem('consultantRegisterId', data?.id);
+      localStorage.setItem('consultantMethod', true);
+      history.push('/addConsultantInformation');
+
+    }
+
+     // Delete Modal
+
+     const toggleDanger = (p) => {
+
+      console.log(p);
+      localStorage.setItem('consultantIdForDelete',p?.id);
+
+      setDeleteModal(true)
+    }
+
+    // Delete Data
+
+    const handleDeleteData = () => {
+
+     
+
+      remove(`Consultant/Delete/${localStorage.getItem('consultantIdForDelete')}`)
+      .then(res => {
+        // console.log(res);
+        addToast(res,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+        setDeleteModal(false);
+        setSuccess(!success);
+      })
+      
     }
 
     const handleExportXLSX = () => {
@@ -368,14 +418,24 @@ const ConsultantList = () => {
                             <i className="fas fa-eye"></i>{" "}
                           </Button>
                           </Link>
-                          <Button color="dark" className="mx-1 btn-sm">
+                          <Button color="dark" className="mx-1 btn-sm" onClick={()=>handleEdit(consultant)}>
                             {" "}
                             <i className="fas fa-edit"></i>{" "}
                           </Button>
-                          <Button color="danger" className="mx-1 btn-sm">
+                          <Button color="danger" className="mx-1 btn-sm" onClick = {()=> toggleDanger(consultant)}>
                             <i className="fas fa-trash-alt"></i>
                           </Button>
                         </ButtonGroup>
+                        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                        <ModalBody>
+                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                        </ModalBody>
+        
+                        <ModalFooter>
+                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                          <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                        </ModalFooter>
+                     </Modal>
                       </td>
                     </tr>
                   ))}

@@ -9,6 +9,7 @@ import * as Icon from 'react-feather';
 import { Image } from 'antd';
 import "antd/dist/antd.css";
 import put from '../../../helpers/put';
+import { rootUrl } from '../../../constants/constants';
 
 const AddConsultantInformation = () => {
 
@@ -54,6 +55,8 @@ const AddConsultantInformation = () => {
 
     const [work, setWork] = useState(false);
 
+    const [success,setSuccess] = useState(false);
+
 
     // Profile Image States
 
@@ -95,6 +98,9 @@ const AddConsultantInformation = () => {
       const [FileList5, setFileList5] = useState([]);
 
       
+      // Checking Put method
+
+      const consultantMethod = localStorage.getItem('consultantMethod');
 
 
 
@@ -124,6 +130,15 @@ const AddConsultantInformation = () => {
             setParentValue(res?.parentConsultantId);
             setAccountLabel(res?.accountStatus?.statusName);
             setAccountValue(res?.accountStatus?.id);
+            setWork(`${res?.haveRightToWork}`);
+            setResidencyLabel(res?.residencyStatus !== null ? res?.residencyStatus?.name : 'Select Residency Status');
+            setResidencyValue(res?.residencyStatus!== null ? res?.residencyStatus?.id : 0);
+            setBranchLabel(res?.branch  !== null ? res?.branch?.name : 'Select Branch');
+            setBranchValue(res?.branch !== null ? res?.branch?.id : 0);
+            setVisaLabel(res?.visaStatus !== null ? res?.visaStatus?.name : 'Select Visa Type' );
+            setVisaValue(res?.visaStatus !== null ? res?.visaStatus?.id : 0);
+
+            
         })
 
         get('VisaTypeDD/Index')
@@ -150,7 +165,7 @@ const AddConsultantInformation = () => {
           setAccount(res);
         })
   
-      },[]);
+      },[success]);
 
 
         // Profile Image Code Start
@@ -523,11 +538,11 @@ const handleChange1 = ({ fileList }) => {
 
         const subData = new FormData(event.target);
 
-        subData.append('consultantProfileImage',FileList1[0]?.originFileObj)
-        subData.append('consultantCoverImage',FileList2[0]?.originFileObj)
-        subData.append('idOrPassport',FileList3[0]?.originFileObj)
-        subData.append('proofOfAddress',FileList4[0]?.originFileObj)
-        subData.append('proofOfRightToWork',FileList5[0]?.originFileObj)
+        subData.append('consultantProfileImage',FileList1.length == 0 ? null : FileList1[0]?.originFileObj)
+        subData.append('consultantCoverImage',FileList2.length == 0 ? null : FileList2[0]?.originFileObj)
+        subData.append('idOrPassport',FileList3.length == 0 ? null : FileList3[0]?.originFileObj)
+        subData.append('proofOfAddress',FileList4.length == 0 ? null : FileList4[0]?.originFileObj)
+        subData.append('proofOfRightToWork',FileList5.length == 0 ? null : FileList5[0]?.originFileObj)
 
         for( var x of subData.values()){
           console.log(x);
@@ -563,16 +578,26 @@ const handleChange1 = ({ fileList }) => {
             setVisaError(true);
           }
 
+
+
           else{
 
+          
             put(`Consultant/Update`,subData)
             .then(res => {
+              addToast(res?.data?.message, {
+                appearance: 'success',
+                autoDismiss: true
+              })
               if(res?.status == 200){
-                addToast(res?.data?.message, {
-                  appearance: 'success',
-                  autoDismiss: true
-                })
+                
                 history.push('/addBankDetails');
+                setSuccess(!success);
+                setFileList1([]);
+                setFileList2([]);
+                setFileList3([]);
+                setFileList4([]);
+                setFileList5([]);
 
               }
             })
@@ -696,7 +721,7 @@ const handleChange1 = ({ fileList }) => {
                     name="firstName"
                     id="firstName"
                     placeholder="Enter First Name"
-                    value={consultantData?.firstName}
+                    defaultValue={consultantData?.firstName}
                     required
                   />
 
@@ -718,7 +743,7 @@ const handleChange1 = ({ fileList }) => {
                     name="lastName"
                     id="lastName"
                     placeholder="Enter Last Name"
-                    value={consultantData?.lastName}
+                    defaultValue={consultantData?.lastName}
                     required
                   />
 
@@ -765,7 +790,7 @@ const handleChange1 = ({ fileList }) => {
                     name="phoneNumber"
                     id="phoneNumber"
                     placeholder="Enter Phone Number"
-                    value={consultantData?.phoneNumber}
+                    defaultValue={consultantData?.phoneNumber}
                     required
                   />
 
@@ -889,14 +914,14 @@ const handleChange1 = ({ fileList }) => {
                  
 
                 <FormGroup check inline>
-                <Input className="form-check-input" type="radio" id="isHaveWork" onChange={handleWork} name="isHaveWork" value='true' checked={work == 'true'} />
-                <Label className="form-check-label" check htmlFor="isHaveWork" >Yes</Label>
+                <Input className="form-check-input" type="radio" id="haveRightToWork" onChange={handleWork} name="haveRightToWork" value='true' checked={work == 'true'} />
+                <Label className="form-check-label" check htmlFor="haveRightToWork" >Yes</Label>
       
                 </FormGroup>
       
                 <FormGroup check inline>
-                <Input className="form-check-input" type="radio" id="isHaveWork" onChange={handleWork} name="isHaveWork" value='false' checked={work == 'false'} />
-                <Label className="form-check-label" check htmlFor="isHaveWork" >No</Label>
+                <Input className="form-check-input" type="radio" id="haveRightToWork" onChange={handleWork} name="haveRightToWork" value='false' checked={work == 'false'} />
+                <Label className="form-check-label" check htmlFor="haveRightToWork" >No</Label>
       
                 </FormGroup>
 
@@ -912,7 +937,29 @@ const handleChange1 = ({ fileList }) => {
                   </span>
                 </Col>
                 <Col md="6">
-                 
+
+                <div className = 'row'>
+
+                {
+                  consultantData?.consultantProfileImageMedia !== null ?
+                <div className='col-md-3'>
+
+               
+
+                  <Image
+                  width={104} height={104}
+                  src={rootUrl+consultantData?.consultantProfileImageMedia?.fileUrl}
+                />
+               
+
+                
+                </div>
+                :
+                null
+                }
+
+                <div className='col-md-3'>
+
                 <Upload
                    
                 listType="picture-card"
@@ -941,6 +988,14 @@ const handleChange1 = ({ fileList }) => {
               >
                 <img alt="example" style={{ width: '100%' }} src={previewImage1} />
               </Modal>
+                
+                </div>
+                
+                </div>
+
+                
+                 
+             
 
                   
 
@@ -957,40 +1012,62 @@ const handleChange1 = ({ fileList }) => {
                 </Col>
                 <Col md="6">
 
-                <Upload
+              <div className='row'>
+
+              {
+                consultantData?.consultantCoverImageMedia !== null ?
+
+              <div className='col-md-3'>
+
+            
+                <Image
+                width={104} height={104}
+                src={rootUrl+consultantData?.consultantCoverImageMedia?.fileUrl}
+              />
+            
+              
+              </div>
+              :
+              null
+              }
+
+              <div className='col-md-3'>
+
+              <Upload
                    
-                listType="picture-card"
-                multiple={false}
-                fileList={FileList2}
-                onPreview={handlePreview2}
-                onChange={handleChange2}
-                beforeUpload={(file)=>{
-      
+              listType="picture-card"
+              multiple={false}
+              fileList={FileList2}
+              onPreview={handlePreview2}
+              onChange={handleChange2}
+              beforeUpload={(file)=>{
+    
+              
+                  
                 
-                    
-                  
-                    return false;
-                }}
-              >
-                 {FileList2.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
-                 <br/>
-                 <span>Upload Image Here</span>
-                 </div>: ''}
-              </Upload>
-              <Modal
-                visible={previewVisible2}
-                title={previewTitle2}
-                footer={null}
-                onCancel={handleCancel2}
-              >
-                <img alt="example" style={{ width: '100%' }} src={previewImage2} />
-              </Modal>
-                 
+                  return false;
+              }}
+            >
+               {FileList2.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+               <br/>
+               <span>Upload Image Here</span>
+               </div>: ''}
+            </Upload>
+            <Modal
+              visible={previewVisible2}
+              title={previewTitle2}
+              footer={null}
+              onCancel={handleCancel2}
+            >
+              <img alt="example" style={{ width: '100%' }} src={previewImage2} />
+            </Modal>
+               
+              
+              </div>
 
-                  
+              </div>
 
-                 
-
+               
                 </Col>
               </FormGroup>
 
@@ -1001,7 +1078,29 @@ const handleChange1 = ({ fileList }) => {
                   </span>
                 </Col>
                 <Col md="6">
-                 
+
+                <div className= 'row'>
+                {
+                  consultantData?.idOrPassportMedia !== null ?
+
+                <div className='col-md-3'>
+
+               
+  
+                  <Image
+                  width={104} height={104}
+                  src={rootUrl+consultantData?.idOrPassportMedia?.fileUrl}
+                />
+               
+                </div>
+                :
+                null
+                }
+
+
+
+                <div className='col-md-3'>
+
                 <Upload
                    
                 listType="picture-card"
@@ -1030,10 +1129,12 @@ const handleChange1 = ({ fileList }) => {
               >
                 <img alt="example" style={{ width: '100%' }} src={previewImage3} />
               </Modal>
-
-                  
-
-                 
+                
+                </div>
+                
+                
+                </div>
+                
 
                 </Col>
               </FormGroup>
@@ -1045,6 +1146,28 @@ const handleChange1 = ({ fileList }) => {
                   </span>
                 </Col>
                 <Col md="6">
+
+                <div className='row'>
+
+                {
+                  consultantData?.proofOfAddressMedia !== null ?
+                <div className='col-md-3'> 
+
+           
+  
+                  <Image
+                  width={104} height={104}
+                  src={rootUrl+consultantData?.proofOfAddressMedia?.fileUrl}
+                />
+               
+
+                
+                </div>
+                :
+                null
+                }
+
+                <div className='col-md-3'> 
 
                 <Upload
                    
@@ -1075,11 +1198,12 @@ const handleChange1 = ({ fileList }) => {
                 <img alt="example" style={{ width: '100%' }} src={previewImage4} />
               </Modal>
 
-                 
 
-                  
+                
+                </div>
 
-                 
+
+                </div>
 
                 </Col>
               </FormGroup>
@@ -1095,7 +1219,28 @@ const handleChange1 = ({ fileList }) => {
                 </span>
               </Col>
               <Col md="6">
-               
+
+              <div className='row'>
+
+              {
+                consultantData?.proofOfRightToWorkMedia !== null ?
+              <div className= 'col-md-3'>
+
+         
+
+                <Image
+                width={104} height={104}
+                src={rootUrl+consultantData?.proofOfRightToWorkMedia?.fileUrl}
+              />
+              
+              
+              </div>
+              :
+              null
+              }
+
+              <div className= 'col-md-3'>
+
               <Upload
                  
               listType="picture-card"
@@ -1124,12 +1269,11 @@ const handleChange1 = ({ fileList }) => {
             >
               <img alt="example" style={{ width: '100%' }} src={previewImage5} />
             </Modal>
-
-
-                
-
+              
+              </div>
+              
+              </div>
                
-
               </Col>
             </FormGroup>
 

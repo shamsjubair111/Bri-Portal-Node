@@ -107,22 +107,24 @@ const AddConsultant = () => {
     }
     
 
-    //  watch form data values
-    // for (var value of subdata) {
-    //   console.log(value);
-    // }
+   
 
     else{
 
+       //  watch form data values
+    for (var value of subdata) {
+      console.log(value);
+    }
 
       post("Consultant/Register", subdata).then(res=>{
         console.log("consultant",res);
+        addToast(res?.data?.message, {
+          appearance:'success',
+          autoDismiss: true,
+        });
         
         if (res.status === 200 && res.data.isSuccess === true) {
-          addToast(res?.data?.message, {
-            appearance:'success',
-            autoDismiss: true,
-          });
+          
           localStorage.setItem('consultantRegisterId', res?.data?.result?.id);
           history.push('/addConsultantInformation');
           

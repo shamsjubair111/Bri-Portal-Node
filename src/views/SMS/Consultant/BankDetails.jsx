@@ -211,7 +211,7 @@ const BankDetails = () => {
 
             <div className='col-md-6 col-sm-12 mt-2' key={details?.id}>
 
-            <Card className='CampusCard shadow-style'>
+            <Card className='CampusCard shadow-style bank-details-card-size'>
 
             <CardBody>
             
