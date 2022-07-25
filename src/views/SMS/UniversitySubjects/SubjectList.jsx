@@ -279,6 +279,7 @@ const SubjectList = (props) => {
 
   const handleView = id =>{
     // localStorage.setItem('subIdPro', id);
+    localStorage.removeItem("campIdSubProfile");
     history.push(`/subjectProfile/${id}`);
   }
 

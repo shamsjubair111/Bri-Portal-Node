@@ -9,6 +9,11 @@ import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
 const SubjectProfile = () => {
 
     const [subjectData, setSubjectData] = useState({});
+    const [campList, setCampList] = useState([]);
+    const [serialNum, setSerialNum] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [campData, setCampData] = useState(null);
+
     const location = useLocation();
     const history = useHistory();
     const {subjId} = useParams();
@@ -22,8 +27,25 @@ const SubjectProfile = () => {
       .then(res=>{
         console.log("subjectPro", res);
         setSubjectData(res);
-      })
+        setCampList(res?.campusSubjects);
+        setLoading(false);
+      });
+
+      if(localStorage.getItem("campIdSubProfile")){
+            get(`UniversityCampus/Get/${localStorage.getItem("campIdSubProfile")}`)
+            .then(res=>{
+                console.log("oneCampObj", res);
+                setCampData(res);
+            })
+        }
+        else{
+            return;
+        }
+        // localStorage.removeItem("campIdSubProfile");
     },[])
+
+    console.log("campdata", campData);
+
 
     return (
         <div>
@@ -106,7 +128,7 @@ const SubjectProfile = () => {
 
                           <ul className="uapp-ul text-left">
                             <li> 
-                                <span> Programm : {subjectData?.programLevel?.name} </span>
+                                <span> Program : {subjectData?.programLevel?.name} </span>
                             </li>
 
                              <li> 
@@ -234,8 +256,11 @@ const SubjectProfile = () => {
                 {/* university information ends here */}
             
             {/* camp list start */}
-            <div className=" info-item mt-4">
-            <Card>  
+            {
+                    !campData  ?
+                    <>
+                    <div className=" info-item mt-4">
+               <Card>  
                  <CardBody>
                  <div className="hedding-titel d-flex justify-content-between">
                  <div>
@@ -248,20 +273,22 @@ const SubjectProfile = () => {
                </div> */}
 
                  </div>
-                 {/* {
-                  campusList.length<1 ? <p className='mt-4'>There is no campus added here.</p>
+                    
+                  <>
+                 {
+                  campList.length<1 ? <p className='mt-4'>This subject is not added to any campus.</p>
                   :
                   <>
                   {loading ? (
                       <h2 className="text-center">Loading...</h2>
                     ) :
                     <div className="table-responsive pt-3">
-                    <Table className="table-sm striped" style={tableStyle}>
+                    <Table className="table-sm striped">
                       <thead className="">
                         <tr style={{ textAlign: "center" }}>
                           <th scope='row'>#</th>
                           <th>Name</th> 
-                          <th>City</th>
+                          <th>Address</th>
                           <th>Student</th>
                           
                     <th style={{ width: "8%" }} className="text-center">
@@ -270,19 +297,19 @@ const SubjectProfile = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {campusList?.map((campus, i) => (
+                        {campList?.map((campus, i) => (
                           <tr key={i} style={{ textAlign: "center" }}>
-                            <th scope='row'>{serialNum + i}</th>
+                            <td><b>{serialNum + i}</b></td>
                             
                             <td>
-                              {campus?.name}
+                              {campus?.universityCampus?.name}
                             </td>
                             <td>
-                              {campus?.campusCity}
+                              {campus?.universityCampus?.addressLine}{","} {campus?.universityCampus?.campusCity}
                             </td>
                             <td>
-                              Total Student = {campus?.totalStudent} {<br />}
-                              International Student = {campus?.internationalStudent}
+                              Total Student = {campus?.universityCampus?.totalStudent} {<br />}
+                              International Student = {campus?.universityCampus?.internationalStudent}
                             </td>
                     
                             
@@ -294,13 +321,13 @@ const SubjectProfile = () => {
                                   <i className="fas fa-eye"></i>{" "}
                                 </Button>
                                 </Link>
-                                <Button color="dark" className="mx-1 btn-sm">
+                                {/* <Button color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button>
                                 <Button color="danger" className="mx-1 btn-sm">
                                   <i className="fas fa-trash-alt"></i>
-                                </Button>
+                                </Button> */}
                               </ButtonGroup>
                             </td>
                           </tr>
@@ -312,20 +339,26 @@ const SubjectProfile = () => {
                     </div>
                     }
                   </>
-                 } */}
+                 }
+                </>
+                
                  </CardBody>
               </Card>
           </div>
+                    </>
+                    :
+                    null
+            }
             {/* camp list end */}
 
-
-            {/* all subject starts here */}
+      
             <div className=" info-item mt-4">
-            <Card>  
-                 <CardBody>
-                 <div className="hedding-titel d-flex justify-content-between">
+              <Card>
+                <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
                  <div>
-                 <h5> <b>Subject List</b> </h5>
+                 <h5> <b>Documents</b> </h5>
                   
                  <div className="bg-h"></div>
                  </div>
@@ -334,78 +367,13 @@ const SubjectProfile = () => {
                </div> */}
 
                  </div>
-                  {/* {
-                    subList.length<1 ? <p className='mt-4'>There is no subject added here.</p>
-                    :
-                    <>
-                    {loading ? (
-                      <h2 className="text-center">Loading...</h2>
-                    ) :
-                    <div className="table-responsive pt-3">
-                    <Table className="table-sm striped" style={tableStyle}>
-                      <thead className="">
-                        <tr style={{ textAlign: "center" }}>
-                          <th scope='row'>#</th>
-                          <th>Subject Name</th>
-                          <th>Program Level</th>
-                          <th>Department</th>
-                          <th>Sub Department</th>
-                          <th style={{ width: "8%" }} className="text-center">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {subList?.map((sub, i) => (
-                          <tr key={i} style={{ textAlign: "center" }}>
-                            <th scope='row'>{serialNum + i}</th>
-                            
-                            <td>
-                        {sub?.name}
-                      </td>
 
-                      <td>
-                        {sub?.programLevel?.name}
-                      </td>
-
-                      <td>
-                        {sub?.department?.name}
-                      </td>
-
-                      <td>
-                        {sub?.subDepartment?.departmentinfo?.name}
-                      </td>
-                            
-                            <td style={{ width: "8%" }} className="text-center">
-                              <ButtonGroup variant="text">
-                              <Link to= {`/campusDetails/${sub?.id}`}>
-                                <Button color="primary" className="mx-1 btn-sm">
-                                  {" "}
-                                  <i className="fas fa-eye"></i>{" "}
-                                </Button>
-                                </Link>
-                              </ButtonGroup>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-              
-
-                    </div>
-                    }
-                  </>
-                  } */}
-                 </CardBody>
+                </CardBody>
               </Card>
-          </div>
-            {/* all subject ends here */}
-            
-          
+            </div>
 
       <br /><br /><br />
       <br /><br /><br />
-
 
       </Col>
 
@@ -436,17 +404,50 @@ const SubjectProfile = () => {
 
                  <div className="uapp-ul text-center">
                  
-                     <span> Address : {subjectData?.university?.universityCity}{","} {subjectData?.university?.universityState?.name}{","} {subjectData?.university?.universityCountry?.name}</span>
-                     <br/>
-                     {/* <span> Email : {subjectData?.provider?.email} </span>
-                     <br/>
-                     <span> Phone no : {subjectData?.provider?.phoneNumber} </span>
+                     {/* <span> Address : {subjectData?.university?.universityCity}{","} {subjectData?.university?.universityState?.name}{","} {subjectData?.university?.universityCountry?.name}</span>
                      <br/> */}
+                     {
+                        subjectData?.university?.universityCity && subjectData?.university?.universityState?.name && subjectData?.university?.universityCountry?.name ? 
+                        <span> {subjectData?.university?.universityCity}{","} {subjectData?.university?.universityState?.name}{","} {subjectData?.university?.universityCountry?.name}</span>
+                        :
+                        <p>No data available</p>
+                     }
+                     
                  </div>
 
             </CardBody>
         </Card>
             {/* for showing university information ends here */}
+
+        {/* for showing campus information starts here */}
+           {
+             campData ? 
+             <Card>
+              <CardBody>
+
+              <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Campus</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+
+                 <div className="uapp-ul text-center">
+                    <h5>{campData?.name}</h5>
+                    <p>{campData?.addressLine}{","} {campData?.campusCity}</p>                 
+                 </div>
+
+                 </CardBody>
+             </Card>
+             :
+             null
+           }
+        {/* for showing campus information ends here */}
 
           {/* For showing tution fee */}
           
@@ -465,22 +466,27 @@ const SubjectProfile = () => {
 
                  </div>
                   
-                 <>
-                  <div className='d-flex justify-content-between'>
-                    <span>EU Tution Fee</span>
-                    <p>{subjectData?.subjectFee?.eU_TutionFee}</p>
-                  </div>
-
-                  <div className='d-flex justify-content-between'>
-                     <span>International Tution Fee</span>
-                     <p>{subjectData?.subjectFee?.internationalTutionFee}</p>
-                  </div>
-              
-                  <div className='d-flex justify-content-between'>
-                     <span>Local Tution Fee</span>
-                     <p>{subjectData?.subjectFee?.localTutionFee}</p>
-                  </div>
-                  </>
+                 {
+                    subjectData?.subjectFee ?
+                    <>
+                     <div className='d-flex justify-content-between'>
+                       <span>EU Tution Fee</span>
+                       <p>{subjectData?.subjectFee?.eU_TutionFee}</p>
+                     </div>
+                     
+                     <div className='d-flex justify-content-between'>
+                        <span>International Tution Fee</span>
+                        <p>{subjectData?.subjectFee?.internationalTutionFee}</p>
+                     </div>
+                     
+                     <div className='d-flex justify-content-between'>
+                        <span>Local Tution Fee</span>
+                        <p>{subjectData?.subjectFee?.localTutionFee}</p>
+                     </div>
+                    </>
+                    :
+                    <p>No data available</p>
+                 }
 
 
                 </CardBody>
@@ -489,7 +495,7 @@ const SubjectProfile = () => {
 
               {/* features */}
               
-              <Card>
+              {/* <Card>
                 <CardBody>
 
                 <div className="hedding-titel d-flex justify-content-between mb-4">
@@ -498,16 +504,16 @@ const SubjectProfile = () => {
                   
                  <div className="bg-h"></div>
                  </div>
-                 {/* <div className="text-right edit-style  p-3">
+                 <div className="text-right edit-style  p-3">
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div> */}
+               </div>
 
                  </div>
 
 
               
                 </CardBody>
-              </Card>
+              </Card> */}
 
 
           </Col>

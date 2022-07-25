@@ -635,13 +635,13 @@ const UniversityDetails = () => {
                                   <i className="fas fa-eye"></i>{" "}
                                 </Button>
                                 </Link>
-                                <Button color="dark" className="mx-1 btn-sm">
+                                {/* <Button color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button>
                                 <Button color="danger" className="mx-1 btn-sm">
                                   <i className="fas fa-trash-alt"></i>
-                                </Button>
+                                </Button> */}
                               </ButtonGroup>
                             </td>
                           </tr>
@@ -982,6 +982,26 @@ const UniversityDetails = () => {
             </CardBody>
       </Card>
 
+      <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Documents</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+
+                </CardBody>
+              </Card>
+            </div>
+
       <br /><br /><br />
       <br /><br /><br />
 
@@ -1015,11 +1035,11 @@ const UniversityDetails = () => {
 
                  <div className="uapp-ul text-center">
                  
-                     <span> Address : {universityInfo?.provider?.addressLine} </span>
+                     <span> {universityInfo?.provider?.addressLine} </span>
                      <br/>
-                     <span> Email : {universityInfo?.provider?.email} </span>
+                     <span> {universityInfo?.provider?.email} </span>
                      <br/>
-                     <span> Phone no : {universityInfo?.provider?.phoneNumber} </span>
+                     <span> {universityInfo?.provider?.phoneNumber} </span>
                      <br/>
                  </div>
 

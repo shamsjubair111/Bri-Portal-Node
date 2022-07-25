@@ -1022,7 +1022,7 @@ const StudentProfile = () => {
              <Card className="uapp-employee-profile-right">
                <div className="uapp-profile-CardHeader">
                   <div className="uapp-circle-image margin-top-minus">
-                    <img src={studentDetails?.consultant?.consultantProfileImage} alt="consultant_photo"/>
+                    <img src={rootUrl+studentDetails?.consultant?.consultantProfileImage} alt="consultant_photo"/>
                   </div>    
 
                   <h5>{studentDetails?.consultant?.firstName} {studentDetails?.consultant?.lastName}</h5>
