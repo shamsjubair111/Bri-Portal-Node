@@ -4,7 +4,10 @@ import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Dropdown, Dropdow
 import get from '../../../helpers/get';
 import Select from "react-select";
 import { rootUrl } from '../../../constants/constants';
-import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
+import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
+
+import { Image } from 'antd';
+import "antd/dist/antd.css";
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 
@@ -1002,6 +1005,7 @@ const UniversityDetails = () => {
                </div> */}
 
                  </div>
+                 
 
                 </CardBody>
               </Card>

@@ -479,6 +479,7 @@ const UniversityList = (props) => {
         </CardBody>
       </Card>
 
+      {/* this portion is saved in text-file in desktop */}
       <Card className="uapp-employee-search">
         <CardBody>
           <Row className="mb-3">
@@ -493,7 +494,7 @@ const UniversityList = (props) => {
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
-              <Row>
+              <div className="d-flex justify-content-end">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>
@@ -507,10 +508,10 @@ const UniversityList = (props) => {
                       />
                     </div>
                 </Col> */}
-                <Col lg="4">
+                <div className="me-3">
                   <div className="d-flex align-items-center">
                     <div className="me-2">
-                      Order
+                      Order By :
                     </div>
                     <div>
                       <Select
@@ -520,11 +521,12 @@ const UniversityList = (props) => {
                       />
                     </div>
                   </div>
-                </Col>
-                <Col lg="4" >
+                </div>
+
+                <div className="me-3">
                   <div className="d-flex align-items-center">
                     <div className="me-2">
-                      Showing
+                      Showing :
                     </div>
                     <div>
                       <Select
@@ -534,8 +536,9 @@ const UniversityList = (props) => {
                       />
                     </div>
                   </div>
-                </Col>
-                <Col lg="2">
+                </div>
+
+                <div className="me-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -561,9 +564,9 @@ const UniversityList = (props) => {
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </Col>
+                </div>
 
-                <Col lg="2">
+                <div className="me-3">
                 <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -589,8 +592,8 @@ const UniversityList = (props) => {
 
                     </DropdownMenu>
                   </Dropdown>
-                </Col>
-              </Row>
+                </div>
+              </div>
             </Col>
           </Row>
 
@@ -622,10 +625,7 @@ const UniversityList = (props) => {
                         {" "}
                         <img
                           className="Uapp-c-image"
-                          src={`${rootUrl}/${university.universityLogo.fileUrl?.slice(
-                            2,
-                            university.universityLogo.fileUrl.length
-                          )}`}
+                          src={rootUrl+university?.universityLogo?.fileUrl}
                          alt="university_logo"/>{" "}
                       </td>
                       <td>

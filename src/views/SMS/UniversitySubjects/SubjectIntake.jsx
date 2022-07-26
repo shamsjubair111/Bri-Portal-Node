@@ -136,7 +136,7 @@ const SubjectIntake = () => {
     
 
     const backToList = () => {
-        history.push('/subjectList');
+        history.push(`/campusSubjectList/${camId}`);
     }
 
     return (

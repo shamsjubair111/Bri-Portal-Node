@@ -39,6 +39,7 @@ const CampusDetails = () => {
           get(`UniversityCampus/Get/${id}`)
           .then(res => {
               setCampusInfo(res);
+              console.log('unicamp', res);
           })
 
           // Subject get by university
