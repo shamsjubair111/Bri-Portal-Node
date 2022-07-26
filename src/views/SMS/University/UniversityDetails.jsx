@@ -753,7 +753,11 @@ const UniversityDetails = () => {
 
       {/* intake filter */}
       
-      <Card className="uapp-employee-search mt-4">
+      {
+        subList.length<1 ?
+        null
+        :
+        <Card className="uapp-employee-search mt-4">
             <CardBody className="search-card-body ms-3">
 
             <div className="hedding-titel d-flex justify-content-between mb-4 mt-3">
@@ -981,6 +985,7 @@ const UniversityDetails = () => {
 
             </CardBody>
       </Card>
+      }
 
       <div className=" info-item mt-4">
               <Card>
@@ -1033,14 +1038,12 @@ const UniversityDetails = () => {
             </div>
               <CardBody>
 
-                 <div className="uapp-ul text-center">
-                 
-                     <span> {universityInfo?.provider?.addressLine} </span>
-                     <br/>
-                     <span> {universityInfo?.provider?.email} </span>
-                     <br/>
-                     <span> {universityInfo?.provider?.phoneNumber} </span>
-                     <br/>
+                 <div>
+                      <ul className="uapp-ul text-center">
+                        <li> {universityInfo?.provider?.addressLine} </li>
+                        <li> {universityInfo?.provider?.email} </li>
+                        <li> {universityInfo?.provider?.phoneNumber} </li>
+                      </ul>
                  </div>
 
             </CardBody>

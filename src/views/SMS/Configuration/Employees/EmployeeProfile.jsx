@@ -310,7 +310,7 @@ const EmployeeProfile = () => {
            <Card className="uapp-employee-profile-right">
              <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
-                  <img src={profileImage}/>
+                  <img src={profileImage} alt=''/>
                 </div>    
                 
                 <h5> Md.Jamal Uddin</h5>

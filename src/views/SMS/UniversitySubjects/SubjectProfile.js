@@ -305,7 +305,7 @@ const SubjectProfile = () => {
                       <tbody>
                         {campList?.map((campus, i) => (
                           <tr key={i} style={{ textAlign: "center" }}>
-                            <td><b>{serialNum + i}</b></td>
+                            <th scope='row'>{serialNum + i}</th>
                             
                             <td>
                               {campus?.universityCampus?.name}

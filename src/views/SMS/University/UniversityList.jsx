@@ -46,8 +46,10 @@ const UniversityList = (props) => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
+  const [order, setOrder] = useState('Newest');
   const [searchStr, setSearchStr] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [stateList, setstateList] = useState([0]);
   const univerSityCountries = props.univerSityCountryList[0];
   const universityTypes = props.univerSityTypeList[0];
@@ -178,9 +180,19 @@ const UniversityList = (props) => {
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
   const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
 
+  // user select order
+  const orderArr = ['Newest', 'Oldest', 'A-Z', 'Z-A'];
+  const orderName = orderArr.map((dsn) => ({ label: dsn, value: dsn }));
+
   const selectDataSize = (value) => {
     setLoading(true);
     setDataPerPage(value);
+    setCallApi((prev) => !prev);
+  };
+
+  const selectOrder = (value) => {
+    setLoading(true);
+    setOrder(value);
     setCallApi((prev) => !prev);
   };
 
@@ -195,6 +207,11 @@ const UniversityList = (props) => {
     localStorage.removeItem('editUniId');
     localStorage.removeItem('editMethod');
     history.push("/addUniversity");
+  };
+
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
   };
 
   // toggle dropdown
@@ -356,6 +373,10 @@ const UniversityList = (props) => {
 
   const componentRef = useRef();
 
+  const handleRedirectToSubList = id =>{
+    localStorage.setItem("uniIdForSubList", id);
+    history.push('/subjectList');
+  }
 
   return (
     <div>
@@ -473,16 +494,46 @@ const UniversityList = (props) => {
 
             <Col lg="6" md="7" sm="6" xs="8">
               <Row>
-                <Col lg="5" md="6"></Col>
-                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
-                  Showing
+                {/* <Col lg="2">
+                    
+                    <div className='ms-2'>
+                      <ReactToPrint
+                        trigger={()=><div className="uapp-print-icon">
+                          <div className="text-right">
+                            <span title="Print to pdf"> <i className="fas fa-print"></i> </span>
+                          </div>
+                        </div>}
+                        content={() => componentRef.current}
+                      />
+                    </div>
+                </Col> */}
+                <Col lg="4">
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">
+                      Order
+                    </div>
+                    <div>
+                      <Select
+                      options={orderName}
+                      value={{ label: order, value: order }}
+                      onChange={(opt) => selectOrder(opt.value)}
+                      />
+                    </div>
+                  </div>
                 </Col>
-                <Col md="3" sm="7" xs="7">
-                  <Select
-                    options={dataSizeName}
-                    value={{ label: dataPerPage, value: dataPerPage }}
-                    onChange={(opt) => selectDataSize(opt.value)}
-                  />
+                <Col lg="4" >
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">
+                      Showing
+                    </div>
+                    <div>
+                      <Select
+                      options={dataSizeName}
+                      value={{ label: dataPerPage, value: dataPerPage }}
+                      onChange={(opt) => selectDataSize(opt.value)}
+                      />
+                    </div>
+                  </div>
                 </Col>
                 <Col lg="2">
                   <Dropdown
@@ -492,10 +543,37 @@ const UniversityList = (props) => {
                     toggle={toggle}
                   >
                     <DropdownToggle caret>
-                      <i className="fas fa-ellipsis-v"></i>
+                      
+                      <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
                     <DropdownMenu className='bg-dd'>
-                    {/* <DropdownItem> */}
+                        
+                      <div className='d-flex justify-content-around align-items-center mt-2'>
+                        <div className='text-light cursor-pointer'>
+                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                        </div>
+                        <div className='text-light cursor-pointer'>
+                          <ReactToPrint
+                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+                             content={() => componentRef.current}
+                           />
+                        </div>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </Col>
+
+                <Col lg="2">
+                <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className='bg-dd'>
                         
                       <div className='d-flex justify-content-around align-items-center mt-2'>
                         <div className='text-light cursor-pointer'>
@@ -509,22 +587,6 @@ const UniversityList = (props) => {
                         </div>
                       </div>
 
-                        {/* <ReactHTMLTableToExcel
-                          id="test-table-xls-button"
-                          className="download-table-xls-button"
-                          table="table-to-xls"
-                          filename="tablexls"
-                          sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
-
-                        
-                           {/* <Button onClick={onDownload}> Export excel </Button> */}
-
-                      {/* </DropdownItem> */}
-
-                      {/* <DropdownItem> */}
-                      
-                      {/* </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
@@ -564,7 +626,7 @@ const UniversityList = (props) => {
                             2,
                             university.universityLogo.fileUrl.length
                           )}`}
-                        />{" "}
+                         alt="university_logo"/>{" "}
                       </td>
                       <td>
                         {university?.name} ({university?.shortName})
@@ -594,6 +656,7 @@ const UniversityList = (props) => {
                         </span>{" "}
                       </td>
 
+                      {/* <td onClick={()=>handleRedirectToSubList(university?.id)}> */}
                       <td>
                         {" "}
                         <span

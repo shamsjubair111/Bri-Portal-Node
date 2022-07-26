@@ -455,9 +455,9 @@ const ConsultantProfile = () => {
                      
                       {
                         consultantData?.parentConsultant?.consultantProfileImageMedia == null ?
-                        <img src={profileImage}/>
+                        <img src={profileImage} alt='profile_img'/>
                         :
-                        <img src={rootUrl+consultantData?.parentConsultant?.consultantProfileImageMedia?.fileUrl}/>
+                        <img src={rootUrl+consultantData?.parentConsultant?.consultantProfileImageMedia?.fileUrl} alt='profile_img'/>
                         
                       }
                      
@@ -468,19 +468,13 @@ const ConsultantProfile = () => {
             </div>
               <CardBody>
 
-                 <div className="uapp-ul text-center">
-                 
-                     <span> Account Status: {consultantData?.parentConsultant?.accountStatus?.statusName} </span>
-                     <br/>
-                     <span> Branch: {consultantData?.parentConsultant?.branch?.name} </span>
-                     <br/>
-                     <span> {consultantData?.parentConsultant?.email} </span>
-                     <br/>
-                     <span> {consultantData?.parentConsultant?.phoneNumber} </span>
-                     <br/>
-                    
-                    
-                   
+                 <div>
+                   <ul className="uapp-ul text-center">
+                      <li> {consultantData?.parentConsultant?.accountStatus?.statusName} </li>
+                      <li> {consultantData?.parentConsultant?.branch?.name} </li>
+                      <li> {consultantData?.parentConsultant?.email} </li>
+                      <li> {consultantData?.parentConsultant?.phoneNumber} </li>
+                    </ul>                                     
                  </div>
 
             </CardBody>

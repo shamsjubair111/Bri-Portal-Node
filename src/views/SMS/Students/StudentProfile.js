@@ -191,9 +191,15 @@ const StudentProfile = () => {
 
     }
 
-
-
     const componentRef = useRef();
+
+    const handleDate = e =>{
+      var datee = e;
+      var utcDate = new Date(datee);
+      var localeDate = utcDate.toLocaleString("en-CA");
+      const x = localeDate.split(",")[0];
+      return x;
+    }
 
     return (
         <div ref={componentRef}>
@@ -264,7 +270,7 @@ const StudentProfile = () => {
 
                           <ul className="uapp-ul text-left">
                             <li> 
-                              <h4>{studentDetails?.firstName} {studentDetails.lastName} ({studentDetails?.studentViewId})</h4>
+                              <h4>{studentDetails?.nameTittle} {studentDetails?.firstName} {studentDetails.lastName} ({studentDetails?.studentViewId})</h4>
                             </li>
 
                              <li> 
@@ -679,11 +685,11 @@ const StudentProfile = () => {
                               {
                                 edu?.stillStudying === false ?
                                 <div>
-                                  {edu?.attendedInstitutionFrom} to {edu?.attendedInstitutionTo}
+                                  {handleDate(edu?.attendedInstitutionFrom)} to {handleDate(edu?.attendedInstitutionTo)}
                                 </div>
                                 :
                                 <div>
-                                  {edu?.attendedInstitutionFrom} to {<div>
+                                  {handleDate(edu?.attendedInstitutionFrom)} to {<div>
                                     ongoing
                                   </div>}
                                 </div>
@@ -901,11 +907,11 @@ const StudentProfile = () => {
                            </td>
                        
                            <td>
-                             {ex?.startDate}
+                             {handleDate(ex?.startDate)}
                            </td>
                        
                            <td>
-                             {(ex?.isStillWorking)? <span>Not Available</span> : <span>{ex?.endDate}</span> }
+                             {(ex?.isStillWorking)? <span>Not Available</span> : <span>{handleDate(ex?.endDate)}</span> }
                            </td>
                            <td>
                              {(ex?.isStillWorking)? <span>Yes</span> : <span>No</span>}
