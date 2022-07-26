@@ -37,6 +37,8 @@ const ConsultantProfile = () => {
     const [consultantData, setConsultantData] = useState({});
     const [registrationDate, setRegistrationDate] = useState('');
 
+    const [serialNum, setSerialNum] = useState(1);
+
     useEffect(()=>{
 
       get(`Consultant/Profile/${id}`)
@@ -70,6 +72,10 @@ const ConsultantProfile = () => {
 
           history.push('/addBankDetails');
         }
+
+        const tableStyle = {
+          overflowX: 'scroll',
+        };
 
     return (
         <div>
@@ -306,9 +312,59 @@ const ConsultantProfile = () => {
              </div>
 
                </div>
-               <div>
-                 
-               </div>
+
+               <div className="table-responsive pt-3">
+                    <Table className="table-sm striped" style={tableStyle}>
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>#</th>
+                          <th>Account Name</th>
+                          <th>Account Number</th>
+                          <th>Bank Address</th>
+                          <th>Bank Name</th>
+                          <th>BIC</th>
+                          <th>Sort Code</th>
+                          <th>Swift</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {consultantData?.bankDetails?.map((details, i) => (
+                          <tr key={i} style={{ textAlign: "center" }}>
+                            <th scope='row'>{serialNum + i}</th>
+                            <td>
+                              {details?.accountName}
+                            </td>
+
+                            <td>
+                              {details?.accountNumber}
+                            </td>
+                        
+                            <td>
+                              {details?.bankAddress}
+                            </td>
+                        
+                            <td>
+                              {details?.bankName}
+                            </td>
+                        
+                            <td>
+                              {details?.bic}
+                            </td>
+                            <td>
+                              {details?.sortCode}
+                            </td>
+                            <td>
+                             {details?.swift}
+                              
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+              
+
+                    </div>
+               
               </CardBody>
              </Card>
            </div>
