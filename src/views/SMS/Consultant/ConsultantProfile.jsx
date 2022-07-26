@@ -99,7 +99,7 @@ const ConsultantProfile = () => {
               <CardBody>
                   <div className="uapp-employee-cover-image">
                     <div className="bg-image" >  
-                    <img src = {rootUrl+consultantData?.consultantCoverImageMedia?.fileUrl} /> 
+                    <img src = {rootUrl+consultantData?.consultantCoverImageMedia?.fileUrl} alt='cover_img'/> 
                     <div className="uplode-cover-image">
                       <span> <i className="fas fa-camera" > </i ></span>
                       </div>               

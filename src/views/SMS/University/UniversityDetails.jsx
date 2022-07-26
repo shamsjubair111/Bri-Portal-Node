@@ -4,6 +4,7 @@ import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Dropdown, Dropdow
 import get from '../../../helpers/get';
 import Select from "react-select";
 import { rootUrl } from '../../../constants/constants';
+import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 
@@ -15,6 +16,8 @@ const UniversityDetails = () => {
     const [universityInfo, setUniversityInfo] = useState({});
     const [financialInfo, setFinancialInfo] = useState({});
     const [universityFeatures, setUniversityFeatures] = useState({});
+    const [galleryData, setGalleryData] = useState([]);
+    // const [notAvl, setNotAvl] = useState('n/a');
 
     // for fake data
     // const [users, setUsers] = useState([]);
@@ -79,7 +82,7 @@ const UniversityDetails = () => {
           // for getting financial information
           get(`FinancialInformation/GetByUniversity/${id}`)
           .then(res => {
-            console.log('fin Info',res);
+            // console.log('fin Info',res);
             setFinancialInfo(res); 
           });
 
@@ -87,7 +90,7 @@ const UniversityDetails = () => {
             get(`UniversityFeatures/GetByUniversity/${id}`)
             .then(res => {
               setUniversityFeatures(res);
-              // console.log(res);
+              console.log('features',res);
             });
 
           // for intake
@@ -104,6 +107,12 @@ const UniversityDetails = () => {
             setSubList(res);
             console.log("Sublist",res);
             // setSubList(res);
+          })
+
+          // for university gallery
+          get(`UniversityGallery/GetByUniversity/${id}`)
+          .then(res=>{
+            console.log('gallery', res);
           })
 
           // for fake data
@@ -286,7 +295,7 @@ const UniversityDetails = () => {
         overflowX: 'scroll',
       };
 
-   
+  //  console.log('finalcialInfo', financialInfo?.avarageTutionFee);
     
     return (
     <div>
@@ -427,6 +436,31 @@ const UniversityDetails = () => {
                   </Card>
                 </div>
 
+                {/* gallery starts here */}
+
+                <div className=" info-item mt-4">
+                  <Card>  
+                   <CardBody>
+                    <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Gallery</b> </h5>
+                     
+                    <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+
+                    </div>
+                    <div>
+                      {/* <p className='pt-2'>{universityInfo?.description}</p> */}
+                    </div>
+                   </CardBody>
+                  </Card>
+                </div>
+
+                {/* gallery ends here */}
+
                 {/* university information starts here */}
                 <div className=" info-item mt-4">
               <Card>  
@@ -457,7 +491,7 @@ const UniversityDetails = () => {
 
                         <tr>
                           <td width="40%">
-                            <b>Type:</b>
+                            <b>University Type:</b>
                           </td>
 
                           <td width="60%">
@@ -515,6 +549,16 @@ const UniversityDetails = () => {
                           </td>
                         </tr>
 
+                        <tr>
+                          <td width="40%">
+                            <b>Part Time Work Information:</b>
+                          </td>
+
+                          <td width="60%">
+                            {universityInfo?.partTimeWorkInformation}
+                          </td>
+                        </tr>
+
                         
                         </tbody>
                       </Table>
@@ -538,6 +582,10 @@ const UniversityDetails = () => {
                </div> */}
 
                  </div>
+                 {
+                  campusList.length<1 ? <p className='mt-4'>There is no campus added here.</p>
+                  :
+                  <>
                   {loading ? (
                       <h2 className="text-center">Loading...</h2>
                     ) :
@@ -587,13 +635,13 @@ const UniversityDetails = () => {
                                   <i className="fas fa-eye"></i>{" "}
                                 </Button>
                                 </Link>
-                                <Button color="dark" className="mx-1 btn-sm">
+                                {/* <Button color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button>
                                 <Button color="danger" className="mx-1 btn-sm">
                                   <i className="fas fa-trash-alt"></i>
-                                </Button>
+                                </Button> */}
                               </ButtonGroup>
                             </td>
                           </tr>
@@ -604,6 +652,8 @@ const UniversityDetails = () => {
 
                     </div>
                     }
+                  </>
+                 }
                  </CardBody>
               </Card>
           </div>
@@ -625,7 +675,11 @@ const UniversityDetails = () => {
                </div> */}
 
                  </div>
-                  {loading ? (
+                  {
+                    subList.length<1 ? <p className='mt-4'>There is no subject added here.</p>
+                    :
+                    <>
+                    {loading ? (
                       <h2 className="text-center">Loading...</h2>
                     ) :
                     <div className="table-responsive pt-3">
@@ -688,6 +742,8 @@ const UniversityDetails = () => {
 
                     </div>
                     }
+                  </>
+                  }
                  </CardBody>
               </Card>
           </div>
@@ -926,6 +982,26 @@ const UniversityDetails = () => {
             </CardBody>
       </Card>
 
+      <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Documents</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+                 {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+
+                 </div>
+
+                </CardBody>
+              </Card>
+            </div>
+
       <br /><br /><br />
       <br /><br /><br />
 
@@ -936,6 +1012,40 @@ const UniversityDetails = () => {
 
 
           <Col md='4'>
+
+            {/* for showing provider information starts here */}
+            <Card className="uapp-employee-profile-right">
+             <div className="uapp-profile-CardHeader">
+                <div className="uapp-circle-image margin-top-minus">
+                     
+                      {
+                        universityInfo?.provider?.providerLogoMedia?.fileUrl == null ?
+                        <img src={profileImage} alt='provider_img'/>
+                        :
+                        <img src={rootUrl+universityInfo?.provider?.providerLogoMedia?.fileUrl} alt='provider_img'/>
+                        
+                      }
+                     
+                </div>    
+                
+                <h5>{universityInfo?.provider?.name} ({universityInfo?.provider?.providerViewId})</h5>
+                 <p> {universityInfo?.provider?.providerType?.name} </p>  
+            </div>
+              <CardBody>
+
+                 <div className="uapp-ul text-center">
+                 
+                     <span> {universityInfo?.provider?.addressLine} </span>
+                     <br/>
+                     <span> {universityInfo?.provider?.email} </span>
+                     <br/>
+                     <span> {universityInfo?.provider?.phoneNumber} </span>
+                     <br/>
+                 </div>
+
+            </CardBody>
+        </Card>
+            {/* for showing provider information ends here */}
 
           {/* For showing financial cost */}
           
@@ -954,7 +1064,11 @@ const UniversityDetails = () => {
 
                  </div>
 
-                 <div className='d-flex justify-content-between'>
+                 {
+                  financialInfo === null ? <p>There is no financial information added here.</p>
+                  :
+                  <>
+                    <div className='d-flex justify-content-between'>
                  <span>Avarage Tution Fee</span>
                     <p>{financialInfo?.avarageTutionFee}</p>
                  </div>
@@ -973,6 +1087,8 @@ const UniversityDetails = () => {
                  <span>Estimated Total Cost</span>
                     <p>{financialInfo?.estimatedTotalCost}</p>
                  </div>
+                  </>
+                 }
 
               
 
@@ -997,7 +1113,11 @@ const UniversityDetails = () => {
 
                  </div>
 
-                <div className='d-flex justify-content-between'>
+                {
+                  universityFeatures === null ? <p>There is no feature added here.</p>
+                  :
+                <>
+                  <div className='d-flex justify-content-between'>
                  <span>Accommodations</span>
                     <p>{universityFeatures?.accommodations === false ? <i className=" danger fas fa-times-circle"></i> : <i className="success fas fa-check-circle"></i>}</p>
                  </div>
@@ -1021,7 +1141,8 @@ const UniversityDetails = () => {
                  <span>Work While Studying</span>
                     <p>{universityFeatures?.workWhileStudying === false ? <i className=" danger fas fa-times-circle"></i> : <i className="success fas fa-check-circle"></i>}</p>
                  </div>
-
+                </>
+                }
               
                 </CardBody>
               </Card>

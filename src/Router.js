@@ -121,6 +121,7 @@ const SubjectFeeInformation = lazy(() => import("./views/SMS/UniversitySubjects/
 const EditSubject = lazy(() => import("./views/SMS/UniversitySubjects/EditSubject.jsx"))
 const EditSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectFee.jsx"))
 const SubjectIntake =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectIntake.jsx"))
+const SubjectProfile =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectProfile.js"))
 
 // file upload
 const FileUpload =  lazy(() => import("./views/SMS/UniversitySubjects/FileUpload.js"))
@@ -352,6 +353,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/EditSubjectFee/:subId" component={EditSubjectFee} />
          <AppRoute path="/subjectFeeInfo" component={SubjectFeeInformation} />
          <AppRoute path="/subjectIntake/:camId/:subbId" component={SubjectIntake} />
+         <AppRoute path="/subjectProfile/:subjId" component={SubjectProfile} />
 
          <AppRoute path="/fileUpload" component={FileUpload} />
          

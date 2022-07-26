@@ -173,6 +173,11 @@ const CampusSubjectList = () => {
   
     const componentRef = useRef();
 
+    const handleRedirectSubProfile = id =>{
+      localStorage.setItem("campIdSubProfile", camId);
+      history.push(`/subjectProfile/${id}`);
+    }
+
     return (
         <div>
             <Card className="uapp-card-bg">
@@ -362,12 +367,12 @@ const CampusSubjectList = () => {
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        <Link to= "">
-                          <Button color="primary" className="mx-1 btn-sm">
+                        {/* <Link to= ""> */}
+                          <Button onClick={()=>handleRedirectSubProfile(sub?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
                           </Button>
-                        </Link>
+                        {/* </Link> */}
 
                           <Link to={`/editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
