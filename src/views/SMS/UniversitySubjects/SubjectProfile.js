@@ -18,8 +18,14 @@ const SubjectProfile = () => {
     const history = useHistory();
     const {subjId} = useParams();
 
+    // handle back to subject list and campus subject list from subject profile
     const backToSubjectList = () =>{
+      if(localStorage.getItem("campIdSubProfile")){
+        history.push(`/campusSubjectList/${localStorage.getItem("campIdSubProfile")}`);
+      }
+      else{
         history.push('/subjectList');
+      } 
     }
 
     useEffect(()=>{
