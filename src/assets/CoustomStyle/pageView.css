@@ -642,6 +642,25 @@ color: #1d94ab;
   line-height:45px;
   }
 
+  /* uapp print icon */
+  .uapp-print-icon span{
+    top: 0px;
+    right: 10px;
+    width: 45px;
+    height: 45px;
+    background-color: #fff;
+    text-align: center;
+    border:1px solid #1d94ab;
+    position: relative;
+    display: inline-block;
+    border-radius:100px;
+  }
+  .uapp-print-icon span i{
+    font-size:17px;
+    color: #1d94ab;
+    line-height:45px;
+    }
+
 .uapp-employee-profile-right{
   margin-top: 40px;
   border-radius: 0 !important;

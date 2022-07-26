@@ -104,7 +104,9 @@ const SubjectList = (props) => {
    
     useEffect(()=>{
       if(location?.universityId){
+      // if(localStorage.getItem("uniIdForSubList")){
         get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
+        // get(`UniversityCampus/GetbyUniversity/${localStorage.getItem("uniIdForSubList")}`).then(res =>{
           setCam(res);
           dispatch(StoreUniversityCampusListData(res));
         });
@@ -126,6 +128,7 @@ const SubjectList = (props) => {
     useEffect(() => {
 
       const uTypeId = uniValue !== 0 ? uniValue : typeof location?.universityId !== undefined || location?.universityId !== null ? location?.universityId : 0;
+      // const uTypeId = uniValue !== 0 ? uniValue : typeof JSON.parse(localStorage.getItem("uniIdForSubList")) !== undefined || JSON.parse(localStorage.getItem("uniIdForSubList")) !== null ? JSON.parse(localStorage.getItem("uniIdForSubList")) : 0;
       setUTypeId(uTypeId);
 
       if (uTypeId !== 0) {
@@ -134,10 +137,11 @@ const SubjectList = (props) => {
         if (unitype === undefined) {
           setUniLabel("Select University");
         } 
-        // else {
-        //   setUniLabel(unitype?.name);
-        //   setUniValue(uTypeId);
-        // }
+        else {
+          setUniLabel(unitype?.name);
+          setUniValue(uTypeId);
+          searchCampusByUniversity(uTypeId);
+        }
       }
 
       const camId = campValue !== 0 ? campValue : 0;
@@ -257,6 +261,9 @@ const SubjectList = (props) => {
     setCampValue(0);
     setCallApi((prev) => !prev);
     setSearchStr("");
+    history.replace({
+      universityId: null
+    })
   };
 
    // on enter press
@@ -282,6 +289,8 @@ const SubjectList = (props) => {
     localStorage.removeItem("campIdSubProfile");
     history.push(`/subjectProfile/${id}`);
   }
+
+  // localStorage.removeItem("uniIdForSubList");
 
     return (
 
