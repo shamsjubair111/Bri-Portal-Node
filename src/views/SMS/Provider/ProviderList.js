@@ -404,7 +404,12 @@ const ProviderList = () => {
                             <Button color="dark" className="mx-1 btn-sm"> <i className="fas fa-edit"></i> </Button>
                             </Link>
 
-                            <Button color="danger" onClick={toggleDeleteProvider} className="mx-1 btn-sm"><i class="fas fa-trash-alt"></i></Button>
+                            {
+                              prov?.id !== 1 ?
+                              <Button color="danger" onClick={toggleDeleteProvider} className="mx-1 btn-sm"><i class="fas fa-trash-alt"></i></Button>
+                              : 
+                              null
+                            }
                           </ButtonGroup>
                           <Modal
                               isOpen={deleteModal}

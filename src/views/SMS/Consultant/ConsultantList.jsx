@@ -387,7 +387,7 @@ const ConsultantList = () => {
                           className="badge badge-secondary"
                           style={{ cursor: "pointer" }}
                         >
-                          {consultant?.studentCount}
+                          <Link to='/studentByConsultant'>{consultant?.studentCount}</Link>
                         </span>
                       </td>
                     
@@ -422,9 +422,14 @@ const ConsultantList = () => {
                             {" "}
                             <i className="fas fa-edit"></i>{" "}
                           </Button>
+                         {
+                          consultant?.id !== 1 ?
                           <Button color="danger" className="mx-1 btn-sm" onClick = {()=> toggleDanger(consultant)}>
-                            <i className="fas fa-trash-alt"></i>
-                          </Button>
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                        :
+                        null
+                         }
                         </ButtonGroup>
                         <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                         <ModalBody>

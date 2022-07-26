@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {  useParams } from 'react-router-dom';
 import { Image } from 'antd';
 import "antd/dist/antd.css";
+import Select from "react-select";
+import { useToasts } from 'react-toast-notifications';
 import 
 { 
     Card, 
@@ -27,6 +29,7 @@ import coverImage from '../../../assets/img/profile/user-uploads/cover.jpg';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
 import get from '../../../helpers/get';
 import { rootUrl } from '../../../constants/constants';
+import put from '../../../helpers/put';
 
 
 const ConsultantProfile = () => {
@@ -39,12 +42,22 @@ const ConsultantProfile = () => {
 
     const [serialNum, setSerialNum] = useState(1);
 
+    const [statusType, setStatusType] = useState([]);
+    const [statusLabel, setStatusLabel] = useState("Account Status");
+    const [statusValue, setStatusValue] = useState(0);
+
+    const [success, setSuccess] = useState(false);
+
+    const {addToast} = useToasts();
+
     useEffect(()=>{
 
       get(`Consultant/Profile/${id}`)
       .then(res => {
         console.log('Consultant Profile Data Check', res);
         setConsultantData(res);
+        setStatusLabel(res?.accountStatus?.statusName);
+        setStatusValue(res?.accountStatus?.id);
 
         var datee =res?.createdOn;
       var utcDate = new Date(datee);
@@ -58,11 +71,52 @@ const ConsultantProfile = () => {
 
       })
 
-    },[])
+
+      get(`AccountStatusDD/index/${localStorage.getItem('consultantRegisterId')}`)
+      .then(res =>{
+
+        setStatusType(res);
+
+      })
+
+
+    },[success])
+
+    const statusTypeMenu = statusType?.map(statusTypeOptions => ({label:statusTypeOptions?.name, value:statusTypeOptions?.id}));
+
+
+    const selectStatusType = (label, value) => {
+  
+     
+      setStatusLabel(label);
+      setStatusValue(value);
+
+      const accountStatusData = {
+
+        id: parseInt(id),
+        accountStatusId: value
+
+      }
+
+      console.log('aaaaaaaaaaaa',accountStatusData);
+
+      put('Consultant/statuschange',accountStatusData)
+      .then(res => {
+
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        });
+        setSuccess(!success);
+        
+
+      })
+      
+    }
 
     // redirect to dashboard
-        const backToDashboard = () => {
-          history.push("/")
+        const backToConsultantList = () => {
+          history.push("/consultantList")
         }
 
 
@@ -72,6 +126,17 @@ const ConsultantProfile = () => {
 
           history.push('/addBankDetails');
         }
+
+
+        const handleUpdateConsultantProfile = () =>{
+
+          localStorage.setItem('consultantRegisterId',id);
+
+          history.push('/addConsultantInformation');
+
+        }
+
+
 
         const tableStyle = {
           overflowX: 'scroll',
@@ -84,7 +149,7 @@ const ConsultantProfile = () => {
 
               <h3 className="text-light">Consultant profile</h3>
               <div className="page-header-back-to-home" >
-                <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+                <span onClick={backToConsultantList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Consultant List</span>
               </div>
 
             </CardHeader>
@@ -122,9 +187,16 @@ const ConsultantProfile = () => {
                   <Col> 
                   <div className="uapp-employee-profile-Edit">
                   <div className="text-right">
-                    <span> <i className="fas fa-pencil-alt"></i> </span>
+                    <span> <i className="fas fa-pencil-alt" onClick={handleUpdateConsultantProfile}></i> </span>
+                  </div>
+
+                  <div>
+                
                   </div>
                   </div>  
+
+               
+                 
 
                       </Col> 
                   </Row>            
@@ -152,6 +224,15 @@ const ConsultantProfile = () => {
 
                     <Col md="6"> 
                    <ul className="uapp-ul text-right">
+                   <div className='d-flex justify-content-end mb-2'>
+                   <Select className=' w-50'
+                  options={statusTypeMenu}
+                  value={{ label: statusLabel, value: statusValue }}
+                  onChange={(opt) => selectStatusType(opt.label, opt.value)}
+                  name="consultantTypeId"
+                  id="consultantTypeId"
+                />
+                   </div>
                           <li> 
                             <span> Email : {consultantData?.email}</span>
                           </li>
@@ -171,11 +252,20 @@ const ConsultantProfile = () => {
           <Card>  
                <CardBody>
                   <div className="hedding-titel">
-                    <h5> General Information  </h5>
+                    <h5> <b>General Information</b>  </h5>
                     <div className="bg-h"></div>
                   </div>
                     <Table className="table-bordered mt-4" >
                     <tbody>
+                      <tr>
+                        <td width="40%">
+                         <b> Title:</b>
+                        </td>
+
+                        <td width="60%">
+                         {consultantData?.nameTitle?.name} 
+                        </td>
+                      </tr>
                       <tr>
                         <td width="40%">
                          <b> Name:</b>
@@ -263,7 +353,7 @@ const ConsultantProfile = () => {
           <Card>  
                <CardBody>
                   <div className="hedding-titel">
-                    <h5> Contact Information </h5>
+                    <h5> <b>Contact Information</b> </h5>
                     <div className="bg-h"></div>
                   </div>
 
@@ -299,80 +389,73 @@ const ConsultantProfile = () => {
 
              {/* Bank Details */}
              <div className=" info-item mt-4">
-             <Card>  
-              <CardBody>
+         
+               <Card>
+              
                <div className="hedding-titel d-flex justify-content-between">
                <div>
                <h5> <b>Bank Details</b> </h5>
                 
                <div className="bg-h"></div>
                </div>
-               <div className="text-right edit-style  p-3" >
-               <span> <i className="fas fa-pencil-alt pencil-style" onClick={handleUpdateBankDetailsFromProfile}></i> </span>
-             </div>
+               
 
                </div>
-
-               <div className="table-responsive pt-3">
-                    <Table className="table-sm striped" style={tableStyle}>
-                      <thead className="">
-                        <tr style={{ textAlign: "center" }}>
-                          <th>#</th>
-                          <th>Account Name</th>
-                          <th>Account Number</th>
-                          <th>Bank Address</th>
-                          <th>Bank Name</th>
-                          <th>BIC</th>
-                          <th>Sort Code</th>
-                          <th>Swift</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {consultantData?.bankDetails?.map((details, i) => (
-                          <tr key={i} style={{ textAlign: "center" }}>
-                            <th scope='row'>{serialNum + i}</th>
-                            <td>
-                              {details?.accountName}
-                            </td>
-
-                            <td>
-                              {details?.accountNumber}
-                            </td>
-                        
-                            <td>
-                              {details?.bankAddress}
-                            </td>
-                        
-                            <td>
-                              {details?.bankName}
-                            </td>
-                        
-                            <td>
-                              {details?.bic}
-                            </td>
-                            <td>
-                              {details?.sortCode}
-                            </td>
-                            <td>
-                             {details?.swift}
-                              
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
               
+           
 
-                    </div>
-               
-              </CardBody>
-             </Card>
+             
+              <div className='row'>
+
+              {
+
+                consultantData?.bankDetails?.map((data,i) => 
+                
+                  <div className='col-md-6 col-sm-12'  key={i}>
+
+                   <Card>
+                   <CardBody className='consultant-card-shadow-style d-flex justify-content-between'>
+                   <div>
+                   
+                   <b>Account Name:</b> <span>{data?.accountName}</span>
+                   <br/>
+                   <b>Account Number:</b> <span>{data?.accountNumber}</span>
+                   <br/>
+                   <b>Bank Address:</b> <span>{data?.bankAddress}</span>
+                   <br/>
+                   <b>Bank Name:</b> <span>{data?.bankName}</span>
+                   <br/>
+                   <b>BIC:</b> <span>{data?.bic}</span>
+                   <br/>
+                   <b>Sort Code:</b> <span>{data?.sortCode}</span>
+                   <br/>
+                   <b>Swift:</b> <span>{data?.swift}</span>
+                   </div>
+
+                   <div className='edit-style'>
+               <span> <i className="fas fa-pencil-alt pencil-style" onClick={handleUpdateBankDetailsFromProfile}></i> </span>
+             </div>
+                   </CardBody>
+                   </Card>
+                   
+                  </div>
+
+
+                  )
+
+              }
+
+
+              </div>
+             
+                   </Card>
+           
            </div>
 
         <div className=" info-item mt-4">
         <Card >
         <div className="hedding-titel">
-        <h5> Document </h5>
+        <h5> <b>Document</b> </h5>
         <div className="bg-h"></div>
       </div>
          

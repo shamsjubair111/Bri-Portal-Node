@@ -135,8 +135,6 @@ const BankDetails = () => {
 
     const subData = new FormData(event.target);
 
-    if(fetchedData?.id == null){
-
       post('BankDetails/Create',subData)
     .then(res => {
       console.log('Bank Data Post Resonse', res);
@@ -145,45 +143,20 @@ const BankDetails = () => {
           appearance:'success',
           autoDismiss: true
         })
-        setFetchedData({});
+        
         setShowForm(true);
         setSuccess(!success);
        
-        
-        
 
       }
 
     })
 
-    }
-
-    else{
-
-
-      put('BankDetails/Update',subData)
-      .then(res => {
-        if(res?.status ==200){
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          setFetchedData({});
-          setShowForm(true);
-          setSuccess(!success);
-         
-         
-        }
-      })
-
-    }
-
-
+    
   }
    
 
 
-    
 
     return (
         <div>
@@ -293,23 +266,7 @@ const BankDetails = () => {
               
               />
   
-             {
-
-              fetchedData?.id ?
-  
-              <input
-              type='hidden'
-              name='id'
-              id='id'
-              value={fetchedData?.id}
-              
-              />
-  
-              :
-  
-              null
-  
-             }
+             
   
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -324,7 +281,7 @@ const BankDetails = () => {
                       id="accountName"
                       placeholder="Enter Account Name"
                       required
-                      defaultValue = {fetchedData?.accountName}
+                    
                     />
   
                     
@@ -343,7 +300,7 @@ const BankDetails = () => {
                       id="accountNumber"
                       placeholder="Enter Account Number"
                       required
-                      defaultValue = {fetchedData?.accountNumber}
+                     
                     />
   
                     
@@ -363,7 +320,7 @@ const BankDetails = () => {
                       id="sortCode"
                       placeholder="Enter Sort Code"
                       required
-                      defaultValue = {fetchedData?.sortCode}
+                    
                     />
   
                     
@@ -383,7 +340,7 @@ const BankDetails = () => {
                       id="bankName"
                       placeholder="Enter Bank Name"
                       required
-                      defaultValue = {fetchedData?.bankName}
+                      
                     />
   
                     
@@ -404,7 +361,7 @@ const BankDetails = () => {
                       id="bIC"
                       placeholder="Enter BIC"
                       required
-                      defaultValue = {fetchedData?.bic}
+                     
                     />
   
                     
@@ -424,7 +381,7 @@ const BankDetails = () => {
                       id="swift"
                       placeholder="Enter Swift"
                       required
-                      defaultValue = {fetchedData?.swift}
+                    
                     />
   
                     
@@ -444,7 +401,7 @@ const BankDetails = () => {
                       id="bankAddress"
                       placeholder="Enter Bank Address"
                       required
-                      defaultValue = {fetchedData?.bankAddress}
+                     
                     />
   
                     

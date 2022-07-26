@@ -215,6 +215,8 @@ const AddReference = lazy(() => import("./views/SMS/Students/Reference"))
 const AddPersonalStatement = lazy(() => import("./views/SMS/Students/PersonalStatement"))
 const AddOtherInformation = lazy(() => import("./views/SMS/Students/OtherInformation"))
 const AddTestScore = lazy(() => import("./views/SMS/Students/TestScore"))
+const StudentByConsultant = lazy(() => import("./views/SMS/Students/StudentByConsultant"))
+
 
 const UploadDocument = lazy(() => import("./views/SMS/Students/DocumentUpload"))
 
@@ -406,6 +408,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/addPersonalStatement" component={AddPersonalStatement} />
          <AppRoute path="/addOtherInformation" component={AddOtherInformation} />
          <AppRoute path="/addTestScore" component={AddTestScore} />
+         <AppRoute path="/studentByConsultant" component={StudentByConsultant} />
        
          <AppRoute path="/uploadDocument" component={UploadDocument} />
 
