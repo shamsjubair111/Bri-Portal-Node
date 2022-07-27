@@ -32,7 +32,7 @@ const Button1 = ({className, icon, permission,url,func}) => {
     // console.log(className);
     // console.log(url);
 
-    console.log(func);
+    console.log('Trying New Type of Props',func);
 
 
     const data = [1,2,3,4,6];
@@ -44,7 +44,7 @@ const Button1 = ({className, icon, permission,url,func}) => {
       {
         data?.includes(permission)?
         <Button
-        onClick={func}
+        // onClick={func}
 
        
         className={className}
