@@ -55,22 +55,22 @@ const SubjectProfile = () => {
 
     return (
         <div>
-            <Card className="uapp-card-bg">
-        <CardHeader className="page-header">
+          <Card className="uapp-card-bg">
+            <CardHeader className="page-header">
 
-          <h3 className="text-light">Subject Details</h3>
-          <div className="page-header-back-to-home" >
-            <span onClick={backToSubjectList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Subject List</span>
-          </div>
+              <h3 className="text-light">Subject Details</h3>
+              <div className="page-header-back-to-home" >
+                <span onClick={backToSubjectList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Subject List</span>
+              </div>
 
-          </CardHeader>
-        </Card>
+            </CardHeader>
+          </Card>
 
-      <div className="uapp-employee-profile">
+         <div className="uapp-employee-profile">
 
-        {/* <Row>
-          <Col md="12"> 
-           <Card className="uapp-employee-profile-right" >
+          {/* <Row>
+           <Col md="12"> 
+            <Card className="uapp-employee-profile-right" >
              <div className="uapp-profile-CardHeader">
                   
                 
@@ -91,12 +91,12 @@ const SubjectProfile = () => {
           </Card>
 
           
-          </Col>
-        </Row> */}
+           </Col>
+         </Row> */}
 
 
 
-        <Row>
+         <Row>
 
           <Col md='8'>
 
@@ -256,30 +256,28 @@ const SubjectProfile = () => {
                         
                         </tbody>
                       </Table>
-                 </CardBody>
-              </Card>
-          </div>
+                    </CardBody>
+                  </Card>
+               </div>
                 {/* university information ends here */}
             
             {/* camp list start */}
             {
-                    !campData  ?
-                    <>
-                    <div className=" info-item mt-4">
-               <Card>  
-                 <CardBody>
-                 <div className="hedding-titel d-flex justify-content-between">
-                 <div>
-                 <h5> <b>Campus List</b> </h5>
-                  
-                 <div className="bg-h"></div>
-                 </div>
-                 {/* <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div> */}
+              !campData  ?
+                 <>
+                  <div className=" info-item mt-4">
+                    <Card>  
+                      <CardBody>
+                      <div className="hedding-titel d-flex justify-content-between">
+                      <div>
+                      <h5> <b>Campus List</b> </h5>
 
-                 </div>
-                    
+                      <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3">
+                      <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                    </div> */}
+                   </div>  
                   <>
                  {
                   campList.length<1 ? <p className='mt-4'>This subject is not added to any campus.</p>
@@ -378,10 +376,10 @@ const SubjectProfile = () => {
               </Card>
             </div>
 
-      <br /><br /><br />
-      <br /><br /><br />
+            <br /><br /><br />
+            <br /><br /><br />
 
-      </Col>
+          </Col>
 
       
 
@@ -408,24 +406,34 @@ const SubjectProfile = () => {
             </div>
               <CardBody>
 
-                 <div className="uapp-ul text-center">
+                 <div>
+                    <ul className="uapp-ul text-center">
+                      {
+                        subjectData?.university?.universityCity && subjectData?.university?.universityState?.name && subjectData?.university?.universityCountry?.name ?
+                        <li>
+                          {subjectData?.university?.universityCity}{","} {subjectData?.university?.universityState?.name}{","} {subjectData?.university?.universityCountry?.name}
+                        </li>
+                        :
+                        <p>No data available</p>
+                      }
+                    </ul> 
                  
                      {/* <span> Address : {subjectData?.university?.universityCity}{","} {subjectData?.university?.universityState?.name}{","} {subjectData?.university?.universityCountry?.name}</span>
-                     <br/> */}
+                     <br/>
                      {
                         subjectData?.university?.universityCity && subjectData?.university?.universityState?.name && subjectData?.university?.universityCountry?.name ? 
                         <span> {subjectData?.university?.universityCity}{","} {subjectData?.university?.universityState?.name}{","} {subjectData?.university?.universityCountry?.name}</span>
                         :
                         <p>No data available</p>
-                     }
+                     } */}
                      
                  </div>
 
-            </CardBody>
-        </Card>
+             </CardBody>
+           </Card>
             {/* for showing university information ends here */}
 
-        {/* for showing campus information starts here */}
+           {/* for showing campus information starts here */}
            {
              campData ? 
              <Card>
@@ -453,9 +461,9 @@ const SubjectProfile = () => {
              :
              null
            }
-        {/* for showing campus information ends here */}
+            {/* for showing campus information ends here */}
 
-          {/* For showing tution fee */}
+            {/* For showing tution fee */}
           
               <Card>
                 <CardBody>
