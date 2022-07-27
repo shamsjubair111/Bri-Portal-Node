@@ -26,7 +26,7 @@ import {
     NavLink,
   } from "reactstrap";
 
-const Button1 = ({className, icon, permission,url,func}) => {
+const Button1 = ({className, icon, permission,url,func,name}) => {
     // const {className, icon} = props;
 
     // console.log(className);
@@ -44,13 +44,13 @@ const Button1 = ({className, icon, permission,url,func}) => {
       {
         data?.includes(permission)?
         <Button
-        // onClick={func}
+        onClick={func}
 
        
         className={className}
       >
         {" "}
-        {icon} Add New{" "}
+        {icon}{name}{" "}
       </Button>
       :
       null 

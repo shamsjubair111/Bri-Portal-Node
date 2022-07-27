@@ -380,7 +380,8 @@ const StudentList = () => {
                  icon ={<i className="fas fa-plus"></i>}
                  url = {`/addStudentRegister/${6}`}
                  func={handleAddStudent}
-                 permission={6}                 
+                 permission={6}    
+                 name={'Add New'}             
                  
                  
 

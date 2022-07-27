@@ -8,9 +8,9 @@ import { connect } from "react-redux"
 import { history } from "../../../../history"
 import axios from "axios"
 
-import { rootUrl } from "../../../ReusableFunction/Api/ApiFunc"
+import { rootUrl } from "../../../../constants/constants"
 
-class StudentLoginJWT extends React.Component {
+class Login extends React.Component {
   state = {
     email: "",
     password: "",
@@ -24,15 +24,16 @@ class StudentLoginJWT extends React.Component {
     e.preventDefault()
     var loggedInUser = {id: 0, email: '', name: '', image: 'gbhgyhgv', loggedInWith: 'jwt'}
     axios
-      .post(`${rootUrl}/Account/Login`, {
-        Email: this.state.email,
-        Password: this.state.password
+      .post(`${rootUrl}Account/Login`, {
+        email: this.state.email,
+        password: this.state.password
       })
       .then(response => {
+        console.log('Checking Response',response);
         if (response.data) {
           if(response.data.isSuccess == true){
             this.setState({error: ''});
-            localStorage.setItem('token',response.data.message);
+            localStorage.setItem('token','Bearer '+ response.data.message);
             const AuthStr = 'Bearer ' + response.data.message;
             history.push("/")
             window.location.reload();
@@ -128,11 +129,11 @@ class StudentLoginJWT extends React.Component {
           </Form>
           <br/>
 
-            <button className="btn btn-outline-primary me-1"><i class="fab fa-google"></i></button>
+            <button className="btn btn-outline-primary me-1"><i className="fab fa-google"></i></button>
 
-            <button className="btn btn-outline-primary mx-1"><i class="fab fa-apple"></i></button>
+            <button className="btn btn-outline-primary mx-1"><i className="fab fa-apple"></i></button>
 
-            <button className="btn btn-outline-primary ms-1"><i class="fab fa-facebook"></i></button>
+            <button className="btn btn-outline-primary ms-1"><i className="fab fa-facebook"></i></button>
 
             <br/>
             <br/>
@@ -159,4 +160,4 @@ const mapStateToProps = state => {
     values: state.auth.login
   }
 }
-export default connect(mapStateToProps)(StudentLoginJWT)
+export default connect(mapStateToProps)(Login)

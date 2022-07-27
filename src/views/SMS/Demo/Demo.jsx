@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { connect, useSelector } from "react-redux";
@@ -8,6 +9,7 @@ import post from '../../../helpers/post';
 import { StoreCommentData } from '../../../redux/actions/SMS/DemoActions/DemoActions'
 import { commentDataReducer } from '../../../redux/reducers/SMS/DemoReducers'
 import { roleDataReducer } from '../../../redux/reducers/SMS/RoleReducer';
+import rootUrl from '../../../constants/constants'
 
 
 
@@ -26,6 +28,49 @@ const Demo = () => {
       console.log('dynamic form', res);
       setFormType(res);
     })
+
+    Axios.get(`http://192.168.0.119:45455/Test/index`,{
+      method: get,
+      headers: {
+        Bearer: localStorage.getItem('token')
+      }
+  
+
+    })
+    .then(res => {
+      console.log('checking', res);
+    })
+
+
+  //   fetch('http://192.168.0.119:45455/Test/index',{
+  //     method: 'GET',
+  //     headers:{
+  //         'content-type' : 'application/json',
+  //         'token' : localStorage.getItem('token')
+
+  //     },
+    
+
+  // })
+  // .then(res => res.json())
+  // .then(data => {
+  //   console.log('checking', data);
+  // })
+
+//   fetch('http://192.168.0.119:45455/Account/GetCurrentUser',{
+//     method: 'GET',
+//     headers:{
+//         'content-type' : 'application/json',
+      
+
+//     }
+  
+
+// })
+// .then(res => res.json())
+// .then(data => {
+//   console.log('checking', data);
+// })
   
   },[]);
 
