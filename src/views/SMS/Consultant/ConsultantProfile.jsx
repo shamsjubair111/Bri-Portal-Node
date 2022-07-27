@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  useParams } from 'react-router-dom';
+import {  Link, useParams } from 'react-router-dom';
 import { Image } from 'antd';
 import "antd/dist/antd.css";
 import Select from "react-select";
@@ -562,6 +562,50 @@ const ConsultantProfile = () => {
 
             </CardBody>
         </Card>
+
+        
+        <Card>  
+             <CardBody>
+                <div className="hedding-titel mb-3">
+                  <h5> <b>Important Notice</b> </h5>
+                  <div className="bg-h"></div>
+                </div>
+
+                <div className='d-flex justify-content-between'>
+
+               <Link to={`/studentList/${consultantData?.consultantType?.id}/${consultantData?.consultantType?.name}`}>
+               <Button
+                  
+               className="btn btn-uapp-add "
+             >
+             
+                Student
+             </Button>
+               </Link>
+
+                <Button
+                  
+                  className="btn btn-uapp-add "
+                >
+                
+                   Application
+                </Button>
+
+                <Button
+                  
+                  className="btn btn-uapp-add "
+                >
+                
+                   Transaction
+                </Button>
+
+
+                </div>
+
+                   
+             </CardBody>
+          </Card>
+   
 
             <Card className="p-3">
 

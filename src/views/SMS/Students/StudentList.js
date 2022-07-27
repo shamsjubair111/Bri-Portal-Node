@@ -26,7 +26,7 @@ import {
     NavLink,
   } from "reactstrap";
 import Select from "react-select";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import { Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
@@ -42,6 +42,10 @@ const StudentList = () => {
      const [deleteModal, setDeleteModal] = useState(false);
      const [success, setSuccess] = useState(false);
 
+     const {cId, cLabel} = useParams();
+
+     console.log('CID',cId, 'CLABEL', cLabel);
+
     const [serialNum, setSerialNum] = useState(1);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [studentList, setStudentList] = useState([]);
@@ -50,6 +54,14 @@ const StudentList = () => {
     const [studentTypeValue, setStudentTypeValue] = useState(0);
     const [searchStr, setSearchStr] = useState("");
     const [date, setDate] = useState("");
+
+    const [consultant, setConsultant] = useState([]);
+    const [consultantLabel, setConsultantLabel] = useState('Select Consultant');
+    const [consultantValue, setConsultantValue] = useState(0);
+
+    const [accountStatus, setAccountStatus] = useState([]);
+    const [statusLabel,setStatusLabel] = useState('Select Account Status')
+    const [statusValue, setStatusValue] = useState(0);
 
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -65,18 +77,30 @@ const StudentList = () => {
     
     useEffect(()=>{
         get("StudentTypeDD/Index").then(res=>{
+
+          console.log('res',res);
             setStudentList(res);
+        })
+
+        get('ConsultantDD/index')
+        .then(res => {
+          setConsultant(res);
         })
     },[]);
 
     useEffect(()=>{
-        get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}`).then(res=>{
+        get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${consultantValue}&status=${statusValue}`).then(res=>{
           console.log("stdLists",res);
           setStudentData(res?.models);
           setEntity(res?.totalEntity); 
           setSerialNum(res?.firstSerialNumber);       
           setLoading(false);
         })
+
+        if(cId && cLabel){
+          setConsultantLabel(cLabel);
+          setConsultantValue(cId);
+        }
     },[currentPage, dataPerPage, callApi, searchStr, studentTypeValue, success])
 
     // student dropdown options
@@ -105,6 +129,45 @@ const StudentList = () => {
       setDataPerPage(value);
       setCallApi((prev) => !prev);
     };
+
+
+    const status = [
+      {
+        id: 1,
+        name: 'Active'
+      },
+
+      {
+        id: 2,
+        name: 'Incative'
+      }
+    ]
+
+    const statusOption = status?.map((s) => ({
+      label: s?.name,
+      value: s?.id,
+    }));
+
+    const selectStatusType = (label, value) => {
+      setStatusLabel(label);
+      setStatusValue(value);
+      handleSearch();
+    };
+
+
+    const consultantOption = consultant?.map((c) => ({
+      label: c?.name,
+      value: c?.id,
+    }));
+
+
+    const selectConsultant = (label, value) => {
+      setConsultantLabel(label);
+      setConsultantValue(value);
+      handleSearch();
+    };
+
+
   
       // toggle dropdown
       const toggle = () => {
@@ -127,6 +190,10 @@ const StudentList = () => {
     const handleClearSearch = () => {
       setStudentTypeLabel("Select Student Type...");
       setStudentTypeValue(0);
+      setStatusValue(0);
+      setStatusLabel('Select Account Status');
+      setConsultantValue(0);
+      setConsultantLabel('Select Consultant');
       setSearchStr("");
       setCallApi((prev) => !prev);
     };
@@ -222,7 +289,7 @@ const StudentList = () => {
 
           <Card className="uapp-employee-search">
               <CardBody className="search-card-body">
-                <Row>
+                <Row className='mb-3'>
                   <Col lg="6" md="6" sm="12" xs="12">
                     <Select
                       options={studentTypeOption}
@@ -240,18 +307,39 @@ const StudentList = () => {
                       name="search"
                       value={searchStr}
                       id="search"
-                      placeholder="Id, Name, Email"
+                      placeholder="Uapp Id, Name, Email"
                       onChange={searchValue}
                       onKeyDown={handleKeyDown}
                     />
                   </Col>
 
-                  {/* <Col lg="3" md="3" sm="6" xs="6">
-                    <div className="uapp-Search-div">
-                      <span>Reset</span>
+                </Row>
 
-                    </div>
-                  </Col> */}
+                <Row className ='mt-3'>
+                  <Col lg="6" md="6" sm="12" xs="12">
+                    <Select
+                    options={consultantOption}
+                    value={{ label: consultantLabel, value: consultantValue }}
+                    onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                    name="consultantId"
+                    id="consultantId"
+                      
+                    />
+                  </Col>
+
+                  <Col lg="6" md="6" sm="12" xs="12">
+                    
+                  <Select
+                  options={statusOption}
+                  value={{ label: statusLabel, value: statusValue }}
+                  onChange={(opt) => selectStatusType(opt.label, opt.value)}
+                  name="status"
+                  id="status"
+                      
+                    />
+                    
+                  </Col>
+
                 </Row>
               
                 <Row className="">

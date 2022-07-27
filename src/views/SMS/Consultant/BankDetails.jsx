@@ -47,6 +47,7 @@ const BankDetails = () => {
   const [showForm, setShowForm] = useState(true);
   const [addNewButton, setAddNewButton] = useState(false);
   const [deleteData, setDeleteData] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
   
   useEffect(()=>{
 
@@ -83,20 +84,48 @@ const BankDetails = () => {
 
   }
 
+      // on Close Modal
+const closeModal = () => {
+
+  setModalOpen(false);
+  setFetchedData({});
+
+
+}
+
+
+const handleEdit = (data) => {
+
+  console.log(data);
+  setModalOpen(true);
+
+  get(`BankDetails/Get/${data?.id}`)
+  .then(res => {
+    setFetchedData(res);
+  })
+
+}
+
+
   //  Update Bank Details 
 
-  const handleEdit = (data) => {
-   
-    setShowForm(false);
+  const handleSubmitUpdate = (event) =>{
 
-    
+    event.preventDefault();
 
-    get(`BankDetails/Get/${data?.id}`)
+    const subData = new FormData(event.target);
+
+    put('BankDetails/Update',subData)
     .then( res => {
-     
-      setFetchedData(res);
-    })
+      addToast(res?.data?.message, {
+        appearance: 'success',
+        autoDismiss: true
+      })
+      setFetchedData({});
+      setModalOpen(false);
+      setSuccess(!success);
 
+    })
 
   }
 
@@ -161,6 +190,209 @@ const BankDetails = () => {
     return (
         <div>
 
+        <div>
+
+        <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
+          <ModalHeader>Update Bank Details</ModalHeader>
+          <ModalBody>
+            <Form onSubmit={handleSubmitUpdate} >
+  
+            <input
+            type='hidden'
+            name='consultantId'
+            id='consultantId'
+            value={localStorage.getItem('consultantRegisterId')}
+            
+            />
+
+            <input
+            type='hidden'
+            name='id'
+            id='id'
+            value={fetchedData?.id}
+            
+            />
+  
+           
+  
+            <FormGroup row className="has-icon-left position-relative">
+                <Col md="3">
+                  <span>
+                    Account Name <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 <Input
+                    type="text"
+                    name="accountName"
+                    id="accountName"
+                    placeholder="Enter Account Name"
+                    required
+                    defaultValue={fetchedData?.accountName}
+                  
+                  />
+  
+                  
+                </Col>
+              </FormGroup>
+            <FormGroup row className="has-icon-left position-relative">
+                <Col md="3">
+                  <span>
+                    Account Number <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 <Input
+                    type="text"
+                    name="accountNumber"
+                    id="accountNumber"
+                    placeholder="Enter Account Number"
+                    required
+                    defaultValue={fetchedData?.accountNumber}
+                   
+                  />
+  
+                  
+                </Col>
+              </FormGroup>
+  
+            <FormGroup row className="has-icon-left position-relative">
+                <Col md="3">
+                  <span>
+                    Sort Code <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 <Input
+                    type="text"
+                    name="sortCode"
+                    id="sortCode"
+                    placeholder="Enter Sort Code"
+                    required
+                    defaultValue={fetchedData?.sortCode}
+                  
+                  />
+  
+                  
+                </Col>
+              </FormGroup>
+  
+            <FormGroup row className="has-icon-left position-relative">
+                <Col md="3">
+                  <span>
+                    Bank Name <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 <Input
+                    type="text"
+                    name="bankName"
+                    id="bankName"
+                    placeholder="Enter Bank Name"
+                    required
+                    defaultValue={fetchedData?.bankName}
+                    
+                  />
+  
+                  
+                </Col>
+              </FormGroup>
+  
+  
+            <FormGroup row className="has-icon-left position-relative">
+                <Col md="3">
+                  <span>
+                    BIC <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 <Input
+                    type="text"
+                    name="bIC"
+                    id="bIC"
+                    placeholder="Enter BIC"
+                    required
+                    defaultValue={fetchedData?.bic}
+                   
+                  />
+  
+                  
+                </Col>
+              </FormGroup>
+  
+            <FormGroup row className="has-icon-left position-relative">
+                <Col md="3">
+                  <span>
+                    Swift <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 <Input
+                    type="text"
+                    name="swift"
+                    id="swift"
+                    placeholder="Enter Swift"
+                    required
+                    defaultValue={fetchedData?.swift}
+                  
+                  />
+  
+                  
+                </Col>
+              </FormGroup>
+  
+            <FormGroup row className="has-icon-left position-relative">
+                <Col md="3">
+                  <span>
+                    Bank Address <span className="text-danger">*</span>{" "}
+                  </span>
+                </Col>
+                <Col md="6">
+                 <Input
+                    type="text"
+                    name="bankAddress"
+                    id="bankAddress"
+                    placeholder="Enter Bank Address"
+                    required
+                    defaultValue={fetchedData?.bankAddress}
+                   
+                  />
+  
+                  
+                </Col>
+              </FormGroup>
+  
+  
+    
+              <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+    
+                <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
+    
+                
+               
+                  <Button.Ripple
+                    color="warning"
+                    type="submit"
+                    className="mr-1 mt-3"
+                   
+                  >
+                    Submit
+                  </Button.Ripple>
+    
+              
+    
+              </FormGroup>
+    
+            </Form>
+          </ModalBody>
+    
+        </Modal>
+        <div>
+    
+        </div>
+      </div>
+        
+
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Add Consultant Bank Details</h3>
@@ -175,6 +407,8 @@ const BankDetails = () => {
 
       <Card>
       <CardBody>
+
+    
 
 
       <div className='row'>
