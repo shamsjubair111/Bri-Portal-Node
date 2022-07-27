@@ -35,7 +35,7 @@ const Button1 = ({className, icon, permission,url,func}) => {
     console.log(func);
 
 
-    const data = [1,2,3,4, 6];
+    const data = [1,2,3,4,6];
 
 
 
