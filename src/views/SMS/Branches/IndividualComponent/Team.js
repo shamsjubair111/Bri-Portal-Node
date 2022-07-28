@@ -27,7 +27,7 @@ const Team = () => {
             // console.log('aaaa',res);
             setBranchTeamEmployee(res);
           });
-    },[ branchId])
+    },[ success, branchId])
    
    
     const functionimplement = () => {
@@ -57,8 +57,9 @@ const Team = () => {
       const handleDeletebranchTeam = () => {
         const id = localStorage.getItem("teamId");
         remove(`BranchTeam/Delete/${id}`).then((res) => {
+          setSuccess(!success);
           setDeleteModal(false);
-          addToast(res?.data?.message, {
+          addToast(res, {
             appearance: "error",
             autoDismiss: true,
           });
@@ -76,6 +77,7 @@ const Team = () => {
       }
 
       const handleTeamSubmit = (e) => {
+        
         e.preventDefault();
         const teamData = new FormData(e.target);
         // for(let  value of teamData.values()){
@@ -85,11 +87,11 @@ const Team = () => {
           post(`BranchTeam/Create`, teamData).then((action) => {
             setSuccess(!success);
             setModalOpen(false);
-            addToast(action, {
+            addToast(action?.data?.message, {
               appearance: "success",
               autoDismiss: true,
             });
-            history.push("/branchList");
+            // history.push(`/branchProfile/${branchId}`);
           });
         } else {
           for (let val of teamData.values()) {
@@ -97,6 +99,7 @@ const Team = () => {
           }
           put(`BranchTeam/Update`, teamData).then((res) => {
             // console.log(res);
+            setIsUpdate(false);
             setSuccess(!success);
             setModalOpen(false);
             addToast(res.data?.message, {
@@ -104,9 +107,10 @@ const Team = () => {
               autoDismiss: true,
             });
     
-            history.push("/branchList");
+            // history.push(`/branchProfile/${branchId}`);
           });
         }
+        // setTeamName('');
       };
 
       const showTeamInfo = (id) => {

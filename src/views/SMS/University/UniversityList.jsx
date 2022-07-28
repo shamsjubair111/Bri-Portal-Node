@@ -46,7 +46,8 @@ const UniversityList = (props) => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
-  const [order, setOrder] = useState('Newest');
+  const [orderLabel, setOrderLabel] = useState('Select order by');
+  const [orderValue, setOrderValue] = useState(0);
   const [searchStr, setSearchStr] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
@@ -145,7 +146,7 @@ const UniversityList = (props) => {
         uStateId ? uStateId : unistateValue
       }&universityTypeId=${
         uTypeId ? uTypeId : uniTypeValue
-      }&search=${searchStr}`
+      }&search=${searchStr}&orderId=${orderValue}`
     ).then((action) => {
       setUniversityList(action?.models);
       console.log('aaaaaaction',action?.models);
@@ -181,8 +182,27 @@ const UniversityList = (props) => {
   const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
 
   // user select order
-  const orderArr = ['Newest', 'Oldest', 'A-Z', 'Z-A'];
-  const orderName = orderArr.map((dsn) => ({ label: dsn, value: dsn }));
+  const orderArr = [
+    {
+      label: 'Newest',
+      value: 1 
+    },
+    {
+      label: 'Oldest',
+      value: 2 
+    },
+    {
+      label: 'A-Z',
+      value: 3 
+    },
+    {
+      label: 'Z-A',
+      value: 4 
+    }
+  ];
+  // const orderName = orderArr.map((dsn) => ({ label: dsn.label, value: dsn.value }));
+  const orderName = orderArr.map((dsn) => ({ label: dsn.label, value: dsn.value }));
+  console.log("filterValue", orderName);
 
   const selectDataSize = (value) => {
     setLoading(true);
@@ -190,9 +210,11 @@ const UniversityList = (props) => {
     setCallApi((prev) => !prev);
   };
 
-  const selectOrder = (value) => {
+  const selectOrder = (label, value) => {
+    // console.log("value", label, value);
     setLoading(true);
-    setOrder(value);
+    setOrderLabel(label);
+    setOrderValue(value);
     setCallApi((prev) => !prev);
   };
 
@@ -516,8 +538,8 @@ const UniversityList = (props) => {
                     <div>
                       <Select
                       options={orderName}
-                      value={{ label: order, value: order }}
-                      onChange={(opt) => selectOrder(opt.value)}
+                      value={{ label: orderLabel, value: orderValue }}
+                      onChange={(opt) => selectOrder(opt.label, opt.value)}
                       />
                     </div>
                   </div>

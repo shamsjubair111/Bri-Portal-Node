@@ -26,7 +26,7 @@ import {
     NavLink,
   } from "reactstrap";
 
-const Button1 = ({className, icon, permission,url,func}) => {
+const ButtonForFunction = ({className, icon, permission,url,func}) => {
     // const {className, icon} = props;
 
     // console.log(className);
@@ -60,4 +60,4 @@ const Button1 = ({className, icon, permission,url,func}) => {
     );
 };
 
-export default Button1;
+export default ButtonForFunction;

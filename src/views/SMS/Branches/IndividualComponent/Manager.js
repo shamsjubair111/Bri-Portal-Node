@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card } from 'reactstrap';
+import { rootUrl } from '../../../../constants/constants';
 import get from '../../../../helpers/get';
 
 const Manager = (props) => {
@@ -11,18 +12,20 @@ const Manager = (props) => {
 
     useEffect(()=>{
         get(`BranchManager/GetbyBranch/${id}`).then((res) => {
-            // console.log('Manager info here',res);
+            console.log('Manager info here',res);
       
             setBranchManager(res);
           });
 
     },[])
+
+
     return (
         <div>
                 {branchManager?.tittle && (
               <Card>
                 <div className="uapp-circle-image margin-top-minus mt-3">
-                  <img className="p-1" alt="provider_image" />
+                  <img className="p-1" src={rootUrl+branchManager?.managerImageMedia?.fileUrl} alt="provider_image" />
                 </div>
                 <h5 className="pt-2 h3 text-center mb-4">
                   {" "}

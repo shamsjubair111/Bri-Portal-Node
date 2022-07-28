@@ -69,7 +69,7 @@ const BranchManager = () => {
   
   };
 
-  // const result = localStorage.getItem('branchId');
+  const branchId = localStorage.getItem('branchId');
    const managerImageData = useSelector((state) => state?.ManagerImageReducer?.managerImage);
   //  console.log('yes',managerImageData);
 
@@ -130,9 +130,9 @@ const BranchManager = () => {
   
         setSubmitData(true);
         console.log(res);
-      
+        
         localStorage.setItem('branchManagerId',res?.data?.result?.id);
-        history.push('/branchList');
+        history.push(`/branchProfile/${branchId}`);
   
       
      
@@ -206,6 +206,13 @@ const BranchManager = () => {
                    :
                    null
                 }
+
+                <input 
+                  type="hidden"
+                  name="branchId"
+                  id="branchId"
+                  value={branchId}
+                />
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -325,7 +332,7 @@ const BranchManager = () => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {/* <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
                        Branch <span className="text-danger">*</span>{" "}
@@ -341,11 +348,10 @@ const BranchManager = () => {
                       required
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
-                </FormGroup>
+                </FormGroup> */}
+
                 {/* <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
