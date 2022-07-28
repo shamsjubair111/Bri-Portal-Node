@@ -140,23 +140,20 @@ const   handleRegister = (e) => {
         
         
         </FormGroup>
-        <FormGroup>
-          <Checkbox
-            color="primary"
-            icon={<Check className="vx-icon" size={16} />}
-            label=" I accept the terms & conditions."
-            required
-
-          />
-        </FormGroup>
+        
         <div className="d-flex justify-content-between">
 
-        <Button.Ripple className="uapp-submit-btn" color="primary" type="submit">
-            Register
-          </Button.Ripple>
 
-          <Link to="/">Already Have an Account? Login</Link>
-          
+        <div>
+        <Link to="/" style={{ textDecoration: 'none'}}>Already Have an Account? Login</Link>
+        </div>
+
+       <div>
+       <Button.Ripple className="uapp-submit-btn" color="primary" type="submit">
+       Register
+     </Button.Ripple>
+       </div>
+  
         </div>
       </Form>
     )

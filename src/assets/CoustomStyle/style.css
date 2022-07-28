@@ -542,3 +542,133 @@ th {
   
 }
 
+.login-page-heading-style{
+  color: #1e98b0;
+  font-size: 30px;
+}
+
+.login-page-link-style{
+  font-size: 20px;
+}
+
+.login-page-icon-style1{
+
+  background: #ffc0c0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #d9534f;
+  color: white;
+  border: 1px solid white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.login-page-icon-style1:hover{
+
+  background: #ffc0c0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white ;
+  color: #d9534f;
+  border: 1px solid #d9534f;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.login-page-icon-style2{
+
+  background: #ffc0c0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #292b2c;
+  color: white;
+  border: 1px solid white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.login-page-icon-style2:hover{
+
+  background: #ffc0c0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  color: #292b2c;
+  border: 1px solid #292b2c;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.login-page-icon-style3{
+
+  background: #ffc0c0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #0275d8;
+  color: white;
+  border: 1px solid white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.login-page-icon-style3:hover{
+
+  background: #ffc0c0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  color: #0275d8;
+  border: 1px solid #0275d8;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+
+  .hide-responsive-left-side{
+    display: none;
+  }
+
+}
+ 
+@media only screen and (min-width: 768px) {
+
+  .hide-responsive-right-side{
+    display: none;
+  }
+
+
+
+}
+ 
+

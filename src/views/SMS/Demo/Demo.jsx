@@ -29,14 +29,9 @@ const Demo = () => {
       setFormType(res);
     })
 
-    Axios.get(`http://192.168.0.119:45455/Test/index`,{
-      method: get,
-      headers: {
-        Bearer: localStorage.getItem('token')
-      }
-  
-
-    })
+    Axios.get(`http://192.168.0.10:45455/Test/index`,{ 
+      method: 'GET',
+    'headers': { 'Authorization': localStorage.getItem('token') } })
     .then(res => {
       console.log('checking', res);
     })

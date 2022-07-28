@@ -211,10 +211,10 @@ html {
         margin-top: 0;
         // content to be in center horizontally and vertically
         .flexbox-container {
-          display: flex;
-          align-items: center;
+          // display: flex;
+          // align-items: center;
           height: 100vh;
-          justify-content: center;
+          // justify-content: center;
           overflow: hidden;
         }
       }

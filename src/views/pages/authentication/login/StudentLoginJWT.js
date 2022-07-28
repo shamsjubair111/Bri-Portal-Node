@@ -37,18 +37,7 @@ class Login extends React.Component {
             const AuthStr = 'Bearer ' + response.data.message;
             history.push("/")
             window.location.reload();
-            // axios.get(`${rootUrl}/Account/GetCurrentUser`,{ 'headers': { 'Authorization': AuthStr } })
-            // .then(res => {
-          
-            //   loggedInUser.name = res.data.fullName;
-            //   loggedInUser.id = res.data.id;
-            //   loggedInUser.email = res.data.email;
-            //   // loggedInUser = JSON.stringify(res.data);
-            //   dispatch({
-            //             type: "LOGIN_WITH_JWT",
-            //             payload: { loggedInUser, loggedInWith: "jwt" }
-            //           })
-            // })
+           
              
 
 
@@ -106,49 +95,57 @@ class Login extends React.Component {
               {this.state.passwordError && <span className="text-danger">{this.state.passwordError}</span>}
             </FormGroup>
             <FormGroup className="d-flex justify-content-between align-items-center">
-              <Checkbox
-                color="primary"
-                icon={<Check className="vx-icon" size={16} />}
-                label="Remember me"
-                defaultChecked={false}
-                onChange={this.handleRemember}
-                
-              />
+             
               <div className="float-right">
-                <Link to="/pages/forgot-password" style={{textDecoration: 'none'}}>Forgot Password?</Link>
+                <Link to="/pages/forgot-password" className="text-danger" style={{textDecoration: 'none'}}>Forgot Password?</Link>
+              </div>
+
+              <div className="d-flex justify-content-between">
+
+              <Button.Ripple className="uapp-submit-btn" color="primary" type="submit">
+                  Login
+                </Button.Ripple>
+               
               </div>
             </FormGroup>
-            <div className="d-flex justify-content-between">
-
-            <Button.Ripple className="uapp-submit-btn" color="primary" type="submit">
-                Login
-              </Button.Ripple>
-             
-            </div>
+          
            
           </Form>
           <br/>
 
-            <button className="btn btn-outline-primary me-1"><i className="fab fa-google"></i></button>
+          <div className="d-flex justify-content-center">
+          
+          <div className="login-page-icon-style1 me-1">
+          <i className="fab fa-google"></i>
+          </div>
 
-            <button className="btn btn-outline-primary mx-1"><i className="fab fa-apple"></i></button>
+          <div className="login-page-icon-style2 mx-1">
+          <i className="fab fa-apple"></i>
+          </div>
 
-            <button className="btn btn-outline-primary ms-1"><i className="fab fa-facebook"></i></button>
+          <div className="login-page-icon-style3 ms-1">
+          <i className="fab fa-facebook"></i>
+          </div>
+          
+          </div>
+          <br/>
+          <span className="">Register as</span>
 
             <br/>
-            <br/>
+            
+            
 
-            <Link to='/pages/studentRegister' style={{textDecoration: 'none'}}>Register as Student</Link>
+            <Link to='/pages/studentRegister' style={{textDecoration: 'none'}}><i class="fas fa-chevron-right"></i><span className="login-page-link-style"> Student</span></Link>
 
             <br/>
            
 
-            <Link to='/pages/consultantRegister' style={{textDecoration: 'none'}}>Register as Consultant</Link>
+            <Link to='/pages/consultantRegister' style={{textDecoration: 'none'}}> <i class="fas fa-chevron-right"></i><span className="login-page-link-style"> Consultant</span></Link>
 
             <br/>
            
 
-            <Link to='/pages/providerRegister' style={{textDecoration: 'none'}}>Register as Provider</Link>
+            <Link to='/pages/providerRegister' style={{textDecoration: 'none'}}><i class="fas fa-chevron-right"></i><span className="login-page-link-style"> Provider</span></Link>
 
         </CardBody>
       </React.Fragment>
