@@ -45,7 +45,7 @@ class StudentLogin extends React.Component {
         
 
 
-        <div className="" style={{ backgroundColor:"#fff" }}>
+        <div className="" style={{ backgroundColor:"#fff"}}>
           <div className="responsive-top">
             <Row className="m-0">
               <Col lg="6" md="6" className=" px-1 py-0 hide-responsive-left-side">
@@ -92,6 +92,7 @@ class StudentLogin extends React.Component {
                     <TabPane tabId="3">
                       <LoginAuth0 />
                     </TabPane> */}
+                    
 
                   </TabContent>
 
