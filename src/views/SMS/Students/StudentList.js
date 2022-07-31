@@ -32,8 +32,7 @@ import { useToasts } from 'react-toast-notifications';
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import get from '../../../helpers/get';
 import remove from '../../../helpers/remove.js';
-import Button1 from '../Components/Button1';
-
+import ButtonForFunction from '../Components/ButtonForFunction';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 
@@ -376,7 +375,7 @@ const StudentList = () => {
     */}
     
 
-                 <Button1 className ={"btn btn-uapp-add "}
+                 <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
                  url = {`/addStudentRegister/${6}`}
                  func={handleAddStudent}
@@ -385,7 +384,7 @@ const StudentList = () => {
                  
                  
 
-                 ></Button1>
+                 ></ButtonForFunction>
 
             </Col>
 

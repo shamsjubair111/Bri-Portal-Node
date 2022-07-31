@@ -7,6 +7,7 @@ import remove from '../../../../helpers/remove';
 import { useToasts } from 'react-toast-notifications';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
+import ButtonForFunction from '../../Components/ButtonForFunction';
 
 const AssignTeam = (props) => {
 
@@ -14,6 +15,7 @@ const AssignTeam = (props) => {
     const history = useHistory();
     const [branchEmployee, setBranchEmployee] = useState([]);
     const [serialNum,setSerialNum] = useState(1);
+    const [success, setSuccess] = useState(false);
     const [employeeModal, setEmployeeModal] = useState(false);
     const {addToast} = useToasts();
     const [menus, setMenus] = useState([]);
@@ -45,7 +47,7 @@ const AssignTeam = (props) => {
         
           });
       
-      },[])
+      },[success, id])
 
       const handleEditBranchEmployee = (id) => {
         history.push({
@@ -95,7 +97,7 @@ const AssignTeam = (props) => {
     get(`BranchTeamEmployee/GetUnassigned/${value}`).then((action) => {
       // console.log("Action",action);
       setMenus(action);
-
+      setSuccess(!success);
       let defaultChecked = checked;
       if (action.length > 0) {
         for (let i = 0; i < action.length; i++) {
@@ -123,7 +125,8 @@ const AssignTeam = (props) => {
     post('BranchTeamEmployee/Create',subdata)
     .then(res => {
       console.log(res);
-      addToast(res,{
+      history.push(`/branchProfile/${branchId}`);
+      addToast(res?.data?.message,{
         appearance: 'success',
         autoDismiss: true
       })
@@ -186,6 +189,11 @@ const AssignTeam = (props) => {
                   {" "}
                   <i class="fas fa-plus"></i> Add New{" "}
                 </Button>
+
+                {/* <ButtonForFunction 
+                className={"btn btn-uapp-add "} /> */}
+
+
               </div>
 
               {branchEmployee.length > 0 ? (
@@ -269,7 +277,7 @@ const AssignTeam = (props) => {
 
             <Card>
                 <CardHeader>
-                Select Role
+                    Assign Employee
                 </CardHeader>
 
                 <CardBody>

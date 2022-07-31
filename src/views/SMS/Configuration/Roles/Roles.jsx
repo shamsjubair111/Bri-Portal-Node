@@ -11,7 +11,8 @@ import { useHistory } from 'react-router';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import remove from '../../../../helpers/remove';
-import Button1 from '../../Components/Button1';
+// import Button1 from '../../Components/Button1';
+import ButtonForFunction from '../../Components/ButtonForFunction';
 
 
 const Roles = (props) => {
@@ -115,7 +116,7 @@ const Roles = (props) => {
        {/*   <CardTitle>Create User Roles</CardTitle>*/}
           {/* <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add Role</Button> */}
 
-          <Button1
+          <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={()=>setModalOpen(true)}
             permission={1}
@@ -153,7 +154,7 @@ const Roles = (props) => {
 
                     <Button color="danger" className="mr-1 mt-3" onClick={() => setModalOpen(false)}>Close</Button>
 
-                    <Button1
+                    <ButtonForFunction
                       color={"primary"}
                       type={"submit"}
                       className={"mr-1 mt-3"}
@@ -162,7 +163,7 @@ const Roles = (props) => {
                       name={"Submit"}
                     >
                     
-                    </Button1>
+                    </ButtonForFunction>
 
                     
 

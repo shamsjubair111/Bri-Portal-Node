@@ -43,8 +43,9 @@ const Branch = () => {
       if(location?.employeeId){
         localStorage.setItem("employeeId",location?.employeeId);
       }
+      
       const employeeBranchId = localStorage.getItem("employeeBranchId");
-      // console.log(employeeBranchId);
+      console.log("empBrId",employeeBranchId);
       const employeeId  = localStorage.getItem('employeeId');
       console.log('empID',employeeId);
 
@@ -78,9 +79,10 @@ const Branch = () => {
 
        get(`BranchEmployee/Get/${employeeId}`)
        .then(res => {
-         console.log(res);
+         console.log("branchEmployee",res);
          setEmployeeInfo(res);
          setNationalityLabel(res?.nationality?.name);
+         setNationalityValue(res?.nationality?.id);
          setBranchLabel(res?.branch?.name);
        })
        
@@ -167,38 +169,21 @@ const Branch = () => {
 
    if(!employeeId){
     Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config).then((res) => {
-      // (res.status === 200 && res.data.isSuccess === true) ?
-      // status = 'success' : status = res.data.message;
-      // status = res.data.message;
-      // data = res.data.result;
-
-      //     addToast(res.data.message, {
-      //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
-      //     // autoDismiss: true,
-      //   })
-
-      // console.log(res);
-    
-      // localStorage.setItem("branchId",res?.data?.result?.id);
-      // const uniID = res?.data?.result?.id;
-
+      
       if (res?.status === 200 && res?.data?.isSuccess === true) {
         setSubmitData(true);
-        // history.push({
-        //   pathname: "/addBranchManager",
-        //   id: uniID,
-        // });
-        // console.log(res);
+        
         addToast(res?.data?.message, {
           appearance: 'success'
-          // autoDismiss: true,
+          
         })
         history.push(`/branchProfile/${location?.employeeBranchId}`)
       }
     });
-    for(const val of subdata.values()){
-      console.log(val);
-    }
+
+    // for(const val of subdata){
+    //   console.log(val);
+    // }
     
    }
 
@@ -207,20 +192,23 @@ const Branch = () => {
     .then(res => {
       if (res?.status === 200 && res?.data?.isSuccess === true) {
       
-        // history.push({
-        //   pathname: "/addBranchManager",
-        //   id: uniID,
-        // });
-        // console.log(res);
+        
         addToast(res?.data?.message, {
           appearance: 'success'
-          // autoDismiss: true,
+          
         })
         history.push('/branchList')
        
       }
 
     })
+
+    // for (var value of subdata) {
+    //     console.log(value);
+       
+  
+    //   }
+
    }
 
    
@@ -324,6 +312,7 @@ const Branch = () => {
             name='branchId'
             id='branchId'
             value={location?.employeeBranchId}
+            // value={employeeBranchId}
             />
 
             {
