@@ -653,6 +653,7 @@ th {
   cursor: pointer;
 }
 
+
 @media only screen and (max-width: 767px) {
 
   .hide-responsive-left-side{
@@ -666,7 +667,6 @@ th {
   .hide-responsive-right-side{
     display: none;
   }
-
 
 
 }

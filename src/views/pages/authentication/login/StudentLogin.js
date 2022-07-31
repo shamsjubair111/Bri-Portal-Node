@@ -40,14 +40,14 @@ class StudentLogin extends React.Component {
   render() {
     return (
       
-      <div>
+      <div className="top-style">
         
         
 
 
         <div className="" style={{ backgroundColor:"#fff"}}>
           <div className="responsive-top">
-            <Row className="m-0">
+            <Row className="m-0 ">
               <Col lg="6" md="6" className=" px-1 py-0 hide-responsive-left-side">
                 <div className="flexbox-container" style={{ backgroundColor: 'rgb(234, 246, 249)' }}>
 
@@ -58,12 +58,12 @@ class StudentLogin extends React.Component {
                 </div>
               
               </Col>
-              <Col lg="6" md="6" className="p-0 mt-5  ">
+              <Col lg="6" md="6" className="p-0  " >
 
               <div className="text-center hide-responsive-right-side">
               <img src={UappLogo} className='w-50' />
               </div>
-                <div className="flexbox-container2" style={{ backgroundColor: "#fff" }} >
+                <div className="flexbox-container2" style={{ backgroundColor: "#fff",height: '100vh' }} >
 
                 
                   <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>

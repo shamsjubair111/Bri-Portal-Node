@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import remove from '../../../../helpers/remove';
+import Button1 from '../../Components/Button1';
 
 
 const Roles = (props) => {
@@ -112,7 +113,16 @@ const Roles = (props) => {
       <Card>
         <CardHeader>
        {/*   <CardTitle>Create User Roles</CardTitle>*/}
-          <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add Role</Button>
+          {/* <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add Role</Button> */}
+
+          <Button1
+            className={"btn btn-uapp-add"}
+            func={()=>setModalOpen(true)}
+            permission={1}
+            icon={<i className="fas fa-plus"></i>}
+            name={' Add Role'}
+          />
+
           <div> <b> Total <span className="badge badge-primary">{roles?.length}</span> Roles Found </b></div>
         </CardHeader>
         <CardBody>
@@ -143,14 +153,18 @@ const Roles = (props) => {
 
                     <Button color="danger" className="mr-1 mt-3" onClick={() => setModalOpen(false)}>Close</Button>
 
-                    <Button.Ripple
-                      color="primary"
-                      type="submit"
-                      className="mr-1 mt-3"
-                      onClick={(e) => handleSubmit(e)}
+                    <Button1
+                      color={"primary"}
+                      type={"submit"}
+                      className={"mr-1 mt-3"}
+                      func={(e) => handleSubmit(e)}
+                      permission={2}
+                      name={"Submit"}
                     >
-                      Submit
-                    </Button.Ripple>
+                    
+                    </Button1>
+
+                    
 
                   </FormGroup>
 

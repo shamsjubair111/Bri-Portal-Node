@@ -52,11 +52,11 @@ class ProviderRegister extends React.Component {
               
         </Col>
 
-        <Col lg="6" md="6" className="p-0  mt-5">
+        <Col lg="6" md="6" className="p-0">
         <div className="text-center hide-responsive-right-side">
         <img src={UappLogo} className='w-50' />
         </div>
-            <div className="flexbox-container2" style={{ backgroundColor: "#fff" }} >
+            <div className="flexbox-container2" style={{ backgroundColor: "#fff", height: '100vh'  }} >
               
                 <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>
                   <CardHeader className="pb-1">

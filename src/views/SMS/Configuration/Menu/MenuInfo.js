@@ -10,6 +10,7 @@ import { divIcon } from 'leaflet';
 import get from '../../../../helpers/get.js';
 import remove from '../../../../helpers/remove.js';
 import { Link } from 'react-router-dom';
+import LinkButton from '../../Components/LinkButton.js';
 
 const EmployeeList = (props) => {
 
@@ -218,9 +219,20 @@ const EmployeeList = (props) => {
                         <td className="text-center">
                           <ButtonGroup variant="text">
                             <Button  color="danger" onClick={()=>handleDeleteMenu(men.id)}  className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button>
-                           <Link to={`/employeeGeneralInfo/`}>
+                          {/* <Link to={`/employeeGeneralInfo/`}>
                            <Button color="warning"  className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
-                           </Link>
+                  </Link> */}
+
+                  <LinkButton
+                  
+                  url ={'/employeeGeneralInfo/'}
+                  color={"warning"}
+                  className={" btn-sm"}
+                  icon={<i className="fas fa-edit"></i>}
+                  
+                  >
+                         
+                  </LinkButton>
                           </ButtonGroup>
                         </td>
                         

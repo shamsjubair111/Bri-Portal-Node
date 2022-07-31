@@ -26,13 +26,13 @@ import {
     NavLink,
   } from "reactstrap";
 
-const Button1 = ({className, icon, permission,url,func,name}) => {
+const Button1 = ({className, icon,color, permission, type,url, func, name}) => {
     // const {className, icon} = props;
 
     // console.log(className);
     // console.log(url);
 
-    console.log('Trying New Type of Props',func);
+    console.log('Trying New Type of Props',func, type);
 
 
     const data = [1,2,3,4,6];
@@ -45,7 +45,8 @@ const Button1 = ({className, icon, permission,url,func,name}) => {
         data?.includes(permission)?
         <Button
         onClick={func}
-
+        color={color}
+type={type}
        
         className={className}
       >
