@@ -402,7 +402,9 @@ class AppRouter extends React.Component {
          <AppRoute path="/addStudentContactInformation" component={ContactInformation} />
          <AppRoute path="/addStudentApplicationInformation" component={ApplicationInformation} />
          <AppRoute path="/addStudentEducationalInformation" component={EducationalInformation} />
+        
          <AppRoute path="/addStudentRegister" component={AddStudentRegister} />
+
          <AppRoute path="/addExperience" component={AddExperience} />
          <AppRoute path="/addReference" component={AddReference} />
          <AppRoute path="/addPersonalStatement" component={AddPersonalStatement} />

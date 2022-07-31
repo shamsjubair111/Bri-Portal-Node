@@ -6,6 +6,7 @@ import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const Experience = () => {
 
@@ -675,12 +676,13 @@ console.log('trying', sDate?.split(",")[0]);
           
       <Col md="5">
       
-      <Button.Ripple
-      type="submit"
-      className="mr-1 mt-3 badge-primary"
-    >
-      Update
-    </Button.Ripple>
+    
+
+    <ButtonForFunction
+    type={'submit'}
+    className={"mr-1 mt-3 badge-primary"}
+    name={'Update'}
+    />
    
       </Col>
    
@@ -696,12 +698,13 @@ console.log('trying', sDate?.split(",")[0]);
         
     <Col md="5">
     
-    <Button.Ripple
-    type="submit"
-    className="mr-1 mt-3 badge-primary"
-  >
-    Submit
-  </Button.Ripple>
+   
+
+  <ButtonForFunction
+    type={'submit'}
+    className={"mr-1 mt-3 badge-primary"}
+    name={'Submit'}
+    />
  
     </Col>
  
@@ -735,9 +738,16 @@ console.log('trying', sDate?.split(",")[0]);
           <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
 
        
-          <Button onClick={onPreviousPage}   className="ms-md-1 mt-3 btn-warning">
-          <i className="fas fa-arrow-left-long me-1"></i>
-          Previous</Button>
+          
+
+          <ButtonForFunction
+          name={'Previous'}
+          func={onPreviousPage}
+          className={'ms-md-1 mt-3 btn-warning'}
+          icon={<i className="fas fa-arrow-left-long me-1"></i>}
+          />
+
+
           <Button onClick={onNextPage} className="me-md-1 mt-3 btn-warning"
           disabled = {info?.length <=0 ? true : false}
           >

@@ -15,6 +15,7 @@ import { useToasts } from "react-toast-notifications";
 import { rootUrl } from '../../../constants/constants';
 import { useDispatch } from 'react-redux';
 import { StoreStudentProfileImageData } from '../../../redux/actions/SMS/Students/StudentProfileImageAction';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 const PersonalInformation = () => {
@@ -1083,12 +1084,13 @@ const handleSubmit = (event) => {
                 
             <Col md="5">
             
-            <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
+          
+
+          <ButtonForFunction
+          className={"mr-1 mt-3 badge-primary"}
+          type={'submit'}
+          name={"Submit"}
+          />
          
             </Col>
          
@@ -1107,15 +1109,16 @@ const handleSubmit = (event) => {
               className="has-icon-left position-relative"
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Button.Ripple
-                type="submit"
-                className="mr-1 mt-3 btn-warning"
-                onClick= {goBackward}
-              >
-              <i className="fas fa-arrow-left-long me-1"></i>
-                Previous
- 
-              </Button.Ripple>
+             
+
+              <ButtonForFunction
+              className={"mr-1 mt-3 btn-warning"}
+              icon={<i className="fas fa-arrow-left-long me-1"></i>}
+              name={'Previous'}
+              func={goBackward}
+              
+              />
+
               <Button.Ripple
  
               onClick={goForward}

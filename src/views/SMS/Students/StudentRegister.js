@@ -5,6 +5,7 @@ import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import Select from "react-select";
 import get from '../../../helpers/get';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 
@@ -25,6 +26,8 @@ const StudentRegister = () => {
 
    const [consultantError, setConsultantError] = useState(false);
    const [studentError, setStudentError] = useState(false);
+
+
 
 
 
@@ -173,7 +176,7 @@ const cancelForm = () => {
       
 
    
-            <Form onSubmit={handleRegisterStudent} className="mt-5">
+            <Form onSubmit={handleRegisterStudent}  className="mt-5">
 
         
             <FormGroup row className="has-icon-left position-relative">
@@ -315,19 +318,22 @@ const cancelForm = () => {
                 className="has-icon-left position-relative"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 btn-warning"
-                  onClick= {cancelForm}
-                >
-                  Cancel
-                </Button.Ripple>
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 badge-primary"
-                >
-                  Submit
-                </Button.Ripple>
+           
+                <ButtonForFunction
+                  className={'mr-1 mt-3 btn-warning'}
+                  func={cancelForm}
+                  type={'submit'}
+                  name={'Cancel'}
+                />
+                
+          
+              <ButtonForFunction
+
+              className={'mr-1 mt-3 badge-primary'}
+              name={'Submit'}
+              type={'submit'}
+             
+              />
               </FormGroup>
             </Form>
        

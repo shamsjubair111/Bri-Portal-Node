@@ -10,6 +10,7 @@ import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
 import EditInputComponent from './EditInputComponent';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const TestScore = () => {
 
@@ -1007,12 +1008,13 @@ const closeModal3= () => {
         
     <Col md="5">
     
-    <Button.Ripple
-    type="submit"
-    className="mr-1 mt-3 badge-primary"
-  >
-    Save
-  </Button.Ripple>
+
+
+  <ButtonForFunction
+  name={'Save'}
+  className={'mr-1 mt-3 badge-primary'}
+  type={'submit'}
+  />
  
     </Col>
  
@@ -1445,12 +1447,11 @@ const closeModal3= () => {
     
  <Col md="5">
  
- <Button.Ripple
- type="submit"
- className="mr-1 mt-3 badge-primary"
- >
- Save
- </Button.Ripple>
+ <ButtonForFunction
+ name={'Save'}
+ className={'mr-1 mt-3 badge-primary'}
+ type={'submit'}
+ />
  
  </Col>
  
@@ -1790,12 +1791,11 @@ const closeModal3= () => {
   
 <Col md="5">
 
-<Button.Ripple
-type="submit"
-className="mr-1 mt-3 badge-primary"
->
-Save
-</Button.Ripple>
+<ButtonForFunction
+name={'Save'}
+className={'mr-1 mt-3 badge-primary'}
+type={'submit'}
+/>
 
 </Col>
 
@@ -2485,15 +2485,13 @@ Save
            className="has-icon-left position-relative"
            style={{ display: "flex", justifyContent: "space-between" }}
          >
-           <Button.Ripple
-             type="submit"
-             className="ms-md-2 mt-3 btn-warning"
-             onClick={goBackward}
-             
-           >
-           <i className="fas fa-arrow-left-long me-1"></i>
-             Previous
-           </Button.Ripple>
+        
+
+           <ButtonForFunction
+           name={'Previous'}
+           func={goBackward}
+           className={'ms-md-2 mt-3 btn-warning'}
+           />
            
 
            <Button.Ripple

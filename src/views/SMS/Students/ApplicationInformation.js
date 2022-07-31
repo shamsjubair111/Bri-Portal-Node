@@ -6,6 +6,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 
@@ -781,13 +782,14 @@ const cancelForm = () => {
             className="has-icon-left position-relative"
             style={{ display: "flex", justifyContent: "space-between" }}
           >
-            <Button.Ripple
-              type="submit"
-              className="mr-1 mt-3 btn-warning"
-              onClick= {cancelForm}
-            >
-              Cancel
-            </Button.Ripple>
+           
+
+            <ButtonForFunction
+            className={"mr-1 mt-3 btn-warning"}
+            func={cancelForm}
+            name={"cancel"}
+
+            />
             <Button.Ripple
               onClick={goToNextPage}
               disabled = {studentTypeValue !== 0 ? false : true}

@@ -33,6 +33,7 @@ import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import get from '../../../helpers/get';
 import remove from '../../../helpers/remove.js';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkButton from '../Components/LinkButton.js';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 
@@ -377,10 +378,10 @@ const StudentList = () => {
 
                  <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
-                 url = {`/addStudentRegister/${6}`}
+                 
                  func={handleAddStudent}
-                 permission={6}    
-                 name={'Add New'}             
+                   
+                 name={' Add New'}             
                  
                  
 
@@ -522,27 +523,40 @@ const StudentList = () => {
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        <Link to={`/studentProfile/${student?.id}`}>
-                          <Button color="primary" className="mx-1 btn-sm">
-                            {" "}
-                            <i className="fas fa-eye"></i>{" "}
-                          </Button>
-                        </Link>
+                       
+
+                        <LinkButton
+                        url={`/studentProfile/${student?.id}`}
+                        color="primary"
+                        className={"mx-1 btn-sm"}
+                        icon={<i className="fas fa-eye"></i>}
+
+                        />
 
                        
-                            <Button color="dark" className="mx-1 btn-sm" onClick={()=>handleEdit(student)}>
-                              {" "}
-                              <i className="fas fa-edit"></i>{" "}
-                            </Button>
+                           
+
+                            <ButtonForFunction
+                            icon={<i className="fas fa-edit"></i>}
+                            color={"dark"}
+                            className={"mx-1 btn-sm"}
+                            func={()=>handleEdit(student)}
+                            />
                       
 
                           {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
                           
-                          <Button color="danger" className="mx-1 btn-sm" onClick = {()=> toggleDanger(student)}>
-                            <i className="fas fa-trash-alt"></i>
-                          </Button>
+                       
+
+                          <ButtonForFunction
+                          icon={<i className="fas fa-trash-alt"></i>}
+                          color={'danger'}
+                          className={"mx-1 btn-sm"}
+                          func={()=> toggleDanger(student)}
+
+                          />
 
                         </ButtonGroup>
 

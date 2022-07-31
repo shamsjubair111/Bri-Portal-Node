@@ -7,6 +7,7 @@ import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 const EducationalInformation = () => {
@@ -850,12 +851,13 @@ const handleUpdate = (id) => {
               
           <Col md="5">
           
-          <Button.Ripple
-          type="submit"
-          className="mr-1 mt-3 badge-primary"
-        >
-          Submit
-        </Button.Ripple>
+       
+
+        <ButtonForFunction
+        name={'Submit'}
+        type={'submit'}
+        className={'mr-1 mt-3 badge-primary'}
+        />
        
           </Col>
        
@@ -1122,12 +1124,13 @@ const handleUpdate = (id) => {
                 
             <Col md="5">
             
-            <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 badge-primary"
-          >
-            Submit
-          </Button.Ripple>
+           
+
+          <ButtonForFunction
+          type={'submit'}
+          className={'mr-1 mt-3 badge-primary'}
+          name={'Submit'}
+          />
          
             </Col>
          
@@ -1173,16 +1176,17 @@ const handleUpdate = (id) => {
           className="has-icon-left position-relative"
           style={{ display: "flex", justifyContent: "space-between" }}
         >
-          <Button.Ripple
-            type="submit"
-            className="mr-1 mt-3 btn-warning"
-            onClick= {goBackward}
-          >
-          <i className="fas fa-arrow-left-long me-1"></i>
-            Previous
+         
 
-          </Button.Ripple>
+          <ButtonForFunction
+          name={'Previous'}
+          func={goBackward}
+          className={'mr-1 mt-3 btn-warning'}
+          icon={<i className="fas fa-arrow-left-long me-1"></i>}
+          />
+
           <Button.Ripple
+          
 
           onClick={goForward}
             

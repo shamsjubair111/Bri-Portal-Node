@@ -9,6 +9,7 @@ import post from '../../../helpers/post';
 
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const StudentType = () => {
 
@@ -207,7 +208,17 @@ const closeDeleteModal = () => {
         <Card>
             <CardHeader>
        
-            <Button className="btn btn-uapp-add" onClick={()=>AddModalOpen('add')}> <i className="fas fa-plus"></i>  Add New</Button>
+            
+
+            <ButtonForFunction
+            name={' Add New'}
+            icon={<i className="fas fa-plus"></i>}
+            className={"btn btn-uapp-add"}
+            func={()=>AddModalOpen('add')}
+
+            />
+
+
                   <div> <b> Total <span className="badge badge-primary"> {studentTypeInfo.length}</span> Student Type  Found </b></div>
             </CardHeader>
              <CardBody>
@@ -303,11 +314,23 @@ const closeDeleteModal = () => {
 
                             {/* <Button  color="danger" onClick={()=>handleDelete(dept?.id)}   className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
                           
-                         <Button className="btn-sm mx-2" onClick={() => toggleDanger(type?.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
+                       
+
+                         <ButtonForFunction
+                         className={"btn-sm mx-2"}
+                         func={() => toggleDanger(type?.id)}
+                         color={'danger'}
+                         icon={<i className="fas fa-trash-alt"></i>}
+
+                         />
                        
                       
-                         <Button color="warning" onClick={()=> AddModalOpen(type?.id)}    className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
-                       
+                         <ButtonForFunction
+                         className={"btn-sm"}
+                         color={"warning"}
+                         func={()=> AddModalOpen(type?.id)}
+                         icon={<i className="fas fa-edit"></i>}
+                         />
                           
                           </ButtonGroup>
 

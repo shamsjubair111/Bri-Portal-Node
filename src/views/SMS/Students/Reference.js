@@ -7,6 +7,7 @@ import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 const Reference = () => {
@@ -768,12 +769,13 @@ const onShow=()=>{
     
 <Col md="5">
 
-<Button.Ripple
-type="submit"
-className="mr-1 mt-3 badge-primary"
->
-Submit
-</Button.Ripple>
+
+
+<ButtonForFunction
+name={'Submit'}
+type={'submit'}
+className={"mr-1 mt-3 badge-primary"}
+/>
 
 </Col>
 
@@ -801,9 +803,17 @@ Submit
        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
 
        
-       <Button onClick={onPreviousPage}   className="ms-md-1 mt-3 btn-warning">
-       <i className="fas fa-arrow-left-long me-1"></i>
-       Previous</Button>
+       
+
+       <ButtonForFunction
+       name={'Previous'}
+       className={"ms-md-1 mt-3 btn-warning"}
+       icon={<i className="fas fa-arrow-left-long me-1"></i>}
+       func={onPreviousPage}
+
+       
+       />
+
        <Button onClick={onNextPage} className="me-md-1 mt-3 btn-warning"
        disabled = {refList?.length <=0 ? true : false}
        >

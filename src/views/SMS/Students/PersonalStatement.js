@@ -5,6 +5,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const PersonalStatement = () => {
 
@@ -362,14 +363,15 @@ const PersonalStatement = () => {
       className="has-icon-left position-relative"
       style={{ display: "flex", justifyContent: "space-between" }}
     >
-      <Button.Ripple
-        type="submit"
-        className="mr-1 mt-3 btn-warning"
-        onClick= {previousPage}
-      >
-      <i className="fas fa-arrow-left-long me-1"></i>
-        Previous
-      </Button.Ripple>
+   
+
+      <ButtonForFunction
+      className={"mr-1 mt-3 btn-warning"}
+      name={'Previous'}
+      icon={<i className="fas fa-arrow-left-long me-1"></i>}
+      func={previousPage}
+      />
+
       <Button.Ripple
         type="submit"
         className="mr-1 mt-3 btn-warning"
