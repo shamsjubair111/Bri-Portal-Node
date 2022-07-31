@@ -33,6 +33,8 @@ import { useState } from 'react';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import remove from '../../../helpers/remove.js';
+import LinkButton from '../Components/LinkButton.js';
+import ButtonForFunction from '../Components/ButtonForFunction.js';
 
 const ConsultantList = () => {
 
@@ -261,15 +263,15 @@ const ConsultantList = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <Link to='/addConsultant'>
-                <Button
-                  // onClick={handleAddUniversity}
-                  className="btn btn-uapp-add "
-                >
-                  {" "}
-                  <i className="fas fa-plus"></i> Add New{" "}
-                </Button>
-              </Link>
+              
+              <LinkButton
+                url={'/addConsultant'}
+                className={"btn btn-uapp-add "}
+                name={"Add New"}
+                icon={<i className="fas fa-plus"></i>}
+                permission={6}
+              />
+
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -412,23 +414,37 @@ const ConsultantList = () => {
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        <Link to= {`/consultantProfile/${consultant?.id}`}>
-                          <Button color="primary" className="mx-1 btn-sm">
-                            {" "}
-                            <i className="fas fa-eye"></i>{" "}
-                          </Button>
-                          </Link>
-                          <Button color="dark" className="mx-1 btn-sm" onClick={()=>handleEdit(consultant)}>
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </Button>
+
+                          <LinkButton
+                            url={`/consultantProfile/${consultant?.id}`}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+
+                          <ButtonForFunction
+                            func={()=>handleEdit(consultant)}
+                            color={"dark"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+
                          {
                           consultant?.id !== 1 ?
-                          <Button color="danger" className="mx-1 btn-sm" onClick = {()=> toggleDanger(consultant)}>
-                          <i className="fas fa-trash-alt"></i>
-                        </Button>
+                        
+                          <ButtonForFunction
+                            color={"danger"}
+                            className={"mx-1 btn-sm"}
+                            func={()=> toggleDanger(consultant)}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+
                         :
-                        null
+                          // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
+                          null
                          }
                         </ButtonGroup>
                         <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">

@@ -7,6 +7,7 @@ import Select from "react-select";
 import { useToasts } from "react-toast-notifications";
 import get from '../../../../helpers/get';
 import put from '../../../../helpers/put';
+import ButtonForFunction from '../../Components/ButtonForFunction';
 
 
 const Branch = () => {
@@ -399,12 +400,14 @@ const Branch = () => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple>
+                
+                  <ButtonForFunction 
+                    type={"submit"}
+                    className={"mr-1 mt-3 badge-primary"}
+                    name={"Submit"}
+                    permission={6}
+                  />
+
                 </FormGroup>
               </Form>
             </TabPane>

@@ -23,6 +23,8 @@ import { useToasts } from "react-toast-notifications";
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import LinkButton from "../../Components/LinkButton";
+import ButtonForFunction from "../../Components/ButtonForFunction";
 
 const BranchList = () => {
   const {addToast} = useToasts();
@@ -118,7 +120,7 @@ const componentRef = useRef();
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <Link to="/branchInformation">
+              {/* <Link to="/branchInformation">
                 <Button
                   onClick={handleLocalStorage}
                   className="btn btn-uapp-add "
@@ -126,7 +128,17 @@ const componentRef = useRef();
                   {" "}
                   <i className="fas fa-plus"></i> Add New{" "}
                 </Button>
-              </Link>
+              </Link> */}
+
+              <LinkButton 
+                url={"/branchInformation"}
+                func={handleLocalStorage}
+                className={"btn btn-uapp-add "}
+                icon={<i className="fas fa-plus"></i>}
+                name={"Add New"}
+                permission={6}
+              />
+
             </Col>
             
             <Col lg="6" md="7" sm="6" xs="8">
@@ -226,26 +238,33 @@ const componentRef = useRef();
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                          <Link to={`/branchProfile/${singleBranch?.id}`}>
-                            <Button color="primary" className="mx-1 btn-sm">
-                              {" "}
-                              <i className="fas fa-eye"></i>{" "}
-                            </Button>
-                          </Link>
 
-                            <Button color="dark" className="mx-1 btn-sm" onClick={()=>handleUpdate(singleBranch?.id)}>
-                              {" "}
-                              <i className="fas fa-edit"></i>{" "}
-                            </Button>
+                          <LinkButton 
+                            url={`/branchProfile/${singleBranch?.id}`}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+
+
+                            <ButtonForFunction 
+                              color={"dark"}
+                              className={"mx-1 btn-sm"}
+                              func={()=>handleUpdate(singleBranch?.id)}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
                      
 
-                          <Button
-                            color="danger"
-                            onClick={toggleDanger}
-                            className="mx-1 btn-sm"
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </Button>
+                          <ButtonForFunction 
+                            color={"danger"}
+                            func={toggleDanger}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+
                           <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
     
                           <ModalBody>

@@ -10,6 +10,7 @@ import { Image } from 'antd';
 import "antd/dist/antd.css";
 import put from '../../../helpers/put';
 import { rootUrl } from '../../../constants/constants';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const AddConsultantInformation = () => {
 
@@ -1293,12 +1294,20 @@ const handleChange1 = ({ fileList }) => {
                 className="has-icon-left position-relative"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <Button.Ripple
+                {/* <Button.Ripple
                   type="submit"
                   className="mr-1 mt-3 badge-primary"
                 >
                   Submit
-                </Button.Ripple>
+                </Button.Ripple> */}
+
+                <ButtonForFunction 
+                  type={"submit"}
+                  className={"mr-1 mt-3 badge-primary"}
+                  name={"Submit"}
+                  permission={6}
+                />
+
               </FormGroup>
             </Form>
       </CardBody>

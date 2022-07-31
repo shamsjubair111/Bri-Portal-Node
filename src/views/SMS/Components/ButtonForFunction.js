@@ -32,7 +32,7 @@ const ButtonForFunction = ({className, icon,color, permission, type,url, func, n
     // console.log(className);
     // console.log(url);
 
-    console.log('Trying New Type of Props',func, type);
+    // console.log('Trying New Type of Props',func, className, icon, permission);
 
 
     const data = [1,2,3,4,6];
@@ -40,14 +40,13 @@ const ButtonForFunction = ({className, icon,color, permission, type,url, func, n
 
 
     return (
-        <div>
+        <>
       {
         data?.includes(permission)?
         <Button
         onClick={func}
         color={color}
-type={type}
-       
+        type={type}
         className={className}
       >
         {" "}
@@ -57,7 +56,7 @@ type={type}
       null 
 
       }
-        </div>
+        </>
     );
 };
 
