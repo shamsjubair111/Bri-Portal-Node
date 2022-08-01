@@ -37,6 +37,7 @@ import PicturesWall from "./UniversityLogo";
 import CoverPicturesWall from "./UniversityCover";
 import put from "../../../helpers/put";
 import { useToasts } from "react-toast-notifications";
+import ButtonForFunction from "../Components/ButtonForFunction";
 
 const AddUniversity = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
@@ -674,12 +675,20 @@ const AddUniversity = (props) => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Button.Ripple
+                  {/* <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                   >
                     Submit
-                  </Button.Ripple>
+                  </Button.Ripple> */}
+
+                    <ButtonForFunction
+                      type={"submit"}
+                      className={"mr-1 mt-3 badge-primary"}
+                      name={"Submit"}
+                      permission={6}
+                    />
+
                 </FormGroup>
               </Form>
             </TabPane>

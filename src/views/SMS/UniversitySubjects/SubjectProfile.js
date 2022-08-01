@@ -5,6 +5,7 @@ import get from '../../../helpers/get';
 import Select from "react-select";
 import { rootUrl } from '../../../constants/constants';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
+import EditDivButton from '../Components/EditDivButton';
 
 const SubjectProfile = () => {
 
@@ -116,14 +117,12 @@ const SubjectProfile = () => {
                         </div>  
                       </Col>
 
-                    <Col> 
-                    <div className="uapp-employee-profile-Edit">
-                    <div className="text-right">
-                      <span> <i className="fas fa-pencil-alt"></i> </span>
-                    </div>
-                    </div>  
-
-                        </Col> 
+                     <Col> 
+                      <EditDivButton
+                        className={"uapp-employee-profile-Edit"}
+                        permission={6}
+                      />
+                      </Col> 
                     </Row>            
                    </div>     
 

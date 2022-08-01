@@ -8,6 +8,7 @@ import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jp
 import get from '../../../../helpers/get';
 import ReactToPrint from 'react-to-print';
 import { rootUrl } from '../../../../constants/constants';
+import EditDivButton from '../../Components/EditDivButton';
 
 const EmployeeProfile = () => {
 
@@ -99,11 +100,16 @@ const EmployeeProfile = () => {
                   </Col>
 
                   <Col> 
-                  <div className="uapp-employee-profile-Edit">
+                  {/* <div className="uapp-employee-profile-Edit">
                   <div className="text-right">
                     <span> <i className="fas fa-pencil-alt"></i> </span>
                   </div>
-                  </div>  
+                  </div>   */}
+
+                  <EditDivButton
+                    className={"uapp-employee-profile-Edit"}
+                    permission={6}
+                  />
 
                       </Col> 
                   </Row>            

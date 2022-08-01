@@ -30,6 +30,9 @@ import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
 import get from '../../../helpers/get';
 import { rootUrl } from '../../../constants/constants';
 import put from '../../../helpers/put';
+import EditDivButton from '../Components/EditDivButton';
+import LinkButton from '../Components/LinkButton';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 const ConsultantProfile = () => {
@@ -184,21 +187,13 @@ const ConsultantProfile = () => {
                   </div>  
                   </Col>
 
-                  <Col> 
-                  <div className="uapp-employee-profile-Edit">
-                  <div className="text-right">
-                    <span> <i className="fas fa-pencil-alt" onClick={handleUpdateConsultantProfile}></i> </span>
-                  </div>
-
-                  <div>
-                
-                  </div>
-                  </div>  
-
-               
-                 
-
-                      </Col> 
+                    <Col> 
+                      <EditDivButton
+                        className={"uapp-employee-profile-Edit"}
+                        func={handleUpdateConsultantProfile}
+                        permission={6}
+                      />
+                    </Col> 
                   </Row>            
                  </div>     
 
@@ -573,33 +568,27 @@ const ConsultantProfile = () => {
 
                 <div className='d-flex justify-content-between'>
 
-               <Link to={`/studentList/${consultantData?.consultantType?.id}/${consultantData?.consultantType?.name}`}>
-               <Button
+                  <LinkButton
+                   url={`/studentList/${consultantData?.consultantType?.id}/${consultantData?.consultantType?.name}`}
+                   className={"btn btn-uapp-add "}
+                   name={"Student"}
+                   permission={6}
+                  />
+
+
+                  <ButtonForFunction
+                    className={"btn btn-uapp-add "}
+                    name={"Application"}
+                    permission={6}
+                  />
+
+
+                  <ButtonForFunction
+                    className={"btn btn-uapp-add "}
+                    name={"Transaction"}
+                    permission={6}
+                  />
                   
-               className="btn btn-uapp-add "
-             >
-             
-                Student
-             </Button>
-               </Link>
-
-                <Button
-                  
-                  className="btn btn-uapp-add "
-                >
-                
-                   Application
-                </Button>
-
-                <Button
-                  
-                  className="btn btn-uapp-add "
-                >
-                
-                   Transaction
-                </Button>
-
-
                 </div>
 
                    
