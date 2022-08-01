@@ -10,8 +10,9 @@ import get from '../../../helpers/get';
 import { rootUrl } from '../../../constants/constants';
 import put from '../../../helpers/put';
 import remove from '../../../helpers/remove';
+import ButtonForFunction from '../Components/ButtonForFunction';
 const AddUniversityCampus = (props) => {
-  const [universityCampusList, setuniversityCampusList] = useState([]);
+  const [universityCampusList, setuniversityCampusList] = useState([1,2,3,4]);
   const [universityCampusObject, setuniversityCampusObject] = useState({});
   const univerSityCountries = props.univerSityCountryList[0];
   const universityTypes = props.univerSityTypeList[0];
@@ -372,11 +373,27 @@ const cancel=()=>{
 
                     <div className="CampusCardAction">
                      <div className=""> 
-                        <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(uniCampus?.id)}> <i className="fas fa-edit"></i> </button>
+
+                        <ButtonForFunction
+                          type={"button"}
+                          color={"primary"}
+                          func={() => handleUpdate(uniCampus?.id)}
+                          icon={<i className="fas fa-edit"></i>}
+                          permission={6}
+                        />
+
                      </div>
 
                      <div className=""> 
-                        <button type="button" className="btn btn-outline-danger" onClick={() => toggleDanger(uniCampus)} ><i className="fas fa-trash-alt"></i></button>
+
+                        <ButtonForFunction
+                          type={"button"}
+                          color={"danger"}
+                          func={() => toggleDanger(uniCampus)}
+                          icon={<i className="fas fa-trash-alt"></i>}
+                          permission={6}
+                        />
+
                      </div>
                     </div>
 
@@ -759,18 +776,27 @@ const cancel=()=>{
                      :
                      <>
                        <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}> 
-                      <Button.Ripple
-                        color="primary"
-                        type="submit"
-                        className="mr-1 mt-3"
 
-                      >
-                        Submit
-                      </Button.Ripple>
+                      <ButtonForFunction
+                        color={"primary"}
+                        type={"submit"}
+                        className={"mr-1 mt-3"}
+                        name={"Submit"}
+                        permission={6}
+                      />
+
                       <div>
                         {
                             selectedId !== 0 || universityCampusList.length>0?
-                            <Button onClick={cancel} color="danger uapp-form-button float-right">Cancel</Button> 
+                            // <Button onClick={cancel} color="danger uapp-form-button float-right">Cancel</Button>
+                            
+                            <ButtonForFunction
+                              func={cancel}
+                              color={"danger uapp-form-button float-right"}
+                              name={"Cancel"}
+                              permission={6}
+                            />
+                            
                             :
                             <></>
                         }
@@ -784,10 +810,23 @@ const cancel=()=>{
               </Form>:
 
             <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
+             
+             <ButtonForFunction
+              func={onShow}
+              color={"primary uapp-form-button"}
+              name={"Add another"}
+              permission={6}
+             />
 
-         
-            <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
-            <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button>
+            {/* <Button onClick={onNextPage} color="warning uapp-form-button float-right">Next Page</Button> */}
+
+             <ButtonForFunction
+              func={onNextPage}
+              color={"warning uapp-form-button float-right"}
+              name={"Next Page"}
+              permission={6}
+             />
+
             </FormGroup>
 }
             

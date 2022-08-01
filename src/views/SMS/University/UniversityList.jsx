@@ -43,7 +43,7 @@ const UniversityList = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const [universityList, setUniversityList] = useState([1,2,3,4,5,6,7]);
+  const [universityList, setUniversityList] = useState([]);
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
