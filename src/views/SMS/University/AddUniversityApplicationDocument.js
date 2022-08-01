@@ -7,6 +7,8 @@ import Select from 'react-select';
 import { Card, CardBody, CardHeader, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import get from '../../../helpers/get';
 
+import CustomButtonRipple from '../Components/CustomButtonRipple';
+
 const AddUniversityApplicationDocument = () => {
 
     useEffect(()=>{
@@ -259,17 +261,23 @@ const AddUniversityApplicationDocument = () => {
                
                     
                       
-                      <Button.Ripple
+                      {/* <Button.Ripple
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
 
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button.Ripple> */}
                     
                   
-                     
+                      <CustomButtonRipple
+                        color={"primary"}
+                        type={"submit"}
+                        className={"mr-1 mt-3"}
+                        name={"submit"}
+                        permission={6}
+                      />
                   
 
                 </FormGroup>

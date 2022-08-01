@@ -26,6 +26,8 @@ import { useToasts } from "react-toast-notifications";
 import { useParams } from 'react-router-dom';
 
 import put from '../../../helpers/put';
+import CustomButtonRipple from '../Components/CustomButtonRipple';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const UpdateIntake = () => {
 
@@ -166,19 +168,28 @@ const UpdateIntake = () => {
                             className="has-icon-left position-relative mt-3"
                             style={{ display: "flex", justifyContent: "space-between" }}
                      >
-                       <Button.Ripple
-                         type="submit"
-                         className="mr-1 mt-3 badge-primary mx-auto"
-                       >
-                         Save
-                       </Button.Ripple>
+                       
+                        <CustomButtonRipple
+                          type={"submit"}
+                          className={"mr-1 mt-3 badge-primary mx-auto"}
+                          name={"Update"}
+                          permission={6}
+                        />
+
                      </FormGroup>
 
                         </Col>
 
                         <Col md="4" className="d-flex justify-content-end align-items-end">
                             <div>
-                                <Button onClick={handleCancel} className='btn btn-danger mt-md-3'>Cancel</Button>
+                                
+                                <ButtonForFunction
+                                  func={handleCancel}
+                                  className={'btn btn-danger mt-md-3'}
+                                  name={"Cancel"}
+                                  permission={6}
+                                />
+
                             </div>
                         </Col>
                     </FormGroup>

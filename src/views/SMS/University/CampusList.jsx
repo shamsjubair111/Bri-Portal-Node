@@ -13,6 +13,10 @@ import ReactToPrint from 'react-to-print';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import CustomButtonRipple from '../Components/CustomButtonRipple';
+import LinkButton from '../Components/LinkButton';
+import LinkSpanButton from '../Components/LinkSpanButton';
 
 const CampusList = (props) => {
 
@@ -276,14 +280,15 @@ const CampusList = (props) => {
 
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <Button
-                // onClick={handleAddUniversityCampus}
-                onClick={() => setModalOpen(true)}
-                className="btn btn-uapp-add "
-              >
-                {" "}
-                <i className="fas fa-plus"></i> Add New{" "}
-              </Button>
+              
+              <ButtonForFunction
+                func={() => setModalOpen(true)}
+                className={"btn btn-uapp-add "}
+                icon={<i className="fas fa-plus"></i>}
+                name={" Add New"}
+                permission={6}
+              />
+
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -596,16 +601,23 @@ const CampusList = (props) => {
                     
                     {/* localStorage.getItem("updateUni") ? */}
                       {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
-                      <Button.Ripple
+
+                      {/* <Button.Ripple
                         color="warning"
                         type="submit"
                         className="mr-1 mt-3"
                        
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button.Ripple> */}
 
-                  
+                      <CustomButtonRipple
+                        color={"warning"}
+                        type={"submit"}
+                        className={"mr-1 mt-3"}
+                        name={"Submit"}
+                        permission={6}
+                      />
 
                   </FormGroup>
 
@@ -667,27 +679,62 @@ const CampusList = (props) => {
                                  className="badge badge-secondary"
                                  style={{ cursor: "pointer" }}
                                >
-                                 <Link className="text-decoration-none" to = {`campusSubjectList/${campus?.id}`}> 
+                                 {/* <Link className="text-decoration-none" to = {`campusSubjectList/${campus?.id}`}> 
                                  <span> View </span>
-                                 </Link>
+                                 </Link> */}
+
+                                  <LinkSpanButton
+                                    url={`campusSubjectList/${campus?.id}`}
+                                    className={"text-decoration-none"}
+                                    data={"View"}
+                                    permission={6}
+                                  />
+
                                </span>{" "}
                              </td>
                             
                             <td style={{ width: "8%" }} className="text-center">
                               <ButtonGroup variant="text">
-                              <Link to= {`/campusDetails/${campus?.id}`}>
+
+                              {/* <Link to= {`/campusDetails/${campus?.id}`}>
                                 <Button color="primary" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-eye"></i>{" "}
                                 </Button>
-                                </Link>
-                                <Button onClick={()=> handleUpdate(campus?.id)} color="dark" className="mx-1 btn-sm">
+                                </Link> */}
+
+                                <LinkButton
+                                  url={`/campusDetails/${campus?.id}`}
+                                  color={"primary"}
+                                  className={"mx-1 btn-sm"}
+                                  icon={<i className="fas fa-eye"></i>}
+                                  permission={6}
+                                />
+
+                                {/* <Button onClick={()=> handleUpdate(campus?.id)} color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
-                                </Button>
+                                </Button> */}
+
+                                <ButtonForFunction
+                                  func={()=> handleUpdate(campus?.id)}
+                                  color={"dark"}
+                                  className={"mx-1 btn-sm"}
+                                  icon={<i className="fas fa-edit"></i>}
+                                  permission={6}
+                                />
+
                                 <Button color="danger" className="mx-1 btn-sm">
                                   <i className="fas fa-trash-alt"></i>
                                 </Button>
+
+                                <ButtonForFunction
+                                  color={"danger"}
+                                  className={"mx-1 btn-sm"}
+                                  icon={<i className="fas fa-trash-alt"></i>}
+                                  permission={6}
+                                />
+
                               </ButtonGroup>
                             </td>
                           </tr>

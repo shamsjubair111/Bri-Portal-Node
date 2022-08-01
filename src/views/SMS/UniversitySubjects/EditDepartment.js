@@ -4,6 +4,7 @@ import { Button, Card, CardBody, CardHeader, FormGroup, Modal, Form, Col, Input 
 import get from '../../../helpers/get';
 import put from '../../../helpers/put';
 import { useToasts } from "react-toast-notifications";
+import CustomButtonRipple from '../Components/CustomButtonRipple';
 
 const EditDepartment = () => {
     const history = useHistory();
@@ -131,7 +132,13 @@ const EditDepartment = () => {
             Submit
           </Button.Ripple>
 
- 
+          <CustomButtonRipple
+            color={"primary"}
+            type={"submit"}
+            className={"mr-1 mt-3"}
+            name={"Submit"}
+            permission={6}
+          />
 
       </FormGroup>
 

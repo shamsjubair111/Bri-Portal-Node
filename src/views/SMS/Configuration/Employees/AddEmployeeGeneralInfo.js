@@ -12,6 +12,7 @@ import get from '../../../../helpers/get';
 import { rootUrl } from '../../../../constants/constants';
 import ProfilePicturesWall from './EmployeeProfileImage';
 import CoverPicturesWall from './EmployeeCoverImage';
+import ButtonForFunction from '../../Components/ButtonForFunction';
 
 
 const EmployeeGeneralInfo = (props) => {
@@ -380,12 +381,19 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                                    <Button.Ripple
+                                    {/* <Button.Ripple
                                     type="submit"
                                     className="mr-1 mt-3 badge-primary"
                                     >
                                     Submit
-                                    </Button.Ripple>
+                                    </Button.Ripple> */}
+
+                                    <ButtonForFunction
+                                      type={"submit"}
+                                      className={"mr-1 mt-3 badge-primary"}
+                                      name={"Submit"}
+                                      permission={6}
+                                    />
 
                                 </FormGroup>
 

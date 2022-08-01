@@ -35,6 +35,9 @@ import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkSpanButton from '../Components/LinkSpanButton';
+import LinkButton from '../Components/LinkButton';
 
 const CampusSubjectList = () => {
 
@@ -240,13 +243,15 @@ const CampusSubjectList = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <Button
-                onClick={handleAddSubject}
-                className="btn btn-uapp-add "
-              >
-                {" "}
-                <i className="fas fa-plus"></i> Add New{" "}
-              </Button>
+              
+              <ButtonForFunction
+                func={handleAddSubject}
+                className={"btn btn-uapp-add "}
+                icon={<i className="fas fa-plus"></i>}
+                name={" Add New"}
+                permission={6}
+              />
+
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -359,31 +364,65 @@ const CampusSubjectList = () => {
                           className="badge badge-secondary"
                           style={{ cursor: "pointer" }}
                         >
-                          <Link className="text-decoration-none" to = {`/subjectIntake/${camId}/${sub?.id}`}> 
+                          {/* <Link className="text-decoration-none" to = {`/subjectIntake/${camId}/${sub?.id}`}> 
                           <span> View </span>
-                          </Link>
+                          </Link> */}
+
+                          <LinkSpanButton
+                            url={`/subjectIntake/${camId}/${sub?.id}`}
+                            className={"text-decoration-none"}
+                            data={"View"}
+                            permission={6}
+                          />
+
                         </span>{" "}
                       </td> 
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
                         {/* <Link to= ""> */}
-                          <Button onClick={()=>handleRedirectSubProfile(sub?.id)} color="primary" className="mx-1 btn-sm">
+                          {/* <Button onClick={()=>handleRedirectSubProfile(sub?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
-                          </Button>
+                          </Button> */}
+
+                          <ButtonForFunction
+                            func={()=>handleRedirectSubProfile(sub?.id)}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+
                         {/* </Link> */}
 
-                          <Link to={`/editSubject/${sub?.id}`}>
+                          {/* <Link to={`/editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
-                          </Link>
+                          </Link> */}
 
-                          <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
+                          <LinkButton
+                            url={`/editSubject/${sub?.id}`}
+                            color={"dark"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+
+                          {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
-                          </Button>
+                          </Button> */}
+
+                          <ButtonForFunction
+                            func={() => toggleDanger(sub?.name, sub?.id)}
+                            color={"danger"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+
                         </ButtonGroup>
 
                      

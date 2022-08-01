@@ -15,6 +15,7 @@ import post from '../../../helpers/post';
 import put from '../../../helpers/put';
 import remove from '../../../helpers/remove';
 import UniversityList from './UniversityList';
+import ButtonForFunction from '../Components/ButtonForFunction';
 const AddUniversityCountry = (props) => {
 
   const univerSityCountries = props.univerSityCountryList[0];
@@ -217,7 +218,15 @@ const closeDeleteModal = () => {
       <Card>
         <CardHeader>
        
-          <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add New</Button>
+
+            <ButtonForFunction
+              className={"btn btn-uapp-add"}
+              func={() => setModalOpen(true)}
+              icon={<i className="fas fa-plus"></i>}
+              name={" Add New"}
+              permission={6}
+            />
+
           <div> <b> Total <span className="badge badge-primary">{univerSityCountries?.length}</span> University Country Found   </b></div>
         </CardHeader>
         <CardBody>
@@ -291,8 +300,22 @@ const closeDeleteModal = () => {
                     <span className="badge badge-pill badge-primary"> {uniCountry?.universityCount} </span>
                   </td>
                   <td>
-                    <Button className="mx-1 btn-sm" onClick={() => toggleDanger(uniCountry.name, uniCountry.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
-                    <Button onClick={()=> handleUpdate(uniCountry)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>
+                    
+                    <ButtonForFunction
+                      className={"mx-1 btn-sm"}
+                      func={() => toggleDanger(uniCountry.name, uniCountry.id)}
+                      color={"danger"}
+                      icon={<i className="fas fa-trash-alt"></i>}
+                      permission={6}
+                    />
+
+                    <ButtonForFunction
+                      func={()=> handleUpdate(uniCountry)}
+                      className={"mx-1 btn-sm"}
+                      color={"warning"}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
 
 
                     <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">

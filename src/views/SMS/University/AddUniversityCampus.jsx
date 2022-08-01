@@ -12,7 +12,7 @@ import put from '../../../helpers/put';
 import remove from '../../../helpers/remove';
 import ButtonForFunction from '../Components/ButtonForFunction';
 const AddUniversityCampus = (props) => {
-  const [universityCampusList, setuniversityCampusList] = useState([1,2,3,4]);
+  const [universityCampusList, setuniversityCampusList] = useState([]);
   const [universityCampusObject, setuniversityCampusObject] = useState({});
   const univerSityCountries = props.univerSityCountryList[0];
   const universityTypes = props.univerSityTypeList[0];
