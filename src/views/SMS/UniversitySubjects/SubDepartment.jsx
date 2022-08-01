@@ -251,6 +251,8 @@ const SubDepartment =(props)=>{
       <CardHeader>
        
        <Button className="btn btn-uapp-add" onClick={AddModalOpen}> <i className="fas fa-plus"></i>  Add New</Button>
+
+
        <div> <b> Total <span className="badge badge-primary"> {subdepartmentList?.length} </span> Sub Department Found </b></div>
    </CardHeader>
          <CardBody>
