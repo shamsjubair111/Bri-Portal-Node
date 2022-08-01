@@ -13,14 +13,11 @@ const LinkButton = (props) => {
 
 
         <Link to={url}>
-        {
-            data?.includes(permission)?
+       
             <Button color={color} className={className}>
                {icon} {name}
             </Button>
-            :
-            null
-        }
+         
         </Link>
         
             

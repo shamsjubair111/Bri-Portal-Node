@@ -37,6 +37,7 @@ const ApplicationInformation = () => {
 
   const applicationStudentTypeId =  localStorage.getItem('applictionStudentTypeId');
   const applicationStudentId = localStorage.getItem('applictionStudentId');
+  console.log(applicationStudentId,'ididid');
 
   const [applicationId, setApplicationId] = useState(0);
 
@@ -62,12 +63,12 @@ const ApplicationInformation = () => {
       setVisaStatus(res);
     })
 
-    get(`StudentType/Get/${applicationStudentTypeId}`)
-    .then(res => {
-      console.log('bbbbbbbbbbbbbbbbbbb',res);
-      setStudentTypeValue(res?.id);
-      setStudentTypeLabel(res?.name);
-    })
+    // get(`StudentType/Get/${applicationStudentTypeId}`)
+    // .then(res => {
+    //   console.log('getting data from previous page',res);
+    //   setStudentTypeValue(res?.id);
+    //   setStudentTypeLabel(res?.name);
+    // })
 
 
     get(`ApplicationInfo/GetByStudentId/${applicationStudentId}`)
@@ -85,8 +86,8 @@ const ApplicationInformation = () => {
       setStudentTypeValue(res?.student?.studentType?.id);
       setStudentTypeLabel(res?.student?.studentType?.name);
       setIsApplyingFromInside(`${res?.isApplyingFromInside}`);
-      setVisaStatusLabel(res?.visaStatus?.name);
-      setVisaStatusValue(res?.visaStatusId);
+      setVisaStatusLabel(res?.visaStatus?.name ? res?.visaStatus?.name : 'Select Visa Status');
+      setVisaStatusValue(res?.visaStatusId ? res?.visaStatusId : 0);
       setApplicationId(res?.id);
 
       var datee =res?.dateOfMoveToUk;

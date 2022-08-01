@@ -217,6 +217,10 @@ const AddOtherInformation = lazy(() => import("./views/SMS/Students/OtherInforma
 const AddTestScore = lazy(() => import("./views/SMS/Students/TestScore"))
 const StudentByConsultant = lazy(() => import("./views/SMS/Students/StudentByConsultant"))
 
+// Education Level
+
+const EducationLevelList = lazy(() => import("./views/SMS/EducationLevel/EducationLevelList"))
+
 
 const UploadDocument = lazy(() => import("./views/SMS/Students/DocumentUpload"))
 
@@ -302,8 +306,8 @@ class AppRouter extends React.Component {
          <AppRoute path="/uni1" component={localStorage.getItem('access')? demo : notFound} />
          <AppRoute path="/uni2" component={localStorage.getItem('access')? demo : notFound} />
          <AppRoute path="/roles" component={localStorage.getItem('access')? Roles : notFound} />
-         <AppRoute path="/addMenu" component={localStorage.getItem('access')? Menu : notFound} />
-         <AppRoute path="/menu" component={localStorage.getItem('access')? MenuInfo : notFound} />
+         <AppRoute path="/addMenu" component={Menu} />
+         <AppRoute path="/menu" component={MenuInfo} />
          <AppRoute path="/permissions" component={localStorage.getItem('access')? Permissions : notFound} />
          <AppRoute path="/rolePermission" component={localStorage.getItem('access')? RolePermission : notFound} />
          <AppRoute path="/roleMenu" component={localStorage.getItem('access')? RoleMenu : notFound} />
@@ -413,6 +417,10 @@ class AppRouter extends React.Component {
          <AppRoute path="/studentByConsultant" component={StudentByConsultant} />
        
          <AppRoute path="/uploadDocument" component={UploadDocument} />
+
+         {/* Education Level paths */}
+
+         <AppRoute path="/educationLevelList" component={EducationLevelList} />
 
 
          <AppRoute path="/examTestType" component={ExamTestType} />

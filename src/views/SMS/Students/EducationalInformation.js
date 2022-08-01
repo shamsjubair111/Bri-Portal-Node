@@ -29,7 +29,7 @@ const EducationalInformation = () => {
     const [countryValue, setCountryValue] = useState(0);
 
     const [eduDetails, setEduDetails] = useState([]);
-    const [ oneData, setOneData] = useState({}); 
+    const [ oneData, setOneData] = useState([]); 
 
 
     const {addToast} = useToasts();
@@ -68,7 +68,7 @@ const EducationalInformation = () => {
       console.log('Edu details', res);
     })
 
-  },[])
+  },[success])
 
 
   const backToStudentProfile = () => {
@@ -193,31 +193,31 @@ const handleSubmit = (event) => {
 
   else{
 
-    if(oneData?.id){
-      put(`EducationInformation/Update`,subData)
-      .then(res => {
-        console.log('update done',res);
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
-        .then(res => {
-          setEduDetails(res);
+    // if(oneData?.id){
+    //   put(`EducationInformation/Update`,subData)
+    //   .then(res => {
+    //     console.log('update done',res);
+    //     addToast(res?.data?.message,{
+    //       appearance: 'success',
+    //       autoDismiss: true
+    //     })
+    //     get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+    //     .then(res => {
+    //       setEduDetails(res);
          
-          console.log('Edu details', res);
-          setProgramLevelLabel('Select');
-          setProgramLevelValue(0);
-          setCountryLabel('Select');
-          setCountryValue(0);
-          setOneData({});
+    //       console.log('Edu details', res);
+    //       setProgramLevelLabel('Select');
+    //       setProgramLevelValue(0);
+    //       setCountryLabel('Select');
+    //       setCountryValue(0);
+    //       setOneData({});
          
-          setShowForm(false);
-        })
-      })
-     }
+    //       setShowForm(false);
+    //     })
+    //   })
+    //  }
     
-     else{
+     
       post('EducationInformation/Create',subData)
       .then(res => {
         console.log('Educatinal information Post ',res);
@@ -241,7 +241,7 @@ const handleSubmit = (event) => {
       })
      }
 
-  }
+  
 
  
 
@@ -578,7 +578,7 @@ const handleUpdate = (id) => {
              value={localStorage?.getItem('applictionStudentId')}          
             />
 
-          {
+          {/* {
             (oneData?.id) ?
 
             <input type='hidden'
@@ -590,7 +590,7 @@ const handleUpdate = (id) => {
             : 
 
             null
-          }
+          } */}
         
 
             <FormGroup row className="has-icon-left position-relative">
