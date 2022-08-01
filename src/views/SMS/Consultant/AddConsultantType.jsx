@@ -16,6 +16,7 @@ import post from '../../../helpers/post';
 
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const AddConsultantType = () => {
 
@@ -133,8 +134,15 @@ const AddConsultantType = () => {
 
       <Card>
         <CardHeader>
-       
-          <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add New</Button>
+
+          <ButtonForFunction 
+            className={"btn btn-uapp-add"}
+            func={() => setModalOpen(true)}
+            icon={<i className="fas fa-plus"></i>}
+            name={" Add New"}
+            permission={6}
+          />
+
           <br/>
          
           <div> <b> Total <span className="badge badge-primary">{consultants?.length}</span> Consultant Type Found </b></div>
@@ -227,9 +235,23 @@ const AddConsultantType = () => {
                    <span className="badge badge-pill badge-primary"> {consultant?.consultantCount} </span>
                   </td>
                   <td>
-                    <Button className="mx-1 btn-sm" onClick={() => toggleDanger(consultant?.name, consultant?.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
+                    
+                    <ButtonForFunction 
+                      className={"mx-1 btn-sm"}
+                      func={() => toggleDanger(consultant?.name, consultant?.id)}
+                      color={"danger"}
+                      icon={<i className="fas fa-trash-alt"></i>}
+                      permission={6}
+                    />
 
-                    <Button onClick={()=> handleUpdate(consultant?.id)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>
+
+                    <ButtonForFunction 
+                      func={()=> handleUpdate(consultant?.id)}
+                      className={"mx-1 btn-sm"}
+                      color={"warning"}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
 
 
                     <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">

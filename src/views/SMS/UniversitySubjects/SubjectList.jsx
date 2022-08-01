@@ -41,6 +41,8 @@ import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import { connect, useDispatch } from 'react-redux';
 import { StoreUniversityCampusListData } from '../../../redux/actions/SMS/UniversityAction/UniversityCampusListAction';
 import { StoreUniversityListData } from '../../../redux/actions/SMS/UniversityAction/UniversityListAction';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkButton from '../Components/LinkButton';
 
 const SubjectList = (props) => {
 
@@ -379,13 +381,22 @@ const SubjectList = (props) => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <Button
+              {/* <Button
                 onClick={handleAddSubject}
                 className="btn btn-uapp-add "
               >
                 {" "}
                 <i className="fas fa-plus"></i> Add New{" "}
-              </Button>
+              </Button> */}
+
+              <ButtonForFunction
+                func={handleAddSubject}
+                className={"btn btn-uapp-add "}
+                icon={<i className="fas fa-plus"></i>}
+                name={" Add New"}
+                permission={6}
+              />
+
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -515,23 +526,51 @@ const SubjectList = (props) => {
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        {/* <Link to= ""> */}
+                        {/* <Link to= "">
                           <Button onClick={()=>handleView(sub?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
                           </Button>
-                        {/* </Link> */}
+                        </Link> */}
 
-                          <Link to={`editSubject/${sub?.id}`}>
+                        <ButtonForFunction 
+                          func={()=>handleView(sub?.id)}
+                          color={"primary"}
+                          className={"mx-1 btn-sm"}
+                          icon={<i className="fas fa-eye"></i>}
+                          permission={6}
+                        />
+
+                          {/* <Link to={`editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
-                          </Link>
+                          </Link> */}
 
-                          <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
+                          <LinkButton
+                            url={`editSubject/${sub?.id}`}
+                            color={"dark"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+
+                          {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
-                          </Button>
+                          </Button> */}
+
+
+                          <ButtonForFunction
+                            func={() => toggleDanger(sub?.name, sub?.id)}
+                            color={"danger"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+
+
+
                         </ButtonGroup>
 
                      

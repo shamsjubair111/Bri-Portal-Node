@@ -33,6 +33,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
 import remove from '../../../helpers/remove';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const BankDetails = () => {
  
@@ -443,11 +444,29 @@ const handleEdit = (data) => {
 
             <div className="CampusCardAction">
                  <div className=""> 
-                    <button type="button" className="btn btn-outline-info" onClick={()=>handleEdit(details)} > <i className="fas fa-edit"></i> </button>
+                    {/* <button type="button" className="btn btn-outline-info" onClick={()=>handleEdit(details)} > <i className="fas fa-edit"></i> </button> */}
+
+                    <ButtonForFunction 
+                      type={"button"}
+                      color={"primary"}
+                      func={()=>handleEdit(details)}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
+
                  </div>
 
                  <div className=""> 
-                    <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(details)}  ><i className="fas fa-trash-alt"></i></button>
+                    {/* <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(details)}  ><i className="fas fa-trash-alt"></i></button> */}
+
+                    <ButtonForFunction 
+                      type={"button"}
+                      color={"danger"}
+                      func={()=>toggleDanger(details)}
+                      icon={<i className="fas fa-trash-alt"></i>}
+                      permission={6}
+                    />
+
                  </div>
                 </div>
             
@@ -654,12 +673,20 @@ const handleEdit = (data) => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Button.Ripple
+                  {/* <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                   >
                     Submit
-                  </Button.Ripple>
+                  </Button.Ripple> */}
+
+                  <ButtonForFunction 
+                    type={"submit"}
+                    className={"mr-1 mt-3 badge-primary"}
+                    name={"Submit"}
+                    permission={6}
+                  />
+
                 </FormGroup>
               </Form>
 
@@ -677,12 +704,15 @@ const handleEdit = (data) => {
               className="has-icon-left position-relative"
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Button.Ripple
-                 onClick={addNewData}
-                className="mr-1 mt-3 badge-primary"
-              >
-                Add New
-              </Button.Ripple>
+              
+
+              <ButtonForFunction 
+                func={addNewData}
+                className={"mr-1 mt-3 badge-primary"}
+                name={"Add New"}
+                permission={6}
+              />
+
             </FormGroup>
 
             :

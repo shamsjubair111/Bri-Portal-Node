@@ -30,6 +30,7 @@ import {
 import { rootUrl } from "../../../constants/constants";
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const Subject = () => {
 
@@ -310,12 +311,21 @@ const Subject = () => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Button.Ripple
+                  {/* <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                   >
                     Submit
-                  </Button.Ripple>
+                  </Button.Ripple> */}
+
+                  <ButtonForFunction 
+                    type={"submit"}
+                    className={"mr-1 mt-3 badge-primary"}
+                    name={"Submit"}
+                    permission={6}
+                  />
+
+
                 </FormGroup>
               </Form>
             </TabPane>

@@ -10,6 +10,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import ProviderLogo from './ProviderLogo';
 import { useSelector } from 'react-redux';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 const ProviderForm = (props) => {
@@ -310,13 +311,12 @@ const ProviderForm = (props) => {
                     </Col>
                   </FormGroup>
 
-                  <Button.Ripple
-                        type="submit"
-                        className="mr-1 mt-3 badge-primary"
-                        // onClick={(e)=>handleSubmit(e)}
-                      >
-                        Submit
-                      </Button.Ripple>
+                  <ButtonForFunction 
+                    type={"submit"}
+                    className={"mr-1 mt-3 badge-primary"}
+                    name={"Submit"}
+                    permission={6}
+                  />
 
                   
 

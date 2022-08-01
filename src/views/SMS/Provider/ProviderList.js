@@ -18,6 +18,8 @@ import { StoreUniversityProviderData } from '../../../redux/actions/SMS/Provider
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import LinkButton from '../Components/LinkButton.js';
+import ButtonForFunction from '../Components/ButtonForFunction.js';
 
 
 const ProviderList = () => {
@@ -289,9 +291,16 @@ const ProviderList = () => {
           <Row className="mb-3">
 
             <Col lg="6" md="5" sm="6" xs="4">
-              <Link to ='/providerForm'>
-              <Button  className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add New </Button>
-              </Link>
+              
+
+              <LinkButton 
+                url={'/providerForm'}
+                className={"btn btn-uapp-add "}
+                icon={<i className="fas fa-plus"></i>}
+                name={" Add New"}
+                permission={6}
+              />
+
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -396,17 +405,35 @@ const ProviderList = () => {
                        
                         <td style={{width: '8%'}} className="text-center">
                           <ButtonGroup variant="text">
-   
-                           <Link to= {`/providerDetails/${prov?.id}`}>
-                           <Button color="primary" className="mx-1 btn-sm"> <i className="fas fa-eye"></i> </Button>
-                           </Link>
-                            <Link to={`/updateProvider/${prov?.id}`}>
-                            <Button color="dark" className="mx-1 btn-sm"> <i className="fas fa-edit"></i> </Button>
-                            </Link>
+
+                            <LinkButton 
+                              url={`/providerDetails/${prov?.id}`}
+                              color={"primary"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-eye"></i>}
+                              permission={6}
+                            />
+
+                            <LinkButton 
+                              url={`/updateProvider/${prov?.id}`}
+                              color={"dark"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
 
                             {
                               prov?.id !== 1 ?
-                              <Button color="danger" onClick={toggleDeleteProvider} className="mx-1 btn-sm"><i class="fas fa-trash-alt"></i></Button>
+                              // <Button color="danger" onClick={toggleDeleteProvider} className="mx-1 btn-sm"><i class="fas fa-trash-alt"></i></Button>
+
+                              <ButtonForFunction 
+                                color={"danger"}
+                                func={toggleDeleteProvider}
+                                className={"mx-1 btn-sm"}
+                                icon={<i class="fas fa-trash-alt"></i>}
+                                permission={6}
+                              />
+
                               : 
                               null
                             }

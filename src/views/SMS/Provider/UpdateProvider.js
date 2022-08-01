@@ -7,6 +7,7 @@ import put from '../../../helpers/put';
 import Select from 'react-select';
 import ProviderLogo from './ProviderLogo';
 import { useSelector } from 'react-redux';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
 const UpdateProvider = () => {
@@ -313,13 +314,12 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                   </Col>
                 </FormGroup>
 
-                  <Button.Ripple
-                        type="submit"
-                        className="mr-1 mt-3 badge-primary"
-                        // onClick={(e)=>handleSubmit(e)}
-                      >
-                        Submit
-                      </Button.Ripple>
+                  <ButtonForFunction 
+                    type={"submit"}
+                    className={"mr-1 mt-3 badge-primary"}
+                    name={"Submit"}
+                    permission={6}
+                  />
 
                   
 
