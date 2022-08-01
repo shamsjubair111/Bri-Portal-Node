@@ -41,8 +41,7 @@ const ButtonForFunction = ({className, icon,color, permission, type,url, func, n
 
     return (
         <>
-      {
-        data?.includes(permission)?
+   
         <Button
      
         onClick={func}
@@ -53,10 +52,7 @@ const ButtonForFunction = ({className, icon,color, permission, type,url, func, n
         {" "}
         {icon}{name}{" "}
       </Button>
-      :
-      null 
-
-      }
+     
         </>
     );
 };
