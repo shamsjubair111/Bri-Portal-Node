@@ -29,6 +29,8 @@ class StudentLogin extends React.Component {
   state = {
     activeTab: "1"
   }
+
+
   
   toggle = tab => {
     if (this.state.activeTab !== tab) {
@@ -58,12 +60,12 @@ class StudentLogin extends React.Component {
                 </div>
               
               </Col>
-              <Col lg="6" md="6" className="p-0  " >
+              <Col lg="6" md="6" className="col-right">
 
               <div className="text-center hide-responsive-right-side">
               <img src={UappLogo} className='w-50' />
               </div>
-                <div className="flexbox-container2" style={{ backgroundColor: "#fff",height: '100vh' }} >
+                <div className="flexbox-container2" style={{ backgroundColor: "#fff" }} >
 
                 
                   <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>

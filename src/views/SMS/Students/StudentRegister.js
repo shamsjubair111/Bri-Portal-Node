@@ -12,6 +12,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 const StudentRegister = () => {
 
 
+
     const history = useHistory(); 
 
     const {addToast} = useToasts();

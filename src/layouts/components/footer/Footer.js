@@ -6,7 +6,7 @@ import classnames from "classnames"
 import Lgimage from"../../../assets/img/UappLogo.png"
 const Footer = () => {
   return (
-    <footer className={classnames("footer footer-light uapp-footer-main", "static")}>
+    <footer className={classnames("footer footer-light uapp-footer-main", "static" ,"footer-custom-style")}>
 
       {/* <div className="row">
         <div className="col-sm-4 text-sm-center footer-text">

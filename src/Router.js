@@ -289,83 +289,83 @@ class AppRouter extends React.Component {
         <Switch>
           {/* SMS Client Routing */}
          {
-           !isAuth ?
+           isAuth ?
            <>
-         <AppRoute exact path="/" component={analyticsDashboard} />
+         <AppRoute exact path="/" component={localStorage.getItem('access')?analyticsDashboard : notFound} />
         
-         <AppRoute path="/AdmissionManager" component={AdmissionManager} />
-         <AppRoute path="/AdmissionGetData" component={AdmissionGetData} />
-         <AppRoute path="/updateUser/:id" component={UpdateUser} />
-         <AppRoute path="/addAdmissionManager/:id" component={AdmissionManager} />
+         <AppRoute path="/AdmissionManager" component={localStorage.getItem('access')? AdmissionManager : notFound} />
+         <AppRoute path="/AdmissionGetData" component={localStorage.getItem('access')? AdmissionGetData : notFound} />
+         <AppRoute path="/updateUser/:id" component={localStorage.getItem('access')? UpdateUser : notFound} />
+         <AppRoute path="/addAdmissionManager/:id" component={localStorage.getItem('access')? AdmissionManager : notFound} />
   
-         <AppRoute path="/demo" component={demo} />
-         <AppRoute path="/uni1" component={demo} />
-         <AppRoute path="/uni2" component={demo} />
-         <AppRoute path="/roles" component={Roles} />
-         <AppRoute path="/addMenu" component={Menu} />
-         <AppRoute path="/menu" component={MenuInfo} />
-         <AppRoute path="/permissions" component={Permissions} />
-         <AppRoute path="/rolePermission" component={RolePermission} />
-         <AppRoute path="/roleMenu" component={RoleMenu} />
-         <AppRoute path="/employeeType" component={EmployeeType} />
+         <AppRoute path="/demo" component={localStorage.getItem('access')? demo : notFound} />
+         <AppRoute path="/uni1" component={localStorage.getItem('access')? demo : notFound} />
+         <AppRoute path="/uni2" component={localStorage.getItem('access')? demo : notFound} />
+         <AppRoute path="/roles" component={localStorage.getItem('access')? Roles : notFound} />
+         <AppRoute path="/addMenu" component={localStorage.getItem('access')? Menu : notFound} />
+         <AppRoute path="/menu" component={localStorage.getItem('access')? MenuInfo : notFound} />
+         <AppRoute path="/permissions" component={localStorage.getItem('access')? Permissions : notFound} />
+         <AppRoute path="/rolePermission" component={localStorage.getItem('access')? RolePermission : notFound} />
+         <AppRoute path="/roleMenu" component={localStorage.getItem('access')? RoleMenu : notFound} />
+         <AppRoute path="/employeeType" component={localStorage.getItem('access')? EmployeeType : notFound} />
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
-         <AppRoute path="/employeeList" component={EmployeeList} />
-         <AppRoute path="/employeeProfile" component={EmployeeProfile} />
-         <AppRoute path="/addUniversityType" component={AddUniversityType} />
-         <AppRoute path="/addUniversityCountry" component={AddUniversityCountry} />
-         <AppRoute path="/addUniversityState" component={AddUniversityState} />
-         <AppRoute path="/addUniversity" component={AddUniversity} />
-         <AppRoute path="/addUniversityApplicationDocument" component={AddUniversityApplicationDocument} />
+         <AppRoute path="/employeeList" component={localStorage.getItem('access')? EmployeeList : notFound} />
+         <AppRoute path="/employeeProfile" component={localStorage.getItem('access')? EmployeeProfile : notFound} />
+         <AppRoute path="/addUniversityType" component={localStorage.getItem('access')? AddUniversityType : notFound} />
+         <AppRoute path="/addUniversityCountry" component={localStorage.getItem('access')? AddUniversityCountry : notFound} />
+         <AppRoute path="/addUniversityState" component={localStorage.getItem('access')? AddUniversityState : notFound} />
+         <AppRoute path="/addUniversity" component={localStorage.getItem('access')? AddUniversity : notFound} />
+         <AppRoute path="/addUniversityApplicationDocument" component={localStorage.getItem('access')? AddUniversityApplicationDocument : notFound} />
 
           {/* intake */}
-          <AppRoute path="/intake" component={Intake} />
-          <AppRoute path="/addNewIntakes" component={AddNewIntakes} />
-          <AppRoute path="/updateIntake/:id" component={UpdateIntake} />
+          <AppRoute path="/intake" component={localStorage.getItem('access')? Intake : notFound} />
+          <AppRoute path="/addNewIntakes" component={localStorage.getItem('access')? AddNewIntakes : notFound} />
+          <AppRoute path="/updateIntake/:id" component={localStorage.getItem('access')? UpdateIntake : notFound} />
 
 
           {/* consultant */}
-          <AppRoute path="/consultantList" component={ConsultantList} />
-          <AppRoute path="/consultantProfile/:id" component={ConsultantProfile} />
-          <AppRoute path="/addConsultant" component={AddConsultant} />
-          <AppRoute path="/addConsultantType" component={AddConsultantType} />
+          <AppRoute path="/consultantList" component={localStorage.getItem('access')?ConsultantList : notFound} />
+          <AppRoute path="/consultantProfile/:id" component={localStorage.getItem('access')? ConsultantProfile : notFound} />
+          <AppRoute path="/addConsultant" component={localStorage.getItem('access')? AddConsultant : notFound} />
+          <AppRoute path="/addConsultantType" component={localStorage.getItem('access')? AddConsultantType : notFound} />
           
-          <AppRoute path="/addBankDetails" component={BankDetails} />
-          <AppRoute path="/addConsultantInformation" component={AddConsultantInformation} />
+          <AppRoute path="/addBankDetails" component={localStorage.getItem('access')? BankDetails : notFound} />
+          <AppRoute path="/addConsultantInformation" component={localStorage.getItem('access')? AddConsultantInformation : notFound} />
           
           
 
-         <AppRoute path="/addUniversityCampus" component={AddUniversityCampus} />
-         <AppRoute path="/addUniversityFinancial" component={AddUniversityFinancial} />
-         <AppRoute path="/addUniversityFeatures" component={AddUniversityFeatures} />
-         <AppRoute path="/addUniversityGallery" component={AddUniversityGallery} />
-         <AppRoute path="/universityList" component={UniversityList} />
-         <AppRoute path="/universityDetails/:id" component={UniversityDetails} />
-         <AppRoute path="/campusList" component={CampusList} />
-         <AppRoute path="/campusSubjectList/:camId" component={CampusSubjectList} />
-         <AppRoute path="/campusDetails/:id" component={CampusDetails} />
+         <AppRoute path="/addUniversityCampus" component={localStorage.getItem('access')? AddUniversityCampus : notFound} />
+         <AppRoute path="/addUniversityFinancial" component={localStorage.getItem('access')? AddUniversityFinancial : notFound} />
+         <AppRoute path="/addUniversityFeatures" component={localStorage.getItem('access')? AddUniversityFeatures : notFound} />
+         <AppRoute path="/addUniversityGallery" component={localStorage.getItem('access')? AddUniversityGallery : notFound} />
+         <AppRoute path="/universityList" component={localStorage.getItem('access')? UniversityList : notFound} />
+         <AppRoute path="/universityDetails/:id" component={localStorage.getItem('access')? UniversityDetails : notFound} />
+         <AppRoute path="/campusList" component={localStorage.getItem('access')? CampusList : notFound} />
+         <AppRoute path="/campusSubjectList/:camId" component={localStorage.getItem('access')? CampusSubjectList : notFound} />
+         <AppRoute path="/campusDetails/:id" component={localStorage.getItem('access')? CampusDetails : notFound} />
 
-         <AppRoute path="/addDepartment" component={AddDepartment} />
-         <AppRoute path="/addSubDepartment" component={AddSubDepartment} />
-         <AppRoute path="/addProgramLevel" component={AddProgramLevel} />
-         <AppRoute path="/addSubject" component={Subject} />
-         <AppRoute path="/subjectList" component={SubjectList} />
-         <AppRoute path="/editSubject/:id" component={EditSubject} />
-         <AppRoute path="/addSubjectFee" component={AddSubjectFee} />
-         <AppRoute path="/EditSubjectFee/:subId" component={EditSubjectFee} />
-         <AppRoute path="/subjectFeeInfo" component={SubjectFeeInformation} />
-         <AppRoute path="/subjectIntake/:camId/:subbId" component={SubjectIntake} />
-         <AppRoute path="/subjectProfile/:subjId" component={SubjectProfile} />
+         <AppRoute path="/addDepartment" component={localStorage.getItem('access')? AddDepartment : notFound} />
+         <AppRoute path="/addSubDepartment" component={localStorage.getItem('access')? AddSubDepartment : notFound} />
+         <AppRoute path="/addProgramLevel" component={localStorage.getItem('access')? AddProgramLevel : notFound} />
+         <AppRoute path="/addSubject" component={localStorage.getItem('access')? Subject : notFound} />
+         <AppRoute path="/subjectList" component={localStorage.getItem('access')? SubjectList : notFound} />
+         <AppRoute path="/editSubject/:id" component={localStorage.getItem('access')? EditSubject : notFound} />
+         <AppRoute path="/addSubjectFee" component={localStorage.getItem('access')? AddSubjectFee : notFound} />
+         <AppRoute path="/EditSubjectFee/:subId" component={localStorage.getItem('access')? EditSubjectFee : notFound} />
+         <AppRoute path="/subjectFeeInfo" component={localStorage.getItem('access')? SubjectFeeInformation : notFound} />
+         <AppRoute path="/subjectIntake/:camId/:subbId" component={localStorage.getItem('access')? SubjectIntake : notFound} />
+         <AppRoute path="/subjectProfile/:subjId" component={localStorage.getItem('access')? SubjectProfile : notFound} />
 
-         <AppRoute path="/fileUpload" component={FileUpload} />
+         <AppRoute path="/fileUpload" component={localStorage.getItem('access')? FileUpload : notFound} />
          
          {/* <AppRoute path="/subjectIntake" component={SubjectIntake} /> */}
 
-         <AppRoute path="/404" component={notFound} />
-         <AppRoute path="/newform" component={Post} />
-         <AppRoute path="/showdata" component={Get} />
-         <AppRoute path="/update/:id" component={Put} />
-         <AppRoute path="/delete/:id" component={Delete} />
+         <AppRoute path="/404" component={localStorage.getItem('access')? notFound : notFound} />
+         <AppRoute path="/newform" component={localStorage.getItem('access')? Post : notFound} />
+         <AppRoute path="/showdata" component={localStorage.getItem('access')? Get : notFound} />
+         <AppRoute path="/update/:id" component={localStorage.getItem('access')? Put : notFound} />
+         <AppRoute path="/delete/:id" component={localStorage.getItem('access')? Delete : notFound} />
          <AppRoute path="/providerForm" component={ProviderForm} />
          <AppRoute path="/adminProviderForm" component={AdminProviderForm} />
          <AppRoute path="/addEmployeeGeneralInfo" component={AddEmployeeGeneralInfo} />
@@ -450,6 +450,13 @@ class AppRouter extends React.Component {
 
            </> :
            <>
+
+           <Redirect
+                to={{
+                    pathname: "/",
+                    // state: { from: location }
+                }}
+            />
         
       
          <AppRoute exact path="/" component={StudentLogin} fullLayout />
