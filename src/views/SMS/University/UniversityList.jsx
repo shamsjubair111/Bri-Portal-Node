@@ -34,12 +34,16 @@ import { StoreUniversityListData } from '../../../redux/actions/SMS/UniversityAc
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import ButtonForFunction from "../Components/ButtonForFunction.js";
+import LinkSpanButton from "../Components/LinkSpanButton.js";
+import SpanButton from "../Components/SpanButton.js";
+import LinkButton from "../Components/LinkButton.js";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const [universityList, setUniversityList] = useState([]);
+  const [universityList, setUniversityList] = useState([1,2,3,4,5,6,7]);
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
@@ -449,6 +453,7 @@ const UniversityList = (props) => {
                 id="UniversityStateId"
               />
             </Col>
+
             <Col lg="2" md="3" sm="6" xs="6">
               <Select
                 options={providerlist}
@@ -506,13 +511,15 @@ const UniversityList = (props) => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <Button
-                onClick={handleAddUniversity}
-                className="btn btn-uapp-add "
-              >
-                {" "}
-                <i className="fas fa-plus"></i> Add New{" "}
-              </Button>
+
+              <ButtonForFunction
+                func={handleAddUniversity}
+                className={"btn btn-uapp-add "}
+                icon={<i className="fas fa-plus"></i>}
+                name={" Add New"}
+                permission={6}
+              />
+
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -660,12 +667,23 @@ const UniversityList = (props) => {
                       </td>
                  
                       <td>
-                        <span onClick={()=>redirectToCampusList(university?.id)}
+                        {/* <span onClick={()=>redirectToCampusList(university?.id)}
                           className="badge badge-secondary"
                           style={{ cursor: "pointer" }}
                         >
                           {university?.totalCampus}
-                        </span>
+                        </span> */}
+
+                        <SpanButton
+                          func={()=>redirectToCampusList(university?.id)}
+                          className={"badge badge-secondary"}
+                          style={{ cursor: "pointer" }}
+                          data={university?.totalCampus}
+                          permission={6}
+                        />
+
+
+
                       </td>
                     
                       <td>
@@ -685,33 +703,61 @@ const UniversityList = (props) => {
                           className="badge badge-secondary"
                           style={{ cursor: "pointer" }}
                         >
-                          <Link className="text-decoration-none" to ={{
+                          {/* <Link className="text-decoration-none" to ={{
                              pathname: '/subjectList',
                              universityId: university?.id,
                              universityName: university?.name,
                            }}> 
                           <span> {university?.totalSubject} </span>
-                          </Link>
+                          </Link> */}
+
+                           <LinkSpanButton
+                            className={"text-decoration-none"}
+                            url={
+                              {
+                                pathname: '/subjectList',
+                                universityId: university?.id,
+                                universityName: university?.name,
+                              }
+                            }
+                            data={university?.totalSubject}
+                            permission={6}
+                           />
+
                         </span>{" "}
                       </td>
                       
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        <Link to= {`/universityDetails/${university?.id}`}>
-                          <Button color="primary" className="mx-1 btn-sm">
-                            {" "}
-                            <i className="fas fa-eye"></i>{" "}
-                          </Button>
-                          </Link> 
+                        
+                          <LinkButton
+                            url={`/universityDetails/${university?.id}`}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+
                           {/* <Link to= {`/updateUniversityInformation/${university?.id}`}> */}
-                          <Button onClick={() => handleEdit(university)} color="dark" className="mx-1 btn-sm">
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </Button>
+                          
+                          <ButtonForFunction
+                            func={() => handleEdit(university)}
+                            color={"dark"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+
                           {/* </Link> */}
-                          <Button onClick={() => toggleDanger(university?.id)} color="danger" className="mx-1 btn-sm">
-                            <i className="fas fa-trash-alt"></i>
-                          </Button>
+                          
+                          <ButtonForFunction
+                            func={() => toggleDanger(university?.id)}
+                            color={"danger"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+
                         </ButtonGroup>
 
                             {/* modal for delete */}

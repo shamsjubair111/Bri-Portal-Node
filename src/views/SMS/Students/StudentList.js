@@ -373,18 +373,14 @@ const StudentList = () => {
                
                 <i className="fas fa-plus"></i> Add New
               </Button>
-    */}
+            */}
     
 
-                 <ButtonForFunction className ={"btn btn-uapp-add "}
+              <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
-                 
-                 func={handleAddStudent}
-                   
-                 name={' Add New'}             
-                 
-                 
-
+                 func={handleAddStudent} 
+                 name={' Add New'}
+                 permission={6}             
                  ></ButtonForFunction>
 
             </Col>

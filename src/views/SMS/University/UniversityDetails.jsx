@@ -8,6 +8,7 @@ import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
 
 import { Image } from 'antd';
 import "antd/dist/antd.css";
+import EditDivButton from '../Components/EditDivButton';
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 
@@ -371,14 +372,19 @@ const UniversityDetails = () => {
                     </div>  
                     </Col>
 
-                    <Col> 
-                    <div className="uapp-employee-profile-Edit">
-                    <div className="text-right">
-                      <span> <i className="fas fa-pencil-alt"></i> </span>
-                    </div>
-                    </div>  
+                     <Col> 
+                      {/* <div className="uapp-employee-profile-Edit">
+                        <div className="text-right">
+                          <span> <i className="fas fa-pencil-alt"></i> </span>
+                        </div>
+                       </div> */}
 
-                        </Col> 
+                       <EditDivButton
+                        className={"uapp-employee-profile-Edit"}
+                        permission={6}
+                       />
+
+                      </Col> 
                     </Row>            
                    </div>     
 

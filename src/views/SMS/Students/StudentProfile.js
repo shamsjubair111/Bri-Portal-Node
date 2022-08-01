@@ -8,6 +8,7 @@ import coverImage from '../../../assets/img/profile/user-uploads/cover.jpg';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
 import ReactToPrint from 'react-to-print';
 import { rootUrl } from '../../../constants/constants';
+import EditDivButton from '../Components/EditDivButton';
 
 const StudentProfile = () => {
 
@@ -252,14 +253,13 @@ const StudentProfile = () => {
                     </div>  
                     </Col>
 
-                    <Col> 
-                    <div className="uapp-employee-profile-Edit" onClick={()=>handleEditFromProfilePage(studentDetails)}>
-                    <div className="text-right">
-                      <span> <i className="fas fa-pencil-alt"></i> </span>
-                    </div>
-                    </div>  
-
-                        </Col> 
+                     <Col> 
+                      <EditDivButton
+                        className={"uapp-employee-profile-Edit"}
+                        func={()=>handleEditFromProfilePage(studentDetails)}
+                        permission={6}
+                      />
+                     </Col> 
                     </Row>            
                    </div>     
 
@@ -309,9 +309,12 @@ const StudentProfile = () => {
                      
                     <div className="bg-h"></div>
                     </div>
-                    <div className="text-right edit-style  p-3" onClick={()=>handleUpdatePersonalStatement(studentDetails)}>
-                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                  </div>
+
+                    <EditDivButton
+                      className={"text-right edit-style  p-3"}
+                      func={()=>handleUpdatePersonalStatement(studentDetails)}
+                      permission={6}
+                    />
 
                     </div>
                     <div>
@@ -331,9 +334,12 @@ const StudentProfile = () => {
                   
                  <div className="bg-h"></div>
                  </div>
-                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdatePersonalInformation(studentDetails)}>
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div>
+
+                 <EditDivButton
+                    className={"text-right edit-style  p-3"}
+                    func={()=>handleUpdatePersonalInformation(studentDetails)}
+                    permission={6}
+                 />
 
                  </div>
                       <Table className="table-bordered mt-4" >
@@ -437,9 +443,13 @@ const StudentProfile = () => {
                   
                  <div className="bg-h"></div>
                  </div>
-                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateContactInformation(studentDetails)}>
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div>
+
+                 <EditDivButton
+                  className={"text-right edit-style  p-3"}
+                  func={()=>handleUpdateContactInformation(studentDetails)}
+                  permission={6}
+                 />
+
 
                  </div>
 
@@ -551,9 +561,13 @@ const StudentProfile = () => {
                   
                  <div className="bg-h"></div>
                  </div>
-                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateOtherInformation(studentDetails)}>
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div>
+                 
+
+                  <EditDivButton
+                     className={"text-right edit-style  p-3"}
+                     func={()=>handleUpdateOtherInformation(studentDetails)}
+                     permission={6}
+                  />
 
                  </div>
 
@@ -630,9 +644,12 @@ const StudentProfile = () => {
                   
                  <div className="bg-h"></div>
                  </div>
-                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateEducationalInformation(studentDetails)}>
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div>
+                 
+                  <EditDivButton
+                    className={"text-right edit-style  p-3"}
+                    func={()=>handleUpdateEducationalInformation(studentDetails)}
+                    permission={6}
+                  />
 
                  </div>
 
@@ -713,15 +730,18 @@ const StudentProfile = () => {
           <Card className="test-score-card-style2">
             <CardBody className="">
 
-            <div className="hedding-titel d-flex justify-content-between">
+            <div className="hedding-titel d-flex justify-content-between mb-1">
             <div>
             <h5> <b>GRE Information</b> </h5>
              
             <div className="bg-h"></div>
             </div>
-            <div className="text-right edit-style  p-3" onClick={()=>handleUpdateGREAndGMATScores(studentDetails)}>
-            <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-          </div>
+            
+                <EditDivButton
+                  className={"text-right edit-style  p-3"}
+                  func={()=>handleUpdateGREAndGMATScores(studentDetails)}
+                  permission={6}
+                />
 
             </div>
 
@@ -751,15 +771,18 @@ const StudentProfile = () => {
         <Card className=" test-score-card-style2">
           <CardBody className="">
 
-          <div className="hedding-titel d-flex justify-content-between">
+          <div className="hedding-titel d-flex justify-content-between mb-1">
           <div>
           <h5> <b>GMAT Information</b> </h5>
            
           <div className="bg-h"></div>
           </div>
-          <div className="text-right edit-style  p-3" onClick={()=>handleUpdateGREAndGMATScores(studentDetails)}>
-          <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-        </div>
+
+           <EditDivButton
+              className={"text-right edit-style  p-3"}
+              func={()=>handleUpdateGREAndGMATScores(studentDetails)}
+              permission={6}
+            />
 
           </div>
 
@@ -801,9 +824,12 @@ const StudentProfile = () => {
                   
                  <div className="bg-h"></div>
                  </div>
-                 <div className="text-right edit-style  p-3" onClick={()=>handleUpdateTestScores(studentDetails)}>
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div>
+                 
+                  <EditDivButton
+                    className={"text-right edit-style  p-3"}
+                    func={()=>handleUpdateTestScores(studentDetails)}
+                    permission={6}
+                  />
 
                  </div>
 
@@ -869,9 +895,12 @@ const StudentProfile = () => {
                  
                 <div className="bg-h"></div>
                 </div>
-                <div className="text-right edit-style  p-3" onClick={()=>handleUpdateExperience(studentDetails)}>
-                <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-              </div>
+
+                 <EditDivButton
+                    className={"text-right edit-style  p-3"}
+                    func={()=>handleUpdateExperience(studentDetails)}
+                    permission={6}
+                  />
 
                 </div>
 
@@ -938,9 +967,12 @@ const StudentProfile = () => {
                  
                 <div className="bg-h"></div>
                 </div>
-                <div className="text-right edit-style  p-3" onClick={()=>handleUpdateReference(studentDetails)}>
-                <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-              </div>
+
+                  <EditDivButton
+                    className={"text-right edit-style  p-3"}
+                    func={()=>handleUpdateReference(studentDetails)}
+                    permission={6}
+                  />
 
                 </div>
 
