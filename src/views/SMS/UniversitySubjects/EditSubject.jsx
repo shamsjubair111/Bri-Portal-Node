@@ -31,6 +31,7 @@ import { rootUrl } from "../../../constants/constants";
 import get from '../../../helpers/get';
 import put from '../../../helpers/put';
 import { useToasts } from 'react-toast-notifications';
+import CustomButtonRipple from '../Components/CustomButtonRipple';
 
 const EditSubject = () => {
 
@@ -106,7 +107,7 @@ const EditSubject = () => {
 
     // redirect to dashboard
     const backToDashboard = () => {
-      history.push("/");
+      history.push("/subjectList");
     };
 
     const selectUniversity = (label, value) => {
@@ -180,7 +181,7 @@ const EditSubject = () => {
                 <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
                   </span>
                 </div>
               </CardHeader>
@@ -242,6 +243,7 @@ const EditSubject = () => {
                         <Col md="6">
                           <Input
                             type='textarea'
+                            rows='4'
                             placeholder='Enter description'
                             defaultValue={description}
                             required
@@ -341,24 +343,40 @@ const EditSubject = () => {
                         className="has-icon-left position-relative"
                         style={{ display: "flex", justifyContent: "space-between" }}
                       ></FormGroup> */}
-                      <FormGroup
+                      <FormGroup row
                         className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "space-between" }}
+                        style={{ display: "flex", justifyContent: "end" }}
                       >
-                        <Button.Ripple
-                          type="submit"
-                          className="mr-1 mt-3 badge-primary"
-                        >
-                          Update
-                        </Button.Ripple>
+                        <Col md="5">
 
-                        <Button.Ripple
-                          className="mr-1 mt-3 badge-primary"
-                          onClick={handleNextPage}
-                        >
-                          Next page
-                        </Button.Ripple>
+                          <CustomButtonRipple
+                            type={"submit"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            name={"Update"}
+                            permission={6}
+                          />
+
+                        </Col>
+
+                        
                       </FormGroup>
+
+                      <FormGroup row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                       <Col md="2">
+
+                        <CustomButtonRipple
+                          className={"mr-1 mt-3 badge-primary"}
+                          func={handleNextPage}
+                          name={"Next page"}
+                          permission={6}
+                        />
+
+                       </Col>
+                      </FormGroup>
+
                     </Form>
                   </TabPane>
                 </TabContent>

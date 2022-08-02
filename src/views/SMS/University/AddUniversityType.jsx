@@ -16,6 +16,8 @@ import post from '../../../helpers/post';
 
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkSpanButton from '../Components/LinkSpanButton';
 
 
 const AddUniversityType = (props) => {
@@ -266,8 +268,15 @@ const closeDeleteModal = () => {
 
       <Card>
         <CardHeader>
-       
-          <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add New</Button>
+
+          <ButtonForFunction
+            className={"btn btn-uapp-add"}
+            func={() => setModalOpen(true)}
+            icon={<i className="fas fa-plus"></i>}
+            name={" Add New"}
+            permission={6}
+          />
+
           <br/>
          
           <div> <b> Total <span className="badge badge-primary">{universityList.length}</span> University Type Found </b></div>
@@ -362,18 +371,48 @@ const closeDeleteModal = () => {
                   <th scope="row">{i + 1}</th>
                   <td>{uniType?.name}</td>
                   <td className="text-center" >               
-                   <Link to ={{
+                   {/* <Link to ={{
                      pathname: '/universityList',
                      universityType: uniType?.id,
                      universityName: uniType?.name,
 
                    }}> 
                    <span className="badge badge-pill badge-primary"> {uniType?.universityCount} </span>
-                   </Link>
+                   </Link> */}
+
+                    <LinkSpanButton
+                      url={
+                        {
+                          pathname: '/universityList',
+                          universityType: uniType?.id,
+                          universityName: uniType?.name,
+                        }
+                      }
+                      className={"badge badge-pill badge-primary"}
+                      data={uniType?.universityCount}
+                      permission={6}
+                    />
+
                   </td>
                   <td>
-                    <Button className="mx-1 btn-sm" onClick={() => toggleDanger(uniType?.name, uniType?.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
-                    <Button onClick={()=> handleUpdate(uniType?.id)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>
+                  
+                     <ButtonForFunction
+                      className={"mx-1 btn-sm"}
+                      func={() => toggleDanger(uniType?.name, uniType?.id)}
+                      color={"danger"}
+                      icon={<i className="fas fa-trash-alt"></i>}
+                      permission={6}
+                     /> 
+
+                    {/* <Button onClick={()=> handleUpdate(uniType?.id)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
+
+                    <ButtonForFunction
+                      func={()=> handleUpdate(uniType?.id)}
+                      className={"mx-1 btn-sm"}
+                      color={"warning"}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
 
 
                     <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">

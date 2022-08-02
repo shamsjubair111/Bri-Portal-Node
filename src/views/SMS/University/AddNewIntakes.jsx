@@ -25,6 +25,8 @@ import {
   import get from '../../../helpers/get';
   import post from '../../../helpers/post';
   import { useToasts } from "react-toast-notifications";
+  import CustomButtonRipple from '../Components/CustomButtonRipple';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const AddNewIntakes = () => {
     const [month, setMonth] = useState([]);
@@ -152,12 +154,14 @@ const AddNewIntakes = () => {
                             style={{ display: "flex", justifyContent: "space-between" }}
                      >
                        {/* <Link to="/intake"> */}
-                          <Button.Ripple
-                            type="submit"
-                            className="mr-1 mt-3 badge-primary mx-auto"
-                          >
-                            Submit
-                          </Button.Ripple>
+
+                          <CustomButtonRipple
+                            type={"submit"}
+                            className={"mr-1 mt-3 badge-primary mx-auto"}
+                            name={"Submit"}
+                            permission={6}
+                          />
+
                        {/* </Link> */}
 
                      </FormGroup>
@@ -166,7 +170,14 @@ const AddNewIntakes = () => {
 
                         <Col md="4" className="d-flex justify-content-end align-items-end">
                             <div>
-                                <Button onClick={handleCancel} className='btn btn-danger mt-md-3'>Cancel</Button>
+
+                                <ButtonForFunction
+                                  func={handleCancel}
+                                  className={'btn btn-danger mt-md-3'}
+                                  name={"Cancel"}
+                                  permission={6}
+                                />
+
                             </div>
                         </Col>
                     </FormGroup>

@@ -9,6 +9,8 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { Link } from 'react-router-dom';
 import remove from '../../../helpers/remove';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkButton from '../Components/LinkButton';
 
 
 
@@ -191,8 +193,15 @@ const AddModalOpen= () => {
 
         <Card>
             <CardHeader>
-       
-            <Button className="btn btn-uapp-add" onClick={AddModalOpen}> <i className="fas fa-plus"></i>  Add New</Button>
+
+              <ButtonForFunction
+                func={AddModalOpen}
+                className={"btn btn-uapp-add"}
+                icon={<i className="fas fa-plus"></i>}
+                name={" Add New"}
+                permission={6}
+              />
+
                   <div> <b> Total <span className="badge badge-primary"> {departmentInfo.length}</span> Department  Found </b></div>
             </CardHeader>
              <CardBody>
@@ -291,11 +300,27 @@ const AddModalOpen= () => {
 
                             {/* <Button  color="danger" onClick={()=>handleDelete(dept?.id)}   className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
                           
-                         <Button className="btn-sm mx-2" onClick={() => toggleDanger(dept.name, dept.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
+                         {/* <Button className="btn-sm mx-2" onClick={() => toggleDanger(dept.name, dept.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
+
+                         <ButtonForFunction
+                          func={() => toggleDanger(dept.name, dept.id)}
+                          className={"btn-sm mx-2"}
+                          color={"danger"}
+                          icon={<i className="fas fa-trash-alt"></i>}
+                          permission={6}
+                         />
                        
-                         <Link to={`editDepartment/${dept?.id}`}>
-                         <Button color="warning"    className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
-                         </Link>
+                         {/* <Link to={`editDepartment/${dept?.id}`}>
+                         <Button color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
+                         </Link> */}
+
+                         <LinkButton
+                           url={`editDepartment/${dept?.id}`}
+                           color={"warning"}
+                           className={" btn-sm"}
+                           icon={<i className="fas fa-edit"></i>}
+                           permission={6}
+                         />
                           
                           </ButtonGroup>
 
@@ -316,11 +341,6 @@ const AddModalOpen= () => {
 
                   </td>
                     
-                
-
-
-
-
                 </tr>)
               }
 

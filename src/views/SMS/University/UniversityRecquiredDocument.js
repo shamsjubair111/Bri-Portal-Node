@@ -6,32 +6,32 @@ import MediaPictures from './UniversityMedia';
 import Select from 'react-select';
 import { Card, CardBody, CardHeader, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import get from '../../../helpers/get';
+import { useToasts } from 'react-toast-notifications';
 
 import CustomButtonRipple from '../Components/CustomButtonRipple';
 import post from '../../../helpers/post';
-import { useToasts } from 'react-toast-notifications';
 
-const AddUniversityApplicationDocument = () => {
+const UniversityRecquiredDocument = () => {
 
     const {addToast} = useToasts();
     const history = useHistory();
-    const [activetab, setActivetab] = useState('6');
+    const [activetab, setActivetab] = useState('7');
 
     const [document, setDocument] = useState([]);
-    const [documentLabel, setDocumentLabel] =  useState('Select Requirement Status');
+    const [documentLabel, setDocumentLabel] =  useState('Select Requirement Document');
     const [documentValue, setDocumentValue] =  useState(0);
     const [documentError, setDocumentError] = useState(false);
 
-
     useEffect(()=>{
 
-      get(`DocumentRequirementStatusDD/Index`)
+      get(`DocumentDD/Index`)
       .then( res => {
-          console.log('Checking document requirement Status',res);
+          console.log('Checking document DD',res);
           setDocument(res);
       })
 
   },[])
+
 
     const documentOptions = document?.map((doc) => ({
         label: doc?.name,
@@ -39,16 +39,16 @@ const AddUniversityApplicationDocument = () => {
       }));
 
 
-      const selectDocumentStatus = (label, value) => {
+      const selectDocument = (label, value) => {
         setDocumentError(false);
         setDocumentLabel(label);
         setDocumentValue(value);
       };
 
       // redirect to dashboard
-      const backToDashboard = () => {
-        history.push("/");
-      }
+  const backToDashboard = () => {
+    history.push("/");
+  }
 
 
     // tab toggle
@@ -69,32 +69,31 @@ const AddUniversityApplicationDocument = () => {
         if (tab === '5') {
           history.push('/addUniversityGallery')
         }
-        if (tab === '7') {
-          history.push('/addUniversityRequiredDocument')
+        if (tab === '6') {
+          history.push('/addUniversityApplicationDocument')
         }
       }
 
 
-  const toggleDanger = (p) => {
-    localStorage.setItem('UniversityCampusId', p.id)
-    localStorage.setItem('UniversityCampusName', p.name)
+  // const toggleDanger = (p) => {
+  //   localStorage.setItem('UniversityCampusId', p.id)
+  //   localStorage.setItem('UniversityCampusName', p.name)
   
-  }
+  // }
 
-  const handleSubmit = e =>{
-    e.preventDefault();
-
-    const subData = new FormData(e.target);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const subData = new FormData(event.target);
 
     // for(var i of subData){
     //   console.log("i", i);
     // }
 
-    if(documentValue == 0){
+    if(documentValue === 0){
       setDocumentError(true);
     }
     else{
-      post('UniversityApplicationDocument/Create', subData)
+      post('UniversityRequiredDocuments/Create', subData)
       .then(res => {
         console.log('document data', res);
         if(res?.status == 200){
@@ -110,13 +109,12 @@ const AddUniversityApplicationDocument = () => {
 
   }
 
-
     return (
         <div>
 
         <Card className='uapp-card-bg'>
         <CardHeader className="page-header">              
-          <h3 className="text-light">Add University Application Document</h3>
+          <h3 className="text-light">Add University Required Document</h3>
             <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "} 
@@ -139,10 +137,6 @@ const AddUniversityApplicationDocument = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            {/* <NavLink disabled
-                              active={activetab === '2'}
-                              onClick={() =>toggle('2')}
-                              > */}
             <NavLink
               active={activetab === '2'}
               onClick={() => toggle('2')}
@@ -215,7 +209,7 @@ const AddUniversityApplicationDocument = () => {
          
 
 
-          <TabPane tabId="6">
+          <TabPane tabId="7">
 
           <Form onSubmit={handleSubmit} className="mt-5">
 
@@ -224,81 +218,25 @@ const AddUniversityApplicationDocument = () => {
                 
                 </FormGroup>
 
-              
-
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
-                    <span> Name <span className="text-danger">*</span> </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="name"
-                      id="name"  
-                      
-                   
-                      placeholder="Enter Name"
-                      required
-                    />
-                   
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span> Description <span className="text-danger">*</span> </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="textarea"
-                      rows='4'
-                      name="description"
-                      id="description"  
-                      
-                   
-                      placeholder="Enter  Description"
-                      required
-                    />
-                   
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                <Col md="2">
-                  <span>
-                    Upload Document{" "}
-                    <span className="text-danger">*</span>{" "}
-                  </span>
-                </Col>
-                <Col md="6">
-
-                  {
-                      <MediaPictures/>
-                  }
-
-                </Col>
-           
-          </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>Document Requirement Status <span className="text-danger">*</span> </span>
+                    <span>Requirement Document<span className="text-danger">*</span> </span>
                   </Col>
                   <Col md="6">
 
                     <Select
                     options={documentOptions}
                     value={{ label: documentLabel, value: documentValue }}
-                    onChange={(opt) => selectDocumentStatus(opt.label, opt.value)}
+                    onChange={(opt) => selectDocument(opt.label, opt.value)}
                      
-                      name="documentRequirementStatusId"
-                      id="documentRequirementStatusId"
+                      name="documentId"
+                      id="documentId"
                     />
 
                     {
                       documentError &&
-                      <span className='text-danger'>Select Requirement Status</span>
+                      <span className='text-danger'>Select Required Document</span>
                     }
 
                     {/* <div className="form-control-position">
@@ -345,4 +283,4 @@ const AddUniversityApplicationDocument = () => {
     );
 };
 
-export default AddUniversityApplicationDocument;
+export default UniversityRecquiredDocument;

@@ -13,6 +13,7 @@ import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import remove from '../../../../helpers/remove';
 import put from '../../../../helpers/put';
+import ButtonForFunction from '../../Components/ButtonForFunction';
 const EmployeeType = (props) => {
 
   const myForm = createRef();
@@ -165,7 +166,14 @@ const EmployeeType = (props) => {
       <Card>
         <CardHeader>
           <CardTitle>Employee Type</CardTitle>
-          <Button color="success" onClick={() => setModalOpen(true)}>Add Employee Type</Button>
+          
+          <ButtonForFunction
+            color={"success"}
+            func={() => setModalOpen(true)}
+            name={"Add Employee Type"}
+            permission={6}
+          />
+
         </CardHeader>
         <CardBody>
 
@@ -241,8 +249,25 @@ const EmployeeType = (props) => {
                   </td>
                   <td>
 
-                    <Button onClick={() => toggleDanger(etype)} color="danger" className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button>
-                    <Button onClick={() => handleUpdate(etype)} color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
+                    {/* <Button onClick={() => toggleDanger(etype)} color="danger" className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
+
+                    <ButtonForFunction
+                      func={() => toggleDanger(etype)}
+                      color={"danger"}
+                      className={"mr-2 btn-sm"}
+                      icon={<i className="fas fa-trash-alt"></i>}
+                      permission={6}
+                    />
+
+                    {/* <Button onClick={() => handleUpdate(etype)} color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button> */}
+
+                    <ButtonForFunction
+                      func={() => handleUpdate(etype)}
+                      color={"warning"}
+                      className={" btn-sm"}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
 
                     <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
 

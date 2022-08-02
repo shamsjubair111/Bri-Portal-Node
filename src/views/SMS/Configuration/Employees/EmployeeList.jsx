@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import ButtonForFunction from '../../Components/ButtonForFunction.js';
+import LinkButton from '../../Components/LinkButton.js';
 
 const EmployeeList = (props) => {
 
@@ -295,7 +297,15 @@ const EmployeeList = (props) => {
                 <Row className="mb-3">
                 
               <Col lg="6" md="5" sm="6" xs="4">
-                <Button onClick={handleAddStaff} className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add staff</Button>
+            
+                  <ButtonForFunction
+                    func={handleAddStaff}
+                    className={"btn btn-uapp-add "}
+                    icon={<i className="fas fa-plus"></i>}
+                    name={" Add staff"}
+                    permission={6}
+                  />
+
                     </Col>
 
 
@@ -350,20 +360,47 @@ const EmployeeList = (props) => {
 
                         <ButtonGroup variant="text">
                         {/* <Link to= {`/universityDetails`}> */}
-                          <Button onClick={()=> handleRedirectProfile(emp?.id)} color="primary" className="mx-1 btn-sm">
+                          {/* <Button onClick={()=> handleRedirectProfile(emp?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
-                          </Button>
+                          </Button> */}
+
+                          <ButtonForFunction
+                            func={()=> handleRedirectProfile(emp?.id)}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+
                           {/* </Link>  */}
-                          <Link to={`/employeeGeneralInfo/${emp?.id}`}>
+                          {/* <Link to={`/employeeGeneralInfo/${emp?.id}`}>
                           <Button  color="dark" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-edit"></i>{" "}
                           </Button>
-                          </Link>
-                          <Button onClick={toggleDanger} color="danger" className="mx-1 btn-sm">
+                          </Link> */}
+
+                          <LinkButton
+                            url={`/employeeGeneralInfo/${emp?.id}`}
+                            color={"dark"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+
+                          {/* <Button onClick={toggleDanger} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
-                          </Button>
+                          </Button> */}
+
+                          <ButtonForFunction
+                            func={toggleDanger}
+                            color={"danger"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+
                         </ButtonGroup>
 
                         <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">

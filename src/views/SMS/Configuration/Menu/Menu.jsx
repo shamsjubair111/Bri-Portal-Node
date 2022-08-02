@@ -11,6 +11,7 @@ import { useToasts } from 'react-toast-notifications';
 import { useHistory } from 'react-router';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
+import CustomButtonRipple from '../../Components/CustomButtonRipple';
 
 const Menu = (props) => {
 
@@ -269,13 +270,13 @@ const Menu = (props) => {
 
                   <FormGroup style={{display: 'flex',justifyContent: 'space-between'}}>
                         {/* <Button color="danger" className="mr-1 mt-3" onClick={()=>setModalOpen(false)}>Close</Button> */}
-                      <Button.Ripple
-                        type="submit"
-                        className="mr-1 mt-3 badge-primary"
-                        // onClick={(e)=>handleSubmit(e)}
-                      >
-                        Submit
-                      </Button.Ripple>
+                      
+                      <CustomButtonRipple
+                        type={"submit"}
+                        className={"mr-1 mt-3 badge-primary"}
+                        name={"Submit"}
+                        permission={6}
+                      />
 
                   </FormGroup>
 

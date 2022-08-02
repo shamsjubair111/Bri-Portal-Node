@@ -10,6 +10,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const AddUniversityState = () => {
     
@@ -178,8 +179,15 @@ const AddUniversityState = () => {
             <Card>
 
             <CardHeader>
-       
-                <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add New</Button>
+
+                <ButtonForFunction
+                  className={"btn btn-uapp-add"}
+                  func={() => setModalOpen(true)}
+                  icon={<i className="fas fa-plus"></i>}
+                  name={" Add New"}
+                  permission={6}
+                />
+
                 <div> <b> Total <span className="badge badge-primary"> {universityDetailsList?.length} </span> University State Found </b></div>
             </CardHeader>
 
@@ -276,8 +284,25 @@ const AddUniversityState = () => {
                   <td>{uniDetails.name}</td>
                   <td>{uniDetails.country.name}</td>
                   <td>
-                    <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button>
-                    <Button onClick={()=> handleUpdate(uniDetails)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>
+                    {/* <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button> */}
+
+                    <ButtonForFunction
+                      func={() => toggleDanger(uniDetails)}
+                      className={"mx-1 btn-sm"}
+                      color={"danger"}
+                      icon={<i className="fas fa-trash-alt"></i>}
+                      permission={6}
+                    />
+
+                    {/* <Button onClick={()=> handleUpdate(uniDetails)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
+
+                    <ButtonForFunction
+                      func={()=> handleUpdate(uniDetails)}
+                      className={"mx-1 btn-sm"}
+                      color={"warning"}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
 
                     <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 

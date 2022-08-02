@@ -6,6 +6,7 @@ import { rootUrl } from '../../../constants/constants';
 import { useToasts } from "react-toast-notifications";
 import get from '../../../helpers/get';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 
  
@@ -336,14 +337,18 @@ const AddUniversityFinancial = (props) => {
                                     </Col>
                                 </FormGroup>
 
-                                <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-                                    <Button.Ripple
-                                    type="submit"
-                                    className="mr-1 mt-3 badge-primary"
-                                    >
-                                    Submit
-                                    </Button.Ripple>
+                                <FormGroup row className="has-icon-left position-relative"
+                                     style={{ display: "flex", justifyContent: "end" }}
+                                   >
+                                    
+                                 <Col md="5">
+                                    <ButtonForFunction
+                                      type={"submit"}
+                                      className={"mr-1 mt-3 badge-primary"}
+                                      name={"Submit"}
+                                      permission={6}
+                                    />
+                                  </Col>
 
                                 </FormGroup>
 

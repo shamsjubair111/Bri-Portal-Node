@@ -93,6 +93,7 @@ const CampusDetails = lazy(() => import("./views/SMS/University/CampusDetails.js
 const CampusSubjectList = lazy(() => import("./views/SMS/University/CampusSubjectList.jsx"))
 const AddUniversityGallery = lazy(() => import("./views/SMS/University/AddUniversityGallery.jsx"))
 const AddUniversityApplicationDocument = lazy(() => import("./views/SMS/University/AddUniversityApplicationDocument"))
+const UniversityRecquiredDocument = lazy(() => import("./views/SMS/University/UniversityRecquiredDocument"))
 
 // intake
 const Intake = lazy(() => import("./views/SMS/University/Intake.js"))
@@ -108,7 +109,8 @@ const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultan
 const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
 const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
 
-
+// Document
+const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
 
 // University Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
@@ -303,7 +305,7 @@ class AppRouter extends React.Component {
         <Switch>
           {/* SMS Client Routing */}
          {
-           isAuth ?
+           !isAuth ?
            <>
          <AppRoute exact path="/" component={localStorage.getItem('access')?analyticsDashboard : notFound} />
         
@@ -331,6 +333,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/addUniversityState" component={localStorage.getItem('access')? AddUniversityState : notFound} />
          <AppRoute path="/addUniversity" component={localStorage.getItem('access')? AddUniversity : notFound} />
          <AppRoute path="/addUniversityApplicationDocument" component={localStorage.getItem('access')? AddUniversityApplicationDocument : notFound} />
+         <AppRoute path="/addUniversityRequiredDocument" component={localStorage.getItem('access')? UniversityRecquiredDocument : notFound} />
 
           {/* intake */}
           <AppRoute path="/intake" component={localStorage.getItem('access')? Intake : notFound} />
@@ -358,6 +361,8 @@ class AppRouter extends React.Component {
          <AppRoute path="/campusList" component={localStorage.getItem('access')? CampusList : notFound} />
          <AppRoute path="/campusSubjectList/:camId" component={localStorage.getItem('access')? CampusSubjectList : notFound} />
          <AppRoute path="/campusDetails/:id" component={localStorage.getItem('access')? CampusDetails : notFound} />
+
+         <AppRoute path="/documentlist" component={localStorage.getItem('access')? DocumentList : notFound} />
 
          <AppRoute path="/addDepartment" component={localStorage.getItem('access')? AddDepartment : notFound} />
          <AppRoute path="/addSubDepartment" component={localStorage.getItem('access')? AddSubDepartment : notFound} />

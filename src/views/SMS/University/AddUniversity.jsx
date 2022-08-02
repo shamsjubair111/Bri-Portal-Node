@@ -667,28 +667,28 @@ const AddUniversity = (props) => {
 
 
 
-                <FormGroup
+                {/* <FormGroup
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup>
-                <FormGroup
+                ></FormGroup> */}
+                <FormGroup row
                   className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
+                  style={{ display: "flex", justifyContent: "end" }}
+                 >
                   {/* <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                   >
                     Submit
                   </Button.Ripple> */}
-
+                  <Col md="5">
                     <ButtonForFunction
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
                       name={"Submit"}
                       permission={6}
                     />
-
+                  </Col>
                 </FormGroup>
               </Form>
             </TabPane>

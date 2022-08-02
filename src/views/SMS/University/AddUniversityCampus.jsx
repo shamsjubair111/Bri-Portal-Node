@@ -12,7 +12,7 @@ import put from '../../../helpers/put';
 import remove from '../../../helpers/remove';
 import ButtonForFunction from '../Components/ButtonForFunction';
 const AddUniversityCampus = (props) => {
-  const [universityCampusList, setuniversityCampusList] = useState([1,2,3,4]);
+  const [universityCampusList, setuniversityCampusList] = useState([]);
   const [universityCampusObject, setuniversityCampusObject] = useState({});
   const univerSityCountries = props.univerSityCountryList[0];
   const universityTypes = props.univerSityTypeList[0];
@@ -746,7 +746,8 @@ const cancel=()=>{
                   </Col>
                   <Col md="6">
                     <Input
-                      type="text"
+                      type="textarea"
+                      rows="4"
                       name="EmbededMap"
                       id="EmbededMap"
                        defaultValue={universityCampusObject?.embededMap}
@@ -775,15 +776,19 @@ const cancel=()=>{
                      </>
                      :
                      <>
-                       <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}> 
-
-                      <ButtonForFunction
-                        color={"primary"}
-                        type={"submit"}
-                        className={"mr-1 mt-3"}
-                        name={"Submit"}
-                        permission={6}
-                      />
+                       <FormGroup row
+                         className="has-icon-left position-relative"
+                         style={{ display: "flex", justifyContent: "end" }}
+                        > 
+                        <Col md="5">
+                          <ButtonForFunction
+                            color={"primary"}
+                            type={"submit"}
+                            className={"mr-1 mt-3"}
+                            name={"Submit"}
+                            permission={6}
+                          />
+                        </Col>
 
                       <div>
                         {

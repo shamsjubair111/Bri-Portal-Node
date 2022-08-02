@@ -8,6 +8,8 @@ import { useToasts } from 'react-toast-notifications';
 import { rootUrl } from "../../../constants/constants";
 import MediaPictures from './UniversityMedia';
 import { useHistory } from 'react-router-dom';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import CustomButtonRipple from '../Components/CustomButtonRipple';
 
 const AddUniversityGallery = () => {
 
@@ -191,13 +193,34 @@ const AddUniversityGallery = () => {
                         }
 
                       </Col>
-                    <Button.Ripple
-                      type="submit"
-                      className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple>
+                    
+
+                    {/* <CustomButtonRipple
+                      type={"submit"}
+                      className={"mr-1 mt-3 badge-primary"}
+                      name={"Submit"}
+                      permission={6}
+                    /> */}
+
                 </FormGroup>
+
+                <FormGroup row
+                    className="has-icon-left position-relative"
+                    style={{ display: "flex", justifyContent: "end" }}
+                  >
+
+                <Col md="5">
+
+                    <CustomButtonRipple
+                      type={"submit"}
+                      className={"mr-1 mt-3 badge-primary"}
+                      name={"Submit"}
+                      permission={6}
+                    />
+
+                 </Col>
+                 </FormGroup>
+
             </Form>
             </TabContent>
               </CardBody>

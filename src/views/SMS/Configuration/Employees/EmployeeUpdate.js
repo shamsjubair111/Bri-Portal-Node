@@ -4,6 +4,7 @@ import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input } from 
 import Select from 'react-select';
 import CoverPicturesWall from './EmployeeCoverImage';
 import ProfilePicturesWall from './EmployeeProfileImage';
+import CustomButtonRipple from '../../Components/CustomButtonRipple';
 
 
 const EmployeeUpdate = () => {
@@ -255,12 +256,19 @@ const EmployeeUpdate = () => {
 
                                 <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                                    <Button.Ripple
+                                    {/* <Button.Ripple
                                     type="submit"
                                     className="mr-1 mt-3 badge-primary"
                                     >
                                     Submit
-                                    </Button.Ripple>
+                                    </Button.Ripple> */}
+
+                                    <CustomButtonRipple
+                                      type={"submit"}
+                                      className={"mr-1 mt-3 badge-primary"}
+                                      name={"Submit"}
+                                      permission={6}
+                                    />
 
                                 </FormGroup>
                             </Form>

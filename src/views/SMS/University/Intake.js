@@ -30,11 +30,13 @@ import { useToasts } from 'react-toast-notifications';
 
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkButton from '../Components/LinkButton';
 
 
 const Intake = () => {
 
-    const [intakeList, setIntakeList] = useState([]);
+    const [intakeList, setIntakeList] = useState([1,2,3]);
     // const [currentPage, setCurrentPage] = useState(1);
     // const [dataPerPage, setDataPerPage] = useState(15);
     // const [searchStr, setSearchStr] = useState("");
@@ -144,13 +146,15 @@ const Intake = () => {
             <CardBody>
               <Row className="mb-3">
                 <Col lg="6" md="5" sm="6" xs="4">
-                  <Button
-                    onClick={handleAddNewButton}
-                    className="btn btn-uapp-add "
-                  >
-                    {" "}
-                    <i className="fas fa-plus"></i> Add New{" "}
-                  </Button>
+
+                  <ButtonForFunction
+                    func={handleAddNewButton}
+                    className={"btn btn-uapp-add "}
+                    icon={<i className="fas fa-plus"></i>}
+                    name={" Add New"}
+                    permission={6}
+                  />
+
                 </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -244,16 +248,22 @@ const Intake = () => {
                     
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                            <Link to= {`/updateIntake/${intake?.id}`}>
-                               <Button color="dark" className="mx-1 btn-sm">
-                                   {" "}
-                                   <i className="fas fa-edit"></i>{" "}
-                               </Button>
-                            </Link>
+                            
+                            <LinkButton
+                              url={`/updateIntake/${intake?.id}`}
+                              color={"dark"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
 
-                            <Button onClick={() => toggleDanger(intake?.name, intake?.id)} color="danger" className="mx-1 btn-sm">
-                            <i className="fas fa-trash-alt"></i>
-                            </Button>
+                            <ButtonForFunction
+                              func={() => toggleDanger(intake?.name, intake?.id)}
+                              color={"danger"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              permission={6}
+                            />
 
                         </ButtonGroup>
 

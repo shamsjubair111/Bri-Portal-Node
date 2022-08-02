@@ -10,6 +10,8 @@ import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import { Link } from 'react-router-dom';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkButton from '../Components/LinkButton';
 
 
 
@@ -249,8 +251,15 @@ const SubDepartment =(props)=>{
       <div>
       <Card>
       <CardHeader>
-       
-       <Button className="btn btn-uapp-add" onClick={AddModalOpen}> <i className="fas fa-plus"></i>  Add New</Button>
+
+       <ButtonForFunction
+          className={"btn btn-uapp-add"}
+          func={AddModalOpen}
+          icon={<i className="fas fa-plus"></i>}
+          name={" Add New"}
+          permission={6}
+       />
+
        <div> <b> Total <span className="badge badge-primary"> {subdepartmentList?.length} </span> Sub Department Found </b></div>
    </CardHeader>
          <CardBody>
@@ -349,10 +358,27 @@ const SubDepartment =(props)=>{
                  <td>{subDeplist?.departmentinfo?.name}</td>
                  <td>
 
-                 <Button className="mx-1 btn-sm" onClick={() => toggleDanger(subDeplist.name, subDeplist.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
-                    <Link to={`editSubDepartment/${subDeplist?.id}`}>
-                    <Button className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>
-                    </Link>
+                 {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger(subDeplist.name, subDeplist.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
+
+                  <ButtonForFunction
+                    func={() => toggleDanger(subDeplist.name, subDeplist.id)}
+                    className={"mx-1 btn-sm"}
+                    color={"danger"}
+                    icon={<i className="fas fa-trash-alt"></i>}
+                    permission={6}
+                  />
+
+                    {/* <Link to={`editSubDepartment/${subDeplist?.id}`}>
+                      <Button className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>
+                    </Link> */}
+
+                    <LinkButton
+                      url={`editSubDepartment/${subDeplist?.id}`}
+                      className={"mx-1 btn-sm"}
+                      color={"warning"}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
 
 
                     <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">

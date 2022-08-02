@@ -62,9 +62,9 @@ const BankDetails = () => {
   },[success])
 
 
-  const backToDashboard = () =>{
+  const backToConsultantList = () =>{
 
-    history.push('/');
+    history.push('/consultantList');
 
   }
 
@@ -398,9 +398,9 @@ const handleEdit = (data) => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Consultant Bank Details</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToConsultantList}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
           </div>
         </CardHeader>
@@ -669,9 +669,9 @@ const handleEdit = (data) => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 ></FormGroup>
-                <FormGroup
+                <FormGroup row
                   className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{ display: "flex", justifyContent: "end" }}
                 >
                   {/* <Button.Ripple
                     type="submit"
@@ -680,12 +680,14 @@ const handleEdit = (data) => {
                     Submit
                   </Button.Ripple> */}
 
+                  <Col md="5">
                   <ButtonForFunction 
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
                     permission={6}
                   />
+                  </Col>
 
                 </FormGroup>
               </Form>
