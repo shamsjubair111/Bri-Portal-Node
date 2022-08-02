@@ -220,6 +220,16 @@ const StudentByConsultant = lazy(() => import("./views/SMS/Students/StudentByCon
 // Education Level
 
 const EducationLevelList = lazy(() => import("./views/SMS/EducationLevel/EducationLevelList"))
+const AddEducationLevel = lazy(() => import("./views/SMS/EducationLevel/AddEducationLevel"))
+
+// Degree
+
+const DegreeList = lazy(() => import("./views/SMS/Degree/DegreeList"))
+const AddDegree = lazy(() => import("./views/SMS/Degree/AddDegree"))
+
+
+
+
 
 
 const UploadDocument = lazy(() => import("./views/SMS/Students/DocumentUpload"))
@@ -420,7 +430,13 @@ class AppRouter extends React.Component {
 
          {/* Education Level paths */}
 
-         <AppRoute path="/educationLevelList" component={EducationLevelList} />
+         <AppRoute path="/educationalLevelList" component={EducationLevelList} />
+         <AppRoute path="/addEducationLevel/:name?/:description?/:levelValue?/:id?" component={AddEducationLevel} />
+
+         {/* Degree Paths */}
+
+         <AppRoute path="/degreeList" component={DegreeList} />
+         <AppRoute path="/addDegree/:degreeName?/:eduLabel?/:educationId?/:id?" component={AddDegree} />
 
 
          <AppRoute path="/examTestType" component={ExamTestType} />

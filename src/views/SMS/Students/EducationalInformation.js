@@ -14,10 +14,12 @@ const EducationalInformation = () => {
 
     const [activetab, setActivetab] = useState("4");
     const history = useHistory();
-    const [programLevel, setProgramLevel] = useState([]);
-  const [programLevelLabel, setProgramLevelLabel] = useState('Select Program Level');
-  const [programLevelValue, setProgramLevelValue] = useState(0);
+    const [educationLevel, setEducationLevel] = useState([]);
+  const [educationLevelLabel, setEducationLevelLabel] = useState('Select Education Level');
+  const [educationLevelValue, setEducationLevelValue] = useState(0);
  
+  const [deleteData, setDeleteData]  = useState({});
+
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [showForm,setShowForm]=useState(false);
@@ -42,18 +44,12 @@ const EducationalInformation = () => {
     const [programError, setProgramError] = useState(false);
     const [countryError, setCountryError] = useState(false);
 
-   
-
-  
-    
-
-
   useEffect(()=>{
 
-    get('ProgramLevelDD/Index')
+    get('EducationLevelDD/Index')
     .then(res => {
         console.log(res);
-        setProgramLevel(res);
+        setEducationLevel(res);
     })
 
     get('CountryDD/index')
@@ -73,6 +69,16 @@ const EducationalInformation = () => {
 
   const backToStudentProfile = () => {
     history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+}
+
+// date handling
+
+const handleDate = (e) =>{
+  var datee = e;
+  var utcDate = new Date(datee);
+  var localeDate = utcDate.toLocaleString("en-CA");
+  const x = localeDate.split(",")[0];
+  return x;
 }
 
 
@@ -124,18 +130,18 @@ const EducationalInformation = () => {
   
   
   
-    const programLevelName = programLevel?.map((branchCountry) => ({
-      label: branchCountry.name,
-      value: branchCountry.id,
+    const educationLevelName = educationLevel?.map((edu) => ({
+      label: edu.name,
+      value: edu.id,
     }));
   
   
          // select  Student type
-  const selectProgramLevel = (label, value) => {
+  const selectEducationLevel = (label, value) => {
 
     setProgramError(false);
-  setProgramLevelLabel(label);
-  setProgramLevelValue(value);
+  setEducationLevelLabel(label);
+  setEducationLevelValue(value);
   console.log(value);
   
   
@@ -183,7 +189,7 @@ const handleSubmit = (event) => {
 
   const subData = new FormData(event.target);
 
-  if(programLevelValue == 0){
+  if(educationLevelValue == 0){
     setProgramError(true);
   }
 
@@ -193,31 +199,23 @@ const handleSubmit = (event) => {
 
   else{
 
-    // if(oneData?.id){
-    //   put(`EducationInformation/Update`,subData)
-    //   .then(res => {
-    //     console.log('update done',res);
-    //     addToast(res?.data?.message,{
-    //       appearance: 'success',
-    //       autoDismiss: true
-    //     })
-    //     get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
-    //     .then(res => {
-    //       setEduDetails(res);
-         
-    //       console.log('Edu details', res);
-    //       setProgramLevelLabel('Select');
-    //       setProgramLevelValue(0);
-    //       setCountryLabel('Select');
-    //       setCountryValue(0);
-    //       setOneData({});
-         
-    //       setShowForm(false);
-    //     })
-    //   })
-    //  }
+    if(oneData?.id){
+      put(`EducationInformation/Update`,subData)
+      .then(res => {
+        console.log('update done',res);
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+       setSuccess(!success);
+       setShowForm(false);
+       setOneData({});
+      })
+     }
     
-     
+     else{
+
+   
       post('EducationInformation/Create',subData)
       .then(res => {
         console.log('Educatinal information Post ',res);
@@ -225,25 +223,13 @@ const handleSubmit = (event) => {
           appearance: 'success',
           autoDismiss: true
         })
-        get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
-        .then(res => {
-          setEduDetails(res);
-          
-          console.log('Edu details', res);
-          setProgramLevelLabel('Select');
-          setProgramLevelValue(0);
-          setCountryLabel('Select');
-          setCountryValue(0);
-          
-         
-          setShowForm(false);
-        })
+        setSuccess(!success);
+        setShowForm(false);
       })
+    }
+
+
      }
-
-  
-
- 
 
 }
 
@@ -251,15 +237,19 @@ const handleSubmit = (event) => {
 
 
 const toggleDanger = (p) => {
-
+  
+  setDeleteData(p);
   setDeleteModal(true)
+  
+  
+
 }
 
-const handleDeletePermission = (data) => {
+const handleDeletePermission = () => {
 
-  console.log(data);
 
-  remove(`EducationInformation/Delete/${data?.id}`)
+
+  remove(`EducationInformation/Delete/${deleteData?.id}`)
   .then(res => {
     console.log(res);
     addToast(res, {
@@ -267,11 +257,7 @@ const handleDeletePermission = (data) => {
       autoDismiss: true
     })
     setDeleteModal(false);
-    get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
-    .then(res => {
-      setEduDetails(res);
-      console.log('Edu details', res);
-    })
+    setSuccess(!success);
 
   })
 
@@ -287,8 +273,8 @@ const handleUpdate = (id) => {
 
     console.log('one Data value found',res);
     setOneData(res);
-    setProgramLevelLabel(res?.programLevel?.name);
-    setProgramLevelValue(res?.programLevel?.id);
+    setEducationLevelLabel(res?.educationLevel?.name);
+    setEducationLevelValue(res?.educationLevel?.id);
     setCountryLabel(res?.countryOfEducation?.name);
     setCountryValue(res?.countryOfEducation?.id);
 
@@ -335,6 +321,10 @@ const handleUpdate = (id) => {
 
   const onShow=()=>{
     setShowForm(true);
+    setFrom('');
+    setTo('');
+    setEducationLevelLabel('Select');
+    setEducationLevelValue(0);
    
   
   }
@@ -511,10 +501,10 @@ const handleUpdate = (id) => {
               <Row>
                 <Col md="4">
                     <h5> {edu?.nameOfInstitution}  </h5>
-                    <h6> {edu?.attendedInstitutionFrom}</h6>
-                    <p> {edu?.attendedInstitutionTo}</p>
+                    <p>Start Date: {handleDate(edu?.attendedInstitutionFrom)}</p>
+                    <p>End Date: {handleDate(edu?.attendedInstitutionTo)}</p>
                     <p> {edu?.finalGrade}</p>
-                    <p> {edu?.programLevel?.name}</p>
+                    <p> {edu?.educationLevel?.name}</p>
                 </Col>
 
                   <Col md="5">
@@ -552,7 +542,7 @@ const handleUpdate = (id) => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button onClick={()=> handleDeletePermission(edu)} color="danger">YES</Button>
+                  <Button onClick={handleDeletePermission} color="danger">YES</Button>
                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                 </ModalFooter>
              </Modal>
@@ -578,7 +568,7 @@ const handleUpdate = (id) => {
              value={localStorage?.getItem('applictionStudentId')}          
             />
 
-          {/* {
+        {
             (oneData?.id) ?
 
             <input type='hidden'
@@ -590,7 +580,7 @@ const handleUpdate = (id) => {
             : 
 
             null
-          } */}
+          } 
         
 
             <FormGroup row className="has-icon-left position-relative">
@@ -661,16 +651,16 @@ const handleUpdate = (id) => {
             <FormGroup row className="has-icon-left position-relative">
                 <Col md="2">
                   <span>
-                    Program Level <span className="text-danger">*</span>{" "}
+                    Education Label <span className="text-danger">*</span>{" "}
                   </span>
                 </Col>
                 <Col md="6">
                 <Select
-                    options={programLevelName}
-                    value={{ label: programLevelLabel, value: programLevelValue }}
-                    onChange={(opt) => selectProgramLevel(opt.label, opt.value)}
-                    name="programLevelId"
-                    id="programLevelId"
+                    options={educationLevelName}
+                    value={{ label: educationLevelLabel, value: educationLevelValue }}
+                    onChange={(opt) => selectEducationLevel(opt.label, opt.value)}
+                    name="educationLevelId"
+                    id="educationLevelId"
                     required
 
                   />
@@ -678,7 +668,7 @@ const handleUpdate = (id) => {
 
                     programError && 
 
-                    <span className = 'text-danger'>Select Program Level</span>
+                    <span className = 'text-danger'>Select Education Level</span>
                   }
 
                   {/* <div className="form-control-position">
@@ -945,16 +935,16 @@ const handleUpdate = (id) => {
             <FormGroup row className="has-icon-left position-relative">
                 <Col md="2">
                   <span>
-                    Program Level <span className="text-danger">*</span>{" "}
+                    Education Level <span className="text-danger">*</span>{" "}
                   </span>
                 </Col>
                 <Col md="6">
                 <Select
-                    options={programLevelName}
-                    value={{ label: programLevelLabel, value: programLevelValue }}
-                    onChange={(opt) => selectProgramLevel(opt.label, opt.value)}
-                    name="programLevelId"
-                    id="programLevelId"
+                    options={educationLevelName}
+                    value={{ label: educationLevelLabel, value: educationLevelValue }}
+                    onChange={(opt) => selectEducationLevel(opt.label, opt.value)}
+                    name="educationLevelId"
+                    id="educationLevelId"
                     required
 
                   />
@@ -962,7 +952,7 @@ const handleUpdate = (id) => {
 
                     programError && 
 
-                    <span className = 'text-danger'>Select Program Level</span>
+                    <span className = 'text-danger'>Select Education Level</span>
                   }
 
                   {/* <div className="form-control-position">

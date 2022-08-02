@@ -3,12 +3,10 @@ import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, N
 import Select from "react-select";
 import { useHistory, useLocation } from 'react-router-dom';
 import get from '../../../helpers/get';
-import InputComponent from './InputComponent';
-
 import { useToasts } from "react-toast-notifications";
 import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
-import EditInputComponent from './EditInputComponent';
+
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
 
@@ -23,6 +21,7 @@ const TestScore = () => {
     const [greData, setGreData] = useState({});
     const [gmatData, setGmatData] = useState({});
     
+    const [examName, setExamName] = useState('');
 
     const [success, setSuccess] = useState(false);
 
@@ -242,18 +241,6 @@ const closeModal3= () => {
 
     localStorage.setItem('qualificationValue', value);
 
-
-
-  // console.log(label, value);
-
-  get(`ExamTestTypeAttribute/GetByExamTestType/${value}`)
-  .then(res => {
-    // console.log('on Change exam test type',res);
-    setExamTestTypeAttributeData(res);
-  })
-  
-  
-  
   
   }
 
@@ -952,22 +939,7 @@ const closeModal3= () => {
 
       {
 
-        examTestTypeAttributeData?.map((data,i) => 
-
-   
-
-    
-
-         <InputComponent
-         key={i}
-         data={data}
-         ></InputComponent>
-
-
-
       
-        
-        )
 
        }
 

@@ -186,6 +186,7 @@ const ContactInformation = () => {
               autoDismiss: true
             })
             setSuccess(!success);
+            history.push('/addStudentEducationalInformation')
     
           }
         })

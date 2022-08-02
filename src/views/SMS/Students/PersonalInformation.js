@@ -25,11 +25,6 @@ const PersonalInformation = () => {
   const consultantValueId = localStorage.getItem('personalInfoConsultantId');
 
   
-
-  
-
- 
-
     const history = useHistory();
 
     const {addToast} = useToasts();
@@ -118,7 +113,7 @@ const PersonalInformation = () => {
 
       get('Country/Index')
       .then(res => {
-          console.log(res);
+          console.log('Check Country',res);
           setCountry(res);
       })
 

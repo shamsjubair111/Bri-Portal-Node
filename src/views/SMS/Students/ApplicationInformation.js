@@ -33,6 +33,7 @@ const ApplicationInformation = () => {
   const [visaStatusLabel, setVisaStatusLabel] = useState('Visa status');
   const [visaStatusValue, setVisaStatusValue] = useState(0);
   const [code, setCode] = useState('');
+  
 
 
   const applicationStudentTypeId =  localStorage.getItem('applictionStudentTypeId');
@@ -74,6 +75,7 @@ const ApplicationInformation = () => {
     get(`ApplicationInfo/GetByStudentId/${applicationStudentId}`)
     .then(res => {
       console.log('application post response', res);
+      
       setApplicationInformation(res);
       setStudentTypeLabel(res?.student?.studentType?.name);
       setStudentTypeValue(res?.student?.studentType?.id);
@@ -106,9 +108,10 @@ const ApplicationInformation = () => {
   },[])
 
 
-  const goToNextPage = () => {
+  const goToNextPage = (event) => {
 
-    history.push('/addStudentInformation');
+  
+    
   }
 
 
@@ -229,9 +232,7 @@ const handleSubmit = (event) => {
 
   event.preventDefault();
   const subData = new FormData(event.target);
-  for( var x of subData.values()){
-    console.log(x);
-  }
+
 
    if(method == 'put'){
 
@@ -245,6 +246,7 @@ const handleSubmit = (event) => {
           autoDismiss: true
         })
         setSuccess(!success);
+        history.push('/addStudentinformation');
         
        
       }
@@ -762,24 +764,22 @@ const cancelForm = () => {
        
    <Col md="5">
    
-   <Button.Ripple
-   type="submit"
-   className="mr-1 mt-3 badge-primary"
- >
-   Submit
- </Button.Ripple>
+
+
+    <ButtonForFunction
+    name={'Submit'}
+    type={'submit'}
+    className="mr-1 mt-3 badge-primary"
+    
+    />
 
    </Col>
 
       
      </FormGroup>
-           
 
-           
 
-           
-            </Form>
-            <FormGroup
+     <FormGroup
             className="has-icon-left position-relative"
             style={{ display: "flex", justifyContent: "space-between" }}
           >
@@ -791,8 +791,10 @@ const cancelForm = () => {
             name={"cancel"}
 
             />
+
+         
             <Button.Ripple
-              onClick={goToNextPage}
+              type='submit'
               disabled = {studentTypeValue !== 0 ? false : true}
 
               className="mr-1 mt-3 btn-warning"
@@ -801,7 +803,14 @@ const cancelForm = () => {
             <i className="fas fa-arrow-right-long ms-1"></i>
            
             </Button.Ripple>
+      
           </FormGroup>
+           
+            </Form>
+
+            
+          
+      
           </TabPane>
         </TabContent>
       </CardBody>
