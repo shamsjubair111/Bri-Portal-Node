@@ -93,9 +93,9 @@ const cancelForm = () => {
 
 
 
-    const backToDashboard = () => {
+    const backToStudentList = () => {
 
-        history.push('/');
+        history.push('/studentList');
     }
 
   
@@ -167,9 +167,9 @@ const cancelForm = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Register Student</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentList}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student List
             </span>
           </div>
         </CardHeader>

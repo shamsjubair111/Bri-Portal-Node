@@ -9,6 +9,7 @@ import post from '../../../helpers/post';
 import get from '../../../helpers/get';
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const ProgramLevel=(props)=>{
     const programLevelList = props.allprogramLevelList[0];
@@ -138,8 +139,15 @@ return (
 
     <Card>
         <CardHeader>
-   
-        <Button className="btn btn-uapp-add" onClick={AddModalOpen}> <i className="fas fa-plus"></i>  Add New</Button>
+
+          <ButtonForFunction
+            className={"btn btn-uapp-add"}
+            func={AddModalOpen}
+            icon={<i className="fas fa-plus"></i>}
+            name={" Add New"}
+            permission={6}
+          />
+
               <div> <b> Total <span className="badge badge-primary"> {programLevelList?.length}</span> Program Level  Found </b></div>
         </CardHeader>
          <CardBody>
@@ -250,8 +258,26 @@ return (
               <td>{ program.name}</td>
               <td>{ program.description}</td>
               <td>
-                <Button className="mx-1 btn-sm" onClick={() => toggleDanger( program.name,  program.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
-                <Button onClick={()=> handleUpdate( program)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>
+
+                {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger( program.name,  program.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
+
+                <ButtonForFunction
+                  className={"mx-1 btn-sm"}
+                  func={() => toggleDanger( program.name,  program.id)}
+                  color={"danger"}
+                  icon={<i className="fas fa-trash-alt"></i>}
+                  permission={6}
+                />
+
+                {/* <Button onClick={()=> handleUpdate( program)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
+
+                <ButtonForFunction
+                  func={()=> handleUpdate( program)}
+                  className={"mx-1 btn-sm"}
+                  color={"warning"}
+                  icon={<i className="fas fa-edit"></i>}
+                  permission={6}
+                />
 
 
                 <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">

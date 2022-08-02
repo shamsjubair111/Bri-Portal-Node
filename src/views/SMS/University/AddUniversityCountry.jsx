@@ -154,7 +154,7 @@ const closeDeleteModal = () => {
      // redirect to dashboard
    const backToDashboard = () => {
     history.push("/")
-}
+   }
 
 
     return (

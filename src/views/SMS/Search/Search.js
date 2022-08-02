@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
 import Select from 'react-select';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const Search = () => {
 
@@ -318,6 +319,14 @@ const Search = () => {
     <Button className='badge-primary' onClick={()=> setAdvance(true)}>
     Advance
     </Button>
+
+    {/* <ButtonForFunction
+      className={'badge-primary'}
+      func={()=> setAdvance(true)}
+      name={" Advance"}
+      permission={6}
+    /> */}
+
     </div>
     
      

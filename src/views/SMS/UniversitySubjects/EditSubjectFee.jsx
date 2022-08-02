@@ -29,6 +29,7 @@ import {
 import { useToasts } from 'react-toast-notifications';
 import get from '../../../helpers/get';
 import put from '../../../helpers/put';
+import CustomButtonRipple from '../Components/CustomButtonRipple';
 
 const EditSubjectFee = () => {
 
@@ -44,7 +45,7 @@ const EditSubjectFee = () => {
 
     // redirect to dashboard
     const backToDashboard = () => {
-        history.push("/");
+        history.push("/subjectList");
       };
     
     const {subId} = useParams();
@@ -98,7 +99,7 @@ const EditSubjectFee = () => {
                 <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
                   </span>
                 </div>
               </CardHeader>
@@ -191,21 +192,20 @@ const EditSubjectFee = () => {
                 </FormGroup>
 
                 
-
-                <FormGroup
+                <FormGroup row
                   className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup>
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{ display: "flex", justifyContent: "end" }}
                 >
-                  <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple>
+                  <Col md="5">
+                    
+                    <CustomButtonRipple
+                      type={"submit"}
+                      className={"mr-1 mt-3 badge-primary"}
+                      name={"Update"}
+                      permission={6}
+                    />
+
+                  </Col>
                 </FormGroup>
               </Form>
             </TabPane>

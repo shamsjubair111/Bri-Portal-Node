@@ -6,6 +6,7 @@ import get from '../../../helpers/get';
 
 import put from '../../../helpers/put';
 import { useToasts } from "react-toast-notifications";
+import CustomButtonRipple from '../Components/CustomButtonRipple';
 
 const EditSubDepartment = () => {
     const {id} = useParams();
@@ -175,18 +176,14 @@ const EditSubDepartment = () => {
         </FormGroup>
 
       <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>     
-     
-          
-       
-         
-          <Button.Ripple
-            color="primary"
-            type="submit"
-            className="mr-1 mt-3"
-          
-          >
-            Submit
-          </Button.Ripple>
+
+          <CustomButtonRipple
+            color={"primary"}
+            type={"submit"}
+            className={"mr-1 mt-3"}
+            name={"Submit"}
+            permission={6}
+          />
           
       </FormGroup>
     </Form>

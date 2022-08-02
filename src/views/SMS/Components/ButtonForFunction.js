@@ -20,8 +20,8 @@ const ButtonForFunction = ({className, icon,color, permission, type,url, func, n
 
     return (
         <>
-          {
-            data.includes(permission) ? 
+          {/* {
+            data.includes(permission) ?  */}
             <Button
                onClick={func}
                color={color}
@@ -31,9 +31,9 @@ const ButtonForFunction = ({className, icon,color, permission, type,url, func, n
                {" "}
                {icon}{name}{" "}
             </Button>
-            :
+            {/* :
             null
-          }   
+          }    */}
         </>
     );
 };

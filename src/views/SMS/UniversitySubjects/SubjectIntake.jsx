@@ -24,6 +24,8 @@ import { useState } from 'react';
 import { borderRadius } from '@mui/system';
 import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
+import CustomButtonRipple from '../Components/CustomButtonRipple';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const SubjectIntake = () => {
 
@@ -237,12 +239,19 @@ const SubjectIntake = () => {
            className="has-icon-left position-relative"
            style={{ display: "flex", justifyContent: 'end' }}
          >
-           <Button.Ripple
+           {/* <Button.Ripple
              type="submit"
              className="mr-1 mt-3 badge-primary"
            >
              Submit
-           </Button.Ripple>
+           </Button.Ripple> */}
+
+           <CustomButtonRipple
+              type={"submit"}
+              className={"mr-1 mt-3 badge-primary"}
+              name={"Submit"}
+              permission={6}
+           />
            
           
          </FormGroup>
@@ -298,7 +307,16 @@ const SubjectIntake = () => {
                         </ButtonGroup> */}
                        
 
-                      <Button className="mx-1 btn-sm" onClick={() => toggleDanger(int?.intake?.name, int?.intake?.id)} color="danger"><i className="fas fa-trash-alt"></i></Button>
+                      {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger(int?.intake?.name, int?.intake?.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
+
+                      <ButtonForFunction
+                        className={"mx-1 btn-sm"}
+                        func={() => toggleDanger(int?.intake?.name, int?.intake?.id)}
+                        color={"danger"}
+                        icon={<i className="fas fa-trash-alt"></i>}
+                        permission={6}
+                      />
+
                       <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
     
                       <ModalBody>

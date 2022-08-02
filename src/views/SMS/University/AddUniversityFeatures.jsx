@@ -416,15 +416,18 @@ const AddUniversityFeatures = () => {
 
                                
 
-                               <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                               <FormGroup  className="has-icon-left position-relative"
+                                    style={{ display: "flex", justifyContent: "end" }}
+                                  >
 
+                                <Col md="5">
                                 <ButtonForFunction
                                   type={"submit"}
                                   className={"mr-1 mt-3 badge-primary"}
                                   name={"Submit"}
                                   permission={6}
                                 />
-
+                                </Col>
                                 </FormGroup>
 
 

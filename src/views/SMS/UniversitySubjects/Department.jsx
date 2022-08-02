@@ -341,11 +341,6 @@ const AddModalOpen= () => {
 
                   </td>
                     
-                
-
-
-
-
                 </tr>)
               }
 

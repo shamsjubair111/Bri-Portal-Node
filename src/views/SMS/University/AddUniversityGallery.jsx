@@ -193,12 +193,23 @@ const AddUniversityGallery = () => {
                         }
 
                       </Col>
-                    {/* <Button.Ripple
-                      type="submit"
-                      className="mr-1 mt-3 badge-primary"
-                      >
-                        Submit
-                    </Button.Ripple> */}
+                    
+
+                    {/* <CustomButtonRipple
+                      type={"submit"}
+                      className={"mr-1 mt-3 badge-primary"}
+                      name={"Submit"}
+                      permission={6}
+                    /> */}
+
+                </FormGroup>
+
+                <FormGroup row
+                    className="has-icon-left position-relative"
+                    style={{ display: "flex", justifyContent: "end" }}
+                  >
+
+                <Col md="5">
 
                     <CustomButtonRipple
                       type={"submit"}
@@ -207,7 +218,9 @@ const AddUniversityGallery = () => {
                       permission={6}
                     />
 
-                </FormGroup>
+                 </Col>
+                 </FormGroup>
+
             </Form>
             </TabContent>
               </CardBody>

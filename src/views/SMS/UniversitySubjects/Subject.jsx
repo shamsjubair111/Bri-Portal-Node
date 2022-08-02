@@ -207,6 +207,7 @@ const Subject = () => {
                   <Col md="6">
                     <Input
                       type='textarea'
+                      rows='4'
                       placeholder='Enter description'
                       required
                     //   options={universityTypeName}
@@ -307,9 +308,9 @@ const Subject = () => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 ></FormGroup> */}
-                <FormGroup
+                <FormGroup row
                   className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{ display: "flex", justifyContent: "end" }}
                 >
                   {/* <Button.Ripple
                     type="submit"
@@ -317,14 +318,14 @@ const Subject = () => {
                   >
                     Submit
                   </Button.Ripple> */}
-
-                  <ButtonForFunction 
-                    type={"submit"}
-                    className={"mr-1 mt-3 badge-primary"}
-                    name={"Submit"}
-                    permission={6}
-                  />
-
+                  <Col md="5">
+                    <ButtonForFunction 
+                      type={"submit"}
+                      className={"mr-1 mt-3 badge-primary"}
+                      name={"Submit"}
+                      permission={6}
+                    />
+                  </Col>
 
                 </FormGroup>
               </Form>

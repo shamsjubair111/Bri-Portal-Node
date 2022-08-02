@@ -295,7 +295,7 @@ const handleSubmit = (event) => {
 
 
 const cancelForm = () => {
-  history.push('/');
+  history.push('/studentList');
 }
 
 
@@ -330,7 +330,7 @@ const cancelForm = () => {
         <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
           Application 
         </NavLink>
-      </NavItem>
+       </NavItem>
 
           <NavItem>
             <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
@@ -396,7 +396,7 @@ const cancelForm = () => {
         <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
           Application 
         </NavLink>
-      </NavItem>
+       </NavItem>
 
           <NavItem>
             <NavLink disabled active={activetab === "2"} onClick={() => toggle("2")}>
@@ -454,7 +454,7 @@ const cancelForm = () => {
 
         </Nav>
 
-      }
+       }
 
         
 
@@ -754,7 +754,7 @@ const cancelForm = () => {
              }
 
 
-             <FormGroup row
+  <FormGroup row
        className="has-icon-left position-relative"
        style={{ display: "flex", justifyContent: "end" }}
      >
