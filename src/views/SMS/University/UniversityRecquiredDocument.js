@@ -30,6 +30,12 @@ const UniversityRecquiredDocument = () => {
           setDocument(res);
       })
 
+      get(`UniversityRequiredDocuments/GetByUniversity/${localStorage.getItem("id")}`)
+      .then( res => {
+          console.log('Required document',res);
+          // setDocument(res);
+      })
+
   },[])
 
 
@@ -101,7 +107,7 @@ const UniversityRecquiredDocument = () => {
             appearance:'success',
             autoDismiss: true
           })
-          
+          history.push('/universityList');
         }
   
       })
@@ -168,6 +174,7 @@ const UniversityRecquiredDocument = () => {
           <NavItem>
             <NavLink 
               active={activetab === '4'}
+              onClick={() => toggle('4')}
             >
 
               Features
@@ -177,6 +184,7 @@ const UniversityRecquiredDocument = () => {
           <NavItem>
             <NavLink 
               active={activetab === '5'}
+              onClick={() => toggle('5')}
             >
 
               University Gallery
@@ -186,6 +194,7 @@ const UniversityRecquiredDocument = () => {
           <NavItem>
             <NavLink 
               active={activetab === '6'}
+              onClick={() => toggle('6')}
             >
 
               Application Document
@@ -195,6 +204,7 @@ const UniversityRecquiredDocument = () => {
           <NavItem>
             <NavLink 
               active={activetab === '7'}
+              onClick={() => toggle('7')}
             >
 
               Required Document

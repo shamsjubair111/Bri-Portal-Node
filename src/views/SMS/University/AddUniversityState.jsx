@@ -38,7 +38,7 @@ const AddUniversityState = () => {
 
 
     useEffect(()=>{
-      const returnValue = get(`UniversityCountry/Index`).then((action)=>{
+      const returnValue = get(`UniversityCountryDD/Index`).then((action)=>{
       
         setCountryList(action)
       })
@@ -240,7 +240,7 @@ const AddUniversityState = () => {
 
                       {
                     localStorage.getItem("updateUniState") ?
-                      <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> :
+                      <Button color="primary" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Submit</Button> :
                       <Button.Ripple
                         color="primary"
                         type="submit"

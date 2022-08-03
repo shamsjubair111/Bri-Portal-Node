@@ -41,8 +41,8 @@ const AddUniversityGallery = () => {
             appearance: 'success',
             autoDismiss: true,
           })
+          history.push("/addUniversityApplicationDocument");
         });
-        history.push("/universityList");
 
         // for (var value of subdata.values()) {
         //     console.log(value);
@@ -71,6 +71,12 @@ const AddUniversityGallery = () => {
         }
         if (tab == "5") {
           history.push("/addUniversityGallery");
+        }
+        if (tab == "6") {
+          history.push("/addUniversityApplicationDocument");
+        }
+        if (tab == "7") {
+          history.push("/addUniversityRequiredDocument");
         }
       };
 
@@ -169,6 +175,20 @@ const AddUniversityGallery = () => {
                                 >
 
                                 Application Document
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                 {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+                                <NavLink
+                                active={activetab === '7'}
+                                onClick={() =>toggle('7')}
+                                >
+
+                                Required Document
                                 </NavLink>
                             </NavItem>
                     </Nav>

@@ -39,6 +39,7 @@ const AddUniversityCampus = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [showForm,setShowForm]=useState(false);
   const [universityCampus, setUniversityCampus] = useState([]);
+  const [campusId, setCampusId] = useState(0);
 
 
   let uniId;
@@ -68,7 +69,8 @@ const AddUniversityCampus = (props) => {
      setuniversityId(uniId);
     //  localStorage.setItem('uniCampNId', universityId);
     // const universityId = "10019";
-     get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
+     get(`UniversityCampus/GetByUniversity/${localStorage.getItem('id')}`).then((action) => {
+    //  get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
       // get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
       setuniversityCampusList(action);
       if(action.length>0){
@@ -79,6 +81,7 @@ const AddUniversityCampus = (props) => {
       }
       console.log("actionnnn",action)
     });
+
   }, [success,uniId,universityId]);
 
 
@@ -99,6 +102,12 @@ const AddUniversityCampus = (props) => {
     }
     if (tab === '5') {
       history.push('/addUniversityGallery')
+    }
+    if (tab === '6') {
+      history.push('/addUniversityApplicationDocument')
+    }
+    if (tab === '7') {
+      history.push('/addUniversityRequiredDocument')
     }
   }
 
@@ -158,9 +167,11 @@ const AddUniversityCampus = (props) => {
           appearance: 'success',
           autoDismiss: true,
         })
-       setShowForm(true);
-        setSelectedId(0)
+        setShowForm(true);
+        setSelectedId(0);
+        setuniversityCampusObject({});
         setSuccess(!success)
+        
       }
     
     })
@@ -229,16 +240,17 @@ const AddUniversityCampus = (props) => {
 
   const handleUpdate = (id) => {
    
-  
+    setCampusId(id);
     setShowForm(false);
+
       get(`UniversityCampus/Get/${id}`).then((action) => {
         console.log('asjskdjskdskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjs',action);
         setuniversityCampusObject(action);
-        setUniCountryLabel(action.universityCountry.name);
-        setUniCountryValue(action.campusCountryId);
-        setUniStateLabel(action.universityState.name);
-        setUniStateValue(action.campusStateId);
-        setSelectedId(action.id);
+        setUniCountryLabel(action?.universityCountry?.name);
+        setUniCountryValue(action?.campusCountryId);
+        setUniStateLabel(action?.universityState?.name);
+        setUniStateValue(action?.campusStateId);
+        setSelectedId(action?.id);
         console.log(id);
        
         
@@ -257,12 +269,16 @@ const AddUniversityCampus = (props) => {
 
 const onShow=()=>{
   setShowForm(false);
-
 }
 
 const cancel=()=>{
   setShowForm(true);
-  setSelectedId(0)
+  setSelectedId(0);
+  setuniversityCampusObject({});
+  setUniCountryLabel('Select University Country...');
+  setUniCountryValue(0);
+  setUniStateLabel('Select University State...');
+  setUniStateValue(0);
 }
   return (
     <div>
@@ -306,9 +322,6 @@ const cancel=()=>{
             </NavItem>
 
             <NavItem>
-              {
-                submitData ?
-
                   <NavLink
                     active={activetab === '3'}
                     onClick={() => toggle('3')}
@@ -316,27 +329,12 @@ const cancel=()=>{
 
                     Financial Information
                   </NavLink>
-
-
-                  :
-
-
-                  <NavLink 
-                    active={activetab === '3'}
-                  >
-
-                    Financial Information
-                  </NavLink>
-
-              }
-
-
-
             </NavItem>
 
             <NavItem>
               <NavLink 
                 active={activetab === '4'}
+                onClick={() => toggle('4')}
               >
 
                 Features
@@ -346,6 +344,7 @@ const cancel=()=>{
             <NavItem>
               <NavLink 
                 active={activetab === '5'}
+                onClick={() => toggle('5')}
               >
 
                 University Gallery
@@ -354,10 +353,21 @@ const cancel=()=>{
 
             <NavItem>
               <NavLink 
-                active={activetab === '6'}
+                active={activetab === '6'} 
+                onClick={() => toggle('6')}
               >
 
                 Application Document
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink 
+                active={activetab === '7'}
+                onClick={() => toggle('7')}
+              >
+
+                Required Document
               </NavLink>
             </NavItem>
 
@@ -445,7 +455,7 @@ const cancel=()=>{
   <Form  onSubmit={handleSubmit} className="mt-5">
 
                 <FormGroup row className="has-icon-left position-relative">
-                  <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem('editUniId')} />
+                  <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem('id')} />
                   <Input type="hidden" id="Id" name="Id" value={selectedId} />
                 </FormGroup>
 

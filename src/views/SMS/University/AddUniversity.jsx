@@ -217,6 +217,10 @@ const AddUniversity = (props) => {
   
         if (res.status === 200 && res.data.isSuccess === true) {
           setSubmitData(true);
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
           history.push({
             pathname: "/addUniversityCampus",
             id: uniID,
@@ -270,6 +274,12 @@ const AddUniversity = (props) => {
     if (tab == "5") {
       history.push("/addUniversityGallery");
     }
+    if (tab == "6") {
+      history.push("/addUniversityApplicationDocument");
+    }
+    if (tab == "7") {
+      history.push("/addUniversityRequiredDocument");
+    }
   };
 
   const universityTypeName = universityTypes?.map((uniType) => ({
@@ -314,7 +324,7 @@ const AddUniversity = (props) => {
               </NavLink>
             </NavItem>
             <NavItem>
-              {submitData ? (
+              {submitData || JSON.parse(localStorage.getItem("id")) ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Campus Information
                 </NavLink>
@@ -343,28 +353,94 @@ const AddUniversity = (props) => {
 
                                 } */}
 
-            <NavItem>
+            {/* <NavItem>
               <NavLink disabled active={activetab === "3"}>
                 Financial Information
               </NavLink>
-            </NavItem>
+            </NavItem> */}
 
             <NavItem>
+              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+                <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                  Financial Information
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "3"}>
+                  Financial Information
+                </NavLink>
+              )}
+            </NavItem>
+
+            {/* <NavItem>
               <NavLink disabled active={activetab === "4"}>
                 Features
               </NavLink>
-            </NavItem>
+            </NavItem> */}
 
             <NavItem>
+              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+                <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                  Features
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "4"}>
+                  Features
+                </NavLink>
+              )}
+            </NavItem>
+
+            {/* <NavItem>
               <NavLink disabled active={activetab === "5"}>
                 University Gallery
               </NavLink>
-            </NavItem>
+            </NavItem> */}
 
             <NavItem>
+              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+                <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                  University Gallery
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "5"}>
+                  University Gallery
+                </NavLink>
+              )}
+            </NavItem>
+
+            {/* <NavItem>
               <NavLink disabled active={activetab === "6"}>
                 Application Document
               </NavLink>
+            </NavItem> */}
+
+            <NavItem>
+              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+                <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
+                  Application Document
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "6"}>
+                  Application Document
+                </NavLink>
+              )}
+            </NavItem>
+
+            {/* <NavItem>
+              <NavLink disabled active={activetab === "7"}>
+                Required Document 
+              </NavLink>
+            </NavItem> */}
+
+            <NavItem>
+              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+                <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
+                  Required Document
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "7"}>
+                  Required Document
+                </NavLink>
+              )}
             </NavItem>
 
           </Nav>
