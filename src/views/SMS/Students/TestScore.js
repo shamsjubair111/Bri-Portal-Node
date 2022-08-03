@@ -1452,6 +1452,18 @@ id='studentId'
 value={localStorage.getItem('applictionStudentId')}
 />  
 
+{
+  updateFunctions ? 
+  <input
+  type='hidden'
+  name='id'
+  id='id'
+  value={functions?.id}
+  />
+  :
+  null
+}
+
 
 
 <FormGroup row className="has-icon-left position-relative">
