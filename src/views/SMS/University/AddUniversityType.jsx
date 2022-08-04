@@ -89,7 +89,9 @@ const handleSubmit = (event) => {
       appearance: 'success',
       autoDismiss: true,
     })
-    setModalOpen(false)
+    setModalOpen(false);
+    setUniversityType('');
+    setUpdateState({});
   })
   }
 
@@ -102,7 +104,6 @@ const handleSubmit = (event) => {
         appearance: 'warning',
         autoDismiss: true,
       })
-      setUniversityType('');
       setUpdateState({});
       // setPostId(0);
     //  localStorage.removeItem('updateUni')
@@ -177,8 +178,7 @@ const toggleDanger = (name,id) => {
 // on Close Modal
 const closeModal = () => {
   setModalOpen(false);
-
-
+  setUpdateState({});
 }
 
 // on Close Delete Modal

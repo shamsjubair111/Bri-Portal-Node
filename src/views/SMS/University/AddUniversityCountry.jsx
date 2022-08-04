@@ -153,8 +153,8 @@ const toggleDanger = (name,id) => {
 // on Close Modal
 const closeModal = () => {
     setModalOpen(false);
+    setUpdateState({});
     localStorage.removeItem('updateUniCountry')
-
 }
 
 // on Close Delete Modal
