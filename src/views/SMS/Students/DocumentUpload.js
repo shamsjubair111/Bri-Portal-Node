@@ -15,9 +15,9 @@ const DocumentUpload = () => {
 
     const [activetab, setActivetab] = useState("10");
 
-    const backToDashboard = () => {
-        history.push('/');
-    }
+    const backToStudentProfile = () => {
+      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+  }
 
 
     const toggle = (tab) => {
@@ -77,9 +77,9 @@ const DocumentUpload = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Upload Documents</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backToStudentProfile}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
           </div>
         </CardHeader>

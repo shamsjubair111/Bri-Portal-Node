@@ -15,6 +15,9 @@ import get from "../../../../helpers/get";
 import put from "../../../../helpers/put";
 import ManagerImage from "../BranchManager/BranchManagerImage";
 import { useToasts } from "react-toast-notifications";
+import { Image } from 'antd';
+import "antd/dist/antd.css";
+import { rootUrl } from "../../../../constants/constants";
 
 const BranchManagerInformation = () => {
   const { id } = useParams();
@@ -28,7 +31,7 @@ const BranchManagerInformation = () => {
 
   useEffect(() => {
     get(`BranchManager/Get/${id}`).then((res) => {
-      console.log(res);
+      console.log(res,'Tring manager info noww');
       setBranchManagerInfo(res);
     });
   }, [id]);
@@ -63,11 +66,11 @@ const BranchManagerInformation = () => {
 
   return (
     <div>
-      <Card>
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3>Update Branch Manager Information</h3>
+          <h3 className="text-light">Update Branch Manager Iformation</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToBranchList}>
+            <span onClick={backToBranchList} className="text-light">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Branch List
             </span>
@@ -161,17 +164,40 @@ const BranchManagerInformation = () => {
                 </span>
               </Col>
               <Col md="4">
-                <ManagerImage />
+              <div className='d-flex'>
+
+                {
+                  (branchManagerInfo?.managerImageMedia) !== null ?
+                <div className='me-2'>
+                  <Image
+                  width={104} height={104}
+                  src={rootUrl+branchManagerInfo?.managerImageMedia?.fileUrl}
+                />
+                </div>
+                : 
+                null
+                }
+
+                <div className='ms-2'>
+                <ManagerImage/>
+                </div>
+
+                </div>
               </Col>
             </FormGroup>
 
             <FormGroup
+              row
               className="has-icon-left position-relative"
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Button.Ripple type="submit" className="mr-1 mt-3 badge-primary">
+              <Col md="6">
+                <div className="d-flex justify-content-end">
+                <Button.Ripple type="submit" className="mr-1 mt-3 badge-primary">
                 Submit
               </Button.Ripple>
+                </div>
+              </Col>
             </FormGroup>
           </Form>
         </CardBody>

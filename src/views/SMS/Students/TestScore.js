@@ -14,6 +14,8 @@ const TestScore = () => {
 
 
     const [activetab, setActivetab] = useState("5");
+    const [value,setValue] = useState(0);
+    const [data, setData] = useState({});
 
     const [greData, setGreData] = useState({});
     const [gmatData, setGmatData] = useState({});
@@ -204,6 +206,118 @@ const TestScore = () => {
   }
   
 
+  const deleteEnglishTestScore = () => {
+
+    if(value == 1){
+      remove(`Ielts/Delete/${data?.id}`)
+      .then(res => {
+        
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+       
+      })
+    }
+   else if(value == 2){
+      remove(`Duolingo/Delete/${data?.id}`)
+      .then(res => {
+        
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        
+      })
+    }
+   else if(value == 3){
+      remove(`Toefl/Delete/${data?.id}`)
+      .then(res => {
+        
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        
+      })
+    }
+   else if(value == 4){
+      remove(`FunctionalSkill/Delete/${data?.id}`)
+      .then(res => {
+        
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        
+      })
+    }
+   else if(value == 5){
+      remove(`Gcse/Delete/${data?.id}`)
+      .then(res => {
+       
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        
+      })
+    }
+   else if(value == 6){
+      remove(`Pearson/Delete/${data?.id}`)
+      .then(res => {
+       
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        
+      })
+    }
+   else if(value == 7){
+      remove(`Other/Delete/${data?.id}`)
+      .then(res => {
+        
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        
+      })
+    }
+   else if(value == 8){
+      remove(`Pte/Delete/${data?.id}`)
+      .then(res => {
+        console.log(res);
+        
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+          setDeleteModal(false);
+          setSuccess(!success);
+        
+      })
+    }
+
+
+
+  }
+
 
     const handleDeleteGreData = (data) => {
 
@@ -273,11 +387,14 @@ const closeModal3= () => {
       history.push('/addExperience');
     }
 
-    const toggleDanger = (p) => {
+    const toggleDanger = (info,number) => {
 
-      localStorage.setItem('studentTestScroreId',p.studentTestScroreId);
+     console.log(info,'data');
+     console.log(number,'value');
+    setValue(number);
+    setData(info)
+    setDeleteModal(true);
 
-      setDeleteModal(true)
     }
 
     const toggleDanger2 = (p) => {
@@ -296,6 +413,7 @@ const closeModal3= () => {
 
  
 
+  
    
 
     const qualificationOptions = testNameOptions?.map((qual) => ({
@@ -431,7 +549,8 @@ const closeModal3= () => {
     const subData = new FormData(event.target);
      if(ELqualificationLabel == 'IELTS'){
 
-      post('Ielts/Create',subData)
+      if(!updateIelts){
+        post('Ielts/Create',subData)
       .then(res => {
         console.log(res);
         if(res?.status == 200){
@@ -449,10 +568,37 @@ const closeModal3= () => {
           
         }
       })
+      }
+
+      else{
+
+        put('Ielts/Update',subData)
+        .then(res => {
+          console.log(res);
+          if(res?.status == 200){
+            addToast(res?.data?.message, {
+              appearance: 'success',
+              autoDismiss: true
+            })
+            setSuccess(!success);
+            setAdd(false);
+            setELQualificationLabel('Select');
+            ELsetQualificationValue(0);
+            setQualificationLabel('NO');
+            setQualificationValue(0);
+            setModalOpen(false);
+            setUpdateIelts(false);
+            
+          }
+        })
+
+      }
 
      }
 
      else if(ELqualificationLabel == 'DUOLINGO'){
+
+     if(!updateDuolingo){
 
       post('Duolingo/Create',subData)
       .then(res => {
@@ -475,7 +621,35 @@ const closeModal3= () => {
 
      }
 
+     else{
+
+      put('Duolingo/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setModalOpen(false);
+          setUpdateDuolingo(false);
+         
+        }
+      })
+
+     }
+
+     }
+
      else if(ELqualificationLabel == 'TOEFL'){
+
+     if(!updateToefl){
 
       post('Toefl/Create',subData)
       .then(res => {
@@ -498,7 +672,35 @@ const closeModal3= () => {
 
      }
 
+     {
+
+      put('Toefl/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setModalOpen(false);
+          setUpdateToefl(false);
+          
+        }
+      })
+
+     }
+
+     }
+
      else if(ELqualificationLabel == 'FUNCTION SKILLS'){
+
+     if(!updateFunctions){
 
       post('FunctionalSkill/Create',subData)
       .then(res => {
@@ -523,8 +725,37 @@ const closeModal3= () => {
 
      }
 
+     else{
+
+      put('FunctionalSkill/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setModalOpen(false);
+          setUpdateFunctions(false);
+          
+  
+       
+        }
+      })
+
+     }
+
+     }
+
      else if(ELqualificationLabel == 'GCSE'){
 
+    if(!updateGcse){
       post('Gcse/Create',subData)
       .then(res => {
         console.log(res);
@@ -545,11 +776,39 @@ const closeModal3= () => {
        
         }
       })
+    }
+
+    else{
+
+      put('Gcse/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setModalOpen(false);
+          setUpdateGcse(false);
+          
+  
+       
+        }
+      })
+
+    }
 
      }
 
      else if(ELqualificationLabel == 'PEARSON'){
 
+     if(!updatePearson){
       post('Pearson/Create',subData)
       .then(res => {
         console.log(res);
@@ -570,11 +829,36 @@ const closeModal3= () => {
        
         }
       })
+     }
+     else{
+      put('Pearson/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setModalOpen(false);
+          setUpdatePearson(false);
+          
+  
+       
+        }
+      })
+     }
 
      }
 
      else if(ELqualificationLabel == 'OTHER SCORE'){
 
+     if(!updateOther){
       post('Other/Create',subData)
       .then(res => {
         console.log(res);
@@ -595,11 +879,38 @@ const closeModal3= () => {
        
         }
       })
+     }
+     else{
+
+      put('Other/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setModalOpen(false);
+          setUpdateOther(false);
+          
+  
+       
+        }
+      })
+
+     }
 
      }
 
      else{
  
+     if(!updatePte){
       post('PTE/Create',subData)
       .then(res => {
         console.log(res);
@@ -620,6 +931,32 @@ const closeModal3= () => {
        
         }
       })
+     }
+     else{
+
+      put('PTE/Update',subData)
+      .then(res => {
+        console.log(res);
+        if(res?.status == 200){
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setAdd(false);
+          setELQualificationLabel('Select');
+          ELsetQualificationValue(0);
+          setQualificationLabel('NO');
+          setQualificationValue(0);
+          setModalOpen(false);
+          setUpdatepte(false);
+          
+  
+       
+        }
+      })
+
+     }
 
      }
 
@@ -962,15 +1299,22 @@ const closeModal3= () => {
        
 
     {
-      courseInfo?.length <=0 && 
+      !(ielts?.id || duolingo?.id || toefl?.id || functions?.id || gcse?.id || pearson?.id || others?.id || pte?.id ) ?
       <div className='container test-score-div-1-style mt-4'>
       <span className='test-score-span-1-style'>Do You Hold an English Language Qualification Such as GCSE English Language, IELTS, Pearson etc ?</span>
       </div>
+      :
+      null
     }
 
         <div className='row mt-3'>
 
 
+    {
+
+
+  !(ielts?.id && duolingo?.id && toefl?.id && functions?.id && gcse?.id && pearson?.id && others?.id && pte?.id ) ?
+ 
 
   <FormGroup row className="has-icon-left position-relative ms-md-1">
   <Col md="2">
@@ -992,6 +1336,10 @@ const closeModal3= () => {
     
   </Col>
 </FormGroup>
+:
+null
+
+    }
 
        {
         qualificationLabel == 'Yes'  ?
@@ -1046,7 +1394,7 @@ const closeModal3= () => {
 
 <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
 
-  <ModalHeader>Add English Test Score</ModalHeader>
+  <ModalHeader>English Test Score</ModalHeader>
  
   <ModalBody>
 
@@ -1093,7 +1441,7 @@ value={localStorage.getItem('applictionStudentId')}
      type='number'
        name='overall'
        id='overall'
-       defaultValue={ielts?.overall}
+       defaultValue={updateIelts? ielts?.overall : ''}
      
    />
 
@@ -1116,7 +1464,7 @@ value={localStorage.getItem('applictionStudentId')}
      type='number'
        name='speaking'
        id='speaking'
-       defaultValue={ielts?.speaking}
+       defaultValue={updateIelts? ielts?.speaking : ''}
      
    />
 
@@ -1139,7 +1487,7 @@ value={localStorage.getItem('applictionStudentId')}
      type='number'
        name='reading'
        id='reading'
-       defaultValue={ielts?.reading}
+       defaultValue={updateIelts? ielts?.reading : ''}
      
    />
 
@@ -1162,7 +1510,7 @@ value={localStorage.getItem('applictionStudentId')}
      type='number'
        name='writing'
        id='writing'
-       defaultValue={ielts?.writing}
+       defaultValue={updateIelts? ielts?.writing : ''}
      
    />
 
@@ -1185,7 +1533,7 @@ value={localStorage.getItem('applictionStudentId')}
      type='number'
        name='listening'
        id='listening'
-       defaultValue={ielts?.listening}
+       defaultValue={updateIelts? ielts?.listening : ''}
      
    />
 
@@ -1208,7 +1556,7 @@ value={localStorage.getItem('applictionStudentId')}
      type='date'
      name='examDate'
      id='examDate'
-     defaultValue={handleDate(ielts?.examDate)}
+     defaultValue={updateIelts? handleDate(ielts?.examDate) : ''}
      
    />
 
@@ -1286,7 +1634,7 @@ value={localStorage.getItem('applictionStudentId')}
 type='number'
 name='overall'
 id='overall'
-defaultValue={toefl?.overall}
+defaultValue={updateToefl? toefl?.overall : ''}
 
 />
 
@@ -1309,7 +1657,7 @@ defaultValue={toefl?.overall}
 type='number'
 name='speaking'
 id='speaking'
-defaultValue={toefl?.speaking}
+defaultValue={updateToefl? toefl?.speaking : ''}
 
 />
 
@@ -1332,7 +1680,7 @@ defaultValue={toefl?.speaking}
 type='number'
 name='reading'
 id='reading'
-defaultValue={toefl?.reading}
+defaultValue={updateToefl? toefl?.reading : ''}
 
 />
 
@@ -1355,7 +1703,7 @@ defaultValue={toefl?.reading}
 type='number'
 name='writing'
 id='writing'
-defaultValue={toefl?.writing}
+defaultValue={updateToefl? toefl?.writing : ''}
 
 />
 
@@ -1378,7 +1726,7 @@ defaultValue={toefl?.writing}
 type='number'
 name='listening'
 id='listening'
-defaultValue={toefl?.listening}
+defaultValue={updateToefl? toefl?.listening : ''}
 
 />
 
@@ -1401,7 +1749,7 @@ defaultValue={toefl?.listening}
 type='date'
 name='examDate'
 id='examDate'
-defaultValue={handleDate(toefl?.examDate)}
+defaultValue={updateToefl? handleDate(toefl?.examDate) : ''}
 
 />
 
@@ -1481,7 +1829,7 @@ value={localStorage.getItem('applictionStudentId')}
 type='number'
 name='overall'
 id='overall'
-defaultValue={functions?.overall}
+defaultValue={updateFunctions? functions?.overall : ''}
 
 />
 
@@ -1504,7 +1852,7 @@ defaultValue={functions?.overall}
 type='number'
 name='speaking'
 id='speaking'
-defaultValue={functions?.speaking}
+defaultValue={updateFunctions? functions?.speaking : ''}
 
 />
 
@@ -1527,7 +1875,7 @@ defaultValue={functions?.speaking}
 type='number'
 name='reading'
 id='reading'
-defaultValue={functions?.reading}
+defaultValue={updateFunctions? functions?.reading : ''}
 
 />
 
@@ -1550,7 +1898,7 @@ defaultValue={functions?.reading}
 type='number'
 name='writing'
 id='writing'
-defaultValue={functions?.writing}
+defaultValue={updateFunctions? functions?.writing : ''}
 
 />
 
@@ -1573,7 +1921,7 @@ defaultValue={functions?.writing}
 type='number'
 name='listening'
 id='listening'
-defaultValue={functions?.listening}
+defaultValue={updateFunctions? functions?.listening : ''}
 
 />
 
@@ -1596,7 +1944,7 @@ defaultValue={functions?.listening}
 type='date'
 name='examDate'
 id='examDate'
-defaultValue={handleDate(functions?.examDate)}
+defaultValue={updateFunctions? handleDate(functions?.examDate) : ''}
 
 />
 
@@ -1637,6 +1985,25 @@ ELqualificationLabel == 'GCSE' &&
 
 <>
 
+<input
+  type='hidden'
+  name='studentId'
+  id='studentId'
+  value={localStorage.getItem('applictionStudentId')}
+  />
+
+{
+  updateGcse ? 
+
+  <input
+  type='hidden'
+  name='id'
+  id='id'
+  value={gcse?.id}
+  />
+  :
+  null
+}
 
 
 <FormGroup row className="has-icon-left position-relative">
@@ -1647,12 +2014,6 @@ ELqualificationLabel == 'GCSE' &&
 </Col>
 <Col md="6">
 
-  <input
-  type='hidden'
-  name='studentId'
-  id='studentId'
-  value={localStorage.getItem('applictionStudentId')}
-  />
 
 
 
@@ -1662,7 +2023,7 @@ ELqualificationLabel == 'GCSE' &&
    type='number'
      name='result'
      id='result'
-     defaultValue={gcse?.result}
+     defaultValue={updateGcse? gcse?.result : ''}
    
  />
 
@@ -1699,14 +2060,6 @@ ELqualificationLabel == 'PEARSON' &&
 
 <>
 
-<FormGroup row className="has-icon-left position-relative">
-<Col md="2">
- <span> Result
-   <span className="text-danger">*</span>{" "}
- </span>
-</Col>
-<Col md="6">
-
 
 <input
   type='hidden'
@@ -1716,13 +2069,37 @@ ELqualificationLabel == 'PEARSON' &&
   />
 
 
+{
+  updatePearson? 
+  
+  
+  <input
+  type='hidden'
+  name='id'
+  id='id'
+  value={gcse?.id}
+  />
+  :
+  null
+}
+
+<FormGroup row className="has-icon-left position-relative">
+<Col md="2">
+ <span> Result
+   <span className="text-danger">*</span>{" "}
+ </span>
+</Col>
+<Col md="6">
+
+
+
 
  <Input
    
    type='number'
      name='result'
      id='result'
-     defaultValue={pearson?.result}
+     defaultValue={updatePearson? pearson?.result : ''}
    
  />
 
@@ -1758,6 +2135,25 @@ ELqualificationLabel == 'DUOLINGO' &&
 
 <>
 
+<input
+  type='hidden'
+  name='studentId'
+  id='studentId'
+  value={localStorage.getItem('applictionStudentId')}
+  />
+
+{
+  updateDuolingo? 
+  <input
+  type='hidden'
+  name='id'
+  id='id'
+  value={duolingo?.id}
+  />
+  :
+  null
+}
+
 <FormGroup row className="has-icon-left position-relative">
 <Col md="3">
  <span> Literacy
@@ -1766,12 +2162,6 @@ ELqualificationLabel == 'DUOLINGO' &&
 </Col>
 <Col md="6">
 
-<input
-  type='hidden'
-  name='studentId'
-  id='studentId'
-  value={localStorage.getItem('applictionStudentId')}
-  />
 
 
 
@@ -1780,7 +2170,7 @@ ELqualificationLabel == 'DUOLINGO' &&
    type='number'
      name='literacy'
      id='literacy'
-     defaultValue={duolingo?.leteracy}
+     defaultValue={updateDuolingo? duolingo?.leteracy : ''}
    
  />
 
@@ -1803,7 +2193,7 @@ ELqualificationLabel == 'DUOLINGO' &&
    type='number'
      name='comprehension'
      id='comprehension'
-     defaultValue={duolingo?.comprehension}
+     defaultValue={updateDuolingo? duolingo?.comprehension : ''}
      
    
  />
@@ -1827,7 +2217,7 @@ ELqualificationLabel == 'DUOLINGO' &&
    type='number'
      name='conversation'
      id='conversation'
-     defaultValue={duolingo?.conversation}
+     defaultValue={updateDuolingo? duolingo?.conversation : ''}
    
  />
 
@@ -1850,7 +2240,7 @@ ELqualificationLabel == 'DUOLINGO' &&
    type='number'
      name='production'
      id='production'
-     defaultValue={duolingo?.production}
+     defaultValue={updateDuolingo? duolingo?.production : ''}
    
  />
 
@@ -1873,7 +2263,7 @@ ELqualificationLabel == 'DUOLINGO' &&
    type='date'
      name='examDate'
      id='examDate'
-     defaultValue={handleDate(duolingo?.examDate)}
+     defaultValue={updateDuolingo? handleDate(duolingo?.examDate) : ''}
    
  />
 
@@ -1909,6 +2299,26 @@ ELqualificationLabel == 'OTHER SCORE' &&
 
 <>
 
+<input
+  type='hidden'
+  name='studentId'
+  id='studentId'
+  value={localStorage.getItem('applictionStudentId')}
+  />
+
+  {
+    updateOther?
+    
+    <input
+    type='hidden'
+    name='id'
+    id='id'
+    value={others?.id}
+    />
+    :
+    null
+  }
+
 <FormGroup row className="has-icon-left position-relative">
 <Col md="2">
 <span> Test Name
@@ -1917,12 +2327,7 @@ ELqualificationLabel == 'OTHER SCORE' &&
 </Col>
 <Col md="6">
 
-<input
-  type='hidden'
-  name='studentId'
-  id='studentId'
-  value={localStorage.getItem('applictionStudentId')}
-  />
+
 
 
 
@@ -1931,7 +2336,7 @@ ELqualificationLabel == 'OTHER SCORE' &&
 type='text'
 name='testName'
 id='testName'
-defaultValue={others?.testName}
+defaultValue={updateOther? others?.testName : ''}
 
 />
 
@@ -1954,7 +2359,7 @@ defaultValue={others?.testName}
 type='number'
 name='scoreOverall'
 id='scoreOverall'
-defaultValue={others?.scoreOverall}
+defaultValue={updateOther? others?.scoreOverall : ''}
 
 />
 
@@ -1999,6 +2404,18 @@ ELqualificationLabel == 'PTE SCORE' &&
   value={localStorage.getItem('applictionStudentId')}
   />
 
+  {
+    updatePte?
+    <input
+    type='hidden'
+    name='id'
+    id='id'
+    value={pte?.id}
+    />
+    :
+    null
+  }
+
  
 
 <FormGroup row className="has-icon-left position-relative">
@@ -2016,7 +2433,7 @@ ELqualificationLabel == 'PTE SCORE' &&
 type='number'
 name='overall'
 id='overall'
-defaultValue={pte?.overall}
+defaultValue={updatePte? pte?.overall : ''}
 
 />
 
@@ -2039,7 +2456,7 @@ defaultValue={pte?.overall}
 type='number'
 name='speaking'
 id='speaking'
-defaultValue={pte?.speaking}
+defaultValue={updatePte? pte?.speaking : ''}
 
 />
 
@@ -2062,7 +2479,7 @@ defaultValue={pte?.speaking}
 type='number'
 name='reading'
 id='reading'
-defaultValue={pte?.reading}
+defaultValue={updatePte? pte?.reading : ''}
 
 />
 
@@ -2085,7 +2502,7 @@ defaultValue={pte?.reading}
 type='number'
 name='writing'
 id='writing'
-defaultValue={pte?.writing}
+defaultValue={updatePte? pte?.writing : ''}
 
 />
 
@@ -2108,7 +2525,7 @@ defaultValue={pte?.writing}
 type='number'
 name='listening'
 id='listening'
-defaultValue={pte?.listening}
+defaultValue={updatePte? pte?.listening : ''}
 
 />
 
@@ -2187,7 +2604,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger" onClick={()=> toggleDanger(ielts,1)}  ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2202,14 +2619,14 @@ type={'submit'}
           
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -2245,7 +2662,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger"  onClick={()=> toggleDanger(duolingo,2)}  ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2259,14 +2676,14 @@ type={'submit'}
           
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -2301,7 +2718,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger"  onClick={()=> toggleDanger(toefl,3)}   ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2316,14 +2733,14 @@ type={'submit'}
           
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -2357,7 +2774,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger"  onClick={()=> toggleDanger(functions,4)}   ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2372,14 +2789,14 @@ type={'submit'}
           
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -2414,7 +2831,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger"  onClick={()=> toggleDanger(gcse,5)}  ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2424,14 +2841,14 @@ type={'submit'}
               
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -2466,7 +2883,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger"  onClick={()=> toggleDanger(pearson,6)}  ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2476,14 +2893,14 @@ type={'submit'}
               
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -2518,7 +2935,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger"  onClick={()=> toggleDanger(others,7)}   ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2529,14 +2946,14 @@ type={'submit'}
               
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -2570,7 +2987,7 @@ type={'submit'}
                </div>
  
                <div className=""> 
-               <button type="button" className="btn btn-outline-danger"  ><i className="fas fa-trash-alt"></i></button>
+               <button type="button" className="btn btn-outline-danger"  onClick={()=> toggleDanger(pte,8)}  ><i className="fas fa-trash-alt"></i></button>
                </div>
               </div>
  
@@ -2584,14 +3001,14 @@ type={'submit'}
               
                </CardBody>
  
-               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal2)} className="uapp-modal">
+               <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                  <ModalBody>
                    <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                  </ModalBody>
  
                  <ModalFooter>
-                   <Button  color="danger" onClick={()=>handleDeleteGreData(greData)}>YES</Button>
-                   <Button onClick={() => setDeleteModal2(false)}>NO</Button>
+                   <Button  color="danger" onClick={deleteEnglishTestScore}>YES</Button>
+                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                  </ModalFooter>
               </Modal>
  
@@ -3448,7 +3865,7 @@ type={'submit'}
              type="submit"
              className="mr-1 mt-3 btn-warning"
              onClick={handleForward}
-             disabled = {courseInfo?.length >=1 ?  false : true }
+             disabled = {(ielts?.id || duolingo?.id || toefl?.id || functions?.id || gcse?.id || pearson?.id || others?.id || pte?.id )  ?  false : true }
              
            >
              Next

@@ -2,12 +2,13 @@ import React from 'react';
 import  { useEffect, useState } from "react";
 import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Form, FormGroup, Modal, ModalBody, ModalFooter, Row, Table } from 'reactstrap';
 import Select from "react-select";
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import remove from '../../../../helpers/remove';
 import { useToasts } from 'react-toast-notifications';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import LinkButton from '../../Components/LinkButton';
 
 const AssignTeam = (props) => {
 
@@ -71,8 +72,9 @@ const AssignTeam = (props) => {
 
       const handleDeleteBranchEmployee = (id) => {
         remove(`BranchEmployee/Delete/${id}`).then((res) => {
-          addToast(res?.data?.message, {
+          addToast(res, {
             appearance: "error",
+            autoDismiss: true
           });
           const updatedEmployeeData = branchEmployee.filter(
             (empInfo) => empInfo?.id !== id
@@ -219,16 +221,15 @@ const AssignTeam = (props) => {
                           <td>{employee?.phoneNumber}</td>
                           <td>
                             <ButtonGroup variant="text">
-                              <Button
-                                color="warning"
-                                className="mx-1 btn-sm"
-                                onClick={() =>
-                                  handleEditBranchEmployee(employee?.id)
-                                }
-                              >
-                                {" "}
-                                <i class="fas fa-edit"></i>{" "}
-                              </Button>
+                              
+                              <LinkButton
+                              icon={ <i class="fas fa-edit"></i>}
+                              className={"mx-1 btn-sm"}
+                              color={"warning"}
+                              url={`/branchEmployeeInformation/${employee?.id}`}
+                              />
+
+                             
 
                               <Button
                                 color="danger"

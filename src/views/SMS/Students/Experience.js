@@ -13,6 +13,14 @@ const Experience = () => {
 
     const history = useHistory();
 
+    const handleDate = e =>{
+      var datee = e;
+      var utcDate = new Date(datee);
+      var localeDate = utcDate.toLocaleString("en-CA");
+      const x = localeDate.split(",")[0];
+      return x;
+    }
+
     const [activetab, setActivetab] = useState("6");
     const [working, setWorking] = useState(false);
     const [endDate, setEndDate] = useState('');
@@ -443,11 +451,11 @@ console.log('trying', sDate?.split(",")[0]);
 
                     <Col md="5">
                       <p>Job Title : {inf?.jobTitle} </p>
-                      <p>Start Date : {inf?.startDate} </p>
+                      <p>Start Date : {handleDate(inf?.startDate)} </p>
                       {
                         !inf?.isStillWorking ?
 
-                        <p>End Date : {inf?.endDate} </p>
+                        <p>End Date : {handleDate(inf?.endDate)} </p>
 
                         :
 

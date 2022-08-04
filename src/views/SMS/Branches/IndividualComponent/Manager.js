@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { Button, Card } from 'reactstrap';
 import { rootUrl } from '../../../../constants/constants';
 import get from '../../../../helpers/get';
-
+import { Image } from 'antd';
+import "antd/dist/antd.css";
+import LinkButton from '../../Components/LinkButton';
 const Manager = (props) => {
 
     const [branchManager, setBranchManager] = useState({});
@@ -34,13 +36,13 @@ const Manager = (props) => {
                 </h5>
 
                 <div className="container text-center mb-4">
-                  <Link
-                    to={`/updateBranchManagerInformation/${branchManager?.id}`}
-                  >
-                    <button className="btn btn-primary px-lg-5 px-md-3 px-sm-1 py-2">
-                      Edit
-                    </button>
-                  </Link>
+              
+                  <LinkButton
+                  name={'Edit'}
+                  url={`/updateBranchManagerInformation/${branchManager?.id}`}
+                  className={"btn btn-primary px-lg-5 px-md-3 px-sm-1 py-2"}
+                  
+                  />
                 </div>
 
                 <div>

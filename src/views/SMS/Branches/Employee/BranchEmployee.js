@@ -1,11 +1,12 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import {  Link, useHistory, useLocation } from 'react-router-dom';
+import {  Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { useToasts } from "react-toast-notifications";
 import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, Table, TabPane } from 'reactstrap';
 import { rootUrl } from '../../../../constants/constants';
 import Select from "react-select";
-
+import { Image } from 'antd';
+import "antd/dist/antd.css";
 import get from '../../../../helpers/get';
 import BranchProfileImage from './BranchProfileImage';
 import BranchCoverImage from './BranchCoverimage';
@@ -15,12 +16,16 @@ import { useSelector } from 'react-redux';
 
 const Branch = () => {
     const history = useHistory();
+    const {id} = useParams();
+    console.log('Checking Use Params Id',id); 
     const { addToast } = useToasts();
     const location = useLocation();
     const [activetab, setActivetab] = useState("3");
       const [submitData, setSubmitData] = useState(false);
+      const [success, setSuccess] = useState(false);
       const [nationalityLabel, setNationalityLabel] = useState("Nationality");
       const [nationalityValue, setNationalityValue] = useState(0);
+      const [nationalityError, setNationalityError] = useState(false);
       const [serialNum, setSerialNum] = useState(0);
       const [branchLabel, setBranchLabel] = useState("Branch");
       const [branchValue, setBranchValue] = useState(0);
@@ -62,10 +67,9 @@ const Branch = () => {
         setEmpty(true);
       })
 
+   
 
-
-
-       get(`Nationality/Index`)
+       get(`NationalityDD/Index`)
        .then(res => {
         //  console.log('Country',res);
          setNationality(res);
@@ -77,7 +81,7 @@ const Branch = () => {
          setBranch(res);
        })
 
-       get(`BranchEmployee/Get/${employeeId}`)
+       get(`BranchEmployee/Get/${id}`)
        .then(res => {
          console.log("branchEmployee",res);
          setEmployeeInfo(res);
@@ -87,10 +91,13 @@ const Branch = () => {
        })
        
 
-     },[])
+     },[success])
 
    
     
+     const backToBranchList = () => {
+      history.push("/branchList");
+    };
 
     
      const nationalityName = nationality?.map((nationalityInfo) => ({
@@ -106,45 +113,11 @@ const Branch = () => {
 
      // select University Country
   const selectNationality = (label, value) => {
+    setNationalityError(false);
     setNationalityLabel(label);
     setNationalityValue(value);
    
-   
-   
   }
-  // console.log(nationalityLabel);
-
-  // select University State
-  const selectBranch = (label, value) => {
-    setBranchLabel(label);
-    setBranchValue(value);
-
-  };
-
-  // console.log(stateLabel);
-
-
-    const backToDashboard = () => {
-        history.push('/');
-    }
-
-     // tab toggle
-  const toggle = (tab) => {
-    setActivetab(tab);
-    if (tab == "1") {
-      history.push("/addBranch");
-    }
-    else if (tab == "2"){
-      history.push("/addBranchManager");
-    }
-    
- 
-
-   
-  
-  };
-
-  
 
    const handleSubmit = (event) => {
     event.preventDefault();
@@ -160,16 +133,18 @@ const Branch = () => {
     }
 
 
-    //  watch form data values
-    // for (var value of subdata.values()) {
-    //   console.log(value);
-     
+    if(nationalityValue == 0){
+      setNationalityError(true);
+    }
 
-    // }
+    else{
 
-   if(!employeeId){
+   if(!id){
+
+
+    
     Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config).then((res) => {
-      
+          
       if (res?.status === 200 && res?.data?.isSuccess === true) {
         setSubmitData(true);
         
@@ -177,39 +152,40 @@ const Branch = () => {
           appearance: 'success'
           
         })
-        history.push(`/branchProfile/${location?.employeeBranchId}`)
+        history.push(`/branchProfile/${employeeBranchId}`)
       }
     });
 
-    // for(const val of subdata){
-    //   console.log(val);
-    // }
+   }
     
-   }
-
-   else{
-    Axios.put(`${rootUrl}BranchEmployee/Update`, subdata, config)
-    .then(res => {
-      if (res?.status === 200 && res?.data?.isSuccess === true) {
-      
         
-        addToast(res?.data?.message, {
-          appearance: 'success'
+      
+       
+    
+       else{
+        Axios.put(`${rootUrl}BranchEmployee/Update`, subdata, config)
+        .then(res => {
+          if (res?.status === 200 && res?.data?.isSuccess === true) {
           
+            
+            addToast(res?.data?.message, {
+              appearance: 'success'
+              
+            })
+            history.push(`/branchProfile/${employeeBranchId}`)
+           
+          }
+    
         })
-        history.push('/branchList')
-       
-      }
+    
+     
+    
+       }
 
-    })
+    }
 
-    // for (var value of subdata) {
-    //     console.log(value);
-       
+
   
-    //   }
-
-   }
 
    
   };
@@ -218,17 +194,18 @@ const Branch = () => {
     return (
         <div>
          
-             <Card>
+         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3>Add Branch Employee Information</h3>
+          <h3 className="text-light">Add Branch Employee Iformation</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard}>
+            <span onClick={backToBranchList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Branch List
             </span>
           </div>
         </CardHeader>
       </Card>
+
       <Card>
           <CardBody>
           {/* <Nav tabs>
@@ -307,26 +284,16 @@ const Branch = () => {
           <Form className="mt-5" onSubmit={handleSubmit}>
            
 
-            <Input 
-           type='hidden'
+           
+
+           
+
+            <input
+            type='hidden'
             name='branchId'
             id='branchId'
-            value={location?.employeeBranchId}
-            // value={employeeBranchId}
+            value={localStorage.getItem('branchId')}
             />
-
-            {
-              employeeId? 
-              <Input 
-              
-              type='hidden'
-              name='id'
-              id='id'
-              value={employeeInfo?.id}
-              />
-              :
-              null
-            } 
 
            <FormGroup row className="has-icon-left position-relative">
              <Col md="2">
@@ -367,8 +334,13 @@ const Branch = () => {
         
            
            {
-             employeeId? 
-             null 
+             id? 
+             <input
+             type='hidden'
+             name='email'
+             id='email'
+             value={employeeInfo?.email}
+             />
             :
             <FormGroup row className="has-icon-left position-relative">
              <Col md="2">
@@ -392,8 +364,8 @@ const Branch = () => {
           
 
         {
-          employeeId ? 
-          null 
+          id ? 
+          null
           :
           <FormGroup row className="has-icon-left position-relative">
           <Col md="2">
@@ -451,37 +423,28 @@ const Branch = () => {
                  id="nationalityId"
                  required
                />
+               {
+                nationalityError? 
+                <span className='text-danger'>Nationality Must be Selected</span>
+                :
+                null
+               }
 
-               {/* <div className="form-control-position">
-                                   <User size={15} />
-                               </div> */}
+              
              </Col>
            </FormGroup>
-           {/* <FormGroup row className="has-icon-left position-relative">
-             <Col md="2">
-               <span>
-                  Branch <span className="text-danger">*</span>{" "}
-               </span>
-             </Col>
-             <Col md="4">
-               <Select
-                 options={branchName}
-                 value={{ label: branchLabel, value: branchValue }}
-                 onChange={(opt) => selectBranch(opt.label, opt.value)}
-                 name="branchId"
-                 id="branchId"
-                 required
-               />
-
-             </Col>
-           </FormGroup> */}
-
+           
+              {
+                id? 
+                
             <Input
             type='hidden'
-            name='branchId'
-            id='branchId'
-            value={employeeBranchId}
+            name='id'
+            id='id'
+            value={id}
             />
+            : null
+              }
            
            <FormGroup row className="has-icon-left position-relative">
              <Col md="2">
@@ -490,7 +453,25 @@ const Branch = () => {
                </span>
              </Col>
              <Col md="4">
+              <div className='d-flex'>
+
+              {
+                id? 
+               <div className='me-2'>
+                 <Image
+                width={104} height={104}
+                src={rootUrl+employeeInfo?.profileImageMedia?.fileUrl}
+              />
+               </div>
+              : 
+              null
+              }
+            
+              <div className='ms-2'>
               <BranchProfileImage/>
+              </div>
+
+              </div>
              </Col>
            </FormGroup>
            <FormGroup row className="has-icon-left position-relative">
@@ -500,34 +481,53 @@ const Branch = () => {
                </span>
              </Col>
              <Col md="4">
+             <div className='d-flex'>
+
+              {
+                id? 
+              <div className='me-2'>
+                <Image
+                width={104} height={104}
+                src={rootUrl+employeeInfo?.coverImageMedia?.fileUrl}
+              />
+              </div>
+              : 
+              null
+              }
+
+              <div className='ms-2'>
               <BranchCoverImage/>
+              </div>
+
+              </div>
              </Col>
            </FormGroup>
 
           
 
 
+         
            <FormGroup
-             className="has-icon-left position-relative"
-             style={{ display: "flex", justifyContent: "space-between" }}
-           ></FormGroup>
-           <FormGroup
+            row
              className="has-icon-left position-relative"
              style={{ display: "flex" }}
            >
-             <Button.Ripple
+            <Col md="6">
+              <div className='d-flex justify-content-end'>
+
+              <Button.Ripple
                type="submit"
                className="mr-1 mt-3 badge-primary"
              >
                Submit
              </Button.Ripple>
-             {/* <Button.Ripple
-               
-               className="mr-1 mt-3 btn btn-danger"
-               onClick ={()=> setEmpty(true)}
-             >
-               Clear
-             </Button.Ripple> */}
+
+              </div>
+            
+            
+            </Col>
+            
+            
             
            </FormGroup>
          </Form>

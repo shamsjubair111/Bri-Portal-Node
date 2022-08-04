@@ -20,10 +20,13 @@ const BranchManager = () => {
     const [branchLabel, setBranchLabel] = useState('Enter branch');
     const [branchValue, setBranchValue] = useState(0);
     const [branchManagerInfo, setBranchManagerInfo] = useState({});
-    const backToDashboard = () => {
+
+    const backToBranchList = () => {
         history.push('/branchList');
 
     }
+
+
 
     const backwardBranchManager = localStorage.getItem("branchManagerId");
     console.log(backwardBranchManager);
@@ -149,15 +152,14 @@ const BranchManager = () => {
     return (
         <div>
               <div>
-             <Card>
+              <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3>Add Branch Manager Information</h3>
-          <div className="page-header-back-to-home">
-            <span onClick={backToDashboard}>
-              {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Branch List
-            </span>
+
+          <h3 className="text-light">Add Branch Manager Information</h3>
+          <div className="page-header-back-to-home" >
+            <span onClick={backToBranchList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Branch List</span>
           </div>
+
         </CardHeader>
       </Card>
       <Card>
@@ -386,20 +388,22 @@ const BranchManager = () => {
                 </FormGroup>
 
             
+             
                 <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup>
-                <FormGroup
+                row
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
+                 <Col md="6">
+                  <div className='d-flex justify-content-end'>
                   <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                   >
                     Submit
                   </Button.Ripple>
+                  </div>
+                 </Col>
                   <ToastContainer />
                 </FormGroup>
               </Form>

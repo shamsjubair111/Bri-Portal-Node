@@ -25,6 +25,9 @@ const Branch = () => {
       const [branchInfo,setBranchInfo] = useState({});
       const location = useLocation();
 
+      const [countryError, setCountryError] = useState(false);
+      const [stateError, setStateError] = useState(false);
+
       console.log('location',location);
       if(location?.branchId){
         localStorage.setItem('branchId',location?.branchId);
@@ -39,7 +42,7 @@ const Branch = () => {
       
 
      useEffect(()=>{
-       get(`Country/Index`)
+       get(`CountryDD/Index`)
        .then(res => {
          console.log('Country',res);
          setCountry(res);
@@ -65,7 +68,7 @@ const Branch = () => {
    
 
     const searchStateByCountry = (countryValue) => {
-      get(`State/GetbyCountryId/${countryValue}`)
+      get(`StateDD/Index/${countryValue}`)
       .then(res => {
         console.log('State',res);
         setState(res);
@@ -87,6 +90,7 @@ const Branch = () => {
 
      // select University Country
   const selectCountry = (label, value) => {
+    setCountryError(false);
     setCountryLabel(label);
     setCountryValue(value);
     searchStateByCountry(value);
@@ -100,6 +104,8 @@ const Branch = () => {
 
   // select University State
   const selectState = (label, value) => {
+    setStateError(false);
+    console.log(value);
     setStateLabel(label);
     setStateValue(value);
 
@@ -139,45 +145,54 @@ const Branch = () => {
       console.log(value);
     }
 
-   
-
-   if(branchIdValue){
-    put('Branch/Update', subdata).then((res) => {
-      
-
-      if (res?.status === 200 && res?.data?.isSuccess === true) {
-        setSubmitData(true);
-        addToast(res.data.message, {
-          appearance: 'success',
-          autoDismiss: true,
-        })
-        history.push({
-          pathname: "/branchList"
-         
-        });
-      }
-    });
-   }
- 
+    if(stateValue == 0){
+      setStateError(true);
+    }
+    if(countryValue == 0){
+      setCountryError(true);
+    }
     else{
-      Axios.post(`${rootUrl}Branch/Create`, subdata).then((res) => {
-      
-        localStorage.setItem("branchId",res?.data?.result?.id);
-        
-        const uniID = res?.data?.result?.id;
-        console.log((res));
-  
-        if (res?.status === 200 && res?.data?.isSuccess === true) {
-          setSubmitData(true);
-               addToast(res.data.message, {
-             appearance:'success',
+
+      if(branchIdValue){
+        put('Branch/Update', subdata).then((res) => {
+          
+    
+          if (res?.status === 200 && res?.data?.isSuccess === true) {
+            setSubmitData(true);
+            addToast(res.data.message, {
+              appearance: 'success',
               autoDismiss: true,
             })
+            history.push({
+              pathname: "/branchList"
+             
+            });
+          }
+        });
+       }
+
+       else{
+        Axios.post(`${rootUrl}Branch/Create`, subdata).then((res) => {
         
-          history.push("/branchList");
-        }
-      });
+          localStorage.setItem("branchId",res?.data?.result?.id);
+          
+          const uniID = res?.data?.result?.id;
+          console.log((res));
+    
+          if (res?.status === 200 && res?.data?.isSuccess === true) {
+            setSubmitData(true);
+                 addToast(res.data.message, {
+               appearance:'success',
+                autoDismiss: true,
+              })
+          
+            history.push("/branchList");
+          }
+        });
+      }
+
     }
+   
 
    
   };
@@ -362,6 +377,13 @@ const Branch = () => {
                       required
 
                     />
+                    {
+                      countryError ? 
+                      <span className='text-danger'>Country Must Be Selected</span>
+                      :
+                      null
+                    }
+
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -384,6 +406,12 @@ const Branch = () => {
                       id="stateId"
                       required
                     />
+                     {
+                      stateError ? 
+                      <span className='text-danger'>State Must Be Selected</span>
+                      :
+                      null
+                    }
 
                     {/* <div className="form-control-position">
                                         <User size={15} />

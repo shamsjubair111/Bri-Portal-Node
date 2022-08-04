@@ -407,7 +407,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/updateProvider/:id" component={UpdateProvider} />
          <AppRoute path="/branchInformation" component={Branch} />
          <AppRoute path="/addBranchManager" component={BranchManager} />
-         <AppRoute path="/branchEmployeeInformation" component={BranchEmployee} />
+         <AppRoute path="/branchEmployeeInformation/:id?" component={BranchEmployee} />
          {/* <AppRoute path="/updateBranch/:id" component={UpdateBranch} /> */}
          <AppRoute path="/branchList" component={BranchList} />
          {/* <AppRoute path="/updateBranchManager/:id" component={UpdateBranchManager} /> */}

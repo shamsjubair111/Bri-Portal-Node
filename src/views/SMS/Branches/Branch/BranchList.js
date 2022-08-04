@@ -120,15 +120,7 @@ const componentRef = useRef();
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              {/* <Link to="/branchInformation">
-                <Button
-                  onClick={handleLocalStorage}
-                  className="btn btn-uapp-add "
-                >
-                  {" "}
-                  <i className="fas fa-plus"></i> Add New{" "}
-                </Button>
-              </Link> */}
+             
 
               <LinkButton 
                 url={"/branchInformation"}

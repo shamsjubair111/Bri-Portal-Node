@@ -9,6 +9,9 @@ import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
 import ReactToPrint from 'react-to-print';
 import { rootUrl } from '../../../constants/constants';
 import EditDivButton from '../Components/EditDivButton';
+import ButtonForFunction from '../Components/ButtonForFunction';
+import LinkButton from '../Components/LinkButton';
+import axios from 'axios'
 
 const StudentProfile = () => {
 
@@ -51,6 +54,31 @@ const StudentProfile = () => {
 
     const backToStudentList = () =>{
         history.push('/studentList');
+    }
+
+
+    // get User Ip address
+
+    const getData = async () => {
+      const res1 = await axios.get('https://api.ipify.org?format=json')
+      console.log(res1?.data,'data1');
+
+      const res2 = await axios.get('https://api.ipify.org?format=json')
+      console.log(res2?.data,'data2');
+
+      const res3 = await axios.get('https://api.ipdata.co')
+      console.log(res3,'data3');
+
+      
+      // https://api.ipdata.co
+
+
+    
+    }
+    
+
+    const getIp = () => {
+       getData();
     }
 
     const tableStyle = {
@@ -676,7 +704,7 @@ const StudentProfile = () => {
                             </td>
 
                             <td>
-                              {edu?.programLevelName}
+                              {edu?.educationLevel}
                             </td>
                         
                             <td>
@@ -825,59 +853,21 @@ const StudentProfile = () => {
                  <div className="bg-h"></div>
                  </div>
                  
-                  <EditDivButton
-                    className={"text-right edit-style  p-3"}
-                    func={()=>handleUpdateTestScores(studentDetails)}
-                    permission={6}
+                  <ButtonForFunction
+                     className={"p-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View Test Scores'}
+                     color={'primary'}
+                     permission={6}
                   />
+                 
+                  
 
                  </div>
 
                 
 
-                    {
-
-                     studentTestScore?.map((students,i) =>
-                    <Table className="table-bordered mt-4" key={i} >
-                    <tbody>
-                      <tr>
-                        <td width="40%">
-                        <span> <b>Exam:</b></span>
-                        </td>
-
-                        <td width="60%">
-                          
-                         <span>{students?.examTestTypeName}</span>
-                          
-                        </td>
-                      </tr>
-
-                      {
-                        (students?.attributeItem)?.map((data,i) =>
-                          
-                          <tr key={i}>
-                          <td width="40%">
-                          <span> <b>{data?.attritbuteName}</b></span>
-                          </td>
-  
-                          <td width="60%">
-                            
-                           <span>{data?.attritbuteValue}</span>
-                            
-                          </td>
-                        </tr>
-                          
-                          
-                          )
-                      }
-
-                    
-
-                      </tbody>
-                    </Table>
-                  )
-
-                  }
+                  
 
 
 
@@ -1145,9 +1135,57 @@ const StudentProfile = () => {
         
               </Card>
 
-            </Col>
-          </Row>
-      </div>
+              <Card className='p-3'>
+
+              <h6> Concent</h6>
+              <span className="bg-wg bg-width"></span>
+
+              <div className="notice-item card-widget mt-3 ">
+                      
+                         <div className="text-center"> 
+                             <span>Consent Is Not Signed Yet. </span>
+                             
+                             <div>
+
+                             <ButtonForFunction
+                             func={getIp}
+                              name={'Sign Consent'}
+                              className={'badge-primary mt-2'}
+                              />
+                              
+                              
+                              
+                            </div>
+                        </div>
+              </div>
+
+              </Card>
+
+              <Card className='p-3'>
+
+              <h6> Concent</h6>
+              <span className="bg-wg bg-width"></span>
+
+              <div className="notice-item card-widget mt-3 ">
+                      
+                         <div className="notice-description"> 
+                             <span>Consent Signed On, </span>
+                             <br/>
+                             <span>Date: </span>
+                             <br/>
+                             <span>From: IP</span>
+                             <div className="text-center mt-2">
+                              <Button className='badge-primary'>Download</Button>
+                            
+                            </div>
+                        </div>
+              </div>
+
+              </Card>
+
+              </Col>
+              </Row>
+              </div>
 
 
       {/*<Card>*/}

@@ -96,14 +96,16 @@ const BranchTeamEmployeeInformation = () => {
       subData.append('CheckedArray',checked);
       
       // posting form Data
-      const returnValue = post(`BranchTeamEmployee/Create`,subData).then((action)=> {
+     post(`BranchTeamEmployee/Create`,subData).then((action)=> {
    
-        setChecked([]);
-            addToast(action, {
+       if(action?.status == 200){
+         setChecked([]);
+            addToast(action?.data?.message, {
               appearance:  'success',
               autoDismiss: true,
             })
             history.push('/branchList');
+       }
 
           
       }) 
