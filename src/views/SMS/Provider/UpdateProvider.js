@@ -314,12 +314,25 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                   </Col>
                 </FormGroup>
 
-                  <ButtonForFunction 
-                    type={"submit"}
-                    className={"mr-1 mt-3 badge-primary"}
-                    name={"Submit"}
-                    permission={6}
-                  />
+                <FormGroup row
+                  className="has-icon-left position-relative"
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "end",
+                  }}
+                  >
+                  
+                  <Col md="5">
+                    <ButtonForFunction 
+                      type={"submit"}
+                      className={"ms-lg-3 ms-sm-1 badge-primary"}
+                      name={"Submit"}
+                      permission={6}
+                    />
+                  </Col>
+
+                </FormGroup>
 
                   
 

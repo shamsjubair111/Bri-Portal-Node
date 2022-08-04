@@ -446,7 +446,7 @@ const AddUniversityFeatures = () => {
                                 <ButtonForFunction
                                   type={"submit"}
                                   className={"mr-1 mt-3 badge-primary"}
-                                  name={"Submit"}
+                                  name={"Save"}
                                   permission={6}
                                 />
                                 </Col>

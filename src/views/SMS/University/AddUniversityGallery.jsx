@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import 'react-dropzone-uploader/dist/styles.css'
 import { connect, useSelector } from 'react-redux';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent } from 'reactstrap';
@@ -10,6 +10,7 @@ import MediaPictures from './UniversityMedia';
 import { useHistory } from 'react-router-dom';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import CustomButtonRipple from '../Components/CustomButtonRipple';
+import get from '../../../helpers/get';
 
 const AddUniversityGallery = () => {
 
@@ -49,6 +50,13 @@ const AddUniversityGallery = () => {
         // }
 
     }
+
+    useEffect(()=>{
+      get(`UniversityGallery/GetByUniversity/${localStorage.getItem("id")}`)
+      .then(res => {
+        console.log('gallery', res);
+      })
+    },[])
 
     const backToDashboard = () => {
       history.push("/");
@@ -234,7 +242,7 @@ const AddUniversityGallery = () => {
                     <CustomButtonRipple
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
-                      name={"Submit"}
+                      name={"Save"}
                       permission={6}
                     />
 

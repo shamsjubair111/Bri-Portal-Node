@@ -72,7 +72,7 @@ const AddUniversityFinancial = (props) => {
                     if(res?.status == 200){
                      
                       addToast(res?.data?.message,{
-                        appearance: 'warning',
+                        appearance: 'success',
                         autoDismiss: true
                       })
                       
@@ -366,8 +366,8 @@ const AddUniversityFinancial = (props) => {
                                  <Col md="5">
                                     <ButtonForFunction
                                       type={"submit"}
-                                      className={"mr-1 mt-3 badge-primary"}
-                                      name={"Submit"}
+                                      className={"ms-lg-3 ms-sm-1 mt-3 badge-primary"}
+                                      name={"Save"}
                                       permission={6}
                                     />
                                   </Col>

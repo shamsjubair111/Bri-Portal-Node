@@ -48,15 +48,20 @@ const AddUniversity = (props) => {
   const [description, setDescription] = useState("");
   const [uniTypeLabel, setUniTypeLabel] = useState("Select University Type...");
   const [uniTypeValue, setUniTypeValue] = useState(0);
+  const [uniTypeError, setUniTypeError] = useState(false);
   const [provider,setProvider] = useState([]);
   const [uniCountryLabel, setUniCountryLabel] = useState(
     "Select University Country..."
   );
   const [uniCountryValue, setUniCountryValue] = useState(0);
+  const [uniCountryError, setUniCountryError] = useState(false);
+
   const [uniStateLabel, setUniStateLabel] = useState(
     "Select University State..."
   );
   const [unistateValue, setUniStateValue] = useState(0);
+  const [uniStateError, setUniStateError] = useState(false);
+
   const [logoFiles, setLogoFiles] = useState([]);
   const [coverFiles, setCoverFiles] = useState([]);
 
@@ -81,10 +86,12 @@ const AddUniversity = (props) => {
 
     get('ProviderDD/Index').then(res=> {
       setProvider(res);
+      console.log(res,'ppppppp');
     })
     .catch();
 
-    get(`University/get/${localStorage.getItem('editUniId')}`)
+    if(localStorage.getItem('id')){
+      get(`University/get/${localStorage.getItem('id')}`)
     .then(res => {
       console.log('uniIddata', res);
       setUniversityData(res);
@@ -98,6 +105,7 @@ const AddUniversity = (props) => {
       setUniStateValue(res?.universityState?.id);
       setUniId(res?.id);
     })
+    }
 
   },[])
 
@@ -112,10 +120,12 @@ const AddUniversity = (props) => {
 
   const [providerTypeLabel, setProviderTypeLabel]= useState('Select Provider...');
   const [providerTypeValue, setProviderTypeValue] = useState(0);
+  const [providerTypeError, setProviderTypeError] = useState(false);
 
 
     
     const selectProviderType = (label, value) => {
+      setProviderTypeError(false);
       setProviderTypeLabel(label);
       setProviderTypeValue(value);
      
@@ -192,52 +202,69 @@ const AddUniversity = (props) => {
       },
     };
 
-    if(method == 'put'){
-      put('University/Update', subdata, config)
-      .then(res => {
-        console.log('1st put response',res);
-        if(res?.status == 200){
-         
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          
-          history.push('/addUniversityCampus');
-        }
-      })
+    if(providerTypeValue === 0){
+      setProviderTypeError(true);
+    }
+    if(uniTypeValue === 0){
+      setUniTypeError(true);
+    }
+    if(uniCountryValue === 0){
+      setUniCountryError(true);
+    }
+    if(unistateValue === 0){
+      setUniStateError(true);
     }
     else{
-      Axios.post(`${rootUrl}University/Create`, subdata, config).then((res) => {
+      if(method == 'put'){
+        put('University/Update', subdata, config)
+        .then(res => {
+          console.log('1st put response',res);
+          if(res?.status == 200){
+           
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            
+            history.push('/addUniversityCampus');
+          }
+        })
+      }
+      else{
+        Axios.post(`${rootUrl}University/Create`, subdata, config).then((res) => {
+          
+          console.log("unipostData",res);
         
-        console.log("unipostData",res);
-      
-        localStorage.setItem("id",res.data.result.id);
-        const uniID = res.data.result.id;
-  
-        if (res.status === 200 && res.data.isSuccess === true) {
-          setSubmitData(true);
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          history.push({
-            pathname: "/addUniversityCampus",
-            id: uniID,
-          });
-        }
-      });
+          localStorage.setItem("id",res.data.result.id);
+          const uniID = res.data.result.id;
+    
+          if (res.status === 200 && res.data.isSuccess === true) {
+            setSubmitData(true);
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push({
+              pathname: "/addUniversityCampus",
+              id: uniID,
+            });
+          }
+        });
+      }
     }
+
   };
 
   // select University Type
   const selectUniType = (label, value) => {
+    setUniTypeError(false);
     setUniTypeLabel(label);
     setUniTypeValue(value);
   };
 
   // select University Country
   const selectUniCountry = (label, value) => {
+    setUniCountryError(false);
     setUniCountryLabel(label);
     setUniCountryValue(value);
 
@@ -256,6 +283,7 @@ const AddUniversity = (props) => {
 
   // select University State
   const selectUniState = (label, value) => {
+    setUniStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
   };
@@ -493,9 +521,12 @@ const AddUniversity = (props) => {
                       id="providerId"
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                      {providerTypeError && (
+                        <span className="text-danger">
+                          Provider must be selected
+                        </span>
+                      )}
+                    
                   </Col>
                 </FormGroup>
 
@@ -558,6 +589,13 @@ const AddUniversity = (props) => {
                       id="UniversityTypeId"
                     />
 
+                    {
+                      uniTypeError ? 
+                      <span className="text-danger">University type must be selected</span>
+                      :
+                      null
+                    }
+
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -579,6 +617,11 @@ const AddUniversity = (props) => {
                       id="UniversityCountryId"
                     />
 
+                    {
+                      uniCountryError && 
+                      <span className="text-danger">University country must be selected</span>
+                    }
+
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -599,6 +642,10 @@ const AddUniversity = (props) => {
                       name="UniversityStateId"
                       id="UniversityStateId"
                     />
+
+                    {
+                      uniStateError && <span className="text-danger">University state must be selected</span>
+                    }
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -761,7 +808,7 @@ const AddUniversity = (props) => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
-                      name={"Submit"}
+                      name={"Save"}
                       permission={6}
                     />
                   </Col>
