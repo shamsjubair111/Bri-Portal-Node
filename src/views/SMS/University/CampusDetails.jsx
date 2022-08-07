@@ -1102,6 +1102,11 @@ const CampusDetails = () => {
                         <span>Avg. living cost :</span>
                         <p>€{campusInfo?.avarageLivingCost}</p>
                      </div>
+
+                     <div className='d-flex justify-content-between'>
+                        <span>Est. total cost :</span>
+                        <p>€{campusInfo?.estimatedTotalCost}</p>
+                     </div>
                     
                 </CardBody>
               </Card>

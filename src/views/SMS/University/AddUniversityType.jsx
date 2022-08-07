@@ -34,9 +34,10 @@ const AddUniversityType = (props) => {
   const [success, setSuccess] = useState(false);
   const { addToast } = useToasts();
   const [universityList, setUniversityList] = useState([]);
-  const [postId, setPostId] = useState(0);
+  // const [postId, setPostId] = useState(0);
+  const [updateState, setUpdateState] = useState({});
 
-  const [uName,setUName] = useState('');
+  // const [uName,setUName] = useState('');
 
 
 //  const onEditorStateChange = (editorState) => {
@@ -70,7 +71,6 @@ const handleSubmit = (event) => {
   //   name: universityType
   // }
 
-  console.log(postId);
 
   const subdata = new FormData(event.target);
   // for (const vale of subdata.values())
@@ -79,8 +79,9 @@ const handleSubmit = (event) => {
 
   // }
   
-  if(postId == 0){
-    setUName('');
+  if(!updateState?.id){
+    // setUName('');
+    setUpdateState({});
     post(`UniversityType/Create`,subdata)
   .then(res => {
     setSuccess(!success);
@@ -88,21 +89,23 @@ const handleSubmit = (event) => {
       appearance: 'success',
       autoDismiss: true,
     })
-    setModalOpen(false)
+    setModalOpen(false);
+    setUniversityType('');
+    setUpdateState({});
   })
   }
 
   else{
-    setUName('');
+    // setUName('');
     put(`UniversityType/Update`,subdata).then((action)=> {
       setSuccess(!success);
       setModalOpen(false)
       addToast(action?.data?.message, {
-        appearance: 'success',
+        appearance: 'warning',
         autoDismiss: true,
       })
-      setUniversityType('');
-      setPostId(0);
+      setUpdateState({});
+      // setPostId(0);
     //  localStorage.removeItem('updateUni')
   
     })
@@ -113,15 +116,9 @@ const handleUpdate = (type) => {
   setModalOpen(true);
   setUniversityType(type.name);
   // localStorage.setItem('updateUni',type.id)
-  // console.log(type);
-  get(`UniversityType/Get/${type}`)
-  .then(res=> {
-    setPostId(res.id);
-    setUName(res.name);
-  })
- 
-
-  
+  console.log(type);
+  setUpdateState(type);
+   
 }
 
 const handleUpdateSubmit = (e) => {
@@ -181,8 +178,7 @@ const toggleDanger = (name,id) => {
 // on Close Modal
 const closeModal = () => {
   setModalOpen(false);
-
-
+  setUpdateState({});
 }
 
 // on Close Delete Modal
@@ -296,15 +292,17 @@ const closeDeleteModal = () => {
                   <FormGroup row className="has-icon-left position-relative">
                    
                   
-                      <Input
+                      {
+                        (updateState?.id) ?
+                        <Input
                         type="hidden"
                         name="id"
                         id="id"
-                        defaultValue={postId}
-                        
-                       
-                       
+                        defaultValue={updateState?.id} 
                       />
+                      :
+                      null
+                      }
 
                    
                   </FormGroup>
@@ -317,7 +315,7 @@ const closeDeleteModal = () => {
                         type="text"
                         name="name"
                         id="name"
-                        defaultValue={uName}
+                        defaultValue={updateState?.name}
                         
                         placeholder="Create University Type"
                         onChange={(e) => setUniversityType(e.target.value)}
@@ -354,6 +352,7 @@ const closeDeleteModal = () => {
 
             </div>
           </div>
+          
           <div className="table-responsive">
           <Table className="table-sm table-bordered" >
           <thead className="thead-uapp-bg">
@@ -407,7 +406,7 @@ const closeDeleteModal = () => {
                     {/* <Button onClick={()=> handleUpdate(uniType?.id)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
 
                     <ButtonForFunction
-                      func={()=> handleUpdate(uniType?.id)}
+                      func={()=> handleUpdate(uniType)}
                       className={"mx-1 btn-sm"}
                       color={"warning"}
                       icon={<i className="fas fa-edit"></i>}

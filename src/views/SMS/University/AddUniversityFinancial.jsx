@@ -35,7 +35,8 @@ const AddUniversityFinancial = (props) => {
     }
 
     useEffect(()=>{
-        get(`FinancialInformation/GetByUniversity/${localStorage.getItem("editUniId")}`)
+        // get(`FinancialInformation/GetByUniversity/${localStorage.getItem("editUniId")}`)
+        get(`FinancialInformation/GetByUniversity/${localStorage.getItem("id")}`)
         .then(res => {
             console.log("finanInfo");
             setFinancialData(res);
@@ -71,7 +72,7 @@ const AddUniversityFinancial = (props) => {
                     if(res?.status == 200){
                      
                       addToast(res?.data?.message,{
-                        appearance: 'warning',
+                        appearance: 'success',
                         autoDismiss: true
                       })
                       
@@ -129,6 +130,12 @@ const AddUniversityFinancial = (props) => {
     }
     if(tab == '5'){
         history.push('/addUniversityGallery')
+    }
+    if(tab == '6'){
+        history.push('/addUniversityApplicationDocument')
+    }
+    if(tab == '7'){
+        history.push('/addUniversityRequiredDocument')
     }
 }
     // redirect to dashboard
@@ -232,6 +239,20 @@ const AddUniversityFinancial = (props) => {
                                 Application Document
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                 {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+                                <NavLink
+                                active={activetab === '7'}
+                                onClick={() =>toggle('7')}
+                                >
+
+                                Required Document
+                                </NavLink>
+                            </NavItem>
                     </Nav>
 
                     <TabContent activeTab={activetab}>
@@ -258,7 +279,8 @@ const AddUniversityFinancial = (props) => {
                                 }
 
                                     <FormGroup row className="has-icon-left position-relative">
-                                            <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} />
+                                            <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("id")} />
+                                            {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                                     </FormGroup>
 
                                     <FormGroup row className="has-icon-left position-relative">
@@ -344,8 +366,8 @@ const AddUniversityFinancial = (props) => {
                                  <Col md="5">
                                     <ButtonForFunction
                                       type={"submit"}
-                                      className={"mr-1 mt-3 badge-primary"}
-                                      name={"Submit"}
+                                      className={"ms-lg-3 ms-sm-1 mt-3 badge-primary"}
+                                      name={"Save"}
                                       permission={6}
                                     />
                                   </Col>

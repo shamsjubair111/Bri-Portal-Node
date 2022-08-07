@@ -17,6 +17,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import CustomButtonRipple from '../Components/CustomButtonRipple';
 import LinkButton from '../Components/LinkButton';
 import LinkSpanButton from '../Components/LinkSpanButton';
+import remove from '../../../helpers/remove';
 
 const CampusList = (props) => {
 
@@ -40,6 +41,8 @@ const CampusList = (props) => {
     const [submitData, setSubmitData] = useState(false);
     const [campObj, setCampObj] = useState({});
     const [selectedId, setSelectedId] = useState(0);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [uniNameFromObj, setUniNameFromObj] = useState('');
 
     
 
@@ -71,6 +74,12 @@ const CampusList = (props) => {
 
         get("UniversityCountryDD/Index").then(res =>{
           setCountryList(res);
+        });
+
+        get(`University/Get/${localStorage.getItem('universityId')}`)
+        .then(res => {
+          console.log('single uni', res);
+          setUniNameFromObj(res?.name);
         })
     
       }, [callApi, currentPage, dataPerPage, searchStr, entity, loading, serialNum, success]);
@@ -222,6 +231,28 @@ const CampusList = (props) => {
   
     const componentRef = useRef();
 
+    const toggleDanger = (p) => {
+      console.log("dele", p);
+      localStorage.setItem("camppId", p?.id);
+      localStorage.setItem("camppName", p?.name);
+      setDeleteModal(true);
+    };
+
+    const handleDeletePermission = (id) => {
+      const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
+        (action) => {
+          setDeleteModal(false);
+          setSuccess(!success);
+          addToast(action, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+          localStorage.removeItem("camppId");
+          localStorage.removeItem("cammpName");
+        }
+      );
+    };
+
     return (
         <div>
 
@@ -278,6 +309,12 @@ const CampusList = (props) => {
       <Card className="uapp-employee-search">
           <CardBody>
 
+          <div className="container test-score-div-1-style mt-1 mb-4">
+            <span className="test-score-span-1-style">
+              Showing <b>{uniNameFromObj}{"'"}s</b> campus list
+            </span>
+          </div>
+
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
               
@@ -312,7 +349,7 @@ const CampusList = (props) => {
                     toggle={toggle}
                   >
                     <DropdownToggle caret>
-                      <i className="fas fa-ellipsis-v"></i>
+                      <i className="fas fa-bars"></i>
                     </DropdownToggle>
                     <DropdownMenu className='bg-dd'>
                     {/* <DropdownItem> */}
@@ -358,6 +395,7 @@ const CampusList = (props) => {
               <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Add University Campus</span></ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit} >
+
                 <FormGroup row className="has-icon-left position-relative">
                   <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem('universityId')} />
                   <Input type="hidden" id="Id" name="Id" value={selectedId} />
@@ -634,6 +672,7 @@ const CampusList = (props) => {
             <h2 className="text-center">Loading...</h2>
           ) :
           <div className="table-responsive" ref={componentRef}>
+
               <Table className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
@@ -641,7 +680,7 @@ const CampusList = (props) => {
                     <th>Name</th> 
                     <th>Campus City</th>
                     <th>Student</th>
-                    <th>Cost</th>
+                    {/* <th>Cost</th> */}
                     <th>Programs</th>
                     <th style={{ width: "8%" }} className="text-center">
                       Action
@@ -667,12 +706,12 @@ const CampusList = (props) => {
                             </td>
                             {/* <td>{campus?.internationalStudent}</td> */}
 
-                            <td>
+                            {/* <td>
                               Avg. Tution Fee - {campus?.avarageTutionFee} {<br />}
                               Avg. Living Cost - {campus?.avarageLivingCost} {<br />}
                               Avg. Application Fee - {campus?.avarageApplicationFee} {<br />}
                               Est. Total Cost - {campus?.estimatedTotalCost}
-                            </td>
+                            </td> */}
                             <td>
                                {" "}
                                <span
@@ -724,16 +763,47 @@ const CampusList = (props) => {
                                   permission={6}
                                 />
 
-                                <Button color="danger" className="mx-1 btn-sm">
+                                {/* <Button color="danger" className="mx-1 btn-sm">
                                   <i className="fas fa-trash-alt"></i>
-                                </Button>
+                                </Button> */}
 
                                 <ButtonForFunction
                                   color={"danger"}
+                                  func={() => toggleDanger(campus)}
                                   className={"mx-1 btn-sm"}
                                   icon={<i className="fas fa-trash-alt"></i>}
                                   permission={6}
                                 />
+
+                            <Modal
+                              isOpen={deleteModal}
+                              toggle={() => setDeleteModal(!deleteModal)}
+                              className="uapp-modal"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are You Sure to Delete this{" "}
+                                  <b>{localStorage.getItem("camppName")}</b>{" "}
+                                  ? Once Deleted it can't be Undone!
+                                </p>
+                              </ModalBody>
+
+                              <ModalFooter>
+                                <Button
+                                  color="danger"
+                                  onClick={() =>
+                                    handleDeletePermission(
+                                      localStorage.getItem("camppId")
+                                    )
+                                  }
+                                >
+                                  YES
+                                </Button>
+                                <Button onClick={() => setDeleteModal(false)}>
+                                  NO
+                                </Button>
+                              </ModalFooter>
+                            </Modal>
 
                               </ButtonGroup>
                             </td>
