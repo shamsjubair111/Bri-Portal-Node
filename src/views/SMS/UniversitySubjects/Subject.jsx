@@ -31,6 +31,7 @@ import { rootUrl } from "../../../constants/constants";
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { useToasts } from "react-toast-notifications";
 
 const Subject = () => {
 
@@ -49,7 +50,12 @@ const Subject = () => {
     const [subDepLabel, setSubDepLabel] = useState("Select Sub Department...");
     const [subDepValue, setSubDepValue] = useState(0);
 
+    const [uniDropError, setUniDropError] = useState(false);
+    const [progLvlError, setProgLvlError] = useState(false);
+    const [deptDropError, setDeptDropError] = useState(false);
+    const [subDeptDropError, setSubDeptDropError] = useState(false);
 
+    const {addToast} = useToasts();
     const history = useHistory();
 
     useEffect(()=>{
@@ -83,21 +89,25 @@ const Subject = () => {
   };
 
   const selectUniversity = (label, value) => {
+    setUniDropError(false);
     setUniLabel(label);
     setUniValue(value);
   }
 
   const selectProgramLevel = (label, value) => {
+    setProgLvlError(false);
     setProgramLabel(label);
     setProgramValue(value);
   }
 
   const selectDepartment = (label, value) => {
+    setDeptDropError(false);
     setDepLabel(label);
     setDepValue(value);
   }
 
   const selectSubDepartment = (label, value) => {
+    setSubDeptDropError(false);
     setSubDepLabel(label);
     setSubDepValue(value);
   }
@@ -123,20 +133,38 @@ const Subject = () => {
     event.preventDefault();
     const subdata = new FormData(event.target);
 
-
-    Axios.post(`${rootUrl}Subject/Create`, subdata).then((res) => {
+    if(uniValue == 0){
+      setUniDropError(true);
+    }
+    if(programValue == 0){
+      setProgLvlError(true);
+    }
+    if(depValue == 0){
+      setDeptDropError(true);
+    }
+    if(subDepValue == 0){
+      setSubDeptDropError(true);
+    }
+    else{
+      Axios.post(`${rootUrl}Subject/Create`, subdata).then((res) => {
           
-      localStorage.setItem("subId",res?.data?.result?.id);
-      const subId = res?.data?.result?.id;
-
-      if (res.status === 200 && res.data.isSuccess === true) {
-        setSubmitData(true);
-        history.push({
-          pathname: "/addSubjectFee",
-          id: subId,
-        });
-      }
-    });
+        localStorage.setItem("subId",res?.data?.result?.id);
+        const subId = res?.data?.result?.id;
+  
+        if (res.status === 200 && res.data.isSuccess === true) {
+          setSubmitData(true);
+          addToast(res?.data?.message, {
+            appearance: 'success',
+            autoDismiss: true,
+          })
+          history.push({
+            pathname: "/addSubjectFee",
+            id: subId,
+          });
+        }
+      });
+    }
+    
   };
 
 
@@ -250,6 +278,11 @@ const Subject = () => {
                       name="universityId"
                       id="universityId"
                     />
+
+                    {uniDropError && (
+                      <span className="text-danger">You must select university.</span>
+                    )}
+
                   </Col>
                 </FormGroup>
 
@@ -267,6 +300,9 @@ const Subject = () => {
                       name="programLevelId"
                       id="programLevelId"
                     />
+                    {progLvlError && (
+                      <span className="text-danger">You must select program level.</span>
+                    )}
                   </Col>
                 </FormGroup>
 
@@ -284,6 +320,9 @@ const Subject = () => {
                       name="departmentId"
                       id="departmentId"
                     />
+                    {deptDropError && (
+                      <span className="text-danger">You must select department.</span>
+                    )}
                   </Col>
                 </FormGroup>
 
@@ -301,6 +340,9 @@ const Subject = () => {
                       name="subDepartmentId"
                       id="subDepartmentId"
                     />
+                    {subDeptDropError && (
+                      <span className="text-danger">You must select sub-department.</span>
+                    )}
                   </Col>
                 </FormGroup>
 

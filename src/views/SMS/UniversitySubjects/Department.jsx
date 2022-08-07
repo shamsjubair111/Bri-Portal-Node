@@ -215,14 +215,14 @@ const AddModalOpen= () => {
      
       <FormGroup row className="has-icon-left position-relative">
         <Col md="4">
-          <span>Department Name</span>
+          <span>Department Name <span className="text-danger">*</span>{" "}</span>
         </Col>
         <Col md="8">
           <Input
             type="text"
             name="name"
             id="name"
-          
+            required
             onChange={(e) => setdepartment(e.target.value)}
             placeholder="Create Department"
           />
@@ -231,11 +231,13 @@ const AddModalOpen= () => {
       </FormGroup>
       <FormGroup row className="has-icon-left position-relative">
         <Col md="4">
-          <span>Description</span>
+          <span>Description <span className="text-danger">*</span>{" "}</span>
         </Col>
         <Col md="8">
           <Input
-            type="text"
+            type="textarea"
+            required
+            rows="4"
             name="description"
             id="description"
             

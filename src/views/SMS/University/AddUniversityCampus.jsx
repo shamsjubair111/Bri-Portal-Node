@@ -278,7 +278,7 @@ const AddUniversityCampus = (props) => {
       );
       setuniversityCampusObject(action);
       setUniCountryLabel(action?.universityCountry?.name);
-      setUniCountryValue(action?.campusCountryId);
+      setUniCountryValue(action?.universityCountry?.id);
       setUniStateLabel(action?.universityState?.name);
       setUniStateValue(action?.campusStateId);
       setSelectedId(action?.id);
@@ -563,6 +563,7 @@ const AddUniversityCampus = (props) => {
                           type="number"
                           name="TotalStudent"
                           id="TotalStudent"
+                          min="0"
                           defaultValue={universityCampusObject?.totalStudent}
                           placeholder="Enter Total Student"
                           required
@@ -580,6 +581,7 @@ const AddUniversityCampus = (props) => {
                       <Col md="6">
                         <Input
                           type="number"
+                          min="0"
                           name="InternationalStudent"
                           id="InternationalStudent"
                           defaultValue={
@@ -601,6 +603,7 @@ const AddUniversityCampus = (props) => {
                       <Col md="6">
                         <Input
                           type="number"
+                          min="0"
                           name="AvarageTutionFee"
                           id="AvarageTutionFee"
                           defaultValue={
@@ -622,6 +625,7 @@ const AddUniversityCampus = (props) => {
                       <Col md="6">
                         <Input
                           type="number"
+                          min="0"
                           name="AvarageLivingCost"
                           id="AvarageLivingCost"
                           defaultValue={
@@ -643,6 +647,7 @@ const AddUniversityCampus = (props) => {
                       <Col md="6">
                         <Input
                           type="number"
+                          min="0"
                           name="AvarageApplicationFee"
                           id="AvarageApplicationFee"
                           defaultValue={
@@ -664,6 +669,7 @@ const AddUniversityCampus = (props) => {
                       <Col md="6">
                         <Input
                           type="number"
+                          min="0"
                           name="EstimatedTotalCost"
                           id="EstimatedTotalCost"
                           defaultValue={

@@ -146,6 +146,7 @@ const EditSubjectFee = () => {
                   <Col md="6">
                     <Input
                       type="number"
+                      min="0"
                       name="localTutionFee"
                       id="localTutionFee"
                       defaultValue={localTutionFee}
@@ -164,6 +165,7 @@ const EditSubjectFee = () => {
                   <Col md="6">
                     <Input
                       type='number'
+                      min="0"
                       placeholder='Enter international tution fee '
                       required
                       name="internationalTutionFee"
@@ -182,6 +184,7 @@ const EditSubjectFee = () => {
                   <Col md="6">
                     <Input
                       type="number"
+                      min="0"
                       name="eU_TutionFee"
                       id="eU_TutionFee"
                       placeholder="Enter EU tution fee"

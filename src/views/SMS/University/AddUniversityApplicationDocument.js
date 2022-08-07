@@ -68,8 +68,10 @@ const AddUniversityApplicationDocument = () => {
   const [previewImage1, setPreviewImage1] = useState("");
   const [previewTitle1, setPreviewTitle1] = useState("");
   const [FileList1, setFileList1] = useState([]);
+  const [uploadError, setUploadError] = useState(false);
 
   const handleChange1 = ({ fileList }) => {
+    setUploadError(false);
     setFileList1(fileList);
     console.log(fileList);
   };
@@ -186,7 +188,14 @@ const AddUniversityApplicationDocument = () => {
 
     if (documentValue == 0) {
       setDocumentError(true);
-    } else {
+    } 
+    if(FileList1.length<1 && selectedId == 0){
+      setUploadError(true);
+    }
+    if(FileList1.length>=1 && selectedId !== 0){
+      setUploadError(false);
+    }
+    else {
       if (selectedId === 0) {
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
@@ -486,6 +495,10 @@ const AddUniversityApplicationDocument = () => {
                             </AntdModal>
                           </div>
                         </div>
+
+                        {uploadError && (
+                          <span className="text-danger">You must upload a document</span>
+                        )}
 
                         {/* {
                             <MediaPictures/>

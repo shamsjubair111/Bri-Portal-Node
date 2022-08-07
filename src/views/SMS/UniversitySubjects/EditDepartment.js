@@ -55,11 +55,11 @@ const EditDepartment = () => {
 
     return (
         <div>
-            <Card>
+            <Card className="uapp-card-bg">
               <CardHeader className="page-header">             
-                 <h3>Update Department </h3>
+                 <h3 className="text-white">Update Department </h3>
                   <div className="page-header-back-to-home">
-                     <span onClick={backToDashboard}> <i className="fas fa-arrow-circle-left"></i> Back to Department List</span>
+                     <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Department List</span>
                   </div>             
               </CardHeader>      
             </Card>
@@ -83,11 +83,12 @@ const EditDepartment = () => {
      
       <FormGroup row className="has-icon-left position-relative">
         <Col md="2">
-          <span>Department Name</span>
+          <span>Department Name <span className="text-danger">*</span>{" "}</span>
         </Col>
         <Col md="6">
           <Input
             type="text"
+            required
             name="name"
             id="name"
             defaultValue={department}
@@ -100,11 +101,13 @@ const EditDepartment = () => {
       </FormGroup>
       <FormGroup row className="has-icon-left position-relative">
         <Col md="2">
-          <span>Description</span>
+          <span>Description <span className="text-danger">*</span>{" "}</span>
         </Col>
         <Col md="6">
           <Input
-            type="text"
+            type="textarea"
+            required
+            rows="4"
             name="description"
             id="description"
             defaultValue={description}
@@ -117,20 +120,6 @@ const EditDepartment = () => {
       </FormGroup>
 
       <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-      
-
-  
- 
-
-          <Button.Ripple
-            color="primary"
-            type="submit"
-            className="mr-1 mt-3"
-           
-          >
-            Submit
-          </Button.Ripple>
 
           <CustomButtonRipple
             color={"primary"}

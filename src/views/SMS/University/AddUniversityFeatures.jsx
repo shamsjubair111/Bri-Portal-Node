@@ -71,7 +71,7 @@ const AddUniversityFeatures = () => {
       //  }
       //}
 
-      if(method == 'put'){
+      if(method == 'put' && featureId !== undefined){
         put('UniversityFeatures/Update', subdata)
         .then(res => {
             console.log('1st put response',res);
@@ -332,7 +332,7 @@ const AddUniversityFeatures = () => {
 
                                 <FormGroup row className="pt-3">
                                     <Col md="2">
-                                        <span>Practical Training <span className="text-danger">*</span> </span>
+                                        <span>Practical Training</span>
                                     </Col>
                                     <Col md="6">
 
@@ -358,7 +358,7 @@ const AddUniversityFeatures = () => {
 
                                <FormGroup row className="pt-3">
                                     <Col md="2">
-                                        <span>Intership Participation <span className="text-danger">*</span> </span>
+                                        <span>Intership Participation</span>
                                     </Col>
                                     <Col md="6">
 
@@ -378,7 +378,7 @@ const AddUniversityFeatures = () => {
 
                                <FormGroup row className="pt-3">
                                     <Col md="2">
-                                        <span>Work While Studying <span className="text-danger">*</span> </span>
+                                        <span>Work While Studying</span>
                                     </Col>
                                     <Col md="6">
 
@@ -398,7 +398,7 @@ const AddUniversityFeatures = () => {
 
                                <FormGroup row className="pt-3">
                                     <Col md="2">
-                                        <span>Conditional Offer Letter <span className="text-danger">*</span> </span>
+                                        <span>Conditional Offer Letter</span>
                                     </Col>
                                     <Col md="6">
 
@@ -418,7 +418,7 @@ const AddUniversityFeatures = () => {
 
                                <FormGroup row className="pt-3">
                                     <Col md="2">
-                                        <span>Accommodations <span className="text-danger">*</span> </span>
+                                        <span>Accommodations</span>
                                     </Col>
                                     <Col md="6">
 

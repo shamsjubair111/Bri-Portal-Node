@@ -22,6 +22,7 @@ const ProgramLevel=(props)=>{
     const [programLevel,setProgramLevel] = useState('');
     const [programValue,setProgramValue] = useState(0);
     const [description,setDescription] = useState('');
+    const [levelValue, setLevelValue] = useState("Type Level Value");
     
      // redirect to dashboard
      const backToDashboard = () => {
@@ -39,17 +40,19 @@ const closeModal = () => {
     e.preventDefault();
     const subdata = {
       name: programLevel,
-      description:description
+      description:description,
+      levelValue: JSON.parse(levelValue)
     }
       const returnValue = post(`ProgramLevel/Create`,subdata).then((action)=>{
           setSuccess(!success)
           setModalOpen(false)
           addToast(action?.data?.message, {
-            appearance: action?.data?.message === 'ProgramLevel added successfully.' ? 'success': 'error',
+            appearance: 'success',
             autoDismiss: true,
           })
           setProgramLevel('');
           setDescription('');
+          setLevelValue("Type Level Value");
       });
   }
 
@@ -65,6 +68,7 @@ const handleUpdate = (type) => {
     setModalOpen(true);
     setProgramLevel(type.name);
     setDescription(type.description);
+    setLevelValue(type?.levelValue);
     localStorage.setItem('ProgramId',type.id)   
   }
 
@@ -77,7 +81,7 @@ const handleUpdate = (type) => {
 const closeDeleteModal = () => {
     setDeleteModal(false);
     localStorage.removeItem('ProgramName')
-   localStorage.removeItem('ProgramId')
+    localStorage.removeItem('ProgramId')
   
   }
 
@@ -100,7 +104,8 @@ const closeDeleteModal = () => {
     const subData = {
       id: id,
       name: programLevel,
-      description:description
+      description:description,
+      levelValue: JSON.parse(levelValue)
     }
    const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
       setSuccess(!success);
@@ -111,6 +116,7 @@ const closeDeleteModal = () => {
       })
       setProgramLevel('');
       setDescription('');
+      setLevelValue("Type Level Value");
      localStorage.removeItem('ProgramName')
      localStorage.removeItem('ProgramId')
   
@@ -122,6 +128,7 @@ const AddModalOpen= () => {
     setModalOpen(true);
     setProgramLevel('');
     setDescription('');
+    setLevelValue("Type Level Value");
     localStorage.removeItem('ProgramId')
 }
 
@@ -155,16 +162,17 @@ return (
          <div>
 
 <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
-<ModalHeader>Add ProgramLevel </ModalHeader>
+<ModalHeader>Add Program Level </ModalHeader>
 <ModalBody>
 <Form>
   <FormGroup row className="has-icon-left position-relative">
     <Col md="4">
-      <span>ProgramLevel Name</span>
+      <span>Program Level Name <span className="text-danger">*</span>{" "}</span>
     </Col>
     <Col md="8">
       <Input
         type="text"
+        required
         name="name"
         id="name"
         value={programLevel}
@@ -175,35 +183,37 @@ return (
     </Col>
   </FormGroup>
   <FormGroup row className="has-icon-left position-relative">
-                                    <Col md="4">
-                                    <span>University Description</span>
-                                    </Col>
-                                    <Col md="8">
-
-                     <Input
-                     type="textarea"
-                    name="Description"
-                    id="Description"
-                    rows="3"
-                    value={description}
-                    placeholder="Description"
-                     onChange={e => setDescription(e.target.value)}
-                  />
+              <Col md="4">
+              <span>University Description <span className="text-danger">*</span>{" "}</span>
+              </Col>
+              <Col md="8">
+                   <Input
+                   type="textarea"
+                   required
+                  name="Description"
+                  id="Description"
+                  rows="3"
+                  value={description}
+                  placeholder="Description"
+                   onChange={e => setDescription(e.target.value)}
+                />
 
              </Col>
       </FormGroup>
 
       <FormGroup row className="has-icon-left position-relative">
     <Col md="4">
-      <span>Level Value</span>
+      <span>Level Value <span className="text-danger">*</span>{" "}</span>
     </Col>
     <Col md="8">
       <Input
         type="number"
+        min="0"
         name="levelValue"
         id="levelValue"
-        value={0}
-        onChange={(e) => setProgramValue(e.target.value)}
+        placeholder='Select Level value'
+        value={levelValue}
+        onChange={(e) => setLevelValue(e.target.value)}
        
       />
 
@@ -216,7 +226,7 @@ return (
 
     {
     localStorage.getItem("ProgramId") ?
-      <Button color="warning" onClick={handleUpdateSubmit}  className="mr-1 mt-3">Update</Button> :
+      <Button color="primary" onClick={handleUpdateSubmit}  className="mr-1 mt-3">Update</Button> :
       <Button.Ripple
         color="primary"
         type="submit"
@@ -247,6 +257,7 @@ return (
             <th>SL/NO</th>
             <th>ProgramLevel Name</th>
             <th>Description</th>            
+            <th>Level Value</th>            
             <th>Action</th>
           </tr>
         </thead>
@@ -255,8 +266,9 @@ return (
           {
             programLevelList?.map(( program, i) => <tr key={ program.id} style={{ textAlign: "center" }}>
               <th scope="row">{i + 1}</th>
-              <td>{ program.name}</td>
-              <td>{ program.description}</td>
+              <td>{ program?.name}</td>
+              <td>{ program?.description}</td>
+              <td>{ program?.levelValue}</td>
               <td>
 
                 {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger( program.name,  program.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}

@@ -38,7 +38,7 @@ const AddUniversityFinancial = (props) => {
         // get(`FinancialInformation/GetByUniversity/${localStorage.getItem("editUniId")}`)
         get(`FinancialInformation/GetByUniversity/${localStorage.getItem("id")}`)
         .then(res => {
-            console.log("finanInfo");
+            console.log("finanInfo",res, localStorage.getItem("id"));
             setFinancialData(res);
             setFinancialId(res?.id);
         })
@@ -65,7 +65,8 @@ const AddUniversityFinancial = (props) => {
             //     }
             //   }
 
-             if(method == 'put'){
+             if(method == 'put' && financialId !== undefined){
+                console.log(method, financialId)
                 put('FinancialInformation/Update', subdata)
                 .then(res => {
                     console.log('1st put response',res);
@@ -285,11 +286,12 @@ const AddUniversityFinancial = (props) => {
 
                                     <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Avarage Tution Fee </span>
+                                      <span>Avg. Tution Fee <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
                                         type="number"
+                                        min="0"
                                         name="AvarageTutionFee"
                                         id="AvarageTutionFee"
                                         defaultValue={financialData?.avarageTutionFee}
@@ -304,11 +306,12 @@ const AddUniversityFinancial = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Avarage Living Cost </span>
+                                    <span>Avg. Living Cost <span className="text-danger">*</span>{" "} </span>
                                     </Col>
                                     <Col md="6">
                                     <Input
                                         type="number"
+                                        min="0"
                                         name="AvarageLivingCost"
                                         id="AvarageLivingCost"
                                         defaultValue={financialData?.avarageLivingCost}
@@ -323,11 +326,12 @@ const AddUniversityFinancial = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Avarage Application Fee </span>
+                                    <span>Avg. Application Fee <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
                                         type="number"
+                                        min="0"
                                         name="AvarageApplicationFee"
                                         id="AvarageApplicationFee"
                                         defaultValue={financialData?.avarageApplicationFee}
@@ -342,11 +346,12 @@ const AddUniversityFinancial = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Estimated Total Cost </span>
+                                    <span>Est. Total Cost <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
                                         type="number"
+                                        min="0"
                                         name="EstimatedTotalCost"
                                         id="EstimatedTotalCost"
                                         defaultValue={financialData?.estimatedTotalCost}

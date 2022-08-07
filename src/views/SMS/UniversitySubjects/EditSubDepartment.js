@@ -91,11 +91,11 @@ const EditSubDepartment = () => {
 
     return (
         <div>
-              <Card>
+              <Card className="uapp-card-bg">
               <CardHeader className="page-header">             
-                 <h3>Update Sub Department </h3>
+                 <h3 className="text-light">Update Sub Department </h3>
                   <div className="page-header-back-to-home">
-                     <span onClick={backToDashboard}> <i className="fas fa-arrow-circle-left"></i> Back to Department List</span>
+                     <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Department List</span>
                   </div>             
               </CardHeader>      
             </Card>
@@ -175,8 +175,9 @@ const EditSubDepartment = () => {
                         </Col>
         </FormGroup>
 
-      <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>     
+      <FormGroup row className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'end' }}>     
 
+          <Col md="5">
           <CustomButtonRipple
             color={"primary"}
             type={"submit"}
@@ -184,6 +185,7 @@ const EditSubDepartment = () => {
             name={"Submit"}
             permission={6}
           />
+          </Col>
           
       </FormGroup>
     </Form>
