@@ -7,10 +7,14 @@ import { useToasts } from 'react-toast-notifications';
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
 
-const Team = () => {
+const Team = (props) => {
 
 
-    const [modalOpen, setModalOpen] = useState(false);
+
+
+
+
+    const [teammodalOpen, setteamModalOpen] = useState(false);
     const {addToast} = useToasts();
     const [branchTeam, setBranchTeam] = useState([]);
     const [teamInfo, setTeamInfo] = useState({});
@@ -31,7 +35,7 @@ const Team = () => {
    
    
     const functionimplement = () => {
-        setModalOpen(true);
+        setteamModalOpen(true);
     
       };
 
@@ -46,11 +50,11 @@ const Team = () => {
           setTeamInfo(res);
           setTeamName(res?.name);
           setIsUpdate(true);
-          setModalOpen(true);
+          setteamModalOpen(true);
         });
       };
 
-      const closeDeleteModal = () => {
+      const closeDeleteTeamModal = () => {
         setDeleteModal(false);
       };
     
@@ -73,7 +77,7 @@ const Team = () => {
 
       function closeModal(e) {
         e.preventDefault();
-        setModalOpen(false);
+        setteamModalOpen(false);
       }
 
       const handleTeamSubmit = (e) => {
@@ -86,7 +90,7 @@ const Team = () => {
         if (!isUpdate) {
           post(`BranchTeam/Create`, teamData).then((action) => {
             setSuccess(!success);
-            setModalOpen(false);
+            setteamModalOpen(false);
             addToast(action?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -101,7 +105,7 @@ const Team = () => {
             // console.log(res);
             setIsUpdate(false);
             setSuccess(!success);
-            setModalOpen(false);
+            setteamModalOpen(false);
             addToast(res.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -120,7 +124,7 @@ const Team = () => {
     return (
         <div>
              <div>
-        <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
+        <Modal isOpen={teammodalOpen} toggle={closeModal} className="uapp-modal">
           {isUpdate ? (
             <ModalHeader>Update Team Name</ModalHeader>
           ) : (
@@ -244,7 +248,7 @@ const Team = () => {
                           
                             <Modal
                               isOpen={deleteModal}
-                              toggle={closeDeleteModal}
+                              toggle={closeDeleteTeamModal}
                               className="uapp-modal"
                             >
                               <ModalBody>
@@ -261,7 +265,7 @@ const Team = () => {
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={closeDeleteModal}>NO</Button>
+                                <Button onClick={closeDeleteTeamModal}>NO</Button>
                               </ModalFooter>
                             </Modal>
                           </td>

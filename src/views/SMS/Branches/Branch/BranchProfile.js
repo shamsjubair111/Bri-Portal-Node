@@ -40,16 +40,16 @@ const BranchProfile = (props) => {
   const [branchManager, setBranchManager] = useState({});
   
   const [serialNum, setSerialNum] = useState(1);
-  
- 
 
-  
+
   const [branchTeamEmployee, setBranchTeamEmployee] = useState([]);
   const [teamName, setTeamName] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
   const [teamInfo, setTeamInfo] = useState({});
 
   const [success, setSuccess] = useState(false);
+
+
 
 
 
@@ -263,7 +263,9 @@ const BranchProfile = (props) => {
             id={id}
             ></Manager>
         
-            <Team/>
+            <Team
+            
+            />
            
           </Col>
         </Row>

@@ -304,6 +304,7 @@ const OtherInformation = () => {
   
           <Input type="textarea" name='DisabilityDescription' id='DisabilityDescription' rows={4}
           defaultValue={data?.disabilityDescription}
+          required
           />
 
   
@@ -362,7 +363,7 @@ const OtherInformation = () => {
        <Col md="6">
    
  
-       <Input type="textarea" name='CriminalConvictionsDescription' id='CriminalConvictionsDescription' rows={4} defaultValue={data?.criminalConvictionsDescription}  />
+       <Input type="textarea" name='CriminalConvictionsDescription' id='CriminalConvictionsDescription' rows={4} defaultValue={data?.criminalConvictionsDescription} required  />
  
  
      </Col>

@@ -219,7 +219,7 @@ const BranchTeamEmployeeInformation = () => {
         
       </Card>
 
-      <div>
+      {/* <div>
                 <Card>
                   <CardHeader className="page-header">
                     <h3>Assign Employee</h3>
@@ -242,22 +242,7 @@ const BranchTeamEmployeeInformation = () => {
                         
                         />
 
-                      {/* <FormGroup row>
-                        <Col sm="6" md="4" lg="3">
-                          <Select
-                            options={branchTeamName}
-                            value={{
-                              label: branchTeamLabel,
-                              value: branchTeamValue,
-                            }}
-                            onChange={(opt) =>
-                              selectBranchTeamName(opt.label, opt.value)
-                            }
-                            name="type"
-                            id="type"
-                          />
-                        </Col>
-                      </FormGroup> */}
+                 
 
                       <FormGroup>
                         <Row>
@@ -326,7 +311,7 @@ const BranchTeamEmployeeInformation = () => {
                     </Form>
                   </CardBody>
                 </Card>
-              </div>
+              </div> */}
             
         </div>
     );

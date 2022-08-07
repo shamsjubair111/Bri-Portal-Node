@@ -78,6 +78,7 @@ const AddUniversity = (props) => {
   const [universityData, setUniversityData] = useState({});
   const [uniId, setUniId] = useState(0);
 
+
   const method = localStorage.getItem('editMethod');
   
   const {addToast} = useToasts();

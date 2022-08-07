@@ -25,6 +25,8 @@ const AssignTeam = (props) => {
     const [branchTeamValue, setBranchTeamValue] = useState();
     const [branchTeam, setBranchTeam] = useState([]);
     const [branchEmployeeCheckbox, setBranchEmployeeCheckbox] = useState([]);
+    const [deleteId, setDeleteId] = useState('');
+     
    
     const branchId = localStorage.getItem('branchId');
 
@@ -58,6 +60,7 @@ const AssignTeam = (props) => {
       };
 
       const toggleDeleteEmployee = (id) => {
+        setDeleteId(id?.id);
         setEmployeeModal(true);
       }
 
@@ -65,21 +68,20 @@ const AssignTeam = (props) => {
         setEmployeeModal(false);
       }
 
-      const handleDeleteEmployee = (id) =>{
-        handleDeleteBranchEmployee(id);
+      // const handleDeleteEmployee = (id) =>{
+      //   handleDeleteBranchEmployee(id);
     
-      }
+      // }
 
-      const handleDeleteBranchEmployee = (id) => {
-        remove(`BranchEmployee/Delete/${id}`).then((res) => {
+      const handleDeleteBranchEmployee = () => {
+      
+        remove(`BranchEmployee/Delete/${deleteId}`).then((res) => {
           addToast(res, {
             appearance: "error",
             autoDismiss: true
           });
-          const updatedEmployeeData = branchEmployee.filter(
-            (empInfo) => empInfo?.id !== id
-          );
-          setBranchEmployee(updatedEmployeeData);
+         setSuccess(!success);
+         
         });
         setEmployeeModal(false);
       };
@@ -132,6 +134,7 @@ const AssignTeam = (props) => {
         appearance: 'success',
         autoDismiss: true
       })
+      setSuccess(!success);
     })
 
   }
@@ -234,7 +237,7 @@ const AssignTeam = (props) => {
                               <Button
                                 color="danger"
                                 onClick={() =>
-                                  toggleDeleteEmployee(employee?.id)
+                                  toggleDeleteEmployee(employee)
                                 }
                                 className="mx-1 btn-sm"
                               >
@@ -256,7 +259,7 @@ const AssignTeam = (props) => {
                               <ModalFooter>
                                 <Button
                                   color="danger"
-                                  onClick={()=>handleDeleteEmployee(employee?.id)}
+                                  onClick={handleDeleteBranchEmployee}
                                 >
                                   YES
                                 </Button>

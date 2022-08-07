@@ -18,6 +18,8 @@ import { useToasts } from "react-toast-notifications";
 import { Image } from 'antd';
 import "antd/dist/antd.css";
 import { rootUrl } from "../../../../constants/constants";
+import { Upload, Modal } from 'antd';
+import * as Icon from 'react-feather';
 
 const BranchManagerInformation = () => {
   const { id } = useParams();
@@ -25,9 +27,14 @@ const BranchManagerInformation = () => {
   const { addToast } = useToasts();
   const [branchManagerInfo, setBranchManagerInfo] = useState({});
 
-  const managerImageData = useSelector(
-    (state) => state?.ManagerImageReducer?.managerImage
-  );
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [FileList, setFileList] = useState([]);
+
+  // const managerImageData = useSelector(
+  //   (state) => state?.ManagerImageReducer?.managerImage
+  // );
 
   useEffect(() => {
     get(`BranchManager/Get/${id}`).then((res) => {
@@ -35,6 +42,56 @@ const BranchManagerInformation = () => {
       setBranchManagerInfo(res);
     });
   }, [id]);
+
+   //  Manager Image COde Start
+
+
+    
+   function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+  
+ 
+ 
+  const  handleCancel = () => {
+      setPreviewVisible(false);
+  };
+
+  const handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    // this.setState({
+    //   previewImage: file.url || file.preview,
+    //   previewVisible: true,
+    //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+    // });
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+  };
+
+ const handleChange = ({ fileList }) => {
+     setFileList(fileList);
+    
+    
+ };
+ console.log('check files photos', FileList);
+
+
+    // manager Image code end
 
   const backToBranchList = () => {
     history.push("/branchList");
@@ -45,7 +102,7 @@ const BranchManagerInformation = () => {
   const handleUpdateManagerInformation = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
-    subData.append("managerImage", managerImageData[0].originFileObj);
+    subData.append("managerImage", FileList[0]?.originFileObj);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -179,7 +236,31 @@ const BranchManagerInformation = () => {
                 }
 
                 <div className='ms-2'>
-                <ManagerImage/>
+                <Upload
+         
+         listType="picture-card"
+         multiple={false}
+         fileList={FileList}
+         onPreview={handlePreview}
+         onChange={handleChange}
+         beforeUpload={(file)=>{
+
+         
+             
+           
+             return false;
+         }}
+       >
+          {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/></div>: ''}
+       </Upload>
+       <Modal
+         visible={previewVisible}
+         title={previewTitle}
+         footer={null}
+         onCancel={handleCancel}
+       >
+         <img alt="example" style={{ width: '100%' }} src={previewImage} />
+       </Modal>
                 </div>
 
                 </div>

@@ -25,6 +25,9 @@ const PersonalInformation = () => {
   const consultantValueId = localStorage.getItem('personalInfoConsultantId');
 
   
+  const [check, setCheck] = useState(true);
+
+  
     const history = useHistory();
 
     const {addToast} = useToasts();
@@ -83,11 +86,13 @@ const PersonalInformation = () => {
       const [previewImage, setPreviewImage] = useState('');
       const [previewTitle, setPreviewTitle] = useState('');
       const [FileList, setFileList] = useState([]);
+
+      const [imgError, setImgError] = useState(false);
     
     
     
     
-      const dispatch = useDispatch();
+      // const dispatch = useDispatch();
 
 
     useEffect(()=>{
@@ -167,6 +172,8 @@ const PersonalInformation = () => {
             setNationalityValue(res?.nationality?.id == null ? 0 : res?.nationality?.id);
             setCountryLabel(res?.country?.name == null ? 'Select Country' : res?.country?.name );
             setCountryValue(res?.country?.id == null ? 0 : res?.country?.id );
+            setCheck(false);
+            console.log('Check',check);
        
   
             const z= res?.dateOfBirth;
@@ -188,7 +195,7 @@ const PersonalInformation = () => {
     },[success])
 
 
-
+console.log('Image Error',imgError);
 
     // Trial start
 
@@ -228,6 +235,7 @@ const handlePreview = async file => {
 
 const handleChange = ({ fileList }) => {
    setFileList(fileList);
+   setImgError(false);
    
   
 };
@@ -423,6 +431,7 @@ const goBackward = () => {
 const handleSubmit = (event) => {
 
   event.preventDefault();
+  setCheck(true);
 
 
 
@@ -465,6 +474,11 @@ const handleSubmit = (event) => {
 
   if(nationalityValue == 0){
     setNationalityError(true);
+  }
+
+  if(FileList?.length < 1 && check  ){
+    setImgError(true);
+
   }
 
   else{
@@ -1064,7 +1078,12 @@ const handleSubmit = (event) => {
                      
                   </div>
 
-                
+                {
+                  imgError ? 
+                  <span className='text-danger'>You must select a profile picture</span>
+                  :
+                  null
+                }
                 
                 
                   

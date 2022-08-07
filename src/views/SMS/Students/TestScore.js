@@ -1442,6 +1442,7 @@ value={localStorage.getItem('applictionStudentId')}
        name='overall'
        id='overall'
        defaultValue={updateIelts? ielts?.overall : ''}
+       min="0"
      
    />
 
@@ -1465,6 +1466,7 @@ value={localStorage.getItem('applictionStudentId')}
        name='speaking'
        id='speaking'
        defaultValue={updateIelts? ielts?.speaking : ''}
+       min="0"
      
    />
 
@@ -1488,6 +1490,7 @@ value={localStorage.getItem('applictionStudentId')}
        name='reading'
        id='reading'
        defaultValue={updateIelts? ielts?.reading : ''}
+       min="0"
      
    />
 
@@ -1511,7 +1514,7 @@ value={localStorage.getItem('applictionStudentId')}
        name='writing'
        id='writing'
        defaultValue={updateIelts? ielts?.writing : ''}
-     
+       min="0"
    />
 
 
@@ -1534,7 +1537,7 @@ value={localStorage.getItem('applictionStudentId')}
        name='listening'
        id='listening'
        defaultValue={updateIelts? ielts?.listening : ''}
-     
+       min="0"
    />
 
 
@@ -1557,7 +1560,7 @@ value={localStorage.getItem('applictionStudentId')}
      name='examDate'
      id='examDate'
      defaultValue={updateIelts? handleDate(ielts?.examDate) : ''}
-     
+     required
    />
 
 
@@ -1635,6 +1638,7 @@ type='number'
 name='overall'
 id='overall'
 defaultValue={updateToefl? toefl?.overall : ''}
+min="0"
 
 />
 
@@ -1658,6 +1662,7 @@ type='number'
 name='speaking'
 id='speaking'
 defaultValue={updateToefl? toefl?.speaking : ''}
+min="0"
 
 />
 
@@ -1681,6 +1686,7 @@ type='number'
 name='reading'
 id='reading'
 defaultValue={updateToefl? toefl?.reading : ''}
+min="0"
 
 />
 
@@ -1704,6 +1710,7 @@ type='number'
 name='writing'
 id='writing'
 defaultValue={updateToefl? toefl?.writing : ''}
+min="0"
 
 />
 
@@ -1727,6 +1734,7 @@ type='number'
 name='listening'
 id='listening'
 defaultValue={updateToefl? toefl?.listening : ''}
+min="0"
 
 />
 
@@ -1750,7 +1758,7 @@ type='date'
 name='examDate'
 id='examDate'
 defaultValue={updateToefl? handleDate(toefl?.examDate) : ''}
-
+required
 />
 
 
@@ -1830,6 +1838,7 @@ type='number'
 name='overall'
 id='overall'
 defaultValue={updateFunctions? functions?.overall : ''}
+min="0"
 
 />
 
@@ -1853,6 +1862,7 @@ type='number'
 name='speaking'
 id='speaking'
 defaultValue={updateFunctions? functions?.speaking : ''}
+min="0"
 
 />
 
@@ -1876,6 +1886,7 @@ type='number'
 name='reading'
 id='reading'
 defaultValue={updateFunctions? functions?.reading : ''}
+min="0"
 
 />
 
@@ -1899,6 +1910,7 @@ type='number'
 name='writing'
 id='writing'
 defaultValue={updateFunctions? functions?.writing : ''}
+min="0"
 
 />
 
@@ -1922,6 +1934,7 @@ type='number'
 name='listening'
 id='listening'
 defaultValue={updateFunctions? functions?.listening : ''}
+min="0"
 
 />
 
@@ -1945,6 +1958,7 @@ type='date'
 name='examDate'
 id='examDate'
 defaultValue={updateFunctions? handleDate(functions?.examDate) : ''}
+required
 
 />
 
@@ -2024,6 +2038,7 @@ ELqualificationLabel == 'GCSE' &&
      name='result'
      id='result'
      defaultValue={updateGcse? gcse?.result : ''}
+     min="0"
    
  />
 
@@ -2100,6 +2115,7 @@ ELqualificationLabel == 'PEARSON' &&
      name='result'
      id='result'
      defaultValue={updatePearson? pearson?.result : ''}
+     min="0"
    
  />
 
@@ -2171,6 +2187,7 @@ ELqualificationLabel == 'DUOLINGO' &&
      name='literacy'
      id='literacy'
      defaultValue={updateDuolingo? duolingo?.leteracy : ''}
+     min="0"
    
  />
 
@@ -2194,6 +2211,7 @@ ELqualificationLabel == 'DUOLINGO' &&
      name='comprehension'
      id='comprehension'
      defaultValue={updateDuolingo? duolingo?.comprehension : ''}
+     min="0"
      
    
  />
@@ -2218,6 +2236,7 @@ ELqualificationLabel == 'DUOLINGO' &&
      name='conversation'
      id='conversation'
      defaultValue={updateDuolingo? duolingo?.conversation : ''}
+     min="0"
    
  />
 
@@ -2241,6 +2260,7 @@ ELqualificationLabel == 'DUOLINGO' &&
      name='production'
      id='production'
      defaultValue={updateDuolingo? duolingo?.production : ''}
+     min="0"
    
  />
 
@@ -2264,6 +2284,7 @@ ELqualificationLabel == 'DUOLINGO' &&
      name='examDate'
      id='examDate'
      defaultValue={updateDuolingo? handleDate(duolingo?.examDate) : ''}
+     required
    
  />
 
@@ -2337,6 +2358,7 @@ type='text'
 name='testName'
 id='testName'
 defaultValue={updateOther? others?.testName : ''}
+required
 
 />
 
@@ -2360,6 +2382,7 @@ type='number'
 name='scoreOverall'
 id='scoreOverall'
 defaultValue={updateOther? others?.scoreOverall : ''}
+min="0"
 
 />
 
@@ -2434,6 +2457,7 @@ type='number'
 name='overall'
 id='overall'
 defaultValue={updatePte? pte?.overall : ''}
+min="0"
 
 />
 
@@ -2457,6 +2481,7 @@ type='number'
 name='speaking'
 id='speaking'
 defaultValue={updatePte? pte?.speaking : ''}
+min="0"
 
 />
 
@@ -2480,6 +2505,7 @@ type='number'
 name='reading'
 id='reading'
 defaultValue={updatePte? pte?.reading : ''}
+min="0"
 
 />
 
@@ -2503,6 +2529,7 @@ type='number'
 name='writing'
 id='writing'
 defaultValue={updatePte? pte?.writing : ''}
+min="0"
 
 />
 
@@ -2526,6 +2553,7 @@ type='number'
 name='listening'
 id='listening'
 defaultValue={updatePte? pte?.listening : ''}
+min="0"
 
 />
 

@@ -9,10 +9,12 @@ import ManagerImage from './ManagerImage';
 import { ToastContainer, toast } from 'react-toastify';
 import Select from "react-select";
 import { useToasts } from 'react-toast-notifications';
+import { Upload, Modal } from 'antd';
+import * as Icon from 'react-feather';
 
 const BranchManager = () => {
 
-  const {addToast} = useToasts();
+
     const history = useHistory(); 
     const [submitData, setSubmitData] = useState(false);
     const [activetab, setActivetab] = useState("2");
@@ -21,12 +23,20 @@ const BranchManager = () => {
     const [branchValue, setBranchValue] = useState(0);
     const [branchManagerInfo, setBranchManagerInfo] = useState({});
 
+    const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [FileList, setFileList] = useState([]);
+
+
     const backToBranchList = () => {
         history.push('/branchList');
 
     }
 
+ 
 
+    const {addToast} = useToasts();
 
     const backwardBranchManager = localStorage.getItem("branchManagerId");
     console.log(backwardBranchManager);
@@ -47,6 +57,56 @@ const BranchManager = () => {
         setBranch(res);
       })
     },[backwardBranchManager])
+
+    //  Manager Image COde Start
+
+
+    
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+  
+ 
+ 
+  const  handleCancel = () => {
+      setPreviewVisible(false);
+  };
+
+  const handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    // this.setState({
+    //   previewImage: file.url || file.preview,
+    //   previewVisible: true,
+    //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+    // });
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+  };
+
+ const handleChange = ({ fileList }) => {
+     setFileList(fileList);
+    
+    
+ };
+ console.log('check files photos', FileList);
+
+
+    // manager Image code end
 
     const branchName = branch?.map((branchLocation) => ({
       label: branchLocation.name,
@@ -73,14 +133,14 @@ const BranchManager = () => {
   };
 
   const branchId = localStorage.getItem('branchId');
-   const managerImageData = useSelector((state) => state?.ManagerImageReducer?.managerImage);
+  //  const managerImageData = useSelector((state) => state?.ManagerImageReducer?.managerImage);
   //  console.log('yes',managerImageData);
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
-    subdata.append('managerImage',managerImageData[0].originFileObj);
+    subdata.append('managerImage',FileList.length > 0 ? FileList[0].originFileObj : null);
     const config = {
       headers: {
         'content-type': 'multipart/form-data'
@@ -107,11 +167,19 @@ const BranchManager = () => {
         //   })
   
    
-        setSubmitData(true);
-        // console.log(res);
-        
-       
-        history.push('/branchList');
+        if(res?.status == 200){
+
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSubmitData(true);
+          // console.log(res);
+          
+         
+          history.push('/branchList');
+        }
+  
   
       
      
@@ -131,11 +199,23 @@ const BranchManager = () => {
         //     // autoDismiss: true,
         //   })
   
-        setSubmitData(true);
+        
+        if(res?.status == 200){
+
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+   
+
+          setSubmitData(true);
         console.log(res);
         
         localStorage.setItem('branchManagerId',res?.data?.result?.id);
         history.push(`/branchProfile/${branchId}`);
+        
+        }
+     
   
       
      
@@ -382,7 +462,31 @@ const BranchManager = () => {
                     </span>
                   </Col>
                   <Col md="4">
-                    <ManagerImage/>
+                  <Upload
+         
+         listType="picture-card"
+         multiple={false}
+         fileList={FileList}
+         onPreview={handlePreview}
+         onChange={handleChange}
+         beforeUpload={(file)=>{
+
+         
+             
+           
+             return false;
+         }}
+       >
+          {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/></div>: ''}
+       </Upload>
+       <Modal
+         visible={previewVisible}
+         title={previewTitle}
+         footer={null}
+         onCancel={handleCancel}
+       >
+         <img alt="example" style={{ width: '100%' }} src={previewImage} />
+       </Modal>
                 
                   </Col>
                 </FormGroup>
