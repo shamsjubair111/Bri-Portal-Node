@@ -56,6 +56,10 @@ const Branch = () => {
         setBranchInfo(res)
         setCountryLabel(res?.country?.name);
         setStateLabel(res?.state?.name);
+
+
+        setCountryValue(res?.country.id);
+        setStateValue(res?.state?.id);
        })
     
    
