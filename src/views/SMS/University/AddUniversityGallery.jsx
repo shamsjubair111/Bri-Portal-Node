@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import 'react-dropzone-uploader/dist/styles.css'
 import { connect, useSelector } from 'react-redux';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent } from 'reactstrap';
@@ -10,6 +10,7 @@ import MediaPictures from './UniversityMedia';
 import { useHistory } from 'react-router-dom';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import CustomButtonRipple from '../Components/CustomButtonRipple';
+import get from '../../../helpers/get';
 
 const AddUniversityGallery = () => {
 
@@ -41,14 +42,21 @@ const AddUniversityGallery = () => {
             appearance: 'success',
             autoDismiss: true,
           })
+          history.push("/addUniversityApplicationDocument");
         });
-        history.push("/universityList");
 
         // for (var value of subdata.values()) {
         //     console.log(value);
         // }
 
     }
+
+    useEffect(()=>{
+      get(`UniversityGallery/GetByUniversity/${localStorage.getItem("id")}`)
+      .then(res => {
+        console.log('gallery', res);
+      })
+    },[])
 
     const backToDashboard = () => {
       history.push("/");
@@ -71,6 +79,12 @@ const AddUniversityGallery = () => {
         }
         if (tab == "5") {
           history.push("/addUniversityGallery");
+        }
+        if (tab == "6") {
+          history.push("/addUniversityApplicationDocument");
+        }
+        if (tab == "7") {
+          history.push("/addUniversityRequiredDocument");
         }
       };
 
@@ -171,6 +185,20 @@ const AddUniversityGallery = () => {
                                 Application Document
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                 {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+                                <NavLink
+                                active={activetab === '7'}
+                                onClick={() =>toggle('7')}
+                                >
+
+                                Required Document
+                                </NavLink>
+                            </NavItem>
                     </Nav>
 
                     <TabContent activeTab={activetab}>
@@ -214,7 +242,7 @@ const AddUniversityGallery = () => {
                     <CustomButtonRipple
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
-                      name={"Submit"}
+                      name={"Save"}
                       permission={6}
                     />
 

@@ -39,7 +39,8 @@ const AddUniversityFeatures = () => {
     }
 
     useEffect(()=>{
-        get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
+        // get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
+        get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('id')}`)
         .then(res =>{
             console.log('unifeatures', res);
             setFeatures(res);
@@ -138,6 +139,12 @@ const AddUniversityFeatures = () => {
         }
         if(tab == '5'){
             history.push('/addUniversityGallery')
+        }
+        if(tab == '6'){
+            history.push('/addUniversityApplicationDocument')
+        }
+        if(tab == '7'){
+            history.push('/addUniversityRequiredDocument')
         }
     }
 
@@ -278,6 +285,20 @@ const AddUniversityFeatures = () => {
                                 Application Document
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+                                <NavLink
+                                active={activetab === '7'}
+                                onClick={() =>toggle('7')}
+                                >
+
+                                Required Document
+                                </NavLink>
+                            </NavItem>
                 </Nav>
 
                 <TabContent activeTab={activetab}>
@@ -305,7 +326,8 @@ const AddUniversityFeatures = () => {
                                 }
 
                                 <FormGroup row className="has-icon-left position-relative">
-                                        <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} />
+                                        <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("id")} />
+                                        {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                                 </FormGroup>
 
                                 <FormGroup row className="pt-3">
@@ -424,7 +446,7 @@ const AddUniversityFeatures = () => {
                                 <ButtonForFunction
                                   type={"submit"}
                                   className={"mr-1 mt-3 badge-primary"}
-                                  name={"Submit"}
+                                  name={"Save"}
                                   permission={6}
                                 />
                                 </Col>

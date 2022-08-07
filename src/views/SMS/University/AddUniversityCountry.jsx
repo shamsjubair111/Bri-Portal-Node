@@ -30,6 +30,7 @@ const AddUniversityCountry = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [updateState, setUpdateState] = useState({});
   const { addToast } = useToasts();
 
 
@@ -58,16 +59,21 @@ useEffect(()=> {
 //   window.addEventListener('error')
 // }, [])
 
-const handleSubmit = (e) => {
+const handleSubmit = (event) => {
 
-  e.preventDefault();
+  event.preventDefault();
 
-  const subdata = {
-    name: universityCountry
-  }
+  const subdata = new FormData(event.target);
 
-    const returnValue = post(`UniversityCountry/Create`,subdata).then((action)=>{
+  // const subdata = {
+  //   name: universityCountry
+  // }
 
+    if(!updateState?.id){
+
+      setUpdateState({});
+
+      const returnValue = post(`UniversityCountry/Create`,subdata).then((action)=>{
         setSuccess(!success)
         setModalOpen(false)
         addToast(action?.data?.message, {
@@ -76,43 +82,52 @@ const handleSubmit = (e) => {
         })
         setUniversityCountry('')
     });
-
-
-
-
-
+    }
+    else{
+      const returnvalue = put(`UniversityCountry/Update`,subdata).then((action)=> {
+        setSuccess(!success);
+        setModalOpen(false)
+        addToast(action?.data?.message, {
+          appearance: 'success',
+          autoDismiss: true,
+        })
+        setUniversityCountry('');
+        setUpdateState({});
+      //  localStorage.removeItem('updateUniCountry')
+      })
+    }
 }
 
 const handleUpdate = (country) => {
   setModalOpen(true);
-
   setUniversityCountry(country.name);
-  localStorage.setItem('updateUniCountry',country.id)
- 
+  // localStorage.setItem('updateUniCountry',country.id)
+  console.log(country);
+  setUpdateState(country);
 }
 
-const handleUpdateSubmit = () => {
+// const handleUpdateSubmit = () => {
 
-  const id = localStorage.getItem('updateUniCountry');
+//   const id = localStorage.getItem('updateUniCountry');
 
-  const subData = {
-    id: id,
-    name: universityCountry
-  }
+//   const subData = {
+//     id: id,
+//     name: universityCountry
+//   }
 
- const returnvalue = put(`UniversityCountry/Update`,subData).then((action)=> {
-    setSuccess(!success);
-    setModalOpen(false)
-    addToast(action?.data?.message, {
-      appearance: 'success',
-      autoDismiss: true,
-    })
-    setUniversityCountry('');
-   localStorage.removeItem('updateUniCountry')
-  })
+//  const returnvalue = put(`UniversityCountry/Update`,subData).then((action)=> {
+//     setSuccess(!success);
+//     setModalOpen(false)
+//     addToast(action?.data?.message, {
+//       appearance: 'success',
+//       autoDismiss: true,
+//     })
+//     setUniversityCountry('');
+//    localStorage.removeItem('updateUniCountry')
+//   })
 
 
-}
+// }
 
 const handleDeleteUniCountry = (id) => {
   const returnValue = remove(`UniversityCountry/Delete/${id}`).then((action)=> {
@@ -138,8 +153,8 @@ const toggleDanger = (name,id) => {
 // on Close Modal
 const closeModal = () => {
     setModalOpen(false);
+    setUpdateState({});
     localStorage.removeItem('updateUniCountry')
-
 }
 
 // on Close Delete Modal
@@ -236,7 +251,20 @@ const closeDeleteModal = () => {
             <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
               <ModalHeader>Add University Country</ModalHeader>
               <ModalBody>
-                <Form>
+                <Form onSubmit={handleSubmit}>
+
+                      {
+                        (updateState?.id) ?
+                        <Input
+                        type="hidden"
+                        name="id"
+                        id="id"
+                        defaultValue={updateState?.id} 
+                      />
+                        :
+                        null
+                      }
+
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="4">
                       <span>University Country Name</span>
@@ -246,7 +274,7 @@ const closeDeleteModal = () => {
                         type="text"
                         name="name"
                         id="name"
-                        value={universityCountry}
+                        defaultValue={updateState?.name}
                         placeholder="Create University Country"
                         onChange={(e) => setUniversityCountry(e.target.value)}
                       />
@@ -258,19 +286,19 @@ const closeDeleteModal = () => {
 
                     <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
 
-                    {
+                    {/* {
                     localStorage.getItem("updateUniCountry") ?
-                      <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> :
+                      <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
                       <Button.Ripple
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
-                        onClick={(e) => handleSubmit(e)}
+                        // onClick={(e) => handleSubmit(e)}
                       >
                         Submit
                       </Button.Ripple>
 
-                  }
+                  {/* } */}
 
                   </FormGroup>
 
@@ -321,7 +349,7 @@ const closeDeleteModal = () => {
                     <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                       <ModalBody>
-                        <p>Are You Sure to Delete this {localStorage.getItem('delUniCountryName')} ? Once Deleted it can't be Undone!</p>
+                        <p>Are You Sure to Delete this <b>{localStorage.getItem('delUniCountryName')}</b> ? Once Deleted it can't be Undone!</p>
                       </ModalBody>
 
                       <ModalFooter>
