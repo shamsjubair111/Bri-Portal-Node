@@ -52,10 +52,12 @@ const Branch = () => {
        
        get(`Branch/Get/${branchIdValue}`)
        .then(res => {
-        // console.log('yEEEEEEEEEEEEEE',res); 
+        console.log('yEEEEEEEEEEEEEE',res); 
         setBranchInfo(res)
         setCountryLabel(res?.country?.name);
+        setCountryValue(res?.country.id);
         setStateLabel(res?.state?.name);
+        setStateValue(res?.state?.id);
        })
     
    
