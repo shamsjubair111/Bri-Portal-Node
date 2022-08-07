@@ -227,6 +227,10 @@ const AddUniversityApplicationDocument = () => {
     setShowForm(false);
     setDocumentLabel("Select Requirement Status");
     setDocumentValue(0);
+
+    setApplicationObject({});
+    // setFileList1(action?.document?.fileUrl);
+    setSelectedId(0);
   };
 
   // redirect to Next Page
@@ -432,13 +436,13 @@ const AddUniversityApplicationDocument = () => {
                       </Col>
                       <Col md="6">
                         <div className="row">
-                          {applicationObject?.document !== null ? (
+                          {applicationObject?.document ? (
                             <div className="col-md-3">
                               <Image
                                 width={104}
                                 height={104}
                                 src={
-                                  rootUrl + applicationObject?.document?.fileUrl
+                                  rootUrl + applicationObject?.document?.thumbnailUrl
                                 }
                               />
                             </div>
@@ -462,7 +466,7 @@ const AddUniversityApplicationDocument = () => {
                                 >
                                   <Icon.Upload />
                                   <br />
-                                  <span>Upload Image Here</span>
+                                  <span>Upload Document Here</span>
                                 </div>
                               ) : (
                                 ""
