@@ -23,6 +23,7 @@ const ProgramLevel=(props)=>{
     const [programValue,setProgramValue] = useState(0);
     const [description,setDescription] = useState('');
     const [levelValue, setLevelValue] = useState("Type Level Value");
+
     
      // redirect to dashboard
      const backToDashboard = () => {
@@ -36,24 +37,52 @@ const closeModal = () => {
     setProgramLevel('');
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const subdata = {
-      name: programLevel,
-      description:description,
-      levelValue: JSON.parse(levelValue)
-    }
-      const returnValue = post(`ProgramLevel/Create`,subdata).then((action)=>{
-          setSuccess(!success)
-          setModalOpen(false)
-          addToast(action?.data?.message, {
-            appearance: 'success',
-            autoDismiss: true,
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+
+    // for(var i of subData){
+    //   console.log(i);
+    // }
+
+    // const subdata = {
+    //   name: programLevel,
+    //   description:description,
+    //   levelValue: levelValue
+    // }
+
+      
+        if(localStorage.getItem("ProgramId")){
+          const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
+            setSuccess(!success);
+            setModalOpen(false)
+            addToast(action?.data?.message, {
+              appearance: 'success',
+              autoDismiss: true,
+            })
+            setProgramLevel('');
+            setDescription('');
+            setLevelValue("Type Level Value");
+           localStorage.removeItem('ProgramName')
+           localStorage.removeItem('ProgramId')
+        
           })
-          setProgramLevel('');
-          setDescription('');
-          setLevelValue("Type Level Value");
-      });
+        }
+        else{
+          const returnValue = post(`ProgramLevel/Create`,subData).then((action)=>{
+            setSuccess(!success)
+            setModalOpen(false)
+            addToast(action?.data?.message, {
+              appearance: 'success',
+              autoDismiss: true,
+            })
+            setProgramLevel('');
+            setDescription('');
+            setLevelValue("Type Level Value");
+        });
+        }
+      
   }
 
   useEffect(()=> {
@@ -66,10 +95,10 @@ const closeModal = () => {
   
 const handleUpdate = (type) => {
     setModalOpen(true);
-    setProgramLevel(type.name);
-    setDescription(type.description);
+    setProgramLevel(type?.name);
+    setDescription(type?.description);
     setLevelValue(type?.levelValue);
-    localStorage.setItem('ProgramId',type.id)   
+    localStorage.setItem('ProgramId',type?.id)   
   }
 
   const toggleDanger = (name,id) => {
@@ -105,7 +134,7 @@ const closeDeleteModal = () => {
       id: id,
       name: programLevel,
       description:description,
-      levelValue: JSON.parse(levelValue)
+      levelValue: levelValue
     }
    const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
       setSuccess(!success);
@@ -164,7 +193,20 @@ return (
 <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
 <ModalHeader>Add Program Level </ModalHeader>
 <ModalBody>
-<Form>
+<Form onSubmit={handleSubmit}>
+
+  {
+    localStorage.getItem("ProgramId") ?
+    <input
+      type='hidden'
+      name='id'
+      id='id'
+      value={localStorage.getItem("ProgramId")}
+    />
+        :
+        null
+  }
+
   <FormGroup row className="has-icon-left position-relative">
     <Col md="4">
       <span>Program Level Name <span className="text-danger">*</span>{" "}</span>
@@ -176,7 +218,9 @@ return (
         name="name"
         id="name"
         value={programLevel}
-        onChange={(e) => setProgramLevel(e.target.value)}
+        onChange={(e) => 
+          setProgramLevel(e.target.value)
+        }
         placeholder="Create Program Level"
       />
 
@@ -195,9 +239,11 @@ return (
                   rows="3"
                   value={description}
                   placeholder="Description"
-                   onChange={e => setDescription(e.target.value)}
+                   onChange={e => 
+                    setDescription(e.target.value)
+                  }
                 />
-
+                
              </Col>
       </FormGroup>
 
@@ -211,9 +257,11 @@ return (
         min="0"
         name="levelValue"
         id="levelValue"
-        placeholder='Select Level value'
+        placeholder='Type Level Value'
         value={levelValue}
-        onChange={(e) => setLevelValue(e.target.value)}
+        onChange={(e) => 
+          setLevelValue(e.target.value)
+        }
        
       />
 
@@ -224,19 +272,26 @@ return (
 
     <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
 
-    {
+    {/* {
     localStorage.getItem("ProgramId") ?
-      <Button color="primary" onClick={handleUpdateSubmit}  className="mr-1 mt-3">Update</Button> :
-      <Button.Ripple
+      <Button color="primary" onClick={handleUpdateSubmit}  className="mr-1 mt-3">Update</Button> : */}
+      {/* <Button.Ripple
         color="primary"
         type="submit"
         className="mr-1 mt-3"
-        onClick={(e) => handleSubmit(e)}
       >
         Submit
-      </Button.Ripple>
+      </Button.Ripple> */}
 
-  }
+      <ButtonForFunction
+        color={"primary"}
+        type={"submit"}
+        className={"mr-1 mt-3"}
+        name={"Submit"}
+        permission={6}
+      />
+
+  {/* } */}
 
   </FormGroup>
 

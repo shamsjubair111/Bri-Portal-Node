@@ -74,8 +74,12 @@ const EmployeeContactInfo = () => {
         for (var value of subData.values()) {
        
         }if(countryValue == 0){
-            setCountryError('Country is Required')
-        }else{
+            setCountryError('Country is required')
+        }
+        if(addressLineValue == 0){
+            setAddressLineError('Address type is required')
+        }
+        else{
            
             const returnValue = post(`EmployeeContactInformation/Create`,subData).then((action)=> {
               
@@ -103,12 +107,14 @@ const EmployeeContactInfo = () => {
     const selectAddressLine = (label,value) => {
         setAddressLineName(label);
         setAddressLineValue(value);
+        setAddressLineError('');
     }
 
     // select Country
     const selectCountry = (label, value) => {
         setCountryLabel(label);
         setCountryValue(value);
+        setCountryError('');
     }
     // redirect to dashboard
     const backToDashboard = () => {
@@ -169,7 +175,7 @@ const EmployeeContactInfo = () => {
 
                             <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Phone Number</span>
+                                    <span>Phone Number <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -184,7 +190,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Cell Phone Number</span>
+                                    <span>Cell Phone Number <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -198,7 +204,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Address Line</span>
+                                    <span>Address Line <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -212,7 +218,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Address Type</span>
+                                    <span>Address Type <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Select options={addressLineOpt}
@@ -230,7 +236,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Country</span>
+                                    <span>Country <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Select options={countryOpt}
@@ -248,7 +254,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>City</span>
+                                    <span>City <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -263,7 +269,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>State</span>
+                                    <span>State <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -277,7 +283,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Zip Code</span>
+                                    <span>Zip Code <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -293,7 +299,7 @@ const EmployeeContactInfo = () => {
 
                                 
 
-                                <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <FormGroup row className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'end' }}>
 
                                     {/* <Button.Ripple
                                     type="submit"
@@ -302,12 +308,14 @@ const EmployeeContactInfo = () => {
                                     Submit
                                     </Button.Ripple> */}
 
+                                    <Col md="5">
                                     <ButtonForFunction
                                       type={"submit"}
                                       className={"mr-1 mt-3 badge-primary"}
                                       name={"Submit"}
                                       permission={6}
                                     />
+                                    </Col>
 
                                 </FormGroup>
                             </Form>
