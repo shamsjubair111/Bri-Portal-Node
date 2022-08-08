@@ -1,6 +1,9 @@
 import React, { createRef, useEffect, useState } from 'react'
+import { Upload, Modal } from 'antd';
+import "antd/dist/antd.css";
+import * as Icon from 'react-feather';
 import { connect, useSelector } from 'react-redux'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import { Button, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
 import {  useParams } from 'react-router-dom';
@@ -10,8 +13,9 @@ import Axios from 'axios';
 
 import get from '../../../../helpers/get';
 import { rootUrl } from '../../../../constants/constants';
-import ProfilePicturesWall from './EmployeeProfileImage';
+
 import CoverPicturesWall from './EmployeeCoverImage';
+
 import ButtonForFunction from '../../Components/ButtonForFunction';
 
 
@@ -35,31 +39,72 @@ const EmployeeGeneralInfo = (props) => {
     const { addToast } = useToasts();
     const [files, setFiles] = useState([]);
     const [exactFile, setExactFile] = useState({});
-    const [dropzoneError, setDropzoneError] = useState('');
+    const [dropzoneErrorProfile, setDropzoneErrorProfile] = useState(false);
 
-    const result = useSelector((state)=> state.employeeProfileImageReducer.employeeProfileImage);
-    
-    
     const result1 = useSelector((state)=> state.employeeCoverDataReducer.employeeCoverImage);
+
+    // Image js code start
+
+
+    const [previewVisible1, setPreviewVisible1] = useState(false);
+    const [previewImage1, setPreviewImage1] = useState('');
+    const [previewTitle1, setPreviewTitle1] = useState('');
+    const [FileList1, setFileList1] = useState([]); 
+  
+    
+
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+  
+ 
+ 
+  const  handleCancel = () => {
+      setPreviewVisible1(false);
+  };
+
+  const handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    // this.setState({
+    //   previewImage: file.url || file.preview,
+    //   previewVisible: true,
+    //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+    // });
+
+    setPreviewImage1(file.url || file.preview);
+    setPreviewVisible1(true);
+    setPreviewTitle1(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+  };
+
+ const handleChange = ({ fileList }) => {
+     setFileList1(fileList);
+     setDropzoneErrorProfile(false);
     
     
-  
-  
+ };
 
-    // file handle
-    const updateFiles = (incommingFiles) => {
-        if(incommingFiles.length > 1){
-            setDropzoneError('Max 1 file');
-        }else{
-            setFiles(incommingFiles);
-            setExactFile(incommingFiles[0]?.file)
-            setDropzoneError('');
-        }
-        // setFiles(incommingFiles);
-        //     setExactFile(incommingFiles[0]?.file)
-        //     setDropzoneError('');
-    };
 
+
+ 
+    // Image js code end
+
+    
+
+    
+    
 
     // remove file
     const onDelete = (id) => {
@@ -90,8 +135,8 @@ const EmployeeGeneralInfo = (props) => {
 
         event.preventDefault();
         const subData = new FormData(event.target);
-        subData.append('profileImage',result[0]?.originFileObj);
-        subData.append('coverImage',result1[0]?.originFileObj);
+        subData.append('profileImage',FileList1[0]?.originFileObj);
+        subData.append('coverImage', result1.length >0 ? result1[0]?.originFileObj : null);
         //  watch form data values
             for (var value of subData.values()) {
         
@@ -108,6 +153,9 @@ const EmployeeGeneralInfo = (props) => {
         }
         if(nationalityValue == 0){
             setNationalityError('Nationality is Required');
+        }
+        if(FileList1?.length <1){
+         setDropzoneErrorProfile(true);
         }
         else{
             
@@ -347,10 +395,39 @@ const EmployeeGeneralInfo = (props) => {
                                     <span>Profile Image <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
-                                    <ProfilePicturesWall/>
-                                        {
-                                            dropzoneError && <span className="text-danger">{dropzoneError}</span>
-                                        }
+                                    <Upload
+         
+         listType="picture-card"
+         multiple={false}
+         fileList={FileList1}
+         onPreview={handlePreview}
+         onChange={handleChange}
+         beforeUpload={(file)=>{
+
+           
+             
+           
+             return false;
+         }}
+       >
+          {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/></div>: ''}
+       </Upload>
+       <Modal
+         visible={previewVisible1}
+         title={previewTitle1}
+         footer={null}
+         onCancel={handleCancel}
+       >
+         <img alt="example" style={{ width: '100%' }} src={previewImage1} />
+       </Modal>
+       
+       {
+        dropzoneErrorProfile ? 
+        <span className='text-danger'>Profile image must be selected</span>
+        :
+        null
+       }
+                                       
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row className="has-icon-left position-relative">
@@ -359,9 +436,7 @@ const EmployeeGeneralInfo = (props) => {
                                     </Col>
                                     <Col md="6">
                                     <CoverPicturesWall/>
-                                        {
-                                            dropzoneError && <span className="text-danger">{dropzoneError}</span>
-                                        }
+                                       
                                     </Col>
                                 </FormGroup>
 

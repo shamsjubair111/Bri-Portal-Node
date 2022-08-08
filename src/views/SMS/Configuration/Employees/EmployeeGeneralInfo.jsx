@@ -1,5 +1,9 @@
 import React, { createRef, useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
+import { Upload, Modal } from 'antd';
+import "antd/dist/antd.css";
+import * as Icon from 'react-feather';
+import { Image } from 'antd';
 import {
   Button,
   Form,
@@ -68,6 +72,15 @@ const EmployeeGeneralInfo = (props) => {
 
       setUserInfo(res);
     });
+
+    get(`EmployeType/Index`).then((action) => {
+      setEmployeeList(action);
+    });
+
+    get(`Nationality/Index`).then((action) => {
+      setNationality(action);
+    });
+
   }, [id]);
 
   // file handle
@@ -84,22 +97,7 @@ const EmployeeGeneralInfo = (props) => {
     //     setDropzoneError('');
   };
 
-  // remove file
-  const onDelete = (id) => {
-    setFiles([]);
-  };
 
-  useEffect(() => {
-    get(`EmployeType/Index`).then((action) => {
-      setEmployeeList(action);
-    });
-  }, []);
-
-  useEffect(() => {
-    get(`Nationality/Index`).then((action) => {
-      setNationality(action);
-    });
-  }, []);
 
   const employeeTypeName = employeeList?.map((emp) => ({
     label: emp.name,
@@ -109,6 +107,65 @@ const EmployeeGeneralInfo = (props) => {
     label: nation.name,
     value: nation.id,
   }));
+
+   // Image js code start
+
+
+   const [previewVisible1, setPreviewVisible1] = useState(false);
+   const [previewImage1, setPreviewImage1] = useState('');
+   const [previewTitle1, setPreviewTitle1] = useState('');
+   const [FileList1, setFileList1] = useState([]); 
+   const [dropzoneErrorProfile, setDropzoneErrorProfile] = useState(false);
+ 
+   
+
+ function getBase64(file) {
+   return new Promise((resolve, reject) => {
+     const reader = new FileReader();
+     reader.readAsDataURL(file);
+     reader.onload = () => resolve(reader.result);
+     reader.onerror = error => reject(error);
+   });
+ }
+ 
+
+
+ const  handleCancel = () => {
+     setPreviewVisible1(false);
+ };
+
+ const handlePreview = async file => {
+   if (!file.url && !file.preview) {
+     file.preview = await getBase64(file.originFileObj);
+   }
+
+   // this.setState({
+   //   previewImage: file.url || file.preview,
+   //   previewVisible: true,
+   //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+   // });
+
+   setPreviewImage1(file.url || file.preview);
+   setPreviewVisible1(true);
+   setPreviewTitle1(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+ };
+
+const handleChange = ({ fileList }) => {
+    setFileList1(fileList);
+    setDropzoneErrorProfile(false);
+   
+   
+};
+
+
+
+
+   // Image js code end
 
   // submitting form
   const handleSubmit = (event) => {
@@ -128,9 +185,12 @@ const EmployeeGeneralInfo = (props) => {
 
     if (employeeValue == 0) {
       setEmployeeError("Employee Type is Required");
-    } else if (nationalityValue == 0) {
+    } 
+     if (nationalityValue == 0) {
       setNationalityError("Nationality is Required");
-    } else {
+    }
+     
+     else {
       Axios.put(`${rootUrl}Employee/Update`, subData, config).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
@@ -239,9 +299,9 @@ const EmployeeGeneralInfo = (props) => {
                       name="employeeTypeId"
                       id="employeeTypeId"
                     />
-                    {employeeError && (
+                   
                       <span className="text-danger">{employeeError}</span>
-                    )}
+                    
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -265,9 +325,9 @@ const EmployeeGeneralInfo = (props) => {
                       name="nationalityId"
                       id="nationalityId"
                     />
-                    {nationalityError && (
+               
                       <span className="text-danger">{nationalityError}</span>
-                    )}
+              
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -351,10 +411,63 @@ const EmployeeGeneralInfo = (props) => {
                     <span>Profile Image <span className="text-danger">*</span>{" "}</span>
                   </Col>
                   <Col md="6">
-                    <ProfilePicturesWall />
-                    {dropzoneError && (
-                      <span className="text-danger">{dropzoneError}</span>
-                    )}
+                   <div className="d-flex">
+                   {
+                      userInfo?.profileImageMedia !== null ?
+                    <div className="me-2">
+                    
+
+                      <Image
+                      width={104} height={104}
+                      src={rootUrl+userInfo?.profileImageMedia?.fileUrl}
+                    />
+                   
+                    
+                    </div>
+
+                    :
+                    null
+                    }
+                 
+                   
+                 <div className="ms-2">
+
+                 <Upload
+                
+                listType="picture-card"
+                multiple={false}
+                fileList={FileList1}
+                onPreview={handlePreview}
+                onChange={handleChange}
+                beforeUpload={(file)=>{
+
+           
+                      
+                    
+                      return false;
+                  }}
+                >
+                    {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/></div>: ''}
+                </Upload>
+                <Modal
+                  visible={previewVisible1}
+                  title={previewTitle1}
+                  footer={null}
+                  onCancel={handleCancel}
+                >
+                  <img alt="example" style={{ width: '100%' }} src={previewImage1} />
+                </Modal>
+
+                {
+                  dropzoneErrorProfile ? 
+                  <span className='text-danger'>Profile image must be selected</span>
+                  :
+                  null
+                }
+
+                 </div>
+                 </div>
+                 
                   </Col>
                 </FormGroup>
                 <FormGroup row className="has-icon-left position-relative">
@@ -363,9 +476,7 @@ const EmployeeGeneralInfo = (props) => {
                   </Col>
                   <Col md="6">
                     <CoverPicturesWall />
-                    {dropzoneError && (
-                      <span className="text-danger">{dropzoneError}</span>
-                    )}
+                   
                   </Col>
                 </FormGroup>
 

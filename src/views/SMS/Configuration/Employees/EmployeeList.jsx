@@ -201,7 +201,7 @@ const EmployeeList = (props) => {
               <CardBody>
               
                 <Row>
-              <Col className="uapp-mb" md="3" sm="3">
+              <Col className="uapp-mb" md="6" sm="12">
                 <Select options={employeeTypeName}
                         value={{label: employeeName ,value: employeeId }}
                         onChange={opt => selectEmployeeType(opt.label, opt.value)}
@@ -211,7 +211,7 @@ const EmployeeList = (props) => {
                 </Col>
 
 
-              <Col className="uapp-mb" md="3" sm="3" style={{display: 'flex'}}>
+              <Col className="uapp-mb" md="6" sm="12" style={{display: 'flex'}}>
 
                 <Input
                   style={{ height:"2.7rem"}}
@@ -229,60 +229,25 @@ const EmployeeList = (props) => {
 
 
 
-              <Col className="uapp-mb text-left" md="2" sm="2" xs="6">
-                <div className="uapp-Search-div">
-                  <i onClick={handleSearch} className="fas fa-search"></i>
-
-                </div>
-                </Col>
-
-              <Col className="uapp-mb text-left" md="2" sm="2" xs="3">
-           {/*     <Button onClick={handleReset} className="btn btn-uapp-danger"> <i className="fas fa-sync-alt"></i> Reset</Button>*/}
-                <Button onClick={handleReset} className="btn btn-uapp-danger"> Reset</Button>
-              </Col>
-
-              <Col md="2" sm="2" xs="3" className="text-right" style={{ float: 'right' }}>
-
-                <Dropdown className="uapp-dropdown" style={{float: 'right'}} isOpen={dropdownOpen} toggle={toggle}>
-                    <DropdownToggle  caret>
-                    <i className="fas fa-ellipsis-v"></i>
-                    </DropdownToggle>
-                    <DropdownMenu className='bg-dd'>
-                    {/* <DropdownItem> */}
-                        
-                      <div className='d-flex justify-content-around align-items-center mt-2'>
-                        <div className='text-light cursor-pointer'>
-                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
-                        </div>
-                        <div className='text-light cursor-pointer'>
-                          <ReactToPrint
-                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
-                             content={() => componentRef.current}
-                           />
-                        </div>
-                      </div>
-
-                        {/* <ReactHTMLTableToExcel
-                          id="test-table-xls-button"
-                          className="download-table-xls-button"
-                          table="table-to-xls"
-                          filename="tablexls"
-                          sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
-
-                        
-                           {/* <Button onClick={onDownload}> Export excel </Button> */}
-
-                      {/* </DropdownItem> */}
-
-                      {/* <DropdownItem> */}
-                     
-                      {/* </DropdownItem> */}
-                    </DropdownMenu>
-                </Dropdown>
-
-                </Col>
               
+                </Row>
+
+                <Row>
+
+                <Col lg="12" md="12" sm="12" xs="12">
+                    <div style={{ display: "flex", justifyContent: "end" }}>
+                      <div
+                        className="mt-1 mx-1 d-flex btn-clear"
+                        onClick={handleReset}
+                      >
+                        {/* <Icon.X  className='text-danger' />*/}
+                        <span className="text-danger">
+                          <i className="fa fa-times"></i> Clear
+                        </span>
+                      </div>
+              
+                    </div>
+                  </Col>
                 </Row>
             
 
@@ -312,7 +277,7 @@ const EmployeeList = (props) => {
 
               <Col lg="6" md="7" sm="6" xs="8">
                 <Row>
-                          <Col lg="7" md="6"></Col>
+                          <Col lg="5" md="6"></Col>
                    <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
                             Showing
                             </Col>
@@ -324,6 +289,50 @@ const EmployeeList = (props) => {
                             id="employeeType"
                         />
                             </Col>
+
+                            
+              <Col md="2" sm="2" xs="3" className="text-right" style={{ float: 'right' }}>
+
+<Dropdown className="uapp-dropdown" style={{float: 'right'}} isOpen={dropdownOpen} toggle={toggle}>
+    <DropdownToggle  caret>
+    <i className="fas fa-ellipsis-v"></i>
+    </DropdownToggle>
+    <DropdownMenu className='bg-dd'>
+    {/* <DropdownItem> */}
+        
+      <div className='d-flex justify-content-around align-items-center mt-2'>
+        <div className='text-light cursor-pointer'>
+           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+        </div>
+        <div className='text-light cursor-pointer'>
+          <ReactToPrint
+             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
+             content={() => componentRef.current}
+           />
+        </div>
+      </div>
+
+        {/* <ReactHTMLTableToExcel
+          id="test-table-xls-button"
+          className="download-table-xls-button"
+          table="table-to-xls"
+          filename="tablexls"
+          sheet="tablexls"
+          buttonText="Download as XLS"/> */}
+
+        
+           {/* <Button onClick={onDownload}> Export excel </Button> */}
+
+      {/* </DropdownItem> */}
+
+      {/* <DropdownItem> */}
+     
+      {/* </DropdownItem> */}
+    </DropdownMenu>
+</Dropdown>
+
+</Col>
+
                         </Row>
                     </Col>
                 </Row>

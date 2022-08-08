@@ -81,14 +81,16 @@ const EmployeeContactInfo = () => {
         }
         else{
            
-            const returnValue = post(`EmployeeContactInformation/Create`,subData).then((action)=> {
+             post(`EmployeeContactInformation/Create`,subData).then((action)=> {
               
-               
+               if(action?.status == 200){
                 addToast(action?.data?.message, {
                     appearance:  'success',
                     autoDismiss: true,
                   })
                   history.push('/employeeList');
+               }
+              
             })
         }
     }
@@ -140,8 +142,7 @@ const EmployeeContactInfo = () => {
                 <Nav tabs>
                             <NavItem>
                                 <NavLink
-                                active={activetab === '1'}
-                                onClick={() =>toggle('1')}
+                               disabled
                                 >
                                 General Information
                                 </NavLink>

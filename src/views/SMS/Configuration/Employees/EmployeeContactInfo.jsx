@@ -55,6 +55,17 @@ const EmployeeContactInfo = () => {
       setCountryLabel(res?.country.name);
       setCountryValue(res?.countryId);
     });
+
+    get(`AddressType/GetAll`).then((action) => {
+      console.log("address", action);
+      setAddressLine(action);
+    });
+
+    get(`Country/Index`).then((action) => {
+      setCountryList(action);
+    });
+
+
   }, []);
 
   const location = useLocation();
@@ -66,18 +77,8 @@ const EmployeeContactInfo = () => {
     hiddenId = "";
   }
 
-  useEffect(() => {
-    get(`AddressType/GetAll`).then((action) => {
-      console.log("address", action);
-      setAddressLine(action);
-    });
-  }, []);
 
-  useEffect(() => {
-    get(`Country/Index`).then((action) => {
-      setCountryList(action);
-    });
-  }, []);
+
 
   const addressLineOpt = addressLine?.map((add) => ({
     label: add.name,
@@ -95,6 +96,9 @@ const EmployeeContactInfo = () => {
     if (countryValue == 0) {
       setCountryError("Country is Required");
     } 
+    if(addressLineValue ==0 ){
+      setAddressLineError('Address is Required');
+    }
     else {
       const returnValue = put(
         `EmployeeContactInformation/Update`,
@@ -124,6 +128,7 @@ const EmployeeContactInfo = () => {
   const selectAddressLine = (label, value) => {
     setAddressLineName(label);
     setAddressLineValue(value);
+    setAddressLineError('');
   };
 
   // select Country
@@ -249,6 +254,7 @@ const EmployeeContactInfo = () => {
                       name="addressTypeId"
                       id="addressTypeId"
                     />
+                    <span className="text-danger">{addressLineError}</span>
                   </Col>
                 </FormGroup>
 
@@ -264,9 +270,9 @@ const EmployeeContactInfo = () => {
                       name="countryId"
                       id="countryId"
                     />
-                    {countryError && (
+                   
                       <span className="text-danger">{countryError}</span>
-                    )}
+                  
                   </Col>
                 </FormGroup>
 

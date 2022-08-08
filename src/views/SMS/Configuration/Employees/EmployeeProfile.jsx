@@ -12,21 +12,19 @@ import EditDivButton from '../../Components/EditDivButton';
 
 const EmployeeProfile = () => {
 
-  const location = useLocation();
+
   const history = useHistory();
   const [employeeDetails, setemployeeDetails] = useState({});
   const [employeeImgDetails, setemployeeImgDetails] = useState({});
   const [employeeType, setemployeeType] = useState({});
 
 
-  // employee id from location
-  const empId = location.id;
-  // console.log("id", empId);
+
  
 
   useEffect(() => {
-    // const returnvalue = get(`Employee/EmployeeProfile/${empId}`).then((action) => {
-    const returnvalue = get(`Employee/Profile/${localStorage.getItem('empId')}`).then((action) => {
+
+     get(`Employee/Profile/${localStorage.getItem('empId')}`).then((action) => {
       setemployeeDetails(action);
       console.log("datas", action);
       setemployeeImgDetails(action.profileImageMedia);
@@ -34,8 +32,7 @@ const EmployeeProfile = () => {
     })
   }, [])
 
-  // const imgUrl = employeeImgDetails?.fileUrl;
-  // const finalImg = imgUrl?.slice(2, imgUrl.length);
+
   
 
   // redirect to dashboard
@@ -100,11 +97,7 @@ const EmployeeProfile = () => {
                   </Col>
 
                   <Col> 
-                  {/* <div className="uapp-employee-profile-Edit">
-                  <div className="text-right">
-                    <span> <i className="fas fa-pencil-alt"></i> </span>
-                  </div>
-                  </div>   */}
+                 
 
                   <EditDivButton
                     className={"uapp-employee-profile-Edit"}
@@ -125,11 +118,6 @@ const EmployeeProfile = () => {
                             <h4>{employeeDetails?.firstName} {employeeDetails?.lastName}</h4>
                           </li>
 
-                           <li> 
-                            {/* <h6>{employeeType.name}</h6> */}
-                          </li>
-
-                          
                         </ul>
 
                     </Col> 
@@ -310,8 +298,6 @@ const EmployeeProfile = () => {
       </div>
     </Col>
 
-
-
           <Col md="4"> 
            <Card className="uapp-employee-profile-right">
              <div className="uapp-profile-CardHeader">
@@ -407,27 +393,6 @@ const EmployeeProfile = () => {
         </Row>
       </div>
 
-
-      {/*<Card>*/}
-
-      {/*    <CardBody>*/}
-
-      {/*        <Row>*/}
-
-      {/*            <Col md="8">*/}
-      {/*            <img className="empProfileImg" src={`${rootUrl}/${finalImg}`}></img>*/}
-      {/*            </Col>*/}
-
-      {/*            <Col md="4">*/}
-
-      {/*            </Col>*/}
-
-      {/*        </Row>*/}
-
-
-      {/*    </CardBody>*/}
-
-      {/*</Card>*/}
     </div>
   )
 }

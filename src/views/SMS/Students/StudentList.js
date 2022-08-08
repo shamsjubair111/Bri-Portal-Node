@@ -225,6 +225,7 @@ const StudentList = () => {
 
     // add university handler
     const handleAddStudent = () => {
+         localStorage.removeItem('applictionStudentId');
         history.push("/addStudentRegister");
       };
 
