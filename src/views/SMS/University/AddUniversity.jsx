@@ -83,7 +83,8 @@ const AddUniversity = (props) => {
   const [logoFile, setLogoFile] = useState({});
   const [coverFile, setCoverFile] = useState({});
   const [universityData, setUniversityData] = useState({});
-  const [uniId, setUniId] = useState(0);
+  const [uniId, setUniId] = useState(undefined);
+  const [check, setCheck] = useState(true);
 
 
   const method = localStorage.getItem('editMethod');
@@ -163,10 +164,11 @@ const AddUniversity = (props) => {
     })
     .catch();
 
-    if(localStorage.getItem('id')){
+    // if(localStorage.getItem('id')){
+    if(uniId != undefined){
       get(`University/get/${localStorage.getItem('id')}`)
     .then(res => {
-      console.log('uniIddata', res);
+      console.log('uniIddata', res?.id);
       setUniversityData(res);
       setProviderTypeLabel(res?.provider?.name);
       setProviderTypeValue(res?.provider?.value);
@@ -177,6 +179,7 @@ const AddUniversity = (props) => {
       setUniStateLabel(res?.universityState?.name);
       setUniStateValue(res?.universityState?.id);
       setUniId(res?.id);
+      setCheck(false);
     })
     }
 
@@ -297,21 +300,21 @@ const AddUniversity = (props) => {
     if(unistateValue === 0){
       setUniStateError(true);
     }
-    if(FileList1.length<1 && method != 'put'){
+    if(FileList1.length<1 && uniId == undefined){
       setLogoDropzoneError(true);
     }
-    if(FileList1.length>=1 && method == 'put'){
+    if(FileList1.length>=1 && uniId != undefined ){
       setLogoDropzoneError(false);
     }
-    if(FileList2.length<1 && method != 'put'){
+    if(FileList2.length<1 && uniId == undefined){
       setCoverDropzoneError(true);
     }
-    if(FileList2.length>=1 && method == 'put')
+    if(FileList2.length>=1 && uniId != undefined)
     {
       setCoverDropzoneError(false);
     }
     else{
-      if(method == 'put'){
+      if(uniId != undefined){
         put('University/Update', subdata, config)
         .then(res => {
           console.log('1st put response',res);
@@ -574,7 +577,8 @@ const AddUniversity = (props) => {
               <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
 
                   {
-                  method == 'put' ?
+                  // method == 'put' ?
+                  uniId != undefined ?
                   <>
                   <input
                   type='hidden'

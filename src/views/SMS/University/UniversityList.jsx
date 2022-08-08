@@ -230,8 +230,8 @@ const UniversityList = (props) => {
 
   // add university handler
   const handleAddUniversity = () => {
-    localStorage.removeItem('editUniId');
-    localStorage.removeItem('editMethod');
+    // localStorage.removeItem('editUniId');
+    // localStorage.removeItem('editMethod');
     localStorage.removeItem('id');
     history.push("/addUniversity");
   };
@@ -385,7 +385,7 @@ const UniversityList = (props) => {
     console.log('editData',data);
     localStorage.removeItem("id");
     localStorage.setItem('id', data?.id);
-    localStorage.setItem('editMethod','put');
+    // localStorage.setItem('editMethod','put');
 
     history.push('/addUniversity');
   }

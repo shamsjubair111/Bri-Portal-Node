@@ -22,7 +22,7 @@ const AddUniversityFeatures = () => {
     const [radioAccommodations, setRadioAccommodations] = useState('false');
 
     const [features, setFeatures] = useState({});
-    const [featureId, setFeatureId] = useState(0);
+    const [featureId, setFeatureId] = useState(undefined);
 
     const method = localStorage.getItem('editMethod');
    
@@ -42,7 +42,7 @@ const AddUniversityFeatures = () => {
         // get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
         get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('id')}`)
         .then(res =>{
-            console.log('unifeatures', res);
+            console.log('unifeatures', res?.id);
             setFeatures(res);
             setFeatureId(res?.id);
             setRadioPracticalTraining(`${res?.practicalTraining}`);
@@ -71,7 +71,7 @@ const AddUniversityFeatures = () => {
       //  }
       //}
 
-      if(method == 'put' && featureId !== undefined){
+      if(featureId !== undefined){
         put('UniversityFeatures/Update', subdata)
         .then(res => {
             console.log('1st put response',res);
@@ -308,7 +308,8 @@ const AddUniversityFeatures = () => {
                             <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
 
                                 {
-                                  method == 'put' ?
+                                //   method == 'put' ?
+                                 featureId !== undefined ?
                                   <>
                                   <input
                                   type='hidden'

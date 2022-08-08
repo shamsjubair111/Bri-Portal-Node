@@ -187,7 +187,7 @@ const UniversityRecquiredDocument = () => {
 
   const onGoUniList = () => {
     // const id = localStorage.getItem("id");
-    localStorage.removeItem("id");
+    // localStorage.removeItem("id");
     history.push('/universityList')
     // console.log(id,localStorage.getItem("id"));
   }
