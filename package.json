@@ -84,6 +84,7 @@
     "react-treebeard": "~3.2.3",
     "reactjs-toastr": "^1.1.0",
     "reactstrap": "^8.10.1",
+    "reactstrap-date-picker": "^1.0.2",
     "recharts": "^2.1.10",
     "redocx": "^1.1.4",
     "redux": "^4.1.1",

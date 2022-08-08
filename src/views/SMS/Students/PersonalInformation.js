@@ -535,7 +535,7 @@ const handleSubmit = (event) => {
          <Nav tabs>
  
          <NavItem>
-         <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+         <NavLink style={{ color: '#1e98b0'}} active={activetab === "1"} onClick={() => toggle("1")}>
            Application 
          </NavLink>
        </NavItem>
@@ -547,48 +547,48 @@ const handleSubmit = (event) => {
            </NavItem>
  
            <NavItem>
-             <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+             <NavLink style={{ color: '#1e98b0'}}  active={activetab === "3"} onClick={() => toggle("3")}>
                Contact 
              </NavLink>
            </NavItem>
  
           
            <NavItem>
-             <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+             <NavLink  style={{ color: '#1e98b0'}} active={activetab === "4"} onClick={() => toggle("4")}>
                Educational 
              </NavLink>
            </NavItem>
  
            <NavItem>
-             <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+             <NavLink  style={{ color: '#1e98b0'}} active={activetab === "5"} onClick={() => toggle("5")}>
                Test Score
              </NavLink>
            </NavItem>
  
            <NavItem>
  
-             <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+             <NavLink  style={{ color: '#1e98b0'}} active={activetab === "6"} onClick={() => toggle("6")}>
                Experience 
              </NavLink>
            </NavItem>
  
            <NavItem>
  
-             <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+             <NavLink  style={{ color: '#1e98b0'}} active={activetab === "7"} onClick={() => toggle("7")}>
                Reference
              </NavLink>
            </NavItem>
  
            <NavItem>
  
-             <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+             <NavLink  style={{ color: '#1e98b0'}} active={activetab === "8"} onClick={() => toggle("8")}>
                Personal Statement
              </NavLink>
            </NavItem>
  
            <NavItem>
  
-             <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
+             <NavLink style={{ color: '#1e98b0'}}  active={activetab === "9"} onClick={() => toggle("9")}>
                Others
              </NavLink>
            </NavItem>
@@ -807,7 +807,7 @@ const handleSubmit = (event) => {
                       onChange={(e)=> SetDate(e.target.value)}
                       defaultValue={datee}
                       
-                      required
+                      
                     />
 
                     {/* <div className="form-control-position">

@@ -356,60 +356,60 @@ const handleUpdate = (id) => {
        <Nav tabs>
 
        <NavItem>
-       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
+       <NavLink style={{ color: '#1e98b0'}} active={activetab === "1"} onClick={() => toggle("1")}>
          Application 
        </NavLink>
      </NavItem>
 
          <NavItem>
-           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+           <NavLink style={{ color: '#1e98b0'}} active={activetab === "2"} onClick={() => toggle("2")}>
              Personal 
            </NavLink>
          </NavItem>
 
          <NavItem>
-           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
+           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "3"} onClick={() => toggle("3")}>
              Contact 
            </NavLink>
          </NavItem>
 
         
          <NavItem>
-           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
+           <NavLink  style={{ color: '#1e98b0'}} active={activetab === "4"} onClick={() => toggle("4")}>
              Educational 
            </NavLink>
          </NavItem>
 
          <NavItem>
-           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
+           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "5"} onClick={() => toggle("5")}>
              Test Score
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
+           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "6"} onClick={() => toggle("6")}>
              Experience 
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
+           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "7"} onClick={() => toggle("7")}>
              Reference
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
+           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "8"} onClick={() => toggle("8")}>
              Personal Statement
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
+           <NavLink  style={{ color: '#1e98b0'}} active={activetab === "9"} onClick={() => toggle("9")}>
              Others
            </NavLink>
          </NavItem>
@@ -616,12 +616,9 @@ const handleUpdate = (id) => {
                       id="attendedInstitutionFrom"
                       defaultValue={from}
                       
-                      required
+                    
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
                   </Col>
 
                 </FormGroup>
@@ -638,12 +635,9 @@ const handleUpdate = (id) => {
                       id="attendedInstitutionTo"
                       defaultValue={to}
                       
-                      required
+                  
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
                   </Col>
                 </FormGroup>
             
@@ -671,9 +665,7 @@ const handleUpdate = (id) => {
                     <span className = 'text-danger'>Select Education Level</span>
                   }
 
-                  {/* <div className="form-control-position">
-                                      <User size={15} />
-                                  </div> */}
+                 
                 </Col>
               </FormGroup>
 
@@ -901,12 +893,11 @@ const handleUpdate = (id) => {
                       name="attendedInstitutionFrom"
                       id="attendedInstitutionFrom"
                       
-                      required
+                      
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+
+                 
                   </Col>
 
                 </FormGroup>
@@ -922,12 +913,10 @@ const handleUpdate = (id) => {
                       name="attendedInstitutionTo"
                       id="attendedInstitutionTo"
                       
-                      required
+                     
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                 
                   </Col>
                 </FormGroup>
             
@@ -955,9 +944,7 @@ const handleUpdate = (id) => {
                     <span className = 'text-danger'>Select Education Level</span>
                   }
 
-                  {/* <div className="form-control-position">
-                                      <User size={15} />
-                                  </div> */}
+               
                 </Col>
               </FormGroup>
 
