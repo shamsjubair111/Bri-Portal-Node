@@ -39,6 +39,11 @@ import put from "../../../helpers/put";
 import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../Components/ButtonForFunction";
 
+import * as Icon from "react-feather";
+import { Upload, Modal as AntdModal } from "antd";
+import "antd/dist/antd.css";
+import { Image } from "antd";
+
 const AddUniversity = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
   const universityTypes = props.univerSityTypeList[0];
@@ -68,8 +73,10 @@ const AddUniversity = (props) => {
   const [exactCoverFile, setExactCoverFile] = useState({});
   const [exactLogoFile, setExactLogoFile] = useState({});
 
-  const [coverDropzoneError, setCoverDropzoneError] = useState("");
-  const [logoDropzoneError, setLogoDropzoneError] = useState("");
+  // const [coverDropzoneError, setCoverDropzoneError] = useState("");
+  const [coverDropzoneError, setCoverDropzoneError] = useState(false);
+  // const [logoDropzoneError, setLogoDropzoneError] = useState("");
+  const [logoDropzoneError, setLogoDropzoneError] = useState(false);
 
   const [submitData, setSubmitData] = useState(false);
 
@@ -82,6 +89,71 @@ const AddUniversity = (props) => {
   const method = localStorage.getItem('editMethod');
   
   const {addToast} = useToasts();
+
+  // For uploading university logo
+  const [FileList1, setFileList1] = useState([]);
+  const [previewVisible1, setPreviewVisible1] = useState(false);
+  const [previewImage1, setPreviewImage1] = useState("");
+  const [previewTitle1, setPreviewTitle1] = useState("");
+
+  // For uploading university cover image
+  const [FileList2, setFileList2] = useState([]);
+  const [previewVisible2, setPreviewVisible2] = useState(false);
+  const [previewImage2, setPreviewImage2] = useState("");
+  const [previewTitle2, setPreviewTitle2] = useState("");
+
+  const handleChange1 = ({ fileList }) => {
+    setFileList1(fileList);
+    setLogoDropzoneError(false);
+    console.log(fileList);
+  };
+
+  const handleChange2 = ({ fileList }) => {
+    setFileList2(fileList);
+    setCoverDropzoneError(false);
+    console.log(fileList);
+  };
+
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  const handleCancel1 = () => {
+    setPreviewVisible1(false);
+  };
+
+  const handleCancel2 = () => {
+    setPreviewVisible2(false);
+  };
+
+  const handlePreview1 = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage1(file.url || file.preview);
+    setPreviewVisible1(true);
+    setPreviewTitle1(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+
+  const handlePreview2 = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage2(file.url || file.preview);
+    setPreviewVisible2(true);
+    setPreviewTitle2(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
 
   useEffect(()=>{
 
@@ -112,8 +184,8 @@ const AddUniversity = (props) => {
 
 
 
-    const logoResult =  useSelector((state) => state.UniversityLogoImageReducer.universityLogoImage);
-    const coverResult = useSelector((state)=> state.UniversityCoverImageReducer.universityCoverImage);
+    // const logoResult =  useSelector((state) => state.UniversityLogoImageReducer.universityLogoImage);
+    // const coverResult = useSelector((state)=> state.UniversityCoverImageReducer.universityCoverImage);
 
   
  
@@ -189,8 +261,18 @@ const AddUniversity = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
-    subdata.append("UniversityLogoFile", logoResult[0]?.originFileObj);
-    subdata.append("CoverImageFile", coverResult[0]?.originFileObj);
+
+    // subdata.append("UniversityLogoFile", logoResult[0]?.originFileObj);
+    // subdata.append("CoverImageFile", coverResult[0]?.originFileObj);
+
+    subdata.append(
+      "UniversityLogoFile",
+      FileList1.length == 0 ? null : FileList1[0]?.originFileObj
+    );
+    subdata.append(
+      "CoverImageFile",
+      FileList2.length == 0 ? null : FileList2[0]?.originFileObj
+    );
 
     //  watch form data values
     // for (var value of subdata.values()) {
@@ -214,6 +296,19 @@ const AddUniversity = (props) => {
     }
     if(unistateValue === 0){
       setUniStateError(true);
+    }
+    if(FileList1.length<1 && method != 'put'){
+      setLogoDropzoneError(true);
+    }
+    if(FileList1.length>=1 && method == 'put'){
+      setLogoDropzoneError(false);
+    }
+    if(FileList2.length<1 && method != 'put'){
+      setCoverDropzoneError(true);
+    }
+    if(FileList2.length>=1 && method == 'put')
+    {
+      setCoverDropzoneError(false);
     }
     else{
       if(method == 'put'){
@@ -762,10 +857,63 @@ const AddUniversity = (props) => {
                     </span>
                   </Col>
                   <Col md="6">
-                  <PicturesWall/>
+                    
+                  <div className="row">
+                          {universityData?.universityLogo ? (
+                            <div className="col-md-3">
+                              <Image
+                                width={104}
+                                height={104}
+                                src={
+                                  rootUrl + universityData?.universityLogo?.thumbnailUrl
+                                }
+                              />
+                            </div>
+                          ) : null}
+
+                          <div className="col-md-3">
+                            <Upload
+                              listType="picture-card"
+                              multiple={false}
+                              fileList={FileList1}
+                              onPreview={handlePreview1}
+                              onChange={handleChange1}
+                              beforeUpload={(file) => {
+                                return false;
+                              }}
+                            >
+                              {FileList1.length < 1 ? (
+                                <div
+                                  className="text-danger"
+                                  style={{ marginTop: 8 }}
+                                >
+                                  <Icon.Upload />
+                                  <br />
+                                  <span>Upload</span>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </Upload>
+                            <AntdModal
+                              visible={previewVisible1}
+                              title={previewTitle1}
+                              footer={null}
+                              onCancel={handleCancel1}
+                            >
+                              <img
+                                alt="example"
+                                style={{ width: "100%" }}
+                                src={previewImage1}
+                              />
+                            </AntdModal>
+                          </div>
+                        </div>
+
+                  {/* <PicturesWall/> */}
 
                     {logoDropzoneError && (
-                      <span className="text-danger">{logoDropzoneError}</span>
+                      <span className="text-danger">You must upload a logo.</span>
                     )}
                   </Col>
                 </FormGroup>
@@ -778,11 +926,63 @@ const AddUniversity = (props) => {
                     </span>
                   </Col>
                   <Col md="6">
+
+                  <div className="row">
+                          {universityData?.coverPhoto ? (
+                            <div className="col-md-3">
+                              <Image
+                                width={104}
+                                height={104}
+                                src={
+                                  rootUrl + universityData?.coverPhoto?.thumbnailUrl
+                                }
+                              />
+                            </div>
+                          ) : null}
+
+                          <div className="col-md-3">
+                            <Upload
+                              listType="picture-card"
+                              multiple={false}
+                              fileList={FileList2}
+                              onPreview={handlePreview2}
+                              onChange={handleChange2}
+                              beforeUpload={(file) => {
+                                return false;
+                              }}
+                            >
+                              {FileList2.length < 1 ? (
+                                <div
+                                  className="text-danger"
+                                  style={{ marginTop: 8 }}
+                                >
+                                  <Icon.Upload />
+                                  <br />
+                                  <span>Upload</span>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </Upload>
+                            <AntdModal
+                              visible={previewVisible2}
+                              title={previewTitle2}
+                              footer={null}
+                              onCancel={handleCancel2}
+                            >
+                              <img
+                                alt="example"
+                                style={{ width: "100%" }}
+                                src={previewImage2}
+                              />
+                            </AntdModal>
+                          </div>
+                        </div>
                     
-                    <CoverPicturesWall/>
+                    {/* <CoverPicturesWall/> */}
                   
                     {coverDropzoneError && (
-                      <span className="text-danger">{coverDropzoneError}</span>
+                      <span className="text-danger">You must upload a cover photo</span>
                     )}
                   </Col>
                 </FormGroup>

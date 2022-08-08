@@ -254,7 +254,7 @@ const EmployeeUpdate = () => {
 
                                 
 
-                                <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <FormGroup row className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'end' }}>
 
                                     {/* <Button.Ripple
                                     type="submit"
@@ -263,12 +263,14 @@ const EmployeeUpdate = () => {
                                     Submit
                                     </Button.Ripple> */}
 
-                                    <CustomButtonRipple
+                                   <Col md="5">
+                                   <CustomButtonRipple
                                       type={"submit"}
                                       className={"mr-1 mt-3 badge-primary"}
                                       name={"Submit"}
                                       permission={6}
                                     />
+                                   </Col>
 
                                 </FormGroup>
                             </Form>

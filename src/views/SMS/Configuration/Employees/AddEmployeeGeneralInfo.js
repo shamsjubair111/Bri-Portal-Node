@@ -105,9 +105,11 @@ const EmployeeGeneralInfo = (props) => {
 
         if(employeeValue == 0){
             setEmployeeError('Employee Type is Required');
-        }else if(nationalityValue == 0){
+        }
+        if(nationalityValue == 0){
             setNationalityError('Nationality is Required');
-        }else{
+        }
+        else{
             
             Axios.post(`${rootUrl}Employee/Create`,subData, config)
                 .then(res => {
@@ -145,13 +147,14 @@ const EmployeeGeneralInfo = (props) => {
     const selectEmployeeType = (label, value) => {
         setEmployeeType(label)
         setEmployeeValue(value)
-
+        setEmployeeError(false);
       }
 
     //   select Nationality Type
     const selectNationalityType = (label, value) => {
-        setNationalityType(label)
-        setNationalityValue(value)
+        setNationalityType(label);
+        setNationalityValue(value);
+        setNationalityError(false);
     }
 
 
@@ -225,7 +228,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Employee Type</span>
+                                    <span>Employee Type <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Select options={employeeTypeName}
@@ -248,7 +251,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Select Nationality</span>
+                                    <span>Select Nationality <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Select options={nationalityName}
@@ -269,7 +272,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>First Name</span>
+                                    <span>First Name <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -287,7 +290,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Last Name</span>
+                                    <span>Last Name <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -305,7 +308,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Email Address</span>
+                                    <span>Email Address <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -323,7 +326,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Phone Number</span>
+                                    <span>Phone Number <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -341,7 +344,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Profile Image</span>
+                                    <span>Profile Image <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                     <ProfilePicturesWall/>
@@ -379,7 +382,7 @@ const EmployeeGeneralInfo = (props) => {
 
 
 
-                                <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <FormGroup row className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'end' }}>
 
                                     {/* <Button.Ripple
                                     type="submit"
@@ -388,12 +391,14 @@ const EmployeeGeneralInfo = (props) => {
                                     Submit
                                     </Button.Ripple> */}
 
-                                    <ButtonForFunction
-                                      type={"submit"}
-                                      className={"mr-1 mt-3 badge-primary"}
-                                      name={"Submit"}
-                                      permission={6}
-                                    />
+                                    <Col md="5">
+                                     <ButtonForFunction
+                                       type={"submit"}
+                                       className={"mr-1 mt-3 badge-primary"}
+                                       name={"Submit"}
+                                       permission={6}
+                                     />
+                                    </Col>
 
                                 </FormGroup>
 

@@ -36,17 +36,18 @@ const SubDepartment =(props)=>{
     const [description,setDescription] = useState('');
 
     useEffect(()=>{
-        const returnValue = get(`Department/Index`).then((action)=>{
+        const returnValue = get(`DepartmentDD/Index`).then((action)=>{
           // console.log(action);
           setdepartmentList(action)
-        })
+        });
       },[])
 
       useEffect(()=>{
-        const returnValue = get(`SubDepartment/Index`).then((action)=>{
-          setSubDepartmentList(action)
+        const returnValue = get(`SubDepartment/Index?id=${filterdepartmentValue}`).then((action)=>{
+          setSubDepartmentList(action);
+          console.log("dept id sublist", action);
         })
-      },[success])
+      },[success, filterdepartmentValue])
 
 
     const departmentName = departmentList?.map(depart => ({label: depart.name, value: depart.id}))
@@ -175,6 +176,12 @@ const SubDepartment =(props)=>{
 
     }
 
+      // on clear
+  const handleClearSearch = () => {
+    setfilterdepartmentLabel("Select Department");
+    setfilterdepartmentValue(0);
+  };
+
     return(
        <div>   
             <Card className="uapp-card-bg">
@@ -194,7 +201,7 @@ const SubDepartment =(props)=>{
 
           <Row>
 
-            <Col lg="4" md="4">
+            <Col lg="12" md="4">
             <Select
               options={departmentName}
                value={{ label: filterdepartmentLabel, value: filterdepartmentValue }}
@@ -205,7 +212,7 @@ const SubDepartment =(props)=>{
             </Col>
 
             
-            <Col lg="4" md="4">
+            {/* <Col lg="4" md="4">
             <Input
               style={{ height: "2.7rem" }}
               type="text"
@@ -216,9 +223,9 @@ const SubDepartment =(props)=>{
               onChange={(e) => setSearchStr(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            </Col>
+            </Col> */}
 
-            <Col lg="4" md="4">
+            {/* <Col lg="4" md="4">
               <div style={{display: 'flex', justifyContent: "space-between"}}>
 
               <div className="uapp-Search-div">
@@ -226,13 +233,13 @@ const SubDepartment =(props)=>{
               </div>
 
               <div className="mt-2">
-                {/* <span onClick={handleClearSearch} className="btn btn-danger">Clear</span> */}
+                <span onClick={handleClearSearch} className="btn btn-danger">Clear</span>
                 <span className="btn btn-danger">Clear</span>
               </div>
 
               </div>
               
-            </Col>
+            </Col> */}
 
             {/* <Col lg="3" md="3" sm="6" xs="6">
               <div className="uapp-Search-div">
@@ -240,6 +247,25 @@ const SubDepartment =(props)=>{
             
               </div>
             </Col> */}
+          </Row>
+          <Row className="">
+            <Col lg="12" md="12" sm="12" xs="12">
+              <div style={{ display: "flex", justifyContent: "end" }}>
+                <div
+                  className="mt-1 mx-1 d-flex btn-clear"
+                  onClick={handleClearSearch}
+                >
+                  {/* <Icon.X  className='text-danger' />*/}
+                  <span className="text-danger">
+                    <i className="fa fa-times"></i> Clear
+                  </span>
+                </div>
+
+                {/* <div className="mt-2 mx-1">
+                <span className="btn btn-primary">Export</span>
+              </div> */}
+              </div>
+            </Col>
           </Row>
         </CardBody>
       </Card>

@@ -99,7 +99,7 @@ const AddSubjectFee = () => {
         <CardBody>
           <Nav tabs>
             <NavItem>
-              <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
+              <NavLink disabled active={activetab === "1"} onClick={() => toggle("1")}>
                 Subject Information
               </NavLink>
             </NavItem>
@@ -128,6 +128,7 @@ const AddSubjectFee = () => {
                   <Col md="6">
                     <Input
                       type="number"
+                      min="0"
                       name="localTutionFee"
                       id="localTutionFee"
                       placeholder="Tution Fee"
@@ -145,6 +146,7 @@ const AddSubjectFee = () => {
                   <Col md="6">
                     <Input
                       type='number'
+                      min="0"
                       placeholder='Enter international tution fee '
                       required
                       name="internationalTutionFee"
@@ -162,6 +164,7 @@ const AddSubjectFee = () => {
                   <Col md="6">
                     <Input
                       type="number"
+                      min="0"
                       name="eU_TutionFee"
                       id="eU_TutionFee"
                       placeholder="Enter EU tution fee"
