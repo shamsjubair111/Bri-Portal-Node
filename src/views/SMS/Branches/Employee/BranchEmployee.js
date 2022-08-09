@@ -34,6 +34,8 @@ const Branch = () => {
       const [branchEmployee, setBranchEmployee] = useState([]);
       const [empty,setEmpty] = useState(false);
       const [employeeInfo, setEmployeeInfo] = useState({});
+      const [check,setCheck] = useState(true);
+      const [imageError, setImageError] = useState(false);
 
       const employeeProfileImage = useSelector((state) => state?.BranchEmployeeProfileImageReducer?.employeeProfileImage);
       // console.log(employeeProfileImage);
@@ -83,11 +85,12 @@ const Branch = () => {
 
        get(`BranchEmployee/Get/${id}`)
        .then(res => {
-         console.log("branchEmployee",res);
+         console.log("branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee",res);
          setEmployeeInfo(res);
          setNationalityLabel(res?.nationality?.name);
          setNationalityValue(res?.nationality?.id);
          setBranchLabel(res?.branch?.name);
+         setCheck(false);
        })
        
 
@@ -135,6 +138,9 @@ const Branch = () => {
 
     if(nationalityValue == 0){
       setNationalityError(true);
+    }
+    if(employeeProfileImage.length <1 && check){
+      setImageError(true);
     }
 
     else{
@@ -460,7 +466,7 @@ const Branch = () => {
                <div className='me-2'>
                  <Image
                 width={104} height={104}
-                src={rootUrl+employeeInfo?.profileImageMedia?.fileUrl}
+                src={rootUrl+employeeInfo?.profileImageMedia?.thumbnailUrl}
               />
                </div>
               : 
@@ -469,6 +475,12 @@ const Branch = () => {
             
               <div className='ms-2'>
               <BranchProfileImage/>
+              {
+                imageError ? 
+                <span className='text-danger'>Profile image must be selected</span>
+                :
+                null
+              }
               </div>
 
               </div>
@@ -484,11 +496,11 @@ const Branch = () => {
              <div className='d-flex'>
 
               {
-                id? 
+                (employeeInfo?.coverImageMedia?.thumbnailUrl !== null && id !== undefined) ?
               <div className='me-2'>
                 <Image
                 width={104} height={104}
-                src={rootUrl+employeeInfo?.coverImageMedia?.fileUrl}
+                src={rootUrl+employeeInfo?.coverImageMedia?.thumbnailUrl}
               />
               </div>
               : 

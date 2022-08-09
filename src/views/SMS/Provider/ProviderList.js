@@ -148,9 +148,7 @@ const ProviderList = () => {
     // console.log(providerlist);
     const providertype = providerType.map(list => ({label: list.name, value: list.id}));
     // console.log(providertype);
-  
-    // select University Country
-  
+    
   
     // select University State
   
@@ -414,6 +412,8 @@ const ProviderList = () => {
                               permission={6}
                             />
 
+                              {
+                              prov?.id !== 1 ?
                             <LinkButton 
                               url={`/updateProvider/${prov?.id}`}
                               color={"dark"}
@@ -421,6 +421,9 @@ const ProviderList = () => {
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                              }
 
                             {
                               prov?.id !== 1 ?

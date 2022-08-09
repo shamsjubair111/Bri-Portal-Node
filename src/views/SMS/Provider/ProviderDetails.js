@@ -6,6 +6,9 @@ import { rootUrl } from '../../../constants/constants';
 import get from '../../../helpers/get';
 import remove from '../../../helpers/remove.js'
 import { useToasts } from 'react-toast-notifications';
+import { Image } from 'antd';
+import { Upload } from 'antd';
+import * as Icon from 'react-feather';
 
 
 
@@ -19,6 +22,7 @@ const ProviderDetails = () => {
     const [providerId, setProviderId] = useState(0);
     const [dataPerPage, setDataPerPage] = useState(15);
     const [deleteModal, setDeleteModal] = useState(false);
+    const [success,setSuccess] = useState(false);
     const {addToast} = useToasts();
     // console.log(id);
 
@@ -58,7 +62,7 @@ const ProviderDetails = () => {
      
         get(`Provider/Get/${id}`)
         .then(res => {
-            // console.log(res);
+            console.log(res);
             setProviderInfo(res);
             setProId(res?.providertype?.id);
             // console.log(res?.providerType?.id);
@@ -82,7 +86,7 @@ const ProviderDetails = () => {
           setAdmissionManager(res)
         })
 
-    },[currentPage, dataPerPage, searchStr, uniCountryValue, uniTypeValue, unistateValue, id])
+    },[currentPage, dataPerPage, searchStr, uniCountryValue, uniTypeValue, unistateValue, id, success])
 
     const history = useHistory();
 
@@ -109,12 +113,14 @@ const ProviderDetails = () => {
    remove(`AdmissionManager/Delete/${id}`)
    .then(res => {
    
-     addToast(res?.data?.message,{
-       appearance: 'error',
-       autoDismiss: true
-     })
-     setDeleteModal(false);
-     history.push('/providerList');
+    
+      addToast(res,{
+        appearance: 'error',
+        autoDismiss: true
+      })
+      setDeleteModal(false);
+      setSuccess(!success);
+     
 
    })
   }
@@ -147,7 +153,8 @@ const ProviderDetails = () => {
            <Card className="uapp-employee-profile-right">
              <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
-                  <img  alt='provider_image' />
+                <img
+                  src={rootUrl+providerInfo?.providerLogoMedia?.thumbnailUrl}/>
                 </div>    
                 
                 <h5> {providerInfo?.name}</h5>

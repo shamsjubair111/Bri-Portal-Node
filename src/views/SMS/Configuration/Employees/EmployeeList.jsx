@@ -291,12 +291,12 @@ const EmployeeList = (props) => {
                             </Col>
 
                             
-              <Col md="2" sm="2" xs="3" className="text-right" style={{ float: 'right' }}>
+              <Col lg="2">
 
 <Dropdown className="uapp-dropdown" style={{float: 'right'}} isOpen={dropdownOpen} toggle={toggle}>
-    <DropdownToggle  caret>
-    <i className="fas fa-ellipsis-v"></i>
-    </DropdownToggle>
+<DropdownToggle caret>
+                      <i className="fas fa-ellipsis-v"></i>
+                    </DropdownToggle>
     <DropdownMenu className='bg-dd'>
     {/* <DropdownItem> */}
         

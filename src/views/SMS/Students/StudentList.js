@@ -254,7 +254,8 @@ const StudentList = () => {
 
         remove(`Student/Delete/${data?.id}`)
         .then(res => {
-          // console.log(res);
+
+          console.log(res);
           addToast(res,{
             appearance: 'error',
             autoDismiss: true

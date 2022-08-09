@@ -8,6 +8,10 @@ import Select from 'react-select';
 import ProviderLogo from './ProviderLogo';
 import { useSelector } from 'react-redux';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { Image } from 'antd';
+import { Upload, Modal } from 'antd';
+import * as Icon from 'react-feather';
+import { rootUrl } from '../../../constants/constants';
 
 
 const UpdateProvider = () => {
@@ -309,7 +313,22 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                 </UncontrolledTooltip>
 
                   <Col md="10" lg="6">
-                   <ProviderLogo></ProviderLogo>
+                   <div className='d-flex'>
+                  {
+                    providerInfo?.providerLogoMedia?.thumbnailUrl !== null ?
+                    <div className='me-2'>
+                    <Image
+                  width={104} height={104}
+                  src={rootUrl+providerInfo?.providerLogoMedia?.thumbnailUrl} />
+                    </div>
+                    :
+                    null
+                  }
+                  <div className='ms-2'>
+                  <ProviderLogo/>
+                  </div>
+
+                   </div>
 
                   </Col>
                 </FormGroup>

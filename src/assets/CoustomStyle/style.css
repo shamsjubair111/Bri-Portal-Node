@@ -94,6 +94,12 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
   margin-right: 10px; */
 }
 
+/* Show form input in vertical center  */
+
+.flexbox-container2{
+  height: 100vh;
+}
+
 @media (max-width: 678px) {
   .show-max-678 {
     display: block;
@@ -679,12 +685,12 @@ th {
     margin-top: 25px;
   }
 
-  .footer-custom-style{
+  /* .footer-custom-style{
 
     position: absolute;
     bottom: 0;
 
-  }
+  } */
 
 
   .show-max-678{
@@ -703,9 +709,7 @@ th {
     
   }
 
-  .flexbox-container2{
-    height: 100vh;
-  }
+ 
 
 
 

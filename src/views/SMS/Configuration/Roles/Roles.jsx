@@ -112,17 +112,17 @@ const Roles = (props) => {
               </CardHeader>
       </Card>
       <Card>
-        <CardHeader>
+        <CardHeader className='d-flex justify-content-end'>
        {/*   <CardTitle>Create User Roles</CardTitle>*/}
           {/* <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add Role</Button> */}
 
-          <ButtonForFunction
+          {/* <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={()=>setModalOpen(true)}
             permission={1}
             icon={<i className="fas fa-plus"></i>}
             name={' Add Role'}
-          />
+          /> */}
 
           <div> <b> Total <span className="badge badge-primary">{roles?.length}</span> Roles Found </b></div>
         </CardHeader>
@@ -130,7 +130,7 @@ const Roles = (props) => {
 
           <div>
 
-            <Modal isOpen={modalOpen} toggle={() => setModalOpen((prev)=>!prev)} className="uapp-modal">
+            {/* <Modal isOpen={modalOpen} toggle={() => setModalOpen((prev)=>!prev)} className="uapp-modal">
               <ModalHeader>Add Roles</ModalHeader>
               <ModalBody>
                 <Form>
@@ -171,11 +171,11 @@ const Roles = (props) => {
 
                 </Form>
               </ModalBody>
-              {/* <ModalFooter>
+              <ModalFooter>
 
           <Button color="danger" onClick={()=>setModalOpen(false)}>Close</Button>
-        </ModalFooter> */}
-            </Modal>
+        </ModalFooter>
+            </Modal> */}
             <div>
 
             </div>
@@ -187,7 +187,7 @@ const Roles = (props) => {
                 <th>SL/NO</th>
                 <th>Role Name</th>
                 <th className="text-center" >Permissions</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -199,7 +199,7 @@ const Roles = (props) => {
                   <td className="text-center" >               
                     <span className="badge badge-pill badge-primary"> {role.countPermissions} </span>
                   </td>
-                  <td>
+                  {/* <td>
                     <Button onClick={() => toggleDanger(role.name)} color="danger"><i className="fas fa-trash-alt"></i></Button>
 
                     <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
@@ -214,7 +214,7 @@ const Roles = (props) => {
                       </ModalFooter>
 
                     </Modal>
-                  </td>
+                  </td> */}
                 </tr>)
               }
 

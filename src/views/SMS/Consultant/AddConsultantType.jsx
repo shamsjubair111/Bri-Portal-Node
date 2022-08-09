@@ -121,7 +121,7 @@ const AddConsultantType = () => {
         <div>
             <Card className='uapp-card-bg'>
               <CardHeader className="page-header">              
-                <h3 className="text-light">Add Consultant Type</h3>
+                <h3 className="text-light">Consultant Type</h3>
                   <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-light">
                     {" "} 
@@ -135,13 +135,13 @@ const AddConsultantType = () => {
       <Card>
         <CardHeader>
 
-          <ButtonForFunction 
+          {/* <ButtonForFunction 
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New"}
             permission={6}
-          />
+          /> */}
 
           <br/>
          
@@ -214,7 +214,7 @@ const AddConsultantType = () => {
                 <th>SL/NO</th>
                 <th>Consultant Type Name</th>
                 <th>Count</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -234,7 +234,7 @@ const AddConsultantType = () => {
                    </Link> */}
                    <span className="badge badge-pill badge-primary"> {consultant?.consultantCount} </span>
                   </td>
-                  <td>
+                  {/* <td>
                     
                     <ButtonForFunction 
                       className={"mx-1 btn-sm"}
@@ -266,7 +266,7 @@ const AddConsultantType = () => {
                       </ModalFooter>
 
                     </Modal>
-                  </td>
+                  </td> */}
                 </tr>)
               }
 

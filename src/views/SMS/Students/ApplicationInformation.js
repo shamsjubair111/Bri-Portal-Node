@@ -33,7 +33,8 @@ const ApplicationInformation = () => {
   const [visaStatusLabel, setVisaStatusLabel] = useState('Visa status');
   const [visaStatusValue, setVisaStatusValue] = useState(0);
   const [code, setCode] = useState('');
-  
+
+  const [visaError, setVisaError] = useState(false);
 
 
   const applicationStudentTypeId =  localStorage.getItem('applictionStudentTypeId');
@@ -222,6 +223,7 @@ setStudentTypeValue(value);
 const selectVisaStatus = (label, value) => {
 setVisaStatusLabel(label);
 setVisaStatusValue(value);
+setVisaError(false);
 
 
 }
@@ -234,7 +236,13 @@ const handleSubmit = (event) => {
   const subData = new FormData(event.target);
 
 
-   if(method == 'put'){
+    if(visaStatusValue == 0){
+
+      setVisaError(true);
+
+    }
+
+   else if(method == 'put'){
 
     put(`ApplicationInfo/Update`,subData)
     .then(res => {
@@ -639,6 +647,13 @@ const cancelForm = () => {
                     required
 
                   />
+
+                  {
+                    visaError ? 
+                    <span className='text-danger'>Visa status must be selected.</span>
+                    :
+                    null
+                  }
 
             
             </Col>

@@ -15,6 +15,8 @@ const AdmissionManager = () => {
     const  [countryValue, setCountryValue] = useState(0);
     const  [stateLabel, setStateLabel] = useState('Select state');
     const  [stateValue, setStateValue] = useState(0);
+    const [countryError, setCountryError] = useState(false);
+    const [stateError, setStateError] = useState(false);
     const {addToast} = useToasts();
     const history = useHistory();
 
@@ -25,10 +27,11 @@ const AdmissionManager = () => {
             setCountry(res);
         })
 
-        
-
-
     },[])
+
+    const backToProviderDetails = () => {
+      history.push(`/providerDetails/${id}`);
+    }
 
     const countryName = country?.map((branchCountry) => ({
         label: branchCountry.name,
@@ -40,6 +43,7 @@ const AdmissionManager = () => {
         setCountryValue(value);
         searchStateByCountry(value);
         setStateLabel('Select');
+        setCountryError(false);
        
        
       }
@@ -61,6 +65,7 @@ const AdmissionManager = () => {
       const selectState = (label, value) => {
         setStateLabel(label);
         setStateValue(value);
+        setStateError(false);
     
       };
       
@@ -68,25 +73,51 @@ const AdmissionManager = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const subData = new FormData(e.target);
+        if(countryValue == 0){
+          setCountryError(true);
+        }
+        if(stateValue == 0){
+          setStateError(true);
+        }
+        else{
 
-        post(`AdmissionManager/Create`,subData)
-        .then(res => {
-           addToast(res,{
-               appearance: 'success',
-               autoDismiss: true
-           })
-           history.push('/providerList');
-           
-        })
+          post(`AdmissionManager/Create`,subData)
+          .then(res => {
+            if(res?.status == 200){
+              addToast(res?.data?.message,{
+                appearance: 'success',
+                autoDismiss: true
+            })
+            history.push('/providerList');
+            }
+             
+          })
+
+        }
+
+       
     }
 
 
     return (
         <div>
+
+
+      <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-light">Create Admission Manager</h3>
+          <div className="page-header-back-to-home">
+            <span className="text-light" onClick={backToProviderDetails}>
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
+            </span>
+          </div>
+        </CardHeader>
+      </Card>
+
+
             <Card>
-          <CardHeader>
-            <CardTitle>Create Admission Manager</CardTitle>
-          </CardHeader>
+         
           <CardBody>
       <form onSubmit={handleSubmit}>
 
@@ -285,9 +316,14 @@ const AdmissionManager = () => {
 
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                     {
+                      countryError? 
+                      <span className='text-danger'>Country must be selected</span>
+                      :
+                      null
+                     } 
+
+                
                   </Col>
                 </FormGroup>
 
@@ -306,10 +342,13 @@ const AdmissionManager = () => {
                       id="stateId"
                       required
                     />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                      {
+                        stateError? 
+                        <span className='text-danger'>State must be selected</span>
+                        :
+                        null
+                      }
+                 
                   </Col>
                 </FormGroup>
 
@@ -325,13 +364,23 @@ const AdmissionManager = () => {
                       />
 
            
-                  <Button.Ripple
+                  <FormGroup row>
+                    <Col md='6'>
+                   <div className='d-flex justify-content-end'>
+                   <Button.Ripple
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                         // onClick={(e)=>handleSubmit(e)}
                       >
                         Submit
                       </Button.Ripple>
+                   </div>
+                    
+                    </Col>
+
+
+
+                  </FormGroup>
 
                   
 

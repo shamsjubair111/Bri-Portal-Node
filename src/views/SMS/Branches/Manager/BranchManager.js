@@ -27,6 +27,8 @@ const BranchManager = () => {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [FileList, setFileList] = useState([]);
+  const [check,setCheck]= useState(true);
+  const [imageError,setImageError] = useState(false);
 
 
     const backToBranchList = () => {
@@ -48,6 +50,7 @@ const BranchManager = () => {
         console.log(res);
         setBranchManagerInfo(res);
         setBranchLabel(res?.branch?.name);
+        setCheck(false);
       })
 
 
@@ -100,6 +103,8 @@ const BranchManager = () => {
 
  const handleChange = ({ fileList }) => {
      setFileList(fileList);
+     setImageError(false);
+
     
     
  };
@@ -153,8 +158,12 @@ const BranchManager = () => {
     //   console.log(value);
      
     // }
+    if(FileList.length <1 && check){
+      setImageError(true);
 
-    if(backwardBranchManager){
+    }
+
+   else if(backwardBranchManager){
       Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
@@ -487,6 +496,12 @@ const BranchManager = () => {
        >
          <img alt="example" style={{ width: '100%' }} src={previewImage} />
        </Modal>
+       {
+        imageError ? 
+        <span className='text-danger'>Image must be selected</span>
+        :
+        null
+       }
                 
                   </Col>
                 </FormGroup>

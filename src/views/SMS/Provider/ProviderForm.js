@@ -28,22 +28,17 @@ const ProviderForm = (props) => {
     const [providerTypeOptions, setProvidertypeOptions] = useState('');
     const [providerTypeLabel, setProviderTypeLabel]= useState('Select Provider Type...');
     const [providerTypeValue, setProviderTypeValue] = useState(0);
+    const [providerTypeError, setProviderTypeError] = useState(false);
+    const [imageError, setImageError] = useState(false);
 
     
     const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
    
   
+
   
-    const dispatch = useDispatch();
-    const myForm = createRef();
     const [title,setTitle] = useState('');
-    const [navLink,setNavLink] = useState('');
-    const [type,setType] = useState('Select Type...');
-    const [parentTitle,setParentTitle] = useState('Select Parent...');
-    const [parentValue,setParentValue] = useState(null);
-    const [displayOrder,setDisplayOrder] = useState(0);
-    const [icon,setIcon] = useState(null);
-    const [parentId,setParentId] = useState(null);
+   
     const { addToast } = useToasts();
  
     
@@ -69,15 +64,16 @@ const ProviderForm = (props) => {
             "content-type": "multipart/form-data",
           },
         };
+
+        if(providerTypeValue == 0){
+          setProviderTypeError(true);
+        }
+        if(providerLogo.length <1){
+          setImageError(true);
+        }
        
-   
-       //  watch form data values
-        // for (var value of subData.values()) {
-        
-        // }
-   
        //  post form data and notify the response to user
-        const returnValue = post(`Provider/Create`,subData,config).then((action)=> {
+         post(`Provider/Create`,subData,config).then((action)=> {
          
          
           addToast(action?.data?.message, {
@@ -287,6 +283,12 @@ const ProviderForm = (props) => {
                            required
                           
                            />
+                           {
+                            providerTypeError? 
+                            <span className='text-danger'>Provider type must be selected</span>
+                            :
+                            null
+                           }
 
                     </Col>
                   </FormGroup>
@@ -306,7 +308,13 @@ const ProviderForm = (props) => {
                   </UncontrolledTooltip>
 
                     <Col md="10" lg="6">
-                     <ProviderLogo></ProviderLogo>
+                     <ProviderLogo/>
+                     {
+                      imageError ? 
+                      <span className='text-danger'>Image must be selected</span>
+                      :
+                      null
+                     }
 
                     </Col>
                   </FormGroup>

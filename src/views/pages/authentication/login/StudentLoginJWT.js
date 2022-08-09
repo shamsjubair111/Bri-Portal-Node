@@ -9,6 +9,7 @@ import { history } from "../../../../history"
 import axios from "axios"
 
 import { rootUrl } from "../../../../constants/constants"
+import get from "../../../../helpers/get"
 
 class Login extends React.Component {
   state = {
@@ -29,19 +30,30 @@ class Login extends React.Component {
         password: this.state.password
       })
       .then(response => {
-        console.log('Checking Response',response);
+        console.log('Checking Response',response?.data?.message);
         if (response.data) {
           if(response.data.isSuccess == true){
             this.setState({error: ''});
             localStorage.setItem('token','Bearer '+ response.data.message);
             const AuthStr = 'Bearer ' + response.data.message;
-            history.push("/")
-            window.location.reload();
+            get(`Account/GetCurrentUser`,{
+              method: 'POST',
+              headers: {
+                'authorization': AuthStr
+              }
+            })
+            .then(res => {
+              localStorage.setItem('current_user', JSON.stringify(res))
+            })
+            // history.push("/")
+            // window.location.reload();
+            
            
              
 
 
-          }else{
+          }
+          else{
             // alert('email not valid')
             this.setState({error: 'Email or Password Is Not Valid'})
             if(response.data.message === 'Wrong Creadentials'){

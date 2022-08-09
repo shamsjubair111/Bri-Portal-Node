@@ -167,12 +167,12 @@ const EmployeeType = (props) => {
         <CardHeader>
           <CardTitle>Employee Type</CardTitle>
           
-          <ButtonForFunction
+          {/* <ButtonForFunction
             color={"success"}
             func={() => setModalOpen(true)}
             name={"Add Employee Type"}
             permission={6}
-          />
+          /> */}
 
         </CardHeader>
         <CardBody>
@@ -236,7 +236,7 @@ const EmployeeType = (props) => {
                 <th>SL/NO</th>
                 <th>Name</th>
                 <th className="text-center"> Total Employee</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -247,29 +247,29 @@ const EmployeeType = (props) => {
                   <td className="text-center">
                     <span onClick={()=>handleEmpCount(etype.id, etype.name)} className="badge badge-pill badge-primary cursor-pointer">  {etype.employeeCount} </span>
                   </td>
-                  <td>
+                  {/* <td> */}
 
                     {/* <Button onClick={() => toggleDanger(etype)} color="danger" className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
 
-                    <ButtonForFunction
+                    {/* <ButtonForFunction
                       func={() => toggleDanger(etype)}
                       color={"danger"}
                       className={"mr-2 btn-sm"}
                       icon={<i className="fas fa-trash-alt"></i>}
                       permission={6}
-                    />
+                    /> */}
 
                     {/* <Button onClick={() => handleUpdate(etype)} color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button> */}
 
-                    <ButtonForFunction
+                    {/* <ButtonForFunction
                       func={() => handleUpdate(etype)}
                       color={"warning"}
                       className={" btn-sm"}
                       icon={<i className="fas fa-edit"></i>}
                       permission={6}
-                    />
+                    /> */}
 
-                    <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                    {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
 
                       <ModalBody>
                         <p>Are You Sure to Delete this {localStorage.getItem('employeesTypeName')} ? Once Deleted it can't be Undone!</p>
@@ -280,8 +280,8 @@ const EmployeeType = (props) => {
                         <Button onClick={() => setDeleteModal(false)}>NO</Button>
                       </ModalFooter>
 
-                    </Modal>
-                  </td>
+                    </Modal> */}
+                  {/* </td> */}
                 </tr>
 
                 )}

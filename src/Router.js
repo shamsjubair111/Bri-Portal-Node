@@ -68,7 +68,7 @@ const clientTypeList =lazy(()=>import("./views/clients/clientType/pages/index"))
 
 const Roles = lazy(() => import("./views/SMS/Configuration/Roles/Roles.jsx"))
 const Menu = lazy(() => import("./views/SMS/Configuration/Menu/Menu.jsx"))
-const Permissions = lazy(() => import("./views/SMS/Configuration/Permissions/Permissions.jsx"))
+
 const RolePermission = lazy(() => import("./views/SMS/Configuration/Permissions/RolePermission.jsx"))
 const RoleMenu = lazy(() => import("./views/SMS/Configuration/Menu/RoleMenu.jsx"))
 const EmployeeType = lazy(() => import("./views/SMS/Configuration/Employees/EmployeeType.jsx"))
@@ -202,9 +202,14 @@ const BranchProfile = lazy(() => import("./views/SMS/Branches/Branch/BranchProfi
 const BranchEmployee = lazy(() => import("./views/SMS/Branches/Employee/BranchEmployee"))
 const BranchManagerInformation = lazy(() => import("./views/SMS/Branches/BranchManager/BranchManagerInformation"))
 const BranchTeamEmployeeInformation = lazy(() => import("./views/SMS/Branches/BranchManager/BranchTeamEmployeeInformation"))
+
+// Admission Manager
+
 const AdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManager"))
+const UpdateAdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/UpdateAdmissionManager"))
 
 // Student
+
 const StudentList = lazy(() => import("./views/SMS/Students/StudentList"))
 const StudentProfile = lazy(() => import("./views/SMS/Students/StudentProfile"))
 const PersonalInformation = lazy(() => import("./views/SMS/Students/PersonalInformation"))
@@ -305,7 +310,7 @@ class AppRouter extends React.Component {
         <Switch>
           {/* SMS Client Routing */}
          {
-           !isAuth ?
+           isAuth ?
            <>
          <AppRoute exact path="/" component={localStorage.getItem('access')?analyticsDashboard : notFound} />
         
@@ -313,6 +318,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/AdmissionGetData" component={localStorage.getItem('access')? AdmissionGetData : notFound} />
          <AppRoute path="/updateUser/:id" component={localStorage.getItem('access')? UpdateUser : notFound} />
          <AppRoute path="/addAdmissionManager/:id" component={localStorage.getItem('access')? AdmissionManager : notFound} />
+         <AppRoute path="/updateAdmissionManager/:id" component={localStorage.getItem('access')? UpdateAdmissionManager : notFound} />
   
          <AppRoute path="/demo" component={localStorage.getItem('access')? demo : notFound} />
          <AppRoute path="/uni1" component={localStorage.getItem('access')? demo : notFound} />
@@ -320,7 +326,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/roles" component={localStorage.getItem('access')? Roles : notFound} />
          <AppRoute path="/addMenu" component={Menu} />
          <AppRoute path="/menu" component={MenuInfo} />
-         <AppRoute path="/permissions" component={localStorage.getItem('access')? Permissions : notFound} />
+   
          <AppRoute path="/rolePermission" component={localStorage.getItem('access')? RolePermission : notFound} />
          <AppRoute path="/roleMenu" component={localStorage.getItem('access')? RoleMenu : notFound} />
          <AppRoute path="/employeeType" component={localStorage.getItem('access')? EmployeeType : notFound} />
