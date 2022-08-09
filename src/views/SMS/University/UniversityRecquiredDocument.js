@@ -40,7 +40,7 @@ import remove from "../../../helpers/remove";
 const UniversityRecquiredDocument = () => {
   const { addToast } = useToasts();
   const history = useHistory();
-  const [activetab, setActivetab] = useState("7");
+  const [activetab, setActivetab] = useState("8");
 
   const [document, setDocument] = useState([]);
   const [documentLabel, setDocumentLabel] = useState(
@@ -60,20 +60,20 @@ const UniversityRecquiredDocument = () => {
     });
 
     if(localStorage.getItem("id")){
-      get(
-        `UniversityRequiredDocuments/GetByUniversity/${localStorage.getItem(
-          "id"
-        )}`
-      ).then((res) => {
-        console.log("Required document", res);
-        setDocumentData(res);
-        if (res.length > 0) {
-          setShowForm(true);
-        } else {
-          setShowForm(false);
-          // setSelectedId(0);
-        }
-      });
+      // get(
+      //   `UniversityRequiredDocuments/GetByUniversity/${localStorage.getItem(
+      //     "id"
+      //   )}`
+      // ).then((res) => {
+      //   console.log("Required document", res);
+      //   setDocumentData(res);
+      //   if (res.length > 0) {
+      //     setShowForm(true);
+      //   } else {
+      //     setShowForm(false);
+      //     // setSelectedId(0);
+      //   }
+      // });
     }
     
   }, [success]);
@@ -89,9 +89,9 @@ const UniversityRecquiredDocument = () => {
     setDocumentValue(value);
   };
 
-  // redirect to dashboard
-  const backToDashboard = () => {
-    history.push("/");
+  // redirect to university list
+  const backToUniList = () => {
+    history.push("/universityList");
   };
 
   // tab toggle
@@ -114,6 +114,9 @@ const UniversityRecquiredDocument = () => {
     }
     if (tab === "6") {
       history.push("/addUniversityApplicationDocument");
+    }
+    if (tab === "7") {
+      history.push("/addUniversityTemplateDocument");
     }
   };
 
@@ -205,9 +208,9 @@ const UniversityRecquiredDocument = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add University Required Document</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToUniList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to University List
             </span>
           </div>
         </CardHeader>
@@ -228,7 +231,7 @@ const UniversityRecquiredDocument = () => {
 
             <NavItem>
               <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                Financial Information
+                Financial 
               </NavLink>
             </NavItem>
 
@@ -240,7 +243,7 @@ const UniversityRecquiredDocument = () => {
 
             <NavItem>
               <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                University Gallery
+                 Gallery
               </NavLink>
             </NavItem>
 
@@ -252,6 +255,12 @@ const UniversityRecquiredDocument = () => {
 
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
+                Template Document
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
                 Required Document
               </NavLink>
             </NavItem>
@@ -266,7 +275,7 @@ const UniversityRecquiredDocument = () => {
               </div>
             ) : null}
 
-            <TabPane tabId="7">
+            <TabPane tabId="8">
               {showForm === false ? (
                 <Form onSubmit={handleSubmit} className="mt-5">
                   <FormGroup row className="has-icon-left position-relative">

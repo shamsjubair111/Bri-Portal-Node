@@ -92,6 +92,7 @@ const CampusList = lazy(() => import("./views/SMS/University/CampusList.jsx"))
 const CampusDetails = lazy(() => import("./views/SMS/University/CampusDetails.jsx"))
 const CampusSubjectList = lazy(() => import("./views/SMS/University/CampusSubjectList.jsx"))
 const AddUniversityGallery = lazy(() => import("./views/SMS/University/AddUniversityGallery.jsx"))
+const AddUniversityTemplateDocument = lazy(() => import("./views/SMS/University/AddUniversityTemplateDocument"))
 const AddUniversityApplicationDocument = lazy(() => import("./views/SMS/University/AddUniversityApplicationDocument"))
 const UniversityRecquiredDocument = lazy(() => import("./views/SMS/University/UniversityRecquiredDocument"))
 
@@ -111,6 +112,7 @@ const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddCo
 
 // Document
 const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
+const DocumentCategoryList = lazy(() => import("./views/SMS/Document/DocumentcategoryList.js"))
 
 // University Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
@@ -118,6 +120,7 @@ const AddSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/SubDe
 const AddProgramLevel = lazy(() => import("./views/SMS/UniversitySubjects/ProgramLevel.jsx"))
 const Subject = lazy(() => import("./views/SMS/UniversitySubjects/Subject.jsx"))
 const SubjectList = lazy(() => import("./views/SMS/UniversitySubjects/SubjectList.jsx"))
+const DocumentGroup = lazy(() => import("./views/SMS/UniversitySubjects/DocumentGroup.js"))
 const AddSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectFee.jsx"))
 const SubjectFeeInformation = lazy(() => import("./views/SMS/UniversitySubjects/SubjectFeeInformation.jsx"))
 const EditSubject = lazy(() => import("./views/SMS/UniversitySubjects/EditSubject.jsx"))
@@ -332,6 +335,7 @@ class AppRouter extends React.Component {
          <AppRoute path="/addUniversityCountry" component={localStorage.getItem('access')? AddUniversityCountry : notFound} />
          <AppRoute path="/addUniversityState" component={localStorage.getItem('access')? AddUniversityState : notFound} />
          <AppRoute path="/addUniversity" component={localStorage.getItem('access')? AddUniversity : notFound} />
+         <AppRoute path="/addUniversityTemplateDocument" component={localStorage.getItem('access')? AddUniversityTemplateDocument : notFound} />
          <AppRoute path="/addUniversityApplicationDocument" component={localStorage.getItem('access')? AddUniversityApplicationDocument : notFound} />
          <AppRoute path="/addUniversityRequiredDocument" component={localStorage.getItem('access')? UniversityRecquiredDocument : notFound} />
 
@@ -362,13 +366,15 @@ class AppRouter extends React.Component {
          <AppRoute path="/campusSubjectList/:camId" component={localStorage.getItem('access')? CampusSubjectList : notFound} />
          <AppRoute path="/campusDetails/:id" component={localStorage.getItem('access')? CampusDetails : notFound} />
 
-         <AppRoute path="/documentlist" component={localStorage.getItem('access')? DocumentList : notFound} />
+         <AppRoute path="/documentList" component={localStorage.getItem('access')? DocumentList : notFound} />
+         <AppRoute path="/documentCategoryList" component={localStorage.getItem('access')? DocumentCategoryList : notFound} />
 
          <AppRoute path="/addDepartment" component={localStorage.getItem('access')? AddDepartment : notFound} />
          <AppRoute path="/addSubDepartment" component={localStorage.getItem('access')? AddSubDepartment : notFound} />
          <AppRoute path="/addProgramLevel" component={localStorage.getItem('access')? AddProgramLevel : notFound} />
          <AppRoute path="/addSubject" component={localStorage.getItem('access')? Subject : notFound} />
          <AppRoute path="/subjectList" component={localStorage.getItem('access')? SubjectList : notFound} />
+         <AppRoute path="/addSubjectDocumentGroup" component={localStorage.getItem('access')? DocumentGroup : notFound} />
          <AppRoute path="/editSubject/:id" component={localStorage.getItem('access')? EditSubject : notFound} />
          <AppRoute path="/addSubjectFee" component={localStorage.getItem('access')? AddSubjectFee : notFound} />
          <AppRoute path="/EditSubjectFee/:subId" component={localStorage.getItem('access')? EditSubjectFee : notFound} />

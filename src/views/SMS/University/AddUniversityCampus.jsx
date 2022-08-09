@@ -131,7 +131,7 @@ const AddUniversityCampus = (props) => {
       history.push("/addUniversityApplicationDocument");
     }
     if (tab === "7") {
-      history.push("/addUniversityRequiredDocument");
+      history.push("/addUniversityTemplateDocument");
     }
   };
 
@@ -233,8 +233,8 @@ const AddUniversityCampus = (props) => {
     // fontWeight: "bold"
   };
   // redirect to dashboard
-  const backToDashboard = () => {
-    history.push("/");
+  const backToUniList = () => {
+    history.push("/universityList");
   };
 
   // redirect to Next Page
@@ -312,9 +312,9 @@ const AddUniversityCampus = (props) => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add University Campus Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToUniList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to University List
             </span>
           </div>
         </CardHeader>
@@ -340,7 +340,7 @@ const AddUniversityCampus = (props) => {
 
             <NavItem>
               <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                Financial Information
+                Financial 
               </NavLink>
             </NavItem>
 
@@ -352,19 +352,19 @@ const AddUniversityCampus = (props) => {
 
             <NavItem>
               <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                University Gallery
+                 Gallery
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
-                Application Document
+                 Application Document
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
-                Required Document
+                Template Document
               </NavLink>
             </NavItem>
           </Nav>

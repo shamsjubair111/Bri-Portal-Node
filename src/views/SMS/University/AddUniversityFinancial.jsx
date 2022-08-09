@@ -137,12 +137,12 @@ const AddUniversityFinancial = (props) => {
         history.push('/addUniversityApplicationDocument')
     }
     if(tab == '7'){
-        history.push('/addUniversityRequiredDocument')
+        history.push('/addUniversityTemplateDocument')
     }
 }
     // redirect to dashboard
-    const backToDashboard = () => {
-        history.push("/");
+    const backToUniList = () => {
+        history.push("/universityList");
         }
     return (
         <div>
@@ -152,9 +152,9 @@ const AddUniversityFinancial = (props) => {
               <CardHeader className="page-header">              
                 <h3 className="text-light">Add University Financial Information</h3>
                   <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToUniList} className="text-light">
                     {" "} 
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to University List
                     </span>
                   </div>             
               </CardHeader>        
@@ -196,7 +196,7 @@ const AddUniversityFinancial = (props) => {
                                 onClick={() =>toggle('3')}
                                 >
 
-                                Financial Information
+                                Financial
                                 </NavLink>
                             </NavItem>
 
@@ -224,7 +224,7 @@ const AddUniversityFinancial = (props) => {
                                 onClick={() =>toggle('5')}
                                 >
 
-                                University Gallery
+                                 Gallery
                                 </NavLink>
                             </NavItem>
 
@@ -252,7 +252,7 @@ const AddUniversityFinancial = (props) => {
                                 onClick={() =>toggle('7')}
                                 >
 
-                                Required Document
+                                Template Document
                                 </NavLink>
                             </NavItem>
                     </Nav>

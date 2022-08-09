@@ -164,8 +164,7 @@ const AddUniversity = (props) => {
     })
     .catch();
 
-    // if(localStorage.getItem('id')){
-    if(uniId != undefined){
+    if(localStorage.getItem('id')){
       get(`University/get/${localStorage.getItem('id')}`)
     .then(res => {
       console.log('uniIddata', res?.id);
@@ -300,19 +299,19 @@ const AddUniversity = (props) => {
     if(unistateValue === 0){
       setUniStateError(true);
     }
-    if(FileList1.length<1 && uniId == undefined){
+    if(FileList1.length<1 && check){
       setLogoDropzoneError(true);
     }
-    if(FileList1.length>=1 && uniId != undefined ){
-      setLogoDropzoneError(false);
-    }
-    if(FileList2.length<1 && uniId == undefined){
+    // if(FileList1.length>=1 && uniId != undefined ){
+    //   setLogoDropzoneError(false);
+    // }
+    if(FileList2.length<1 && check){
       setCoverDropzoneError(true);
     }
-    if(FileList2.length>=1 && uniId != undefined)
-    {
-      setCoverDropzoneError(false);
-    }
+    // if(FileList2.length>=1 && uniId != undefined)
+    // {
+    //   setCoverDropzoneError(false);
+    // }
     else{
       if(uniId != undefined){
         put('University/Update', subdata, config)
@@ -405,7 +404,7 @@ const AddUniversity = (props) => {
       history.push("/addUniversityApplicationDocument");
     }
     if (tab == "7") {
-      history.push("/addUniversityRequiredDocument");
+      history.push("/addUniversityTemplateDocument");
     }
   };
 
@@ -423,8 +422,8 @@ const AddUniversity = (props) => {
   }));
 
   // redirect to dashboard
-  const backToDashboard = () => {
-    history.push("/");
+  const backToUniList = () => {
+    history.push("/universityList");
   };
   
   return (
@@ -434,9 +433,9 @@ const AddUniversity = (props) => {
               <CardHeader className="page-header">              
                 <h3 className="text-light">Add University Information</h3>
                   <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToUniList} className="text-light">
                     {" "} 
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to University List
                     </span>
                   </div>             
               </CardHeader>        
@@ -525,11 +524,11 @@ const AddUniversity = (props) => {
             <NavItem>
               {submitData || JSON.parse(localStorage.getItem("id")) ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                  University Gallery
+                   Gallery
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "5"}>
-                  University Gallery
+                   Gallery
                 </NavLink>
               )}
             </NavItem>
@@ -552,13 +551,25 @@ const AddUniversity = (props) => {
               )}
             </NavItem>
 
+            <NavItem>
+              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+                <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
+                  Template Document
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "6"}>
+                  Template Document
+                </NavLink>
+              )}
+            </NavItem>
+
             {/* <NavItem>
               <NavLink disabled active={activetab === "7"}>
                 Required Document 
               </NavLink>
             </NavItem> */}
 
-            <NavItem>
+            {/* <NavItem>
               {submitData || JSON.parse(localStorage.getItem("id")) ? (
                 <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                   Required Document
@@ -568,7 +579,7 @@ const AddUniversity = (props) => {
                   Required Document
                 </NavLink>
               )}
-            </NavItem>
+            </NavItem> */}
 
           </Nav>
 
