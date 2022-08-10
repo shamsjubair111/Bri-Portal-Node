@@ -26,7 +26,7 @@ const Footer = () => {
          </div>
       </div> */}
 
-        <div className="uapp-footer">
+        <div className="uapp-footer ">
 
         <div className="row justify-content-center">
           <div className="show-max-678 uapp-footer-img">

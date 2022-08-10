@@ -37,7 +37,7 @@ class Login extends React.Component {
             localStorage.setItem('token','Bearer '+ response.data.message);
             const AuthStr = 'Bearer ' + response.data.message;
             get(`Account/GetCurrentUser`,{
-              method: 'POST',
+              method: 'GET',
               headers: {
                 'authorization': AuthStr
               }

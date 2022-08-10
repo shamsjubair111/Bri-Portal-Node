@@ -223,12 +223,11 @@ const ProviderDetails = () => {
 <h6> Admission Manager</h6>
 <span className="bg-wg bg-width"></span>
 
-{
-  admissionManager.length <1 && 
+
  <Link to={`/addAdmissionManager/${id}`}>
   <Button  className="btn btn-uapp-add mt-2 "> <i class="fas fa-plus"></i>  Add Admission Manager </Button>
  </Link>
-}
+
 
 {
   admissionManager.length< 1 && 

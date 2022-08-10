@@ -94,11 +94,19 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
   margin-right: 10px; */
 }
 
-/* Show form input in vertical center  */
+/* Show form input in vertical center start */
 
 .flexbox-container2{
   height: 100vh;
 }
+
+/* Show form input in vertical center end */
+
+/* ALways keep footer in bottom start */
+
+
+
+/* ALways keep footer in bottom end */
 
 @media (max-width: 678px) {
   .show-max-678 {

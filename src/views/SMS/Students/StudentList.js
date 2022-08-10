@@ -131,6 +131,7 @@ const StudentList = () => {
       setCallApi((prev) => !prev);
     };
 
+    console.log('lalalallala',localStorage.getItem('token'));
 
     const status = [
       {
