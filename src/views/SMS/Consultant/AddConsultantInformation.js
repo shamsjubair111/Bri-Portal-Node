@@ -522,26 +522,14 @@ const AddConsultantInformation = () => {
     if (FileList1.length < 1) {
       setProfilePicError(true);
     }
-    if (FileList1.length >= 1) {
-      setProfilePicError(false);
-    }
     if (FileList3.length < 1) {
       setIdPassportError(true);
-    }
-    if (FileList3.length >= 1) {
-      setIdPassportError(false);
     }
     if (FileList4.length < 1) {
       setProofOfAddressError(true);
     }
-    if (FileList4.length >= 1) {
-      setProofOfAddressError(false);
-    }
     if (FileList5.length < 1) {
       setProofOfRightError(true);
-    } 
-    else if (FileList5.length >= 1) {
-      setProofOfRightError(false);
     } 
     else {
       put(`Consultant/Update`, subData).then((res) => {
