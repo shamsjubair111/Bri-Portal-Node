@@ -30,6 +30,11 @@ const BranchManager = () => {
   const [check,setCheck]= useState(true);
   const [imageError,setImageError] = useState(false);
 
+  const [title,setTitle] = useState([]);
+    const [titleLabel,setTitleLabel] = useState('Select');
+    const [titleValue,setTitleValue] = useState(0);
+    const [titleError,setTitleError] = useState(false);
+
 
     const backToBranchList = () => {
         history.push('/branchList');
@@ -59,7 +64,33 @@ const BranchManager = () => {
         // console.log(res);
         setBranch(res);
       })
+
+      get('NameTittle/GetAll')
+      .then(res => {
+        console.log('title',res);
+        setTitle(res);
+      })
+
+     
     },[backwardBranchManager])
+
+
+    const nameTitle = title?.map((singleTitle) => ({
+      label: singleTitle.name,
+      value: singleTitle.id,
+    }));
+
+
+             // select  Title
+const selectTitle = (label, value) => {
+
+  setTitleError(false);
+  setTitleLabel(label);
+  setTitleValue(value);
+  
+ 
+ 
+}
 
     //  Manager Image COde Start
 
@@ -162,6 +193,12 @@ const BranchManager = () => {
       setImageError(true);
 
     }
+
+    
+  if(titleValue == 0 ){
+    setTitleError(true);
+    console.log('error 111111');
+  }
 
    else if(backwardBranchManager){
       Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
@@ -308,19 +345,28 @@ const BranchManager = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                       Title <span className="text-danger">*</span>{" "}
+                      Title <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="4">
-                    <Input
-                      type="text"
-                      name="tittle"
-                      id="tittle"
-                      placeholder="Enter title"
+                  <Select
+                      options={nameTitle}
+                      value={{ label: titleLabel, value: titleValue }}
+                      onChange={(opt) => selectTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
                       required
-                      defaultValue={branchManagerInfo?.tittle}
+
                     />
-                
+                   
+                    {
+                      titleError && 
+                      <span className='text-danger'>Select Title</span>
+                    }
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
                   </Col>
                 </FormGroup>
                 <FormGroup row className="has-icon-left position-relative">

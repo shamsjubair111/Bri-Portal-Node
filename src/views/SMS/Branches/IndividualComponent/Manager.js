@@ -24,7 +24,7 @@ const Manager = (props) => {
 
     return (
         <div>
-                {branchManager?.tittle && (
+                {branchManager?.nameTittleId && (
               <Card>
                 <div className="uapp-circle-image margin-top-minus mt-3">
                   <img className="p-1" src={rootUrl+branchManager?.managerImageMedia?.fileUrl} alt="provider_image" />
@@ -64,7 +64,7 @@ const Manager = (props) => {
               </Card>
             )}
 
-            {!branchManager.tittle && (
+            {!branchManager.nameTittleId && (
               <Card>
                 <div className="container py-3">
                   <Link to="/addBranchManager">

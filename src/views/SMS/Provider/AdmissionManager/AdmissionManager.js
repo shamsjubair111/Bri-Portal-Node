@@ -20,12 +20,23 @@ const AdmissionManager = () => {
     const {addToast} = useToasts();
     const history = useHistory();
 
+    const [title,setTitle] = useState([]);
+    const [titleLabel,setTitleLabel] = useState('Select');
+    const [titleValue,setTitleValue] = useState(0);
+    const [titleError,setTitleError] = useState(false);
+
     useEffect(()=>{
         get(`Country/Index`)
         .then( res=> {
             // console.log('Country list', res);
             setCountry(res);
         })
+
+        get('NameTittle/GetAll')
+      .then(res => {
+        console.log('title',res);
+        setTitle(res);
+      })
 
     },[])
 
@@ -47,6 +58,23 @@ const AdmissionManager = () => {
        
        
       }
+
+      const nameTitle = title?.map((singleTitle) => ({
+        label: singleTitle.name,
+        value: singleTitle.id,
+      }));
+  
+  
+               // select  Title
+  const selectTitle = (label, value) => {
+  
+    setTitleError(false);
+    setTitleLabel(label);
+    setTitleValue(value);
+    
+   
+   
+  }
 
       
     const searchStateByCountry = (countryValue) => {
@@ -78,6 +106,11 @@ const AdmissionManager = () => {
         }
         if(stateValue == 0){
           setStateError(true);
+        }
+
+        if(titleValue == 0 ){
+          setTitleError(true);
+          console.log('error 111111');
         }
         else{
 
@@ -121,27 +154,30 @@ const AdmissionManager = () => {
           <CardBody>
       <form onSubmit={handleSubmit}>
 
-                  <FormGroup row>
-                    <Col md="2">
-                 
-                      <span className="pl-2">Title</span>
-                    </Col>
+      <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span className="pl-2">
+                      Title <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="4">
+                  <Select
+                      options={nameTitle}
+                      value={{ label: titleLabel, value: titleValue }}
+                      onChange={(opt) => selectTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
+                      required
 
+                    />
                    
-                    
-                    
-                    <Col md="10" lg="4">
-                      <Input
-                        type="text"
-                        name="title"
-                        id="title"
-                        placeholder="Enter title"
-                      
-                        required
-                      />
+                    {
+                      titleError && 
+                      <span className='text-danger'>Title must be selected</span>
+                    }
 
-                    </Col>
-                  </FormGroup>
+                  </Col>
+                </FormGroup>
 
                   <FormGroup row>
                     <Col md="2">

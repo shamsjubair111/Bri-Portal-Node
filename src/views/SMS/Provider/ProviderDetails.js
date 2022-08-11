@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import Pagination from '../../SMS/Pagination/Pagination.jsx'
-import {  Button, Card, CardBody, CardHeader, Col,  Modal,  ModalBody,  ModalFooter,  Row, Table } from 'reactstrap';
+import {  Button, Card, CardBody, CardHeader, Col,  FormGroup,  Input,  Modal,  ModalBody,  ModalFooter,  ModalHeader,  Row, Table } from 'reactstrap';
 import { rootUrl } from '../../../constants/constants';
 import get from '../../../helpers/get';
 import remove from '../../../helpers/remove.js'
@@ -9,6 +9,12 @@ import { useToasts } from 'react-toast-notifications';
 import { Image } from 'antd';
 import { Upload } from 'antd';
 import * as Icon from 'react-feather';
+import LinkButton from '../Components/LinkButton.js';
+import Form from '../../core/country/pages/form.js';
+import Select from 'react-select';
+import "antd/dist/antd.css";
+import put from '../../../helpers/put.js';
+import ButtonForFunction from '../Components/ButtonForFunction.js';
 
 
 
@@ -24,6 +30,8 @@ const ProviderDetails = () => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [success,setSuccess] = useState(false);
     const {addToast} = useToasts();
+    const [deleteData, setDeleteData] = useState({});
+    const [modalOpen, setModalOpen] = useState(false);
     // console.log(id);
 
 
@@ -53,6 +61,18 @@ const ProviderDetails = () => {
     const [providerLabel, setProviderLabel] = useState('Select Provider...');
     const [providerValue, setProviderValue] = useState(0);
     const [admissionManager, setAdmissionManager] = useState([]);
+    const [adminData, setAdminData] = useState({});
+
+    const [title,setTitle] = useState([]);
+    const [titleLabel,setTitleLabel] = useState('Select');
+    const [titleValue,setTitleValue] = useState(0);
+    const [titleError,setTitleError] = useState(false);
+
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+    const [FileList, setFileList] = useState([]);
+
 
     useEffect(()=>{
       const uCountryId = 0;
@@ -79,16 +99,71 @@ const ProviderDetails = () => {
           setSerialNum(action?.firstSerialNumber)
         })
 
-        get(`AdmissionManager/Index`)
+        get(`AdmissionManager/GetbyProvider/${id}`)
      
         .then(res => {
           console.log(res);
           setAdmissionManager(res)
         })
 
+        get(`ProviderAdmin/GetbyProvider/${id}`)
+        .then(res =>{
+          console.log('provider admin details', res);
+          setAdminData(res);
+          setTitleLabel(res?.nameTittle?.name);
+          setTitleValue(res?.nameTittle?.id);
+        })
+
+        get('NameTittle/GetAll')
+        .then(res => {
+          console.log('title',res);
+          setTitle(res);
+        })
+
     },[currentPage, dataPerPage, searchStr, uniCountryValue, uniTypeValue, unistateValue, id, success])
 
     const history = useHistory();
+
+
+        
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+
+
+const  handleCancel = () => {
+    setPreviewVisible(false);
+};
+
+const handlePreview = async file => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
+  }
+
+  
+
+  setPreviewImage(file.url || file.preview);
+  setPreviewVisible(true);
+  setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+};
+
+const handleChange = ({ fileList }) => {
+   setFileList(fileList);
+  
+   
+  
+};
 
     const backToDashboard = () =>{
         history.push('/providerList');
@@ -105,12 +180,13 @@ const ProviderDetails = () => {
   };
 
   const toggleDelete = (id) => {
-    localStorage.setItem("teamId", id);
+    localStorage.setItem("teamId", id?.id);
+    setDeleteData(id);
     setDeleteModal(true);
   };
 
-  const handleDelete = (id) => {
-   remove(`AdmissionManager/Delete/${id}`)
+  const handleDelete = () => {
+   remove(`AdmissionManager/Delete/${deleteData?.id}`)
    .then(res => {
    
     
@@ -118,6 +194,7 @@ const ProviderDetails = () => {
         appearance: 'error',
         autoDismiss: true
       })
+      setDeleteData({});
       setDeleteModal(false);
       setSuccess(!success);
      
@@ -125,12 +202,242 @@ const ProviderDetails = () => {
    })
   }
 
-  const updateAdmissionManager = (id) => {
-      history.push(`/updateAdmissionManager/${id}`);
+  const nameTitle = title?.map((singleTitle) => ({
+    label: singleTitle.name,
+    value: singleTitle.id,
+  }));
+
+
+           // select  Title
+const selectTitle = (label, value) => {
+
+setTitleError(false);
+setTitleLabel(label);
+setTitleValue(value);
+
+}
+
+  const updateAdmissionManager = (ids,id) => {
+      history.push(`/updateAdmissionManager/${ids}/${id}`);
+  }
+
+      // on Close Modal
+const closeModal = () => {
+
+  setModalOpen(false);
+
+
+}
+
+const updateProviderAdmin  = () => {
+   setModalOpen(true);
+}
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+
+    subData.append('providerAdmin',FileList[0]?.originFileObj);
+
+    put(`ProviderAdmin/Update`,subData)
+    .then(res => {
+      if(res?.status == 200){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        setModalOpen(false);
+        setSuccess(!success);
+      }
+    })
+    
+
   }
 
     return (
         <div>
+
+        <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
+
+          <ModalHeader>Update Provider Admin</ModalHeader>
+        
+          <ModalBody>
+
+
+        <form onSubmit={handleSubmit}>
+
+          <input 
+          type='hidden'
+          name='providerId'
+          id='providerId'
+          value={id}
+          />
+
+          <input 
+          type='hidden'
+          name='id'
+          id='id'
+          value={adminData?.id}
+          />
+
+        <FormGroup row className="has-icon-left position-relative">
+          <Col md="3">
+          <span> Title
+          <span className="text-danger">*</span>{" "}
+          </span>
+          </Col>
+          <Col md="6">
+
+          <Select
+                      options={nameTitle}
+                      value={{ label: titleLabel, value: titleValue }}
+                      onChange={(opt) => selectTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
+                      required
+
+                    />
+
+                </Col>
+                </FormGroup>
+
+        <FormGroup row className="has-icon-left position-relative">
+          <Col md="3">
+          <span> First Name
+          <span className="text-danger">*</span>{" "}
+          </span>
+          </Col>
+          <Col md="6">
+
+          <Input
+          type='text'
+          name='firstName'
+          id='firstName'
+          defaultValue={adminData?.firstName}
+          />
+
+                </Col>
+                </FormGroup>
+
+        <FormGroup row className="has-icon-left position-relative">
+          <Col md="3">
+          <span> Last Name
+          <span className="text-danger">*</span>{" "}
+          </span>
+          </Col>
+          <Col md="6">
+
+          <Input
+          type='text'
+          name='lastName'
+          id='lastName'
+          defaultValue={adminData?.lastName}
+          />
+
+                </Col>
+                </FormGroup>
+
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>
+                    Profile Photo <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+
+                  <div className='row d-flex'>
+
+                  {
+                    (adminData?.providerAdminMedia !== null) ?
+
+                  <div className='col-md-6'>
+               
+
+                  <Image
+                  width={104} height={104}
+                  src={rootUrl+adminData?.providerAdminMedia?.thumbnailUrl}
+                />
+
+                
+
+               
+                  </div>
+
+                  :
+
+                null
+
+                }
+
+                  <div className='col-md-6'>
+                  <>
+                  <Upload
+                   
+                    listType="picture-card"
+                    multiple={false}
+                    fileList={FileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                    beforeUpload={(file)=>{
+          
+                    
+                        
+                      
+                        return false;
+                    }}
+                  >
+                     {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/>
+                     <br/>
+                     <span>Upload Image Here</span>
+                     </div>: ''}
+                  </Upload>
+                  <Modal
+                    visible={previewVisible}
+                    title={previewTitle}
+                    footer={null}
+                    onCancel={handleCancel}
+                  >
+                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                  </Modal>
+                </>
+                  </div>
+
+                     
+                  </div>
+
+               
+                
+                
+                  
+                   
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row>
+
+                  <Col md='9'>
+                    <div className='d-flex justify-content-end'>
+                     <Button className='mr-1 mt-3' color='warning'>
+                        Update
+                     </Button>
+                    </div>
+                  
+                  </Col> 
+
+
+                </FormGroup>
+        
+         
+          </form> 
+
+            
+          
+        </ModalBody>
+
+</Modal>
+
             <Card className="uapp-card-bg">
         <CardHeader className="page-header">
 
@@ -260,14 +567,14 @@ admissionManager.length> 0 &&
                             
                                 {" "}
                                 <i class="fas fa-edit warning icon-hover-style"
-                                onClick={()=>updateAdmissionManager(manager?.id)}
+                                onClick={()=>updateAdmissionManager(manager?.id,id)}
                                
                                 ></i>{" "}
                              
 
                              
                                 <i class="fas fa-trash-alt text-danger icon-hover-style"
-                                 onClick={() => toggleDelete(manager?.id)}
+                                 onClick={() => toggleDelete(manager)}
                                 ></i>
                            
                           
@@ -286,8 +593,7 @@ admissionManager.length> 0 &&
                               <ModalFooter>
                                 <Button
                                   color="danger"
-                                  onClick={() => handleDelete(manager
-                                    ?.id)}
+                                  onClick={handleDelete}
                                 >
                                   YES
                                 </Button>
@@ -320,6 +626,41 @@ admissionManager.length> 0 &&
 
 
           <Col md='4'>
+
+          <Card>
+                <div className="uapp-circle-image margin-top-minus mt-3">
+                  <img className="p-1" src={rootUrl+adminData?.providerAdminMedia?.thumbnailUrl} alt="provider_image" />
+                </div>
+                <h5 className="pt-2 h3 text-center mb-4">
+                  {" "}
+                  <span className="pe-1">{adminData?.firstName}</span>
+                  <span className=" ps-1">{adminData?.lastName}</span>
+                </h5>
+
+                <div className="container text-center mb-4">
+              
+                  <LinkButton
+                  name={'Edit'}
+                  func={updateProviderAdmin}
+                  className={"btn btn-primary px-lg-5 px-md-3 px-sm-1 py-2"}
+                  
+                  />
+                </div>
+
+                <div>
+                  <ul className="uapp-ul text-center pb-3">
+                   
+
+                    <h5 className="py-b">
+                      {" "}
+                      <span>{adminData?.email}</span>{" "}
+                    </h5>
+                    
+                  </ul>
+                </div>
+              </Card>
+
+
           <Card className="p-3">
 
 <h6> Notice</h6>

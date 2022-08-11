@@ -20,6 +20,7 @@ import "antd/dist/antd.css";
 import { rootUrl } from "../../../../constants/constants";
 import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
+import Select from "react-select";
 
 const BranchManagerInformation = () => {
   const { id } = useParams();
@@ -32,6 +33,10 @@ const BranchManagerInformation = () => {
   const [previewTitle, setPreviewTitle] = useState('');
   const [FileList, setFileList] = useState([]);
 
+  const [title,setTitle] = useState([]);
+  const [titleLabel,setTitleLabel] = useState('Select');
+  const [titleValue,setTitleValue] = useState(0);
+
   // const managerImageData = useSelector(
   //   (state) => state?.ManagerImageReducer?.managerImage
   // );
@@ -40,8 +45,34 @@ const BranchManagerInformation = () => {
     get(`BranchManager/Get/${id}`).then((res) => {
       console.log(res,'Tring manager info noww');
       setBranchManagerInfo(res);
+      setTitleLabel(res?.nameTittle?.name);
+      setTitleValue(res?.nameTittle?.id);
     });
+
+    get('NameTittle/GetAll')
+    .then(res => {
+      console.log('title',res);
+      setTitle(res);
+    })
   }, [id]);
+
+
+  const nameTitle = title?.map((singleTitle) => ({
+    label: singleTitle.name,
+    value: singleTitle.id,
+  }));
+
+
+           // select  Title
+const selectTitle = (label, value) => {
+
+
+setTitleLabel(label);
+setTitleValue(value);
+
+
+
+}
 
    //  Manager Image COde Start
 
@@ -150,18 +181,35 @@ const BranchManagerInformation = () => {
               id="email"
               value={branchManagerInfo?.email}
             />
-            <input
-              type="hidden"
-              name="tittle"
-              id="tittle"
-              value={branchManagerInfo?.tittle}
-            />
+          
             <input
               type="hidden"
               name="branchId"
               id="branchId"
               value={branchManagerInfo?.branchId}
             />
+
+<FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Title <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="4">
+                  <Select
+                      options={nameTitle}
+                      value={{ label: titleLabel, value: titleValue }}
+                      onChange={(opt) => selectTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
+                      required
+
+                    />
+                   
+                 
+                  </Col>
+                </FormGroup>
+
 
             <FormGroup row className="has-icon-left position-relative">
               <Col md="2">

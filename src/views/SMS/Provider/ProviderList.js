@@ -296,6 +296,7 @@ const ProviderList = () => {
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
                 name={" Add New"}
+                
                 permission={6}
               />
 

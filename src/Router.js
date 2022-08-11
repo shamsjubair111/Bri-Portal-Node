@@ -306,21 +306,22 @@ class AppRouter extends React.Component {
   render() {
     return (
       // Set the directory path if you are deploying in sub-folder
-      <Router history={history}>
-         <ToastProvider autoDismiss={true}>
-        <Switch>
+      <>
+     
           {/* SMS Client Routing */}
          {
            isAuth ?
            <>
-            
+             <Router history={history}>
+         <ToastProvider autoDismiss={true}>
+        <Switch>
          <AppRoute exact path="/" component={analyticsDashboard} />
         
          <AppRoute  path="/AdmissionManager" component={AdmissionManager} />
          <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} />
          <AppRoute  path="/updateUser/:id" component={UpdateUser} />
-         {/* <AppRoute exact path="/addAdmissionManager/:id" component={AdmissionManager} /> */}
-         <AppRoute  path="/updateAdmissionManager/:id" component={UpdateAdmissionManager} />
+         <AppRoute exact path="/addAdmissionManager/:id" component={AdmissionManager} />
+         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={UpdateAdmissionManager} />
   
          <AppRoute  path="/demo" component={demo} />
          <AppRoute  path="/uni1" component={demo} />
@@ -469,7 +470,9 @@ class AppRouter extends React.Component {
 
          <AppRoute component={notFound} fullLayout />
 
-      
+         </Switch>
+      </ToastProvider>
+      </Router>
 
 
 
@@ -491,14 +494,11 @@ class AppRouter extends React.Component {
 
            </> :
            <>
+             <Router history={history}>
+         <ToastProvider autoDismiss={true}>
+        <Switch>
 
-           <Redirect
-                to={{
-                    pathname: "/",
-                    // state: { from: location }
-                }}
-            />
-        
+          
       
          <AppRoute exact path="/" component={StudentLogin} fullLayout />
 
@@ -522,13 +522,22 @@ class AppRouter extends React.Component {
             component={resetPassword}
             fullLayout
           />
+
+            <AppRoute
+            path="*"
+            exact
+            component={() => <Redirect to="/" />}
+          />
+
+</Switch>
+      </ToastProvider>
+      </Router>
            </>
          }
          
          
-        </Switch>
-      </ToastProvider>
-      </Router>
+       
+      </>
     )
   }
 }

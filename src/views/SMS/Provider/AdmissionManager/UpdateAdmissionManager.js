@@ -5,10 +5,13 @@ import post from '../../../../helpers/post';
 import Select from "react-select";
 import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
+import put from '../../../../helpers/put';
 
 const UpdateAdmissionManager = () => {
 
-    const {id} = useParams();
+    const {id,id2} = useParams();
+
+    console.log('one',id,'two',id2);
     const history = useHistory();
 
     const [country,setCountry] = useState([]);
@@ -21,6 +24,11 @@ const UpdateAdmissionManager = () => {
     const [stateError, setStateError] = useState(false);
     const {addToast} = useToasts();
     const [data,setData] = useState({});
+
+    const [title,setTitle] = useState([]);
+    const [titleLabel,setTitleLabel] = useState('Select');
+    const [titleValue,setTitleValue] = useState(0);
+    const [titleError,setTitleError] = useState(false);
     
 
     console.log('checking id for upadating admission Manager',id);
@@ -35,15 +43,45 @@ const UpdateAdmissionManager = () => {
 
         get(`AdmissionManager/Get/${id}`)
         .then(res => {
-            console.log(res);
+            console.log('Ad Manager',res);
             setData(res);
+            setTitleLabel(res?.nameTittle?.name);
+            setTitleValue(res?.nameTittle?.id);
+            setCountryLabel(res?.country?.name);
+            setCountryValue(res?.country.id);
+            setStateLabel(res?.state?.name);
+            setStateValue(res?.state.id);
+        })
+
+        get('NameTittle/GetAll')
+        .then(res => {
+          console.log('title',res);
+          setTitle(res);
         })
 
     },[])
 
 
+    const nameTitle = title?.map((singleTitle) => ({
+      label: singleTitle.name,
+      value: singleTitle.id,
+    }));
+
+
+             // select  Title
+const selectTitle = (label, value) => {
+
+  setTitleError(false);
+  setTitleLabel(label);
+  setTitleValue(value);
+  
+ 
+ 
+}
+
+
     const backToProviderDetails = () => {
-        history.push(`/providerDetails/${id}`);
+        history.push(`/providerDetails/${id2}`);
       }
 
 
@@ -86,6 +124,19 @@ const UpdateAdmissionManager = () => {
 
       const handleSubmit  = (event) => {
         event.preventDefault();
+        const subData = new FormData(event.target);
+
+        put(`AdmissionManager/Update`,subData)
+        .then(res =>{
+          if(res?.status == 200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push(`/providerDetails/${id2}`);
+
+          }
+        })
 
 
       }
@@ -120,14 +171,15 @@ const UpdateAdmissionManager = () => {
                     
                     
                     <Col md="10" lg="4">
-                      <Input
-                        type="text"
-                        name="title"
-                        id="title"
-                        placeholder="Enter title"
-                      
-                        required
-                      />
+                    <Select
+                      options={nameTitle}
+                      value={{ label: titleLabel, value: titleValue }}
+                      onChange={(opt) => selectTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
+                      required
+
+                    />
 
                     </Col>
                   </FormGroup>
@@ -147,7 +199,7 @@ const UpdateAdmissionManager = () => {
                         name="firstName"
                         id="firstName"
                         placeholder="Enter first name"
-                      
+                        defaultValue={data?.firstName}
                         required
                       />
 
@@ -169,7 +221,7 @@ const UpdateAdmissionManager = () => {
                         name="lastName"
                         id="lastName"
                         placeholder="Enter last name"
-                      
+                      defaultValue={data?.lastName}
                         required
                       />
 
@@ -193,7 +245,7 @@ const UpdateAdmissionManager = () => {
                         name="email"
                         id="email"
                         placeholder="Enter email"
-                      
+                        value={data?.email}
                         required
                       />
 
@@ -215,7 +267,7 @@ const UpdateAdmissionManager = () => {
                         name="phoneNumber"
                         id="phonenumber"
                         placeholder="Enter phone number"
-                      
+                       defaultValue={data?.phoneNumber}
                         required
                       />
 
@@ -237,7 +289,7 @@ const UpdateAdmissionManager = () => {
                         name="postCode"
                         id="postCode"
                         placeholder="Enter post code"
-                      
+                       defaultValue={data?.postCode}
                         required
                       />
 
@@ -259,7 +311,7 @@ const UpdateAdmissionManager = () => {
                         name="city"
                         id="city"
                         placeholder="Enter city"
-                      
+                       defaultValue={data?.city}
                         required
                       />
 
@@ -281,7 +333,7 @@ const UpdateAdmissionManager = () => {
                         name="sequenceId"
                         id="sequenceId"
                         placeholder="Enter sqquence id"
-                      
+                        defaultValue={data?.sequenceId}
                         required
                       />
 
@@ -337,6 +389,14 @@ const UpdateAdmissionManager = () => {
                         type="hidden"
                         name="providerId"
                         id="providerId"
+                        value={id2}
+                      
+                        required
+                      />
+                      <Input
+                        type="hidden"
+                        name="id"
+                        id="id"
                         value={id}
                       
                         required

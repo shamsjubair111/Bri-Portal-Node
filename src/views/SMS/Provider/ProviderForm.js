@@ -75,12 +75,17 @@ const ProviderForm = (props) => {
        //  post form data and notify the response to user
          post(`Provider/Create`,subData,config).then((action)=> {
          
+          if(action?.status ==200){
+
+        
          
           addToast(action?.data?.message, {
            appearance:  'success',
            autoDismiss: true,
          })
-         history.push('/providerList');
+         localStorage.setItem('adminProviderHiddenId', action?.data?.result?.id);
+         history.push('/adminProviderForm');
+        }
         })
    
    
@@ -89,6 +94,7 @@ const ProviderForm = (props) => {
       const selectProviderType = (label, value) => {
         setProviderTypeLabel(label);
         setProviderTypeValue(value);
+        setProviderTypeError(false);
        
       }
 
@@ -97,7 +103,7 @@ const ProviderForm = (props) => {
         <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Assign Provider</h3>
+          <h3 className="text-light">Create Provider</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}
@@ -108,9 +114,7 @@ const ProviderForm = (props) => {
       </Card>
 
       <Card>
-          <CardHeader>
-            <CardTitle>Create Provider</CardTitle>
-          </CardHeader>
+          
           <CardBody>
       <form onSubmit={handleSubmit} >
 
