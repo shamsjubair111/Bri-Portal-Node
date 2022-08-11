@@ -490,6 +490,10 @@ th {
   color: #5d5b5b;
 }
 
+.image-upload>input {
+  display: none;
+}
+
 .div-background{
   background-color: #1e98b0;
 }

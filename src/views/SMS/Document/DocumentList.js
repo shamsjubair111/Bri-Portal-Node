@@ -443,7 +443,7 @@ const DocumentList = () => {
                         isOpen={deleteModal}
                         toggle={closeDeleteModal}
                         className="uapp-modal"
-                      >
+                       >
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
