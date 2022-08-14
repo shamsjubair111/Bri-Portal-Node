@@ -345,6 +345,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addUniversityState" component={AddUniversityState} />
          <AppRoute  path="/addUniversity" component={AddUniversity} />
          <AppRoute  path="/addUniversityApplicationDocument" component={AddUniversityApplicationDocument} />
+         <AppRoute  path="/addUniversityTemplateDocument" component={AddUniversityTemplateDocument} />
          <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} />
 
           {/* intake */}
@@ -375,6 +376,8 @@ class AppRouter extends React.Component {
          <AppRoute  path="/campusDetails/:id" component={CampusDetails} />
 
          <AppRoute  path="/documentlist" component={DocumentList} />
+         <AppRoute  path="/documentCategoryList" component={DocumentCategoryList} />
+         <AppRoute  path="/addSubjectDocumentGroup" component={DocumentGroup} />
 
          <AppRoute  path="/addDepartment" component={AddDepartment} />
          <AppRoute  path="/addSubDepartment" component={AddSubDepartment} />
