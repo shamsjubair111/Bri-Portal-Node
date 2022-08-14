@@ -54,9 +54,14 @@ const DocumentUpload = () => {
   const [success, setSuccess] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [studentDocuId, setStudentDocuId] = useState(0);
+  const [deleteModal2, setDeleteModal2] = useState(false);
 
-  // const [FileList2, setFileList2] = useState(0);
+  const [delDocData, setdelDocData] = useState({});
+
+  const [isSelected, setIsSelected] = useState(false);
+
   const [FileList2, setFileList2] = useState([]);
+
 
   const backToStudentProfile = () => {
     history.push(
@@ -108,7 +113,6 @@ const DocumentUpload = () => {
     });
 
     get("DocumentDD/Index").then((res) => {
-      // console.log(res);
       setDocuType(res);
     });
   }, [success]);
@@ -162,7 +166,6 @@ const DocumentUpload = () => {
     }
   };
 
-  console.log("Filelist1", FileList1[0]?.originFileObj);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -205,10 +208,18 @@ const DocumentUpload = () => {
 
   const toggleDanger = (docu) => {
     console.log("delete", docu);
-    localStorage.setItem("delDocNam", docu?.documentLevelName);
-    localStorage.setItem("delDocId", docu?.studentDocumentLevelId);
+    setdelDocData(docu)
+    // localStorage.setItem("delDocNam", docu?.documentLevelName);
+    // localStorage.setItem("delDocId", docu?.studentDocumentLevelId);
     setDeleteModal(true);
   };
+  
+  const toggleDangerFile = (docFile) => {
+    console.log("delete file", docFile, docFile?.studentDocumentFile?.fileName);
+    localStorage.setItem("delFileName", docFile?.studentDocumentFile?.fileName);
+    localStorage.setItem("delFileId", docFile?.studentDocumentLevelId);
+    setDeleteModal2(true);
+  }
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
@@ -217,8 +228,16 @@ const DocumentUpload = () => {
     localStorage.removeItem("delDocId");
   };
 
-  const handleDeleteDocument = (id) => {
-    const returnValue = remove(`StudentUploadDocument/LevelDelete/${id}`).then(
+  // on Close Delete Modal
+  const closeDeleteModalFile = () => {
+    setDeleteModal2(false);
+    localStorage.removeItem("delFileName");
+    localStorage.removeItem("delFileId");
+  };
+
+  const handleDeleteDocument = () => {
+    console.log("delData", delDocData?.studentDocumentLevelId);
+    const returnValue = remove(`StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`).then(
       (action) => {
         setDeleteModal(false);
         setSuccess(!success);
@@ -232,40 +251,78 @@ const DocumentUpload = () => {
     );
   };
 
- 
+  const handleDeleteFile = (id) => {
+    const returnValue = remove(`StudentUploadDocument/FileDelete/${id}`).then(
+      (action) => {
+        setDeleteModal2(false);
+        setSuccess(!success);
+        addToast(action, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        localStorage.removeItem("delFileName");
+        localStorage.removeItem("delFileId");
+      }
+    );
+  };
+
+
+  const changeHandler = (e,doc) => {         
+      setFileList2(e.target.files[0]);
+      setIsSelected(true);
+      setStudentDocuId(doc?.studentDocumentLevelId);
+  }
 
   const handleCardUpload = () => {
+
+    const subData = new FormData();
+
+    subData.append('studentDocument', FileList2);
+    subData.append('studentDocumentLevelId', parseInt(studentDocuId));
     
-    console.log("file2",FileList2);
-    const subData = {
-      
-        studentDocument: FileList2[0],
-        studentDocumentLevelId: studentDocuId
-      }
 
-
-
-    // for (var i of subData.values()) {
+    // for (var i of subData) {
     //   console.log(i);
     // }
 
-    post("StudentUploadDocument/FileCreate", subData).then((res) => {
-      console.log("document data", res);
-      if (res?.status == 200) {
-        addToast(res?.data?.message, {
-          appearance: "success",
-          autoDismiss: true,
-        });
-        // history.push('/addUniversityRequiredDocument');
-        setSuccess(!success);
-        setFileList2([]);
-      }
-    });
+    if(studentDocuId !== 0){
+
+      post("StudentUploadDocument/FileCreate", subData).then((res) => {
+        console.log("document data create", res);
+        if (res?.status == 200) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+          setFileList2(undefined);
+          setIsSelected(false);
+          setStudentDocuId(0);
+        }
+      });
+    }
+
+    return;
+    
   }
 
-  console.log("List2", FileList2.File);
-  if(FileList2.length !== 0){
+ 
+
+  if(isSelected === true && FileList2 !== undefined && typeof(FileList2) === "object"){
     handleCardUpload();
+    setFileList2(undefined);
+    setIsSelected(false);
+    setStudentDocuId(0);
+  }
+
+  
+
+  const handleDate = e =>{
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    // const x = localeDate.split(",")[0];
+    return localeDate;
   }
 
   return (
@@ -349,9 +406,9 @@ const DocumentUpload = () => {
           <div className="row gy-3">
             <div className="col-md-8 ">
               {uploadedDocuData.map((docu, i) => (
-                <>
-                  <div className="card mb-3 file-upload-border">
-                    <div className="container  py-3 flex-style ">
+                
+                  <div key={i}  className="card mb-3 file-upload-border">
+                    <div  className="container  py-3 flex-style ">
                       <div>
                         <h5 className="document-title">
                           {docu?.documentLevelName}
@@ -362,22 +419,12 @@ const DocumentUpload = () => {
                         </h5>
                       </div>
 
-                      <div className="row">
+                      <div className="row" onClick={()=>console.log(docu?.studentDocumentLevelId)}>
                         {docu?.studentDocumentFile === null ? (
                           <div className="col-4">
 
-                            {/* <Form onSubmit={handleCardUpload}> */}
-                            <Form>
-
-                              <input
-                                type="hidden"
-                                name="studentDocumentLevelId"
-                                id="studentDocumentLevelId"
-                                value={docu?.studentDocumentLevelId}
-                              />
-
                               <div style={{cursor: "pointer"}} className="image-upload">
-                                <label for="studentDocument">
+                                <label for={i}>
                                 <i
                                   style={{ fontSize: "50px", cursor: "pointer" }}
                                   className="fas fa-arrow-alt-circle-up text-danger"
@@ -385,67 +432,15 @@ const DocumentUpload = () => {
                                 </label>
 
                                 <input 
-                                  name="studentDocument" 
-                                  id="studentDocument" 
+                                  name={i} 
+                                  id= {i}
                                   type="file"
-                                  onChange={(e)=>{
-                                    setFileList2(e.target.files[0]);
-                                    setStudentDocuId(docu?.studentDocumentLevelId)
-                                  }} 
+                                  onChange={(e)=>changeHandler(e,docu)}
                                 />
                               </div>
-                              <div>
-                                <ButtonForFunction
-                                  type={"submit"}
-                                  color={"primary"}
-                                  className={"btn-sm"}
-                                  // icon={<i class="fas fa-caret-square-up"></i>}
-                                  name={`Upload${FileList2 != 0 ? "(1)" : ""}`}
-                                />
-                              </div>
-                            </Form>
+                              
+                          
                             
-                              {/* <div className="col-md-3">
-                                <Upload
-                                  listType="picture"
-                                  multiple={false}
-                                  fileList={FileList2}
-                                  onPreview={handlePreview1}
-                                  onChange={handleChange2}
-                                  beforeUpload={(file) => {
-                                    return false;
-                                  }}
-                                >
-                                  {FileList2.length < 1 ? (
-                                    <div
-                                      className="text-danger"
-                                    >
-                                      <i
-                                        style={{ fontSize: "50px" }}
-                                        class="fas fa-arrow-alt-circle-up"
-                                      >
-
-                                      </i>
-                                      <br />
-                                      <span>Upload Here</span>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </Upload>
-                                <AntdModal
-                                  visible={previewVisible1}
-                                  title={previewTitle1}
-                                  footer={null}
-                                  onCancel={handleCancel1}
-                                >
-                                  <img
-                                    alt="example"
-                                    style={{ width: "100%" }}
-                                    src={previewImage1}
-                                  />
-                                </AntdModal>
-                              </div> */}
                           </div>
                         ) : (
                           <div className="col-4">
@@ -490,11 +485,12 @@ const DocumentUpload = () => {
                           <ModalFooter>
                             <Button
                               color="danger"
-                              onClick={() =>
-                                handleDeleteDocument(
-                                  localStorage.getItem("delDocId")
-                                )
-                              }
+                              // onClick={() =>
+                              //   handleDeleteDocument(
+                              //     localStorage.getItem("delDocId")
+                              //   )
+                              // }
+                              onClick={handleDeleteDocument}
                             >
                               YES
                             </Button>
@@ -503,15 +499,55 @@ const DocumentUpload = () => {
                         </Modal>
                       </div>
                     </div>
-                    <div class="card-footer bg-secondary text-white">
+                    <div class="card-footer uapp-card-bg text-white d-flex justify-content-between">
                       {
-                        docu?.studentDocumentFile != null ? <span>1 file uploaded</span>
-                         :
-                        <span>0 file uploaded</span>
+                        docu?.studentDocumentFile != null ? 
+                        <>
+                        <div>1 file uploaded: <span className="ms-2  px-2">{docu?.studentDocumentFile?.fileName} <i onClick={()=>toggleDangerFile(docu)} title="delete file" style={{cursor: "pointer"}} className="fas fa-times text-warning "></i>
+                        </span></div>
+                         <div>
+                        
+                        {docu?.createdBy} {" "} at {handleDate(docu?.createdOn)}
+
+                      </div>
+                        </>
+                      
+                      :
+                        <div>0 file uploaded</div>
                       }
+
+                      {/* delete file modal */}
+                      <Modal
+                          isOpen={deleteModal2}
+                          toggle={closeDeleteModalFile}
+                          className="uapp-modal"
+                        >
+                          <ModalBody>
+                            <p>
+                              Are You Sure to Delete this{" "}
+                              <b>{localStorage.getItem("delFileName")}</b> ? Once
+                              Deleted it can't be Undone!
+                            </p>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            <Button
+                              color="danger"
+                              onClick={() =>
+                                handleDeleteFile(
+                                  localStorage.getItem("delFileId")
+                                )
+                              }
+                            >
+                              YES
+                            </Button>
+                            <Button onClick={closeDeleteModalFile}>NO</Button>
+                          </ModalFooter>
+                        </Modal>
+                      
                     </div>                 
                   </div>
-                </>
+                
               ))}
             </div>
 
