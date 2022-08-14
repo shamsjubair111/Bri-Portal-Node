@@ -147,17 +147,17 @@ class Login extends React.Component {
             
             
 
-            <Link to='/pages/studentRegister' style={{textDecoration: 'none'}}><i class="fas fa-chevron-right"></i><span className="login-page-link-style"> Student</span></Link>
+            <Link to='/pages/studentRegister' style={{textDecoration: 'none'}}><i className="fas fa-chevron-right"></i><span className="login-page-link-style"> Student</span></Link>
 
             <br/>
            
 
-            <Link to='/pages/consultantRegister' style={{textDecoration: 'none'}}> <i class="fas fa-chevron-right"></i><span className="login-page-link-style"> Consultant</span></Link>
+            <Link to='/pages/consultantRegister' style={{textDecoration: 'none'}}> <i className="fas fa-chevron-right"></i><span className="login-page-link-style"> Consultant</span></Link>
 
             <br/>
            
 
-            <Link to='/pages/providerRegister' style={{textDecoration: 'none'}}><i class="fas fa-chevron-right"></i><span className="login-page-link-style"> Provider</span></Link>
+            <Link to='/pages/providerRegister' style={{textDecoration: 'none'}}><i className="fas fa-chevron-right"></i><span className="login-page-link-style"> Provider</span></Link>
 
         </CardBody>
       </React.Fragment>

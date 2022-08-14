@@ -529,7 +529,7 @@ class AppRouter extends React.Component {
             component={() => <Redirect to="/" />}
           />
 
-</Switch>
+      </Switch>
       </ToastProvider>
       </Router>
            </>
