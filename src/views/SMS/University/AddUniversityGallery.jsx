@@ -58,8 +58,8 @@ const AddUniversityGallery = () => {
       })
     },[])
 
-    const backToDashboard = () => {
-      history.push("/");
+    const backToUniList = () => {
+      history.push("/universityList");
       }
 
 
@@ -84,6 +84,9 @@ const AddUniversityGallery = () => {
           history.push("/addUniversityApplicationDocument");
         }
         if (tab == "7") {
+          history.push("/addUniversityTemplateDocument");
+        }
+        if (tab == "8") {
           history.push("/addUniversityRequiredDocument");
         }
       };
@@ -96,9 +99,9 @@ const AddUniversityGallery = () => {
               <CardHeader className="page-header">              
                 <h3 className="text-light">University Gallery</h3>
                   <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToUniList} className="text-light">
                     {" "} 
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to University List
                     </span>
                   </div>             
               </CardHeader>        
@@ -140,7 +143,7 @@ const AddUniversityGallery = () => {
                                 onClick={() =>toggle('3')}
                                 >
 
-                                Financial Information
+                                Financial
                                 </NavLink>
                             </NavItem>
 
@@ -168,22 +171,14 @@ const AddUniversityGallery = () => {
                                 onClick={() =>toggle('5')}
                                 >
 
-                                University Gallery
+                                 Gallery
                                 </NavLink>
                             </NavItem>
 
                             <NavItem>
-                                 {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
-                                <NavLink
-                                active={activetab === '6'}
-                                onClick={() =>toggle('6')}
-                                >
-
+                              <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
                                 Application Document
-                                </NavLink>
+                              </NavLink>
                             </NavItem>
 
                             <NavItem>
@@ -196,9 +191,10 @@ const AddUniversityGallery = () => {
                                 onClick={() =>toggle('7')}
                                 >
 
-                                Required Document
+                                Template Document
                                 </NavLink>
                             </NavItem>
+
                     </Nav>
 
                     <TabContent activeTab={activetab}>

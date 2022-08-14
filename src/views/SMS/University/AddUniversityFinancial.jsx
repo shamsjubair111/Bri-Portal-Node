@@ -15,7 +15,7 @@ const AddUniversityFinancial = (props) => {
     const [activetab, setActivetab] = useState('3');
     const [submitData, setSubmitData] = useState(false);
     const [financialData, setFinancialData] = useState({});
-    const [financialId, setFinancialId] = useState(0);
+    const [financialId, setFinancialId] = useState(undefined);
 
     const method = localStorage.getItem('editMethod');
 
@@ -36,12 +36,13 @@ const AddUniversityFinancial = (props) => {
 
     useEffect(()=>{
         // get(`FinancialInformation/GetByUniversity/${localStorage.getItem("editUniId")}`)
-        get(`FinancialInformation/GetByUniversity/${localStorage.getItem("id")}`)
+            get(`FinancialInformation/GetByUniversity/${localStorage.getItem("id")}`)
         .then(res => {
-            console.log("finanInfo",res, localStorage.getItem("id"));
+            console.log("finanInfo", res?.id);
             setFinancialData(res);
             setFinancialId(res?.id);
         })
+        
     },[])
  
 
@@ -65,30 +66,10 @@ const AddUniversityFinancial = (props) => {
             //     }
             //   }
 
-             if(method == 'put' && financialId !== undefined){
-                console.log(method, financialId)
-                put('FinancialInformation/Update', subdata)
-                .then(res => {
-                    console.log('1st put response',res);
-                    if(res?.status == 200){
-                     
-                      addToast(res?.data?.message,{
-                        appearance: 'success',
-                        autoDismiss: true
-                      })
-                      
-                      history.push({
-                        pathname: '/addUniversityFeatures',
-                        id: localStorage.getItem('editUniId')
-                    })
-                    }
-                  })
-             }
-             else{
+             if(financialId == undefined){
+                console.log("fin Id", financialId);
                 Axios.post(`${rootUrl}FinancialInformation/Create`,subdata)
                 .then(res => {
-                   
-                  
                     
                   const uniID = res.data.result.universityId;
                 
@@ -111,6 +92,26 @@ const AddUniversityFinancial = (props) => {
                   }
                   
                 })
+             }
+             else{
+                
+                console.log("financial id", financialId)
+                put('FinancialInformation/Update', subdata)
+                .then(res => {
+                    console.log('1st put response',res);
+                    if(res?.status == 200){
+                     
+                      addToast(res?.data?.message,{
+                        appearance: 'success',
+                        autoDismiss: true
+                      })
+                      
+                      history.push({
+                        pathname: '/addUniversityFeatures',
+                        id: localStorage.getItem('editUniId')
+                    })
+                    }
+                  })
              }
 
     }
@@ -136,12 +137,12 @@ const AddUniversityFinancial = (props) => {
         history.push('/addUniversityApplicationDocument')
     }
     if(tab == '7'){
-        history.push('/addUniversityRequiredDocument')
+        history.push('/addUniversityTemplateDocument')
     }
 }
     // redirect to dashboard
-    const backToDashboard = () => {
-        history.push("/");
+    const backToUniList = () => {
+        history.push("/universityList");
         }
     return (
         <div>
@@ -151,9 +152,9 @@ const AddUniversityFinancial = (props) => {
               <CardHeader className="page-header">              
                 <h3 className="text-light">Add University Financial Information</h3>
                   <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToUniList} className="text-light">
                     {" "} 
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to University List
                     </span>
                   </div>             
               </CardHeader>        
@@ -195,7 +196,7 @@ const AddUniversityFinancial = (props) => {
                                 onClick={() =>toggle('3')}
                                 >
 
-                                Financial Information
+                                Financial
                                 </NavLink>
                             </NavItem>
 
@@ -223,7 +224,7 @@ const AddUniversityFinancial = (props) => {
                                 onClick={() =>toggle('5')}
                                 >
 
-                                University Gallery
+                                 Gallery
                                 </NavLink>
                             </NavItem>
 
@@ -251,7 +252,7 @@ const AddUniversityFinancial = (props) => {
                                 onClick={() =>toggle('7')}
                                 >
 
-                                Required Document
+                                Template Document
                                 </NavLink>
                             </NavItem>
                     </Nav>
@@ -262,7 +263,8 @@ const AddUniversityFinancial = (props) => {
                                 <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
 
                                 {
-                                  method == 'put' ?
+                                //   method == 'put' ?
+                                financialId !== undefined ?
                                   <>
                                   <input
                                   type='hidden'

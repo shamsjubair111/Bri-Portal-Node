@@ -93,6 +93,7 @@ const CampusList = lazy(() => import("./views/SMS/University/CampusList.jsx"))
 const CampusDetails = lazy(() => import("./views/SMS/University/CampusDetails.jsx"))
 const CampusSubjectList = lazy(() => import("./views/SMS/University/CampusSubjectList.jsx"))
 const AddUniversityGallery = lazy(() => import("./views/SMS/University/AddUniversityGallery.jsx"))
+const AddUniversityTemplateDocument = lazy(() => import("./views/SMS/University/AddUniversityTemplateDocument"))
 const AddUniversityApplicationDocument = lazy(() => import("./views/SMS/University/AddUniversityApplicationDocument"))
 const UniversityRecquiredDocument = lazy(() => import("./views/SMS/University/UniversityRecquiredDocument"))
 
@@ -112,6 +113,7 @@ const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddCo
 
 // Document
 const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
+const DocumentCategoryList = lazy(() => import("./views/SMS/Document/DocumentcategoryList.js"))
 
 // University Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
@@ -119,6 +121,7 @@ const AddSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/SubDe
 const AddProgramLevel = lazy(() => import("./views/SMS/UniversitySubjects/ProgramLevel.jsx"))
 const Subject = lazy(() => import("./views/SMS/UniversitySubjects/Subject.jsx"))
 const SubjectList = lazy(() => import("./views/SMS/UniversitySubjects/SubjectList.jsx"))
+const DocumentGroup = lazy(() => import("./views/SMS/UniversitySubjects/DocumentGroup.js"))
 const AddSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectFee.jsx"))
 const SubjectFeeInformation = lazy(() => import("./views/SMS/UniversitySubjects/SubjectFeeInformation.jsx"))
 const EditSubject = lazy(() => import("./views/SMS/UniversitySubjects/EditSubject.jsx"))

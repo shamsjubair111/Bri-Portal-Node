@@ -108,6 +108,8 @@ const AddConsultantType = () => {
                   autoDismiss: true,
                 })
                 setConsultantType('');
+                setConsName('');
+                setPostId(0);
               })
         }  
       }
@@ -137,7 +139,11 @@ const AddConsultantType = () => {
 
           {/* <ButtonForFunction 
             className={"btn btn-uapp-add"}
-            func={() => setModalOpen(true)}
+            func={() => {
+              setModalOpen(true);
+              setConsName('');
+              setPostId(0);
+            }}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New"}
             permission={6}
@@ -156,12 +162,17 @@ const AddConsultantType = () => {
               <ModalHeader>Add Consultant Type</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit} >
-                     <Input
+                     {
+                      postId>0 ?
+                      <Input
                         type="hidden"
                         name="id"
                         id="id"
                         defaultValue={postId}
                       />
+                      :
+                      null
+                     }
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="4">
                       <span>Consultant Type Name</span>
