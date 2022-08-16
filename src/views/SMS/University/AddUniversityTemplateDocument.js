@@ -55,8 +55,8 @@ const AddUniversityTemplateDocument = () => {
     "Select Requirement Status"
   );
   const [documentValue, setDocumentValue] = useState(0);
-  const [documentError, setDocumentError] = useState(false);
-  const [applicationList, setApplicationList] = useState([]);
+  const [applicationError, setApplicationError] = useState(false);
+  const [templateList, setTemplateList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [success, setSuccess] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
@@ -67,6 +67,7 @@ const AddUniversityTemplateDocument = () => {
     "Select Application Type"
   );
   const [applicationTypeValue, setApplicationTypeValue] = useState(0);
+  const [applicationTypeId, setApplicationTypeId] = useState([]);
 
   // image upload starts here
   const [previewVisible1, setPreviewVisible1] = useState(false);
@@ -108,19 +109,18 @@ const AddUniversityTemplateDocument = () => {
 
   useEffect(() => {
 
-    // get(`DocumentDD/Index`).then((res) => {
-    //   console.log("Checking document dd", res);
-    //   setDocument(res);
-    // });
+    get("ApplicationTypeDD/Index").then((res) => {
+      setApplicationTypeId(res);
+    });
 
     if(localStorage.getItem("id")){
       get(
-        `UniversityApplicationDocument/GetByUniversity/${localStorage.getItem(
+        `UniversityTemplateDocument/GetByUniversity/${localStorage.getItem(
           "id"
         )}`
       ).then((res) => {
-        console.log("appDocuData", res);
-        setApplicationList(res);
+        console.log("tempDocuData", res);
+        setTemplateList(res);
         if (res.length > 0) {
           setShowForm(true);
         } else {
@@ -132,16 +132,17 @@ const AddUniversityTemplateDocument = () => {
 
   }, [success]);
 
-  const documentOptions = document?.map((doc) => ({
-    label: doc?.name,
-    value: doc?.id,
+  const applicationOptions = applicationTypeId?.map((app) => ({
+    label: app?.name,
+    value: app?.id,
   }));
 
-  const selectDocumentStatus = (label, value) => {
-    setDocumentError(false);
-    setDocumentLabel(label);
-    setDocumentValue(value);
+  const selectApplicationType = (label, value) => {
+    setApplicationError(false);
+    setApplicationTypeLabel(label);
+    setApplicationTypeValue(value);
   };
+
 
   // redirect to 
   const backToUniList = () => {
@@ -179,8 +180,8 @@ const AddUniversityTemplateDocument = () => {
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("applicationId", p.id);
-    localStorage.setItem("applicationName", p.name);
+    localStorage.setItem("templateId", p.id);
+    localStorage.setItem("templateName", p.name);
     setDeleteModal(true);
   };
 
@@ -190,7 +191,7 @@ const AddUniversityTemplateDocument = () => {
     const subData = new FormData(e.target);
 
     subData.append(
-      "documentFile",
+      "template",
       FileList1.length == 0 ? null : FileList1[0]?.originFileObj
     );
 
@@ -198,8 +199,8 @@ const AddUniversityTemplateDocument = () => {
     //   console.log("i", i);
     // }
 
-    if (documentValue == 0) {
-      setDocumentError(true);
+    if (applicationTypeValue == 0) {
+      setApplicationError(true);
     } 
     if(FileList1.length<1 && selectedId == 0){
       setUploadError(true);
@@ -209,7 +210,7 @@ const AddUniversityTemplateDocument = () => {
     }
     else {
       if (selectedId === 0) {
-        post("UniversityApplicationDocument/Create", subData).then((res) => {
+        post("UniversityTemplateDocument/Create", subData).then((res) => {
           console.log("document data", res);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
@@ -220,12 +221,12 @@ const AddUniversityTemplateDocument = () => {
             setSuccess(!success);
             setShowForm(!showForm);
             setFileList1([]);
-            // setDocumentLabel("Select Requirement Status")
-            // setDocumentValue(0);
+            setApplicationTypeLabel("Select Application Type");
+            setApplicationTypeValue(0);
           }
         });
       } else {
-        put(`UniversityApplicationDocument/Update`, subData).then((res) => {
+        put(`UniversityTemplateDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
           if (res.status === 200 && res.data.isSuccess === true) {
             // setSubmitData(false);
@@ -246,11 +247,11 @@ const AddUniversityTemplateDocument = () => {
 
   const onShow = () => {
     setShowForm(false);
-    setDocumentLabel("Select Requirement Status");
-    setDocumentValue(0);
+    setApplicationTypeLabel("Select Application Type");
+    setApplicationTypeValue(0);
 
     setApplicationObject({});
-    // setFileList1(action?.document?.fileUrl);
+    setFileList1([]);
     setSelectedId(0);
   };
 
@@ -267,13 +268,13 @@ const AddUniversityTemplateDocument = () => {
     setShowForm(true);
     setSelectedId(0);
     // setuniversityCampusObject({});
-    setDocumentLabel("Select Requirement Status");
-    setDocumentValue(0);
+    setApplicationTypeLabel("Select Application Type");
+    setApplicationTypeValue(0);
   };
 
   const handleDeletePermission = (id) => {
     const returnValue = remove(
-      `UniversityApplicationDocument/Delete/${id}`
+      `UniversityTemplateDocument/Delete/${id}`
     ).then((action) => {
       setDeleteModal(false);
       setSuccess(!success);
@@ -281,8 +282,8 @@ const AddUniversityTemplateDocument = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("applicationId");
-      localStorage.removeItem("applicationName");
+      localStorage.removeItem("templateId");
+      localStorage.removeItem("templateName");
     });
   };
 
@@ -290,16 +291,25 @@ const AddUniversityTemplateDocument = () => {
     // setCampusId(id);
     setShowForm(false);
 
-    get(`UniversityApplicationDocument/Get/${id}`).then((action) => {
-      console.log("application update object", action);
+    get(`UniversityTemplateDocument/Get/${id}`).then((action) => {
+      console.log("template update object", action);
       setApplicationObject(action);
-      setDocumentLabel(action?.documentRequirementStatus?.name);
-      setDocumentValue(action?.documentRequirementStatus?.id);
-      // setFileList1(action?.document?.fileUrl);
+      setApplicationTypeLabel(action?.applicationTypeId === 1 ? 'Home' : action?.applicationTypeId === 2 ? 'EU/UK' : 'International');
+      setApplicationTypeValue(action?.applicationTypeId);
+      // setFileList1(action?.templateFile?.thumbnailUrl);
       setSelectedId(action?.id);
       console.log(action?.id);
     });
   };
+
+  const onGoUniList = () => {
+    history.push('/universityList')
+  }
+
+  const onGoUniProfile = () => {
+    const id = localStorage.getItem("id");
+    history.push(`/universityDetails/${id}`)
+  }
 
   return (
     <div>
@@ -366,10 +376,10 @@ const AddUniversityTemplateDocument = () => {
 
           <TabContent activeTab={activetab}>
 
-            {applicationList.length > 0 ? (
+            {templateList.length > 0 ? (
               <div className="container test-score-div-1-style mt-4 mb-4">
                 <span className="test-score-span-1-style">
-                  University application informations are showing here.
+                  University template document informations are showing here.
                 </span>
               </div>
             ) : null}
@@ -459,16 +469,16 @@ const AddUniversityTemplateDocument = () => {
                       </Col>
                       <Col md="6">
                         <Select
-                          // options={documentOptions}
+                          options={applicationOptions}
                           value={{ label: applicationTypeLabel, value: applicationTypeValue }}
-                          // onChange={(opt) =>
-                          //   selectDocumentStatus(opt.label, opt.value)
-                          // }
+                          onChange={(opt) =>
+                            selectApplicationType(opt.label, opt.value)
+                          }
                           name="applicationTypeId"
                           id="applicationTypeId"
                         />
 
-                        {documentError && (
+                        {applicationError && (
                           <span className="text-danger">
                             Select Application Type.
                           </span>
@@ -488,13 +498,13 @@ const AddUniversityTemplateDocument = () => {
                       </Col>
                       <Col md="6">
                         <div className="row">
-                          {applicationObject?.document ? (
+                          {applicationObject?.templateFile ? (
                             <div className="col-md-3">
                               <Image
                                 width={104}
                                 height={104}
                                 src={
-                                  rootUrl + applicationObject?.document?.thumbnailUrl
+                                  rootUrl + applicationObject?.templateFile?.thumbnailUrl
                                 }
                               />
                             </div>
@@ -600,7 +610,7 @@ const AddUniversityTemplateDocument = () => {
 
                             <div>
                               {selectedId !== 0 ||
-                              applicationList.length > 0 ? (
+                              templateList.length > 0 ? (
                                 
                                 <ButtonForFunction
                                   func={cancel}
@@ -636,7 +646,7 @@ const AddUniversityTemplateDocument = () => {
                 </FormGroup>
               )}
 
-              {applicationList.length > 0 ? (
+              {templateList.length > 0 ? (
                 <div className="table-responsive mt-4 mb-3">
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
@@ -644,26 +654,26 @@ const AddUniversityTemplateDocument = () => {
                         <th>SL/NO</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Status</th>
+                        <th>Type</th>
                         <th>File</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {applicationList?.map((application, i) => (
+                      {templateList?.map((temp, i) => (
                         <tr
-                          key={application?.id}
+                          key={temp?.id}
                           style={{ textAlign: "center" }}
                         >
                           <th scope="row">{i + 1}</th>
-                          <td>{application?.name}</td>
-                          <td>{application?.description}</td>
+                          <td>{temp?.name}</td>
+                          <td>{temp?.description}</td>
                           <td>
-                            {application?.documentRequirementStatus?.name}
+                            {temp?.applicationTypeId ===1 ? 'Home' : temp?.applicationTypeId === 2 ? 'EU/UK' : 'International'}
                           </td>
                           <td>
                             <a
-                              href={rootUrl + application?.document?.fileUrl}
+                              href={rootUrl + temp?.templateFile?.fileUrl}
                               target="_blank"
                               download
                             >
@@ -671,21 +681,21 @@ const AddUniversityTemplateDocument = () => {
                             </a>
                           </td>
                           <td>
-                            <ButtonForFunction
-                              className={"mx-1 btn-sm"}
-                              func={() => toggleDanger(application)}
-                              color={"danger"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
-
-                            {/* <Button onClick={()=> handleUpdate(uniType?.id)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
 
                             <ButtonForFunction
-                              func={() => handleUpdate(application?.id)}
+                              func={() => handleUpdate(temp?.id)}
                               className={"mx-1 btn-sm"}
                               color={"warning"}
                               icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
+
+
+                            <ButtonForFunction
+                              className={"mx-1 btn-sm"}
+                              func={() => toggleDanger(temp)}
+                              color={"danger"}
+                              icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
 
@@ -698,7 +708,7 @@ const AddUniversityTemplateDocument = () => {
                                 <p>
                                   Are You Sure to Delete this{" "}
                                   <b>
-                                    {localStorage.getItem("applicationName")}
+                                    {localStorage.getItem("templateName")}
                                   </b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
@@ -709,7 +719,7 @@ const AddUniversityTemplateDocument = () => {
                                   color="danger"
                                   onClick={() =>
                                     handleDeletePermission(
-                                      localStorage.getItem("applicationId")
+                                      localStorage.getItem("templateId")
                                     )
                                   }
                                 >
@@ -729,7 +739,7 @@ const AddUniversityTemplateDocument = () => {
               ) : null}
 
               {
-                applicationList?.length>0?
+                templateList?.length>0?
                 <FormGroup
                 className="has-icon-left position-relative"
                 style={{
@@ -739,9 +749,17 @@ const AddUniversityTemplateDocument = () => {
                 }}
               >
                 <ButtonForFunction
-                  func={onNextPage}
-                  color={"warning uapp-form-button float-right"}
-                  name={"Next Page"}
+                  func={onGoUniList}
+                  color={"primary uapp-form-button"}
+                  name={"University list"}
+                  permission={6}
+                />
+
+                <ButtonForFunction
+                  func={onGoUniProfile}
+                  color={"primary uapp-form-button"}
+                  className={"ms-lg-2 ms-sm-2"}
+                  name={"University Profile"}
                   permission={6}
                 />
               </FormGroup>
