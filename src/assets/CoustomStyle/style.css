@@ -549,7 +549,36 @@ th {
 }
 
 .search-card-title-1{
+ 
   color: #1e98b0;
+  font-weight: 500;
+  font-size: 16px;
+  
+}
+
+.search-card-title-2{
+ 
+  color: #1e98b0;
+  font-weight: 500;
+  font-size: 14px;
+  
+}
+
+.search-card2-custom-style{
+
+  height: 51%;
+  overflow-y: scroll;
+}
+
+.underline-span-style-1{
+ 
+  height: 2px;
+  width:100%;
+  border-radius: 100px;
+  background-color: #5d5b5b;
+  margin-top: 3px;
+  margin-bottom: 5px;
+  
 }
 
 .bank-details-card-size{
