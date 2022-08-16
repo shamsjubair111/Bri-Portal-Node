@@ -47,9 +47,7 @@ const DocumentGroup = () => {
   const [documentGroupData, setDocumentGroupData] = useState([]);
 
   const [document, setDocument] = useState([]);
-  const [documentLabel, setDocumentLabel] = useState(
-    "Select Document"
-  );
+  const [documentLabel, setDocumentLabel] = useState("Select Document");
   const [documentValue, setDocumentValue] = useState(0);
 
   const [documentError, setDocumentError] = useState(false);
@@ -69,7 +67,7 @@ const DocumentGroup = () => {
       setApplicationDD(res);
     });
 
-    if(documentId > 0){
+    if (documentId > 0) {
       get(`DocumentGroupDocument/GetByGroup/${documentId}`).then((res) => {
         console.log("documentGroupDocument", res);
         setDocumentGroupDocument(res);
@@ -199,18 +197,20 @@ const DocumentGroup = () => {
     });
   };
 
-  const handleDeleteViewDocu = (id) =>{
-    const returnValue = remove(`DocumentGroupDocument/Delete/${id}`).then((action) => {
-      setDeleteViewModal(false);
-      setSuccess(!success);
-      addToast(action, {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      localStorage.removeItem("delDocuGroupDocuName");
-      localStorage.removeItem("delDocuGroupDocuId");
-    });
-  }
+  const handleDeleteViewDocu = (id) => {
+    const returnValue = remove(`DocumentGroupDocument/Delete/${id}`).then(
+      (action) => {
+        setDeleteViewModal(false);
+        setSuccess(!success);
+        addToast(action, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        localStorage.removeItem("delDocuGroupDocuName");
+        localStorage.removeItem("delDocuGroupDocuId");
+      }
+    );
+  };
 
   const toggleDanger = (name, id) => {
     localStorage.setItem("delDocuGroupName", name);
@@ -218,9 +218,14 @@ const DocumentGroup = () => {
 
     setDeleteModal(true);
   };
-  
+
   const toggleDangerView = (documentGrp) => {
-    console.log("docugrppppp", documentGrp, documentGrp?.document?.name, documentGrp?.id);
+    console.log(
+      "docugrppppp",
+      documentGrp,
+      documentGrp?.document?.name,
+      documentGrp?.id
+    );
     localStorage.setItem("delDocuGroupDocuName", documentGrp?.document?.name);
     localStorage.setItem("delDocuGroupDocuId", documentGrp?.id);
     setDeleteViewModal(true);
@@ -260,38 +265,36 @@ const DocumentGroup = () => {
     history.push("/");
   };
 
-  const handleViewSubmit = e => {
+  const handleViewSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
 
-      // for(var i of subData){
-      //     console.log(i);
-      // }
+    // for(var i of subData){
+    //     console.log(i);
+    // }
 
-      if (documentValue == 0) {
-        setDocumentError(true);
-      } 
-      if (application === null) {
-        setApplicationError(true);
-      }
-      else{
-        post("DocumentGroupDocument/Create", subData).then((res) => {
-          console.log("document data", res);
-          if (res?.status == 200) {
-            addToast(res?.data?.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-            // history.push('/addUniversityRequiredDocument');
-            setSuccess(!success);
-            setDocumentLabel("Select Document")
-            setDocumentValue(0);
-            setApplication(null);
-          }
-        });
-      } 
-
-  }
+    if (documentValue == 0) {
+      setDocumentError(true);
+    }
+    if (application === null) {
+      setApplicationError(true);
+    } else {
+      post("DocumentGroupDocument/Create", subData).then((res) => {
+        console.log("document data", res);
+        if (res?.status == 200) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          // history.push('/addUniversityRequiredDocument');
+          setSuccess(!success);
+          setDocumentLabel("Select Document");
+          setDocumentValue(0);
+          setApplication(null);
+        }
+      });
+    }
+  };
 
   const handleViewDocument = (document) => {
     console.log("view document", document);
@@ -513,65 +516,103 @@ const DocumentGroup = () => {
                         <ModalHeader>Document Group</ModalHeader>
                         <ModalBody>
                           <div className="row container pt-5">
-
                             <div className="col-md-4 col-sm-12">
+                              <div className="hedding-titel d-flex justify-content-between mb-4">
+                                <div>
+                                  <h5>
+                                    {" "}
+                                    <b>Document List</b>{" "}
+                                  </h5>
 
-                            <div className="hedding-titel d-flex justify-content-between mb-4">
-                            <div>
-                              <h5>
-                                {" "}
-                                <b>Document List</b>{" "}
-                              </h5>
-
-                             <div className="bg-h"></div>
-                            </div>
-                                  
-                          </div>
+                                  <div className="bg-h"></div>
+                                </div>
+                              </div>
 
                               {
                                 <div className="table-responsive">
-                                <Table borderless className="table-sm">
-                                  <tbody>
-                          
-                                    {
-                                      documentGroupDocument.length<1 ? <span>There is no data added here.</span>
-                                      :
-                                      <>
-                                        {
-                                      documentGroupDocument?.map(( documentGrp, i) => <tr key={ documentGrp.id}>
-                                        
-                                        <td><i className="fas fa-chevron-circle-right"></i> {documentGrp?.document?.name}</td>
-                                        
-                                        <td>
-                          
-                                          <ButtonForFunction
-                                            className={"mx-1 btn-sm"}
-                                            func={() => toggleDangerView(documentGrp)}
-                                            color={"danger"}
-                                            icon={<i className="fas fa-trash-alt"></i>}
-                                            permission={6}
-                                          />
-                        
-                                          <Modal isOpen={deleteViewModal} toggle={closeDeleteViewModal} className="uapp-modal">
-                          
-                                            <ModalBody>
-                                              <p>Are You Sure to Delete this <b>{localStorage.getItem('delDocuGroupDocuName')}</b> ? Once Deleted it can't be Undone!</p>
-                                            </ModalBody>
-                          
-                                            <ModalFooter>
-                                              <Button color="danger" onClick={() => handleDeleteViewDocu(localStorage.getItem('delDocuGroupDocuId'))}>YES</Button>
-                                              <Button color="primary" onClick={closeDeleteViewModal}>NO</Button>
-                                            </ModalFooter>
-                          
-                                          </Modal>
-                                        </td>
-                                      </tr>)
-                                    }
-                                      </>
-                                    }
-                          
-                                  </tbody>
-                                </Table>
+                                  <Table borderless className="table-sm">
+                                    <tbody>
+                                      {documentGroupDocument.length < 1 ? (
+                                        <span>
+                                          There is no data added here.
+                                        </span>
+                                      ) : (
+                                        <>
+                                          {documentGroupDocument?.map(
+                                            (documentGrp, i) => (
+                                              <tr key={documentGrp.id}>
+                                                <td>
+                                                  <i className="fas fa-chevron-circle-right"></i>{" "}
+                                                  {documentGrp?.document?.name}
+                                                </td>
+
+                                                <td>
+                                                  <ButtonForFunction
+                                                    className={"mx-1 btn-sm"}
+                                                    func={() =>
+                                                      toggleDangerView(
+                                                        documentGrp
+                                                      )
+                                                    }
+                                                    color={"danger"}
+                                                    icon={
+                                                      <i className="fas fa-trash-alt"></i>
+                                                    }
+                                                    permission={6}
+                                                  />
+
+                                                  <Modal
+                                                    isOpen={deleteViewModal}
+                                                    toggle={
+                                                      closeDeleteViewModal
+                                                    }
+                                                    className="uapp-modal"
+                                                  >
+                                                    <ModalBody>
+                                                      <p>
+                                                        Are You Sure to Delete
+                                                        this{" "}
+                                                        <b>
+                                                          {localStorage.getItem(
+                                                            "delDocuGroupDocuName"
+                                                          )}
+                                                        </b>{" "}
+                                                        ? Once Deleted it can't
+                                                        be Undone!
+                                                      </p>
+                                                    </ModalBody>
+
+                                                    <ModalFooter>
+                                                      <Button
+                                                        color="danger"
+                                                        onClick={() =>
+                                                          handleDeleteViewDocu(
+                                                            localStorage.getItem(
+                                                              "delDocuGroupDocuId"
+                                                            )
+                                                          )
+                                                        }
+                                                      >
+                                                        YES
+                                                      </Button>
+                                                      <Button
+                                                        color="primary"
+                                                        onClick={
+                                                          closeDeleteViewModal
+                                                        }
+                                                      >
+                                                        NO
+                                                      </Button>
+                                                    </ModalFooter>
+                                                  </Modal>
+                                                </td>
+                                              </tr>
+                                            )
+                                          )}
+                                        </>
+                                      )}
+                                    </tbody>
+                                  </Table>
                                 </div>
                               }
                             </div>
@@ -586,7 +627,6 @@ const DocumentGroup = () => {
 
                                     <div className="bg-h"></div>
                                   </div>
-                                  
                                 </div>
 
                                 <FormGroup
@@ -597,9 +637,8 @@ const DocumentGroup = () => {
                                     type="hidden"
                                     id="documentGroupId"
                                     name="documentGroupId"
-                                    value={document?.id}
+                                    value={documentId}
                                   />
-                                  
                                 </FormGroup>
 
                                 <FormGroup
@@ -631,7 +670,6 @@ const DocumentGroup = () => {
                                         Document must be selected.
                                       </span>
                                     )}
-
                                   </Col>
                                 </FormGroup>
 
@@ -695,28 +733,23 @@ const DocumentGroup = () => {
                                 </FormGroup>
 
                                 <FormGroup className="has-icon-left position-relative">
-                                  
-                                    <>
-                                      <FormGroup
-                                        className="has-icon-left position-relative"
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "end",
-                                        }}
-                                      >
-                                        
-                                          <ButtonForFunction
-                                            color={"primary"}
-                                            type={"submit"}
-                                            className={"ms-lg-3 ms-sm-1 mt-3"}
-                                            name={"Submit"}
-                                            permission={6}
-                                          />
-                                       
-
-                                      </FormGroup>
-                                    </>
-                                 
+                                  <>
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "end",
+                                      }}
+                                    >
+                                      <ButtonForFunction
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"ms-lg-3 ms-sm-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+                                    </FormGroup>
+                                  </>
                                 </FormGroup>
                               </Form>
                             </div>
