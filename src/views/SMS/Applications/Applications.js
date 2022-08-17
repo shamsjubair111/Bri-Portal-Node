@@ -45,7 +45,7 @@ const Applications = () => {
 
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage, setDataPerPage] = useState(10);
+  const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
   const [orderLabel, setOrderLabel] = useState('Select order by');
   const [orderValue, setOrderValue] = useState(0);
@@ -383,25 +383,25 @@ const Applications = () => {
           </Row>
 
           <div className="table-responsive mb-3" ref={componentRef}>
-            <Table className="table-sm table-bordered">
+            <Table style={{verticalAlign: "middle"}} className="table-sm table-bordered">
               <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
-                  <th>UAPP ID</th>
-                  <th>Applicant</th>
-                  <th>Contact</th>
-                  <th>University</th>
-                  <th>Course</th>
-                  <th>Intake</th>
-                  <th style={{ width: "10%" }}>Uni Application Date</th>
-                  <th>Status</th>
-                  <th>Offer</th>
-                  <th style={{ width: "33%" }}>Interview</th>
-                  <th>ELPT</th>
-                  <th>Enrolment Status</th>
-                  <th>SLCS</th>
-                  <th>Consultant</th>
+                  <th style={{verticalAlign: "middle"}}>UAPP ID</th>
+                  <th style={{verticalAlign: "middle"}}>Applicant</th>
+                  <th style={{verticalAlign: "middle"}}>Contact</th>
+                  <th style={{verticalAlign: "middle"}}>University</th>
+                  <th style={{verticalAlign: "middle"}}>Course</th>
+                  <th style={{verticalAlign: "middle"}}>Intake</th>
+                  <th style={{verticalAlign: "middle"}}>Uni Application Date</th>
+                  <th style={{verticalAlign: "middle"}}>Status</th>
+                  <th style={{verticalAlign: "middle"}}>Offer</th>
+                  <th style={{verticalAlign: "middle"}}>Interview</th>
+                  <th style={{verticalAlign: "middle"}}>ELPT</th>
+                  <th style={{verticalAlign: "middle"}}>Enrolment Status</th>
+                  <th style={{verticalAlign: "middle"}}>SLCS</th>
+                  <th style={{verticalAlign: "middle"}}>Consultant</th>
                   {/* <th>Msg</th> */}
-                  <th style={{ width: "8%" }} className="text-center">
+                  <th style={{verticalAlign: "middle"}} className="text-center">
                     Actions
                   </th>
                 </tr>
@@ -410,37 +410,37 @@ const Applications = () => {
                 {/* {studentData?.map((student, i) => ( */}
                 <tr>
                   {/* <th scope='row'>{1}</th> */}
-                  <td>STD003082</td>
+                  <td style={{verticalAlign: "middle"}}>STD003082</td>
 
-                  <td>Mr Abul Kalam</td>
+                  <td style={{verticalAlign: "middle"}}>Mr Abul Kalam</td>
 
-                  <td>
+                  <td style={{verticalAlign: "middle"}}>
                     07927838390 <br />
                     abulkalam03@gmail.com
                   </td>
 
-                  <td>London Churchill College</td>
+                  <td style={{verticalAlign: "middle"}}>London Churchill College</td>
 
-                  <td>HND In Hospitality Management</td>
-                  <td>September 2022</td>
-                  <td style={{ width: "10%" }}>12-08-2022</td>
-                  <td>New application</td>
+                  <td style={{verticalAlign: "middle"}}>HND In Hospitality Management</td>
+                  <td style={{verticalAlign: "middle"}}>September 2022</td>
+                  <td style={{verticalAlign: "middle"}}>12-08-2022</td>
+                  <td style={{verticalAlign: "middle"}}>New application</td>
 
-                  <td>...</td>
+                  <td style={{verticalAlign: "middle"}}>...</td>
 
-                  <td style={{ width: "33%" }}>
+                  <td style={{verticalAlign: "middle"}}>
                     Booked at 02:00 PM on Tuesday, August 23, 2022
                   </td>
 
-                  <td>...</td>
+                  <td style={{verticalAlign: "middle"}}>...</td>
 
-                  <td>...</td>
+                  <td style={{verticalAlign: "middle"}}>...</td>
 
-                  <td>Not Applied</td>
+                  <td style={{verticalAlign: "middle"}}>Not Applied</td>
 
-                  <td>Irina stefana</td>
+                  <td style={{verticalAlign: "middle"}}>Irina stefana</td>
 
-                  <td style={{ width: "8%" }} className="text-center">
+                  <td style={{verticalAlign: "middle"}} className="text-center">
                     {/* <ButtonGroup variant="text" className='d-flex flex-column'> */}
 
                     <LinkSpanButton
@@ -489,37 +489,37 @@ const Applications = () => {
 
                 <tr>
                   {/* <th scope='row'>{1}</th> */}
-                  <td>STD003082</td>
+                  <td style={{verticalAlign: "middle"}}>STD003082</td>
 
-                  <td>Mr Abul Kalam</td>
+                  <td style={{verticalAlign: "middle"}}>Mr Abul Kalam</td>
 
-                  <td>
+                  <td style={{verticalAlign: "middle"}}>
                     07927838390 <br />
                     abulkalam03@gmail.com
                   </td>
 
-                  <td>London Churchill College</td>
+                  <td style={{verticalAlign: "middle"}}>London Churchill College</td>
 
-                  <td>HND In Hospitality Management</td>
-                  <td>September 2022</td>
-                  <td style={{ width: "10%" }}>12-08-2022</td>
-                  <td>New application</td>
+                  <td style={{verticalAlign: "middle"}}>HND In Hospitality Management</td>
+                  <td style={{verticalAlign: "middle"}}>September 2022</td>
+                  <td style={{verticalAlign: "middle"}}>12-08-2022</td>
+                  <td style={{verticalAlign: "middle"}}>New application</td>
 
-                  <td>...</td>
+                  <td style={{verticalAlign: "middle"}}>...</td>
 
-                  <td style={{ width: "33%" }}>
+                  <td style={{verticalAlign: "middle"}}>
                     Booked at 02:00 PM on Tuesday, August 23, 2022
                   </td>
 
-                  <td>...</td>
+                  <td style={{verticalAlign: "middle"}}>...</td>
 
-                  <td>...</td>
+                  <td style={{verticalAlign: "middle"}}>...</td>
 
-                  <td>Not Applied</td>
+                  <td style={{verticalAlign: "middle"}}>Not Applied</td>
 
-                  <td>Irina stefana</td>
+                  <td style={{verticalAlign: "middle"}}>Irina stefana</td>
 
-                  <td style={{ width: "8%" }} className="text-center">
+                  <td style={{verticalAlign: "middle"}} className="text-center">
                     {/* <ButtonGroup variant="text" className='d-flex flex-column'> */}
 
                     <LinkSpanButton
