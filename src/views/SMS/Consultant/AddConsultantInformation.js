@@ -519,16 +519,16 @@ const AddConsultantInformation = () => {
     if (work !== "false" && work !== "true") {
       setWorkError(true);
     }
-    if (FileList1.length < 1) {
+    if (FileList1.length < 1 && consultantData?.consultantProfileImageMedia == null) {
       setProfilePicError(true);
     }
-    if (FileList3.length < 1) {
+    if (FileList3.length < 1 && consultantData?.idOrPassportMedia == null) {
       setIdPassportError(true);
     }
-    if (FileList4.length < 1) {
+    if (FileList4.length < 1 && consultantData?.proofOfAddressMedia == null) {
       setProofOfAddressError(true);
     }
-    if (FileList5.length < 1) {
+    if (FileList5.length < 1 && consultantData?.proofOfRightToWorkMedia == null) {
       setProofOfRightError(true);
     } 
     else {

@@ -566,8 +566,9 @@ th {
 
 .search-card2-custom-style{
 
-  height: 51%;
-  overflow-y: scroll;
+  height: 43%;
+  overflow-y: auto;
+ 
 }
 
 .underline-span-style-1{
@@ -701,6 +702,147 @@ th {
   cursor: pointer;
 }
 
+.search-card2-custom-style{
+  box-shadow: 0px 4px 25px 0px rgb(0 0 0 / 10%);
+}
+
+.inactive-navlink-style{
+  font-size: 18px;
+  font-weight: 600;
+  color: #73818f;
+  background-color: #f1eeee;
+}
+
+.inactive-navlink-style:hover{
+  font-size: 18px;
+  font-weight: 600;
+  color: black;
+  background-color: #f1eeee;
+  cursor: pointer;
+}
+
+.active-navlink-style{
+
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  background-color: #1e98b0;
+}
+
+.active-navlink-style:hover{
+  cursor: pointer;
+}
+
+.search-img-style{
+
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  border: 2px solid #1e98b0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+  
+  
+
+}
+
+.p-style-1{
+  font-size: 15px;
+  color: #2154ac;
+  font-weight: 600;
+}
+
+.p-style-2{
+  color: #717171;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.button-style-search{
+  border-radius: 50px;
+  font-size: 12px;
+  border: 2px solid #2154AC;
+  color: #2154AC ;
+  padding-top: 5px ;
+  padding-bottom: 7px ;
+  padding-left: 20px ;
+  padding-right: 20px ;
+  cursor: pointer;
+}
+
+.btn-customStyle-1{
+
+  background: #f6532e8b;
+  color: white;
+  padding: 3px;
+  margin-right: 5px;
+  border: none;
+}
+
+.btn-customStyle-2{
+
+  background: #f6532e8b;
+  color: white;
+  padding: 3px;
+  margin-right: 5px;
+  border: none;
+
+}
+
+.btn-customStyle-3{
+
+  
+  background: #1f860f;
+  color: white;
+  padding: 3px;
+  margin-right: 5px;
+  border: none;
+
+
+}
+
+.available-style{
+  color: #717171;
+  font-size: 15px;
+  text-align: center;
+}
+
+.button-style-search:hover{
+  color: white;
+  background-color: #2154AC;
+}
+
+.course-name-style{
+  font-size: 17px;
+  color: #787878;
+}
+
+.span-style-search{
+  color: #707070;
+
+}
+
+.university-title-style{
+  color: #2154AC;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.search-span-style{
+  color: #707070;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.searc-img-resize{
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+  border: 2px solid#20a8d8;
+}
 
 @media only screen and (max-width: 767px) {
 
