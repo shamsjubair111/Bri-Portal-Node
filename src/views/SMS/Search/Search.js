@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip } from 'reactstrap';
 import Select from 'react-select';
 import ButtonForFunction from '../Components/ButtonForFunction';
-import { useHistory, useLocation } from 'react-router-dom';
+import {  useHistory, useLocation } from 'react-router-dom';
 
 
 const Search = () => {
@@ -11,7 +11,7 @@ const Search = () => {
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
     
-
+    const [activetab, setActivetab] = useState("1");
     const [studentLabel, setStudentLabel] = useState('Select Student');
     const [studentValue, setStudentValue] = useState(0);
 
@@ -59,6 +59,8 @@ const Search = () => {
     const [patternLabel,setPatternLabel] = useState('Select Delivery Pattern');
     const [patternValue, setPatternValue] = useState(0);
 
+    const [checkActiveTab, setCheckActiveTab] = useState(true);
+
     const sortingOrder = [
      
       {
@@ -92,17 +94,18 @@ const Search = () => {
     
   ]
 
-  const selectPrograms = () => {
-    setSelectTab1(true);
-    setSelectTab2(false);
+ 
+
+  const toggle = (tab) => {
+    setActivetab(tab);
     
-  }
-
-  const selectUniversity = () => {
-    setSelectTab1(false);
-    setSelectTab2(true);
-
-  }
+  
+ 
+  
+  
+   
+    
+  };
 
   const dataSizeName = showArray.map((dsn) => ({ label: dsn?.name, value: dsn?.id }));
   
@@ -440,19 +443,37 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
         <div className='row'>
 
-        <div className='col-md-6 text-center py-2 rounded-1 active-navlink-style' onClick={selectPrograms}>
+        <div className='col-md-6'>
+
+        <Nav tabs>
+
+        <NavItem>
+        <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
+          Application 
+        </NavLink>
+        </NavItem>
+
+        </Nav>
       
        
-      <span>Programs</span>
+       
     
       
 
     </div>
 
 
-    <div className='col-md-6 text-center py-2 rounded-1 inactive-navlink-style' onClick={selectUniversity}>
+    <div className='col-md-6'>
 
-    <span>University</span>
+    <Nav tabs>
+
+    <NavItem>
+    <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+      University
+    </NavLink>
+    </NavItem>
+
+</Nav>
 
     </div>
 
@@ -558,26 +579,27 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
 </Card>
 
-<div className='row mt-3'>
+<div className='row mt-3 '>
 
-  <div className='col-md-12'>
+  <div className='col-md-12 border-left-style-searchPage'>
+   
     <span className='course-name-style'>BSc (Hons) Business and Human Resource Management with Foundation Year</span>
     <br/>
     
   
     <div className='d-flex flex-wrap my-1'>
       <span className='available-style'>Available in:</span>
-          <button className='btn-customStyle-1 ms-2'>Evening</button>
+          <span className='btn-customStyle-1 ms-2'>Evening</span>
 
-          <button className='btn-customStyle-2'>Evening Weekend</button>
+          <span className='btn-customStyle-1 ms-2'>Evening Weekend</span>
 
-          <button className='btn-customStyle-3'>Standard</button>
+          
 
-          <span className='available-style'>campuses</span>
+          
     </div>
 
     <div className='row'>
-      <div className='col-md-3'>
+      <div className='col-md-2'>
         <span className='p-style-1'>Tution fee</span>
         <br/>
         <span className='p-style-2'>Local - £ 9250</span>
@@ -586,7 +608,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
       </div>
 
-      <div className='col-md-4'>
+      <div className='col-md-3'>
       <span className='p-style-1'>Level of Study</span>
         <br/>
         <span className='p-style-2'>Foundation programme</span>
@@ -594,212 +616,27 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
       </div>
 
-      <div className='col-md-3'>
-      <span className='p-style-1'>Duration</span>
-        <br/>
-        <span className='p-style-2'>4 Years</span>
-
-
-      </div>
-
-      <div className='col-md-2'>
-    <button className='button-style-search'>Apply</button>
-    
-  </div>
-
-    </div>
-    
-  </div>
-
- 
-
-  
-
-  <div>
-
-  </div>
-
-
-
-</div>
-
-
-<div className='row mt-3'>
-
-  <div className='col-md-12'>
-    <span className='course-name-style'>BSc (Hons) Business and Law with Foundation Year</span>
-    <br/>
-    
-  
-    <div className='d-flex flex-wrap my-1'>
-      <span className='available-style'>Available in:</span>
-          <button className='btn-customStyle-1 ms-2'>Evening</button>
-
-          <button className='btn-customStyle-2'>Evening Weekend</button>
-
-          <button className='btn-customStyle-3'>Standard</button>
-
-          <span className='available-style'>campuses</span>
-    </div>
-
-    <div className='row'>
-      <div className='col-md-3'>
-        <span className='p-style-1'>Tution fee</span>
-        <br/>
-        <span className='p-style-2'>Local - £ 9250</span>
-        <br/>
-        <span className='p-style-2'>EU - £ 9250</span>
-
-      </div>
-
-      <div className='col-md-4'>
-      <span className='p-style-1'>Level of Study</span>
-        <br/>
-        <span className='p-style-2'>Foundation programme</span>
-        
-
-      </div>
+     
 
       <div className='col-md-3'>
       <span className='p-style-1'>Duration</span>
         <br/>
-        <span className='p-style-2'>4 Years</span>
+        <span className='p-style-2'>MSc by Research normally 1 year full-time or 2 years part-time, MPhil normally 2 years full-time or 4 years part-time, PhD normally 3 years full-time or 6 years part-time</span>
 
 
       </div>
-
-      <div className='col-md-2'>
-    <button className='button-style-search'>Apply</button>
-    
-  </div>
-
-    </div>
-    
-  </div>
-
- 
-
-  
-
-  <div>
-
-  </div>
-
-
-
-</div>
-
-
-<div className='row mt-3'>
-
-  <div className='col-md-12'>
-    <span className='course-name-style'>BSc (Hons) Business and Marketing with Foundation Year</span>
-    <br/>
-    
-  
-    <div className='d-flex flex-wrap my-1'>
-      <span className='available-style'>Available in:</span>
-          <button className='btn-customStyle-1 ms-2'>Evening</button>
-
-          <button className='btn-customStyle-2'>Evening Weekend</button>
-
-          <button className='btn-customStyle-3'>Standard</button>
-
-          <span className='available-style'>campuses</span>
-    </div>
-
-    <div className='row'>
-      <div className='col-md-3'>
-        <span className='p-style-1'>Tution fee</span>
-        <br/>
-        <span className='p-style-2'>Local - £ 9250</span>
-        <br/>
-        <span className='p-style-2'>EU - £ 9250</span>
-
+ <div className='col-md-2'>
+      <span className='p-style-1'>Intake</span>
+      <br/>
+      <ul className='list-unstyled'>
+        <li>
+        September 2022 (Open)
+        </li>
+        <li>
+        September 2022 (Likely Open)
+        </li>
+      </ul>
       </div>
-
-      <div className='col-md-4'>
-      <span className='p-style-1'>Level of Study</span>
-        <br/>
-        <span className='p-style-2'>Foundation programme</span>
-        
-
-      </div>
-
-      <div className='col-md-3'>
-      <span className='p-style-1'>Duration</span>
-        <br/>
-        <span className='p-style-2'>4 Years</span>
-
-
-      </div>
-
-      <div className='col-md-2'>
-    <button className='button-style-search'>Apply</button>
-    
-  </div>
-
-    </div>
-    
-  </div>
-
- 
-
-  
-
-  <div>
-
-  </div>
-
-
-
-</div>
-
-
-<div className='row mt-3'>
-
-  <div className='col-md-12'>
-    <span className='course-name-style'>BSc (Hons) Business and Tourism with Foundation Year</span>
-    <br/>
-    
-  
-    <div className='d-flex flex-wrap my-1'>
-      <span className='available-style'>Available in:</span>
-          <button className='btn-customStyle-1 ms-2'>Evening</button>
-
-          <button className='btn-customStyle-2'>Evening Weekend</button>
-
-          <button className='btn-customStyle-3'>Standard</button>
-
-          <span className='available-style'>campuses</span>
-    </div>
-
-    <div className='row'>
-      <div className='col-md-3'>
-        <span className='p-style-1'>Tution fee</span>
-        <br/>
-        <span className='p-style-2'>Local - £ 9250</span>
-        <br/>
-        <span className='p-style-2'>EU - £ 9250</span>
-
-      </div>
-
-      <div className='col-md-4'>
-      <span className='p-style-1'>Level of Study</span>
-        <br/>
-        <span className='p-style-2'>Foundation programme</span>
-        
-
-      </div>
-
-      <div className='col-md-3'>
-      <span className='p-style-1'>Duration</span>
-        <br/>
-        <span className='p-style-2'>4 Years</span>
-
-
-      </div>
-
       <div className='col-md-2'>
     <button className='button-style-search'>Apply</button>
     
@@ -823,14 +660,9 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
 
 
+
     </div>
  
-
-
-
-    
-
-
 
 
 </div>
@@ -838,10 +670,6 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
   </div>
 
  
-
-
-
-        
             
         </div>
     );

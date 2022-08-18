@@ -775,33 +775,40 @@ th {
 
 .btn-customStyle-1{
 
-  background: #f6532e8b;
-  color: white;
-  padding: 3px;
-  margin-right: 5px;
+  color: #1e98b0;
+  padding: 3px 11px;
   border: none;
+  border-radius: 10%;
+  border: 2px solid;
 }
 
-.btn-customStyle-2{
+/* .btn-customStyle-2{
 
-  background: #f6532e8b;
+  background: #1e98b0;
   color: white;
-  padding: 3px;
+  padding: 6px 10px 6px;
   margin-right: 5px;
   border: none;
+  border-radius: 10%;
 
-}
+} */
 
-.btn-customStyle-3{
+/* .btn-customStyle-3{
 
   
   background: #1f860f;
   color: white;
-  padding: 3px;
+  padding: 6px 10px 6px;
   margin-right: 5px;
   border: none;
+  border-radius: 10%;
 
 
+} */
+
+.border-left-style-searchPage{
+  border-left: 3px solid #1e98b0;
+  margin-left: 15px;
 }
 
 .available-style{
@@ -817,7 +824,7 @@ th {
 
 .course-name-style{
   font-size: 17px;
-  color: #787878;
+  color: #1e98b0;
 }
 
 .span-style-search{
