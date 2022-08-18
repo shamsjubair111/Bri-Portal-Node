@@ -26,7 +26,7 @@ import {
 
 import Select from "react-select";
 
-const StudentFilter = ({applicationDD, offerDD, enrollDD, intakeDD, interviewDD, elptDD, financeDD}) => {
+const StudentFilter = ({applicationDD, offerDD, enrollDD, intakeDD, interviewDD, elptDD, financeDD, studentUniMenu, studentUniLabel, setStudentUniLabel, studentUniValue, setStudentUniValue, studentConsMenu, studentConsLabel, setStudentConsLabel, studentConsValue, setStudentConsValue}) => {
 
   const [applicationLabel, setApplicationLabel] = useState("Status");
   const [applicationValue, setApplicationValue] = useState(0);
@@ -88,6 +88,16 @@ const StudentFilter = ({applicationDD, offerDD, enrollDD, intakeDD, interviewDD,
     setFinanceValue(value);
     // handleSearch();
   };
+  const selectStudentUni = (label, value) => {
+    setStudentUniLabel(label);
+    setStudentUniValue(value);
+    // handleSearch();
+  };
+  const selectStdCons = (label, value) => {
+    setStudentConsLabel(label);
+    setStudentConsValue(value);
+    // handleSearch();
+  };
 
   // on clear
   const handleClearSearch = () => {
@@ -105,6 +115,10 @@ const StudentFilter = ({applicationDD, offerDD, enrollDD, intakeDD, interviewDD,
     setElptValue(0);
     setFinanceLabel("SLCs");
     setFinanceValue(0);
+    setStudentUniLabel("University Name");
+    setStudentUniValue(0);
+    setStudentConsLabel("Consultant");
+    setStudentConsValue(0);
   };
 
   return (
@@ -113,12 +127,12 @@ const StudentFilter = ({applicationDD, offerDD, enrollDD, intakeDD, interviewDD,
         <Row className="gy-3">
           <Col lg="2" md="3" sm="6" xs="6">
             <Select
-              // options={universityStateName}
-              // value={{ label: uniStateLabel, value: unistateValue }}
-              // onChange={(opt) => selectUniState(opt.label, opt.value)}
+              options={studentConsMenu}
+              value={{ label: studentConsLabel, value: studentConsValue }}
+              onChange={(opt) => selectStdCons(opt.label, opt.value)}
               placeholder="Consultant"
-              name="UniversityStateId"
-              id="UniversityStateId"
+              name="name"
+              id="id"
             />
           </Col>
 
@@ -201,12 +215,12 @@ const StudentFilter = ({applicationDD, offerDD, enrollDD, intakeDD, interviewDD,
 
           <Col lg="2" md="3" sm="6" xs="6">
             <Select
-              // options={providerlist}
-              // value={{ label: providerLabel, value: providerValue }}
-              // onChange={(opt) => selectProviderState(opt.label, opt.value)}
+              options={studentUniMenu}
+              value={{ label: studentUniLabel, value: studentUniValue }}
+              onChange={(opt) => selectStudentUni(opt.label, opt.value)}
               placeholder="University N..."
-              name="providerId"
-              id="providerId"
+              name="name"
+              id="id"
             />
           </Col>
         </Row>

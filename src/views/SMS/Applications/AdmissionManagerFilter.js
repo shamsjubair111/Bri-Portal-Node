@@ -1,151 +1,239 @@
-import React from 'react';
+import React from "react";
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    ButtonGroup,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    Input,
-    Col,
-    Row,
-    Table,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
-  } from "reactstrap";
+  Card,
+  CardBody,
+  CardHeader,
+  ButtonGroup,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Input,
+  Col,
+  Row,
+  Table,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+} from "reactstrap";
 
 import Select from "react-select";
-import { useState } from 'react';
+import { useState } from "react";
 
-const AdmissionManagerFilter = ({applicationDD, offerDD, enrollDD, intakeDD, interviewDD, elptDD, financeDD}) => {
+const AdmissionManagerFilter = ({
+  applicationDD,
+  offerDD,
+  enrollDD,
+  intakeDD,
+  interviewDD,
+  elptDD,
+  financeDD,
+  managerUappIdMenu,
+  managerUappIdLabel,
+  setmanagerUappIdLabel,
+  managerUappIdValue,
+  setmanagerUappIdValue,
+  managerStdMenu,
+  managerStdLabel,
+  setManagerStdLabel,
+  managerStdValue,
+  setManagerStdValue,
+  managerConsMenu,
+  managerConsLabel,
+  setManagerConsLabel,
+  managerConsValue,
+  setManagerConsValue,
+  managerUniMenu,
+  managerUniLabel,
+  setManagerUniLabel,
+  managerUniValue,
+  setManagerUniValue,
+  managerPhnMenu,
+  managerPhnLabel,
+  setManagerPhnLabel,
+  managerPhnValue,
+  setManagerPhnValue,
+}) => {
+  const [applicationLabel, setApplicationLabel] = useState("Status");
+  const [applicationValue, setApplicationValue] = useState(0);
+  const [offerLabel, setOfferLabel] = useState("Offer");
+  const [offerValue, setOfferValue] = useState(0);
+  const [enrollLabel, setEnrollLabel] = useState("Enrolment Status");
+  const [enrollValue, setEnrollValue] = useState(0);
+  const [intakeLabel, setIntakeLabel] = useState("Intake");
+  const [intakeValue, setIntakeValue] = useState(0);
+  const [interviewLabel, setInterviewLabel] = useState("Interview");
+  const [interviewValue, setInterviewValue] = useState(0);
+  const [elptLabel, setElptLabel] = useState("ELPT");
+  const [elptValue, setElptValue] = useState(0);
+  const [financeLabel, setFinanceLabel] = useState("SLCs");
+  const [financeValue, setFinanceValue] = useState(0);
 
-    const [applicationLabel, setApplicationLabel] = useState("Status");
-    const [applicationValue, setApplicationValue] = useState(0);
-    const [offerLabel, setOfferLabel] = useState("Offer");
-    const [offerValue, setOfferValue] = useState(0);
-    const [enrollLabel, setEnrollLabel] = useState("Enrolment Status");
-    const [enrollValue, setEnrollValue] = useState(0);
-    const [intakeLabel, setIntakeLabel] = useState("Intake");
-    const [intakeValue, setIntakeValue] = useState(0);
-    const [interviewLabel, setInterviewLabel] = useState("Interview");
-    const [interviewValue, setInterviewValue] = useState(0);
-    const [elptLabel, setElptLabel] = useState("ELPT");
-    const [elptValue, setElptValue] = useState(0);
-    const [financeLabel, setFinanceLabel] = useState("SLCs");
-    const [financeValue, setFinanceValue] = useState(0);
-  
-    console.log("financeDD2222",financeDD);
-  
-    const applicationMenu = applicationDD.map(application =>({label: application?.name, value: application?.id}));
-    const offerMenu = offerDD.map(offer =>({label: offer?.name, value: offer?.id}));
-    const enrollMenu = enrollDD.map(enroll =>({label: enroll?.name, value: enroll?.id}));
-    const intakeMenu = intakeDD.map(intake =>({label: intake?.name, value: intake?.id}));
-    const interviewMenu = interviewDD.map(interview =>({label: interview?.name, value: interview?.id}));
-    const elptMenu = elptDD.map(elpt =>({label: elpt?.name, value: elpt?.id}));
-    const financeMenu = financeDD.map(finance =>({label: finance?.name, value: finance?.id}));
-  
-    const selectAppliDD = (label, value) => {
-      setApplicationLabel(label);
-      setApplicationValue(value);
-      // handleSearch();
-    };
-    const selectOfferDD = (label, value) => {
-      setOfferLabel(label);
-      setOfferValue(value);
-      // handleSearch();
-    };
-    const selectEnrollDD = (label, value) => {
-      setEnrollLabel(label);
-      setEnrollValue(value);
-      // handleSearch();
-    };
-    const selectIntakeDD = (label, value) => {
-      setIntakeLabel(label);
-      setIntakeValue(value);
-      // handleSearch();
-    };
-    const selectInterviewDD = (label, value) => {
-      setInterviewLabel(label);
-      setInterviewValue(value);
-      // handleSearch();
-    };
-    const selectElptDD = (label, value) => {
-      setElptLabel(label);
-      setElptValue(value);
-      // handleSearch();
-    };
-    const selectFinanceDD = (label, value) => {
-      setFinanceLabel(label);
-      setFinanceValue(value);
-      // handleSearch();
-    };
-  
-    // on clear
-    const handleClearSearch = () => {
-      setApplicationLabel("Status");
-      setApplicationValue(0);
-      setOfferLabel("Offer");
-      setOfferValue(0);
-      setEnrollLabel("Enrolment Status");
-      setEnrollValue(0);
-      setIntakeLabel("Intake");
-      setIntakeValue(0);
-      setInterviewLabel("Interview");
-      setInterviewValue(0);
-      setElptLabel("ELPT");
-      setElptValue(0);
-      setFinanceLabel("SLCs");
-      setFinanceValue(0);
-    };
+  console.log("financeDD2222", financeDD);
 
-    return (
-        <Card className="uapp-employee-search">
-        <CardBody className="search-card-body">
-          <Row className="gy-3">
-            <Col lg="2" md="3" sm="6" xs="6">
-              <Select
-                // options={universityTypeName}
-                // value={{ label: uniTypeLabel, value: uniTypeValue }}
-                // onChange={(opt) => selectUniType(opt.label, opt.value)}
-                placeholder="UAPP ID"
-                name="UniversityTypeId"
-                id="UniversityTypeId"
-              />
-            </Col>
+  const applicationMenu = applicationDD.map((application) => ({
+    label: application?.name,
+    value: application?.id,
+  }));
+  const offerMenu = offerDD.map((offer) => ({
+    label: offer?.name,
+    value: offer?.id,
+  }));
+  const enrollMenu = enrollDD.map((enroll) => ({
+    label: enroll?.name,
+    value: enroll?.id,
+  }));
+  const intakeMenu = intakeDD.map((intake) => ({
+    label: intake?.name,
+    value: intake?.id,
+  }));
+  const interviewMenu = interviewDD.map((interview) => ({
+    label: interview?.name,
+    value: interview?.id,
+  }));
+  const elptMenu = elptDD.map((elpt) => ({
+    label: elpt?.name,
+    value: elpt?.id,
+  }));
+  const financeMenu = financeDD.map((finance) => ({
+    label: finance?.name,
+    value: finance?.id,
+  }));
 
-            <Col lg="2" md="3" sm="6" xs="6">
-              <Select
-                // options={universityCountryName}
-                // value={{ label: uniCountryLabel, value: uniCountryValue }}
-                // onChange={(opt) => selectUniCountry(opt.label, opt.value)}
-                placeholder="Name"
-                name="UniversityCountryId"
-                id="UniversityCountryId"
-              />
-            </Col>
+  const selectAppliDD = (label, value) => {
+    setApplicationLabel(label);
+    setApplicationValue(value);
+    // handleSearch();
+  };
+  const selectOfferDD = (label, value) => {
+    setOfferLabel(label);
+    setOfferValue(value);
+    // handleSearch();
+  };
+  const selectEnrollDD = (label, value) => {
+    setEnrollLabel(label);
+    setEnrollValue(value);
+    // handleSearch();
+  };
+  const selectIntakeDD = (label, value) => {
+    setIntakeLabel(label);
+    setIntakeValue(value);
+    // handleSearch();
+  };
+  const selectInterviewDD = (label, value) => {
+    setInterviewLabel(label);
+    setInterviewValue(value);
+    // handleSearch();
+  };
+  const selectElptDD = (label, value) => {
+    setElptLabel(label);
+    setElptValue(value);
+    // handleSearch();
+  };
+  const selectFinanceDD = (label, value) => {
+    setFinanceLabel(label);
+    setFinanceValue(value);
+    // handleSearch();
+  };
+  const selectUappId = (label, value) => {
+    setmanagerUappIdLabel(label);
+    setmanagerUappIdValue(value);
+    // handleSearch();
+  };
+  const selectManagerStd = (label, value) => {
+    setManagerStdLabel(label);
+    setManagerStdValue(value);
+    // handleSearch();
+  };
+  const selectManagerCons = (label, value) => {
+    setManagerConsLabel(label);
+    setManagerConsValue(value);
+    // handleSearch();
+  };
+  const selectUniMenu = (label, value) => {
+    setManagerUniLabel(label);
+    setManagerUniValue(value);
+    // handleSearch();
+  };
+  const selectManagerPhn = (label, value) => {
+    setManagerPhnLabel(label);
+    setManagerPhnValue(value);
+    // handleSearch();
+  };
 
-            <Col lg="2" md="3" sm="6" xs="6">
-              <Select
-                // options={universityStateName}
-                // value={{ label: uniStateLabel, value: unistateValue }}
-                // onChange={(opt) => selectUniState(opt.label, opt.value)}
-                placeholder="Consultant"
-                name="UniversityStateId"
-                id="UniversityStateId"
-              />
-            </Col>
+  // on clear
+  const handleClearSearch = () => {
+    setApplicationLabel("Status");
+    setApplicationValue(0);
+    setOfferLabel("Offer");
+    setOfferValue(0);
+    setEnrollLabel("Enrolment Status");
+    setEnrollValue(0);
+    setIntakeLabel("Intake");
+    setIntakeValue(0);
+    setInterviewLabel("Interview");
+    setInterviewValue(0);
+    setElptLabel("ELPT");
+    setElptValue(0);
+    setFinanceLabel("SLCs");
+    setFinanceValue(0);
+    setmanagerUappIdLabel("UAPP ID");
+    setmanagerUappIdValue(0);
+    setManagerStdLabel("Name");
+    setManagerStdValue(0);
+    setManagerConsLabel("Consultant");
+    setManagerConsValue(0);
+    setManagerUniLabel("University Name");
+    setManagerUniValue(0);
+    setManagerPhnLabel("Phone No.");
+    setManagerPhnValue(0);
+  };
 
-            <Col lg="2" md="3" sm="6" xs="6">
+  return (
+    <Card className="uapp-employee-search">
+      <CardBody className="search-card-body">
+        <Row className="gy-3">
+          <Col lg="2" md="3" sm="6" xs="6">
+            <Select
+              options={managerUappIdMenu}
+              value={{ label: managerUappIdLabel, value: managerUappIdValue }}
+              onChange={(opt) => selectUappId(opt.label, opt.value)}
+              placeholder="UAPP ID"
+              name="name"
+              id="id"
+            />
+          </Col>
+
+          <Col lg="2" md="3" sm="6" xs="6">
+            <Select
+              options={managerStdMenu}
+              value={{ label: managerStdLabel, value: managerStdValue }}
+              onChange={(opt) => selectManagerStd(opt.label, opt.value)}
+              placeholder="Name"
+              name="name"
+              id="id"
+            />
+          </Col>
+
+          <Col lg="2" md="3" sm="6" xs="6">
+            <Select
+              options={managerConsMenu}
+              value={{ label: managerConsLabel, value: managerConsValue }}
+              onChange={(opt) => selectManagerCons(opt.label, opt.value)}
+              placeholder="Consultant"
+              name="name"
+              id="id"
+            />
+          </Col>
+
+          <Col lg="2" md="3" sm="6" xs="6">
             <Select
               options={applicationMenu}
               value={{ label: applicationLabel, value: applicationValue }}
@@ -222,47 +310,47 @@ const AdmissionManagerFilter = ({applicationDD, offerDD, enrollDD, intakeDD, int
             />
           </Col>
 
-            <Col lg="2" md="3" sm="6" xs="6">
-              <Select
-                // options={providerlist}
-                // value={{ label: providerLabel, value: providerValue }}
-                // onChange={(opt) => selectProviderState(opt.label, opt.value)}
-                placeholder="University N..."
-                name="providerId"
-                id="providerId"
-              />
-            </Col>
+          <Col lg="2" md="3" sm="6" xs="6">
+            <Select
+              options={managerUniMenu}
+              value={{ label: managerUniLabel, value: managerUniValue }}
+              onChange={(opt) => selectUniMenu(opt.label, opt.value)}
+              placeholder="University N..."
+              name="name"
+              id="id"
+            />
+          </Col>
 
-            <Col lg="2" md="3" sm="6" xs="6">
-              <Select
-                // options={providerlist}
-                // value={{ label: providerLabel, value: providerValue }}
-                // onChange={(opt) => selectProviderState(opt.label, opt.value)}
-                placeholder="Phone No."
-                name="providerId"
-                id="providerId"
-              />
-            </Col>
-          </Row>
+          <Col lg="2" md="3" sm="6" xs="6">
+            <Select
+              options={managerPhnMenu}
+              value={{ label: managerPhnLabel, value: managerPhnValue }}
+              onChange={(opt) => selectManagerPhn(opt.label, opt.value)}
+              placeholder="Phone No."
+              name="name"
+              id="id"
+            />
+          </Col>
+        </Row>
 
-          <Row className="">
-            <Col lg="12" md="12" sm="12" xs="12">
-              <div style={{ display: "flex", justifyContent: "end" }}>
-                <div
-                  className="mt-1 mx-1 d-flex btn-clear"
-                  onClick={handleClearSearch}
-                >
-                  {/* <Icon.X  className='text-danger' />*/}
-                  <span className="text-danger">
-                    <i className="fa fa-times"></i> Clear
-                  </span>
-                </div>
+        <Row className="">
+          <Col lg="12" md="12" sm="12" xs="12">
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <div
+                className="mt-1 mx-1 d-flex btn-clear"
+                onClick={handleClearSearch}
+              >
+                {/* <Icon.X  className='text-danger' />*/}
+                <span className="text-danger">
+                  <i className="fa fa-times"></i> Clear
+                </span>
               </div>
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
-    );
+            </div>
+          </Col>
+        </Row>
+      </CardBody>
+    </Card>
+  );
 };
 
 export default AdmissionManagerFilter;

@@ -277,6 +277,7 @@ const DocumentUpload = () => {
 
     const subData = new FormData();
 
+    subData.append('studentId', applicationStudentId);
     subData.append('studentDocument', FileList2);
     subData.append('studentDocumentLevelId', parseInt(studentDocuId));
     

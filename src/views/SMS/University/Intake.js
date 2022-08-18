@@ -36,7 +36,7 @@ import LinkButton from '../Components/LinkButton';
 
 const Intake = () => {
 
-    const [intakeList, setIntakeList] = useState([1,2,3]);
+    const [intakeList, setIntakeList] = useState([]);
     // const [currentPage, setCurrentPage] = useState(1);
     // const [dataPerPage, setDataPerPage] = useState(15);
     // const [searchStr, setSearchStr] = useState("");
