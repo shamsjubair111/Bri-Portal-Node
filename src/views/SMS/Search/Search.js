@@ -4,6 +4,7 @@ import Select from 'react-select';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import {  useHistory, useLocation } from 'react-router-dom';
 import get from '../../../helpers/get';
+import { rootUrl } from '../../../constants/constants';
 
 
 
@@ -795,7 +796,187 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
     :
 
-    <span>{data?.length} results Found</span>
+    <>
+    
+    {
+      data?.map((info,i)=>
+      
+      <div key={i}>
+
+        <Card className='p-2'>
+
+
+        <div className='row'>
+
+
+        <div className='col-md-2'>
+        <div className='search-img-style'>
+        <img
+        src={rootUrl+info?.logo}
+        className='w-75' 
+
+        alt='logo-img'
+        />
+        </div>
+
+        </div>
+
+        <div className='col-md-10'>
+        <div className='text-center'>
+        <span className='university-title-style'>{info?.name}</span>
+        <br/>
+        <span className='span-style-search'><i className="fas fa-location-dot"></i>{info?.address}</span>
+        </div>
+
+        </div>
+
+
+
+
+        </div>
+
+
+        </Card>
+
+        {
+          info?.subjects?.length <1 ?
+
+          <div className='text-center'>
+          <span className='nodata-found-style'>No Data Found</span>
+           </div>
+
+           :
+
+           
+           <>
+
+{
+          info?.subjects?.map((subjectInfo) =>
+
+          
+<div className='row my-3 '>
+
+<div className='col-md-12 border-left-style-searchPage'>
+ 
+  <span className='course-name-style'>{subjectInfo?.title}</span>
+  <br/>
+  
+
+  <div className='d-flex flex-wrap my-1'>
+    <span className='available-style'>Available in:</span>
+       {
+        subjectInfo?.campuses?.map((camp)=>
+        
+        <span className='btn-customStyle-1 ms-2'>{camp?.campusName}</span>
+
+        )
+       }
+
+        
+
+        
+
+        
+  </div>
+
+  <div className='row'>
+    <div className='col-md-2'>
+      <span className='p-style-1'>Tution fee</span>
+      <br/>
+      <span className='p-style-2'>Local - {subjectInfo?.home_Fee}</span>
+      <br/>
+      <span className='p-style-2'>EU - {subjectInfo?.eu_Fee}</span>
+      <br/>
+      <span className='p-style-2'>International - {subjectInfo?.international_Fee}</span>
+
+    </div>
+
+    <div className='col-md-3'>
+    <span className='p-style-1'>Level of Study</span>
+      <br/>
+      <span className='p-style-2'>{subjectInfo?.programLevelName}</span>
+      
+
+    </div>
+
+   
+
+    <div className='col-md-3'>
+    <span className='p-style-1'>Duration</span>
+      <br/>
+      <span className='p-style-2'>{subjectInfo?.duration}</span>
+
+
+    </div>
+<div className='col-md-2'>
+    <span className='p-style-1'>Intake</span>
+    <br/>
+    <ul className='list-unstyled'>
+      {
+        subjectInfo?.intakes?.length <1 ?
+
+        <div className='text-center'>
+        <span className=''>-</span>
+         </div>
+         :
+         <>
+
+         {
+
+          subjectInfo?.intakes?.map((int) =>
+          
+          <li>
+          {int?.intakeName}
+          </li>
+          
+          )
+
+         }
+
+         </>
+      }
+     
+    </ul>
+    </div>
+    <div className='col-md-2'>
+  <button className='button-style-search'>Apply</button>
+  
+</div>
+
+  </div>
+  
+</div>
+
+
+
+
+
+<div>
+
+</div>
+
+
+
+</div>
+          
+          
+
+          )
+        }
+           
+           </>
+
+        }
+
+
+
+
+      </div>
+      
+      )
+    }
+
+    </>
 
    }
 
