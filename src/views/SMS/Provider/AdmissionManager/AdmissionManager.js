@@ -228,7 +228,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">email</span>
+                      <span className="pl-2">Email</span>
                     </Col>
 
                    
@@ -240,6 +240,28 @@ const AdmissionManager = () => {
                         name="email"
                         id="email"
                         placeholder="Enter email"
+                      
+                        required
+                      />
+
+                    </Col>
+                  </FormGroup>
+
+                  <FormGroup row>
+                    <Col md="2">
+                 
+                      <span className="pl-2">Password</span>
+                    </Col>
+
+                   
+                    
+                    
+                    <Col md="10" lg="4">
+                      <Input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Enter password"
                       
                         required
                       />

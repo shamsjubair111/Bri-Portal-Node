@@ -806,6 +806,12 @@ th {
 
 } */
 
+.nodata-found-style{
+  font-size: 26px;
+  
+  color: #1e98b0;
+}
+
 .border-left-style-searchPage{
   border-left: 3px solid #1e98b0;
   margin-left: 15px;

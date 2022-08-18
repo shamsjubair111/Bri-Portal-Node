@@ -14,9 +14,9 @@ async function get(url, authToken = ""){
    }
     catch (error) {
 
-        if(error?.response?.status  === 404){
-            history.push('/404')
-        }
+        // if(error?.response?.status  === 404){
+        //     history.push('/404')
+        // }
 
         
 

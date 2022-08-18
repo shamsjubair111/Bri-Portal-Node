@@ -234,6 +234,7 @@ const handleSubmit = (event) => {
 
   event.preventDefault();
   const subData = new FormData(event.target);
+  console.log('sjhsjdffdffd');
 
 
     if(visaStatusValue == 0){
@@ -242,7 +243,7 @@ const handleSubmit = (event) => {
 
     }
 
-   else if(method == 'put'){
+    if(method == 'put'){
 
     put(`ApplicationInfo/Update`,subData)
     .then(res => {
@@ -264,7 +265,7 @@ const handleSubmit = (event) => {
 
    }
 
-   else if(applicationInformation?.id){
+    if(applicationInformation?.id){
 
     put(`ApplicationInfo/Update`,subData)
     .then(res => {

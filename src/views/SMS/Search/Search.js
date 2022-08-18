@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip } from 'reactstrap';
 import Select from 'react-select';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import {  useHistory, useLocation } from 'react-router-dom';
+import get from '../../../helpers/get';
+
 
 
 const Search = () => {
@@ -61,6 +63,112 @@ const Search = () => {
 
     const [checkActiveTab, setCheckActiveTab] = useState(true);
 
+    const [universityType,setUniversityType] = useState([]);
+    const [campus,setCampus] = useState([]);
+    const [university,setUniversity] = useState([]);
+    const [country,setCountry] = useState([]);
+    const [state,setState] = useState([]);
+    const [student,setStudent] = useState([]);
+    const [intake,setIntake] = useState([]);
+    const [department, setDepartment] = useState([]);
+    const [studentType, setStudentType] = useState([])
+    const [programLevel,setProgramLevel] = useState([]);
+    const [SubDepartment, setSubDepartment] = useState([]);
+    const [pattern,setPattern] = useState([]);
+    const [programName, setProgramName] = useState('null');  
+
+    const [studentId, setStudentId] = useState(0);
+
+    const [stateVal, setStateVal] = useState(0);
+
+    const [success, setSuccess] = useState(false);
+
+    const [page,setPage] = useState(1);
+
+    const [data,setData] = useState([]);
+
+
+    
+
+    console.log(checkActiveTab);
+
+    useEffect(()=>{
+
+      get(`SearchFilter/UniversityTypes`)
+      .then(res => {
+       
+        setUniversityType(res);
+      })
+
+      get(`SearchFilter/Campus/${universityValue}`)
+      .then(res => {
+       
+        setCampus(res);
+      })
+
+      get(`SearchFilter/Universities/${universityCountryValue}/${universityTypeValue}/${cityValue}`)
+      .then(res => {
+      
+        setUniversity(res);
+      })
+      get(`SearchFilter/Countries`)
+      .then(res => {
+        
+        setCountry(res);
+      })
+
+      get(`SearchFilter/Students`)
+      .then(res => {
+      
+        setStudent(res);
+      })
+
+      get(`SearchFilter/Intakes`)
+      .then(res => {
+      
+        setIntake(res);
+      })
+
+      get(`SearchFilter/Departments`)
+      .then(res => {
+        
+        setDepartment(res);
+      })
+
+      get(`SearchFilter/StudentTpes`)
+      .then(res => {
+       
+        setStudentType(res);
+      })
+
+      get(`SearchFilter/ProgramLevels`)
+      .then(res => {
+       
+        setProgramLevel(res);
+      })
+
+      get(`SearchFilter/SubDepartments/${departmentValue}`)
+      .then(res => {
+       
+        setSubDepartment(res);
+      })
+
+      get(`SearchFilter/States/${stateVal}`)
+      .then(res => {
+      
+        setState(res);
+      })
+
+      get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programName}`)
+    .then(res => {
+      console.log('Large Api Checking Response',res?.result?.models);
+      setData(res?.result?.models);
+    })
+
+     
+
+    },[success])
+
     const sortingOrder = [
      
       {
@@ -94,22 +202,53 @@ const Search = () => {
     
   ]
 
+  const detailedDataInformation = () =>{
+
+    get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programName}`)
+    .then(res => {
+      console.log('Large Api Checking Response',res);
+    })
+
+  }
  
 
-  const toggle = (tab) => {
+  const toggle1 = (tab) => {
     setActivetab(tab);
+    setCheckActiveTab(true);
     
-  
- 
-  
-  
-   
+  };
+
+  const toggle2 = (tab) => {
+    setActivetab(tab);
+    setCheckActiveTab(false);
     
   };
 
   const dataSizeName = showArray.map((dsn) => ({ label: dsn?.name, value: dsn?.id }));
   
   const sortSize = sortingOrder.map((srt)=> ({label: srt?.name, value: srt?.id }))
+
+  const uniTypeOptions = universityType?.map((uni)=> ({
+    label: uni?.name,
+    value: uni?.id
+  }));
+
+
+  const campusOptions = campus?.map((cam)=> ({label: cam?.name, value: cam?.id}))
+
+  const universityOptions = university?.map((un)=> ({label: un?.name, value: un?.id}))
+
+  const countryOptions = country?.map((coun)=> ({label: coun?.name, value: coun?.id}))
+
+  const stateOptions = state?.map((st)=> ({label: st?.name, value: st?.id}))
+
+  const departmentOptions = department?.map((dept)=> ({label: dept?.name, value: dept?.id}))
+
+  const studentTypeOptions = studentType?.map((stp)=> ({label: stp?.name, value: stp?.id}))
+
+  const programLevelOptions = programLevel?.map((pgl)=> ({label: pgl?.name, value: pgl?.id}))
+
+  const subDepartmentOptions = SubDepartment?.map((sub)=> ({label: sub?.name, value: sub?.id}))
    
 
 
@@ -121,26 +260,106 @@ const Search = () => {
         minHeight: '30px',
         height: '30px',
         boxShadow: state.isFocused ? null : null,
+        
       }),
+
+      menu: () => ({
+        
+        overflowY: 'auto'
+        
+      }),
+     
+     
   
-      valueContainer: (provided, state) => ({
-        ...provided,
-        height: '30px',
-        padding: '0 6px'
-      }),
+      // valueContainer: (provided, state) => ({
+      //   ...provided,
+      //   height: '30px',
+      //   padding: '0 6px'
+      // }),
   
-      input: (provided, state) => ({
-        ...provided,
-        margin: '0px',
-      }),
-      indicatorSeparator: state => ({
-        display: 'none',
-      }),
-      indicatorsContainer: (provided, state) => ({
-        ...provided,
-        height: '30px',
-      }),
+      // input: (provided, state) => ({
+      //   ...provided,
+      //   margin: '0px',
+      // }),
+      // indicatorSeparator: state => ({
+      //   display: 'none',
+      // }),
+      // indicatorsContainer: (provided, state) => ({
+      //   ...provided,
+      //   height: '30px',
+      // }),
     };
+
+    const selectUniversity = (label,value) => {
+      setUniversityLabel(label);
+      setUniversityValue(value);
+      get(`SearchFilter/Campus/${value}`)
+      .then(res => {
+       
+        setCampus(res);
+      })
+    }
+    const selectCountry = (label,value) => {
+      
+      setUniversityCountryLabel(label);
+      setUniversityCountryValue(value);
+
+      get(`SearchFilter/States/${value}`)
+      .then(res => {
+        setState(res);
+      })
+      get(`SearchFilter/Universities/${value}/${universityTypeValue}/${cityValue}`)
+      .then(res => {
+        setUniversity(res);
+      })
+
+    }
+    const selectState = (label,value) => {
+     
+      setCityLabel(label);
+      setCityValue(value);
+
+     
+
+    }
+    const selectUniversityType = (label,value) => {
+      setUniversityTypeLabel(label);
+      setUniversityTypeValue(value);
+      get(`SearchFilter/Universities/${universityCountryValue}/${value}/${cityValue}`)
+      .then(res => {
+        setUniversity(res);
+      })
+    }
+
+    const selectDepartment = (label,value) => {
+      setDepartmentLabel(label);
+      setDepartmentValue(value);
+      get(`SearchFilter/SubDepartments/${value}`)
+      .then(res => {
+       
+        setSubDepartment(res);
+      })
+    }
+
+    const selectSubDepartment = (label,value) => {
+      setSubLabel(label);
+      setSubValue(value);
+    }
+
+    const selectStudentType = (label,value) => {
+      setStudentTypeLabel(label);
+      setStudentTypeValue(value);
+    }
+
+    const selectProgramLevel = (label,value) => {
+      setProgramLabel(label);
+      setProgramValue(value);
+    }
+
+    const selectCampus = (label,value) => {
+      setCampusLabel(label);
+      setCampusValue(value);
+    }
 
      const selectOrder = (label, value) => {
       // console.log("value", label, value);
@@ -153,6 +372,10 @@ const Search = () => {
     const selectSort = (label,value) => {
       setSortLabel(label);
       setSortValue(value);
+    }
+
+    const handleProgramName = (e) => {
+      setProgramName(e.target.value);
     }
   
     const clearAllDropdown = () => {
@@ -182,6 +405,8 @@ const Search = () => {
       setSubValue(0);
       setPatternLabel('Select Delivery Pattern');
       setPatternValue(0);
+
+      setSuccess(!success);
 
 
     }
@@ -229,6 +454,7 @@ const Search = () => {
   type='text'
   placeholder='Program Name'
   style={{border: '1px solidrgba(0,0,0,.125)'}}
+  onChange={handleProgramName}
   />
 
 
@@ -255,9 +481,11 @@ const Search = () => {
 <Select 
 className='mt-3'
  styles={customStyles}
+ options={uniTypeOptions}
 value={{ label: universityTypeLabel, value: universityTypeValue }}
      name="providerTypeId"
      id="providerTypeId"
+     onChange={(opt) => selectUniversityType(opt.label, opt.value)}
 
      />
 
@@ -267,10 +495,11 @@ value={{ label: universityTypeLabel, value: universityTypeValue }}
   <Select 
   className='mt-3'
    styles={customStyles}
+   options={countryOptions}
   value={{ label: universityCountryLabel, value: universityCountryValue }}
      name="providerTypeId"
      id="providerTypeId"
-    
+     onChange={(opt) => selectCountry(opt.label, opt.value)}
     
      />
 
@@ -278,21 +507,23 @@ value={{ label: universityTypeLabel, value: universityTypeValue }}
 
       <Select
       className='mt-3' 
+      options={stateOptions}
        styles={customStyles}
      value={{ label: cityLabel, value: cityValue }}
      name="providerTypeId"
      id="providerTypeId"
-    
+     onChange={(opt) => selectState(opt.label, opt.value)}
     
      />
 
 <Select 
     className='mt-3'
      styles={customStyles}
+     options={universityOptions}
      value={{ label: universityLabel, value: universityValue }}
      name="providerTypeId"
      id="providerTypeId"
-   
+     onChange={(opt) => selectUniversity(opt.label, opt.value)}
     
      />
 
@@ -301,9 +532,11 @@ value={{ label: universityTypeLabel, value: universityTypeValue }}
     <Select
     className='mt-3' 
      styles={customStyles}
+     options={campusOptions}
     value={{ label: campusLabel, value: campusValue }}
      name="providerTypeId"
      id="providerTypeId"
+     onChange={(opt) => selectCampus(opt.label, opt.value)}
     
     
      />
@@ -332,9 +565,11 @@ value={{ label: universityTypeLabel, value: universityTypeValue }}
 <Select 
 className='mt-3'
  styles={customStyles}
+ options={studentTypeOptions}
 value={{ label: studentTypeLabel, value: studentTypeValue }}
      name="providerTypeId"
      id="providerTypeId"
+     onChange={(opt) => selectStudentType(opt.label, opt.value)}
 
      />
 
@@ -365,9 +600,11 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
   <Select 
      className='mt-3'
      styles={customStyles}
+     options={programLevelOptions}
     value={{ label: programLabel, value: programValue }}
      name="providerTypeId"
      id="providerTypeId"
+     onChange={(opt) => selectProgramLevel(opt.label, opt.value)}
      
     
      />
@@ -377,9 +614,11 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
   <Select 
       className='mt-3'
       styles={customStyles}
+      options={departmentOptions}
      value={{ label: departmentLabel, value: departmentValue }}
      name="providerTypeId"
      id="providerTypeId"
+     onChange={(opt) => selectDepartment(opt.label, opt.value)}
      
     
      />
@@ -392,7 +631,9 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
   <Select 
   className='mt-3'
   styles={customStyles}
+  options={subDepartmentOptions}
  value={{ label: subLabel, value: subValue }}
+ onChange={(opt) => selectSubDepartment(opt.label, opt.value)}
     
     name="providerTypeId"
     id="providerTypeId"
@@ -448,7 +689,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
         <Nav tabs>
 
         <NavItem>
-        <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
+        <NavLink active={activetab === "1"} onClick={() => toggle1("1")}>
           Application 
         </NavLink>
         </NavItem>
@@ -468,7 +709,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
     <Nav tabs>
 
     <NavItem>
-    <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
+    <NavLink  active={activetab === "2"} onClick={() => toggle2("2")}>
       University
     </NavLink>
     </NavItem>
@@ -534,135 +775,46 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
     
 
     </div>
+
+    <hr/>
     
+      {/* Showing University Program Start */}
 
 
+    {
+      checkActiveTab ?
       
+   <>
+   
+   {
+    data?.length <1 ?
+
+    <div className='text-center'>
+      <span className='nodata-found-style'>No Data Found</span>
+    </div>
+
+    :
+
+    <span>{data?.length} results Found</span>
+
+   }
+
+   </>
+
+    :
+
+
     <div>
 
-      <hr/>
-
-
-
-<Card className='p-2'>
-
-
-    <div className='row'>
-
-
-<div className='col-md-2'>
-  <div className='search-img-style'>
-  <img
-  src='https://uapp.uk/assets/img/University/Logo_8ec66bc9-a26c-4aa5-ad85-23838f1ae733.jpg'
-  className='w-75' 
-
-  alt='logo-img'
-  />
-  </div>
+    <h1>University Programs</h1>
 
 </div>
-
-<div className='col-md-10'>
- <div className='text-center'>
- <span className='university-title-style'>Anglia-Ruskin University-London Campus</span>
- <br/>
- <span className='span-style-search'><i className="fas fa-location-dot"></i> Central Ave, Gillingham, Chattam , South East, United Kingdom</span>
- </div>
-
-</div>
-
-
-
-
-    </div>
-
-
-</Card>
-
-<div className='row mt-3 '>
-
-  <div className='col-md-12 border-left-style-searchPage'>
-   
-    <span className='course-name-style'>BSc (Hons) Business and Human Resource Management with Foundation Year</span>
-    <br/>
-    
-  
-    <div className='d-flex flex-wrap my-1'>
-      <span className='available-style'>Available in:</span>
-          <span className='btn-customStyle-1 ms-2'>Evening</span>
-
-          <span className='btn-customStyle-1 ms-2'>Evening Weekend</span>
-
-          
-
-          
-    </div>
-
-    <div className='row'>
-      <div className='col-md-2'>
-        <span className='p-style-1'>Tution fee</span>
-        <br/>
-        <span className='p-style-2'>Local - £ 9250</span>
-        <br/>
-        <span className='p-style-2'>EU - £ </span>
-
-      </div>
-
-      <div className='col-md-3'>
-      <span className='p-style-1'>Level of Study</span>
-        <br/>
-        <span className='p-style-2'>Foundation programme</span>
-        
-
-      </div>
-
      
+    }
 
-      <div className='col-md-3'>
-      <span className='p-style-1'>Duration</span>
-        <br/>
-        <span className='p-style-2'>MSc by Research normally 1 year full-time or 2 years part-time, MPhil normally 2 years full-time or 4 years part-time, PhD normally 3 years full-time or 6 years part-time</span>
+    {/* Showing University Program End */}
 
-
-      </div>
- <div className='col-md-2'>
-      <span className='p-style-1'>Intake</span>
-      <br/>
-      <ul className='list-unstyled'>
-        <li>
-        September 2022 (Open)
-        </li>
-        <li>
-        September 2022 (Likely Open)
-        </li>
-      </ul>
-      </div>
-      <div className='col-md-2'>
-    <button className='button-style-search'>Apply</button>
-    
-  </div>
-
-    </div>
-    
-  </div>
-
- 
-
-  
-
-  <div>
-
-  </div>
-
-
-
-</div>
-
-
-
-
-    </div>
- 
+   
 
 
 </div>
