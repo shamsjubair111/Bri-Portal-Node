@@ -133,7 +133,8 @@ const SubjectProfile =  lazy(() => import("./views/SMS/UniversitySubjects/Subjec
 const FileUpload =  lazy(() => import("./views/SMS/UniversitySubjects/FileUpload.js"))
 
 // Applications
-const Applications = lazy(() => import("./views/SMS/Applications/Applications.js"))
+const Applications = lazy(() => import("./views/SMS/Applications/Applications.js"));
+const ApplicationDetails = lazy(() => import("./views/SMS/Applications/ApplicationDetails.js"));
 
 
 // const Pagination = lazy(() => import("./views/SMS/Pagination/Pagination.jsx"))
@@ -400,6 +401,7 @@ class AppRouter extends React.Component {
 
          {/* Applications */}
          <AppRoute  path="/applications" component={Applications} />
+         <AppRoute  path="/applicationDetails/:id/:stdId" component={ApplicationDetails} />
 
         
          <AppRoute  path="/newform" component={Post} />

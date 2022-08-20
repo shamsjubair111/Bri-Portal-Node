@@ -97,7 +97,7 @@ const Applications = () => {
 
   const [managerConsDD, setManagerConsDD] = useState([]);
   const [managerConsLabel, setManagerConsLabel] = useState("Consultant");
-  const [managerConsValue, setManagerConsValue] = useState("Consultant");
+  const [managerConsValue, setManagerConsValue] = useState(0);
 
   const [managerUniDD, setManagerUniDD] = useState([]);
   const [managerUniLabel, setManagerUniLabel] = useState("University Name");
@@ -138,6 +138,12 @@ const Applications = () => {
   const [commonUappIdValue, setCommonUappIdValue] = useState(0);
   const [commonUniLabel, setCommonUniLabel] = useState("University Name");
   const [commonUniValue, setCommonUniValue] = useState(0);
+  const [consultantLabel, setConsultantLabel] = useState("Consultant");
+  const [consultantValue, setConsultantValue] = useState(0);
+  const [commonPhoneLabel, setCommonPhoneLabel] = useState("Phone No.");
+  const [commonPhoneValue, setCommonPhoneValue] = useState(0);
+  const [commonStdLabel, setCommonStdLabel] = useState("Name");
+  const [commonStdValue, setCommonStdValue] = useState(0);
 
   // for all
   const [applicationLabel, setApplicationLabel] = useState("Status");
@@ -154,6 +160,10 @@ const Applications = () => {
   const [elptValue, setElptValue] = useState(0);
   const [financeLabel, setFinanceLabel] = useState("SLCs");
   const [financeValue, setFinanceValue] = useState(0);
+
+  // application list
+  const [applicationList, setApplicationList] = useState([]);
+  const [serialNumber, setSerialNumber] = useState(0);
 
   const history = useHistory();
   const { addToast } = useToasts();
@@ -240,6 +250,7 @@ const Applications = () => {
       `AddmissionmanagerApplicationFilterDD/UappId/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
     ).then((res) => {
       setManagerUappIdDD(res);
+      console.log("AdmissionUappId", res);
     });
     get(
       `AddmissionmanagerApplicationFilterDD/Student/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
@@ -296,10 +307,96 @@ const Applications = () => {
     });
 
     // for list
-    get(`Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${consUappIdValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}`).then(res=>{
-      console.log("values",res);
-    })
-  }, []);
+    if (userId === "student") {
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"28dea3ae-7c53-4622-97c3-bff7d8d13ce0"}`
+      ).then((res) => {
+        console.log("values", res);
+        setLoading(false);
+        setApplicationList(res?.models);
+
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+    } else if (userId === "consultant") {
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"28df1a83-624f-48cb-8bb4-5817c8ee5da7"}`
+      ).then((res) => {
+        console.log("values", res);
+        setLoading(false);
+        setApplicationList(res?.models);
+
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+    } else if (userId === "manager") {
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
+      ).then((res) => {
+        console.log("managerValue", res);
+        setLoading(false);
+        setApplicationList(res?.models);
+
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+    } else if (userId === "provider") {
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${providerConsValue}&universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
+      ).then((res) => {
+        console.log("managerValue", res);
+        setLoading(false);
+        setApplicationList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+    } else {
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        console.log("managerValue", res);
+        setLoading(false);
+        setApplicationList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+    }
+  }, [
+    currentPage,
+    dataPerPage,
+    commonPhoneValue,
+    commonStdValue,
+    commonUappIdValue,
+    commonUniValue,
+    consultantValue,
+    managerConsValue,
+    managerPhnValue,
+    managerUniValue,
+    managerStdValue,
+    managerUappIdValue,
+    consUappIdValue,
+    consStdValue,
+    consUniValue,
+    consPhnValue,
+    providerUappIdValue,
+    providerStdvalue,
+    providerConsValue,
+    providerUniValue,
+    providerPhoneValue,
+    studentConsValue,
+    studentUniValue,
+    applicationValue,
+    offerValue,
+    enrollValue,
+    intakeValue,
+    interviewValue,
+    elptValue,
+    financeValue,
+    orderValue,
+    entity,
+    serialNumber,
+    loading,
+  ]);
 
   // for all dropdown
   const applicationMenu = applicationDD.map((application) => ({
@@ -322,7 +419,7 @@ const Applications = () => {
     label: interview?.name,
     value: interview?.id,
   }));
-  const elptMenu = interviewDD.map((elpt) => ({
+  const elptMenu = elptDD.map((elpt) => ({
     label: elpt?.name,
     value: elpt?.id,
   }));
@@ -331,7 +428,7 @@ const Applications = () => {
     value: finance?.id,
   }));
 
-  // for common 
+  // for common
   const commonUappIdMenu = commonUappIdDD.map((UappId) => ({
     label: UappId?.name,
     value: UappId?.id,
@@ -339,6 +436,18 @@ const Applications = () => {
   const commonUniMenu = commonUniDD.map((uni) => ({
     label: uni?.name,
     value: uni?.id,
+  }));
+  const commonConsultantMenu = commonConsultantDD.map((consultant) => ({
+    label: consultant?.name,
+    value: consultant?.id,
+  }));
+  const commonStdMenu = commonStdDD.map((student) => ({
+    label: student?.name,
+    value: student?.id,
+  }));
+  const commonPhoneMenu = commonPhoneDD.map((phone) => ({
+    label: phone?.name,
+    value: phone?.id,
   }));
 
   // for provide admin dropdown
@@ -429,11 +538,10 @@ const Applications = () => {
     label: dsn.label,
     value: dsn.value,
   }));
-  console.log("filterValue", orderName);
 
   const selectOrder = (label, value) => {
     // console.log("value", label, value);
-    // setLoading(true);
+    setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
     setCallApi((prev) => !prev);
@@ -479,6 +587,14 @@ const Applications = () => {
     history.push("/");
   };
 
+  const handleDate = (e) => {
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    const x = localeDate.split(",")[0];
+    return x;
+  };
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -495,13 +611,41 @@ const Applications = () => {
       {/* filter */}
       {userId === "consultant" ? (
         <ConsultantFilter
-          applicationDD={applicationDD}
-          offerDD={offerDD}
-          enrollDD={enrollDD}
-          intakeDD={intakeDD}
-          interviewDD={interviewDD}
-          elptDD={elptDD}
-          financeDD={financeDD}
+          applicationMenu={applicationMenu}
+          applicationLabel={applicationLabel}
+          setApplicationLabel={setApplicationLabel}
+          applicationValue={applicationValue}
+          setApplicationValue={setApplicationValue}
+          offerMenu={offerMenu}
+          offerLabel={offerLabel}
+          setOfferLabel={setOfferLabel}
+          offerValue={offerValue}
+          setOfferValue={setOfferValue}
+          enrollMenu={enrollMenu}
+          enrollLabel={enrollLabel}
+          setEnrollLabel={setEnrollLabel}
+          enrollValue={enrollValue}
+          setEnrollValue={setEnrollValue}
+          intakeMenu={intakeMenu}
+          intakeLabel={intakeLabel}
+          setIntakeLabel={setIntakeLabel}
+          intakeValue={intakeValue}
+          setIntakeValue={setIntakeValue}
+          interviewMenu={interviewMenu}
+          interviewLabel={interviewLabel}
+          setInterviewLabel={setInterviewLabel}
+          interviewValue={interviewValue}
+          setInterviewValue={setInterviewValue}
+          elptMenu={elptMenu}
+          elptLabel={elptLabel}
+          setElptLabel={setElptLabel}
+          elptValue={elptValue}
+          setElptValue={setElptValue}
+          financeMenu={financeMenu}
+          financeLabel={financeLabel}
+          setFinanceLabel={setFinanceLabel}
+          financeValue={financeValue}
+          setFinanceValue={setFinanceValue}
           consUappIdMenu={consUappIdMenu}
           consUappIdLabel={consUappIdLabel}
           setConsUappIdLabel={setConsUappIdLabel}
@@ -525,13 +669,41 @@ const Applications = () => {
         />
       ) : userId === "student" ? (
         <StudentFilter
-          applicationDD={applicationDD}
-          offerDD={offerDD}
-          enrollDD={enrollDD}
-          intakeDD={intakeDD}
-          interviewDD={interviewDD}
-          elptDD={elptDD}
-          financeDD={financeDD}
+          applicationMenu={applicationMenu}
+          applicationLabel={applicationLabel}
+          setApplicationLabel={setApplicationLabel}
+          applicationValue={applicationValue}
+          setApplicationValue={setApplicationValue}
+          offerMenu={offerMenu}
+          offerLabel={offerLabel}
+          setOfferLabel={setOfferLabel}
+          offerValue={offerValue}
+          setOfferValue={setOfferValue}
+          enrollMenu={enrollMenu}
+          enrollLabel={enrollLabel}
+          setEnrollLabel={setEnrollLabel}
+          enrollValue={enrollValue}
+          setEnrollValue={setEnrollValue}
+          intakeMenu={intakeMenu}
+          intakeLabel={intakeLabel}
+          setIntakeLabel={setIntakeLabel}
+          intakeValue={intakeValue}
+          setIntakeValue={setIntakeValue}
+          interviewMenu={interviewMenu}
+          interviewLabel={interviewLabel}
+          setInterviewLabel={setInterviewLabel}
+          interviewValue={interviewValue}
+          setInterviewValue={setInterviewValue}
+          elptMenu={elptMenu}
+          elptLabel={elptLabel}
+          setElptLabel={setElptLabel}
+          elptValue={elptValue}
+          setElptValue={setElptValue}
+          financeMenu={financeMenu}
+          financeLabel={financeLabel}
+          setFinanceLabel={setFinanceLabel}
+          financeValue={financeValue}
+          setFinanceValue={setFinanceValue}
           studentUniMenu={studentUniMenu}
           studentUniLabel={studentUniLabel}
           setStudentUniLabel={setStudentUniLabel}
@@ -545,13 +717,41 @@ const Applications = () => {
         />
       ) : userId === "manager" ? (
         <AdmissionManagerFilter
-          applicationDD={applicationDD}
-          offerDD={offerDD}
-          enrollDD={enrollDD}
-          intakeDD={intakeDD}
-          interviewDD={interviewDD}
-          elptDD={elptDD}
-          financeDD={financeDD}
+          applicationMenu={applicationMenu}
+          applicationLabel={applicationLabel}
+          setApplicationLabel={setApplicationLabel}
+          applicationValue={applicationValue}
+          setApplicationValue={setApplicationValue}
+          offerMenu={offerMenu}
+          offerLabel={offerLabel}
+          setOfferLabel={setOfferLabel}
+          offerValue={offerValue}
+          setOfferValue={setOfferValue}
+          enrollMenu={enrollMenu}
+          enrollLabel={enrollLabel}
+          setEnrollLabel={setEnrollLabel}
+          enrollValue={enrollValue}
+          setEnrollValue={setEnrollValue}
+          intakeMenu={intakeMenu}
+          intakeLabel={intakeLabel}
+          setIntakeLabel={setIntakeLabel}
+          intakeValue={intakeValue}
+          setIntakeValue={setIntakeValue}
+          interviewMenu={interviewMenu}
+          interviewLabel={interviewLabel}
+          setInterviewLabel={setInterviewLabel}
+          interviewValue={interviewValue}
+          setInterviewValue={setInterviewValue}
+          elptMenu={elptMenu}
+          elptLabel={elptLabel}
+          setElptLabel={setElptLabel}
+          elptValue={elptValue}
+          setElptValue={setElptValue}
+          financeMenu={financeMenu}
+          financeLabel={financeLabel}
+          setFinanceLabel={setFinanceLabel}
+          financeValue={financeValue}
+          setFinanceValue={setFinanceValue}
           managerUappIdMenu={managerUappIdMenu}
           managerUappIdLabel={managerUappIdLabel}
           setmanagerUappIdLabel={setmanagerUappIdLabel}
@@ -580,13 +780,41 @@ const Applications = () => {
         />
       ) : userId === "provider" ? (
         <ProviderAdminFilter
-          applicationDD={applicationDD}
-          offerDD={offerDD}
-          enrollDD={enrollDD}
-          intakeDD={intakeDD}
-          interviewDD={interviewDD}
-          elptDD={elptDD}
-          financeDD={financeDD}
+          applicationMenu={applicationMenu}
+          applicationLabel={applicationLabel}
+          setApplicationLabel={setApplicationLabel}
+          applicationValue={applicationValue}
+          setApplicationValue={setApplicationValue}
+          offerMenu={offerMenu}
+          offerLabel={offerLabel}
+          setOfferLabel={setOfferLabel}
+          offerValue={offerValue}
+          setOfferValue={setOfferValue}
+          enrollMenu={enrollMenu}
+          enrollLabel={enrollLabel}
+          setEnrollLabel={setEnrollLabel}
+          enrollValue={enrollValue}
+          setEnrollValue={setEnrollValue}
+          intakeMenu={intakeMenu}
+          intakeLabel={intakeLabel}
+          setIntakeLabel={setIntakeLabel}
+          intakeValue={intakeValue}
+          setIntakeValue={setIntakeValue}
+          interviewMenu={interviewMenu}
+          interviewLabel={interviewLabel}
+          setInterviewLabel={setInterviewLabel}
+          interviewValue={interviewValue}
+          setInterviewValue={setInterviewValue}
+          elptMenu={elptMenu}
+          elptLabel={elptLabel}
+          setElptLabel={setElptLabel}
+          elptValue={elptValue}
+          setElptValue={setElptValue}
+          financeMenu={financeMenu}
+          financeLabel={financeLabel}
+          setFinanceLabel={setFinanceLabel}
+          financeValue={financeValue}
+          setFinanceValue={setFinanceValue}
           providerUappIdMenu={providerUappIdMenu}
           providerUappIdLabel={providerUappIdLabel}
           setProviderUappIdLabel={setProviderUappIdLabel}
@@ -615,18 +843,6 @@ const Applications = () => {
         />
       ) : (
         <CommonFilter
-          applicationDD={applicationDD}
-          offerDD={offerDD}
-          enrollDD={enrollDD}
-          intakeDD={intakeDD}
-          interviewDD={interviewDD}
-          elptDD={elptDD}
-          financeDD={financeDD}
-          commonUappIdDD={commonUappIdDD}
-          commonUniDD={commonUniDD}
-          commonConsultantDD={commonConsultantDD}
-          commonStdDD={commonStdDD}
-          commonPhoneDD={commonPhoneDD}
           applicationMenu={applicationMenu}
           applicationLabel={applicationLabel}
           setApplicationLabel={setApplicationLabel}
@@ -672,6 +888,21 @@ const Applications = () => {
           setCommonUniLabel={setCommonUniLabel}
           commonUniValue={commonUniValue}
           setCommonUniValue={setCommonUniValue}
+          commonConsultantMenu={commonConsultantMenu}
+          consultantLabel={consultantLabel}
+          setConsultantLabel={setConsultantLabel}
+          consultantValue={consultantValue}
+          setConsultantValue={setConsultantValue}
+          commonStdMenu={commonStdMenu}
+          commonStdLabel={commonStdLabel}
+          setCommonStdLabel={setCommonStdLabel}
+          setCommonStdValue={setCommonStdValue}
+          commonStdValue={commonStdValue}
+          commonPhoneMenu={commonPhoneMenu}
+          setCommonPhoneValue={setCommonPhoneValue}
+          commonPhoneValue={commonPhoneValue}
+          setCommonPhoneLabel={setCommonPhoneLabel}
+          commonPhoneLabel={commonPhoneLabel}
         />
       )}
       <Card className="uapp-employee-search">
@@ -791,116 +1022,138 @@ const Applications = () => {
             </Col>
           </Row>
 
-          <div className="table-responsive mb-3" ref={componentRef}>
-            <Table
-              style={{ verticalAlign: "middle" }}
-              className="table-sm table-bordered"
-            >
-              <thead className="thead-uapp-bg">
-                <tr style={{ textAlign: "center" }}>
-                  <th style={{ verticalAlign: "middle" }}>UAPP ID</th>
-                  <th style={{ verticalAlign: "middle" }}>Applicant</th>
-                  <th style={{ verticalAlign: "middle" }}>Contact</th>
-                  <th style={{ verticalAlign: "middle" }}>University</th>
-                  <th style={{ verticalAlign: "middle" }}>Course</th>
-                  <th style={{ verticalAlign: "middle" }}>Intake</th>
-                  <th style={{ verticalAlign: "middle" }}>
-                    Uni Application Date
-                  </th>
-                  <th style={{ verticalAlign: "middle" }}>Status</th>
-                  <th style={{ verticalAlign: "middle" }}>Offer</th>
-                  <th style={{ verticalAlign: "middle" }}>Interview</th>
-                  <th style={{ verticalAlign: "middle" }}>ELPT</th>
-                  <th style={{ verticalAlign: "middle" }}>Enrolment Status</th>
-                  <th style={{ verticalAlign: "middle" }}>SLCS</th>
-                  <th style={{ verticalAlign: "middle" }}>Consultant</th>
-                  {/* <th>Msg</th> */}
-                  <th
-                    style={{ verticalAlign: "middle" }}
-                    className="text-center"
-                  >
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* {studentData?.map((student, i) => ( */}
-                <tr>
-                  {/* <th scope='row'>{1}</th> */}
-                  <td style={{ verticalAlign: "middle" }}>STD003096</td>
+          {loading ? (
+            <h2 className="text-center">Loading...</h2>
+          ) : (
+            <div className="table-responsive mb-3" ref={componentRef}>
+              <Table
+                style={{ verticalAlign: "middle" }}
+                className="table-sm table-bordered"
+              >
+                <thead className="thead-uapp-bg">
+                  <tr style={{ textAlign: "center" }}>
+                    <th style={{ verticalAlign: "middle" }}>UAPP ID</th>
+                    <th style={{ verticalAlign: "middle" }}>Applicant</th>
+                    <th style={{ verticalAlign: "middle" }}>Contact</th>
+                    <th style={{ verticalAlign: "middle" }}>University</th>
+                    <th style={{ verticalAlign: "middle" }}>Course</th>
+                    <th style={{ verticalAlign: "middle" }}>Intake</th>
+                    <th style={{ verticalAlign: "middle" }}>
+                      Uni Application Date
+                    </th>
+                    <th style={{ verticalAlign: "middle" }}>Status</th>
+                    <th style={{ verticalAlign: "middle" }}>Offer</th>
+                    <th style={{ verticalAlign: "middle" }}>Interview</th>
+                    <th style={{ verticalAlign: "middle" }}>ELPT</th>
+                    <th style={{ verticalAlign: "middle" }}>
+                      Enrolment Status
+                    </th>
+                    <th style={{ verticalAlign: "middle" }}>SLCS</th>
+                    <th style={{ verticalAlign: "middle" }}>Consultant</th>
+                    {/* <th>Msg</th> */}
+                    <th
+                      style={{ verticalAlign: "middle" }}
+                      className="text-center"
+                    >
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {applicationList?.map((app, i) => (
+                    <tr key={i}>
+                      <td style={{ verticalAlign: "middle" }}>{app?.uappId}</td>
 
-                  <td style={{ verticalAlign: "middle" }}>
-                    Mr OVIDIU NICOLAE TIHAN
-                  </td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.studentName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>
-                    07771928690 <br />
-                    Nicolae.tihan@yahoo.com
-                  </td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.studentPhone} <br />
+                        {app?.studentEmail}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>
-                    LSST Aston Birmingham Campus
-                  </td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.universityName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>
-                    BA (Hons) Business Management with Foundation
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>September 2022</td>
-                  <td style={{ verticalAlign: "middle" }}>12-08-2022</td>
-                  <td style={{ verticalAlign: "middle" }}>New application</td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.subjectName}
+                      </td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.intakeName}
+                      </td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.applicationDate ? (
+                          <>{handleDate(app?.applicationDate)}</>
+                        ) : null}
+                      </td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.applicationStatusName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>...</td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.offerStatusName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>
-                    Booked at 02:00 PM on Tuesday, August 23, 2022
-                  </td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.interviewStatusName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>...</td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.elptStatusName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>...</td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.enrollmentStatusName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>Not applied</td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.studentFinanceName}
+                      </td>
 
-                  <td style={{ verticalAlign: "middle" }}>Elena</td>
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.consultantName}
+                      </td>
 
-                  <td
-                    style={{ verticalAlign: "middle" }}
-                    className="text-center"
-                  >
-                    {/* <ButtonGroup variant="text" className='d-flex flex-column'> */}
+                      <td
+                        style={{ verticalAlign: "middle" }}
+                        className="text-center"
+                      >
+                        {/* <ButtonGroup variant="text" className='d-flex flex-column'> */}
 
-                    <LinkSpanButton
-                      url={{
-                        pathname: "/universityList",
-                        // universityType: uniType?.id,
-                        // universityName: uniType?.name,
-                      }}
-                      className={"badge badge-pill badge-primary p-2 px-3"}
-                      data={2}
-                      permission={6}
-                    />
+                        <LinkSpanButton
+                          url={{
+                            pathname: "/universityList",
+                            // universityType: uniType?.id,
+                            // universityName: uniType?.name,
+                          }}
+                          className={"badge badge-pill badge-primary p-2 px-3"}
+                          data={2}
+                          permission={6}
+                        />
 
-                    <LinkButton
-                      // url={`/studentProfile/${student?.id}`}
-                      color="primary"
-                      className={"mx-1 btn-sm mt-2"}
-                      icon={<i className="fas fa-eye"></i>}
-                    />
+                        <LinkButton
+                          url={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                          color="primary"
+                          className={"mx-1 btn-sm mt-2"}
+                          icon={<i className="fas fa-eye"></i>}
+                        />
 
-                    {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
+                        {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                    <ButtonForFunction
-                      icon={<i className="fas fa-trash-alt"></i>}
-                      color={"danger"}
-                      className={"mx-1 btn-sm mt-2"}
-                      //   func={()=> toggleDanger(student)}
-                    />
+                        <ButtonForFunction
+                          icon={<i className="fas fa-trash-alt"></i>}
+                          color={"danger"}
+                          className={"mx-1 btn-sm mt-2"}
+                          //   func={()=> toggleDanger(student)}
+                        />
 
-                    {/* </ButtonGroup> */}
+                        {/* </ButtonGroup> */}
 
-                    {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                        {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                         <ModalBody>
                           <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                         </ModalBody>
@@ -910,98 +1163,13 @@ const Applications = () => {
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal> */}
-                  </td>
-                </tr>
-
-                <tr>
-                  {/* <th scope='row'>{1}</th> */}
-                  <td style={{ verticalAlign: "middle" }}>STD003082</td>
-
-                  <td style={{ verticalAlign: "middle" }}>Mr Abul Kalam</td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    07927838390 <br />
-                    abulkalam03@gmail.com
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    London Churchill College
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    HND In Hospitality Management
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>September 2022</td>
-                  <td style={{ verticalAlign: "middle" }}>12-08-2022</td>
-                  <td style={{ verticalAlign: "middle" }}>New application</td>
-
-                  <td style={{ verticalAlign: "middle" }}>...</td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    Booked at 02:00 PM on Tuesday, August 23, 2022
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>...</td>
-
-                  <td style={{ verticalAlign: "middle" }}>...</td>
-
-                  <td style={{ verticalAlign: "middle" }}>Not Applied</td>
-
-                  <td style={{ verticalAlign: "middle" }}>Irina stefana</td>
-
-                  <td
-                    style={{ verticalAlign: "middle" }}
-                    className="text-center"
-                  >
-                    {/* <ButtonGroup variant="text" className='d-flex flex-column'> */}
-
-                    <LinkSpanButton
-                      url={{
-                        pathname: "/universityList",
-                        // universityType: uniType?.id,
-                        // universityName: uniType?.name,
-                      }}
-                      className={"badge badge-pill badge-primary p-2 px-3"}
-                      data={2}
-                      permission={6}
-                    />
-
-                    <LinkButton
-                      // url={`/studentProfile/${student?.id}`}
-                      color="primary"
-                      className={"mx-1 btn-sm mt-2"}
-                      icon={<i className="fas fa-eye"></i>}
-                    />
-
-                    {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
-                            <i className="fas fa-trash-alt"></i>
-                          </Button> */}
-
-                    <ButtonForFunction
-                      icon={<i className="fas fa-trash-alt"></i>}
-                      color={"danger"}
-                      className={"mx-1 btn-sm mt-2"}
-                      //   func={()=> toggleDanger(student)}
-                    />
-
-                    {/* </ButtonGroup> */}
-
-                    {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
-                        <ModalBody>
-                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
-                        </ModalBody>
-        
-                        <ModalFooter>
-                          <Button  color="danger" onClick={()=>handleDeleteData(student)}>YES</Button>
-                          <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                        </ModalFooter>
-                     </Modal> */}
-                  </td>
-                </tr>
-                {/* ))} */}
-              </tbody>
-            </Table>
-          </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
 
           <Pagination
             dataPerPage={dataPerPage}

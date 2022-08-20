@@ -27,13 +27,41 @@ import {
 import Select from "react-select";
 
 const ConsultantFilter = ({
-  applicationDD,
-  offerDD,
-  enrollDD,
-  intakeDD,
-  interviewDD,
-  elptDD,
-  financeDD,
+  applicationMenu,
+  applicationLabel,
+  setApplicationLabel,
+  applicationValue,
+  setApplicationValue,
+  offerMenu,
+  offerLabel,
+  setOfferLabel,
+  offerValue,
+  setOfferValue,
+  enrollMenu,
+  enrollLabel,
+  setEnrollLabel,
+  enrollValue,
+  setEnrollValue,
+  intakeMenu,
+  intakeLabel,
+  setIntakeLabel,
+  intakeValue,
+  setIntakeValue,
+  interviewMenu,
+  interviewLabel,
+  setInterviewLabel,
+  interviewValue,
+  setInterviewValue,
+  elptMenu,
+  elptLabel,
+  setElptLabel,
+  elptValue,
+  setElptValue,
+  financeMenu,
+  financeLabel,
+  setFinanceLabel,
+  financeValue,
+  setFinanceValue,
   consUappIdMenu,
   consUappIdLabel,
   setConsUappIdLabel,
@@ -55,51 +83,51 @@ const ConsultantFilter = ({
   consPhnValue,
   setConsPhnValue,
 }) => {
-  const [applicationLabel, setApplicationLabel] = useState("Status");
-  const [applicationValue, setApplicationValue] = useState(0);
-  const [offerLabel, setOfferLabel] = useState("Offer");
-  const [offerValue, setOfferValue] = useState(0);
-  const [enrollLabel, setEnrollLabel] = useState("Enrolment Status");
-  const [enrollValue, setEnrollValue] = useState(0);
-  const [intakeLabel, setIntakeLabel] = useState("Intake");
-  const [intakeValue, setIntakeValue] = useState(0);
-  const [interviewLabel, setInterviewLabel] = useState("Interview");
-  const [interviewValue, setInterviewValue] = useState(0);
-  const [elptLabel, setElptLabel] = useState("ELPT");
-  const [elptValue, setElptValue] = useState(0);
-  const [financeLabel, setFinanceLabel] = useState("SLCs");
-  const [financeValue, setFinanceValue] = useState(0);
+  // const [applicationLabel, setApplicationLabel] = useState("Status");
+  // const [applicationValue, setApplicationValue] = useState(0);
+  // const [offerLabel, setOfferLabel] = useState("Offer");
+  // const [offerValue, setOfferValue] = useState(0);
+  // const [enrollLabel, setEnrollLabel] = useState("Enrolment Status");
+  // const [enrollValue, setEnrollValue] = useState(0);
+  // const [intakeLabel, setIntakeLabel] = useState("Intake");
+  // const [intakeValue, setIntakeValue] = useState(0);
+  // const [interviewLabel, setInterviewLabel] = useState("Interview");
+  // const [interviewValue, setInterviewValue] = useState(0);
+  // const [elptLabel, setElptLabel] = useState("ELPT");
+  // const [elptValue, setElptValue] = useState(0);
+  // const [financeLabel, setFinanceLabel] = useState("SLCs");
+  // const [financeValue, setFinanceValue] = useState(0);
 
-  console.log("financeDD2222", financeDD);
+  // console.log("financeDD2222", financeDD);
 
-  const applicationMenu = applicationDD.map((application) => ({
-    label: application?.name,
-    value: application?.id,
-  }));
-  const offerMenu = offerDD.map((offer) => ({
-    label: offer?.name,
-    value: offer?.id,
-  }));
-  const enrollMenu = enrollDD.map((enroll) => ({
-    label: enroll?.name,
-    value: enroll?.id,
-  }));
-  const intakeMenu = intakeDD.map((intake) => ({
-    label: intake?.name,
-    value: intake?.id,
-  }));
-  const interviewMenu = interviewDD.map((interview) => ({
-    label: interview?.name,
-    value: interview?.id,
-  }));
-  const elptMenu = elptDD.map((elpt) => ({
-    label: elpt?.name,
-    value: elpt?.id,
-  }));
-  const financeMenu = financeDD.map((finance) => ({
-    label: finance?.name,
-    value: finance?.id,
-  }));
+  // const applicationMenu = applicationDD.map((application) => ({
+  //   label: application?.name,
+  //   value: application?.id,
+  // }));
+  // const offerMenu = offerDD.map((offer) => ({
+  //   label: offer?.name,
+  //   value: offer?.id,
+  // }));
+  // const enrollMenu = enrollDD.map((enroll) => ({
+  //   label: enroll?.name,
+  //   value: enroll?.id,
+  // }));
+  // const intakeMenu = intakeDD.map((intake) => ({
+  //   label: intake?.name,
+  //   value: intake?.id,
+  // }));
+  // const interviewMenu = interviewDD.map((interview) => ({
+  //   label: interview?.name,
+  //   value: interview?.id,
+  // }));
+  // const elptMenu = elptDD.map((elpt) => ({
+  //   label: elpt?.name,
+  //   value: elpt?.id,
+  // }));
+  // const financeMenu = financeDD.map((finance) => ({
+  //   label: finance?.name,
+  //   value: finance?.id,
+  // }));
 
   const selectAppliDD = (label, value) => {
     setApplicationLabel(label);

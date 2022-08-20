@@ -28,18 +28,6 @@ import Select from "react-select";
 import { useState } from "react";
 
 const CommonFilter = ({
-  applicationDD,
-  offerDD,
-  enrollDD,
-  intakeDD,
-  interviewDD,
-  elptDD,
-  financeDD,
-  commonUappIdDD,
-  commonUniDD,
-  commonConsultantDD,
-  commonStdDD,
-  commonPhoneDD,
   applicationMenu,
   applicationLabel,
   setApplicationLabel,
@@ -85,6 +73,21 @@ const CommonFilter = ({
   setCommonUniLabel,
   commonUniValue,
   setCommonUniValue,
+  consultantLabel,
+  setConsultantLabel,
+  consultantValue,
+  setConsultantValue,
+  commonConsultantMenu,
+  commonStdMenu,
+  setCommonStdValue,
+  commonStdValue,
+  setCommonStdLabel,
+  commonStdLabel,
+  commonPhoneMenu,
+  setCommonPhoneValue,
+  commonPhoneValue,
+  setCommonPhoneLabel,
+  commonPhoneLabel,
 }) => {
   // const [applicationLabel, setApplicationLabel] = useState("Status");
   // const [applicationValue, setApplicationValue] = useState(0);
@@ -104,14 +107,13 @@ const CommonFilter = ({
   // const [commonUappIdValue, setCommonUappIdValue] = useState(0);
   // const [commonUniLabel, setCommonUniLabel] = useState("University Name");
   // const [commonUniValue, setCommonUniValue] = useState(0);
-  const [consultantLabel, setConsultantLabel] = useState("Consultant");
-  const [consultantValue, setConsultantValue] = useState(0);
-  const [stdLabel, setStdLabel] = useState("Name");
-  const [stdValue, setStdValue] = useState(0);
-  const [phoneLabel, setPhoneLabel] = useState("Phone No.");
-  const [phoneValue, setPhoneValue] = useState(0);
+  // const [consultantLabel, setConsultantLabel] = useState("Consultant");
+  // const [consultantValue, setConsultantValue] = useState(0);
+  // const [commonStdLabel, setCommonStdLabel] = useState("Name");
+  // const [commonStdValue, setCommonStdValue] = useState(0);
+  // const [commonPhoneLabel, setCommonPhoneLabel] = useState("Phone No.");
+  // const [commonPhoneValue, setCommonPhoneValue] = useState(0);
 
-  console.log("commonPhoneDD", commonPhoneDD);
 
   // const applicationMenu = applicationDD.map(application =>({label: application?.name, value: application?.id}));
   // const offerMenu = offerDD.map(offer =>({label: offer?.name, value: offer?.id}));
@@ -143,18 +145,18 @@ const CommonFilter = ({
   //   label: uni?.name,
   //   value: uni?.id,
   // }));
-  const commonConsultantMenu = commonConsultantDD.map((consultant) => ({
-    label: consultant?.name,
-    value: consultant?.id,
-  }));
-  const commonStdMenu = commonStdDD.map((student) => ({
-    label: student?.name,
-    value: student?.id,
-  }));
-  const commonPhoneMenu = commonPhoneDD.map((phone) => ({
-    label: phone?.name,
-    value: phone?.id,
-  }));
+  // const commonConsultantMenu = commonConsultantDD.map((consultant) => ({
+  //   label: consultant?.name,
+  //   value: consultant?.id,
+  // }));
+  // const commonStdMenu = commonStdDD.map((student) => ({
+  //   label: student?.name,
+  //   value: student?.id,
+  // }));
+  // const commonPhoneMenu = commonPhoneDD.map((phone) => ({
+  //   label: phone?.name,
+  //   value: phone?.id,
+  // }));
 
   const selectAppliDD = (label, value) => {
     setApplicationLabel(label);
@@ -207,13 +209,13 @@ const CommonFilter = ({
     // handleSearch();
   };
   const selectStudentDD = (label, value) => {
-    setStdLabel(label);
-    setStdValue(value);
+    setCommonStdLabel(label);
+    setCommonStdValue(value);
     // handleSearch();
   };
   const selectPhoneDD = (label, value) => {
-    setPhoneLabel(label);
-    setPhoneValue(value);
+    setCommonPhoneLabel(label);
+    setCommonPhoneValue(value);
     // handleSearch();
   };
 
@@ -239,10 +241,10 @@ const CommonFilter = ({
     setCommonUniValue(0);
     setConsultantLabel("Consultant");
     setConsultantValue(0);
-    setStdLabel("Name");
-    setStdValue(0);
-    setPhoneLabel("Phone No.");
-    setPhoneValue(0);
+    setCommonStdLabel("Name");
+    setCommonStdValue(0);
+    setCommonPhoneLabel("Phone No.");
+    setCommonPhoneValue(0);
   };
 
   return (
@@ -263,7 +265,7 @@ const CommonFilter = ({
           <Col lg="2" md="3" sm="6" xs="6">
             <Select
               options={commonStdMenu}
-              value={{ label: stdLabel, value: stdValue }}
+              value={{ label: commonStdLabel, value: commonStdValue }}
               onChange={(opt) => selectStudentDD(opt.label, opt.value)}
               placeholder="Name"
               name="name"
@@ -373,7 +375,7 @@ const CommonFilter = ({
           <Col lg="2" md="3" sm="6" xs="6">
             <Select
               options={commonPhoneMenu}
-              value={{ label: phoneLabel, value: phoneValue }}
+              value={{ label: commonPhoneLabel, value: commonPhoneValue }}
               onChange={(opt) => selectPhoneDD(opt.label, opt.value)}
               placeholder="Phone No."
               name="name"
