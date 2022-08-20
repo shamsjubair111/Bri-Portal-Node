@@ -773,6 +773,25 @@ th {
   cursor: pointer;
 }
 
+.button2-style-search{
+  color: #2154AC !important;
+  background-color: white !important;
+  padding-top: 5px ;
+  padding-bottom: 7px ;
+  padding-left: 20px ;
+  padding-right: 20px ;
+  cursor: pointer;
+  border-radius: 50px;
+  font-size: 12px;
+  border: 2px solid #2154AC !important;
+  
+}
+
+.button2-style-search:hover{
+  background: #2154AC !important;
+
+}
+
 .btn-customStyle-1{
 
   color: #1e98b0;
@@ -807,7 +826,7 @@ th {
 } */
 
 .nodata-found-style{
-  font-size: 26px;
+  font-size: 18px;
   
   color: #1e98b0;
 }
@@ -821,6 +840,12 @@ th {
   color: #717171;
   font-size: 15px;
   text-align: center;
+}
+
+.show-all-search-data-style{
+  font-size: 15px;
+  color: #717171;
+  cursor: pointer;
 }
 
 .button-style-search:hover{

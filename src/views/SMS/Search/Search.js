@@ -5,6 +5,8 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import {  useHistory, useLocation } from 'react-router-dom';
 import get from '../../../helpers/get';
 import { rootUrl } from '../../../constants/constants';
+import Pagination from "../../SMS/Pagination/Pagination";
+import LinkButton from '../Components/LinkButton';
 
 
 
@@ -76,7 +78,7 @@ const Search = () => {
     const [programLevel,setProgramLevel] = useState([]);
     const [SubDepartment, setSubDepartment] = useState([]);
     const [pattern,setPattern] = useState([]);
-    const [programName, setProgramName] = useState('null');  
+    const [programName, setProgramName] = useState('');  
 
     const [studentId, setStudentId] = useState(0);
 
@@ -87,6 +89,15 @@ const Search = () => {
     const [page,setPage] = useState(1);
 
     const [data,setData] = useState([]);
+
+    const [loadAll, setLoalAll] = useState(false);
+
+    const [entity,setEntity] = useState(0);
+
+    const [loading,setLoading] = useState(false);
+    const [showNum, setShowNum] = useState(2);
+
+  
 
 
     
@@ -160,15 +171,41 @@ const Search = () => {
         setState(res);
       })
 
-      get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programName}`)
-    .then(res => {
-      console.log('Large Api Checking Response',res?.result?.models);
-      setData(res?.result?.models);
-    })
+     
 
      
 
     },[success])
+
+    useEffect(()=>{
+      const  programLevelName = 
+        programName == ''? 'null' : programName;
+        setLoading(true);
+      get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programLevelName}`)
+      .then(res => {
+        console.log('Large Api Checking Response',res);
+        setData(res?.result?.models);
+        setEntity(res?.result?.totalEntity);
+        setLoading(false);
+      })
+
+    },[success, page, dataSizeValue, sortValue, studentId, universityTypeValue, universityValue, campusValue, universityCountryValue, cityValue, studentTypeValue, departmentValue, subValue, programValue, intakeValue, patternValue, programName])
+
+    const showAllData = () => {
+      setLoalAll(true);
+    }
+
+    const collapseALl = () =>{
+      setLoalAll(false);
+    }
+
+     //  change page
+  const paginate = (pageNumber) => {
+    setPage(pageNumber);
+    // setCallApi((prev) => !prev);
+  };
+
+  
 
     const sortingOrder = [
      
@@ -292,6 +329,7 @@ const Search = () => {
     };
 
     const selectUniversity = (label,value) => {
+      setLoading(true);
       setUniversityLabel(label);
       setUniversityValue(value);
       get(`SearchFilter/Campus/${value}`)
@@ -301,6 +339,7 @@ const Search = () => {
       })
     }
     const selectCountry = (label,value) => {
+      setLoading(true);
       
       setUniversityCountryLabel(label);
       setUniversityCountryValue(value);
@@ -316,7 +355,7 @@ const Search = () => {
 
     }
     const selectState = (label,value) => {
-     
+      setLoading(true);
       setCityLabel(label);
       setCityValue(value);
 
@@ -324,6 +363,7 @@ const Search = () => {
 
     }
     const selectUniversityType = (label,value) => {
+      setLoading(true);
       setUniversityTypeLabel(label);
       setUniversityTypeValue(value);
       get(`SearchFilter/Universities/${universityCountryValue}/${value}/${cityValue}`)
@@ -333,6 +373,7 @@ const Search = () => {
     }
 
     const selectDepartment = (label,value) => {
+      setLoading(true);
       setDepartmentLabel(label);
       setDepartmentValue(value);
       get(`SearchFilter/SubDepartments/${value}`)
@@ -343,26 +384,31 @@ const Search = () => {
     }
 
     const selectSubDepartment = (label,value) => {
+      setLoading(true);
       setSubLabel(label);
       setSubValue(value);
     }
 
     const selectStudentType = (label,value) => {
+      setLoading(true);
       setStudentTypeLabel(label);
       setStudentTypeValue(value);
     }
 
     const selectProgramLevel = (label,value) => {
+      setLoading(true);
       setProgramLabel(label);
       setProgramValue(value);
     }
 
     const selectCampus = (label,value) => {
+      setLoading(true);
       setCampusLabel(label);
       setCampusValue(value);
     }
 
      const selectOrder = (label, value) => {
+      setLoading(true);
       // console.log("value", label, value);
     
       setDataSizeLabel(label);
@@ -371,16 +417,23 @@ const Search = () => {
     };
 
     const selectSort = (label,value) => {
+      setLoading(true);
       setSortLabel(label);
       setSortValue(value);
     }
 
     const handleProgramName = (e) => {
-      setProgramName(e.target.value);
+      setLoading(true);
+ 
+   
+        setProgramName(e.target.value);
+     
+      
+
     }
   
     const clearAllDropdown = () => {
-
+      setLoading(true);
       setStudentLabel('Select Student');
       setStudentValue(0);
       setStudentTypeLabel('Select Student Type');
@@ -406,6 +459,7 @@ const Search = () => {
       setSubValue(0);
       setPatternLabel('Select Delivery Pattern');
       setPatternValue(0);
+      setProgramName('')
 
       setSuccess(!success);
 
@@ -456,6 +510,7 @@ const Search = () => {
   placeholder='Program Name'
   style={{border: '1px solidrgba(0,0,0,.125)'}}
   onChange={handleProgramName}
+  defaultValue={programName}
   />
 
 
@@ -788,15 +843,424 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
    <>
    
    {
-    data?.length <1 ?
+    
+    
+    !loading ?
+<>
 
-    <div className='text-center'>
-      <span className='nodata-found-style'>No Data Found</span>
-    </div>
+    {
+      data?.length <1 ?
+  
+      <div className='text-center'>
+        <span className='nodata-found-style'>No Data Found</span>
+      </div>
+  
+      :
+  
+      <>
+      
+      {
+        data?.map((info,i)=>
+        
+        <div key={i}>
+  
+          <Card className='p-2'>
+  
+  
+          <div className='row'>
+  
+  
+          <div className='col-md-2'>
+          <div className='search-img-style'>
+          <img
+          src={rootUrl+info?.logo}
+          className='w-75' 
+  
+          alt='logo-img'
+          />
+          </div>
+  
+          </div>
+  
+          <div className='col-md-8'>
+          <div className='text-center'>
+          <span className='university-title-style'>{info?.name}</span>
+          <br/>
+          <span className='span-style-search'><i className="fas fa-location-dot"></i>{info?.address}</span>
+          </div>
+  
+          </div>
+
+          <div className='col-md-2'>
+
+          </div>
+  
+  
+  
+  
+          </div>
+  
+  
+          </Card>
+  
+          {
+            info?.subjects?.length <1 ?
+  
+            <div className='text-center mb-2'>
+            <span className='nodata-found-style'>No Data Found</span>
+             </div>
+  
+             :
+  
+             
+             <>
+  
+             {
+  
+  
+                !loadAll ? 
+                <>
+                {
+                  info?.subjects?.slice(0,2).map((subjectInfo,i) =>
+        
+                  
+        <div className='row my-3' key={i}>
+        
+        <div className='col-md-12 border-left-style-searchPage'>
+         
+          <span className='course-name-style'>{subjectInfo?.title}</span>
+          <br/>
+          
+        
+          <div className='row my-1'>
+           <div className='col-md-10'>
+           <span className='available-style'>Available in:</span>
+               {
+                subjectInfo?.campuses?.map((camp,i)=>
+                
+                <span className='btn-customStyle-1 ms-2' key={i}>{camp?.campusName}</span>
+        
+                )
+               }
+           </div>
+        
+        <div className='col-md-2'>
+            <LinkButton
+             url={`/subjectProfile/${subjectInfo?.subjectId}`}
+             target={'_blank'}
+            color={'secondary'}
+            className={"button2-style-search"}
+            name={'View'}
+            permission={6}
+            />
+            </div>
+        
+                
+        
+                
+          </div>
+        
+          <div className='row'>
+            <div className='col-md-2'>
+              <span className='p-style-1'>Tution fee</span>
+              <br/>
+              <span className='p-style-2'>Local - {subjectInfo?.home_Fee}</span>
+              <br/>
+              <span className='p-style-2'>EU - {subjectInfo?.eu_Fee}</span>
+              <br/>
+              <span className='p-style-2'>International - {subjectInfo?.international_Fee}</span>
+        
+            </div>
+        
+            <div className='col-md-3'>
+            <span className='p-style-1'>Level of Study</span>
+              <br/>
+              <span className='p-style-2'>{subjectInfo?.programLevelName}</span>
+              
+        
+            </div>
+        
+           
+        
+            <div className='col-md-3'>
+            <span className='p-style-1'>Duration</span>
+              <br/>
+              <span className='p-style-2'>{subjectInfo?.duration}</span>
+        
+        
+            </div>
+        <div className='col-md-2'>
+            <span className='p-style-1'>Intake</span>
+            <br/>
+            <ul className='list-unstyled'>
+              {
+                subjectInfo?.intakes?.length <1 ?
+        
+                <div className='text-center'>
+                <span className=''>-</span>
+                 </div>
+                 :
+                 <>
+        
+                 {
+        
+                  subjectInfo?.intakes?.map((int) =>
+                  
+                  <li>
+                  {int?.intakeName}
+                  </li>
+                  
+                  )
+        
+                 }
+        
+                 </>
+              }
+             
+            </ul>
+            </div>
+            <div className='col-md-2'>
+          <button className='button-style-search'>Apply</button>
+          
+        </div>
+        
+          </div>
+          
+        </div>
+        
+        
+        
+        
+        
+        <div>
+        
+        </div>
+        
+     
+  
+  
+        </div>
+        
+                  
+                  
+        
+                  )
+                }
+                </>
+  
+                :
+                  <>
+                {
+                  info?.subjects?.map((subjectInfo) =>
+        
+                  
+        <div className='row my-3 '>
+        
+        <div className='col-md-12 border-left-style-searchPage'>
+         
+          <span className='course-name-style'>{subjectInfo?.title}</span>
+          <br/>
+          
+        
+          <div className='row my-1 '>
+          <div className='col-md-10'>
+  
+          <span className='available-style'>Available in:</span>
+               {
+                subjectInfo?.campuses?.map((camp)=>
+                
+                <span className='btn-customStyle-1 ms-2'>{camp?.campusName}</span>
+        
+                )
+               }
+  
+  
+          </div>
+          
+              <div className='col-md-2'>
+  
+              <LinkButton
+                  url={`/subjectProfile/${subjectInfo?.subjectId}`}
+                  target={'_blank'}
+                  color={'secondary'}
+                  className={"button2-style-search"}
+                  name={'View'}
+                  permission={6}
+                  />
+  
+              </div>
+        
+                
+        
+                
+        
+                
+          </div>
+        
+          <div className='row'>
+            <div className='col-md-2'>
+              <span className='p-style-1'>Tution fee</span>
+              <br/>
+              <span className='p-style-2'>Local - {subjectInfo?.home_Fee}</span>
+              <br/>
+              <span className='p-style-2'>EU - {subjectInfo?.eu_Fee}</span>
+              <br/>
+              <span className='p-style-2'>International - {subjectInfo?.international_Fee}</span>
+        
+            </div>
+        
+            <div className='col-md-3'>
+            <span className='p-style-1'>Level of Study</span>
+              <br/>
+              <span className='p-style-2'>{subjectInfo?.programLevelName}</span>
+              
+        
+            </div>
+        
+           
+        
+            <div className='col-md-3'>
+            <span className='p-style-1'>Duration</span>
+              <br/>
+              <span className='p-style-2'>{subjectInfo?.duration}</span>
+        
+        
+            </div>
+        <div className='col-md-2'>
+            <span className='p-style-1'>Intake</span>
+            <br/>
+            <ul className='list-unstyled'>
+              {
+                subjectInfo?.intakes?.length <1 ?
+        
+                <div className='text-center'>
+                <span className=''>-</span>
+                 </div>
+                 :
+                 <>
+        
+                 {
+        
+                  subjectInfo?.intakes?.map((int) =>
+                  
+                  <li>
+                  {int?.intakeName}
+                  </li>
+                  
+                  )
+        
+                 }
+        
+                 </>
+              }
+             
+            </ul>
+            </div>
+            <div className='col-md-2'>
+          <button className='button-style-search'>Apply</button>
+          
+        </div>
+        
+          </div>
+          
+        </div>
+        
+        
+        
+        
+        
+        <div>
+        
+        </div>
+        
+        
+        
+        </div>
+                  
+                  
+        
+                  )
+                }
+                </>
+  
+             }
+             
+             </>
+  
+          }
+  
+  
+            {/* show all span */}
+  
+               
+      {
+        info?.subjects.length > 3 ? 
+        <>
+        {
+  
+  !loadAll ?
+  
+  <div className='text-center mb-3'>
+  <span className='show-all-search-data-style' onClick={showAllData}>See {info?.subjectCounter - showNum} More Programs <i className="fas fa-angle-right mt-2"></i></span>
+  </div> 
+  
+  :
+  
+  <div className='text-center mb-3'>
+  <span className='show-all-search-data-style' onClick={collapseALl}>Hide {info?.subjectCounter -showNum} More Programs  <i className="fas fa-angle-left mt-2"></i></span>
+  </div> 
+  
+  
+  }
+        </>
+        :
+        null
+      }
+  
+        </div>
+        
+        )
+      }
+  
+      {/* pagination */}
+  
+      <div className='mb-4'>
+        <Card className='pt-2 px-1'>
+       <Pagination
+              dataPerPage={dataSizeValue}
+              totalData={entity}
+              paginate={paginate}
+              currentPage={page}
+            />
+  
+        </Card>
+   </div>
+  
+      </>
+  
+     }
+
+    </>
+
+     :
+
+     <div class="text-center">
+     <div class="spinner-border" role="status">
+       <span class="visually-hidden">Loading...</span>
+     </div>
+   </div>
+
+
+   }
+
+   </>
 
     :
 
-    <>
+
+    <div>
+
+<>
     
     {
       data?.map((info,i)=>
@@ -821,12 +1285,31 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
         </div>
 
-        <div className='col-md-10'>
+        <div className='col-md-8'>
         <div className='text-center'>
         <span className='university-title-style'>{info?.name}</span>
         <br/>
         <span className='span-style-search'><i className="fas fa-location-dot"></i>{info?.address}</span>
         </div>
+
+        </div>
+
+
+        <div className='col-md-2'>
+
+        <div className='d-flex justify-content-end'>
+
+        <LinkButton
+        url={`/universityDetails/${info?.universityId}`}
+        target={'_blank'}
+        color={"primary"}
+        className={"mx-1 btn-sm mt-2"}
+        icon={<i className="fas fa-eye"></i>}
+        permission={6}
+         />
+
+        </div>
+
 
         </div>
 
@@ -838,158 +1321,29 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
         </Card>
 
-        {
-          info?.subjects?.length <1 ?
-
-          <div className='text-center'>
-          <span className='nodata-found-style'>No Data Found</span>
-           </div>
-
-           :
-
-           
-           <>
-
-{
-          info?.subjects?.map((subjectInfo) =>
-
-          
-<div className='row my-3 '>
-
-<div className='col-md-12 border-left-style-searchPage'>
- 
-  <span className='course-name-style'>{subjectInfo?.title}</span>
-  <br/>
-  
-
-  <div className='d-flex flex-wrap my-1'>
-    <span className='available-style'>Available in:</span>
-       {
-        subjectInfo?.campuses?.map((camp)=>
-        
-        <span className='btn-customStyle-1 ms-2'>{camp?.campusName}</span>
-
-        )
-       }
-
-        
-
-        
-
-        
-  </div>
-
-  <div className='row'>
-    <div className='col-md-2'>
-      <span className='p-style-1'>Tution fee</span>
-      <br/>
-      <span className='p-style-2'>Local - {subjectInfo?.home_Fee}</span>
-      <br/>
-      <span className='p-style-2'>EU - {subjectInfo?.eu_Fee}</span>
-      <br/>
-      <span className='p-style-2'>International - {subjectInfo?.international_Fee}</span>
-
-    </div>
-
-    <div className='col-md-3'>
-    <span className='p-style-1'>Level of Study</span>
-      <br/>
-      <span className='p-style-2'>{subjectInfo?.programLevelName}</span>
-      
-
-    </div>
-
-   
-
-    <div className='col-md-3'>
-    <span className='p-style-1'>Duration</span>
-      <br/>
-      <span className='p-style-2'>{subjectInfo?.duration}</span>
-
-
-    </div>
-<div className='col-md-2'>
-    <span className='p-style-1'>Intake</span>
-    <br/>
-    <ul className='list-unstyled'>
-      {
-        subjectInfo?.intakes?.length <1 ?
-
-        <div className='text-center'>
-        <span className=''>-</span>
-         </div>
-         :
-         <>
-
-         {
-
-          subjectInfo?.intakes?.map((int) =>
-          
-          <li>
-          {int?.intakeName}
-          </li>
-          
-          )
-
-         }
-
-         </>
-      }
-     
-    </ul>
-    </div>
-    <div className='col-md-2'>
-  <button className='button-style-search'>Apply</button>
-  
-</div>
-
-  </div>
-  
-</div>
-
-
-
-
-
-<div>
-
-</div>
-
-
-
-</div>
-          
-          
-
-          )
-        }
-           
-           </>
-
-        }
-
-
-
-
+       
       </div>
       
       )
     }
 
+    {/* pagination */}
+
+    <div className='mb-4'>
+      <Card className='pt-2 px-1'>
+     <Pagination
+            dataPerPage={dataSizeValue}
+            totalData={entity}
+            paginate={paginate}
+            currentPage={page}
+          />
+
+      </Card>
+ </div>
+
     </>
 
-   }
-
-   </>
-
-    :
-
-
-    <div>
-
-    <h1>University Programs</h1>
-
-</div>
+    </div>
      
     }
 
@@ -997,10 +1351,13 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
    
 
+    
 
 </div>
 
   </div>
+
+
 
  
             
