@@ -180,7 +180,9 @@ const Search = () => {
     useEffect(()=>{
       const  programLevelName = 
         programName == ''? 'null' : programName;
+
         setLoading(true);
+        
       get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programLevelName}`)
       .then(res => {
         console.log('Large Api Checking Response',res);
@@ -240,16 +242,7 @@ const Search = () => {
     
   ]
 
-  const detailedDataInformation = () =>{
-
-    get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programName}`)
-    .then(res => {
-      console.log('Large Api Checking Response',res);
-    })
-
-  }
  
-
   const toggle1 = (tab) => {
     setActivetab(tab);
     setCheckActiveTab(true);
@@ -1019,10 +1012,17 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
              
             </ul>
             </div>
-            <div className='col-md-2'>
-          <button className='button-style-search'>Apply</button>
-          
-        </div>
+           {
+
+                subjectInfo?.canApply? 
+                <div className='col-md-2'>
+                <button className='button-style-search'>Apply</button>
+                
+              </div>
+              :
+              <span>You Can Apply</span>
+
+           }
         
           </div>
           
@@ -1157,7 +1157,18 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
             </ul>
             </div>
             <div className='col-md-2'>
-          <button className='button-style-search'>Apply</button>
+          
+            {
+
+            subjectInfo?.canApply? 
+            <div className='col-md-2'>
+            <button className='button-style-search'>Apply</button>
+
+            </div>
+            :
+            <span>You Can Apply</span>
+
+            }
           
         </div>
         
@@ -1263,6 +1274,20 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 <>
     
     {
+
+      data?.length < 1 ? 
+
+      <div class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      </div>
+
+
+    :
+
+    <>
+      {
       data?.map((info,i)=>
       
       <div key={i}>
@@ -1325,7 +1350,13 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
       </div>
       
       )
+    } 
+
+</>
+
     }
+
+   
 
     {/* pagination */}
 
