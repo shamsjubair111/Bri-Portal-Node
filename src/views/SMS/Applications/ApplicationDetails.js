@@ -1011,13 +1011,6 @@ const ApplicationDetails = () => {
                         className="has-icon-left position-relative"
                         style={{ display: "flex" }}
                       >
-                        {/* <Button.Ripple
-             type="submit"
-             className="mr-1 mt-3 badge-primary"
-           >
-             Upload
-           </Button.Ripple> */}
-
                         <ButtonForFunction
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary"}
