@@ -324,16 +324,14 @@ const ApplicationDetails = () => {
     history.push("/addTestScore");
   };
 
-  const handleEdit = (data) =>{
+  const handleEdit = (data) => {
     console.log(data);
-    localStorage.setItem('applictionStudentId',data?.id);
-    localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-    localStorage.setItem('method','put');
+    localStorage.setItem("applictionStudentId", data?.id);
+    localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
+    localStorage.setItem("method", "put");
 
-
-    history.push('/addStudentApplicationInformation');
-
-  }
+    history.push("/addStudentApplicationInformation");
+  };
 
   return (
     <div>
@@ -1047,11 +1045,12 @@ const ApplicationDetails = () => {
                           <i className="fas fa-pencil-alt pencil-style"></i>{" "}
                         </span> */}
                         <SpanButton
-                          icon={<i className="fas fa-pencil-alt pencil-style"></i>}
-                          func={()=>handleEdit(studentProInfo)}
+                          icon={
+                            <i className="fas fa-pencil-alt pencil-style"></i>
+                          }
+                          func={() => handleEdit(studentProInfo)}
                           permission={6}
                         />
-
                       </div>
                     </div>
                     <div className="hedding-titel d-flex justify-content-between my-4">
@@ -1450,12 +1449,12 @@ const ApplicationDetails = () => {
                       </div>
                     </div>
                     <ButtonForFunction
-                        className={"p-2"}
-                        func={() => handleUpdateTestScores(studentProInfo)}
-                        name={"View Test Scores"}
-                        color={"primary"}
-                        permission={6}
-                      />
+                      className={"p-2"}
+                      func={() => handleUpdateTestScores(studentProInfo)}
+                      name={"View Test Scores"}
+                      color={"primary"}
+                      permission={6}
+                    />
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
