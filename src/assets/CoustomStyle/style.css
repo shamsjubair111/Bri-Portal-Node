@@ -496,6 +496,33 @@ th {
 
 }
 
+.box {
+  width: 100%;
+  height: auto;
+  background-color: rgba(85,85,85,.3333333333333333);
+  color: black;
+  padding: 15px;
+  position: relative;
+  border-radius: 4px;
+  /* margin: 40px; */
+  float: left;
+}
+
+/* .box.arrow-top {
+  margin-top: 40px;
+} */
+
+.box.arrow-left:after {
+  content: " ";
+  position: absolute;
+  left: -15px;
+  top: 12px;
+  border-top: 12px solid transparent;
+  border-right: 15px solid rgba(85,85,85,.3333333333333333);
+  border-left: none;
+  border-bottom: 0px solid transparent;
+}
+
 .document-title{
   color: #1e98b0;
 }

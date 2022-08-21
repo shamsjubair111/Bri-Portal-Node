@@ -116,7 +116,7 @@ const ApplicationDetails = () => {
       setDocuType(res);
     });
 
-    get(`StudentProfile/Get/${stdId}`).then((res) => {
+    get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
       console.log("stdpro", res);
       setStudentProInfo(res);
     });
@@ -301,13 +301,27 @@ const ApplicationDetails = () => {
     }
   };
 
+  const handleRedirectToAppliPage = () => {
+    history.push("/applications");
+  };
+
+  const handleUpdateTestScores = (data) => {
+    console.log("Test Score Update", data);
+
+    localStorage.setItem("applictionStudentId", data?.id);
+    localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
+    localStorage.setItem("method", "put");
+
+    history.push("/addTestScore");
+  };
+
   return (
     <div>
       <Row>
         <Col md="7">
           <Card>
             <CardBody>
-              <Nav tabs>
+              <Nav tabs className="row row-cols-md-3 row-cols-sm-1 text-center">
                 <NavItem>
                   <NavLink
                     active={activetab === "1"}
@@ -1140,23 +1154,15 @@ const ApplicationDetails = () => {
                             <b>Nationality:</b>
                           </td>
 
-                          <td width="60%">
-                            {studentProInfo?.nationality}
-                          </td>
+                          <td width="60%">{studentProInfo?.nationality}</td>
                         </tr>
 
                         <tr>
                           <td width="40%">
-                            <b>
-                              Country of Birth:
-                            </b>
+                            <b>Country of Birth:</b>
                           </td>
 
-                          <td width="60%">
-                            {
-                              studentProInfo?.birthCountry
-                            }
-                          </td>
+                          <td width="60%">{studentProInfo?.birthCountry}</td>
                         </tr>
 
                         <tr>
@@ -1164,11 +1170,7 @@ const ApplicationDetails = () => {
                             <b>Passport Number:</b>
                           </td>
 
-                          <td width="60%">
-                            {
-                              studentProInfo?.passportNumber
-                            }
-                          </td>
+                          <td width="60%">{studentProInfo?.passportNumber}</td>
                         </tr>
 
                         <tr>
@@ -1176,9 +1178,7 @@ const ApplicationDetails = () => {
                             <b>Gender:</b>
                           </td>
 
-                          <td width="60%">
-                            {studentProInfo?.gender}
-                          </td>
+                          <td width="60%">{studentProInfo?.gender}</td>
                         </tr>
 
                         <tr>
@@ -1186,9 +1186,7 @@ const ApplicationDetails = () => {
                             <b>Marital Status:</b>
                           </td>
 
-                          <td width="60%">
-                            {studentProInfo?.maritalStatus}
-                          </td>
+                          <td width="60%">{studentProInfo?.maritalStatus}</td>
                         </tr>
                       </tbody>
                     </Table>
@@ -1241,15 +1239,11 @@ const ApplicationDetails = () => {
 
                         <tr>
                           <td width="40%">
-                            <b>
-                            Post/ Zip Code:
-                            </b>
+                            <b>Post/ Zip Code:</b>
                           </td>
 
                           <td width="60%">
-                            {
-                              studentProInfo?.studentContactInfos?.zipCode
-                            }
+                            {studentProInfo?.studentContactInfos?.zipCode}
                           </td>
                         </tr>
 
@@ -1259,9 +1253,7 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {
-                              studentProInfo?.studentContactInfos?.country
-                            }
+                            {studentProInfo?.studentContactInfos?.country}
                           </td>
                         </tr>
                       </tbody>
@@ -1285,12 +1277,309 @@ const ApplicationDetails = () => {
                       <tbody>
                         <tr>
                           <td width="40%">
-                            <b>House No. :</b>
+                            <b>Mobile Number :</b>
+                          </td>
+
+                          <td width="60%">{studentProInfo?.phoneNumber}</td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Email Address:</b>
+                          </td>
+
+                          <td width="60%">{studentProInfo?.email}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Education/Qualification</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+                    </div>
+
+                    {studentProInfo?.educationInfos === null ? (
+                      <Table className="table-bordered mt-4">
+                        <tbody>
+                          <tr>
+                            <td width="40%">
+                              <b>Have you ever studied?</b>
+                            </td>
+
+                            <td width="60%">No</td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    ) : (
+                      <Table className="table-bordered mt-4">
+                        <tbody>
+                          <tr>
+                            <td width="40%">
+                              <b>Qualification Level:</b>
+                            </td>
+
+                            <td width="60%">
+                              {
+                                studentProInfo?.educationInfos
+                                  ?.educationLevelName
+                              }
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Qualification Subject:</b>
+                            </td>
+
+                            <td width="60%">
+                              {
+                                studentProInfo?.educationInfos
+                                  ?.qualificationSubject
+                              }
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Final Grade Awarded:</b>
+                            </td>
+
+                            <td width="60%">
+                              {studentProInfo?.educationInfos?.finalGrade}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>From Date:</b>
+                            </td>
+
+                            <td width="60%">
+                              {handleDate(
+                                studentProInfo?.educationInfos
+                                  ?.attendedInstitutionFrom
+                              )}
+                            </td>
+                          </tr>
+                          {studentProInfo?.educationInfos?.stillStudying ? (
+                            <tr>
+                              <td width="40%">
+                                <b>Still Studying:</b>
+                              </td>
+
+                              <td width="60%">Yes</td>
+                            </tr>
+                          ) : (
+                            <tr>
+                              <td width="40%">
+                                <b>To Date:</b>
+                              </td>
+
+                              <td width="60%">
+                                {handleDate(
+                                  studentProInfo?.educationInfos
+                                    ?.attendedInstitutionTo
+                                )}
+                              </td>
+                            </tr>
+                          )}
+                          <tr>
+                            <td width="40%">
+                              <b>Name Of Institution:</b>
+                            </td>
+
+                            <td width="60%">
+                              {
+                                studentProInfo?.educationInfos
+                                  ?.nameOfInstitution
+                              }
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Country of Completed Qualification:</b>
+                            </td>
+
+                            <td width="60%">
+                              {studentProInfo?.educationInfos?.country}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    )}
+
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Test Scores</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                    </div>
+                    <ButtonForFunction
+                        className={"p-2"}
+                        func={() => handleUpdateTestScores(studentProInfo)}
+                        name={"View Test Scores"}
+                        color={"primary"}
+                        permission={6}
+                      />
+
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Employment History</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+                    </div>
+
+                    <Table className="table-bordered mt-4">
+                      <tbody>
+                        <tr>
+                          <td width="40%">
+                            <b>Job Title:</b>
                           </td>
 
                           <td width="60%">
-                            {/* {studentProInfo?.firstName}{" "}
-                            {studentProInfo?.lastName} */}
+                            {studentProInfo?.experienceinfo?.jobTitle}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Company Name:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.experienceinfo?.companyName}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Employeement Details:</b>
+                          </td>
+
+                          <td width="60%">
+                            {
+                              studentProInfo?.experienceinfo
+                                ?.employeementDetails
+                            }
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>From Date:</b>
+                          </td>
+
+                          <td width="60%">
+                            {handleDate(
+                              studentProInfo?.experienceinfo?.startDate
+                            )}
+                          </td>
+                        </tr>
+                        {studentProInfo?.experienceinfo?.isStillWorking ? (
+                          <tr>
+                            <td width="40%">
+                              <b>Currently Working:</b>
+                            </td>
+
+                            <td width="60%">Yes</td>
+                          </tr>
+                        ) : (
+                          <tr>
+                            <td width="40%">
+                              <b>To Date:</b>
+                            </td>
+
+                            <td width="60%">
+                              {handleDate(
+                                studentProInfo?.experienceinfo?.endDate
+                              )}
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Reference Details</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+                    </div>
+
+                    <Table className="table-bordered mt-4">
+                      <tbody>
+                        <tr>
+                          <td width="40%">
+                            <b>Reference Name:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.referenceInfo?.referenceName}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Relation:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.referenceInfo?.referenceTypeName}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Reference Institute/Company:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.referenceInfo?.institute_Company}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Phone Number:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.referenceInfo?.phoneNumber}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Email Address:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.referenceInfo?.emailAddress}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Country:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.referenceInfo?.country}
                           </td>
                         </tr>
                         <tr>
@@ -1299,55 +1588,354 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {studentProInfo?.studentContactInfos?.addressLine}
+                            {studentProInfo?.referenceInfo?.addressLine}
                           </td>
                         </tr>
-
                         <tr>
                           <td width="40%">
                             <b>City:</b>
                           </td>
 
                           <td width="60%">
-                            {studentProInfo?.studentContactInfos?.city}
+                            {studentProInfo?.referenceInfo?.city}
                           </td>
                         </tr>
-
                         <tr>
                           <td width="40%">
-                            <b>
-                            Post/ Zip Code:
-                            </b>
+                            <b>State:</b>
                           </td>
 
                           <td width="60%">
-                            {
-                              studentProInfo?.studentContactInfos?.zipCode
-                            }
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td width="40%">
-                            <b>Country:</b>
-                          </td>
-
-                          <td width="60%">
-                            {
-                              studentProInfo?.studentContactInfos?.country
-                            }
+                            {studentProInfo?.referenceInfo?.state}
                           </td>
                         </tr>
                       </tbody>
                     </Table>
 
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Personal Statement</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+                    </div>
+                    {studentProInfo?.profilePersonalStatement ? (
+                      <div
+                        className="container"
+                        style={{ border: "1px solid rgb(222, 226, 230)" }}
+                      >
+                        {studentProInfo?.profilePersonalStatement?.statement}
+                      </div>
+                    ) : (
+                      <div
+                        className="container"
+                        style={{ border: "1px solid rgb(222, 226, 230)" }}
+                      >
+                        Statement is not available.
+                      </div>
+                    )}
+
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Other Information</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+                    </div>
+                    <Table className="table-bordered mt-4">
+                      <tbody>
+                        <tr>
+                          <td width="40%">
+                            <b>Disability:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.profileOtherInfo
+                              ?.isHaveDisability ? (
+                              <>Yes</>
+                            ) : (
+                              <>No</>
+                            )}
+                          </td>
+                        </tr>
+                        {studentProInfo?.profileOtherInfo?.isHaveDisability ? (
+                          <tr>
+                            <td width="40%">
+                              <b>Disability Description:</b>
+                            </td>
+
+                            <td width="60%">
+                              {
+                                studentProInfo?.profileOtherInfo
+                                  ?.disabilityDescription
+                              }
+                            </td>
+                          </tr>
+                        ) : null}
+
+                        <tr>
+                          <td width="40%">
+                            <b>Criminal Convictions:</b>
+                          </td>
+
+                          <td width="60%">
+                            {studentProInfo?.profileOtherInfo
+                              ?.isHaveCriminalConvictions ? (
+                              <>Yes</>
+                            ) : (
+                              <>No</>
+                            )}
+                          </td>
+                        </tr>
+                        {studentProInfo?.profileOtherInfo
+                          ?.isHaveCriminalConvictions ? (
+                          <tr>
+                            <td width="40%">
+                              <b>Criminal Convictions Description:</b>
+                            </td>
+
+                            <td width="60%">
+                              {
+                                studentProInfo?.profileOtherInfo
+                                  ?.criminalConvictionsDescription
+                              }
+                            </td>
+                          </tr>
+                        ) : null}
+                      </tbody>
+                    </Table>
+
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Consent</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+                    </div>
+
+                    <Table className="table-bordered mt-4">
+                      <tbody>
+                        <tr>
+                          <td width="40%">
+                            <b>Status:</b>
+                          </td>
+
+                          <td width="60%">{studentProInfo?.email}</td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>Date and Time:</b>
+                          </td>
+
+                          <td width="60%">{studentProInfo?.email}</td>
+                        </tr>
+                        <tr>
+                          <td width="40%">
+                            <b>IP:</b>
+                          </td>
+
+                          <td width="60%">{studentProInfo?.email}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                    <Table className="table-bordered mt-4">
+                      <tbody>
+                        <tr>
+                          <td width="40%">
+                            <b>PDF:</b>
+                          </td>
+
+                          <td width="60%">{studentProInfo?.email}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   </TabPane>
                 </TabContent>
               )}
             </CardBody>
           </Card>
         </Col>
-        <Col md="5"></Col>
+
+        <Col md="5">
+          <Card>
+            <CardBody>
+              <div className="hedding-titel d-flex justify-content-between mb-4">
+                <div>
+                  <h5>
+                    {" "}
+                    <b>Admission Manager</b>{" "}
+                  </h5>
+
+                  <div className="bg-h"></div>
+                </div>
+                {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+              </div>
+
+              <div className="d-flex justify-content-between">
+                <div>
+                  <span>
+                    <b>Name:</b> {applicationInfo?.admissionManager?.firstName}{" "}
+                    {applicationInfo?.admissionManager?.lastName}
+                  </span>{" "}
+                  <br />
+                  <span>
+                    <b>Email:</b> {applicationInfo?.admissionManager?.email}
+                  </span>
+                  <br />
+                  <span>
+                    <b>Phone:</b>{" "}
+                    {applicationInfo?.admissionManager?.phoneNumber}
+                  </span>
+                </div>
+                <div>
+                  <div className="uapp-circle-image margin-top-minus">
+                    {/* {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
+                  null ? (
+                    <img src={profileImage} alt="provider_img" />
+                  ) : ( */}
+                    <img
+                      src={
+                        rootUrl +
+                        applicationInfo?.admissionManager?.providerLogoMedia
+                          ?.fileUrl
+                      }
+                      alt="admission_manager_img"
+                    />
+                    {/* )} */}
+                  </div>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardBody>
+              <div className="hedding-titel d-flex justify-content-between mb-4">
+                <div>
+                  <h5>
+                    {" "}
+                    <b>Consultant</b>{" "}
+                  </h5>
+
+                  <div className="bg-h"></div>
+                </div>
+                {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+              </div>
+
+              <div className="d-flex justify-content-between">
+                <div>
+                  <span>
+                    <b>Name:</b> {applicationInfo?.consultant?.firstName}{" "}
+                    {applicationInfo?.consultant?.lastName}
+                  </span>{" "}
+                  <br />
+                  <span>
+                    <b>Email:</b> {applicationInfo?.consultant?.email}
+                  </span>
+                  <br />
+                  <span>
+                    <b>Phone:</b> {applicationInfo?.consultant?.phoneNumber}
+                  </span>
+                </div>
+                <div>
+                  <div className="uapp-circle-image margin-top-minus">
+                    {/* {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
+                  null ? (
+                    <img src={profileImage} alt="provider_img" />
+                  ) : ( */}
+                    <img
+                      src={
+                        rootUrl +
+                        applicationInfo?.consultant?.consultantProfileImageMedia
+                          ?.fileUrl
+                      }
+                      alt="consultant_img"
+                    />
+                    {/* )} */}
+                  </div>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardBody>
+              <div className="hedding-titel d-flex justify-content-between mb-4">
+                <div>
+                  <h5>
+                    {" "}
+                    <b>Message History</b>{" "}
+                  </h5>
+
+                  <div className="bg-h"></div>
+                </div>
+                {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+              </div>
+              <div className="box arrow-left">Mistakenly apply</div>
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardBody>
+              <div className="hedding-titel d-flex justify-content-between mb-4">
+                <div>
+                  <h5>
+                    {" "}
+                    <b>Note</b>{" "}
+                  </h5>
+
+                  <div className="bg-h"></div>
+                </div>
+                {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+              </div>
+            </CardBody>
+          </Card>
+
+          <div
+            className="has-icon-left position-relative"
+            style={{ display: "flex", justifyContent: "end" }}
+          >
+            {/* <Button.Ripple
+                    type="submit"
+                    className="mr-1 mt-3 badge-primary"
+                  >
+                    Submit
+                  </Button.Ripple> */}
+
+            <ButtonForFunction
+              func={handleRedirectToAppliPage}
+              className={"badge-primary"}
+              name={<b>Back to Application Page</b>}
+              permission={6}
+            />
+          </div>
+        </Col>
       </Row>
     </div>
   );
