@@ -72,7 +72,7 @@ class StudentLogin extends React.Component {
                   <CardHeader className="pb-1">
                     <CardTitle>
 
-                      <h4 className="mb-0 login-page-heading-style">Login</h4>
+                      <h4 className="mb-2 login-page-heading-style">Login</h4>
                     </CardTitle>
                   </CardHeader>
               

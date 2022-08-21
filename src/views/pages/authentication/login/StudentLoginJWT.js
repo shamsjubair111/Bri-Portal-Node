@@ -30,23 +30,31 @@ class Login extends React.Component {
         password: this.state.password
       })
       .then(response => {
-        console.log('Checking Response',response?.data?.message);
+        console.log('Checking Response',response);
         if (response.data) {
           if(response.data.isSuccess == true){
             this.setState({error: ''});
-            localStorage.setItem('token','Bearer '+ response.data.message);
-            const AuthStr = 'Bearer ' + response.data.message;
-            get(`Account/GetCurrentUser`,{
-              method: 'GET',
+            localStorage.setItem('token','Bearer '+ response?.data?.message);
+            localStorage.setItem('permissions', JSON.stringify(response?.data?.permissions));
+            const AuthStr = 'Bearer ' + response?.data?.message;
+            axios.get(`${rootUrl}Account/GetCurrentUser`,{
+              
               headers: {
                 'authorization': AuthStr
               }
             })
             .then(res => {
-              localStorage.setItem('current_user', JSON.stringify(res))
+              console.log('userinfo',res);
+              if(res?.status == 200){
+                localStorage.setItem('current_user', JSON.stringify(res?.data))
+                localStorage.setItem('userType', res?.data?.userTypeId);
+                window.location.reload();
+              }
+        
             })
-            // history.push("/")
-            // window.location.reload();
+            
+          
+            history.push("/")
             
            
              

@@ -16,11 +16,16 @@ import { useAuth0 } from "../../../authServices/auth0/auth0Service"
 import { history } from "../../../history"
 import { studentLogOutJwtAction } from "../../../redux/actions/SMS/AuthAction/AuthAction"
 import { useDispatch } from "react-redux"
+import { rootUrl } from "../../../constants/constants"
 
 const handleNavigation = (e, path) => {
   e.preventDefault()
   history.push(path)
 }
+
+const userInfo = JSON.parse(localStorage.getItem('current_user'));
+
+console.log('userInfo',userInfo);
 
 const UserDropdown = props => {
   const dispatch = useDispatch();
@@ -29,52 +34,87 @@ const UserDropdown = props => {
 
   const handleLogOut = (e) => {
     e.preventDefault();
-    localStorage.removeItem('token');
-    history.push("/");
-    window.location.reload();
+   
     // return dispatch => {
     //   dispatch({ type: "LOGOUT_WITH_JWT", payload: {} })
     // }
+    const AuthStr =  localStorage.getItem('token');
+    axios.get(`${rootUrl}Account/LogOut`,{
+      method: 'GET',
+      headers: {
+        'authorization': AuthStr
+      }
+    })
+    .then(res =>{
+      console.log(res);
+      // localStorage.removeItem('token');
+      history.push("/");
+      window.localStorage.clear();
+      window.location.reload();
+
+    } )
     dispatch(studentLogOutJwtAction({}))
   }
   return (
     <DropdownMenu right>
-      <DropdownItem
+      {/* <DropdownItem
         tag="a"
         href="#"
         onClick={e => handleNavigation(e, "/pages/profile")}
       >
         <Icon.User size={14} className="mr-50" />
         <span className="align-middle">Edit Profile</span>
-      </DropdownItem>
-      <DropdownItem
+      </DropdownItem> */}
+      {/* <DropdownItem
         tag="a"
         href="#"
         onClick={e => handleNavigation(e, "/email/inbox")}
       >
         <Icon.Mail size={14} className="mr-50" />
         <span className="align-middle">My Inbox</span>
-      </DropdownItem>
-      <DropdownItem
+      </DropdownItem> */}
+      {/* <DropdownItem
         tag="a"
         href="#"
         onClick={e => handleNavigation(e, "/todo/all")}
       >
         <Icon.CheckSquare size={14} className="mr-50" />
         <span className="align-middle">Tasks</span>
-      </DropdownItem>
-      <DropdownItem
+      </DropdownItem> */}
+      {/* <DropdownItem
         tag="a"
         href="#"
         onClick={e => handleNavigation(e, "/chat")}
       >
         <Icon.MessageSquare size={14} className="mr-50" />
         <span className="align-middle">Chats</span>
-      </DropdownItem>
-      <DropdownItem tag="a" href="#" onClick={e => handleNavigation(e, "/ecommerce/wishlist")}>
+      </DropdownItem> */}
+      {/* <DropdownItem tag="a" href="#" onClick={e => handleNavigation(e, "/ecommerce/wishlist")}>
         <Icon.Heart size={14} className="mr-50" />
         <span className="align-middle">WishList</span>
+      </DropdownItem> */}
+      
+
+      <DropdownItem
+        tag="a"
+        href="#"
+  
+      >
+      
+        <Icon.Settings size={14} className="mr-50" />
+        <span className="align-middle">Settings</span>
       </DropdownItem>
+
+      <DropdownItem
+        tag="a"
+        href="#"
+  
+      >
+      
+        <Icon.LogIn size={14} className="mr-50" />
+        <span className="align-middle">Login History</span>
+      </DropdownItem>
+
       <DropdownItem divider />
       <DropdownItem tag="a"
         
@@ -104,6 +144,8 @@ const UserDropdown = props => {
         <Icon.Power size={14} className="mr-50" />
         <span className="align-middle">Log Out</span>
       </DropdownItem>
+
+
     </DropdownMenu>
   )
 }
@@ -753,13 +795,13 @@ class NavbarUser extends React.PureComponent {
           <DropdownToggle tag="a" className="nav-link dropdown-user-link">
             <div className="user-nav d-sm-flex d-none">
               <span className="user-name text-bold-600">
-                {this.props.userName}
+                {userInfo?.displayName}
               </span>
-              <span className="user-status">Available</span>
+              <span className="user-status">{userInfo?.roleName}</span>
             </div>
             <span data-tour="user">
               <img
-                src={this.props.userImg}
+                src={rootUrl+userInfo?.displayImage}
                 className="round"
                 height="40"
                 width="40"

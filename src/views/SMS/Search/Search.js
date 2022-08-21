@@ -12,7 +12,8 @@ import LinkButton from '../Components/LinkButton';
 
 const Search = () => {
 
-   
+   const  [studentInfo, setStudentInfo] = useState({});
+
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
     
@@ -97,6 +98,29 @@ const Search = () => {
     const [loading,setLoading] = useState(false);
     const [showNum, setShowNum] = useState(2);
 
+    const [modal,setModal] = useState(false);
+
+    const [modalIntake,setModalIntake] = useState([]);
+    const [modalIntakeLabel,setModalIntakeLabel]= useState('Select Intake');
+    const [modalIntakeValue,setModalIntakeValue] = useState(0);
+
+    const [modalDeliveryPattern,setModalDeliveryPattern] = useState([]);
+    const [modalDeliveryPatternLabel,setModalDeliveryPatternLabel] = useState('Select Delivery Pattern');
+    const [modalDeliveryPatternValue,setModalDeliveryPatternValue] = useState(0);
+
+  
+    const [modalCampusLabel, setModalCampusLabel] = useState('Select Campus');
+    const [modalCampusValue,setModalCampusValue] = useState(0);
+
+    const [currentData, setCurrentData] = useState({});
+    
+    const [campusError, setCampusError] = useState(false);
+    const [intakeError, setIntakeError] = useState(false);
+    const [deliveryError, setDeliveryError] = useState(false);
+
+
+
+
   
 
 
@@ -105,6 +129,18 @@ const Search = () => {
     console.log(checkActiveTab);
 
     useEffect(()=>{
+
+      // FAke api start
+
+      fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res?.json())
+      .then(data => {
+        console.log(data[0]);
+        setStudentInfo(data[0]);
+        setStudentLabel(data[0].name);
+      })
+
+      // fake api end
 
       get(`SearchFilter/UniversityTypes`)
       .then(res => {
@@ -280,6 +316,91 @@ const Search = () => {
   const programLevelOptions = programLevel?.map((pgl)=> ({label: pgl?.name, value: pgl?.id}))
 
   const subDepartmentOptions = SubDepartment?.map((sub)=> ({label: sub?.name, value: sub?.id}))
+
+
+  const fCampus = [
+     {
+      id: 1,
+      name: 'Dhaka'
+
+  },
+
+  {
+    id: 2,
+    name: 'Chittagong'
+  }
+
+]
+
+  const fIntake = [
+     {
+      id: 1,
+      name: 'I-1'
+
+  },
+
+  {
+    id: 2,
+    name: 'I-2'
+  }
+
+]
+
+const fDP = [
+  {
+    id: 1,
+    name: 'dp-1'
+  },
+
+  {
+    id: 2,
+    name: 'dp-2'
+  }
+]
+
+  const modalCampusOptions = fCampus?.map((data) => ({
+    label: data?.name,
+    value: data?.id
+  }));
+
+  const selectModalCampus = (label,value) => {
+    setCampusError(false);
+
+    setModalCampusLabel(label);
+    setModalCampusValue(value);
+
+  }
+
+  const modalIntakeOptions = fIntake?.map((data) => ({
+    label: data?.name,
+    value: data?.id
+  }));
+
+  const selectModalIntake = (label,value) => {
+
+    setIntakeError(false);
+    setModalIntakeLabel(label);
+    setModalIntakeValue(value);
+
+  }
+
+  const modalDeliveryOptions = fDP?.map((data) => ({
+    label: data?.name,
+    value: data?.id
+  }));
+
+  const selectModalDelivery = (label,value) => {
+
+    setDeliveryError(false);
+    setModalDeliveryPatternLabel(label);
+    setModalDeliveryPatternValue(value);
+
+  }
+
+
+
+
+
    
 
 
@@ -289,7 +410,7 @@ const Search = () => {
         background: '#fff',
         borderColor: '#9e9e9e',
         minHeight: '30px',
-        height: '30px',
+        height: '40px',
         boxShadow: state.isFocused ? null : null,
         
       }),
@@ -302,6 +423,39 @@ const Search = () => {
      
      
   
+      // valueContainer: (provided, state) => ({
+      //   ...provided,
+      //   height: '30px',
+      //   padding: '0 6px'
+      // }),
+  
+      // input: (provided, state) => ({
+      //   ...provided,
+      //   margin: '0px',
+      // }),
+      // indicatorSeparator: state => ({
+      //   display: 'none',
+      // }),
+      // indicatorsContainer: (provided, state) => ({
+      //   ...provided,
+      //   height: '30px',
+      // }),
+    };
+
+
+
+
+    const customStyles2 = {
+      control: (provided, state) => ({
+        ...provided,
+        background: '#fff',
+        borderColor: '#9e9e9e',
+        minHeight: '30px',
+        height: '40px',
+        boxShadow: state.isFocused ? null : null,
+        
+      }),
+
       // valueContainer: (provided, state) => ({
       //   ...provided,
       //   height: '30px',
@@ -409,6 +563,15 @@ const Search = () => {
    
     };
 
+    const toggleModal = (data) => {
+
+      
+      console.log(data);
+      setCurrentData(data);
+      setModal(true);
+  
+     }
+
     const selectSort = (label,value) => {
       setLoading(true);
       setSortLabel(label);
@@ -423,6 +586,14 @@ const Search = () => {
      
       
 
+    }
+
+    const closeModal = () => {
+ 
+ 
+      setModal(false);
+      
+    
     }
   
     const clearAllDropdown = () => {
@@ -459,10 +630,261 @@ const Search = () => {
 
     }
 
+    const submitModalForm = (event) =>{
+
+      event.preventDefault();
+      const subData = new FormData(event.target);
+
+      if(modalCampusValue ==0){
+        setCampusError(true);
+      }
+      if(modalIntakeValue==0){
+        setIntakeError(true);
+      }
+      if(modalDeliveryPatternValue ==0){
+        setDeliveryError(true);
+      }
+      else{
+        for(let x of subData.values()){
+          console.log(x);
+        }
+      }
+
+
+    }
+
 
 
     return (
         <div>
+
+          {/* Modal For Apply Button Code Start */}
+
+          <Modal size='lg' isOpen={modal} toggle={closeModal} className="uapp-modal">
+
+            <ModalHeader>
+              <div className='px-3 text-center'>
+              Are You Sure You Want to Apply for This Program? 
+              </div> 
+            </ModalHeader>
+
+          <ModalBody>
+
+          <div className='row'>
+
+            <div className='col-md-5'>
+
+              <h4 className='mb-3'>{currentData?.title}</h4>
+              <h6>EU Fee: {currentData?.eu_Fee}</h6>
+              <h6>Home Fee: {currentData?.home_Fee}</h6>
+
+              <div className='mt-4'>
+                <span>Note: Please Provide Correct Information. </span>
+                <br/>
+                <span>You Can Have Only One Application at a Time.</span>
+
+              </div>
+
+              <FormGroup row className='mt-3'>
+               <Col md='12'>
+               <div>
+
+                <Button color='danger' onClick={closeModal}>
+                  Cancel
+                </Button>
+                  
+               </div>
+               
+               </Col>
+
+
+              </FormGroup>
+
+            </div>
+
+            <div className='col-md-7'>
+
+            <Form className='px-3' onSubmit={submitModalForm}>
+
+<FormGroup row className="has-icon-left position-relative">
+        <Col md="3">
+          <span>
+            Campus: <span className="text-danger">*</span>{" "}
+          </span>
+        </Col>
+
+        <Col md="6">
+        
+        {
+          (fCampus?.length == 1)? 
+
+         <h6>{fCampus[0].name}</h6>
+
+        :
+
+        <>
+        <Select
+        className=''
+        styles={customStyles2}
+        options={modalCampusOptions}
+        value={{ label: modalCampusLabel, value: modalCampusValue }}
+            name="providerTypeId"
+            id="providerTypeId"
+            onChange={(opt) => selectModalCampus(opt.label, opt.value)}
+        
+        />
+        {
+          campusError? 
+          <span className='text-danger'>Campus Must be Selected</span>
+          :
+          null
+        }
+        </>
+
+        }
+
+         
+
+          
+        </Col>
+      </FormGroup>
+
+<FormGroup row className="has-icon-left position-relative">
+        <Col md="3">
+          <span>
+            Intake: <span className="text-danger">*</span>{" "}
+          </span>
+        </Col>
+        <Col md="6">
+
+          {
+            fIntake.length == 1 ? 
+              <h6>{fIntake[0]?.name}</h6>
+              :
+              <>
+              <Select
+           
+              className=''
+              styles={customStyles2}
+              options={modalIntakeOptions}
+              value={{ label: modalIntakeLabel, value: modalIntakeValue }}
+                  name="providerTypeId"
+                  id="providerTypeId"
+                  onChange={(opt) => selectModalIntake(opt.label, opt.value)}
+   
+             />
+             {
+              intakeError? 
+
+              <span className='text-danger'>Intake Must be Selected</span>
+              :
+              null
+             }
+              </>
+            
+          }
+     
+
+         
+
+          
+        </Col>
+      </FormGroup>
+
+<FormGroup row className="has-icon-left position-relative">
+        <Col md="3">
+          <span>
+            Delivery Pattern: <span className="text-danger">*</span>{" "}
+          </span>
+        </Col>
+        <Col md="6">
+        {
+          fDP?.length == 1 ?
+          
+          <h6>{fDP[0]?.name}</h6>
+
+          :
+
+          <>
+          <Select
+           
+           className=''
+           styles={customStyles2}
+           options={modalDeliveryOptions}
+           value={{ label: modalDeliveryPatternLabel, value: modalDeliveryPatternValue }}
+               name="providerTypeId"
+               id="providerTypeId"
+               onChange={(opt) => selectModalDelivery(opt.label, opt.value)}
+
+          />
+          {
+            deliveryError? 
+            <span className='text-danger'>
+              Delivery Pattern Must be Selected
+            </span>
+            : 
+            null
+          }
+          </>
+          
+        }
+
+         
+
+          
+                </Col>
+              </FormGroup>
+
+            {
+              (studentInfo?.id) ?
+
+              <FormGroup row>
+
+
+              <Col md='9'>
+                <div className='d-flex justify-content-end'>
+                  <Button color='primary' type='submit'>Submit</Button> 
+                </div>
+              </Col>
+    
+    
+    
+            </FormGroup>
+
+            :
+
+            null
+            }
+
+        </Form>
+
+
+            </div>
+
+
+          </div>
+
+          
+          </ModalBody>
+
+   
+        
+
+      
+
+        
+          
+           
+          
+        
+          
+           
+    
+       
+
+          </Modal>
+
+          {/* Modal For Apply Button Code End */}
 
        
 <div className='row'>
@@ -1016,7 +1438,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
                 subjectInfo?.canApply? 
                 <div className='col-md-2'>
-                <button className='button-style-search'>Apply</button>
+                <button className='button-style-search' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
                 
               </div>
               :
@@ -1352,12 +1774,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
       )
     } 
 
-</>
-
-    }
-
-   
-
+    
     {/* pagination */}
 
     <div className='mb-4'>
@@ -1371,6 +1788,13 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
       </Card>
  </div>
+
+</>
+
+    }
+
+   
+
 
     </>
 
