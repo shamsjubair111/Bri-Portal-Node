@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const LinkSpanButton = (props) => {
     const {url, className, icon, permission, name, data} = props;
-    console.log("LinkSpanButton", props);
+    // console.log("LinkSpanButton", props);
 
     const datass = [1,2,3,4,6];
 

@@ -86,6 +86,9 @@ const OtherInformation = () => {
         if (tab == "8") {
           history.push("/addPersonalStatement");
         }
+        if (tab == "10") {
+          history.push("/uploadDocument");
+        }
         
       };
 
@@ -235,6 +238,12 @@ const OtherInformation = () => {
         <NavItem>
           <NavLink style={{ color: '#1e98b0'}} active={activetab === "9"} onClick={() => toggle("9")}>
             Others
+          </NavLink>
+        </NavItem>
+
+        <NavItem>
+          <NavLink style={{ color: '#1e98b0'}} active={activetab === "10"} onClick={() => toggle("10")}>
+            Documents
           </NavLink>
         </NavItem>
        

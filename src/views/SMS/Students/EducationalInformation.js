@@ -118,6 +118,9 @@ const handleDate = (e) =>{
         if (tab == "9") {
           history.push("/addOtherInformation");
         }
+        if (tab == "10") {
+          history.push("/uploadDocument");
+        }
 
        
       };
@@ -413,6 +416,12 @@ const handleUpdate = (id) => {
              Others
            </NavLink>
          </NavItem>
+
+         <NavItem>
+              <NavLink style={{ color: '#1e98b0'}} active={activetab === "10"} onClick={() => toggle("10")}>
+                Documents
+              </NavLink>
+            </NavItem>
         
 
        </Nav>
@@ -479,6 +488,12 @@ const handleUpdate = (id) => {
              Others
            </NavLink>
          </NavItem>
+
+         <NavItem>
+              <NavLink disabled active={activetab === "10"} onClick={() => toggle("10")}>
+                Documents
+              </NavLink>
+            </NavItem>
         
 
        </Nav>

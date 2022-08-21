@@ -375,6 +375,8 @@ const Subject = () => {
           </TabContent>
         </CardBody>
       </Card>
+      <br/>
+      <br/>
     </div>
     );
 };

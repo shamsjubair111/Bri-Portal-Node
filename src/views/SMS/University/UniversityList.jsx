@@ -512,7 +512,7 @@ const UniversityList = (props) => {
       <Card className="uapp-employee-search">
         <CardBody>
           <Row className="mb-3">
-            <Col lg="6" md="5" sm="6" xs="4">
+            <Col lg="5" md="5" sm="4" xs="4">
 
               <ButtonForFunction
                 func={handleAddUniversity}
@@ -524,8 +524,8 @@ const UniversityList = (props) => {
 
             </Col>
 
-            <Col lg="6" md="7" sm="6" xs="8">
-              <div className="d-flex justify-content-end">
+            <Col lg="7" md="7" sm="8" xs="8">
+              <div className="d-md-flex justify-content-end">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>

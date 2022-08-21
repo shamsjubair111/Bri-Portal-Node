@@ -46,15 +46,12 @@ import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 
 const AddUniversityApplicationDocument = () => {
-
   const { addToast } = useToasts();
   const history = useHistory();
   const [activetab, setActivetab] = useState("6");
 
   const [document, setDocument] = useState([]);
-  const [documentLabel, setDocumentLabel] = useState(
-    "Select Document"
-  );
+  const [documentLabel, setDocumentLabel] = useState("Select Document");
   const [applicationLabel, setApplicationLabel] = useState(
     "Select Application Type"
   );
@@ -69,16 +66,21 @@ const AddUniversityApplicationDocument = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [applicationObject, setApplicationObject] = useState({});
 
-  const [application, setApplication] = useState(null);
+  const [isMandatory, setIsMandatory] = useState(null);
   const [applicationError, setApplicationError] = useState(false);
+  const [applicationTypeId, setApplicationTypeId] = useState([]);
 
   useEffect(() => {
+    get("ApplicationTypeDD/Index").then((res) => {
+      setApplicationTypeId(res);
+    });
+
     get(`DocumentDD/Index`).then((res) => {
       console.log("Checking document requirement Status", res);
       setDocument(res);
     });
 
-    if(localStorage.getItem("id")){
+    if (localStorage.getItem("id")) {
       get(
         `UniversityApplicationDocument/GetByUniversity/${localStorage.getItem(
           "id"
@@ -94,12 +96,16 @@ const AddUniversityApplicationDocument = () => {
         }
       });
     }
-
   }, [success]);
 
   const documentOptions = document?.map((doc) => ({
     label: doc?.name,
     value: doc?.id,
+  }));
+
+  const applicationOptions = applicationTypeId?.map((app) => ({
+    label: app?.name,
+    value: app?.id,
   }));
 
   const selectDocument = (label, value) => {
@@ -108,7 +114,13 @@ const AddUniversityApplicationDocument = () => {
     setDocumentValue(value);
   };
 
-  // redirect to 
+  const selectApplicationType = (label, value) => {
+    setApplicationError(false);
+    setApplicationLabel(label);
+    setApplicationValue(value);
+  };
+
+  // redirect to
   const backToUniList = () => {
     history.push("/universityList");
   };
@@ -141,8 +153,8 @@ const AddUniversityApplicationDocument = () => {
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("applicationId", p.id);
-    localStorage.setItem("applicationName", p.name);
+    localStorage.setItem("applicationId", p?.id);
+    localStorage.setItem("applicationName", p?.document?.name);
     setDeleteModal(true);
   };
 
@@ -151,21 +163,19 @@ const AddUniversityApplicationDocument = () => {
 
     const subData = new FormData(e.target);
 
-
-    // for(var i of subData){
-    //   console.log("i", i);
-    // }
+    for (var i of subData) {
+      console.log("i", i);
+    }
 
     if (documentValue == 0) {
       setDocumentError(true);
-    } 
+    }
     if (applicationValue == 0) {
       setApplicationTypeError(true);
     }
-    if (application === null) {
+    if (isMandatory === null) {
       setApplicationError(true);
-    } 
-    else {
+    } else {
       if (selectedId === 0) {
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
@@ -192,7 +202,7 @@ const AddUniversityApplicationDocument = () => {
             });
             setShowForm(true);
             setSelectedId(0);
-            
+
             setApplicationObject({});
             setSuccess(!success);
           }
@@ -203,9 +213,11 @@ const AddUniversityApplicationDocument = () => {
 
   const onShow = () => {
     setShowForm(false);
-    setDocumentLabel("Select Requirement Status");
+    setDocumentLabel("Select Document");
     setDocumentValue(0);
-
+    setApplicationValue(0);
+    setApplicationLabel("Select Application Type");
+    setIsMandatory(null);
     setApplicationObject({});
     // setFileList1(action?.document?.fileUrl);
     setSelectedId(0);
@@ -215,7 +227,7 @@ const AddUniversityApplicationDocument = () => {
   const onNextPage = () => {
     const uniID = localStorage.getItem("id");
     history.push({
-      pathname: "/addUniversityRequiredDocument",
+      pathname: "/addUniversityTemplateDocument",
       id: uniID,
     });
   };
@@ -223,9 +235,12 @@ const AddUniversityApplicationDocument = () => {
   const cancel = () => {
     setShowForm(true);
     setSelectedId(0);
-    // setuniversityCampusObject({});
-    setDocumentLabel("Select Requirement Status");
+    setDocumentLabel("Select Document");
     setDocumentValue(0);
+    setApplicationValue(0);
+    setApplicationLabel("Select Application Type");
+    setIsMandatory(null);
+    setApplicationObject({});
   };
 
   const handleDeletePermission = (id) => {
@@ -250,30 +265,39 @@ const AddUniversityApplicationDocument = () => {
     get(`UniversityApplicationDocument/Get/${id}`).then((action) => {
       console.log("application update object", action);
       setApplicationObject(action);
-      setDocumentLabel(action?.documentRequirementStatus?.name);
-      setDocumentValue(action?.documentRequirementStatus?.id);
+      setDocumentLabel(action?.document?.name);
+      setDocumentValue(action?.documentId);
+      setApplicationValue(action?.applicationTypeId);
+      setApplicationLabel(
+        action?.applicationTypeId === 1
+          ? "Home"
+          : action?.applicationTypeId === 2
+          ? "EU/UK"
+          : "International"
+      );
+      setIsMandatory(`${action?.isMandatory}`);
       // setFileList1(action?.document?.fileUrl);
       setSelectedId(action?.id);
       console.log(action?.id);
     });
   };
 
-    const handleApplication = (event) => {
-      console.log(event.target.value);
-      setApplication(event.target.value);
-      setApplicationError(false);
-    };
+  const handleIsMandatory = (event) => {
+    console.log(event.target.value);
+    setIsMandatory(event.target.value);
+    setApplicationError(false);
+  };
 
-
-    return (
-        <div>
+  return (
+    <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Add University Application Document</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToUniList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University List
+              <i className="fas fa-arrow-circle-left"></i> Back to University
+              List
             </span>
           </div>
         </CardHeader>
@@ -310,7 +334,7 @@ const AddUniversityApplicationDocument = () => {
 
             <NavItem>
               <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                 Gallery
+                Gallery
               </NavLink>
             </NavItem>
 
@@ -322,7 +346,7 @@ const AddUniversityApplicationDocument = () => {
 
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
-              Template Document
+                Template Document
               </NavLink>
             </NavItem>
 
@@ -334,7 +358,6 @@ const AddUniversityApplicationDocument = () => {
           </Nav>
 
           <TabContent activeTab={activetab}>
-
             {applicationList.length > 0 ? (
               <div className="container test-score-div-1-style mt-4 mb-4">
                 <span className="test-score-span-1-style">
@@ -346,19 +369,16 @@ const AddUniversityApplicationDocument = () => {
             <TabPane tabId="6">
               {showForm === false ? (
                 <>
-
                   <Form onSubmit={handleSubmit} className="mt-5">
-
-                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div className="hedding-titel d-flex justify-content-between mb-4">
                       <div>
-                        <h5> <b>Add Application Document</b> </h5>
+                        <h5>
+                          {" "}
+                          <b>Add Application Document</b>{" "}
+                        </h5>
 
                         <div className="bg-h"></div>
                       </div>
-                        {/* <div className="text-right edit-style  p-3" >
-                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                        </div> */}
-
                     </div>
 
                     <FormGroup row className="has-icon-left position-relative">
@@ -381,8 +401,7 @@ const AddUniversityApplicationDocument = () => {
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
                         <span>
-                          Document Name{" "}
-                          <span className="text-danger">*</span>{" "}
+                          Document Name <span className="text-danger">*</span>{" "}
                         </span>
                       </Col>
                       <Col md="6">
@@ -401,10 +420,6 @@ const AddUniversityApplicationDocument = () => {
                             Document must be selected.
                           </span>
                         )}
-
-                        {/* <div className="form-control-position">
-                        <User size={15} />
-                    </div> */}
                       </Col>
                     </FormGroup>
 
@@ -417,11 +432,14 @@ const AddUniversityApplicationDocument = () => {
                       </Col>
                       <Col md="6">
                         <Select
-                        //   options={documentOptions}
-                          value={{ label: applicationLabel, value: applicationValue }}
-                        //   onChange={(opt) =>
-                        //     selectDocument(opt.label, opt.value)
-                        //   }
+                          options={applicationOptions}
+                          value={{
+                            label: applicationLabel,
+                            value: applicationValue,
+                          }}
+                          onChange={(opt) =>
+                            selectApplicationType(opt.label, opt.value)
+                          }
                           name="applicationTypeId"
                           id="applicationTypeId"
                         />
@@ -431,10 +449,6 @@ const AddUniversityApplicationDocument = () => {
                             Application type must be selected.
                           </span>
                         )}
-
-                        {/* <div className="form-control-position">
-                        <User size={15} />
-                    </div> */}
                       </Col>
                     </FormGroup>
 
@@ -450,10 +464,10 @@ const AddUniversityApplicationDocument = () => {
                             className="form-check-input"
                             type="radio"
                             id="isMandatory"
-                            onChange={handleApplication}
+                            onChange={handleIsMandatory}
                             name="isMandatory"
                             value="true"
-                            checked={application == "true"}
+                            checked={isMandatory == "true"}
                           />
                           <Label
                             className="form-check-label"
@@ -469,10 +483,10 @@ const AddUniversityApplicationDocument = () => {
                             className="form-check-input"
                             type="radio"
                             id="isMandatory"
-                            onChange={handleApplication}
+                            onChange={handleIsMandatory}
                             name="isMandatory"
                             value="false"
-                            checked={application == "false"}
+                            checked={isMandatory == "false"}
                           />
                           <Label
                             className="form-check-label"
@@ -493,44 +507,24 @@ const AddUniversityApplicationDocument = () => {
                       </Col>
                     </FormGroup>
 
-                    {/* <FormGroup row className="has-icon-left position-relative">
-                      <Col md="2">
-                        <span>
-                          {" "}
-                          Name <span className="text-danger">*</span>{" "}
-                        </span>
-                      </Col>
-                      <Col md="6">
-                        <Input
-                          type="text"
-                          name="name"
-                          id="name"
-                          defaultValue={applicationObject?.name}
-                          placeholder="Enter Name"
-                          required
-                        />
-                      </Col>
-                    </FormGroup> */}
-
-
                     <FormGroup className="has-icon-left position-relative">
                       {selectedId !== 0 ? (
                         <>
-                          <FormGroup row
+                          <FormGroup
+                            row
                             className="has-icon-left position-relative"
                             style={{
                               display: "flex",
                               justifyContent: "end",
                             }}
                           >
-
                             <Col md="5">
                               <ButtonForFunction
-                               color={"primary"}
-                               type={"submit"}
-                               className={"ms-lg-3 ms-sm-1 mt-3"}
-                               name={"Save"}
-                               permission={6}
+                                color={"primary"}
+                                type={"submit"}
+                                className={"ms-lg-3 ms-sm-1 mt-3"}
+                                name={"Save"}
+                                permission={6}
                               />
                             </Col>
 
@@ -541,7 +535,6 @@ const AddUniversityApplicationDocument = () => {
                                 name={"Cancel"}
                                 permission={6}
                               />
-
                             </div>
                           </FormGroup>
                         </>
@@ -565,7 +558,6 @@ const AddUniversityApplicationDocument = () => {
                             <div>
                               {selectedId !== 0 ||
                               applicationList.length > 0 ? (
-                                
                                 <ButtonForFunction
                                   func={cancel}
                                   color={"danger uapp-form-button float-right"}
@@ -580,24 +572,6 @@ const AddUniversityApplicationDocument = () => {
                         </>
                       )}
                     </FormGroup>
-
-                    {/* <FormGroup row className="has-icon-left position-relative"
-   style={{ display: "flex", justifyContent: "end" }}
- >
-
-   <Col md="5">
-
-    <CustomButtonRipple
-      color={"primary"}
-      type={"submit"}
-      className={"mr-1 mt-3"}
-      name={"submit"}
-      permission={6}
-    />
-  
-   </Col>
-
-</FormGroup> */}
                   </Form>
                 </>
               ) : (
@@ -625,9 +599,7 @@ const AddUniversityApplicationDocument = () => {
                       <tr style={{ textAlign: "center" }}>
                         <th>SL/NO</th>
                         <th>Name</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>File</th>
+                        <th>Type</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -638,12 +610,16 @@ const AddUniversityApplicationDocument = () => {
                           style={{ textAlign: "center" }}
                         >
                           <th scope="row">{i + 1}</th>
-                          <td>{application?.name}</td>
-                          <td>{application?.description}</td>
+                          <td>{application?.document?.name}</td>
                           <td>
-                            {application?.documentRequirementStatus?.name}
+                            {application?.applicationTypeId === 1
+                              ? "Home"
+                              : application?.applicationTypeId === 2
+                              ? "EU/UK"
+                              : "International"}
                           </td>
-                          <td>
+
+                          {/* <td>
                             <a
                               href={rootUrl + application?.document?.fileUrl}
                               target="_blank"
@@ -651,23 +627,22 @@ const AddUniversityApplicationDocument = () => {
                             >
                               Download
                             </a>
-                          </td>
+                          </td> */}
+
                           <td>
-                            <ButtonForFunction
-                              className={"mx-1 btn-sm"}
-                              func={() => toggleDanger(application)}
-                              color={"danger"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
-
-                            {/* <Button onClick={()=> handleUpdate(uniType?.id)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
-
                             <ButtonForFunction
                               func={() => handleUpdate(application?.id)}
                               className={"mx-1 btn-sm"}
                               color={"warning"}
                               icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
+
+                            <ButtonForFunction
+                              className={"mx-1 btn-sm"}
+                              func={() => toggleDanger(application)}
+                              color={"danger"}
+                              icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
 
@@ -710,34 +685,30 @@ const AddUniversityApplicationDocument = () => {
                 </div>
               ) : null}
 
-              {
-                applicationList?.length>0?
+              {applicationList?.length > 0 ? (
                 <FormGroup
-                className="has-icon-left position-relative"
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "end",
-                }}
-              >
-                <ButtonForFunction
-                  func={onNextPage}
-                  color={"warning uapp-form-button float-right"}
-                  name={"Next Page"}
-                  permission={6}
-                />
-              </FormGroup>
-              :
-              null
-              }
-
+                  className="has-icon-left position-relative"
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "end",
+                  }}
+                >
+                  <ButtonForFunction
+                    func={onNextPage}
+                    color={"warning uapp-form-button float-right"}
+                    name={"Next Page"}
+                    permission={6}
+                  />
+                </FormGroup>
+              ) : null}
             </TabPane>
           </TabContent>
         </CardBody>
       </Card>
       <br /> <br /> <br />
     </div>
-    );
+  );
 };
 
 export default AddUniversityApplicationDocument;

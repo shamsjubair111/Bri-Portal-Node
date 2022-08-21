@@ -17,7 +17,7 @@ html {
       min-height: calc(100% - 4rem);
       margin-left: $menu-expanded-width;
       &.app-content {
-        overflow: hidden;
+        overflow-x: hidden;
         &.show-overlay {
           .content-overlay {
             z-index: 10;

@@ -51,6 +51,7 @@ const AddUniversity = (props) => {
 
   const [activetab, setActivetab] = useState("1");
   const [description, setDescription] = useState("");
+  const [googleMap, setGoogleMap] = useState("");
   const [uniTypeLabel, setUniTypeLabel] = useState("Select University Type...");
   const [uniTypeValue, setUniTypeValue] = useState(0);
   const [uniTypeError, setUniTypeError] = useState(false);
@@ -836,6 +837,47 @@ const AddUniversity = (props) => {
                       // value={description}
                       defaultValue={universityData?.description}
                       placeholder="Description"
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Location </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="location"
+                      id="location"
+                      defaultValue={universityData?.location}
+                      placeholder="Enter University Location"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Embeded Map</span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="textarea"
+                      name="locationOnGoogleMap"
+                      id="locationOnGoogleMap"
+                      rows="3"
+                      // value={description}
+                      defaultValue={universityData?.locationOnGoogleMap}
+                      placeholder="Location on Google Map"
                       onChange={(e) => setDescription(e.target.value)}
                     />
 

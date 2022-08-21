@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SpanButton = (props) => {
-    const {func, className, style, data, permission} = props;
+    const {func, className, style, data, permission, icon} = props;
 
     const datass = [1,2,3,4,6];
 
@@ -10,7 +10,7 @@ const SpanButton = (props) => {
          {
             datass?.includes(permission) ?
             <span onClick={func} className={className} style={style}>
-                {data}
+                {icon}{data}
             </span>
             :
             null
