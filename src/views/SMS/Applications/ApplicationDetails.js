@@ -36,6 +36,7 @@ import remove from "../../../helpers/remove";
 import { useToasts } from "react-toast-notifications";
 import post from "../../../helpers/post";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import SpanButton from "../Components/SpanButton";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
@@ -153,6 +154,14 @@ const ApplicationDetails = () => {
     var localeDate = utcDate.toLocaleString("en-CA");
     const x = localeDate.split(",")[0];
     return x;
+  };
+
+  const handleDate2 = (e) => {
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    // const x = localeDate.split(",")[0];
+    return localeDate;
   };
 
   const changeHandler = (e, doc) => {
@@ -314,6 +323,17 @@ const ApplicationDetails = () => {
 
     history.push("/addTestScore");
   };
+
+  const handleEdit = (data) =>{
+    console.log(data);
+    localStorage.setItem('applictionStudentId',data?.id);
+    localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
+    localStorage.setItem('method','put');
+
+
+    history.push('/addStudentApplicationInformation');
+
+  }
 
   return (
     <div>
@@ -818,7 +838,7 @@ const ApplicationDetails = () => {
                                 </div>
                                 <div>
                                   {docu?.createdBy} at{" "}
-                                  {handleDate(docu?.createdOn)}
+                                  {handleDate2(docu?.createdOn)}
                                 </div>
                               </>
                             ) : (
@@ -1022,10 +1042,16 @@ const ApplicationDetails = () => {
                         </h2>
                       </div>
                       <div className="text-right edit-style  p-3">
-                        <span>
+                        {/* <span>
                           {" "}
                           <i className="fas fa-pencil-alt pencil-style"></i>{" "}
-                        </span>
+                        </span> */}
+                        <SpanButton
+                          icon={<i className="fas fa-pencil-alt pencil-style"></i>}
+                          func={()=>handleEdit(studentProInfo)}
+                          permission={6}
+                        />
+
                       </div>
                     </div>
                     <div className="hedding-titel d-flex justify-content-between my-4">
@@ -1239,7 +1265,7 @@ const ApplicationDetails = () => {
 
                         <tr>
                           <td width="40%">
-                            <b>Post/ Zip Code:</b>
+                            <b>Post / Zip Code:</b>
                           </td>
 
                           <td width="60%">
@@ -1390,7 +1416,7 @@ const ApplicationDetails = () => {
                           )}
                           <tr>
                             <td width="40%">
-                              <b>Name Of Institution:</b>
+                              <b>Name of Institution:</b>
                             </td>
 
                             <td width="60%">
@@ -1627,7 +1653,7 @@ const ApplicationDetails = () => {
                     </div>
                     {studentProInfo?.profilePersonalStatement ? (
                       <div
-                        className="container"
+                        className="container py-3"
                         style={{ border: "1px solid rgb(222, 226, 230)" }}
                       >
                         {studentProInfo?.profilePersonalStatement?.statement}
