@@ -15,6 +15,9 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../src/assets/CoustomStyle/style.css'
 import '../src/assets/CoustomStyle/pageView.css'
 import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
+window.Popper = require("popper.js").default;
+window.$ = window.jQuery = require("jquery");
+require("bootstrap");
 const LazyApp = lazy(() => import("./App"))
 
 // configureDatabase()

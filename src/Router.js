@@ -247,6 +247,9 @@ const AddDegree = lazy(() => import("./views/SMS/Degree/AddDegree"))
 
 
 
+
+
+
 const UploadDocument = lazy(() => import("./views/SMS/Students/DocumentUpload"))
 
 const ExamTestType = lazy(() => import("./views/SMS/Configuration/ExamTestType/ExamTestType"))
@@ -481,6 +484,8 @@ class AppRouter extends React.Component {
          <AppRoute  path="/countryList" component={CountryList} />
 
          <AppRoute  path="/search" component={Search} />
+
+  
 
          <AppRoute component={notFound} fullLayout />
 

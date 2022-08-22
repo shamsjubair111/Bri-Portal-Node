@@ -135,9 +135,9 @@ const Search = () => {
       fetch('https://jsonplaceholder.typicode.com/users')
       .then(res => res?.json())
       .then(data => {
-        console.log(data[0]);
-        setStudentInfo(data[0]);
-        setStudentLabel(data[0].name);
+        console.log(data[9]);
+        setStudentInfo(data[9]);
+        setStudentLabel(data[9].name);
       })
 
       // fake api end
@@ -1151,7 +1151,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
     <div className='row' style={{width: '100%', margin: '0 auto'}}>
 
 
-      <div className='col-md-6'>
+      <div className='col-md-3'>
 
         <div className='row'>
 
@@ -1160,8 +1160,8 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
         <Nav tabs>
 
         <NavItem>
-        <NavLink active={activetab === "1"} onClick={() => toggle1("1")}>
-          Application 
+        <NavLink active={activetab === "1"} style={{background: 'none'}} onClick={() => toggle1("1")}>
+          Programs
         </NavLink>
         </NavItem>
 
@@ -1180,7 +1180,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
     <Nav tabs>
 
     <NavItem>
-    <NavLink  active={activetab === "2"} onClick={() => toggle2("2")}>
+    <NavLink  active={activetab === "2"} style={{background: 'none'}} onClick={() => toggle2("2")}>
       University
     </NavLink>
     </NavItem>
@@ -1194,6 +1194,10 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
         </div>
 
      
+
+      </div>
+     
+      <div className='col-md-3'>
 
       </div>
 

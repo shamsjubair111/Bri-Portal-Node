@@ -31,10 +31,10 @@ const Menu = (props) => {
    const { addToast } = useToasts();
    const history = useHistory();
 
-
+const userType = localStorage.getItem('current_user');
   //  get menu list and store into redux store
    useEffect(()=> {
-    const returnvalue = get(`MenuItem/GetMenuItems`).then((action)=> {
+    const returnvalue = get(`RoleMenuItem/Index/${userType?.displayUserType}`).then((action)=> {
     
       localStorage.setItem("menu", JSON.stringify(action));
 

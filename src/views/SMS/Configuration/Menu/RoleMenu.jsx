@@ -117,11 +117,12 @@ const RoleMenu = (props) => {
       subData.append('RoleId',  roleValue);
       subData.append('CheckedArr',checked);
       // posting form Data
-      const returnValue = post(`RoleMenuItem/Assign`,subData).then((action)=> {
+      post(`RoleMenuItem/Assign`,subData).then((action)=> {
+        console.log('checking role menu action',action)
    
         setChecked([]);
-            addToast(action, {
-              appearance: action == 'Menu Assigned Successfully' ? 'success': 'error',
+            addToast(action?.data?.message, {
+              appearance: 'success',
               autoDismiss: true,
             })
             setModalOpen(false)

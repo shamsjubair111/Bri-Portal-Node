@@ -33,7 +33,9 @@ class SideMenuContent extends React.Component {
 
     //  })
 
-   
+    const userType = JSON.parse(localStorage.getItem('current_user'));
+
+   console.log(userType);
     const valueObj = JSON.parse(localStorage.getItem("menu"));
 
     if(valueObj){
@@ -42,7 +44,8 @@ class SideMenuContent extends React.Component {
     }
     
     else{
-      get(`MenuItem/getMenuItems`).then((action) => {
+      get(`RoleMenuItem/Index/${userType?.displayUserType}`).then((action) => {
+        console.log('Checking All Menu Items', action);
         this.setState({ menu: action });
        
         
@@ -166,7 +169,7 @@ class SideMenuContent extends React.Component {
     const navigationConfig = this.state.menu;
     // Loop over sidebar items
     // eslint-disable-next-line
-    const menuItems = navigationConfig.map((item) => {
+    const menuItems = navigationConfig?.map((item) => {
       const CustomAnchorTag = item.type === "external-link" ? `a` : Link;
       // checks if item has groupheader
       if (item.type === "groupHeader") {
