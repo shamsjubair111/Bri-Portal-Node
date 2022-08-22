@@ -334,7 +334,7 @@ const DocumentGroup = () => {
               <span className="badge badge-primary">
                 {documentGroupData?.length}
               </span>{" "}
-              University Document Group Found{" "}
+              University Subject Document Group Found{" "}
             </b>
           </div>
         </CardHeader>
