@@ -37,6 +37,8 @@ import { useToasts } from "react-toast-notifications";
 import post from "../../../helpers/post";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import SpanButton from "../Components/SpanButton";
+import CustomButtonRipple from "../Components/CustomButtonRipple";
+import put from "../../../helpers/put";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
@@ -50,6 +52,31 @@ const ApplicationDetails = () => {
   const [docuTypeLabel, setDocuTypeLabel] = useState("Select Document Type");
   const [docuTypeValue, setDocuTypeValue] = useState(0);
   const [docutypeError, setDocuTypeError] = useState(false);
+
+  const [deliveryModalOpen, setDeliveryModalOpen] = useState(false);
+  const [deliveryDD, setDeliveryDD] = useState([]);
+  const [deliveryLabel, setDeliveryLabel] = useState("");
+  const [deliveryValue, setDeliveryValue] = useState(0);
+
+  const [financeDD, setFinanceDD] = useState([]);
+  const [financeModalOpen, setFinanceModalOpen] = useState(false);
+  const [financeLabel, setFinanceLabel] = useState("");
+  const [financeValue, setFinanceValue] = useState(0);
+
+  const [statusDD, setStatusDD] = useState([]);
+  const [statusLabel, setStatusLabel] = useState("");
+  const [statusValue, setStatusvalue] = useState(0);
+  const [statusModalOpen, setStatusModalOpen] = useState(false);
+
+  const [enrollDD, setEnrollDD] = useState([]);
+  const [enrollLabel, setEnrollLabel] = useState("");
+  const [enrollValue, setEnrollValue] = useState(0);
+  const [enrollModalOpen, setEnrollModalOpen] = useState(false);
+
+  const [offerDD, setOfferDD] = useState([]);
+  const [offerLabel, setOfferLabel] = useState("");
+  const [offerValue, setOfferValue] = useState(0);
+  const [offerModalOpen, setOfferModalOpen] = useState(false);
 
   //   for document upload
   const [FileList2, setFileList2] = useState([]);
@@ -65,6 +92,9 @@ const ApplicationDetails = () => {
   const [previewVisible1, setPreviewVisible1] = useState(false);
   const [previewImage1, setPreviewImage1] = useState("");
   const [previewTitle1, setPreviewTitle1] = useState("");
+
+  // ELPT modal
+  const [elptModalOpen, setElptModalOpen] = useState(false);
 
   const { addToast } = useToasts();
   const history = useHistory();
@@ -109,7 +139,6 @@ const ApplicationDetails = () => {
 
     // document upload
     get(`StudentUploadDocument/Index/${stdId}`).then((res) => {
-      console.log("studentDocu data", res);
       setUploadedDocuData(res);
     });
 
@@ -121,6 +150,21 @@ const ApplicationDetails = () => {
       console.log("stdpro", res);
       setStudentProInfo(res);
     });
+    get("DeliveryPatternDD/index").then((res) => {
+      setDeliveryDD(res);
+    });
+    get("StudentFinanceStatusDD/Index").then((res) => {
+      setFinanceDD(res);
+    });
+    get("ApplicationStatusDD/Index").then((res) => {
+      setStatusDD(res);
+    });
+    get("EnrollmentStatusDD/Index").then((res) => {
+      setEnrollDD(res);
+    });
+    get("OfferStatusDD/Index").then((res) => {
+      setOfferDD(res);
+    });
   }, [id, stdId, success]);
 
   const docuTypeDD = docuType.map((docu) => ({
@@ -131,6 +175,46 @@ const ApplicationDetails = () => {
     setDocuTypeLabel(label);
     setDocuTypeValue(value);
     setDocuTypeError(false);
+  };
+  const deliveryMenu = deliveryDD.map((delivery) => ({
+    label: delivery?.name,
+    value: delivery?.id,
+  }));
+  const selectDelivery = (label, value) => {
+    setDeliveryLabel(label);
+    setDeliveryValue(value);
+  };
+  const financeMenu = financeDD.map((finance) => ({
+    label: finance?.name,
+    value: finance?.id,
+  }));
+  const selectFinance = (label, value) => {
+    setFinanceLabel(label);
+    setFinanceValue(value);
+  };
+  const statusMenu = statusDD.map((status) => ({
+    label: status?.name,
+    value: status?.id,
+  }));
+  const selectStatus = (label, value) => {
+    setStatusLabel(label);
+    setStatusvalue(value);
+  };
+  const enrollMenu = enrollDD.map((enroll) => ({
+    label: enroll?.name,
+    value: enroll?.id,
+  }));
+  const selectEnroll = (label, value) => {
+    setEnrollLabel(label);
+    setEnrollValue(value);
+  };
+  const offerMenu = offerDD.map((offer) => ({
+    label: offer?.name,
+    value: offer?.id,
+  }));
+  const selectOffer = (label, value) => {
+    setOfferLabel(label);
+    setOfferValue(value);
   };
 
   const toggle = (tab) => {
@@ -333,6 +417,161 @@ const ApplicationDetails = () => {
     history.push("/addStudentApplicationInformation");
   };
 
+  const handleEditDeliveryPattern = (name, id) => {
+    setDeliveryLabel(name);
+    setDeliveryValue(id);
+    setDeliveryModalOpen(true);
+  };
+
+  // on Close Modal
+  const closeModal = () => {
+    setDeliveryModalOpen(false);
+    setDeliveryLabel("");
+    setDeliveryValue(0);
+    setFinanceLabel("");
+    setFinanceValue(0);
+    setFinanceModalOpen(false);
+    setStatusLabel("");
+    setStatusvalue(0);
+    setStatusModalOpen(false);
+    setEnrollLabel("");
+    setEnrollValue(0);
+    setEnrollModalOpen(false);
+    setOfferLabel("");
+    setOfferValue(0);
+    setOfferModalOpen(false);
+  };
+
+  const handleDeliveryPatternSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+
+    // for (var i of subData.values()) {
+    //   console.log(i);
+    // }
+
+    // const subData = {
+    //   id: applicationInfo?.id,
+    //   statusId: deliveryValue,
+    // };
+
+    const returnvalue = put(`Application/UpdateDeliveryPattern`, subData).then(
+      (action) => {
+        setSuccess(!success);
+        setDeliveryModalOpen(false);
+        addToast(action?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setDeliveryLabel("");
+        setDeliveryValue(0);
+      }
+    );
+  };
+
+  const handleEditFinance = (name, id) => {
+    setFinanceLabel(name);
+    setFinanceValue(id);
+    setFinanceModalOpen(true);
+  };
+
+  const handleFinanceUpdateSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    const returnvalue = put(`Application/UpdateStudentFinance`, subData).then(
+      (action) => {
+        setSuccess(!success);
+        setFinanceModalOpen(false);
+        addToast(action?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setFinanceLabel("");
+        setFinanceValue(0);
+      }
+    );
+  };
+
+  const handleApplicationEdit = (name, id) => {
+    setStatusLabel(name);
+    setStatusvalue(id);
+    setStatusModalOpen(true);
+  };
+
+  const handleApplicationUpdateSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    const returnvalue = put(
+      `Application/UpdateApplicationStatus`,
+      subData
+    ).then((action) => {
+      setSuccess(!success);
+      setStatusModalOpen(false);
+      addToast(action?.data?.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setStatusLabel("");
+      setStatusvalue(0);
+    });
+  };
+
+  const handleEditEnrol = (name, id) => {
+    setEnrollLabel(name);
+    setEnrollValue(id);
+    setEnrollModalOpen(true);
+  };
+
+  const handleEnrollUpdateSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+
+    const returnvalue = put(`Application/UpdateEnrollmentStatus`, subData).then(
+      (action) => {
+        setSuccess(!success);
+        setEnrollModalOpen(false);
+        addToast(action?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setEnrollLabel("");
+        setEnrollValue(0);
+      }
+    );
+  };
+
+  const handleOfferEdit = (name, id) => {
+    setOfferLabel(name);
+    setOfferValue(id);
+    setOfferModalOpen(true);
+  };
+
+  const handleOfferUpdateSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    const returnvalue = put(`Application/UpdateOfferStatus`, subData).then(
+      (action) => {
+        setSuccess(!success);
+        setOfferModalOpen(false);
+        addToast(action?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setOfferLabel("");
+        setEnrollValue(0);
+      }
+    );
+  };
+
+  const handleOpenELPTModal = () => {
+    setElptModalOpen(true);
+  };
+
+  // on close ELPT modal
+  const closeElptModal = () => {
+    setElptModalOpen(false);
+  };
+
   return (
     <div>
       <Row>
@@ -372,7 +611,7 @@ const ApplicationDetails = () => {
                     <div className="my-4">
                       <h2 className="text-secondary">
                         {applicationInfo?.student?.nameTittle?.name}{" "}
-                        {applicationInfo?.student?.firstName} <br />
+                        {applicationInfo?.student?.firstName}{" "}
                         {applicationInfo?.student?.lastName}
                       </h2>
                     </div>
@@ -398,7 +637,99 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {applicationInfo?.applicationStatus?.name}
+                            <div className="d-flex justify-content-between">
+                              {applicationInfo?.applicationStatus?.name}
+
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={() =>
+                                  handleApplicationEdit(
+                                    applicationInfo?.applicationStatus?.name,
+                                    applicationInfo?.applicationStatus?.id
+                                  )
+                                }
+                                permission={6}
+                              />
+
+                              <Modal
+                                isOpen={statusModalOpen}
+                                toggle={closeModal}
+                                className="uapp-modal"
+                              >
+                                <ModalHeader>
+                                  Update Application Status
+                                </ModalHeader>
+                                <ModalBody>
+                                  <Form
+                                    onSubmit={handleApplicationUpdateSubmit}
+                                  >
+                                    <input
+                                      type="hidden"
+                                      name="id"
+                                      id="id"
+                                      value={applicationInfo?.id}
+                                    />
+
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          Application Status{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Select
+                                          options={statusMenu}
+                                          value={{
+                                            label: statusLabel,
+                                            value: statusValue,
+                                          }}
+                                          onChange={(opt) =>
+                                            selectStatus(opt.label, opt.value)
+                                          }
+                                          name="statusId"
+                                          id="statusId"
+                                        />
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button
+                                        color="danger"
+                                        className="mr-1 mt-3"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </Button>
+
+                                      <CustomButtonRipple
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"mr-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+
+                                      {/* }  */}
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                            </div>
                           </td>
                         </tr>
 
@@ -408,7 +739,93 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {applicationInfo?.offerStatus?.name}
+                            <div className="d-flex justify-content-between">
+                              {applicationInfo?.offerStatus?.name}
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={() =>
+                                  handleOfferEdit(
+                                    applicationInfo?.offerStatus?.name,
+                                    applicationInfo?.offerStatus?.id
+                                  )
+                                }
+                                permission={6}
+                              />
+                              <Modal
+                                isOpen={offerModalOpen}
+                                toggle={closeModal}
+                                className="uapp-modal"
+                              >
+                                <ModalHeader>Update Offer Status</ModalHeader>
+                                <ModalBody>
+                                  <Form onSubmit={handleOfferUpdateSubmit}>
+                                    <input
+                                      type="hidden"
+                                      name="id"
+                                      id="id"
+                                      value={applicationInfo?.id}
+                                    />
+
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          Offer Status{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Select
+                                          options={offerMenu}
+                                          value={{
+                                            label: offerLabel,
+                                            value: offerValue,
+                                          }}
+                                          onChange={(opt) =>
+                                            selectOffer(opt.label, opt.value)
+                                          }
+                                          name="statusId"
+                                          id="statusId"
+                                        />
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button
+                                        color="danger"
+                                        className="mr-1 mt-3"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </Button>
+
+                                      <CustomButtonRipple
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"mr-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+
+                                      {/* }  */}
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                            </div>
                           </td>
                         </tr>
 
@@ -418,7 +835,267 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {applicationInfo?.enrollmentStatus?.name}
+                            <div className="d-flex justify-content-between">
+                              {applicationInfo?.enrollmentStatus?.name ===
+                              "Withdrawn" ? (
+                                <>
+                                  <div className="d-flex flex-column">
+                                    {applicationInfo?.enrollmentStatus?.name}{" "}
+                                    <span style={{ color: "red" }}>
+                                      {applicationInfo?.withdrawnReason}
+                                    </span>
+                                  </div>
+                                </>
+                              ) : (
+                                <>{applicationInfo?.enrollmentStatus?.name}</>
+                              )}
+
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={() =>
+                                  handleEditEnrol(
+                                    applicationInfo?.enrollmentStatus?.name,
+                                    applicationInfo?.enrollmentStatus?.id
+                                  )
+                                }
+                                permission={6}
+                              />
+
+                              <Modal
+                                isOpen={enrollModalOpen}
+                                toggle={closeModal}
+                                className="uapp-modal"
+                              >
+                                <ModalHeader>
+                                  Update Enrolment Status
+                                </ModalHeader>
+                                <ModalBody>
+                                  <Form onSubmit={handleEnrollUpdateSubmit}>
+                                    <input
+                                      type="hidden"
+                                      name="id"
+                                      id="id"
+                                      value={applicationInfo?.id}
+                                    />
+
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          Enrolment Status{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Select
+                                          isDisabled={
+                                            applicationInfo?.enrollmentStatus
+                                              ?.name === "Registered"
+                                              ? true
+                                              : false
+                                          }
+                                          options={enrollMenu}
+                                          value={{
+                                            label: enrollLabel,
+                                            value: enrollValue,
+                                          }}
+                                          onChange={(opt) =>
+                                            selectEnroll(opt.label, opt.value)
+                                          }
+                                          name="statusId"
+                                          id="statusId"
+                                        />
+                                        {applicationInfo?.enrollmentStatus
+                                          ?.name === "Registered" ? (
+                                          <div className="text-danger">
+                                            Once the enrolment status changed to
+                                            Registered it can't be changed
+                                            again.
+                                          </div>
+                                        ) : null}
+                                      </Col>
+                                    </FormGroup>
+
+                                    {enrollValue === 4 ? (
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="4">
+                                          <span>
+                                            Withdrwan Reason{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </span>
+                                        </Col>
+                                        <Col md="8">
+                                          <Input
+                                            type="text"
+                                            defaultValue={
+                                              applicationInfo?.withdrawnReason
+                                            }
+                                            name="withdrawnReason"
+                                            id="withdrawnReason"
+                                            placeholder="Write Withdrwan Reason"
+                                          />
+                                        </Col>
+                                      </FormGroup>
+                                    ) : null}
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button
+                                        color="danger"
+                                        className="mr-1 mt-3"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </Button>
+
+                                      <CustomButtonRipple
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"mr-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+
+                                      {/* }  */}
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+
+                    <div className="hedding-titel d-flex justify-content-between my-4">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Finance</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                      {/* <div className="text-right edit-style  p-3" >
+                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  </div> */}
+                    </div>
+
+                    <Table className="table-bordered mt-4">
+                      <tbody>
+                        <tr>
+                          <td width="40%">
+                            <b>Student Finance Status:</b>
+                          </td>
+
+                          <td width="60%">
+                            <div className="d-flex justify-content-between">
+                              {applicationInfo?.studentFinanceStatus?.name}
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={() =>
+                                  handleEditFinance(
+                                    applicationInfo?.studentFinanceStatus?.name,
+                                    applicationInfo?.studentFinanceStatus?.id
+                                  )
+                                }
+                                permission={6}
+                              />
+
+                              <Modal
+                                isOpen={financeModalOpen}
+                                toggle={closeModal}
+                                className="uapp-modal"
+                              >
+                                <ModalHeader>
+                                  Update Student Finance Status
+                                </ModalHeader>
+                                <ModalBody>
+                                  <Form onSubmit={handleFinanceUpdateSubmit}>
+                                    <input
+                                      type="hidden"
+                                      name="id"
+                                      id="id"
+                                      value={applicationInfo?.id}
+                                    />
+
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          Student Finance{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Select
+                                          options={financeMenu}
+                                          value={{
+                                            label: financeLabel,
+                                            value: financeValue,
+                                          }}
+                                          onChange={(opt) =>
+                                            selectFinance(opt.label, opt.value)
+                                          }
+                                          name="statusId"
+                                          id="statusId"
+                                        />
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button
+                                        color="danger"
+                                        className="mr-1 mt-3"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </Button>
+
+                                      <CustomButtonRipple
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"mr-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+
+                                      {/* }  */}
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                            </div>
                           </td>
                         </tr>
                       </tbody>
@@ -440,6 +1117,104 @@ const ApplicationDetails = () => {
 
                     <Table className="table-bordered mt-4">
                       <tbody>
+                        <tr>
+                          <td width="40%">
+                            <b>Delivery Pattern:</b>
+                          </td>
+
+                          <td width="60%">
+                            <div className="d-flex justify-content-between">
+                              {applicationInfo?.deliveryPattern?.name}
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={() =>
+                                  handleEditDeliveryPattern(
+                                    applicationInfo?.deliveryPattern?.name,
+                                    applicationInfo?.deliveryPattern?.id
+                                  )
+                                }
+                                permission={6}
+                              />
+
+                              <Modal
+                                isOpen={deliveryModalOpen}
+                                toggle={closeModal}
+                                className="uapp-modal"
+                              >
+                                <ModalHeader>
+                                  Update Delivery Pattern
+                                </ModalHeader>
+                                <ModalBody>
+                                  <Form onSubmit={handleDeliveryPatternSubmit}>
+                                    <input
+                                      type="hidden"
+                                      name="id"
+                                      id="id"
+                                      value={applicationInfo?.id}
+                                    />
+
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          Delivery Pattern{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Select
+                                          options={deliveryMenu}
+                                          value={{
+                                            label: deliveryLabel,
+                                            value: deliveryValue,
+                                          }}
+                                          onChange={(opt) =>
+                                            selectDelivery(opt.label, opt.value)
+                                          }
+                                          name="statusId"
+                                          id="statusId"
+                                        />
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button
+                                        color="danger"
+                                        className="mr-1 mt-3"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </Button>
+
+                                      <CustomButtonRipple
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"mr-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+
+                                      {/* }  */}
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                            </div>
+                          </td>
+                        </tr>
                         <tr>
                           <td width="40%">
                             <b>Application Type:</b>
@@ -520,16 +1295,6 @@ const ApplicationDetails = () => {
 
                         <tr>
                           <td width="40%">
-                            <b>Delivery Pattern:</b>
-                          </td>
-
-                          <td width="60%">
-                            {applicationInfo?.deliveryPattern?.name}
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td width="40%">
                             <b>Intake:</b>
                           </td>
 
@@ -590,128 +1355,414 @@ const ApplicationDetails = () => {
                   </div> */}
                     </div>
 
-                    <Table className="table-bordered mt-4">
-                      <tbody>
-                        <tr>
-                          <td width="40%">
-                            <b>Status:</b>
-                          </td>
+                    {applicationInfo?.elpt === null ? (
+                      <>
+                        <ButtonForFunction
+                          func={handleOpenELPTModal}
+                          className={"badge-primary"}
+                          name={<b>Add ELPT</b>}
+                          permission={6}
+                        />
 
-                          <td width="60%">
-                            {applicationInfo?.elpt?.elptStatus?.name}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Date:</b>
-                          </td>
+                        <Modal
+                          size="lg"
+                          isOpen={elptModalOpen}
+                          toggle={closeElptModal}
+                          className="pt-5 uapp-modal2"
+                        >
+                          <ModalHeader>ELPT</ModalHeader>
+                          <ModalBody>
+                            <Form onSubmit={handleSubmit}>
+                              {/* <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Input
+                                  type="hidden"
+                                  id="universityId"
+                                  name="universityId"
+                                  value={localStorage.getItem("universityId")}
+                                />
+                                <Input
+                                  type="hidden"
+                                  id="Id"
+                                  name="Id"
+                                  value={selectedId}
+                                />
+                              </FormGroup> */}
 
-                          <td width="60%">
-                            {applicationInfo?.elpt?.elptDate ? (
-                              <>{handleDate(applicationInfo?.elpt?.elptDate)}</>
-                            ) : null}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Time:</b>
-                          </td>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>
+                                    ELPT Date
+                                  </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="date"
+                                    name="ElptDate"
+                                    id="ElptDate"
+                                    // defaultValue={sDate}
+                                  />
+                                  {/* <div className="form-control-position">
+                                <User size={15} />
+                            </div> */}
+                                </Col>
+                              </FormGroup>
 
-                          <td width="60%">
-                            <>{applicationInfo?.elpt?.elptTime}</>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>ETA:</b>
-                          </td>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>
+                                    ELPT Time
+                                  </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="text"
+                                    name="ElptTime"
+                                    id="ElptTime"
+                                    // defaultValue={campObj?.campusCity}
+                                    placeholder="Enter ELPT Time"
+                                    required
+                                  />
 
-                          <td width="60%">
-                            {applicationInfo?.elpt?.eta ? (
-                              <>{handleDate(applicationInfo?.elpt?.eta)}</>
-                            ) : null}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>ETA Deadline:</b>
-                          </td>
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                          <td width="60%">
-                            {applicationInfo?.elpt?.etaDeadline ? (
-                              <>
-                                {handleDate(applicationInfo?.elpt?.etaDeadline)}
-                              </>
-                            ) : null}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Reading:</b>
-                          </td>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>
+                                    ETA Date
+                                  </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="date"
+                                    name="eta"
+                                    id="eta"
+                                    // defaultValue={sDate}
+                                  />
 
-                          <td width="60%">{applicationInfo?.elpt?.reading}</td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Writting:</b>
-                          </td>
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                          <td width="60%">{applicationInfo?.elpt?.writting}</td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Listening:</b>
-                          </td>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>
+                                    ETA Deadline
+                                  </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="date"
+                                    name="etaDeadLine"
+                                    id="etaDeadLine"
+                                    // defaultValue={sDate}
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                          <td width="60%">
-                            {applicationInfo?.elpt?.listening}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Speaking:</b>
-                          </td>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>
+                                    Reading
+                                  </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="text"
+                                    name="reading"
+                                    id="reading"
+                                    // defaultValue={campObj?.addressLine}
+                                    placeholder="Enter Reading Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                          <td width="60%">{applicationInfo?.elpt?.speaking}</td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Overall:</b>
-                          </td>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Writting </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="text"
+                                    name="writting"
+                                    id="writting"
+                                    // defaultValue={campObj?.totalStudent}
+                                    placeholder="Enter Writting Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                          <td width="60%">{applicationInfo?.elpt?.overall}</td>
-                        </tr>
-                      </tbody>
-                    </Table>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Listening </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="text"
+                                    name="listening"
+                                    id="listening"
+                                    // defaultValue={campObj?.internationalStudent}
+                                    placeholder="Enter Listening Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                    <div className="hedding-titel d-flex justify-content-between my-4">
-                      <div>
-                        <h5>
-                          {" "}
-                          <b>Finance</b>{" "}
-                        </h5>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Speaking </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="text"
+                                    name="speaking"
+                                    id="speaking"
+                                    // defaultValue={campObj?.avarageTutionFee}
+                                    placeholder="Enter Speaking Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                        <div className="bg-h"></div>
-                      </div>
-                      {/* <div className="text-right edit-style  p-3" >
-                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                  </div> */}
-                    </div>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Overall </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="text"
+                                    name="overall"
+                                    id="overall"
+                                    // defaultValue={campObj?.avarageLivingCost}
+                                    placeholder="Enter Overall Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                    <Table className="table-bordered mt-4">
-                      <tbody>
-                        <tr>
-                          <td width="40%">
-                            <b>Status:</b>
-                          </td>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Result / Status </span>{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                </Col>
+                                <Col md="6">
+                                  <Select
+                                    // options={docuCategory}
+                                    // value={{
+                                    //   label: docuLabel,
+                                    //   value: docuValue,
+                                    // }}
+                                    // onChange={(opt) =>
+                                    //   selectDocumentDD(opt.label, opt.value)
+                                    // }
+                                    name="elptStatusId"
+                                    id="elptStatusId"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
 
-                          <td width="60%">
-                            {applicationInfo?.studentFinanceStatus?.name}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "end",
+                                }}
+                              >
+                                <Col md="5">
+                                  <CustomButtonRipple
+                                    color={"primary"}
+                                    type={"submit"}
+                                    className={"mr-1 mt-3"}
+                                    name={"Submit"}
+                                    permission={6}
+                                  />
+                                </Col>
+                              </FormGroup>
+                            </Form>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            {/* <Button
+                              color="danger"
+                              onClick={() =>
+                                handleDeleteDocumentGroup(
+                                  localStorage.getItem("delDocuGroupId")
+                                )
+                              }
+                            >
+                              YES
+                            </Button> */}
+                            <Button color="danger" onClick={closeElptModal}>
+                              Close
+                            </Button>
+                          </ModalFooter>
+                        </Modal>
+                      </>
+                    ) : (
+                      <Table className="table-bordered mt-4">
+                        <tbody>
+                          <tr>
+                            <td width="40%">
+                              <b>Status:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.elptStatus?.name}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Date:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.elptDate ? (
+                                <>
+                                  {handleDate(applicationInfo?.elpt?.elptDate)}
+                                </>
+                              ) : null}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Time:</b>
+                            </td>
+
+                            <td width="60%">
+                              <>{applicationInfo?.elpt?.elptTime}</>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>ETA:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.eta ? (
+                                <>{handleDate(applicationInfo?.elpt?.eta)}</>
+                              ) : null}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>ETA Deadline:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.etaDeadline ? (
+                                <>
+                                  {handleDate(
+                                    applicationInfo?.elpt?.etaDeadline
+                                  )}
+                                </>
+                              ) : null}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Reading:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.reading}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Writting:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.writting}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Listening:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.listening}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Speaking:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.speaking}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Overall:</b>
+                            </td>
+
+                            <td width="60%">
+                              {applicationInfo?.elpt?.overall}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    )}
                   </TabPane>
                 </TabContent>
               ) : activetab == 2 ? (
@@ -1028,15 +2079,10 @@ const ApplicationDetails = () => {
                       <div className="my-4">
                         <h2 className="text-secondary">
                           {studentProInfo?.nameTittle}{" "}
-                          {studentProInfo?.firstName} <br />
-                          {studentProInfo?.lastName}
+                          {studentProInfo?.firstName} {studentProInfo?.lastName}
                         </h2>
                       </div>
                       <div className="text-right edit-style  p-3">
-                        {/* <span>
-                          {" "}
-                          <i className="fas fa-pencil-alt pencil-style"></i>{" "}
-                        </span> */}
                         <SpanButton
                           icon={
                             <i className="fas fa-pencil-alt pencil-style"></i>
