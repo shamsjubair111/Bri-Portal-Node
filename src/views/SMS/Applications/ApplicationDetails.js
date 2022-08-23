@@ -54,6 +54,7 @@ const ApplicationDetails = () => {
   const [docutypeError, setDocuTypeError] = useState(false);
 
   const [deliveryModalOpen, setDeliveryModalOpen] = useState(false);
+  const [uniStdIdModalOpen, setUniStdIdModalOpen] = useState(false);
   const [deliveryDD, setDeliveryDD] = useState([]);
   const [deliveryLabel, setDeliveryLabel] = useState("");
   const [deliveryValue, setDeliveryValue] = useState(0);
@@ -78,6 +79,8 @@ const ApplicationDetails = () => {
   const [offerValue, setOfferValue] = useState(0);
   const [offerModalOpen, setOfferModalOpen] = useState(false);
 
+  const [uniAppDateModalOpen, setUniAppDateModalOpen] = useState(false);
+
   //   for document upload
   const [FileList2, setFileList2] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
@@ -95,6 +98,14 @@ const ApplicationDetails = () => {
 
   // ELPT modal
   const [elptModalOpen, setElptModalOpen] = useState(false);
+  const [elptModalOpen1, setElptModalOpen1] = useState(false);
+  const [elptStatusDD, setElptStatusDD] = useState([]);
+  const [elptStatusLabel, setElptStatusLabel] = useState("Select ELPT status");
+  const [elptStatusValue, setElptStatusValue] = useState(0);
+  const [elptStatusError, setElptStatusError] = useState(false);
+  const [elptDate, setElptDate] = useState("");
+  const [etaDate, setEtaDate] = useState("");
+  const [eatDeadLine, setEtaDeadLine] = useState("");
 
   const { addToast } = useToasts();
   const history = useHistory();
@@ -135,6 +146,9 @@ const ApplicationDetails = () => {
     get(`Application/Get/${id}`).then((res) => {
       console.log("applicationInfodata", res);
       setApplicationInfo(res);
+      setElptDate(handleDate(res?.elpt?.elptDate));
+      setEtaDate(handleDate(res?.elpt?.eta));
+      setEtaDeadLine(handleDate(res?.elpt?.etaDeadline));
     });
 
     // document upload
@@ -164,6 +178,9 @@ const ApplicationDetails = () => {
     });
     get("OfferStatusDD/Index").then((res) => {
       setOfferDD(res);
+    });
+    get("ElptStatusDD/Index").then((res) => {
+      setElptStatusDD(res);
     });
   }, [id, stdId, success]);
 
@@ -215,6 +232,15 @@ const ApplicationDetails = () => {
   const selectOffer = (label, value) => {
     setOfferLabel(label);
     setOfferValue(value);
+  };
+  const elptStatusMenu = elptStatusDD.map((elpt) => ({
+    label: elpt?.name,
+    value: elpt?.id,
+  }));
+  const selectElpt = (label, value) => {
+    setElptStatusLabel(label);
+    setElptStatusValue(value);
+    setElptStatusError(false);
   };
 
   const toggle = (tab) => {
@@ -423,6 +449,10 @@ const ApplicationDetails = () => {
     setDeliveryModalOpen(true);
   };
 
+  const handleEditUniStdId = (id) => {
+    setUniStdIdModalOpen(true);
+  };
+
   // on Close Modal
   const closeModal = () => {
     setDeliveryModalOpen(false);
@@ -440,6 +470,8 @@ const ApplicationDetails = () => {
     setOfferLabel("");
     setOfferValue(0);
     setOfferModalOpen(false);
+    setUniStdIdModalOpen(false);
+    setUniAppDateModalOpen(false);
   };
 
   const handleDeliveryPatternSubmit = (e) => {
@@ -469,6 +501,38 @@ const ApplicationDetails = () => {
     );
   };
 
+  const handleUniStdIdSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    const returnvalue = put(
+      `Application/UpdateUniversityStudentId`,
+      subData
+    ).then((action) => {
+      setSuccess(!success);
+      setUniStdIdModalOpen(false);
+      addToast(action?.data?.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    });
+  };
+
+  const handleUniAppDateSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    const returnvalue = put(
+      `Application/UpdateUniversityApplicationDate`,
+      subData
+    ).then((action) => {
+      setSuccess(!success);
+      setUniAppDateModalOpen(false);
+      addToast(action?.data?.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    });
+  };
+
   const handleEditFinance = (name, id) => {
     setFinanceLabel(name);
     setFinanceValue(id);
@@ -496,6 +560,10 @@ const ApplicationDetails = () => {
     setStatusLabel(name);
     setStatusvalue(id);
     setStatusModalOpen(true);
+  };
+
+  const handleEditUniAppDate = (id) => {
+    setUniAppDateModalOpen(true);
   };
 
   const handleApplicationUpdateSubmit = (e) => {
@@ -571,9 +639,67 @@ const ApplicationDetails = () => {
   const closeElptModal = () => {
     setElptModalOpen(false);
   };
+  // on close ELPT modal
+  const closeElptModal1 = () => {
+    setElptModalOpen1(false);
+  };
+
+  const handleSubmitElpt = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+
+    if (elptStatusValue === 0) {
+      setElptStatusError(true);
+    } else {
+      const returnvalue = post(`ELPT/Create`, subData).then((action) => {
+        setSuccess(!success);
+        setOfferModalOpen(false);
+        addToast(action?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        // setElptStatusLabel("Select ELPT status");
+        // setElptStatusValue(0);
+      });
+    }
+  };
+
+  const handleElptupdate = (e) => {
+    console.log(e);
+    setElptStatusLabel(applicationInfo?.elpt?.elptStatus?.name);
+    setElptStatusValue(applicationInfo?.elpt?.elptStatus?.id);
+    setElptModalOpen1(true);
+  };
+
+  const handleSubmitElptupdate = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    const returnvalue = put(`ELPT/Update`, subData).then((action) => {
+      setSuccess(!success);
+      setElptModalOpen1(false);
+      addToast(action?.data?.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setElptStatusLabel("Select ELPT status");
+      setElptStatusValue(0);
+    });
+  };
 
   return (
     <div>
+      <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-light">Application Details</h3>
+          <div className="page-header-back-to-home">
+            <span onClick={handleRedirectToAppliPage} className="text-light">
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Application
+              List
+            </span>
+          </div>
+        </CardHeader>
+      </Card>
       <Row>
         <Col md="7">
           <Card>
@@ -1245,7 +1371,88 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {applicationInfo?.universityStudentId}
+                            <div className="d-flex justify-content-between">
+                              {applicationInfo?.universityStudentId}
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={() =>
+                                  handleEditUniStdId(
+                                    applicationInfo?.universityStudentId
+                                  )
+                                }
+                                permission={6}
+                              />
+
+                              <Modal
+                                isOpen={uniStdIdModalOpen}
+                                toggle={closeModal}
+                                className="uapp-modal"
+                              >
+                                <ModalHeader>
+                                  Update Delivery Pattern
+                                </ModalHeader>
+                                <ModalBody>
+                                  <Form onSubmit={handleUniStdIdSubmit}>
+                                    <input
+                                      type="hidden"
+                                      name="id"
+                                      id="id"
+                                      value={applicationInfo?.id}
+                                    />
+
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>University Student Id </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Input
+                                          type="text"
+                                          defaultValue={
+                                            applicationInfo?.universityStudentId
+                                          }
+                                          name="universityStudentId"
+                                          id="universityStudentId"
+                                        />
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button
+                                        color="danger"
+                                        className="mr-1 mt-3"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </Button>
+
+                                      <CustomButtonRipple
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"mr-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+
+                                      {/* }  */}
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                            </div>
                           </td>
                         </tr>
 
@@ -1255,13 +1462,96 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {applicationInfo?.universityApplicationDate ? (
-                              <>
-                                {handleDate(
-                                  applicationInfo?.universityApplicationDate
-                                )}
-                              </>
-                            ) : null}
+                            <div className="d-flex justify-content-between">
+                              {applicationInfo?.universityApplicationDate ? (
+                                <>
+                                  {handleDate(
+                                    applicationInfo?.universityApplicationDate
+                                  )}
+                                </>
+                              ) : null}
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={() =>
+                                  handleEditUniAppDate(
+                                    applicationInfo?.universityApplicationDate
+                                  )
+                                }
+                                permission={6}
+                              />
+
+                              <Modal
+                                isOpen={uniAppDateModalOpen}
+                                toggle={closeModal}
+                                className="uapp-modal"
+                              >
+                                <ModalHeader>
+                                  Update Delivery Pattern
+                                </ModalHeader>
+                                <ModalBody>
+                                  <Form onSubmit={handleUniAppDateSubmit}>
+                                    <input
+                                      type="hidden"
+                                      name="id"
+                                      id="id"
+                                      value={applicationInfo?.id}
+                                    />
+
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          University Application Date{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Input
+                                          type="Date"
+                                          defaultValue={handleDate(
+                                            applicationInfo?.universityApplicationDate
+                                          )}
+                                          name="universityApplicationDate"
+                                          id="universityApplicationDate"
+                                        />
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button
+                                        color="danger"
+                                        className="mr-1 mt-3"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </Button>
+
+                                      <CustomButtonRipple
+                                        color={"primary"}
+                                        type={"submit"}
+                                        className={"mr-1 mt-3"}
+                                        name={"Submit"}
+                                        permission={6}
+                                      />
+
+                                      {/* }  */}
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                            </div>
                           </td>
                         </tr>
 
@@ -1341,7 +1631,7 @@ const ApplicationDetails = () => {
                       </tbody>
                     </Table>
 
-                    <div className="hedding-titel d-flex justify-content-between my-4">
+                    <div className="hedding-titel d-flex justify-content-between my-4 mt-5">
                       <div>
                         <h5>
                           {" "}
@@ -1350,9 +1640,313 @@ const ApplicationDetails = () => {
 
                         <div className="bg-h"></div>
                       </div>
-                      {/* <div className="text-right edit-style  p-3" >
-                    <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                  </div> */}
+                      <div className="text-right">
+                        {/* <span> <i className="fas fa-pencil-alt pencil-style"></i> </span> */}
+                        <SpanButton
+                          icon={
+                            <i
+                              style={{ cursor: "pointer" }}
+                              className="fas fa-pencil-alt pencil-style"
+                            ></i>
+                          }
+                          func={handleElptupdate}
+                          permission={6}
+                        />
+
+                        <Modal
+                          size="lg"
+                          isOpen={elptModalOpen1}
+                          toggle={closeElptModal1}
+                          className="uapp-modal2"
+                        >
+                          <ModalHeader>Update ELPT</ModalHeader>
+                          <ModalBody>
+                            <Form onSubmit={handleSubmitElptupdate}>
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Input
+                                  type="hidden"
+                                  id="applicationId"
+                                  name="applicationId"
+                                  value={id}
+                                />
+                                <Input
+                                  type="hidden"
+                                  id="id"
+                                  name="id"
+                                  value={applicationInfo?.elpt?.id}
+                                />
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>ELPT Date</span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="date"
+                                    name="ElptDate"
+                                    id="ElptDate"
+                                    defaultValue={elptDate}
+                                  />
+                                  {/* <div className="form-control-position">
+                                <User size={15} />
+                            </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>ELPT Time</span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="text"
+                                    name="ElptTime"
+                                    id="ElptTime"
+                                    defaultValue={
+                                      applicationInfo?.elpt?.elptTime
+                                    }
+                                    placeholder="Enter ELPT Time"
+                                  />
+
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>ETA Date</span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="date"
+                                    name="eta"
+                                    id="eta"
+                                    defaultValue={etaDate}
+                                  />
+
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>ETA Deadline</span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="date"
+                                    name="etaDeadLine"
+                                    id="etaDeadLine"
+                                    defaultValue={eatDeadLine}
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Reading</span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="text"
+                                    name="reading"
+                                    id="reading"
+                                    defaultValue={
+                                      applicationInfo?.elpt?.reading
+                                    }
+                                    placeholder="Enter Reading Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Writting </span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="text"
+                                    name="writting"
+                                    id="writting"
+                                    defaultValue={
+                                      applicationInfo?.elpt?.writting
+                                    }
+                                    placeholder="Enter Writting Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Listening </span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="text"
+                                    name="listening"
+                                    id="listening"
+                                    defaultValue={
+                                      applicationInfo?.elpt?.listening
+                                    }
+                                    placeholder="Enter Listening Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Speaking </span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="text"
+                                    name="speaking"
+                                    id="speaking"
+                                    defaultValue={
+                                      applicationInfo?.elpt?.speaking
+                                    }
+                                    placeholder="Enter Speaking Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Overall </span>
+                                </Col>
+                                <Col md="7">
+                                  <Input
+                                    type="text"
+                                    name="overall"
+                                    id="overall"
+                                    defaultValue={
+                                      applicationInfo?.elpt?.overall
+                                    }
+                                    placeholder="Enter Overall Mark"
+                                  />
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>Result / Status </span>{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </Col>
+                                <Col md="7">
+                                  <Select
+                                    options={elptStatusMenu}
+                                    value={{
+                                      label: elptStatusLabel,
+                                      value: elptStatusValue,
+                                    }}
+                                    onChange={(opt) =>
+                                      selectElpt(opt.label, opt.value)
+                                    }
+                                    name="elptStatusId"
+                                    id="elptStatusId"
+                                  />
+                                  {elptStatusError ? (
+                                    <div className="text-danger">
+                                      ELPT status must be selected
+                                    </div>
+                                  ) : null}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "end",
+                                }}
+                              >
+                                <Col md="5">
+                                  <CustomButtonRipple
+                                    color={"primary"}
+                                    type={"submit"}
+                                    className={"ms-5 mt-3"}
+                                    name={"Submit"}
+                                    permission={6}
+                                  />
+                                </Col>
+                              </FormGroup>
+                            </Form>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            {/* <Button
+                              color="danger"
+                              onClick={() =>
+                                handleDeleteDocumentGroup(
+                                  localStorage.getItem("delDocuGroupId")
+                                )
+                              }
+                            >
+                              YES
+                            </Button> */}
+                            <Button color="danger" onClick={closeElptModal1}>
+                              Close
+                            </Button>
+                          </ModalFooter>
+                        </Modal>
+                      </div>
                     </div>
 
                     {applicationInfo?.elpt === null ? (
@@ -1370,37 +1964,35 @@ const ApplicationDetails = () => {
                           toggle={closeElptModal}
                           className="pt-5 uapp-modal2"
                         >
-                          <ModalHeader>ELPT</ModalHeader>
+                          <ModalHeader>Add ELPT</ModalHeader>
                           <ModalBody>
-                            <Form onSubmit={handleSubmit}>
-                              {/* <FormGroup
+                            <Form onSubmit={handleSubmitElpt}>
+                              <FormGroup
                                 row
                                 className="has-icon-left position-relative"
                               >
                                 <Input
                                   type="hidden"
-                                  id="universityId"
-                                  name="universityId"
-                                  value={localStorage.getItem("universityId")}
+                                  id="applicationId"
+                                  name="applicationId"
+                                  value={id}
                                 />
-                                <Input
+                                {/* <Input
                                   type="hidden"
                                   id="Id"
                                   name="Id"
                                   value={selectedId}
-                                />
-                              </FormGroup> */}
+                                /> */}
+                              </FormGroup>
 
                               <FormGroup
                                 row
                                 className="has-icon-left position-relative"
                               >
                                 <Col md="2">
-                                  <span>
-                                    ELPT Date
-                                  </span>
+                                  <span>ELPT Date</span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="date"
                                     name="ElptDate"
@@ -1418,11 +2010,9 @@ const ApplicationDetails = () => {
                                 className="has-icon-left position-relative"
                               >
                                 <Col md="2">
-                                  <span>
-                                    ELPT Time
-                                  </span>
+                                  <span>ELPT Time</span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="text"
                                     name="ElptTime"
@@ -1443,11 +2033,9 @@ const ApplicationDetails = () => {
                                 className="has-icon-left position-relative"
                               >
                                 <Col md="2">
-                                  <span>
-                                    ETA Date
-                                  </span>
+                                  <span>ETA Date</span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="date"
                                     name="eta"
@@ -1466,11 +2054,9 @@ const ApplicationDetails = () => {
                                 className="has-icon-left position-relative"
                               >
                                 <Col md="2">
-                                  <span>
-                                    ETA Deadline
-                                  </span>
+                                  <span>ETA Deadline</span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="date"
                                     name="etaDeadLine"
@@ -1488,11 +2074,9 @@ const ApplicationDetails = () => {
                                 className="has-icon-left position-relative"
                               >
                                 <Col md="2">
-                                  <span>
-                                    Reading
-                                  </span>
+                                  <span>Reading</span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="text"
                                     name="reading"
@@ -1513,7 +2097,7 @@ const ApplicationDetails = () => {
                                 <Col md="2">
                                   <span>Writting </span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="text"
                                     name="writting"
@@ -1534,7 +2118,7 @@ const ApplicationDetails = () => {
                                 <Col md="2">
                                   <span>Listening </span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="text"
                                     name="listening"
@@ -1555,7 +2139,7 @@ const ApplicationDetails = () => {
                                 <Col md="2">
                                   <span>Speaking </span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="text"
                                     name="speaking"
@@ -1576,7 +2160,7 @@ const ApplicationDetails = () => {
                                 <Col md="2">
                                   <span>Overall </span>
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Input
                                     type="text"
                                     name="overall"
@@ -1596,24 +2180,26 @@ const ApplicationDetails = () => {
                               >
                                 <Col md="2">
                                   <span>Result / Status </span>{" "}
-                                    <span className="text-danger">*</span>{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </Col>
-                                <Col md="6">
+                                <Col md="7">
                                   <Select
-                                    // options={docuCategory}
-                                    // value={{
-                                    //   label: docuLabel,
-                                    //   value: docuValue,
-                                    // }}
-                                    // onChange={(opt) =>
-                                    //   selectDocumentDD(opt.label, opt.value)
-                                    // }
+                                    options={elptStatusMenu}
+                                    value={{
+                                      label: elptStatusLabel,
+                                      value: elptStatusValue,
+                                    }}
+                                    onChange={(opt) =>
+                                      selectElpt(opt.label, opt.value)
+                                    }
                                     name="elptStatusId"
                                     id="elptStatusId"
                                   />
-                                  {/* <div className="form-control-position">
-                        <User size={15} />
-                    </div> */}
+                                  {elptStatusError ? (
+                                    <div className="text-danger">
+                                      ELPT status must be selected
+                                    </div>
+                                  ) : null}
                                 </Col>
                               </FormGroup>
 
@@ -1629,7 +2215,7 @@ const ApplicationDetails = () => {
                                   <CustomButtonRipple
                                     color={"primary"}
                                     type={"submit"}
-                                    className={"mr-1 mt-3"}
+                                    className={"ms-5 mt-3"}
                                     name={"Submit"}
                                     permission={6}
                                   />
@@ -2981,16 +3567,11 @@ const ApplicationDetails = () => {
             </CardBody>
           </Card>
 
-          <div
+          {/* <div
             className="has-icon-left position-relative"
             style={{ display: "flex", justifyContent: "end" }}
           >
-            {/* <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple> */}
+            
 
             <ButtonForFunction
               func={handleRedirectToAppliPage}
@@ -2998,7 +3579,7 @@ const ApplicationDetails = () => {
               name={<b>Back to Application Page</b>}
               permission={6}
             />
-          </div>
+          </div> */}
         </Col>
       </Row>
     </div>

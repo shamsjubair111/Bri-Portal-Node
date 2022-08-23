@@ -1,506 +1,912 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
-import {  Card, CardBody, Input, CardHeader, Label, Col,  Row, Table, Form, FormGroup, Button, ButtonGroup } from 'reactstrap';
-import get from '../../../helpers/get';
+import React, { useEffect, useState } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
+import {
+  Card,
+  CardBody,
+  Input,
+  CardHeader,
+  Label,
+  Col,
+  Row,
+  Table,
+  Form,
+  FormGroup,
+  Button,
+  ButtonGroup,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
+import Axios from "axios";
+import { useToasts } from "react-toast-notifications";
+import * as Icon from "react-feather";
+import { Upload, Modal as AntdModal } from "antd";
+import "antd/dist/antd.css";
+import { Image } from "antd";
+import get from "../../../helpers/get";
 import Select from "react-select";
-import { rootUrl } from '../../../constants/constants';
+import { rootUrl } from "../../../constants/constants";
+import CustomButtonRipple from "../Components/CustomButtonRipple";
+import remove from "../../../helpers/remove";
 
 const CampusDetails = () => {
-    const {id} = useParams();
-    const [campusInfo, setCampusInfo] = useState({});
-    const [subList, setSubList] = useState([]);
-    const history = useHistory();
-    const [subLabel, setSubLabel] = useState("Select Subject...");
-    const [subValue, setSubValue] = useState(0);
-    const [radioIsAcceptHome, setRadioIsAcceptHome] = useState('false');
-    const [radioIsAcceptUk, setRadioIsAcceptUk] = useState('true');
-    const [radioIsAcceptInt, setRadioIsAcceptInt] = useState('false');
+  const { id } = useParams();
+  const { addToast } = useToasts();
+  const [campusInfo, setCampusInfo] = useState({});
+  const [subList, setSubList] = useState([]);
+  const history = useHistory();
+  const [subLabel, setSubLabel] = useState("Select Subject...");
+  const [subValue, setSubValue] = useState(0);
+  const [radioIsAcceptHome, setRadioIsAcceptHome] = useState("false");
+  const [radioIsAcceptUk, setRadioIsAcceptUk] = useState("true");
+  const [radioIsAcceptInt, setRadioIsAcceptInt] = useState("false");
 
-    // for feature checkbox
-    const [homeAccept, setHomeAccept] = useState(true);
-    const [ukAccept, setUkAccept] = useState(true);
-    const [intAccept, setIntAccept] = useState(true);
+  // for feature checkbox
+  const [homeAccept, setHomeAccept] = useState(true);
+  const [ukAccept, setUkAccept] = useState(true);
+  const [intAccept, setIntAccept] = useState(true);
 
-    const [subId, setSubId] = useState([]);
-    const [subName, setSubName] = useState("");
-    const [subdata,setSubData] =useState([]);
-    const [intakeData, setIntakeData] = useState([]);
-    const [intakeStatusData, setIntakeStatusData] = useState([]);
-    const [intakeLabel, setIntakeLabel] = useState("Intake");
-    const [intakeValue, setIntakeValue] = useState(0);
-    const [statusLabel, setStatusLabel] = useState("Status");
-    const [statusValue, setStatusValue] = useState(0);
+  const [subId, setSubId] = useState([]);
+  const [subName, setSubName] = useState("");
+  const [subdata, setSubData] = useState([]);
+  const [intakeData, setIntakeData] = useState([]);
+  const [intakeStatusData, setIntakeStatusData] = useState([]);
+  const [intakeLabel, setIntakeLabel] = useState("Intake");
+  const [intakeValue, setIntakeValue] = useState(0);
+  const [statusLabel, setStatusLabel] = useState("Status");
+  const [statusValue, setStatusValue] = useState(0);
 
-    useEffect(()=>{
-        // const uCountryId = 0;
-        // const uStateId = 0;
-        // const uTypeId = 0;
-        // const providerId = 0;
-       
-          get(`UniversityCampus/Get/${id}`)
-          .then(res => {
-              setCampusInfo(res);
-              console.log('unicamp', res);
-          })
+   // For uploading Gallary
+   const [FileList1, setFileList1] = useState([]);
+   const [previewVisible1, setPreviewVisible1] = useState(false);
+   const [previewImage1, setPreviewImage1] = useState("");
+   const [previewTitle1, setPreviewTitle1] = useState("");
+   const [fileError, setFileError] = useState(false);
+   const [success, setSuccess] = useState(false);
+   const [gallery, setGallery] = useState([]);
+   const [viewModalOpen, setViewModalOpen] = useState(false);
+   const [galleryObj, setGalleryObj] = useState({});
+   const [deleteModal, setDeleteModal] = useState(false);
 
-          // Subject get by university
-          get(`UniversityCampusSubject/GetUnassigned/${id}`).then(res=>{
-            
-            setSubList(res);
-            console.log("Sublist",res);
-            // setSubList(res);
-          })
-
-          // for intake
-          get('Intake/Index').then(res=>{
-            setIntakeData(res);
-          })
-
-          get('IntakeStatus/GetAll').then(res=>{
-            setIntakeStatusData(res);
-          })
-  
-      },[id]);
-
-      // for intake dropdown
-      const intakeDropDown = intakeData?.map((intake) => ({
-        label: intake?.name,
-        value: intake?.id,
-      }));
-  
-      const intakeStatusDropDown = intakeStatusData?.map((status) => ({
-        label: status?.name,
-        value: status?.id,
-      }));
-
-      const selectIntakeType = (label, value) => {
-        setIntakeLabel(label);
-        setIntakeValue(value);
-        // handleSearch();
-      };
-  
-      const selectStatusType = (label, value) => {
-        setStatusLabel(label);
-        setStatusValue(value);
-        // handleSearch();
-      };
-
-      // for subject dropdown
-      const subMenu = subList.map(subOptions =>({label:subOptions.name, value:subOptions.id}) );
-
-      const selectSubject = (label, value) => {
-        setSubLabel(label);
-        setSubValue(value);
-      }
-
-    // on change radio button starts here
-    const onValueChangeIsAcceptHome = (event) => {
-      setRadioIsAcceptHome(event.target.value);
-    }
-
-    const onValueChangeIsAcceptUk = (event) => {
-      setRadioIsAcceptUk(event.target.value);
-    }
-
-    const onValueChangeIsAcceptInt = (event) => {
-      setRadioIsAcceptInt(event.target.value);
-    }
-    // on change radio button ends here
-
-    // on change Feature starts here
-      // const handleFeatureChange = e =>{
-      //   const {name, checked} = e.target;
-      //   if(name === "isAcceptHome"){
-      //     setIsAcceptHome(!isAcceptHome);
-      //   }
-      //   else if(name === "isAcceptEU_UK"){
-      //     setIsAcceptUk(isAcceptUk);
-      //   }
-      //   else{
-      //     setIsAcceptInt(!isAcceptInt);
-      //   }
-      // }
-    // on change Feature ends here
-
-    const backToDashboard = () =>{
-        history.push('/campusList');
-    }
-
-    const handleSubjectIntake = (e) => {
-      e.preventDefault();
-
-      const subdata = subList;
-      console.log("postData",subdata);
-      
-     
-
-
-
-      // setSubData(subdata);
-      
-      
-
-      // const x =[...a,subdata];
-      // setA(x);
-      // console.log("subList",clonedSubData);
-
-      // for (var value of subId) { 
-      //     console.log("values",value);
-      //    }
-
-      // for (var value of clonedSubData) { 
-      //   console.log("values",value);
-      //  }
-    }
-
-    const handleSingleSubmit = (e) => {
-      e.preventDefault();
-      const subdata = new FormData(e.target);
-
-      for (var value of subdata.values()) { 
-        console.log("values",value);
-       }
-    }
-
-    const handleChange = e =>{
-      const {name, checked} = e.target;
-      if(name === "allSelect"){
-        let tmpUsers = subList.map(sub=> {return {...sub, isChecked: checked}});
-        setSubList(tmpUsers);
-        console.log("selectAll",tmpUsers);
-      }
-      else if(name === "allDeselect"){
-        let tmpUsers = subList.map(sub=> {return {...sub, isChecked: !checked}});
-        setSubList(tmpUsers);
-        console.log("dselectAll", tmpUsers);
-      }
-      else{
-          let tmpUsers = subList.map(sub=> sub.name === name ? {...sub, isChecked: checked } : sub);
-          setSubList(tmpUsers);
-          console.log("singleSelect", tmpUsers);  
-      }
-    }
-
-    // for feature checkboxes
-    const handleFeatureHome = e =>{
-      const {name, id, checked, disabled} = e.target;
-      
-      const features = subList.map(data=> data?.id.toString() === id.toString() ? {...data, isAcceptHome: checked}: data);
-      setSubList(features);
-      console.log("featureHome",features);
-      // if(data?.isChecked === true){
-      //     setSubList({...data, isAcceptHome: homeAccept})
-      // }
+   function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   }
 
-  const handleFeatureUk = e =>{
-      const {name, id, checked} = e.target;
-      
-      const features = subList.map(data=> data?.id.toString() === id.toString() ? {...data, isAcceptUk: checked}: data);
-      setSubList(features);
-      console.log("featureUk",features);
-      // if(data?.isChecked === true){
-      //     setSubList({...data, isAcceptHome: homeAccept})
-      // }
+   const handlePreview1 = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage1(file.url || file.preview);
+    setPreviewVisible1(true);
+    setPreviewTitle1(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+
+  const handleChange1 = ({ fileList }) => {
+    setFileList1(fileList);
+    setFileError(false);
+    console.log(fileList);
+  };
+
+  const handleCancel1 = () => {
+    setPreviewVisible1(false);
+  };
+
+  useEffect(() => {
+    // const uCountryId = 0;
+    // const uStateId = 0;
+    // const uTypeId = 0;
+    // const providerId = 0;
+
+    get(`UniversityCampus/Get/${id}`).then((res) => {
+      setCampusInfo(res);
+      console.log("unicamp", res);
+    });
+
+    // Subject get by university
+    get(`UniversityCampusSubject/GetUnassigned/${id}`).then((res) => {
+      setSubList(res);
+      console.log("Sublist", res);
+      // setSubList(res);
+    });
+
+    // for intake
+    get("Intake/Index").then((res) => {
+      setIntakeData(res);
+    });
+
+    get("IntakeStatus/GetAll").then((res) => {
+      setIntakeStatusData(res);
+    });
+    get(`CampusGallery/GetByCampusId/${id}`).then((res) => {
+      setGallery(res);
+    });
+  }, [id, success]);
+
+  // for intake dropdown
+  const intakeDropDown = intakeData?.map((intake) => ({
+    label: intake?.name,
+    value: intake?.id,
+  }));
+
+  const intakeStatusDropDown = intakeStatusData?.map((status) => ({
+    label: status?.name,
+    value: status?.id,
+  }));
+
+  const selectIntakeType = (label, value) => {
+    setIntakeLabel(label);
+    setIntakeValue(value);
+    // handleSearch();
+  };
+
+  const selectStatusType = (label, value) => {
+    setStatusLabel(label);
+    setStatusValue(value);
+    // handleSearch();
+  };
+
+  // for subject dropdown
+  const subMenu = subList.map((subOptions) => ({
+    label: subOptions.name,
+    value: subOptions.id,
+  }));
+
+  const selectSubject = (label, value) => {
+    setSubLabel(label);
+    setSubValue(value);
+  };
+
+  // on change radio button starts here
+  const onValueChangeIsAcceptHome = (event) => {
+    setRadioIsAcceptHome(event.target.value);
+  };
+
+  const onValueChangeIsAcceptUk = (event) => {
+    setRadioIsAcceptUk(event.target.value);
+  };
+
+  const onValueChangeIsAcceptInt = (event) => {
+    setRadioIsAcceptInt(event.target.value);
+  };
+  // on change radio button ends here
+
+  // on change Feature starts here
+  // const handleFeatureChange = e =>{
+  //   const {name, checked} = e.target;
+  //   if(name === "isAcceptHome"){
+  //     setIsAcceptHome(!isAcceptHome);
+  //   }
+  //   else if(name === "isAcceptEU_UK"){
+  //     setIsAcceptUk(isAcceptUk);
+  //   }
+  //   else{
+  //     setIsAcceptInt(!isAcceptInt);
+  //   }
+  // }
+  // on change Feature ends here
+
+  const backToDashboard = () => {
+    history.push("/campusList");
+  };
+
+  const handleSubjectIntake = (e) => {
+    e.preventDefault();
+
+    const subdata = subList;
+    console.log("postData", subdata);
+
+    // setSubData(subdata);
+
+    // const x =[...a,subdata];
+    // setA(x);
+    // console.log("subList",clonedSubData);
+
+    // for (var value of subId) {
+    //     console.log("values",value);
+    //    }
+
+    // for (var value of clonedSubData) {
+    //   console.log("values",value);
+    //  }
+  };
+
+  const handleSingleSubmit = (e) => {
+    e.preventDefault();
+    const subdata = new FormData(e.target);
+
+    for (var value of subdata.values()) {
+      console.log("values", value);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, checked } = e.target;
+    if (name === "allSelect") {
+      let tmpUsers = subList.map((sub) => {
+        return { ...sub, isChecked: checked };
+      });
+      setSubList(tmpUsers);
+      console.log("selectAll", tmpUsers);
+    } else if (name === "allDeselect") {
+      let tmpUsers = subList.map((sub) => {
+        return { ...sub, isChecked: !checked };
+      });
+      setSubList(tmpUsers);
+      console.log("dselectAll", tmpUsers);
+    } else {
+      let tmpUsers = subList.map((sub) =>
+        sub.name === name ? { ...sub, isChecked: checked } : sub
+      );
+      setSubList(tmpUsers);
+      console.log("singleSelect", tmpUsers);
+    }
+  };
+
+  // for feature checkboxes
+  const handleFeatureHome = (e) => {
+    const { name, id, checked, disabled } = e.target;
+
+    const features = subList.map((data) =>
+      data?.id.toString() === id.toString()
+        ? { ...data, isAcceptHome: checked }
+        : data
+    );
+    setSubList(features);
+    console.log("featureHome", features);
+    // if(data?.isChecked === true){
+    //     setSubList({...data, isAcceptHome: homeAccept})
+    // }
+  };
+
+  const handleFeatureUk = (e) => {
+    const { name, id, checked } = e.target;
+
+    const features = subList.map((data) =>
+      data?.id.toString() === id.toString()
+        ? { ...data, isAcceptUk: checked }
+        : data
+    );
+    setSubList(features);
+    console.log("featureUk", features);
+    // if(data?.isChecked === true){
+    //     setSubList({...data, isAcceptHome: homeAccept})
+    // }
+  };
+
+  const handleFeatureInt = (e) => {
+    const { name, id, checked } = e.target;
+
+    const features = subList.map((data) =>
+      data?.id.toString() === id.toString()
+        ? { ...data, isAcceptInt: checked }
+        : data
+    );
+    setSubList(features);
+    console.log("featureInt", features);
+    // if(data?.isChecked === true){
+    //     setSubList({...data, isAcceptHome: homeAccept})
+    // }
+  };
+
+  const handleGalleryPost = e => {
+    e.preventDefault();
+
+    const subdata = new FormData(e.target);
+
+    for (let i = 0; i < FileList1.length; i++) {
+      subdata.append(`mediaFile`, FileList1[i]?.originFileObj);
+    }
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+
+    if(FileList1.length<1){
+      setFileError(true);
+    }
+    else{
+      Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config).then(
+        (res) => {
+          setSuccess(!success);
+          setFileList1([]);
+          setFileError(false);
+          addToast(res.data.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          // history.push("/addUniversityApplicationDocument");
+        }
+      );
+    }
   }
 
-  const handleFeatureInt = e =>{
-      const {name, id, checked} = e.target;
-      
-      const features = subList.map(data=> data?.id.toString() === id.toString() ? {...data, isAcceptInt: checked}: data);
-      setSubList(features);
-      console.log("featureInt",features);
-      // if(data?.isChecked === true){
-      //     setSubList({...data, isAcceptHome: homeAccept})
-      // }
-  }
+  const handleView = (gallery) => {
+    setGalleryObj(gallery);
+    setViewModalOpen(true);
+    console.log("gOBj", gallery);
+  };
 
-    
-    
-    return (
-        <div>
-            <Card className="uapp-card-bg">
-              <CardHeader className="page-header">
+  const handleDelete = (gallery) => {
+    console.log("gallery", gallery);
+    localStorage.setItem("delGalName", gallery?.mediaFileMedia?.fileName);
+    localStorage.setItem("delGalId", gallery?.id);
+    setDeleteModal(true);
+  };
 
-                <h3 className="text-light">Campus details</h3>
-                <div className="page-header-back-to-home" >
-                  <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Campus List</span>
-                </div>
+  // on Close Modal
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    localStorage.removeItem("delGalName");
+    localStorage.removeItem("delGalId");
+  };
 
-              </CardHeader>
-            </Card>
+  // on Close View Modal
+  const closeViewModal = () => {
+    setViewModalOpen(false);
+    setGalleryObj({});
+  };
+
+  const handleDeleteItem = (id) => {
+    const returnValue = remove(`CampusGallery/Delete/${id}`).then(
+      (action) => {
+        setDeleteModal(false);
+        setSuccess(!success);
+        addToast(action, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        localStorage.removeItem("delGalName");
+        localStorage.removeItem("delGalId");
+      }
+    );
+  };
+
+  return (
+    <div>
+      <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-light">Campus details</h3>
+          <div className="page-header-back-to-home">
+            <span onClick={backToDashboard} className="text-light">
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Campus List
+            </span>
+          </div>
+        </CardHeader>
+      </Card>
 
       <div className="uapp-employee-profile">
-        
         <Row>
-
-          <Col md='8'>
-
-               <Card>
-                  <CardBody>
-                    <div className="uapp-employee-profile-image-edit">
-                      <Row>
-                        <Col> 
-                          <div>
-                          <div className="text-left">
-                              <h4 className='ms-2'>{campusInfo?.name}</h4>
+          <Col md="8">
+            <Card>
+              <CardBody>
+                <div className="uapp-employee-profile-image-edit">
+                  <Row>
+                    <Col>
+                      <div>
+                        <div className="text-left">
+                          <h4 className="ms-2">{campusInfo?.name}</h4>
                         </div>
-                        </div>  
-                      </Col>
+                      </div>
+                    </Col>
 
-                    <Col> 
-                    <div className="uapp-employee-profile-Edit">
-                    <div className="text-right">
-                      <span> <i className="fas fa-pencil-alt"></i> </span>
-                    </div>
-                    </div>  
-
-                        </Col> 
-                    </Row>            
-                   </div>     
-
-
-                      <div className="uapp-employee-profile-generalInfo"> 
-                       <Row>
-                         <Col md="6">
-                          <ul className="uapp-ul text-left">
-
-                            <li> 
-                                International student : {campusInfo?.internationalStudent}
-                            </li>
-
-                            <li> 
-                                Total student : {campusInfo?.totalStudent}
-                            </li>
-
-                            <li> 
-                                <span> Address : {campusInfo?.addressLine}{","} {campusInfo?.campusCity} </span>
-                            </li>
-                          </ul>
-
-                      </Col> 
-
-                      <Col md="6"> 
-                     <ul className="uapp-ul text-right1">
-                            <li> 
-                              {/* <span> Programm : {subjectData?.programLevel?.name} </span> */}
-                            </li>
-
-                            <li> 
-                              {/* <span> Duration : {subjectData?.duration}</span> */}
-                            </li>
-
-                          </ul>
-                      </Col> 
-                    </Row> 
-                    </div> 
-                  </CardBody>
-                </Card>
-
-
-        {/* Assign single subject */}
-        <div className=" info-item mt-4">
-         <Card className="uapp-employee-search">
-            <CardBody className="search-card-body">
-
-               <div className="hedding-titel d-flex justify-content-between mb-4">
-                 <div>
-                 <h5> <b>Assign single subject</b> </h5>
-                  
-                 <div className="bg-h"></div>
-                 </div>
-                 {/* <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                 </div> */}
-
+                    <Col>
+                      <div className="uapp-employee-profile-Edit">
+                        <div className="text-right">
+                          <span>
+                            {" "}
+                            <i className="fas fa-pencil-alt"></i>{" "}
+                          </span>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
                 </div>
 
-              <Form onSubmit={handleSingleSubmit}>
-                  
+                <div className="uapp-employee-profile-generalInfo">
+                  <Row>
+                    <Col md="6">
+                      <ul className="uapp-ul text-left">
+                        <li>
+                          International student :{" "}
+                          {campusInfo?.internationalStudent}
+                        </li>
 
-                  <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Subject <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={subMenu}
-                      value={{ label: subLabel, value: subValue }}
-                      onChange={(opt) => selectSubject(opt.label, opt.value)}
-                      name="id"
-                      id="id"
-                    />
-                  </Col>
-                </FormGroup>
+                        <li>Total student : {campusInfo?.totalStudent}</li>
 
-                <FormGroup row className="pt-3">
-                  <p><b>Subject features</b></p>
-                  <br />
-                  <br />
-                    <Col md="3">
-                        <span>Is accept home <span className="text-danger">*</span> </span>
+                        <li>
+                          <span>
+                            {" "}
+                            Address : {campusInfo?.addressLine}
+                            {","} {campusInfo?.campusCity}{" "}
+                          </span>
+                        </li>
+                      </ul>
                     </Col>
 
-                    <Col md="5">
+                    <Col md="6">
+                      <ul className="uapp-ul text-right1">
+                        <li>
+                          {/* <span> Programm : {subjectData?.programLevel?.name} </span> */}
+                        </li>
 
-                      <FormGroup check inline>
-                        <Input className="form-check-input" 
-                        type="radio" 
-                        id="isAcceptHome" 
-                        onChange={onValueChangeIsAcceptHome} 
-                        name="isAcceptHome" 
-                        value='true' 
-                        checked={radioIsAcceptHome == 'true'} 
+                        <li>
+                          {/* <span> Duration : {subjectData?.duration}</span> */}
+                        </li>
+                      </ul>
+                    </Col>
+                  </Row>
+                </div>
+              </CardBody>
+            </Card>
+
+            {/* campus gallery starts here */}
+            <div className=" info-item mt-4">
+              <Card className="uapp-employee-search">
+                <CardBody className="search-card-body">
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Gallery</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                 </div> */}
+                  </div>
+
+                  <div className="row mt-5">
+                    <div className="col-md-8">
+                      <div className="row row-cols-3 g-4">
+                        {gallery.map((gall, i) => (
+                    <div key={i} className="containerCustom">
+                      <img
+                        src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
+                        alt="Avatar"
+                        className="image"
+                        style={{ width: "100%" }}
+                      />
+                      <div className="middle d-flex">
+                        <Button
+                          onClick={() => handleView(gall)}
+                          className="bg-success"
+                        >
+                          View
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(gall)}
+                          className="bg-danger ms-2"
+                        >
+                          Delete
+                        </Button>
+
+                        
+                        <Modal
+                          size="50%"
+                          isOpen={viewModalOpen}
+                          toggle={closeViewModal}
+                          className="uapp-modal2"
+                        >
+                          <ModalBody>
+                            <img
+                              className="w-100 mx-auto"
+                              src={
+                                rootUrl + galleryObj?.mediaFileMedia?.fileUrl
+                              }
+                              alt=""
+                            />
+                          </ModalBody>
+
+                          <ModalFooter>
+                            
+                            <Button
+                              className="bg-danger"
+                              onClick={closeViewModal}
+                            >
+                              Close
+                            </Button>
+                          </ModalFooter>
+                        </Modal>
+
+                        <Modal
+                          isOpen={deleteModal}
+                          toggle={closeDeleteModal}
+                          className="uapp-modal"
+                        >
+                          <ModalBody>
+                            <p>
+                              Are You Sure to Delete this{" "}
+                              <b>{localStorage.getItem("delGalName")}</b> ? Once
+                              Deleted it can't be Undone!
+                            </p>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            <Button
+                              color="danger"
+                              onClick={() =>
+                                handleDeleteItem(
+                                  localStorage.getItem("delGalId")
+                                )
+                              }
+                            >
+                              YES
+                            </Button>
+                            <Button onClick={closeDeleteModal}>NO</Button>
+                          </ModalFooter>
+                        </Modal>
+                      </div>
+                    </div>
+                  ))}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="customCard rounded">
+                        <Form className="ms-2" onSubmit={handleGalleryPost}>
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Input
+                              type="hidden"
+                              id="campusId"
+                              name="campusId"
+                              value={id}
+                            />
+                            {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
+                          </FormGroup>
+                          
+                          <FormGroup>
+                            
+                              <span>
+                                Multiple File Upload{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </span>
+                            
+                            
+                              <div className="row mt-4">
+                                {/* {universityData?.universityLogo ? (
+                                  <div className="col-md-3">
+                                    <Image
+                                      width={104}
+                                      height={104}
+                                      src={
+                                        rootUrl +
+                                        universityData?.universityLogo
+                                          ?.thumbnailUrl
+                                      }
+                                    />
+                                  </div>
+                                ) : null} */}
+
+                                <div className="col-md-3">
+                                  <Upload
+                                    listType="picture-card"
+                                    multiple={true}
+                                    fileList={FileList1}
+                                    onPreview={handlePreview1}
+                                    onChange={handleChange1}
+                                    beforeUpload={(file) => {
+                                      return false;
+                                    }}
+                                  >
+                                    {FileList1.length < 1 ? (
+                                      <div
+                                        className="text-danger"
+                                        style={{ marginTop: 8 }}
+                                      >
+                                        <Icon.Upload />
+                                        <br />
+                                        <span>Upload</span>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </Upload>
+                                  <AntdModal
+                                    visible={previewVisible1}
+                                    title={previewTitle1}
+                                    footer={null}
+                                    onCancel={handleCancel1}
+                                  >
+                                    <img
+                                      alt="example"
+                                      style={{ width: "100%" }}
+                                      src={previewImage1}
+                                    />
+                                  </AntdModal>
+                                </div>
+                              </div>
+
+                              {fileError && (
+                          <span className="text-danger">
+                            You must select at least one file.
+                          </span>
+                        )}
+                            
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                            style={{ display: "flex", justifyContent: "end" }}
+                          >
+                            <Col md="5">
+                              <CustomButtonRipple
+                                type={"submit"}
+                                className={"mr-1 mt-3 badge-primary"}
+                                name={"Save"}
+                                permission={6}
+                              />
+                            </Col>
+                          </FormGroup>
+                        </Form>
+                      </div>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+            {/* campus gallery ends here */}
+
+            {/* Assign single subject */}
+            <div className=" info-item mt-4">
+              <Card className="uapp-employee-search">
+                <CardBody className="search-card-body">
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Assign single subject</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                 </div> */}
+                  </div>
+
+                  <Form onSubmit={handleSingleSubmit}>
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="2">
+                        <span>
+                          Subject <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Select
+                          options={subMenu}
+                          value={{ label: subLabel, value: subValue }}
+                          onChange={(opt) =>
+                            selectSubject(opt.label, opt.value)
+                          }
+                          name="id"
+                          id="id"
                         />
-                        <Label className="form-check-label" check htmlFor="isAcceptHome">Yes</Label>
+                      </Col>
+                    </FormGroup>
 
-                       </FormGroup>
+                    <FormGroup row className="pt-3">
+                      <p>
+                        <b>Subject features</b>
+                      </p>
+                      <br />
+                      <br />
+                      <Col md="3">
+                        <span>
+                          Is accept home <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
 
-                      <FormGroup check inline>
-                          <Input className="form-check-input" 
-                          type="radio" 
-                          id="isAcceptHome" 
-                          onChange={onValueChangeIsAcceptHome} 
-                          name="isAcceptHome" 
-                          value='false' 
-                          checked={radioIsAcceptHome == 'false'} 
+                      <Col md="5">
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptHome"
+                            onChange={onValueChangeIsAcceptHome}
+                            name="isAcceptHome"
+                            value="true"
+                            checked={radioIsAcceptHome == "true"}
+                          />
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptHome"
+                          >
+                            Yes
+                          </Label>
+                        </FormGroup>
+
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptHome"
+                            onChange={onValueChangeIsAcceptHome}
+                            name="isAcceptHome"
+                            value="false"
+                            checked={radioIsAcceptHome == "false"}
                           />
 
-                          <Label className="form-check-label" check htmlFor="isAcceptHome">No</Label>
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptHome"
+                          >
+                            No
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </FormGroup>
 
-                      </FormGroup>
-                    </Col>
-                </FormGroup>
+                    <FormGroup row className="pt-3">
+                      <Col md="3">
+                        <span>
+                          Is accept EU_UK <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
 
-                <FormGroup row className="pt-3">
-                    <Col md="3">
-                        <span>Is accept EU_UK <span className="text-danger">*</span> </span>
-                    </Col>
+                      <Col md="5">
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptEU_UK"
+                            onChange={onValueChangeIsAcceptUk}
+                            name="isAcceptEU_UK"
+                            value="true"
+                            checked={radioIsAcceptUk == "true"}
+                          />
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptEU_UK"
+                          >
+                            Yes
+                          </Label>
+                        </FormGroup>
 
-                    <Col md="5">
-
-                      <FormGroup check inline>
-                        <Input className="form-check-input" 
-                        type="radio" 
-                        id="isAcceptEU_UK" 
-                        onChange={onValueChangeIsAcceptUk} 
-                        name="isAcceptEU_UK" 
-                        value='true' 
-                        checked={radioIsAcceptUk == 'true'} 
-                        />
-                        <Label className="form-check-label" check htmlFor="isAcceptEU_UK">Yes</Label>
-
-                       </FormGroup>
-
-                      <FormGroup check inline>
-                          <Input className="form-check-input" 
-                          type="radio" 
-                          id="isAcceptEU_UK" 
-                          onChange={onValueChangeIsAcceptUk} 
-                          name="isAcceptEU_UK" 
-                          value='false' 
-                          checked={radioIsAcceptUk == 'false'} 
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptEU_UK"
+                            onChange={onValueChangeIsAcceptUk}
+                            name="isAcceptEU_UK"
+                            value="false"
+                            checked={radioIsAcceptUk == "false"}
                           />
 
-                          <Label className="form-check-label" check htmlFor="isAcceptEU_UK">No</Label>
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptEU_UK"
+                          >
+                            No
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </FormGroup>
 
-                      </FormGroup>
-                    </Col>
-                 </FormGroup>
+                    <FormGroup row className="pt-3">
+                      <Col md="3">
+                        <span>
+                          Is accept international{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
 
-                 <FormGroup row className="pt-3">
-                    <Col md="3">
-                        <span>Is accept international <span className="text-danger">*</span> </span>
-                    </Col>
+                      <Col md="5">
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptInternational"
+                            onChange={onValueChangeIsAcceptInt}
+                            name="isAcceptInternational"
+                            value="true"
+                            checked={radioIsAcceptInt == "true"}
+                          />
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptInternational"
+                          >
+                            Yes
+                          </Label>
+                        </FormGroup>
 
-                    <Col md="5">
-
-                      <FormGroup check inline>
-                        <Input className="form-check-input" 
-                        type="radio" 
-                        id="isAcceptInternational" 
-                        onChange={onValueChangeIsAcceptInt} 
-                        name="isAcceptInternational" 
-                        value='true' 
-                        checked={radioIsAcceptInt == 'true'} 
-                        />
-                        <Label className="form-check-label" check htmlFor="isAcceptInternational">Yes</Label>
-
-                       </FormGroup>
-
-                      <FormGroup check inline>
-                          <Input className="form-check-input" 
-                          type="radio" 
-                          id="isAcceptInternational" 
-                          onChange={onValueChangeIsAcceptInt} 
-                          name="isAcceptInternational" 
-                          value='false' 
-                          checked={radioIsAcceptInt == 'false'} 
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptInternational"
+                            onChange={onValueChangeIsAcceptInt}
+                            name="isAcceptInternational"
+                            value="false"
+                            checked={radioIsAcceptInt == "false"}
                           />
 
-                          <Label className="form-check-label" check htmlFor="isAcceptInternational">No</Label>
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptInternational"
+                          >
+                            No
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </FormGroup>
 
-                      </FormGroup>
-                    </Col>
-                </FormGroup>
-
-                <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
-
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <Button.Ripple
-                          type="submit"
-                          className="mr-1 mt-3 badge-primary"
+                        type="submit"
+                        className="mr-1 mt-3 badge-primary"
                       >
-                          Submit
+                        Submit
                       </Button.Ripple>
+                    </FormGroup>
+                  </Form>
+                </CardBody>
+              </Card>
+            </div>
 
-                </FormGroup>
+            {/* Assign multiple subject */}
 
-
-              </Form>
-            </CardBody>
-          </Card>
-         </div>
-
-         
-        
-
-      {/* Assign multiple subject */}
-
-        {/* <Card className="uapp-card-bg">
+            {/* <Card className="uapp-card-bg">
             <CardHeader className="page-header">
 
               <h3 className="text-light">Assign multiple subject</h3>
 
             </CardHeader>
          </Card> */}
-        <div className=" info-item mt-4">
-         <Card className="uapp-employee-search">
-            <CardBody className="search-card-body">
+            <div className=" info-item mt-4">
+              <Card className="uapp-employee-search">
+                <CardBody className="search-card-body">
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Assign multiple subjects</b>{" "}
+                      </h5>
 
-               <div className="hedding-titel d-flex justify-content-between mb-4">
-                 <div>
-                 <h5> <b>Assign multiple subjects</b> </h5>
-                  
-                 <div className="bg-h"></div>
-                 </div>
-                 {/* <div className="text-right edit-style  p-3">
+                      <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3">
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                  </div> */}
+                  </div>
 
-                </div>
-
-              <Form onSubmit={handleSubjectIntake}>
-
-
-              {/* <Card>
+                  <Form onSubmit={handleSubjectIntake}>
+                    {/* <Card>
                   <CardHeader className="page-header">
                   <CardHeader>Select Subject</CardHeader>
                   </CardHeader>
               </Card> */}
-              
-                        {/* <Input
+
+                    {/* <Input
                         type='hidden'
                         name='campusId'
                         id='campusId'
@@ -508,247 +914,236 @@ const CampusDetails = () => {
                         
                         /> */}
 
-                      <FormGroup>
-                        <Row>
-                          <Col sm="6" className='text-center'>
-                          
+                    <FormGroup>
+                      <Row>
+                        <Col sm="6" className="text-center">
                           <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  onChange={handleChange}
-                                  type="checkbox"
-                                  checked={subList.filter(sub=> sub?.isChecked !== true).length < 1}
-                                  disabled={subList.filter(sub=> sub?.isChecked !== true).length < 1}
-                                  name="allSelect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  <b>Select all subjects</b>
-                                </label>
-                              </div>
-
-                          </Col>
-
-                          <Col sm="6" className='text-center'>
-                           
-
-                              <div className="form-check ms-auto">
-                                <input
-                                  className="form-check-input"
-                                  onChange={handleChange}
-                                  type="checkbox"
-                                  checked={subList.filter(sub=> sub?.isChecked !== false).length < 1}
-                                  disabled={subList.filter(sub=> sub?.isChecked !== false).length < 1}
-                                  name="allDeselect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  <b>Deselect all subjects</b>
-                                </label>
-                              </div>
-
-
-                          </Col>
-                          <br />
-                          <br />
-
-
-                        </Row>
-                      </FormGroup>
-
-
-                      <Row className='text-center'>
-                        <Col xs="6" sm="4" md="3">
-                        
+                            <input
+                              className="form-check-input"
+                              onChange={handleChange}
+                              type="checkbox"
+                              checked={
+                                subList.filter((sub) => sub?.isChecked !== true)
+                                  .length < 1
+                              }
+                              disabled={
+                                subList.filter((sub) => sub?.isChecked !== true)
+                                  .length < 1
+                              }
+                              name="allSelect"
+                            />
+                            <label className="form-check-label" htmlFor="">
+                              <b>Select all subjects</b>
+                            </label>
+                          </div>
                         </Col>
 
-                        <Col xs="6" sm="4" md="3">
-                          <span>Is accept home </span>
+                        <Col sm="6" className="text-center">
+                          <div className="form-check ms-auto">
+                            <input
+                              className="form-check-input"
+                              onChange={handleChange}
+                              type="checkbox"
+                              checked={
+                                subList.filter(
+                                  (sub) => sub?.isChecked !== false
+                                ).length < 1
+                              }
+                              disabled={
+                                subList.filter(
+                                  (sub) => sub?.isChecked !== false
+                                ).length < 1
+                              }
+                              name="allDeselect"
+                            />
+                            <label className="form-check-label" htmlFor="">
+                              <b>Deselect all subjects</b>
+                            </label>
+                          </div>
                         </Col>
-
-                        <Col xs="6" sm="4" md="3">
-                          <span>Is accept EU_UK  </span>
-                        </Col>
-
-                        <Col xs="6" sm="4" md="3">
-                          <span>Is accept international</span>
-                        </Col>
+                        <br />
+                        <br />
                       </Row>
+                    </FormGroup>
 
-                      {/* Map ongoing  */}
+                    <Row className="text-center">
+                      <Col xs="6" sm="4" md="3"></Col>
 
+                      <Col xs="6" sm="4" md="3">
+                        <span>Is accept home </span>
+                      </Col>
 
-                          {
-                            subList?.map((sub,i) => (
-                              <>
-                            <Row>
-                              <Col xs="6" sm="4" md="3" key={i} className="">
-                                <div className="form-check">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    onChange={e=>{
-                                      handleChange(e); 
-                                      setSubId(sub?.id);
-                                      setSubName(sub?.name);
-                                    }}
-                                    // onChange={handleSubjectCheckList}
-                                    // onChange={e=>console.log(e.target.checked,sub?.id)}
-                                    name={sub.name}
-                                    checked={sub?.isChecked || false}
-                                    // defaultChecked={user?.checked}
-                                    // tmpUsers={user?.checked}
-                                    value={sub?.id}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor=""
-                                  >
-                                    {sub.name}
-                                  </label>
-                                </div>
-                              </Col>
+                      <Col xs="6" sm="4" md="3">
+                        <span>Is accept EU_UK </span>
+                      </Col>
 
-                              <Col xs="6" sm="4" md="3" className='text-center'>
-                                 {/* <span>Is accept home </span><br /> */}
-                                 <FormGroup check inline>
-                                    <Input className="form-check-input" 
-                                    type="checkbox" 
-                                    id={`${sub?.id}`}
-                                    name='isAcceptHome'
-                                    disabled={sub?.isChecked ? false : true}
-                                    onChange={e=>{
-                                        setHomeAccept(!homeAccept);
-                                        handleFeatureHome(e);
-                                    }}
-                                    // value={isAcceptHome} 
-                                    // checked={!sub?.isChecked ? false : true} 
-                                    // defaultChecked={false}
-                                    // checked={sub?.isAcceptHome ? true : false}
-                                    // defaultChecked={sub?.isChecked ? true : false}
-                                    />
+                      <Col xs="6" sm="4" md="3">
+                        <span>Is accept international</span>
+                      </Col>
+                    </Row>
 
-                                  </FormGroup>
+                    {/* Map ongoing  */}
 
+                    {subList?.map((sub, i) => (
+                      <>
+                        <Row>
+                          <Col xs="6" sm="4" md="3" key={i} className="">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                onChange={(e) => {
+                                  handleChange(e);
+                                  setSubId(sub?.id);
+                                  setSubName(sub?.name);
+                                }}
+                                // onChange={handleSubjectCheckList}
+                                // onChange={e=>console.log(e.target.checked,sub?.id)}
+                                name={sub.name}
+                                checked={sub?.isChecked || false}
+                                // defaultChecked={user?.checked}
+                                // tmpUsers={user?.checked}
+                                value={sub?.id}
+                              />
+                              <label className="form-check-label" htmlFor="">
+                                {sub.name}
+                              </label>
+                            </div>
+                          </Col>
 
-                              </Col>
+                          <Col xs="6" sm="4" md="3" className="text-center">
+                            {/* <span>Is accept home </span><br /> */}
+                            <FormGroup check inline>
+                              <Input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`${sub?.id}`}
+                                name="isAcceptHome"
+                                disabled={sub?.isChecked ? false : true}
+                                onChange={(e) => {
+                                  setHomeAccept(!homeAccept);
+                                  handleFeatureHome(e);
+                                }}
+                                // value={isAcceptHome}
+                                // checked={!sub?.isChecked ? false : true}
+                                // defaultChecked={false}
+                                // checked={sub?.isAcceptHome ? true : false}
+                                // defaultChecked={sub?.isChecked ? true : false}
+                              />
+                            </FormGroup>
+                          </Col>
 
-                              <Col xs="6" sm="4" md="3" className='text-center'>
-                                  {/* <span>Is accept EU_UK  </span><br /> */}
-                                  <FormGroup check inline>
-                                    <Input className="form-check-input" 
-                                    type="checkbox" 
-                                    id={`${sub?.id}`}
-                                    name='isAcceptEU_UK'
-                                    disabled={sub?.isChecked ? false : true}
-                                    onChange={e=>{
-                                        setUkAccept(!ukAccept);
-                                        handleFeatureUk(e);
-                                    }} 
-                                    // value={isAcceptUk} 
-                                    // checked={isAcceptUk} 
-                                    defaultChecked = {false}
-                                    />
+                          <Col xs="6" sm="4" md="3" className="text-center">
+                            {/* <span>Is accept EU_UK  </span><br /> */}
+                            <FormGroup check inline>
+                              <Input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`${sub?.id}`}
+                                name="isAcceptEU_UK"
+                                disabled={sub?.isChecked ? false : true}
+                                onChange={(e) => {
+                                  setUkAccept(!ukAccept);
+                                  handleFeatureUk(e);
+                                }}
+                                // value={isAcceptUk}
+                                // checked={isAcceptUk}
+                                defaultChecked={false}
+                              />
+                            </FormGroup>
+                          </Col>
 
-                                   </FormGroup>
-                              </Col>
+                          <Col xs="6" sm="4" md="3" className="text-center">
+                            {/* <span>Is accept international</span> */}
 
-                              <Col xs="6" sm="4" md="3" className='text-center'>
-                                  {/* <span>Is accept international</span> */}
+                            <FormGroup check inline>
+                              <Input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`${sub?.id}`}
+                                name="isAcceptInternational"
+                                disabled={sub?.isChecked ? false : true}
+                                onChange={(e) => {
+                                  setIntAccept(!intAccept);
+                                  handleFeatureInt(e);
+                                }}
+                                // value={isAcceptInt}
+                                // defaultChecked = {false}
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </>
+                    ))}
 
-                                  <FormGroup check inline>
-                                    <Input className="form-check-input" 
-                                    type="checkbox" 
-                                    id={`${sub?.id}`}
-                                    name='isAcceptInternational'
-                                    disabled={sub?.isChecked ? false : true}
-                                    onChange={e=>{
-                                        setIntAccept(!intAccept);
-                                        handleFeatureInt(e);
-                                    }} 
-                                    // value={isAcceptInt} 
-                                    // defaultChecked = {false}
-                                    
-                                    
-
-                                    />
-
-                                   </FormGroup>
-                              </Col>
-
-                              </Row>
-                              </>
-                            ))}
-
-
-                <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
-
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <Button.Ripple
-                          type="submit"
-                          className="mr-1 mt-3 badge-primary"
+                        type="submit"
+                        className="mr-1 mt-3 badge-primary"
                       >
-                          Submit
+                        Submit
                       </Button.Ripple>
+                    </FormGroup>
+                  </Form>
+                </CardBody>
+              </Card>
+            </div>
 
-                </FormGroup>
-
-
-              </Form>
-
-              
-
-
-
-
-            </CardBody>
-         </Card>
-        </div>
-
-        {/* subject List */}
-          {/* <Card className="uapp-card-bg">
+            {/* subject List */}
+            {/* <Card className="uapp-card-bg">
              <CardHeader className="page-header">
                  <h3 className="text-light">Subject List</h3>
              </CardHeader>
           </Card> */}
 
-              {/* table start  */}
-             <div className=" info-item mt-4">
-                    <Card>  
-                      <CardBody>
-                      <div className="hedding-titel d-flex justify-content-between">
-                      <div>
-                      <h5> <b>Subject List</b> </h5>
+            {/* table start  */}
+            <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+                  <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Subject List</b>{" "}
+                      </h5>
 
                       <div className="bg-h"></div>
-                      </div>
+                    </div>
 
-                      {/* <div className="text-right edit-style  p-3">
+                    {/* <div className="text-right edit-style  p-3">
                       <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                     </div> */}
+                  </div>
 
-                   </div>  
-                
-                <>
-                 
-                  { 
-                  
-                    // loading ? (
-                    //   <h2 className="text-center">Loading...</h2>
-                    // ) :
-                    <div className="table-responsive pt-3">
-                    <Table className="table-sm striped">
-                      <thead className="">
-                        <tr style={{ textAlign: "center" }}>
-                           <th>SL/NO</th>
-                           <th>Name</th>
-                           <th>Features</th>
-                           <th>Intakes</th>   
-                           <th style={{ width: "8%" }} className="text-center">
-                             Action
-                           </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        {/* {
+                  <>
+                    {
+                      // loading ? (
+                      //   <h2 className="text-center">Loading...</h2>
+                      // ) :
+                      <div className="table-responsive pt-3">
+                        <Table className="table-sm striped">
+                          <thead className="">
+                            <tr style={{ textAlign: "center" }}>
+                              <th>SL/NO</th>
+                              <th>Name</th>
+                              <th>Features</th>
+                              <th>Intakes</th>
+                              <th
+                                style={{ width: "8%" }}
+                                className="text-center"
+                              >
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {/* {
                           campList?.map((campus, i) => (
                            <tr key={i} style={{ textAlign: "center" }}>
                              <th scope='row'>{serialNum + i}</th>
@@ -778,115 +1173,118 @@ const CampusDetails = () => {
                             </td>
                           </tr>
                         ))} */}
-
-                      </tbody>
-                    </Table>
-              
-
-                    </div>
-                  }
-                  
-                </>
-                
-                 </CardBody>
+                          </tbody>
+                        </Table>
+                      </div>
+                    }
+                  </>
+                </CardBody>
               </Card>
-          </div>
-          {/* subject list table  end  */}
-
-
+            </div>
+            {/* subject list table  end  */}
 
             {/* subject intake */}
-             {/* intake filter */}
-          
-         <div className=" info-item mt-4">        
-          <Card className="uapp-employee-search">
-            <CardBody className="search-card-body">
+            {/* intake filter */}
 
-            <div className="hedding-titel d-flex justify-content-between mb-4">
-                      <div>
-                      <h5> <b>Subject Intake</b> </h5>
+            <div className=" info-item mt-4">
+              <Card className="uapp-employee-search">
+                <CardBody className="search-card-body">
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Subject Intake</b>{" "}
+                      </h5>
 
                       <div className="bg-h"></div>
-                      </div>
+                    </div>
 
-                      {/* <div className="text-right edit-style  p-3">
+                    {/* <div className="text-right edit-style  p-3">
                       <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                     </div> */}
+                  </div>
 
-                   </div>
+                  <Form onSubmit="">
+                    <FormGroup>
+                      <Row>
+                        <Col lg="5" md="4" sm="6" xs="6">
+                          <Select
+                            options={intakeDropDown}
+                            value={{ label: intakeLabel, value: intakeValue }}
+                            onChange={(opt) =>
+                              selectIntakeType(opt.label, opt.value)
+                            }
+                            name="UniversityTypeId"
+                            id="UniversityTypeId"
+                          />
+                        </Col>
 
-              <Form onSubmit="">
-              <FormGroup>
-                <Row>
-                  <Col lg="5" md="4" sm="6" xs="6">
-                    <Select
-                      options={intakeDropDown}
-                      value={{ label: intakeLabel, value: intakeValue }}
-                      onChange={(opt) => selectIntakeType(opt.label, opt.value)}
-                      name="UniversityTypeId"
-                      id="UniversityTypeId"
-                    />
-                  </Col>
-          
-                  <Col lg="5" md="4" sm="6" xs="6">
-                    <Select
-                      options={intakeStatusDropDown}
-                      value={{ label: statusLabel, value: statusValue }}
-                      onChange={(opt) => selectStatusType(opt.label, opt.value)}
-                      name="UniversityCountryId"
-                      id="UniversityCountryId"
-                    />
-                  </Col>
-          
-                  <Col lg="2" md="4" sm="6" xs="6">
-                    {/* <div className='d-flex justify-content-center'> */}
-                      <Button type="submit" className='btn btn-uapp-add btn btn-secondary'>Apply</Button>
-                    {/* </div> */}
-                    
-                  </Col>
-                </Row>
-              </FormGroup>
+                        <Col lg="5" md="4" sm="6" xs="6">
+                          <Select
+                            options={intakeStatusDropDown}
+                            value={{ label: statusLabel, value: statusValue }}
+                            onChange={(opt) =>
+                              selectStatusType(opt.label, opt.value)
+                            }
+                            name="UniversityCountryId"
+                            id="UniversityCountryId"
+                          />
+                        </Col>
 
-              <FormGroup>
-                  <Row className="">
-                    <Col lg="12" md="12" sm="12" xs="12">
-                      <div style={{ display: "flex", justifyContent: "end" }}>
-                        <div
-                          className="mt-1 mx-1 d-flex btn-clear"
-                          // onClick={handleClearSearch}
-                        >
-                          {/* <Icon.X  className='text-danger' />*/}
-                          <span className="text-danger">
-                            <i className="fa fa-times"></i> Clear
-                          </span>
-                        </div>
+                        <Col lg="2" md="4" sm="6" xs="6">
+                          {/* <div className='d-flex justify-content-center'> */}
+                          <Button
+                            type="submit"
+                            className="btn btn-uapp-add btn btn-secondary"
+                          >
+                            Apply
+                          </Button>
+                          {/* </div> */}
+                        </Col>
+                      </Row>
+                    </FormGroup>
 
-                        {/* <div className="mt-2 mx-1">
+                    <FormGroup>
+                      <Row className="">
+                        <Col lg="12" md="12" sm="12" xs="12">
+                          <div
+                            style={{ display: "flex", justifyContent: "end" }}
+                          >
+                            <div
+                              className="mt-1 mx-1 d-flex btn-clear"
+                              // onClick={handleClearSearch}
+                            >
+                              {/* <Icon.X  className='text-danger' />*/}
+                              <span className="text-danger">
+                                <i className="fa fa-times"></i> Clear
+                              </span>
+                            </div>
+
+                            {/* <div className="mt-2 mx-1">
                         <span className="btn btn-primary">Export</span>
                       </div> */}
-                      </div>
-                    </Col>
-                </Row>
-              </FormGroup>
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
 
-              {/* <Card>
+                    {/* <Card>
                   <CardHeader className="page-header">
                   <CardHeader>Select Subject</CardHeader>
                   </CardHeader>
               </Card> */}
-              
-                        <Input
-                        type='hidden'
-                        name='universityId'
-                        id='universityId'
-                        value={id}
-                        
-                        />
 
-                      <FormGroup>
-                        <Row>
-                          <Col sm="6" className='text-center'>
-                            {/* {menus.length > 0 && (
+                    <Input
+                      type="hidden"
+                      name="universityId"
+                      id="universityId"
+                      value={id}
+                    />
+
+                    <FormGroup>
+                      <Row>
+                        <Col sm="6" className="text-center">
+                          {/* {menus.length > 0 && (
                               <div className="form-check">
                                 <input
                                   className="form-check-input"
@@ -900,25 +1298,24 @@ const CampusDetails = () => {
                                 </label>
                               </div>
                             )} */}
-                          
+
                           <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  // onChange={handleChange}
-                                  type="checkbox"
-                                  // checked={subList.filter(sub=> sub?.isChecked !== true).length < 1}
-                                  // disabled={subList.filter(sub=> sub?.isChecked !== true).length < 1}
-                                  name="allSelect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  <b>Select all</b>
-                                </label>
-                              </div>
+                            <input
+                              className="form-check-input"
+                              // onChange={handleChange}
+                              type="checkbox"
+                              // checked={subList.filter(sub=> sub?.isChecked !== true).length < 1}
+                              // disabled={subList.filter(sub=> sub?.isChecked !== true).length < 1}
+                              name="allSelect"
+                            />
+                            <label className="form-check-label" htmlFor="">
+                              <b>Select all</b>
+                            </label>
+                          </div>
+                        </Col>
 
-                          </Col>
-
-                          <Col sm="6" className='text-center'>
-                            {/* {menus.length > 0 && (
+                        <Col sm="6" className="text-center">
+                          {/* {menus.length > 0 && (
                               <div className="form-check">
                                 <input
                                   className="form-check-input"
@@ -933,25 +1330,23 @@ const CampusDetails = () => {
                               </div>
                             )} */}
 
-                              <div className="form-check ms-auto">
-                                <input
-                                  className="form-check-input"
-                                  // onChange={handleChange}
-                                  type="checkbox"
-                                  // checked={subList.filter(sub=> sub?.isChecked !== false).length < 1}
-                                  // disabled={subList.filter(sub=> sub?.isChecked !== false).length < 1}
-                                  name="allDeselect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  <b>Deselect all</b>
-                                </label>
-                              </div>
-
-
-                          </Col>
-                          <br />
-                          <br />
-                          {/* {
+                          <div className="form-check ms-auto">
+                            <input
+                              className="form-check-input"
+                              // onChange={handleChange}
+                              type="checkbox"
+                              // checked={subList.filter(sub=> sub?.isChecked !== false).length < 1}
+                              // disabled={subList.filter(sub=> sub?.isChecked !== false).length < 1}
+                              name="allDeselect"
+                            />
+                            <label className="form-check-label" htmlFor="">
+                              <b>Deselect all</b>
+                            </label>
+                          </div>
+                        </Col>
+                        <br />
+                        <br />
+                        {/* {
                             menus?.map((menu) => (
                               <Col xs="6" sm="4" md="3" key={menu.id}>
                                 <div className="form-check">
@@ -974,7 +1369,7 @@ const CampusDetails = () => {
                               </Col>
                             ))} */}
 
-                          {/* {
+                        {/* {
                             subList?.map((sub,i) => (
                               <Col xs="6" sm="4" md="3" key={i} className="text-center">
                                 <div className="form-check">
@@ -997,12 +1392,10 @@ const CampusDetails = () => {
                                 </div>
                               </Col>
                             ))} */}
+                      </Row>
+                    </FormGroup>
 
-
-                        </Row>
-                      </FormGroup>
-
-                      {/* <FormGroup
+                    {/* <FormGroup
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -1019,105 +1412,103 @@ const CampusDetails = () => {
                           </Col>
                         </Row>
                       </FormGroup> */}
-
-
-
-
-              </Form>
-
-
-            </CardBody>
-          </Card>
-        </div>
-
-
-     
-      
-      
-
-      <br /><br /><br /><br /><br />
-
-
-
-    </Col>
-
-        {/* side columns */}
-        <Col md='4'>
-          {/* for showing university information starts here */}
-          <Card className="uapp-employee-profile-right">
-             <div className="uapp-profile-CardHeader">
-                <div className="uapp-circle-image margin-top-minus">   
-                   <img src={rootUrl+campusInfo?.university?.universityLogo?.fileUrl} alt='university_img'/>    
-                </div>    
-                
-                <h5>{campusInfo?.university?.name} ({campusInfo?.university?.shortName})</h5>
-                 <p> {campusInfo?.university?.universityType?.name} </p>  
+                  </Form>
+                </CardBody>
+              </Card>
             </div>
-              <CardBody>
 
-                 <div>
-                    <ul className="uapp-ul text-center">
-                      {
-                        campusInfo?.university?.universityCity && campusInfo?.university?.universityState?.name && campusInfo?.university?.universityCountry?.name ?
-                        <li>
-                          {campusInfo?.university?.universityCity}{","} {campusInfo?.university?.universityState?.name}{","} {campusInfo?.university?.universityCountry?.name}
-                        </li>
-                        :
-                        <p>No data available</p>
-                      }
-                    </ul>      
-                 </div>
-             </CardBody>
-           </Card>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </Col>
+
+          {/* side columns */}
+          <Col md="4">
+            {/* for showing university information starts here */}
+            <Card className="uapp-employee-profile-right">
+              <div className="uapp-profile-CardHeader">
+                <div className="uapp-circle-image margin-top-minus">
+                  <img
+                    src={
+                      rootUrl + campusInfo?.university?.universityLogo?.fileUrl
+                    }
+                    alt="university_img"
+                  />
+                </div>
+
+                <h5>
+                  {campusInfo?.university?.name} (
+                  {campusInfo?.university?.shortName})
+                </h5>
+                <p> {campusInfo?.university?.universityType?.name} </p>
+              </div>
+              <CardBody>
+                <div>
+                  <ul className="uapp-ul text-center">
+                    {campusInfo?.university?.universityCity &&
+                    campusInfo?.university?.universityState?.name &&
+                    campusInfo?.university?.universityCountry?.name ? (
+                      <li>
+                        {campusInfo?.university?.universityCity}
+                        {","} {campusInfo?.university?.universityState?.name}
+                        {","} {campusInfo?.university?.universityCountry?.name}
+                      </li>
+                    ) : (
+                      <p>No data available</p>
+                    )}
+                  </ul>
+                </div>
+              </CardBody>
+            </Card>
             {/* for showing university information ends here */}
 
             {/* For showing tution fee */}
-          
-            <Card>
-                <CardBody>
 
+            <Card>
+              <CardBody>
                 <div className="hedding-titel d-flex justify-content-between mb-4">
-                 <div>
-                 <h5> <b>Financial</b> </h5>
-                  
-                 <div className="bg-h"></div>
-                 </div>
-                 {/* <div className="text-right edit-style  p-3">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Financial</b>{" "}
+                    </h5>
+
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3">
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                </div> */}
+                </div>
 
-                 </div>
-                  
-                     <div className='d-flex justify-content-between'>
-                       <span>Avg. application fee :</span>
-                       <p>€{campusInfo?.avarageApplicationFee}</p>
-                     </div>
-                     
-                     <div className='d-flex justify-content-between'>
-                        <span>Avg tution fee :</span>
-                        <p>€{campusInfo?.avarageTutionFee}</p>
-                     </div>
-                     
-                     <div className='d-flex justify-content-between'>
-                        <span>Avg. living cost :</span>
-                        <p>€{campusInfo?.avarageLivingCost}</p>
-                     </div>
+                <div className="d-flex justify-content-between">
+                  <span>Avg. application fee :</span>
+                  <p>€{campusInfo?.avarageApplicationFee}</p>
+                </div>
 
-                     <div className='d-flex justify-content-between'>
-                        <span>Est. total cost :</span>
-                        <p>€{campusInfo?.estimatedTotalCost}</p>
-                     </div>
-                    
-                </CardBody>
-              </Card>
-              {/* tution fee ends here */}
+                <div className="d-flex justify-content-between">
+                  <span>Avg tution fee :</span>
+                  <p>€{campusInfo?.avarageTutionFee}</p>
+                </div>
 
-        </Col>
-      </Row>
+                <div className="d-flex justify-content-between">
+                  <span>Avg. living cost :</span>
+                  <p>€{campusInfo?.avarageLivingCost}</p>
+                </div>
+
+                <div className="d-flex justify-content-between">
+                  <span>Est. total cost :</span>
+                  <p>€{campusInfo?.estimatedTotalCost}</p>
+                </div>
+              </CardBody>
+            </Card>
+            {/* tution fee ends here */}
+          </Col>
+        </Row>
+      </div>
     </div>
-</div>
   );
 };
-
 
 export default CampusDetails;

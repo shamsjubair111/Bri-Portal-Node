@@ -382,7 +382,7 @@ footer.footer {
 }
 
 .uapp-modal2 {
-  /* margin-top: 5%; */
+  margin-top: 5%;
 }
 
 .campus-modal-header-bg{
@@ -522,6 +522,60 @@ th {
   border-left: none;
   border-bottom: 0px solid transparent;
 }
+
+/* for gallery */
+.containerCustom {
+  position: relative;
+  width: 50%;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerCustom:hover .image {
+  opacity: 0.3;
+}
+
+.containerCustom:hover .middle {
+  opacity: 1;
+}
+
+/* .text {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 16px;
+  padding: 5px 10px;
+} */
+/* gallery end */
+
+/* custom card */
+.customCard {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  padding: 10px;
+}
+.customCard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+/* custom card end */
 
 .document-title{
   color: #1e98b0;
