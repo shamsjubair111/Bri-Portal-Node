@@ -1397,18 +1397,15 @@ const ApplicationDetails = () => {
                               >
                                 <Col md="2">
                                   <span>
-                                    ELPT Date{" "}
-                                    <span className="text-danger">*</span>{" "}
+                                    ELPT Date
                                   </span>
                                 </Col>
                                 <Col md="6">
                                   <Input
-                                    type="text"
-                                    name="Name"
-                                    id="Name"
-                                    // defaultValue={campObj?.name}
-                                    placeholder="Enter Campus Name"
-                                    required
+                                    type="date"
+                                    name="ElptDate"
+                                    id="ElptDate"
+                                    // defaultValue={sDate}
                                   />
                                   {/* <div className="form-control-position">
                                 <User size={15} />
@@ -1422,78 +1419,63 @@ const ApplicationDetails = () => {
                               >
                                 <Col md="2">
                                   <span>
-                                    ELPT Time{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </span>
-                                </Col>
-                                <Col md="6">
-                                  <Select
-                                    // options={countryDD}
-                                    // value={{
-                                    //   label: uniCountryLabel,
-                                    //   value: uniCountryValue,
-                                    // }}
-                                    // onChange={(opt) =>
-                                    //   selectUniCountry(opt.label, opt.value)
-                                    // }
-                                    name="CampusCountryId"
-                                    id="CampusCountryId"
-                                  />
-
-                                  {/* <div className="form-control-position">
-                        <User size={15} />
-                    </div> */}
-                                </Col>
-                              </FormGroup>
-
-                              <FormGroup
-                                row
-                                className="has-icon-left position-relative"
-                              >
-                                <Col md="2">
-                                  <span>
-                                    ETA Date{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </span>
-                                </Col>
-                                <Col md="6">
-                                  <Select
-                                    // options={universityStateName}
-                                    // value={{
-                                    //   label: uniStateLabel,
-                                    //   value: unistateValue,
-                                    // }}
-                                    // onChange={(opt) =>
-                                    //   selectUniState(opt.label, opt.value)
-                                    // }
-                                    name="CampusStateId"
-                                    id="CampusStateId"
-                                  />
-
-                                  {/* <div className="form-control-position">
-                        <User size={15} />
-                    </div> */}
-                                </Col>
-                              </FormGroup>
-
-                              <FormGroup
-                                row
-                                className="has-icon-left position-relative"
-                              >
-                                <Col md="2">
-                                  <span>
-                                    ETA Deadline{" "}
-                                    <span className="text-danger">*</span>{" "}
+                                    ELPT Time
                                   </span>
                                 </Col>
                                 <Col md="6">
                                   <Input
                                     type="text"
-                                    name="CampusCity"
-                                    id="CampusCity"
+                                    name="ElptTime"
+                                    id="ElptTime"
                                     // defaultValue={campObj?.campusCity}
-                                    placeholder="Enter Campus City Name"
+                                    placeholder="Enter ELPT Time"
                                     required
+                                  />
+
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>
+                                    ETA Date
+                                  </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="date"
+                                    name="eta"
+                                    id="eta"
+                                    // defaultValue={sDate}
+                                  />
+
+                                  {/* <div className="form-control-position">
+                        <User size={15} />
+                    </div> */}
+                                </Col>
+                              </FormGroup>
+
+                              <FormGroup
+                                row
+                                className="has-icon-left position-relative"
+                              >
+                                <Col md="2">
+                                  <span>
+                                    ETA Deadline
+                                  </span>
+                                </Col>
+                                <Col md="6">
+                                  <Input
+                                    type="date"
+                                    name="etaDeadLine"
+                                    id="etaDeadLine"
+                                    // defaultValue={sDate}
                                   />
                                   {/* <div className="form-control-position">
                         <User size={15} />
@@ -1508,17 +1490,15 @@ const ApplicationDetails = () => {
                                 <Col md="2">
                                   <span>
                                     Reading
-                                    <span className="text-danger">*</span>{" "}
                                   </span>
                                 </Col>
                                 <Col md="6">
                                   <Input
                                     type="text"
-                                    name="AddressLine"
-                                    id="AddressLine"
+                                    name="reading"
+                                    id="reading"
                                     // defaultValue={campObj?.addressLine}
-                                    placeholder="Enter Address Line"
-                                    required
+                                    placeholder="Enter Reading Mark"
                                   />
                                   {/* <div className="form-control-position">
                         <User size={15} />
@@ -1535,12 +1515,11 @@ const ApplicationDetails = () => {
                                 </Col>
                                 <Col md="6">
                                   <Input
-                                    type="number"
-                                    name="TotalStudent"
-                                    id="TotalStudent"
+                                    type="text"
+                                    name="writting"
+                                    id="writting"
                                     // defaultValue={campObj?.totalStudent}
-                                    placeholder="Enter Total Student"
-                                    required
+                                    placeholder="Enter Writting Mark"
                                   />
                                   {/* <div className="form-control-position">
                         <User size={15} />
@@ -1557,12 +1536,11 @@ const ApplicationDetails = () => {
                                 </Col>
                                 <Col md="6">
                                   <Input
-                                    type="number"
-                                    name="InternationalStudent"
-                                    id="InternationalStudent"
+                                    type="text"
+                                    name="listening"
+                                    id="listening"
                                     // defaultValue={campObj?.internationalStudent}
-                                    placeholder="Enter International Student"
-                                    required
+                                    placeholder="Enter Listening Mark"
                                   />
                                   {/* <div className="form-control-position">
                         <User size={15} />
@@ -1579,12 +1557,11 @@ const ApplicationDetails = () => {
                                 </Col>
                                 <Col md="6">
                                   <Input
-                                    type="number"
-                                    name="AvarageTutionFee"
-                                    id="AvarageTutionFee"
+                                    type="text"
+                                    name="speaking"
+                                    id="speaking"
                                     // defaultValue={campObj?.avarageTutionFee}
-                                    placeholder="Avarage Tution Fee"
-                                    required
+                                    placeholder="Enter Speaking Mark"
                                   />
                                   {/* <div className="form-control-position">
                         <User size={15} />
@@ -1601,12 +1578,11 @@ const ApplicationDetails = () => {
                                 </Col>
                                 <Col md="6">
                                   <Input
-                                    type="number"
-                                    name="AvarageLivingCost"
-                                    id="AvarageLivingCost"
+                                    type="text"
+                                    name="overall"
+                                    id="overall"
                                     // defaultValue={campObj?.avarageLivingCost}
-                                    placeholder="Avarage Living Cost"
-                                    required
+                                    placeholder="Enter Overall Mark"
                                   />
                                   {/* <div className="form-control-position">
                         <User size={15} />
@@ -1619,41 +1595,44 @@ const ApplicationDetails = () => {
                                 className="has-icon-left position-relative"
                               >
                                 <Col md="2">
-                                  <span>Result / Status </span>
+                                  <span>Result / Status </span>{" "}
+                                    <span className="text-danger">*</span>{" "}
                                 </Col>
                                 <Col md="6">
-                                  <Input
-                                    type="number"
-                                    name="AvarageApplicationFee"
-                                    id="AvarageApplicationFee"
-                                    // defaultValue={
-                                    //   campObj?.avarageApplicationFee
+                                  <Select
+                                    // options={docuCategory}
+                                    // value={{
+                                    //   label: docuLabel,
+                                    //   value: docuValue,
+                                    // }}
+                                    // onChange={(opt) =>
+                                    //   selectDocumentDD(opt.label, opt.value)
                                     // }
-                                    placeholder="Avarage Application Fee"
-                                    required
+                                    name="elptStatusId"
+                                    id="elptStatusId"
                                   />
                                   {/* <div className="form-control-position">
                         <User size={15} />
                     </div> */}
                                 </Col>
                               </FormGroup>
-                              
-                              <FormGroup row
+
+                              <FormGroup
+                                row
                                 className="has-icon-left position-relative"
                                 style={{
                                   display: "flex",
                                   justifyContent: "end",
                                 }}
                               >
-
                                 <Col md="5">
-                                <CustomButtonRipple
-                                  color={"primary"}
-                                  type={"submit"}
-                                  className={"mr-1 mt-3"}
-                                  name={"Submit"}
-                                  permission={6}
-                                />
+                                  <CustomButtonRipple
+                                    color={"primary"}
+                                    type={"submit"}
+                                    className={"mr-1 mt-3"}
+                                    name={"Submit"}
+                                    permission={6}
+                                  />
                                 </Col>
                               </FormGroup>
                             </Form>
