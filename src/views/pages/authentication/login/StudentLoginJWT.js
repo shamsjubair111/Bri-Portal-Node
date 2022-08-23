@@ -10,6 +10,7 @@ import axios from "axios"
 
 import { rootUrl } from "../../../../constants/constants"
 import get from "../../../../helpers/get"
+import { fontSize } from "@mui/system"
 
 class Login extends React.Component {
   state = {
@@ -19,62 +20,74 @@ class Login extends React.Component {
     error: "",
     emailerror: "",
     passwordError: "",
+    canNavigate: true
   }
 
   handleLogin = e => {
     e.preventDefault()
-    var loggedInUser = {id: 0, email: '', name: '', image: 'gbhgyhgv', loggedInWith: 'jwt'}
+    var loggedInUser = { id: 0, email: '', name: '', image: 'gbhgyhgv', loggedInWith: 'jwt' }
     axios
       .post(`${rootUrl}Account/Login`, {
         email: this.state.email,
         password: this.state.password
       })
       .then(response => {
-        console.log('Checking Response',response);
+        console.log('Checking Response', response);
         if (response.data) {
-          if(response.data.isSuccess == true){
-            this.setState({error: ''});
-            localStorage.setItem('token','Bearer '+ response?.data?.message);
+          if (response.data.isSuccess == true) {
+            this.setState({ error: '' });
+            localStorage.setItem('token', 'Bearer ' + response?.data?.message);
             localStorage.setItem('permissions', JSON.stringify(response?.data?.permissions));
             const AuthStr = 'Bearer ' + response?.data?.message;
-            axios.get(`${rootUrl}Account/GetCurrentUser`,{
-              
+            axios.get(`${rootUrl}Account/GetCurrentUser`, {
+
               headers: {
                 'authorization': AuthStr
               }
             })
-            .then(res => {
-              console.log('userinfo',res);
-              if(res?.status == 200){
-                localStorage.setItem('current_user', JSON.stringify(res?.data))
-                localStorage.setItem('userType', res?.data?.userTypeId);
-                window.location.reload();
-              }
-        
-            })
-            
-          
-            history.push("/")
-            
-           
-             
+              .then(res => {
+                console.log('userinfo', res);
+                if (res?.status == 200) {
+                  if(res?.data?.isActive){
+                    localStorage.setItem('current_user', JSON.stringify(res?.data))
+                  localStorage.setItem('userType', res?.data?.userTypeId);
+                  window.location.reload();
+                  }
+                  else{
+                    this.setState({ error: 'User is blocked', canNavigate: false})
+
+                  }
+                }
+
+              })
 
 
-          }
-          else{
-            // alert('email not valid')
-            this.setState({error: 'Email or Password Is Not Valid'})
-            if(response.data.message === 'Wrong Creadentials'){
-              this.setState({emailerror: 'Invalid Email', passwordError: ''})
-            }else if(response.data.message === 'Wrong Password'){
-              this.setState({passwordError: 'Wrong Password', emailerror: ''})
-            }else{
-              this.setState({error: 'Something Went Wrong! please try again', emailerror: '', passwordError: ''})
+            if(this.state.canNavigate == true){
+              history.push("/")
             }
             
+
+
+
+
+
+          }
+          else {
+            // alert('email not valid')
+            this.setState({ error: response?.data?.message })
+            // if(response.data.message === 'Wrong Creadentials'){
+            //   this.setState({emailerror: 'Invalid Email', passwordError: ''})
+            // }
+            // else if(response.data.message === 'Wrong Password'){
+            //   this.setState({passwordError: 'Wrong Password', emailerror: ''})
+            // }
+            // else{
+            //   this.setState({error: 'Something Went Wrong! please try again', emailerror: '', passwordError: ''})
+            // }
+
           }
 
-          
+
         }
       })
       .catch()
@@ -83,7 +96,7 @@ class Login extends React.Component {
     return (
       <React.Fragment>
         <CardBody className="pt-1">
-          <Form action="/" onSubmit={this.handleLogin} className='mb-2'>
+          <Form action="/" onSubmit={this.handleLogin} className='' style={{ marginTop: '30px' }}>
             <FormGroup className="form-label-group position-relative has-icon-left" >
               <Input
                 type="email"
@@ -94,9 +107,9 @@ class Login extends React.Component {
                 required
               />
               <div className="form-control-position">
-                
+
               </div>
-              <Label style={{ fontSize: "14px", top:"-29px" }}>Email</Label>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Email</Label>
               {this.state.emailerror && <span className="text-danger">{this.state.emailerror}</span>}
             </FormGroup>
             <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "30px" }}>
@@ -109,63 +122,102 @@ class Login extends React.Component {
                 required
               />
               <div className="form-control-position">
-          
+
               </div>
-              <Label style={{ fontSize: "14px", top: "-29px" }}>Password</Label>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-32px" }}>Password</Label>
               {this.state.passwordError && <span className="text-danger">{this.state.passwordError}</span>}
             </FormGroup>
-            <FormGroup className="d-flex justify-content-between align-items-center">
-             
-              <div className="float-right">
-                <Link to="/pages/forgot-password" className="text-danger" style={{textDecoration: 'none'}}>Forgot Password?</Link>
-              </div>
+            <div className="text-danger">
+              <span>{this.state.error}</span>
+            </div>
+            <div className="row d-flex justify-content-space-between">
 
-              <div className="d-flex justify-content-between">
+              <div className="col-md-6">
 
-              <Button.Ripple className="uapp-submit-btn" color="primary" type="submit">
-                  Login
+             <div >
+             <Button.Ripple className="px-5" color="primary" type="submit">
+                  <span style={{fontSize: '24px'}}>Login</span>
                 </Button.Ripple>
-               
+             </div>
+
               </div>
-            </FormGroup>
-          
+              
+              <div className="col-md-6">
+
+              
+
+              <div className="mt-3 float-right">
+                <Link to="/pages/forgot-password" style={{ textDecoration: 'none', color: '#72C1FF', fontSize: '18px', fontWeight: '500' }}>Forgot Password?</Link>
+              </div>
+
+             
+
+              </div>
+
+            </div>
            
+
+
           </Form>
           <br/>
 
-          <div className="d-flex justify-content-center">
-          
-          <div className="login-page-icon-style1 me-1">
-          <i className="fab fa-google"></i>
-          </div>
+          <span style={{fontSize: '16px', fontWeight:'500'}}>Or Login With</span>
 
-          <div className="login-page-icon-style2 mx-1">
-          <i className="fab fa-apple"></i>
-          </div>
+         
 
-          <div className="login-page-icon-style3 ms-1">
-          <i className="fab fa-facebook"></i>
-          </div>
-          
+          <div className="d-flex mt-4">
+
+            <div className="login-page-icon-style1 me-1">
+              <i className="fab fa-google"></i>
+            </div>
+
+            <div className="login-page-icon-style2 mx-1">
+              <i className="fab fa-apple"></i>
+            </div>
+
+            <div className="login-page-icon-style3 ms-1">
+              <i className="fab fa-facebook"></i>
+            </div>
+
           </div>
           <br/>
-          <span className="">Register as</span>
+          <br/>
+          <span className="" style={{color:'#7f7f7f', fontSize:'16px', fontWeight:'500'}}>Don't have any account yet?</span>
 
-            <br/>
-            
-            
+          <br/>
+          <span className="" style={{color:'#7f7f7f', fontSize:'16px', fontWeight:'500'}}>Register as</span>
 
-            <Link to='/pages/studentRegister' style={{textDecoration: 'none'}}><i className="fas fa-chevron-right"></i><span className="login-page-link-style"> Student</span></Link>
+          <br/>
+          <br/>
 
-            <br/>
-           
 
-            <Link to='/pages/consultantRegister' style={{textDecoration: 'none'}}> <i className="fas fa-chevron-right"></i><span className="login-page-link-style"> Consultant</span></Link>
 
-            <br/>
-           
+          <div className="d-flex">
+          <Link to='/pages/studentRegister' style={{color:'#72C1FF', fontSize: '13px', marginRight: '20px', fontWeight: '400'  }}>Student</Link>
 
-            <Link to='/pages/providerRegister' style={{textDecoration: 'none'}}><i className="fas fa-chevron-right"></i><span className="login-page-link-style"> Provider</span></Link>
+          <br />
+
+
+          <Link to='/pages/consultantRegister' style={{ color:'#7F7F7F', fontSize: '13px', fontWeight: '400', marginRight: '20px', textDecoration: 'none'}}> Consultant</Link>
+
+          <br />
+
+
+          <Link to='/pages/providerRegister' style={{ color:'#7F7F7F', fontSize: '13px', fontWeight: '400', textDecoration: 'none'}}> Provider</Link>
+          </div>
+
+          <br/>
+          
+          
+          <div className="row">
+            <div className="col-md-6 float-left" style={{color: '#707070', fontSize: '13px', fontWeight: '400'}}>
+              Privacy policy
+            </div>
+
+            <div className="col-md-6 float-right" style={{color: '#1E98B0', fontSize: '13px', fontWeight: '400'}}>
+            UAPP © SMS Higher Education Group.
+            </div>
+          </div>
 
         </CardBody>
       </React.Fragment>

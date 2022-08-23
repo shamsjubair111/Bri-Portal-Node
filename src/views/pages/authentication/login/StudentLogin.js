@@ -42,7 +42,7 @@ class StudentLogin extends React.Component {
   render() {
     return (
       
-      <div className="top-style">
+    <div className="top-style">
         
         
 
@@ -60,7 +60,15 @@ class StudentLogin extends React.Component {
                 </div>
               
               </Col>
-              <Col lg="6" md="6" className="col-right">
+              <Col lg="6" md="6">
+
+              <div  className=" mt-md-5 ms-md-4">
+
+              <h4 className="" style={{color: '#111111', fontSize: '38px', fontWeight:'500'}}>Login</h4>
+              <span style={{color:'#7f7f7f', fontSize: '18px', fontWeight:'500'}}>Log in to continue in our website</span>
+              </div>
+
+                <div className="col-right">
 
               <div className="text-center hide-responsive-right-side">
               <img src={UappLogo} className='w-50' />
@@ -68,38 +76,10 @@ class StudentLogin extends React.Component {
                 <div className="flexbox-container2" style={{ backgroundColor: "#fff" }} >
 
                 
-                  <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>
-                  <CardHeader className="pb-1">
-                    <CardTitle>
-
-                      <h4 className="mb-2 login-page-heading-style">Login</h4>
-                    </CardTitle>
-                  </CardHeader>
-              
-                  <Nav tabs className="px-2">
-
-
-                  </Nav>
-
-                  <TabContent activeTab={this.state.activeTab}>
-
-                    <TabPane tabId="1">
                       <StudentLoginJWT />
-                    </TabPane>
+                   
 
-                    {/* <TabPane tabId="2">
-                      <LoginFirebase />
-                    </TabPane>
-                    
-                    <TabPane tabId="3">
-                      <LoginAuth0 />
-                    </TabPane> */}
-                    
-
-                  </TabContent>
-
-              </Card>
-
+               </div>
                </div>
               </Col>
 
@@ -109,7 +89,7 @@ class StudentLogin extends React.Component {
           </div>
      
   
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
        
 
 
