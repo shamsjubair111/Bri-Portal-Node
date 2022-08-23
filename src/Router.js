@@ -164,6 +164,15 @@ const accessControl = lazy(() =>
 const notFound = lazy(() =>
   import("./views/pages/misc/error/404")
 )
+
+const InternalServerError = lazy(() =>
+  import("./views/pages/misc/error/500")
+)
+
+const NotAuthorized = lazy(() =>
+  import("./views/pages/misc/NotAuthorized")
+)
+
 const Post = lazy(() =>
   import("./views/SMS/CRUD/Post/Post")
 )
@@ -187,6 +196,10 @@ const loginForm = lazy(() =>
 )
 const StudentLogin = lazy(() =>
   import("./views/pages/authentication/login/StudentLogin")
+)
+
+const SessionExpired = lazy(() =>
+  import("./views/pages/authentication/login/SessionExpired")
 )
 
 const AddEmployeeGeneralInfo = lazy(() => import("./views/SMS/Configuration/Employees/AddEmployeeGeneralInfo"))
@@ -485,9 +498,18 @@ class AppRouter extends React.Component {
 
          <AppRoute  path="/search" component={Search} />
 
+         <AppRoute  path="/500" component={InternalServerError} />
+
+         <AppRoute  path="/notAuthorized" component={NotAuthorized} />
+
   
+          {/* Session Expired  */}
+         {/* <AppRoute path='/sessionExpired' component={SessionExpired} fullLayout /> */}
+
 
          <AppRoute component={notFound} fullLayout />
+
+
 
          </Switch>
       </ToastProvider>

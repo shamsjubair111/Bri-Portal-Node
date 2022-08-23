@@ -62,10 +62,7 @@ class Login extends React.Component {
               })
 
 
-            if(this.state.canNavigate == true){
-              history.push("/")
-            }
-            
+            history.push("/")
 
 
 

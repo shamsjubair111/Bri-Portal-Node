@@ -528,9 +528,9 @@ const AddConsultantInformation = () => {
     if (FileList4.length < 1 && consultantData?.proofOfAddressMedia == null) {
       setProofOfAddressError(true);
     }
-    if (FileList5.length < 1 && consultantData?.proofOfRightToWorkMedia == null) {
-      setProofOfRightError(true);
-    } 
+    // if (FileList5.length < 1 && consultantData?.proofOfRightToWorkMedia == null) {
+    //   setProofOfRightError(true);
+    // } 
     else {
       put(`Consultant/Update`, subData).then((res) => {
         addToast(res?.data?.message, {
@@ -538,13 +538,14 @@ const AddConsultantInformation = () => {
           autoDismiss: true,
         });
         if (res?.status == 200) {
-          history.push("/addBankDetails");
           setSuccess(!success);
           setFileList1([]);
           setFileList2([]);
           setFileList3([]);
           setFileList4([]);
           setFileList5([]);
+          history.push("/addBankDetails");
+          
         }
       });
     }
