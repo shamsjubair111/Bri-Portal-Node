@@ -55,7 +55,7 @@ const AddUniversity = (props) => {
   const [uniTypeLabel, setUniTypeLabel] = useState("Select University Type...");
   const [uniTypeValue, setUniTypeValue] = useState(0);
   const [uniTypeError, setUniTypeError] = useState(false);
-  const [provider,setProvider] = useState([]);
+  const [provider, setProvider] = useState([]);
   const [uniCountryLabel, setUniCountryLabel] = useState(
     "Select University Country..."
   );
@@ -87,10 +87,9 @@ const AddUniversity = (props) => {
   const [uniId, setUniId] = useState(undefined);
   const [check, setCheck] = useState(true);
 
+  const method = localStorage.getItem("editMethod");
 
-  const method = localStorage.getItem('editMethod');
-  
-  const {addToast} = useToasts();
+  const { addToast } = useToasts();
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -157,57 +156,50 @@ const AddUniversity = (props) => {
     );
   };
 
-  useEffect(()=>{
+  useEffect(() => {
+    get("ProviderDD/Index")
+      .then((res) => {
+        setProvider(res);
+        console.log(res, "ppppppp");
+      })
+      .catch();
 
-    get('ProviderDD/Index').then(res=> {
-      setProvider(res);
-      console.log(res,'ppppppp');
-    })
-    .catch();
-
-    if(localStorage.getItem('id')){
-      get(`University/get/${localStorage.getItem('id')}`)
-    .then(res => {
-      console.log('uniIddata', res?.id);
-      setUniversityData(res);
-      setProviderTypeLabel(res?.provider?.name);
-      setProviderTypeValue(res?.provider?.value);
-      setUniTypeLabel(res?.universityType?.name);
-      setUniTypeValue(res?.universityType?.id);
-      setUniCountryLabel(res?.universityCountry?.name);
-      setUniCountryValue(res?.universityCountry?.id);
-      setUniStateLabel(res?.universityState?.name);
-      setUniStateValue(res?.universityState?.id);
-      setUniId(res?.id);
-      setCheck(false);
-    })
+    if (localStorage.getItem("id")) {
+      get(`University/get/${localStorage.getItem("id")}`).then((res) => {
+        console.log("uniIddata", res?.id);
+        setUniversityData(res);
+        setProviderTypeLabel(res?.provider?.name);
+        setProviderTypeValue(res?.provider?.value);
+        setUniTypeLabel(res?.universityType?.name);
+        setUniTypeValue(res?.universityType?.id);
+        setUniCountryLabel(res?.universityCountry?.name);
+        setUniCountryValue(res?.universityCountry?.id);
+        setUniStateLabel(res?.universityState?.name);
+        setUniStateValue(res?.universityState?.id);
+        setUniId(res?.id);
+        setCheck(false);
+      });
     }
+  }, []);
 
-  },[])
+  // const logoResult =  useSelector((state) => state.UniversityLogoImageReducer.universityLogoImage);
+  // const coverResult = useSelector((state)=> state.UniversityCoverImageReducer.universityCoverImage);
 
-
-
-    // const logoResult =  useSelector((state) => state.UniversityLogoImageReducer.universityLogoImage);
-    // const coverResult = useSelector((state)=> state.UniversityCoverImageReducer.universityCoverImage);
-
-  
- 
-
-
-  const [providerTypeLabel, setProviderTypeLabel]= useState('Select Provider...');
+  const [providerTypeLabel, setProviderTypeLabel] =
+    useState("Select Provider...");
   const [providerTypeValue, setProviderTypeValue] = useState(0);
   const [providerTypeError, setProviderTypeError] = useState(false);
 
+  const selectProviderType = (label, value) => {
+    setProviderTypeError(false);
+    setProviderTypeLabel(label);
+    setProviderTypeValue(value);
+  };
 
-    
-    const selectProviderType = (label, value) => {
-      setProviderTypeError(false);
-      setProviderTypeLabel(label);
-      setProviderTypeValue(value);
-     
-    }
-
-    const providerMenu = provider.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
+  const providerMenu = provider.map((providerOptions) => ({
+    label: providerOptions.name,
+    value: providerOptions.id,
+  }));
 
   // Logo file handle
   const updateLogoFiles = (incommingFiles) => {
@@ -279,7 +271,7 @@ const AddUniversity = (props) => {
 
     //  watch form data values
     // for (var value of subdata.values()) {
-     
+
     // }
 
     const config = {
@@ -288,70 +280,67 @@ const AddUniversity = (props) => {
       },
     };
 
-    if(providerTypeValue === 0){
+    if (providerTypeValue === 0) {
       setProviderTypeError(true);
     }
-    if(uniTypeValue === 0){
+    if (uniTypeValue === 0) {
       setUniTypeError(true);
     }
-    if(uniCountryValue === 0){
+    if (uniCountryValue === 0) {
       setUniCountryError(true);
     }
-    if(unistateValue === 0){
+    if (unistateValue === 0) {
       setUniStateError(true);
     }
-    if(FileList1.length<1 && check){
+    if (FileList1.length < 1 && check) {
       setLogoDropzoneError(true);
     }
     // if(FileList1.length>=1 && uniId != undefined ){
     //   setLogoDropzoneError(false);
     // }
-    if(FileList2.length<1 && check){
+    if (FileList2.length < 1 && check) {
       setCoverDropzoneError(true);
     }
     // if(FileList2.length>=1 && uniId != undefined)
     // {
     //   setCoverDropzoneError(false);
     // }
-    else{
-      if(uniId != undefined){
-        put('University/Update', subdata, config)
-        .then(res => {
-          console.log('1st put response',res);
-          if(res?.status == 200){
-           
-            addToast(res?.data?.message,{
-              appearance: 'success',
-              autoDismiss: true
-            })
-            
-            history.push('/addUniversityCampus');
-          }
-        })
-      }
-      else{
-        Axios.post(`${rootUrl}University/Create`, subdata, config).then((res) => {
-          
-          console.log("unipostData",res);
-        
-          localStorage.setItem("id",res.data.result.id);
-          const uniID = res.data.result.id;
-    
-          if (res.status === 200 && res.data.isSuccess === true) {
-            setSubmitData(true);
-            addToast(res?.data?.message,{
-              appearance: 'success',
-              autoDismiss: true
-            })
-            history.push({
-              pathname: "/addUniversityCampus",
-              id: uniID,
+    else {
+      if (uniId != undefined) {
+        put("University/Update", subdata, config).then((res) => {
+          console.log("1st put response", res);
+          if (res?.status == 200) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
             });
+
+            history.push("/addUniversityCampus");
           }
         });
+      } else {
+        Axios.post(`${rootUrl}University/Create`, subdata, config).then(
+          (res) => {
+            console.log("unipostData", res);
+
+            localStorage.setItem("id", res.data.result.id);
+            const uniID = res.data.result.id;
+
+            if (res.status === 200 && res.data.isSuccess === true) {
+              setSubmitData(true);
+              addToast(res?.data?.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              history.push({
+                pathname: "/addUniversityCampus",
+                id: uniID,
+              });
+            }
+          }
+        );
       }
     }
-
   };
 
   // select University Type
@@ -426,21 +415,21 @@ const AddUniversity = (props) => {
   const backToUniList = () => {
     history.push("/universityList");
   };
-  
+
   return (
     <div>
-
-           <Card className='uapp-card-bg'>
-              <CardHeader className="page-header">              
-                <h3 className="text-light">Add University Information</h3>
-                  <div className="page-header-back-to-home">
-                  <span onClick={backToUniList} className="text-light">
-                    {" "} 
-                    <i className="fas fa-arrow-circle-left"></i> Back to University List
-                    </span>
-                  </div>             
-              </CardHeader>        
-            </Card>
+      <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-light">Add University Information</h3>
+          <div className="page-header-back-to-home">
+            <span onClick={backToUniList} className="text-light">
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to University
+              List
+            </span>
+          </div>
+        </CardHeader>
+      </Card>
 
       <Card>
         <CardBody>
@@ -525,11 +514,11 @@ const AddUniversity = (props) => {
             <NavItem>
               {submitData || JSON.parse(localStorage.getItem("id")) ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                   Gallery
+                  Gallery
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "5"}>
-                   Gallery
+                  Gallery
                 </NavLink>
               )}
             </NavItem>
@@ -581,44 +570,28 @@ const AddUniversity = (props) => {
                 </NavLink>
               )}
             </NavItem> */}
-
           </Nav>
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="1">
               <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
-
-                  {
+                {
                   // method == 'put' ?
-                  uniId != undefined ?
-                  <>
-                  <input
-                  type='hidden'
-                  name='id'
-                  id='id'
-                  value={uniId}
-                  
-                  />
+                  uniId != undefined ? (
+                    <>
+                      <input type="hidden" name="id" id="id" value={uniId} />
 
-                 <input
-                  type='hidden'
-                  name='providerId'
-                  id='providerId'
-                  value={universityData?.providerId}
-                  
-                  />
-
-                  </> 
-                  
-                  
-                  :
-                  
-                  null
+                      <input
+                        type="hidden"
+                        name="providerId"
+                        id="providerId"
+                        value={universityData?.providerId}
+                      />
+                    </>
+                  ) : null
                 }
 
-                 
-
-              <FormGroup row className="has-icon-left position-relative">
+                <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
                       Provider <span className="text-danger">*</span>{" "}
@@ -627,21 +600,24 @@ const AddUniversity = (props) => {
                   <Col md="6">
                     <Select
                       options={providerMenu}
-                      value={{ label: providerTypeLabel, value: providerTypeValue }}
-                      onChange={(opt) => selectProviderType(opt.label, opt.value)}
+                      value={{
+                        label: providerTypeLabel,
+                        value: providerTypeValue,
+                      }}
+                      onChange={(opt) =>
+                        selectProviderType(opt.label, opt.value)
+                      }
                       name="providerId"
                       id="providerId"
                     />
 
-                      {providerTypeError && (
-                        <span className="text-danger">
-                          Provider must be selected
-                        </span>
-                      )}
-                    
+                    {providerTypeError && (
+                      <span className="text-danger">
+                        Provider must be selected
+                      </span>
+                    )}
                   </Col>
                 </FormGroup>
-
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -701,12 +677,11 @@ const AddUniversity = (props) => {
                       id="UniversityTypeId"
                     />
 
-                    {
-                      uniTypeError ? 
-                      <span className="text-danger">University type must be selected</span>
-                      :
-                      null
-                    }
+                    {uniTypeError ? (
+                      <span className="text-danger">
+                        University type must be selected
+                      </span>
+                    ) : null}
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -729,10 +704,11 @@ const AddUniversity = (props) => {
                       id="UniversityCountryId"
                     />
 
-                    {
-                      uniCountryError && 
-                      <span className="text-danger">University country must be selected</span>
-                    }
+                    {uniCountryError && (
+                      <span className="text-danger">
+                        University country must be selected
+                      </span>
+                    )}
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -755,9 +731,11 @@ const AddUniversity = (props) => {
                       id="UniversityStateId"
                     />
 
-                    {
-                      uniStateError && <span className="text-danger">University state must be selected</span>
-                    }
+                    {uniStateError && (
+                      <span className="text-danger">
+                        University state must be selected
+                      </span>
+                    )}
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
@@ -914,63 +892,64 @@ const AddUniversity = (props) => {
                     </span>
                   </Col>
                   <Col md="6">
-                    
-                  <div className="row">
-                          {universityData?.universityLogo ? (
-                            <div className="col-md-3">
-                              <Image
-                                width={104}
-                                height={104}
-                                src={
-                                  rootUrl + universityData?.universityLogo?.thumbnailUrl
-                                }
-                              />
-                            </div>
-                          ) : null}
-
-                          <div className="col-md-3">
-                            <Upload
-                              listType="picture-card"
-                              multiple={false}
-                              fileList={FileList1}
-                              onPreview={handlePreview1}
-                              onChange={handleChange1}
-                              beforeUpload={(file) => {
-                                return false;
-                              }}
-                            >
-                              {FileList1.length < 1 ? (
-                                <div
-                                  className="text-danger"
-                                  style={{ marginTop: 8 }}
-                                >
-                                  <Icon.Upload />
-                                  <br />
-                                  <span>Upload</span>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </Upload>
-                            <AntdModal
-                              visible={previewVisible1}
-                              title={previewTitle1}
-                              footer={null}
-                              onCancel={handleCancel1}
-                            >
-                              <img
-                                alt="example"
-                                style={{ width: "100%" }}
-                                src={previewImage1}
-                              />
-                            </AntdModal>
-                          </div>
+                    <div className="row">
+                      {universityData?.universityLogo ? (
+                        <div className="col-md-3">
+                          <Image
+                            width={104}
+                            height={104}
+                            src={
+                              rootUrl +
+                              universityData?.universityLogo?.thumbnailUrl
+                            }
+                          />
                         </div>
+                      ) : null}
 
-                  {/* <PicturesWall/> */}
+                      <div className="col-md-3">
+                        <Upload
+                          listType="picture-card"
+                          multiple={false}
+                          fileList={FileList1}
+                          onPreview={handlePreview1}
+                          onChange={handleChange1}
+                          beforeUpload={(file) => {
+                            return false;
+                          }}
+                        >
+                          {FileList1.length < 1 ? (
+                            <div
+                              className="text-danger"
+                              style={{ marginTop: 8 }}
+                            >
+                              <Icon.Upload />
+                              <br />
+                              <span>Upload</span>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Upload>
+                        <AntdModal
+                          visible={previewVisible1}
+                          title={previewTitle1}
+                          footer={null}
+                          onCancel={handleCancel1}
+                        >
+                          <img
+                            alt="example"
+                            style={{ width: "100%" }}
+                            src={previewImage1}
+                          />
+                        </AntdModal>
+                      </div>
+                    </div>
+
 
                     {logoDropzoneError && (
-                      <span className="text-danger">You must upload a logo.</span>
+                      <span className="text-danger">
+                        You must upload a logo.
+                      </span>
                     )}
                   </Col>
                 </FormGroup>
@@ -983,79 +962,77 @@ const AddUniversity = (props) => {
                     </span>
                   </Col>
                   <Col md="6">
-
-                  <div className="row">
-                          {universityData?.coverPhoto ? (
-                            <div className="col-md-3">
-                              <Image
-                                width={104}
-                                height={104}
-                                src={
-                                  rootUrl + universityData?.coverPhoto?.thumbnailUrl
-                                }
-                              />
-                            </div>
-                          ) : null}
-
-                          <div className="col-md-3">
-                            <Upload
-                              listType="picture-card"
-                              multiple={false}
-                              fileList={FileList2}
-                              onPreview={handlePreview2}
-                              onChange={handleChange2}
-                              beforeUpload={(file) => {
-                                return false;
-                              }}
-                            >
-                              {FileList2.length < 1 ? (
-                                <div
-                                  className="text-danger"
-                                  style={{ marginTop: 8 }}
-                                >
-                                  <Icon.Upload />
-                                  <br />
-                                  <span>Upload</span>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </Upload>
-                            <AntdModal
-                              visible={previewVisible2}
-                              title={previewTitle2}
-                              footer={null}
-                              onCancel={handleCancel2}
-                            >
-                              <img
-                                alt="example"
-                                style={{ width: "100%" }}
-                                src={previewImage2}
-                              />
-                            </AntdModal>
-                          </div>
+                    <div className="row">
+                      {universityData?.coverPhoto ? (
+                        <div className="col-md-3">
+                          <Image
+                            width={104}
+                            height={104}
+                            src={
+                              rootUrl + universityData?.coverPhoto?.thumbnailUrl
+                            }
+                          />
                         </div>
-                    
+                      ) : null}
+
+                      <div className="col-md-3">
+                        <Upload
+                          listType="picture-card"
+                          multiple={false}
+                          fileList={FileList2}
+                          onPreview={handlePreview2}
+                          onChange={handleChange2}
+                          beforeUpload={(file) => {
+                            return false;
+                          }}
+                        >
+                          {FileList2.length < 1 ? (
+                            <div
+                              className="text-danger"
+                              style={{ marginTop: 8 }}
+                            >
+                              <Icon.Upload />
+                              <br />
+                              <span>Upload</span>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Upload>
+                        <AntdModal
+                          visible={previewVisible2}
+                          title={previewTitle2}
+                          footer={null}
+                          onCancel={handleCancel2}
+                        >
+                          <img
+                            alt="example"
+                            style={{ width: "100%" }}
+                            src={previewImage2}
+                          />
+                        </AntdModal>
+                      </div>
+                    </div>
+
                     {/* <CoverPicturesWall/> */}
-                  
+
                     {coverDropzoneError && (
-                      <span className="text-danger">You must upload a cover photo</span>
+                      <span className="text-danger">
+                        You must upload a cover photo
+                      </span>
                     )}
                   </Col>
                 </FormGroup>
-
-              
-
-
 
                 {/* <FormGroup
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 ></FormGroup> */}
-                <FormGroup row
+                <FormGroup
+                  row
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "end" }}
-                 >
+                >
                   {/* <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"

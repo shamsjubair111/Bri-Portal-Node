@@ -5,12 +5,12 @@ import * as Icon from 'react-feather';
 import { useDispatch } from 'react-redux';
 import { StoreUniversityGalleryImageData } from '../../../redux/actions/SMS/UniversityAction/UniversityGalleryImageActions';
 
-const MediaPictures = () => {
+const MediaPictures = ({FileList, setFileList, setFileError}) => {
 
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
-    const [FileList, setFileList] = useState([]);
+    // const [FileList, setFileList] = useState([]);
   
     const dispatch = useDispatch();
     
@@ -46,15 +46,11 @@ const MediaPictures = () => {
       setPreviewVisible(true);
       setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
   
-  
-  
-  
-  
     };
   
    const handleChange = ({ fileList }) => {
        setFileList(fileList);
-      
+       setFileError(false)
       
    };
   
