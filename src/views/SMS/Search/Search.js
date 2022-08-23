@@ -7,6 +7,7 @@ import get from '../../../helpers/get';
 import { rootUrl } from '../../../constants/constants';
 import Pagination from "../../SMS/Pagination/Pagination";
 import LinkButton from '../Components/LinkButton';
+import ComponentButton from '../Components/ComponentButton';
 
 
 
@@ -16,6 +17,17 @@ const Search = () => {
 
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
+
+    const  activeStyle= {color: '#2154AC !important',
+    backgroundColor: 'white !important',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    paddingLeft: '9px',
+    paddingRight: '9px',
+    cursor: 'pointer',
+    borderRadius: '50px',
+    fontSize: '12px',
+    border: '2px solid #2154AC !important'}
     
     const [activetab, setActivetab] = useState("1");
     const [studentLabel, setStudentLabel] = useState('Select Student');
@@ -118,15 +130,7 @@ const Search = () => {
     const [intakeError, setIntakeError] = useState(false);
     const [deliveryError, setDeliveryError] = useState(false);
 
-
-
-
-  
-
-
-    
-
-    console.log(checkActiveTab);
+    // console.log(checkActiveTab);
 
     useEffect(()=>{
 
@@ -138,6 +142,7 @@ const Search = () => {
         console.log(data[9]);
         setStudentInfo(data[9]);
         setStudentLabel(data[9].name);
+        setStudentValue(data[9].id)
       })
 
       // fake api end
@@ -228,6 +233,14 @@ const Search = () => {
       })
 
     },[success, page, dataSizeValue, sortValue, studentId, universityTypeValue, universityValue, campusValue, universityCountryValue, cityValue, studentTypeValue, departmentValue, subValue, programValue, intakeValue, patternValue, programName])
+
+    const addToWishList = (data) => {
+      console.log(data);
+       get(`wishlist/add/${studentInfo?.id}/${data?.subjectId}`)
+       .then(res => {
+        console.log(res);
+       })
+    }
 
     const showAllData = () => {
       setLoalAll(true);
@@ -1367,9 +1380,21 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
             <LinkButton
              url={`/subjectProfile/${subjectInfo?.subjectId}`}
              target={'_blank'}
-            color={'secondary'}
-            className={"button2-style-search"}
-            name={'View'}
+            
+            
+            className={'button2-style-search me-1'}
+            icon={<i className="fas fa-eye"></i>}
+           
+            permission={6}
+            />
+
+            <ComponentButton
+       
+         
+            func={()=>addToWishList(subjectInfo)}
+           
+            icon={<i class="fas fa-heart-circle-check"></i>}
+            className={'button2-style-search ms-1'}
             permission={6}
             />
             </div>

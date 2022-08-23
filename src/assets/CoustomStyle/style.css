@@ -804,9 +804,9 @@ th {
   color: #2154AC !important;
   background-color: white !important;
   padding-top: 5px ;
-  padding-bottom: 7px ;
-  padding-left: 20px ;
-  padding-right: 20px ;
+  padding-bottom: 5px ;
+  padding-left: 9px ;
+  padding-right: 9px ;
   cursor: pointer;
   border-radius: 50px;
   font-size: 12px;
@@ -816,6 +816,8 @@ th {
 
 .button2-style-search:hover{
   background: #2154AC !important;
+  color: white !important;
+
 
 }
 

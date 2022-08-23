@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 
 const LinkButton = (props) => {
-    const {url, color, className, icon, permission, name, func} = props;
+    const {url, color, className, icon, permission, name, func,target, activeStyle} = props;
 
     const data = [1,2,3,4,6];
 
@@ -12,11 +12,11 @@ const LinkButton = (props) => {
         <>
 
 
-        <Link to={url}>
+        <Link to={url} activeStyle ={activeStyle} target={target}>
        
-            <Button color={color} className={className} onClick={func}>
+            <button color={color} className={className} onClick={func}>
                {icon} {name}
-            </Button>
+            </button>
          
         </Link>
         
