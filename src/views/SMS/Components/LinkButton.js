@@ -14,9 +14,9 @@ const LinkButton = (props) => {
 
         <Link to={url} activeStyle ={activeStyle} target={target}>
        
-            <button color={color} className={className} onClick={func}>
+            <Button color={color} className={className} onClick={func}>
                {icon} {name}
-            </button>
+            </Button>
          
         </Link>
         
