@@ -132,7 +132,7 @@ const Branch = () => {
 
   
   
-
+  const AuthStr = localStorage.getItem("token");
   
 
    const handleSubmit = (event) => {
@@ -174,7 +174,12 @@ const Branch = () => {
        }
 
        else{
-        Axios.post(`${rootUrl}Branch/Create`, subdata).then((res) => {
+        Axios.post(`${rootUrl}Branch/Create`, subdata, {
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': AuthStr,
+          },
+        }).then((res) => {
         
           localStorage.setItem("branchId",res?.data?.result?.id);
           

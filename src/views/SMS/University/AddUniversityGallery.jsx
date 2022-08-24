@@ -40,6 +40,8 @@ const AddUniversityGallery = () => {
   const [galleryObj, setGalleryObj] = useState({});
   const [fileError, setFileError] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const { addToast } = useToasts();
   const history = useHistory();
 
@@ -62,6 +64,8 @@ const AddUniversityGallery = () => {
       },
     };
 
+    setLoading(true);
+
     if (FileList.length < 1) {
       setFileError(true);
     } else {
@@ -70,6 +74,7 @@ const AddUniversityGallery = () => {
           setSuccess(!success);
           setFileList([]);
           setFileError(false);
+          setLoading(false);
           addToast(res.data.message, {
             appearance: "success",
             autoDismiss: true,
@@ -140,8 +145,8 @@ const AddUniversityGallery = () => {
   };
   // on Close View Modal
   const closeViewModal = () => {
+    // setGalleryObj({});
     setViewModalOpen(false);
-    setGalleryObj({});
   };
 
   const handleDeleteItem = (id) => {
@@ -248,7 +253,7 @@ const AddUniversityGallery = () => {
           <TabContent activeTab={activetab}>
             <div className="row mt-5">
               <div className="col-md-8">
-                <div className="row row-cols-3 g-4">
+                <div className="row row-cols-md-3 row-cols-sm-2 g-4">
                   {gallery.map((gall, i) => (
                     <div key={i} className="containerCustom">
                       <img
@@ -279,13 +284,60 @@ const AddUniversityGallery = () => {
                           className="uapp-modal2"
                         >
                           <ModalBody>
-                            <img
+                            {/* <img
                               className="w-100 mx-auto"
                               src={
                                 rootUrl + galleryObj?.mediaFileMedia?.fileUrl
                               }
                               alt=""
-                            />
+                            /> */}
+                            {/* {galleryObj?.mediaFileMedia?.fileName.includes(".jpg") || galleryObj?.mediaFileMedia?.fileName.includes(".png") || galleryObj?.mediaFileMedia?.fileName.includes(".jfif") || galleryObj?.mediaFileMedia?.fileName.includes(".JPG") ? (
+                        <img
+                          src={rootUrl + galleryObj?.mediaFileMedia?.fileUrl}
+                          alt="Avatar"
+                          className="image"
+                          style={{ width: "100%" }}
+                        />
+                      ) : (
+                        <video
+                          src={rootUrl + galleryObj?.mediaFileMedia?.fileUrl}
+                          width="480"
+                          height="360"
+                          controls
+                        >
+                          The browser does not support videos.
+                        </video>
+                      )} */}
+
+                            {galleryObj?.mediaFileMedia?.mediaType === 1  ? (
+                              <img
+                                src={
+                                  rootUrl + galleryObj?.mediaFileMedia?.fileUrl
+                                }
+                                alt="gallery_image"
+                                className="image"
+                                style={{ width: "100%" }}
+                              />
+                            ) 
+                            
+                            : galleryObj?.mediaFileMedia?.mediaType === 3 ? (
+                              <video
+                                src={
+                                  rootUrl + galleryObj?.mediaFileMedia?.fileUrl
+                                }
+                                width="100%"
+                                height="100%"
+                                controls
+                              >
+                                The browser does not support videos.
+                              </video>
+                            )
+
+                            :
+                             
+                            <span>This format cannot be opened.</span>
+                          
+                          }
                           </ModalBody>
 
                           <ModalFooter>
@@ -359,6 +411,9 @@ const AddUniversityGallery = () => {
                           <span className="text-danger">*</span>{" "}
                         </span>
                       </Col>
+                      {loading ? (
+                              <h4 className="text-center mt-4">Uploading...</h4>
+                            ) : (
                       <Col md="7">
                         {
                           <MediaPictures
@@ -374,6 +429,7 @@ const AddUniversityGallery = () => {
                           </span>
                         )}
                       </Col>
+                            )}
                     </FormGroup>
 
                     <FormGroup

@@ -24,76 +24,82 @@ import Select from "react-select";
 import { useHistory } from "react-router";
 
 import { useToasts } from "react-toast-notifications";
-import { StoreUniversityStateData } from "../../../redux/actions/SMS/UniversityAction/UniversityStateAction";
 import get from "../../../helpers/get";
 import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 
-const AddUniversityState = () => {
-  const [universityDetailsList, setUniversityDetailsList] = useState([]);
-  const [universityState, setUniversityState] = useState("");
+const AddState = () => {
+  const [stateList, setStateList] = useState([]);
+  const [state, setState] = useState("");
+  const [stateError, setStateError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [countryLabel, setCountryLabel] = useState("Select Country");
   const [countryValue, setCountryValue] = useState(0);
+  const [countryError, setCountryError] = useState(false);
+  const [codeValue, setCodeValue] = useState("");
+  const [codeError, setCodeError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [countryNameError, setCountryNameError] = useState(false);
-  const [uniStateError, setUniStateError] = useState(false);
   const { addToast } = useToasts();
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const returnValue = get(`UniversityState/Index`).then((action) => {
-      setUniversityDetailsList(action);
-      dispatch(StoreUniversityStateData(action));
+    const returnValue = get(`State/GetAll`).then((action) => {
+      setStateList(action);
+      console.log("stateList", action);
     });
   }, [success]);
 
   useEffect(() => {
-    const returnValue = get(`UniversityCountryDD/Index`).then((action) => {
+    const returnValue = get(`CountryDD/Index`).then((action) => {
       setCountryList(action);
     });
   }, []);
 
   const selectCountryName = (label, value) => {
+    setCountryError(false);
     setCountryLabel(label);
     setCountryValue(value);
-    setCountryNameError(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const subdata = {
-      name: universityState,
-      universityCountryId: countryValue,
+      name: state,
+      countryId: countryValue,
+      code: codeValue,
     };
 
-    if (countryValue === 0) {
-      setCountryNameError(true);
+    if(state === ""){
+        setStateError(true);
     }
-    if (universityState === "") {
-      setUniStateError(true);
-    } else {
-      const returnValue = post(`UniversityState/Create`, subdata).then(
-        (action) => {
-          setSuccess(!success);
-          setModalOpen(false);
-          addToast(action?.data?.message, {
-            appearance: "success",
-            autoDismiss: true,
+    if(codeValue === ""){
+        setCodeError(true);
+    }
+    if(countryValue === 0){
+        setCountryError(true);
+    }
+    else{
+        const returnValue = post(`State/Create`, subdata).then((action) => {
+            setSuccess(!success);
+            setModalOpen(false);
+            addToast(action?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setCountryLabel("Select Country");
+            setCountryValue(0);
+            setState("");
+            setCodeValue("");
           });
-          setCountryLabel("Select Country");
-          setCountryValue(0);
-          setUniversityState("");
-        }
-      );
     }
+    
   };
 
   // on Close Modal
@@ -101,14 +107,16 @@ const AddUniversityState = () => {
     setModalOpen(false);
     setCountryLabel("Select Country");
     setCountryValue(0);
-    setUniversityState("");
+    setState("");
+    setCodeValue("");
     localStorage.removeItem("updateUniState");
   };
 
   // delete button click
-  const toggleDanger = (uniDetails) => {
-    localStorage.setItem("delUniStateName", uniDetails.name);
-    localStorage.setItem("delUniStateId", uniDetails.id);
+  const toggleDanger = (state) => {
+    console.log(state);
+    localStorage.setItem("delUniStateName", state?.name);
+    localStorage.setItem("delUniStateId", state?.id);
     setDeleteModal(true);
   };
 
@@ -121,28 +129,28 @@ const AddUniversityState = () => {
 
   // confirm delete
   const handleDeleteUniState = (id) => {
-    const returnValue = remove(`UniversityState/Delete/${id}`).then(
-      (action) => {
-        setDeleteModal(false);
-        setSuccess(!success);
-        addToast(action, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        localStorage.removeItem("delUniStateName");
-        localStorage.removeItem("delUniStateId");
-      }
-    );
+    const returnValue = remove(`State/Delete/${id}`).then((action) => {
+      setDeleteModal(false);
+      setSuccess(!success);
+      addToast(action, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      localStorage.removeItem("delUniStateName");
+      localStorage.removeItem("delUniStateId");
+    });
   };
 
   // update state
-  const handleUpdate = (uniDetails) => {
+  const handleUpdate = (state) => {
+    console.log(state);
     setModalOpen(true);
-    setUniversityState(uniDetails.name);
-    setCountryLabel(uniDetails.country.name);
-    setCountryValue(uniDetails.country.id);
+    setState(state?.name);
+    setCodeValue(state?.code);
+    setCountryLabel(state?.country?.name);
+    setCountryValue(state?.country?.id);
 
-    localStorage.setItem("updateUniState", uniDetails.id);
+    localStorage.setItem("updateUniState", state.id);
   };
 
   // update submit
@@ -151,24 +159,24 @@ const AddUniversityState = () => {
 
     const subData = {
       id: id,
-      name: universityState,
-      universityCountryId: countryValue,
+      name: state,
+      countryId: countryValue,
+      code: codeValue,
     };
 
-    const returnvalue = put(`UniversityState/Update`, subData).then(
-      (action) => {
-        setSuccess(!success);
-        setModalOpen(false);
-        addToast(action?.data?.message, {
-          appearance: "success",
-          autoDismiss: true,
-        });
-        setUniversityState("");
-        setCountryLabel("Select Country");
-        setCountryValue(0);
-        localStorage.removeItem("updateUniState");
-      }
-    );
+    const returnvalue = put(`State/Update`, subData).then((action) => {
+      setSuccess(!success);
+      setModalOpen(false);
+      addToast(action?.data?.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setState("");
+      setCodeValue("");
+      setCountryLabel("Select Country");
+      setCountryValue(0);
+      localStorage.removeItem("updateUniState");
+    });
   };
 
   const countryName = countryList?.map((country) => ({
@@ -185,7 +193,7 @@ const AddUniversityState = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add University State</h3>
+          <h3 className="text-light">Add State</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
@@ -212,9 +220,9 @@ const AddUniversityState = () => {
               Total{" "}
               <span className="badge badge-primary">
                 {" "}
-                {universityDetailsList?.length}{" "}
+                {stateList?.length}{" "}
               </span>{" "}
-              University State Found{" "}
+              State Found{" "}
             </b>
           </div>
         </CardHeader>
@@ -226,14 +234,14 @@ const AddUniversityState = () => {
               toggle={closeModal}
               className="uapp-modal"
             >
-              <ModalHeader>Add University State</ModalHeader>
+              <ModalHeader>Add State</ModalHeader>
 
               <ModalBody>
                 <Form>
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="4">
                       <span>
-                        University State <span className="text-danger">*</span>{" "}
+                        State <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
                     <Col md="8">
@@ -241,26 +249,47 @@ const AddUniversityState = () => {
                         type="text"
                         name="name"
                         id="name"
-                        value={universityState}
-                        placeholder="Write University State Name"
-                        onChange={(e) => {
-                          setUniversityState(e.target.value);
-                          setUniStateError(false);
-                        }}
+                        value={state}
+                        placeholder="Write State Name"
+                        onChange={(e) => {setState(e.target.value);
+                        setStateError(false)}}
                       />
-                      {uniStateError ? (
-                        <span className="text-danger">
-                          You must write university state name
-                        </span>
-                      ) : null}
+                      {
+                        stateError ? <span className="text-danger">You must write state name</span>
+                        :
+                        null
+                      }
                     </Col>
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="4">
                       <span>
-                        University Country{" "}
-                        <span className="text-danger">*</span>{" "}
+                        Code <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="8">
+                      <Input
+                        type="text"
+                        name="name"
+                        id="name"
+                        value={codeValue}
+                        placeholder="Write State Code"
+                        onChange={(e) => {setCodeValue(e.target.value);
+                        setCodeError(false)}}
+                      />
+                      {
+                        codeError ? <span className="text-danger">You must write state code</span>
+                        :
+                        null
+                      }
+                    </Col>
+                  </FormGroup>
+
+                  <FormGroup row className="has-icon-left position-relative">
+                    <Col md="4">
+                      <span>
+                        Country <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
                     <Col md="8">
@@ -273,11 +302,11 @@ const AddUniversityState = () => {
                         name="country"
                         id="country"
                       />
-                      {countryNameError ? (
-                        <span className="text-danger">
-                          Country name must be selected
-                        </span>
-                      ) : null}
+                      {
+                        countryError ? <span className="text-danger">You must select country</span>
+                        :
+                        null
+                      }
                     </Col>
                   </FormGroup>
 
@@ -292,10 +321,11 @@ const AddUniversityState = () => {
                     >
                       Close
                     </Button>
+
                     {localStorage.getItem("updateUniState") ? (
                       <Button
                         color="primary"
-                        className="mr-1 mt-3"
+                        className="mr-0 mt-3"
                         onClick={handleUpdateSubmit}
                       >
                         Submit
@@ -321,32 +351,28 @@ const AddUniversityState = () => {
               <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
-                  <th>University State Name</th>
-                  <th className="text-center">University Country Name</th>
+                  <th> State Name</th>
+                  <th className="text-center">Country Name</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {universityDetailsList?.map((uniDetails, i) => (
-                  <tr key={uniDetails.id} style={{ textAlign: "center" }}>
+                {stateList?.map((state, i) => (
+                  <tr key={state?.id} style={{ textAlign: "center" }}>
                     <th scope="row">{i + 1}</th>
-                    <td>{uniDetails.name}</td>
-                    <td>{uniDetails.country.name}</td>
+                    <td>{state?.name}</td>
+                    <td>{state?.country?.name}</td>
                     <td>
-                      {/* <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button> */}
-
                       <ButtonForFunction
-                        func={() => toggleDanger(uniDetails)}
+                        func={() => toggleDanger(state)}
                         className={"mx-1 btn-sm"}
                         color={"danger"}
                         icon={<i className="fas fa-trash-alt"></i>}
                         permission={6}
                       />
 
-                      {/* <Button onClick={()=> handleUpdate(uniDetails)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
-
                       <ButtonForFunction
-                        func={() => handleUpdate(uniDetails)}
+                        func={() => handleUpdate(state)}
                         className={"mx-1 btn-sm"}
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
@@ -391,5 +417,5 @@ const AddUniversityState = () => {
     </div>
   );
 };
-const mapStateToProps = (state) => ({});
-export default connect(mapStateToProps)(AddUniversityState);
+
+export default AddState;

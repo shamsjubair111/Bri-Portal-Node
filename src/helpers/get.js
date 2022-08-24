@@ -3,13 +3,19 @@ import Axios from 'axios'
 import history from './history'
 import { rootUrl } from '../constants/constants'
 
+const AuthStr = localStorage.getItem("token");
 
 async function get(url, authToken = ""){
 
     
    
    try {
-    const res = await Axios.get(`${rootUrl}${url}`,authToken || "")
+    const res = await Axios.get(`${rootUrl}${url}`,{
+
+      headers: {
+        'authorization': AuthStr
+      }
+    })
     return await res?.data?.result
    }
     catch (error) {

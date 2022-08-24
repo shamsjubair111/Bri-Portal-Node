@@ -21,58 +21,30 @@ import {
   InputGroup,
   Table,
 } from "reactstrap";
-// import { EditorState, convertToRaw } from 'draft-js';
-// import { Editor } from 'react-draft-wysiwyg';
-// import draftToHtml from 'draftjs-to-html';
-// import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { useToasts } from "react-toast-notifications";
-import { useDispatch } from "react-redux";
-
-import { StoreUniversityCountryData } from "../../../redux/actions/SMS/UniversityAction/UniversityCountryAction";
 import get from "../../../helpers/get";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
-import UniversityList from "./UniversityList";
 import ButtonForFunction from "../Components/ButtonForFunction";
-const AddUniversityCountry = (props) => {
-  const univerSityCountries = props.univerSityCountryList[0];
-  console.log("uniC", univerSityCountries);
 
-  const [universityCountry, setUniversityCountry] = useState("");
-  //   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  //   const [rawContent,setRawContent] = useState('');
+const AddCountry = () => {
+  const [country, setCountry] = useState("");
+  const [code, setCode] = useState("");
   const history = useHistory();
-  const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
   const [updateState, setUpdateState] = useState({});
+  const [countries, setCountries] = useState([]);
   const { addToast } = useToasts();
 
-  //  const onEditorStateChange = (editorState) => {
-  //     setEditorState(editorState)
-  //     // setRawContent(convertToRaw(editorState.getCurrentContent()).blocks[0].text);
-  //     setRawContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
-  //   };
-
   useEffect(() => {
-    const returnValue = get(`UniversityCountry/Index`)
-      .then((action) => {
-        dispatch(StoreUniversityCountryData(action));
-        // console.log(action);
-      })
-      .catch();
-
-    // const returnValue = get(`${rootUrl}/UniversityCountry/Index`).then(res => {
-    //   dispatch(StoreUniversityCountryData(res))
-
-    // })
+    get("Country/Index").then((res) => {
+      console.log("country", res);
+      setCountries(res);
+    });
   }, [success]);
-
-  // useEffect(() => {
-  //   window.addEventListener('error')
-  // }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -86,82 +58,57 @@ const AddUniversityCountry = (props) => {
     if (!updateState?.id) {
       setUpdateState({});
 
-      const returnValue = post(`UniversityCountry/Create`, subdata).then(
-        (action) => {
-          setSuccess(!success);
-          setModalOpen(false);
-          addToast(action?.data?.message, {
-            appearance: "success",
-            autoDismiss: true,
-          });
-          setUniversityCountry("");
-        }
-      );
+      const returnValue = post(`Country/Create`, subdata).then((action) => {
+        setSuccess(!success);
+        setModalOpen(false);
+        addToast(action?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setCountry("");
+        setCode("");
+      });
     } else {
-      const returnvalue = put(`UniversityCountry/Update`, subdata).then(
-        (action) => {
-          setSuccess(!success);
-          setModalOpen(false);
-          addToast(action?.data?.message, {
-            appearance: "success",
-            autoDismiss: true,
-          });
-          setUniversityCountry("");
-          setUpdateState({});
-          //  localStorage.removeItem('updateUniCountry')
-        }
-      );
+      const returnvalue = put(`Country/Update`, subdata).then((action) => {
+        setSuccess(!success);
+        setModalOpen(false);
+        addToast(action?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setCountry("");
+        setCode("");
+        setUpdateState({});
+        //  localStorage.removeItem('updatecountry')
+      });
     }
   };
 
   const handleUpdate = (country) => {
     setModalOpen(true);
-    setUniversityCountry(country.name);
-    // localStorage.setItem('updateUniCountry',country.id)
+    setCountry(country?.name);
+    setCode(country?.code);
+    // localStorage.setItem('updatecountry',country.id)
     console.log(country);
     setUpdateState(country);
   };
 
-  // const handleUpdateSubmit = () => {
-
-  //   const id = localStorage.getItem('updateUniCountry');
-
-  //   const subData = {
-  //     id: id,
-  //     name: universityCountry
-  //   }
-
-  //  const returnvalue = put(`UniversityCountry/Update`,subData).then((action)=> {
-  //     setSuccess(!success);
-  //     setModalOpen(false)
-  //     addToast(action?.data?.message, {
-  //       appearance: 'success',
-  //       autoDismiss: true,
-  //     })
-  //     setUniversityCountry('');
-  //    localStorage.removeItem('updateUniCountry')
-  //   })
-
-  // }
-
-  const handleDeleteUniCountry = (id) => {
-    const returnValue = remove(`UniversityCountry/Delete/${id}`).then(
-      (action) => {
-        setDeleteModal(false);
-        setSuccess(!success);
-        addToast(action, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        localStorage.removeItem("delUniCountryName");
-        localStorage.removeItem("delUniCountryId");
-      }
-    );
+  const handleDeletecountry = (id) => {
+    const returnValue = remove(`Country/Delete/${id}`).then((action) => {
+      setDeleteModal(false);
+      setSuccess(!success);
+      addToast(action, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      localStorage.removeItem("delCountryName");
+      localStorage.removeItem("delCountryId");
+    });
   };
 
   const toggleDanger = (name, id) => {
-    localStorage.setItem("delUniCountryName", name);
-    localStorage.setItem("delUniCountryId", id);
+    localStorage.setItem("delCountryName", name);
+    localStorage.setItem("delCountryId", id);
 
     setDeleteModal(true);
   };
@@ -170,26 +117,25 @@ const AddUniversityCountry = (props) => {
   const closeModal = () => {
     setModalOpen(false);
     setUpdateState({});
-    localStorage.removeItem("updateUniCountry");
+    localStorage.removeItem("updatecountry");
   };
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delUniCountryName");
-    localStorage.removeItem("delUniCountryId");
+    localStorage.removeItem("delCountryName");
+    localStorage.removeItem("delCountryId");
   };
 
   // redirect to dashboard
   const backToDashboard = () => {
     history.push("/");
   };
-
   return (
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add University Country</h3>
+          <h3 className="text-light">Country List</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
@@ -198,46 +144,6 @@ const AddUniversityCountry = (props) => {
           </div>
         </CardHeader>
       </Card>
-
-      {/* <Card>
-
-                <CardBody>
-
-                <Form>
-
-                  <FormGroup row className="has-icon-left position-relative">
-
-
-                    <Col md="2">
-                      <span>University Description</span>
-                    </Col>
-
-                  
-                    <Col md="12">
-
-                    <Editor
-                    
-                        editorState={editorState}
-                        wrapperClassName="demo-wrapper"
-                        editorClassName="demo-editor"
-                        onEditorStateChange={onEditorStateChange}
-                        toolbarClassName="toolbar-class"
-                    />
-                    <textarea
-                        disabled
-                        value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-                        />
-
-                    </Col>
-
-                  </FormGroup>
-
-
-                  </Form>
-
-                </CardBody>
-
-            </Card> */}
 
       <Card>
         <CardHeader>
@@ -255,9 +161,9 @@ const AddUniversityCountry = (props) => {
               {" "}
               Total{" "}
               <span className="badge badge-primary">
-                {univerSityCountries?.length}
+                {countries?.length}
               </span>{" "}
-              University Country Found{" "}
+              Country Found{" "}
             </b>
           </div>
         </CardHeader>
@@ -268,7 +174,7 @@ const AddUniversityCountry = (props) => {
               toggle={closeModal}
               className="uapp-modal"
             >
-              <ModalHeader>Add University Country</ModalHeader>
+              <ModalHeader>Add Country</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   {updateState?.id ? (
@@ -283,8 +189,7 @@ const AddUniversityCountry = (props) => {
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="4">
                       <span>
-                        University Country Name{" "}
-                        <span className="text-danger">*</span>{" "}
+                        Country Name <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
                     <Col md="8">
@@ -293,8 +198,27 @@ const AddUniversityCountry = (props) => {
                         name="name"
                         id="name"
                         defaultValue={updateState?.name}
-                        placeholder="Create University Country"
-                        onChange={(e) => setUniversityCountry(e.target.value)}
+                        placeholder="Write Country Name"
+                        onChange={(e) => setCountry(e.target.value)}
+                        required
+                      />
+                    </Col>
+                  </FormGroup>
+
+                  <FormGroup row className="has-icon-left position-relative">
+                    <Col md="4">
+                      <span>
+                        Country Code <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="8">
+                      <Input
+                        type="text"
+                        name="code"
+                        id="code"
+                        defaultValue={updateState?.code}
+                        placeholder="Write Country Code"
+                        onChange={(e) => setCode(e.target.value)}
                         required
                       />
                     </Col>
@@ -313,7 +237,7 @@ const AddUniversityCountry = (props) => {
                     </Button>
 
                     {/* {
-                    localStorage.getItem("updateUniCountry") ?
+                    localStorage.getItem("updatecountry") ?
                       <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
                     <Button.Ripple
                       color="primary"
@@ -335,35 +259,33 @@ const AddUniversityCountry = (props) => {
               <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
-                  <th>University Country Name</th>
-                  <th className="text-center">Count</th>
+                  <th>Country Name</th>
+                  {/* <th className="text-center">Count</th> */}
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {univerSityCountries?.map((uniCountry, i) => (
-                  <tr key={uniCountry.id} style={{ textAlign: "center" }}>
+                {countries?.map((country, i) => (
+                  <tr key={country.id} style={{ textAlign: "center" }}>
                     <th scope="row">{i + 1}</th>
-                    <td>{uniCountry.name}</td>
-                    <td className="text-center">
+                    <td>{country.name}</td>
+                    {/* <td className="text-center">
                       <span className="badge badge-pill badge-primary">
                         {" "}
-                        {uniCountry?.universityCount}{" "}
+                        {country?.universityCount}{" "}
                       </span>
-                    </td>
+                    </td> */}
                     <td>
                       <ButtonForFunction
                         className={"mx-1 btn-sm"}
-                        func={() =>
-                          toggleDanger(uniCountry.name, uniCountry.id)
-                        }
+                        func={() => toggleDanger(country.name, country.id)}
                         color={"danger"}
                         icon={<i className="fas fa-trash-alt"></i>}
                         permission={6}
                       />
 
                       <ButtonForFunction
-                        func={() => handleUpdate(uniCountry)}
+                        func={() => handleUpdate(country)}
                         className={"mx-1 btn-sm"}
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
@@ -378,7 +300,7 @@ const AddUniversityCountry = (props) => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            <b>{localStorage.getItem("delUniCountryName")}</b> ?
+                            <b>{localStorage.getItem("delCountryName")}</b> ?
                             Once Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -387,8 +309,8 @@ const AddUniversityCountry = (props) => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeleteUniCountry(
-                                localStorage.getItem("delUniCountryId")
+                              handleDeletecountry(
+                                localStorage.getItem("delCountryId")
                               )
                             }
                           >
@@ -408,7 +330,5 @@ const AddUniversityCountry = (props) => {
     </div>
   );
 };
-const mapStateToProps = (state) => ({
-  univerSityCountryList: state.universityCountryDataReducer.universityCountries,
-});
-export default connect(mapStateToProps)(AddUniversityCountry);
+
+export default AddCountry;

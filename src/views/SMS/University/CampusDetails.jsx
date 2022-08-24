@@ -57,19 +57,21 @@ const CampusDetails = () => {
   const [statusLabel, setStatusLabel] = useState("Status");
   const [statusValue, setStatusValue] = useState(0);
 
-   // For uploading Gallary
-   const [FileList1, setFileList1] = useState([]);
-   const [previewVisible1, setPreviewVisible1] = useState(false);
-   const [previewImage1, setPreviewImage1] = useState("");
-   const [previewTitle1, setPreviewTitle1] = useState("");
-   const [fileError, setFileError] = useState(false);
-   const [success, setSuccess] = useState(false);
-   const [gallery, setGallery] = useState([]);
-   const [viewModalOpen, setViewModalOpen] = useState(false);
-   const [galleryObj, setGalleryObj] = useState({});
-   const [deleteModal, setDeleteModal] = useState(false);
+  // For uploading Gallary
+  const [FileList1, setFileList1] = useState([]);
+  const [previewVisible1, setPreviewVisible1] = useState(false);
+  const [previewImage1, setPreviewImage1] = useState("");
+  const [previewTitle1, setPreviewTitle1] = useState("");
+  const [fileError, setFileError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [gallery, setGallery] = useState([]);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [galleryObj, setGalleryObj] = useState({});
+  const [deleteModal, setDeleteModal] = useState(false);
 
-   function getBase64(file) {
+  const [loading, setLoading] = useState(false);
+
+  function getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -78,7 +80,7 @@ const CampusDetails = () => {
     });
   }
 
-   const handlePreview1 = async (file) => {
+  const handlePreview1 = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -297,7 +299,7 @@ const CampusDetails = () => {
     // }
   };
 
-  const handleGalleryPost = e => {
+  const handleGalleryPost = (e) => {
     e.preventDefault();
 
     const subdata = new FormData(e.target);
@@ -312,15 +314,17 @@ const CampusDetails = () => {
       },
     };
 
-    if(FileList1.length<1){
+    setLoading(true);
+
+    if (FileList1.length < 1) {
       setFileError(true);
-    }
-    else{
+    } else {
       Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config).then(
         (res) => {
           setSuccess(!success);
           setFileList1([]);
           setFileError(false);
+          setLoading(false);
           addToast(res.data.message, {
             appearance: "success",
             autoDismiss: true,
@@ -329,7 +333,7 @@ const CampusDetails = () => {
         }
       );
     }
-  }
+  };
 
   const handleView = (gallery) => {
     setGalleryObj(gallery);
@@ -353,23 +357,21 @@ const CampusDetails = () => {
 
   // on Close View Modal
   const closeViewModal = () => {
+    // setGalleryObj({});
     setViewModalOpen(false);
-    setGalleryObj({});
   };
 
   const handleDeleteItem = (id) => {
-    const returnValue = remove(`CampusGallery/Delete/${id}`).then(
-      (action) => {
-        setDeleteModal(false);
-        setSuccess(!success);
-        addToast(action, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        localStorage.removeItem("delGalName");
-        localStorage.removeItem("delGalId");
-      }
-    );
+    const returnValue = remove(`CampusGallery/Delete/${id}`).then((action) => {
+      setDeleteModal(false);
+      setSuccess(!success);
+      addToast(action, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      localStorage.removeItem("delGalName");
+      localStorage.removeItem("delGalId");
+    });
   };
 
   return (
@@ -471,87 +473,112 @@ const CampusDetails = () => {
 
                   <div className="row mt-5">
                     <div className="col-md-8">
-                      <div className="row row-cols-3 g-4">
+                      <div className="row row-cols-md-3 row-cols-sm-2 g-4">
                         {gallery.map((gall, i) => (
-                    <div key={i} className="containerCustom">
-                      <img
-                        src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
-                        alt="Avatar"
-                        className="image"
-                        style={{ width: "100%" }}
-                      />
-                      <div className="middle d-flex">
-                        <Button
-                          onClick={() => handleView(gall)}
-                          className="bg-success"
-                        >
-                          View
-                        </Button>
-                        <Button
-                          onClick={() => handleDelete(gall)}
-                          className="bg-danger ms-2"
-                        >
-                          Delete
-                        </Button>
-
-                        
-                        <Modal
-                          size="50%"
-                          isOpen={viewModalOpen}
-                          toggle={closeViewModal}
-                          className="uapp-modal2"
-                        >
-                          <ModalBody>
+                          <div key={i} className="containerCustom">
                             <img
+                              src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
+                              alt="Avatar"
+                              className="image"
+                              style={{ width: "100%" }}
+                            />
+                            <div className="middle d-flex">
+                              <Button
+                                onClick={() => handleView(gall)}
+                                className="bg-success"
+                              >
+                                View
+                              </Button>
+                              <Button
+                                onClick={() => handleDelete(gall)}
+                                className="bg-danger ms-2"
+                              >
+                                Delete
+                              </Button>
+
+                              <Modal
+                                size="50%"
+                                isOpen={viewModalOpen}
+                                toggle={closeViewModal}
+                                className="uapp-modal2"
+                              >
+                                <ModalBody>
+                                  {/* <img
                               className="w-100 mx-auto"
                               src={
                                 rootUrl + galleryObj?.mediaFileMedia?.fileUrl
                               }
                               alt=""
-                            />
-                          </ModalBody>
+                            /> */}
+                                  {galleryObj?.mediaFileMedia?.mediaType ===
+                                  1 ? (
+                                    <img
+                                      src={
+                                        rootUrl +
+                                        galleryObj?.mediaFileMedia?.fileUrl
+                                      }
+                                      alt="gallery_image"
+                                      className="image"
+                                      style={{ width: "100%" }}
+                                    />
+                                  ) : galleryObj?.mediaFileMedia?.mediaType ===
+                                    3 ? (
+                                    <video
+                                      src={
+                                        rootUrl +
+                                        galleryObj?.mediaFileMedia?.fileUrl
+                                      }
+                                      width="100%"
+                                      height="100%"
+                                      controls
+                                    >
+                                      The browser does not support videos.
+                                    </video>
+                                  ) : (
+                                    <span>This format cannot be opened.</span>
+                                  )}
+                                </ModalBody>
 
-                          <ModalFooter>
-                            
-                            <Button
-                              className="bg-danger"
-                              onClick={closeViewModal}
-                            >
-                              Close
-                            </Button>
-                          </ModalFooter>
-                        </Modal>
+                                <ModalFooter>
+                                  <Button
+                                    className="bg-danger"
+                                    onClick={closeViewModal}
+                                  >
+                                    Close
+                                  </Button>
+                                </ModalFooter>
+                              </Modal>
 
-                        <Modal
-                          isOpen={deleteModal}
-                          toggle={closeDeleteModal}
-                          className="uapp-modal"
-                        >
-                          <ModalBody>
-                            <p>
-                              Are You Sure to Delete this{" "}
-                              <b>{localStorage.getItem("delGalName")}</b> ? Once
-                              Deleted it can't be Undone!
-                            </p>
-                          </ModalBody>
+                              <Modal
+                                isOpen={deleteModal}
+                                toggle={closeDeleteModal}
+                                className="uapp-modal"
+                              >
+                                <ModalBody>
+                                  <p>
+                                    Are You Sure to Delete this{" "}
+                                    <b>{localStorage.getItem("delGalName")}</b>{" "}
+                                    ? Once Deleted it can't be Undone!
+                                  </p>
+                                </ModalBody>
 
-                          <ModalFooter>
-                            <Button
-                              color="danger"
-                              onClick={() =>
-                                handleDeleteItem(
-                                  localStorage.getItem("delGalId")
-                                )
-                              }
-                            >
-                              YES
-                            </Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
-                          </ModalFooter>
-                        </Modal>
-                      </div>
-                    </div>
-                  ))}
+                                <ModalFooter>
+                                  <Button
+                                    color="danger"
+                                    onClick={() =>
+                                      handleDeleteItem(
+                                        localStorage.getItem("delGalId")
+                                      )
+                                    }
+                                  >
+                                    YES
+                                  </Button>
+                                  <Button onClick={closeDeleteModal}>NO</Button>
+                                </ModalFooter>
+                              </Modal>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -569,15 +596,15 @@ const CampusDetails = () => {
                             />
                             {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
                           </FormGroup>
-                          
+
                           <FormGroup>
-                            
-                              <span>
-                                Multiple File Upload{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </span>
-                            
-                            
+                            <span>
+                              Multiple File Upload{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                            {loading ? (
+                              <h4 className="text-center mt-4">Uploading...</h4>
+                            ) : (
                               <div className="row mt-4">
                                 {/* {universityData?.universityLogo ? (
                                   <div className="col-md-3">
@@ -631,13 +658,12 @@ const CampusDetails = () => {
                                   </AntdModal>
                                 </div>
                               </div>
-
-                              {fileError && (
-                          <span className="text-danger">
-                            You must select at least one file.
-                          </span>
-                        )}
-                            
+                            )}
+                            {fileError && (
+                              <span className="text-danger">
+                                You must select at least one file.
+                              </span>
+                            )}
                           </FormGroup>
 
                           <FormGroup

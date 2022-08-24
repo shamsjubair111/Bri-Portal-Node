@@ -387,9 +387,9 @@ const ConsultantList = () => {
                       <td>
                         <span
                           className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: "pointer"}}
                         >
-                          <Link to='/studentByConsultant'>{consultant?.studentCount}</Link>
+                          <Link style={{textDecoration: "none"}} to={`/studentByConsultant/${consultant?.id}`}>{consultant?.studentCount}</Link>
                         </span>
                       </td>
                     
@@ -406,9 +406,10 @@ const ConsultantList = () => {
                         {" "}
                         <span
                           className="badge badge-warning"
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: "pointer", textDecoration: "none" }}
                         >
-                          {consultant?.childConsultantCount}
+                          <Link style={{textDecoration: "none"}} to={`/consultantByConsultant/${consultant?.id}`}>{consultant?.childConsultantCount}</Link>
+                          
                         </span>{" "}
                       </td>
 

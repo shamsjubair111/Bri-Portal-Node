@@ -1,29 +1,26 @@
-import Axios from 'axios'
+import axios from "axios";
 
+import history from "./history";
+import { rootUrl } from "../constants/constants";
 
-import history from './history'
-import { rootUrl } from '../constants/constants'
+const AuthStr = localStorage.getItem("token");
 
+async function post(url, body = {}, authToken = "") {
+  try {
+    const res = await axios.post(`${rootUrl}${url}`, {body}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': AuthStr,
+      },
+    });
+    return await res;
+  } catch (error) {
+    if (error?.response?.status === 404) {
+      history.push("/404");
+    }
 
-async function post(url, body = {},authToken = ""){
-
- 
-   
-   try {
-    const res = await Axios.post(`${rootUrl}${url}`,body,authToken || "")
-    return await res
-   }
-    catch (error) {
-
-        if(error?.response?.status  === 404){
-            history.push('/404')
-        }
-
-     
-
-        throw error
-   }
-   
+    throw error;
+  }
 }
 
-export default post
+export default post;

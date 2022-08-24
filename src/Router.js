@@ -16,6 +16,8 @@ import AdmissionGetData from "./views/Test/AdmissionGetData"
 // Authentication Checking
 const token = localStorage.getItem('token');
 const isAuth = token != null ? true : false;
+const permission = JSON.parse(localStorage.getItem("current_user"));
+  // console.log(permission?.displayName);
 
 // Route-based code splitting
 const analyticsDashboard = lazy(() =>
@@ -110,6 +112,7 @@ const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultan
 
 const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
 const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
+const ConsultantByConsultant = lazy(() => import("./views/SMS/Consultant/ConsultantByConsultant"))
 
 // Document
 const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
@@ -128,6 +131,12 @@ const EditSubject = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjec
 const EditSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectFee.jsx"))
 const SubjectIntake =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectIntake.jsx"))
 const SubjectProfile =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectProfile.js"))
+
+// country List
+const AddCountry = lazy(() => import("./views/SMS/Country/AddCountry"))
+
+// State List
+const AddState = lazy(() => import("./views/SMS/State/AddState"))
 
 // file upload
 const FileUpload =  lazy(() => import("./views/SMS/UniversitySubjects/FileUpload.js"))
@@ -373,15 +382,22 @@ class AppRouter extends React.Component {
           <AppRoute  path="/addNewIntakes" component={AddNewIntakes} />
           <AppRoute  path="/updateIntake/:id" component={UpdateIntake} />
 
+          {/* Country */}
+          <AppRoute  path="/addCountry" component={AddCountry} />
+
+          {/* State */}
+          <AppRoute  path="/addState" component={AddState} />
+
 
           {/* consultant */}
-          <AppRoute  path="/consultantList" component={ConsultantList} />
+          <AppRoute  path="/consultantList" component={permission?.displayName == "SYSTEM ADMIN" ? ConsultantList : NotAuthorized} />
           <AppRoute  path="/consultantProfile/:id" component={ConsultantProfile} />
           <AppRoute  path="/addConsultant" component={AddConsultant} />
           <AppRoute  path="/addConsultantType" component={AddConsultantType} />
           
           <AppRoute  path="/addBankDetails" component={BankDetails} />
           <AppRoute  path="/addConsultantInformation" component={AddConsultantInformation} />
+          <AppRoute  path="/consultantByConsultant/:id" component={ConsultantByConsultant} />
           
           
 
@@ -468,7 +484,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addPersonalStatement" component={AddPersonalStatement} />
          <AppRoute  path="/addOtherInformation" component={AddOtherInformation} />
          <AppRoute  path="/addTestScore" component={AddTestScore} />
-         <AppRoute  path="/studentByConsultant" component={StudentByConsultant} />
+         <AppRoute  path="/studentByConsultant/:id" component={StudentByConsultant} />
        
          <AppRoute  path="/uploadDocument" component={UploadDocument} />
 
