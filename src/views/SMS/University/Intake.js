@@ -105,10 +105,10 @@ const Intake = () => {
 
       const handleDelete = (id) => {
         const returnValue = remove(`Intake/Delete/${id}`).then((action)=> {
-          // console.log(action);
+          console.log(action,'kdkfjdfhdhdjhfd');
           setSuccess(!success);
           setDeleteModal(false);
-           addToast(action?.data?.message, {
+           addToast(action, {
              appearance: 'error',
              autoDismiss: true,
            })

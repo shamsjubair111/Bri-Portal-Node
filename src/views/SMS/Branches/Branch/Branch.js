@@ -146,12 +146,12 @@ const Branch = () => {
     for (var value of subdata) {
       console.log(value);
     }
-
-    if(stateValue == 0){
-      setStateError(true);
-    }
     if(countryValue == 0){
       setCountryError(true);
+    }
+    else if(stateValue == 0){
+      setStateError(true);
+   
     }
     else{
 

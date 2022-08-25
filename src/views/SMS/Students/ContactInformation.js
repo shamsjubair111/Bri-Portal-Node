@@ -162,7 +162,7 @@ const ContactInformation = () => {
       setCountryError(true);
     }
 
-    if (addressTypeValue == 0) {
+   else if (addressTypeValue == 0) {
       setAddressError(true);
     } else {
       if (oneData?.id) {

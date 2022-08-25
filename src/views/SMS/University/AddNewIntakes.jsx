@@ -40,6 +40,10 @@ const AddNewIntakes = () => {
     const [yearTypeLabel, setYearTypeLabel]= useState('Select Year');
     const [yearTypeValue, setYearTypeValue] = useState(0);
 
+    const [montherror,setMonthError] = useState('');
+    const [yearError, setYearError] = useState('');
+
+
     useEffect(()=>{
 
         get('Month/GetAll').then(res=> {
@@ -63,11 +67,13 @@ const AddNewIntakes = () => {
     }
 
     const selectMonthType = (label, value) => {
+      setMonthError('');
         setMonthTypeLabel(label);
         setMonthTypeValue(value); 
       }
 
       const selectYearType = (label, value) => {
+        setYearError('');
         setYearTypeLabel(label);
         setYearTypeValue(value); 
       }
@@ -78,8 +84,17 @@ const AddNewIntakes = () => {
         //   for (var value of subData.values()) {
         //       console.log('valueeee',value);
         //     }
+        if(monthTypeValue == 0){
+          setMonthError('Month must be selected');
+        }
 
-        post(`Intake/Create`, subData).then(action => {
+        else if(yearTypeValue == 0){
+          setYearError('Year must be selected');
+        }
+
+        else{
+
+          post(`Intake/Create`, subData).then(action => {
             addToast(action?.data?.message, {
                 appearance: 'success',
                 autoDismiss: true,
@@ -88,6 +103,7 @@ const AddNewIntakes = () => {
                 pathname: "/intake",
               });
           });
+        }
       }
 
        // redirect to intakeList
@@ -126,6 +142,9 @@ const AddNewIntakes = () => {
                             name="monthId"
                             id="monthId"
                         />
+                        {
+                           <span className='text-danger'>{montherror}</span>
+                        }
                         </Col>
 
                         <Col md="4">
@@ -148,6 +167,9 @@ const AddNewIntakes = () => {
                             name="yearId"
                             id="yearId"
                         />
+                        {
+                           <span className='text-danger'>{yearError}</span>
+                        }
 
                         <FormGroup
                             className="has-icon-left position-relative mt-3"

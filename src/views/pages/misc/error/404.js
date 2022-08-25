@@ -5,7 +5,7 @@ import errorImg from "../../../../assets/img/pages/404.png"
 class Error404 extends React.Component {
   render() {
     return (
-      <Row className="m-0">
+      <Row className="m-0" style={{height: '100vh'}}>
         <Col sm="12">
           <Card className="auth-card bg-transparent shadow-none rounded-0 mb-0 w-100">
             <CardBody className="text-center">

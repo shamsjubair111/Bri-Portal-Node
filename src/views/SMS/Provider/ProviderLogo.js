@@ -12,7 +12,7 @@ import { StoreProviderDataLogoFile } from '../../../redux/actions/SMS/Provider/P
 
 
 
-const  ProviderLogo = () => {
+const  ProviderLogo = ({setImageError}) => {
 
 
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -57,6 +57,7 @@ const  ProviderLogo = () => {
   };
 
  const handleChange = ({ fileList }) => {
+     setImageError(false);
      setFileList(fileList);
     
     

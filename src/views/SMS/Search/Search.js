@@ -665,10 +665,10 @@ const fDP = [
       if(modalCampusValue ==0){
         setCampusError(true);
       }
-      if(modalIntakeValue==0){
+      else if(modalIntakeValue==0){
         setIntakeError(true);
       }
-      if(modalDeliveryPatternValue ==0){
+     else if(modalDeliveryPatternValue ==0){
         setDeliveryError(true);
       }
       else{

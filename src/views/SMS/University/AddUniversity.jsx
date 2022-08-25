@@ -283,22 +283,22 @@ const AddUniversity = (props) => {
     if (providerTypeValue === 0) {
       setProviderTypeError(true);
     }
-    if (uniTypeValue === 0) {
+    else if (uniTypeValue === 0) {
       setUniTypeError(true);
     }
-    if (uniCountryValue === 0) {
+    else if (uniCountryValue === 0) {
       setUniCountryError(true);
     }
-    if (unistateValue === 0) {
+    else if (unistateValue === 0) {
       setUniStateError(true);
     }
-    if (FileList1.length < 1 && check) {
+    else if (FileList1.length < 1 && check) {
       setLogoDropzoneError(true);
     }
     // if(FileList1.length>=1 && uniId != undefined ){
     //   setLogoDropzoneError(false);
     // }
-    if (FileList2.length < 1 && check) {
+    else if (FileList2.length < 1 && check) {
       setCoverDropzoneError(true);
     }
     // if(FileList2.length>=1 && uniId != undefined)

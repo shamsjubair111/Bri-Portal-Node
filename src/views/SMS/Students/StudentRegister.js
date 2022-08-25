@@ -112,7 +112,7 @@ const cancelForm = () => {
 
         }
 
-        if(consultantValue == 0) {
+       else if(consultantValue == 0) {
 
           setConsultantError(true);
 

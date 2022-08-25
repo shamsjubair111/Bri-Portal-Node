@@ -240,13 +240,14 @@ const onShow=()=>{
     event.preventDefault();
     const subData = new FormData(event.target);
 
-    if(countryValue ==0 ){
-      setCountryError(true);
-    }
-
     if(referenceValue == 0){
       setReferenceError(true);
     }
+   else if(countryValue ==0 ){
+      setCountryError(true);
+    }
+
+   
 
     else{
 

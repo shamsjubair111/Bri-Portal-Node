@@ -35,6 +35,7 @@ const EmployeeList = (props) => {
     const { addToast } = useToasts();
     const [deleteModal, setDeleteModal] = useState(false);
 
+    const [success,setSuccess] = useState(false);
     
 
     
@@ -70,7 +71,7 @@ const EmployeeList = (props) => {
             setEntity(action.totalEntity);
             setSerialNum(action.firstSerialNumber)
         })
-    },[callApi, currentPage, dataPerPage, employeeId, searchStr]);
+    },[callApi, currentPage, dataPerPage, employeeId, searchStr, entity, success]);
 
     const handleDeleteStaff = (staffId) =>{
      
@@ -85,6 +86,7 @@ const EmployeeList = (props) => {
         const newEmployeeList = employeeList.filter(em => em.id !== staffId);
         setEmployeeList(newEmployeeList);
         setDeleteModal(false);
+        setSuccess(!success);
       })
     
       

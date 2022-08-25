@@ -402,25 +402,26 @@ const PersonalInformation = () => {
       console.log("error 111111");
     }
 
-    if (countryValue == 0) {
+    else if (countryValue == 0) {
       setCountryOfBirthError(true);
     }
 
-    if (genderValue == 0) {
+    else if (genderValue == 0) {
       setGenderError(true);
     }
 
-    if (maritalStatusValue == 0) {
+    else if (maritalStatusValue == 0) {
       setMaritalStatusError(true);
     }
 
-    if (nationalityValue == 0) {
+    else if (nationalityValue == 0) {
       setNationalityError(true);
     }
 
-    if (FileList?.length < 1 && check) {
+    else if (FileList?.length < 1 && check) {
       setImgError(true);
-    } else {
+    } 
+    else {
       put("Student/Update", subData).then((res) => {
         console.log("posted data", res);
         if (res?.status == 200) {

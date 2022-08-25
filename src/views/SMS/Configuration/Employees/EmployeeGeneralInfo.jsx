@@ -1,5 +1,6 @@
 import React, { createRef, useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
 import { Upload, Modal } from 'antd';
 import "antd/dist/antd.css";
 import * as Icon from 'react-feather';
@@ -37,6 +38,7 @@ const EmployeeGeneralInfo = (props) => {
 
   const [userInfo, setUserInfo] = useState({});
 
+
   const myForm = createRef();
   const history = useHistory();
   const [activetab, setActivetab] = useState("1");
@@ -65,6 +67,7 @@ const EmployeeGeneralInfo = (props) => {
 
   useEffect(() => {
     get(`Employee/Details/${id}`).then((res) => {
+      console.log('sdsdsdsdsdssd',res);
       setEmployeeType(res.employeeType.name);
       setEmployeeValue(res.employeeType.id);
       setNationalityType(res.nationality.name);
@@ -108,59 +111,56 @@ const EmployeeGeneralInfo = (props) => {
     value: nation.id,
   }));
 
-   // Image js code start
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [FileList, setFileList] = useState([]);
+
+  const dispatch = useDispatch();
+  
 
 
-   const [previewVisible1, setPreviewVisible1] = useState(false);
-   const [previewImage1, setPreviewImage1] = useState('');
-   const [previewTitle1, setPreviewTitle1] = useState('');
-   const [FileList1, setFileList1] = useState([]); 
-   const [dropzoneErrorProfile, setDropzoneErrorProfile] = useState(false);
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+  
  
-   
-
- function getBase64(file) {
-   return new Promise((resolve, reject) => {
-     const reader = new FileReader();
-     reader.readAsDataURL(file);
-     reader.onload = () => resolve(reader.result);
-     reader.onerror = error => reject(error);
-   });
- }
  
+  const  handleCancel = () => {
+      setPreviewVisible(false);
+  };
+
+  const handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    // this.setState({
+    //   previewImage: file.url || file.preview,
+    //   previewVisible: true,
+    //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+    // });
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
 
 
- const  handleCancel = () => {
-     setPreviewVisible1(false);
+
+
+
+  };
+
+ const handleChange = ({ fileList }) => {
+     setFileList(fileList);
+    
+    
  };
-
- const handlePreview = async file => {
-   if (!file.url && !file.preview) {
-     file.preview = await getBase64(file.originFileObj);
-   }
-
-   // this.setState({
-   //   previewImage: file.url || file.preview,
-   //   previewVisible: true,
-   //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
-   // });
-
-   setPreviewImage1(file.url || file.preview);
-   setPreviewVisible1(true);
-   setPreviewTitle1(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
-
-
-
-
-
- };
-
-const handleChange = ({ fileList }) => {
-    setFileList1(fileList);
-    setDropzoneErrorProfile(false);
-   
-   
-};
 
 
 
@@ -171,26 +171,18 @@ const handleChange = ({ fileList }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subData = new FormData(event.target);
-    subData.append("profileImage", result[0]?.originFileObj);
+    subData.append("profileImage", FileList[0]?.originFileObj);
     subData.append("coverImage", result1[0]?.originFileObj);
     //  watch form data values
-    // for (var value of subData.values()) {
-
-    //  }
+    for (var value of subData.values()) {
+         console.log(value);
+     }
     const config = {
       headers: {
         "content-type": "multipart/form-data",
       },
     };
 
-    if (employeeValue == 0) {
-      setEmployeeError("Employee Type is Required");
-    } 
-     if (nationalityValue == 0) {
-      setNationalityError("Nationality is Required");
-    }
-     
-     else {
       Axios.put(`${rootUrl}Employee/Update`, subData, config).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
@@ -213,7 +205,7 @@ const handleChange = ({ fileList }) => {
           history.push(`/employeeContactInfo/${id}`);
         }
       });
-    }
+    
   };
 
   // select Employee Type
@@ -413,7 +405,7 @@ const handleChange = ({ fileList }) => {
                   <Col md="6">
                    <div className="d-flex">
                    {
-                      userInfo?.profileImageMedia !== null ?
+                      userInfo?.profileImageMedia?.fileUrl !== null ?
                     <div className="me-2">
                     
 
@@ -436,7 +428,7 @@ const handleChange = ({ fileList }) => {
                 
                 listType="picture-card"
                 multiple={false}
-                fileList={FileList1}
+                fileList={FileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
                 beforeUpload={(file)=>{
@@ -450,20 +442,14 @@ const handleChange = ({ fileList }) => {
                     {FileList.length < 1 ?  <div className='text-danger' style={{ marginTop: 8 }}><Icon.Upload/></div>: ''}
                 </Upload>
                 <Modal
-                  visible={previewVisible1}
-                  title={previewTitle1}
+                  visible={previewVisible}
+                  title={previewTitle}
                   footer={null}
                   onCancel={handleCancel}
                 >
-                  <img alt="example" style={{ width: '100%' }} src={previewImage1} />
+                  <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
 
-                {
-                  dropzoneErrorProfile ? 
-                  <span className='text-danger'>Profile image must be selected</span>
-                  :
-                  null
-                }
 
                  </div>
                  </div>
@@ -475,7 +461,23 @@ const handleChange = ({ fileList }) => {
                     <span>Cover Image</span>
                   </Col>
                   <Col md="6">
-                    <CoverPicturesWall />
+                    <div className="d-flex">
+                   <div className="me-2">
+                   {
+                      userInfo?.coverImageMedia?.fileUrl !== null ?
+                      <Image
+                      width={104} height={104}
+                      src={rootUrl+userInfo?.coverImageMedia?.fileUrl}
+                    />
+                    :
+                    null
+                    }
+                   </div>
+                  <div className="ms-0">
+                  <CoverPicturesWall />
+                  </div>
+                    </div>
+                   
                    
                   </Col>
                 </FormGroup>

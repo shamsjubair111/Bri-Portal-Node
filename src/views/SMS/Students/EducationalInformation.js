@@ -196,7 +196,7 @@ const handleSubmit = (event) => {
     setProgramError(true);
   }
 
-  if(countryValue == 0){
+  else if(countryValue == 0){
     setCountryError(true);
   }
 

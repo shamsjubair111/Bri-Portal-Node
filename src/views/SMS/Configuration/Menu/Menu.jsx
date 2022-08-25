@@ -44,9 +44,6 @@ const userType = localStorage.getItem('current_user');
    },[dispatch])
 
 
-  localStorage.setItem('token','fjhdjhdjfhjddf');
-  localStorage.setItem('access','dfhjfhdjhdjf');
-
 
 
    const handleSubmit = (event) => {

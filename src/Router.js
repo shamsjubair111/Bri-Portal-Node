@@ -360,7 +360,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/uni2" component={demo} />
          <AppRoute  path="/roles" component={Roles} />
          <AppRoute  path="/addMenu" component={Menu} />
-         <AppRoute  path="/menu" component={MenuInfo} />
+         {/* <AppRoute  path="/menu" component={MenuInfo} /> */}
    
          <AppRoute  path="/rolePermission" component={RolePermission} />
          <AppRoute  path="/roleMenu" component={RoleMenu} />

@@ -1789,7 +1789,7 @@ const TestScore = () => {
                             type="hidden"
                             name="id"
                             id="id"
-                            value={gcse?.id}
+                            value={pearson?.id}
                           />
                         ) : null}
 

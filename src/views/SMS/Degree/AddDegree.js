@@ -15,6 +15,8 @@ const AddDegree = () => {
     const history = useHistory(); 
     const {addToast} = useToasts();
 
+    const [data,setData] = useState({});
+
     const [education, setEducation] = useState([]);
     const [educationLabel, setEducationLabel] = useState('Select Education Level');
     const [educationValue, setEducationValue] = useState(0);
@@ -30,6 +32,17 @@ const AddDegree = () => {
             console.log('Cehecking Education Data from get method', res);
             setEducation(res);
         })
+
+        if(educationId){
+          get(`EducationLevel/Get/${educationId}`)
+          .then(res => {
+            console.log(res,'fgfggfg');
+            setData(res);
+            setEducationLabel(res?.name);
+            setEducationValue(res?.id);
+          })
+
+        }
 
     },[]);
 

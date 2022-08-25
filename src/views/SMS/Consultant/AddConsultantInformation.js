@@ -489,43 +489,43 @@ const AddConsultantInformation = () => {
       console.log(x);
     }
 
-    if (nameValue == 0) {
-      setTitleError(true);
-    }
+    // if (nameValue == 0) {
+    //   setTitleError(true);
+    // }
 
-    if (parentValue == 0) {
-      setParentError(true);
-    }
+    // if (parentValue == 0) {
+    //   setParentError(true);
+    // }
 
-    if (typeValue == 0) {
-      setConsultantError(true);
-    }
+    // if (typeValue == 0) {
+    //   setConsultantError(true);
+    // }
 
     if (accountValue == 0) {
       setAccountError(true);
     }
 
-    if (residencyValue == 0) {
+    else if (residencyValue == 0) {
       setResidencyError(true);
     }
 
-    if (branchValue == 0) {
+    else if (branchValue == 0) {
       setBranchError(true);
     }
 
-    if (visaValue == 0) {
+   else if (visaValue == 0) {
       setVisaError(true);
     }
-    if (work !== "false" && work !== "true") {
+   else if (work !== "false" && work !== "true") {
       setWorkError(true);
     }
-    if (FileList1.length < 1 && consultantData?.consultantProfileImageMedia == null) {
+    else if (FileList1.length < 1 && consultantData?.consultantProfileImageMedia == null) {
       setProfilePicError(true);
     }
-    if (FileList3.length < 1 && consultantData?.idOrPassportMedia == null) {
+   else  if (FileList3.length < 1 && consultantData?.idOrPassportMedia == null) {
       setIdPassportError(true);
     }
-    if (FileList4.length < 1 && consultantData?.proofOfAddressMedia == null) {
+   else if (FileList4.length < 1 && consultantData?.proofOfAddressMedia == null) {
       setProofOfAddressError(true);
     }
     // if (FileList5.length < 1 && consultantData?.proofOfRightToWorkMedia == null) {

@@ -73,12 +73,14 @@ const EmployeeContactInfo = () => {
         const subData = new FormData(event.target);
         for (var value of subData.values()) {
        
-        }if(countryValue == 0){
-            setCountryError('Country is required')
         }
-        if(addressLineValue == 0){
+         if(addressLineValue == 0){
             setAddressLineError('Address type is required')
         }
+        else if(countryValue == 0){
+            setCountryError('Country is required')
+        }
+        
         else{
            
              post(`EmployeeContactInformation/Create`,subData).then((action)=> {

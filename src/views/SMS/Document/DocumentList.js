@@ -101,7 +101,7 @@ const DocumentList = () => {
     if(docuValue === 0){
       setCategoryError(true);
     }
-    if (application === null) {
+   else if (application === null) {
       setApplicationError(true);
     }
     else{

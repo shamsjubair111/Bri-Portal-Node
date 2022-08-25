@@ -202,12 +202,10 @@ const AddUniversityTemplateDocument = () => {
     if (applicationTypeValue == 0) {
       setApplicationError(true);
     } 
-    if(FileList1.length<1 && selectedId == 0){
+   else if(FileList1.length<1 && selectedId == 0){
       setUploadError(true);
     }
-    if(FileList1.length>=1 && selectedId !== 0){
-      setUploadError(false);
-    }
+   
     else {
       if (selectedId === 0) {
         post("UniversityTemplateDocument/Create", subData).then((res) => {

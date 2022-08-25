@@ -206,8 +206,12 @@ const handleDeleteUniCountry = (id) => {
             <Card>
             <CardHeader>
            
-              <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add New</Button>
-              <div> <b> Total <span className="badge badge-primary">{examTestType?.length}</span> Exam Test Type Found   </b></div>
+              {/* <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add New</Button> */}
+              <div className="ms-auto">
+                <div>
+                 <b> Total <span className="badge badge-primary">{examTestType?.length}</span> Exam Test Type Found   </b>
+                 </div>
+                 </div>
             </CardHeader>
             <CardBody>
     
@@ -287,8 +291,8 @@ const handleDeleteUniCountry = (id) => {
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
                     <th> Name</th>
-                    <th className="text-center" >Attribute</th>
-                    <th>Action</th>
+                    {/* <th className="text-center" >Attribute</th>
+                    <th>Action</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -296,8 +300,8 @@ const handleDeleteUniCountry = (id) => {
                   {
                     examTestType?.map((exam, i) => <tr key={exam?.id}>
                       <th style={{ textAlign: "center" }} scope="row">{i + 1}</th>
-                      <td>{exam?.name}</td>
-                      <td>               
+                      <td style={{ textAlign: "center" }}>{exam?.name}</td>
+                      {/* <td>               
                       <Button color="primary" onClick={()=>handleCheckExamTestTypeAttribute(exam.id)} className="mx-1 btn-sm">
                       {" "}
                       <i className="fas fa-eye"></i>{" "}
@@ -320,7 +324,7 @@ const handleDeleteUniCountry = (id) => {
                           </ModalFooter>
     
                         </Modal>
-                      </td>
+                      </td> */}
                     </tr>)
                   }
     

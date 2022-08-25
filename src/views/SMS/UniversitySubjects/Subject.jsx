@@ -136,13 +136,13 @@ const Subject = () => {
     if(uniValue == 0){
       setUniDropError(true);
     }
-    if(programValue == 0){
+   else if(programValue == 0){
       setProgLvlError(true);
     }
-    if(depValue == 0){
+    else if(depValue == 0){
       setDeptDropError(true);
     }
-    if(subDepValue == 0){
+    else if(subDepValue == 0){
       setSubDeptDropError(true);
     }
     else{

@@ -26,7 +26,7 @@ const AdmissionManager = () => {
     const [titleError,setTitleError] = useState(false);
 
     useEffect(()=>{
-        get(`Country/Index`)
+        get(`CountryDD/index`)
         .then( res=> {
             // console.log('Country list', res);
             setCountry(res);
@@ -100,18 +100,21 @@ const AdmissionManager = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const subData = new FormData(e.target);
-        if(countryValue == 0){
-          setCountryError(true);
-        }
-        if(stateValue == 0){
-          setStateError(true);
-        }
 
-        if(titleValue == 0 ){
+        const subData = new FormData(e.target);
+
+         if(titleValue == 0 ){
           setTitleError(true);
           console.log('error 111111');
         }
+        else if(countryValue == 0){
+          setCountryError(true);
+        }
+       else if(stateValue == 0){
+          setStateError(true);
+        }
+
+       
         else{
 
           post(`AdmissionManager/Create`,subData)

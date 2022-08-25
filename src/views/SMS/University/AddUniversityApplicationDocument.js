@@ -115,7 +115,7 @@ const AddUniversityApplicationDocument = () => {
   };
 
   const selectApplicationType = (label, value) => {
-    setApplicationError(false);
+    setApplicationTypeError(false);
     setApplicationLabel(label);
     setApplicationValue(value);
   };
@@ -170,10 +170,10 @@ const AddUniversityApplicationDocument = () => {
     if (documentValue == 0) {
       setDocumentError(true);
     }
-    if (applicationValue == 0) {
+    else if (applicationValue == 0) {
       setApplicationTypeError(true);
     }
-    if (isMandatory === null) {
+    else if (isMandatory === null) {
       setApplicationError(true);
     } else {
       if (selectedId === 0) {

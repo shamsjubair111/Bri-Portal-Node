@@ -24,30 +24,35 @@ const RolePermission = (props) => {
   const history = useHistory();
 
 
+  
+
   // submitting form
   const handleSubmit = (event) => {
     event.preventDefault(); 
-    setModalOpen(true);
-    // //  watch form data values
-    // for (var value of subData.values()) {
+    const subData = new FormData();
+    subData.append('RoleId',  roleValue);
+    subData.append('CheckedArr',checked);
+    //  watch form data values
+    for (var value of subData.values()) {
+       console.log(value);
+    }
+    // setModalOpen(true);
+    // console.log(confirm);
+    
 
-    //  }
- 
-    if(confirm){
       setPermissionName([]);
-      const subData = new FormData();
-      subData.append('RoleId',  roleValue);
-      subData.append('CheckedArr',checked);
+     
+    
       // posting form Data
-      const returnValue = post(`RolePermission/Assign`,subData).then((action)=> {
+       post(`RolePermission/Assign`,subData).then((action)=> {
         
         setChecked([]);
-            addToast(action, {
-              appearance: action == 'Permission Assigned Successfully' ? 'success': 'error',
+            addToast(action?.data?.message, {
+              appearance: 'success',
               autoDismiss: true,
             })
       }) 
-    }
+    
    
  
   }
@@ -82,6 +87,8 @@ const RolePermission = (props) => {
 
 
   }
+
+
 
  
   // onChange checkbox
@@ -195,12 +202,12 @@ const RolePermission = (props) => {
                       <Row>
 
                         <Col>
-                        <Button.Ripple
+                        <Button
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                         </Col>
 
                       </Row>
@@ -208,19 +215,19 @@ const RolePermission = (props) => {
 
 
             </Form>
-            <Modal isOpen={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="uapp-modal">
+            {/* <Modal isOpen={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="uapp-modal">
               <ModalBody>
                  <p>Are You Sure to Assign Selected Permissions?</p>
                  <Row className="mt-3">
                    <Col md="6" className="text-left">
-                   <Button color="success" onClick={()=> setConfirm(true)}>Yes</Button>
+                   <Button color="success" onClick={()=> setConfirm(!confirm)}>Yes</Button>
                    </Col>
                    <Col md="6" className="text-right">
                  <Button color="danger" onClick={()=> setModalOpen(false)}>Cancel</Button>
                    </Col>
                  </Row>
               </ModalBody>
-            </Modal>
+            </Modal> */}
           </CardBody>
 
           </Card>

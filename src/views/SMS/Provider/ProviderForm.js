@@ -68,25 +68,27 @@ const ProviderForm = (props) => {
         if(providerTypeValue == 0){
           setProviderTypeError(true);
         }
-        if(providerLogo.length <1){
+        else if(providerLogo.length <1){
           setImageError(true);
         }
-       
-       //  post form data and notify the response to user
-         post(`Provider/Create`,subData,config).then((action)=> {
-         
+        else{
+        //  post form data and notify the response to user
+        post(`Provider/Create`,subData,config).then((action)=> {
+                
           if(action?.status ==200){
 
+
         
-         
           addToast(action?.data?.message, {
-           appearance:  'success',
-           autoDismiss: true,
-         })
-         localStorage.setItem('adminProviderHiddenId', action?.data?.result?.id);
-         history.push('/adminProviderForm');
+          appearance:  'success',
+          autoDismiss: true,
+        })
+        localStorage.setItem('adminProviderHiddenId', action?.data?.result?.id);
+        history.push('/adminProviderForm');
         }
         })
+        }
+      
    
    
       }
@@ -312,7 +314,7 @@ const ProviderForm = (props) => {
                   </UncontrolledTooltip>
 
                     <Col md="10" lg="6">
-                     <ProviderLogo/>
+                     <ProviderLogo setImageError={setImageError}/>
                      {
                       imageError ? 
                       <span className='text-danger'>Image must be selected</span>

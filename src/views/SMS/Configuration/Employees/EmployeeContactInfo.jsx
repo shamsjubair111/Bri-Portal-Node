@@ -143,10 +143,10 @@ const EmployeeContactInfo = () => {
   };
   return (
     <div className="uapp-employee">
-      <Card>
+      <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3>Employee Contact Information</h3>
-          <div className="page-header-back-to-home">
+          <h3 className="text-white">Employee Contact Information</h3>
+          <div className="text-white fw-bold">
             <span onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List

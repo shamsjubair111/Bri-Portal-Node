@@ -95,20 +95,15 @@ const AddConsultant = () => {
     event.preventDefault();
     const subdata = new FormData(event.target);
 
-    if(nameValue == 0){
-      setTitleError(true);
-    }
-
-    if(parentValue == 0 ){
-      setParentError(true);
-    }
-
-    if(typeValue == 0){
+     if(typeValue == 0){
       setConsultantError(true);
     }
-    
-
-   
+    else if(parentValue == 0 ){
+      setParentError(true);
+    }
+    else if(nameValue == 0){
+      setTitleError(true);
+    }
 
     else{
 
