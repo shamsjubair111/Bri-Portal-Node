@@ -126,9 +126,11 @@ const Subject = lazy(() => import("./views/SMS/UniversitySubjects/Subject.jsx"))
 const SubjectList = lazy(() => import("./views/SMS/UniversitySubjects/SubjectList.jsx"))
 const DocumentGroup = lazy(() => import("./views/SMS/UniversitySubjects/DocumentGroup.js"))
 const AddSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectFee.jsx"))
+const AddSubjectDeliveryPattern = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectDeliveryPattern"))
 const SubjectFeeInformation = lazy(() => import("./views/SMS/UniversitySubjects/SubjectFeeInformation.jsx"))
 const EditSubject = lazy(() => import("./views/SMS/UniversitySubjects/EditSubject.jsx"))
 const EditSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectFee.jsx"))
+const EditDeliveryPattern = lazy(() => import("./views/SMS/UniversitySubjects/EditDeliveryPattern"))
 const SubjectIntake =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectIntake.jsx"))
 const SubjectProfile =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectProfile.js"))
 
@@ -422,7 +424,9 @@ class AppRouter extends React.Component {
          <AppRoute  path="/subjectList" component={SubjectList} />
          <AppRoute  path="/editSubject/:id" component={EditSubject} />
          <AppRoute  path="/addSubjectFee" component={AddSubjectFee} />
+         <AppRoute  path="/addSubjectDeliveryPattern/:id" component={AddSubjectDeliveryPattern} />
          <AppRoute  path="/EditSubjectFee/:subId" component={EditSubjectFee} />
+         <AppRoute  path="/editDeliveryPattern/:id" component={EditDeliveryPattern} />
          <AppRoute  path="/subjectFeeInfo" component={SubjectFeeInformation} />
          <AppRoute  path="/subjectIntake/:camId/:subbId" component={SubjectIntake} />
          <AppRoute  path="/subjectProfile/:subjId" component={SubjectProfile} />

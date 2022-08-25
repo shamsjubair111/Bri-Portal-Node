@@ -66,10 +66,13 @@ const EditSubjectFee = () => {
     const toggle = (tab) => {
      setActivetab(tab);
      if (tab == "1") {
-        history.push("/editSubject");
+        history.push(`/editSubject/${subId}`);
        }
      if (tab == "2") {
-       history.push("/editSubjectFee");
+       history.push(`/editSubjectFee/${subId}`);
+      }
+     if (tab == "3") {
+       history.push(`/editDeliveryPattern/${subId}`);
       }
     };
 
@@ -109,7 +112,7 @@ const EditSubjectFee = () => {
              <CardBody>
                 <Nav tabs>
                  <NavItem>
-                   <NavLink disabled active={activetab === "1"} onClick={() => toggle("1")}>
+                   <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
                      Subject Information
                    </NavLink>
                  </NavItem>
@@ -118,6 +121,14 @@ const EditSubjectFee = () => {
                    
                      <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                        Subject Fee Information
+                     </NavLink>
+                  
+                 </NavItem>
+
+                 <NavItem>
+                   
+                     <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                       Delivery Pattern
                      </NavLink>
                   
                  </NavItem>

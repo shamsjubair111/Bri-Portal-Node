@@ -126,6 +126,9 @@ const Subject = () => {
     if (tab == "2") {
       history.push("/addSubjectFee");
     }
+    if (tab == "3") {
+      history.push("/addSubjectDeliveryPattern");
+    }
   };
 
   const AuthStr = localStorage.getItem("token");
@@ -206,6 +209,17 @@ const Subject = () => {
               ) : (
                 <NavLink disabled active={activetab === "2"}>
                   Subject Fee Information
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData ? (
+                <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                  Delivery Pattern
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "3"}>
+                  Delivery Pattern
                 </NavLink>
               )}
             </NavItem>
