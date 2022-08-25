@@ -29,6 +29,7 @@ import Select from "react-select";
 import { rootUrl } from "../../../constants/constants";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";
+import post from "../../../helpers/post";
 
 const CampusDetails = () => {
   const { id } = useParams();
@@ -41,6 +42,9 @@ const CampusDetails = () => {
   const [radioIsAcceptHome, setRadioIsAcceptHome] = useState("false");
   const [radioIsAcceptUk, setRadioIsAcceptUk] = useState("true");
   const [radioIsAcceptInt, setRadioIsAcceptInt] = useState("false");
+
+  const [subjectList,setSubjectList] = useState([]);
+  
 
   // for feature checkbox
   const [homeAccept, setHomeAccept] = useState(true);
@@ -131,6 +135,14 @@ const CampusDetails = () => {
     get(`CampusGallery/GetByCampusId/${id}`).then((res) => {
       setGallery(res);
     });
+
+    get(`UniversityCampusSubject/GetByCampus/${id}`)
+    .then(res=> {
+      console.log('sdshdsjhsjdhsjhdjsdhsjdhjdhsjhdjs',res);
+      setSubjectList(res);
+    })
+
+
   }, [id, success]);
 
   // for intake dropdown
@@ -223,11 +235,31 @@ const CampusDetails = () => {
 
   const handleSingleSubmit = (e) => {
     e.preventDefault();
-    const subdata = new FormData(e.target);
+    
+    const subData = {
+      campusId: id,
+      subjectId: subValue,
+      isAcceptHome: radioIsAcceptHome,
+      isAcceptEU_UK: radioIsAcceptUk,
+      isAcceptInternational: radioIsAcceptInt
 
-    for (var value of subdata.values()) {
-      console.log("values", value);
     }
+
+    post(`UniversityCampusSubject/Create`,subData)
+    .then(res => {
+      if(res?.isSuccess == true && res?.status ==200){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+      }
+    })
+
+
+
+
+   
   };
 
   const handleChange = (e) => {
@@ -689,6 +721,92 @@ const CampusDetails = () => {
             </div>
             {/* campus gallery ends here */}
 
+
+             {/* table start  */}
+             <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+                  <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Subject List</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+
+                    {/* <div className="text-right edit-style  p-3">
+                      <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                    </div> */}
+                  </div>
+
+                 
+                      <div className="table-responsive pt-3">
+                        <Table className="table-sm striped">
+                          <thead className="">
+                            <tr style={{ textAlign: "center" }}>
+                              <th>SL/NO</th>
+                              <th>isAcceptEU_UK</th>
+                              <th>isAcceptHome</th>
+                              <th>isAcceptInternational</th>
+                              <th
+                                style={{ width: "8%" }}
+                                className="text-center"
+                              >
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {
+                          subjectList?.map((sub, i) => (
+                           <tr key={i} style={{ textAlign: "center" }}>
+                             <th scope='row'>{1 + i}</th>
+
+                            
+                             <td>
+                               {(sub?.isAcceptEU_UK)? <span>Yes</span> : <span>No</span>}
+                             </td>
+                             <td>
+                               {(sub?.isAcceptHome) ? <span>Yes</span> : <span>No</span>}
+                             
+                            </td>
+                             <td>
+                               {(sub?.isAcceptInternational)? <span>Yes</span> : <span>No</span>}
+                             
+                            </td>
+                    
+                            
+                            <td style={{ width: "8%" }} className="text-center">
+                              <ButtonGroup variant="text">
+                            
+                                <Button color="warning" className="mx-1 btn-sm">
+                                  {" "}
+                                  <i className="fas fa-edit"></i>{" "}
+                                </Button>
+                             
+                                <Button color="danger" className="mx-1 btn-sm">
+                                  {" "}
+                                  <i className="fas fa-trash"></i>{" "}
+                                </Button>
+                             
+                                
+                              </ButtonGroup>
+                            </td>
+                          </tr>
+                        ))}
+                          </tbody>
+                        </Table>
+                      </div>
+                    
+                  
+                </CardBody>
+              </Card>
+            </div>
+            {/* subject list table  end  */}
+
+
             {/* Assign single subject */}
             <div className=" info-item mt-4">
               <Card className="uapp-employee-search">
@@ -1128,86 +1246,7 @@ const CampusDetails = () => {
              </CardHeader>
           </Card> */}
 
-            {/* table start  */}
-            <div className=" info-item mt-4">
-              <Card>
-                <CardBody>
-                  <div className="hedding-titel d-flex justify-content-between">
-                    <div>
-                      <h5>
-                        {" "}
-                        <b>Subject List</b>{" "}
-                      </h5>
-
-                      <div className="bg-h"></div>
-                    </div>
-
-                    {/* <div className="text-right edit-style  p-3">
-                      <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                    </div> */}
-                  </div>
-
-                  <>
-                    {
-                      // loading ? (
-                      //   <h2 className="text-center">Loading...</h2>
-                      // ) :
-                      <div className="table-responsive pt-3">
-                        <Table className="table-sm striped">
-                          <thead className="">
-                            <tr style={{ textAlign: "center" }}>
-                              <th>SL/NO</th>
-                              <th>Name</th>
-                              <th>Features</th>
-                              <th>Intakes</th>
-                              <th
-                                style={{ width: "8%" }}
-                                className="text-center"
-                              >
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {/* {
-                          campList?.map((campus, i) => (
-                           <tr key={i} style={{ textAlign: "center" }}>
-                             <th scope='row'>{serialNum + i}</th>
-
-                             <td>
-                               {campus?.universityCampus?.name}
-                             </td>
-                             <td>
-                               {campus?.universityCampus?.addressLine}{","} {campus?.universityCampus?.campusCity}
-                             </td>
-                             <td>
-                              Total Student = {campus?.universityCampus?.totalStudent} {<br />}
-                              International Student = {campus?.universityCampus?.internationalStudent}
-                            </td>
-                    
-                            
-                            <td style={{ width: "8%" }} className="text-center">
-                              <ButtonGroup variant="text">
-                              <Link to= {`/campusDetails/${campus?.id}`}>
-                                <Button color="primary" className="mx-1 btn-sm">
-                                  {" "}
-                                  <i className="fas fa-eye"></i>{" "}
-                                </Button>
-                                </Link>
-                                
-                              </ButtonGroup>
-                            </td>
-                          </tr>
-                        ))} */}
-                          </tbody>
-                        </Table>
-                      </div>
-                    }
-                  </>
-                </CardBody>
-              </Card>
-            </div>
-            {/* subject list table  end  */}
+           
 
             {/* subject intake */}
             {/* intake filter */}
