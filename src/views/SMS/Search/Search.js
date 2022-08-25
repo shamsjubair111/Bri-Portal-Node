@@ -8,6 +8,10 @@ import { rootUrl } from '../../../constants/constants';
 import Pagination from "../../SMS/Pagination/Pagination";
 import LinkButton from '../Components/LinkButton';
 import ComponentButton from '../Components/ComponentButton';
+import CustomLinkButton from '../Components/CustomLinkButton';
+import { useToasts } from 'react-toast-notifications';
+import post from '../../../helpers/post';
+
 
 
 
@@ -130,6 +134,10 @@ const Search = () => {
     const [intakeError, setIntakeError] = useState(false);
     const [deliveryError, setDeliveryError] = useState(false);
 
+    const [message, setMessage] = useState('');
+
+    const {addToast} = useToasts()
+
     // console.log(checkActiveTab);
 
     useEffect(()=>{
@@ -239,6 +247,18 @@ const Search = () => {
        get(`wishlist/add/${studentInfo?.id}/${data?.subjectId}`)
        .then(res => {
         console.log(res);
+        if(res?.isSuccess){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+        }
+        else{
+          addToast(res?.data?.message,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+        }
        })
     }
 
@@ -409,12 +429,6 @@ const fDP = [
     setModalDeliveryPatternValue(value);
 
   }
-
-
-
-
-
-   
 
 
     const customStyles = {
@@ -646,7 +660,7 @@ const fDP = [
     const submitModalForm = (event) =>{
 
       event.preventDefault();
-      const subData = new FormData(event.target);
+      // const subData = new FormData(event.target);
 
       if(modalCampusValue ==0){
         setCampusError(true);
@@ -658,10 +672,39 @@ const fDP = [
         setDeliveryError(true);
       }
       else{
-        for(let x of subData.values()){
-          console.log(x);
+
+        const subData = {
+          studentId: studentValue,
+          universitySubjectId: currentData?.subjectId,
+          inakeId: modalIntakeValue,
+          deliveryPatternId: modalDeliveryPatternValue,
+          campusId: modalCampusValue,
+          additionalMessage: message
         }
+  
+        post(`Apply/Submit`,{subData})
+        .then(res => {
+          console.log('checking add response', res);
+          if(res?.isSuccess == true){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push(`/applicationDetails/${res?.data?.result?.id}/${studentValue}`);
+          }
+          else{
+            addToast(res?.data?.message,{
+              appearance: 'error',
+              autoDismiss: true
+            })
+
+          }
+        })
+
       }
+
+      
+      
 
 
     }
@@ -698,31 +741,18 @@ const fDP = [
 
               </div>
 
-              <FormGroup row className='mt-3'>
-               <Col md='12'>
-               <div>
-
-                <Button color='danger' onClick={closeModal}>
-                  Cancel
-                </Button>
-                  
-               </div>
-               
-               </Col>
-
-
-              </FormGroup>
+             
 
             </div>
 
             <div className='col-md-7'>
 
-            <Form className='px-3' onSubmit={submitModalForm}>
+            <Form className='px-3'>
 
-<FormGroup row className="has-icon-left position-relative">
+        <FormGroup row className="has-icon-left position-relative">
         <Col md="3">
           <span>
-            Campus: <span className="text-danger">*</span>{" "}
+            Campus <span className="text-danger">*</span>{" "}
           </span>
         </Col>
 
@@ -762,10 +792,10 @@ const fDP = [
         </Col>
       </FormGroup>
 
-<FormGroup row className="has-icon-left position-relative">
+      <FormGroup row className="has-icon-left position-relative">
         <Col md="3">
           <span>
-            Intake: <span className="text-danger">*</span>{" "}
+            Intake <span className="text-danger">*</span>{" "}
           </span>
         </Col>
         <Col md="6">
@@ -804,10 +834,10 @@ const fDP = [
         </Col>
       </FormGroup>
 
-<FormGroup row className="has-icon-left position-relative">
+        <FormGroup row className="has-icon-left position-relative">
         <Col md="3">
           <span>
-            Delivery Pattern: <span className="text-danger">*</span>{" "}
+            Delivery Pattern <span className="text-danger">*</span>{" "}
           </span>
         </Col>
         <Col md="6">
@@ -848,32 +878,67 @@ const fDP = [
                 </Col>
               </FormGroup>
 
-            {
-              (studentInfo?.id) ?
+              <FormGroup row className='has-icon-left position-relative'>
 
-              <FormGroup row>
+               <Col md="3">
+               <span>
+            Additional Message <span className="text-danger">*</span>{" "}
+          </span>
+               
+               </Col>
 
+               <Col md="6">
+               <Input type="textarea" name="statement" id="statement" rows={4} onChange={(e)=> setMessage(e.target.value)} />
+               
+               </Col>
+        
+              </FormGroup>
 
-              <Col md='9'>
-                <div className='d-flex justify-content-end'>
-                  <Button color='primary' type='submit'>Submit</Button> 
-                </div>
-              </Col>
-    
-    
-    
-            </FormGroup>
+             
 
-            :
-
-            null
-            }
+           
 
         </Form>
 
 
             </div>
 
+            <div className='row'>
+              <div className='col-md-11'>
+
+              <div className='d-flex justify-content-between'>
+
+<div>
+
+<Button color='danger' onClick={closeModal}>
+  Cancel
+</Button>
+  
+</div>
+
+<div>
+
+{
+(studentInfo?.id) ?
+
+  <div className='' style={{position: 'relative', right: '30px'}}>
+    <Button color='primary' type='submit' onClick={submitModalForm}>Submit</Button> 
+  </div>
+
+:
+
+null
+}
+
+</div>
+
+</div>
+
+
+              </div>
+
+            </div>
+          
 
           </div>
 
@@ -1377,7 +1442,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
            </div>
         
         <div className='col-md-2'>
-            <LinkButton
+            <CustomLinkButton
              url={`/subjectProfile/${subjectInfo?.subjectId}`}
              target={'_blank'}
             
