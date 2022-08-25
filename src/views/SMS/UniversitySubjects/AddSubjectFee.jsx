@@ -56,6 +56,7 @@ const AddSubjectFee = () => {
       }
   };
 
+  const AuthStr = localStorage.getItem("token");
 
   // on submit form
   const handleSubmit = (event) => {
@@ -67,7 +68,12 @@ const AddSubjectFee = () => {
      }
 
 
-    Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata).then((res) => {
+    Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': AuthStr,
+      },
+    }).then((res) => {
 
       if (res.status === 200 && res.data.isSuccess === true) {
         addToast(res?.data?.message, {

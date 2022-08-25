@@ -45,7 +45,7 @@ const AddUniversityFinancial = (props) => {
         
     },[])
  
-
+    const AuthStr = localStorage.getItem("token");
 
     // on submit form
     const handleSubmit =(event) => {
@@ -68,7 +68,11 @@ const AddUniversityFinancial = (props) => {
 
              if(financialId == undefined){
                 console.log("fin Id", financialId);
-                Axios.post(`${rootUrl}FinancialInformation/Create`,subdata)
+                Axios.post(`${rootUrl}FinancialInformation/Create`,subdata, {
+                    headers: {
+                      'authorization': AuthStr,
+                    },
+                  })
                 .then(res => {
                     
                   const uniID = res.data.result.universityId;

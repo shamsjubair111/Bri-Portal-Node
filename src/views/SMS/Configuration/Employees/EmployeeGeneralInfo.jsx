@@ -166,6 +166,7 @@ const handleChange = ({ fileList }) => {
 
 
    // Image js code end
+   const AuthStr = localStorage.getItem("token");
 
   // submitting form
   const handleSubmit = (event) => {
@@ -191,7 +192,11 @@ const handleChange = ({ fileList }) => {
     }
      
      else {
-      Axios.put(`${rootUrl}Employee/Update`, subData, config).then((res) => {
+      Axios.put(`${rootUrl}Employee/Update`, subData, config, {
+        headers: {
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;

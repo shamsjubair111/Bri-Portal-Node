@@ -128,6 +128,8 @@ const Subject = () => {
     }
   };
 
+  const AuthStr = localStorage.getItem("token");
+
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -146,7 +148,12 @@ const Subject = () => {
       setSubDeptDropError(true);
     }
     else{
-      Axios.post(`${rootUrl}Subject/Create`, subdata).then((res) => {
+      Axios.post(`${rootUrl}Subject/Create`, subdata,{
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
           
         localStorage.setItem("subId",res?.data?.result?.id);
         const subId = res?.data?.result?.id;

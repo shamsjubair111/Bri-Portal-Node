@@ -81,6 +81,8 @@ const AddUniversity = (props) => {
 
   const [submitData, setSubmitData] = useState(false);
 
+  const AuthStr = localStorage.getItem("token");
+
   const [logoFile, setLogoFile] = useState({});
   const [coverFile, setCoverFile] = useState({});
   const [universityData, setUniversityData] = useState({});
@@ -319,7 +321,11 @@ const AddUniversity = (props) => {
           }
         });
       } else {
-        Axios.post(`${rootUrl}University/Create`, subdata, config).then(
+        Axios.post(`${rootUrl}University/Create`, subdata, config, {
+          headers: {
+            'authorization': AuthStr,
+          },
+        }).then(
           (res) => {
             console.log("unipostData", res);
 

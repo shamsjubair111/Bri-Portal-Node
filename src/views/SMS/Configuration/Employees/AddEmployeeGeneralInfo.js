@@ -128,7 +128,7 @@ const EmployeeGeneralInfo = (props) => {
     const employeeTypeName = employeeList?.map(emp => ({label: emp.name, value: emp.id}))
     const nationalityName = nationality?.map(nation => ({label: nation.name, value: nation.id}))
 
-    
+    const AuthStr = localStorage.getItem("token");
 
     // submitting form
     const handleSubmit = (event) => {
@@ -159,7 +159,11 @@ const EmployeeGeneralInfo = (props) => {
         }
         else{
             
-            Axios.post(`${rootUrl}Employee/Create`,subData, config)
+            Axios.post(`${rootUrl}Employee/Create`,subData, config, {
+                headers: {
+                  'authorization': AuthStr,
+                },
+              })
                 .then(res => {
                    
                     // (res.status === 200 && res.data.isSuccess === true) ?

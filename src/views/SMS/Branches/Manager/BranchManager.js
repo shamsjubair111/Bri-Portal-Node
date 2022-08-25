@@ -171,7 +171,8 @@ const selectTitle = (label, value) => {
   const branchId = localStorage.getItem('branchId');
   //  const managerImageData = useSelector((state) => state?.ManagerImageReducer?.managerImage);
   //  console.log('yes',managerImageData);
-
+  
+  const AuthStr = localStorage.getItem("token");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -201,7 +202,11 @@ const selectTitle = (label, value) => {
   }
 
    else if(backwardBranchManager){
-      Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
+      Axios.put(`${rootUrl}BranchManager/Update`, subdata, config, {
+        headers: {
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;
@@ -234,7 +239,11 @@ const selectTitle = (label, value) => {
     }
 
     else{
-      Axios.post(`${rootUrl}BranchManager/Create`, subdata, config).then((res) => {
+      Axios.post(`${rootUrl}BranchManager/Create`, subdata, config, {
+        headers: {
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;

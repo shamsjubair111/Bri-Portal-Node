@@ -94,7 +94,7 @@ const Branch = () => {
   
     };
 
-  
+    const AuthStr = localStorage.getItem("token");
 
    const handleSubmit = (event) => {
     event.preventDefault();
@@ -108,7 +108,11 @@ const Branch = () => {
 
    
 
-    Axios.put(`${rootUrl}Branch/Update`, subdata).then((res) => {
+    Axios.put(`${rootUrl}Branch/Update`, subdata, {
+      headers: {
+        'authorization': AuthStr,
+      },
+    }).then((res) => {
       // (res.status === 200 && res.data.isSuccess === true) ?
       // status = 'success' : status = res.data.message;
       // status = res.data.message;

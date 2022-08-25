@@ -140,7 +140,7 @@ const AddUniversityCampus = (props) => {
     setUniCountryError(false);
     setUniCountryLabel(label);
     setUniCountryValue(value);
-    Axios.get(`${rootUrl}UniversityState/GetByCountry/${value}`).then((res) => {
+    get(`UniversityState/GetByCountry/${value}`).then((res) => {
       setUniStateLabel(res.data.result[0].name);
       setUniStateValue(res.data.result[0].id);
     });
@@ -152,6 +152,8 @@ const AddUniversityCampus = (props) => {
     setUniStateLabel(label);
     setUniStateValue(value);
   };
+
+  const AuthStr = localStorage.getItem("token");
 
   //   on submit form
   const handleSubmit = (event) => {
@@ -170,7 +172,12 @@ const AddUniversityCampus = (props) => {
     // }
     else{
       if (selectedId === 0) {
-        Axios.post(`${rootUrl}UniversityCampus/Create`, subdata).then((res) => {
+        Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': AuthStr,
+          },
+        }).then((res) => {
           console.log(res);
           setuniversityId(res.data.result.universityId);
           if (res.status === 200 && res.data.isSuccess === true) {
