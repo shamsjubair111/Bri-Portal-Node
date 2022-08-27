@@ -166,6 +166,7 @@ const EmployeeGeneralInfo = (props) => {
 
 
    // Image js code end
+   const AuthStr = localStorage.getItem("token");
 
   // submitting form
   const handleSubmit = (event) => {
@@ -183,7 +184,21 @@ const EmployeeGeneralInfo = (props) => {
       },
     };
 
-      Axios.put(`${rootUrl}Employee/Update`, subData, config).then((res) => {
+
+    if (employeeValue == 0) {
+      setEmployeeError("Employee Type is Required");
+    } 
+    else if (nationalityValue == 0) {
+      setNationalityError("Nationality is Required");
+    }
+     
+     else {
+      Axios.put(`${rootUrl}Employee/Update`, subData, config, {
+        headers: {
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
+
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;
@@ -205,6 +220,7 @@ const EmployeeGeneralInfo = (props) => {
           history.push(`/employeeContactInfo/${id}`);
         }
       });
+    }
     
   };
 

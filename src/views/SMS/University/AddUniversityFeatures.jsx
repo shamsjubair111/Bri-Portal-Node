@@ -78,6 +78,8 @@ const AddUniversityFeatures = () => {
     });
   }, []);
 
+  const AuthStr = localStorage.getItem("token");
+
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -109,7 +111,11 @@ const AddUniversityFeatures = () => {
         }
       });
     } else {
-      Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata).then((res) => {
+      Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata, {
+        headers: {
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
         const uniID = res.data.result.universityId;
 
         if (res.status === 200 && res.data.isSuccess === true) {

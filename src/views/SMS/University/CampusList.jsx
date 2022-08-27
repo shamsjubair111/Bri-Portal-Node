@@ -204,7 +204,7 @@ const CampusList = (props) => {
     const selectUniCountry = (label, value) => {
       setUniCountryLabel(label);
       setUniCountryValue(value);
-      Axios.get(`${rootUrl}UniversityState/GetByCountry/${value}`)
+      get(`UniversityState/GetByCountry/${value}`)
         .then(res => {
           setUniStateLabel(res.data.result[0].name)
           setUniStateValue(res.data.result[0].id)

@@ -130,6 +130,9 @@ const EmployeeGeneralInfo = (props) => {
 
 
 
+    const AuthStr = localStorage.getItem("token");
+
+
     // submitting form
     const handleSubmit = (event) => {
 
@@ -160,9 +163,15 @@ const EmployeeGeneralInfo = (props) => {
             setDropzoneErrorProfile(true);
             return;
         }
-        else {
 
-            Axios.post(`${rootUrl}Employee/Create`, subData, config)
+        else{
+            
+            Axios.post(`${rootUrl}Employee/Create`,subData, config, {
+                headers: {
+                  'authorization': AuthStr,
+                },
+              })
+
                 .then(res => {
 
                     // (res.status === 200 && res.data.isSuccess === true) ?

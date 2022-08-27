@@ -54,8 +54,18 @@ const AddSubjectFee = () => {
       if (tab == "2") {
         history.push("/addSubjectFee");
       }
+      if(tab == '3'){
+        history.push(`/addSubjectDeliveryPattern/${localStorage.getItem("subId")}`)
+      }
+      if(tab == '4'){
+        history.push(`/addSubjectRequirements/${localStorage.getItem("subId")}`)
+      }
+      if (tab == "5") {
+        history.push(`/addSubjectDocumentRequirement/${localStorage.getItem("subId")}`);
+      }
   };
 
+  const AuthStr = localStorage.getItem("token");
 
   // on submit form
   const handleSubmit = (event) => {
@@ -67,7 +77,12 @@ const AddSubjectFee = () => {
      }
 
 
-    Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata).then((res) => {
+    Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': AuthStr,
+      },
+    }).then((res) => {
 
       if (res.status === 200 && res.data.isSuccess === true) {
         addToast(res?.data?.message, {
@@ -75,7 +90,7 @@ const AddSubjectFee = () => {
           autoDismiss: true,
         });
         history.push({
-          pathname: "/subjectList",
+          pathname: `/addSubjectDeliveryPattern/${localStorage.getItem("subId")}`,
         });
       }
     });
@@ -107,6 +122,22 @@ const AddSubjectFee = () => {
             <NavItem>
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Subject Fee Information
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink disabled active={activetab === "3"} onClick={() => toggle("3")}>
+                  Delivery pattern
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink disabled active={activetab === "4"} onClick={() => toggle("4")}>
+                  Requirement
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
+                  Document Requirement
                 </NavLink>
             </NavItem>
 

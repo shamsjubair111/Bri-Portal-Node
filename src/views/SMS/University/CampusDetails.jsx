@@ -416,6 +416,8 @@ const CampusDetails = () => {
     // }
   };
 
+  const AuthStr = localStorage.getItem("token");
+
   const handleGalleryPost = (e) => {
     e.preventDefault();
 
@@ -436,7 +438,11 @@ const CampusDetails = () => {
     if (FileList1.length < 1) {
       setFileError(true);
     } else {
-      Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config).then(
+      Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config, {
+        headers: {
+          'authorization': AuthStr,
+        },
+      }).then(
         (res) => {
           setSuccess(!success);
           setFileList1([]);

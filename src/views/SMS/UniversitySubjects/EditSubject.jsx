@@ -171,6 +171,12 @@ const EditSubject = () => {
     if (tab == "2") {
       history.push(`/editSubjectFee/${id}`);
     }
+    if (tab == "3") {
+      history.push(`/editDeliveryPattern/${id}`);
+    }
+    if (tab == "4") {
+      history.push(`/editSubjectRequirements/${id}`);
+    }
   };
 
     return (
@@ -197,15 +203,25 @@ const EditSubject = () => {
                  </NavItem>
 
                  <NavItem>
-                   {submitData ? (
+                   
                      <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                        Subject Fee Information
                      </NavLink>
-                   ) : (
-                     <NavLink disabled active={activetab === "2"}>
-                       Subject Fee Information
+                   
+                 </NavItem>
+                 <NavItem>
+                   
+                     <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                       Delivery Pattern
                      </NavLink>
-                   )}
+                   
+                 </NavItem>
+                 <NavItem>
+                   
+                     <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                       Requirement
+                     </NavLink>
+                   
                  </NavItem>
                </Nav>
                <TabContent activeTab={activetab}>

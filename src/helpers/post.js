@@ -9,7 +9,6 @@ async function post(url, body = {}, authToken = "") {
   try {
     const res = await axios.post(`${rootUrl}${url}`, body, {
       headers: {
-        'Content-Type': 'application/json',
         'authorization': AuthStr,
       },
     });

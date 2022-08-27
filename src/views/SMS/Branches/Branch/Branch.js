@@ -176,7 +176,6 @@ const Branch = () => {
        else{
         Axios.post(`${rootUrl}Branch/Create`, subdata, {
           headers: {
-            'Content-Type': 'application/json',
             'authorization': AuthStr,
           },
         }).then((res) => {

@@ -126,7 +126,18 @@ const Subject = () => {
     if (tab == "2") {
       history.push("/addSubjectFee");
     }
+    if (tab == "3") {
+      history.push("/addSubjectDeliveryPattern");
+    }
+    if (tab == "4") {
+      history.push("/addSubjectRequirements");
+    }
+    if (tab == "5") {
+      history.push(`/addSubjectDocumentRequirement`);
+    }
   };
+
+  const AuthStr = localStorage.getItem("token");
 
   // on submit form
   const handleSubmit = (event) => {
@@ -146,7 +157,12 @@ const Subject = () => {
       setSubDeptDropError(true);
     }
     else{
-      Axios.post(`${rootUrl}Subject/Create`, subdata).then((res) => {
+      Axios.post(`${rootUrl}Subject/Create`, subdata,{
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
           
         localStorage.setItem("subId",res?.data?.result?.id);
         const subId = res?.data?.result?.id;
@@ -199,6 +215,39 @@ const Subject = () => {
               ) : (
                 <NavLink disabled active={activetab === "2"}>
                   Subject Fee Information
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData ? (
+                <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                  Delivery Pattern
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "3"}>
+                  Delivery Pattern
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData ? (
+                <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                  Requirement
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "3"}>
+                  Requirement
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData ? (
+                <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                  Document Requirement
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "5"}>
+                  Document Requirement
                 </NavLink>
               )}
             </NavItem>

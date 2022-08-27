@@ -45,7 +45,6 @@ const userType = localStorage.getItem('current_user');
 
 
 
-
    const handleSubmit = (event) => {
      event.preventDefault();
    

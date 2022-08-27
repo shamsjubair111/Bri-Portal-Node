@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 
 
 const Branch = () => {
+
+  const AuthStr = localStorage.getItem("token");
     const history = useHistory();
     const {id} = useParams();
     console.log('Checking Use Params Id',id); 
@@ -149,7 +151,11 @@ const Branch = () => {
 
 
     
-    Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config).then((res) => {
+    Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config, {
+      headers: {
+        'authorization': AuthStr,
+      },
+    }).then((res) => {
           
       if (res?.status === 200 && res?.data?.isSuccess === true) {
         setSubmitData(true);
@@ -169,7 +175,11 @@ const Branch = () => {
        
     
        else{
-        Axios.put(`${rootUrl}BranchEmployee/Update`, subdata, config)
+        Axios.put(`${rootUrl}BranchEmployee/Update`, subdata, config, {
+          headers: {
+            'authorization': AuthStr,
+          },
+        })
         .then(res => {
           if (res?.status === 200 && res?.data?.isSuccess === true) {
           

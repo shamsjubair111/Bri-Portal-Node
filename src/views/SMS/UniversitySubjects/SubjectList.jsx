@@ -151,10 +151,13 @@ const SubjectList = (props) => {
       // if(camId !== 0){
       //   var caId = camppus?.find(s=>s?.id === camId);
       // }
+
+      setLoading(true);
   
         get(`Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${uTypeId ? uTypeId : uniValue}&search=${searchStr}`).then((res) => {
           setSubList(res?.models);
-          // console.log("sublist",res?.models);
+          console.log("sublist",res);
+          setSerialNum(res?.firstSerialNumber);
           setEntity(res?.totalEntity);        
           setLoading(false);
         });
@@ -466,7 +469,11 @@ const SubjectList = (props) => {
           </Row>
 
           {loading ? (
-            <h2 className="text-center">Loading...</h2>
+            <div class="d-flex justify-content-center mb-5">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
           ) : (
             <div className="table-responsive" ref={componentRef}>
               <Table id="table-to-xls" className="table-sm table-bordered">
