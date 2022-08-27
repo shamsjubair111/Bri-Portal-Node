@@ -338,7 +338,7 @@ const AdmissionManager = () => {
                     </Col>
                   </FormGroup>
 
-                  <FormGroup row>
+                  {/* <FormGroup row>
                     <Col md="2">
                  
                       <span className="pl-2">Sequence Id</span>
@@ -358,7 +358,7 @@ const AdmissionManager = () => {
                       />
 
                     </Col>
-                  </FormGroup>
+                  </FormGroup> */}
 
                   <FormGroup row >
                   <Col md="2">

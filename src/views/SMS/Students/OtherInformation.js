@@ -102,6 +102,7 @@ const OtherInformation = () => {
 
           put('OtherInformation/Update',subData)
           .then(res => {
+            console.log(res);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',
@@ -117,6 +118,7 @@ const OtherInformation = () => {
 
           put('OtherInformation/Update',subData)
           .then(res => {
+            console.log(res);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',

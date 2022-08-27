@@ -30,6 +30,7 @@ import { rootUrl } from "../../../constants/constants";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";
 import post from "../../../helpers/post";
+import put from "../../../helpers/put";
 
 const CampusDetails = () => {
   const { id } = useParams();
@@ -44,6 +45,11 @@ const CampusDetails = () => {
   const [radioIsAcceptInt, setRadioIsAcceptInt] = useState("false");
 
   const [subjectList,setSubjectList] = useState([]);
+
+  const [data,setData] = useState({});
+  const [method,setMethod] = useState(null);
+
+  
   
 
   // for feature checkbox
@@ -72,8 +78,12 @@ const CampusDetails = () => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [galleryObj, setGalleryObj] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal1, setDeleteModal1] = useState(false);
+  const [deleteModal2, setDeleteModal2] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  const [subError,setSubError] = useState(false);
 
   function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -95,6 +105,28 @@ const CampusDetails = () => {
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
     );
   };
+
+  const handleDeleteData = () => {
+
+    remove(`UniversityCampusSubject/Delete/${data?.id}`)
+    .then(res => { 
+     
+
+
+    
+      console.log(res);
+      addToast(res,{
+        appearance: 'error',
+        autoDismiss: true
+      })
+      setData({});
+      setDeleteModal1(false);
+      setSuccess(!success);
+    
+    })
+    
+  }
+
 
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
@@ -168,6 +200,19 @@ const CampusDetails = () => {
     // handleSearch();
   };
 
+  const toggleEdit = (data) => {
+    setData(data);
+    setRadioIsAcceptHome(`${data?.isAcceptHome}`);
+    setRadioIsAcceptInt(`${data?.isAcceptInternational}`);
+    setRadioIsAcceptUk(`${data?.isAcceptEU_UK}`);
+    setSubValue(data?.subject?.id);
+    setSubLabel(data?.subject?.name);
+    console.log(data);
+
+    setDeleteModal2(true);
+
+  }
+
   // for subject dropdown
   const subMenu = subList.map((subOptions) => ({
     label: subOptions.name,
@@ -175,6 +220,7 @@ const CampusDetails = () => {
   }));
 
   const selectSubject = (label, value) => {
+    setSubError(false);
     setSubLabel(label);
     setSubValue(value);
   };
@@ -212,6 +258,16 @@ const CampusDetails = () => {
     history.push("/campusList");
   };
 
+   // Delete Modal
+
+   const toggleDanger = (data) => {
+  
+    console.log(data);
+    setData(data);
+    
+    setDeleteModal1(true)
+  }
+
   const handleSubjectIntake = (e) => {
     e.preventDefault();
 
@@ -233,31 +289,60 @@ const CampusDetails = () => {
     //  }
   };
 
+  const handleUpdateData = (e) => {
+    e.preventDefault();
+    
+    const subData = {
+      id: data?.id,
+      campusId: id,
+      subjectId: subValue,
+      isAcceptHome: radioIsAcceptHome == 'true'? true :false ,
+      isAcceptEU_UK: radioIsAcceptUk == 'true'? true :false,
+      isAcceptInternational: radioIsAcceptInt == 'true'? true :false
+
+    }
+
+    put(`UniversityCampusSubject/Update`,subData)
+    .then(res => {
+      if(res?.status == 200){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss:true
+        })
+        setSuccess(!success);
+        setData({});
+        setDeleteModal2(false);
+      }
+    })
+  }
+
   const handleSingleSubmit = (e) => {
     e.preventDefault();
     
     const subData = {
       campusId: id,
       subjectId: subValue,
-      isAcceptHome: radioIsAcceptHome,
-      isAcceptEU_UK: radioIsAcceptUk,
-      isAcceptInternational: radioIsAcceptInt
+      isAcceptHome: radioIsAcceptHome == 'true'? true :false ,
+      isAcceptEU_UK: radioIsAcceptUk == 'true'? true :false,
+      isAcceptInternational: radioIsAcceptInt == 'true'? true :false
 
     }
-
-    post(`UniversityCampusSubject/Create`,subData)
-    .then(res => {
-      if(res?.isSuccess == true && res?.status ==200){
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          setSuccess(!success);
-      }
-    })
-
-
-
+    if(subValue == 0){
+      setSubError(true);
+    }
+    else{
+      post(`UniversityCampusSubject/Create`,subData)
+      .then(res => {
+        console.log(res);
+        if(res?.data?.isSuccess == true && res?.status ==200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            setSuccess(!success);
+        }
+      })
+    }
 
    
   };
@@ -588,8 +673,7 @@ const CampusDetails = () => {
                               >
                                 <ModalBody>
                                   <p>
-                                    Are You Sure to Delete this{" "}
-                                    <b>{localStorage.getItem("delGalName")}</b>{" "}
+                                    Are You Sure to Delete this
                                     ? Once Deleted it can't be Undone!
                                   </p>
                                 </ModalBody>
@@ -747,6 +831,7 @@ const CampusDetails = () => {
                           <thead className="">
                             <tr style={{ textAlign: "center" }}>
                               <th>SL/NO</th>
+                              <th>Subject</th>
                               <th>isAcceptEU_UK</th>
                               <th>isAcceptHome</th>
                               <th>isAcceptInternational</th>
@@ -766,6 +851,9 @@ const CampusDetails = () => {
 
                             
                              <td>
+                               {sub?.subject?.name}
+                             </td>
+                             <td>
                                {(sub?.isAcceptEU_UK)? <span>Yes</span> : <span>No</span>}
                              </td>
                              <td>
@@ -781,18 +869,217 @@ const CampusDetails = () => {
                             <td style={{ width: "8%" }} className="text-center">
                               <ButtonGroup variant="text">
                             
-                                <Button color="warning" className="mx-1 btn-sm">
+                                <Button onClick={()=>toggleEdit(sub)} color="warning" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button>
                              
-                                <Button color="danger" className="mx-1 btn-sm">
+                                <Button onClick={()=> toggleDanger(sub)} color="danger" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-trash"></i>{" "}
                                 </Button>
                              
                                 
                               </ButtonGroup>
+                              <Modal isOpen={deleteModal1} toggle={() => setDeleteModal1(!deleteModal1)} className="uapp-modal">
+                        <ModalBody>
+                        
+                      
+
+                         
+                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                   
+                        </ModalBody>
+        
+                        <ModalFooter>
+                        
+                           <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                           <Button onClick={() => setDeleteModal1(false)}>NO</Button>
+                       
+                        </ModalFooter>
+                     </Modal>
+                    <Modal isOpen={deleteModal2} toggle={() => setDeleteModal2(!deleteModal2)} className="uapp-modal">
+                        <ModalBody>
+                        
+                      
+                        <Form onSubmit={handleUpdateData}>
+                   
+
+                    <FormGroup row className="pt-3">
+                      <p>
+                        <b>Subject features</b>
+                      </p>
+                      <br />
+                      <br />
+                      <Col md="3">
+                        <span>
+                          Is accept home <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+
+                      <Col md="5">
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptHome"
+                            onChange={onValueChangeIsAcceptHome}
+                            name="isAcceptHome"
+                            value="true"
+                            checked={radioIsAcceptHome == "true"}
+                          />
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptHome"
+                          >
+                            Yes
+                          </Label>
+                        </FormGroup>
+
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptHome"
+                            onChange={onValueChangeIsAcceptHome}
+                            name="isAcceptHome"
+                            value="false"
+                            checked={radioIsAcceptHome == "false"}
+                          />
+
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptHome"
+                          >
+                            No
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="pt-3">
+                      <Col md="3">
+                        <span>
+                          Is accept EU_UK <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+
+                      <Col md="5">
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptEU_UK"
+                            onChange={onValueChangeIsAcceptUk}
+                            name="isAcceptEU_UK"
+                            value="true"
+                            checked={radioIsAcceptUk == "true"}
+                          />
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptEU_UK"
+                          >
+                            Yes
+                          </Label>
+                        </FormGroup>
+
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptEU_UK"
+                            onChange={onValueChangeIsAcceptUk}
+                            name="isAcceptEU_UK"
+                            value="false"
+                            checked={radioIsAcceptUk == "false"}
+                          />
+
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptEU_UK"
+                          >
+                            No
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="pt-3">
+                      <Col md="3">
+                        <span>
+                          Is accept international{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+
+                      <Col md="5">
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptInternational"
+                            onChange={onValueChangeIsAcceptInt}
+                            name="isAcceptInternational"
+                            value="true"
+                            checked={radioIsAcceptInt == "true"}
+                          />
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptInternational"
+                          >
+                            Yes
+                          </Label>
+                        </FormGroup>
+
+                        <FormGroup check inline>
+                          <Input
+                            className="form-check-input"
+                            type="radio"
+                            id="isAcceptInternational"
+                            onChange={onValueChangeIsAcceptInt}
+                            name="isAcceptInternational"
+                            value="false"
+                            checked={radioIsAcceptInt == "false"}
+                          />
+
+                          <Label
+                            className="form-check-label"
+                            check
+                            htmlFor="isAcceptInternational"
+                          >
+                            No
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Button.Ripple
+                        type="submit"
+                        className="mr-1 mt-3 badge-primary"
+                      >
+                        Submit
+                      </Button.Ripple>
+                    </FormGroup>
+                  </Form>
+                         
+                         
+                   
+                        </ModalBody>
+        
+                     
+                     </Modal>
                             </td>
                           </tr>
                         ))}
@@ -842,6 +1129,12 @@ const CampusDetails = () => {
                           name="id"
                           id="id"
                         />
+                        {
+                          subError ? 
+                          <span className="text-danger">Subject Must Be Selected</span>
+                          :
+                          null
+                        }
                       </Col>
                     </FormGroup>
 

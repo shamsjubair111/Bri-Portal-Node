@@ -15,6 +15,8 @@ import AdmissionGetData from "./views/Test/AdmissionGetData"
 
 // Authentication Checking
 const token = localStorage.getItem('token');
+const permissions= localStorage.getItem('permissions');
+console.log(permissions);
 const isAuth = token != null ? true : false;
 const permission = JSON.parse(localStorage.getItem("current_user"));
   // console.log(permission?.displayName);
@@ -349,33 +351,33 @@ class AppRouter extends React.Component {
         <Switch>
          <AppRoute exact path="/" component={analyticsDashboard} />
         
-         <AppRoute  path="/AdmissionManager" component={AdmissionManager} />
-         <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} />
-         <AppRoute  path="/updateUser/:id" component={UpdateUser} />
-         <AppRoute exact path="/addAdmissionManager/:id" component={AdmissionManager} />
-         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={UpdateAdmissionManager} />
-  
-         <AppRoute  path="/demo" component={demo} />
-         <AppRoute  path="/uni1" component={demo} />
-         <AppRoute  path="/uni2" component={demo} />
-         <AppRoute  path="/roles" component={Roles} />
-         <AppRoute  path="/addMenu" component={Menu} />
+         {/* <AppRoute  path="/AdmissionManager" component={permissions?.includes(602)? AdmissionManager  : NotAuthorized } /> */}
+         {/* <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} /> */}
+         {/* <AppRoute  path="/updateUser/:id" component={UpdateUser} /> */}
+         <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(602)? AdmissionManager : NotAuthorized} />
+         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(603) ? UpdateAdmissionManager : NotAuthorized } />
+{/*   
+         <AppRoute  path="/demo" component={demo} /> */}
+         {/* <AppRoute  path="/uni1" component={demo} /> */}
+         {/* <AppRoute  path="/uni2" component={demo} /> */}
+         <AppRoute  path="/roles" component={permissions?.includes(3)? Roles : NotAuthorized} />
+         {/* <AppRoute  path="/addMenu" component={Menu} /> */}
          {/* <AppRoute  path="/menu" component={MenuInfo} /> */}
    
-         <AppRoute  path="/rolePermission" component={RolePermission} />
-         <AppRoute  path="/roleMenu" component={RoleMenu} />
+         <AppRoute  path="/rolePermission" component={permissions?.includes(1572)? RolePermission : NotAuthorized} />
+         <AppRoute  path="/roleMenu" component={permissions?.includes(12) ? RoleMenu : NotAuthorized} />
          <AppRoute  path="/employeeType" component={EmployeeType} />
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
-         <AppRoute  path="/employeeList" component={EmployeeList} />
-         <AppRoute  path="/employeeProfile" component={EmployeeProfile} />
-         <AppRoute  path="/addUniversityType" component={AddUniversityType} />
-         <AppRoute  path="/addUniversityCountry" component={AddUniversityCountry} />
-         <AppRoute  path="/addUniversityState" component={AddUniversityState} />
-         <AppRoute  path="/addUniversity" component={AddUniversity} />
-         <AppRoute  path="/addUniversityApplicationDocument" component={AddUniversityApplicationDocument} />
-         <AppRoute  path="/addUniversityTemplateDocument" component={AddUniversityTemplateDocument} />
-         <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} />
+         <AppRoute  path="/employeeList" component={permissions?.includes(13) ? EmployeeList : NotAuthorized} />
+         <AppRoute  path="/employeeProfile" component={permissions?.includes(16)? EmployeeProfile : NotAuthorized} />
+         <AppRoute  path="/addUniversityType" component={permissions?.includes(1012)? AddUniversityType : NotAuthorized} />
+         <AppRoute  path="/addUniversityCountry" component={permissions?.includes(1032)? AddUniversityCountry : NotAuthorized} />
+         <AppRoute  path="/addUniversityState" component={permissions?.includes(1022) ? AddUniversityState : NotAuthorized} />
+         <AppRoute  path="/addUniversity" component={permissions?.includes(1002)? AddUniversity : NotAuthorized} />
+         <AppRoute  path="/addUniversityApplicationDocument" component={permissions?.includes(1072)? AddUniversityApplicationDocument: NotAuthorized} />
+         <AppRoute  path="/addUniversityTemplateDocument" component={permissions?.includes(1102)? AddUniversityTemplateDocument : NotAuthorized} />
+         {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
           {/* intake */}
           <AppRoute  path="/intake" component={Intake} />
