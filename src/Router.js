@@ -127,6 +127,10 @@ const SubjectList = lazy(() => import("./views/SMS/UniversitySubjects/SubjectLis
 const DocumentGroup = lazy(() => import("./views/SMS/UniversitySubjects/DocumentGroup.js"))
 const AddSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectFee.jsx"))
 const AddSubjectDeliveryPattern = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectDeliveryPattern"))
+const AddSubjectDocumentRequirement = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectDocumentRequirement"))
+const EditSubjectDocumentRequirement = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectDocumentRequirement"))
+const AddSubjectRequirements = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectRequirements"))
+const EditSubjectRequirements = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectRequirements"))
 const SubjectFeeInformation = lazy(() => import("./views/SMS/UniversitySubjects/SubjectFeeInformation.jsx"))
 const EditSubject = lazy(() => import("./views/SMS/UniversitySubjects/EditSubject.jsx"))
 const EditSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectFee.jsx"))
@@ -425,6 +429,10 @@ class AppRouter extends React.Component {
          <AppRoute  path="/editSubject/:id" component={EditSubject} />
          <AppRoute  path="/addSubjectFee" component={AddSubjectFee} />
          <AppRoute  path="/addSubjectDeliveryPattern/:id" component={AddSubjectDeliveryPattern} />
+         <AppRoute  path="/addSubjectDocumentRequirement/:id" component={AddSubjectDocumentRequirement} />
+         <AppRoute  path="/editSubjectDocumentRequirement/:id" component={EditSubjectDocumentRequirement} />
+         <AppRoute  path="/addSubjectRequirements/:id" component={AddSubjectRequirements} />
+         <AppRoute  path="/EditSubjectRequirements/:id" component={EditSubjectRequirements} />
          <AppRoute  path="/EditSubjectFee/:subId" component={EditSubjectFee} />
          <AppRoute  path="/editDeliveryPattern/:id" component={EditDeliveryPattern} />
          <AppRoute  path="/subjectFeeInfo" component={SubjectFeeInformation} />

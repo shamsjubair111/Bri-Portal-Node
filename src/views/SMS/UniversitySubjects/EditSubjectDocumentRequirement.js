@@ -32,37 +32,54 @@ import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
 
-const AddSubjectDeliveryPattern = () => {
-  const [activetab, setActivetab] = useState("3");
-  const [deliveryDD, setDeliveryDD] = useState([]);
-  const [deliveryLabel, setDeliveryLabel] = useState("Select Delivery Pattern");
-  const [deliveryValue, setDeliveryValue] = useState(0);
-  const [deliveryError, setDeliveryError] = useState(false);
+const EditSubjectDocumentRequirement = () => {
+  const [activetab, setActivetab] = useState("5");
+  const [docuDD, setDocuDD] = useState([]);
+  const [docuLabel, setDocuLabel] = useState("Select Document Group");
+  const [docuValue, setDocuValue] = useState(0);
+  const [docuError, setDocuError] = useState(false);
+  const [applicationTypeDD, setApplicationTypeDD] = useState([]);
+  const [appliLabel, setAppliLabel] = useState("Select Application type");
+  const [appliValue, setAppliValue] = useState(0);
+  const [appliError, setAppliError] = useState(false);
 
   const { id } = useParams();
   console.log(id, "SubIddddd");
 
   useEffect(() => {
-    get("DeliveryPatternDD/index").then((res) => {
+    get("DocumentGroupDD/Index").then((res) => {
       console.log(res, "response");
-      setDeliveryDD(res);
+      setDocuDD(res);
+    });
+    get("ApplicationTypeDD/Index").then((res) => {
+      console.log(res, "response");
+      setApplicationTypeDD(res);
     });
   }, []);
 
-  const deliveryMenu = deliveryDD.map((delivery) => ({
-    label: delivery?.name,
-    value: delivery?.id,
+  const DocumentGroupMenu = docuDD.map((level) => ({
+    label: level?.name,
+    value: level?.id,
+  }));
+  const ApplicationMenu = applicationTypeDD.map((level) => ({
+    label: level?.name,
+    value: level?.id,
   }));
 
-//   const financeMenu = financeDD.map((finance) => ({
-//     label: finance?.name,
-//     value: finance?.id,
-//   }));
+  //   const financeMenu = financeDD.map((finance) => ({
+  //     label: finance?.name,
+  //     value: finance?.id,
+  //   }));
 
-  const selectDelivery = (label, value) => {
-    setDeliveryError(false);
-    setDeliveryLabel(label);
-    setDeliveryValue(value);
+  const selectDocumentGroup = (label, value) => {
+    setDocuError(false);
+    setDocuLabel(label);
+    setDocuValue(value);
+  };
+  const selectApplicationType = (label, value) => {
+    setAppliError(false);
+    setAppliLabel(label);
+    setAppliValue(value);
   };
 
   const history = useHistory();
@@ -77,16 +94,19 @@ const AddSubjectDeliveryPattern = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addSubject");
+      history.push(`/editSubject/${id}`);
     }
     if (tab == "2") {
-      history.push("/addSubjectFee");
+      history.push(`/editSubjectFee/${id}`);
+    }
+    if (tab == "3") {
+      history.push(`/editSubjectDeliveryPattern/${id}`);
     }
     if (tab == "4") {
-      history.push(`/addSubjectRequirements/${id}`);
+      history.push(`/editSubjectRequirements/${id}`);
     }
     if (tab == "5") {
-      history.push(`/addSubjectDocumentRequirement/${id}`);
+      history.push(`/editSubjectDocumentRequirement/${id}`);
     }
   };
 
@@ -101,30 +121,29 @@ const AddSubjectDeliveryPattern = () => {
       console.log("values", value);
     }
 
-    if(deliveryValue === 0){
-      setDeliveryError(true);
-    }
-    else{
-      Axios.post(`${rootUrl}SubjectDeliveryPattern/Create`, subdata, {
+    if (docuValue === 0) {
+      setDocuError(true);
+    } else if (appliValue === 0) {
+      setAppliError(true);
+    } else {
+      Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
         headers: {
-          'Content-Type': 'application/json',
-          'authorization': AuthStr,
+          "Content-Type": "application/json",
+          authorization: AuthStr,
         },
       }).then((res) => {
-  
         if (res.status === 200 && res.data.isSuccess === true) {
           addToast(res?.data?.message, {
-            appearance:'success',
+            appearance: "success",
             autoDismiss: true,
           });
           history.push({
-            pathname: `/addSubjectRequirements/${id}`,
+            pathname: "/subjectList",
           });
         }
       });
     }
   };
-
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -143,21 +162,13 @@ const AddSubjectDeliveryPattern = () => {
         <CardBody>
           <Nav tabs>
             <NavItem>
-              <NavLink
-                disabled
-                active={activetab === "1"}
-                onClick={() => toggle("1")}
-              >
+              <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
                 Subject Information
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink
-                disabled
-                active={activetab === "2"}
-                onClick={() => toggle("2")}
-              >
+              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                 Subject Fee Information
               </NavLink>
             </NavItem>
@@ -167,20 +178,21 @@ const AddSubjectDeliveryPattern = () => {
                 Delivery pattern
               </NavLink>
             </NavItem>
+
             <NavItem>
-              <NavLink disabled active={activetab === "4"} onClick={() => toggle("4")}>
+              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                 Requirement
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
+              <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                 Document Requirement
               </NavLink>
             </NavItem>
           </Nav>
 
           <TabContent activeTab={activetab}>
-            <TabPane tabId="3">
+            <TabPane tabId="5">
               <Form onSubmit={handleSubmit} className="mt-5">
                 <FormGroup row className="has-icon-left position-relative">
                   <Input
@@ -194,21 +206,48 @@ const AddSubjectDeliveryPattern = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Delivery Pattern <span className="text-danger">*</span>{" "}
+                      Document Group <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
                     <Select
-                      options={deliveryMenu}
-                      value={{ label: deliveryLabel, value: deliveryValue }}
-                      onChange={(opt) => selectDelivery(opt.label, opt.value)}
-                      name="deliveryPatternId"
-                      id="deliveryPatternId"
+                      options={DocumentGroupMenu}
+                      value={{ label: docuLabel, value: docuValue }}
+                      onChange={(opt) =>
+                        selectDocumentGroup(opt.label, opt.value)
+                      }
+                      name="documentGroupId"
+                      id="documentGroupId"
                     />
 
-                    {deliveryError && (
+                    {docuError && (
                       <span className="text-danger">
-                        You must select delivery pattern
+                        You must select document group
+                      </span>
+                    )}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Application Type <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={ApplicationMenu}
+                      value={{ label: appliLabel, value: appliValue }}
+                      onChange={(opt) =>
+                        selectApplicationType(opt.label, opt.value)
+                      }
+                      name="applicationTypeId"
+                      id="applicationTypeId"
+                    />
+
+                    {appliError && (
+                      <span className="text-danger">
+                        You must select application type
                       </span>
                     )}
                   </Col>
@@ -231,7 +270,7 @@ const AddSubjectDeliveryPattern = () => {
                   <Col md="5">
                     <ButtonForFunction
                       type={"submit"}
-                      className={"mr-1 mt-3 badge-primary"}
+                      className={"mt-3 badge-primary"}
                       name={"Submit"}
                       permission={6}
                     />
@@ -246,4 +285,4 @@ const AddSubjectDeliveryPattern = () => {
   );
 };
 
-export default AddSubjectDeliveryPattern;
+export default EditSubjectDocumentRequirement;

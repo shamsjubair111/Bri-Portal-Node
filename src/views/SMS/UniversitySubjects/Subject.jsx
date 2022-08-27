@@ -129,6 +129,12 @@ const Subject = () => {
     if (tab == "3") {
       history.push("/addSubjectDeliveryPattern");
     }
+    if (tab == "4") {
+      history.push("/addSubjectRequirements");
+    }
+    if (tab == "5") {
+      history.push(`/addSubjectDocumentRequirement`);
+    }
   };
 
   const AuthStr = localStorage.getItem("token");
@@ -220,6 +226,28 @@ const Subject = () => {
               ) : (
                 <NavLink disabled active={activetab === "3"}>
                   Delivery Pattern
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData ? (
+                <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                  Requirement
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "3"}>
+                  Requirement
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData ? (
+                <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                  Document Requirement
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "5"}>
+                  Document Requirement
                 </NavLink>
               )}
             </NavItem>

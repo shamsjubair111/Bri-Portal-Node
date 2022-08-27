@@ -57,6 +57,12 @@ const AddSubjectFee = () => {
       if(tab == '3'){
         history.push(`/addSubjectDeliveryPattern/${localStorage.getItem("subId")}`)
       }
+      if(tab == '4'){
+        history.push(`/addSubjectRequirements/${localStorage.getItem("subId")}`)
+      }
+      if (tab == "5") {
+        history.push(`/addSubjectDocumentRequirement/${localStorage.getItem("subId")}`);
+      }
   };
 
   const AuthStr = localStorage.getItem("token");
@@ -122,6 +128,16 @@ const AddSubjectFee = () => {
             <NavItem>
                 <NavLink disabled active={activetab === "3"} onClick={() => toggle("3")}>
                   Delivery pattern
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink disabled active={activetab === "4"} onClick={() => toggle("4")}>
+                  Requirement
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
+                  Document Requirement
                 </NavLink>
             </NavItem>
 

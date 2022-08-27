@@ -38,6 +38,7 @@ const EditDeliveryPattern = () => {
   const [deliveryLabel, setDeliveryLabel] = useState("Select Delivery Pattern");
   const [deliveryValue, setDeliveryValue] = useState(0);
   const [deliveryError, setDeliveryError] = useState(false);
+  const [deliveryId, setDeliveryId] = useState(0);
 
   const { id } = useParams();
   console.log(id, "SubIddddd");
@@ -47,7 +48,14 @@ const EditDeliveryPattern = () => {
       console.log(res, "response");
       setDeliveryDD(res);
     });
-  }, []);
+
+    get(`SubjectDeliveryPattern/GetBySubject/${id}`).then(res=>{
+      console.log("dsdsdsdds", res?.id);
+      setDeliveryId(res?.id);
+      setDeliveryLabel(res?.deliveryPattern?.name);
+      setDeliveryValue(res?.deliveryPattern?.id);
+    })
+  }, [id]);
 
   const deliveryMenu = deliveryDD.map((delivery) => ({
     label: delivery?.name,
@@ -68,9 +76,9 @@ const EditDeliveryPattern = () => {
   const history = useHistory();
   const { addToast } = useToasts();
 
-  // redirect to dashboard
-  const backToDashboard = () => {
-    history.push("/");
+  // redirect to SubjecList
+  const backToSubjectList = () => {
+    history.push("/subjectList");
   };
 
   // tab toggle
@@ -81,6 +89,9 @@ const EditDeliveryPattern = () => {
     }
     if (tab == "2") {
       history.push(`/editSubjectFee/${id}`);
+    }
+    if (tab == "4") {
+      history.push(`/editSubjectRequirements/${id}`);
     }
   };
 
@@ -95,7 +106,7 @@ const EditDeliveryPattern = () => {
       console.log("values", value);
     }
 
-    Axios.post(`${rootUrl}SubjectDeliveryPattern/Create`, subdata, {
+    Axios.put(`${rootUrl}SubjectDeliveryPattern/Update`, subdata, {
       headers: {
         'Content-Type': 'application/json',
         'authorization': AuthStr,
@@ -108,7 +119,7 @@ const EditDeliveryPattern = () => {
           autoDismiss: true,
         });
         history.push({
-          pathname: "/subjectList",
+          pathname: `/editSubjectRequirements/${id}`,
         });
       }
     });
@@ -119,9 +130,9 @@ const EditDeliveryPattern = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Add Subject Delivery Pattern</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToSubjectList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Subject List
             </span>
           </div>
         </CardHeader>
@@ -150,7 +161,12 @@ const EditDeliveryPattern = () => {
 
             <NavItem>
               <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                Delivery pattern
+                Delivery Pattern
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                Requirement
               </NavLink>
             </NavItem>
           </Nav>
@@ -158,6 +174,15 @@ const EditDeliveryPattern = () => {
           <TabContent activeTab={activetab}>
             <TabPane tabId="3">
               <Form onSubmit={handleSubmit} className="mt-5">
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Input
+                    type="hidden"
+                    id="id"
+                    name="id"
+                    value={deliveryId}
+                  />
+                </FormGroup>
                 <FormGroup row className="has-icon-left position-relative">
                   <Input
                     type="hidden"

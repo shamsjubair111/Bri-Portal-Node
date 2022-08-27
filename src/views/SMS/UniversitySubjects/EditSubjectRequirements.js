@@ -32,37 +32,47 @@ import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
 
-const AddSubjectDeliveryPattern = () => {
-  const [activetab, setActivetab] = useState("3");
-  const [deliveryDD, setDeliveryDD] = useState([]);
-  const [deliveryLabel, setDeliveryLabel] = useState("Select Delivery Pattern");
-  const [deliveryValue, setDeliveryValue] = useState(0);
-  const [deliveryError, setDeliveryError] = useState(false);
+const EditSubjectRequirements = () => {
+  const [activetab, setActivetab] = useState("4");
+  const [eduLevelDD, setEduLevelDD] = useState([]);
+  const [eduLabel, setEduLabel] = useState("Select Education Level");
+  const [eduValue, setEduValue] = useState(0);
+  const [eduError, setEduError] = useState(false);
+  const [requiredRes, setRequiredRes] = useState("");
+  const [requiredId, setRequiredId] = useState(0);
 
   const { id } = useParams();
   console.log(id, "SubIddddd");
 
   useEffect(() => {
-    get("DeliveryPatternDD/index").then((res) => {
+    get("EducationLevelDD/Index").then((res) => {
       console.log(res, "response");
-      setDeliveryDD(res);
+      setEduLevelDD(res);
+      // setDeliveryDD(res);
     });
-  }, []);
+    get(`SubjectRequirement/GetBySubject/${id}`).then(res=>{
+        console.log("subReq", res);
+        setEduLabel(res?.educationLevel?.name);
+        setEduValue(res?.educationLevel?.id);
+        setRequiredId(res?.id);
+        setRequiredRes(res?.requiredResultInPercent);
+    })
+  }, [id]);
 
-  const deliveryMenu = deliveryDD.map((delivery) => ({
-    label: delivery?.name,
-    value: delivery?.id,
+  const eduLevelMenu = eduLevelDD.map((level) => ({
+    label: level?.name,
+    value: level?.id,
   }));
 
-//   const financeMenu = financeDD.map((finance) => ({
-//     label: finance?.name,
-//     value: finance?.id,
-//   }));
+  //   const financeMenu = financeDD.map((finance) => ({
+  //     label: finance?.name,
+  //     value: finance?.id,
+  //   }));
 
-  const selectDelivery = (label, value) => {
-    setDeliveryError(false);
-    setDeliveryLabel(label);
-    setDeliveryValue(value);
+  const selectEduLevel = (label, value) => {
+    setEduError(false);
+    setEduLabel(label);
+    setEduValue(value);
   };
 
   const history = useHistory();
@@ -77,16 +87,13 @@ const AddSubjectDeliveryPattern = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addSubject");
+      history.push(`/editSubject/${id}`);
     }
     if (tab == "2") {
-      history.push("/addSubjectFee");
+      history.push(`/editSubjectFee/${id}`);
     }
-    if (tab == "4") {
-      history.push(`/addSubjectRequirements/${id}`);
-    }
-    if (tab == "5") {
-      history.push(`/addSubjectDocumentRequirement/${id}`);
+    if (tab == "3") {
+      history.push(`/editDeliveryPattern/${id}`);
     }
   };
 
@@ -101,30 +108,23 @@ const AddSubjectDeliveryPattern = () => {
       console.log("values", value);
     }
 
-    if(deliveryValue === 0){
-      setDeliveryError(true);
-    }
-    else{
-      Axios.post(`${rootUrl}SubjectDeliveryPattern/Create`, subdata, {
-        headers: {
-          'Content-Type': 'application/json',
-          'authorization': AuthStr,
-        },
-      }).then((res) => {
-  
-        if (res.status === 200 && res.data.isSuccess === true) {
-          addToast(res?.data?.message, {
-            appearance:'success',
-            autoDismiss: true,
-          });
-          history.push({
-            pathname: `/addSubjectRequirements/${id}`,
-          });
-        }
-      });
-    }
+    Axios.put(`${rootUrl}SubjectRequirement/Update`, subdata, {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: AuthStr,
+      },
+    }).then((res) => {
+      if (res.status === 200 && res.data.isSuccess === true) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        history.push({
+          pathname: "/subjectList",
+        });
+      }
+    });
   };
-
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -143,21 +143,13 @@ const AddSubjectDeliveryPattern = () => {
         <CardBody>
           <Nav tabs>
             <NavItem>
-              <NavLink
-                disabled
-                active={activetab === "1"}
-                onClick={() => toggle("1")}
-              >
+              <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
                 Subject Information
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink
-                disabled
-                active={activetab === "2"}
-                onClick={() => toggle("2")}
-              >
+              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                 Subject Fee Information
               </NavLink>
             </NavItem>
@@ -167,20 +159,16 @@ const AddSubjectDeliveryPattern = () => {
                 Delivery pattern
               </NavLink>
             </NavItem>
+
             <NavItem>
-              <NavLink disabled active={activetab === "4"} onClick={() => toggle("4")}>
+              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                 Requirement
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
-                Document Requirement
               </NavLink>
             </NavItem>
           </Nav>
 
           <TabContent activeTab={activetab}>
-            <TabPane tabId="3">
+            <TabPane tabId="4">
               <Form onSubmit={handleSubmit} className="mt-5">
                 <FormGroup row className="has-icon-left position-relative">
                   <Input
@@ -190,27 +178,50 @@ const AddSubjectDeliveryPattern = () => {
                     value={id}
                   />
                 </FormGroup>
+                <FormGroup row className="has-icon-left position-relative">
+                  <Input
+                    type="hidden"
+                    id="id"
+                    name="id"
+                    value={requiredId}
+                  />
+                </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Delivery Pattern <span className="text-danger">*</span>{" "}
+                      Education Level <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
                     <Select
-                      options={deliveryMenu}
-                      value={{ label: deliveryLabel, value: deliveryValue }}
-                      onChange={(opt) => selectDelivery(opt.label, opt.value)}
-                      name="deliveryPatternId"
-                      id="deliveryPatternId"
+                      options={eduLevelMenu}
+                      value={{ label: eduLabel, value: eduValue }}
+                      onChange={(opt) => selectEduLevel(opt.label, opt.value)}
+                      name="educationLevelId"
+                      id="educationLevelId"
                     />
 
-                    {deliveryError && (
-                      <span className="text-danger">
-                        You must select delivery pattern
-                      </span>
-                    )}
+                    
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Required Result In Percent{" "}
+                      <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      id="requiredResultInPercent"
+                      name="requiredResultInPercent"
+                      defaultValue={requiredRes}
+                      placeholder="Write Required Result"
+                      required
+                    />
                   </Col>
                 </FormGroup>
 
@@ -231,7 +242,7 @@ const AddSubjectDeliveryPattern = () => {
                   <Col md="5">
                     <ButtonForFunction
                       type={"submit"}
-                      className={"mr-1 mt-3 badge-primary"}
+                      className={"mt-3 badge-primary"}
                       name={"Submit"}
                       permission={6}
                     />
@@ -246,4 +257,4 @@ const AddSubjectDeliveryPattern = () => {
   );
 };
 
-export default AddSubjectDeliveryPattern;
+export default EditSubjectRequirements;

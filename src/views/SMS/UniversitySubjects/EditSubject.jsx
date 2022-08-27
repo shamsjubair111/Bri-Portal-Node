@@ -174,6 +174,9 @@ const EditSubject = () => {
     if (tab == "3") {
       history.push(`/editDeliveryPattern/${id}`);
     }
+    if (tab == "4") {
+      history.push(`/editSubjectRequirements/${id}`);
+    }
   };
 
     return (
@@ -210,6 +213,13 @@ const EditSubject = () => {
                    
                      <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
                        Delivery Pattern
+                     </NavLink>
+                   
+                 </NavItem>
+                 <NavItem>
+                   
+                     <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                       Requirement
                      </NavLink>
                    
                  </NavItem>

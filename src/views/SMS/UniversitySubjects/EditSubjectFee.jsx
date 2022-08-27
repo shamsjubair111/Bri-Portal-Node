@@ -74,6 +74,9 @@ const EditSubjectFee = () => {
      if (tab == "3") {
        history.push(`/editDeliveryPattern/${subId}`);
       }
+     if (tab == "4") {
+       history.push(`/editSubjectRequirements/${subId}`);
+      }
     };
 
     const handleSubjectFeeUpdate = e =>{
@@ -129,6 +132,13 @@ const EditSubjectFee = () => {
                    
                      <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
                        Delivery Pattern
+                     </NavLink>
+                  
+                 </NavItem>
+                 <NavItem>
+                   
+                     <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                       Requirement
                      </NavLink>
                   
                  </NavItem>
