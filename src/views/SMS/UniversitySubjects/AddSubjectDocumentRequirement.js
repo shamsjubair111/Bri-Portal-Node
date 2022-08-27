@@ -42,6 +42,9 @@ const AddSubjectDocumentRequirement = () => {
   const [appliLabel, setAppliLabel] = useState("Select Application type");
   const [appliValue, setAppliValue] = useState(0);
   const [appliError, setAppliError] = useState(false);
+  const [documentGrpList, setDocumentGrpList] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [update, setUpdate] = useState(0);
 
   const { id } = useParams();
   console.log(id, "SubIddddd");
@@ -55,7 +58,11 @@ const AddSubjectDocumentRequirement = () => {
       console.log(res, "response");
       setApplicationTypeDD(res);
     });
-  }, []);
+    get(`SubjectDocumentRequirement/GetBySubject/${id}`).then((res) => {
+      console.log(res, "ssxcsxs");
+      setDocumentGrpList(res);
+    });
+  }, [id, success]);
 
   const DocumentGroupMenu = docuDD.map((level) => ({
     label: level?.name,
@@ -126,24 +133,95 @@ const AddSubjectDocumentRequirement = () => {
     } else if (appliValue === 0) {
       setAppliError(true);
     } else {
-      Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: AuthStr,
-        },
-      }).then((res) => {
-        if (res.status === 200 && res.data.isSuccess === true) {
-          addToast(res?.data?.message, {
-            appearance: "success",
-            autoDismiss: true,
-          });
-          history.push({
-            pathname: "/subjectList",
-          });
-        }
-      });
+      if (update != 0) {
+        Axios.put(`${rootUrl}SubjectDocumentRequirement/Update`, subdata, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: AuthStr,
+          },
+        }).then((res) => {
+          console.log(res);
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setSuccess(!success);
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+            setUpdate(0);
+            // history.push({
+            //   pathname: "/subjectList",
+            // });
+          } else {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+            setUpdate(0);
+          }
+        });
+      } else {
+        Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: AuthStr,
+          },
+        }).then((res) => {
+          console.log(res);
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setSuccess(!success);
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+            // history.push({
+            //   pathname: "/subjectList",
+            // });
+          } else {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+          }
+        });
+      }
     }
   };
+
+  const handleUpdate = (document) => {
+    console.log("documentList", document);
+    setUpdate(document?.id);
+    setDocuLabel(document?.documentGroup?.title);
+    setDocuValue(document?.documentGroup?.id);
+    setAppliLabel(
+      document?.applicationTypeId === 1
+        ? "Home"
+        : document?.applicationTypeId === 2
+        ? "EU/UK"
+        : "International"
+    );
+    setAppliValue(document?.applicationTypeId);
+  };
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -187,7 +265,7 @@ const AddSubjectDocumentRequirement = () => {
                 active={activetab === "3"}
                 onClick={() => toggle("3")}
               >
-                Delivery pattern
+                Delivery Pattern
               </NavLink>
             </NavItem>
 
@@ -209,9 +287,22 @@ const AddSubjectDocumentRequirement = () => {
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="5">
-              <div className="row">
+              <div className="row mt-5">
                 <div className="col-6">
-                  <Form onSubmit={handleSubmit} className="mt-5">
+                  <div className="hedding-titel d-flex justify-content-between mb-2">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Add Document Required</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                  </div>
+                  <Form onSubmit={handleSubmit} className="">
+                    {update != 0 ? (
+                      <Input type="hidden" id="id" name="id" value={update} />
+                    ) : null}
                     <FormGroup row className="has-icon-left position-relative">
                       <Input
                         type="hidden"
@@ -289,19 +380,64 @@ const AddSubjectDocumentRequirement = () => {
                   >
                     Submit
                   </Button.Ripple> */}
-                      
-                        <ButtonForFunction
-                          type={"submit"}
-                          className={"mt-3 badge-primary"}
-                          name={"Submit"}
-                          permission={6}
-                        />
-                     
+
+                      <ButtonForFunction
+                        type={"submit"}
+                        className={"mt-3 badge-primary"}
+                        name={"Submit"}
+                        permission={6}
+                      />
                     </FormGroup>
                   </Form>
                 </div>
                 <div className="col-6">
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Document Required List</b>{" "}
+                      </h5>
 
+                      <div className="bg-h"></div>
+                    </div>
+                  </div>
+
+                  <div className="table-responsive">
+                    <Table className="table-sm table-bordered">
+                      <thead className="thead-uapp-bg">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>SL/NO</th>
+                          <th>Document Group</th>
+                          <th className="text-center">Application Type</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {documentGrpList?.map((document, i) => (
+                          <tr key={document.id} style={{ textAlign: "center" }}>
+                            <th scope="row">{i + 1}</th>
+                            <td>{document?.documentGroup?.title}</td>
+                            <td className="text-center">
+                              {document?.applicationTypeId === 1
+                                ? "Home"
+                                : document?.applicationTypeId === 2
+                                ? "EU/UK"
+                                : "International"}
+                            </td>
+                            <td>
+                              <ButtonForFunction
+                                func={() => handleUpdate(document)}
+                                className={"mx-1 btn-sm"}
+                                color={"warning"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
                 </div>
               </div>
             </TabPane>

@@ -127,7 +127,7 @@ const AddSubjectFee = () => {
 
             <NavItem>
                 <NavLink disabled active={activetab === "3"} onClick={() => toggle("3")}>
-                  Delivery pattern
+                  Delivery Pattern
                 </NavLink>
             </NavItem>
             <NavItem>

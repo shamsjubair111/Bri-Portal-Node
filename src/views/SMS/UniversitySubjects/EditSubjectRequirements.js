@@ -95,6 +95,9 @@ const EditSubjectRequirements = () => {
     if (tab == "3") {
       history.push(`/editDeliveryPattern/${id}`);
     }
+    if (tab == "5") {
+      history.push(`/editSubjectDocumentRequirement/${id}`);
+    }
   };
 
   const AuthStr = localStorage.getItem("token");
@@ -156,13 +159,18 @@ const EditSubjectRequirements = () => {
 
             <NavItem>
               <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                Delivery pattern
+                Delivery Pattern
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                 Requirement
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                Document Requirement
               </NavLink>
             </NavItem>
           </Nav>

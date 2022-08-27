@@ -177,6 +177,9 @@ const EditSubject = () => {
     if (tab == "4") {
       history.push(`/editSubjectRequirements/${id}`);
     }
+    if (tab == "5") {
+      history.push(`/editSubjectDocumentRequirement/${id}`);
+    }
   };
 
     return (
@@ -220,6 +223,13 @@ const EditSubject = () => {
                    
                      <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                        Requirement
+                     </NavLink>
+                   
+                 </NavItem>
+                 <NavItem>
+                   
+                     <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                      Document Requirement
                      </NavLink>
                    
                  </NavItem>
