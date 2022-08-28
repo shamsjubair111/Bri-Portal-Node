@@ -21,38 +21,38 @@ import get from "./helpers/get";
 const App = (props) => {
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-     get(`UserRole/Index`).then((action)=>{
-      dispatch(StoreRoleData(action))
-    });
-  },[dispatch]);
+  // useEffect(()=>{
+  //    get(`UserRole/Index`).then((action)=>{
+  //     dispatch(StoreRoleData(action))
+  //   });
+  // },[dispatch]);
 
-  useEffect(()=>{
-     get(`EmployeType/Index`).then((action)=>{
-      // dispatch(StoreRoleData(action))
-      dispatch(StoreEmployeeTypeData(action))
-    });
-  })
+  // useEffect(()=>{
+  //    get(`EmployeTypeDD/Index`).then((action)=>{
+  //     // dispatch(StoreRoleData(action))
+  //     dispatch(StoreEmployeeTypeData(action))
+  //   });
+  // })
 
-  useEffect(()=> {
-     get(`UniversityType/Index`).then((action)=>{
+  // useEffect(()=> {
+  //    get(`UniversityType/Index`).then((action)=>{
      
-        dispatch(StoreUniversitytypeData(action))
-      });
-  },[dispatch])
+  //       dispatch(StoreUniversitytypeData(action))
+  //     });
+  // },[dispatch])
 
-  useEffect(()=> {
-    get(`UniversityCountry/Index`).then((action)=>{
+  // useEffect(()=> {
+  //   get(`UniversityCountry/Index`).then((action)=>{
    
-        dispatch(StoreUniversityCountryData(action))
-      });
-  },[dispatch])
+  //       dispatch(StoreUniversityCountryData(action))
+  //     });
+  // },[dispatch])
 
-  useEffect(()=>{
-     get(`UniversityState/Index`).then((action)=> {
-      dispatch(StoreUniversityStateData(action));
-    })
-  },[dispatch])
+  // useEffect(()=>{
+  //    get(`UniversityState/Index`).then((action)=> {
+  //     dispatch(StoreUniversityStateData(action));
+  //   })
+  // },[dispatch])
 
   // EmployeType/Index
   // return <Router />

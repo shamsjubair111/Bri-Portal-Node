@@ -76,11 +76,11 @@ const EmployeeGeneralInfo = (props) => {
       setUserInfo(res);
     });
 
-    get(`EmployeType/Index`).then((action) => {
+    get(`EmployeeTypeDD/Index`).then((action) => {
       setEmployeeList(action);
     });
 
-    get(`Nationality/Index`).then((action) => {
+    get(`NationalityDD/Index`).then((action) => {
       setNationality(action);
     });
 
@@ -178,11 +178,7 @@ const EmployeeGeneralInfo = (props) => {
     for (var value of subData.values()) {
          console.log(value);
      }
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
+    
 
 
     if (employeeValue == 0) {
@@ -193,7 +189,7 @@ const EmployeeGeneralInfo = (props) => {
     }
      
      else {
-      Axios.put(`${rootUrl}Employee/Update`, subData, config, {
+      Axios.put(`${rootUrl}Employee/Update`, subData, {
         headers: {
           'authorization': AuthStr,
         },

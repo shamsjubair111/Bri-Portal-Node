@@ -9,7 +9,7 @@ import Select from 'react-select';
 import { useParams } from 'react-router-dom';
 
 import { useToasts } from "react-toast-notifications";
-import Axios from 'axios';
+import axios from 'axios';
 
 import get from '../../../../helpers/get';
 import { rootUrl } from '../../../../constants/constants';
@@ -17,6 +17,7 @@ import { rootUrl } from '../../../../constants/constants';
 import CoverPicturesWall from './EmployeeCoverImage';
 
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import post from '../../../../helpers/post';
 
 
 const EmployeeGeneralInfo = (props) => {
@@ -113,13 +114,13 @@ const EmployeeGeneralInfo = (props) => {
 
 
     useEffect(() => {
-        const returnValue = get(`EmployeType/Index`).then((action) => {
+        const returnValue = get(`EmployeeTypeDD/Index`).then((action) => {
             setEmployeeList(action)
         })
     }, [])
 
     useEffect(() => {
-        const returnValue = get(`Nationality/Index`).then((action) => {
+        const returnValue = get(`NationalityDD/Index`).then((action) => {
             setNationality(action)
         })
     }, [])
@@ -145,11 +146,7 @@ const EmployeeGeneralInfo = (props) => {
 
 
         }
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
+      
 
         if (employeeValue == 0) {
             setEmployeeError('Employee Type is Required');
@@ -166,9 +163,11 @@ const EmployeeGeneralInfo = (props) => {
 
         else{
             
-            Axios.post(`${rootUrl}Employee/Create`,subData, config, {
+            axios.post(`${rootUrl}Employee/Create`,subData, {
                 headers: {
-                  'authorization': AuthStr,
+                    'content-type': 'multipart/form-data',
+                  'authorization': AuthStr
+                  
                 },
               })
 

@@ -56,12 +56,12 @@ const EmployeeContactInfo = () => {
       setCountryValue(res?.countryId);
     });
 
-    get(`AddressType/GetAll`).then((action) => {
+    get(`AddressTypeDD/Index`).then((action) => {
       console.log("address", action);
       setAddressLine(action);
     });
 
-    get(`Country/Index`).then((action) => {
+    get(`CountryDD/Index`).then((action) => {
       setCountryList(action);
     });
 

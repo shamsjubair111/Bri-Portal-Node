@@ -46,7 +46,7 @@ const EmployeeContactInfo = () => {
  
 
     useEffect(()=>{
-      const returnValue = get(`AddressType/GetAll`).then((action)=>{
+      const returnValue = get(`AddressTypeDD/Index`).then((action)=>{
         console.log(action)
          
         setAddressLine(action);
@@ -54,7 +54,7 @@ const EmployeeContactInfo = () => {
     },[])
 
     useEffect(()=>{
-      const returnValue = get(`Country/Index`).then((action)=>{
+      const returnValue = get(`CountryDD/Index`).then((action)=>{
         setCountryList(action);
         })
     },[])
