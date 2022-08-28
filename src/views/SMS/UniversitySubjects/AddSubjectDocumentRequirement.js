@@ -31,6 +31,7 @@ import { useHistory, useParams } from "react-router";
 import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
+import remove from "../../../helpers/remove";
 
 const AddSubjectDocumentRequirement = () => {
   const [activetab, setActivetab] = useState("5");
@@ -45,9 +46,9 @@ const AddSubjectDocumentRequirement = () => {
   const [documentGrpList, setDocumentGrpList] = useState([]);
   const [success, setSuccess] = useState(false);
   const [update, setUpdate] = useState(0);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const { id } = useParams();
-  console.log(id, "SubIddddd");
 
   useEffect(() => {
     get("DocumentGroupDD/Index").then((res) => {
@@ -221,6 +222,34 @@ const AddSubjectDocumentRequirement = () => {
     );
     setAppliValue(document?.applicationTypeId);
   };
+
+  const toggleDanger = (document) => {
+    console.log(document);
+    localStorage.setItem('delRequiredDocuName',document?.documentGroup?.title);
+    localStorage.setItem('delRequiredDocuId',document?.id);
+    setDeleteModal(true);
+   }
+
+   // on Close Delete Modal
+const closeDeleteModal = () => {
+  setDeleteModal(false);
+  localStorage.removeItem('delRequiredDocuName');
+  localStorage.removeItem('delRequiredDocuId');
+}
+
+const handleDeleteDocuRequired = (id) => {
+  const returnValue = remove(`SubjectDocumentRequirement/Delete/${id}`).then((action)=> {
+    setDeleteModal(false);
+    setSuccess(!success);
+    // console.log(action);
+     addToast(action, {
+       appearance: 'error',
+       autoDismiss: true,
+     })
+     localStorage.removeItem('delRequiredDocuName');
+     localStorage.removeItem('delRequiredDocuId');
+  })
+}
 
   return (
     <div>
@@ -402,7 +431,11 @@ const AddSubjectDocumentRequirement = () => {
                     </div>
                   </div>
 
-                  <div className="table-responsive">
+                  {
+                    documentGrpList<1 ?
+                    <div>No data available</div>
+                    :
+                    <div className="table-responsive">
                     <Table className="table-sm table-bordered">
                       <thead className="thead-uapp-bg">
                         <tr style={{ textAlign: "center" }}>
@@ -432,12 +465,35 @@ const AddSubjectDocumentRequirement = () => {
                                 icon={<i className="fas fa-edit"></i>}
                                 permission={6}
                               />
+                              <ButtonForFunction
+                                className={"mx-1 btn-sm"}
+                                func={() => toggleDanger(document)}
+                                color={"danger"}
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                permission={6}
+                               /> 
+
+                               <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
+
+                      <ModalBody>
+                        <p>Are You Sure to Delete this <b>{localStorage.getItem('delRequiredDocuName')}</b> ? Once Deleted it can't be Undone!</p>
+                      </ModalBody>
+
+                      <ModalFooter>
+                        <Button color="danger" onClick={() => handleDeleteDocuRequired(localStorage.getItem('delRequiredDocuId'))}>YES</Button>
+                        <Button onClick={closeDeleteModal}>NO</Button>
+                      </ModalFooter>
+
+                    </Modal>
+
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </Table>
                   </div>
+                  }
+                  
                 </div>
               </div>
             </TabPane>

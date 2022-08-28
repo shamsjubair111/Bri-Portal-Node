@@ -107,7 +107,7 @@ const EditSubjectDocumentRequirement = () => {
       history.push(`/editSubjectFee/${id}`);
     }
     if (tab == "3") {
-      history.push(`/editSubjectDeliveryPattern/${id}`);
+      history.push(`/editDeliveryPattern/${id}`);
     }
     if (tab == "4") {
       history.push(`/editSubjectRequirements/${id}`);

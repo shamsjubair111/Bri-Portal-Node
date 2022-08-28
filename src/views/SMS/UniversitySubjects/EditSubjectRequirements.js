@@ -122,9 +122,9 @@ const EditSubjectRequirements = () => {
           appearance: "success",
           autoDismiss: true,
         });
-        history.push({
-          pathname: "/subjectList",
-        });
+        // history.push({
+        //   pathname: "/subjectList",
+        // });
       }
     });
   };

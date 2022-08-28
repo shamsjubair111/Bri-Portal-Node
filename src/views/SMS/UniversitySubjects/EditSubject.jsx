@@ -152,9 +152,9 @@ const EditSubject = () => {
             appearance:'success',
             autoDismiss: true,
           });
-        history.push({
-          pathname: `/editSubjectFee/${id}`,
-        });
+        // history.push({
+        //   pathname: `/editSubjectFee/${id}`,
+        // });
       }
     });
   };
