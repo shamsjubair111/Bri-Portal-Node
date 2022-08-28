@@ -409,7 +409,7 @@ const DocumentList = () => {
                   <th>SL/NO</th>
                   <th>Name</th>
                   <th>Description</th>
-                  <th>Category Name</th>
+                  <th>Category</th>
                   <th>Action</th>
                 </tr>
               </thead>

@@ -269,7 +269,7 @@ const ConsultantByConsultant = () => {
                         >
                           <Link
                             style={{ textDecoration: "none" }}
-                            to={`/consultantByConsultant/${consultant?.id}`}
+                            to={`/associates/${consultant?.id}`}
                           >
                             {consultant?.childConsultantCount}
                           </Link>

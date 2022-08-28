@@ -132,9 +132,9 @@ class Login extends React.Component {
               <div className="col-md-6">
 
              <div >
-             <Button.Ripple className="px-5" color="primary" type="submit">
-                  <span style={{fontSize: '24px'}}>Login</span>
-                </Button.Ripple>
+             <button className="login-btn-style"  type="submit">
+                 Login
+                </button>
              </div>
 
               </div>

@@ -315,7 +315,7 @@ const CampusSubjectList = () => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
-                    <th>Subject Name</th>
+                    <th>Subject</th>
                     {/* <th>Description</th>
                     <th>Duration</th> */}
                     <th>University</th>

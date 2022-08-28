@@ -44,6 +44,7 @@ import LinkSpanButton from "../Components/LinkSpanButton";
 import { rootUrl } from "../../../constants/constants";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AddUniversityApplicationDocument = () => {
   const { addToast } = useToasts();
@@ -69,6 +70,8 @@ const AddUniversityApplicationDocument = () => {
   const [isMandatory, setIsMandatory] = useState(null);
   const [applicationError, setApplicationError] = useState(false);
   const [applicationTypeId, setApplicationTypeId] = useState([]);
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   useEffect(() => {
     get("ApplicationTypeDD/Index").then((res) => {
@@ -519,13 +522,19 @@ const AddUniversityApplicationDocument = () => {
                             }}
                           >
                             <Col md="5">
-                              <ButtonForFunction
+                              {
+                                permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument) ?
+                                <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ms-lg-3 ms-sm-1 mt-3"}
                                 name={"Save"}
-                                permission={6}
+                               
                               />
+                              :
+                              null
+                              
+                              }
                             </Col>
 
                             <div>

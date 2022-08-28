@@ -8,6 +8,7 @@ import { roleDataReducer } from '../../../../redux/reducers/SMS/RoleReducer';
 import { useHistory } from 'react-router';
 import post from '../../../../helpers/post';
 import get from '../../../../helpers/get';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const RolePermission = (props) => {
 
@@ -22,6 +23,8 @@ const RolePermission = (props) => {
   const dispatch = useDispatch();
   const { addToast } = useToasts();
   const history = useHistory();
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
 
   
@@ -202,12 +205,18 @@ const RolePermission = (props) => {
                       <Row>
 
                         <Col>
-                        <Button
+                        {
+                          permissions?.includes(permissionList?.Add_Permission) ?
+                          <Button
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                       >
                         Submit
                       </Button>
+                      :
+                      null
+
+                        }
                         </Col>
 
                       </Row>

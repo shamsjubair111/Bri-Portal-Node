@@ -27,6 +27,7 @@ import post from "../../../helpers/post";
 import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AddCountry = () => {
   const [country, setCountry] = useState("");
@@ -38,6 +39,8 @@ const AddCountry = () => {
   const [updateState, setUpdateState] = useState({});
   const [countries, setCountries] = useState([]);
   const { addToast } = useToasts();
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   useEffect(() => {
     get("Country/Index").then((res) => {
@@ -147,13 +150,18 @@ const AddCountry = () => {
 
       <Card>
         <CardHeader>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList?.Add_Country) ?
+            <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New"}
-            permission={6}
+            
           />
+          : 
+          null
+          }
 
           <div>
             {" "}
@@ -259,7 +267,7 @@ const AddCountry = () => {
               <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
-                  <th>Country Name</th>
+                  <th>Name</th>
                   {/* <th className="text-center">Count</th> */}
                   <th>Action</th>
                 </tr>
@@ -276,21 +284,31 @@ const AddCountry = () => {
                       </span>
                     </td> */}
                     <td>
-                      <ButtonForFunction
-                        className={"mx-1 btn-sm"}
-                        func={() => toggleDanger(country.name, country.id)}
-                        color={"danger"}
-                        icon={<i className="fas fa-trash-alt"></i>}
-                        permission={6}
-                      />
+                     {
+                        permissions?.includes(permissionList?.Delete_Country) ?
+                       <ButtonForFunction
+                       className={"mx-1 btn-sm"}
+                       func={() => toggleDanger(country.name, country.id)}
+                       color={"danger"}
+                       icon={<i className="fas fa-trash-alt"></i>}
+                      
+                     />
+                     :
+                     null
+                     }
 
-                      <ButtonForFunction
+                      {
+                        permissions?.includes(permissionList?.Update_Country)?
+                        <ButtonForFunction
                         func={() => handleUpdate(country)}
                         className={"mx-1 btn-sm"}
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
                         permission={6}
                       />
+                      :
+                      null
+                      }
 
                       <Modal
                         isOpen={deleteModal}

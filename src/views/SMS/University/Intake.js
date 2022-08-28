@@ -32,6 +32,7 @@ import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkButton from '../Components/LinkButton';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 
 const Intake = () => {
@@ -47,6 +48,8 @@ const Intake = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [success, setSuccess] = useState(false);
+
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
 
     const history = useHistory();
@@ -148,13 +151,18 @@ const Intake = () => {
               <Row className="mb-3">
                 <Col lg="6" md="5" sm="6" xs="4">
 
-                  <ButtonForFunction
-                    func={handleAddNewButton}
-                    className={"btn btn-uapp-add "}
-                    icon={<i className="fas fa-plus"></i>}
-                    name={" Add New"}
-                    permission={6}
-                  />
+                 {
+                    permissions?.includes(permissionList?.Add_subject_intake)?
+                   <ButtonForFunction
+                   func={handleAddNewButton}
+                   className={"btn btn-uapp-add "}
+                   icon={<i className="fas fa-plus"></i>}
+                   name={" Add New"}
+                   
+                 />
+                 :
+                 null
+                 }
 
                 </Col>
 
@@ -232,7 +240,7 @@ const Intake = () => {
                 <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
-                    <th>Intake Name</th>
+                    <th>Name</th>
                     <th style={{ width: "8%" }} className="text-center">
                       Action
                     </th>

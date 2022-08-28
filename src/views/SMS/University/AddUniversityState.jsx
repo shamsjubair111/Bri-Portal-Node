@@ -30,6 +30,7 @@ import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AddUniversityState = () => {
   const [universityDetailsList, setUniversityDetailsList] = useState([]);
@@ -46,6 +47,8 @@ const AddUniversityState = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const permissions= JSON.parse(localStorage.getItem('permissions'));
 
   useEffect(() => {
     const returnValue = get(`UniversityState/Index`).then((action) => {
@@ -197,13 +200,18 @@ const AddUniversityState = () => {
 
       <Card>
         <CardHeader>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList?.Add_Universitystate) ?
+            <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New"}
-            permission={6}
+           
           />
+          :
+          null
+          }
 
           <div>
             {" "}
@@ -321,8 +329,8 @@ const AddUniversityState = () => {
               <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
-                  <th>University State Name</th>
-                  <th className="text-center">University Country Name</th>
+                  <th>State</th>
+                  <th className="text-center">Country</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -335,23 +343,33 @@ const AddUniversityState = () => {
                     <td>
                       {/* <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
-                      <ButtonForFunction
+                    {
+                        permissions?.includes(permissionList?.Delete_Universitystate) ?
+                        <ButtonForFunction
                         func={() => toggleDanger(uniDetails)}
                         className={"mx-1 btn-sm"}
                         color={"danger"}
                         icon={<i className="fas fa-trash-alt"></i>}
                         permission={6}
                       />
+                      :
+                      null
+                    }
 
                       {/* <Button onClick={()=> handleUpdate(uniDetails)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
 
-                      <ButtonForFunction
+                      {
+                        permissions?.includes(permissionList?.Update_Universitystate) ?
+                        <ButtonForFunction
                         func={() => handleUpdate(uniDetails)}
                         className={"mx-1 btn-sm"}
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
                         permission={6}
                       />
+                      :
+                      null
+                      }
 
                       <Modal
                         isOpen={deleteModal}

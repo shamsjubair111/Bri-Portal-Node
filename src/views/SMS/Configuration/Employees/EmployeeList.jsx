@@ -15,6 +15,7 @@ import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import ButtonForFunction from '../../Components/ButtonForFunction.js';
 import LinkButton from '../../Components/LinkButton.js';
+import { permissionList } from '../../../../constants/AuthorizationConstant.js';
 
 const EmployeeList = (props) => {
 
@@ -36,6 +37,8 @@ const EmployeeList = (props) => {
     const [deleteModal, setDeleteModal] = useState(false);
 
     const [success,setSuccess] = useState(false);
+
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
     
 
     
@@ -265,13 +268,19 @@ const EmployeeList = (props) => {
                 
               <Col lg="6" md="5" sm="6" xs="4">
             
-                  <ButtonForFunction
+                  {
+                    permissions?.includes(permissionList?.Add_Staff) ?
+                    <ButtonForFunction
                     func={handleAddStaff}
                     className={"btn btn-uapp-add "}
                     icon={<i className="fas fa-plus"></i>}
                     name={" Add staff"}
-                    permission={6}
+                    
                   />
+                  : 
+                  null
+                  
+                  }
 
                     </Col>
 

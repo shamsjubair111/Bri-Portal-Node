@@ -310,7 +310,7 @@ return (
       <thead className="thead-uapp-bg">
           <tr style={{ textAlign: "center" }}>
             <th>SL/NO</th>
-            <th>ProgramLevel Name</th>
+            <th>Name</th>
             <th>Description</th>            
             <th>Level Value</th>            
             <th>Action</th>

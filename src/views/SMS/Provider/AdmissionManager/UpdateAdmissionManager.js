@@ -6,6 +6,7 @@ import Select from "react-select";
 import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import put from '../../../../helpers/put';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const UpdateAdmissionManager = () => {
 
@@ -14,6 +15,7 @@ const UpdateAdmissionManager = () => {
     console.log('one',id,'two',id2);
     const history = useHistory();
 
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
     const [country,setCountry] = useState([]);
     const [state, setState] = useState([]);
     const  [countryLabel, setCountryLabel] = useState('Select country');
@@ -318,7 +320,7 @@ const selectTitle = (label, value) => {
                     </Col>
                   </FormGroup>
 
-                  <FormGroup row>
+                  {/* <FormGroup row>
                     <Col md="2">
                  
                       <span className="pl-2">Sequence Id</span>
@@ -338,7 +340,7 @@ const selectTitle = (label, value) => {
                       />
 
                     </Col>
-                  </FormGroup>
+                  </FormGroup> */}
 
                   <FormGroup row >
                   <Col md="2">
@@ -406,13 +408,17 @@ const selectTitle = (label, value) => {
                   <FormGroup row>
                     <Col md='6'>
                    <div className='d-flex justify-content-end'>
-                   <Button.Ripple
+                   {
+                    permissions?.includes(permissionList?.Update_Admission_manager) ?
+                    <Button.Ripple
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                      
                       >
                         Submit
                       </Button.Ripple>
+                      : null
+                   }
                    </div>
                     
                     </Col>

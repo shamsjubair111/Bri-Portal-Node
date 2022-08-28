@@ -54,7 +54,7 @@ const EditSubDepartment = () => {
      
 
     const backToDashboard = () =>{
-        history.push('/addSubDepartment');
+        history.push('/subDepartment');
 
     }
 
@@ -75,7 +75,7 @@ const EditSubDepartment = () => {
                 appearance: 'success',
                 autoDismiss: true,
               })
-              history.push('/addSubDepartment');
+              history.push('/subDepartment');
             }
             // else{
             //   addToast(res?.data?.message, {

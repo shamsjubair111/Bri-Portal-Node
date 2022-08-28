@@ -29,6 +29,7 @@ import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AddState = () => {
   const [stateList, setStateList] = useState([]);
@@ -44,6 +45,8 @@ const AddState = () => {
   const [codeError, setCodeError] = useState(false);
   const [success, setSuccess] = useState(false);
   const { addToast } = useToasts();
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -193,7 +196,7 @@ const AddState = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add State</h3>
+          <h3 className="text-light">State List</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
@@ -205,13 +208,18 @@ const AddState = () => {
 
       <Card>
         <CardHeader>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList?.Add_State) ?
+            <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New"}
-            permission={6}
+            
           />
+          :
+          null
+          }
 
           <div>
             {" "}
@@ -351,8 +359,8 @@ const AddState = () => {
               <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
-                  <th> State Name</th>
-                  <th className="text-center">Country Name</th>
+                  <th>State</th>
+                  <th className="text-center">Country</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -363,13 +371,18 @@ const AddState = () => {
                     <td>{state?.name}</td>
                     <td>{state?.country?.name}</td>
                     <td>
+                     {
+                      permissions?.includes(permissionList?.Delete_State)?
                       <ButtonForFunction
-                        func={() => toggleDanger(state)}
-                        className={"mx-1 btn-sm"}
-                        color={"danger"}
-                        icon={<i className="fas fa-trash-alt"></i>}
-                        permission={6}
-                      />
+                      func={() => toggleDanger(state)}
+                      className={"mx-1 btn-sm"}
+                      color={"danger"}
+                      icon={<i className="fas fa-trash-alt"></i>}
+                      
+                    />
+                    :
+                    null
+                     }
 
                       <ButtonForFunction
                         func={() => handleUpdate(state)}

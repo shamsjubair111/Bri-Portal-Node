@@ -9,6 +9,7 @@ import get from '../../../../helpers/get';
 import ReactToPrint from 'react-to-print';
 import { rootUrl } from '../../../../constants/constants';
 import EditDivButton from '../../Components/EditDivButton';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const EmployeeProfile = () => {
 
@@ -18,6 +19,7 @@ const EmployeeProfile = () => {
   const [employeeImgDetails, setemployeeImgDetails] = useState({});
   const [employeeType, setemployeeType] = useState({});
 
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
 
  
@@ -99,10 +101,15 @@ const EmployeeProfile = () => {
                   <Col> 
                  
 
-                  <EditDivButton
+                  {
+                    permissions?.includes(permissionList?.Update_Staff) ?
+                    <EditDivButton
                     className={"uapp-employee-profile-Edit"}
-                    permission={6}
+                    
                   />
+                  :
+                  null
+                  }
 
                       </Col> 
                   </Row>            

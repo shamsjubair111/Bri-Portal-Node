@@ -7,12 +7,11 @@ import {
 
 const CustomButtonRipple = ({className, icon,color, permission, type,url, func, name}) => {
 
-    const data = [1,2,3,4,6];
+   
 
     return (
         <>
-          {
-            data.includes(permission) ? 
+         
             <Button.Ripple
                onClick={func}
                color={color}
@@ -22,8 +21,7 @@ const CustomButtonRipple = ({className, icon,color, permission, type,url, func, 
                {name}
             </Button.Ripple>
             :
-            null
-          }   
+           
         </>
     );
 };

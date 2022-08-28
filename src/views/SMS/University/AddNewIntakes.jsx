@@ -27,6 +27,7 @@ import {
   import { useToasts } from "react-toast-notifications";
   import CustomButtonRipple from '../Components/CustomButtonRipple';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const AddNewIntakes = () => {
     const [month, setMonth] = useState([]);
@@ -42,6 +43,10 @@ const AddNewIntakes = () => {
 
     const [montherror,setMonthError] = useState('');
     const [yearError, setYearError] = useState('');
+
+    const permissions = JSON.parse(localStorage.getItem('permissions')); 
+
+
 
 
     useEffect(()=>{
@@ -177,12 +182,18 @@ const AddNewIntakes = () => {
                      >
                        {/* <Link to="/intake"> */}
 
-                          <CustomButtonRipple
-                            type={"submit"}
-                            className={"mr-1 mt-3 badge-primary mx-auto"}
-                            name={"Submit"}
-                            permission={6}
-                          />
+                         {
+                            permissions?.includes(permissionList?.Add_subject_intake)?
+                           <CustomButtonRipple
+                           type={"submit"}
+                           className={"mr-1 mt-3 badge-primary mx-auto"}
+                           name={"Submit"}
+                           
+                         />
+                         :
+                         null
+
+                         }
 
                        {/* </Link> */}
 

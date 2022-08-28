@@ -44,11 +44,14 @@ import LinkSpanButton from "../Components/LinkSpanButton";
 import { rootUrl } from "../../../constants/constants";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AddUniversityTemplateDocument = () => {
   const { addToast } = useToasts();
   const history = useHistory();
   const [activetab, setActivetab] = useState("7");
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [document, setDocument] = useState([]);
   const [documentLabel, setDocumentLabel] = useState(
@@ -569,13 +572,19 @@ const AddUniversityTemplateDocument = () => {
                           >
 
                             <Col md="5">
-                              <ButtonForFunction
+                             {
+                                permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document) ?
+                               <ButtonForFunction
                                color={"primary"}
                                type={"submit"}
                                className={"ms-lg-3 ms-sm-1 mt-3"}
                                name={"Save"}
-                               permission={6}
+                               
                               />
+                              :
+                              null
+                        
+                             }
                             </Col>
 
                             <div>

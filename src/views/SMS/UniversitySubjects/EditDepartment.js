@@ -30,7 +30,7 @@ const EditDepartment = () => {
     },[])
 
     const backToDashboard = () => {
-        history.push('/addDepartment');
+        history.push('/department');
     } 
 
     const handleSubmit = (e) => {
@@ -48,7 +48,7 @@ const EditDepartment = () => {
                 appearance: 'success',
                 autoDismiss: true,
               })
-              history.push('/addDepartment');
+              history.push('/department');
         })
 
     }

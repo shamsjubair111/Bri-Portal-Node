@@ -283,8 +283,8 @@ const AddModalOpen= () => {
           <thead className="thead-uapp-bg">
               <tr style={{ textAlign: "center" }}>
                 <th>SL/NO</th>
-                <th>Department Name</th>
-                <th>Department Description</th>
+                <th>Name</th>
+                <th>Description</th>
                 <th>Action</th>
               </tr>
             </thead>

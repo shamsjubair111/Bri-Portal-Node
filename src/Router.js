@@ -11,12 +11,19 @@ import { ToastProvider } from "react-toast-notifications";
 import AdmissionGetData from "./views/Test/AdmissionGetData"
 
 
+import {permissionList} from './constants/AuthorizationConstant'
 
+console.log('testing',permissionList,'testing');
+
+
+
+console.log(typeof(permissionList?.Employee_type));
 
 // Authentication Checking
 const token = localStorage.getItem('token');
-const permissions= localStorage.getItem('permissions');
-console.log(permissions);
+const permissions= JSON.parse(localStorage.getItem('permissions'));
+// console.log(typeof(permissions),'1111111');
+// console.log(permissions);
 const isAuth = token != null ? true : false;
 const permission = JSON.parse(localStorage.getItem("current_user"));
   // console.log(permission?.displayName);
@@ -360,8 +367,8 @@ class AppRouter extends React.Component {
          {/* <AppRoute  path="/AdmissionManager" component={permissions?.includes(602)? AdmissionManager  : NotAuthorized } /> */}
          {/* <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} /> */}
          {/* <AppRoute  path="/updateUser/:id" component={UpdateUser} /> */}
-         <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(602)? AdmissionManager : NotAuthorized} />
-         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(603) ? UpdateAdmissionManager : NotAuthorized } />
+         <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_Admission_manager)? AdmissionManager : NotAuthorized} />
+         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager) ? UpdateAdmissionManager : NotAuthorized } />
 {/*   
          <AppRoute  path="/demo" component={demo} /> */}
          {/* <AppRoute  path="/uni1" component={demo} /> */}
@@ -370,31 +377,33 @@ class AppRouter extends React.Component {
          {/* <AppRoute  path="/addMenu" component={Menu} /> */}
          {/* <AppRoute  path="/menu" component={MenuInfo} /> */}
    
-         <AppRoute  path="/rolePermission" component={permissions?.includes(1572)? RolePermission : NotAuthorized} />
-         <AppRoute  path="/roleMenu" component={permissions?.includes(12) ? RoleMenu : NotAuthorized} />
-         <AppRoute  path="/employeeType" component={EmployeeType} />
+         <AppRoute  path="/rolePermission" component={permissions?.includes(permissionList?.Permission_List)? RolePermission : NotAuthorized} />
+         <AppRoute  path="/roleMenu" component={permissions?.includes(permissionList?.View_Menulist) ? RoleMenu : NotAuthorized} />
+
+         {/* employee type permission not added */}
+         <AppRoute  path="/employeeType" component={permissions.includes(permissionList?.Employee_type)? EmployeeType : NotAuthorized} />
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
-         <AppRoute  path="/employeeList" component={permissions?.includes(13) ? EmployeeList : NotAuthorized} />
-         <AppRoute  path="/employeeProfile" component={permissions?.includes(16)? EmployeeProfile : NotAuthorized} />
-         <AppRoute  path="/addUniversityType" component={permissions?.includes(1012)? AddUniversityType : NotAuthorized} />
-         <AppRoute  path="/addUniversityCountry" component={permissions?.includes(1032)? AddUniversityCountry : NotAuthorized} />
-         <AppRoute  path="/addUniversityState" component={permissions?.includes(1022) ? AddUniversityState : NotAuthorized} />
-         <AppRoute  path="/addUniversity" component={permissions?.includes(1002)? AddUniversity : NotAuthorized} />
-         <AppRoute  path="/addUniversityApplicationDocument" component={permissions?.includes(1072)? AddUniversityApplicationDocument: NotAuthorized} />
-         <AppRoute  path="/addUniversityTemplateDocument" component={permissions?.includes(1102)? AddUniversityTemplateDocument : NotAuthorized} />
+         <AppRoute  path="/employeeList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
+         <AppRoute  path="/employeeProfile" component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
+         <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.Add_Universitytype)? AddUniversityType : NotAuthorized} />
+         <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
+         <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.Universitystate_List) ? AddUniversityState : NotAuthorized} />
+         <AppRoute  path="/addUniversity" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddUniversity : NotAuthorized} />
+         <AppRoute  path="/addUniversityApplicationDocument" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddUniversityApplicationDocument: NotAuthorized} />
+         <AppRoute  path="/addUniversityTemplateDocument" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddUniversityTemplateDocument : NotAuthorized} />
          {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
           {/* intake */}
-          <AppRoute  path="/intake" component={permissions?.includes(1231)? Intake : NotAuthorized} />
-          <AppRoute  path="/addNewIntakes" component={permissions?.includes(1232)? AddNewIntakes: NotAuthorized} />
-          <AppRoute  path="/updateIntake/:id" component={permissions?.includes(1233)? UpdateIntake : NotAuthorized} />
+          <AppRoute  path="/intake" component={permissions?.includes(permissionList?.subject_intake_List)? Intake : NotAuthorized} />
+          <AppRoute  path="/addNewIntakes" component={permissions?.includes(permissionList?.Add_subject_intake)? AddNewIntakes: NotAuthorized} />
+          <AppRoute  path="/updateIntake/:id" component={permissions?.includes(permissionList?.Update_subject_intake)? UpdateIntake : NotAuthorized} />
 
           {/* Country */}
-          <AppRoute  path="/addCountry" component={permissions?.includes(1532)? AddCountry: NotAuthorized} />
+          <AppRoute  path="/country" component={permissions?.includes(permissionList?.Country_List)? AddCountry: NotAuthorized} />
 
           {/* State */}
-          <AppRoute  path="/addState" component={permissions?.includes(AddState)? AddState: NotAuthorized} />
+          <AppRoute  path="/state" component={permissions?.includes(permissionList?.State_List)? AddState: NotAuthorized} />
 
 
           {/* consultant */}
@@ -405,7 +414,7 @@ class AppRouter extends React.Component {
           
           <AppRoute  path="/addBankDetails" component={permissions?.includes(102)? BankDetails : NotAuthorized } />
           <AppRoute  path="/addConsultantInformation" component={permissions?.includes(102)? AddConsultantInformation : NotAuthorized } />
-          <AppRoute  path="/consultantByConsultant/:id" component={permissions?.includes(107)? AssociateList : NotAuthorized} />
+          <AppRoute  path="/associates/:id" component={permissions?.includes(107)? AssociateList : NotAuthorized} />
           
           
 
@@ -421,11 +430,11 @@ class AppRouter extends React.Component {
 
          <AppRoute  path="/documentlist" component={permissions?.includes(1506)? DocumentList : NotAuthorized} />
          <AppRoute  path="/documentCategoryList" component={permissions?.includes(1501)? DocumentCategoryList : NotAuthorized} />
-         <AppRoute  path="/addSubjectDocumentGroup" component={permissions?.includes(1302)? DocumentGroup : NotAuthorized} />
+         <AppRoute  path="/subjectDocumentGroup" component={permissions?.includes(1302)? DocumentGroup : NotAuthorized} />
 
-         <AppRoute  path="/addDepartment" component={permissions?.includes(1282)? AddDepartment : NotAuthorized} />
-         <AppRoute  path="/addSubDepartment" component={permissions?.includes(1261)? AddSubDepartment : NotAuthorized} />
-         <AppRoute  path="/addProgramLevel" component={permissions?.includes(1271)? AddProgramLevel : NotAuthorized} />
+         <AppRoute  path="/department" component={permissions?.includes(1282)? AddDepartment : NotAuthorized} />
+         <AppRoute  path="/subDepartment" component={permissions?.includes(1261)? AddSubDepartment : NotAuthorized} />
+         <AppRoute  path="/programLevel" component={permissions?.includes(1271)? AddProgramLevel : NotAuthorized} />
          <AppRoute  path="/addSubject" component={permissions?.includes(1252)? Subject : NotAuthorized} />
          <AppRoute  path="/subjectList" component={permissions?.includes(1251)? SubjectList: NotAuthorized} />
          <AppRoute  path="/editSubject/:id" component={permissions?.includes(1253)? EditSubject : NotAuthorized} />

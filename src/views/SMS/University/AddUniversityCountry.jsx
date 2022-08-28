@@ -35,6 +35,7 @@ import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
 import UniversityList from "./UniversityList";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 const AddUniversityCountry = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
   console.log("uniC", univerSityCountries);
@@ -49,6 +50,8 @@ const AddUniversityCountry = (props) => {
   const [success, setSuccess] = useState(false);
   const [updateState, setUpdateState] = useState({});
   const { addToast } = useToasts();
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   //  const onEditorStateChange = (editorState) => {
   //     setEditorState(editorState)
@@ -241,13 +244,18 @@ const AddUniversityCountry = (props) => {
 
       <Card>
         <CardHeader>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList?.Add_UniversityCountry) ?
+            <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New"}
             permission={6}
           />
+          :
+          null
+          }
 
           <div>
             {" "}
@@ -335,7 +343,7 @@ const AddUniversityCountry = (props) => {
               <thead className="thead-uapp-bg">
                 <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
-                  <th>University Country Name</th>
+                  <th>Name</th>
                   <th className="text-center">Count</th>
                   <th>Action</th>
                 </tr>
@@ -352,7 +360,9 @@ const AddUniversityCountry = (props) => {
                       </span>
                     </td>
                     <td>
-                      <ButtonForFunction
+                      {
+                        permissions?.includes(permissionList?.Delete_UniversityCountry) ?
+                        <ButtonForFunction
                         className={"mx-1 btn-sm"}
                         func={() =>
                           toggleDanger(uniCountry.name, uniCountry.id)
@@ -361,14 +371,22 @@ const AddUniversityCountry = (props) => {
                         icon={<i className="fas fa-trash-alt"></i>}
                         permission={6}
                       />
+                      :
+                      null
+                      }
 
-                      <ButtonForFunction
+                      {
+                        permissions?.includes(permissionList?.Update_UniversityCountry) ?
+                        <ButtonForFunction
                         func={() => handleUpdate(uniCountry)}
                         className={"mx-1 btn-sm"}
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
-                        permission={6}
+                       
                       />
+                      :
+                      null
+                      }
 
                       <Modal
                         isOpen={deleteModal}

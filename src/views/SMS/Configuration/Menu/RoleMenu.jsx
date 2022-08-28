@@ -6,6 +6,7 @@ import { useToasts } from "react-toast-notifications";
 import { Button, Modal,  ModalBody,  Form, FormGroup,    Col, Row, Card, CardHeader,  CardBody,  } from 'reactstrap';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 
 const RoleMenu = (props) => {
@@ -20,7 +21,7 @@ const RoleMenu = (props) => {
     let [checked, setChecked] = useState([]);
     const { addToast } = useToasts();
     const history = useHistory();
-
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
 
   // submitting form
@@ -208,12 +209,17 @@ const RoleMenu = (props) => {
                             <Row>
 
                                 <Col>
-                                <Button.Ripple
+                                {
+                                    permissions?.includes(permissionList?.Asign_Menu) ? 
+                                    <Button.Ripple
                                 type="submit"
                                 className="mr-1 mt-3 badge-primary"
                             >
                                 Submit
                             </Button.Ripple>
+                            :
+                            null
+                                }
                                 </Col>
 
                             </Row>

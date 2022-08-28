@@ -28,6 +28,7 @@ import { useParams } from 'react-router-dom';
 import put from '../../../helpers/put';
 import CustomButtonRipple from '../Components/CustomButtonRipple';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const UpdateIntake = () => {
 
@@ -39,6 +40,8 @@ const UpdateIntake = () => {
     const [intake, setIntake] = useState({});
     const [year, setYear] = useState([]);
     const history = useHistory();
+
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     
     const {id} = useParams();
@@ -169,12 +172,17 @@ const UpdateIntake = () => {
                             style={{ display: "flex", justifyContent: "space-between" }}
                      >
                        
-                        <CustomButtonRipple
+                        {
+                          permissions?.includes(permissionList?.Update_subject_intake) ?
+                          <CustomButtonRipple
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary mx-auto"}
                           name={"Update"}
-                          permission={6}
+                          
                         />
+                        :
+                        null
+                        }
 
                      </FormGroup>
 

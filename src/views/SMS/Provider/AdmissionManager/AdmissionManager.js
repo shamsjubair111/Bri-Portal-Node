@@ -5,9 +5,12 @@ import post from '../../../../helpers/post';
 import Select from "react-select";
 import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const AdmissionManager = () => {
     const {id} = useParams();
+
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     const [country,setCountry] = useState([]);
     const [state, setState] = useState([]);
@@ -428,13 +431,17 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md='6'>
                    <div className='d-flex justify-content-end'>
-                   <Button.Ripple
+                   {
+                    permissions?.includes(permissionList?.Add_Admission_manager) ?
+                    <Button.Ripple
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                         // onClick={(e)=>handleSubmit(e)}
                       >
                         Submit
                       </Button.Ripple>
+                      : null
+                   }
                    </div>
                     
                     </Col>

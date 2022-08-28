@@ -43,11 +43,14 @@ import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
 import "antd/dist/antd.css";
 import { Image } from "antd";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AddUniversity = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
   const universityTypes = props.univerSityTypeList[0];
   const universityStates = props.univerSityStateList[0];
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [activetab, setActivetab] = useState("1");
   const [description, setDescription] = useState("");
@@ -1046,12 +1049,17 @@ const AddUniversity = (props) => {
                     Submit
                   </Button.Ripple> */}
                   <Col md="5">
-                    <ButtonForFunction
+                    {
+                      permissions?.includes(permissionList?.Add_University || permissionList?.Update_University) ?
+                      <ButtonForFunction
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
                       name={"Save"}
-                      permission={6}
+                    
                     />
+                    :
+                    null
+                    }
                   </Col>
                 </FormGroup>
               </Form>

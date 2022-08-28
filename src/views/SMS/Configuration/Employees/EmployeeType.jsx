@@ -165,7 +165,7 @@ const EmployeeType = (props) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Employee Type</CardTitle>
+        
           
           {/* <ButtonForFunction
             color={"success"}

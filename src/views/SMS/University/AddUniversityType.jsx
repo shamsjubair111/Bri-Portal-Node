@@ -200,7 +200,7 @@ const closeDeleteModal = () => {
         <div>
             <Card className='uapp-card-bg'>
               <CardHeader className="page-header">              
-                <h3 className="text-light">Add University Type</h3>
+                <h3 className="text-light">University Types</h3>
                   <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-light">
                     {" "} 
@@ -265,13 +265,13 @@ const closeDeleteModal = () => {
       <Card>
         <CardHeader>
 
-          <ButtonForFunction
+          {/* <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New"}
             permission={6}
-          />
+          /> */}
 
           <br/>
          
@@ -308,7 +308,7 @@ const closeDeleteModal = () => {
                   </FormGroup>
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="4">
-                      <span>University Type Name</span>
+                      <span>Name</span>
                     </Col>
                     <Col md="8">
                       <Input
@@ -358,9 +358,9 @@ const closeDeleteModal = () => {
           <thead className="thead-uapp-bg">
               <tr style={{ textAlign: "center" }}>
                 <th>SL/NO</th>
-                <th>University Type Name</th>
-                <th className="text-center" >Count</th>
-                <th>Action</th>
+                <th>Name</th>
+                <th className="text-center" >Universities</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -393,28 +393,28 @@ const closeDeleteModal = () => {
                     />
 
                   </td>
-                  <td>
+                  {/* <td> */}
                   
-                     <ButtonForFunction
+                     {/* <ButtonForFunction
                       className={"mx-1 btn-sm"}
                       func={() => toggleDanger(uniType?.name, uniType?.id)}
                       color={"danger"}
                       icon={<i className="fas fa-trash-alt"></i>}
                       permission={6}
-                     /> 
+                     />  */}
 
                     {/* <Button onClick={()=> handleUpdate(uniType?.id)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
 
-                    <ButtonForFunction
+                    {/* <ButtonForFunction
                       func={()=> handleUpdate(uniType)}
                       className={"mx-1 btn-sm"}
                       color={"warning"}
                       icon={<i className="fas fa-edit"></i>}
                       permission={6}
-                    />
+                    /> */}
 
 
-                    <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
+                    {/* <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                       <ModalBody>
                         <p>Are You Sure to Delete this <b>{localStorage.getItem('delUniTypeName')}</b> ? Once Deleted it can't be Undone!</p>
@@ -426,7 +426,7 @@ const closeDeleteModal = () => {
                       </ModalFooter>
 
                     </Modal>
-                  </td>
+                  </td> */}
                 </tr>)
               }
 
