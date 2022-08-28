@@ -42,6 +42,9 @@ const EditSubjectDocumentRequirement = () => {
   const [appliLabel, setAppliLabel] = useState("Select Application type");
   const [appliValue, setAppliValue] = useState(0);
   const [appliError, setAppliError] = useState(false);
+  const [documentGrpList, setDocumentGrpList] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [update, setUpdate] = useState(0);
 
   const { id } = useParams();
   console.log(id, "SubIddddd");
@@ -55,7 +58,11 @@ const EditSubjectDocumentRequirement = () => {
       console.log(res, "response");
       setApplicationTypeDD(res);
     });
-  }, []);
+    get(`SubjectDocumentRequirement/GetBySubject/${id}`).then((res) => {
+      console.log(res, "ssxcsxs");
+      setDocumentGrpList(res);
+    });
+  }, [id, success]);
 
   const DocumentGroupMenu = docuDD.map((level) => ({
     label: level?.name,
@@ -100,7 +107,7 @@ const EditSubjectDocumentRequirement = () => {
       history.push(`/editSubjectFee/${id}`);
     }
     if (tab == "3") {
-      history.push(`/editSubjectDeliveryPattern/${id}`);
+      history.push(`/editDeliveryPattern/${id}`);
     }
     if (tab == "4") {
       history.push(`/editSubjectRequirements/${id}`);
@@ -126,23 +133,93 @@ const EditSubjectDocumentRequirement = () => {
     } else if (appliValue === 0) {
       setAppliError(true);
     } else {
-      Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: AuthStr,
-        },
-      }).then((res) => {
-        if (res.status === 200 && res.data.isSuccess === true) {
-          addToast(res?.data?.message, {
-            appearance: "success",
-            autoDismiss: true,
-          });
-          history.push({
-            pathname: "/subjectList",
-          });
-        }
-      });
+      if (update != 0) {
+        Axios.put(`${rootUrl}SubjectDocumentRequirement/Update`, subdata, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: AuthStr,
+          },
+        }).then((res) => {
+          console.log(res);
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setSuccess(!success);
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+            setUpdate(0);
+            // history.push({
+            //   pathname: "/subjectList",
+            // });
+          } else {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+            setUpdate(0);
+          }
+        });
+      } else {
+        Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: AuthStr,
+          },
+        }).then((res) => {
+          console.log(res);
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setSuccess(!success);
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+            // history.push({
+            //   pathname: "/subjectList",
+            // });
+          } else {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            setDocuLabel("Select Document Group");
+            setDocuValue(0);
+            setAppliLabel("Select Application type");
+            setAppliValue(0);
+          }
+        });
+      }
     }
+  };
+
+  const handleUpdate = (document) => {
+    console.log("documentList", document);
+    setUpdate(document?.id);
+    setDocuLabel(document?.documentGroup?.title);
+    setDocuValue(document?.documentGroup?.id);
+    setAppliLabel(
+      document?.applicationTypeId === 1
+        ? "Home"
+        : document?.applicationTypeId === 2
+        ? "EU/UK"
+        : "International"
+    );
+    setAppliValue(document?.applicationTypeId);
   };
   return (
     <div>
@@ -162,25 +239,41 @@ const EditSubjectDocumentRequirement = () => {
         <CardBody>
           <Nav tabs>
             <NavItem>
-              <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
+              <NavLink
+                
+                active={activetab === "1"}
+                onClick={() => toggle("1")}
+              >
                 Subject Information
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
+              <NavLink
+                
+                active={activetab === "2"}
+                onClick={() => toggle("2")}
+              >
                 Subject Fee Information
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                Delivery pattern
+              <NavLink
+                
+                active={activetab === "3"}
+                onClick={() => toggle("3")}
+              >
+                Delivery Pattern
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+              <NavLink
+                
+                active={activetab === "4"}
+                onClick={() => toggle("4")}
+              >
                 Requirement
               </NavLink>
             </NavItem>
@@ -193,90 +286,159 @@ const EditSubjectDocumentRequirement = () => {
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="5">
-              <Form onSubmit={handleSubmit} className="mt-5">
-                <FormGroup row className="has-icon-left position-relative">
-                  <Input
-                    type="hidden"
-                    id="subjectId"
-                    name="subjectId"
-                    value={id}
-                  />
-                </FormGroup>
+              <div className="row mt-5">
+                <div className="col-6">
+                  <div className="hedding-titel d-flex justify-content-between mb-2">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Add Document Required</b>{" "}
+                      </h5>
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Document Group <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={DocumentGroupMenu}
-                      value={{ label: docuLabel, value: docuValue }}
-                      onChange={(opt) =>
-                        selectDocumentGroup(opt.label, opt.value)
-                      }
-                      name="documentGroupId"
-                      id="documentGroupId"
-                    />
+                      <div className="bg-h"></div>
+                    </div>
+                  </div>
+                  <Form onSubmit={handleSubmit} className="">
+                    {update != 0 ? (
+                      <Input type="hidden" id="id" name="id" value={update} />
+                    ) : null}
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Input
+                        type="hidden"
+                        id="subjectId"
+                        name="subjectId"
+                        value={id}
+                      />
+                    </FormGroup>
 
-                    {docuError && (
-                      <span className="text-danger">
-                        You must select document group
-                      </span>
-                    )}
-                  </Col>
-                </FormGroup>
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="4">
+                        <span>
+                          Document Group <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="8">
+                        <Select
+                          options={DocumentGroupMenu}
+                          value={{ label: docuLabel, value: docuValue }}
+                          onChange={(opt) =>
+                            selectDocumentGroup(opt.label, opt.value)
+                          }
+                          name="documentGroupId"
+                          id="documentGroupId"
+                        />
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Application Type <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={ApplicationMenu}
-                      value={{ label: appliLabel, value: appliValue }}
-                      onChange={(opt) =>
-                        selectApplicationType(opt.label, opt.value)
-                      }
-                      name="applicationTypeId"
-                      id="applicationTypeId"
-                    />
+                        {docuError && (
+                          <span className="text-danger">
+                            You must select document group
+                          </span>
+                        )}
+                      </Col>
+                    </FormGroup>
 
-                    {appliError && (
-                      <span className="text-danger">
-                        You must select application type
-                      </span>
-                    )}
-                  </Col>
-                </FormGroup>
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="4">
+                        <span>
+                          Application Type{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="8">
+                        <Select
+                          options={ApplicationMenu}
+                          value={{ label: appliLabel, value: appliValue }}
+                          onChange={(opt) =>
+                            selectApplicationType(opt.label, opt.value)
+                          }
+                          name="applicationTypeId"
+                          id="applicationTypeId"
+                        />
 
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup>
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "end" }}
-                >
-                  {/* <Button.Ripple
+                        {appliError && (
+                          <span className="text-danger">
+                            You must select application type
+                          </span>
+                        )}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    ></FormGroup>
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{ display: "flex", justifyContent: "end" }}
+                    >
+                      {/* <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                   >
                     Submit
                   </Button.Ripple> */}
-                  <Col md="5">
-                    <ButtonForFunction
-                      type={"submit"}
-                      className={"mt-3 badge-primary"}
-                      name={"Submit"}
-                      permission={6}
-                    />
-                  </Col>
-                </FormGroup>
-              </Form>
+
+                      <ButtonForFunction
+                        type={"submit"}
+                        className={"mt-3 badge-primary"}
+                        name={"Submit"}
+                        permission={6}
+                      />
+                    </FormGroup>
+                  </Form>
+                </div>
+                <div className="col-6">
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Document Required List</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                  </div>
+
+                  <div className="table-responsive">
+                    <Table className="table-sm table-bordered">
+                      <thead className="thead-uapp-bg">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>SL/NO</th>
+                          <th>Document Group</th>
+                          <th className="text-center">Application Type</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {documentGrpList?.map((document, i) => (
+                          <tr key={document.id} style={{ textAlign: "center" }}>
+                            <th scope="row">{i + 1}</th>
+                            <td>{document?.documentGroup?.title}</td>
+                            <td className="text-center">
+                              {document?.applicationTypeId === 1
+                                ? "Home"
+                                : document?.applicationTypeId === 2
+                                ? "EU/UK"
+                                : "International"}
+                            </td>
+                            <td>
+                              <ButtonForFunction
+                                func={() => handleUpdate(document)}
+                                className={"mx-1 btn-sm"}
+                                color={"warning"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
+                </div>
+              </div>
             </TabPane>
           </TabContent>
         </CardBody>

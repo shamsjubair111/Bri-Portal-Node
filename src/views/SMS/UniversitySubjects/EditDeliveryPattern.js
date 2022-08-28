@@ -33,15 +33,16 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
 
 const EditDeliveryPattern = () => {
-    const [activetab, setActivetab] = useState("3");
+  const [activetab, setActivetab] = useState("3");
   const [deliveryDD, setDeliveryDD] = useState([]);
   const [deliveryLabel, setDeliveryLabel] = useState("Select Delivery Pattern");
   const [deliveryValue, setDeliveryValue] = useState(0);
   const [deliveryError, setDeliveryError] = useState(false);
-  const [deliveryId, setDeliveryId] = useState(0);
+  const [patternList, setPatternList] = useState([]);
+  const [update, setUpdate] = useState(0);
+  const [success, setSuccess] = useState(false);
 
   const { id } = useParams();
-  console.log(id, "SubIddddd");
 
   useEffect(() => {
     get("DeliveryPatternDD/index").then((res) => {
@@ -49,23 +50,21 @@ const EditDeliveryPattern = () => {
       setDeliveryDD(res);
     });
 
-    get(`SubjectDeliveryPattern/GetBySubject/${id}`).then(res=>{
-      console.log("dsdsdsdds", res?.id);
-      setDeliveryId(res?.id);
-      setDeliveryLabel(res?.deliveryPattern?.name);
-      setDeliveryValue(res?.deliveryPattern?.id);
-    })
-  }, [id]);
+    get(`SubjectDeliveryPattern/GetBySubject/${id}`).then((res) => {
+      console.log("dsdsdsdds", res);
+      setPatternList(res);
+    });
+  }, [id, success]);
 
   const deliveryMenu = deliveryDD.map((delivery) => ({
     label: delivery?.name,
     value: delivery?.id,
   }));
 
-//   const financeMenu = financeDD.map((finance) => ({
-//     label: finance?.name,
-//     value: finance?.id,
-//   }));
+  //   const financeMenu = financeDD.map((finance) => ({
+  //     label: finance?.name,
+  //     value: finance?.id,
+  //   }));
 
   const selectDelivery = (label, value) => {
     setDeliveryError(false);
@@ -77,7 +76,7 @@ const EditDeliveryPattern = () => {
   const { addToast } = useToasts();
 
   // redirect to SubjecList
-  const backToSubjectList = () => {
+  const backToSubjecList = () => {
     history.push("/subjectList");
   };
 
@@ -93,6 +92,9 @@ const EditDeliveryPattern = () => {
     if (tab == "4") {
       history.push(`/editSubjectRequirements/${id}`);
     }
+    if (tab == "5") {
+      history.push(`/editSubjectDocumentRequirement/${id}`);
+    }
   };
 
   const AuthStr = localStorage.getItem("token");
@@ -106,31 +108,87 @@ const EditDeliveryPattern = () => {
       console.log("values", value);
     }
 
-    Axios.put(`${rootUrl}SubjectDeliveryPattern/Update`, subdata, {
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': AuthStr,
-      },
-    }).then((res) => {
-
-      if (res.status === 200 && res.data.isSuccess === true) {
-        addToast(res?.data?.message, {
-          appearance:'success',
-          autoDismiss: true,
-        });
-        history.push({
-          pathname: `/editSubjectRequirements/${id}`,
+    if (deliveryValue === 0) {
+      setDeliveryError(true);
+    } else {
+      if(update != 0){
+        Axios.put(`${rootUrl}SubjectDeliveryPattern/Update`, subdata, {
+          headers: {
+            "Content-Type": "application/json",
+            'authorization': AuthStr,
+          },
+        }).then((res) => {
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setDeliveryLabel("Select Delivery Pattern");
+            setDeliveryValue(0);
+            setSuccess(!success);
+            setUpdate(0);
+            // history.push({
+            //   pathname: `/editSubjectRequirements/${id}`,
+            // });
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setDeliveryLabel("Select Delivery Pattern");
+            setDeliveryValue(0);
+            setUpdate(0);
+          }
         });
       }
-    });
+      else{
+        Axios.post(`${rootUrl}SubjectDeliveryPattern/Create`, subdata, {
+          headers: {
+            "Content-Type": "application/json",
+            'authorization': AuthStr,
+          },
+        }).then((res) => {
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setDeliveryLabel("Select Delivery Pattern");
+            setDeliveryValue(0);
+            setSuccess(!success);
+            setUpdate(0);
+            // history.push({
+            //   pathname: `/addSubjectRequirements/${id}`,
+            // });
+          }
+          else{
+            setDeliveryLabel("Select Delivery Pattern");
+            setDeliveryValue(0);
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+          }
+        });
+      }
+    }
   };
-    return (
-        <div>
+
+  const handleUpdate = pattern =>{
+    console.log(pattern);
+    setUpdate(pattern?.id);
+    setDeliveryLabel(pattern?.deliveryPattern?.name);
+    setDeliveryValue(pattern?.deliveryPattern?.id);
+  }
+
+  return (
+    <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Add Subject Delivery Pattern</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToSubjectList} className="text-light">
+            <span onClick={backToSubjecList} className="text-light">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Subject List
             </span>
@@ -143,6 +201,7 @@ const EditDeliveryPattern = () => {
           <Nav tabs>
             <NavItem>
               <NavLink
+                
                 active={activetab === "1"}
                 onClick={() => toggle("1")}
               >
@@ -152,6 +211,7 @@ const EditDeliveryPattern = () => {
 
             <NavItem>
               <NavLink
+                
                 active={activetab === "2"}
                 onClick={() => toggle("2")}
               >
@@ -165,86 +225,149 @@ const EditDeliveryPattern = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+              <NavLink
+                
+                active={activetab === "4"}
+                onClick={() => toggle("4")}
+              >
                 Requirement
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                
+                active={activetab === "5"}
+                onClick={() => toggle("5")}
+              >
+                Document Requirement
               </NavLink>
             </NavItem>
           </Nav>
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="3">
-              <Form onSubmit={handleSubmit} className="mt-5">
+              <div className="row mt-5">
+                <div className="col-md-6 col-sm-12">
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Add Delivery Pattern</b>{" "}
+                      </h5>
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Input
-                    type="hidden"
-                    id="id"
-                    name="id"
-                    value={deliveryId}
-                  />
-                </FormGroup>
-                <FormGroup row className="has-icon-left position-relative">
-                  <Input
-                    type="hidden"
-                    id="subjectId"
-                    name="subjectId"
-                    value={id}
-                  />
-                </FormGroup>
+                      <div className="bg-h"></div>
+                    </div>
+                  </div>
+                  <Form onSubmit={handleSubmit} className="mt-0">
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Delivery Pattern <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={deliveryMenu}
-                      value={{ label: deliveryLabel, value: deliveryValue }}
-                      onChange={(opt) => selectDelivery(opt.label, opt.value)}
-                      name="deliveryPatternId"
-                      id="deliveryPatternId"
-                    />
+                  {update != 0 ? (
+                      <Input type="hidden" id="id" name="id" value={update} />
+                    ) : null}
+                    
+                      <Input
+                        type="hidden"
+                        id="subjectId"
+                        name="subjectId"
+                        value={id}
+                      />
+                   
 
-                    {deliveryError && (
-                      <span className="text-danger">
-                        You must select delivery pattern
-                      </span>
-                    )}
-                  </Col>
-                </FormGroup>
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="4">
+                        <span>
+                          Delivery Pattern{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="8">
+                        <Select
+                          options={deliveryMenu}
+                          value={{ label: deliveryLabel, value: deliveryValue }}
+                          onChange={(opt) =>
+                            selectDelivery(opt.label, opt.value)
+                          }
+                          name="deliveryPatternId"
+                          id="deliveryPatternId"
+                        />
 
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup>
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "end" }}
-                >
-                  {/* <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple> */}
-                  <Col md="5">
-                    <ButtonForFunction
-                      type={"submit"}
-                      className={"mr-1 mt-3 badge-primary"}
-                      name={"Submit"}
-                      permission={6}
-                    />
-                  </Col>
-                </FormGroup>
-              </Form>
+                        {deliveryError && (
+                          <span className="text-danger">
+                            You must select delivery pattern
+                          </span>
+                        )}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    ></FormGroup>
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{ display: "flex", justifyContent: "end" }}
+                    >
+                      
+                        <ButtonForFunction
+                          type={"submit"}
+                          className={"mr-0 mt-3 badge-primary"}
+                          name={"Submit"}
+                          permission={6}
+                        />
+                    </FormGroup>
+                  </Form>
+                </div>
+                <div className="col-md-6 col-sm-12">
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Delivery Pattern List</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                  </div>
+                <div className="table-responsive">
+                    <Table className="table-sm table-bordered">
+                      <thead className="thead-uapp-bg">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>SL/NO</th>
+                          <th>Delivery Pattern</th>
+                          {/* <th className="text-center">Application Type</th> */}
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {patternList?.map((pattern, i) => (
+                          <tr key={pattern.id} style={{ textAlign: "center" }}>
+                            <th scope="row">{i + 1}</th>
+                            <td>{pattern?.deliveryPattern?.name}</td>
+                            
+                            <td>
+                              <ButtonForFunction
+                                func={() => handleUpdate(pattern)}
+                                className={"mx-1 btn-sm"}
+                                color={"warning"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
+                </div>
+              </div>
             </TabPane>
           </TabContent>
         </CardBody>
       </Card>
     </div>
-    );
+  );
 };
 
 export default EditDeliveryPattern;

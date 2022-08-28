@@ -77,6 +77,9 @@ const EditSubjectFee = () => {
      if (tab == "4") {
        history.push(`/editSubjectRequirements/${subId}`);
       }
+      if (tab == "5") {
+        history.push(`/editSubjectDocumentRequirement/${subId}`);
+      }
     };
 
     const handleSubjectFeeUpdate = e =>{
@@ -90,9 +93,9 @@ const EditSubjectFee = () => {
              appearance:'success',
              autoDismiss: true,
            });
-           history.push({
-             pathname: `/subjectList`,
-           });
+          //  history.push({
+          //    pathname: `/subjectList`,
+          //  });
           }
        })
     }
@@ -139,6 +142,13 @@ const EditSubjectFee = () => {
                    
                      <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                        Requirement
+                     </NavLink>
+                  
+                 </NavItem>
+                 <NavItem>
+                   
+                     <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                      Document Requirement
                      </NavLink>
                   
                  </NavItem>
