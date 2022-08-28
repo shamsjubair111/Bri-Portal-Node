@@ -102,10 +102,10 @@ const AddSubjectDocumentRequirement = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addSubject");
+      history.push(`/addSubject/${id}`);
     }
     if (tab == "2") {
-      history.push("/addSubjectFee");
+      history.push(`/addSubjectFee/${id}`);
     }
     if (tab == "3") {
       history.push(`/addSubjectDeliveryPattern/${id}`);
@@ -255,7 +255,7 @@ const handleDeleteDocuRequired = (id) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Subject Delivery Pattern</h3>
+          <h3 className="text-light">Add Subject Document Requirement</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}
@@ -270,7 +270,7 @@ const handleDeleteDocuRequired = (id) => {
           <Nav tabs>
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "1"}
                 onClick={() => toggle("1")}
               >
@@ -280,7 +280,7 @@ const handleDeleteDocuRequired = (id) => {
 
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "2"}
                 onClick={() => toggle("2")}
               >
@@ -290,7 +290,7 @@ const handleDeleteDocuRequired = (id) => {
 
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "3"}
                 onClick={() => toggle("3")}
               >
@@ -300,7 +300,7 @@ const handleDeleteDocuRequired = (id) => {
 
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "4"}
                 onClick={() => toggle("4")}
               >
@@ -424,7 +424,7 @@ const handleDeleteDocuRequired = (id) => {
                     <div>
                       <h5>
                         {" "}
-                        <b>Document Required List</b>{" "}
+                        <b>Document Requirement List</b>{" "}
                       </h5>
 
                       <div className="bg-h"></div>

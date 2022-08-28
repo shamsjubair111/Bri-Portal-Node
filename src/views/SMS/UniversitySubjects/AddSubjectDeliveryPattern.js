@@ -86,10 +86,10 @@ const AddSubjectDeliveryPattern = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addSubject");
+      history.push(`/addSubject/${id}`);
     }
     if (tab == "2") {
-      history.push("/addSubjectFee");
+      history.push(`/addSubjectFee/${id}`);
     }
     if (tab == "4") {
       history.push(`/addSubjectRequirements/${id}`);
@@ -130,7 +130,7 @@ const AddSubjectDeliveryPattern = () => {
             setSuccess(!success);
             setUpdate(0);
             // history.push({
-            //   pathname: `/editSubjectRequirements/${id}`,
+            //   pathname: `/addSubjectRequirements/${id}`,
             // });
           } else {
             addToast(res?.data?.message, {
@@ -234,7 +234,7 @@ const handleDeleteDeliveryPattern = (id) => {
           <Nav tabs>
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "1"}
                 onClick={() => toggle("1")}
               >
@@ -244,7 +244,7 @@ const handleDeleteDeliveryPattern = (id) => {
 
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "2"}
                 onClick={() => toggle("2")}
               >
@@ -259,7 +259,7 @@ const handleDeleteDeliveryPattern = (id) => {
             </NavItem>
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "4"}
                 onClick={() => toggle("4")}
               >
@@ -268,7 +268,7 @@ const handleDeleteDeliveryPattern = (id) => {
             </NavItem>
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "5"}
                 onClick={() => toggle("5")}
               >

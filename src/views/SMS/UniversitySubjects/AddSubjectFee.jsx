@@ -27,41 +27,69 @@ import {
 } from "reactstrap";
 import Axios from 'axios';
 import { rootUrl } from "../../../constants/constants";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useToasts } from 'react-toast-notifications';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { useEffect } from 'react';
+import get from '../../../helpers/get';
+import put from '../../../helpers/put';
 
 
 const AddSubjectFee = () => {
 
     const [activetab, setActivetab] = useState('2');
+    const [localTutionFee, setLocalTutionFee] = useState("");
+    const [intTutionFee, setIntTutionFee] = useState("");
+    const [euTutionFee, setEuTutionFee] = useState("");
+    const [sId, setSId] = useState("");
+    const [id1, setId] = useState(undefined);
 
+    console.log("id1",id1);
 
     const history = useHistory();
     const { addToast } = useToasts();
+    const {id} = useParams();
 
     // redirect to dashboard
-    const backToDashboard = () => {
-      history.push("/");
+    const backToSubjectList = () => {
+      history.push("/subjectList");
     };
+
+    useEffect(()=>{
+      
+      
+        
+          get(`SubjectFeeStructure/GetBySubject/${id}`)
+        .then(res=>{
+          console.log("subjectFeeget",res);
+          setLocalTutionFee(res?.localTutionFee);
+          setIntTutionFee(res?.internationalTutionFee);
+          setEuTutionFee(res?.eU_TutionFee);
+          setSId(res?.subjectId);
+          setId(res?.id);
+        })
+        
+      
+      
+    },[id,id1])
 
     // tab toggle
     const toggle = (tab) => {
       setActivetab(tab);
       if (tab == '1') {
-        history.push('/addSubject')
+        history.push(`/addSubject/${id}`)
       }
       if (tab == "2") {
-        history.push("/addSubjectFee");
+        history.push(`/addSubjectFee/${id}`);
       }
       if(tab == '3'){
-        history.push(`/addSubjectDeliveryPattern/${localStorage.getItem("subId")}`)
+        history.push(`/addSubjectDeliveryPattern/${id}`)
       }
       if(tab == '4'){
-        history.push(`/addSubjectRequirements/${localStorage.getItem("subId")}`)
+        history.push(`/addSubjectRequirements/${id}`)
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement/${localStorage.getItem("subId")}`);
+        history.push(`/addSubjectDocumentRequirement/${id}`);
       }
   };
 
@@ -76,24 +104,46 @@ const AddSubjectFee = () => {
       console.log("values",value);
      }
 
-
-    Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': AuthStr,
-      },
-    }).then((res) => {
-
-      if (res.status === 200 && res.data.isSuccess === true) {
-        addToast(res?.data?.message, {
-          appearance:'success',
-          autoDismiss: true,
-        });
-        history.push({
-          pathname: `/addSubjectDeliveryPattern/${localStorage.getItem("subId")}`,
-        });
-      }
-    });
+     if(id1 != undefined){
+      put("SubjectFeeStructure/Update", subdata)
+      .then(res=>{
+       if (res.status === 200 && res.data.isSuccess === true) {
+           addToast(res?.data?.message, {
+             appearance:'success',
+             autoDismiss: true,
+           });
+           history.push({
+             pathname: `/addSubjectDeliveryPattern/${id}`,
+           });
+          }
+       })
+     }
+     else{
+      Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': AuthStr,
+        },
+      }).then((res) => {
+        console.log("post response", res);
+        if (res.status === 200 && res.data.isSuccess === true) {
+          addToast(res?.data?.message, {
+            appearance:'success',
+            autoDismiss: true,
+          });
+          history.push({
+            pathname: `/addSubjectDeliveryPattern/${id}`,
+          });
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance:'success',
+            autoDismiss: true,
+          });
+        }
+      });
+     }
+    
   };
 
     return (
@@ -102,9 +152,9 @@ const AddSubjectFee = () => {
               <CardHeader className="page-header">
                 <h3 className="text-light">Add Subject Fee Information</h3>
                 <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToSubjectList} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
                   </span>
                 </div>
               </CardHeader>
@@ -114,7 +164,7 @@ const AddSubjectFee = () => {
         <CardBody>
           <Nav tabs>
             <NavItem>
-              <NavLink disabled active={activetab === "1"} onClick={() => toggle("1")}>
+              <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
                 Subject Information
               </NavLink>
             </NavItem>
@@ -126,17 +176,17 @@ const AddSubjectFee = () => {
             </NavItem>
 
             <NavItem>
-                <NavLink disabled active={activetab === "3"} onClick={() => toggle("3")}>
+                <NavLink  active={activetab === "3"} onClick={() => toggle("3")}>
                   Delivery Pattern
                 </NavLink>
             </NavItem>
             <NavItem>
-                <NavLink disabled active={activetab === "4"} onClick={() => toggle("4")}>
+                <NavLink  active={activetab === "4"} onClick={() => toggle("4")}>
                   Requirement
                 </NavLink>
             </NavItem>
             <NavItem>
-                <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
+                <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
                   Document Requirement
                 </NavLink>
             </NavItem>
@@ -146,8 +196,22 @@ const AddSubjectFee = () => {
           <TabContent activeTab={activetab}>
             <TabPane tabId="2">
               <Form  onSubmit={handleSubmit} className="mt-5">
+
+              {
+                id1 != undefined ?
+                 <input type='hidden'
+                 name='id'
+                 id='id'
+                 value={id1} />
+                 :
+                 null
+              }
+                
+      
+                
                 <FormGroup row className="has-icon-left position-relative">
-                  <Input type="hidden" id="subjectId" name="subjectId" value={localStorage.getItem("subId")} />
+                  {/* <Input type="hidden" id="subjectId" name="subjectId" value={localStorage.getItem("subjectId")} /> */}
+                  <Input type="hidden" id="subjectId" name="subjectId" value={id} />
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
@@ -160,6 +224,7 @@ const AddSubjectFee = () => {
                     <Input
                       type="number"
                       min="0"
+                      defaultValue={localTutionFee}
                       name="localTutionFee"
                       id="localTutionFee"
                       placeholder="Tution Fee"
@@ -178,6 +243,7 @@ const AddSubjectFee = () => {
                     <Input
                       type='number'
                       min="0"
+                      defaultValue={intTutionFee}
                       placeholder='Enter international tution fee '
                       required
                       name="internationalTutionFee"
@@ -198,6 +264,7 @@ const AddSubjectFee = () => {
                       min="0"
                       name="eU_TutionFee"
                       id="eU_TutionFee"
+                      defaultValue={euTutionFee}
                       placeholder="Enter EU tution fee"
                       required
                     />

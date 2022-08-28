@@ -426,10 +426,10 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addDepartment" component={permissions?.includes(1282)? AddDepartment : NotAuthorized} />
          <AppRoute  path="/addSubDepartment" component={permissions?.includes(1261)? AddSubDepartment : NotAuthorized} />
          <AppRoute  path="/addProgramLevel" component={permissions?.includes(1271)? AddProgramLevel : NotAuthorized} />
-         <AppRoute  path="/addSubject" component={permissions?.includes(1252)? Subject : NotAuthorized} />
+         <AppRoute  path="/addSubject/:id?" component={permissions?.includes(1252)? Subject : NotAuthorized} />
          <AppRoute  path="/subjectList" component={permissions?.includes(1251)? SubjectList: NotAuthorized} />
          <AppRoute  path="/editSubject/:id" component={permissions?.includes(1253)? EditSubject : NotAuthorized} />
-         <AppRoute  path="/addSubjectFee" component={permissions?.includes(1242)? AddSubjectFee : NotAuthorized} />
+         <AppRoute  path="/addSubjectFee/:id" component={permissions?.includes(1242)? AddSubjectFee : NotAuthorized} />
          <AppRoute  path="/addSubjectDeliveryPattern/:id" component={permissions?.includes(1322)? AddSubjectDeliveryPattern : NotAuthorized} />
          <AppRoute  path="/addSubjectDocumentRequirement/:id" component={permissions?.includes(1222)? AddSubjectDocumentRequirement : NotAuthorized} />
          <AppRoute  path="/editSubjectDocumentRequirement/:id" component={permissions?.includes(1223)? EditSubjectDocumentRequirement : NotAuthorized} />
