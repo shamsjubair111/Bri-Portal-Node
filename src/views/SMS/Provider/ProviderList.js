@@ -20,6 +20,7 @@ import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import LinkButton from '../Components/LinkButton.js';
 import ButtonForFunction from '../Components/ButtonForFunction.js';
+import { permissionList } from '../../../constants/AuthorizationConstant.js';
 
 
 const ProviderList = () => {
@@ -49,6 +50,8 @@ const ProviderList = () => {
 
     const [deleteModal, setDeleteModal] = useState(false);
     const dispatch = useDispatch();
+
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
    
    
   
@@ -291,14 +294,19 @@ const ProviderList = () => {
             <Col lg="6" md="5" sm="6" xs="4">
               
 
-              <LinkButton 
-                url={'/providerForm'}
-                className={"btn btn-uapp-add "}
-                icon={<i className="fas fa-plus"></i>}
-                name={" Add New"}
-                
-                permission={6}
-              />
+             {
+                permissions?.includes(permissionList?.Provider_List) ?
+               <LinkButton 
+               url={'/providerForm'}
+               className={"btn btn-uapp-add "}
+               icon={<i className="fas fa-plus"></i>}
+               name={" Add New"}
+               
+               permission={6}
+             />
+             :
+             null
+             }
 
             </Col>
 

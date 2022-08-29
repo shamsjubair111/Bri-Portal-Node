@@ -15,6 +15,7 @@ import Select from 'react-select';
 import "antd/dist/antd.css";
 import put from '../../../helpers/put.js';
 import ButtonForFunction from '../Components/ButtonForFunction.js';
+import { permissionList } from '../../../constants/AuthorizationConstant.js';
 
 
 
@@ -72,6 +73,8 @@ const ProviderDetails = () => {
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
     const [FileList, setFileList] = useState([]);
+
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
 
 
     useEffect(()=>{
@@ -531,9 +534,14 @@ const updateProviderAdmin  = () => {
 <span className="bg-wg bg-width"></span>
 
 
- <Link to={`/addAdmissionManager/${id}`}>
-  <Button  className="btn btn-uapp-add mt-2 "> <i class="fas fa-plus"></i>  Add Admission Manager </Button>
- </Link>
+{
+    permissions?.includes(permissionList?.Add_Admission_manager) ?
+   <Link to={`/addAdmissionManager/${id}`}>
+   <Button  className="btn btn-uapp-add mt-2 "> <i class="fas fa-plus"></i>  Add Admission Manager </Button>
+  </Link>
+  :
+  null
+}
 
 
 {
@@ -565,17 +573,27 @@ admissionManager.length> 0 &&
                         <td>
                           
                             
-                                {" "}
-                                <i class="fas fa-edit warning icon-hover-style"
-                                onClick={()=>updateAdmissionManager(manager?.id,id)}
-                               
-                                ></i>{" "}
+                           {
+                                  permissions?.includes(permissionList?.Update_Admission_manager) ?
+                                
+                                 <i class="fas fa-edit warning icon-hover-style"
+                                 onClick={()=>updateAdmissionManager(manager?.id,id)}
+                                
+                                 ></i>
+                                 :
+                                 null
+                           }
                              
 
                              
-                                <i class="fas fa-trash-alt text-danger icon-hover-style"
-                                 onClick={() => toggleDelete(manager)}
-                                ></i>
+                                {
+                                  permissions?.includes(permissionList?.Delete_Admission_manager) ?
+                                  <i class="fas fa-trash-alt text-danger icon-hover-style"
+                                  onClick={() => toggleDelete(manager)}
+                                 ></i>
+                                 :
+                                 null
+                                }
                            
                           
                             <Modal
@@ -639,12 +657,17 @@ admissionManager.length> 0 &&
 
                 <div className="container text-center mb-4">
               
-                  <LinkButton
-                  name={'Edit'}
-                  func={updateProviderAdmin}
-                  className={"btn btn-primary px-lg-5 px-md-3 px-sm-1 py-2"}
-                  
-                  />
+                  {
+                    permissions?.includes(permissionList?.Update_Provider_Admin) ?
+                    <LinkButton
+                    name={'Edit'}
+                    func={updateProviderAdmin}
+                    className={"btn btn-primary px-lg-5 px-md-3 px-sm-1 py-2"}
+                    
+                    />
+                    :
+                    null
+                  }
                 </div>
 
                 <div>

@@ -32,6 +32,7 @@ import { rootUrl } from "../../../../constants/constants";
 import ProfilePicturesWall from "./EmployeeProfileImage";
 import CoverPicturesWall from "./EmployeeCoverImage";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import { permissionList } from "../../../../constants/AuthorizationConstant";
 
 const EmployeeGeneralInfo = (props) => {
   const { id } = useParams();
@@ -56,6 +57,8 @@ const EmployeeGeneralInfo = (props) => {
   const [files, setFiles] = useState([]);
   const [exactFile, setExactFile] = useState({});
   const [dropzoneError, setDropzoneError] = useState("");
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const result = useSelector(
     (state) => state.employeeProfileImageReducer.employeeProfileImage
@@ -521,11 +524,17 @@ const EmployeeGeneralInfo = (props) => {
                   </Button.Ripple> */}
                 
                  <Col md="5">
-                   <ButtonForFunction
+                   {
+                    permissions?.includes(permissionList?.Update_Staff) ? 
+
+                    <ButtonForFunction
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
                    />
+                   :
+                   null
+                   }
                  </Col>
 
                 </FormGroup>

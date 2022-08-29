@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 import get from '../../../../helpers/get';
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 
 const Branch = () => {
@@ -27,6 +28,7 @@ const Branch = () => {
 
       const [countryError, setCountryError] = useState(false);
       const [stateError, setStateError] = useState(false);
+      const permissions = JSON.parse(localStorage.getItem("permissions"));
 
       console.log('location',location);
       if(location?.branchId){
@@ -436,12 +438,17 @@ const Branch = () => {
                 >
                 
                   <Col md="7">
-                  <ButtonForFunction 
+                  {
+                    permissions?.includes(permissionList?.Add_Branch) ?
+                    <ButtonForFunction 
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
                     permission={6}
                   />
+                  :
+                  null
+                  }
                   </Col>
 
                 </FormGroup>

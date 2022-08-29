@@ -12,6 +12,7 @@ import { Image } from 'antd';
 import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
 import { rootUrl } from '../../../constants/constants';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 
 const UpdateProvider = () => {
@@ -23,6 +24,7 @@ const UpdateProvider = () => {
     const [title,setTitle] = useState('');
     const history = useHistory();
     const { addToast } = useToasts();
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
 
     const providerLogo = useSelector((state) => state?.GeneralProviderlogoFile ?.ProviderLogoFile);
     
@@ -343,12 +345,17 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                   >
                   
                   <Col md="5">
-                    <ButtonForFunction 
-                      type={"submit"}
-                      className={"ms-lg-3 ms-sm-1 badge-primary"}
-                      name={"Submit"}
-                      permission={6}
-                    />
+                   {
+                    permissions?.includes(permissionList?.Update_Provider) ?
+                     <ButtonForFunction 
+                     type={"submit"}
+                     className={"ms-lg-3 ms-sm-1 badge-primary"}
+                     name={"Submit"}
+                     
+                   />
+                   :
+                   null
+                   }
                   </Col>
 
                 </FormGroup>

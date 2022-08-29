@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 import get from '../../../../helpers/get';
 import remove from '../../../../helpers/remove';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const ProviderAdminList = () => {
 
@@ -30,6 +31,8 @@ const ProviderAdminList = () => {
     const {addToast} = useToasts();
     const [providerType, setProviderType] = useState([]);
     const [adminData, setAdminData] = useState([]);
+
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
 
 
  
@@ -191,9 +194,14 @@ const ProviderAdminList = () => {
    <Row className="mb-3">
 
      <Col lg="6" md="5" sm="6" xs="4">
-     <Link to ='/adminProviderForm'>
-     <Button  className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add New </Button>
-     </Link>
+    { 
+        permissions?.includes(permissionList?.Add_Provider_Admin) ?
+       <Link to ='/adminProviderForm'>
+       <Button  className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add New </Button>
+       </Link>
+       :
+       null
+    }
      </Col>
 
 

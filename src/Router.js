@@ -474,23 +474,23 @@ class AppRouter extends React.Component {
          <AppRoute  path="/adminProviderForm" component={permissions?.includes(552)? AdminProviderForm : NotAuthorized} />
          <AppRoute  path="/addEmployeeGeneralInfo" component={permissions?.includes(14)? AddEmployeeGeneralInfo : NotAuthorized} />
          <AppRoute  path="/addEmployeeContactInfo" component={permissions?.includes(14)? AddEmployeeContactInfo : NotAuthorized} />
-         <AppRoute  path="/employeeGeneralInfo/:id" component={permissions?.includes(15)? EmployeeGeneralInfo : NotAuthorized} />
-         <AppRoute  path="/employeeContactInfo/:id" component={permissions?.includes(15)? EmployeeContactInfo : NotAuthorized} />
+         <AppRoute  path="/employeeGeneralInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeGeneralInfo : NotAuthorized} />
+         <AppRoute  path="/employeeContactInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeContactInfo : NotAuthorized} />
          {/* <AppRoute  path="/employeeInformatio" component={EmployeeInformation} /> */}
          {/* <AppRoute  path="/siteSetting" component={SiteSetting} />
          <AppRoute  path="/addSiteSetting" component={AddSiteSetting} />
          <AppRoute  path="/updateSiteSetting" component={UpdateSiteSetting} /> */}
          {/* <AppRoute  path="/country" component={Country} /> */}
-         <AppRoute  path="/editDepartment/:id" component={permissions?.includes(1283)? EditDepartment : NotAuthorized} />
-         <AppRoute  path="/editSubDepartment/:id" component={permissions?.includes(1263)? EditSubDepartment : NotAuthorized} />
+         <AppRoute  path="/editDepartment/:id" component={permissions?.includes(permissionList?.Update_department)? EditDepartment : NotAuthorized} />
+         <AppRoute  path="/editSubDepartment/:id" component={permissions?.includes(permissionList?.Update_sub_department)? EditSubDepartment : NotAuthorized} />
 
-         <AppRoute  path="/providerList" component={permissions?.includes(501)? ProviderList : NotAuthorized} />
-         <AppRoute  path="/providerAdminList" component={permissions?.includes(551)? ProviderAdminList : NotAuthorized} />
+         <AppRoute  path="/providerList" component={permissions?.includes(permissionList?.Provider_List)? ProviderList : NotAuthorized} />
+         <AppRoute  path="/providerAdminList" component={permissions?.includes(permissionList?.Provider_Admin_List)? ProviderAdminList : NotAuthorized} />
 
 
-         <AppRoute  path="/providerDetails/:id" component={permissions?.includes(504)? ProviderDetails : NotAuthorized} />
-         <AppRoute  path="/updateProvider/:id" component={permissions?.includes(503)? UpdateProvider : NotAuthorized} />
-         <AppRoute  path="/branchInformation" component={permissions?.includes(402)? Branch : NotAuthorized} />
+         <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider)? ProviderDetails : NotAuthorized} />
+         <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider)? UpdateProvider : NotAuthorized} />
+         <AppRoute  path="/branchInformation" component={permissions?.includes(permissionList?.Add_Branch)? Branch : NotAuthorized} />
          <AppRoute  path="/addBranchManager" component={permissions?.includes(422)? BranchManager : NotAuthorized} />
          <AppRoute  path="/branchEmployeeInformation/:id?" component={permissions?.includes(412)? BranchEmployee : NotAuthorized} />
          {/* <AppRoute path="/updateBranch/:id" component={UpdateBranch} /> */}

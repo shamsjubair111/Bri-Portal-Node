@@ -5,6 +5,7 @@ import get from '../../../helpers/get';
 import put from '../../../helpers/put';
 import { useToasts } from "react-toast-notifications";
 import CustomButtonRipple from '../Components/CustomButtonRipple';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const EditDepartment = () => {
     const history = useHistory();
@@ -13,6 +14,8 @@ const EditDepartment = () => {
     const {addToast} = useToasts();
     const [department,setdepartment] = useState('');
     const  [description,setDescription]= useState('');
+
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
 
 
 
@@ -121,13 +124,18 @@ const EditDepartment = () => {
 
       <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-          <CustomButtonRipple
+          {
+            permissions?.includes(permissionList?.Update_department) ? 
+            <CustomButtonRipple
             color={"primary"}
             type={"submit"}
             className={"mr-1 mt-3"}
             name={"Submit"}
-            permission={6}
+     
           />
+          :
+          null
+          }
 
       </FormGroup>
 

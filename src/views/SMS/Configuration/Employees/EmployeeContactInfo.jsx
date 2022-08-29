@@ -18,6 +18,7 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
+import { permissionList } from "../../../../constants/AuthorizationConstant";
 
 import get from "../../../../helpers/get";
 
@@ -42,6 +43,8 @@ const EmployeeContactInfo = () => {
   const [countryValue, setCountryValue] = useState(0);
   const [countryError, setCountryError] = useState("");
   const { addToast } = useToasts();
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const userId = localStorage.getItem("employeeId");
 
@@ -328,12 +331,16 @@ const EmployeeContactInfo = () => {
                 >
 
                   <Col md="5">
-                  <ButtonForFunction
+                  {
+                    permissions?.includes(permissionList?.Update_Staff) ?
+                    <ButtonForFunction
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
-                    permission={6}
+                 
                   />
+                  : null
+                  }
                   </Col>
 
                 </FormGroup>

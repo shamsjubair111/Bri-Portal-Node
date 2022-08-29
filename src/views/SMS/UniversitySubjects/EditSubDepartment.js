@@ -7,6 +7,7 @@ import get from '../../../helpers/get';
 import put from '../../../helpers/put';
 import { useToasts } from "react-toast-notifications";
 import CustomButtonRipple from '../Components/CustomButtonRipple';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const EditSubDepartment = () => {
     const {id} = useParams();
@@ -18,6 +19,7 @@ const EditSubDepartment = () => {
     const [departmentValue, setdepartmentValue] = useState(0);
     const [dept, setDept] = useState({});
     const {addToast} = useToasts();
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
    
     const [uid,setUid] = useState();
 
@@ -178,13 +180,18 @@ const EditSubDepartment = () => {
       <FormGroup row className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'end' }}>     
 
           <Col md="5">
-          <CustomButtonRipple
-            color={"primary"}
-            type={"submit"}
-            className={"mr-1 mt-3"}
-            name={"Submit"}
-            permission={6}
-          />
+         {
+            permissions?.includes(permissionList?.Update_sub_department) ?
+           <CustomButtonRipple
+           color={"primary"}
+           type={"submit"}
+           className={"mr-1 mt-3"}
+           name={"Submit"}
+           permission={6}
+         />
+         :
+         null
+         }
           </Col>
           
       </FormGroup>
