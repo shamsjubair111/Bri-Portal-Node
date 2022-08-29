@@ -35,9 +35,11 @@ import ReactToPrint from 'react-to-print';
 import remove from '../../../helpers/remove.js';
 import LinkButton from '../Components/LinkButton.js';
 import ButtonForFunction from '../Components/ButtonForFunction.js';
+import { permissionList } from '../../../constants/AuthorizationConstant.js';
 
 const ConsultantList = () => {
 
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
     
     const [consultantList, setConsultantList] = useState([]);
 
@@ -264,13 +266,18 @@ const ConsultantList = () => {
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
               
-              <LinkButton
+              {
+                permissions?.includes(permissionList?.Add_Consultant) ?
+                <LinkButton
                 url={'/addConsultant'}
                 className={"btn btn-uapp-add "}
                 name={"Add New"}
                 icon={<i className="fas fa-plus"></i>}
-                permission={6}
+                // permission={6}
               />
+              :
+              null
+              }
 
             </Col>
 
