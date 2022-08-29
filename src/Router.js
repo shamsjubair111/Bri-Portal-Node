@@ -385,7 +385,7 @@ class AppRouter extends React.Component {
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
          <AppRoute  path="/employeeList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute  path="/employeeProfile" component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
+         <AppRoute  path="/ " component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
          <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.Add_Universitytype)? AddUniversityType : NotAuthorized} />
          <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
          <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.Universitystate_List) ? AddUniversityState : NotAuthorized} />
@@ -407,7 +407,7 @@ class AppRouter extends React.Component {
 
 
           {/* consultant */}
-          <AppRoute  path="/consultantList" component={permissions?.includes(101) ? ConsultantList : NotAuthorized} />
+          <AppRoute  path="/consultantList" component={permissions?.includes(permissionList?.Counsultant_List) ? ConsultantList : NotAuthorized} />
           <AppRoute  path="/consultantProfile/:id" component={permissions?.includes(104)? ConsultantProfile : NotAuthorized} />
           <AppRoute  path="/addConsultant" component={permissions?.includes(102) ? AddConsultant : NotAuthorized} />
           <AppRoute  path="/addConsultantType" component={AddConsultantType} />
