@@ -42,7 +42,6 @@ const EditSubjectRequirements = () => {
   const [requiredId, setRequiredId] = useState(0);
 
   const { id } = useParams();
-  console.log(id, "SubIddddd");
 
   useEffect(() => {
     get("EducationLevelDD/Index").then((res) => {

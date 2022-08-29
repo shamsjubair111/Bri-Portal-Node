@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import Select from "react-select";
 import {
   Card,
@@ -32,6 +32,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { useToasts } from "react-toast-notifications";
+import put from '../../../helpers/put';
 
 const Subject = () => {
 
@@ -50,15 +51,64 @@ const Subject = () => {
     const [subDepLabel, setSubDepLabel] = useState("Select Sub Department...");
     const [subDepValue, setSubDepValue] = useState(0);
 
+    const [subject, setSubject] = useState({});
+    const [subId, setSubId] = useState(0);
+    const [subName, setSubName] = useState("");
+    const [description, setDescription] = useState("");
+    const [duration, setDuration] = useState("");
+
     const [uniDropError, setUniDropError] = useState(false);
     const [progLvlError, setProgLvlError] = useState(false);
     const [deptDropError, setDeptDropError] = useState(false);
     const [subDeptDropError, setSubDeptDropError] = useState(false);
 
     const {addToast} = useToasts();
+    const {id} = useParams();
+    console.log("idddd", id);
     const history = useHistory();
 
+    console.log("subId", subId);
+
     useEffect(()=>{
+
+      if(id != undefined){
+        get(`Subject/Get/${id}`).then(res=> {
+          setSubject(res);
+          setSubId(res?.id);
+          setSubName(res?.name);
+          setDescription(res?.description);
+          setDuration(res?.duration);
+          setUniLabel(res?.university?.name);
+          setUniValue(res?.university?.id);
+          setProgramLabel(res?.programLevel?.name);
+          setProgramValue(res?.programLevel?.id);
+          setDepLabel(res?.department?.name);
+          setDepValue(res?.department?.id);
+          setSubDepLabel(res?.subDepartment?.name);
+          setSubDepValue(res?.subDepartment?.id);
+          console.log(res);
+      })
+      .catch();
+      }
+      else{
+        get(`Subject/Get/${localStorage.getItem("subjectId")}`).then(res=> {
+          setSubject(res);
+          setSubId(res?.id);
+          setSubName(res?.name);
+          setDescription(res?.description);
+          setDuration(res?.duration);
+          setUniLabel(res?.university?.name);
+          setUniValue(res?.university?.id);
+          setProgramLabel(res?.programLevel?.name);
+          setProgramValue(res?.programLevel?.id);
+          setDepLabel(res?.department?.name);
+          setDepValue(res?.department?.id);
+          setSubDepLabel(res?.subDepartment?.name);
+          setSubDepValue(res?.subDepartment?.id);
+          console.log(res);
+      })
+      .catch();
+      }
 
       get('UniversityDD/Index').then(res=> {
         setUniversityList(res);
@@ -84,8 +134,8 @@ const Subject = () => {
     },[])
 
   // redirect to dashboard
-  const backToDashboard = () => {
-    history.push("/");
+  const backToSubjectList = () => {
+    history.push("/subjectList");
   };
 
   const selectUniversity = (label, value) => {
@@ -123,17 +173,33 @@ const Subject = () => {
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
-    if (tab == "2") {
-      history.push("/addSubjectFee");
+    if(id != undefined){
+      if (tab == "2") {
+        history.push(`/addSubjectFee/${id}`);
+      }
+      if (tab == "3") {
+        history.push(`/addSubjectDeliveryPattern/${id}`);
+      }
+      if (tab == "4") {
+        history.push(`/addSubjectRequirements/${id}`);
+      }
+      if (tab == "5") {
+        history.push(`/addSubjectDocumentRequirement/${id}`);
+      }
     }
-    if (tab == "3") {
-      history.push("/addSubjectDeliveryPattern");
-    }
-    if (tab == "4") {
-      history.push("/addSubjectRequirements");
-    }
-    if (tab == "5") {
-      history.push(`/addSubjectDocumentRequirement`);
+    else{
+      if (tab == "2") {
+        history.push(`/addSubjectFee/${localStorage.getItem("subjectId")}`);
+      }
+      if (tab == "3") {
+        history.push(`/addSubjectDeliveryPattern/${localStorage.getItem("subjectId")}`);
+      }
+      if (tab == "4") {
+        history.push(`/addSubjectRequirements${localStorage.getItem("subjectId")}`);
+      }
+      if (tab == "5") {
+        history.push(`/addSubjectDocumentRequirement${localStorage.getItem("subjectId")}`);
+      }
     }
   };
 
@@ -157,28 +223,45 @@ const Subject = () => {
       setSubDeptDropError(true);
     }
     else{
-      Axios.post(`${rootUrl}Subject/Create`, subdata,{
-        headers: {
-          'Content-Type': 'application/json',
-          'authorization': AuthStr,
-        },
-      }).then((res) => {
-          
-        localStorage.setItem("subId",res?.data?.result?.id);
-        const subId = res?.data?.result?.id;
-  
-        if (res.status === 200 && res.data.isSuccess === true) {
-          setSubmitData(true);
-          addToast(res?.data?.message, {
-            appearance: 'success',
-            autoDismiss: true,
-          })
-          history.push({
-            pathname: "/addSubjectFee",
-            id: subId,
-          });
-        }
-      });
+      if(subId != 0){
+        put('Subject/Update', subdata).then((res) => {
+          console.log(res);
+    
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res?.data?.message, {
+                appearance:'success',
+                autoDismiss: true,
+              });
+            history.push({
+              pathname: `/addSubjectFee/${id}`,
+            });
+          }
+        });
+      }
+      else{
+        Axios.post(`${rootUrl}Subject/Create`, subdata,{
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': AuthStr,
+          },
+        }).then((res) => {
+            
+          localStorage.setItem("subjectId",res?.data?.result?.id);
+          const subId = res?.data?.result?.id;
+    
+          if (res.status === 200 && res.data.isSuccess === true) {
+            setSubmitData(true);
+            addToast(res?.data?.message, {
+              appearance: 'success',
+              autoDismiss: true,
+            })
+            history.push({
+              pathname: `/addSubjectFee/${localStorage.getItem("subjectId")}`,
+              id: subId,
+            });
+          }
+        });
+      }
     }
     
   };
@@ -190,9 +273,9 @@ const Subject = () => {
               <CardHeader className="page-header">
                 <h3 className="text-light">Add Subject Information</h3>
                 <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToSubjectList} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
                   </span>
                 </div>
               </CardHeader>
@@ -207,8 +290,11 @@ const Subject = () => {
               </NavLink>
             </NavItem>
 
-            <NavItem>
-              {submitData ? (
+            {
+              id != undefined ?
+              <>
+              <NavItem>
+              {submitData || id ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Subject Fee Information
                 </NavLink>
@@ -219,7 +305,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData ? (
+            {submitData || id ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
                   Delivery Pattern
                 </NavLink>
@@ -230,7 +316,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData ? (
+            {submitData || id ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                   Requirement
                 </NavLink>
@@ -241,7 +327,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData ? (
+            {submitData || id ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                   Document Requirement
                 </NavLink>
@@ -251,13 +337,70 @@ const Subject = () => {
                 </NavLink>
               )}
             </NavItem>
+            </>
+              :
+              <>
+              <NavItem>
+              {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+                <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
+                  Subject Fee Information
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "2"}>
+                  Subject Fee Information
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+                <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                  Delivery Pattern
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "3"}>
+                  Delivery Pattern
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+                <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                  Requirement
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "3"}>
+                  Requirement
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+                <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                  Document Requirement
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "5"}>
+                  Document Requirement
+                </NavLink>
+              )}
+            </NavItem>
+            </>
+            }
 
           </Nav>
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="1">
               <Form  onSubmit={handleSubmit} className="mt-5">
-
+                {
+                  subId != 0 ?
+                  <input type='hidden'
+                      name='id'
+                      id='id'
+                      value={subId} />
+                      :
+                      null
+                }
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
@@ -268,6 +411,7 @@ const Subject = () => {
                     <Input
                       type="text"
                       name="name"
+                      defaultValue={subName}
                       id="name"
                       placeholder="Enter Subject Name"
                       required
@@ -285,6 +429,7 @@ const Subject = () => {
                     <Input
                       type='textarea'
                       rows='4'
+                      defaultValue={description}
                       placeholder='Enter description'
                       required
                     //   options={universityTypeName}
@@ -307,6 +452,7 @@ const Subject = () => {
                       type="text"
                       name="duration"
                       id="duration"
+                      defaultValue={duration}
                       placeholder="Enter duration"
                       required
                     />

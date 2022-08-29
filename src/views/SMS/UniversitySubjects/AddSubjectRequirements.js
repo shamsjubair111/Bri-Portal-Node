@@ -38,17 +38,29 @@ const AddSubjectRequirements = () => {
   const [eduLabel, setEduLabel] = useState("Select Education Level");
   const [eduValue, setEduValue] = useState(0);
   const [eduError, setEduError] = useState(false);
+  const [requiredRes, setRequiredRes] = useState("");
+  const [requiredId, setRequiredId] = useState(0);
 
   const { id } = useParams();
-  console.log(id, "SubIddddd");
+
+  console.log("requiredId", requiredId);
 
   useEffect(() => {
     get("EducationLevelDD/Index").then((res) => {
       console.log(res, "response");
       setEduLevelDD(res);
-      // setDeliveryDD(res);
     });
-  }, []);
+
+    
+      get(`SubjectRequirement/GetBySubject/${id}`).then(res=>{
+        console.log("subReq", res);
+        setEduLabel(res?.id != undefined ? res?.educationLevel?.name : "Select Education Level");
+        setEduValue(res?.id != undefined ? res?.educationLevel?.id : 0);
+        setRequiredId(res?.id);
+        setRequiredRes(res?.requiredResultInPercent);
+    })
+    
+  }, [id]);
 
   const eduLevelMenu = eduLevelDD.map((level) => ({
     label: level?.name,
@@ -78,10 +90,10 @@ const AddSubjectRequirements = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addSubject");
+      history.push(`/addSubject/${id}`);
     }
     if (tab == "2") {
-      history.push("/addSubjectFee");
+      history.push(`/addSubjectFee/${id}`);
     }
     if (tab == "3") {
       history.push(`/addSubjectDeliveryPattern/${id}`);
@@ -106,7 +118,8 @@ const AddSubjectRequirements = () => {
         setEduError(true);
     }
     else{
-        Axios.post(`${rootUrl}SubjectRequirement/Create`, subdata, {
+        if(requiredId != undefined){
+          Axios.put(`${rootUrl}SubjectRequirement/Update`, subdata, {
             headers: {
               "Content-Type": "application/json",
               authorization: AuthStr,
@@ -122,6 +135,25 @@ const AddSubjectRequirements = () => {
               });
             }
           });
+        }
+        else{
+          Axios.post(`${rootUrl}SubjectRequirement/Create`, subdata, {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: AuthStr,
+            },
+          }).then((res) => {
+            if (res.status === 200 && res.data.isSuccess === true) {
+              addToast(res?.data?.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              history.push({
+                pathname: `/addSubjectDocumentRequirement/${id}`,
+              });
+            }
+          });
+        }
     }
   };
 
@@ -129,7 +161,7 @@ const AddSubjectRequirements = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Subject Delivery Pattern</h3>
+          <h3 className="text-light">Add Subject Requirement</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}
@@ -144,7 +176,7 @@ const AddSubjectRequirements = () => {
           <Nav tabs>
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "1"}
                 onClick={() => toggle("1")}
               >
@@ -154,7 +186,7 @@ const AddSubjectRequirements = () => {
 
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "2"}
                 onClick={() => toggle("2")}
               >
@@ -164,11 +196,11 @@ const AddSubjectRequirements = () => {
 
             <NavItem>
               <NavLink
-                disabled
+                
                 active={activetab === "3"}
                 onClick={() => toggle("3")}
               >
-                Delivery pattern
+                Delivery Pattern
               </NavLink>
             </NavItem>
 
@@ -178,7 +210,7 @@ const AddSubjectRequirements = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink disabled active={activetab === "5"} onClick={() => toggle("5")}>
+              <NavLink  active={activetab === "5"} onClick={() => toggle("5")}>
                 Document Requirement
               </NavLink>
             </NavItem>
@@ -187,14 +219,20 @@ const AddSubjectRequirements = () => {
           <TabContent activeTab={activetab}>
             <TabPane tabId="4">
               <Form onSubmit={handleSubmit} className="mt-5">
-                <FormGroup row className="has-icon-left position-relative">
+                
                   <Input
                     type="hidden"
                     id="subjectId"
                     name="subjectId"
                     value={id}
                   />
-                </FormGroup>
+               
+                  <Input
+                    type="hidden"
+                    id="id"
+                    name="id"
+                    value={requiredId}
+                  />
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -209,6 +247,7 @@ const AddSubjectRequirements = () => {
                       onChange={(opt) => selectEduLevel(opt.label, opt.value)}
                       name="educationLevelId"
                       id="educationLevelId"
+                      placeholder="Select Education Level"
                     />
 
                     {eduError && (
@@ -231,6 +270,7 @@ const AddSubjectRequirements = () => {
                       type="number"
                       id="requiredResultInPercent"
                       name="requiredResultInPercent"
+                      defaultValue={requiredRes}
                       placeholder="Write Required Result"
                       required
                     />

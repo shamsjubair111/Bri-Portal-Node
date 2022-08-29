@@ -88,6 +88,7 @@ const SubjectList = (props) => {
 
     // add university handler
     const handleAddSubject = () => {
+      localStorage.removeItem("subjectId");
       history.push("/addSubject");
     };
 
@@ -556,7 +557,7 @@ const SubjectList = (props) => {
                           </Link> */}
 
                           <LinkButton
-                            url={`editSubject/${sub?.id}`}
+                            url={`addSubject/${sub?.id}`}
                             color={"dark"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}

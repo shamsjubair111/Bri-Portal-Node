@@ -46,9 +46,12 @@ import { Image } from "antd";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AddUniversity = (props) => {
-  const univerSityCountries = props.univerSityCountryList[0];
-  const universityTypes = props.univerSityTypeList[0];
-  const universityStates = props.univerSityStateList[0];
+  // const univerSityCountries = props.univerSityCountryList[0];
+  const [univerSityCountries, setUniverSityCountries] = useState([]);
+  // const universityTypes = props.univerSityTypeList[0];
+  const [universityTypes, setUniversitiesType] = useState([]);
+  // const universityStates = props.univerSityStateList[0];
+  const [universityStates, setUniversityStates] = useState([]);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -70,6 +73,11 @@ const AddUniversity = (props) => {
   );
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
+
+  const [contractTypeDD, setContractTypeDD] = useState([]);
+  const [contractTypeLabel, setContractTypeLabel] = useState("Select Contract Type");
+  const [contractTypeValue, setContractTypeValue] = useState(0);
+  const [contractTypeError, setContractTypeError] = useState(false);
 
   const [logoFiles, setLogoFiles] = useState([]);
   const [coverFiles, setCoverFiles] = useState([]);
@@ -168,10 +176,33 @@ const AddUniversity = (props) => {
         console.log(res, "ppppppp");
       })
       .catch();
+    get("UniversityCountryDD/Index")
+      .then((res) => {
+        setUniverSityCountries(res);
+      })
+      .catch();
+    get("UniversityTypeDD/Index")
+      .then((res) => {
+        setUniversitiesType(res);
+      })
+      .catch();
+    get("UniversityState/Index")
+      .then((res) => {
+        setUniversityStates(res);
+      })
+      .catch();
+    get("ContractTypeDD/Index")
+      .then((res) => {
+        setContractTypeDD(res);
+        // console.log("contract type", res);
+      })
+      .catch();
 
     if (localStorage.getItem("id")) {
       get(`University/get/${localStorage.getItem("id")}`).then((res) => {
-        console.log("uniIddata", res?.id);
+        console.log("uniIddata", res);
+        setContractTypeLabel(res?.contractType?.name);
+        setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
         setProviderTypeLabel(res?.provider?.name);
         setProviderTypeValue(res?.provider?.value);
@@ -204,6 +235,17 @@ const AddUniversity = (props) => {
   const providerMenu = provider.map((providerOptions) => ({
     label: providerOptions.name,
     value: providerOptions.id,
+  }));
+
+  const selectContractType = (label, value) => {
+    setContractTypeError(false);
+    setContractTypeLabel(label);
+    setContractTypeValue(value);
+  }
+
+  const contractMenu = contractTypeDD.map((contract) => ({
+    label: contract?.name,
+    value: contract?.id,
   }));
 
   // Logo file handle
@@ -257,6 +299,7 @@ const AddUniversity = (props) => {
 
   const history = useHistory();
 
+
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -282,6 +325,7 @@ const AddUniversity = (props) => {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
+        'authorization': AuthStr,
       },
     };
 
@@ -290,6 +334,9 @@ const AddUniversity = (props) => {
     }
     else if (uniTypeValue === 0) {
       setUniTypeError(true);
+    }
+    else if(contractTypeValue === 0){
+      setContractTypeError(true);
     }
     else if (uniCountryValue === 0) {
       setUniCountryError(true);
@@ -324,11 +371,7 @@ const AddUniversity = (props) => {
           }
         });
       } else {
-        Axios.post(`${rootUrl}University/Create`, subdata, config, {
-          headers: {
-            'authorization': AuthStr,
-          },
-        }).then(
+        Axios.post(`${rootUrl}University/Create`, subdata, config).then(
           (res) => {
             console.log("unipostData", res);
 
@@ -689,6 +732,33 @@ const AddUniversity = (props) => {
                     {uniTypeError ? (
                       <span className="text-danger">
                         University type must be selected
+                      </span>
+                    ) : null}
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Contract Type <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={contractMenu}
+                      value={{ label: contractTypeLabel, value: contractTypeValue }}
+                      onChange={(opt) => selectContractType(opt.label, opt.value)}
+                      name="contractTypeId"
+                      id="contractTypeId"
+                    />
+
+                    {contractTypeError ? (
+                      <span className="text-danger">
+                        Contract type must be selected
                       </span>
                     ) : null}
 

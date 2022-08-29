@@ -394,7 +394,7 @@ const EditSubjectDocumentRequirement = () => {
                     <div>
                       <h5>
                         {" "}
-                        <b>Document Required List</b>{" "}
+                        <b>Document Requirement List</b>{" "}
                       </h5>
 
                       <div className="bg-h"></div>
