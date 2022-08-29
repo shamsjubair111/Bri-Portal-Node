@@ -11,6 +11,7 @@ import get from '../../../../helpers/get';
 import BranchProfileImage from './BranchProfileImage';
 import BranchCoverImage from './BranchCoverimage';
 import { useSelector } from 'react-redux';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 
 
@@ -38,6 +39,7 @@ const Branch = () => {
       const [employeeInfo, setEmployeeInfo] = useState({});
       const [check,setCheck] = useState(true);
       const [imageError, setImageError] = useState(false);
+      const permissions = JSON.parse(localStorage.getItem("permissions"));
 
       const employeeProfileImage = useSelector((state) => state?.BranchEmployeeProfileImageReducer?.employeeProfileImage);
       // console.log(employeeProfileImage);
@@ -537,12 +539,18 @@ const Branch = () => {
             <Col md="6">
               <div className='d-flex justify-content-end'>
 
-              <Button.Ripple
+             {
+
+              permissions?.includes(permissionList?.Add_Branch_Employee) ?
+               <Button.Ripple
                type="submit"
                className="mr-1 mt-3 badge-primary"
              >
                Submit
              </Button.Ripple>
+             :
+             null
+             }
 
               </div>
             

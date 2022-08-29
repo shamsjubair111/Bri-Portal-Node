@@ -17,6 +17,7 @@ import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const AddConsultantType = () => {
 
@@ -28,6 +29,8 @@ const AddConsultantType = () => {
     const [consultantType,setConsultantType] = useState('');
     const [postId, setPostId] = useState(0);
     const [consName,setConsName] = useState('');
+
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
 
     const { addToast } = useToasts();
 
@@ -225,7 +228,7 @@ const AddConsultantType = () => {
                 <th>SL/NO</th>
                 <th>Consultant Type Name</th>
                 <th>Count</th>
-                {/* <th>Action</th> */}
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -245,27 +248,32 @@ const AddConsultantType = () => {
                    </Link> */}
                    <span className="badge badge-pill badge-primary"> {consultant?.consultantCount} </span>
                   </td>
-                  {/* <td>
+                  <td>
                     
-                    <ButtonForFunction 
+                    {/* <ButtonForFunction 
                       className={"mx-1 btn-sm"}
                       func={() => toggleDanger(consultant?.name, consultant?.id)}
                       color={"danger"}
                       icon={<i className="fas fa-trash-alt"></i>}
                       permission={6}
-                    />
+                    /> */}
 
 
-                    <ButtonForFunction 
-                      func={()=> handleUpdate(consultant?.id)}
-                      className={"mx-1 btn-sm"}
-                      color={"warning"}
-                      icon={<i className="fas fa-edit"></i>}
-                      permission={6}
-                    />
+                   {
+                      permissions?.includes(permissionList?.Edit_Consultant_type) ?
+                     <ButtonForFunction 
+                     func={()=> handleUpdate(consultant?.id)}
+                     className={"mx-1 btn-sm"}
+                     color={"warning"}
+                     icon={<i className="fas fa-edit"></i>}
+                  
+                   />
+                   :
+                   null
+                   }
 
 
-                    <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
+                    {/* <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                       <ModalBody>
                         <p>Are You Sure to Delete this <b>{localStorage.getItem('consTypeName')}</b> ? Once Deleted it can't be Undone!</p>
@@ -276,8 +284,8 @@ const AddConsultantType = () => {
                         <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
-                    </Modal>
-                  </td> */}
+                    </Modal> */}
+                  </td>
                 </tr>)
               }
 

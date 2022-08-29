@@ -11,6 +11,7 @@ import Select from "react-select";
 import { useToasts } from 'react-toast-notifications';
 import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const BranchManager = () => {
 
@@ -34,6 +35,8 @@ const BranchManager = () => {
     const [titleLabel,setTitleLabel] = useState('Select');
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
+
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
 
 
     const backToBranchList = () => {
@@ -570,12 +573,17 @@ const selectTitle = (label, value) => {
                 >
                  <Col md="6">
                   <div className='d-flex justify-content-end'>
-                  <Button.Ripple
+                  {
+                    permissions?.includes(permissionList?.Add_Branch_Manager)?
+                    <Button.Ripple
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                   >
                     Submit
                   </Button.Ripple>
+                  :
+                  null
+                  }
                   </div>
                  </Col>
                   <ToastContainer />

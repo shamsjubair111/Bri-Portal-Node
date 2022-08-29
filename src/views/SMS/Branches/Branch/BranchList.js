@@ -25,6 +25,7 @@ import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import LinkButton from "../../Components/LinkButton";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import { permissionList } from "../../../../constants/AuthorizationConstant";
 
 const BranchList = () => {
   const {addToast} = useToasts();
@@ -38,6 +39,8 @@ const BranchList = () => {
   const backToDashboard = () => {
     history.push("/");
   };
+
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
 
   useEffect(() => {
     get(`Branch/Index`).then((res) => {
@@ -122,14 +125,18 @@ const componentRef = useRef();
             <Col lg="6" md="5" sm="6" xs="4">
              
 
-              <LinkButton 
-                url={"/branchInformation"}
-                func={handleLocalStorage}
-                className={"btn btn-uapp-add "}
-                icon={<i className="fas fa-plus"></i>}
-                name={"Add New"}
-                permission={6}
-              />
+           {
+              permissions?.includes(permissionList?.Add_Branch) ?
+               <LinkButton 
+               url={"/branchInformation"}
+               func={handleLocalStorage}
+               className={"btn btn-uapp-add "}
+               icon={<i className="fas fa-plus"></i>}
+               name={"Add New"}
+           
+             />:
+             null
+           }
 
             </Col>
             
