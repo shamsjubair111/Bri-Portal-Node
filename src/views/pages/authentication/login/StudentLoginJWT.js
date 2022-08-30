@@ -51,6 +51,7 @@ class Login extends React.Component {
                   if(res?.data?.isActive){
                     localStorage.setItem('current_user', JSON.stringify(res?.data))
                   localStorage.setItem('userType', res?.data?.userTypeId);
+                  localStorage.setItem('referenceId', res?.data?.referenceId);
                   window.location.reload();
                   }
                   else{

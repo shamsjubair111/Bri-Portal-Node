@@ -86,7 +86,7 @@ const BankDetails = () => {
     }
 
     if (tab == "4") {
-   
+      history.push("/addConscent");
     }
 
   };

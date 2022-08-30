@@ -317,6 +317,10 @@ const ComissionGroupRangeList = lazy(() => import("./views/SMS/Comission/Comissi
 
 const UpdateUser = lazy(() => import("./views/Test/UpdateUser"));
 
+// Consultant Conscent
+
+const Conscent = lazy(() => import("./views/SMS/Consultant/Conscent"));
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -561,7 +565,10 @@ class AppRouter extends React.Component {
         <AppRoute  path="/comissionGroupList" component={ComissionGroup} />
         <AppRoute  path="/groupRangeList" component={ComissionGroupRangeList} />
 
+        {/* Consultant Conscent Path */}
 
+          <AppRoute  path="/addConscent" component={Conscent} />
+       
          <AppRoute  path="/search" component={Search} />
 
          <AppRoute  path="/500" component={InternalServerError} />

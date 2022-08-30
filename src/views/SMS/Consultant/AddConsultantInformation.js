@@ -469,7 +469,7 @@ const AddConsultantInformation = () => {
     }
 
     if (tab == "4") {
-   
+      history.push("/addConscent");
     }
 
   };

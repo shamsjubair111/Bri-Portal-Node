@@ -36,6 +36,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkButton from '../Components/LinkButton.js';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
+import { userTypes } from '../../../constants/userTypeConstant.js';
 
 const StudentList = () => {
 
@@ -56,9 +57,15 @@ const StudentList = () => {
     const [searchStr, setSearchStr] = useState("");
     const [date, setDate] = useState("");
 
+    const referenceId = localStorage.getItem('referenceId');
+
+    const userTypeId = localStorage.getItem('userType');
+
     const [consultant, setConsultant] = useState([]);
     const [consultantLabel, setConsultantLabel] = useState('Select Consultant');
     const [consultantValue, setConsultantValue] = useState(0);
+
+  
 
     const [accountStatus, setAccountStatus] = useState([]);
     const [statusLabel,setStatusLabel] = useState('Select Account Status')
@@ -89,8 +96,12 @@ const StudentList = () => {
         })
     },[]);
 
+      
     useEffect(()=>{
-        get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${consultantValue}&status=${statusValue}`).then(res=>{
+
+     
+
+        get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${(userTypeId == userTypes?.Consultant)? referenceId : consultantValue}&status=${statusValue}`).then(res=>{
           console.log("stdLists",res);
           setStudentData(res?.models);
           setEntity(res?.totalEntity); 
@@ -103,6 +114,8 @@ const StudentList = () => {
           setConsultantValue(cId);
         }
     },[currentPage, dataPerPage, callApi, searchStr, studentTypeValue, success])
+
+    
 
     // student dropdown options
     const studentTypeOption = studentList?.map((std) => ({
@@ -320,7 +333,7 @@ const StudentList = () => {
                 </Row>
 
                 <Row className ='mt-3'>
-                  <Col lg="6" md="6" sm="12" xs="12">
+                  {/* <Col lg="6" md="6" sm="12" xs="12">
                     <Select
                     options={consultantOption}
                     value={{ label: consultantLabel, value: consultantValue }}
@@ -329,7 +342,7 @@ const StudentList = () => {
                     id="consultantId"
                       
                     />
-                  </Col>
+                  </Col> */}
 
                   <Col lg="6" md="6" sm="12" xs="12">
                     
