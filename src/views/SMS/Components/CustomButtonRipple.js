@@ -20,8 +20,6 @@ const CustomButtonRipple = ({className, icon,color, permission, type,url, func, 
              >
                {name}
             </Button.Ripple>
-            :
-           
         </>
     );
 };

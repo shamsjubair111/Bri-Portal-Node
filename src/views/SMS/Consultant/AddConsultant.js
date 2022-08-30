@@ -83,7 +83,7 @@ const AddConsultant = () => {
     const handleEmail = (e) => {
       console.log(e.target.value);
 
-      get(`Consultant/OnChangeEmail/${e.target.value}`)
+      get(`EmailCheck/EmailCheck/${e.target.value}`)
       .then(res => {
         console.log('Checking Response', res);
         setEmailError(res);
@@ -103,6 +103,9 @@ const AddConsultant = () => {
     }
     else if(nameValue == 0){
       setTitleError(true);
+    }
+    else if(emailError == false){
+      setEmailError(emailError);
     }
 
     else{
@@ -290,7 +293,7 @@ const AddConsultant = () => {
                     {
                       !emailError ? 
 
-                      <span className='text-danger'>Email Already Exists</span>
+                      <span className='text-danger'>Email already exists</span>
                       :
                       null
 

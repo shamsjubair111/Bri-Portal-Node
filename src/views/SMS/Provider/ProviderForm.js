@@ -30,6 +30,7 @@ const ProviderForm = (props) => {
     const [providerTypeValue, setProviderTypeValue] = useState(0);
     const [providerTypeError, setProviderTypeError] = useState(false);
     const [imageError, setImageError] = useState(false);
+    const [emailError, setEmailError] = useState(true);
 
     
     const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
@@ -71,6 +72,9 @@ const ProviderForm = (props) => {
         else if(providerLogo.length <1){
           setImageError(true);
         }
+        else if(emailError == false){
+          setEmailError(emailError);
+        }
         else{
         //  post form data and notify the response to user
         post(`Provider/Create`,subData,config).then((action)=> {
@@ -98,6 +102,16 @@ const ProviderForm = (props) => {
         setProviderTypeValue(value);
         setProviderTypeError(false);
        
+      }
+
+      const handleEmail = (e) => {
+        console.log(e.target.value);
+  
+        get(`EmailCheck/EmailCheck/${e.target.value}`)
+        .then(res => {
+          console.log('Checking Response', res);
+          setEmailError(res);
+        })
       }
 
 
@@ -173,9 +187,17 @@ const ProviderForm = (props) => {
                         id="email"
                         placeholder="Enter Your Email"
                         required
+                        onBlur={handleEmail}
                         // onChange={(e)=>setIcon(e.target.value)}
                       />
+                      {
+                      !emailError ? 
 
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
                     </Col>
                   </FormGroup>
 

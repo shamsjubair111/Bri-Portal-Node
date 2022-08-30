@@ -68,6 +68,7 @@ const CampusSubjectList = () => {
     const [uniTypeId ,setUTypeId] = useState(0);
     const [ulist,setUList] = useState([]);
     const [cam, setCam] = useState([]);
+    const [campus, setCampus] = useState({});
 
     const location = useLocation();
     const history = useHistory();
@@ -145,6 +146,10 @@ const CampusSubjectList = () => {
             console.log("subject",res);
             setSubList(res?.models);
             setEntity(res?.totalEntity);
+        });
+        get(`UniversityCampus/Get/${camId}`).then(res=>{
+          console.log("campus", res);
+          setCampus(res);
         })
     },[success, currentPage, dataPerPage, callApi, searchStr, camId]);
 
@@ -185,11 +190,11 @@ const CampusSubjectList = () => {
         <div>
             <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
-                  <h3 className="text-light">Subject List</h3>
+                  <h3 className="text-light">Campus Subject List</h3>
                   <div className="page-header-back-to-home">
                     <span onClick={backToDashboard} className="text-light">
                       {" "}
-                      <i className="fas fa-arrow-circle-left"></i> Back to Campus list
+                      <i className="fas fa-arrow-circle-left"></i> Back to Campus List
                     </span>
                   </div>
                 </CardHeader>
@@ -241,6 +246,18 @@ const CampusSubjectList = () => {
 
       <Card className="uapp-employee-search">
         <CardBody>
+
+        {
+          campus?.name != undefined ?
+          <div className="container test-score-div-1-style mt-1 mb-4">
+            <span className="test-score-span-1-style">
+              Showing <b>{campus?.name}{"'"}s</b> campus list
+            </span>
+          </div>
+          :
+          null
+        }
+
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
               
@@ -322,7 +339,7 @@ const CampusSubjectList = () => {
                     <th>Program Level</th>
                     <th>Department</th>
                     <th>Sub Department</th>
-                    <th>Intakes</th>
+                    <th>Intake</th>
                     {/* <th>Intakes</th> */}
                     <th style={{ width: "8%" }} className="text-center">
                       Action

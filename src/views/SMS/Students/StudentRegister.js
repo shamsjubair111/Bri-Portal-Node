@@ -28,6 +28,8 @@ const StudentRegister = () => {
    const [consultantError, setConsultantError] = useState(false);
    const [studentError, setStudentError] = useState(false);
 
+   const [emailError, setEmailError] = useState(true);
+
 
 
 
@@ -119,8 +121,9 @@ const cancelForm = () => {
           
          
         }
-
-        
+        else if(emailError == false){
+          setEmailError(emailError);
+        }
 
         else{
 
@@ -157,7 +160,16 @@ const cancelForm = () => {
       }
 
 
-      localStorage.setItem("access", "hgvhvcewcece");
+      // localStorage.setItem("access", "hgvhvcewcece");
+      const handleEmail = (e) => {
+        console.log(e.target.value);
+  
+        get(`EmailCheck/EmailCheck/${e.target.value}`)
+        .then(res => {
+          console.log('Checking Response', res);
+          setEmailError(res);
+        })
+      }
 
 
     return (
@@ -290,8 +302,16 @@ const cancelForm = () => {
                   id="email"
                   placeholder="Enter email"
                   required
+                  onBlur={handleEmail}
                 />
-  
+                {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email already exists</span>
+                      :
+                      null
+
+                    }
            
               </Col>
             </FormGroup>

@@ -39,6 +39,7 @@ const Branch = () => {
       const [employeeInfo, setEmployeeInfo] = useState({});
       const [check,setCheck] = useState(true);
       const [imageError, setImageError] = useState(false);
+      const [emailError, setEmailError] = useState(true);
       const permissions = JSON.parse(localStorage.getItem("permissions"));
 
       const employeeProfileImage = useSelector((state) => state?.BranchEmployeeProfileImageReducer?.employeeProfileImage);
@@ -135,7 +136,8 @@ const Branch = () => {
 
     const config = {
       headers: {
-        'content-type': 'multipart/form-data'
+        'content-type': 'multipart/form-data',
+        'authorization': AuthStr,
       }
     }
 
@@ -143,21 +145,19 @@ const Branch = () => {
     if(nationalityValue == 0){
       setNationalityError(true);
     }
-    if(employeeProfileImage.length <1 && check){
+    else if(employeeProfileImage.length <1 && check){
       setImageError(true);
     }
-
+    else if(emailError == false){
+      setEmailError(emailError);
+    }
     else{
 
    if(!id){
 
 
     
-    Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config, {
-      headers: {
-        'authorization': AuthStr,
-      },
-    }).then((res) => {
+    Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config).then((res) => {
           
       if (res?.status === 200 && res?.data?.isSuccess === true) {
         setSubmitData(true);
@@ -177,11 +177,7 @@ const Branch = () => {
        
     
        else{
-        Axios.put(`${rootUrl}BranchEmployee/Update`, subdata, config, {
-          headers: {
-            'authorization': AuthStr,
-          },
-        })
+        Axios.put(`${rootUrl}BranchEmployee/Update`, subdata, config)
         .then(res => {
           if (res?.status === 200 && res?.data?.isSuccess === true) {
           
@@ -207,6 +203,16 @@ const Branch = () => {
 
    
   };
+
+  const handleEmail = (e) => {
+    console.log(e.target.value);
+
+    get(`EmailCheck/EmailCheck/${e.target.value}`)
+    .then(res => {
+      console.log('Checking Response', res);
+      setEmailError(res);
+    })
+  }
 
 
     return (
@@ -374,8 +380,16 @@ const Branch = () => {
                  placeholder="Enter email"
                  required
                  defaultValue={employeeInfo?.email}
+                 onBlur={handleEmail}
                />
-           
+                {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
              </Col>
            </FormGroup>
            }
