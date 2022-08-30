@@ -89,6 +89,10 @@ const AddConsultant = () => {
         setEmailError(res);
       })
     }
+
+    const backToConsultantList = () => {
+      history.push('/consultantList');
+    }
       
   // on submit form
   const handleSubmit = (event) => {
@@ -135,7 +139,7 @@ const AddConsultant = () => {
   };
 
 
-    const backToConsultantList = () =>{
+    const ToConsultantList = () =>{
        
         history.push('/consultantList');
     }
@@ -340,8 +344,9 @@ const AddConsultant = () => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 ></FormGroup>
+
                 <FormGroup row
-                  className="has-icon-left position-relative"
+                  className="has-icon-left position-relative ms-3"
                   style={{ display: "flex", justifyContent: "end" }}
                 >
                   {/* <Button.Ripple
@@ -350,13 +355,23 @@ const AddConsultant = () => {
                   >
                     Submit
                   </Button.Ripple> */}
-                   <Col md="5">
+                   <Col md="6">
+
+                   <Button onClick={ToConsultantList} 
+                    className='mt-3 me-1'
+                    color='danger'>
+                        Cancel
+                    </Button>
+
                     <ButtonForFunction 
                       type={"submit"}
-                      className={"mr-1 mt-3 badge-primary"}
+                      className={'mt-3 ms-1'}
+                      color={'primary'}
                       name={"Submit"}
-                      permission={6}
+                      
                     />
+
+                 
                     </Col>
                 </FormGroup>
               </Form>

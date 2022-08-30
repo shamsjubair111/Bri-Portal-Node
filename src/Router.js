@@ -388,7 +388,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/roleMenu" component={permissions?.includes(permissionList?.View_Menulist) ? RoleMenu : NotAuthorized} />
 
   
-         <AppRoute  path="/employeeType" component={permissions.includes(permissionList?.Employee_type)? EmployeeType : NotAuthorized} />
+         <AppRoute  path="/employeeType" component={permissions.includes(permissionList?.EmployeeTypeList)? EmployeeType : NotAuthorized} />
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
          <AppRoute  path="/employeeList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
@@ -557,7 +557,7 @@ class AppRouter extends React.Component {
 
          {/* Comission paths */}
 
-        <AppRoute  path="/accountIntakeList" component={AccountIntake} />
+        <AppRoute  path="/accountIntakeList" component={permissions?.includes(permissionList?.AccountIntake_List)? AccountIntake : NotAuthorized} />
         <AppRoute  path="/comissionGroupList" component={ComissionGroup} />
         <AppRoute  path="/groupRangeList" component={ComissionGroupRangeList} />
 

@@ -29,6 +29,8 @@ import remove from "../../../helpers/remove";
 
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import loadingImages from '../../../assets/img/data.svg'
+import cardImage from '../../../assets/img/Group.png';
 
 const TestScore = () => {
   const [activetab, setActivetab] = useState("5");
@@ -81,6 +83,7 @@ const TestScore = () => {
   const method = localStorage.getItem("method");
 
   const [testError, setTestError] = useState(false);
+  const [loading, setLoading] =useState(true);
 
   const handleDate = (e) => {
     var datee = e;
@@ -154,6 +157,7 @@ const TestScore = () => {
     ).then((res) => {
       console.log("fetch GRE data form API", res);
       setGreData(res);
+      setLoading(false);
     });
 
     get(
@@ -161,11 +165,13 @@ const TestScore = () => {
     ).then((res) => {
       console.log("Fetching Gmat Score Form Api", res);
       setGmatData(res);
+      setLoading(false);
     });
 
     get(`Ielts/Index/${localStorage.getItem("applictionStudentId")}`).then(
       (res) => {
         setIelts(res);
+        setLoading(false);
       }
     );
 
@@ -173,12 +179,14 @@ const TestScore = () => {
       (res) => {
         console.log("duolingo data", res);
         setDuolingo(res);
+        setLoading(false);
       }
     );
 
     get(`Toefl/Index/${localStorage.getItem("applictionStudentId")}`).then(
       (res) => {
         setToefl(res);
+        setLoading(false);
       }
     );
 
@@ -186,23 +194,27 @@ const TestScore = () => {
       `FunctionalSkill/Index/${localStorage.getItem("applictionStudentId")}`
     ).then((res) => {
       setFunctions(res);
+      setLoading(false);
     });
 
     get(`Gcse/Index/${localStorage.getItem("applictionStudentId")}`).then(
       (res) => {
         setGcse(res);
+        setLoading(false);
       }
     );
 
     get(`Pearson/Index/${localStorage.getItem("applictionStudentId")}`).then(
       (res) => {
         setPearson(res);
+        setLoading(false);
       }
     );
 
     get(`Other/Index/${localStorage.getItem("applictionStudentId")}`).then(
       (res) => {
         setOthers(res);
+        setLoading(false);
       }
     );
 
@@ -210,6 +222,7 @@ const TestScore = () => {
       (res) => {
         console.log("pte Data ", res);
         setPte(res);
+        setLoading(false);
       }
     );
   }, [success]);
@@ -227,6 +240,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -236,6 +251,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -245,6 +262,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -254,6 +273,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -263,6 +284,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -272,6 +295,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -281,6 +306,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -292,6 +319,8 @@ const TestScore = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setData({});
+        setValue(0);
         setDeleteModal(false);
         setSuccess(!success);
       });
@@ -310,6 +339,12 @@ const TestScore = () => {
       setSuccess(!success);
     });
   };
+
+
+  const addNewScore = () => {
+    setQualificationLabel('Yes');
+    setQualificationValue(1);
+  }
 
   const handleDeleteGmatData = (data) => {
     console.log(data);
@@ -772,6 +807,7 @@ const TestScore = () => {
 
   //  select  quakification type
   const selectQualificationType = (label, value) => {
+    console.log(label,value);
     setQualificationLabel(label);
     setQualificationValue(value);
 
@@ -913,1367 +949,2020 @@ const TestScore = () => {
         </CardHeader>
       </Card>
 
+     {
+
+
+      loading?
+
+      <div className="text-center">
+
+        <img src={loadingImages} />
+
+
+      </div>
+
+      :
+
       <Card>
-        <CardBody>
-          {method == "put" ? (
-            <Nav tabs>
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "1"}
-                  onClick={() => toggle("1")}
-                >
-                  Application
-                </NavLink>
-              </NavItem>
+      <CardBody>
+        {method == "put" ? (
+          <Nav tabs>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "1"}
+                onClick={() => toggle("1")}
+              >
+                Application
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "2"}
-                  onClick={() => toggle("2")}
-                >
-                  Personal
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "2"}
+                onClick={() => toggle("2")}
+              >
+                Personal
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "3"}
-                  onClick={() => toggle("3")}
-                >
-                  Contact
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "3"}
+                onClick={() => toggle("3")}
+              >
+                Contact
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "4"}
-                  onClick={() => toggle("4")}
-                >
-                  Educational
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "4"}
+                onClick={() => toggle("4")}
+              >
+                Educational
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "5"}
-                  onClick={() => toggle("5")}
-                >
-                  Test Score
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "5"}
+                onClick={() => toggle("5")}
+              >
+                Test Score
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "6"}
-                  onClick={() => toggle("6")}
-                >
-                  Experience
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "6"}
+                onClick={() => toggle("6")}
+              >
+                Experience
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "7"}
-                  onClick={() => toggle("7")}
-                >
-                  Reference
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "7"}
+                onClick={() => toggle("7")}
+              >
+                Reference
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "8"}
-                  onClick={() => toggle("8")}
-                >
-                  Personal Statement
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "8"}
+                onClick={() => toggle("8")}
+              >
+                Personal Statement
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "9"}
-                  onClick={() => toggle("9")}
-                >
-                  Others
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "9"}
+                onClick={() => toggle("9")}
+              >
+                Others
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  style={{ color: "#1e98b0" }}
-                  active={activetab === "10"}
-                  onClick={() => toggle("10")}
-                >
-                  Documents
-                </NavLink>
-              </NavItem>
-            </Nav>
-          ) : (
-            <Nav tabs>
-              <NavItem>
-                <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
-                  Application
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "10"}
+                onClick={() => toggle("10")}
+              >
+                Documents
+              </NavLink>
+            </NavItem>
+          </Nav>
+        ) : (
+          <Nav tabs>
+            <NavItem>
+              <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
+                Application
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                  Personal
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
+                Personal
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                  Contact
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                Contact
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
-                  Educational
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+                Educational
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                  Test Score
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+                Test Score
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  disabled
-                  active={activetab === "6"}
-                  onClick={() => toggle("6")}
-                >
-                  Experience
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                disabled
+                active={activetab === "6"}
+                onClick={() => toggle("6")}
+              >
+                Experience
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  disabled
-                  active={activetab === "7"}
-                  onClick={() => toggle("7")}
-                >
-                  Reference
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                disabled
+                active={activetab === "7"}
+                onClick={() => toggle("7")}
+              >
+                Reference
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  disabled
-                  active={activetab === "8"}
-                  onClick={() => toggle("8")}
-                >
-                  Personal Statement
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                disabled
+                active={activetab === "8"}
+                onClick={() => toggle("8")}
+              >
+                Personal Statement
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  disabled
-                  active={activetab === "9"}
-                  onClick={() => toggle("9")}
-                >
-                  Others
-                </NavLink>
-              </NavItem>
+            <NavItem>
+              <NavLink
+                disabled
+                active={activetab === "9"}
+                onClick={() => toggle("9")}
+              >
+                Others
+              </NavLink>
+            </NavItem>
 
-              <NavItem>
-                <NavLink
-                  disabled
-                  active={activetab === "10"}
-                  onClick={() => toggle("10")}
-                >
-                  Documents
-                </NavLink>
-              </NavItem>
-            </Nav>
-          )}
+            <NavItem>
+              <NavLink
+                disabled
+                active={activetab === "10"}
+                onClick={() => toggle("10")}
+              >
+                Documents
+              </NavLink>
+            </NavItem>
+          </Nav>
+        )}
 
+        {!(
+        ielts !== null || duolingo !== null || toefl !== null || functions !== null || gcse !== null || pearson !== null || others !== null || pte !== null
+        ) ? (
+          <div className="container test-score-div-1-style mt-4">
+            <span className="test-score-span-1-style">
+              Do You Hold an English Language Qualification Such as GCSE
+              English Language, IELTS, Pearson etc ?
+            </span>
+          </div>
+        ) : null}
+
+        <div className="row mt-3">
           {!(
-            ielts?.id ||
-            duolingo?.id ||
-            toefl?.id ||
-            functions?.id ||
-            gcse?.id ||
-            pearson?.id ||
-            others?.id ||
-            pte?.id
+           ielts !== null || duolingo !== null || toefl !== null || functions !== null || gcse !== null || pearson !== null || others !== null || pte !== null
           ) ? (
-            <div className="container test-score-div-1-style mt-4">
-              <span className="test-score-span-1-style">
-                Do You Hold an English Language Qualification Such as GCSE
-                English Language, IELTS, Pearson etc ?
-              </span>
-            </div>
+            <FormGroup
+              row
+              className="has-icon-left position-relative ms-md-1"
+            >
+              <Col md="2">
+                <span>
+                  Please Select <span className="text-danger">*</span>{" "}
+                </span>
+              </Col>
+              <Col md="6">
+                <Select
+                  options={testSignleOptions}
+                  value={{
+                    label: qualificationLabel,
+                    value: qualificationValue,
+                  }}
+                  onChange={(opt) =>
+                    selectQualificationType(opt.label, opt.value)
+                  }
+                  name=""
+                  id=""
+                  required
+                />
+              </Col>
+            </FormGroup>
           ) : null}
 
-          <div className="row mt-3">
-            {!(
-              ielts?.id &&
-              duolingo?.id &&
-              toefl?.id &&
-              functions?.id &&
-              gcse?.id &&
-              pearson?.id &&
-              others?.id &&
-              pte?.id
-            ) ? (
+          {qualificationLabel == "Yes" ? (
+            <>
               <FormGroup
                 row
                 className="has-icon-left position-relative ms-md-1"
               >
                 <Col md="2">
                   <span>
-                    Please Select <span className="text-danger">*</span>{" "}
+                    Please Select the Type of English Language Qualification{" "}
+                    <span className="text-danger">*</span>{" "}
                   </span>
                 </Col>
                 <Col md="6">
                   <Select
-                    options={testSignleOptions}
+                    options={qualificationOptions}
                     value={{
-                      label: qualificationLabel,
-                      value: qualificationValue,
+                      label: ELqualificationLabel,
+                      value: ELqualificationValue,
                     }}
                     onChange={(opt) =>
-                      selectQualificationType(opt.label, opt.value)
+                      selectQualification(opt.label, opt.value)
                     }
-                    name=""
-                    id=""
+                    name="examType"
+                    id="examType"
                     required
                   />
+
+                  {testError && (
+                    <span className="text-danger">
+                      Enlish Language Test Must Be Selected{" "}
+                    </span>
+                  )}
                 </Col>
               </FormGroup>
-            ) : null}
+            </>
+          ) : null}
 
-            {qualificationLabel == "Yes" ? (
-              <>
-                <FormGroup
-                  row
-                  className="has-icon-left position-relative ms-md-1"
-                >
-                  <Col md="2">
-                    <span>
-                      Please Select the Type of English Language Qualification{" "}
-                      <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={qualificationOptions}
-                      value={{
-                        label: ELqualificationLabel,
-                        value: ELqualificationValue,
-                      }}
-                      onChange={(opt) =>
-                        selectQualification(opt.label, opt.value)
-                      }
-                      name="examType"
-                      id="examType"
-                      required
-                    />
+          <br />
 
-                    {testError && (
-                      <span className="text-danger">
-                        Enlish Language Test Must Be Selected{" "}
-                      </span>
-                    )}
-                  </Col>
-                </FormGroup>
-              </>
-            ) : null}
+          <div>
+            <Modal
+              isOpen={modalOpen}
+              toggle={closeModal}
+              className="uapp-modal"
+            >
+              <ModalHeader>English Test Score</ModalHeader>
 
-            <br />
+              <ModalBody>
+                <Form onSubmit={handleSubmit}>
+                  {ELqualificationLabel == "IELTS" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-            <div>
-              <Modal
-                isOpen={modalOpen}
-                toggle={closeModal}
-                className="uapp-modal"
-              >
-                <ModalHeader>English Test Score</ModalHeader>
-
-                <ModalBody>
-                  <Form onSubmit={handleSubmit}>
-                    {ELqualificationLabel == "IELTS" && (
-                      <>
+                      {updateIelts ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={ielts?.id}
                         />
+                      ) : null}
 
-                        {updateIelts ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={ielts?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={updateIelts ? ielts?.overall : ""}
+                            min="0"
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                              defaultValue={updateIelts ? ielts?.overall : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Speaking
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="speaking"
+                            id="speaking"
+                            defaultValue={updateIelts ? ielts?.speaking : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Speaking
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="speaking"
-                              id="speaking"
-                              defaultValue={updateIelts ? ielts?.speaking : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Reading
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="reading"
+                            id="reading"
+                            defaultValue={updateIelts ? ielts?.reading : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Reading
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="reading"
-                              id="reading"
-                              defaultValue={updateIelts ? ielts?.reading : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Writing
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="writing"
+                            id="writing"
+                            defaultValue={updateIelts ? ielts?.writing : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Writing
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="writing"
-                              id="writing"
-                              defaultValue={updateIelts ? ielts?.writing : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Listening
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="listening"
+                            id="listening"
+                            defaultValue={updateIelts ? ielts?.listening : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Listening
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="listening"
-                              id="listening"
-                              defaultValue={updateIelts ? ielts?.listening : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Exam Date
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="date"
+                            name="examDate"
+                            id="examDate"
+                            defaultValue={
+                              updateIelts ? handleDate(ielts?.examDate) : ""
+                            }
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Exam Date
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="date"
-                              name="examDate"
-                              id="examDate"
-                              defaultValue={
-                                updateIelts ? handleDate(ielts?.examDate) : ""
-                              }
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
+                  {ELqualificationLabel == "TOEFL" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-                    {ELqualificationLabel == "TOEFL" && (
-                      <>
+                      {updateToefl ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={toefl?.id}
                         />
+                      ) : null}
 
-                        {updateToefl ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={toefl?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={updateToefl ? toefl?.overall : ""}
+                            min="0"
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                              defaultValue={updateToefl ? toefl?.overall : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Speaking
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="speaking"
+                            id="speaking"
+                            defaultValue={updateToefl ? toefl?.speaking : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Speaking
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="speaking"
-                              id="speaking"
-                              defaultValue={updateToefl ? toefl?.speaking : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Reading
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="reading"
+                            id="reading"
+                            defaultValue={updateToefl ? toefl?.reading : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Reading
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="reading"
-                              id="reading"
-                              defaultValue={updateToefl ? toefl?.reading : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Writing
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="writing"
+                            id="writing"
+                            defaultValue={updateToefl ? toefl?.writing : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Writing
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="writing"
-                              id="writing"
-                              defaultValue={updateToefl ? toefl?.writing : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Listening
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="listening"
+                            id="listening"
+                            defaultValue={updateToefl ? toefl?.listening : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Listening
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="listening"
-                              id="listening"
-                              defaultValue={updateToefl ? toefl?.listening : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Exam Date
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="date"
+                            name="examDate"
+                            id="examDate"
+                            defaultValue={
+                              updateToefl ? handleDate(toefl?.examDate) : ""
+                            }
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Exam Date
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="date"
-                              name="examDate"
-                              id="examDate"
-                              defaultValue={
-                                updateToefl ? handleDate(toefl?.examDate) : ""
-                              }
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
+                  {ELqualificationLabel == "FUNCTION SKILLS" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-                    {ELqualificationLabel == "FUNCTION SKILLS" && (
-                      <>
+                      {updateFunctions ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={functions?.id}
                         />
+                      ) : null}
 
-                        {updateFunctions ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={functions?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={
+                              updateFunctions ? functions?.overall : ""
+                            }
+                            min="0"
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                              defaultValue={
-                                updateFunctions ? functions?.overall : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Speaking
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="speaking"
+                            id="speaking"
+                            defaultValue={
+                              updateFunctions ? functions?.speaking : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Speaking
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="speaking"
-                              id="speaking"
-                              defaultValue={
-                                updateFunctions ? functions?.speaking : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Reading
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="reading"
+                            id="reading"
+                            defaultValue={
+                              updateFunctions ? functions?.reading : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Reading
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="reading"
-                              id="reading"
-                              defaultValue={
-                                updateFunctions ? functions?.reading : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Writing
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="writing"
+                            id="writing"
+                            defaultValue={
+                              updateFunctions ? functions?.writing : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Writing
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="writing"
-                              id="writing"
-                              defaultValue={
-                                updateFunctions ? functions?.writing : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Listening
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="listening"
+                            id="listening"
+                            defaultValue={
+                              updateFunctions ? functions?.listening : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Listening
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="listening"
-                              id="listening"
-                              defaultValue={
-                                updateFunctions ? functions?.listening : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Exam Date
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="date"
+                            name="examDate"
+                            id="examDate"
+                            defaultValue={
+                              updateFunctions
+                                ? handleDate(functions?.examDate)
+                                : ""
+                            }
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Exam Date
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="date"
-                              name="examDate"
-                              id="examDate"
-                              defaultValue={
-                                updateFunctions
-                                  ? handleDate(functions?.examDate)
-                                  : ""
-                              }
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
+                  {ELqualificationLabel == "GCSE" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-                    {ELqualificationLabel == "GCSE" && (
-                      <>
+                      {updateGcse ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={gcse?.id}
                         />
+                      ) : null}
 
-                        {updateGcse ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={gcse?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Result
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="result"
+                            id="result"
+                            defaultValue={updateGcse ? gcse?.result : ""}
+                            min="0"
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Result
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="result"
-                              id="result"
-                              defaultValue={updateGcse ? gcse?.result : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
+                  {ELqualificationLabel == "PEARSON" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-                    {ELqualificationLabel == "PEARSON" && (
-                      <>
+                      {updatePearson ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={pearson?.id}
                         />
+                      ) : null}
 
-                        {updatePearson ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={pearson?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Result
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="result"
+                            id="result"
+                            defaultValue={
+                              updatePearson ? pearson?.result : ""
+                            }
+                            min="0"
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Result
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="result"
-                              id="result"
-                              defaultValue={
-                                updatePearson ? pearson?.result : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
+                  {ELqualificationLabel == "DUOLINGO" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-                    {ELqualificationLabel == "DUOLINGO" && (
-                      <>
+                      {updateDuolingo ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={duolingo?.id}
                         />
+                      ) : null}
 
-                        {updateDuolingo ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={duolingo?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            {" "}
+                            Literacy
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="literacy"
+                            id="literacy"
+                            defaultValue={
+                              updateDuolingo ? duolingo?.leteracy : ""
+                            }
+                            min="0"
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="3">
-                            <span>
-                              {" "}
-                              Literacy
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="literacy"
-                              id="literacy"
-                              defaultValue={
-                                updateDuolingo ? duolingo?.leteracy : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            {" "}
+                            Comprehension
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="comprehension"
+                            id="comprehension"
+                            defaultValue={
+                              updateDuolingo ? duolingo?.comprehension : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="3">
-                            <span>
-                              {" "}
-                              Comprehension
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="comprehension"
-                              id="comprehension"
-                              defaultValue={
-                                updateDuolingo ? duolingo?.comprehension : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            {" "}
+                            Conversation
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="conversation"
+                            id="conversation"
+                            defaultValue={
+                              updateDuolingo ? duolingo?.conversation : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="3">
-                            <span>
-                              {" "}
-                              Conversation
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="conversation"
-                              id="conversation"
-                              defaultValue={
-                                updateDuolingo ? duolingo?.conversation : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            {" "}
+                            Production
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="production"
+                            id="production"
+                            defaultValue={
+                              updateDuolingo ? duolingo?.production : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="3">
-                            <span>
-                              {" "}
-                              Production
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="production"
-                              id="production"
-                              defaultValue={
-                                updateDuolingo ? duolingo?.production : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            {" "}
+                            Exam Date
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="date"
+                            name="examDate"
+                            id="examDate"
+                            defaultValue={
+                              updateDuolingo
+                                ? handleDate(duolingo?.examDate)
+                                : ""
+                            }
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="3">
-                            <span>
-                              {" "}
-                              Exam Date
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="date"
-                              name="examDate"
-                              id="examDate"
-                              defaultValue={
-                                updateDuolingo
-                                  ? handleDate(duolingo?.examDate)
-                                  : ""
-                              }
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
+                  {ELqualificationLabel == "OTHER SCORE" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-                    {ELqualificationLabel == "OTHER SCORE" && (
-                      <>
+                      {updateOther ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={others?.id}
                         />
+                      ) : null}
 
-                        {updateOther ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={others?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Test Name
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="text"
+                            name="testName"
+                            id="testName"
+                            defaultValue={updateOther ? others?.testName : ""}
+                            required
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Test Name
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="text"
-                              name="testName"
-                              id="testName"
-                              defaultValue={updateOther ? others?.testName : ""}
-                              required
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Score Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="scoreOverall"
+                            id="scoreOverall"
+                            defaultValue={
+                              updateOther ? others?.scoreOverall : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Score Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="scoreOverall"
-                              id="scoreOverall"
-                              defaultValue={
-                                updateOther ? others?.scoreOverall : ""
-                              }
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
+                  {ELqualificationLabel == "PTE SCORE" && (
+                    <>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        id="studentId"
+                        value={localStorage.getItem("applictionStudentId")}
+                      />
 
-                    {ELqualificationLabel == "PTE SCORE" && (
-                      <>
+                      {updatePte ? (
                         <input
                           type="hidden"
-                          name="studentId"
-                          id="studentId"
-                          value={localStorage.getItem("applictionStudentId")}
+                          name="id"
+                          id="id"
+                          value={pte?.id}
                         />
+                      ) : null}
 
-                        {updatePte ? (
-                          <input
-                            type="hidden"
-                            name="id"
-                            id="id"
-                            value={pte?.id}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={updatePte ? pte?.overall : ""}
+                            min="0"
                           />
-                        ) : null}
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                              defaultValue={updatePte ? pte?.overall : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Speaking
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="speaking"
+                            id="speaking"
+                            defaultValue={updatePte ? pte?.speaking : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Speaking
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="speaking"
-                              id="speaking"
-                              defaultValue={updatePte ? pte?.speaking : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Reading
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="reading"
+                            id="reading"
+                            defaultValue={updatePte ? pte?.reading : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Reading
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="reading"
-                              id="reading"
-                              defaultValue={updatePte ? pte?.reading : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Writing
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="writing"
+                            id="writing"
+                            defaultValue={updatePte ? pte?.writing : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Writing
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="writing"
-                              id="writing"
-                              defaultValue={updatePte ? pte?.writing : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Listening
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="listening"
+                            id="listening"
+                            defaultValue={updatePte ? pte?.listening : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
 
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Listening
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="listening"
-                              id="listening"
-                              defaultValue={updatePte ? pte?.listening : ""}
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
-
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <Col md="5">
-                            <ButtonForFunction
-                              name={"Save"}
-                              className={"mr-1 mt-3 badge-primary"}
-                              type={"submit"}
-                            />
-                          </Col>
-                        </FormGroup>
-                      </>
-                    )}
-                  </Form>
-                </ModalBody>
-              </Modal>
-            </div>
-
-            {/* Showing English Test Score Forms */}
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                        style={{ display: "flex", justifyContent: "end" }}
+                      >
+                        <Col md="5">
+                          <ButtonForFunction
+                            name={"Save"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            type={"submit"}
+                          />
+                        </Col>
+                      </FormGroup>
+                    </>
+                  )}
+                </Form>
+              </ModalBody>
+            </Modal>
           </div>
 
-          {/* Showing English Test Result In Card */}
+          {/* Showing English Test Score Forms */}
+        </div>
 
+        {/* Showing English Test Result In Card */}
+
+        <div className="row mt-3">
+          <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+            <div>
+              <h5>
+                {" "}
+                <b>English Test Score</b>{" "}
+              </h5>
+
+              <div className="bg-h"></div>
+            </div>
+          </div>
+
+         {
+          (ielts !== null || duolingo !== null || toefl !== null || functions !== null || gcse !== null || pearson !== null || others !== null || pte !== null) ?
+           <div className="ms-md-2 mb-2">
+            
+           <ButtonForFunction className ={"btn btn-uapp-add "}
+                icon ={<i className="fas fa-plus"></i>}
+                func={addNewScore} 
+                name={' Add New'}
+                
+                ></ButtonForFunction>
+           </div>
+
+           :
+
+           null
+         }
+
+          {ielts?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">IELTS Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="primary"
+                          className="bankCard-style"
+                          onClick={handleEditIelts}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="danger"
+                          className="bankCard-style"
+                          onClick={() => toggleDanger(ielts, 1)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+             <div className="d-flex justify-content-between">
+
+              <div>
+              <span className='bank-account-info-text'>Overall: {ielts?.overall}</span>
+                  <br/>
+                  <span className='bank-account-info-text'>Speaking: {ielts?.speaking}</span>
+                  <br/>
+                  <span className='bank-account-info-text'>reading: {ielts?.reading}</span>
+                  <br/>
+                  <span className='bank-account-info-text'>Writing: {ielts?.writing}</span>
+                  <br/>
+                  <span className='bank-account-info-text'>Listening: {ielts?.listening}</span>
+                  <br/>
+                  <span className='bank-account-info-text'>Exam Date: {handleDate(ielts?.examDate)}</span>
+
+                  
+
+              </div>
+
+              <div>
+
+              <img src={cardImage} />
+
+              </div>
+
+             </div>
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+
+          {duolingo?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">DUOLINGO Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="button"
+                          className="bankCard-style"
+                          color="primary"
+                          onClick={handleEditDuolingo}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="button"
+                          color='danger'
+                          className="bankCard-style"
+                          onClick={() => toggleDanger(duolingo, 2)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="d-flex justify-content-between">
+                    <div>
+                    <span  className='bank-account-info-text'>Literacy: {duolingo?.leteracy}</span>
+                  <br/>
+                  <span  className='bank-account-info-text'>Comprehension: {duolingo?.comprehension}</span>
+                  <br/>
+                  <span  className='bank-account-info-text'>Conversation: {duolingo?.conversation}</span>
+                  <br/>
+                  <span  className='bank-account-info-text'>Production: {duolingo?.production}</span>
+                  <br/>
+                  <span  className='bank-account-info-text'>Exam Date: {handleDate(duolingo?.examDate)}</span>
+                    </div>
+
+                    <div>
+                      <img src={cardImage} />
+                    </div>
+
+                  </div>
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+
+          {toefl?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">TOEFL Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="primary"
+                          className="bankCard-style"
+                          onClick={handleEditToefl}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="danger"
+                          className="bankCard-style"
+                          onClick={() => toggleDanger(toefl, 3)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="d-flex justify-content-between">
+
+                    <div>
+
+                    <span className="bank-account-info-text">Overall: {toefl?.overall}</span>
+                  <br/>
+                  <span  className="bank-account-info-text">Speaking: {toefl?.speaking}</span>
+                  <br/>
+                  <span  className="bank-account-info-text">reading: {toefl?.reading}</span>
+                  <br/>
+                  <span  className="bank-account-info-text">Writing: {toefl?.writing}</span>
+                  <br/>
+                  <span  className="bank-account-info-text">Listening: {toefl?.listening}</span>
+                  <br/>
+                  <span  className="bank-account-info-text">Exam Date: {handleDate(toefl?.examDate)}</span>
+
+                    </div>
+
+                    <div>
+                      <img src={cardImage} />
+
+                    </div>
+
+                  </div>
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+          {functions?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard shadow-style test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">Functional Skill Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="button"
+                          className="bankCard-style"
+                          color="primary"
+                          onClick={handleEditFunctions}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="button"
+                          className="bankCard-style"
+                          color="danger"
+                          onClick={() => toggleDanger(functions, 4)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                 <div className="d-flex justify-content-between">
+                  <div>
+                  <span className="bank-account-info-text">Overall: {functions?.overall}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Speaking: {functions?.speaking}</span>
+                  <br/>
+                  <span className="bank-account-info-text">reading: {functions?.reading}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Writing: {functions?.writing}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Listening: {functions?.listening}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Exam Date: {handleDate(functions?.examDate)}</span>
+                  </div>
+
+                  <div>
+                    <img src={cardImage} />
+
+                  </div>
+
+
+
+                 </div>
+
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+
+          {gcse?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard shadow-style test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">GCSE Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="primary"
+                          className="bankCard-style"
+                          onClick={handleEditGcse}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="danger"
+                          className="bankCard-style"
+                          onClick={() => toggleDanger(gcse, 5)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                 <div className="d-flex justify-content-between">
+                  <div>
+                  <span className="bank-account-info-text">Result: {gcse?.result}</span>
+                  <br/>
+                  </div>
+                  <div>
+                    <img src={cardImage} />
+                  </div>
+
+                 </div>
+
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+
+          {pearson?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard shadow-style test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">PEARSON Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="Button"
+                          color="primary"
+                          className="bankCard-style"
+                          onClick={handleEditPearson}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="danger"
+                          className="bankCard-style"
+                          onClick={() => toggleDanger(pearson, 6)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                 <div className="d-flex justify-content-between">
+                  <div>
+                  <span className="bank-account-info-text">Result: {pearson?.result}</span>
+                  </div>
+
+                  <div>
+
+                    <img src={cardImage} />
+                  </div>
+
+                 </div>
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+
+          {others?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard shadow-style test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">Other Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="primary"
+                          className="bankCard-style"
+                          onClick={handleEditOthers}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="danger"
+                          className="bankCard-style"
+                          onClick={() => toggleDanger(others, 7)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                <div className="d-flex justify-content-between">
+                  <div>
+                  <span className="bank-account-info-text">Test Name: {others?.testName}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Overall Score: {others?.scoreOverall}</span>
+                  </div>
+
+                  <div>
+                  <img src={cardImage} />
+                </div>
+
+
+                </div>
+                
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+          {pte?.id ? (
+            <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+              <Card className="CampusCard shadow-style test-score-card-style">
+                <CardBody className="shadow">
+                  <div className="d-flex justify-content-space-between">
+                    <h5 className="test-score-title-style">PTE Score</h5>
+                    <div className="CampusCardAction">
+                      <div className="">
+                        <Button
+                          type="button"
+                          color="primary"
+                          className="bankCard-style"
+                          onClick={handleEditPte}
+                        >
+                          {" "}
+                          <i className="fas fa-edit"></i>{" "}
+                        </Button>
+                      </div>
+
+                      <div className="">
+                        <Button
+                          type="Button"
+                          color="danger"
+                          className="bankCard-style"
+                          onClick={() => toggleDanger(pte, 8)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="d-flex justify-content-between">
+
+                    <div>
+                    <span className="bank-account-info-text">Overall: {pte?.overall}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Speaking: {pte?.speaking}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Reading: {pte?.reading}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Writing: {pte?.writing}</span>
+                  <br/>
+                  <span className="bank-account-info-text">Listening: {pte?.listening}</span>
+                    </div>
+
+                    <div>
+                      <img src={cardImage} />
+                    </div>
+
+                  </div>
+                  
+                </CardBody>
+
+                <Modal
+                  isOpen={deleteModal}
+                  toggle={() => setDeleteModal(!deleteModal)}
+                  className="uapp-modal"
+                >
+                  <ModalBody>
+                    <p>
+                      Are You Sure to Delete this ? Once Deleted it can't be
+                      Undone!
+                    </p>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                      YES
+                    </Button>
+                    <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </div>
+          ) : null}
+        </div>
+
+        <section id="root">
           <div className="row mt-3">
             <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
               <div>
                 <h5>
                   {" "}
-                  <b>English Test Score</b>{" "}
+                  <b>GRE & GMAT Score</b>{" "}
                 </h5>
 
                 <div className="bg-h"></div>
               </div>
             </div>
 
-            {ielts?.id ? (
+            {greData?.id ? (
               <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
                 <Card className="CampusCard shadow-style test-score-card-style">
                   <CardBody className="shadow">
                     <div className="d-flex justify-content-space-between">
-                      <h5>IELTS Score</h5>
+                      <h5 className="test-score-title-style">GRE Result</h5>
                       <div className="CampusCardAction">
                         <div className="">
-                          <button
+                          <Button
                             type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditIelts}
+                            onClick={() => handleEdit2(greData)}
+                            color='primary'
+                            className="bankCard-style"
                           >
                             {" "}
                             <i className="fas fa-edit"></i>{" "}
-                          </button>
+                          </Button>
                         </div>
 
                         <div className="">
-                          <button
+                          <Button
                             type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(ielts, 1)}
+                            className="bankCard-style"
+                            color="danger"
+                            onClick={() => toggleDanger2(greData)}
                           >
                             <i className="fas fa-trash-alt"></i>
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
 
-                    <h6>Overall: {ielts?.overall}</h6>
-                    <h6>Speaking: {ielts?.speaking}</h6>
-                    <h6>reading: {ielts?.reading}</h6>
-                    <h6>Writing: {ielts?.writing}</h6>
-                    <h6>Listening: {ielts?.listening}</h6>
-                    <h6>Exam Date: {handleDate(ielts?.examDate)}</h6>
+                    <div className="d-flex justify-content-between">
+
+                      <div>
+                      <span className="bank-account-info-text">Quantitative Score: {greData?.quantitativeScore}</span>
+                      <br/>
+                    <span className="bank-account-info-text">Quantitative Rank: {greData?.quantitativeRank}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Verbal Score: {greData?.verbalScore}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Verbal Rank: {greData?.verbalRank}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Writing Score: {greData?.writingScore}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Writing Rank: {greData?.writingRank}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Exam Date: {handleDate(greData?.greExamDate)}</span>
+
+                      </div>
+
+                      <div>
+                        <img src={cardImage} />
+
+                      </div>
+                    </div>
                   </CardBody>
 
                   <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
+                    isOpen={deleteModal2}
+                    toggle={() => setDeleteModal2(!deleteModal2)}
                     className="uapp-modal"
                   >
                     <ModalBody>
@@ -2284,56 +2973,85 @@ const TestScore = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
+                      <Button
+                        color="danger"
+                        onClick={() => handleDeleteGreData(greData)}
+                      >
                         YES
                       </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                      <Button onClick={() => setDeleteModal2(false)}>
+                        NO
+                      </Button>
                     </ModalFooter>
                   </Modal>
                 </Card>
               </div>
             ) : null}
 
-            {duolingo?.id ? (
+            {gmatData?.id ? (
               <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
                 <Card className="CampusCard shadow-style test-score-card-style">
                   <CardBody className="shadow">
                     <div className="d-flex justify-content-space-between">
-                      <h5>DUOLINGO Score</h5>
+                      <h5 className="test-score-title-style">GMAT Result</h5>
                       <div className="CampusCardAction">
                         <div className="">
-                          <button
+                          <Button
                             type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditDuolingo}
+                            onClick={() => handleEdit3(gmatData)}
+                            className="bankCard-style"
+                            color="primary"
                           >
                             {" "}
                             <i className="fas fa-edit"></i>{" "}
-                          </button>
+                          </Button>
                         </div>
 
                         <div className="">
-                          <button
+                          <Button
                             type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(duolingo, 2)}
+                            color="danger"
+                            className="bankCard-style"
+                            onClick={() => toggleDanger3(gmatData)}
                           >
                             <i className="fas fa-trash-alt"></i>
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
 
-                    <h6>Literacy: {duolingo?.leteracy}</h6>
-                    <h6>Comprehension: {duolingo?.comprehension}</h6>
-                    <h6>Conversation: {duolingo?.conversation}</h6>
-                    <h6>Production: {duolingo?.production}</h6>
-                    <h6>Exam Date: {handleDate(duolingo?.examDate)}</h6>
+                   <div className="d-flex justify-content-between">
+
+                    <div>
+                    <span className="bank-account-info-text">Quantitative Score: {gmatData?.quantitativeScore}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Quantitative Rank: {gmatData?.quantitativeRank}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Verbal Score: {gmatData?.verbalScore}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Verbal Rank: {gmatData?.verbalRank}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Total Score: {gmatData?.totalScore}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Total Rank: {gmatData?.totalRank}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Writing Score: {gmatData?.writingScore}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Writing Rank: {gmatData?.writingRank}</span>
+                    <br/>
+                    <span className="bank-account-info-text">Exam Date: {handleDate(gmatData?.gmatExamDate)}</span>
+
+                    </div>
+                    <div>
+                      <img src={cardImage} />
+                    </div>
+
+                   </div>
                   </CardBody>
 
                   <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
+                    isOpen={deleteModal3}
+                    toggle={() => setDeleteModal3(!deleteModal3)}
                     className="uapp-modal"
                   >
                     <ModalBody>
@@ -2344,1060 +3062,567 @@ const TestScore = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
+                      <Button
+                        color="danger"
+                        onClick={() => handleDeleteGmatData(gmatData)}
+                      >
                         YES
                       </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                    </ModalFooter>
-                  </Modal>
-                </Card>
-              </div>
-            ) : null}
-
-            {toefl?.id ? (
-              <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                <Card className="CampusCard shadow-style test-score-card-style">
-                  <CardBody className="shadow">
-                    <div className="d-flex justify-content-space-between">
-                      <h5>TOEFL Score</h5>
-                      <div className="CampusCardAction">
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditToefl}
-                          >
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </button>
-                        </div>
-
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(toefl, 3)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h6>Overall: {toefl?.overall}</h6>
-                    <h6>Speaking: {toefl?.speaking}</h6>
-                    <h6>reading: {toefl?.reading}</h6>
-                    <h6>Writing: {toefl?.writing}</h6>
-                    <h6>Listening: {toefl?.listening}</h6>
-                    <h6>Exam Date: {handleDate(toefl?.examDate)}</h6>
-                  </CardBody>
-
-                  <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
-                    className="uapp-modal"
-                  >
-                    <ModalBody>
-                      <p>
-                        Are You Sure to Delete this ? Once Deleted it can't be
-                        Undone!
-                      </p>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
-                        YES
+                      <Button onClick={() => setDeleteModal3(false)}>
+                        NO
                       </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                    </ModalFooter>
-                  </Modal>
-                </Card>
-              </div>
-            ) : null}
-            {functions?.id ? (
-              <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                <Card className="CampusCard shadow-style test-score-card-style">
-                  <CardBody className="shadow">
-                    <div className="d-flex justify-content-space-between">
-                      <h5>Functional Skill Score</h5>
-                      <div className="CampusCardAction">
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditFunctions}
-                          >
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </button>
-                        </div>
-
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(functions, 4)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h6>Overall: {functions?.overall}</h6>
-                    <h6>Speaking: {functions?.speaking}</h6>
-                    <h6>reading: {functions?.reading}</h6>
-                    <h6>Writing: {functions?.writing}</h6>
-                    <h6>Listening: {functions?.listening}</h6>
-                    <h6>Exam Date: {handleDate(functions?.examDate)}</h6>
-                  </CardBody>
-
-                  <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
-                    className="uapp-modal"
-                  >
-                    <ModalBody>
-                      <p>
-                        Are You Sure to Delete this ? Once Deleted it can't be
-                        Undone!
-                      </p>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
-                        YES
-                      </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                    </ModalFooter>
-                  </Modal>
-                </Card>
-              </div>
-            ) : null}
-
-            {gcse?.id ? (
-              <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                <Card className="CampusCard shadow-style test-score-card-style">
-                  <CardBody className="shadow">
-                    <div className="d-flex justify-content-space-between">
-                      <h5>GCSE Score</h5>
-                      <div className="CampusCardAction">
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditGcse}
-                          >
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </button>
-                        </div>
-
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(gcse, 5)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h6>Result: {gcse?.result}</h6>
-                  </CardBody>
-
-                  <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
-                    className="uapp-modal"
-                  >
-                    <ModalBody>
-                      <p>
-                        Are You Sure to Delete this ? Once Deleted it can't be
-                        Undone!
-                      </p>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
-                        YES
-                      </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                    </ModalFooter>
-                  </Modal>
-                </Card>
-              </div>
-            ) : null}
-
-            {pearson?.id ? (
-              <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                <Card className="CampusCard shadow-style test-score-card-style">
-                  <CardBody className="shadow">
-                    <div className="d-flex justify-content-space-between">
-                      <h5>PEARSON Score</h5>
-                      <div className="CampusCardAction">
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditPearson}
-                          >
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </button>
-                        </div>
-
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(pearson, 6)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h6>Result: {pearson?.result}</h6>
-                  </CardBody>
-
-                  <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
-                    className="uapp-modal"
-                  >
-                    <ModalBody>
-                      <p>
-                        Are You Sure to Delete this ? Once Deleted it can't be
-                        Undone!
-                      </p>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
-                        YES
-                      </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                    </ModalFooter>
-                  </Modal>
-                </Card>
-              </div>
-            ) : null}
-
-            {others?.id ? (
-              <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                <Card className="CampusCard shadow-style test-score-card-style">
-                  <CardBody className="shadow">
-                    <div className="d-flex justify-content-space-between">
-                      <h5>Other Score</h5>
-                      <div className="CampusCardAction">
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditOthers}
-                          >
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </button>
-                        </div>
-
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(others, 7)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h6>Test Name: {others?.testName}</h6>
-                    <h6>Overall Score: {others?.scoreOverall}</h6>
-                  </CardBody>
-
-                  <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
-                    className="uapp-modal"
-                  >
-                    <ModalBody>
-                      <p>
-                        Are You Sure to Delete this ? Once Deleted it can't be
-                        Undone!
-                      </p>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
-                        YES
-                      </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                    </ModalFooter>
-                  </Modal>
-                </Card>
-              </div>
-            ) : null}
-            {pte?.id ? (
-              <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                <Card className="CampusCard shadow-style test-score-card-style">
-                  <CardBody className="shadow">
-                    <div className="d-flex justify-content-space-between">
-                      <h5>PTE Score</h5>
-                      <div className="CampusCardAction">
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleEditPte}
-                          >
-                            {" "}
-                            <i className="fas fa-edit"></i>{" "}
-                          </button>
-                        </div>
-
-                        <div className="">
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger"
-                            onClick={() => toggleDanger(pte, 8)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h6>Overall: {pte?.overall}</h6>
-                    <h6>Speaking: {pte?.speaking}</h6>
-                    <h6>Reading: {pte?.reading}</h6>
-                    <h6>Writing: {pte?.writing}</h6>
-                    <h6>Listening: {pte?.listening}</h6>
-                  </CardBody>
-
-                  <Modal
-                    isOpen={deleteModal}
-                    toggle={() => setDeleteModal(!deleteModal)}
-                    className="uapp-modal"
-                  >
-                    <ModalBody>
-                      <p>
-                        Are You Sure to Delete this ? Once Deleted it can't be
-                        Undone!
-                      </p>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button color="danger" onClick={deleteEnglishTestScore}>
-                        YES
-                      </Button>
-                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
                     </ModalFooter>
                   </Modal>
                 </Card>
               </div>
             ) : null}
           </div>
+        </section>
 
-          <section id="root">
-            <div className="row mt-3">
-              <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
-                <div>
-                  <h5>
-                    {" "}
-                    <b>GRE & GMAT Score</b>{" "}
-                  </h5>
-
-                  <div className="bg-h"></div>
-                </div>
-              </div>
-
-              {greData?.id ? (
-                <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                  <Card className="CampusCard shadow-style test-score-card-style">
-                    <CardBody className="shadow">
-                      <div className="d-flex justify-content-space-between">
-                        <h5>GRE Result</h5>
-                        <div className="CampusCardAction">
-                          <div className="">
-                            <button
-                              type="button"
-                              onClick={() => handleEdit2(greData)}
-                              className="btn btn-outline-info"
-                            >
-                              {" "}
-                              <i className="fas fa-edit"></i>{" "}
-                            </button>
-                          </div>
-
-                          <div className="">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                              onClick={() => toggleDanger2(greData)}
-                            >
-                              <i className="fas fa-trash-alt"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <h6>Quantitative Score: {greData?.quantitativeScore}</h6>
-                      <h6>Quantitative Rank: {greData?.quantitativeRank}</h6>
-                      <h6>Verbal Score: {greData?.verbalScore}</h6>
-                      <h6>Verbal Rank: {greData?.verbalRank}</h6>
-                      <h6>Writing Score: {greData?.writingScore}</h6>
-                      <h6>Writing Rank: {greData?.writingRank}</h6>
-                      <h6>Exam Date: {handleDate(greData?.greExamDate)}</h6>
-                    </CardBody>
-
-                    <Modal
-                      isOpen={deleteModal2}
-                      toggle={() => setDeleteModal2(!deleteModal2)}
-                      className="uapp-modal"
-                    >
-                      <ModalBody>
-                        <p>
-                          Are You Sure to Delete this ? Once Deleted it can't be
-                          Undone!
-                        </p>
-                      </ModalBody>
-
-                      <ModalFooter>
-                        <Button
-                          color="danger"
-                          onClick={() => handleDeleteGreData(greData)}
-                        >
-                          YES
-                        </Button>
-                        <Button onClick={() => setDeleteModal2(false)}>
-                          NO
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-                  </Card>
-                </div>
-              ) : null}
-
-              {gmatData?.id ? (
-                <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-                  <Card className="CampusCard shadow-style test-score-card-style">
-                    <CardBody className="shadow">
-                      <div className="d-flex justify-content-space-between">
-                        <h5>GMAT Result</h5>
-                        <div className="CampusCardAction">
-                          <div className="">
-                            <button
-                              type="button"
-                              onClick={() => handleEdit3(gmatData)}
-                              className="btn btn-outline-info"
-                            >
-                              {" "}
-                              <i className="fas fa-edit"></i>{" "}
-                            </button>
-                          </div>
-
-                          <div className="">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                              onClick={() => toggleDanger3(gmatData)}
-                            >
-                              <i className="fas fa-trash-alt"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <h6>Quantitative Score: {gmatData?.quantitativeScore}</h6>
-                      <h6>Quantitative Rank: {gmatData?.quantitativeRank}</h6>
-                      <h6>Verbal Score: {gmatData?.verbalScore}</h6>
-                      <h6>Verbal Rank: {gmatData?.verbalRank}</h6>
-                      <h6>Total Score: {gmatData?.totalScore}</h6>
-                      <h6>Total Rank: {gmatData?.totalRank}</h6>
-                      <h6>Writing Score: {gmatData?.writingScore}</h6>
-                      <h6>Writing Rank: {gmatData?.writingRank}</h6>
-                      <h6>Exam Date: {handleDate(gmatData?.gmatExamDate)}</h6>
-                    </CardBody>
-
-                    <Modal
-                      isOpen={deleteModal3}
-                      toggle={() => setDeleteModal3(!deleteModal3)}
-                      className="uapp-modal"
-                    >
-                      <ModalBody>
-                        <p>
-                          Are You Sure to Delete this ? Once Deleted it can't be
-                          Undone!
-                        </p>
-                      </ModalBody>
-
-                      <ModalFooter>
-                        <Button
-                          color="danger"
-                          onClick={() => handleDeleteGmatData(gmatData)}
-                        >
-                          YES
-                        </Button>
-                        <Button onClick={() => setDeleteModal3(false)}>
-                          NO
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-                  </Card>
-                </div>
-              ) : null}
+        {!greData?.id ? (
+          <>
+            <div className="container test-score-div-1-style mt-4">
+              <span className="test-score-span-1-style">
+                GRE Information Not Found. Add Gre Information.
+              </span>
             </div>
-          </section>
 
-          {!greData?.id ? (
-            <>
-              <div className="container test-score-div-1-style mt-4">
-                <span className="test-score-span-1-style">
-                  GRE Information Not Found. Add Gre Information.
-                </span>
-              </div>
-
-              <FormGroup
-                className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
+            <FormGroup
+              className="has-icon-left position-relative"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Button.Ripple
+                color="primary"
+                onClick={showGREForm}
+                className="ms-md-2 mt-3"
               >
-                <Button.Ripple
-                  color="primary"
-                  onClick={showGREForm}
-                  className="ms-md-2 mt-3"
-                >
-                  Add GRE
-                </Button.Ripple>
-              </FormGroup>
-            </>
-          ) : null}
+                Add GRE
+              </Button.Ripple>
+            </FormGroup>
+          </>
+        ) : null}
 
-          {gmatData?.id ? null : (
-            <>
-              <div className="container test-score-div-1-style mt-4">
-                <span className="test-score-span-1-style">
-                  GMAT Information Not Found. Add GMAT Information.
-                </span>
-              </div>
+        {gmatData?.id ? null : (
+          <>
+            <div className="container test-score-div-1-style mt-4">
+              <span className="test-score-span-1-style">
+                GMAT Information Not Found. Add GMAT Information.
+              </span>
+            </div>
 
-              <FormGroup
-                className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
+            <FormGroup
+              className="has-icon-left position-relative"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Button.Ripple
+                color="primary"
+                onClick={showGMATForm}
+                className="ms-md-2 mt-3"
               >
-                <Button.Ripple
-                  color="primary"
-                  onClick={showGMATForm}
-                  className="ms-md-2 mt-3"
-                >
-                  Add GMAT
-                </Button.Ripple>
-              </FormGroup>
-            </>
-          )}
+                Add GMAT
+              </Button.Ripple>
+            </FormGroup>
+          </>
+        )}
 
-          {/* MOdals Start Section */}
+        {/* MOdals Start Section */}
 
-          <TabContent activeTab={activetab}>
-            <TabPane tabId="5">
-              <div>
-                <Modal
-                  isOpen={modal2Open}
-                  toggle={closeModal2}
-                  className="uapp-modal"
-                >
-                  {greData?.id ? (
-                    <ModalHeader>Update GRE Result</ModalHeader>
-                  ) : (
-                    <ModalHeader>Add GRE Result</ModalHeader>
-                  )}
-                  <ModalBody>
-                    <Form onSubmit={handleSubmitUpdateGre}>
+        <TabContent activeTab={activetab}>
+          <TabPane tabId="5">
+            <div>
+              <Modal
+                isOpen={modal2Open}
+                toggle={closeModal2}
+                className="uapp-modal"
+              >
+                {greData?.id ? (
+                  <ModalHeader>Update GRE Result</ModalHeader>
+                ) : (
+                  <ModalHeader>Add GRE Result</ModalHeader>
+                )}
+                <ModalBody>
+                  <Form onSubmit={handleSubmitUpdateGre}>
+                    <Input
+                      type="hidden"
+                      name="studentId"
+                      id="studentId"
+                      value={localStorage.getItem("applictionStudentId")}
+                    />
+
+                    {greData?.id ? (
                       <Input
                         type="hidden"
-                        name="studentId"
-                        id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        name="id"
+                        id="id"
+                        value={greData?.id}
                       />
+                    ) : null}
 
-                      {greData?.id ? (
+                    <input
+                      type="hidden"
+                      name="haveGreExam"
+                      id="haveGreExam"
+                      checked={true}
+                    />
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          GRE Exam Date <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
                         <Input
-                          type="hidden"
-                          name="id"
-                          id="id"
-                          value={greData?.id}
+                          type="date"
+                          id="greExamDate"
+                          name="greExamDate"
+                          defaultValue={handleDate(greData?.greExamDate)}
                         />
-                      ) : null}
+                      </Col>
+                    </FormGroup>
 
-                      <input
-                        type="hidden"
-                        name="haveGreExam"
-                        id="haveGreExam"
-                        checked={true}
-                      />
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Verbal Score <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="verbalScore"
+                          name="verbalScore"
+                          required
+                          defaultValue={greData?.verbalScore}
+                        />
+                      </Col>
+                    </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Verbal Rank <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="verbalRank"
+                          name="verbalRank"
+                          required
+                          defaultValue={greData?.verbalRank}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Quantitative Score{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="quantitativeScore"
+                          name="quantitativeScore"
+                          required
+                          defaultValue={greData?.quantitativeScore}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Quantitative Rank{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="quantitativeRank"
+                          name="quantitativeRank"
+                          required
+                          defaultValue={greData?.quantitativeRank}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Writing Score <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="writingScore"
+                          name="writingScore"
+                          required
+                          defaultValue={greData?.writingScore}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Writing Rank <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="writingRank"
+                          name="writingRank"
+                          required
+                          defaultValue={greData?.writingRank}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Button
+                        color="danger"
+                        className="mr-1 mt-3"
+                        onClick={closeModal2}
                       >
-                        <Col md="5">
-                          <span>
-                            GRE Exam Date <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="date"
-                            id="greExamDate"
-                            name="greExamDate"
-                            defaultValue={handleDate(greData?.greExamDate)}
-                          />
-                        </Col>
-                      </FormGroup>
+                        Close
+                      </Button>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
+                      <Button.Ripple
+                        color="warning"
+                        type="submit"
+                        className="mr-1 mt-3"
                       >
-                        <Col md="5">
-                          <span>
-                            Verbal Score <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="verbalScore"
-                            name="verbalScore"
-                            required
-                            defaultValue={greData?.verbalScore}
-                          />
-                        </Col>
-                      </FormGroup>
+                        Submit
+                      </Button.Ripple>
+                    </FormGroup>
+                  </Form>
+                </ModalBody>
+              </Modal>
+              <div></div>
+            </div>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Verbal Rank <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="verbalRank"
-                            name="verbalRank"
-                            required
-                            defaultValue={greData?.verbalRank}
-                          />
-                        </Col>
-                      </FormGroup>
+            <div>
+              <Modal
+                isOpen={modal3Open}
+                toggle={closeModal3}
+                className="uapp-modal"
+              >
+                {gmatData?.id ? (
+                  <ModalHeader>Update GMAT Result</ModalHeader>
+                ) : (
+                  <ModalHeader>Add GMAT Result</ModalHeader>
+                )}
+                <ModalBody>
+                  <Form onSubmit={handleSubmitUpdateGmat}>
+                    <Input
+                      type="hidden"
+                      name="studentId"
+                      id="studentId"
+                      value={localStorage.getItem("applictionStudentId")}
+                    />
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Quantitative Score{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="quantitativeScore"
-                            name="quantitativeScore"
-                            required
-                            defaultValue={greData?.quantitativeScore}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Quantitative Rank{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="quantitativeRank"
-                            name="quantitativeRank"
-                            required
-                            defaultValue={greData?.quantitativeRank}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Writing Score <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="writingScore"
-                            name="writingScore"
-                            required
-                            defaultValue={greData?.writingScore}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Writing Rank <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="writingRank"
-                            name="writingRank"
-                            required
-                            defaultValue={greData?.writingRank}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        className="has-icon-left position-relative"
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Button
-                          color="danger"
-                          className="mr-1 mt-3"
-                          onClick={closeModal2}
-                        >
-                          Close
-                        </Button>
-
-                        <Button.Ripple
-                          color="warning"
-                          type="submit"
-                          className="mr-1 mt-3"
-                        >
-                          Submit
-                        </Button.Ripple>
-                      </FormGroup>
-                    </Form>
-                  </ModalBody>
-                </Modal>
-                <div></div>
-              </div>
-
-              <div>
-                <Modal
-                  isOpen={modal3Open}
-                  toggle={closeModal3}
-                  className="uapp-modal"
-                >
-                  {gmatData?.id ? (
-                    <ModalHeader>Update GMAT Result</ModalHeader>
-                  ) : (
-                    <ModalHeader>Add GMAT Result</ModalHeader>
-                  )}
-                  <ModalBody>
-                    <Form onSubmit={handleSubmitUpdateGmat}>
+                    {gmatData?.id ? (
                       <Input
                         type="hidden"
-                        name="studentId"
-                        id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        name="id"
+                        id="id"
+                        value={gmatData?.id}
                       />
+                    ) : null}
 
-                      {gmatData?.id ? (
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Input
+                        type="hidden"
+                        name="haveGmatExam"
+                        id="haveGmatExam"
+                        value={true}
+                      />
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          GMAT Exam Date{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
                         <Input
-                          type="hidden"
-                          name="id"
-                          id="id"
-                          value={gmatData?.id}
+                          type="date"
+                          id="gmatExamDate"
+                          name="gmatExamDate"
+                          defaultValue={handleDate(gmatData?.gmatExamDate)}
                         />
-                      ) : null}
+                      </Col>
+                    </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Total Score <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
                         <Input
-                          type="hidden"
-                          name="haveGmatExam"
-                          id="haveGmatExam"
-                          value={true}
+                          type="text"
+                          id="totalScore"
+                          name="totalScore"
+                          required
+                          defaultValue={gmatData?.totalScore}
                         />
-                      </FormGroup>
+                      </Col>
+                    </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Total Rank <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="totalRank"
+                          name="totalRank"
+                          required
+                          defaultValue={gmatData?.totalRank}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Verbal Score <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="verbalScore"
+                          name="verbalScore"
+                          required
+                          defaultValue={gmatData?.verbalScore}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Verbal Rank <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="verbalRank"
+                          name="verbalRank"
+                          required
+                          defaultValue={gmatData?.verbalRank}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Quantitative Score{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="quantitativeScore"
+                          name="quantitativeScore"
+                          required
+                          defaultValue={gmatData?.quantitativeScore}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Quantitative Rank{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="quantitativeRank"
+                          name="quantitativeRank"
+                          required
+                          defaultValue={gmatData?.quantitativeRank}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Writing Score <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="writingScore"
+                          name="writingScore"
+                          required
+                          defaultValue={gmatData?.writingScore}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      row
+                      className="has-icon-left position-relative"
+                    >
+                      <Col md="5">
+                        <span>
+                          Writing Rank <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          id="writingRank"
+                          name="writingRank"
+                          required
+                          defaultValue={gmatData?.writingRank}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Button
+                        color="danger"
+                        className="mr-1 mt-3"
+                        onClick={closeModal3}
                       >
-                        <Col md="5">
-                          <span>
-                            GMAT Exam Date{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="date"
-                            id="gmatExamDate"
-                            name="gmatExamDate"
-                            defaultValue={handleDate(gmatData?.gmatExamDate)}
-                          />
-                        </Col>
-                      </FormGroup>
+                        Close
+                      </Button>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
+                      <Button.Ripple
+                        color="warning"
+                        type="submit"
+                        className="mr-1 mt-3"
                       >
-                        <Col md="5">
-                          <span>
-                            Total Score <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="totalScore"
-                            name="totalScore"
-                            required
-                            defaultValue={gmatData?.totalScore}
-                          />
-                        </Col>
-                      </FormGroup>
+                        Submit
+                      </Button.Ripple>
+                    </FormGroup>
+                  </Form>
+                </ModalBody>
+              </Modal>
+              <div></div>
+            </div>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Total Rank <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="totalRank"
-                            name="totalRank"
-                            required
-                            defaultValue={gmatData?.totalRank}
-                          />
-                        </Col>
-                      </FormGroup>
+            <FormGroup
+              className="has-icon-left position-relative"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <ButtonForFunction
+                name={"Previous"}
+                func={goBackward}
+                className={"ms-md-2 mt-3 btn-warning"}
+              />
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Verbal Score <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="verbalScore"
-                            name="verbalScore"
-                            required
-                            defaultValue={gmatData?.verbalScore}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Verbal Rank <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="verbalRank"
-                            name="verbalRank"
-                            required
-                            defaultValue={gmatData?.verbalRank}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Quantitative Score{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="quantitativeScore"
-                            name="quantitativeScore"
-                            required
-                            defaultValue={gmatData?.quantitativeScore}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Quantitative Rank{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="quantitativeRank"
-                            name="quantitativeRank"
-                            required
-                            defaultValue={gmatData?.quantitativeRank}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Writing Score <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="writingScore"
-                            name="writingScore"
-                            required
-                            defaultValue={gmatData?.writingScore}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="5">
-                          <span>
-                            Writing Rank <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            id="writingRank"
-                            name="writingRank"
-                            required
-                            defaultValue={gmatData?.writingRank}
-                          />
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup
-                        className="has-icon-left position-relative"
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Button
-                          color="danger"
-                          className="mr-1 mt-3"
-                          onClick={closeModal3}
-                        >
-                          Close
-                        </Button>
-
-                        <Button.Ripple
-                          color="warning"
-                          type="submit"
-                          className="mr-1 mt-3"
-                        >
-                          Submit
-                        </Button.Ripple>
-                      </FormGroup>
-                    </Form>
-                  </ModalBody>
-                </Modal>
-                <div></div>
-              </div>
-
-              <FormGroup
-                className="has-icon-left position-relative"
-                style={{ display: "flex", justifyContent: "space-between" }}
+              <Button.Ripple
+                type="submit"
+                className="mr-1 mt-3 btn-warning"
+                onClick={handleForward}
+                disabled={
+                  ielts?.id ||
+                  duolingo?.id ||
+                  toefl?.id ||
+                  functions?.id ||
+                  gcse?.id ||
+                  pearson?.id ||
+                  others?.id ||
+                  pte?.id
+                    ? false
+                    : true
+                }
               >
-                <ButtonForFunction
-                  name={"Previous"}
-                  func={goBackward}
-                  className={"ms-md-2 mt-3 btn-warning"}
-                />
-
-                <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 btn-warning"
-                  onClick={handleForward}
-                  disabled={
-                    ielts?.id ||
-                    duolingo?.id ||
-                    toefl?.id ||
-                    functions?.id ||
-                    gcse?.id ||
-                    pearson?.id ||
-                    others?.id ||
-                    pte?.id
-                      ? false
-                      : true
-                  }
-                >
-                  Next
-                  <i className="fas fa-arrow-right-long ms-1"></i>
-                </Button.Ripple>
-              </FormGroup>
-            </TabPane>
-          </TabContent>
-        </CardBody>
-      </Card>
+                Next
+                <i className="fas fa-arrow-right-long ms-1"></i>
+              </Button.Ripple>
+            </FormGroup>
+          </TabPane>
+        </TabContent>
+      </CardBody>
+    </Card>
+     }
     </div>
   );
 };

@@ -73,6 +73,8 @@ const AddConsultantInformation = () => {
 
   const [success, setSuccess] = useState(false);
 
+  const [activetab, setActivetab] = useState("1");
+
   // Profile Image States
 
   const [previewVisible1, setPreviewVisible1] = useState(false);
@@ -133,31 +135,31 @@ const AddConsultantInformation = () => {
       (res) => {
         console.log("fetching consultant info from api", res);
         setConsultantData(res);
-        setNameLabel(res?.nameTitle?.name);
-        setNameValue(res?.nameTitle?.id);
-        setTypeLabel(res?.consultantType?.name);
-        setTypeValue(res?.consultantType?.id);
-        setParentLabel(res?.parentConsultantName);
-        setParentValue(res?.parentConsultantId);
-        setAccountLabel(res?.accountStatus?.statusName);
-        setAccountValue(res?.accountStatus?.id);
+        setNameLabel(res?.nameTittleId? res?.nameTitle?.name : 'Select Title');
+        setNameValue(res?.nameTittleId? res?.nameTitle?.id : 0);
+        setTypeLabel(res?.consultantTypeId !== null ? res?.consultantType?.name : null);
+        setTypeValue(res?.consultantTypeId !== null ? res?.consultantType?.id : null);
+        setParentLabel(res?.parentConsultantId !== null ? res?.parentConsultantName : 'Select Parent Consultant');
+        setParentValue(res?.parentConsultantId !== null ? res?.parentConsultantId : 0);
+        setAccountLabel(res?.accountStatusId !== null? res?.accountStatus?.statusName : 'Select Account Label' );
+        setAccountValue(res?.accountStatusId !== null ? res?.accountStatus?.id : 0);
         setWork(`${res?.haveRightToWork}`);
         setResidencyLabel(
-          res?.residencyStatus !== null
+          res?.residencyStatusId !== null
             ? res?.residencyStatus?.name
             : "Select Residency Status"
         );
         setResidencyValue(
-          res?.residencyStatus !== null ? res?.residencyStatus?.id : 0
+          res?.residencyStatusId !== null ? res?.residencyStatus?.id : 0
         );
         setBranchLabel(
-          res?.branch !== null ? res?.branch?.name : "Select Branch"
+          res?.branchId !== null ? res?.branch?.name : "Select Branch"
         );
-        setBranchValue(res?.branch !== null ? res?.branch?.id : 0);
+        setBranchValue(res?.branchId !== null ? res?.branch?.id : 0);
         setVisaLabel(
-          res?.visaStatus !== null ? res?.visaStatus?.name : "Select Visa Type"
+          res?.visaTypeId !== null ? res?.visaStatus?.name : "Select Visa Type"
         );
-        setVisaValue(res?.visaStatus !== null ? res?.visaStatus?.id : 0);
+        setVisaValue(res?.visaTypeId !== null ? res?.visaStatus?.id : 0);
       }
     );
 
@@ -451,6 +453,27 @@ const AddConsultantInformation = () => {
     history.push("/consultantList");
   };
 
+
+  const toggle = (tab) => {
+    setActivetab(tab);
+    if (tab == "1") {
+      history.push("/addConsultantInformation");
+    }
+
+    if (tab == "2") {
+      history.push("/addBankDetails");
+    }
+
+    if (tab == "3") {
+
+    }
+
+    if (tab == "4") {
+   
+    }
+
+  };
+
   // Have Right To Work Radio Button
 
   const handleWork = (event) => {
@@ -509,9 +532,9 @@ const AddConsultantInformation = () => {
       setResidencyError(true);
     }
 
-    else if (branchValue == 0) {
-      setBranchError(true);
-    }
+    // else if (branchValue == 0) {
+    //   setBranchError(true);
+    // }
 
    else if (visaValue == 0) {
       setVisaError(true);
@@ -555,7 +578,7 @@ const AddConsultantInformation = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Consultant Information</h3>
+          <h3 className="text-light"> Consultant Information</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToConsultantList}>
               {" "}
@@ -568,6 +591,56 @@ const AddConsultantInformation = () => {
 
       <Card>
         <CardBody>
+
+          {/* nav tabs start */}
+
+          <Nav tabs>
+              <NavItem>
+                <NavLink
+                 
+                  active={activetab === "1"}
+                  onClick={() => toggle("1")}
+                >
+                  Information
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                 
+                  active={activetab === "2"}
+                  onClick={() => toggle("2")}
+                >
+                  Bank  Details
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                
+                  active={activetab === "3"}
+                  onClick={() => toggle("3")}
+                >
+                  Commission
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                
+                  active={activetab === "4"}
+                  onClick={() => toggle("4")}
+                >
+                  Conscent
+                </NavLink>
+              </NavItem>
+
+
+            </Nav>
+
+          {/* nav tabs end */}
+
+
           <Form onSubmit={handleSubmit} className="mt-5">
             <input
               type="hidden"
@@ -597,7 +670,9 @@ const AddConsultantInformation = () => {
               </Col>
             </FormGroup>
 
-            <FormGroup row className="has-icon-left position-relative">
+          {
+            (!consultantData?.id === 1) ?
+              <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
                   Parent Consultant <span className="text-danger">*</span>{" "}
@@ -617,6 +692,9 @@ const AddConsultantInformation = () => {
                 )}
               </Col>
             </FormGroup>
+            :
+            null
+          }
 
             <FormGroup row className="has-icon-left position-relative">
               <Col md="2">

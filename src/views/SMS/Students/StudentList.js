@@ -383,7 +383,7 @@ const StudentList = () => {
                  icon ={<i className="fas fa-plus"></i>}
                  func={handleAddStudent} 
                  name={' Add New'}
-                 permission={6}             
+                 
                  ></ButtonForFunction>
 
             </Col>

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { useToasts } from "react-toast-notifications";
 import Select from "react-select";
 import get from '../../../helpers/get';
 import loadingImages from '../../../assets/img/data.svg'
+import post from '../../../helpers/post';
+import put from '../../../helpers/put';
+import remove from '../../../helpers/remove';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const AccountIntake = () => {
 
@@ -18,6 +22,11 @@ const AccountIntake = () => {
     const [loading,setLoading] = useState(true);
     const [month,setMonth] = useState([]);
     const [year,setYear] = useState([]);
+
+    const [currUpdateData, setCurrUpdateData] = useState({});
+    const [currDeleteData, setCurrDeleteData] = useState({});
+
+    const [intakeList,setIntakeList] = useState([]);
 
     const [sMonthLabel, setSMonthLabel] = useState('Select');
     const [sMonthValue,setSMonthValue] = useState(0);
@@ -37,6 +46,10 @@ const AccountIntake = () => {
     const [startYError,setStartYError] = useState('');
     const [endYError,setEndYError] = useState('');
 
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
+
+
+
     useEffect(()=>{
 
         get(`MonthDD/Index`)
@@ -53,8 +66,51 @@ const AccountIntake = () => {
 
         })
 
+        get(`AccountIntake/Index`)
+        .then(res => {
+            setIntakeList(res);
+            console.log('checking intake list', res);
+            setLoading(false);
 
-    },[])
+        })
+
+
+    },[success])
+
+    const handleDate = e =>{
+        var datee = e;
+        var utcDate = new Date(datee);
+        var localeDate = utcDate.toLocaleString("en-CA");
+        const x = localeDate.split(",")[0];
+        return x;
+      }
+
+      const handleUpdate = (data) => {
+      
+        get(`AccountIntake/Get/${data?.id}`)
+        .then(res => {
+            console.log(res);
+            const startMonth = month.find(data => data?.id == res?.startMonthId);
+            const endMonth = month.find(data => data?.id == res?.endMonthId);
+            const startYear = year.find(data => data?.id == res?.startYearId);
+            const endYear = year.find(data => data?.id == res?.endYearId);
+
+           setSMonthLabel(startMonth?.name);
+           setSMonthValue(startMonth?.id);
+
+           setEMonthLabel(endMonth?.name);
+           setEMonthValue(endMonth?.id);
+
+           setSYearLabel(startYear?.name);
+           setSYearValue(startYear?.id);
+
+           setEYearLabel(endYear?.name);
+           setEYearValue(endYear?.id);
+
+           setCurrUpdateData(res);
+           setModalOpen(true);
+        })
+      }
 
     const monthOptions = month?.map((mon)=> (
         {
@@ -74,6 +130,7 @@ const AccountIntake = () => {
 
         setEMonthLabel(label);
         setEMonthValue(value);
+        setEndMError('');
 
     }
 
@@ -81,6 +138,7 @@ const AccountIntake = () => {
 
         setSMonthLabel(label);
         setSMonthValue(value);
+        setStartMError('');
 
     }
 
@@ -88,6 +146,7 @@ const AccountIntake = () => {
 
         setSYearLabel(label);
         setSYearValue(value);
+        setStartYError('');
 
     }
 
@@ -95,6 +154,7 @@ const AccountIntake = () => {
 
         setEYearLabel(label);
         setEYearValue(value);
+        setEndYError('');
 
     }
 
@@ -121,18 +181,90 @@ const AccountIntake = () => {
         if(sMonthValue ==0){
             setStartMError('Start Month Must Be Selected')
         }
-        else if(eMonthValue ==0){
-            setEndMError('End Month Must Be Selected')
-        }
         else if(sYearValue == 0){
             setStartYError('Start Year Must Be Selected')
         }
+        else if(eMonthValue ==0){
+            setEndMError('End Month Must Be Selected')
+        }
+        
         else if(eYearValue == 0){
             setEndYError('End Year Must Be Selected')
+        }
+        
+        else{
+            if(!currUpdateData?.id){
+
+                post(`AccountIntake/Create`,subData)
+                .then(res => {
+                    if(res?.status ==200){
+                        addToast(res?.data?.message,{
+                            appearance: 'success',
+                            autoDismiss: true
+                        })
+                        setSuccess(!success);
+                        setModalOpen(false);
+                        setSMonthLabel('');
+                        setSMonthValue(0);
+                        setEMonthLabel('');
+                        setEMonthValue(0);
+                        setSYearLabel('');
+                        setSYearValue(0);
+                        setEMonthLabel('');
+                        setEMonthValue(0);
+                    }
+                })
+            }
+
+            else{
+                put(`AccountIntake/Update`,subData)
+                .then(res => {
+                    if(res?.status == 200){
+                        addToast(res?.data?.message,{
+                            appearance: 'success',
+                            autoDismiss: true
+                        })
+                        setSMonthLabel('Select');
+                        setSMonthValue(0);
+                        setEMonthLabel('Select');
+                        setEMonthValue(0);
+                        setSYearLabel('Select');
+                        setSYearValue(0);
+                        setEYearLabel('Select');
+                        setEYearValue(0);
+                        setCurrUpdateData({});
+                        setModalOpen(false);
+                        setSuccess(!success);
+                    }
+                })
+            }
+          
         }
 
 
 
+    }
+
+
+
+    const toggleDanger = (data) => {
+        console.log(data);
+        setCurrDeleteData(data);
+        setDeleteModal(true);
+    }
+
+
+    const handleDeleteData = () => {
+
+        remove(`AccountIntake/Delete/${currDeleteData?.id}`)
+        .then(res => {
+            addToast(res,{
+                appearance: 'error',
+                autoDismiss: true
+            })
+            setSuccess(!success);
+            setDeleteModal(false);
+        })
     }
 
 
@@ -166,7 +298,9 @@ const AccountIntake = () => {
                 <Card className='uapp-employee-search'>
 
                 <CardHeader>
-                <div className='d-flex jusity-content-end'>
+                {
+                    permissions?.includes(permissionList?.Add_AccountIntake) ?
+                    <div className='d-flex jusity-content-end'>
                     <ButtonForFunction className ={"btn btn-uapp-add "}
                         icon ={<i className="fas fa-plus"></i>}
                         func={openModal} 
@@ -174,6 +308,9 @@ const AccountIntake = () => {
                                 
                         ></ButtonForFunction>
                     </div>
+                    :
+                    null
+                }
 
                 </CardHeader>
 
@@ -190,6 +327,18 @@ const AccountIntake = () => {
                     <ModalHeader>Add Account Intake</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={handleSubmit}>
+
+                          {
+                            (currUpdateData?.id) ?
+                              <input
+                              type='hidden'
+                              name='id'
+                              id='id'
+                              value={currUpdateData?.id}
+                              />
+                              :
+                              null
+                          }
                         
 
                         <FormGroup row className="has-icon-left position-relative">
@@ -200,10 +349,11 @@ const AccountIntake = () => {
                             </Col>
                             <Col md="8">
                             <Input
-                            type='number'
+                            type='text'
                             name='IntakeName'
                             id='IntakeName'
                             placeholder='Intake Name'
+                            defaultValue={currUpdateData?.intakeName}
                             required
                             />
                             </Col>
@@ -220,6 +370,7 @@ const AccountIntake = () => {
                             type='date'
                             name='StartDate'
                             id='StartDate'
+                            defaultValue={handleDate(currUpdateData?.startDate)}
                         
                         
                             />
@@ -237,6 +388,7 @@ const AccountIntake = () => {
                             type='date'
                             name='EndDate'
                             id='EndDate'
+                            defaultValue={handleDate(currUpdateData?.endDate)}
                         
                         
                             />
@@ -276,8 +428,9 @@ const AccountIntake = () => {
                             name="StartYearId"
                             id="StartYearId"
                         />
+                        <span className='text-danger'>{startYError}</span>
                             </Col>
-                            <span className='text-danger'>{startYError}</span>
+                            
                         </FormGroup>
 
                         <FormGroup row className="has-icon-left position-relative">
@@ -355,11 +508,83 @@ const AccountIntake = () => {
                         <tr style={{ textAlign: "center" }}>
                             <th>SL/NO</th>
                             <th>Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
                             <th>Application</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
+                        {intakeList?.map((list, i) => (
+                    <tr key={i} style={{ textAlign: "center" }}>
+                      <th scope='row'>{i+1}</th>
+                      <td>
+                        {list?.intakeName}
+                      </td>
+                      
+                      <td>
+                        {handleDate(list?.startDate)}
+                      </td>
+
+                      <td>
+                      {handleDate(list?.endDate)}
+                      </td>
+
+                      <td>
+                        {list?.applications}
+                      </td>
+
+                    
+                      <td  className="text-center">
+                        <ButtonGroup variant="text">
+                       
+                            {
+                                permissions?.includes(permissionList?.Update_AccountIntake) ?
+                                <ButtonForFunction
+                                icon={<i className="fas fa-edit"></i>}
+                                color={"warning"}
+                                className={"mx-1 btn-sm"}
+                                func={()=> handleUpdate(list)}
+                                
+                                />
+                                :
+                                null
+                            }
+                      
+
+                        {
+                            permissions?.includes(permissionList?.Delete_AccountIntake) ?
+                              <ButtonForFunction
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              color={'danger'}
+                              className={"mx-1 btn-sm"}
+                              func= {()=> toggleDanger(list)}
+                              
+    
+                              />
+                              :
+                              null
+                        }
+
+                        </ButtonGroup>
+
+                     
+                        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                        <ModalBody>
+                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                        </ModalBody>
+        
+                        <ModalFooter>
+                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                          <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                        </ModalFooter>
+                     </Modal>
+
+
+
+                      </td>
+                    </tr>
+                  ))}
                         
                         </tbody>
                     </Table>

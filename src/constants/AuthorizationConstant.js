@@ -498,6 +498,14 @@ export const  permissionList = {
       Consultant_type_List : 117,
       View_Consultant_type : 118,
       Edit_Consultant_type: 119,
-      Delete_Consultant_type: 120
+      Delete_Consultant_type: 120,
+
+      AccountIntake_List :1611,
+      Add_AccountIntake: 1612,
+      Update_AccountIntake: 1613,
+      View_AccountIntake: 1614,
+      Delete_AccountIntake: 1615,
+
+
 
 };

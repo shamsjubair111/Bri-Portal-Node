@@ -604,7 +604,20 @@ th {
 }
 
 .test-score-card-style{
-  height: 265px;
+  height: 295px;
+  background: linear-gradient(109.83deg, #E0FAFF 2.02%, #FFFFFF 98.14%);
+  border: 1px solid #CED8DD;
+  border-radius: 8px;
+}
+
+.test-score-title-style{
+
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 53px;
+  text-transform: uppercase;
+  color: #1E98B0;
+
 }
 
 .test-score-card-style2{
@@ -664,7 +677,44 @@ th {
 }
 
 .bank-details-card-size{
-  height: 230px;
+
+  background: linear-gradient(109.83deg, #E0FAFF 2.02%, #FFFFFF 98.14%);
+  border: 1px solid #CED8DD;
+  border-radius: 8px;
+}
+
+.bank-name-style{
+  
+ 
+  font-weight: 700;
+  font-size: 28px;
+  
+  text-transform: uppercase;
+
+color: #1E98B0;
+}
+
+.account-number-style{
+  font-weight: 500;
+  font-size: 25px;
+  color: #707070;
+}
+
+.bank-account-info-text{
+
+
+  font-weight: 400;
+  font-size: 15px;
+  color: #707070;
+
+}
+
+.bankCard-style{
+
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+
 }
 
 .consultant-card-shadow-style{

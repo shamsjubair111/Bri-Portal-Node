@@ -49,6 +49,8 @@ const BankDetails = () => {
   const [addNewButton, setAddNewButton] = useState(false);
   const [deleteData, setDeleteData] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [activetab, setActivetab] = useState("2");
   
   useEffect(()=>{
 
@@ -67,6 +69,27 @@ const BankDetails = () => {
     history.push('/consultantList');
 
   }
+
+
+  const toggle = (tab) => {
+    setActivetab(tab);
+    if (tab == "1") {
+      history.push("/addConsultantInformation");
+    }
+
+    if (tab == "2") {
+      history.push("/addBankDetails");
+    }
+
+    if (tab == "3") {
+
+    }
+
+    if (tab == "4") {
+   
+    }
+
+  };
 
 
   const toggleDanger = (p) => {
@@ -396,7 +419,7 @@ const handleEdit = (data) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Consultant Bank Details</h3>
+          <h3 className="text-light"> Consultant Bank Details</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToConsultantList}>
               {" "}
@@ -409,6 +432,55 @@ const handleEdit = (data) => {
       <Card>
       <CardBody>
 
+
+        {/* nav tabs start */}
+
+        <Nav tabs>
+              <NavItem>
+                <NavLink
+                 
+                  active={activetab === "1"}
+                  onClick={() => toggle("1")}
+                >
+                  Information
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                 
+                  active={activetab === "2"}
+                  onClick={() => toggle("2")}
+                >
+                  Bank  Details
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                
+                  active={activetab === "3"}
+                  onClick={() => toggle("3")}
+                >
+                  Commission
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                
+                  active={activetab === "4"}
+                  onClick={() => toggle("4")}
+                >
+                  Conscent
+                </NavLink>
+              </NavItem>
+
+
+            </Nav>
+
+          {/* nav tabs end */}
+
     
 
 
@@ -419,7 +491,7 @@ const handleEdit = (data) => {
 
             <div className='col-md-6 col-sm-12 mt-2' key={details?.id}>
 
-            <Card className='CampusCard shadow-style bank-details-card-size'>
+            <Card className='CampusCard bank-details-card-size'>
 
             <CardBody>
             
@@ -428,14 +500,22 @@ const handleEdit = (data) => {
             <Row>
             
             <Col className='md-8'>
+            <span className='bank-name-style'>{details?.bankName}</span>
 
-            <p>Account Name: {details?.accountName}</p>
-            <p>Account Number: {details?.accountNumber}</p>
-            <p>Bank Name: {details?.bankName}</p>
-            <p>Bank Address: {details?.bankAddress}</p>
-            <p>BIC: {details?.bic}</p>
-            <p>Sort Code: {details?.sortCode}</p>
-            <p>swift: {details?.swift}</p>
+              <br/>
+
+            <span  className='bank-account-info-text'>Account Name: {details?.accountName}</span>
+            <br/>
+            <span className='bank-account-info-text'>Bank Address: {details?.bankAddress}</span>
+            <br/>
+            <span  className='bank-account-info-text'>BIC: {details?.bic}</span>
+            <br/>
+            <span  className='bank-account-info-text'>Sort Code: {details?.sortCode}</span>
+            <br/>
+            <span  className='bank-account-info-text'>swift: {details?.swift}</span>
+            <br/>
+            <span className='account-number-style'>{details?.accountNumber}</span>
+            <br/>
 
             
             </Col>
@@ -451,7 +531,7 @@ const handleEdit = (data) => {
                       color={"primary"}
                       func={()=>handleEdit(details)}
                       icon={<i className="fas fa-edit"></i>}
-                      permission={6}
+                      className={'bankCard-style'}
                     />
 
                  </div>
@@ -465,6 +545,7 @@ const handleEdit = (data) => {
                       func={()=>toggleDanger(details)}
                       icon={<i className="fas fa-trash-alt"></i>}
                       permission={6}
+                      className={'bankCard-style'}
                     />
 
                  </div>
