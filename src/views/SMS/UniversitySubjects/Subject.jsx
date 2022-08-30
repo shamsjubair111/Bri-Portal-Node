@@ -256,7 +256,7 @@ const Subject = () => {
               autoDismiss: true,
             })
             history.push({
-              pathname: `/addSubjectFee/${id}`,
+              pathname: `/addSubjectFee/${id != undefined ? id : localStorage.getItem("subjectId")}`,
               id: subId,
             });
           }
