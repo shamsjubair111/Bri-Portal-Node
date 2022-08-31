@@ -100,7 +100,7 @@ const StudentList = () => {
     useEffect(()=>{
 
         get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${(userTypeId == userTypes?.Consultant)? referenceId : consultantValue}&status=${statusValue}`).then(res=>{
-          console.log("stdLists",res);
+          console.log("stdLists111111111111111111111111111111",res);
           setStudentData(res?.models);
           setEntity(res?.totalEntity); 
           setSerialNum(res?.firstSerialNumber);       

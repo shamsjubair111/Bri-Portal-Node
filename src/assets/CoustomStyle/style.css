@@ -623,6 +623,16 @@ th {
  
 }
 
+.conscentSign-style2{
+  border-left: 5px solid #137285;
+  background-color: #1e98b0;
+ 
+}
+
+.fw-style{
+  font-weight: bold;
+}
+
 .bg-u {
   text-decoration: none; 
   position: relative; 
@@ -655,6 +665,8 @@ th {
   margin-left: 20px;
 
 }
+
+
 
 .test-score-title-style{
 

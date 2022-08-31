@@ -110,6 +110,9 @@ const Reference = () => {
         if (tab == "10") {
           history.push("/uploadDocument");
         }
+        if (tab == "11") {
+          history.push("/studentDeclaration");
+        }
 
         
       };
@@ -399,6 +402,12 @@ const onShow=()=>{
              Documents
            </NavLink>
          </NavItem>
+
+         <NavItem>
+           <NavLink style={{ color: '#1e98b0'}} active={activetab === "11"} onClick={() => toggle("11")}>
+             Declaration
+           </NavLink>
+         </NavItem>
         
 
        </Nav>
@@ -469,6 +478,12 @@ const onShow=()=>{
          <NavItem>
            <NavLink disabled active={activetab === "10"} onClick={() => toggle("10")}>
              Documents
+           </NavLink>
+         </NavItem>
+
+         <NavItem>
+           <NavLink disabled active={activetab === "11"} onClick={() => toggle("11")}>
+             Declaration
            </NavLink>
          </NavItem>
         

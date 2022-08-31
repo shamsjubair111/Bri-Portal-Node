@@ -83,7 +83,7 @@ const TestScore = () => {
   const method = localStorage.getItem("method");
 
   const [testError, setTestError] = useState(false);
-  const [loading, setLoading] =useState(true);
+  const [loading, setLoading] =useState(false);
 
   const handleDate = (e) => {
     var datee = e;
@@ -856,6 +856,9 @@ const TestScore = () => {
     if (tab == "10") {
       history.push("/uploadDocument");
     }
+    if (tab == "11") {
+      history.push("/studentDeclaration");
+    }
   };
 
   // Gre data update
@@ -1066,6 +1069,17 @@ const TestScore = () => {
                 Documents
               </NavLink>
             </NavItem>
+
+            <NavItem>
+              <NavLink
+                style={{ color: "#1e98b0" }}
+                active={activetab === "11"}
+                onClick={() => toggle("11")}
+              >
+                Declaration
+              </NavLink>
+            </NavItem>
+
           </Nav>
         ) : (
           <Nav tabs>
@@ -1148,6 +1162,17 @@ const TestScore = () => {
                 Documents
               </NavLink>
             </NavItem>
+
+            <NavItem>
+              <NavLink
+                disabled
+                active={activetab === "11"}
+                onClick={() => toggle("11")}
+              >
+                Declaration
+              </NavLink>
+            </NavItem>
+
           </Nav>
         )}
 

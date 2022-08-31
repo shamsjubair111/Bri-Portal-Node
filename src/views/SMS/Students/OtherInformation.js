@@ -89,6 +89,9 @@ const OtherInformation = () => {
         if (tab == "10") {
           history.push("/uploadDocument");
         }
+        if (tab == "11") {
+          history.push("/studentDeclaration");
+        }
         
       };
 
@@ -246,6 +249,12 @@ const OtherInformation = () => {
         <NavItem>
           <NavLink style={{ color: '#1e98b0'}} active={activetab === "10"} onClick={() => toggle("10")}>
             Documents
+          </NavLink>
+        </NavItem>
+       
+        <NavItem>
+          <NavLink style={{ color: '#1e98b0'}} active={activetab === "11"} onClick={() => toggle("11")}>
+            Declaration
           </NavLink>
         </NavItem>
        

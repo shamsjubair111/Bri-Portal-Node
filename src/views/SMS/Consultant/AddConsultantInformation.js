@@ -26,6 +26,7 @@ import "antd/dist/antd.css";
 import put from "../../../helpers/put";
 import { rootUrl } from "../../../constants/constants";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import { userTypes } from "../../../constants/userTypeConstant";
 
 const AddConsultantInformation = () => {
   const { addToast } = useToasts();
@@ -39,6 +40,8 @@ const AddConsultantInformation = () => {
   const [parentValue, setParentValue] = useState(0);
   const [typeLabel, setTypeLabel] = useState("Consultant Type");
   const [typeValue, setTypeValue] = useState(0);
+
+  const userTypeId = localStorage.getItem('userType');
 
   const [emailError, setEmailError] = useState(true);
   const [consultantError, setConsultantError] = useState(false);
@@ -579,13 +582,18 @@ const AddConsultantInformation = () => {
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light"> Consultant Information</h3>
-          <div className="page-header-back-to-home">
+          {
+            !(userTypeId == userTypes?.Consultant) ?
+            <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant
               List
             </span>
           </div>
+          :
+          null
+          }
         </CardHeader>
       </Card>
 

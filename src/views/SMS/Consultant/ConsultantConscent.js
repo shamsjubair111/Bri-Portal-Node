@@ -20,6 +20,11 @@ import post from "../../../helpers/post";
 import { useToasts } from "react-toast-notifications";
 import get from "../../../helpers/get";
 import { userTypes } from "../../../constants/userTypeConstant";
+import put from "../../../helpers/put";
+
+
+
+
 
 const Conscent = () => {
 
@@ -34,16 +39,47 @@ const Conscent = () => {
 
     const consultantId = localStorage.getItem('consultantRegisterId');
 
+    const [apiInfo,setAPiInfo] = useState('');
+    const [singTime,setSignTime] = useState([]);
+
+
+
     useEffect(()=>{
 
         get(`ConsultantConscent/Get/${consultantId}`)
         .then(res => {
             console.log(res,'conscentData');
             setConscentData(res);
+            setSignTime(res?.consentSignTime.split('T'));
         })
+
+        fetch(`https://geolocation-db.com/json/`)
+        .then(res => res?.json())
+        .then(data => {
+          console.log(data);
+          setAPiInfo(data)
+        });
 
     },[success])
 
+
+    const handleTerms = (event) => {
+
+      const subData = new FormData();
+
+      subData.append('ConsultantId', consultantId);
+      subData.append('IpAddress',apiInfo?.IPv4);
+      post('ConsultantConscent/Sign',subData)
+      .then(res => {
+        if(res?.status == 200){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+        }
+      })
+    }
 
     const backToConsultantList = () => {
 
@@ -51,10 +87,10 @@ const Conscent = () => {
       };
 
       const sendEmail = () => {
-        get(`ConsultantConscent/SendEmail/${consultantId}`)
+        put(`ConsultantConscent/SendEmail/${consultantId}`)
         .then(res => {
             if(res?.status == 200){
-                addToast(res,{
+                addToast("Email Sending is in Process",{
                     appearance: 'success',
                     autoDismiss: true
                 })
@@ -86,19 +122,37 @@ const Conscent = () => {
     
       };
 
+      const handleDate = e =>{
+        var datee = e;
+        var utcDate = new Date(datee);
+        var localeDate = utcDate.toLocaleString("en-CA");
+        const x = localeDate.split(",")[0];
+        return x;
+      }
+
+      function formatDate(string){
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(string).toString([],options);
+    }
+
 
     return (
         <div>
              <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light"> Terms and Conditions</h3>
-          <div className="page-header-back-to-home">
+          {
+            !(userTypeId == userTypes?.Consultant) ?
+            <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant
               List
             </span>
           </div>
+          :
+          null
+          }
         </CardHeader>
       </Card>
 
@@ -224,18 +278,27 @@ const Conscent = () => {
 
           </div>
 
-          <div className="conscentSign-style ms-md-3 py-1 mt-2">
+          {
+             (conscentData == null || conscentData?.isSigned == false) ?
+             <div className="conscentSign-style ms-md-3 py-1 mt-2">
             <span className="inner-term-style">Terms and Conditions has not Signed yet !!!!</span>
           </div>
+          :
+          <div className="conscentSign-style2 ms-md-3 py-1 mt-2 text-white">
+            <span className="inner-term-style">Terms and Conditions Signed Successfully.</span>
+          </div>
 
-          <div className="d-flex justify-content-end mt-1">
+          }
+          
+
+          <div className=" mt-1">
             <div>
               {
                 (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin || userTypeId == userTypes?.ComplianceManager) ?
                 <>
                 
                 {
-                  (conscentData == null || conscentData?.isSigned == false) ?
+                  (conscentData == null || conscentData?.consentSignStatusId == 1) ?
                    <div className="mb-1 text-right">
                    <Button color="primary"
                    onClick={sendEmail}
@@ -244,15 +307,19 @@ const Conscent = () => {
                    </Button>
                </div>
                :
-                (conscentData !== null && conscentData?.conscentSignStatus  == 2) ?
-                <div className="mb-1 text-right">
+                (conscentData !== null && conscentData?.consentSignStatusId  == 2) ?
+                <div className="mb-1 text-left">
                   
                  
-                       <span>Email Sent</span>
-                
+                       <span className="text-info"> Email is sent with credentails </span>
+                       <Button color="primary"
+                   onClick={sendEmail}
+                   >
+                       Send Email Again
+                   </Button>
                </div>
                :
-                 (conscentData !== null && conscentData?.conscentSignStatus  == 3) ?
+                 (conscentData !== null && conscentData?.consentSignStatusId  == 3) ?
 
                  <div className="mb-1 text-right">
                   
@@ -270,14 +337,35 @@ const Conscent = () => {
                 </>
 
                  :
-                 null
-              }
-               
-                <div className="mt-1">
-                    <Button color="primary">
+                 (userTypeId == userTypes?.Consultant) ? 
+                 
+                 
+                 (conscentData == null || conscentData?.isSigned == false) ?
+                   <div className="mt-1">
+                    <Button color="primary" onClick={handleTerms}>
                         Accept Terms and Conditions
                     </Button>
                 </div>
+
+               :
+
+               <div className="mb-1 text-left ms-md-4  ">
+                  
+                 
+                  <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
+                    <br/>
+                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.deviceIp}</span></span>
+           
+                </div>
+                 
+
+                 
+
+                 :
+                 null
+              }
+               
+               
             </div>
 
           </div>

@@ -321,6 +321,9 @@ const UpdateUser = lazy(() => import("./views/Test/UpdateUser"));
 
 const ConsultantConscent = lazy(() => import("./views/SMS/Consultant/ConsultantConscent"));
 
+// Student Declaration
+const StudentDeclaration = lazy(() => import("./views/SMS/Students/StudentDeclaration"));
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -568,6 +571,9 @@ class AppRouter extends React.Component {
         {/* Consultant Conscent Path */}
 
           <AppRoute  path="/consultantConscent" component={ConsultantConscent} />
+
+          {/* Student Declaration Path */}
+          <AppRoute  path="/studentDeclaration" component={StudentDeclaration} />
        
          <AppRoute  path="/search" component={Search} />
 

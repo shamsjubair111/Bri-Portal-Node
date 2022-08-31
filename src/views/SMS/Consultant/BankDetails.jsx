@@ -34,6 +34,7 @@ import post from '../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
 import remove from '../../../helpers/remove';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { userTypes } from '../../../constants/userTypeConstant';
 
 const BankDetails = () => {
  
@@ -42,6 +43,8 @@ const BankDetails = () => {
   const {addToast} = useToasts();
   const [success, setSuccess] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+
+  const userTypeId = localStorage.getItem('userType');
 
   const [bankDetailsData, setBankDetailsData] = useState([]);
   const [fetchedData, setFetchedData] = useState({});
@@ -420,12 +423,17 @@ const handleEdit = (data) => {
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light"> Consultant Bank Details</h3>
-          <div className="page-header-back-to-home">
+          {
+            !(userTypeId == userTypes?.Consultant) ?
+            <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
           </div>
+          :
+          null
+          }
         </CardHeader>
       </Card>
 

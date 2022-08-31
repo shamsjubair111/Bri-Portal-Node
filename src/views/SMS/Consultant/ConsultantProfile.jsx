@@ -33,12 +33,15 @@ import put from '../../../helpers/put';
 import EditDivButton from '../Components/EditDivButton';
 import LinkButton from '../Components/LinkButton';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { userTypes } from '../../../constants/userTypeConstant';
 
 
 const ConsultantProfile = () => {
     const location = useLocation();
     const history = useHistory();
     const {id} = useParams();
+
+    const userTypeId = localStorage.getItem('userType');
 
     const [consultantData, setConsultantData] = useState({});
     const [registrationDate, setRegistrationDate] = useState('');
@@ -151,9 +154,15 @@ const ConsultantProfile = () => {
             <CardHeader className="page-header">
 
               <h3 className="text-light">Consultant profile</h3>
-              <div className="page-header-back-to-home" >
+              {
+                  !(userTypeId == userTypes?.Consultant)?
+                  <div className="page-header-back-to-home" >
                 <span onClick={backToConsultantList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Consultant List</span>
               </div>
+              :
+              null
+
+              }
 
             </CardHeader>
           </Card>

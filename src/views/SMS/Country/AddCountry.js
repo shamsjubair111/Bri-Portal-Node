@@ -304,7 +304,7 @@ const AddCountry = () => {
                         className={"mx-1 btn-sm"}
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
-                        permission={6}
+                     
                       />
                       :
                       null

@@ -122,6 +122,9 @@ const ContactInformation = () => {
     if (tab == "10") {
       history.push("/uploadDocument");
     }
+    if (tab == "11") {
+      history.push("/studentDeclaration");
+    }
   };
 
   const backToStudentProfile = () => {
@@ -310,6 +313,17 @@ const ContactInformation = () => {
                   Documents
                 </NavLink>
               </NavItem>
+
+              <NavItem>
+                <NavLink
+                  style={{ color: "#1e98b0" }}
+                  active={activetab === "11"}
+                  onClick={() => toggle("11")}
+                >
+                  Declaration
+                </NavLink>
+              </NavItem>
+
             </Nav>
           ) : (
             <Nav tabs>
@@ -400,6 +414,17 @@ const ContactInformation = () => {
                   Documents
                 </NavLink>
               </NavItem>
+
+              <NavItem>
+                <NavLink
+                  disabled
+                  active={activetab === "11"}
+                  onClick={() => toggle("11")}
+                >
+                  Declaration
+                </NavLink>
+              </NavItem>
+
             </Nav>
           )}
 
