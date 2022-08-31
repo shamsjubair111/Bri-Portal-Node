@@ -164,7 +164,7 @@ const UniversityList = (props) => {
 
   
 
-  }, [callApi, currentPage, dataPerPage, location.providervalue, location.universityType, providerDataResult, providerValue, searchStr, uniCountryValue, uniTypeValue, unistateValue, universityTypes]);
+  }, [callApi, currentPage, dataPerPage, location.providervalue, location.universityType, providerDataResult, providerValue, searchStr, uniCountryValue, uniTypeValue, unistateValue, universityTypes, orderValue]);
 
   
   const searchStateByCountry = (countryValue) =>{

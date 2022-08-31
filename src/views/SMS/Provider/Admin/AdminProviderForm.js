@@ -22,6 +22,8 @@ const AdminProviderForm = () => {
     const [titleError,setTitleError] = useState(false);
     const [imageError, setImageError] = useState(false);
 
+    const [emailError, setEmailError] = useState(true);
+
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
@@ -114,8 +116,11 @@ const handleSubmit  = (event) => {
     setTitleError(true);
     console.log('error 111111');
   }
-  if(FileList?.length < 1){
+  else if(FileList?.length < 1){
     setImageError(true);
+  }
+  else if(emailError == false){
+    setEmailError(emailError);
   }
   else{
 
@@ -131,6 +136,16 @@ const handleSubmit  = (event) => {
     })
 
   }
+}
+
+const handleEmail = (e) => {
+  console.log(e.target.value);
+
+  get(`EmailCheck/EmailCheck/${e.target.value}`)
+  .then(res => {
+    console.log('Checking Response', res);
+    setEmailError(res);
+  })
 }
 
     return (
@@ -275,9 +290,45 @@ const handleSubmit  = (event) => {
                     id="email"
                     placeholder="Enter Your Email"
                     required
+                    onBlur={handleEmail}
                     // onChange={(e)=>setIcon(e.target.value)}
                   />
+                  {
+                      !emailError ? 
 
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col md="2">
+               <i id="passwordTooltip" className="fas fa-info-circle menuIcon"></i>
+                  <span className="pl-2">Password</span>
+                </Col>
+
+                <UncontrolledTooltip
+                placement="top"
+                target="passwordTooltip"
+
+              >
+                Your Password
+              </UncontrolledTooltip>
+                
+
+            
+
+                <Col md="10" lg="6">
+                 <Input
+                   type="password"
+                   name="password"
+                   id="password"
+                   placeholder="Enter password"
+                   required
+                 />
+                  
                 </Col>
               </FormGroup>
 

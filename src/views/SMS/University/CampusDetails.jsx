@@ -37,6 +37,7 @@ const CampusDetails = () => {
   const { addToast } = useToasts();
   const [campusInfo, setCampusInfo] = useState({});
   const [subList, setSubList] = useState([]);
+  const [subList1, setSubList1] = useState([]);
   const history = useHistory();
   const [subLabel, setSubLabel] = useState("Select Subject...");
   const [subValue, setSubValue] = useState(0);
@@ -44,13 +45,11 @@ const CampusDetails = () => {
   const [radioIsAcceptUk, setRadioIsAcceptUk] = useState("true");
   const [radioIsAcceptInt, setRadioIsAcceptInt] = useState("false");
 
-  const [subjectList,setSubjectList] = useState([]);
+  const [subjectList, setSubjectList] = useState([]);
+  const [subjectHiddenId, setSubjectHiddenId] = useState(0);
 
-  const [data,setData] = useState({});
-  const [method,setMethod] = useState(null);
-
-  
-  
+  const [data, setData] = useState({});
+  const [method, setMethod] = useState(null);
 
   // for feature checkbox
   const [homeAccept, setHomeAccept] = useState(true);
@@ -62,10 +61,15 @@ const CampusDetails = () => {
   const [subdata, setSubData] = useState([]);
   const [intakeData, setIntakeData] = useState([]);
   const [intakeStatusData, setIntakeStatusData] = useState([]);
-  const [intakeLabel, setIntakeLabel] = useState("Intake");
+  const [intakeLabel, setIntakeLabel] = useState("Select Intake");
   const [intakeValue, setIntakeValue] = useState(0);
-  const [statusLabel, setStatusLabel] = useState("Status");
+  const [intakeError, setIntakeError] = useState(false);
+  const [statusLabel, setStatusLabel] = useState("Select Status");
   const [statusValue, setStatusValue] = useState(0);
+  const [statusError, setStatusError] = useState(false);
+
+  const [checked1, setChecked1] = useState([]);
+  const [subjectIds, setSubjectIds] = useState([]);
 
   // For uploading Gallary
   const [FileList1, setFileList1] = useState([]);
@@ -83,7 +87,7 @@ const CampusDetails = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [subError,setSubError] = useState(false);
+  const [subError, setSubError] = useState(false);
 
   function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -107,26 +111,17 @@ const CampusDetails = () => {
   };
 
   const handleDeleteData = () => {
-
-    remove(`UniversityCampusSubject/Delete/${data?.id}`)
-    .then(res => { 
-     
-
-
-    
+    remove(`UniversityCampusSubject/Delete/${data?.id}`).then((res) => {
       console.log(res);
-      addToast(res,{
-        appearance: 'error',
-        autoDismiss: true
-      })
+      addToast(res, {
+        appearance: "error",
+        autoDismiss: true,
+      });
       setData({});
       setDeleteModal1(false);
       setSuccess(!success);
-    
-    })
-    
-  }
-
+    });
+  };
 
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
@@ -152,8 +147,30 @@ const CampusDetails = () => {
     // Subject get by university
     get(`UniversityCampusSubject/GetUnassigned/${id}`).then((res) => {
       setSubList(res);
+      // setSubList1(res);
       console.log("Sublist", res);
       // setSubList(res);
+    });
+
+    get(`Subject/GetByCampusIdWithIntake/${id}`).then((res) => {
+      setSubList1(res);
+      console.log("Sublist1111", res);
+      // setSubList(res);
+    });
+
+    get(`Subject/GetByCampusIdWithIntake/${id}`).then((res) => {
+      setSubjectIds(res);
+      let defaultChecked = checked1;
+      if (res.length > 0) {
+        for (let i = 0; i < res.length; i++) {
+          const per = res[i];
+          if (per?.isIntakeExists == true) {
+            const id = per.subjectId.toString();
+            defaultChecked.push(id);
+            setChecked1([...defaultChecked]);
+          }
+        }
+      }
     });
 
     // for intake
@@ -168,13 +185,10 @@ const CampusDetails = () => {
       setGallery(res);
     });
 
-    get(`UniversityCampusSubject/GetByCampus/${id}`)
-    .then(res=> {
-      console.log('sdshdsjhsjdhsjhdjsdhsjdhjdhsjhdjs',res);
+    get(`UniversityCampusSubject/GetByCampus/${id}`).then((res) => {
+      console.log("sdshdsjhsjdhsjhdjsdhsjdhjdhsjhdjs", res);
       setSubjectList(res);
-    })
-
-
+    });
   }, [id, success]);
 
   // for intake dropdown
@@ -189,12 +203,14 @@ const CampusDetails = () => {
   }));
 
   const selectIntakeType = (label, value) => {
+    setIntakeError(false);
     setIntakeLabel(label);
     setIntakeValue(value);
     // handleSearch();
   };
 
   const selectStatusType = (label, value) => {
+    setStatusError(false);
     setStatusLabel(label);
     setStatusValue(value);
     // handleSearch();
@@ -210,8 +226,7 @@ const CampusDetails = () => {
     console.log(data);
 
     setDeleteModal2(true);
-
-  }
+  };
 
   // for subject dropdown
   const subMenu = subList.map((subOptions) => ({
@@ -258,15 +273,14 @@ const CampusDetails = () => {
     history.push("/campusList");
   };
 
-   // Delete Modal
+  // Delete Modal
 
-   const toggleDanger = (data) => {
-  
+  const toggleDanger = (data) => {
     console.log(data);
     setData(data);
-    
-    setDeleteModal1(true)
-  }
+
+    setDeleteModal1(true);
+  };
 
   const handleSubjectIntake = (e) => {
     e.preventDefault();
@@ -291,62 +305,56 @@ const CampusDetails = () => {
 
   const handleUpdateData = (e) => {
     e.preventDefault();
-    
+
     const subData = {
       id: data?.id,
       campusId: id,
       subjectId: subValue,
-      isAcceptHome: radioIsAcceptHome == 'true'? true :false ,
-      isAcceptEU_UK: radioIsAcceptUk == 'true'? true :false,
-      isAcceptInternational: radioIsAcceptInt == 'true'? true :false
+      isAcceptHome: radioIsAcceptHome == "true" ? true : false,
+      isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
+      isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+    };
 
-    }
-
-    put(`UniversityCampusSubject/Update`,subData)
-    .then(res => {
-      if(res?.status == 200){
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss:true
-        })
+    put(`UniversityCampusSubject/Update`, subData).then((res) => {
+      if (res?.status == 200) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
         setSuccess(!success);
         setData({});
         setDeleteModal2(false);
       }
-    })
-  }
+    });
+  };
 
   const handleSingleSubmit = (e) => {
     e.preventDefault();
-    
+
     const subData = {
       campusId: id,
       subjectId: subValue,
-      isAcceptHome: radioIsAcceptHome == 'true'? true :false ,
-      isAcceptEU_UK: radioIsAcceptUk == 'true'? true :false,
-      isAcceptInternational: radioIsAcceptInt == 'true'? true :false
-
-    }
-    if(subValue == 0){
+      isAcceptHome: radioIsAcceptHome == "true" ? true : false,
+      isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
+      isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+    };
+    if (subValue == 0) {
       setSubError(true);
-    }
-    else{
-      post(`UniversityCampusSubject/Create`,subData)
-      .then(res => {
+    } else {
+      post(`UniversityCampusSubject/Create`, subData).then((res) => {
         console.log(res);
-        if(res?.data?.isSuccess == true && res?.status ==200){
-            addToast(res?.data?.message,{
-              appearance: 'success',
-              autoDismiss: true
-            })
-            setSuccess(!success);
+        if (res?.data?.isSuccess == true && res?.status == 200) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
         }
-      })
+      });
     }
-
-   
   };
 
+  // for multiple assign starts here
   const handleChange = (e) => {
     const { name, checked } = e.target;
     if (name === "allSelect") {
@@ -369,6 +377,7 @@ const CampusDetails = () => {
       console.log("singleSelect", tmpUsers);
     }
   };
+  // for multiple assign ends here
 
   // for feature checkboxes
   const handleFeatureHome = (e) => {
@@ -430,6 +439,7 @@ const CampusDetails = () => {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
+        authorization: AuthStr,
       },
     };
 
@@ -438,11 +448,7 @@ const CampusDetails = () => {
     if (FileList1.length < 1) {
       setFileError(true);
     } else {
-      Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config, {
-        headers: {
-          'authorization': AuthStr,
-        },
-      }).then(
+      Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config).then(
         (res) => {
           setSuccess(!success);
           setFileList1([]);
@@ -495,6 +501,89 @@ const CampusDetails = () => {
       localStorage.removeItem("delGalName");
       localStorage.removeItem("delGalId");
     });
+  };
+
+  const handleSubjectAssignInIntake = (e) => {
+    e.preventDefault();
+    const subdata = new FormData(e.target);
+
+    // for (let i = 0; i < subList1.length; i++) {
+    subdata.append(`subjectIds`, checked1);
+    // }
+
+    for (let value of subdata) {
+      console.log(value);
+    }
+
+    const config = {
+      headers: {
+        'authorization': AuthStr,
+      },
+    };
+
+    // setLoading(true);
+
+    if (intakeValue === 0) {
+      setIntakeError(true);
+    } else if (statusValue === 0) {
+      setStatusError(true);
+    } else {
+      Axios.post(
+        `${rootUrl}SubjectIntake/AssignToSubjectRange`,
+        subdata,
+        config
+      ).then((res) => {
+        // setSubjectIds([]);
+        setIntakeLabel("Select Intake");
+        setIntakeValue(0);
+        setStatusLabel("Select Status");
+        setStatusValue(0);
+        setSuccess(!success);
+        setChecked1([]);
+        addToast(res.data.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+      });
+    }
+  };
+
+  // onChange checkbox
+  const handleCheck = (e) => {
+    let id = e.target.id;
+    let val = e.target.checked;
+
+    if (val == true) {
+      setChecked1([...checked1, id]);
+    } else {
+      const index = checked1.indexOf(id);
+      if (index > -1) {
+        checked1.splice(index, 1);
+      }
+    }
+  };
+
+  // on Select All Checkbox
+  const handleSelectAll = (e) => {
+    let newChecked = [];
+    const val = e.target.checked;
+    if (val == true) {
+      subjectIds.map((per) => {
+        const perId = per?.subjectId.toString();
+        newChecked.push(perId);
+        document.getElementById(per?.subjectId).checked = true;
+      });
+      setChecked1([...newChecked]);
+    }
+
+    if (val == false) {
+      {
+        subjectIds.map((per) => {
+          document.getElementById(per.subjectId).checked = false;
+        });
+        setChecked1([]);
+      }
+    }
   };
 
   return (
@@ -679,7 +768,8 @@ const CampusDetails = () => {
                               >
                                 <ModalBody>
                                   <p>
-                                    Are You Sure to Delete this
+                                    Are You Sure to Delete this{" "}
+                                    <b>{localStorage.getItem("delGalName")}</b>{" "}
                                     ? Once Deleted it can't be Undone!
                                   </p>
                                 </ModalBody>
@@ -811,9 +901,8 @@ const CampusDetails = () => {
             </div>
             {/* campus gallery ends here */}
 
-
-             {/* table start  */}
-             <div className=" info-item mt-4">
+            {/* table start  */}
+            <div className=" info-item mt-4">
               <Card>
                 <CardBody>
                   <div className="hedding-titel d-flex justify-content-between">
@@ -831,274 +920,289 @@ const CampusDetails = () => {
                     </div> */}
                   </div>
 
-                 
-                      <div className="table-responsive pt-3">
-                        <Table className="table-sm striped">
-                          <thead className="">
-                            <tr style={{ textAlign: "center" }}>
-                              <th>SL/NO</th>
-                              <th>Subject</th>
-                              <th>isAcceptEU_UK</th>
-                              <th>isAcceptHome</th>
-                              <th>isAcceptInternational</th>
-                              <th
-                                style={{ width: "8%" }}
-                                className="text-center"
-                              >
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                          subjectList?.map((sub, i) => (
-                           <tr key={i} style={{ textAlign: "center" }}>
-                             <th scope='row'>{1 + i}</th>
+                  <div className="table-responsive pt-3">
+                    <Table className="table-sm striped">
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>SL/NO</th>
+                          <th>Subject</th>
+                          <th>isAcceptEU_UK</th>
+                          <th>isAcceptHome</th>
+                          <th>isAcceptInternational</th>
+                          <th style={{ width: "8%" }} className="text-center">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {subjectList?.map((sub, i) => (
+                          <tr key={i} style={{ textAlign: "center" }}>
+                            <th scope="row">{1 + i}</th>
 
-                            
-                             <td>
-                               {sub?.subject?.name}
-                             </td>
-                             <td>
-                               {(sub?.isAcceptEU_UK)? <span>Yes</span> : <span>No</span>}
-                             </td>
-                             <td>
-                               {(sub?.isAcceptHome) ? <span>Yes</span> : <span>No</span>}
-                             
+                            <td>{sub?.subject?.name}</td>
+                            <td>
+                              {sub?.isAcceptEU_UK ? (
+                                <span>Yes</span>
+                              ) : (
+                                <span>No</span>
+                              )}
                             </td>
-                             <td>
-                               {(sub?.isAcceptInternational)? <span>Yes</span> : <span>No</span>}
-                             
+                            <td>
+                              {sub?.isAcceptHome ? (
+                                <span>Yes</span>
+                              ) : (
+                                <span>No</span>
+                              )}
                             </td>
-                    
-                            
+                            <td>
+                              {sub?.isAcceptInternational ? (
+                                <span>Yes</span>
+                              ) : (
+                                <span>No</span>
+                              )}
+                            </td>
+
                             <td style={{ width: "8%" }} className="text-center">
                               <ButtonGroup variant="text">
-                            
-                                <Button onClick={()=>toggleEdit(sub)} color="warning" className="mx-1 btn-sm">
+                                <Button
+                                  onClick={() => toggleEdit(sub)}
+                                  color="warning"
+                                  className="mx-1 btn-sm"
+                                >
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button>
-                             
-                                <Button onClick={()=> toggleDanger(sub)} color="danger" className="mx-1 btn-sm">
+
+                                <Button
+                                  onClick={() => toggleDanger(sub)}
+                                  color="danger"
+                                  className="mx-1 btn-sm"
+                                >
                                   {" "}
                                   <i className="fas fa-trash"></i>{" "}
                                 </Button>
-                             
-                                
                               </ButtonGroup>
-                              <Modal isOpen={deleteModal1} toggle={() => setDeleteModal1(!deleteModal1)} className="uapp-modal">
-                        <ModalBody>
-                        
-                      
+                              <Modal
+                                isOpen={deleteModal1}
+                                toggle={() => setDeleteModal1(!deleteModal1)}
+                                className="uapp-modal"
+                              >
+                                <ModalBody>
+                                  <p>
+                                    Are You Sure to Delete this ? Once Deleted
+                                    it can't be Undone!
+                                  </p>
+                                </ModalBody>
 
-                         
-                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
-                   
-                        </ModalBody>
-        
-                        <ModalFooter>
-                        
-                           <Button  color="danger" onClick={handleDeleteData}>YES</Button>
-                           <Button onClick={() => setDeleteModal1(false)}>NO</Button>
-                       
-                        </ModalFooter>
-                     </Modal>
-                    <Modal isOpen={deleteModal2} toggle={() => setDeleteModal2(!deleteModal2)} className="uapp-modal">
-                        <ModalBody>
-                        
-                      
-                        <Form onSubmit={handleUpdateData}>
-                   
+                                <ModalFooter>
+                                  <Button
+                                    color="danger"
+                                    onClick={handleDeleteData}
+                                  >
+                                    YES
+                                  </Button>
+                                  <Button
+                                    onClick={() => setDeleteModal1(false)}
+                                  >
+                                    NO
+                                  </Button>
+                                </ModalFooter>
+                              </Modal>
+                              <Modal
+                                isOpen={deleteModal2}
+                                toggle={() => setDeleteModal2(!deleteModal2)}
+                                className="uapp-modal"
+                              >
+                                <ModalBody>
+                                  <Form onSubmit={handleUpdateData}>
+                                    <FormGroup row className="pt-3">
+                                      <p>
+                                        <b>Subject features</b>
+                                      </p>
+                                      <br />
+                                      <br />
+                                      <Col md="3">
+                                        <span>
+                                          Is accept home{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
 
-                    <FormGroup row className="pt-3">
-                      <p>
-                        <b>Subject features</b>
-                      </p>
-                      <br />
-                      <br />
-                      <Col md="3">
-                        <span>
-                          Is accept home <span className="text-danger">*</span>{" "}
-                        </span>
-                      </Col>
+                                      <Col md="5">
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptHome"
+                                            onChange={onValueChangeIsAcceptHome}
+                                            name="isAcceptHome"
+                                            value="true"
+                                            checked={
+                                              radioIsAcceptHome == "true"
+                                            }
+                                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptHome"
+                                          >
+                                            Yes
+                                          </Label>
+                                        </FormGroup>
 
-                      <Col md="5">
-                        <FormGroup check inline>
-                          <Input
-                            className="form-check-input"
-                            type="radio"
-                            id="isAcceptHome"
-                            onChange={onValueChangeIsAcceptHome}
-                            name="isAcceptHome"
-                            value="true"
-                            checked={radioIsAcceptHome == "true"}
-                          />
-                          <Label
-                            className="form-check-label"
-                            check
-                            htmlFor="isAcceptHome"
-                          >
-                            Yes
-                          </Label>
-                        </FormGroup>
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptHome"
+                                            onChange={onValueChangeIsAcceptHome}
+                                            name="isAcceptHome"
+                                            value="false"
+                                            checked={
+                                              radioIsAcceptHome == "false"
+                                            }
+                                          />
 
-                        <FormGroup check inline>
-                          <Input
-                            className="form-check-input"
-                            type="radio"
-                            id="isAcceptHome"
-                            onChange={onValueChangeIsAcceptHome}
-                            name="isAcceptHome"
-                            value="false"
-                            checked={radioIsAcceptHome == "false"}
-                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptHome"
+                                          >
+                                            No
+                                          </Label>
+                                        </FormGroup>
+                                      </Col>
+                                    </FormGroup>
 
-                          <Label
-                            className="form-check-label"
-                            check
-                            htmlFor="isAcceptHome"
-                          >
-                            No
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </FormGroup>
+                                    <FormGroup row className="pt-3">
+                                      <Col md="3">
+                                        <span>
+                                          Is accept EU_UK{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
 
-                    <FormGroup row className="pt-3">
-                      <Col md="3">
-                        <span>
-                          Is accept EU_UK <span className="text-danger">*</span>{" "}
-                        </span>
-                      </Col>
+                                      <Col md="5">
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptEU_UK"
+                                            onChange={onValueChangeIsAcceptUk}
+                                            name="isAcceptEU_UK"
+                                            value="true"
+                                            checked={radioIsAcceptUk == "true"}
+                                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptEU_UK"
+                                          >
+                                            Yes
+                                          </Label>
+                                        </FormGroup>
 
-                      <Col md="5">
-                        <FormGroup check inline>
-                          <Input
-                            className="form-check-input"
-                            type="radio"
-                            id="isAcceptEU_UK"
-                            onChange={onValueChangeIsAcceptUk}
-                            name="isAcceptEU_UK"
-                            value="true"
-                            checked={radioIsAcceptUk == "true"}
-                          />
-                          <Label
-                            className="form-check-label"
-                            check
-                            htmlFor="isAcceptEU_UK"
-                          >
-                            Yes
-                          </Label>
-                        </FormGroup>
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptEU_UK"
+                                            onChange={onValueChangeIsAcceptUk}
+                                            name="isAcceptEU_UK"
+                                            value="false"
+                                            checked={radioIsAcceptUk == "false"}
+                                          />
 
-                        <FormGroup check inline>
-                          <Input
-                            className="form-check-input"
-                            type="radio"
-                            id="isAcceptEU_UK"
-                            onChange={onValueChangeIsAcceptUk}
-                            name="isAcceptEU_UK"
-                            value="false"
-                            checked={radioIsAcceptUk == "false"}
-                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptEU_UK"
+                                          >
+                                            No
+                                          </Label>
+                                        </FormGroup>
+                                      </Col>
+                                    </FormGroup>
 
-                          <Label
-                            className="form-check-label"
-                            check
-                            htmlFor="isAcceptEU_UK"
-                          >
-                            No
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </FormGroup>
+                                    <FormGroup row className="pt-3">
+                                      <Col md="3">
+                                        <span>
+                                          Is accept international{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
 
-                    <FormGroup row className="pt-3">
-                      <Col md="3">
-                        <span>
-                          Is accept international{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </span>
-                      </Col>
+                                      <Col md="5">
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptInternational"
+                                            onChange={onValueChangeIsAcceptInt}
+                                            name="isAcceptInternational"
+                                            value="true"
+                                            checked={radioIsAcceptInt == "true"}
+                                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptInternational"
+                                          >
+                                            Yes
+                                          </Label>
+                                        </FormGroup>
 
-                      <Col md="5">
-                        <FormGroup check inline>
-                          <Input
-                            className="form-check-input"
-                            type="radio"
-                            id="isAcceptInternational"
-                            onChange={onValueChangeIsAcceptInt}
-                            name="isAcceptInternational"
-                            value="true"
-                            checked={radioIsAcceptInt == "true"}
-                          />
-                          <Label
-                            className="form-check-label"
-                            check
-                            htmlFor="isAcceptInternational"
-                          >
-                            Yes
-                          </Label>
-                        </FormGroup>
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptInternational"
+                                            onChange={onValueChangeIsAcceptInt}
+                                            name="isAcceptInternational"
+                                            value="false"
+                                            checked={
+                                              radioIsAcceptInt == "false"
+                                            }
+                                          />
 
-                        <FormGroup check inline>
-                          <Input
-                            className="form-check-input"
-                            type="radio"
-                            id="isAcceptInternational"
-                            onChange={onValueChangeIsAcceptInt}
-                            name="isAcceptInternational"
-                            value="false"
-                            checked={radioIsAcceptInt == "false"}
-                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptInternational"
+                                          >
+                                            No
+                                          </Label>
+                                        </FormGroup>
+                                      </Col>
+                                    </FormGroup>
 
-                          <Label
-                            className="form-check-label"
-                            check
-                            htmlFor="isAcceptInternational"
-                          >
-                            No
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </FormGroup>
-
-                    <FormGroup
-                      className="has-icon-left position-relative"
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Button.Ripple
-                        type="submit"
-                        className="mr-1 mt-3 badge-primary"
-                      >
-                        Submit
-                      </Button.Ripple>
-                    </FormGroup>
-                  </Form>
-                         
-                         
-                   
-                        </ModalBody>
-        
-                     
-                     </Modal>
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Button.Ripple
+                                        type="submit"
+                                        className="mr-1 mt-3 badge-primary"
+                                      >
+                                        Submit
+                                      </Button.Ripple>
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
                             </td>
                           </tr>
                         ))}
-                          </tbody>
-                        </Table>
-                      </div>
-                    
-                  
+                      </tbody>
+                    </Table>
+                  </div>
                 </CardBody>
               </Card>
             </div>
             {/* subject list table  end  */}
-
 
             {/* Assign single subject */}
             <div className=" info-item mt-4">
@@ -1135,12 +1239,11 @@ const CampusDetails = () => {
                           name="id"
                           id="id"
                         />
-                        {
-                          subError ? 
-                          <span className="text-danger">Subject Must Be Selected</span>
-                          :
-                          null
-                        }
+                        {subError ? (
+                          <span className="text-danger">
+                            Subject must be selected
+                          </span>
+                        ) : null}
                       </Col>
                     </FormGroup>
 
@@ -1545,11 +1648,7 @@ const CampusDetails = () => {
              </CardHeader>
           </Card> */}
 
-           
-
-            {/* subject intake */}
-            {/* intake filter */}
-
+            {/* subject intake starts here */}
             <div className=" info-item mt-4">
               <Card className="uapp-employee-search">
                 <CardBody className="search-card-body">
@@ -1568,7 +1667,13 @@ const CampusDetails = () => {
                     </div> */}
                   </div>
 
-                  <Form onSubmit="">
+                  <Form onSubmit={handleSubjectAssignInIntake}>
+                    <Input
+                      type="hidden"
+                      id="campusId"
+                      name="campusId"
+                      value={id}
+                    />
                     <FormGroup>
                       <Row>
                         <Col lg="5" md="4" sm="6" xs="6">
@@ -1578,9 +1683,15 @@ const CampusDetails = () => {
                             onChange={(opt) =>
                               selectIntakeType(opt.label, opt.value)
                             }
-                            name="UniversityTypeId"
-                            id="UniversityTypeId"
+                            name="intakeId"
+                            id="intakeId"
                           />
+                          {
+                            intakeError ?
+                            <span className="text-danger">Intake must be selected</span>
+                            :
+                            null
+                          }
                         </Col>
 
                         <Col lg="5" md="4" sm="6" xs="6">
@@ -1590,9 +1701,15 @@ const CampusDetails = () => {
                             onChange={(opt) =>
                               selectStatusType(opt.label, opt.value)
                             }
-                            name="UniversityCountryId"
-                            id="UniversityCountryId"
+                            name="statusId"
+                            id="statusId"
                           />
+                          {
+                            statusError ?
+                            <span className="text-danger">Status must be selected</span>
+                            :
+                            null
+                          }
                         </Col>
 
                         <Col lg="2" md="4" sm="6" xs="6">
@@ -1601,7 +1718,7 @@ const CampusDetails = () => {
                             type="submit"
                             className="btn btn-uapp-add btn btn-secondary"
                           >
-                            Apply
+                            Assign
                           </Button>
                           {/* </div> */}
                         </Col>
@@ -1632,154 +1749,47 @@ const CampusDetails = () => {
                       </Row>
                     </FormGroup>
 
-                    {/* <Card>
-                  <CardHeader className="page-header">
-                  <CardHeader>Select Subject</CardHeader>
-                  </CardHeader>
-              </Card> */}
-
-                    <Input
-                      type="hidden"
-                      name="universityId"
-                      id="universityId"
-                      value={id}
-                    />
-
                     <FormGroup>
                       <Row>
-                        <Col sm="6" className="text-center">
-                          {/* {menus.length > 0 && (
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  onChange={(e) => handleSelectAll(e)}
-                                  type="checkbox"
-                                  name="allSelect"
-                                  id="allSelect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  Select All
-                                </label>
-                              </div>
-                            )} */}
-
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              // onChange={handleChange}
-                              type="checkbox"
-                              // checked={subList.filter(sub=> sub?.isChecked !== true).length < 1}
-                              // disabled={subList.filter(sub=> sub?.isChecked !== true).length < 1}
-                              name="allSelect"
-                            />
-                            <label className="form-check-label" htmlFor="">
-                              <b>Select all</b>
-                            </label>
-                          </div>
+                        <Col sm="12">
+                          {subjectIds.length > 0 && (
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                onChange={(e) => handleSelectAll(e)}
+                                type="checkbox"
+                                name=""
+                              />
+                              <label className="form-check-label" htmlFor="">
+                                Select All
+                              </label>
+                            </div>
+                          )}
                         </Col>
-
-                        <Col sm="6" className="text-center">
-                          {/* {menus.length > 0 && (
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  onChange={(e) => handleDeselectAll(e)}
-                                  type="checkbox"
-                                  name="allDeselect"
-                                  id="allDeselect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  Deselect All
-                                </label>
-                              </div>
-                            )} */}
-
-                          <div className="form-check ms-auto">
-                            <input
-                              className="form-check-input"
-                              // onChange={handleChange}
-                              type="checkbox"
-                              // checked={subList.filter(sub=> sub?.isChecked !== false).length < 1}
-                              // disabled={subList.filter(sub=> sub?.isChecked !== false).length < 1}
-                              name="allDeselect"
-                            />
-                            <label className="form-check-label" htmlFor="">
-                              <b>Deselect all</b>
-                            </label>
-                          </div>
-                        </Col>
-                        <br />
-                        <br />
-                        {/* {
-                            menus?.map((menu) => (
-                              <Col xs="6" sm="4" md="3" key={menu.id}>
-                                <div className="form-check">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    onChange={(e) => handleCheck(e)}
-                                    name={menu.id}
-                                    id={menu.id}
-                                    defaultChecked={menu.checked}
-                                    value={menu?.id}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor=""
-                                  >
-                                    {menu.name}
-                                  </label>
-                                </div>
-                              </Col>
-                            ))} */}
-
-                        {/* {
-                            subList?.map((sub,i) => (
-                              <Col xs="6" sm="4" md="3" key={i} className="text-center">
-                                <div className="form-check">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    onChange={handleChange}
-                                    name={sub.name}
-                                    checked={sub?.isChecked || false}
-                                    // defaultChecked={user?.checked}
-                                    // tmpUsers={user?.checked}
-                                    value={sub?.id}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor=""
-                                  >
-                                    {sub.name}
-                                  </label>
-                                </div>
-                              </Col>
-                            ))} */}
+                        {subjectIds?.map((per) => (
+                          <Col xs="6" sm="4" md="3" key={per.subjectId}>
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                onChange={(e) => handleCheck(e)}
+                                type="checkbox"
+                                name=""
+                                id={per?.subjectId}
+                                defaultChecked={per?.isIntakeExists}
+                              />
+                              <label className="form-check-label" htmlFor="">
+                                {per?.subjectName}
+                              </label>
+                            </div>
+                          </Col>
+                        ))}
                       </Row>
                     </FormGroup>
-
-                    {/* <FormGroup
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Row>
-                          <Col>
-                            <Button.Ripple
-                              type="submit"
-                              className="mr-1 mt-3 badge-primary"
-                            >
-                              Submit
-                            </Button.Ripple>
-                          </Col>
-                        </Row>
-                      </FormGroup> */}
                   </Form>
                 </CardBody>
               </Card>
             </div>
+            {/* subject intake test ends here */}
 
             <br />
             <br />

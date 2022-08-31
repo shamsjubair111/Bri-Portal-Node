@@ -36,6 +36,8 @@ const BranchManager = () => {
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
 
+    const [emailError, setEmailError] = useState(true);
+
     const permissions = JSON.parse(localStorage.getItem("permissions"));
 
 
@@ -183,7 +185,8 @@ const selectTitle = (label, value) => {
     subdata.append('managerImage',FileList.length > 0 ? FileList[0].originFileObj : null);
     const config = {
       headers: {
-        'content-type': 'multipart/form-data'
+        'content-type': 'multipart/form-data',
+        'authorization': AuthStr,
       }
     }
 
@@ -199,17 +202,16 @@ const selectTitle = (label, value) => {
     }
 
     
-  if(titleValue == 0 ){
+  else if(titleValue == 0 ){
     setTitleError(true);
     console.log('error 111111');
   }
+  else if(emailError == false){
+    setEmailError(emailError);
+  }
 
    else if(backwardBranchManager){
-      Axios.put(`${rootUrl}BranchManager/Update`, subdata, config, {
-        headers: {
-          'authorization': AuthStr,
-        },
-      }).then((res) => {
+      Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;
@@ -242,11 +244,7 @@ const selectTitle = (label, value) => {
     }
 
     else{
-      Axios.post(`${rootUrl}BranchManager/Create`, subdata, config, {
-        headers: {
-          'authorization': AuthStr,
-        },
-      }).then((res) => {
+      Axios.post(`${rootUrl}BranchManager/Create`, subdata, config).then((res) => {
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;
@@ -285,6 +283,16 @@ const selectTitle = (label, value) => {
 
    
   };
+
+  const handleEmail = (e) => {
+    console.log(e.target.value);
+
+    get(`EmailCheck/EmailCheck/${e.target.value}`)
+    .then(res => {
+      console.log('Checking Response', res);
+      setEmailError(res);
+    })
+  }
 
 
     return (
@@ -432,8 +440,16 @@ const selectTitle = (label, value) => {
                       placeholder="Enter email"
                       required
                       defaultValue={branchManagerInfo?.email}
+                      onBlur={handleEmail}
                     />
-                
+                    {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
                   </Col>
                 </FormGroup>
 

@@ -16,15 +16,26 @@ import {
   Table,
   Form,
   FormGroup,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from "reactstrap";
+import Axios from "axios";
+import * as Icon from "react-feather";
+import { Upload, Modal as AntdModal } from "antd";
+import "antd/dist/antd.css";
 import get from "../../../helpers/get";
 import Select from "react-select";
 import { rootUrl } from "../../../constants/constants";
 import profileImage from "../../../assets/img/profile/user-uploads/user-07.jpg";
 
 import { Image } from "antd";
+import { useToasts } from "react-toast-notifications";
 import "antd/dist/antd.css";
 import EditDivButton from "../Components/EditDivButton";
+import CustomButtonRipple from "../Components/CustomButtonRipple";
+import remove from "../../../helpers/remove";
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 // const userData = [{name: "Jubair", id:6, isChecked:false}, {name: "Rahul", id:2, isChecked:true}, {name: "Abir", id:3, isChecked:false}, {name: "Nahid", id:4, isChecked:true}];
@@ -32,6 +43,7 @@ import EditDivButton from "../Components/EditDivButton";
 const UniversityDetails = () => {
   const location = useLocation();
   const { id } = useParams();
+  const { addToast } = useToasts();
   const [universityInfo, setUniversityInfo] = useState({});
   const [financialInfo, setFinancialInfo] = useState({});
   const [universityFeatures, setUniversityFeatures] = useState({});
@@ -65,6 +77,20 @@ const UniversityDetails = () => {
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(1);
   // end here
+
+  // For uploading Gallary
+  const [FileList1, setFileList1] = useState([]);
+  const [previewVisible1, setPreviewVisible1] = useState(false);
+  const [previewImage1, setPreviewImage1] = useState("");
+  const [previewTitle1, setPreviewTitle1] = useState("");
+  const [fileError, setFileError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [gallery, setGallery] = useState([]);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [galleryObj, setGalleryObj] = useState({});
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal1, setDeleteModal1] = useState(false);
+  const [deleteModal2, setDeleteModal2] = useState(false);
 
   const history = useHistory();
 
@@ -127,11 +153,12 @@ const UniversityDetails = () => {
     // for university gallery
     get(`UniversityGallery/GetByUniversity/${id}`).then((res) => {
       console.log("gallery", res);
+      setGallery(res);
     });
 
     // for fake data
     // setUsers(userData);
-  }, [id, callApi, currentPage, dataPerPage, searchStr]);
+  }, [id, callApi, currentPage, dataPerPage, searchStr, success]);
 
   const backToDashboard = () => {
     history.push("/universityList");
@@ -309,6 +336,115 @@ const UniversityDetails = () => {
     history.push('/addUniversity');
   }
 
+  const handleChange1 = ({ fileList }) => {
+    setFileList1(fileList);
+    setFileError(false);
+    console.log(fileList);
+  };
+
+  const handleCancel1 = () => {
+    setPreviewVisible1(false);
+  };
+
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  const handlePreview1 = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage1(file.url || file.preview);
+    setPreviewVisible1(true);
+    setPreviewTitle1(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+
+  const handleView = (gallery) => {
+    setGalleryObj(gallery);
+    setViewModalOpen(true);
+    console.log("gOBj", gallery);
+  };
+
+  const handleDelete = (gallery) => {
+    console.log("gallery", gallery);
+    localStorage.setItem("delGalName", gallery?.mediaFileMedia?.fileName);
+    localStorage.setItem("delGalId", gallery?.id);
+    setDeleteModal(true);
+  };
+
+   // on Close View Modal
+   const closeViewModal = () => {
+    // setGalleryObj({});
+    setViewModalOpen(false);
+  };
+
+   // on Close Modal
+   const closeDeleteModal = () => {
+    setDeleteModal(false);
+    localStorage.removeItem("delGalName");
+    localStorage.removeItem("delGalId");
+  };
+
+  const handleDeleteItem = (id) => {
+    const returnValue = remove(`UniversityGallery/Delete/${id}`).then((action) => {
+      setDeleteModal(false);
+      setSuccess(!success);
+      addToast(action, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      localStorage.removeItem("delGalName");
+      localStorage.removeItem("delGalId");
+    });
+  };
+
+  const AuthStr = localStorage.getItem("token");
+
+  const handleGalleryPost = (e) => {
+    e.preventDefault();
+
+    const subdata = new FormData(e.target);
+
+    for (let i = 0; i < FileList1.length; i++) {
+      subdata.append(`mediaFile`, FileList1[i]?.originFileObj);
+    }
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        'authorization': AuthStr,
+      },
+    };
+
+    setLoading(true);
+
+    if (FileList1.length < 1) {
+      setFileError(true);
+    } else {
+      Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
+        (res) => {
+          setSuccess(!success);
+          setFileList1([]);
+          setFileError(false);
+          setLoading(false);
+          addToast(res.data.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          // history.push("/addUniversityApplicationDocument");
+        }
+      );
+    }
+  };
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -477,8 +613,217 @@ const UniversityDetails = () => {
                     <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                   </div> */}
                   </div>
-                  <div>
-                    {/* <p className='pt-2'>{universityInfo?.description}</p> */}
+                  <div className="row mt-5">
+                    <div className="col-md-8">
+                      <div className="row row-cols-md-3 row-cols-sm-2 g-4">
+                        {gallery.map((gall, i) => (
+                          <div key={i} className="containerCustom">
+                            <img
+                              src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
+                              alt="Avatar"
+                              className="image"
+                              style={{ width: "100%" }}
+                            />
+                            <div className="middle d-flex">
+                              <Button
+                                onClick={() => handleView(gall)}
+                                className="bg-success"
+                              >
+                                View
+                              </Button>
+                              <Button
+                                onClick={() => handleDelete(gall)}
+                                className="bg-danger ms-2"
+                              >
+                                Delete
+                              </Button>
+
+                              <Modal
+                                size="50%"
+                                isOpen={viewModalOpen}
+                                toggle={closeViewModal}
+                                className="uapp-modal2"
+                              >
+                                <ModalBody>
+                                  {/* <img
+                              className="w-100 mx-auto"
+                              src={
+                                rootUrl + galleryObj?.mediaFileMedia?.fileUrl
+                              }
+                              alt=""
+                            /> */}
+                                  {galleryObj?.mediaFileMedia?.mediaType ===
+                                  1 ? (
+                                    <img
+                                      src={
+                                        rootUrl +
+                                        galleryObj?.mediaFileMedia?.fileUrl
+                                      }
+                                      alt="gallery_image"
+                                      className="image"
+                                      style={{ width: "100%" }}
+                                    />
+                                  ) : galleryObj?.mediaFileMedia?.mediaType ===
+                                    3 ? (
+                                    <video
+                                      src={
+                                        rootUrl +
+                                        galleryObj?.mediaFileMedia?.fileUrl
+                                      }
+                                      width="100%"
+                                      height="100%"
+                                      controls
+                                    >
+                                      The browser does not support videos.
+                                    </video>
+                                  ) : (
+                                    <span>This format cannot be opened.</span>
+                                  )}
+                                </ModalBody>
+
+                                <ModalFooter>
+                                  <Button
+                                    className="bg-danger"
+                                    onClick={closeViewModal}
+                                  >
+                                    Close
+                                  </Button>
+                                </ModalFooter>
+                              </Modal>
+
+                              <Modal
+                                isOpen={deleteModal}
+                                toggle={closeDeleteModal}
+                                className="uapp-modal"
+                              >
+                                <ModalBody>
+                                  <p>
+                                    Are You Sure to Delete this <b>{localStorage.getItem("delGalName")}</b>
+                                    ? Once Deleted it can't be Undone!
+                                  </p>
+                                </ModalBody>
+
+                                <ModalFooter>
+                                  <Button
+                                    color="danger"
+                                    onClick={() =>
+                                      handleDeleteItem(
+                                        localStorage.getItem("delGalId")
+                                      )
+                                    }
+                                  >
+                                    YES
+                                  </Button>
+                                  <Button onClick={closeDeleteModal}>NO</Button>
+                                </ModalFooter>
+                              </Modal>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="customCard rounded">
+                        <Form className="ms-2" onSubmit={handleGalleryPost}>
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Input
+                              type="hidden"
+                              id="universityId"
+                              name="universityId"
+                              value={id}
+                            />
+                            {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
+                          </FormGroup>
+
+                          <FormGroup>
+                            <span>
+                              Multiple File Upload{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                            {loading ? (
+                              <h4 className="text-center mt-4">Uploading...</h4>
+                            ) : (
+                              <div className="row mt-4">
+                                {/* {universityData?.universityLogo ? (
+                                  <div className="col-md-3">
+                                    <Image
+                                      width={104}
+                                      height={104}
+                                      src={
+                                        rootUrl +
+                                        universityData?.universityLogo
+                                          ?.thumbnailUrl
+                                      }
+                                    />
+                                  </div>
+                                ) : null} */}
+
+                                <div className="col-md-3">
+                                  <Upload
+                                    listType="picture-card"
+                                    multiple={true}
+                                    fileList={FileList1}
+                                    onPreview={handlePreview1}
+                                    onChange={handleChange1}
+                                    beforeUpload={(file) => {
+                                      return false;
+                                    }}
+                                  >
+                                    {FileList1.length < 1 ? (
+                                      <div
+                                        className="text-danger"
+                                        style={{ marginTop: 8 }}
+                                      >
+                                        <Icon.Upload />
+                                        <br />
+                                        <span>Upload</span>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </Upload>
+                                  <AntdModal
+                                    visible={previewVisible1}
+                                    title={previewTitle1}
+                                    footer={null}
+                                    onCancel={handleCancel1}
+                                  >
+                                    <img
+                                      alt="example"
+                                      style={{ width: "100%" }}
+                                      src={previewImage1}
+                                    />
+                                  </AntdModal>
+                                </div>
+                              </div>
+                            )}
+                            {fileError && (
+                              <span className="text-danger">
+                                You must select at least one file.
+                              </span>
+                            )}
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                            style={{ display: "flex", justifyContent: "end" }}
+                          >
+                            <Col md="5">
+                              <CustomButtonRipple
+                                type={"submit"}
+                                className={"mr-1 mt-3 badge-primary"}
+                                name={"Save"}
+                                permission={6}
+                              />
+                            </Col>
+                          </FormGroup>
+                        </Form>
+                      </div>
+                    </div>
                   </div>
                 </CardBody>
               </Card>
@@ -787,7 +1132,7 @@ const UniversityDetails = () => {
 
             {/* intake filter */}
 
-            {subList.length < 1 ? null : (
+            {/* {subList.length < 1 ? null : (
               <Card className="uapp-employee-search mt-4">
                 <CardBody className="search-card-body ms-3">
                   <div className="hedding-titel d-flex justify-content-between mb-4 mt-3">
@@ -799,9 +1144,7 @@ const UniversityDetails = () => {
 
                       <div className="bg-h"></div>
                     </div>
-                    {/* <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div> */}
+                    
                   </div>
 
                   <Form onSubmit={handleSubmit}>
@@ -832,14 +1175,14 @@ const UniversityDetails = () => {
                         </Col>
 
                         <Col lg="2" md="4" sm="6" xs="6">
-                          {/* <div className='d-flex justify-content-center'> */}
+                         
                           <Button
                             type="submit"
                             className="btn btn-uapp-add btn btn-secondary"
                           >
                             Apply
                           </Button>
-                          {/* </div> */}
+                        
                         </Col>
                       </Row>
                     </FormGroup>
@@ -854,26 +1197,19 @@ const UniversityDetails = () => {
                               className="mt-1 mx-1 d-flex btn-clear"
                               onClick={handleClearSearch}
                             >
-                              {/* <Icon.X  className='text-danger' />*/}
+                             
                               <span className="text-danger">
                                 <i className="fa fa-times"></i> Clear
                               </span>
                             </div>
 
-                            {/* <div className="mt-2 mx-1">
-                        <span className="btn btn-primary">Export</span>
-                      </div> */}
+                            
                           </div>
                         </Col>
                       </Row>
                     </FormGroup>
 
-                     {/* <Card>
-                        <CardHeader className="page-header">
-                        <CardHeader>Select Subject</CardHeader>
-                        </CardHeader>
-                        </Card> 
-                    */}
+                     
 
                     <Input
                       type="hidden"
@@ -885,20 +1221,7 @@ const UniversityDetails = () => {
                     <FormGroup>
                       <Row>
                         <Col sm="6" className="text-center">
-                          {/* {menus.length > 0 && (
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  onChange={(e) => handleSelectAll(e)}
-                                  type="checkbox"
-                                  name="allSelect"
-                                  id="allSelect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  Select All
-                                </label>
-                              </div>
-                            )} */}
+                          
 
                           <div className="form-check">
                             <input
@@ -922,20 +1245,7 @@ const UniversityDetails = () => {
                         </Col>
 
                         <Col sm="6" className="text-center">
-                          {/* {menus.length > 0 && (
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  onChange={(e) => handleDeselectAll(e)}
-                                  type="checkbox"
-                                  name="allDeselect"
-                                  id="allDeselect"
-                                />
-                                <label className="form-check-label" htmlFor="">
-                                  Deselect All
-                                </label>
-                              </div>
-                            )} */}
+                          
 
                           <div className="form-check ms-auto">
                             <input
@@ -961,28 +1271,7 @@ const UniversityDetails = () => {
                         </Col>
                         <br />
                         <br />
-                        {/* {
-                            menus?.map((menu) => (
-                              <Col xs="6" sm="4" md="3" key={menu.id}>
-                                <div className="form-check">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    onChange={(e) => handleCheck(e)}
-                                    name={menu.id}
-                                    id={menu.id}
-                                    defaultChecked={menu.checked}
-                                    value={menu?.id}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor=""
-                                  >
-                                    {menu.name}
-                                  </label>
-                                </div>
-                              </Col>
-                            ))} */}
+                        
 
                         {subList?.map((sub, i) => (
                           <Col
@@ -990,7 +1279,7 @@ const UniversityDetails = () => {
                             sm="4"
                             md="3"
                             key={i}
-                            className="text-center"
+                            className=""
                           >
                             <div className="form-check">
                               <input
@@ -999,8 +1288,7 @@ const UniversityDetails = () => {
                                 onChange={handleChange}
                                 name={sub.name}
                                 checked={sub?.isChecked || false}
-                                // defaultChecked={user?.checked}
-                                // tmpUsers={user?.checked}
+                                
                                 value={sub?.id}
                               />
                               <label className="form-check-label" htmlFor="">
@@ -1012,27 +1300,11 @@ const UniversityDetails = () => {
                       </Row>
                     </FormGroup>
 
-                    {/* <FormGroup
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Row>
-                          <Col>
-                            <Button.Ripple
-                              type="submit"
-                              className="mr-1 mt-3 badge-primary"
-                            >
-                              Submit
-                            </Button.Ripple>
-                          </Col>
-                        </Row>
-                      </FormGroup> */}
+                    
                   </Form>
                 </CardBody>
               </Card>
-            )}
+            )} */}
 
             <div className=" info-item mt-4">
               <Card>

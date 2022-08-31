@@ -233,17 +233,17 @@ const selectTitle = (label, value) => {
                
 
                   <FormGroup row>
-                    <Col md="2">
+                    {/* <Col md="2">
                  
-                      <span className="pl-2">email</span>
-                    </Col>
+                      <span className="">email</span>
+                    </Col> */}
 
                    
                     
                     
                     <Col md="10" lg="4">
                       <Input
-                        type="email"
+                        type="hidden"
                         name="email"
                         id="email"
                         placeholder="Enter email"
