@@ -59,8 +59,11 @@ const ProviderList = () => {
     
       const providerTypeId = 0;
       const pageSize = 15;
-       get(`Provider/Index?page=${currentPage}&pagesize=${pageSize}&providerTypeId=${providerTypeId? providerTypeId : providerValue}&searchstring=${searchStr}`).then((action) => {
+      //  get(`Provider/Index?page=${currentPage}&pagesize=${pageSize}&providerTypeId=${providerTypeId? providerTypeId : providerValue}&searchstring=${searchStr}`).then((action) => {
+      //   setProviderList(action?.models);
+      get(`Provider/Index?providerTypeId=${providerTypeId ? providerTypeId : providerValue}&searchstring=${searchStr}`).then((action) => {
         setProviderList(action?.models);
+        console.log('aaaaaa',action);
         // console.log('aaaaaa',action);
       
        

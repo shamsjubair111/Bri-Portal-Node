@@ -5,11 +5,8 @@ import {
   CardBody,
   CardHeader,
   ButtonGroup,
-
   Button,
-
   Input,
-
   Col,
   Row,
   Table,
@@ -30,14 +27,16 @@ import { rootUrl } from "../../../constants/constants.js";
 import { StoreUniversityStateData } from "../../../redux/actions/SMS/UniversityAction/UniversityStateAction.js";
 import { Link } from "react-router-dom";
 import remove from "../../../helpers/remove.js";
-import { StoreUniversityListData } from '../../../redux/actions/SMS/UniversityAction/UniversityListAction';
+import { StoreUniversityListData } from "../../../redux/actions/SMS/UniversityAction/UniversityListAction";
 
-import * as XLSX from 'xlsx/xlsx.mjs';
-import ReactToPrint from 'react-to-print';
+import * as XLSX from "xlsx/xlsx.mjs";
+import ReactToPrint from "react-to-print";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import LinkSpanButton from "../Components/LinkSpanButton.js";
 import SpanButton from "../Components/SpanButton.js";
 import LinkButton from "../Components/LinkButton.js";
+import { userTypes } from "../../../constants/userTypeConstant.js";
+import { Axios } from "axios";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
@@ -50,19 +49,22 @@ const UniversityList = (props) => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
-  const [orderLabel, setOrderLabel] = useState('Select order by');
+  const [orderLabel, setOrderLabel] = useState("Select order by");
   const [orderValue, setOrderValue] = useState(0);
   const [searchStr, setSearchStr] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [stateList, setstateList] = useState([0]);
-  const univerSityCountries = props.univerSityCountryList[0];
-  const universityTypes = props.univerSityTypeList[0];
+  // const univerSityCountries = props.univerSityCountryList[0];
+  const [univerSityCountries, setUniverSityCountries] = useState([]);
+  // const universityTypes = props.univerSityTypeList[0];
+  const [universityTypes, setUniversityTypes] = useState([]);
   const [providerList, setProviderList] = useState([]);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [ulist,setUList] = useState([]);
+  const [ulist, setUList] = useState([]);
 
-  const universityStates = props.univerSityStateList[0];
+  // const universityStates = props.univerSityStateList[0];
+  const [universityStates, setUniversityStates] = useState([]);
 
   const univerSList = props.univerSityDropDownList[0];
 
@@ -76,20 +78,40 @@ const UniversityList = (props) => {
   const [unistateValue, setUniStateValue] = useState(0);
   const [providerLabel, setProviderLabel] = useState("Provider");
   const [providerValue, setProviderValue] = useState(0);
-  const providerData = useSelector((state)=> state?.universityProviderDataReducer?.universityProviders);
+  const providerData = useSelector(
+    (state) => state?.universityProviderDataReducer?.universityProviders
+  );
   const providerDataResult = providerData?.models;
   // console.log(providerDataResult);
-
-  useEffect(()=>{
-    get("University/GetAll").then(res =>{
-      // setUList(res);
-      dispatch(StoreUniversityListData(res));
+  const userType = localStorage.getItem("userType");
+  const referenceId = localStorage.getItem("referenceId");
+  useEffect(() => {
+    // get("University/GetAll").then((res) => {
+    //   // setUList(res);
+    //   dispatch(StoreUniversityListData(res));
+    // });
+    get(`ProviderDD/Index`).then((res) => {
+      setProviderList(res);
     });
-  },[]);
-  
+
+    get(`UniversityCountryDD/Index`).then((res) => {
+      setUniverSityCountries(res);
+    });
+
+    get(`UniversityTypeDD/Index`).then((res) => {
+      setUniversityTypes(res);
+    });
+
+    // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
+    //   console.log("providerHelper",typeof(res));
+    //   if(res !== 0){
+    //     setProviderValue(res);
+    //   }
+    // })
+    
+  }, []);
 
   useEffect(() => {
-
     const uCountryId = 0;
     const uStateId = 0;
     const uTypeId =
@@ -99,17 +121,17 @@ const UniversityList = (props) => {
           location.universityType !== null
         ? location.universityType
         : 0;
-        const providerId = providerValue !==0
-     ? providerValue 
-     : typeof location.providervalue !== undefined || 
-     location.providervalue !== null
-     ?  location.providervalue
-     : 0;    
-    
-    
+    const providerId =
+      providerValue !== 0
+        ? providerValue
+        : typeof location.providervalue !== undefined ||
+          location.providervalue !== null
+        ? location.providervalue
+        : 0;
+
     if (uTypeId !== 0) {
       var unitype = universityTypes?.find((s) => s.id === uTypeId);
-    
+
       if (unitype === undefined) {
         setUniTypeLabel("University type");
       } else {
@@ -118,28 +140,27 @@ const UniversityList = (props) => {
       }
     }
 
-    get(`ProviderDD/Index`).then((res) => {
-      setProviderList(res);
-    });
+    //  if(providerId !== 0){
+    //    var providertype = providerDataResult?.find(p => p.id === providerId);
 
-    
-      
-      //  if(providerId !== 0){
-      //    var providertype = providerDataResult?.find(p => p.id === providerId);
-      
-      //   console.log(providertype);
-   
-      //    if(providertype === undefined){
-      //      setProviderLabel('Provider Type')
-      //    }
-      //    else{
-      //      setProviderLabel(providertype?.name);
-      //      setProviderValue(providerId);
-      //    }
-      //  }
+    //   console.log(providertype);
 
- 
+    //    if(providertype === undefined){
+    //      setProviderLabel('Provider Type')
+    //    }
+    //    else{
+    //      setProviderLabel(providertype?.name);
+    //      setProviderValue(providerId);
+    //    }
+    //  }
 
+    // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
+    //   console.log("providerHelper",typeof(res));
+    //     setProviderValue(res != 0 ? res : 0);
+    //     if(res != 0){
+    //       localStorage.setItem("providerValue", res);
+    //     }
+    // })
 
     get(
       `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
@@ -153,27 +174,40 @@ const UniversityList = (props) => {
       }&search=${searchStr}&orderId=${orderValue}`
     ).then((action) => {
       setUniversityList(action?.models);
-      console.log('aaaaaaction',action?.models);
-      
+      console.log("aaaaaactionvalhalla", action?.models);
+
       setLoading(false);
       setEntity(action?.totalEntity);
       setSerialNum(action?.firstSerialNumber);
-
     });
+  }, [
+    currentPage,
+    dataPerPage,
+    location.providervalue,
+    location.universityType,
+    searchStr,
+    uniCountryValue,
+    uniTypeValue,
+    unistateValue,
+    universityTypes,
+    orderValue,
+    providerValue, 
+    referenceId, 
+    userType,
+    entity,
+    // serialNum
+  ]);
 
 
-  
+  console.log("wdww", typeof(providerValue), providerValue);
 
-  }, [callApi, currentPage, dataPerPage, location.providervalue, location.universityType, providerDataResult, providerValue, searchStr, uniCountryValue, uniTypeValue, unistateValue, universityTypes, orderValue]);
-
-  
-  const searchStateByCountry = (countryValue) =>{
-    get(`UniversityStateDD/Index/${countryValue}`)
-    .then(res =>{
-      console.log("statebyCountry",res);
-      dispatch(StoreUniversityStateData(res));
-    })
-  }
+  const searchStateByCountry = (countryValue) => {
+    get(`UniversityStateDD/Index/${countryValue}`).then((res) => {
+      console.log("statebyCountry", res);
+      // dispatch(StoreUniversityStateData(res));
+      setUniversityStates(res);
+    });
+  };
 
   // search handler
   const handleSearch = () => {
@@ -188,25 +222,28 @@ const UniversityList = (props) => {
   // user select order
   const orderArr = [
     {
-      label: 'Newest',
-      value: 1 
+      label: "Newest",
+      value: 1,
     },
     {
-      label: 'Oldest',
-      value: 2 
+      label: "Oldest",
+      value: 2,
     },
     {
-      label: 'A-Z',
-      value: 3 
+      label: "A-Z",
+      value: 3,
     },
     {
-      label: 'Z-A',
-      value: 4 
-    }
+      label: "Z-A",
+      value: 4,
+    },
   ];
   // const orderName = orderArr.map((dsn) => ({ label: dsn.label, value: dsn.value }));
-  const orderName = orderArr.map((dsn) => ({ label: dsn.label, value: dsn.value }));
-  console.log("filterValue", orderName);
+  const orderName = orderArr.map((dsn) => ({
+    label: dsn.label,
+    value: dsn.value,
+  }));
+ 
 
   const selectDataSize = (value) => {
     setLoading(true);
@@ -232,7 +269,7 @@ const UniversityList = (props) => {
   const handleAddUniversity = () => {
     // localStorage.removeItem('editUniId');
     // localStorage.removeItem('editMethod');
-    localStorage.removeItem('id');
+    localStorage.removeItem("id");
     history.push("/addUniversity");
   };
 
@@ -282,7 +319,7 @@ const UniversityList = (props) => {
     setUniCountryLabel(label);
     setUniCountryValue(value);
     searchStateByCountry(value);
-   
+
     handleSearch();
 
     // Axios.get(`${rootUrl}/UniversityState/GetByCountry/${value}`)
@@ -342,58 +379,47 @@ const UniversityList = (props) => {
   };
 
   // redirect to campus list
-  const redirectToCampusList = (id) =>{
-    localStorage.setItem('universityId', id);
+  const redirectToCampusList = (id) => {
+    localStorage.setItem("universityId", id);
     history.push({
-      pathname :'/campusList',
-      id
+      pathname: "/campusList",
+      id,
     });
-  }
+  };
 
-  // deleteing university 
+  // deleteing university
 
   const handleDeleteUniversity = () => {
-    const id = localStorage.getItem('universityId_from_universityList_Page')
-    remove(`University/Delete/${id}`)
-    .then(res => {
+    const id = localStorage.getItem("universityId_from_universityList_Page");
+    remove(`University/Delete/${id}`).then((res) => {
       console.log(res);
-    })
-
-  }
+    });
+  };
 
   const toggleDanger = (id) => {
+    localStorage.setItem("universityId_from_universityList_Page", id);
 
-    localStorage.setItem('universityId_from_universityList_Page',id);
-    
     setDeleteModal(true);
+  };
 
-   }
-
-
-   const closeDeleteModal = () => {
- 
- 
+  const closeDeleteModal = () => {
     setDeleteModal(false);
-    
-  
-  }
+  };
 
   // deleting university end
 
-
-  const handleEdit = (data) =>{
-    console.log('editData',data);
+  const handleEdit = (data) => {
+    console.log("editData", data);
     localStorage.removeItem("id");
-    localStorage.setItem('id', data?.id);
+    localStorage.setItem("id", data?.id);
     // localStorage.setItem('editMethod','put');
 
-    history.push('/addUniversity');
-  }
-
+    history.push("/addUniversity");
+  };
 
   const handleExportXLSX = () => {
     var wb = XLSX.utils.book_new(),
-    ws = XLSX.utils.json_to_sheet(universityList);
+      ws = XLSX.utils.json_to_sheet(universityList);
     XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
@@ -401,10 +427,10 @@ const UniversityList = (props) => {
 
   const componentRef = useRef();
 
-  const handleRedirectToSubList = id =>{
+  const handleRedirectToSubList = (id) => {
     localStorage.setItem("uniIdForSubList", id);
-    history.push('/subjectList');
-  }
+    history.push("/subjectList");
+  };
 
   return (
     <div>
@@ -419,9 +445,6 @@ const UniversityList = (props) => {
           </div>
         </CardHeader>
       </Card>
-
-
-
 
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
@@ -455,16 +478,21 @@ const UniversityList = (props) => {
                 id="UniversityStateId"
               />
             </Col>
+            {
+              !(userType == userTypes?.Provider ||
+              userType == userTypes?.ProviderAdmin ||
+              userType == userTypes?.AdmissionManager) ? (
+              <Col lg="2" md="3" sm="6" xs="6">
+                <Select
+                  options={providerlist}
+                  value={{ label: providerLabel, value: providerValue }}
+                  onChange={(opt) => selectProviderState(opt.label, opt.value)}
+                  name="providerId"
+                  id="providerId"
+                />
+              </Col>
+            ) : null}
 
-            <Col lg="2" md="3" sm="6" xs="6">
-              <Select
-                options={providerlist}
-                value={{ label: providerLabel, value: providerValue }}
-                onChange={(opt) => selectProviderState(opt.label, opt.value)}
-                name="providerId"
-                id="providerId"
-              />
-            </Col>
             <Col lg="4" md="4" sm="6" xs="6">
               <Input
                 style={{ height: "2.7rem" }}
@@ -513,7 +541,6 @@ const UniversityList = (props) => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
-
               <ButtonForFunction
                 func={handleAddUniversity}
                 className={"btn btn-uapp-add "}
@@ -521,7 +548,6 @@ const UniversityList = (props) => {
                 name={" Add New"}
                 permission={6}
               />
-
             </Col>
 
             <Col lg="7" md="7" sm="8" xs="8">
@@ -541,14 +567,12 @@ const UniversityList = (props) => {
                 </Col> */}
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">
-                      Order By :
-                    </div>
+                    <div className="me-2">Order By :</div>
                     <div>
                       <Select
-                      options={orderName}
-                      value={{ label: orderLabel, value: orderValue }}
-                      onChange={(opt) => selectOrder(opt.label, opt.value)}
+                        options={orderName}
+                        value={{ label: orderLabel, value: orderValue }}
+                        onChange={(opt) => selectOrder(opt.label, opt.value)}
                       />
                     </div>
                   </div>
@@ -556,14 +580,12 @@ const UniversityList = (props) => {
 
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">
-                      Showing :
-                    </div>
+                    <div className="me-2">Showing :</div>
                     <div>
                       <Select
-                      options={dataSizeName}
-                      value={{ label: dataPerPage, value: dataPerPage }}
-                      onChange={(opt) => selectDataSize(opt.value)}
+                        options={dataSizeName}
+                        value={{ label: dataPerPage, value: dataPerPage }}
+                        onChange={(opt) => selectDataSize(opt.value)}
                       />
                     </div>
                   </div>
@@ -577,20 +599,24 @@ const UniversityList = (props) => {
                     toggle={toggle}
                   >
                     <DropdownToggle caret>
-                      
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className='bg-dd'>
-                        
-                      <div className='d-flex justify-content-around align-items-center mt-2'>
-                        <div className='text-light cursor-pointer'>
-                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p>
                         </div>
-                        <div className='text-light cursor-pointer'>
+                        <div className="text-light cursor-pointer">
                           <ReactToPrint
-                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
-                             content={() => componentRef.current}
-                           />
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
                         </div>
                       </div>
                     </DropdownMenu>
@@ -598,7 +624,7 @@ const UniversityList = (props) => {
                 </div>
 
                 <div className="me-3">
-                <Dropdown
+                  <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
                     isOpen={dropdownOpen1}
@@ -607,20 +633,24 @@ const UniversityList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className='bg-dd'>
-                        
-                      <div className='d-flex justify-content-around align-items-center mt-2'>
-                        <div className='text-light cursor-pointer'>
-                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p>
                         </div>
-                        <div className='text-light cursor-pointer'>
+                        <div className="text-light cursor-pointer">
                           <ReactToPrint
-                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
-                             content={() => componentRef.current}
-                           />
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
                         </div>
                       </div>
-
                     </DropdownMenu>
                   </Dropdown>
                 </div>
@@ -656,8 +686,9 @@ const UniversityList = (props) => {
                         {" "}
                         <img
                           className="Uapp-c-image"
-                          src={rootUrl+university?.universityLogo?.fileUrl}
-                         alt="university_logo"/>{" "}
+                          src={rootUrl + university?.universityLogo?.fileUrl}
+                          alt="university_logo"
+                        />{" "}
                       </td>
                       <td>
                         {university?.name} ({university?.shortName})
@@ -667,7 +698,7 @@ const UniversityList = (props) => {
                         {university?.universityCountry?.name} (
                         {university?.universityState?.name})
                       </td>
-                 
+
                       <td>
                         {/* <span onClick={()=>redirectToCampusList(university?.id)}
                           className="badge badge-secondary"
@@ -677,17 +708,14 @@ const UniversityList = (props) => {
                         </span> */}
 
                         <SpanButton
-                          func={()=>redirectToCampusList(university?.id)}
+                          func={() => redirectToCampusList(university?.id)}
                           className={"badge badge-secondary"}
                           style={{ cursor: "pointer" }}
                           data={university?.totalCampus}
                           permission={6}
                         />
-
-
-
                       </td>
-                    
+
                       <td>
                         {" "}
                         <span
@@ -713,25 +741,21 @@ const UniversityList = (props) => {
                           <span> {university?.totalSubject} </span>
                           </Link> */}
 
-                           <LinkSpanButton
+                          <LinkSpanButton
                             className={"text-decoration-none"}
-                            url={
-                              {
-                                pathname: '/subjectList',
-                                universityId: university?.id,
-                                universityName: university?.name,
-                              }
-                            }
+                            url={{
+                              pathname: "/subjectList",
+                              universityId: university?.id,
+                              universityName: university?.name,
+                            }}
                             data={university?.totalSubject}
                             permission={6}
-                           />
-
+                          />
                         </span>{" "}
                       </td>
-                      
+
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                        
                           <LinkButton
                             url={`/universityDetails/${university?.id}`}
                             color={"primary"}
@@ -741,7 +765,7 @@ const UniversityList = (props) => {
                           />
 
                           {/* <Link to= {`/updateUniversityInformation/${university?.id}`}> */}
-                          
+
                           <ButtonForFunction
                             func={() => handleEdit(university)}
                             color={"dark"}
@@ -751,7 +775,7 @@ const UniversityList = (props) => {
                           />
 
                           {/* </Link> */}
-                          
+
                           <ButtonForFunction
                             func={() => toggleDanger(university?.id)}
                             color={"danger"}
@@ -759,22 +783,32 @@ const UniversityList = (props) => {
                             icon={<i className="fas fa-trash-alt"></i>}
                             permission={6}
                           />
-
                         </ButtonGroup>
 
-                            {/* modal for delete */}
-                  <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
+                        {/* modal for delete */}
+                        <Modal
+                          isOpen={deleteModal}
+                          toggle={closeDeleteModal}
+                          className="uapp-modal"
+                        >
+                          <ModalBody>
+                            <p>
+                              Are You Sure to Delete this{" "}
+                              {localStorage.getItem("depName")} ? Once Deleted
+                              it can't be Undone!
+                            </p>
+                          </ModalBody>
 
-                   <ModalBody>
-                   <p>Are You Sure to Delete this {localStorage.getItem('depName')} ? Once Deleted it can't be Undone!</p>
-                   </ModalBody>
-
-                   <ModalFooter>
-                   <Button color="danger" onClick={handleDeleteUniversity}>YES</Button>
-                   <Button onClick={closeDeleteModal}>NO</Button>
-                   </ModalFooter>
-
-                  </Modal>
+                          <ModalFooter>
+                            <Button
+                              color="danger"
+                              onClick={handleDeleteUniversity}
+                            >
+                              YES
+                            </Button>
+                            <Button onClick={closeDeleteModal}>NO</Button>
+                          </ModalFooter>
+                        </Modal>
                       </td>
                     </tr>
                   ))}
