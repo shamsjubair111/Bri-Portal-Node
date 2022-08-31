@@ -303,6 +303,34 @@ const handleEmail = (e) => {
                     }
                 </Col>
               </FormGroup>
+              <FormGroup row>
+                <Col md="2">
+               <i id="passwordTooltip" className="fas fa-info-circle menuIcon"></i>
+                  <span className="pl-2">Password</span>
+                </Col>
+
+                <UncontrolledTooltip
+                placement="top"
+                target="passwordTooltip"
+
+              >
+                Your Password
+              </UncontrolledTooltip>
+                
+
+            
+
+                <Col md="10" lg="6">
+                 <Input
+                   type="password"
+                   name="password"
+                   id="password"
+                   placeholder="Enter password"
+                   required
+                 />
+                  
+                </Col>
+              </FormGroup>
 
               <FormGroup row>
                 <Col md="2">

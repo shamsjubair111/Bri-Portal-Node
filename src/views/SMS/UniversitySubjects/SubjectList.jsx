@@ -26,6 +26,9 @@ import {
     NavLink,
   } from "reactstrap";
 
+  // import { permissionList } from '../../../../constants/AuthorizationConstant';
+  import { permissionList } from '../../../constants/AuthorizationConstant';
+
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import * as XLSX from 'xlsx/xlsx.mjs';
 // import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -297,6 +300,7 @@ const SubjectList = (props) => {
   }
 
   // localStorage.removeItem("uniIdForSubList");
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     return (
 
@@ -392,7 +396,8 @@ const SubjectList = (props) => {
                 {" "}
                 <i className="fas fa-plus"></i> Add New{" "}
               </Button> */}
-
+              {
+                    permissions?.includes(permissionList?.Add_subject) ?
               <ButtonForFunction
                 func={handleAddSubject}
                 className={"btn btn-uapp-add "}
@@ -400,6 +405,9 @@ const SubjectList = (props) => {
                 name={" Add New"}
                 permission={6}
               />
+              :
+              null
+              }
 
             </Col>
 
@@ -540,7 +548,8 @@ const SubjectList = (props) => {
                             <i className="fas fa-eye"></i>{" "}
                           </Button>
                         </Link> */}
-
+                        {
+                        permissions?.includes(permissionList?.View_subject) ?
                         <ButtonForFunction 
                           func={()=>handleView(sub?.id)}
                           color={"primary"}
@@ -548,6 +557,9 @@ const SubjectList = (props) => {
                           icon={<i className="fas fa-eye"></i>}
                           permission={6}
                         />
+                        :
+                        null
+                        }
 
                           {/* <Link to={`editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
@@ -555,7 +567,8 @@ const SubjectList = (props) => {
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
                           </Link> */}
-
+                        {
+                         permissions?.includes(permissionList?.Update_subject) ?
                           <LinkButton
                             url={`addSubject/${sub?.id}`}
                             color={"dark"}
@@ -563,12 +576,15 @@ const SubjectList = (props) => {
                             icon={<i className="fas fa-edit"></i>}
                             permission={6}
                           />
+                          :
+                          null}
 
                           {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-
+                          {
+                            permissions?.includes(permissionList?.Delete_subject) ?
                           <ButtonForFunction
                             func={() => toggleDanger(sub?.name, sub?.id)}
                             color={"danger"}
@@ -576,6 +592,9 @@ const SubjectList = (props) => {
                             icon={<i className="fas fa-trash-alt"></i>}
                             permission={6}
                           />
+                          :
+                          null
+                           }
 
 
 
