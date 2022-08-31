@@ -21,6 +21,7 @@ import {
 import { permissionList } from "../../../../constants/AuthorizationConstant";
 
 import get from "../../../../helpers/get";
+import post from "../../../../helpers/post";
 
 import put from "../../../../helpers/put";
 import ButtonForFunction from "../../Components/ButtonForFunction";
@@ -34,12 +35,12 @@ const EmployeeContactInfo = () => {
   const [activetab, setActivetab] = useState("2");
   const [addressLine, setAddressLine] = useState([]);
   const [addressLineName, setAddressLineName] = useState(
-    "Select Address Type..."
+    "Select Address Type"
   );
   const [addressLineValue, setAddressLineValue] = useState(0);
   const [addressLineError, setAddressLineError] = useState("");
   const [countryList, setCountryList] = useState([]);
-  const [countryLabel, setCountryLabel] = useState("Select Country...");
+  const [countryLabel, setCountryLabel] = useState("Select Country");
   const [countryValue, setCountryValue] = useState(0);
   const [countryError, setCountryError] = useState("");
   const { addToast } = useToasts();
@@ -50,13 +51,13 @@ const EmployeeContactInfo = () => {
 
   useEffect(() => {
     get(`EmployeeContactInformation/GetByEmployeeId/${id}`).then((res) => {
-      console.log(res);
+      console.log(res,'data checking');
       setContactInfo(res);
-      setAddressLineValue(res?.addressTypeId);
-      setAddressLineName(res?.addressType?.name);
+      setAddressLineValue(res !== null ? res?.addressTypeId : 0);
+      setAddressLineName(res !== null  ? res?.addressType?.name : 'Select Address Type');
 
-      setCountryLabel(res?.country.name);
-      setCountryValue(res?.countryId);
+      setCountryLabel(res !== null ? res?.country.name : 'Select Country');
+      setCountryValue(res !== null ? res?.countryId : 0);
     });
 
     get(`AddressTypeDD/Index`).then((action) => {
@@ -100,23 +101,41 @@ const EmployeeContactInfo = () => {
       setCountryError("Country is Required");
     } 
     if(addressLineValue ==0 ){
-      setAddressLineError('Address is Required');
+      setAddressLineError('Address Type is Required');
     }
     else {
-      const returnValue = put(
-        `EmployeeContactInformation/Update`,
-        subData
-      ).then((action) => {
-        console.log(action);
-
-        addToast(action?.data?.message, {
-          appearance: "success",
-          autoDismiss: true,
+      if(contactInfo == null){
+        post(`EmployeeContactInformation/Create`,subData).then((action)=> {
+              
+          if(action?.status == 200){
+           addToast(action?.data?.message, {
+               appearance:  'success',
+               autoDismiss: true,
+             })
+             history.push('/employeeList');
+          }
+         
+       })
+        
+      }
+      else{
+        const returnValue = put(
+          `EmployeeContactInformation/Update`,
+          subData
+        ).then((action) => {
+          console.log(action);
+  
+          addToast(action?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+  
+          history.push("/employeeList");
         });
+      }
 
-        history.push("/employeeList");
-      });
-    }
+      }
+     
   };
 
   // tab toggle
@@ -177,12 +196,18 @@ const EmployeeContactInfo = () => {
             <TabPane tabId="2">
               <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
                 <FormGroup row className="has-icon-left position-relative">
-                  <Input
+                  {
+                    !contactInfo == null ?
+                    <Input
                     value={contactInfo?.id}
                     type="hidden"
                     name="id"
                     id="id"
                   />
+                  :
+                  null
+
+                  }
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">

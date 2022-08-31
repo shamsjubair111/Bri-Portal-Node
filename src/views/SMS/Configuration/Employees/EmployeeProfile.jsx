@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router';
+import { useParams } from 'react-router';
 import { Card, CardBody, CardHeader, ButtonGroup, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, Table, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg'
@@ -13,7 +14,7 @@ import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const EmployeeProfile = () => {
 
-
+  const {id} = useParams()
   const history = useHistory();
   const [employeeDetails, setemployeeDetails] = useState({});
   const [employeeImgDetails, setemployeeImgDetails] = useState({});
@@ -26,7 +27,7 @@ const EmployeeProfile = () => {
 
   useEffect(() => {
 
-     get(`Employee/Profile/${localStorage.getItem('empId')}`).then((action) => {
+     get(`Employee/Profile/${id}`).then((action) => {
       setemployeeDetails(action);
       console.log("datas", action);
       setemployeeImgDetails(action.profileImageMedia);
@@ -35,6 +36,9 @@ const EmployeeProfile = () => {
   }, [])
 
 
+  const redirect = () => {
+    history.push(`/employeeGeneralInfo/${id}`)
+  }
   
 
   // redirect to dashboard
@@ -105,6 +109,7 @@ const EmployeeProfile = () => {
                     permissions?.includes(permissionList?.Update_Staff) ?
                     <EditDivButton
                     className={"uapp-employee-profile-Edit"}
+                    func={()=> redirect(id)}
                     
                   />
                   :

@@ -99,8 +99,6 @@ const StudentList = () => {
       
     useEffect(()=>{
 
-     
-
         get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${(userTypeId == userTypes?.Consultant)? referenceId : consultantValue}&status=${statusValue}`).then(res=>{
           console.log("stdLists",res);
           setStudentData(res?.models);

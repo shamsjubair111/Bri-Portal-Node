@@ -148,7 +148,7 @@ const ConsultantList = () => {
       console.log(data);
       localStorage.setItem('consultantRegisterId', data?.id);
       localStorage.setItem('consultantMethod', true);
-      history.push('/addConsultantInformation');
+      history.push('/consultantInformation');
 
     }
 
@@ -428,7 +428,7 @@ const ConsultantList = () => {
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
-                            permission={6}
+                         
                           />
 
                           <ButtonForFunction
@@ -436,7 +436,7 @@ const ConsultantList = () => {
                             color={"dark"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
-                            permission={6}
+                        
                           />
 
                          {
@@ -447,7 +447,7 @@ const ConsultantList = () => {
                             className={"mx-1 btn-sm"}
                             func={()=> toggleDanger(consultant)}
                             icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
+                        
                           />
 
                         :

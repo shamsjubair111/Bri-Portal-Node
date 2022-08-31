@@ -161,8 +161,8 @@ const EmployeeList = (props) => {
     // employee click handler
     const handleEmpClick = (id) => {
       history.push({
-        pathname: '/employeeProfile',
-        id: id
+        pathname: `/employeeProfile/${id}`
+     
       })
     }
 
@@ -183,10 +183,10 @@ const EmployeeList = (props) => {
   
     const componentRef = useRef(employeeList);
 
-    const handleRedirectProfile = (id) => {
-      localStorage.setItem('empId', id);
-      history.push('/employeeProfile');
-    }
+    // const handleRedirectProfile = (id) => {
+    //   localStorage.setItem('empId', id);
+    //   history.push('/employeeProfile');
+    // }
 
    
     return (
@@ -385,12 +385,12 @@ const EmployeeList = (props) => {
                             <i className="fas fa-eye"></i>{" "}
                           </Button> */}
 
-                          <ButtonForFunction
-                            func={()=> handleRedirectProfile(emp?.id)}
+                          <LinkButton
+                            url={`employeeProfile/${emp?.id}`}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
-                            permission={6}
+                           
                           />
 
                           {/* </Link>  */}
@@ -406,7 +406,7 @@ const EmployeeList = (props) => {
                             color={"dark"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
-                            permission={6}
+                         
                           />
 
                           {/* <Button onClick={toggleDanger} color="danger" className="mx-1 btn-sm">

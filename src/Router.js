@@ -319,7 +319,7 @@ const UpdateUser = lazy(() => import("./views/Test/UpdateUser"));
 
 // Consultant Conscent
 
-const Conscent = lazy(() => import("./views/SMS/Consultant/Conscent"));
+const ConsultantConscent = lazy(() => import("./views/SMS/Consultant/ConsultantConscent"));
 
 
 
@@ -375,9 +375,9 @@ class AppRouter extends React.Component {
         <Switch>
          <AppRoute exact path="/" component={analyticsDashboard} />
         
-         {/* <AppRoute  path="/AdmissionManager" component={permissions?.includes(602)? AdmissionManager  : NotAuthorized } /> */}
-         {/* <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} /> */}
-         {/* <AppRoute  path="/updateUser/:id" component={UpdateUser} /> */}
+         <AppRoute  path="/AdmissionManager" component={permissions?.includes(602)? AdmissionManager  : NotAuthorized } />
+         <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} />
+         <AppRoute  path="/updateUser/:id" component={UpdateUser} />
          <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_Admission_manager)? AdmissionManager : NotAuthorized} />
          <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager) ? UpdateAdmissionManager : NotAuthorized } />
 {/*   
@@ -396,7 +396,7 @@ class AppRouter extends React.Component {
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
          <AppRoute  path="/employeeList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute  path="/ " component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
+         <AppRoute  path="/employeeProfile/:id" component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
          <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.Add_Universitytype)? AddUniversityType : NotAuthorized} />
          <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
          <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.Universitystate_List) ? AddUniversityState : NotAuthorized} />
@@ -425,8 +425,8 @@ class AppRouter extends React.Component {
           {/* permission not added */}
           <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.Consultant_type_List) ? AddConsultantType : NotAuthorized} />
           
-          <AppRoute  path="/addBankDetails" component={permissions?.includes(permissionList?.Add_Consultant)? BankDetails : NotAuthorized } />
-          <AppRoute  path="/addConsultantInformation" component={permissions?.includes(permissionList?.Add_Consultant)? AddConsultantInformation : NotAuthorized } />
+          <AppRoute  path="/consultantBankDetails" component={permissions?.includes(permissionList?.Add_Consultant)? BankDetails : NotAuthorized } />
+          <AppRoute  path="/consultantInformation" component={permissions?.includes(permissionList?.Add_Consultant)? AddConsultantInformation : NotAuthorized } />
           <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.Associate_List)? AssociateList : NotAuthorized} />
           
           
@@ -567,7 +567,7 @@ class AppRouter extends React.Component {
 
         {/* Consultant Conscent Path */}
 
-          <AppRoute  path="/addConscent" component={Conscent} />
+          <AppRoute  path="/consultantConscent" component={ConsultantConscent} />
        
          <AppRoute  path="/search" component={Search} />
 

@@ -19,6 +19,7 @@ import {
 import post from "../../../helpers/post";
 import { useToasts } from "react-toast-notifications";
 import get from "../../../helpers/get";
+import { userTypes } from "../../../constants/userTypeConstant";
 
 const Conscent = () => {
 
@@ -28,6 +29,8 @@ const Conscent = () => {
     const {addToast} = useToasts();
     const [success, setSuccess] = useState(false);
     const [conscentData, setConscentData] = useState({});
+
+    const userTypeId = localStorage.getItem('userType');
 
     const consultantId = localStorage.getItem('consultantRegisterId');
 
@@ -66,11 +69,11 @@ const Conscent = () => {
       const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
-          history.push("/addConsultantInformation");
+          history.push("/consultantInformation");
         }
     
         if (tab == "2") {
-          history.push("/addBankDetails");
+          history.push("/consultantBankDetails");
         }
     
         if (tab == "3") {
@@ -78,7 +81,7 @@ const Conscent = () => {
         }
     
         if (tab == "4") {
-          history.push("/addConscent");
+          history.push("/consultantConscent");
         }
     
       };
@@ -227,18 +230,48 @@ const Conscent = () => {
 
           <div className="d-flex justify-content-end mt-1">
             <div>
-               {
-                (conscentData == null || conscentData?.isSigned == false) ?
+              {
+                (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin || userTypeId == userTypes?.ComplianceManager) ?
+                <>
+                
+                {
+                  (conscentData == null || conscentData?.isSigned == false) ?
+                   <div className="mb-1 text-right">
+                   <Button color="primary"
+                   onClick={sendEmail}
+                   >
+                       Send Email
+                   </Button>
+               </div>
+               :
+                (conscentData !== null && conscentData?.conscentSignStatus  == 2) ?
+                <div className="mb-1 text-right">
+                  
+                 
+                       <span>Email Sent</span>
+                
+               </div>
+               :
+                 (conscentData !== null && conscentData?.conscentSignStatus  == 3) ?
+
                  <div className="mb-1 text-right">
-                 <Button color="primary"
-                 onClick={sendEmail}
-                 >
-                     Send Email
-                 </Button>
-             </div>
-             :
-             null
-               }
+                  
+                 
+                       <span>Conscent</span>
+                       <br/>
+                       <span>FromIp:</span>
+                
+               </div>
+               :
+               null
+
+                 }
+                
+                </>
+
+                 :
+                 null
+              }
                
                 <div className="mt-1">
                     <Button color="primary">

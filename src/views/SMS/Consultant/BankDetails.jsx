@@ -74,11 +74,11 @@ const BankDetails = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addConsultantInformation");
+      history.push("/consultantInformation");
     }
 
     if (tab == "2") {
-      history.push("/addBankDetails");
+      history.push("/consultantBankDetails");
     }
 
     if (tab == "3") {
@@ -86,7 +86,7 @@ const BankDetails = () => {
     }
 
     if (tab == "4") {
-      history.push("/addConscent");
+      history.push("/consultantConscent");
     }
 
   };

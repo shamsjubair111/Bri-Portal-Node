@@ -1,6 +1,6 @@
 import React from "react"
 import {
-  
+
   UncontrolledDropdown,
   DropdownMenu,
   DropdownItem,
@@ -17,6 +17,7 @@ import { history } from "../../../history"
 import { studentLogOutJwtAction } from "../../../redux/actions/SMS/AuthAction/AuthAction"
 import { useDispatch } from "react-redux"
 import { rootUrl } from "../../../constants/constants"
+import { userTypes } from "../../../constants/userTypeConstant"
 
 const handleNavigation = (e, path) => {
   e.preventDefault()
@@ -25,34 +26,63 @@ const handleNavigation = (e, path) => {
 
 const userInfo = JSON.parse(localStorage.getItem('current_user'));
 
-console.log('userInfo',userInfo);
+console.log('userInfo', userInfo);
 
 const UserDropdown = props => {
   const dispatch = useDispatch();
-
   const { logout, isAuthenticated } = useAuth0()
+
+  const redirectToProfile = () => {
+
+    if (userInfo?.userTypeId == userTypes?.Admin ||
+      userInfo?.userTypeId == userTypes?.AccountManager ||
+      userInfo?.userTypeId == userTypes?.Editor ||
+      userInfo?.userTypeId == userTypes?.AccountOfficer ||
+      userInfo?.userTypeId == userTypes?.ComplianceManager ||
+      userInfo?.userTypeId == userTypes?.FinanceManager) {
+      history.push(`/employeeProfile/${userInfo?.referenceId}`);
+    }
+    else if (userInfo?.userTypeId == userTypes?.AdmissionManager) {
+      history.push(`/admissionManagerProfile/${userInfo?.referenceId}`);
+    }
+    else if (userInfo?.userTypeId == userTypes?.ProviderAdmin) {
+      history.push(`/providerAdminProfile/${userInfo?.referenceId}`);
+    }
+    else if (userInfo?.userTypeId == userTypes?.BranchManager) {
+      history.push(`/providerAdminProfile/${userInfo?.referenceId}`);//TODO
+    }
+    else if (userInfo?.userTypeId == userTypes?.Consultant) {
+      history.push(`/consultantProfile/${userInfo?.referenceId}`);
+    }
+    else if (userInfo?.userTypeId == userTypes?.Student) {
+      history.push(`/providerAdminProfile/${userInfo?.referenceId}`);//TODO
+    }
+    else {
+      history.push('/');
+    }
+  }
 
   const handleLogOut = (e) => {
     e.preventDefault();
-   
+
     // return dispatch => {
     //   dispatch({ type: "LOGOUT_WITH_JWT", payload: {} })
     // }
-    const AuthStr =  localStorage.getItem('token');
-    axios.get(`${rootUrl}Account/LogOut`,{
+    const AuthStr = localStorage.getItem('token');
+    axios.get(`${rootUrl}Account/LogOut`, {
       method: 'GET',
       headers: {
         'authorization': AuthStr
       }
     })
-    .then(res =>{
-      console.log(res);
-      // localStorage.removeItem('token');
-      history.push("/");
-      window.localStorage.clear();
-      window.location.reload();
+      .then(res => {
+        console.log(res);
+        // localStorage.removeItem('token');
+        history.push("/");
+        window.localStorage.clear();
+        window.location.reload();
 
-    } )
+      })
     dispatch(studentLogOutJwtAction({}))
   }
   return (
@@ -93,14 +123,26 @@ const UserDropdown = props => {
         <Icon.Heart size={14} className="mr-50" />
         <span className="align-middle">WishList</span>
       </DropdownItem> */}
-      
+
+
+      <DropdownItem
+        tag="a"
+        // href="#"
+        onClick={redirectToProfile}
+
+
+      >
+
+        <Icon.User size={14} className="mr-50" />
+        <span className="align-middle"  >Profile</span>
+      </DropdownItem>
 
       <DropdownItem
         tag="a"
         href="#"
-  
+
       >
-      
+
         <Icon.Settings size={14} className="mr-50" />
         <span className="align-middle">Settings</span>
       </DropdownItem>
@@ -108,16 +150,16 @@ const UserDropdown = props => {
       <DropdownItem
         tag="a"
         href="#"
-  
+
       >
-      
+
         <Icon.LogIn size={14} className="mr-50" />
         <span className="align-middle">Login History</span>
       </DropdownItem>
 
       <DropdownItem divider />
       <DropdownItem tag="a"
-        
+
         onClick={e => {
           handleLogOut(e)
           // return props.logoutWithJWT()
@@ -174,10 +216,10 @@ class NavbarUser extends React.PureComponent {
     this.setState({ langDropdown: !this.state.langDropdown })
 
   render() {
-    
+
     return (
       <ul className="nav navbar-nav navbar-nav-user float-right">
-     
+
 
         {/*<NavItem className="nav-search" onClick={this.handleNavbarSearch}>*/}
         {/*  <NavLink className="nav-link-search">*/}
@@ -307,7 +349,7 @@ class NavbarUser extends React.PureComponent {
         {/*</NavItem>*/}
 
 
-       
+
 
 
         <UncontrolledDropdown
@@ -801,7 +843,7 @@ class NavbarUser extends React.PureComponent {
             </div>
             <span data-tour="user">
               <img
-                src={rootUrl+userInfo?.displayImage}
+                src={rootUrl + userInfo?.displayImage}
                 className="round"
                 height="40"
                 width="40"

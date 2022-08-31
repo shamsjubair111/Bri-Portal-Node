@@ -126,7 +126,7 @@ const AddConsultant = () => {
         if (res.status === 200 && res.data.isSuccess === true) {
           
           localStorage.setItem('consultantRegisterId', res?.data?.result?.id);
-          history.push('/addConsultantInformation');
+          history.push('/consultantInformation');
           
         }
       })

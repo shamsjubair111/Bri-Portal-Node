@@ -127,7 +127,7 @@ const ConsultantProfile = () => {
 
           localStorage.setItem('consultantRegisterId',id);
 
-          history.push('/addBankDetails');
+          history.push('/consultantBankDetails');
         }
 
 
@@ -135,7 +135,7 @@ const ConsultantProfile = () => {
 
           localStorage.setItem('consultantRegisterId',id);
 
-          history.push('/addConsultantInformation');
+          history.push('/consultantInformation');
 
         }
 

@@ -78,7 +78,7 @@ const ThemeNavbar = props => {
   return (
     <React.Fragment>
       <div className="content-overlay" />
-      <div className="header-navbar-shadow" />
+      {/* <div className="header-navbar-shadow" /> */}
      
       <Navbar
         className={classnames(
