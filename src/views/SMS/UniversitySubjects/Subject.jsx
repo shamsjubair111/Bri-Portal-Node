@@ -115,23 +115,29 @@ const Subject = () => {
       })
       .catch();
 
-      get('ProgramLevel/Index').then(res=> {
+      get('ProgramLevelDD/Index').then(res=> {
         setProgramLevel(res);
       })
       .catch();
 
-      get('Department/Index').then(res=> {
+      get('DepartmentDD/Index').then(res=> {
         setDepartmentList(res);
       })
       .catch();
 
-      get('SubDepartment/Index').then(res=> {
-        setSubDepList(res);
-      })
-      .catch();
+      // get(`SubDepartmentDD/Index`).then(res=> {
+      //   setSubDepList(res);
+      // })
+      // .catch();
 
 
     },[])
+
+    const selectSubDepByDepartment = (depValue) => {
+      get(`SubDepartmentDD/Index/${depValue}`).then(res=> {
+        setSubDepList(res);
+      })
+    }
 
   // redirect to dashboard
   const backToSubjectList = () => {
@@ -154,6 +160,7 @@ const Subject = () => {
     setDeptDropError(false);
     setDepLabel(label);
     setDepValue(value);
+    selectSubDepByDepartment(value);
   }
 
   const selectSubDepartment = (label, value) => {

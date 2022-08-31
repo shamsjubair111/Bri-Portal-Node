@@ -42,6 +42,8 @@ const EmployeeGeneralInfo = (props) => {
     const [exactFile, setExactFile] = useState({});
     const [dropzoneErrorProfile, setDropzoneErrorProfile] = useState(false);
 
+    const [emailError, setEmailError] = useState(true);
+
     const result1 = useSelector((state) => state.employeeCoverDataReducer.employeeCoverImage);
 
     // Image js code start
@@ -161,6 +163,10 @@ const EmployeeGeneralInfo = (props) => {
             return;
         }
 
+        else if(emailError == false){
+            setEmailError(emailError);
+          }
+
         else{
             
             axios.post(`${rootUrl}Employee/Create`,subData, {
@@ -228,6 +234,16 @@ const EmployeeGeneralInfo = (props) => {
     const backToDashboard = () => {
         history.push("/employeeList")
     }
+
+    const handleEmail = (e) => {
+        console.log(e.target.value);
+  
+        get(`Consultant/OnChangeEmail/${e.target.value}`)
+        .then(res => {
+          console.log('Checking Response', res);
+          setEmailError(res);
+        })
+      }
 
     return (
 
@@ -376,10 +392,16 @@ const EmployeeGeneralInfo = (props) => {
                                             id="email"
                                             placeholder='Your Email Address'
                                             required
+                                            onBlur={handleEmail}
                                         />
-                                        {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                                        {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
                                     </Col>
                                 </FormGroup>
 

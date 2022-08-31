@@ -449,7 +449,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/department" component={permissions?.includes(permissionList?.Add_department)? AddDepartment : NotAuthorized} />
          <AppRoute  path="/subDepartment" component={permissions?.includes(permissionList?.sub_department_List)? AddSubDepartment : NotAuthorized} />
          <AppRoute  path="/programLevel" component={permissions?.includes(permissionList?.program_level_List)? AddProgramLevel : NotAuthorized} />
-         <AppRoute  path="/addSubject" component={permissions?.includes(permissionList?.Add_subject)? Subject : NotAuthorized} />
+         {/* <AppRoute  path="/addSubject" component={permissions?.includes(permissionList?.Add_subject)? Subject : NotAuthorized} /> */}
 
          <AppRoute  path="/addDepartment" component={permissions?.includes(permissionList?.Add_department)? AddDepartment : NotAuthorized} />
          <AppRoute  path="/addSubDepartment" component={permissions?.includes(permissionList?.sub_department_List)? AddSubDepartment : NotAuthorized} />

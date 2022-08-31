@@ -443,12 +443,12 @@ const DocumentGroup = () => {
                     <CustomButtonRipple
                       color={"primary"}
                       type={"submit"}
-                      className={"mr-1 mt-3"}
+                      className={"mr-0 mt-3"}
                       name={"Submit"}
                       permission={6}
                     />
 
-                    {/* }  */}
+                   
                   </FormGroup>
                 </Form>
               </ModalBody>

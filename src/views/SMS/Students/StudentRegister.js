@@ -32,6 +32,7 @@ const StudentRegister = () => {
   const [consultantError, setConsultantError] = useState(false);
   const [studentError, setStudentError] = useState(false);
 
+   const [emailError, setEmailError] = useState(true);
 
 
 
@@ -317,6 +318,7 @@ const StudentRegister = () => {
                   id="email"
                   placeholder="Enter email"
                   required
+                  // onBlur={handleEmail}
                 />
 
 

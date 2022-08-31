@@ -190,7 +190,7 @@ const SubjectIntake = () => {
                </div> */}
                 </div>
 
-              <Form className="mt-5 ms-4" onSubmit={handleSubmit}>
+              <Form className="mt-2 ms-4" onSubmit={handleSubmit}>
                 <input
                   type="hidden"
                   name="campusId"
@@ -259,7 +259,7 @@ const SubjectIntake = () => {
 
                   <CustomButtonRipple
                     type={"submit"}
-                    className={"mr-1 mt-3 badge-primary"}
+                    className={"mr-0 mt-3 badge-primary"}
                     name={"Submit"}
                     permission={6}
                   />

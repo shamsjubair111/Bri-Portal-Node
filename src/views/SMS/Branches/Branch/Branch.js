@@ -28,6 +28,7 @@ const Branch = () => {
 
       const [countryError, setCountryError] = useState(false);
       const [stateError, setStateError] = useState(false);
+      const [emailError, setEmailError] = useState(true);
       const permissions = JSON.parse(localStorage.getItem("permissions"));
 
       console.log('location',location);
@@ -148,12 +149,17 @@ const Branch = () => {
     for (var value of subdata) {
       console.log(value);
     }
+
+
     if(countryValue == 0){
       setCountryError(true);
     }
     else if(stateValue == 0){
       setStateError(true);
    
+    }
+    else if(emailError == false){
+      setEmailError(emailError);
     }
     else{
 
@@ -204,6 +210,16 @@ const Branch = () => {
 
    
   };
+
+  const handleEmail = (e) => {
+    console.log(e.target.value);
+
+    get(`EmailCheck/EmailCheck/${e.target.value}`)
+    .then(res => {
+      console.log('Checking Response', res);
+      setEmailError(res);
+    })
+  }
 
 
     return (
@@ -310,8 +326,16 @@ const Branch = () => {
                       placeholder="Enter email"
                       required
                       defaultValue={branchInfo?.email}
+                      onBlur={handleEmail}
                     />
-                
+                    {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
                   </Col>
                 </FormGroup>
                 <FormGroup row className="has-icon-left position-relative">

@@ -258,7 +258,7 @@ const CampusList = (props) => {
 
         <Card className="uapp-card-bg">
             <CardHeader className="page-header">
-                <h3 className="text-light">Campus list</h3>
+                <h3 className="text-light">Campus List</h3>
                 <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-light">
                       {" "}
