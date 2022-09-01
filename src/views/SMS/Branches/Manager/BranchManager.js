@@ -40,6 +40,8 @@ const BranchManager = () => {
 
     const permissions = JSON.parse(localStorage.getItem("permissions"));
 
+   
+
 
     const backToBranchList = () => {
         history.push('/branchList');
@@ -61,7 +63,10 @@ const BranchManager = () => {
         setBranchManagerInfo(res);
         setBranchLabel(res?.branch?.name);
         setCheck(false);
+        
       })
+
+  
 
 
       get(`Branch/Index`)
@@ -96,6 +101,8 @@ const selectTitle = (label, value) => {
  
  
 }
+
+
 
     //  Manager Image COde Start
 

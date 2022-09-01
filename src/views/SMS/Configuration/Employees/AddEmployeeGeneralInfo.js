@@ -407,6 +407,21 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
+                                        <span>Password <span className="text-danger">*</span>{" "}</span>
+                                    </Col>
+                                    <Col md="6">
+                                        <Input
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            placeholder='Your Password'
+                                            required
+                                        />
+                                        
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row className="has-icon-left position-relative">
+                                    <Col md="2">
                                         <span>Phone Number <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">

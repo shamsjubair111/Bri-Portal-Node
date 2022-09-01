@@ -157,7 +157,11 @@ const RolePermission = (props) => {
 
        <Card>
           <CardHeader>
-           Select Role
+          <div className="container test-score-div-1-style mt-1 mb-4">
+            <span className="test-score-span-1-style">
+              Assign or Revoke Permissions for User Types.
+            </span>
+          </div>
           </CardHeader>
           <CardBody>
           <Form onSubmit={handleSubmit} ref={myForm}>

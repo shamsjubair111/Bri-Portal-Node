@@ -168,7 +168,7 @@ const EmployeeContactInfo = () => {
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Employee Contact Information</h3>
-          <div className="text-white fw-bold">
+          <div className="text-white " style={{cursor: 'pointer'}}>
             <span onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List

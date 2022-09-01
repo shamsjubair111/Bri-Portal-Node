@@ -61,6 +61,11 @@ const Branch = () => {
       const employeeId  = localStorage.getItem('employeeId');
       console.log('empID',employeeId);
 
+      const [empLabel, setEmpLabel] = useState('Select Employee Type');
+      const [empValue, setEmpValue] = useState(0);
+      const [emp,setEmp] = useState([]);
+      const [empError,setEmpError] = useState('');
+
          
 
      useEffect(()=>{
@@ -74,6 +79,10 @@ const Branch = () => {
         setEmpty(true);
       })
 
+      get(`EmployeeTypeDD/Index`)
+      .then(res => {
+        setEmp(res);
+      })
    
 
        get(`NationalityDD/Index`)
@@ -106,6 +115,23 @@ const Branch = () => {
      const backToBranchList = () => {
       history.push("/branchList");
     };
+
+
+    const empOptions = emp?.map((em) => ({
+      label: em.name,
+      value: em.id,
+    }));
+    
+    
+    const selectEmp = (label, value) => {
+    
+      setEmpError('');
+      setEmpLabel(label);
+      setEmpValue(value);
+      
+     
+     
+    }
 
     
      const nationalityName = nationality?.map((nationalityInfo) => ({
@@ -144,6 +170,9 @@ const Branch = () => {
 
     if(nationalityValue == 0){
       setNationalityError(true);
+    }
+    else if(empValue == 0){
+      setEmpError('Employee Type Must be Selected');
     }
     else if(employeeProfileImage.length <1 && check){
       setImageError(true);
@@ -220,7 +249,7 @@ const Branch = () => {
          
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Branch Employee Iformation</h3>
+          <h3 className="text-light">Add Branch Employee Information</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToBranchList} className="text-light">
               {" "}
@@ -318,6 +347,29 @@ const Branch = () => {
             id='branchId'
             value={localStorage.getItem('branchId')}
             />
+
+
+          <FormGroup row className="has-icon-left position-relative">
+             <Col md="2">
+               <span>
+                  Employee Type <span className="text-danger">*</span>{" "}
+               </span>
+             </Col>
+             <Col md="4">
+               <Select
+                 options={empOptions}
+                 value={{ label: empLabel, value: empValue }}
+                 onChange={(opt) => selectEmp(opt.label, opt.value)}
+                 name="employeeTypeId"
+                 id="employeeTypeId"
+              
+               />
+                  <span className='text-danger'>{empError}</span>
+               
+
+              
+             </Col>
+           </FormGroup>
 
            <FormGroup row className="has-icon-left position-relative">
              <Col md="2">

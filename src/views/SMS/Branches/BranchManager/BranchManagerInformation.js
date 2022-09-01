@@ -148,7 +148,7 @@ setTitleValue(value);
       addToast(res?.data?.message, {
         appearance: "success",
       });
-      history.push("/branchList");
+      history.push(`/branchProfile/${id}`);
     });
   };
 
@@ -156,7 +156,7 @@ setTitleValue(value);
     <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Update Branch Manager Iformation</h3>
+          <h3 className="text-light">Update Branch Manager Information</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToBranchList} className="text-light">
               {" "}

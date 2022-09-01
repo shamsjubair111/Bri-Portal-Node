@@ -684,7 +684,7 @@ admissionManager.length> 0 &&
               </Card>
 
 
-          <Card className="p-3">
+          {/* <Card className="p-3">
 
 <h6> Notice</h6>
 <span className="bg-wg bg-width"></span>
@@ -750,7 +750,7 @@ admissionManager.length> 0 &&
 
   
 
-</Card>
+</Card> */}
 
           
           </Col>
