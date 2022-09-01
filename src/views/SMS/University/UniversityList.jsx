@@ -744,7 +744,7 @@ const UniversityList = (props) => {
                           <LinkSpanButton
                             className={"text-decoration-none"}
                             url={{
-                              pathname: "/subjectList",
+                              pathname: `/universitySubjectList/${university?.id}`,
                               universityId: university?.id,
                               universityName: university?.name,
                             }}

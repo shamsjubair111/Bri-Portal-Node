@@ -46,7 +46,8 @@ const CampusList = (props) => {
 
     
 
-    const universityStates = props.univerSityStateList[0];
+    // const universityStates = props.univerSityStateList[0];
+    const [universityStates, setUniversityStates] = useState([]);
 
     const { addToast } = useToasts();
 
@@ -169,8 +170,8 @@ const CampusList = (props) => {
       .then(res => {
         setSuccess(!success);
         setModalOpen(false);
-        
-        setuniversityId(res.data.result.universityId)
+        console.log("ressss", res);
+        setuniversityId(res?.data?.result?.universityId)
         if (res.status === 200 && res.data.isSuccess === true) {
           setSubmitData(false);
           addToast(res.data.message, {
@@ -204,10 +205,12 @@ const CampusList = (props) => {
     const selectUniCountry = (label, value) => {
       setUniCountryLabel(label);
       setUniCountryValue(value);
-      get(`UniversityState/GetByCountry/${value}`)
+      get(`UniversityStateDD/Index/${value}`)
         .then(res => {
-          setUniStateLabel(res.data.result[0].name)
-          setUniStateValue(res.data.result[0].id)
+          console.log("res", res);
+          // setUniStateLabel(res.name)
+          // setUniStateValue(res.id)
+          setUniversityStates(res);
         })
     }
 

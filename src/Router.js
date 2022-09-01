@@ -127,7 +127,7 @@ const AssociateList = lazy(() => import("./views/SMS/Consultant/ConsultantByCons
 const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
 const DocumentCategoryList = lazy(() => import("./views/SMS/Document/DocumentcategoryList.js"))
 
-// University Subject
+//Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
 const AddSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/SubDepartment.jsx"))
 const AddProgramLevel = lazy(() => import("./views/SMS/UniversitySubjects/ProgramLevel.jsx"))
@@ -146,6 +146,14 @@ const EditSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/EditSub
 const EditDeliveryPattern = lazy(() => import("./views/SMS/UniversitySubjects/EditDeliveryPattern"))
 const SubjectIntake =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectIntake.jsx"))
 const SubjectProfile =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectProfile.js"))
+
+// university subject
+const UniversitySubjectList = lazy(() => import("./views/SMS/University/Subjects/UniversitySubjectList"));
+const AddUniversitySubject = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubject"));
+const AddUniversitySubjectFee = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectFee"));
+const AddUniversitySubjectDeliveryPattern = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectDeliveryPattern"));
+const AddUniversitySubjectRequirements = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectRequirements"));
+const AddUniversitySubjectDocumentRequirement = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectDocumentRequirement"));
 
 // country List
 const AddCountry = lazy(() => import("./views/SMS/Country/AddCountry"))
@@ -440,6 +448,16 @@ class AppRouter extends React.Component {
          <AppRoute  path="/campusList" component={permissions?.includes(permissionList?.UniversityCampus_List)? CampusList : NotAuthorized } />
          <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
          <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? CampusDetails : NotAuthorized } />
+
+         {/* University Subject starts here */}
+         <AppRoute  path="/universitySubjectList/:id" component={permissions?.includes(permissionList?.subject_List)? UniversitySubjectList : NotAuthorized } />
+         <AppRoute  path="/addUniversitySubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_subject)? AddUniversitySubject : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_fee_structure)? AddUniversitySubjectFee : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_Subject_Delivery_Pattern)? AddUniversitySubjectDeliveryPattern : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement)? AddUniversitySubjectRequirements : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement_document)? AddUniversitySubjectDocumentRequirement : NotAuthorized} />
+
+         {/* University Subject ends here */}
 
          <AppRoute  path="/documentlist" component={permissions?.includes(permissionList?.Document_List)? DocumentList : NotAuthorized} />
          <AppRoute  path="/documentCategoryList" component={permissions?.includes(permissionList?.Document_Category_List)? DocumentCategoryList : NotAuthorized} />
