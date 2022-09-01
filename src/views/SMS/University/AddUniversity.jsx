@@ -44,6 +44,7 @@ import { Upload, Modal as AntdModal } from "antd";
 import "antd/dist/antd.css";
 import { Image } from "antd";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import { userTypes } from "../../../constants/userTypeConstant";
 
 const AddUniversity = (props) => {
   // const univerSityCountries = props.univerSityCountryList[0];
@@ -116,6 +117,11 @@ const AddUniversity = (props) => {
   const [previewImage2, setPreviewImage2] = useState("");
   const [previewTitle2, setPreviewTitle2] = useState("");
 
+  const [providerValue, setProviderValue] = useState(0);
+
+  const userType = localStorage.getItem("userType");
+  const referenceId = localStorage.getItem("referenceId");
+
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
     setLogoDropzoneError(false);
@@ -168,6 +174,18 @@ const AddUniversity = (props) => {
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
     );
   };
+
+  useEffect(()=>{
+    get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
+      console.log("providerHelper",typeof(res));
+        setProviderValue(res != 0 ? res : 0);
+        // if(res != 0){
+        //   localStorage.setItem("providerValue", res);
+        // }
+    })
+  },[userType, referenceId])
+
+  console.log("providervalue", typeof(providerValue));
 
   useEffect(() => {
     get("ProviderDD/Index")
@@ -321,6 +339,7 @@ const AddUniversity = (props) => {
     // for (var value of subdata.values()) {
 
     // }
+    console.log("providerTypeValue",providerTypeValue);
 
     const config = {
       headers: {
@@ -329,69 +348,150 @@ const AddUniversity = (props) => {
       },
     };
 
-    if (providerTypeValue === 0) {
-      setProviderTypeError(true);
-    }
-    else if (uniTypeValue === 0) {
-      setUniTypeError(true);
-    }
-    else if(contractTypeValue === 0){
-      setContractTypeError(true);
-    }
-    else if (uniCountryValue === 0) {
-      setUniCountryError(true);
-    }
-    else if (unistateValue === 0) {
-      setUniStateError(true);
-    }
-    else if (FileList1.length < 1 && check) {
-      setLogoDropzoneError(true);
-    }
-    // if(FileList1.length>=1 && uniId != undefined ){
-    //   setLogoDropzoneError(false);
-    // }
-    else if (FileList2.length < 1 && check) {
-      setCoverDropzoneError(true);
-    }
-    // if(FileList2.length>=1 && uniId != undefined)
-    // {
-    //   setCoverDropzoneError(false);
-    // }
-    else {
-      if (uniId != undefined) {
-        put("University/Update", subdata, config).then((res) => {
-          console.log("1st put response", res);
-          if (res?.status == 200) {
-            addToast(res?.data?.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
+    if (providerValue === 0) {
+      if(providerTypeValue == 0){
+        setProviderTypeError(true);
 
-            history.push("/addUniversityCampus");
-          }
-        });
-      } else {
-        Axios.post(`${rootUrl}University/Create`, subdata, config).then(
-          (res) => {
-            console.log("unipostData", res);
-
-            localStorage.setItem("id", res.data.result.id);
-            const uniID = res.data.result.id;
-
-            if (res.status === 200 && res.data.isSuccess === true) {
-              setSubmitData(true);
+      }
+      
+      // if(providerTypeValue === 0){
+      //   console.log("providerTypeValue",providerTypeValue);
+      // setProviderTypeError(true);
+      // }
+      else if (uniTypeValue === 0) {
+        setUniTypeError(true);
+      }
+      else if(contractTypeValue === 0){
+        setContractTypeError(true);
+      }
+      else if (uniCountryValue === 0) {
+        setUniCountryError(true);
+      }
+      else if (unistateValue === 0) {
+        setUniStateError(true);
+      }
+      else if (FileList1.length < 1 && check) {
+        setLogoDropzoneError(true);
+      }
+      // if(FileList1.length>=1 && uniId != undefined ){
+      //   setLogoDropzoneError(false);
+      // }
+      else if (FileList2.length < 1 && check) {
+        setCoverDropzoneError(true);
+      }
+      // if(FileList2.length>=1 && uniId != undefined)
+      // {
+      //   setCoverDropzoneError(false);
+      // }
+      else {
+        if (uniId != undefined) {
+          put("University/Update", subdata, config).then((res) => {
+            console.log("1st put response", res);
+            if (res?.status == 200) {
               addToast(res?.data?.message, {
                 appearance: "success",
                 autoDismiss: true,
               });
-              history.push({
-                pathname: "/addUniversityCampus",
-                id: uniID,
-              });
+              
+              history.push("/addUniversityCampus");
             }
-          }
-        );
+          });
+        } else {
+          Axios.post(`${rootUrl}University/Create`, subdata, config).then(
+            (res) => {
+              console.log("unipostData", res);
+  
+              localStorage.setItem("id", res.data.result.id);
+              const uniID = res.data.result.id;
+  
+              if (res.status === 200 && res.data.isSuccess === true) {
+                setSubmitData(true);
+                addToast(res?.data?.message, {
+                  appearance: "success",
+                  autoDismiss: true,
+                });
+                history.push({
+                  pathname: "/addUniversityCampus",
+                  id: uniID,
+                });
+              }
+            }
+          );
+        }
+    }
+    
+    }
+    else{
+      // if(providerTypeValue == 0){
+      //   setProviderTypeError(true);
+
+      // }
+      
+      // if(providerTypeValue === 0){
+      //   console.log("providerTypeValue",providerTypeValue);
+      // setProviderTypeError(true);
+      // }
+       if (uniTypeValue === 0) {
+        setUniTypeError(true);
       }
+      else if(contractTypeValue === 0){
+        setContractTypeError(true);
+      }
+      else if (uniCountryValue === 0) {
+        setUniCountryError(true);
+      }
+      else if (unistateValue === 0) {
+        setUniStateError(true);
+      }
+      else if (FileList1.length < 1 && check) {
+        setLogoDropzoneError(true);
+      }
+      // if(FileList1.length>=1 && uniId != undefined ){
+      //   setLogoDropzoneError(false);
+      // }
+      else if (FileList2.length < 1 && check) {
+        setCoverDropzoneError(true);
+      }
+      // if(FileList2.length>=1 && uniId != undefined)
+      // {
+      //   setCoverDropzoneError(false);
+      // }
+      else {
+        if (uniId != undefined) {
+          put("University/Update", subdata, config).then((res) => {
+            console.log("1st put response", res);
+            if (res?.status == 200) {
+              addToast(res?.data?.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              
+              history.push("/addUniversityCampus");
+            }
+          });
+        } else {
+          Axios.post(`${rootUrl}University/Create`, subdata, config).then(
+            (res) => {
+              console.log("unipostData", res);
+  
+              localStorage.setItem("id", res.data.result.id);
+              const uniID = res.data.result.id;
+  
+              if (res.status === 200 && res.data.isSuccess === true) {
+                setSubmitData(true);
+                addToast(res?.data?.message, {
+                  appearance: "success",
+                  autoDismiss: true,
+                });
+                history.push({
+                  pathname: "/addUniversityCampus",
+                  id: uniID,
+                });
+              }
+            }
+          );
+        }
+    }
     }
   };
 
@@ -467,6 +567,7 @@ const AddUniversity = (props) => {
   const backToUniList = () => {
     history.push("/universityList");
   };
+
 
   return (
     <div>
@@ -642,8 +743,20 @@ const AddUniversity = (props) => {
                     </>
                   ) : null
                 }
+               {
+                 uniId === undefined &&  providerTypeValue === 0 ?
+                 <Input
+                   type="hidden"
+                   name="providerId"
+                   id="providerId"
+                   value={providerValue}
+                 />
+                 :null
+               }
 
-                <FormGroup row className="has-icon-left position-relative">
+                {
+                  !(userType == userTypes?.ProviderAdmin || userType == userTypes?.AdmissionManager) ?
+                  <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
                       Provider <span className="text-danger">*</span>{" "}
@@ -670,6 +783,9 @@ const AddUniversity = (props) => {
                     )}
                   </Col>
                 </FormGroup>
+                :
+                null
+                }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

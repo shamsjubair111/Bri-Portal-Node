@@ -56,7 +56,7 @@ const AdmissionManager = () => {
         setCountryLabel(label);
         setCountryValue(value);
         searchStateByCountry(value);
-        setStateLabel('Select');
+        // setStateLabel('Select');
         setCountryError(false);
        
        
@@ -81,7 +81,7 @@ const AdmissionManager = () => {
 
       
     const searchStateByCountry = (countryValue) => {
-        get(`State/GetbyCountryId/${countryValue}`)
+        get(`StateDD/Index/${countryValue}`)
         .then(res => {
           console.log('State',res);
           setState(res);
@@ -127,7 +127,7 @@ const AdmissionManager = () => {
                 appearance: 'success',
                 autoDismiss: true
             })
-            history.push('/providerList');
+            history.push(`/providerDetails/${id}`);
             }
              
           })
