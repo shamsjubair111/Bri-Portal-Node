@@ -27,16 +27,16 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import { rootUrl } from "../../../constants/constants";
-import get from '../../../helpers/get';
-import post from '../../../helpers/post';
-import ButtonForFunction from '../Components/ButtonForFunction';
+import { rootUrl } from "../../../../constants/constants";
+import get from '../../../../helpers/get';
+import post from '../../../../helpers/post';
+import ButtonForFunction from '../../Components/ButtonForFunction';
 import { useToasts } from "react-toast-notifications";
-import put from '../../../helpers/put';
-import { userTypes } from '../../../constants/userTypeConstant';
+import put from '../../../../helpers/put';
+import { userTypes } from '../../../../constants/userTypeConstant';
 
-const Subject = () => {
 
+const AddUniversitySubject = () => {
     const [submitData, setSubmitData] = useState(false);
     const [activetab, setActivetab] = useState("1");
     const [universityList, setUniversityList] = useState([]);
@@ -66,7 +66,7 @@ const Subject = () => {
     const [subDeptDropError, setSubDeptDropError] = useState(false);
 
     const {addToast} = useToasts();
-    const {id} = useParams();
+    const {id, subjId} = useParams();
     console.log("idddd", id);
     const history = useHistory();
 
@@ -87,8 +87,8 @@ const Subject = () => {
 
     useEffect(()=>{
 
-      if(id != undefined){
-        get(`Subject/Get/${id}`).then(res=> {
+      if(subjId != undefined){
+        get(`Subject/Get/${subjId}`).then(res=> {
           setSubject(res);
           setSubId(res?.id);
           setSubName(res?.name);
@@ -128,7 +128,7 @@ const Subject = () => {
 
       
 
-      if(userType == userTypes?.ProviderAdmin){
+      if(userType == userTypes?.ProviderAdmin || userType == userTypes?.AdmissionManager){
         get(`ProviderUniversityDD/Index/${providerValue}`).then(res=> {
           setUniversityList(res);
         })
@@ -166,15 +166,15 @@ const Subject = () => {
     }
 
   // redirect to dashboard
-  const backToSubjectList = () => {
-    history.push("/subjectList");
+  const backToUniversitySubjectList = () => {
+    history.push(`/universitySubjectList/${id}`);
   };
 
-  const selectUniversity = (label, value) => {
-    setUniDropError(false);
-    setUniLabel(label);
-    setUniValue(value);
-  }
+//   const selectUniversity = (label, value) => {
+//     setUniDropError(false);
+//     setUniLabel(label);
+//     setUniValue(value);
+//   }
 
   const selectProgramLevel = (label, value) => {
     setProgLvlError(false);
@@ -208,30 +208,30 @@ const Subject = () => {
     setActivetab(tab);
     if(id != undefined){
       if (tab == "2") {
-        history.push(`/addSubjectFee/${id}`);
+        history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
       }
       if (tab == "3") {
-        history.push(`/addSubjectDeliveryPattern/${id}`);
+        history.push(`/addUniversitySubjectDeliveryPattern/${id}/${subjId}`);
       }
       if (tab == "4") {
-        history.push(`/addSubjectRequirements/${id}`);
+        history.push(`/addUniversitySubjectRequirements/${id}/${subjId}`);
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement/${id}`);
+        history.push(`/addUniversitySubjectDocumentRequirement/${id}/${subjId}`);
       }
     }
     else{
       if (tab == "2") {
-        history.push(`/addSubjectFee/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectFee/${id}/${localStorage.getItem("subjectId")}`);
       }
       if (tab == "3") {
-        history.push(`/addSubjectDeliveryPattern/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectDeliveryPattern/${id}/${localStorage.getItem("subjectId")}`);
       }
       if (tab == "4") {
-        history.push(`/addSubjectRequirements${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectRequirements/${id}/${localStorage.getItem("subjectId")}`);
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectDocumentRequirement/${id}/${localStorage.getItem("subjectId")}`);
       }
     }
   };
@@ -243,10 +243,10 @@ const Subject = () => {
     event.preventDefault();
     const subdata = new FormData(event.target);
 
-    if(uniValue == 0){
-      setUniDropError(true);
-    }
-   else if(programValue == 0){
+    // if(uniValue == 0){
+    //   setUniDropError(true);
+    // }
+    if(programValue == 0){
       setProgLvlError(true);
     }
     else if(depValue == 0){
@@ -266,7 +266,7 @@ const Subject = () => {
                 autoDismiss: true,
               });
             history.push({
-              pathname: `/addSubjectFee/${id}`,
+              pathname: `/addUniversitySubjectFee/${id}/${subjId}`,
             });
           }
         });
@@ -289,7 +289,7 @@ const Subject = () => {
               autoDismiss: true,
             })
             history.push({
-              pathname: `/addSubjectFee/${id != undefined ? id : localStorage.getItem("subjectId")}`,
+              pathname: `/addUniversitySubjectFee/${id}/${subjId != undefined ? subjId : localStorage.getItem("subjectId")}`,
               id: subId,
             });
           }
@@ -298,17 +298,15 @@ const Subject = () => {
     }
     
   };
-
-
     return (
         <div>
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
                 <h3 className="text-light">Add Subject Information</h3>
                 <div className="page-header-back-to-home">
-                  <span onClick={backToSubjectList} className="text-light">
+                  <span onClick={backToUniversitySubjectList} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
+                    <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
                   </span>
                 </div>
               </CardHeader>
@@ -324,10 +322,10 @@ const Subject = () => {
             </NavItem>
 
             {
-              id != undefined ?
+              subjId != undefined ?
               <>
               <NavItem>
-              {submitData || id ? (
+              {submitData || subjId ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Subject Fee Information
                 </NavLink>
@@ -338,7 +336,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || id ? (
+            {submitData || subjId ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
                   Delivery Pattern
                 </NavLink>
@@ -349,7 +347,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || id ? (
+            {submitData || subjId ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                   Requirement
                 </NavLink>
@@ -360,7 +358,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || id ? (
+            {submitData || subjId ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                   Document Requirement
                 </NavLink>
@@ -434,6 +432,12 @@ const Subject = () => {
                       :
                       null
                 }
+                <Input 
+                  type="hidden"
+                  name="universityId"
+                  id="universityId"
+                  value={id}
+                />
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
@@ -492,7 +496,7 @@ const Subject = () => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {/* <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
                       University <span className="text-danger">*</span>{" "}
@@ -512,7 +516,7 @@ const Subject = () => {
                     )}
 
                   </Col>
-                </FormGroup>
+                </FormGroup> */}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -609,4 +613,4 @@ const Subject = () => {
     );
 };
 
-export default Subject;
+export default AddUniversitySubject;

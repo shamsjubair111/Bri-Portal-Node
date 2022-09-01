@@ -27,7 +27,7 @@ import {
   } from "reactstrap";
 
   // import { permissionList } from '../../../../constants/AuthorizationConstant';
-  import { permissionList } from '../../../constants/AuthorizationConstant';
+  import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import * as XLSX from 'xlsx/xlsx.mjs';
@@ -35,21 +35,23 @@ import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 
 import Select from "react-select";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import { Link } from 'react-router-dom';
-import get from '../../../helpers/get';
+import get from '../../../../helpers/get';
 import { useToasts } from 'react-toast-notifications';
-import remove from '../../../helpers/remove';
-import Pagination from "../../SMS/Pagination/Pagination.jsx";
+import remove from '../../../../helpers/remove';
+import Pagination from "../../../SMS/Pagination/Pagination.jsx";
 import { connect, useDispatch } from 'react-redux';
-import { StoreUniversityCampusListData } from '../../../redux/actions/SMS/UniversityAction/UniversityCampusListAction';
-import { StoreUniversityListData } from '../../../redux/actions/SMS/UniversityAction/UniversityListAction';
-import ButtonForFunction from '../Components/ButtonForFunction';
-import LinkButton from '../Components/LinkButton';
-import { userTypes } from '../../../constants/userTypeConstant';
+// import { StoreUniversityCampusListData } from '../../../redux/actions/SMS/UniversityAction/UniversityCampusListAction';
+import { StoreUniversityCampusListData } from '../../../../redux/actions/SMS/UniversityAction/UniversityCampusListAction';
+// import { StoreUniversityListData } from '../../../redux/actions/SMS/UniversityAction/UniversityListAction';
+import { StoreUniversityListData } from '../../../../redux/actions/SMS/UniversityAction/UniversityListAction';
+import ButtonForFunction from '../../Components/ButtonForFunction';
+import LinkButton from '../../Components/LinkButton';
+import { userTypes } from '../../../../constants/userTypeConstant';
 
-const SubjectList = (props) => {
 
+const UniversitySubjectList = (props) => {
     const dispatch = useDispatch();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [subList, setSubList] = useState([]);
@@ -84,21 +86,19 @@ const SubjectList = (props) => {
     const userType = localStorage.getItem("userType");
     const referenceId = localStorage.getItem("referenceId");
 
-
-
-    const location = useLocation();
     const history = useHistory();
     const { addToast } = useToasts();
+    const {id} = useParams();
 
     // redirect to dashboard
-    const backToDashboard = () => {
-      history.push("/");
+    const backToUniversityList = () => {
+      history.push("/universityList");
     };
 
     // add university handler
     const handleAddSubject = () => {
       localStorage.removeItem("subjectId");
-      history.push("/addSubject");
+      history.push(`/addUniversitySubject/${id}`);
     };
 
     // toggle dropdown
@@ -132,11 +132,21 @@ const SubjectList = (props) => {
       }
     },[providerValue]);
 
+    useEffect(()=>{
+        get(`UniversityCampus/GetbyUniversity/${id}`)
+        .then(res =>{
+        console.log("campusByUniversity",res);
+        setCampList(res);
+      })
+    },[id]);
+
+
+
    
     useEffect(()=>{
-      if(location?.universityId){
+      if(id){
       // if(localStorage.getItem("uniIdForSubList")){
-        get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
+        get(`UniversityCampus/GetbyUniversity/${id}`).then(res =>{
         // get(`UniversityCampus/GetbyUniversity/${localStorage.getItem("uniIdForSubList")}`).then(res =>{
           setCam(res);
           dispatch(StoreUniversityCampusListData(res));
@@ -147,43 +157,11 @@ const SubjectList = (props) => {
       }
     },[]);
 
-    // if(location?.universityId){
-    //   get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
-    //     setCam(res);
-    //     dispatch(StoreUniversityCampusListData(res));
-    //   });
-    // }
-    
-    // const universityCampusList = useSelector(state=>state.universityCampusListReducer.universityCampusList);
-
     useEffect(() => {
-
-      const uTypeId = uniValue !== 0 ? uniValue : typeof location?.universityId !== undefined || location?.universityId !== null ? location?.universityId : 0;
-      // const uTypeId = uniValue !== 0 ? uniValue : typeof JSON.parse(localStorage.getItem("uniIdForSubList")) !== undefined || JSON.parse(localStorage.getItem("uniIdForSubList")) !== null ? JSON.parse(localStorage.getItem("uniIdForSubList")) : 0;
-      setUTypeId(uTypeId);
-
-      if (uTypeId !== 0) {
-        var unitype = univerSList?.find((s) => s.id === uTypeId);
-      
-        if (unitype === undefined) {
-          setUniLabel("Select University");
-        } 
-        else {
-          setUniLabel(unitype?.name);
-          setUniValue(uTypeId);
-          searchCampusByUniversity(uTypeId);
-        }
-      }
-
-      const camId = campValue !== 0 ? campValue : 0;
-      
-      // if(camId !== 0){
-      //   var caId = camppus?.find(s=>s?.id === camId);
-      // }
 
       setLoading(true);
   
-        get(`Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${uTypeId ? uTypeId : uniValue}&search=${searchStr}`).then((res) => {
+        get(`Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${id}&search=${searchStr}`).then((res) => {
           setSubList(res?.models);
           console.log("sublist",res);
           setSerialNum(res?.firstSerialNumber);
@@ -192,18 +170,18 @@ const SubjectList = (props) => {
         });
     
 
-    }, [success, currentPage, dataPerPage, callApi, searchStr, uniTypeId, campValue, univerSList, uniValue, location.universityId]);
+    }, [success, currentPage, dataPerPage, callApi, searchStr, uniTypeId, campValue, univerSList, uniValue, id]);
 
    
 
 
-    const searchCampusByUniversity = (universityValue) =>{
-      get(`UniversityCampus/GetbyUniversity/${universityValue}`)
-      .then(res =>{
-      console.log("campusByUniversity",res);
-      setCampList(res);
-    })
-    }
+    // const searchCampusByUniversity = (universityValue) =>{
+    //   get(`UniversityCampus/GetbyUniversity/${universityValue}`)
+    //   .then(res =>{
+    //   console.log("campusByUniversity",res);
+    //   setCampList(res);
+    // })
+    // }
 
 
     // user select data per page
@@ -240,14 +218,14 @@ const SubjectList = (props) => {
       value: camp?.id,
     }));
 
-    const selectUni = (label, value) => {
-      setUniLabel(label);
-      setUniValue(value);
-      setCampLabel("Select Campus");
-      setCampValue(0);
-      searchCampusByUniversity(value);
-      handleSearch();
-    };
+    // const selectUni = (label, value) => {
+    //   setUniLabel(label);
+    //   setUniValue(value);
+    //   setCampLabel("Select Campus");
+    //   setCampValue(0);
+    //   searchCampusByUniversity(value);
+    //   handleSearch();
+    // };
 
     const selectUniCampus = (label, value) => {
       setCampLabel(label);
@@ -327,16 +305,18 @@ const SubjectList = (props) => {
   // localStorage.removeItem("uniIdForSubList");
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
+  const handleEdit = subId =>{
+    history.push(`/addUniversitySubject/${id}/${subId}`);
+  }
     return (
-
         <div>
             <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
-                  <h3 className="text-light">Subject List</h3>
+                  <h3 className="text-light">University Subject List</h3>
                   <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard} className="text-light">
+                    <span onClick={backToUniversityList} className="text-light">
                       {" "}
-                      <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                      <i className="fas fa-arrow-circle-left"></i> Back to University List
                     </span>
                   </div>
                 </CardHeader>
@@ -346,7 +326,7 @@ const SubjectList = (props) => {
         <CardBody className="search-card-body">
 
           <Row>
-            <Col lg="4" md="3" sm="6" xs="6">
+            {/* <Col lg="4" md="3" sm="6" xs="6">
               <Select
                 options={universityOption}
                 value={{ label: uniLabel, value: uniValue }}
@@ -354,19 +334,19 @@ const SubjectList = (props) => {
                 name="UniversityTypeId"
                 id="UniversityTypeId"
               />
-            </Col>
+            </Col> */}
 
-            <Col lg="4" md="3" sm="6" xs="6">
+            <Col lg="6" md="6" sm="6" xs="6">
               <Select
                 options={campusOption}
                 value={{ label: campLabel, value: campValue }}
                 onChange={(opt) => selectUniCampus(opt.label, opt.value)}
-                name="UniversityCountryId"
-                id="UniversityCountryId"
+                name="campusId"
+                id="campusId"
               />
             </Col>
 
-            <Col lg="4" md="4" sm="6" xs="6">
+            <Col lg="6" md="6" sm="6" xs="6">
               <Input
                 style={{ height: "2.7rem" }}
                 type="text"
@@ -592,17 +572,18 @@ const SubjectList = (props) => {
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
                           </Link> */}
-                        {
+                        {/* {
                          permissions?.includes(permissionList?.Update_subject) ?
                           <LinkButton
-                            url={`addSubject/${sub?.id}`}
+                            url={`addUniversitySubject/${id}/${sub?.id}`}
                             color={"dark"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
-                            permission={6}
                           />
                           :
-                          null}
+                          null} */}
+
+                          <Button onClick={()=>handleEdit(sub?.id)} color={"dark"} className={"mx-1 btn-sm"}><i className="fas fa-edit"></i></Button>
 
                           {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
@@ -688,9 +669,8 @@ const SubjectList = (props) => {
     );
 };
 
-// export default SubjectList;
 const mapStateToProps = state => ({
-  univerSityDropDownList: state.universityListReducer.universityList,
-  campusDropDownList: state.universityCampusListReducer.universityCampusList,
-})
-export default connect(mapStateToProps)(SubjectList);
+    univerSityDropDownList: state.universityListReducer.universityList,
+    campusDropDownList: state.universityCampusListReducer.universityCampusList,
+  })
+export default connect(mapStateToProps)(UniversitySubjectList);
