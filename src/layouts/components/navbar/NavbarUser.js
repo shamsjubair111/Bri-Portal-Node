@@ -55,7 +55,7 @@ const UserDropdown = props => {
       history.push(`/consultantProfile/${userInfo?.referenceId}`);
     }
     else if (userInfo?.userTypeId == userTypes?.Student) {
-      history.push(`/providerAdminProfile/${userInfo?.referenceId}`);//TODO
+      history.push(`/studentProfile/${userInfo?.referenceId}`);//TODO
     }
     else {
       history.push('/');

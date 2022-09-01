@@ -394,11 +394,7 @@ const PersonalInformation = () => {
     //   console.log(x);
     // }
 
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
+  
 
     if (titleValue == 0) {
       setTitleError(true);
@@ -721,9 +717,7 @@ const PersonalInformation = () => {
                       required
                     />
 
-                    {/* <div className="form-control-position">
-                                    <User size={15} />
-                                </div> */}
+                  
                   </Col>
                 </FormGroup>
 
@@ -746,9 +740,7 @@ const PersonalInformation = () => {
                       <span className="text-danger">Select Title</span>
                     )}
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                
                   </Col>
                 </FormGroup>
 
@@ -769,9 +761,7 @@ const PersonalInformation = () => {
                       defaultValue={FirstName}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -792,9 +782,6 @@ const PersonalInformation = () => {
                       defaultValue={LastName}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
                   </Col>
                 </FormGroup>
 
@@ -813,9 +800,7 @@ const PersonalInformation = () => {
                       defaultValue={datee}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 
@@ -836,9 +821,7 @@ const PersonalInformation = () => {
                       defaultValue={number}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                 
                   </Col>
                 </FormGroup>
 
@@ -859,9 +842,7 @@ const PersonalInformation = () => {
                       defaultValue={passport}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                 
                   </Col>
                 </FormGroup>
 
@@ -886,9 +867,7 @@ const PersonalInformation = () => {
                       </span>
                     )}
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -912,9 +891,7 @@ const PersonalInformation = () => {
                       <span className="text-danger">Select Gender</span>
                     )}
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -943,9 +920,7 @@ const PersonalInformation = () => {
                       <span className="text-danger">Select Marital Status</span>
                     )}
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 
@@ -974,9 +949,7 @@ const PersonalInformation = () => {
                       <span className="text-danger">Select Nationality</span>
                     )}
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 
@@ -989,9 +962,7 @@ const PersonalInformation = () => {
                   <Col md="6">
                     <Input type="email" name="email" id="email" value={Email} />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 

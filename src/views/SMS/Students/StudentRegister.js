@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import post from '../../../helpers/post';
@@ -7,6 +7,8 @@ import Select from "react-select";
 import get from '../../../helpers/get';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { userTypes } from '../../../constants/userTypeConstant';
+import axios from 'axios';
+import { rootUrl } from '../../../constants/constants';
 
 
 
@@ -32,11 +34,10 @@ const StudentRegister = () => {
   const [consultantError, setConsultantError] = useState(false);
   const [studentError, setStudentError] = useState(false);
 
-   const [emailError, setEmailError] = useState(true);
+  
    const [canSubmit,setCanSubmit] = useState(true);
-
-
-
+   const [emailError,setEmailError] = useState(''); 
+   const [email,setEmail] = useState('');
 
 
   useEffect(() => {
@@ -56,6 +57,22 @@ const StudentRegister = () => {
 
   }, [])
 
+  const handleEmail = () => {
+
+    axios.get(`${rootUrl}EmailCheck/Validate/${email}`)
+    .then(res => {
+      console.log('checking onBlur email value', res);
+      if(res?.data?.isSuccess === false && res?.data?.result === false){
+        setEmailError(res?.data?.message);
+      }
+      else{
+        setEmailError(res?.data?.message);
+        setCanSubmit(false);
+      }
+
+    })
+
+  }
 
 
   const studentTypeName = studentType?.map((student) => ({
@@ -323,8 +340,12 @@ const StudentRegister = () => {
                   id="email"
                   placeholder="Enter email"
                   required
-                  // onBlur={handleEmail}
+                 
+                  onChange={(e)=> setEmail(e.target.value)}
+                  onBlur={handleEmail}
                 />
+                <span className='text-danger'>{emailError}</span>
+
 
 
               </Col>

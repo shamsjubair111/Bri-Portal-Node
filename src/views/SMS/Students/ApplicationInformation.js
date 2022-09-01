@@ -109,12 +109,6 @@ const ApplicationInformation = () => {
   },[])
 
 
-  const goToNextPage = (event) => {
-
-  
-    
-  }
-
 
   const backToStudentProfile = () => {
     history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
@@ -212,9 +206,6 @@ const toggle = (tab) => {
 const selectStudentType = (label, value) => {
 setStudentTypeLabel(label);
 setStudentTypeValue(value);
-
-
-
 
 
 }
@@ -315,8 +306,6 @@ const handleSubmit = (event) => {
 const cancelForm = () => {
   history.push('/studentList');
 }
-
-
 
 
 

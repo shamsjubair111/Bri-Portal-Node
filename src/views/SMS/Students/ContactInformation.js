@@ -458,9 +458,7 @@ const ContactInformation = () => {
                       defaultValue={oneData?.cellPhoneNumber}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                  
                   </Col>
                 </FormGroup>
 
@@ -498,9 +496,6 @@ const ContactInformation = () => {
                       defaultValue={oneData?.city}
                     />
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
                   </Col>
                 </FormGroup>
 
@@ -587,9 +582,7 @@ const ContactInformation = () => {
                       <span className="text-danger">Select Address Type</span>
                     )}
 
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 

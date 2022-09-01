@@ -32,6 +32,13 @@ const StudentDeclaration = () => {
             setConscentData(res);
         })
 
+        fetch(`https://geolocation-db.com/json/`)
+        .then(res => res?.json())
+        .then(data => {
+          console.log(data);
+          setAPiInfo(data)
+        });
+
     },[success])
 
     const backToStudentProfile = () => {
@@ -428,7 +435,7 @@ method == 'put'?
                  
                   <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
                     <br/>
-                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.deviceIp}</span></span>
+                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.consentFromIp}</span></span>
                 
                </div>
                :
@@ -439,11 +446,11 @@ method == 'put'?
                 </>
 
                  :
-                 (userTypeId == userTypes?.Consultant) ? 
+                 (userTypeId == userTypes?.Student) ? 
                  
                  
                  (conscentData == null || conscentData?.isDeclared == false) ?
-                   <div className="mt-1">
+                   <div className="mt-1 text-right">
                     <Button color="primary" onClick={handleTerms}>
                         Accept Terms and Conditions
                     </Button>
@@ -456,7 +463,7 @@ method == 'put'?
                  
                   <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
                     <br/>
-                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.deviceIp}</span></span>
+                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.consentFromIp}</span></span>
            
                 </div>
                  

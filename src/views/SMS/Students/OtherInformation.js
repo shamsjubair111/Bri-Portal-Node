@@ -16,7 +16,7 @@ const OtherInformation = () => {
 
    
 
-      const method = localStorage.getItem('method');
+    const method = localStorage.getItem('method');
       
 
     const history = useHistory();

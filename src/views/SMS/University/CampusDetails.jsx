@@ -216,6 +216,14 @@ const CampusDetails = () => {
     // handleSearch();
   };
 
+  const taggleModal = () => {
+    setRadioIsAcceptHome('false');
+    setRadioIsAcceptUk('true');
+    setRadioIsAcceptInt('false');
+    setDeleteModal2(!deleteModal2);
+
+
+  }
   const toggleEdit = (data) => {
     setData(data);
     setRadioIsAcceptHome(`${data?.isAcceptHome}`);
@@ -324,6 +332,9 @@ const CampusDetails = () => {
         setSuccess(!success);
         setData({});
         setDeleteModal2(false);
+        setRadioIsAcceptHome('false');
+        setRadioIsAcceptUk('true');
+        setRadioIsAcceptInt('false');
       }
     });
   };
@@ -349,6 +360,9 @@ const CampusDetails = () => {
             autoDismiss: true,
           });
           setSuccess(!success);
+          setRadioIsAcceptHome('false');
+          setRadioIsAcceptUk('true');
+          setRadioIsAcceptInt('false')
         }
       });
     }
@@ -1010,7 +1024,7 @@ const CampusDetails = () => {
                               </Modal>
                               <Modal
                                 isOpen={deleteModal2}
-                                toggle={() => setDeleteModal2(!deleteModal2)}
+                                toggle={taggleModal}
                                 className="uapp-modal"
                               >
                                 <ModalBody>

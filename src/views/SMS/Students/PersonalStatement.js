@@ -19,6 +19,7 @@ const PersonalStatement = () => {
 
     const [statement, setStatement] = useState('');
     const [id, setId] = useState(0);
+    const [stringData,setStringData] = useState(0);
 
     const studentIdVal = localStorage.getItem('applictionStudentId');
 
@@ -35,11 +36,23 @@ const PersonalStatement = () => {
 
     },[])
 
+    function countWords(str) {
+      const arr = str.split(' ');
+    
+      return arr.filter(word => word !== '').length;
+    }
+
 
     const backToStudentProfile = () => {
       history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
   }
+
+  const handleStringData = (e) => {
+        setStringData(countWords(e.target.value));
+       
+  }
   
+ console.log(stringData);
 
     const previousPage = () => {
       history.push('/addReference');
@@ -100,7 +113,26 @@ const PersonalStatement = () => {
 
         const subData = new FormData(event.target);
 
-       if(method == 'put' || id){
+        if(statement == null || statement == 'undefined'){
+
+          post('PersonalStatement/Create',subData)
+          .then(res => {
+            console.log(res);
+            if(res?.status == 200){
+              addToast(res?.data?.message,{
+                appearance: 'success',
+                autoDismiss: true
+                
+              })
+              history.push('/addOtherInformation');
+            }
+  
+          })
+          
+         }
+  
+
+       else if(method == 'put' || id){
 
         put('PersonalStatement/Update',subData)
         .then(res => {
@@ -115,6 +147,7 @@ const PersonalStatement = () => {
 
        }
 
+    
        else{
 
         post('PersonalStatement/Create',subData)
@@ -134,8 +167,6 @@ const PersonalStatement = () => {
        }
 
       }
-
-
 
 
     return (
@@ -356,8 +387,12 @@ const PersonalStatement = () => {
     
 
         <Input type="textarea" name="statement" id="statement" rows={15}
-        defaultValue={statement}
+        defaultValue={statement} onChange={handleStringData}
         />
+
+        <div className='text-right'>
+          <span>{stringData} / min word-300</span>
+        </div>
       
 
       </Col>
@@ -376,6 +411,7 @@ const PersonalStatement = () => {
     <Button.Ripple
     type="submit"
     className="mr-1 mt-3 badge-primary"
+    disabled ={stringData < 300 ? true : false}
   >
     Submit
   </Button.Ripple>

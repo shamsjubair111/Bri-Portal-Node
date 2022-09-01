@@ -117,10 +117,7 @@ const Reference = () => {
         
       };
 
-      const handleRegisterStudent = (event) => {
-        event.preventDefault();
-      }
-
+  
 
       const countryName = country?.map((branchCountry) => ({
         label: branchCountry.name,
@@ -134,8 +131,6 @@ const Reference = () => {
     setCountryError(false);
     setCountryLabel(label);
     setCountryValue(value);
-    
-   
    
   }
 
@@ -604,7 +599,7 @@ const onShow=()=>{
             onChange={(opt) => selectReference(opt.label, opt.value)}
             name="referenceTypeId"
             id="referenceTypeId"
-            required
+
 
 
           />
@@ -718,9 +713,7 @@ const onShow=()=>{
             <span className='text-danger'>Select Country</span>
           }
 
-          {/* <div className="form-control-position">
-                              <User size={15} />
-                          </div> */}
+       
         </Col>
       </FormGroup>
 
@@ -787,12 +780,6 @@ const onShow=()=>{
     </FormGroup>
 
    
-
-     
-
-    
-
-    
     <FormGroup row
     className="has-icon-left position-relative"
     style={{ display: "flex", justifyContent: "end" }}
@@ -854,12 +841,6 @@ className={"mr-1 mt-3 badge-primary"}
        </Button>
        </FormGroup>
       
-
-      
-
-   
-           
-       
       </CardBody>
     </Card>
         
