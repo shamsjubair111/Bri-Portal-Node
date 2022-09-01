@@ -102,6 +102,7 @@ const UniversityList = lazy(() => import("./views/SMS/University/UniversityList.
 const UniversityDetails = lazy(() => import("./views/SMS/University/UniversityDetails.jsx"))
 const CampusList = lazy(() => import("./views/SMS/University/CampusList.jsx"))
 const CampusDetails = lazy(() => import("./views/SMS/University/CampusDetails.jsx"))
+const AssignMultipleSubject = lazy(() => import("./views/SMS/University/AssignMultipleSubject"))
 const CampusSubjectList = lazy(() => import("./views/SMS/University/CampusSubjectList.jsx"))
 const AddUniversityGallery = lazy(() => import("./views/SMS/University/AddUniversityGallery.jsx"))
 const AddUniversityTemplateDocument = lazy(() => import("./views/SMS/University/AddUniversityTemplateDocument"))
@@ -451,6 +452,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/campusList" component={permissions?.includes(permissionList?.UniversityCampus_List)? CampusList : NotAuthorized } />
          <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
          <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? CampusDetails : NotAuthorized } />
+         <AppRoute  path="/assignMultipleSubject/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? AssignMultipleSubject : NotAuthorized } />
 
          {/* University Subject starts here */}
          <AppRoute  path="/universitySubjectList/:id" component={permissions?.includes(permissionList?.subject_List)? UniversitySubjectList : NotAuthorized } />
