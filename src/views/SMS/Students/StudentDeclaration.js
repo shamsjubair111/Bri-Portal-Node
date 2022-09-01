@@ -28,11 +28,11 @@ const StudentDeclaration = () => {
 
         get(`StudentConsent/Get/${studentId}`)
         .then(res =>{ 
-            console.log(res);
+            console.log(res,'resStudentData');
             setConscentData(res);
         })
 
-    },[])
+    },[success])
 
     const backToStudentProfile = () => {
         history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
@@ -89,31 +89,31 @@ const StudentDeclaration = () => {
   
         subData.append('StudentId', studentId);
         subData.append('IpAddress',apiInfo?.IPv4);
-        // post('ConsultantConscent/Sign',subData)
-        // .then(res => {
-        //   if(res?.status == 200){
-        //     addToast(res?.data?.message,{
-        //       appearance: 'success',
-        //       autoDismiss: true
-        //     })
-        //     setSuccess(!success);
-        //   }
-        // })
+        post('StudentConsent/Sign',subData)
+        .then(res => {
+          if(res?.status == 200){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            setSuccess(!success);
+          }
+        })
       }
 
 
       const sendEmail = () => {
-        // put(`ConsultantConscent/SendEmail/${consultantId}`)
-        // .then(res => {
-        //     if(res?.status == 200){
-        //         addToast("Email Sending is in Process",{
-        //             appearance: 'success',
-        //             autoDismiss: true
-        //         })
-        //         setSuccess(!success);
+        put(`StudentConsent/SendEmail/${studentId}`)
+        .then(res => {
+            if(res?.status == 200){
+                addToast("Email Sending is in Process",{
+                    appearance: 'success',
+                    autoDismiss: true
+                })
+                setSuccess(!success);
 
-        //     }
-        // })
+            }
+        })
       }
 
       function formatDate(string){
@@ -410,7 +410,7 @@ method == 'put'?
                </div>
                :
                 (conscentData !== null && conscentData?.consentSignStatusId  == 2) ?
-                <div className="mb-1 text-left">
+                <div className="mb-1 text-right">
                   
                  
                        <span className="text-info"> Email is sent with credentails </span>
@@ -426,9 +426,9 @@ method == 'put'?
                  <div className="mb-1 text-right">
                   
                  
-                       <span>Conscent</span>
-                       <br/>
-                       <span>FromIp:</span>
+                  <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
+                    <br/>
+                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.deviceIp}</span></span>
                 
                </div>
                :

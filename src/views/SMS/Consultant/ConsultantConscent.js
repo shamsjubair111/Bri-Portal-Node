@@ -50,7 +50,7 @@ const Conscent = () => {
         .then(res => {
             console.log(res,'conscentData');
             setConscentData(res);
-            setSignTime(res?.consentSignTime.split('T'));
+           
         })
 
         fetch(`https://geolocation-db.com/json/`)
@@ -308,7 +308,7 @@ const Conscent = () => {
                </div>
                :
                 (conscentData !== null && conscentData?.consentSignStatusId  == 2) ?
-                <div className="mb-1 text-left">
+                <div className="mb-1 right">
                   
                  
                        <span className="text-info"> Email is sent with credentails </span>
@@ -321,12 +321,12 @@ const Conscent = () => {
                :
                  (conscentData !== null && conscentData?.consentSignStatusId  == 3) ?
 
-                 <div className="mb-1 text-right">
+                 <div className="mb-1 text-left ms-md-4">
                   
                  
-                       <span>Conscent</span>
+                       <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
                        <br/>
-                       <span>FromIp:</span>
+                       <span>Conscent Signed on FromIp: <span className="fw-style"> {conscentData?.deviceIp}</span></span>
                 
                </div>
                :

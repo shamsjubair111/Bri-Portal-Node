@@ -5,7 +5,7 @@ import {
   
   } from "reactstrap";
 
-const ButtonForFunction = ({className, icon,color, permission, type,url, func, name}) => {
+const ButtonForFunction = ({className, icon,color, permission, type,url, func, name,disable}) => {
     // const {className, icon} = props;
 
     // console.log(className);
@@ -27,6 +27,7 @@ const ButtonForFunction = ({className, icon,color, permission, type,url, func, n
                color={color}
                type={type}
                className={className}
+               disabled={disable}
              >
                {" "}
                {icon}{name}{" "}

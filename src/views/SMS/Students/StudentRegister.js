@@ -33,6 +33,7 @@ const StudentRegister = () => {
   const [studentError, setStudentError] = useState(false);
 
    const [emailError, setEmailError] = useState(true);
+   const [canSubmit,setCanSubmit] = useState(true);
 
 
 
@@ -116,19 +117,23 @@ const StudentRegister = () => {
         const subdata = new FormData(event.target);
         post('Student/Register', subdata)
           .then(res => {
-            console.log('hello', res);
-            localStorage.setItem('applictionStudentTypeId', res?.data?.result?.studentTypeId);
-            localStorage.setItem('applictionStudentId', res?.data?.result?.id);
-            localStorage.setItem('personalInfoConsultantId', res?.data?.result?.consultantId);
-            localStorage.setItem('registerStudentViewId', res?.data?.result?.studentViewId);
-            localStorage.setItem('registerUserId', res?.data?.result?.userId);
-            localStorage.setItem('registerEmail', res?.data?.result?.email);
-            localStorage.removeItem('method');
-            addToast(res?.data?.message, {
-              appearance: 'success',
-              autoDismiss: true
-            })
-            history.push('/addStudentApplicationInformation');
+           
+            if(res?.status === 200 && res?.data?.isSuccess === true){
+              console.log('hello', res);
+              localStorage.setItem('applictionStudentTypeId', res?.data?.result?.studentTypeId);
+              localStorage.setItem('applictionStudentId', res?.data?.result?.id);
+              localStorage.setItem('personalInfoConsultantId', res?.data?.result?.consultantId);
+              localStorage.setItem('registerStudentViewId', res?.data?.result?.studentViewId);
+              localStorage.setItem('registerUserId', res?.data?.result?.userId);
+              localStorage.setItem('registerEmail', res?.data?.result?.email);
+              localStorage.removeItem('method');
+              addToast(res?.data?.message, {
+                appearance: 'success',
+                autoDismiss: true
+              })
+              history.push('/addStudentApplicationInformation');
+            }
+           
           })
       }
     }
@@ -347,15 +352,20 @@ const StudentRegister = () => {
 
 
 
-            <FormGroup
+            <FormGroup row
               className="has-icon-left position-relative"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              
             >
 
-              <ButtonForFunction
+             <Col md='8'>
+
+              <div
+              style={{ display: "flex", justifyContent: "end" }}
+              >
+                 <ButtonForFunction
                 className={'mr-1 mt-3 btn-warning'}
                 func={cancelForm}
-                type={'submit'}
+               
                 name={'Cancel'}
               />
 
@@ -365,8 +375,15 @@ const StudentRegister = () => {
                 className={'mr-1 mt-3 badge-primary'}
                 name={'Submit'}
                 type={'submit'}
+                disable={canSubmit}
 
               />
+
+              </div>
+            
+
+             </Col>
+
             </FormGroup>
           </Form>
 
