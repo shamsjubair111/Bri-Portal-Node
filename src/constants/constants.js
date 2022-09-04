@@ -5,7 +5,7 @@
 
 // export const rootUrl = `http://192.168.0.13:45455/`
 
-export const rootUrl = `http://192.168.0.12:45455/`
+export const rootUrl = `http://192.168.0.120:45455/`
 
 
 // export const rootUrl = `http://192.168.0.12:45456/`

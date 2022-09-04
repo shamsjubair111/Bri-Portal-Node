@@ -30,293 +30,294 @@ import {
 } from "reactstrap";
 
 import { useToasts } from "react-toast-notifications";
-import get from "../../../helpers/get";
-import { rootUrl } from "../../../constants/constants";
-import put from "../../../helpers/put";
-import remove from "../../../helpers/remove";
-import ButtonForFunction from "../Components/ButtonForFunction";
-const AddUniversityCampus = (props) => {
-  const [universityCampusList, setuniversityCampusList] = useState([]);
-  const [universityCampusObject, setuniversityCampusObject] = useState({});
-  // const univerSityCountries = props.univerSityCountryList[0];
-  const [univerSityCountries, setUniverSityCountries] = useState([]);
-  const universityTypes = props.univerSityTypeList[0];
-  // const universityStates = props.univerSityStateList[0];
-  const [universityStates, setUniversityStates] = useState([]);
+import get from "../../../../helpers/get";
+import { rootUrl } from "../../../../constants/constants";
+import put from "../../../../helpers/put";
+import remove from "../../../../helpers/remove";
+import ButtonForFunction from "../../Components/ButtonForFunction";
 
-  const [loading, setLoading] = useState(false);
-  const myForm = createRef();
-  const [uniStateLabel, setUniStateLabel] = useState(
-    "Select University State..."
-  );
-  const [unistateValue, setUniStateValue] = useState(0);
-  const [uniStateError, setUniStateError] = useState(false);
-
-  const [uniCountryLabel, setUniCountryLabel] = useState(
-    "Select University Country..."
-  );
-  const [uniCountryValue, setUniCountryValue] = useState(0);
-  const [uniCountryError, setUniCountryError] = useState(false);
-
-  const [radioHomeVal, setRadioHomeVal] = useState(false);
-  const [radioEuUkVal, setRadioEuUkVal] = useState(false);
-  const [radioInternationalVal, setRadioInternationalVal] = useState(false);
-
-  const [activetab, setActivetab] = useState("2");
-  const [submitData, setSubmitData] = useState(false);
-  const history = useHistory();
-  const [universityId, setuniversityId] = useState(0);
-  const location = useLocation();
-  const [success, setSuccess] = useState(false);
-  const { addToast } = useToasts();
-  const [selectedId, setSelectedId] = useState(0);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [universityCampus, setUniversityCampus] = useState([]);
-  const [campusId, setCampusId] = useState(0);
-
-  let uniId;
-  // let uniId = "10019";
-  if (location.id) {
-    uniId = location.id;
-  } else {
-    uniId = "";
-  }
-
-  useEffect(()=>{
-    get(`UniversityCountryDD/Index`)
-    .then(res => {
-      // console.log('all Campuses',res)
-      setUniverSityCountries(res);
-    })
-  },[])
-
-  useEffect(() => {
-    setuniversityId(uniId);
-    //  localStorage.setItem('uniCampNId', universityId);
-    // const universityId = "10019";
-    get(`UniversityCampus/GetByUniversity/${localStorage.getItem("id")}`).then(
-      (action) => {
-        //  get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
-        // get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
-        setuniversityCampusList(action);
-        if (action.length > 0) {
-          setShowForm(true);
-        } else {
-          setShowForm(false);
-          setSelectedId(0);
-        }
-        console.log("actionnnn", action);
-      }
-    );
-  }, [success, uniId, universityId]);
-
-  // tab toggle
-  const toggle = (tab) => {
-    setActivetab(tab);
-    if (tab === "1") {
-      history.push("/addUniversity");
-    }
-    if (tab === "2") {
-      history.push("/addUniversityCampus");
-    }
-    if (tab === "3") {
-      history.push("/addUniversityFinancial");
-    }
-    if (tab === "4") {
-      history.push("/addUniversityFeatures");
-    }
-    if (tab === "5") {
-      history.push("/addUniversityGallery");
-    }
-    if (tab === "6") {
-      history.push("/addUniversityApplicationDocument");
-    }
-    if (tab === "7") {
-      history.push("/addUniversityTemplateDocument");
-    }
-  };
-
-  // select University Country
-  const selectUniCountry = (label, value) => {
-    setUniCountryError(false);
-    setUniCountryLabel(label);
-    setUniCountryValue(value);
-    get(`UniversityStateDD/Index/${value}`).then((res) => {
-      console.log("uni states",res);
-      setUniversityStates(res);
-    });
-  };
-
-  // select University State
-  const selectUniState = (label, value) => {
-    // setUniStateError(false);
-    setUniStateLabel(label);
-    setUniStateValue(value);
-  };
-
-  const AuthStr = localStorage.getItem("token");
-
-  //   on submit form
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const subdata = new FormData(event.target);
-    //  for (var value of subdata.values()) {
-    //   console.log(value);
-    //  }
-
-    if(uniCountryValue == 0){
-      setUniCountryError(true);
-    }
-    // if(unistateValue === 0){
-    //   setUniStateError(true);
-    // }
-    else{
-      if (selectedId === 0) {
-        Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
-          headers: {
-            'Content-Type': 'application/json',
-            'authorization': AuthStr,
-          },
-        }).then((res) => {
-          console.log(res);
-          setuniversityId(res.data.result.universityId);
-          if (res.status === 200 && res.data.isSuccess === true) {
-            setSubmitData(false);
-            addToast(res.data.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
+const AddProviderUniversityCampus = (props) => {
+    const [universityCampusList, setuniversityCampusList] = useState([]);
+    const [universityCampusObject, setuniversityCampusObject] = useState({});
+    // const univerSityCountries = props.univerSityCountryList[0];
+    const [univerSityCountries, setUniverSityCountries] = useState([]);
+    // const universityTypes = props.univerSityTypeList[0];
+    // const universityStates = props.univerSityStateList[0];
+    const [universityStates, setUniversityStates] = useState([]);
   
-            setSuccess(!success);
-          }
-        });
-      } else {
-        put(`UniversityCampus/Update`, subdata).then((res) => {
-          // setuniversityId(res.data.result.universityId)
-          if (res.status === 200 && res.data.isSuccess === true) {
-            setSubmitData(false);
-            addToast(res?.data?.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-            setShowForm(true);
-            setSelectedId(0);
-            setuniversityCampusObject({});
-            setUniCountryLabel("Select University Country...");
-            setUniCountryValue(0);
-            setUniStateLabel("Select University State...");
-            setUniStateValue(0);
-            setSuccess(!success);
-          }
-        });
-      }
-    }
-
-  };
-
-  // onValueChangeHome
-  const onValueChangeHome = (event) => {
-    setRadioHomeVal(event.target.value);
-  };
-  // onValueChangeEuUk
-  const onValueChangeEuUk = (event) => {
-    setRadioEuUkVal(event.target.value);
-  };
-  // onValueChangeInternational
-  const onValueChangeInternational = (event) => {
-    setRadioInternationalVal(event.target.value);
-  };
-
-  const universityCountryName = univerSityCountries?.map((uniCountry) => ({
-    label: uniCountry.name,
-    value: uniCountry.id,
-  }));
-  const universityStateName = universityStates?.map((uniState) => ({
-    label: uniState.name,
-    value: uniState.id,
-  }));
-
-  const styleLabelBold = {
-    // fontWeight: "bold"
-  };
-  // redirect to dashboard
-  const backToUniList = () => {
-    history.push("/universityList");
-  };
-
-  // redirect to Next Page
-  const onNextPage = () => {
-    const uniID = universityId;
-    history.push({
-      pathname: "/addUniversityFinancial",
-      id: uniID,
-    });
-  };
-
-  const toggleDanger = (p) => {
-    localStorage.setItem("UniversityCampusId", p.id);
-    localStorage.setItem("UniversityCampusName", p.name);
-    setDeleteModal(true);
-  };
-
-  const handleDeletePermission = (id) => {
-    const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
-      (action) => {
-        setDeleteModal(false);
-        setSuccess(!success);
-        addToast(action, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        localStorage.removeItem("UniversityCampusId");
-        localStorage.removeItem("UniversityCampusName");
-      }
+    const [loading, setLoading] = useState(false);
+    const myForm = createRef();
+    const [uniStateLabel, setUniStateLabel] = useState(
+      "Select University State..."
     );
-  };
-
-  const handleUpdate = (id) => {
-    setCampusId(id);
-    setShowForm(false);
-
-    get(`UniversityCampus/Get/${id}`).then((action) => {
-      console.log(
-        "asjskdjskdskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjs",
-        action
+    const [unistateValue, setUniStateValue] = useState(0);
+    const [uniStateError, setUniStateError] = useState(false);
+  
+    const [uniCountryLabel, setUniCountryLabel] = useState(
+      "Select University Country..."
+    );
+    const [uniCountryValue, setUniCountryValue] = useState(0);
+    const [uniCountryError, setUniCountryError] = useState(false);
+  
+    const [radioHomeVal, setRadioHomeVal] = useState(false);
+    const [radioEuUkVal, setRadioEuUkVal] = useState(false);
+    const [radioInternationalVal, setRadioInternationalVal] = useState(false);
+  
+    const [activetab, setActivetab] = useState("2");
+    const [submitData, setSubmitData] = useState(false);
+    const history = useHistory();
+    const [universityId, setuniversityId] = useState(0);
+    const location = useLocation();
+    const [success, setSuccess] = useState(false);
+    const { addToast } = useToasts();
+    const [selectedId, setSelectedId] = useState(0);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [showForm, setShowForm] = useState(false);
+    const [universityCampus, setUniversityCampus] = useState([]);
+    const [campusId, setCampusId] = useState(0);
+  
+    let uniId;
+    // let uniId = "10019";
+    if (location.id) {
+      uniId = location.id;
+    } else {
+      uniId = "";
+    }
+  
+    useEffect(()=>{
+      get(`UniversityCountryDD/Index`)
+      .then(res => {
+        // console.log('all Campuses',res)
+        setUniverSityCountries(res);
+      })
+    },[])
+  
+    useEffect(() => {
+      setuniversityId(uniId);
+      //  localStorage.setItem('uniCampNId', universityId);
+      // const universityId = "10019";
+      get(`UniversityCampus/GetByUniversity/${localStorage.getItem("id")}`).then(
+        (action) => {
+          //  get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
+          // get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
+          setuniversityCampusList(action);
+          if (action.length > 0) {
+            setShowForm(true);
+          } else {
+            setShowForm(false);
+            setSelectedId(0);
+          }
+          console.log("actionnnn", action);
+        }
       );
-      setuniversityCampusObject(action);
-      setUniCountryLabel(action?.universityCountry?.name);
-      setUniCountryValue(action?.universityCountry?.id);
-      setUniStateLabel(action?.universityState?.name);
-      setUniStateValue(action?.campusStateId);
-      setSelectedId(action?.id);
-      console.log(id);
-    });
-  };
-
-  // const handleChange=(event) => {
-  //   event.preventDefault();
-  //   universityCampusObject[event.target.name] = event.target.value;
-  //   setuniversityCampusObject({universityCampusObject})
-
-  // }
-
-  const onShow = () => {
-    setShowForm(false);
-  };
-
-  const cancel = () => {
-    setShowForm(true);
-    setSelectedId(0);
-    setuniversityCampusObject({});
-    setUniCountryLabel("Select University Country...");
-    setUniCountryValue(0);
-    setUniStateLabel("Select University State...");
-    setUniStateValue(0);
-  };
-  return (
-    <div>
+    }, [success, uniId, universityId]);
+  
+    // tab toggle
+    const toggle = (tab) => {
+      setActivetab(tab);
+      if (tab === "1") {
+        history.push("/addProviderUniversity");
+      }
+      if (tab === "2") {
+        history.push("/addProviderUniversityCampus");
+      }
+      if (tab === "3") {
+        history.push("/addProviderUniversityFinancial");
+      }
+      if (tab === "4") {
+        history.push("/addProviderUniversityFeatures");
+      }
+      if (tab === "5") {
+        history.push("/addProviderUniversityGallery");
+      }
+      if (tab === "6") {
+        history.push("/addProviderUniversityApplicationDocument");
+      }
+      if (tab === "7") {
+        history.push("/addProviderUniversityTemplateDocument");
+      }
+    };
+  
+    // select University Country
+    const selectUniCountry = (label, value) => {
+      setUniCountryError(false);
+      setUniCountryLabel(label);
+      setUniCountryValue(value);
+      get(`UniversityStateDD/Index/${value}`).then((res) => {
+        console.log("uni states",res);
+        setUniversityStates(res);
+      });
+    };
+  
+    // select University State
+    const selectUniState = (label, value) => {
+      // setUniStateError(false);
+      setUniStateLabel(label);
+      setUniStateValue(value);
+    };
+  
+    const AuthStr = localStorage.getItem("token");
+  
+    //   on submit form
+    const handleSubmit = (event) => {
+      event.preventDefault();
+  
+      const subdata = new FormData(event.target);
+      //  for (var value of subdata.values()) {
+      //   console.log(value);
+      //  }
+  
+      if(uniCountryValue == 0){
+        setUniCountryError(true);
+      }
+      // if(unistateValue === 0){
+      //   setUniStateError(true);
+      // }
+      else{
+        if (selectedId === 0) {
+          Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
+            headers: {
+              'Content-Type': 'application/json',
+              'authorization': AuthStr,
+            },
+          }).then((res) => {
+            console.log(res);
+            setuniversityId(res.data.result.universityId);
+            if (res.status === 200 && res.data.isSuccess === true) {
+              setSubmitData(false);
+              addToast(res.data.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+    
+              setSuccess(!success);
+            }
+          });
+        } else {
+          put(`UniversityCampus/Update`, subdata).then((res) => {
+            // setuniversityId(res.data.result.universityId)
+            if (res.status === 200 && res.data.isSuccess === true) {
+              setSubmitData(false);
+              addToast(res?.data?.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              setShowForm(true);
+              setSelectedId(0);
+              setuniversityCampusObject({});
+              setUniCountryLabel("Select University Country...");
+              setUniCountryValue(0);
+              setUniStateLabel("Select University State...");
+              setUniStateValue(0);
+              setSuccess(!success);
+            }
+          });
+        }
+      }
+  
+    };
+  
+    // onValueChangeHome
+    const onValueChangeHome = (event) => {
+      setRadioHomeVal(event.target.value);
+    };
+    // onValueChangeEuUk
+    const onValueChangeEuUk = (event) => {
+      setRadioEuUkVal(event.target.value);
+    };
+    // onValueChangeInternational
+    const onValueChangeInternational = (event) => {
+      setRadioInternationalVal(event.target.value);
+    };
+  
+    const universityCountryName = univerSityCountries?.map((uniCountry) => ({
+      label: uniCountry.name,
+      value: uniCountry.id,
+    }));
+    const universityStateName = universityStates?.map((uniState) => ({
+      label: uniState.name,
+      value: uniState.id,
+    }));
+  
+    const styleLabelBold = {
+      // fontWeight: "bold"
+    };
+    // redirect to dashboard
+    const backToUniList = () => {
+      history.push("/universityList");
+    };
+  
+    // redirect to Next Page
+    const onNextPage = () => {
+      const uniID = universityId;
+      history.push({
+        pathname: "/addProviderUniversityFinancial",
+        id: uniID,
+      });
+    };
+  
+    const toggleDanger = (p) => {
+      localStorage.setItem("UniversityCampusId", p.id);
+      localStorage.setItem("UniversityCampusName", p.name);
+      setDeleteModal(true);
+    };
+  
+    const handleDeletePermission = (id) => {
+      const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
+        (action) => {
+          setDeleteModal(false);
+          setSuccess(!success);
+          addToast(action, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+          localStorage.removeItem("UniversityCampusId");
+          localStorage.removeItem("UniversityCampusName");
+        }
+      );
+    };
+  
+    const handleUpdate = (id) => {
+      setCampusId(id);
+      setShowForm(false);
+  
+      get(`UniversityCampus/Get/${id}`).then((action) => {
+        console.log(
+          "asjskdjskdskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjs",
+          action
+        );
+        setuniversityCampusObject(action);
+        setUniCountryLabel(action?.universityCountry?.name);
+        setUniCountryValue(action?.universityCountry?.id);
+        setUniStateLabel(action?.universityState?.name);
+        setUniStateValue(action?.campusStateId);
+        setSelectedId(action?.id);
+        console.log(id);
+      });
+    };
+  
+    // const handleChange=(event) => {
+    //   event.preventDefault();
+    //   universityCampusObject[event.target.name] = event.target.value;
+    //   setuniversityCampusObject({universityCampusObject})
+  
+    // }
+  
+    const onShow = () => {
+      setShowForm(false);
+    };
+  
+    const cancel = () => {
+      setShowForm(true);
+      setSelectedId(0);
+      setuniversityCampusObject({});
+      setUniCountryLabel("Select University Country...");
+      setUniCountryValue(0);
+      setUniStateLabel("Select University State...");
+      setUniStateValue(0);
+    };
+    return (
+        <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University Campus Information</h3>
@@ -928,11 +929,7 @@ const AddUniversityCampus = (props) => {
         </CardBody>
       </Card>
     </div>
-  );
+    );
 };
-const mapStateToProps = (state) => ({
-  univerSityTypeList: state.universityTypeDataReducer.universityTypes,
-  univerSityCountryList: state.universityCountryDataReducer.universityCountries,
-  univerSityStateList: state.universityStateDataReducer.universityStates,
-});
-export default connect(mapStateToProps)(AddUniversityCampus);
+
+export default AddProviderUniversityCampus;

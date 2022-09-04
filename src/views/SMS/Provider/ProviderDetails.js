@@ -95,7 +95,7 @@ const ProviderDetails = () => {
         })
         get(`University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${id}&universityCountryId=${uCountryId ? uCountryId : uniCountryValue}&universityStateId=${uStateId ? uStateId : unistateValue}&universityTypeId=${uTypeId ? uTypeId : uniTypeValue}&search=${searchStr}`).then((action) => {
           setUniversityList(action?.models);
-          // console.log('aaaaaa',action?.models);
+          console.log('aaaaaa',action?.models);
           // console.log(searchStr);
           setLoading(false)
           setEntity(action?.totalEntity);
@@ -256,6 +256,14 @@ const updateProviderAdmin  = () => {
     })
     
 
+  }
+
+  const handleAddUniversity = e =>{
+    e.preventDefault();
+    history.push({
+      pathname: '/addProviderUniversity',
+      providerProfileId: id 
+    })
   }
 
     return (
@@ -464,7 +472,7 @@ const updateProviderAdmin  = () => {
              <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
                 <img
-                  src={rootUrl+providerInfo?.providerLogoMedia?.thumbnailUrl}/>
+                  src={rootUrl+providerInfo?.providerLogoMedia?.thumbnailUrl} alt="employee_profile" />
                 </div>    
                 
                 <h5> {providerInfo?.name}</h5>
@@ -491,8 +499,25 @@ const updateProviderAdmin  = () => {
           <Col md='8'>
 
         <Card>
+          <CardBody>
+        <Row className="mb-3">
+            <Col lg="5" md="5" sm="4" xs="4">
+              <ButtonForFunction
+                func={handleAddUniversity}
+                className={"ms-3 btn btn-uapp-add "}
+                icon={<i className="fas fa-plus"></i>}
+                name={" Add New"}
+                permission={6}
+              />
+            </Col>
+
+            <Col lg="7" md="7" sm="8" xs="8">
+              
+            </Col>
+          </Row>
 
         <div className="table-responsive container mt-3">
+
                 <Table className="table-sm table-bordered" >
                   <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
@@ -507,11 +532,11 @@ const updateProviderAdmin  = () => {
                   <tbody>
 
                     {
-                      universityList?.map((university, i) => <tr key={university.id} style={{ textAlign: "center" }}>
+                      universityList?.map((university, i) => <tr key={university?.id} style={{ textAlign: "center" }}>
                         
-                        <td> <img className="Uapp-c-image" src={`${rootUrl}/${university.universityLogo.fileUrl?.slice(2, university.universityLogo.fileUrl.length)}`} /> </td>
+                        <td> <img className="Uapp-c-image" src={`${rootUrl+university?.universityLogo?.thumbnailUrl}`} alt="logo" /> </td>
                         <td>{university.name} ({university.shortName })</td>
-                        <td>{university.universityType.name}</td>
+                        <td>{university?.universityType?.name}</td>
                        
                        
                       </tr>)
@@ -525,7 +550,7 @@ const updateProviderAdmin  = () => {
                 <Pagination dataPerPage={dataPerPage} totalData={entity} paginate={paginate} currentPage={currentPage} />
               </div>   
                   
-
+              </CardBody>
         </Card>
 
         <Card className="p-3">
@@ -576,7 +601,7 @@ admissionManager.length> 0 &&
                            {
                                   permissions?.includes(permissionList?.Update_Admission_manager) ?
                                 
-                                 <i class="fas fa-edit warning icon-hover-style"
+                                 <i className="fas fa-edit warning icon-hover-style mr-1"
                                  onClick={()=>updateAdmissionManager(manager?.id,id)}
                                 
                                  ></i>
@@ -588,7 +613,7 @@ admissionManager.length> 0 &&
                              
                                 {
                                   permissions?.includes(permissionList?.Delete_Admission_manager) ?
-                                  <i class="fas fa-trash-alt text-danger icon-hover-style"
+                                  <i className="fas fa-trash-alt text-danger icon-hover-style"
                                   onClick={() => toggleDelete(manager)}
                                  ></i>
                                  :

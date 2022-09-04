@@ -827,7 +827,7 @@ const CampusDetails = () => {
 
                           <FormGroup>
                             <span>
-                              Multiple File Upload{" "}
+                              Select Files{" "}
                               <span className="text-danger">*</span>{" "}
                             </span>
                             {loading ? (

@@ -27,6 +27,7 @@ const AdmissionManager = () => {
     const [titleLabel,setTitleLabel] = useState('Select');
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
+    const [emailError, setEmailError] = useState(true);
 
     useEffect(()=>{
         get(`CountryDD/index`)
@@ -116,6 +117,9 @@ const AdmissionManager = () => {
        else if(stateValue == 0){
           setStateError(true);
         }
+        else if(emailError == false){
+          setEmailError(emailError);
+        }
 
        
         else{
@@ -135,6 +139,16 @@ const AdmissionManager = () => {
         }
 
        
+    }
+
+    const handleEmail = (e) => {
+      console.log(e.target.value);
+
+      get(`Consultant/OnChangeEmail/${e.target.value}`)
+      .then(res => {
+        console.log('Checking Response', res);
+        setEmailError(res);
+      })
     }
 
 
@@ -246,9 +260,18 @@ const AdmissionManager = () => {
                         name="email"
                         id="email"
                         placeholder="Enter email"
-                      
+                        onBlur={handleEmail}
                         required
                       />
+
+                    {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email Already Exists</span>
+                      :
+                      null
+
+                    }
 
                     </Col>
                   </FormGroup>

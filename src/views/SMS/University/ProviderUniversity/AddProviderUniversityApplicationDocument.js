@@ -29,25 +29,25 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import get from "../../../helpers/get";
+import get from "../../../../helpers/get";
 
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
 import "antd/dist/antd.css";
 import { Image } from "antd";
 
-import CustomButtonRipple from "../Components/CustomButtonRipple";
-import post from "../../../helpers/post";
+import CustomButtonRipple from "../../Components/CustomButtonRipple";
+import post from "../../../../helpers/post";
 import { useToasts } from "react-toast-notifications";
-import ButtonForFunction from "../Components/ButtonForFunction";
-import LinkSpanButton from "../Components/LinkSpanButton";
-import { rootUrl } from "../../../constants/constants";
-import remove from "../../../helpers/remove";
-import put from "../../../helpers/put";
-import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonForFunction from "../../Components/ButtonForFunction";
+import LinkSpanButton from "../../Components/LinkSpanButton";
+import { rootUrl } from "../../../../constants/constants";
+import remove from "../../../../helpers/remove";
+import put from "../../../../helpers/put";
+import { permissionList } from "../../../../constants/AuthorizationConstant";
 
-const AddUniversityApplicationDocument = () => {
-  const { addToast } = useToasts();
+const AddProviderUniversityApplicationDocument = () => {
+    const { addToast } = useToasts();
   const history = useHistory();
   const [activetab, setActivetab] = useState("6");
 
@@ -132,22 +132,22 @@ const AddUniversityApplicationDocument = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab === "1") {
-      history.push("/addUniversity");
+      history.push("/addProviderUniversity");
     }
     if (tab === "2") {
-      history.push("/addUniversityCampus");
+      history.push("/addProviderUniversityCampus");
     }
     if (tab === "3") {
-      history.push("/addUniversityFinancial");
+      history.push("/addProviderUniversityFinancial");
     }
     if (tab === "4") {
-      history.push("/addUniversityFeatures");
+      history.push("/addProviderUniversityFeatures");
     }
     if (tab === "5") {
-      history.push("/addUniversityGallery");
+      history.push("/addProviderUniversityGallery");
     }
     if (tab === "7") {
-      history.push("/addUniversityTemplateDocument");
+      history.push("/addProviderUniversityTemplateDocument");
     }
     // if (tab === "8") {
     //   history.push("/addUniversityRequiredDocument");
@@ -230,7 +230,7 @@ const AddUniversityApplicationDocument = () => {
   const onNextPage = () => {
     const uniID = localStorage.getItem("id");
     history.push({
-      pathname: "/addUniversityTemplateDocument",
+      pathname: "/addProviderUniversityTemplateDocument",
       id: uniID,
     });
   };
@@ -290,9 +290,8 @@ const AddUniversityApplicationDocument = () => {
     setIsMandatory(event.target.value);
     setApplicationError(false);
   };
-
-  return (
-    <div>
+    return (
+        <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University Application Document</h3>
@@ -717,7 +716,7 @@ const AddUniversityApplicationDocument = () => {
       </Card>
       <br /> <br /> <br />
     </div>
-  );
+    );
 };
 
-export default AddUniversityApplicationDocument;
+export default AddProviderUniversityApplicationDocument;

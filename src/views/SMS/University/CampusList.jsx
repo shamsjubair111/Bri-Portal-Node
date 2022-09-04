@@ -312,11 +312,16 @@ const CampusList = (props) => {
       <Card className="uapp-employee-search">
           <CardBody>
 
-          <div className="container test-score-div-1-style mt-1 mb-4">
+          {
+            uniNameFromObj ? 
+            <div className="container test-score-div-1-style mt-1 mb-4">
             <span className="test-score-span-1-style">
-              Showing <b>{uniNameFromObj}{"'"}s</b> campus list
+              <b>{uniNameFromObj}{"'"}s</b> campus list is shown here.
             </span>
           </div>
+          :
+          null
+          }
 
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
