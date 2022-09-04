@@ -111,6 +111,8 @@ const UniversityList = (props) => {
     
   }, []);
 
+  console.log(location);
+
   useEffect(() => {
     const uCountryId = 0;
     const uStateId = 0;
@@ -139,6 +141,20 @@ const UniversityList = (props) => {
         setUniTypeValue(uTypeId);
       }
     }
+    
+    if(location?.universityCountry){
+      setUniCountryValue(location?.universityCountry);
+    }
+    else{
+      setUniCountryValue(0);
+    }
+
+    if(location?.name){
+      setUniCountryLabel(location?.name);
+    }
+    else{
+      setUniCountryLabel('Select University Country');
+    }
 
     //  if(providerId !== 0){
     //    var providertype = providerDataResult?.find(p => p.id === providerId);
@@ -166,7 +182,7 @@ const UniversityList = (props) => {
       `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
         providerId ? providerId : providerValue
       }&universityCountryId=${
-        uCountryId ? uCountryId : uniCountryValue
+        (location?.universityCountry) ? location?.universityCountry : 0
       }&universityStateId=${
         uStateId ? uStateId : unistateValue
       }&universityTypeId=${

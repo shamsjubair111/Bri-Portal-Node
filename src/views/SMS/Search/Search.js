@@ -11,6 +11,7 @@ import ComponentButton from '../Components/ComponentButton';
 import CustomLinkButton from '../Components/CustomLinkButton';
 import { useToasts } from 'react-toast-notifications';
 import post from '../../../helpers/post';
+import { userTypes } from '../../../constants/userTypeConstant';
 
 
 
@@ -18,6 +19,7 @@ import post from '../../../helpers/post';
 const Search = () => {
 
    const  [studentInfo, setStudentInfo] = useState({});
+   const userType = localStorage.getItem('userType');
 
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
@@ -134,6 +136,12 @@ const Search = () => {
     const [intakeError, setIntakeError] = useState(false);
     const [deliveryError, setDeliveryError] = useState(false);
 
+    const [studentData,setStudentData] = useState([]);
+    const [studentDataLabel,setStudentDataLabel] = useState('Select Student');
+    const [studentDataValue, setStudentDataValue] = useState(0);
+
+    
+
     const [message, setMessage] = useState('');
 
     const {addToast} = useToasts()
@@ -142,18 +150,11 @@ const Search = () => {
 
     useEffect(()=>{
 
-      // FAke api start
-
-      fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => res?.json())
-      .then(data => {
-        console.log(data[9]);
-        setStudentInfo(data[9]);
-        setStudentLabel(data[9].name);
-        setStudentValue(data[9].id)
+      get(`SearchFilter/Students`)
+      .then(res => {
+        console.log('object',res);
+        setStudentData(res);
       })
-
-      // fake api end
 
       get(`SearchFilter/UniversityTypes`)
       .then(res => {
@@ -196,7 +197,7 @@ const Search = () => {
         setDepartment(res);
       })
 
-      get(`SearchFilter/StudentTpes`)
+      get(`SearchFilter/StudentTypes`)
       .then(res => {
        
         setStudentType(res);
@@ -220,7 +221,15 @@ const Search = () => {
         setState(res);
       })
 
+      get(`SearchFilter/DeliveryPatterns`)
+      .then(res => {
+        setPattern(res);
+      })
      
+      get(`SearchFilter/Intakes`)
+      .then(res =>{
+        setIntake(res);
+      })
 
      
 
@@ -235,26 +244,63 @@ const Search = () => {
       get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programLevelName}`)
       .then(res => {
         console.log('Large Api Checking Response',res);
-        setData(res?.result?.models);
-        setEntity(res?.result?.totalEntity);
+        setData(res?.models);
+        setEntity(res?.totalEntity);
         setLoading(false);
       })
 
     },[success, page, dataSizeValue, sortValue, studentId, universityTypeValue, universityValue, campusValue, universityCountryValue, cityValue, studentTypeValue, departmentValue, subValue, programValue, intakeValue, patternValue, programName])
 
+
+    const studentOptions = studentData?.map(std => ({
+      label: std?.name,
+      value: std?.id
+    }))
+
+    const selectStudent = (label,value)=>{
+      setStudentDataLabel(label);
+      setStudentDataValue(value);
+    }
+
+    const patternOptions = pattern?.map(ptn => ({
+      label: ptn?.name,
+      value: ptn?.id
+    }))
+
+    const selectPattern = (label,value) =>{
+      setPatternLabel(label);
+      setPatternValue(value);
+    }
+
+    const intakeOptions = intake?.map(ins => ({
+      label: ins?.name,
+      value: ins?.id
+    }))
+
+    const selectIntake = (label,value) =>{
+      setPatternLabel(label);
+      setPatternValue(value);
+    }
+
     const addToWishList = (data) => {
-      console.log(data);
-       get(`wishlist/add/${studentInfo?.id}/${data?.subjectId}`)
+      console.log(data,'wishllist data');
+       get(`wishlist/add/${studentDataValue}/${data?.subjectId}`)
        .then(res => {
         console.log(res);
-        if(res?.isSuccess){
-          addToast(res?.data?.message,{
+        if(res == null){
+          addToast('Subject already exists in wishlist',{
+            appearance: 'error',
+            autoDismiss: true
+          })
+        }
+        else if(res == true){
+          addToast('Added to your wishlist',{
             appearance: 'success',
             autoDismiss: true
           })
         }
-        else{
-          addToast(res?.data?.message,{
+        else if(res == false){
+          addToast('Something went wrong',{
             appearance: 'error',
             autoDismiss: true
           })
@@ -351,47 +397,8 @@ const Search = () => {
   const subDepartmentOptions = SubDepartment?.map((sub)=> ({label: sub?.name, value: sub?.id}))
 
 
-  const fCampus = [
-     {
-      id: 1,
-      name: 'Dhaka'
 
-  },
-
-  {
-    id: 2,
-    name: 'Chittagong'
-  }
-
-]
-
-  const fIntake = [
-     {
-      id: 1,
-      name: 'I-1'
-
-  },
-
-  {
-    id: 2,
-    name: 'I-2'
-  }
-
-]
-
-const fDP = [
-  {
-    id: 1,
-    name: 'dp-1'
-  },
-
-  {
-    id: 2,
-    name: 'dp-2'
-  }
-]
-
-  const modalCampusOptions = fCampus?.map((data) => ({
+  const modalCampusOptions = campus?.map((data) => ({
     label: data?.name,
     value: data?.id
   }));
@@ -404,7 +411,7 @@ const fDP = [
 
   }
 
-  const modalIntakeOptions = fIntake?.map((data) => ({
+  const modalIntakeOptions = intake?.map((data) => ({
     label: data?.name,
     value: data?.id
   }));
@@ -417,7 +424,7 @@ const fDP = [
 
   }
 
-  const modalDeliveryOptions = fDP?.map((data) => ({
+  const modalDeliveryOptions = pattern?.map((data) => ({
     label: data?.name,
     value: data?.id
   }));
@@ -674,7 +681,7 @@ const fDP = [
       else{
 
         const subData = {
-          studentId: studentValue,
+          studentId: studentDataValue,
           universitySubjectId: currentData?.subjectId,
           inakeId: modalIntakeValue,
           deliveryPatternId: modalDeliveryPatternValue,
@@ -682,7 +689,7 @@ const fDP = [
           additionalMessage: message
         }
   
-        post(`Apply/Submit`,{subData})
+        post(`Apply/Submit`,subData)
         .then(res => {
           console.log('checking add response', res);
           if(res?.isSuccess == true){
@@ -700,6 +707,15 @@ const fDP = [
 
           }
         })
+        setModalCampusLabel('Select Campus');
+
+        setModalCampusValue(0);
+        setModalDeliveryPatternLabel('Select Delivery Pattern');
+        setModalDeliveryPatternValue(0);
+        setModalIntakeLabel('Select Intake');
+        setModalIntakeValue(0);
+        setModal(false);
+        setSuccess(!success);
 
       }
 
@@ -716,7 +732,7 @@ const fDP = [
 
           {/* Modal For Apply Button Code Start */}
 
-          <Modal size='lg' isOpen={modal} toggle={closeModal} className="uapp-modal">
+          <Modal size='lg' isOpen={modal} toggle={closeModal} className="uapp-modal2">
 
             <ModalHeader>
               <div className='px-3 text-center'>
@@ -759,9 +775,9 @@ const fDP = [
         <Col md="6">
         
         {
-          (fCampus?.length == 1)? 
+          (campus?.length == 1)? 
 
-         <h6>{fCampus[0].name}</h6>
+         <h6>{campus[0].name}</h6>
 
         :
 
@@ -801,8 +817,8 @@ const fDP = [
         <Col md="6">
 
           {
-            fIntake.length == 1 ? 
-              <h6>{fIntake[0]?.name}</h6>
+            intake.length == 1 ? 
+              <h6>{intake[0]?.name}</h6>
               :
               <>
               <Select
@@ -842,9 +858,9 @@ const fDP = [
         </Col>
         <Col md="6">
         {
-          fDP?.length == 1 ?
+          pattern?.length == 1 ?
           
-          <h6>{fDP[0]?.name}</h6>
+          <h6>{pattern[0]?.name}</h6>
 
           :
 
@@ -919,7 +935,7 @@ const fDP = [
 <div>
 
 {
-(studentInfo?.id) ?
+(studentDataValue !==0) ?
 
   <div className='' style={{position: 'relative', right: '30px'}}>
     <Button color='primary' type='submit' onClick={submitModalForm}>Submit</Button> 
@@ -978,9 +994,11 @@ null
  
  
   <Select 
-   styles={customStyles}
-  value={{ label: studentLabel, value: studentValue }}
-  name="providerTypeId"
+   styles={customStyles2}
+   options={studentOptions}
+   value={{ label: studentDataLabel, value: studentDataValue }}
+   onChange={(opt) => selectStudent(opt.label, opt.value)}
+ name="providerTypeId"
   id="providerTypeId"
   
 
@@ -1127,7 +1145,9 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
   <Select 
     className='mt-3'
     styles={customStyles}
+    options={patternOptions}
    value={{ label: patternLabel, value: patternValue }}
+   onChange={(opt) => selectPattern(opt.label, opt.value)}
      name="providerTypeId"
      id="providerTypeId"
      
@@ -1137,7 +1157,9 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
   <Select 
     className='mt-3'
     styles={customStyles}
+    options={intakeOptions}
    value={{ label: intakeLabel, value: intakeValue }}
+   onChange={(opt) => selectIntake(opt.label, opt.value)}
      name="providerTypeId"
      id="providerTypeId"
      
@@ -1447,21 +1469,27 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
              target={'_blank'}
             
             
-            className={'button2-style-search me-1'}
+            className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
             icon={<i className="fas fa-eye"></i>}
            
             permission={6}
             />
 
-            <ComponentButton
+            {
+              (userType == userTypes?.Student) ?
+              <ComponentButton
        
          
-            func={()=>addToWishList(subjectInfo)}
-           
-            icon={<i class="fas fa-heart-circle-check"></i>}
-            className={'button2-style-search ms-1'}
-            permission={6}
-            />
+              func={()=>addToWishList(subjectInfo)}
+             
+              icon={<i class="fas fa-heart-circle-check"></i>}
+              className={'button2-style-search ms-1'}
+              permission={6}
+              />
+              :
+              null
+
+            }
             </div>
         
                 
@@ -1532,7 +1560,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
                 subjectInfo?.canApply? 
                 <div className='col-md-2'>
-                <button className='button-style-search' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
+                <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
                 
               </div>
               :
@@ -1595,14 +1623,16 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
           
               <div className='col-md-2'>
   
-              <LinkButton
-                  url={`/subjectProfile/${subjectInfo?.subjectId}`}
-                  target={'_blank'}
-                  color={'secondary'}
-                  className={"button2-style-search"}
-                  name={'View'}
-                  permission={6}
-                  />
+              <CustomLinkButton
+             url={`/subjectProfile/${subjectInfo?.subjectId}`}
+             target={'_blank'}
+            
+            
+            className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
+            icon={<i className="fas fa-eye"></i>}
+           
+            permission={6}
+            />
   
               </div>
         
@@ -1672,21 +1702,21 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
              
             </ul>
             </div>
-            <div className='col-md-2'>
+           
           
             {
 
             subjectInfo?.canApply? 
             <div className='col-md-2'>
-            <button className='button-style-search'>Apply</button>
-
-            </div>
+                <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
+                
+              </div>
             :
             <span>You Can Apply</span>
 
             }
           
-        </div>
+       
         
           </div>
           

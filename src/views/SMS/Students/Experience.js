@@ -464,31 +464,31 @@ console.log('trying', sDate?.split(",")[0]);
       
           {
             info?.map((inf, i) => <div className='col-md-6 mt-2' key={inf.id} style={{ textAlign: "left" }}>
-              <Card className="CampusCard shadow-style">
+              <Card className="CampusCard shadow-style test-score-card-style-2">
                 <CardBody className="shadow">
 
                 
 
                 <Row>
                   <Col md="4">
-                      <h5>Company Name: {inf?.companyName}   </h5>
+                      <h5 className='test-score-title-styles'>Company Name: {inf?.companyName}   </h5>
                       
-                      <p>Eployment Details: {inf?.employeementDetails} </p>
+                      <p className="bank-account-info-text">Eployment Details: {inf?.employeementDetails} </p>
                      
                       
                   </Col>
 
                     <Col md="5">
-                      <p>Job Title : {inf?.jobTitle} </p>
-                      <p>Start Date : {handleDate(inf?.startDate)} </p>
+                      <p  className="bank-account-info-text">Job Title : {inf?.jobTitle} </p>
+                      <p  className="bank-account-info-text">From : {handleDate(inf?.startDate)} </p>
                       {
                         !inf?.isStillWorking ?
 
-                        <p>End Date : {handleDate(inf?.endDate)} </p>
+                        <p className="bank-account-info-text">To : {handleDate(inf?.endDate)} </p>
 
                         :
 
-                        <p>Currently Working</p>
+                        <p className="bank-account-info-text">Currently Working</p>
                       }
                      
                  
@@ -503,11 +503,11 @@ console.log('trying', sDate?.split(",")[0]);
 
                   <div className="CampusCardAction">
                   <div className=""> 
-                     <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(inf.id)}> <i className="fas fa-edit"></i> </button>
+                     <Button type="button" color='primary' className="bankCard-style" onClick={() => handleUpdate(inf.id)}> <i className="fas fa-edit"></i> </Button>
                   </div>
 
                   <div className=""> 
-                     <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(inf.id)} ><i className="fas fa-trash-alt"></i></button>
+                     <Button type="button" color='danger' className="bankCard-style" onClick={()=>toggleDanger(inf.id)} ><i className="fas fa-trash-alt"></i></Button>
                   </div>
                  </div>
 

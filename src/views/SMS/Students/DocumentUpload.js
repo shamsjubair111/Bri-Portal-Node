@@ -675,6 +675,7 @@ const DocumentUpload = () => {
                   </Col>
                 </FormGroup>
 
+                <div className="d-flex justify-content-end">
                 <FormGroup
                   className="has-icon-left position-relative"
                   style={{ display: "flex" }}
@@ -693,6 +694,7 @@ const DocumentUpload = () => {
                     permission={6}
                   />
                 </FormGroup>
+                </div>
               </Form>
             </div>
           </div>

@@ -36,6 +36,7 @@ import remove from "../../../helpers/remove";
 import UniversityList from "./UniversityList";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import LinkSpanButton from "../Components/LinkSpanButton";
 const AddUniversityCountry = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
   console.log("uniC", univerSityCountries);
@@ -63,7 +64,7 @@ const AddUniversityCountry = (props) => {
     const returnValue = get(`UniversityCountry/Index`)
       .then((action) => {
         dispatch(StoreUniversityCountryData(action));
-        // console.log(action);
+        console.log(action);
       })
       .catch();
 
@@ -354,10 +355,20 @@ const AddUniversityCountry = (props) => {
                     <th scope="row">{i + 1}</th>
                     <td>{uniCountry.name}</td>
                     <td className="text-center">
-                      <span className="badge badge-pill badge-primary">
-                        {" "}
-                        {uniCountry?.universityCount}{" "}
-                      </span>
+                    <LinkSpanButton
+                      url={
+                        {
+                          pathname: '/universityList',
+                          universityCountry: uniCountry?.id,
+                          name: uniCountry?.name
+                          
+                        }
+                      }
+                      className={"badge badge-pill badge-primary"}
+                      data={uniCountry?.universityCount}
+                      permission={6}
+                    
+                    />
                     </td>
                     <td>
                       {

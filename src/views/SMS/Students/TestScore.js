@@ -2932,7 +2932,10 @@ const TestScore = () => {
                 <Card className="CampusCard shadow-style test-score-card-style">
                   <CardBody className="shadow">
                     <div className="d-flex justify-content-space-between">
+                  <div>
+                  <span className="bank-account-info-text">Exam Date: {handleDate(greData?.greExamDate)}</span>
                       <h5 className="test-score-title-style">GRE Result</h5>
+                  </div>
                       <div className="CampusCardAction">
                         <div className="">
                           <Button
@@ -2974,7 +2977,7 @@ const TestScore = () => {
                     <br/>
                     <span className="bank-account-info-text">Writing Rank: {greData?.writingRank}</span>
                     <br/>
-                    <span className="bank-account-info-text">Exam Date: {handleDate(greData?.greExamDate)}</span>
+                   
 
                       </div>
 
@@ -3018,7 +3021,10 @@ const TestScore = () => {
                 <Card className="CampusCard shadow-style test-score-card-style">
                   <CardBody className="shadow">
                     <div className="d-flex justify-content-space-between">
+                    <div>
+                    <span className="bank-account-info-text">Exam Date: {handleDate(gmatData?.gmatExamDate)}</span>
                       <h5 className="test-score-title-style">GMAT Result</h5>
+                    </div>
                       <div className="CampusCardAction">
                         <div className="">
                           <Button
@@ -3064,7 +3070,7 @@ const TestScore = () => {
                     <br/>
                     <span className="bank-account-info-text">Writing Rank: {gmatData?.writingRank}</span>
                     <br/>
-                    <span className="bank-account-info-text">Exam Date: {handleDate(gmatData?.gmatExamDate)}</span>
+                    
 
                     </div>
                     <div>

@@ -523,26 +523,26 @@ const handleUpdate = (id) => {
 
         {
           eduDetails?.map((edu, i) => <div className='col-md-6 mt-2' key={edu.id} style={{ textAlign: "left" }}>
-            <Card className="CampusCard shadow-style">
+            <Card className="CampusCard shadow-style test-score-card-style">
               <CardBody className="shadow">
 
                 
 
               <Row>
                 <Col md="4">
-                    <h5> {edu?.nameOfInstitution}  </h5>
-                    <p>Start Date: {handleDate(edu?.attendedInstitutionFrom)}</p>
-                    <p>End Date: {handleDate(edu?.attendedInstitutionTo)}</p>
-                    <p> {edu?.finalGrade}</p>
-                    <p> {edu?.educationLevel?.name}</p>
+                    <h5 className='test-score-title-styles'> {edu?.nameOfInstitution}  </h5>
+                    <p className="bank-account-info-text">From: {handleDate(edu?.attendedInstitutionFrom)}</p>
+                    <p className="bank-account-info-text">To: {handleDate(edu?.attendedInstitutionTo)}</p>
+                    <p className="bank-account-info-text"> {edu?.finalGrade}</p>
+                    <p className="bank-account-info-text"> {edu?.educationLevel?.name}</p>
                 </Col>
 
                   <Col md="5">
                   
-                    <p>Country of Education : {edu?.countryOfEducation?.name}</p>
-                    <p>Institution Address : {edu?.instituteAddress}</p>
-                    <p>institution Contact Number : {edu?.instituteContactNumber}</p>
-                    <p>Qualification Subject : {edu?.qualificationSubject}</p>
+                    <p className="bank-account-info-text">Country of Education : {edu?.countryOfEducation?.name}</p>
+                    <p className="bank-account-info-text">Institution Address : {edu?.instituteAddress}</p>
+                    <p className="bank-account-info-text">institution Contact Number : {edu?.instituteContactNumber}</p>
+                    <p className="bank-account-info-text">Qualification Subject : {edu?.qualificationSubject}</p>
                
                     
                 </Col>
@@ -551,11 +551,11 @@ const handleUpdate = (id) => {
                   
                <div className="CampusCardAction">
                  <div className=""> 
-                    <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(edu.id)}> <i className="fas fa-edit"></i> </button>
+                    <Button type="button" color='primary' className="bankCard-style" onClick={() => handleUpdate(edu.id)}> <i className="fas fa-edit"></i> </Button>
                  </div>
 
                  <div className=""> 
-                    <button type="button" className="btn btn-outline-danger" onClick={() => toggleDanger(edu)} ><i className="fas fa-trash-alt"></i></button>
+                    <Button type="button" color='danger' className="bankCard-style" onClick={() => toggleDanger(edu)} ><i className="fas fa-trash-alt"></i></Button>
                  </div>
                 </div>
                     

@@ -197,7 +197,7 @@ const EmployeeContactInfo = () => {
               <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
                 <FormGroup row className="has-icon-left position-relative">
                   {
-                    !contactInfo == null ?
+                    !(contactInfo?.id == null) ?
                     <Input
                     value={contactInfo?.id}
                     type="hidden"

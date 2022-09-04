@@ -212,7 +212,7 @@ const ConsultantByConsultant = () => {
                     <th>Account status</th>
                     <th>Student</th>
                     <th>Application</th>
-                    <th>Assosiates</th>
+                    <th>Associates</th>
                     <th style={{ width: "8%" }} className="text-center">
                       Action
                     </th>

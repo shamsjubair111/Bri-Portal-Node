@@ -38,6 +38,11 @@ const EmployeeList = (props) => {
 
     const [success,setSuccess] = useState(false);
 
+    const [empList,setEmpList] = useState([]);
+    const [empLabel,setEmpLabel] = useState('Select Employee Type');
+    const [empValue,setEmpValue] = useState(0);
+    const [data,setData] = useState({});
+
     const permissions = JSON.parse(localStorage.getItem('permissions'));
     
 
@@ -61,12 +66,14 @@ const EmployeeList = (props) => {
     }
 
     const employeeTypeName = employeeTypeList?.map(empt => ({label: empt.name, value: empt.id}));
+
+  
    
 
     useEffect(()=>{
        
         const empId = localStorage.getItem('locationId');
-         get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empId ? empId : employeeId}&searchstring=${searchStr}`).then((action)=>{
+         get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empValue}&searchstring=${searchStr}`).then((action)=>{
             setEmployeeList(action.models);
           
             localStorage.removeItem('locationId');
@@ -74,11 +81,38 @@ const EmployeeList = (props) => {
             setEntity(action.totalEntity);
             setSerialNum(action.firstSerialNumber)
         })
+
+        get(`EmployeeTypeDD/Index`)
+        .then(res => {
+          setEmpList(res);
+        })
+
     },[callApi, currentPage, dataPerPage, employeeId, searchStr, entity, success]);
 
-    const handleDeleteStaff = (staffId) =>{
+
+    const empOptiopns = empList?.map(emp => ({
+      label: emp?.name,
+      value: emp?.id
+    }));
+
+    const selectEmployeeType = (label,value) => {
+      setEmpLabel(label);
+      setEmpValue(value);
+      setCallApi((prev)=> !prev);
+  }
+
+
+  const toggleDanger = (data) => {
+        
+    setData(data);
+       
+    setDeleteModal(true)
+   }
+ 
+
+    const handleDeleteStaff = () =>{
      
-      remove(`Employee/Delete/${staffId}`)
+      remove(`Employee/Delete/${data?.id}`)
       .then(res => {
         console.log(res);
         
@@ -86,8 +120,7 @@ const EmployeeList = (props) => {
           appearance: 'error',
           // autoDismiss: true,
         })
-        const newEmployeeList = employeeList.filter(em => em.id !== staffId);
-        setEmployeeList(newEmployeeList);
+     
         setDeleteModal(false);
         setSuccess(!success);
       })
@@ -102,18 +135,9 @@ const EmployeeList = (props) => {
   }
   
 
-  const toggleDanger = (name,id) => {
-        
-       
-    setDeleteModal(true)
-   }
- 
 
-    const selectEmployeeType = (label,value) => {
-        setEmployeeName(label);
-        setEmployeeId(value);
-        setCallApi((prev)=> !prev);
-    }
+
+  
 
     // search handler
     const handleSearch = () => {
@@ -131,8 +155,8 @@ const EmployeeList = (props) => {
 
       //  on reset
     const handleReset = () => {
-      setEmployeeName('Select Employee Type...');
-      setEmployeeId(0);
+      setEmpLabel('Select Employee Type');
+      setEmpValue(0);
       setSearchStr('');
       setCurrentPage(1);
       setCallApi((prev)=> !prev);
@@ -207,8 +231,8 @@ const EmployeeList = (props) => {
               
                 <Row>
               <Col className="uapp-mb" md="6" sm="12">
-                <Select options={employeeTypeName}
-                        value={{label: employeeName ,value: employeeId }}
+                <Select options={empOptiopns}
+                        value={{label: empLabel ,value: empValue }}
                         onChange={opt => selectEmployeeType(opt.label, opt.value)}
                         name="employeeType"
                         id="employeeType"
@@ -414,11 +438,11 @@ const EmployeeList = (props) => {
                           </Button> */}
 
                           <ButtonForFunction
-                            func={toggleDanger}
+                            func={()=>toggleDanger(emp)}
                             color={"danger"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
+                         
                           />
 
                         </ButtonGroup>

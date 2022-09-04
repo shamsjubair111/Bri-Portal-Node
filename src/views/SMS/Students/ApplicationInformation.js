@@ -679,6 +679,69 @@ const cancelForm = () => {
             </Col>
           </FormGroup>
 
+          <FormGroup row className="has-icon-left position-relative">
+            <Col md="2">
+              <span>
+                Source of Tution Fee  <span className="text-danger">*</span>{" "}
+              </span>
+            </Col>
+            <Col md="6">
+         
+              <Input
+              type='text'
+              name='tutionFeeSource'
+              id='tutionFeeSource'
+              placeholder='Source of Tution Free'
+              required
+              defaultValue={applicationInformation?.tutionFeeSource}
+              />
+
+            
+            </Col>
+          </FormGroup>
+
+          <FormGroup row className="has-icon-left position-relative">
+            <Col md="2">
+              <span>
+                Source of Fund  <span className="text-danger">*</span>{" "}
+              </span>
+            </Col>
+            <Col md="6">
+         
+              <Input
+              type='text'
+              name='sourceOfFund'
+              id='sourceOfFund'
+              placeholder='Source of Fund'
+              required
+              defaultValue={applicationInformation?.sourceOfFund}
+              />
+
+            
+            </Col>
+          </FormGroup>
+
+          <FormGroup row className="has-icon-left position-relative">
+            <Col md="2">
+              <span>
+                Source of Sponsor  <span className="text-danger">*</span>{" "}
+              </span>
+            </Col>
+            <Col md="6">
+         
+              <Input
+              type='text'
+              name='sourceOfSponsor'
+              id='sourceOfSponsor'
+              placeholder='Source of Sponsor'
+              defaultValue={applicationInformation?.sourceOfSponsor}
+              required
+              />
+
+            
+            </Col>
+          </FormGroup>
+
 
               
 

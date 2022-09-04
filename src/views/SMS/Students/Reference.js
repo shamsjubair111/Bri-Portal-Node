@@ -491,25 +491,25 @@ const onShow=()=>{
 
 {
       refList?.map((ref, i) => <div className='col-md-6 mt-2' key={ref.id} style={{ textAlign: "left" }}>
-      <Card className="CampusCard shadow-style">
+      <Card className="CampusCard shadow-style test-score-card-style-2">
         <CardBody className="shadow">
 
         
 
         <Row>
           <Col md="4">
-              <h5>Reference Name: {ref?.referenceName}   </h5>
+              <h5 className='test-score-title-styles'>Reference Name: {ref?.referenceName}   </h5>
               
-              <p>Reference Type: {ref?.referenceType?.name}  </p>
+              <p className="bank-account-info-text">Reference Type: {ref?.referenceType?.name}  </p>
 
-              <p>Email: {ref?.emailAddress}  </p>
+              <p className="bank-account-info-text">Email: {ref?.emailAddress}  </p>
              
               
           </Col>
 
             <Col md="5">
-              <p>Address Line : {ref?.addressLine}  </p>
-              <p>Institute Company : {ref?.institute_Company}  </p>
+              <p className="bank-account-info-text">Address Line : {ref?.addressLine}  </p>
+              <p className="bank-account-info-text">Institute Company : {ref?.institute_Company}  </p>
              
              
          
@@ -520,11 +520,11 @@ const onShow=()=>{
 
           <div className="CampusCardAction">
           <div className=""> 
-             <button type="button" className="btn btn-outline-info" onClick={() => handleUpdate(ref.id)}> <i className="fas fa-edit"></i> </button>
+             <Button type="button" color='primary' className="bankCard-style" onClick={() => handleUpdate(ref.id)}> <i className="fas fa-edit"></i> </Button>
           </div>
 
           <div className=""> 
-             <button type="button" className="btn btn-outline-danger" onClick={()=>toggleDanger(ref.id)} ><i className="fas fa-trash-alt"></i></button>
+             <Button type="button" color='danger' className="bankCard-style" onClick={()=>toggleDanger(ref.id)} ><i className="fas fa-trash-alt"></i></Button>
           </div>
          </div>
 

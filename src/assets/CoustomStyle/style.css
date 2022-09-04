@@ -610,6 +610,13 @@ th {
   border-radius: 8px;
 }
 
+.test-score-card-style-2{
+  height: 250px;
+  background: linear-gradient(109.83deg, #E0FAFF 2.02%, #FFFFFF 98.14%);
+  border: 1px solid #CED8DD;
+  border-radius: 8px;
+}
+
 .conscentText-style{
   font-size: 13px;
   line-height: 1.5;
@@ -673,6 +680,16 @@ th {
   font-weight: 700;
   font-size: 30px;
   line-height: 53px;
+  text-transform: uppercase;
+  color: #1E98B0;
+
+}
+
+.test-score-title-styles{
+
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 25px;
   text-transform: uppercase;
   color: #1E98B0;
 

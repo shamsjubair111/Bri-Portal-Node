@@ -367,7 +367,7 @@ const Branch = () => {
                       type="text"
                       name="telePhoneNumber"
                       id="telePhoneNumber"
-                      placeholder="Enter mobile number"
+                      placeholder="Enter telephone number"
                       required
                       defaultValue={branchInfo?.telePhoneNumber}
                     />

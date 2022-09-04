@@ -458,7 +458,7 @@ const AddUniversityApplicationDocument = () => {
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
                         <span>
-                          Is Mandatory <span className="text-danger">*</span>{" "}
+                         Mandatory <span className="text-danger">*</span>{" "}
                         </span>
                       </Col>
                       <Col md="6">

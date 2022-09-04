@@ -121,7 +121,7 @@ const AddNewIntakes = () => {
             <Card>
                 <Card className="uapp-card-bg m-3 p-2">
                     <CardHeader className="page-header">
-                        <h3 className="text-light my-auto">Add intake</h3>
+                        <h3 className="text-light my-auto">Add Intake</h3>
                         <div className="page-header-back-to-home">
                           <span onClick={backToIntakeList} className="text-light">
                             {" "}

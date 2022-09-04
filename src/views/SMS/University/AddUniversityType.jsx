@@ -23,7 +23,7 @@ import LinkSpanButton from '../Components/LinkSpanButton';
 const AddUniversityType = (props) => {
 
   const universityTypes = props.univerSityTypeList[0];
-  // console.log("uniType", universityTypes);
+  console.log("uniType", universityTypes);
   const [uniTypeId, setUniTypeId] = useState(0);
   const [universityType,setUniversityType] = useState('');
 
