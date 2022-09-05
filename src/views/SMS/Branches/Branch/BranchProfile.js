@@ -252,6 +252,8 @@ const BranchProfile = (props) => {
 
             <AssignTeam
             id ={id}
+            success={success}
+            setSuccess={setSuccess}
             >
 
             </AssignTeam>
@@ -261,9 +263,13 @@ const BranchProfile = (props) => {
           <Col md="4">
             <Manager 
             id={id}
+            success={success}
+            setSuccess={setSuccess}
             ></Manager>
         
             <Team
+            success={success}
+            setSuccess={setSuccess}
             
             />
            

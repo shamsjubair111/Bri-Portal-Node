@@ -12,11 +12,51 @@ import LinkButton from '../../Components/LinkButton';
 
 const AssignTeam = (props) => {
 
-    const {id} = props;
+ 
+
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      background: '#fff',
+      borderColor: '#9e9e9e',
+      minHeight: '30px',
+      height: '40px',
+      boxShadow: state.isFocused ? null : null,
+      
+    }),
+
+    menu: () => ({
+      
+      overflowY: 'auto'
+      
+    }),
+   
+   
+
+    // valueContainer: (provided, state) => ({
+    //   ...provided,
+    //   height: '30px',
+    //   padding: '0 6px'
+    // }),
+
+    // input: (provided, state) => ({
+    //   ...provided,
+    //   margin: '0px',
+    // }),
+    // indicatorSeparator: state => ({
+    //   display: 'none',
+    // }),
+    // indicatorsContainer: (provided, state) => ({
+    //   ...provided,
+    //   height: '30px',
+    // }),
+  };
+
+    const {id, success, setSuccess} = props;
     const history = useHistory();
     const [branchEmployee, setBranchEmployee] = useState([]);
     const [serialNum,setSerialNum] = useState(1);
-    const [success, setSuccess] = useState(false);
+  
     const [employeeModal, setEmployeeModal] = useState(false);
     const {addToast} = useToasts();
     const [menus, setMenus] = useState([]);
@@ -90,6 +130,16 @@ const AssignTeam = (props) => {
         setEmployeeModal(false);
       }
 
+
+      const gotoEmployeeProfile = (data) => {
+
+        console.log(data);
+        history.push(`/branchEmployeeProfile/${data?.id}`)
+        
+  
+      }
+
+
        // on Select Role
   const selectBranchTeamName = (label, value) => {
     setMenus([]);
@@ -135,6 +185,10 @@ const AssignTeam = (props) => {
         autoDismiss: true
       })
       setSuccess(!success);
+      setMenus([]);
+    checked = [];
+      setBranchTeamLabel('Select Team');
+      
     })
 
   }
@@ -186,14 +240,22 @@ const AssignTeam = (props) => {
     return (
         <div>
               <Card>
-              <div className="container mt-3">
-                <Button
+              <div className="container mt-3 d-flex justify-content-between">
+
+                <div>
+
+                     <span className='branch-title-style'>Branch Employee</span>
+                </div>
+
+               <div>
+               <Button
                   onClick={handleAddBranchEmployee}
                   className="btn btn-uapp-add "
                 >
                   {" "}
                   <i class="fas fa-plus"></i> Add New{" "}
                 </Button>
+               </div>
 
                 {/* <ButtonForFunction 
                 className={"btn btn-uapp-add "} /> */}
@@ -224,6 +286,10 @@ const AssignTeam = (props) => {
                           <td>{employee?.phoneNumber}</td>
                           <td>
                             <ButtonGroup variant="text">
+
+                            <Button color='primary' className='me-1 btn-sm' onClick={()=>gotoEmployeeProfile(employee)}>
+                            <i className="fas fa-eye"></i>
+                            </Button>
                               
                               <LinkButton
                               icon={ <i class="fas fa-edit"></i>}
@@ -281,7 +347,7 @@ const AssignTeam = (props) => {
 
             <Card>
                 <CardHeader>
-                    Assign Employee
+                    <p className='fw-bold'>Assign Team Employee</p>
                 </CardHeader>
 
                 <CardBody>
@@ -291,6 +357,7 @@ const AssignTeam = (props) => {
                     <FormGroup row>
                             <Col sm="6" md="4" lg="3">
                                 <Select
+                                    styles={customStyles}
                                     options={branchTeamName}
                                     value={{label: branchTeamLabel, value: branchTeamValue }}
                                     onChange={opt => selectBranchTeamName(opt.label, opt.value)}
@@ -321,7 +388,7 @@ const AssignTeam = (props) => {
                                     <Col xs="6" sm="4" md="3" key={menu.id}>
                                     <div className="form-check">
                                         <input className="form-check-input" type="checkbox" onChange={(e)=>handleCheck(e)} name="" id={menu.id} defaultChecked={menu.isChecked}  />
-                                        <label className="form-check-label" htmlFor="">{menu.firstName}{menu.lastName}</label>
+                                        <label className="form-check-label" htmlFor="">{menu.firstName}{' '}{menu.lastName}</label>
                                     </div>
                                     </Col>
                                     )

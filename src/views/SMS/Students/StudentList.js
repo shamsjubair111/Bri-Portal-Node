@@ -24,6 +24,7 @@ import {
     Nav,
     NavItem,
     NavLink,
+    FormGroup,
   } from "reactstrap";
 import Select from "react-select";
 import { useHistory, useLocation, useParams } from "react-router";
@@ -37,6 +38,7 @@ import LinkButton from '../Components/LinkButton.js';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import { userTypes } from '../../../constants/userTypeConstant.js';
+import put from '../../../helpers/put.js';
 
 const StudentList = () => {
 
@@ -80,6 +82,12 @@ const StudentList = () => {
     const location = useLocation();
     const history = useHistory();
     const { addToast } = useToasts();
+
+    const [passModal, setPassModal] = useState(false);
+    const[passData,setPassData] = useState({});
+    const [passError,setPassError] = useState('');
+    const [pass, setPass] = useState('');
+    const [cPass,setCPass] = useState('');
 
 
     
@@ -254,12 +262,66 @@ const StudentList = () => {
 
       // Delete Modal
 
+   
       const toggleDanger = (data) => {
 
         console.log(data);
   
         setDeleteModal(true)
       }
+
+      const handlePass = (data) => {
+        setPassData(data);
+        console.log(data);
+        setPassModal(true);
+      }
+
+      const verifyPass = (e) => {
+        setPassError('');
+        setCPass(e.target.value);
+      }
+
+      const confirmPassword = () => {
+
+        if(pass !== cPass){
+            setPassError('Password do not match.');
+        }
+        else{
+          setPassError('');
+        }
+      }
+
+      
+
+
+      const submitModalForm = (event) => {
+        event.preventDefault();
+
+        const subData = new FormData(event.target);
+
+        subData.append('studentId', passData?.id);
+        subData.append('password', pass);
+
+        put(`Password/Change`,subData)
+        .then(res => {
+          if(res?.status ==200){
+            addToast(res?.data?.message,{
+              appearance:'success',
+              autoDismiss: true
+            })
+            setSuccess(!success);
+            setPassData({});
+            setPassModal(false);
+          }
+        })
+
+
+
+
+        put(``)
+
+      }
+
 
 
       const handleDeleteData = (data) => {
@@ -473,9 +535,16 @@ const StudentList = () => {
                     <th>Phone</th>
                     <th>Consultant</th>
                     <th>UAPP Reg Date</th>
-                    <th>Password</th>
+                    {
+                      (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin) ?
+                      
+                      <th>Password</th>
+                      :
+                      null
+                      
+                    }
                     <th>Black List</th>
-                    <th>A/C Status</th>
+                   
                     {/* <th>Intakes</th> */}
                     <th style={{ width: "8%" }} className="text-center">
                       Action
@@ -508,28 +577,101 @@ const StudentList = () => {
                       <td>
                         {handleDate(student?.createdOn)}
                       </td>
-                      <td>
-                        <Link to="/">Change</Link>
+                     {
+                       (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin) ?
+
+                       <>
+                         <td>
+                        <Link to="/studentList" onClick={()=>handlePass(student)}>Change</Link>
+                        <Modal isOpen={passModal} toggle={() => setPassModal(!passModal)} className="uapp-modal">
+                          <ModalHeader>
+                          <div className='text-center mt-3'>
+                          <span>Change password for {passData?.firstName} {' '} {passData?.lastName} {' '} ({passData?.studentViewId}) </span>
+                          </div>
+                          </ModalHeader>
+                        <ModalBody>
+                         
+                          <form onSubmit={submitModalForm} className='mt-3'>
+                          <FormGroup row className="has-icon-left position-relative">
+                        <Col md="4">
+                          <span>
+                            Password <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="8">
+                          <Input
+                          type='password'
+                          
+                            onChange={(e)=> setPass(e.target.value)}
+
+
+                          />
+                        
+                        </Col>
+                      </FormGroup>
+
+                          <FormGroup row className="has-icon-left position-relative">
+                        <Col md="4">
+                          <span>
+                            Confirm Password <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="8">
+                          <Input
+                          type='password'
+                        
+                            onChange={verifyPass}
+                            onBlur={confirmPassword}
+
+                          />
+                          
+                          <br/>
+                          {
+                            <span className='text-danger'>{passError}</span>
+                          }
+
+                        
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup row className="has-icon-left position-relative">
+
+                        <Col md ='12'>
+                          <div className='d-flex justify-content-between'>
+                            <Button color='danger' onClick={()=> setPassModal(false)}>
+                              Cancel
+                            </Button>
+                            <Button color='primary' type='submit'>
+                              Submit
+
+                            </Button>
+                          </div>
+                        
+                        </Col>
+
+                      </FormGroup>
+
+                          </form>
+                        </ModalBody>
+        
+                        
+                     </Modal>
                       </td>
+                       </>
+                       :
+                       null
+                     }
                       <td>
                         <label className="switch">
                           <input 
                           type="checkbox" 
-                        //   checked 
+                          checked={student?.blackList == null ? false : student?.blackList == false ? false : true}
                           />
                           <span className="slider round"></span>
                         </label>
                       </td>
 
-                      <td>
-                        <label className="switch">
-                          <input 
-                          type="checkbox" 
-                          checked 
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                      </td>
+                    
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">

@@ -1186,3 +1186,23 @@ background: #06a9c9!important;
 color: #fff!important;
 }
 
+.branch-title-style{
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none; 
+  position: relative; 
+}
+
+.branch-title-style::after{
+  position: absolute;
+  content: '';
+  height: 2px;
+  bottom: -4px;
+  margin: 0 auto;
+		  left: 0;
+        right: 0;
+		  width: 100%;
+		  background: #1E98B0;
+		  
+		 
+}

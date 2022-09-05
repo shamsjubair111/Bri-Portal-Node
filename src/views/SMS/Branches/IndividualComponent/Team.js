@@ -9,9 +9,7 @@ import put from '../../../../helpers/put';
 
 const Team = (props) => {
 
-
-
-
+  const {success,setSuccess} = props;
 
 
     const [teammodalOpen, setteamModalOpen] = useState(false);
@@ -23,12 +21,13 @@ const Team = (props) => {
     const [isUpdate, setIsUpdate] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const history = useHistory();
-    const [success, setSuccess] = useState(false);
+    const [delData,setDelData] = useState({});
+    
     const branchId = localStorage.getItem("branchId");
 
     useEffect(()=>{
         get(`BranchTeamEmployee/Count/${branchId}`).then((res) => {
-            // console.log('aaaa',res);
+            console.log('aaaa',res);
             setBranchTeamEmployee(res);
           });
     },[ success, branchId])
@@ -40,7 +39,7 @@ const Team = (props) => {
       };
 
       const toggleDeleteTeam = (id) => {
-        localStorage.setItem("teamId", id);
+        setDelData(id);
         setDeleteModal(true);
       };
 
@@ -59,19 +58,17 @@ const Team = (props) => {
       };
     
       const handleDeletebranchTeam = () => {
-        const id = localStorage.getItem("teamId");
-        remove(`BranchTeam/Delete/${id}`).then((res) => {
+        
+        remove(`BranchTeam/Delete/${delData?.id}`).then((res) => {
           setSuccess(!success);
           setDeleteModal(false);
           addToast(res, {
             appearance: "error",
             autoDismiss: true,
           });
-         
+          setSuccess(!success);
         });
-         const newTeamData = branchTeam.filter((team) => team?.id != id);
-        //   console.log(newTeamData);
-          setBranchTeam(newTeamData);
+         
     
       };
 
@@ -196,7 +193,15 @@ const Team = (props) => {
         </Modal>
       </div>
             <Card>
-              <div className="container mt-3">
+              <div className="container mt-3 d-flex justify-content-between">
+
+              <div>
+                <span className='branch-title-style'>
+                  Branch Team
+                </span>
+                </div>
+                
+                <div>
                 <Button
                   onClick={functionimplement}
                   className="btn btn-uapp-add "
@@ -204,6 +209,9 @@ const Team = (props) => {
                   {" "}
                   <i class="fas fa-plus"></i> Add Team{" "}
                 </Button>
+                </div>
+
+               
               </div>
 
               {branchTeamEmployee.length > 0 && (
@@ -242,7 +250,7 @@ const Team = (props) => {
 
                              
                                 <i class="fas fa-trash-alt text-danger icon-hover-style"
-                                 onClick={() => toggleDeleteTeam(btEmployee?.id)}
+                                 onClick={() => toggleDeleteTeam(btEmployee)}
                                 ></i>
                            
                           
@@ -261,7 +269,7 @@ const Team = (props) => {
                               <ModalFooter>
                                 <Button
                                   color="danger"
-                                  onClick={() => handleDeletebranchTeam()}
+                                  onClick={handleDeletebranchTeam}
                                 >
                                   YES
                                 </Button>

@@ -148,7 +148,7 @@ setTitleValue(value);
       addToast(res?.data?.message, {
         appearance: "success",
       });
-      history.push(`/branchProfile/${id}`);
+      history.push(`/branchProfile/${branchManagerInfo?.branchId}`);
     });
   };
 

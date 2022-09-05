@@ -332,6 +332,9 @@ const ConsultantConscent = lazy(() => import("./views/SMS/Consultant/ConsultantC
 // Student Declaration
 const StudentDeclaration = lazy(() => import("./views/SMS/Students/StudentDeclaration"));
 
+// Branch Employee Profile Page
+const BranchEmployeeProfile = lazy(() => import("./views/SMS/Branches/Employee/EmployeeProfile"));
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -592,6 +595,9 @@ class AppRouter extends React.Component {
 
           {/* Student Declaration Path */}
           <AppRoute  path="/studentDeclaration" component={StudentDeclaration} />
+
+          {/* Branch Employee Profile path */}
+          <AppRoute  path="/branchEmployeeProfile/:id" component={BranchEmployeeProfile} />
        
          <AppRoute  path="/search" component={Search} />
 

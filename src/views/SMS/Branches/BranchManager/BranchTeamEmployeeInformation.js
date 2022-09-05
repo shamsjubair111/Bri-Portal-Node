@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Form, FormGroup, Row, Table } from 'reactstrap';
+import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Form, FormGroup, Modal, ModalBody, ModalFooter, Row, Table } from 'reactstrap';
 import get from '../../../../helpers/get';
 import Select from "react-select";
 import post from '../../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
 import { fontGrid } from '@mui/material/styles/cssUtils';
+import remove from '../../../../helpers/remove';
 
 const BranchTeamEmployeeInformation = () => {
     const history = useHistory();
@@ -18,6 +19,9 @@ const BranchTeamEmployeeInformation = () => {
     const [branchTeamValue, setBranchTeamValue] = useState();
     const [branchTeam, setBranchTeam] = useState([]);
     const {addToast} = useToasts();
+    const [deleteModal,setDeleteModal] = useState(false);
+    const [delData, setDelData] = useState({});
+    const [success, setSuccess] = useState(false);
    
     
 
@@ -26,7 +30,7 @@ const BranchTeamEmployeeInformation = () => {
     useEffect(()=> {
       get(`BranchTeamEmployee/GetEmployee/${teamId}`)
       .then(res => {
-        // console.log(res);
+        console.log(res,'test');
         setTeamDetails(res)
       })
 
@@ -40,9 +44,17 @@ const BranchTeamEmployeeInformation = () => {
         console.log("BranchTeam",action);
       })
 
-    },[])
+    },[success])
     const backToBranchList = () => {
         history.push('/branchList');
+
+    }
+
+    const gotoEmployeeProfile = (data) => {
+
+      console.log(data);
+      history.push(`/branchEmployeeProfile/${data?.id}`)
+      
 
     }
 
@@ -85,6 +97,33 @@ const BranchTeamEmployeeInformation = () => {
           }
         }
       };
+
+      const closeDeleteModal = () => {
+        setDeleteModal(false);
+      }
+
+      const toggleDanger = (data) => {
+
+        setDelData(data);
+        console.log(data);
+        setDeleteModal(true);
+      }
+
+      const handleDeleteEmployee = () => {
+
+        remove(`BranchTeamEmployee/Delete/${delData?.teamEmployeeId}`)
+        .then(res => {
+          addToast(res,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+        })
+        
+        setDeleteModal(false);
+        setDelData({});
+        history.push(`/branchProfile/${branchId}`);
+         
+      }
 
 
   const handleConfirm = (e) => {
@@ -177,6 +216,7 @@ const BranchTeamEmployeeInformation = () => {
             <th>Last Name</th>                    
             <th>Email</th>                    
             <th>Phone Number</th>                    
+            <th>Action</th>                    
                            
           
          
@@ -193,6 +233,26 @@ const BranchTeamEmployeeInformation = () => {
             <td>{details?.lastName}</td>
             <td>{details?.email}</td>
             <td>{details?.phoneNumber}</td>
+            <td>
+              <Button color='primary' className='me-1' onClick={()=>gotoEmployeeProfile(details)}>
+              <i className="fas fa-eye"></i>
+              </Button>
+              <Button color='danger' className='ms-1' onClick={()=>toggleDanger(details)}>
+              Remove
+              </Button>
+              <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal2">
+    
+              <ModalBody>
+                <p>Are You Sure to Remove this Employee from the Team ?</p>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button color="danger"   onClick={handleDeleteEmployee}>YES</Button>
+                <Button onClick={closeDeleteModal}>NO</Button>
+              </ModalFooter>
+
+            </Modal>
+            </td>
            
           
           

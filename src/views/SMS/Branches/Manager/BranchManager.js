@@ -219,6 +219,7 @@ const selectTitle = (label, value) => {
 
    else if(backwardBranchManager){
       Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
+        console.log(res,'manager updated');
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;
@@ -240,7 +241,7 @@ const selectTitle = (label, value) => {
           // console.log(res);
           
          
-          history.push('/branchList');
+          history.push(`/branchProfile/${branchId}`);
         }
   
   
@@ -252,6 +253,7 @@ const selectTitle = (label, value) => {
 
     else{
       Axios.post(`${rootUrl}BranchManager/Create`, subdata, config).then((res) => {
+        console.log(res,'manager created');
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;

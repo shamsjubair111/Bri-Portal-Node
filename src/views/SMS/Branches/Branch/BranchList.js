@@ -34,6 +34,8 @@ const BranchList = () => {
   const [loading, setLoading] = useState(false);
   const [serialNum, setSerialNum] = useState(1);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [delData, setDelData] = useState(null);
+  const [success,setSuccess] = useState(false);
 
   const history = useHistory();
   const backToDashboard = () => {
@@ -44,9 +46,10 @@ const BranchList = () => {
 
   useEffect(() => {
     get(`Branch/Index`).then((res) => {
+      console.log(res,'arraydata');
       setBranchList(res);
     });
-  }, []);
+  }, [success]);
 
   const handleLocalStorage = () => {
     localStorage.removeItem("branchId");
@@ -60,23 +63,23 @@ const BranchList = () => {
                     });
   }
 
-  const handleDeletebranch = (id) => {
-    remove(`Branch/Delete/${id}`).then((res) => {
+  const handleDeletebranch = () => {
+    remove(`Branch/Delete/${delData}`).then((res) => {
       // console.log("respomse 39", res);
       addToast(res, {
         appearance:  "error",
-        // autoDismiss: true,
+        autoDismiss: true,
       });
       setDeleteModal(false);
-      const newData = branchList.filter(data => data.id !== id);
-      setBranchList(newData);
+      
+      setSuccess(!success);
      
     });
   };
 
-  const toggleDanger = (name,id) => {
+  const toggleDanger = (id) => {
         
-       
+       setDelData(id);
     setDeleteModal(true)
    }
 
@@ -258,7 +261,7 @@ const componentRef = useRef();
 
                           <ButtonForFunction 
                             color={"danger"}
-                            func={toggleDanger}
+                            func={()=>toggleDanger(singleBranch?.id)}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-trash-alt"></i>}
                             permission={6}
@@ -271,7 +274,7 @@ const componentRef = useRef();
                           </ModalBody>
     
                           <ModalFooter>
-                            <Button color="danger"   onClick={() => handleDeletebranch(singleBranch?.id)}>YES</Button>
+                            <Button color="danger"   onClick={handleDeletebranch}>YES</Button>
                             <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
     

@@ -78,7 +78,7 @@ const EmployeeProfile = () => {
       <div className="uapp-employee-profile">
         <Row>
 
-          <Col md="8">
+          <Col md="12">
             <div className="uapp-employee-profile-left">
             <Card>
               <CardBody>
@@ -310,98 +310,6 @@ const EmployeeProfile = () => {
       </div>
     </Col>
 
-          <Col md="4"> 
-           <Card className="uapp-employee-profile-right">
-             <div className="uapp-profile-CardHeader">
-                <div className="uapp-circle-image margin-top-minus">
-                  <img src={profileImage} alt=''/>
-                </div>    
-                
-                <h5> Md.Jamal Uddin</h5>
-                 <p> Admission Manager </p>  
-            </div>
-              <CardBody>
-
-                 <div>
-                 <ul className="uapp-ul text-center">
-                     <li> admissionmanager.london@uapp.uk </li>
-                     <li> +880184000000000 </li>
-                     <li> 80-82 Nelson st, Whitechapel, E12DY, london United Kingdom </li>
-                   </ul>
-                 </div>
-
-            </CardBody>
-        </Card>
-
-            <Card className="p-3">
-
-                <h6> Notice</h6>
-                <span className="bg-wg bg-width"></span>
-           
-            
-                  <div className="notice-item card-widget mt-3 ">
-                    <div className="notice-titel">
-                      <h6> Super Admin</h6>
-                      <span> 10/12/2021</span>
-                      </div>
-                       <div className="notice-description"> 
-                           <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                           <div className="uapp-read-more-btn">
-                            <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                          </div>
-                      </div>
-                  </div>
-
-
-                  <div className="notice-item card-widget mt-3 ">
-                    <div className="notice-titel">
-                      <h6> Super Admin</h6>
-                      <span> 10/12/2021</span>
-                      </div>
-                       <div className="notice-description"> 
-                           <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                           <div className="uapp-read-more-btn">
-                            <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                          </div>
-                      </div>
-                  </div>
-
-
-
-                  <div className="notice-item card-widget mt-3 ">
-                    <div className="notice-titel">
-                      <h6> Super Admin</h6>
-                      <span> 10/12/2021</span>
-                      </div>
-                       <div className="notice-description"> 
-                          
-                           <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                           <div className="uapp-read-more-btn">
-                            <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                          </div>
-                      </div>
-                  </div>
-
-
-                  <div className="notice-item card-widget mt-3 ">
-                    <div className="notice-titel">
-                      <h6> Super Admin</h6>
-                      <span> 10/12/2021</span>
-                      </div>
-                       <div className="notice-description"> 
-                           <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                          <div className="uapp-read-more-btn">
-                            <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                          </div>
-                         
-                      </div>
-                  </div>
-      
-            </Card>
-
-        
-
-          </Col>
         </Row>
       </div>
 

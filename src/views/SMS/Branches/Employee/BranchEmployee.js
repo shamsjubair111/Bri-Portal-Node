@@ -79,7 +79,7 @@ const Branch = () => {
         setEmpty(true);
       })
 
-      get(`EmployeeTypeDD/Index`)
+      get(`EmployeeTypeDD/ForBranch`)
       .then(res => {
         setEmp(res);
       })
@@ -99,11 +99,13 @@ const Branch = () => {
 
        get(`BranchEmployee/Get/${id}`)
        .then(res => {
-         console.log("branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee branchEmployee",res);
+         console.log("branch employee",res);
          setEmployeeInfo(res);
          setNationalityLabel(res?.nationality?.name);
          setNationalityValue(res?.nationality?.id);
          setBranchLabel(res?.branch?.name);
+         setEmpLabel(res?.employeType?.name);
+         setEmpValue(res?.employeType?.id);
          setCheck(false);
        })
        
