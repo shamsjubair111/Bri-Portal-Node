@@ -93,6 +93,11 @@ const AddProviderUniversity = () => {
 
   const [submitData, setSubmitData] = useState(false);
 
+  const { addToast } = useToasts();
+  const location = useLocation();
+
+  const [providerProId, setProviderProId] = useState(location?.providerProfileId);
+
   const AuthStr = localStorage.getItem("token");
 
   const [logoFile, setLogoFile] = useState({});
@@ -103,10 +108,8 @@ const AddProviderUniversity = () => {
 
   const method = localStorage.getItem("editMethod");
 
-  const { addToast } = useToasts();
-  const location = useLocation();
-
   console.log("proProfileId", location?.providerProfileId);
+  console.log("proProfileId", localStorage.getItem("proProfileId"));
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -488,8 +491,9 @@ const AddProviderUniversity = () => {
   }));
 
   // redirect to dashboard
-  const backToUniList = () => {
-    history.push("/universityList");
+  const backToProviderDetails = () => {
+    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
+    localStorage.removeItem("proProfileId");
   };
     return (
         <div>
@@ -497,10 +501,9 @@ const AddProviderUniversity = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">University Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University
-              List
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
           </div>
         </CardHeader>

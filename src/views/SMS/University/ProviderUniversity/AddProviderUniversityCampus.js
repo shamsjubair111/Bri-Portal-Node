@@ -243,8 +243,9 @@ const AddProviderUniversityCampus = (props) => {
       // fontWeight: "bold"
     };
     // redirect to dashboard
-    const backToUniList = () => {
-      history.push("/universityList");
+    const backToProviderDetails = () => {
+      history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
+      localStorage.removeItem("proProfileId");
     };
   
     // redirect to Next Page
@@ -322,9 +323,9 @@ const AddProviderUniversityCampus = (props) => {
         <CardHeader className="page-header">
           <h3 className="text-light">University Campus Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University List
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
           </div>
         </CardHeader>

@@ -260,6 +260,9 @@ const updateProviderAdmin  = () => {
 
   const handleAddUniversity = e =>{
     e.preventDefault();
+    localStorage.removeItem("proProfileId");
+    localStorage.removeItem("id");
+    localStorage.setItem("proProfileId", id);
     history.push({
       pathname: '/addProviderUniversity',
       providerProfileId: id 

@@ -196,8 +196,9 @@ const AddProviderUniversityFeatures = () => {
   };
 
   // redirect to dashboard
-  const backToUniList = () => {
-    history.push("/universityList");
+  const backToProviderDetails = () => {
+    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
+    localStorage.removeItem("proProfileId");
   };
     return (
         <div>
@@ -205,9 +206,9 @@ const AddProviderUniversityFeatures = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">University Features Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University List
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
           </div>
         </CardHeader>

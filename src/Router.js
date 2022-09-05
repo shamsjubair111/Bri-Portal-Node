@@ -98,6 +98,7 @@ const AddProviderUniversityFinancial = lazy(() => import("./views/SMS/University
 const AddProviderUniversityFeatures = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityFeatures"))
 const AddProviderUniversityGallery = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityGallery"))
 const AddProviderUniversityApplicationDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityApplicationDocument"))
+const AddProviderUniversityTemplateDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTemplateDocument"))
 
 const AddUniversityCampus = lazy(() => import("./views/SMS/University/AddUniversityCampus.jsx"))
 const EditDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditDepartment"))
@@ -423,6 +424,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addUniversityApplicationDocument" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddUniversityApplicationDocument: NotAuthorized} />
          <AppRoute  path="/addProviderUniversityApplicationDocument" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddProviderUniversityApplicationDocument: NotAuthorized} />
          <AppRoute  path="/addUniversityTemplateDocument" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddUniversityTemplateDocument : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityTemplateDocument" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddProviderUniversityTemplateDocument : NotAuthorized} />
          {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
           {/* intake */}

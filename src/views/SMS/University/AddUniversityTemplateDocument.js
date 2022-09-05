@@ -758,7 +758,7 @@ const AddUniversityTemplateDocument = () => {
                 <ButtonForFunction
                   func={onGoUniList}
                   color={"primary uapp-form-button"}
-                  name={"University list"}
+                  name={"Go to University List"}
                   permission={6}
                 />
 
@@ -766,7 +766,7 @@ const AddUniversityTemplateDocument = () => {
                   func={onGoUniProfile}
                   color={"primary uapp-form-button"}
                   className={"ms-lg-2 ms-sm-2"}
-                  name={"University Profile"}
+                  name={"Go to University Profile"}
                   permission={6}
                 />
               </FormGroup>
