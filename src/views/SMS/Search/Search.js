@@ -24,17 +24,6 @@ const Search = () => {
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
 
-    const  activeStyle= {color: '#2154AC !important',
-    backgroundColor: 'white !important',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-    paddingLeft: '9px',
-    paddingRight: '9px',
-    cursor: 'pointer',
-    borderRadius: '50px',
-    fontSize: '12px',
-    border: '2px solid #2154AC !important'}
-    
     const [activetab, setActivetab] = useState("1");
     const [studentLabel, setStudentLabel] = useState('Select Student');
     const [studentValue, setStudentValue] = useState(0);
@@ -140,19 +129,28 @@ const Search = () => {
     const [studentDataLabel,setStudentDataLabel] = useState('Select Student');
     const [studentDataValue, setStudentDataValue] = useState(0);
 
+    const [modalCampus,setModalCampus] = useState([]);
+
+    
+    
+    const [primaryCampus,setPrimaryCampus] = useState({});
+   
+
+   
+
     
 
     const [message, setMessage] = useState('');
 
     const {addToast} = useToasts()
 
-    // console.log(checkActiveTab);
+   
 
     useEffect(()=>{
 
       get(`SearchFilter/Students`)
       .then(res => {
-        console.log('object',res);
+      
         setStudentData(res);
       })
 
@@ -166,6 +164,7 @@ const Search = () => {
       .then(res => {
        
         setCampus(res);
+        // setModalCampus(res);
       })
 
       get(`SearchFilter/Universities/${universityCountryValue}/${universityTypeValue}/${cityValue}`)
@@ -233,7 +232,9 @@ const Search = () => {
 
      
 
-    },[success])
+    },[success, modalCampus, modalIntake, modalDeliveryPattern])
+
+   
 
     useEffect(()=>{
       const  programLevelName = 
@@ -283,10 +284,10 @@ const Search = () => {
     }
 
     const addToWishList = (data) => {
-      console.log(data,'wishllist data');
+     
        get(`wishlist/add/${studentDataValue}/${data?.subjectId}`)
        .then(res => {
-        console.log(res);
+        
         if(res == null){
           addToast('Subject already exists in wishlist',{
             appearance: 'error',
@@ -398,9 +399,10 @@ const Search = () => {
 
 
 
-  const modalCampusOptions = campus?.map((data) => ({
-    label: data?.name,
-    value: data?.id
+
+  const modalCampusOptions = modalCampus?.map((data) => ({
+    label: data?.campusName,
+    value: data?.campusId
   }));
 
   const selectModalCampus = (label,value) => {
@@ -411,9 +413,10 @@ const Search = () => {
 
   }
 
-  const modalIntakeOptions = intake?.map((data) => ({
-    label: data?.name,
-    value: data?.id
+
+  const modalIntakeOptions = modalIntake?.map((data) => ({
+    label: data?.intakeName,
+    value: data?.intakeId
   }));
 
   const selectModalIntake = (label,value) => {
@@ -424,9 +427,10 @@ const Search = () => {
 
   }
 
-  const modalDeliveryOptions = pattern?.map((data) => ({
-    label: data?.name,
-    value: data?.id
+
+  const modalDeliveryOptions = modalDeliveryPattern?.map((data) => ({
+    label: data?.deliveryPatternName,
+    value: data?.deliveryPatternId
   }));
 
   const selectModalDelivery = (label,value) => {
@@ -436,6 +440,8 @@ const Search = () => {
     setModalDeliveryPatternValue(value);
 
   }
+
+
 
 
     const customStyles = {
@@ -513,6 +519,8 @@ const Search = () => {
       setLoading(true);
       setUniversityLabel(label);
       setUniversityValue(value);
+      setCampusLabel('Select Campus');
+      setCampusValue(0);
       get(`SearchFilter/Campus/${value}`)
       .then(res => {
        
@@ -543,6 +551,9 @@ const Search = () => {
      
 
     }
+
+
+
     const selectUniversityType = (label,value) => {
       setLoading(true);
       setUniversityTypeLabel(label);
@@ -590,7 +601,7 @@ const Search = () => {
 
      const selectOrder = (label, value) => {
       setLoading(true);
-      // console.log("value", label, value);
+      
     
       setDataSizeLabel(label);
       setDataSizeValue(value);
@@ -600,11 +611,20 @@ const Search = () => {
     const toggleModal = (data) => {
 
       
-      console.log(data);
+      setModalCampus(data?.campuses);
+      setModalIntake(data?.intakes);
+      setModalDeliveryPattern(data?.deliveryPatterns);
       setCurrentData(data);
+      setPrimaryCampus(data?.campuses.find(s=> s.campusId == campusValue));
+   
       setModal(true);
   
      }
+
+     console.log(primaryCampus?.id,'xxxasasas');
+  
+
+     
 
     const selectSort = (label,value) => {
       setLoading(true);
@@ -657,7 +677,10 @@ const Search = () => {
       setSubValue(0);
       setPatternLabel('Select Delivery Pattern');
       setPatternValue(0);
-      setProgramName('')
+      setProgramName('');
+      setStudentDataLabel('Select Student');
+      setStudentDataValue(0);
+      
 
       setSuccess(!success);
 
@@ -691,7 +714,7 @@ const Search = () => {
   
         post(`Apply/Submit`,subData)
         .then(res => {
-          console.log('checking add response', res);
+          
           if(res?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -782,7 +805,21 @@ const Search = () => {
         :
 
         <>
-        <Select
+      {
+       ! (campusValue == 0) ?
+        <>
+          <span>{primaryCampus?.campusName}</span>
+
+          <input
+          type='hidden'
+          name='providerTypeId'
+          id='providerTypeId'
+          />
+
+        </>
+        :
+        <>
+          <Select
         className=''
         styles={customStyles2}
         options={modalCampusOptions}
@@ -798,6 +835,8 @@ const Search = () => {
           :
           null
         }
+        </>
+      }
         </>
 
         }
@@ -1021,7 +1060,7 @@ null
   placeholder='Program Name'
   style={{border: '1px solidrgba(0,0,0,.125)'}}
   onChange={handleProgramName}
-  defaultValue={programName}
+  value={programName}
   />
 
 
@@ -1091,6 +1130,7 @@ value={{ label: universityTypeLabel, value: universityTypeValue }}
      name="providerTypeId"
      id="providerTypeId"
      onChange={(opt) => selectUniversity(opt.label, opt.value)}
+     
     
      />
 
@@ -1104,6 +1144,7 @@ value={{ label: universityTypeLabel, value: universityTypeValue }}
      name="providerTypeId"
      id="providerTypeId"
      onChange={(opt) => selectCampus(opt.label, opt.value)}
+     isDisabled={universityValue == 0 ? true : false}
     
     
      />
@@ -1541,9 +1582,9 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
         
                  {
         
-                  subjectInfo?.intakes?.map((int) =>
+                  subjectInfo?.intakes?.map((int,i) =>
                   
-                  <li>
+                  <li key={i}>
                   {int?.intakeName}
                   </li>
                   
