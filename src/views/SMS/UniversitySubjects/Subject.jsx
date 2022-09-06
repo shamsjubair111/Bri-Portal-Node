@@ -463,7 +463,7 @@ const Subject = () => {
                       type='textarea'
                       rows='4'
                       defaultValue={description}
-                      placeholder='Enter description'
+                      placeholder='Enter Description'
                       required
                     //   options={universityTypeName}
                     //   value={{ label: uniTypeLabel, value: uniTypeValue }}
@@ -486,7 +486,7 @@ const Subject = () => {
                       name="duration"
                       id="duration"
                       defaultValue={duration}
-                      placeholder="Enter duration"
+                      placeholder="Enter Duration"
                       required
                     />
                   </Col>

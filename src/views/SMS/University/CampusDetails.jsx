@@ -602,6 +602,10 @@ const CampusDetails = () => {
     }
   };
 
+  const handleMultipleSubjects = () => {
+    history.push(`/assignMultipleSubject/${id}`);
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -921,7 +925,7 @@ const CampusDetails = () => {
             <div className=" info-item mt-4">
               <Card>
                 <CardBody>
-                  <div className="hedding-titel d-flex justify-content-between">
+                  <div className="hedding-titel d-flex justify-content-between mb-2">
                     <div>
                       <h5>
                         {" "}
@@ -936,7 +940,11 @@ const CampusDetails = () => {
                     </div> */}
                   </div>
 
-                  <div className="table-responsive pt-3">
+                  {
+                    subjectList.length < 1 ?
+                    <span>There is no data available.</span>
+                    :
+                    <div className="table-responsive pt-3">
                     <Table className="table-sm striped">
                       <thead className="">
                         <tr style={{ textAlign: "center" }}>
@@ -1215,6 +1223,7 @@ const CampusDetails = () => {
                       </tbody>
                     </Table>
                   </div>
+                  }
                 </CardBody>
               </Card>
             </div>
@@ -1228,7 +1237,7 @@ const CampusDetails = () => {
                     <div>
                       <h5>
                         {" "}
-                        <b>Assign single subject</b>{" "}
+                        <b>Assign Subject</b>{" "}
                       </h5>
 
                       <div className="bg-h"></div>
@@ -1417,23 +1426,52 @@ const CampusDetails = () => {
                     </FormGroup>
 
                     <FormGroup
+                      row
                       className="has-icon-left position-relative"
                       style={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        justifyContent: "end",
                       }}
                     >
+                      <Col md="6">
                       <Button.Ripple
                         type="submit"
-                        className="mr-1 mt-3 badge-primary"
+                        className="ms-md-4 ms-sm-0 mt-3 badge-primary"
                       >
                         Submit
                       </Button.Ripple>
+                      </Col>
                     </FormGroup>
                   </Form>
                 </CardBody>
               </Card>
             </div>
+
+            {/* assign multiple subjects starts here */}
+            <div className=" info-item mt-4">
+              <Card className="uapp-employee-search">
+                <CardBody className="search-card-body">
+                  <div className="d-flex justify-content-between">
+                  <div className="hedding-titel d-flex justify-content-between mb-2">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Assign Multiple Subjects</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                    
+                  </div>
+
+                  <div>
+                  <Button onClick={handleMultipleSubjects} color="primary">Assign Subjects</Button>
+                  </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+            {/* assign multiple subjects ends here */}
 
             
 

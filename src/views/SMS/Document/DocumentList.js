@@ -244,7 +244,7 @@ const DocumentList = () => {
             <Modal
               isOpen={modalOpen}
               toggle={closeModal}
-              className="uapp-modal"
+              className="uapp-modal2"
             >
               <ModalHeader>Add Document</ModalHeader>
               <ModalBody>
@@ -285,7 +285,7 @@ const DocumentList = () => {
             <FormGroup row className="has-icon-left position-relative">
               <Col md="4">
                 <span>
-                  Is Vary For Application <span className="text-danger">*</span>{" "}
+                  Is Applicable <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="8">

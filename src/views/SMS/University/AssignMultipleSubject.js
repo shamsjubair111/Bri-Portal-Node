@@ -67,7 +67,7 @@ const AssignMultipleSubject = () => {
   const handleAssignSubjects = (e, sub) => {
     e.preventDefault();
     const subData = {
-      campusId: id,
+      campusId: sub?.campusId,
       subjectId: sub?.subjectId,
       isAcceptHome: homeAccept,
       isAcceptEU_UK: ukAccept,
@@ -171,7 +171,7 @@ const AssignMultipleSubject = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Subject to Campus</h3>
+          <h3 className="text-light">Assign Subject to Campus</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
@@ -292,10 +292,12 @@ const AssignMultipleSubject = () => {
                         name={sub?.subjectName}
                         // disabled={sub?.isChecked ? false : true}
                         onChange={(e) => {
+                          setHomeAccept(false);
                           setHomeAccept(!homeAccept);
                           // setHomeAccept(e.target.checked);
                           setSubId(sub?.subjectId);
                           setSubName(sub?.subjectName);
+                          localStorage.setItem("subjectIdCheck", sub?.subjectName);
                         }}
                         defaultChecked={sub?.isAcceptHome}
                       />
@@ -312,10 +314,12 @@ const AssignMultipleSubject = () => {
                         name={sub?.subjectName}
                         // disabled={sub?.isChecked ? false : true}
                         onChange={(e) => {
+                          setUkAccept(false);
                           setUkAccept(!ukAccept);
                           // setUkAccept(e.target.checked);
                           setSubId(sub?.subjectId);
                           setSubName(sub?.subjectName);
+                          localStorage.setItem("subjectIdCheck", sub?.subjectName);
                         }}
                         defaultChecked={sub?.isAcceptEU_UK}
                       />
@@ -334,10 +338,12 @@ const AssignMultipleSubject = () => {
                         name={sub?.subjectName}
                         // disabled={sub?.isChecked ? false : true}
                         onChange={(e) => {
+                          setIntAccept(false);
                           setIntAccept(!intAccept);
                           // setIntAccept(e.target.checked);
                           setSubId(sub?.subjectId);
                           setSubName(sub?.subjectName);
+                          localStorage.setItem("subjectIdCheck", sub?.subjectName);
                         }}
                         defaultChecked={sub?.isAcceptInternational}
                       />
@@ -353,9 +359,20 @@ const AssignMultipleSubject = () => {
                           Remove
                         </Button>
                       ) : (
-                        <Button onClick={(e)=>handleAssignSubjects(e, sub)} type="submit" color="primary">
+                        // <>
+                        // {
+                        //   !(homeAccept  || ukAccept  || intAccept) && sub?.subjectId !== localStorage.getItem("subjectIdCheck") ?
+                          
+                          <Button id={sub?.subjectId} onClick={(e)=>handleAssignSubjects(e, sub)} color="primary">
                           Add
                         </Button>
+                        // :
+                        // <Button id={`button${i}`} onClick={(e)=>handleAssignSubjects(e, sub)} color="primary">
+                        //   Add
+                        // </Button>
+                          
+                        // }
+                        // </>
                       )}
                     </FormGroup>
                   </Col>

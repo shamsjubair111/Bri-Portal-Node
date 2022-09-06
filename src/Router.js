@@ -253,6 +253,7 @@ const Country = lazy(() => import("./views/core/country/pages/index"))
 const ProviderList = lazy(() => import("./views/SMS/Provider/ProviderList"))
 const ProviderAdminList = lazy(() => import("./views/SMS/Provider/Admin/ProviderAdminList"))
 const ProviderDetails = lazy(() => import("./views/SMS/Provider/ProviderDetails"))
+const AssignUniversity = lazy(() => import("./views/SMS/Provider/AssignUniversity"))
 const UpdateProvider = lazy(() => import("./views/SMS/Provider/UpdateProvider"))
 const Branch = lazy(() => import("./views/SMS/Branches/Branch/Branch"))
 const BranchManager = lazy(() => import("./views/SMS/Branches//Manager/BranchManager"))
@@ -540,6 +541,7 @@ class AppRouter extends React.Component {
 
 
          <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider)? ProviderDetails : NotAuthorized} />
+         <AppRoute  path="/assignUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Assign_University)? AssignUniversity : NotAuthorized} />
          <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider)? UpdateProvider : NotAuthorized} />
          <AppRoute  path="/branchInformation" component={permissions?.includes(permissionList?.Add_Branch)? Branch : NotAuthorized} />
          <AppRoute  path="/addBranchManager" component={permissions?.includes(permissionList?.Add_Branch_Manager)? BranchManager : NotAuthorized} />
