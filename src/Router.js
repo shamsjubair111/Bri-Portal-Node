@@ -320,6 +320,8 @@ const ComissionGroup = lazy(() => import("./views/SMS/Comission/ComissionGroup")
 
 const ComissionGroupRangeList = lazy(() => import("./views/SMS/Comission/ComissionGroupRangeList"))
 
+const CommissionPriceList = lazy(() => import("./views/SMS/Comission/CommissionPriceList"))
+
 
 // practice
 
@@ -586,8 +588,9 @@ class AppRouter extends React.Component {
          {/* Comission paths */}
 
         <AppRoute  path="/accountIntakeList" component={permissions?.includes(permissionList?.AccountIntake_List)? AccountIntake : NotAuthorized} />
-        <AppRoute  path="/comissionGroupList" component={ComissionGroup} />
+        <AppRoute  path="/commissionGroupList" component={ComissionGroup} />
         <AppRoute  path="/groupRangeList" component={ComissionGroupRangeList} />
+        <AppRoute  path="/commissionPriceList/:id" component={CommissionPriceList} />
 
         {/* Consultant Conscent Path */}
 

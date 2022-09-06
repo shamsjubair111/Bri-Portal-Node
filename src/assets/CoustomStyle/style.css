@@ -1206,3 +1206,24 @@ color: #fff!important;
 		  
 		 
 }
+
+.branch-title-style2{
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none; 
+  position: relative; 
+}
+
+.branch-title-style2::after{
+  position: absolute;
+  content: '';
+  height: 2px;
+  bottom: -4px;
+ 
+		  left: 0;
+        right: 0;
+		  width: 50%;
+		  background: #1E98B0;
+		  
+		 
+}

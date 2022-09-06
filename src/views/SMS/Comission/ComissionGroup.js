@@ -133,6 +133,7 @@ const ComissionGroup = () => {
                           name="name"
                             id="name"
                             defaultValue={data?.name}
+                            required
                            
                           />
                         
@@ -207,7 +208,7 @@ const ComissionGroup = () => {
                         {comm?.name}
                       </td>
                       <td>
-                        <Link to='/'>
+                        <Link to={`/commissionPriceList/${comm?.id}`}>
                           <Button color='primary'>View</Button>
                         </Link>
                       </td>
