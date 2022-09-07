@@ -621,7 +621,7 @@ const Search = () => {
   
      }
 
-     console.log(primaryCampus?.id,'xxxasasas');
+     console.log(primaryCampus,'xxxasasas');
   
 
      
@@ -692,44 +692,45 @@ const Search = () => {
       event.preventDefault();
       // const subData = new FormData(event.target);
 
-      if(modalCampusValue ==0){
-        setCampusError(true);
-      }
-      else if(modalIntakeValue==0){
-        setIntakeError(true);
-      }
-     else if(modalDeliveryPatternValue ==0){
-        setDeliveryError(true);
-      }
-      else{
-
-        const subData = {
-          studentId: studentDataValue,
-          universitySubjectId: currentData?.subjectId,
-          inakeId: modalIntakeValue,
-          deliveryPatternId: modalDeliveryPatternValue,
-          campusId: modalCampusValue,
-          additionalMessage: message
-        }
-  
-        post(`Apply/Submit`,subData)
-        .then(res => {
-          
-          if(res?.isSuccess == true){
-            addToast(res?.data?.message,{
-              appearance: 'success',
-              autoDismiss: true
-            })
-            history.push(`/applicationDetails/${res?.data?.result?.id}/${studentValue}`);
+        if(primaryCampus?.campusId){
+         
+        if(modalIntakeValue==0){
+            setIntakeError(true);
+          }
+         else if(modalDeliveryPatternValue ==0){
+            setDeliveryError(true);
           }
           else{
-            addToast(res?.data?.message,{
-              appearance: 'error',
-              autoDismiss: true
+    
+            const subData = {
+              studentId: studentDataValue,
+              universitySubjectId: currentData?.subjectId,
+              inakeId: modalIntakeValue,
+              deliveryPatternId: modalDeliveryPatternValue,
+              campusId:  primaryCampus?.campusId,
+              additionalMessage: message
+            }
+      
+            post(`Apply/Submit`,subData)
+            .then(res => {
+              
+              if(res?.isSuccess == true){
+                addToast(res?.data?.message,{
+                  appearance: 'success',
+                  autoDismiss: true
+                })
+                history.push(`/applicationDetails/${res?.data?.result?.id}/${studentValue}`);
+              }
+              else{
+                addToast(res?.data?.message,{
+                  appearance: 'error',
+                  autoDismiss: true
+                })
+    
+              }
             })
 
-          }
-        })
+        }
         setModalCampusLabel('Select Campus');
 
         setModalCampusValue(0);
@@ -742,11 +743,57 @@ const Search = () => {
 
       }
 
+      else{
+        
+        if(modalCampusValue ==0){
+          setCampusError(true);
+        }
+        else if(modalIntakeValue==0){
+          setIntakeError(true);
+        }
+       else if(modalDeliveryPatternValue ==0){
+          setDeliveryError(true);
+        }
+        else{
+  
+          const subData = {
+            studentId: studentDataValue,
+            universitySubjectId: currentData?.subjectId,
+            inakeId: modalIntakeValue,
+            deliveryPatternId: modalDeliveryPatternValue,
+            campusId: modalCampusValue,
+            additionalMessage: message
+          }
+    
+          post(`Apply/Submit`,subData)
+          .then(res => {
+            
+            if(res?.isSuccess == true){
+              addToast(res?.data?.message,{
+                appearance: 'success',
+                autoDismiss: true
+              })
+              history.push(`/applicationDetails/${res?.data?.result?.id}/${studentValue}`);
+            }
+            else{
+              addToast(res?.data?.message,{
+                appearance: 'error',
+                autoDismiss: true
+              })
+  
+            }
+          })
+        
+        
+      }
+
       
       
 
 
     }
+
+  }
 
 
 
@@ -1001,19 +1048,6 @@ null
           </ModalBody>
 
    
-        
-
-      
-
-        
-          
-           
-          
-        
-          
-           
-    
-       
 
           </Modal>
 
