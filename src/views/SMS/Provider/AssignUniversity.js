@@ -31,6 +31,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
 import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
+import put from "../../../helpers/put";
 
 const AssignUniversity = () => {
   const [loading, setLoading] = useState(false);
@@ -50,10 +51,11 @@ const AssignUniversity = () => {
 
   const [deleteModal, setDeleteModal] = useState(false);
 
+  const [selectedId, setSelectedId] = useState(0);
+
   const { providerId, managerId } = useParams();
   const history = useHistory();
   const { addToast } = useToasts();
-  console.log(providerId, managerId);
 
   const componentRef = useRef();
 
@@ -118,6 +120,7 @@ const AssignUniversity = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const subData = {
       admissionManagerId: managerId,
       universityId: uniValue,
@@ -125,10 +128,19 @@ const AssignUniversity = () => {
       isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
       isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
     };
-    if (uniValue === 0) {
-      setUniError(true);
-    } else {
-      post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
+
+    const subData1 = {
+      id: selectedId,
+      admissionManagerId: managerId,
+      universityId: uniValue,
+      isAcceptHome: radioIsAcceptHome == "true" ? true : false,
+      isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
+      isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+    };
+
+
+    if(selectedId !== 0){
+      put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -138,11 +150,33 @@ const AssignUniversity = () => {
           setModalOpen(false);
           setUniLabel("Select University");
           setUniValue(0);
+          setSelectedId(0);
           setRadioIsAcceptHome("false");
           setRadioIsAcceptUk("true");
           setRadioIsAcceptInt("false");
         }
       });
+    }
+    else{
+      if (uniValue === 0) {
+        setUniError(true);
+      } else {
+        post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
+          if (res?.status == 200) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setSuccess(!success);
+            setModalOpen(false);
+            setUniLabel("Select University");
+            setUniValue(0);
+            setRadioIsAcceptHome("false");
+            setRadioIsAcceptUk("true");
+            setRadioIsAcceptInt("false");
+          }
+        });
+      }
     }
   };
 
@@ -166,6 +200,17 @@ const AssignUniversity = () => {
       localStorage.removeItem("managerUniName");
     });
   };
+
+  const handleUpdate = (university) => {
+    console.log(university);
+    setModalOpen(true);
+    setUniLabel(university?.university?.name);
+    setUniValue(university?.university?.id);
+    setRadioIsAcceptHome(`${university?.isAcceptHome}`);
+    setRadioIsAcceptUk(`${university?.isAcceptEU_UK}`);
+    setRadioIsAcceptInt(`${university?.isAcceptInternational}`);
+    setSelectedId(university?.id);
+  }
 
   return (
     <div>
@@ -279,7 +324,7 @@ const AssignUniversity = () => {
                       name="universityId"
                       value={localStorage.getItem("universityId")}
                     /> */}
-                  {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
+                  {/* <Input type="hidden" id="id" name="id" value={selectedId} /> */}
 
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="3">
@@ -531,7 +576,7 @@ const AssignUniversity = () => {
                           /> */}
 
                           <ButtonForFunction
-                            // func={() => handleUpdate(campus?.id)}
+                            func={() => handleUpdate(uni)}
                             color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}

@@ -658,7 +658,7 @@ const CampusList = (props) => {
                       </Button.Ripple> */}
 
                       <CustomButtonRipple
-                        color={"warning"}
+                        color={"primary"}
                         type={"submit"}
                         className={"mr-1 mt-3"}
                         name={"Submit"}
