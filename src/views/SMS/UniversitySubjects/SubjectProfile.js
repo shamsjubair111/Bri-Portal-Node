@@ -53,6 +53,10 @@ const SubjectProfile = () => {
 
     console.log("campdata", campData);
 
+    const handleProfileEdit = () => {
+      history.push(`/addSubject/${subjectData?.id}`)
+    }
+
 
     return (
         <div>
@@ -107,7 +111,7 @@ const SubjectProfile = () => {
 
 
 
-                  <div className="uapp-employee-profile-image-edit">
+                  <div className="">
                     <Row>
                       <Col> 
                         <div>
@@ -119,6 +123,7 @@ const SubjectProfile = () => {
 
                      <Col> 
                       <EditDivButton
+                        func={handleProfileEdit}
                         className={"uapp-employee-profile-Edit"}
                         permission={6}
                       />

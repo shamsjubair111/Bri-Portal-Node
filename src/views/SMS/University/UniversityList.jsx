@@ -426,11 +426,11 @@ const UniversityList = (props) => {
 
   const handleEdit = (data) => {
     console.log("editData", data);
-    localStorage.removeItem("id");
-    localStorage.setItem("id", data?.id);
+    // localStorage.removeItem("id");
+    // localStorage.setItem("id", data?.id);
     // localStorage.setItem('editMethod','put');
 
-    history.push("/addUniversity");
+    history.push(`/addUniversity/${data?.id}`);
   };
 
   const handleExportXLSX = () => {

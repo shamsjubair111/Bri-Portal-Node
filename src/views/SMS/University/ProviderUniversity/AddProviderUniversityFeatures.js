@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { createRef, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import {
   Card,
   CardBody,
@@ -52,6 +52,7 @@ const AddProviderUniversityFeatures = () => {
 
   const myForm = createRef();
   const location = useLocation();
+  const {univerId} = useParams();
 
   const { addToast } = useToasts();
 
@@ -65,7 +66,7 @@ const AddProviderUniversityFeatures = () => {
   useEffect(() => {
     // get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
     get(
-      `UniversityFeatures/GetByUniversity/${localStorage.getItem("id")}`
+      `UniversityFeatures/GetByUniversity/${univerId}`
     ).then((res) => {
       console.log("unifeatures", res?.id);
       setFeatures(res);
@@ -76,7 +77,7 @@ const AddProviderUniversityFeatures = () => {
       setRadioConditionalOfferLetter(`${res?.conditionalOfferLetter}`);
       setRadioAccommodations(`${res?.accommodations}`);
     });
-  }, []);
+  }, [univerId]);
 
   const AuthStr = localStorage.getItem("token");
 
@@ -105,7 +106,7 @@ const AddProviderUniversityFeatures = () => {
           });
 
           history.push({
-            pathname: "/addProviderUniversityGallery",
+            pathname: `/addProviderUniversityGallery/${univerId}`,
             id: localStorage.getItem("editUniId"),
           });
         }
@@ -121,7 +122,7 @@ const AddProviderUniversityFeatures = () => {
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
           history.push({
-            pathname: "/addProviderUniversityGallery",
+            pathname: `/addProviderUniversityGallery/${univerId}`,
             id: uniID,
           });
 
@@ -142,25 +143,25 @@ const AddProviderUniversityFeatures = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addProviderUniversity");
+      history.push(`/addProviderUniversity/${univerId}`);
     }
     if (tab == "2") {
-      history.push("/addProviderUniversityCampus");
+      history.push(`/addProviderUniversityCampus/${univerId}`);
     }
     if (tab == "3") {
-      history.push("/addProviderUniversityFinancial");
+      history.push(`/addProviderUniversityFinancial/${univerId}`);
     }
     if (tab == "4") {
-      history.push("/addProviderUniversityFeatures");
+      history.push(`/addProviderUniversityFeatures/${univerId}`);
     }
     if (tab == "5") {
-      history.push("/addProviderUniversityGallery");
+      history.push(`/addProviderUniversityGallery/${univerId}`);
     }
     if (tab == "6") {
-      history.push("/addProviderUniversityApplicationDocument");
+      history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
     }
     if (tab == "7") {
-      history.push("/addProviderUniversityTemplateDocument");
+      history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
     }
   };
 
@@ -316,7 +317,7 @@ const AddProviderUniversityFeatures = () => {
                     type="hidden"
                     id="UniversityId"
                     name="UniversityId"
-                    value={localStorage.getItem("id")}
+                    value={univerId}
                   />
                   {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                 </FormGroup>

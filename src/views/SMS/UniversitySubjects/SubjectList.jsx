@@ -596,7 +596,7 @@ const SubjectList = (props) => {
                          permissions?.includes(permissionList?.Update_subject) ?
                           <LinkButton
                             url={`addSubject/${sub?.id}`}
-                            color={"dark"}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
                             permission={6}

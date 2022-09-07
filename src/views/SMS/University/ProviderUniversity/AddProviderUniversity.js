@@ -2,7 +2,7 @@ import React, { createRef, useEffect, useState } from "react";
 // import 'react-dropzone-uploader/dist/styles.css'
 import { connect, useSelector } from "react-redux";
 import Select from "react-select";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import {
   Card,
   CardBody,
@@ -92,9 +92,11 @@ const AddProviderUniversity = () => {
   const [logoDropzoneError, setLogoDropzoneError] = useState(false);
 
   const [submitData, setSubmitData] = useState(false);
+  const [universityId, setUniversityId] = useState(undefined);
 
   const { addToast } = useToasts();
   const location = useLocation();
+  const {univerId} = useParams();
 
   const [providerProId, setProviderProId] = useState(location?.providerProfileId);
 
@@ -220,8 +222,8 @@ const AddProviderUniversity = () => {
       })
       .catch();
 
-    if (localStorage.getItem("id")) {
-      get(`University/get/${localStorage.getItem("id")}`).then((res) => {
+    if (univerId != undefined) {
+      get(`University/get/${univerId}`).then((res) => {
         console.log("uniIddata", res);
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
@@ -238,7 +240,26 @@ const AddProviderUniversity = () => {
         setCheck(false);
       });
     }
-  }, []);
+
+    if (universityId != undefined) {
+      get(`University/get/${universityId}`).then((res) => {
+        console.log("uniIddata", res);
+        setContractTypeLabel(res?.contractType?.name);
+        setContractTypeValue(res?.contractType?.id);
+        setUniversityData(res);
+        setProviderTypeLabel(res?.provider?.name);
+        setProviderTypeValue(res?.provider?.value);
+        setUniTypeLabel(res?.universityType?.name);
+        setUniTypeValue(res?.universityType?.id);
+        setUniCountryLabel(res?.universityCountry?.name);
+        setUniCountryValue(res?.universityCountry?.id);
+        setUniStateLabel(res?.universityState?.name);
+        setUniStateValue(res?.universityState?.id);
+        setUniId(res?.id);
+        setCheck(false);
+      });
+    }
+  }, [univerId, universityId]);
 
   // const logoResult =  useSelector((state) => state.UniversityLogoImageReducer.universityLogoImage);
   // const coverResult = useSelector((state)=> state.UniversityCoverImageReducer.universityCoverImage);
@@ -394,7 +415,7 @@ const AddProviderUniversity = () => {
                 autoDismiss: true,
               });
               
-              history.push("/addProviderUniversityCampus");
+              history.push(`/addProviderUniversityCampus/${uniId}`);
             }
           });
         } else {
@@ -404,6 +425,7 @@ const AddProviderUniversity = () => {
   
               localStorage.setItem("id", res.data.result.id);
               const uniID = res.data.result.id;
+              setUniversityId(uniID);
   
               if (res.status === 200 && res.data.isSuccess === true) {
                 setSubmitData(true);
@@ -412,7 +434,7 @@ const AddProviderUniversity = () => {
                   autoDismiss: true,
                 });
                 history.push({
-                  pathname: "/addProviderUniversityCampus",
+                  pathname: `/addProviderUniversityCampus/${uniID}`,
                   id: uniID,
                 });
               }
@@ -457,24 +479,48 @@ const AddProviderUniversity = () => {
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
-    if (tab == "2") {
-      history.push("/addProviderUniversityCampus");
+
+    if(univerId != undefined){
+      if (tab == "2") {
+        history.push(`/addProviderUniversityCampus/${univerId}`);
+      }
+      if (tab == "3") {
+        history.push(`/addProviderUniversityFinancial/${univerId}`);
+      }
+      if (tab == "4") {
+        history.push(`/addProviderUniversityFeatures/${univerId}`);
+      }
+      if (tab == "5") {
+        history.push(`/addProviderUniversityGallery/${univerId}`);
+      }
+      if (tab == "6") {
+        history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
+      }
+      if (tab == "7") {
+        history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
+      }
     }
-    if (tab == "3") {
-      history.push("/addProviderUniversityFinancial");
+    else{
+      if (tab == "2") {
+        history.push(`/addProviderUniversityCampus/${universityId}`);
+      }
+      if (tab == "3") {
+        history.push(`/addProviderUniversityFinancial/${universityId}`);
+      }
+      if (tab == "4") {
+        history.push(`/addProviderUniversityFeatures/${universityId}`);
+      }
+      if (tab == "5") {
+        history.push(`/addProviderUniversityGallery/${universityId}`);
+      }
+      if (tab == "6") {
+        history.push(`/addProviderUniversityApplicationDocument/${universityId}`);
+      }
+      if (tab == "7") {
+        history.push(`/addProviderUniversityTemplateDocument/${universityId}`);
+      }
     }
-    if (tab == "4") {
-      history.push("/addProviderUniversityFeatures");
-    }
-    if (tab == "5") {
-      history.push("/addProviderUniversityGallery");
-    }
-    if (tab == "6") {
-      history.push("/addProviderUniversityApplicationDocument");
-    }
-    if (tab == "7") {
-      history.push("/addProviderUniversityTemplateDocument");
-    }
+
   };
 
   const universityTypeName = universityTypes?.map((uniType) => ({
@@ -518,7 +564,7 @@ const AddProviderUniversity = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Campus Information
                 </NavLink>
@@ -554,13 +600,13 @@ const AddProviderUniversity = () => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                  Financial Information
+                  Financial
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "3"}>
-                  Financial Information
+                  Financial
                 </NavLink>
               )}
             </NavItem>
@@ -572,7 +618,7 @@ const AddProviderUniversity = () => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                   Features
                 </NavLink>
@@ -590,7 +636,7 @@ const AddProviderUniversity = () => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                   Gallery
                 </NavLink>
@@ -608,7 +654,7 @@ const AddProviderUniversity = () => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
                   Application Document
                 </NavLink>
@@ -620,7 +666,7 @@ const AddProviderUniversity = () => {
             </NavItem>
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                   Template Document
                 </NavLink>

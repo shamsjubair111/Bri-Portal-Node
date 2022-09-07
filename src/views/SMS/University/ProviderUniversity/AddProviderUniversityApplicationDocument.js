@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, createRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import MediaPictures from "./UniversityMedia";
 import Select from "react-select";
 import {
@@ -49,6 +49,7 @@ import { permissionList } from "../../../../constants/AuthorizationConstant";
 const AddProviderUniversityApplicationDocument = () => {
     const { addToast } = useToasts();
   const history = useHistory();
+  const {univerId} = useParams();
   const [activetab, setActivetab] = useState("6");
 
   const [document, setDocument] = useState([]);
@@ -83,11 +84,9 @@ const AddProviderUniversityApplicationDocument = () => {
       setDocument(res);
     });
 
-    if (localStorage.getItem("id")) {
+    if (univerId != undefined) {
       get(
-        `UniversityApplicationDocument/GetByUniversity/${localStorage.getItem(
-          "id"
-        )}`
+        `UniversityApplicationDocument/GetByUniversity/${univerId}`
       ).then((res) => {
         console.log("appDocuData", res);
         setApplicationList(res);
@@ -99,7 +98,7 @@ const AddProviderUniversityApplicationDocument = () => {
         }
       });
     }
-  }, [success]);
+  }, [success, univerId]);
 
   const documentOptions = document?.map((doc) => ({
     label: doc?.name,
@@ -132,27 +131,27 @@ const AddProviderUniversityApplicationDocument = () => {
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
-    if (tab === "1") {
-      history.push("/addProviderUniversity");
+    if (tab == "1") {
+      history.push(`/addProviderUniversity/${univerId}`);
     }
-    if (tab === "2") {
-      history.push("/addProviderUniversityCampus");
+    if (tab == "2") {
+      history.push(`/addProviderUniversityCampus/${univerId}`);
     }
-    if (tab === "3") {
-      history.push("/addProviderUniversityFinancial");
+    if (tab == "3") {
+      history.push(`/addProviderUniversityFinancial/${univerId}`);
     }
-    if (tab === "4") {
-      history.push("/addProviderUniversityFeatures");
+    if (tab == "4") {
+      history.push(`/addProviderUniversityFeatures/${univerId}`);
     }
-    if (tab === "5") {
-      history.push("/addProviderUniversityGallery");
+    if (tab == "5") {
+      history.push(`/addProviderUniversityGallery/${univerId}`);
     }
-    if (tab === "7") {
-      history.push("/addProviderUniversityTemplateDocument");
+    if (tab == "6") {
+      history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
     }
-    // if (tab === "8") {
-    //   history.push("/addUniversityRequiredDocument");
-    // }
+    if (tab == "7") {
+      history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
+    }
   };
 
   const toggleDanger = (p) => {
@@ -231,7 +230,7 @@ const AddProviderUniversityApplicationDocument = () => {
   const onNextPage = () => {
     const uniID = localStorage.getItem("id");
     history.push({
-      pathname: "/addProviderUniversityTemplateDocument",
+      pathname: `/addProviderUniversityTemplateDocument/${univerId}`,
       id: uniID,
     });
   };
@@ -388,7 +387,7 @@ const AddProviderUniversityApplicationDocument = () => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       {selectedId !== 0 ? (
                         <Input

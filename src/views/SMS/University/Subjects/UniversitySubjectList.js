@@ -583,7 +583,7 @@ const UniversitySubjectList = (props) => {
                           :
                           null} */}
 
-                          <Button onClick={()=>handleEdit(sub?.id)} color={"dark"} className={"mx-1 btn-sm"}><i className="fas fa-edit"></i></Button>
+                          <Button onClick={()=>handleEdit(sub?.id)} color={"warning"} className={"mx-1 btn-sm"}><i className="fas fa-edit"></i></Button>
 
                           {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>

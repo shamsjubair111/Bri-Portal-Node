@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { createRef, useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import {
   Card,
   CardBody,
@@ -41,6 +41,7 @@ const AddProviderUniversityFinancial = (props) => {
   const method = localStorage.getItem("editMethod");
 
   const { addToast } = useToasts();
+  const {univerId} = useParams();
 
   const history = useHistory();
   const myForm = createRef();
@@ -57,13 +58,13 @@ const AddProviderUniversityFinancial = (props) => {
   useEffect(() => {
     // get(`FinancialInformation/GetByUniversity/${localStorage.getItem("editUniId")}`)
     get(
-      `FinancialInformation/GetByUniversity/${localStorage.getItem("id")}`
+      `FinancialInformation/GetByUniversity/${univerId}`
     ).then((res) => {
       console.log("finanInfo", res?.id);
       setFinancialData(res);
       setFinancialId(res?.id);
     });
-  }, []);
+  }, [univerId]);
 
   const AuthStr = localStorage.getItem("token");
 
@@ -100,7 +101,7 @@ const AddProviderUniversityFinancial = (props) => {
             autoDismiss: true,
           });
           history.push({
-            pathname: "/addProviderUniversityFeatures",
+            pathname: `/addProviderUniversityFeatures/${univerId}`,
             id: uniID,
           });
         } else {
@@ -121,7 +122,7 @@ const AddProviderUniversityFinancial = (props) => {
           });
 
           history.push({
-            pathname: "/addProviderUniversityFeatures",
+            pathname: `/addProviderUniversityFeatures/${univerId}`,
             id: localStorage.getItem("editUniId"),
           });
         }
@@ -132,25 +133,25 @@ const AddProviderUniversityFinancial = (props) => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addProviderUniversity");
+      history.push(`/addProviderUniversity/${univerId}`);
     }
     if (tab == "2") {
-      history.push("/addProviderUniversityCampus");
+      history.push(`/addProviderUniversityCampus/${univerId}`);
     }
     if (tab == "3") {
-      history.push("/addProviderUniversityFinancial");
+      history.push(`/addProviderUniversityFinancial/${univerId}`);
     }
     if (tab == "4") {
-      history.push("/addProviderUniversityFeatures");
+      history.push(`/addProviderUniversityFeatures/${univerId}`);
     }
     if (tab == "5") {
-      history.push("/addProviderUniversityGallery");
+      history.push(`/addProviderUniversityGallery/${univerId}`);
     }
     if (tab == "6") {
-      history.push("/addProviderUniversityApplicationDocument");
+      history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
     }
     if (tab == "7") {
-      history.push("/addProviderUniversityTemplateDocument");
+      history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
     }
   };
   // redirect to dashboard
@@ -277,7 +278,7 @@ const AddProviderUniversityFinancial = (props) => {
                     type="hidden"
                     id="UniversityId"
                     name="UniversityId"
-                    value={localStorage.getItem("id")}
+                    value={univerId}
                   />
                   {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                 </FormGroup>

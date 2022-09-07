@@ -57,6 +57,8 @@ const DocumentGroup = () => {
 
   const [documentId, setDocumentId] = useState(0);
 
+  const [updateDocumentId, setUpdateDocumentId] = useState(undefined);
+
   const [documentGroupDocument, setDocumentGroupDocument] = useState([]);
 
   const { addToast } = useToasts();
@@ -126,7 +128,8 @@ const DocumentGroup = () => {
     setApplicationValue(document?.applicationTypeId);
     setTitle(document?.title);
     setDetail(document?.details);
-    localStorage.setItem("updateDocument", document?.id);
+    setUpdateDocumentId(document?.id);
+    // localStorage.setItem("updateDocument", document?.id);
   };
 
   const handleSubmit = (event) => {
@@ -145,8 +148,8 @@ const DocumentGroup = () => {
     if (applicationValue === 0) {
       setApplicationTypeError(true);
     } else {
-      if (localStorage.getItem("updateDocument")) {
-        console.log(localStorage.getItem("updateDocument"));
+      if (updateDocumentId != undefined) {
+        // console.log(localStorage.getItem("updateDocument"));
         const returnvalue = put(`DocumentGroup/Update`, subData).then(
           (action) => {
             setSuccess(!success);
@@ -159,11 +162,12 @@ const DocumentGroup = () => {
             setDetail("");
             setApplicationLabel("Select Application Type");
             setApplicationValue(0);
-            localStorage.removeItem("updateDocument");
+            // localStorage.removeItem("updateDocument");
+            setUpdateDocumentId(undefined);
           }
         );
       } else {
-        localStorage.removeItem("updateDocument");
+        // localStorage.removeItem("updateDocument");
 
         const returnValue = post(`DocumentGroup/Create`, subData).then(
           (action) => {
@@ -238,7 +242,8 @@ const DocumentGroup = () => {
     setDetail("");
     setApplicationLabel("Select Application Type");
     setApplicationValue(0);
-    localStorage.removeItem("updateDocument");
+    // localStorage.removeItem("updateDocument");
+    setUpdateDocumentId(undefined);
   };
 
   // on Close Delete Modal
@@ -276,7 +281,7 @@ const DocumentGroup = () => {
     if (documentValue == 0) {
       setDocumentError(true);
     }
-    if (application === null) {
+    else if (application === null) {
       setApplicationError(true);
     } else {
       post("DocumentGroupDocument/Create", subData).then((res) => {
@@ -347,12 +352,12 @@ const DocumentGroup = () => {
               <ModalHeader>Add Document Group</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
-                  {localStorage.getItem("updateDocument") ? (
+                  {updateDocumentId != undefined ? (
                     <input
                       type="hidden"
                       name="id"
                       id="id"
-                      value={localStorage.getItem("updateDocument")}
+                      value={updateDocumentId}
                     />
                   ) : null}
 

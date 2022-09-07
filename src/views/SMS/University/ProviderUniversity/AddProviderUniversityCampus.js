@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, createRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import Select from "react-select";
 import {
   Card,
@@ -68,6 +68,7 @@ const AddProviderUniversityCampus = (props) => {
     const history = useHistory();
     const [universityId, setuniversityId] = useState(0);
     const location = useLocation();
+    const {univerId} = useParams();
     const [success, setSuccess] = useState(false);
     const { addToast } = useToasts();
     const [selectedId, setSelectedId] = useState(0);
@@ -96,7 +97,7 @@ const AddProviderUniversityCampus = (props) => {
       setuniversityId(uniId);
       //  localStorage.setItem('uniCampNId', universityId);
       // const universityId = "10019";
-      get(`UniversityCampus/GetByUniversity/${localStorage.getItem("id")}`).then(
+      get(`UniversityCampus/GetByUniversity/${univerId}`).then(
         (action) => {
           //  get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
           // get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
@@ -110,31 +111,31 @@ const AddProviderUniversityCampus = (props) => {
           console.log("actionnnn", action);
         }
       );
-    }, [success, uniId, universityId]);
+    }, [success, uniId, universityId, univerId]);
   
     // tab toggle
     const toggle = (tab) => {
       setActivetab(tab);
       if (tab === "1") {
-        history.push("/addProviderUniversity");
+        history.push(`/addProviderUniversity/${univerId}`);
       }
       if (tab === "2") {
-        history.push("/addProviderUniversityCampus");
+        history.push(`/addProviderUniversityCampus/${univerId}`);
       }
       if (tab === "3") {
-        history.push("/addProviderUniversityFinancial");
+        history.push(`/addProviderUniversityFinancial/${univerId}`);
       }
       if (tab === "4") {
-        history.push("/addProviderUniversityFeatures");
+        history.push(`/addProviderUniversityFeatures/${univerId}`);
       }
       if (tab === "5") {
-        history.push("/addProviderUniversityGallery");
+        history.push(`/addProviderUniversityGallery/${univerId}`);
       }
       if (tab === "6") {
-        history.push("/addProviderUniversityApplicationDocument");
+        history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
       }
       if (tab === "7") {
-        history.push("/addProviderUniversityTemplateDocument");
+        history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
       }
     };
   
@@ -189,7 +190,10 @@ const AddProviderUniversityCampus = (props) => {
                 appearance: "success",
                 autoDismiss: true,
               });
-    
+              setUniCountryLabel("Select University Country...");
+              setUniCountryValue(0);
+              setUniStateLabel("Select University State...");
+              setUniStateValue(0);
               setSuccess(!success);
             }
           });
@@ -252,7 +256,7 @@ const AddProviderUniversityCampus = (props) => {
     const onNextPage = () => {
       const uniID = universityId;
       history.push({
-        pathname: "/addProviderUniversityFinancial",
+        pathname: `/addProviderUniversityFinancial/${univerId}`,
         id: uniID,
       });
     };
@@ -386,7 +390,7 @@ const AddProviderUniversityCampus = (props) => {
 
               <div className="container test-score-div-1-style mt-4 mb-4">
                 <span className="test-score-span-1-style">
-                  University campus informations are showing here.
+                  University campus information is shown here.
                 </span>
               </div>
 
@@ -417,7 +421,7 @@ const AddProviderUniversityCampus = (props) => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       <Input
                         type="hidden"

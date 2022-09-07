@@ -260,7 +260,7 @@ const Intake = () => {
                             
                             <LinkButton
                               url={`/updateIntake/${intake?.id}`}
-                              color={"dark"}
+                              color={"warning"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}

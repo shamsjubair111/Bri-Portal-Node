@@ -113,12 +113,22 @@ const UpdateIntake = () => {
         });
       }
 
+      const backToIntakeList = () => {
+        history.push("/intake");
+      }
+
     return (
         <div>
             <Card>
-                <Card className="uapp-card-bg m-3 p-2">
+                <Card className="uapp-card-bg">
                     <CardHeader className="page-header">
-                        <h6 className="text-light my-auto">Update intake</h6>
+                        <h3 className="text-light">Update Intake</h3>
+                        <div className="page-header-back-to-home">
+                  <span onClick={backToIntakeList} className="text-light">
+                    {" "}
+                    <i className="fas fa-arrow-circle-left"></i> Back to Intake List
+                  </span>
+                </div>
                     </CardHeader>
                 </Card>
 

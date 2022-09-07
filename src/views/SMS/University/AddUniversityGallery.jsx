@@ -24,7 +24,7 @@ import { useToasts } from "react-toast-notifications";
 // import post from '../../../helpers/post';
 import { rootUrl } from "../../../constants/constants";
 import MediaPictures from "./UniversityMedia";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import get from "../../../helpers/get";
@@ -44,6 +44,7 @@ const AddUniversityGallery = () => {
 
   const { addToast } = useToasts();
   const history = useHistory();
+  const {univerId} = useParams();
 
   const galleryResult = useSelector(
     (state) => state.UniversityGalleryImageReducer.universityGalleryImage
@@ -92,13 +93,13 @@ const AddUniversityGallery = () => {
   };
 
   useEffect(() => {
-    get(`UniversityGallery/GetByUniversity/${localStorage.getItem("id")}`).then(
+    get(`UniversityGallery/GetByUniversity/${univerId}`).then(
       (res) => {
         console.log("gallery", res);
         setGallery(res);
       }
     );
-  }, [success]);
+  }, [success, univerId]);
 
   const backToUniList = () => {
     history.push("/universityList");
@@ -107,28 +108,25 @@ const AddUniversityGallery = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addUniversity");
+      history.push(`/addUniversity/${univerId}`);
     }
     if (tab == "2") {
-      history.push("/addUniversityCampus");
+      history.push(`/addUniversityCampus/${univerId}`);
     }
     if (tab == "3") {
-      history.push("/addUniversityFinancial");
+      history.push(`/addUniversityFinancial/${univerId}`);
     }
     if (tab == "4") {
-      history.push("/addUniversityFeatures");
+      history.push(`/addUniversityFeatures/${univerId}`);
     }
     if (tab == "5") {
-      history.push("/addUniversityGallery");
+      history.push(`/addUniversityGallery/${univerId}`);
     }
     if (tab == "6") {
-      history.push("/addUniversityApplicationDocument");
+      history.push(`/addUniversityApplicationDocument/${univerId}`);
     }
     if (tab == "7") {
-      history.push("/addUniversityTemplateDocument");
-    }
-    if (tab == "8") {
-      history.push("/addUniversityRequiredDocument");
+      history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
   };
 
@@ -413,7 +411,7 @@ const AddUniversityGallery = () => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
                     </FormGroup>
