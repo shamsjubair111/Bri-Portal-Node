@@ -43,7 +43,7 @@ const EmployeeProfile = () => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/")
+    history.push("/employeeList")
   }
 
   const componentRef = useRef();
@@ -67,7 +67,7 @@ const EmployeeProfile = () => {
             </div>
 
             <div className="page-header-back-to-home" >
-              <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+              <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Employee List</span>
             </div>
 
         </CardHeader>

@@ -1,4 +1,5 @@
 import React, { createRef, useEffect, useState } from 'react'
+import { Routes, Route, useParams } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { useHistory, useLocation} from 'react-router';
 import Select from 'react-select';
@@ -14,7 +15,7 @@ import ButtonForFunction from '../../Components/ButtonForFunction';
 const EmployeeContactInfo = () => {
    
  
-    const userId = localStorage.getItem('employeeId'); 
+    const {employeeId} = useParams();
 
     
     const myForm = createRef();
@@ -167,7 +168,7 @@ const EmployeeContactInfo = () => {
 
                             <FormGroup row className="has-icon-left position-relative">
                                     <Input
-                                        value={userId}
+                                        value={employeeId}
                                         type="hidden"
                                         name="employeeId"
                                         id="employeeId"

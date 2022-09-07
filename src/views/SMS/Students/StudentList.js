@@ -221,12 +221,10 @@ const StudentList = () => {
 
     const handleEdit = (data) =>{
       console.log(data);
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
   
 
-      history.push('/addStudentApplicationInformation');
+      history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
 
     }
 
@@ -245,7 +243,7 @@ const StudentList = () => {
 
     // add university handler
     const handleAddStudent = () => {
-         localStorage.removeItem('applictionStudentId');
+         
         history.push("/addStudentRegister");
       };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label } from 'reactstrap';
 import Select from "react-select";
 import get from '../../../helpers/get';
@@ -13,6 +13,9 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 const ApplicationInformation = () => {
 
   const history = useHistory();
+  const {applicationStudentId, update} = useParams();
+
+  console.log(applicationStudentId, update);
 
   const [applicationInformation, setApplicationInformation] = useState({});
   const [activetab, setActivetab] = useState("1");
@@ -37,15 +40,14 @@ const ApplicationInformation = () => {
   const [visaError, setVisaError] = useState(false);
 
 
-  const applicationStudentTypeId =  localStorage.getItem('applictionStudentTypeId');
-  const applicationStudentId = localStorage.getItem('applictionStudentId');
-  console.log(applicationStudentId,'ididid');
+ 
+  
 
   const [applicationId, setApplicationId] = useState(0);
 
   const {addToast} = useToasts();
 
-  const method = localStorage.getItem('method');
+  
  
 
 
@@ -111,7 +113,7 @@ const ApplicationInformation = () => {
 
 
   const backToStudentProfile = () => {
-    history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+    history.push(`/studentProfile/${applicationStudentId}`);
 }
 
 const styleLabelBold = {
@@ -122,44 +124,44 @@ const styleLabelBold = {
 const toggle = (tab) => {
   setActivetab(tab);
   if (tab == "1") {
-    history.push("/addStudentApplicationInformation");
+    history.push(`/addStudentApplicationInformation/${applicationStudentId}`);
   }
 
   if (tab == "2") {
-    history.push("/addStudentInformation");
+    history.push(`/addStudentInformation/${applicationStudentId}`);
   }
 
   if (tab == "3") {
-    history.push("/addStudentContactInformation");
+    history.push(`/addStudentContactInformation/${applicationStudentId}`);
   }
 
   if (tab == "4") {
-    history.push("/addStudentEducationalInformation");
+    history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
   }
 
   if (tab == "5") {
-    history.push("/addTestScore");
+    history.push(`/addTestScore/${applicationStudentId}`);
   }
 
   if (tab == "6") {
-    history.push("/addExperience");
+    history.push(`/addExperience/${applicationStudentId}`);
   }
 
   if (tab == "7") {
-    history.push("/addReference");
+    history.push(`/addReference/${applicationStudentId}`);
   }
 
   if (tab == "8") {
-    history.push("/addPersonalStatement");
+    history.push(`/addPersonalStatement/${applicationStudentId}`);
   }
   if (tab == "9") {
-    history.push("/addOtherInformation");
+    history.push(`/addOtherInformation/${applicationStudentId}`);
   }
   if (tab == "10") {
-    history.push("/uploadDocument");
+    history.push(`/uploadDocument/${applicationStudentId}`);
   }
   if (tab == "11") {
-    history.push("/studentDeclaration");
+    history.push(`/studentDeclaration/${applicationStudentId}`);
   }
  
   
@@ -231,7 +233,7 @@ const handleSubmit = (event) => {
 
   event.preventDefault();
   const subData = new FormData(event.target);
-  console.log('sjhsjdffdffd');
+  
 
 
     if(visaStatusValue == 0){
@@ -240,29 +242,9 @@ const handleSubmit = (event) => {
 
     }
 
-    if(method == 'put'){
+   
 
-    put(`ApplicationInfo/Update`,subData)
-    .then(res => {
-      console.log('1st put response',res);
-      if(res?.status == 200){
-       
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        setSuccess(!success);
-        history.push('/addStudentinformation');
-        
-       
-      }
-    })
-
-
-
-   }
-
-    if(applicationInformation?.id){
+    if(update){
 
     put(`ApplicationInfo/Update`,subData)
     .then(res => {
@@ -274,7 +256,7 @@ const handleSubmit = (event) => {
           autoDismiss: true
         })
         setSuccess(!success);
-        history.push('/addStudentinformation');
+        history.push(`/addStudentinformation/${applicationStudentId}`);
         
        
       }
@@ -293,7 +275,7 @@ const handleSubmit = (event) => {
           appearance: 'success',
           autoDismiss: true
         })
-        history.push('/addStudentinformation');
+        history.push(`/addStudentinformation/${applicationStudentId}`);
       }
   
     })
@@ -329,7 +311,7 @@ const cancelForm = () => {
 
       {
 
-         method == 'put'?
+         update?
       
         <Nav tabs>
 
@@ -494,7 +476,7 @@ const cancelForm = () => {
             <Form onSubmit={handleSubmit}   className="mt-5">
 
             {
-              (method == 'put' || applicationInformation?.id) ? 
+              (update) ? 
               <input
               type='hidden'
               name='id'

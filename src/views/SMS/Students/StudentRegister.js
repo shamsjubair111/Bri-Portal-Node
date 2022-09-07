@@ -137,18 +137,12 @@ const StudentRegister = () => {
            
             if(res?.status === 200 && res?.data?.isSuccess === true){
               console.log('hello', res);
-              localStorage.setItem('applictionStudentTypeId', res?.data?.result?.studentTypeId);
-              localStorage.setItem('applictionStudentId', res?.data?.result?.id);
-              localStorage.setItem('personalInfoConsultantId', res?.data?.result?.consultantId);
-              localStorage.setItem('registerStudentViewId', res?.data?.result?.studentViewId);
-              localStorage.setItem('registerUserId', res?.data?.result?.userId);
-              localStorage.setItem('registerEmail', res?.data?.result?.email);
-              localStorage.removeItem('method');
+             
               addToast(res?.data?.message, {
                 appearance: 'success',
                 autoDismiss: true
               })
-              history.push('/addStudentApplicationInformation');
+              history.push(`/addStudentApplicationInformation/${res?.data?.result?.id}`);
             }
            
           })
@@ -167,18 +161,12 @@ const StudentRegister = () => {
         post('Student/Register', subdata)
           .then(res => {
             console.log('hello', res);
-            localStorage.setItem('applictionStudentTypeId', res?.data?.result?.studentTypeId);
-            localStorage.setItem('applictionStudentId', res?.data?.result?.id);
-            localStorage.setItem('personalInfoConsultantId', res?.data?.result?.consultantId);
-            localStorage.setItem('registerStudentViewId', res?.data?.result?.studentViewId);
-            localStorage.setItem('registerUserId', res?.data?.result?.userId);
-            localStorage.setItem('registerEmail', res?.data?.result?.email);
-            localStorage.removeItem('method');
+         
             addToast(res?.data?.message, {
               appearance: 'success',
               autoDismiss: true
             })
-            history.push('/addStudentApplicationInformation');
+            history.push(`/addStudentApplicationInformation/${res?.data?.result?.id}`);
           })
       }
     }
@@ -186,7 +174,7 @@ const StudentRegister = () => {
   }
 
 
-  localStorage.setItem("access", "hgvhvcewcece");
+
 
 
   return (

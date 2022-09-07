@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Select from "react-select";
 import {
   Card,
@@ -32,11 +32,12 @@ import { StoreStudentProfileImageData } from "../../../redux/actions/SMS/Student
 import ButtonForFunction from "../Components/ButtonForFunction";
 
 const PersonalInformation = () => {
-  const applicationStudentId = localStorage.getItem("applictionStudentId");
+  
 
-  const consultantValueId = localStorage.getItem("personalInfoConsultantId");
+  
 
   const [check, setCheck] = useState(true);
+  const {applicationStudentId , update} = useParams();
 
   const history = useHistory();
 
@@ -46,7 +47,7 @@ const PersonalInformation = () => {
 
   const [oneData, setOneData] = useState({});
 
-  const method = localStorage.getItem("method");
+  
 
   const [datee, setDatee] = useState("");
 
@@ -144,7 +145,7 @@ const PersonalInformation = () => {
     // })
 
     if (applicationStudentId) {
-      get(`Student/Get/${localStorage.getItem("applictionStudentId")}`).then(
+      get(`Student/Get/${applicationStudentId}`).then(
         (res) => {
           console.log("fetching student info from api", res);
           setConsultantLabel(
@@ -252,50 +253,50 @@ const PersonalInformation = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addStudentApplicationInformation");
+      history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "2") {
-      history.push("/addStudentInformation");
+      history.push(`/addStudentInformation/${applicationStudentId}`);
     }
 
     if (tab == "3") {
-      history.push("/addStudentContactInformation");
+      history.push(`/addStudentContactInformation/${applicationStudentId}`);
     }
 
     if (tab == "4") {
-      history.push("/addStudentEducationalInformation");
+      history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
     }
 
     if (tab == "5") {
-      history.push("/addTestScore");
+      history.push(`/addTestScore/${applicationStudentId}`);
     }
 
     if (tab == "6") {
-      history.push("/addExperience");
+      history.push(`/addExperience/${applicationStudentId}`);
     }
 
     if (tab == "7") {
-      history.push("/addReference");
+      history.push(`/addReference/${applicationStudentId}`);
     }
 
     if (tab == "8") {
-      history.push("/addPersonalStatement");
+      history.push(`/addPersonalStatement/${applicationStudentId}`);
     }
     if (tab == "9") {
-      history.push("/addOtherInformation");
+      history.push(`/addOtherInformation/${applicationStudentId}`);
     }
     if (tab == "10") {
-      history.push("/uploadDocument");
+      history.push(`/uploadDocument/${applicationStudentId}`);
     }
     if (tab == "11") {
-      history.push("/studentDeclaration");
+      history.push(`/studentDeclaration/${applicationStudentId}`);
     }
   };
 
   const backToStudentProfile = () => {
     history.push(
-      `/studentProfile/${localStorage.getItem("applictionStudentId")}`
+      `/studentProfile/${applicationStudentId}`
     );
   };
 
@@ -376,11 +377,11 @@ const PersonalInformation = () => {
   }));
 
   const goForward = () => {
-    history.push("/AddStudentContactInformation");
+    history.push(`/AddStudentContactInformation/${applicationStudentId}`);
   };
 
   const goBackward = () => {
-    history.push("/AddStudentApplicationInformation");
+    history.push(`/AddStudentApplicationInformation/${applicationStudentId}/${1}`);
   };
 
   const handleSubmit = (event) => {
@@ -430,6 +431,7 @@ const PersonalInformation = () => {
           });
           setSuccess(!success);
           setFileList([]);
+
         }
       });
     }
@@ -452,7 +454,7 @@ const PersonalInformation = () => {
 
       <Card>
         <CardBody>
-          {method == "put" ? (
+          {update ? (
             <Nav tabs>
               <NavItem>
                 <NavLink
@@ -677,10 +679,10 @@ const PersonalInformation = () => {
                   type="hidden"
                   name="id"
                   id="id"
-                  value={localStorage.getItem("applictionStudentId")}
+                  value={applicationStudentId}
                 />
 
-                <input
+                {/* <input
                   type="hidden"
                   name="studentTypeId"
                   id="studentTypeId"
@@ -699,7 +701,7 @@ const PersonalInformation = () => {
                   name="userId"
                   id="userId"
                   value={localStorage.getItem("registerUserId")}
-                />
+                /> */}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

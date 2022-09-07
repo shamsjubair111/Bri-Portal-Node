@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label } from 'reactstrap';
 import Select from "react-select";
 import get from '../../../helpers/get';
@@ -12,11 +12,13 @@ import { userTypes } from '../../../constants/userTypeConstant';
 
 const StudentDeclaration = () => {
 
-    const method = localStorage.getItem('method');
+  const {applicationStudentId, update} = useParams();
+
+   
     const history = useHistory();
     const [activetab, setActivetab] = useState("11");
     const [conscentData,setConscentData] = useState({});
-    const studentId = localStorage.getItem('applictionStudentId');
+   
     const {addToast} = useToasts();
 
     const [apiInfo,setAPiInfo] = useState('');
@@ -26,7 +28,7 @@ const StudentDeclaration = () => {
 
     useEffect(()=>{
 
-        get(`StudentConsent/Get/${studentId}`)
+        get(`StudentConsent/Get/${applicationStudentId}`)
         .then(res =>{ 
             console.log(res,'resStudentData');
             setConscentData(res);
@@ -42,50 +44,50 @@ const StudentDeclaration = () => {
     },[success])
 
     const backToStudentProfile = () => {
-        history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+        history.push(`/studentProfile/${applicationStudentId}`);
     }
 
     const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
-          history.push("/addStudentApplicationInformation");
+          history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "2") {
-          history.push("/addStudentInformation");
+          history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "3") {
-          history.push("/addStudentContactInformation");
+          history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "4") {
-          history.push("/addStudentEducationalInformation");
+          history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "5") {
-          history.push("/addTestScore");
+          history.push(`/addTestScore/${applicationStudentId}/${1}`);
         }
       
         if (tab == "6") {
-          history.push("/addExperience");
+          history.push(`/addExperience/${applicationStudentId}/${1}`);
         }
       
         if (tab == "7") {
-          history.push("/addReference");
+          history.push(`/addReference/${applicationStudentId}/${1}`);
         }
       
         if (tab == "8") {
-          history.push("/addPersonalStatement");
+          history.push(`/addPersonalStatement/${applicationStudentId}/${1}`);
         }
         if (tab == "9") {
-          history.push("/addOtherInformation");
+          history.push(`/addOtherInformation/${applicationStudentId}/${1}`);
         }
         if (tab == "10") {
-          history.push("/uploadDocument");
+          history.push(`/uploadDocument/${applicationStudentId}/${1}`);
         }
         if (tab == "11") {
-          history.push("/studentDeclaration");
+          history.push(`/studentDeclaration/${applicationStudentId}/${1}`);
         }
 
     }
@@ -94,7 +96,7 @@ const StudentDeclaration = () => {
 
         const subData = new FormData();
   
-        subData.append('StudentId', studentId);
+        subData.append('StudentId', applicationStudentId);
         subData.append('IpAddress',apiInfo?.IPv4);
         post('StudentConsent/Sign',subData)
         .then(res => {
@@ -110,7 +112,7 @@ const StudentDeclaration = () => {
 
 
       const sendEmail = () => {
-        put(`StudentConsent/SendEmail/${studentId}`)
+        put(`StudentConsent/SendEmail/${applicationStudentId}`)
         .then(res => {
             if(res?.status == 200){
                 addToast("Email Sending is in Process",{
@@ -151,7 +153,7 @@ const StudentDeclaration = () => {
 
       {
 
-method == 'put'?
+update?
 
 <Nav tabs>
 
@@ -240,66 +242,66 @@ method == 'put'?
 </NavItem>
 
  <NavItem>
-   <NavLink disabled active={activetab === "2"} onClick={() => toggle("2")}>
+   <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
      Personal 
    </NavLink>
  </NavItem>
 
  <NavItem>
-   <NavLink disabled  active={activetab === "3"} onClick={() => toggle("3")}>
+   <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
      Contact 
    </NavLink>
  </NavItem>
 
 
  <NavItem>
-   <NavLink disabled  active={activetab === "4"} onClick={() => toggle("4")}>
+   <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
      Educational 
    </NavLink>
  </NavItem>
 
  <NavItem>
-   <NavLink disabled  active={activetab === "5"} onClick={() => toggle("5")}>
+   <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
      Test Score
    </NavLink>
  </NavItem>
 
  <NavItem>
 
-   <NavLink disabled  active={activetab === "6"} onClick={() => toggle("6")}>
+   <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
      Experience 
    </NavLink>
  </NavItem>
 
  <NavItem>
 
-   <NavLink disabled  active={activetab === "7"} onClick={() => toggle("7")}>
+   <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
      Reference
    </NavLink>
  </NavItem>
 
  <NavItem>
 
-   <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
+   <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
      Personal Statement
    </NavLink>
  </NavItem>
 
  <NavItem>
 
-   <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
+   <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
      Others
    </NavLink>
  </NavItem>
 
   <NavItem>
-     <NavLink disabled active={activetab === "10"} onClick={() => toggle("10")}>
+     <NavLink  active={activetab === "10"} onClick={() => toggle("10")}>
        Documents
      </NavLink>
    </NavItem>
 
   <NavItem>
-     <NavLink disabled active={activetab === "11"} onClick={() => toggle("11")}>
+     <NavLink  active={activetab === "11"} onClick={() => toggle("11")}>
        Declaration
      </NavLink>
    </NavItem>

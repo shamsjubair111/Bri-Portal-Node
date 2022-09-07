@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button } from 'reactstrap';
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
@@ -20,14 +20,15 @@ const PersonalStatement = () => {
     const [statement, setStatement] = useState('');
     const [id, setId] = useState(0);
     const [stringData,setStringData] = useState(0);
+    const {applicationStudentId, update} = useParams();
 
-    const studentIdVal = localStorage.getItem('applictionStudentId');
+    
 
-    const method  = localStorage.getItem('method');
+   
 
     useEffect(()=>{
 
-      get(`PersonalStatement/GetByStudentId/${studentIdVal}`)
+      get(`PersonalStatement/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res,'Personal Statement Check');
         setStatement(res?.statement);
@@ -44,7 +45,7 @@ const PersonalStatement = () => {
 
 
     const backToStudentProfile = () => {
-      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+      history.push(`/studentProfile/${applicationStudentId}`);
   }
 
   const handleStringData = (e) => {
@@ -55,54 +56,54 @@ const PersonalStatement = () => {
  console.log(stringData);
 
     const previousPage = () => {
-      history.push('/addReference');
+      history.push(`/addReference/${applicationStudentId}/${1}`);
     }
 
     const goNext = () =>{
-      history.push('/addOtherInformation');
+      history.push(`/addOtherInformation/${applicationStudentId}`);
     }
 
     const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
-          history.push("/addStudentApplicationInformation");
+          history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "2") {
-          history.push("/addStudentInformation");
+          history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "3") {
-          history.push("/addStudentContactInformation");
+          history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "4") {
-          history.push("/addStudentEducationalInformation");
+          history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "5") {
-          history.push("/addTestScore");
+          history.push(`/addTestScore/${applicationStudentId}/${1}`);
         }
       
         if (tab == "6") {
-          history.push("/addExperience");
+          history.push(`/addExperience/${applicationStudentId}/${1}`);
         }
       
         if (tab == "7") {
-          history.push("/addReference");
+          history.push(`/addReference/${applicationStudentId}/${1}`);
         }
       
         if (tab == "8") {
-          history.push("/addPersonalStatement");
+          history.push(`/addPersonalStatement/${applicationStudentId}`);
         }
         if (tab == "9") {
-          history.push("/addOtherInformation");
+          history.push(`/addOtherInformation/${applicationStudentId}`);
         }
         if (tab == "10") {
-          history.push("/uploadDocument");
+          history.push(`/uploadDocument/${applicationStudentId}`);
         }
         if (tab == "11") {
-          history.push("/studentDeclaration");
+          history.push(`/studentDeclaration/${applicationStudentId}`);
         }
 
         
@@ -124,7 +125,7 @@ const PersonalStatement = () => {
                 autoDismiss: true
                 
               })
-              history.push('/addOtherInformation');
+              history.push(`/addOtherInformation/${applicationStudentId}`);
             }
   
           })
@@ -132,7 +133,7 @@ const PersonalStatement = () => {
          }
   
 
-       else if(method == 'put' || id){
+       else if(update || id){
 
         put('PersonalStatement/Update',subData)
         .then(res => {
@@ -159,7 +160,7 @@ const PersonalStatement = () => {
               autoDismiss: true
               
             })
-            history.push('/addOtherInformation');
+            history.push(`/addOtherInformation/${applicationStudentId}`);
           }
 
         })
@@ -189,7 +190,7 @@ const PersonalStatement = () => {
       <CardBody>
       {
 
-        method == 'put'?
+        update?
      
        <Nav tabs>
 
@@ -353,7 +354,7 @@ const PersonalStatement = () => {
           
           {
 
-            (method == 'put' || id) ?
+            (update || id) ?
 
             <input
             type='hidden'
@@ -374,7 +375,7 @@ const PersonalStatement = () => {
           type='hidden'
           name='studentId'
           id='studentId'
-          value={studentIdVal}
+          value={applicationStudentId}
           />
 
           <FormGroup row className="has-icon-left position-relative">

@@ -87,24 +87,20 @@ const StudentProfile = () => {
 
     const handleEditFromProfilePage = (data) =>{
       console.log('Started Working',data);
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
   
 
-      history.push('/addStudentApplicationInformation');
+      history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
     }
 
 
     const handleUpdatePersonalStatement = (data) => {
 
       console.log('Checking Personal Statement Data',data);
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+     
   
 
-      history.push('/addPersonalStatement');
+      history.push(`/addPersonalStatement/${data?.id}/${1}`);
 
     }
 
@@ -112,24 +108,20 @@ const StudentProfile = () => {
 
       console.log('Updating Personal Information',data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+     
   
 
-      history.push('/addStudentInformation');
+      history.push(`/addStudentInformation/${data?.id}/${1}`);
 
     }
 
     const handleUpdateTestScores = (data) => {
       console.log('Test Score Update', data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
   
 
-      history.push('/addTestScore');
+      history.push(`/addTestScore/${data?.id}/${1}`);
 
     }
 
@@ -137,12 +129,10 @@ const StudentProfile = () => {
 
       console.log('Updating Contact Information',data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
   
 
-      history.push('/addStudentContactInformation');
+      history.push(`/addStudentContactInformation/${data?.id}/${1}`);
 
 
     }
@@ -151,12 +141,10 @@ const StudentProfile = () => {
 
       console.log('Updating Other Information', data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
   
 
-      history.push('/addOtherinformation');
+      history.push(`/addOtherinformation/${data?.id}/${1}`);
 
 
     }
@@ -166,12 +154,10 @@ const StudentProfile = () => {
 
       console.log('Updating Educational Information', data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
   
 
-      history.push('/addStudentEducationalInformation');
+      history.push(`/addStudentEducationalInformation/${data?.id}/${1}`);
 
 
 
@@ -180,14 +166,12 @@ const StudentProfile = () => {
     const handleUpdateGREAndGMATScores = (data) => {
       console.log('Test Score Update', data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
 
      
   
 
-      history.push('/addTestScore');
+      history.push(`/addTestScore/${data?.id}/${1}`);
 
     }
 
@@ -195,12 +179,10 @@ const StudentProfile = () => {
 
       console.log('Experience Update', data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+      
   
 
-      history.push('/addExperience');
+      history.push(`/addExperience/${data?.id}/${1}`);
 
 
     }
@@ -209,12 +191,10 @@ const StudentProfile = () => {
 
       console.log('Reference Update', data);
 
-      localStorage.setItem('applictionStudentId',data?.id);
-      localStorage.setItem('applictionStudentTypeId',data?.studentTypeId);
-      localStorage.setItem('method','put');
+     
   
 
-      history.push('/addReference');
+      history.push(`/addReference/${data?.id}/${1}`);
 
 
 

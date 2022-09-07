@@ -75,7 +75,7 @@ const EmployeeList = (props) => {
         const empId = localStorage.getItem('locationId');
          get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empValue}&searchstring=${searchStr}`).then((action)=>{
             setEmployeeList(action.models);
-          
+             console.log(action);
             localStorage.removeItem('locationId');
             setLoading(false)
             setEntity(action.totalEntity);
@@ -381,6 +381,7 @@ const EmployeeList = (props) => {
                     <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
                         <th>SL/NO</th>
+                        <th>UAPP ID</th>
                         <th>Employee Type</th>
                         <th>Nationality</th>
                         <th>Full Name</th>
@@ -395,6 +396,7 @@ const EmployeeList = (props) => {
                   {
                       employeeList?.map((emp,i) => <tr key={emp.id} style={{ textAlign: "center" }}>
                         <th scope='row'>{serialNum+i}</th>
+                        <td>{emp.employeeViewId}</td>
                         <td>{emp.employeeType.name}</td>
                         <td>{emp.nationality.name}</td>
                         <td className="cursor-pointer hyperlink-hover" onClick={() => handleEmpClick(emp.id)}> <span>  {`${emp.firstName} ${emp.lastName}`} </span> </td>

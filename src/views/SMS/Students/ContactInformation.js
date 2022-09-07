@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -25,6 +25,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 const ContactInformation = () => {
   const { addToast } = useToasts();
   const [success, setSuccess] = useState(false);
+  const {applicationStudentId, update} = useParams();
 
   const history = useHistory();
   const [activetab, setActivetab] = useState("3");
@@ -40,7 +41,7 @@ const ContactInformation = () => {
   const [countryError, setCountryError] = useState(false);
   const [addressError, setAddressError] = useState(false);
 
-  const method = localStorage.getItem("method");
+  
 
   useEffect(() => {
     get("CountryDD/index").then((res) => {
@@ -54,9 +55,7 @@ const ContactInformation = () => {
     });
 
     get(
-      `StudentContactInformation/GetByStudentId/${localStorage.getItem(
-        "applictionStudentId"
-      )}`
+      `StudentContactInformation/GetByStudentId/${applicationStudentId}`
     ).then((res) => {
       console.log("Contact information from local storage", res);
       setOneData(res);
@@ -76,60 +75,60 @@ const ContactInformation = () => {
   }, [success]);
 
   const goForward = () => {
-    history.push("/AddStudentEducationalInformation");
+    history.push(`/AddStudentEducationalInformation/${applicationStudentId}/${1}`);
   };
 
   const goBackward = () => {
-    history.push("/AddStudentInformation");
+    history.push(`/AddStudentInformation/${applicationStudentId}/${1}`);
   };
 
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addStudentApplicationInformation");
+      history.push(`/addStudentApplicationInformation/${applicationStudentId}`);
     }
 
     if (tab == "2") {
-      history.push("/addStudentInformation");
+      history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "3") {
-      history.push("/addStudentContactInformation");
+      history.push(`/addStudentContactInformation/${applicationStudentId}`);
     }
 
     if (tab == "4") {
-      history.push("/addStudentEducationalInformation");
+      history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
     }
 
     if (tab == "5") {
-      history.push("/addTestScore");
+      history.push(`/addTestScore/${applicationStudentId}`);
     }
 
     if (tab == "6") {
-      history.push("/addExperience");
+      history.push(`/addExperience/${applicationStudentId}`);
     }
 
     if (tab == "7") {
-      history.push("/addReference");
+      history.push(`/addReference/${applicationStudentId}`);
     }
 
     if (tab == "8") {
-      history.push("/addPersonalStatement");
+      history.push(`/addPersonalStatement/${applicationStudentId}`);
     }
     if (tab == "9") {
-      history.push("/addOtherInformation");
+      history.push(`/addOtherInformation/${applicationStudentId}`);
     }
     if (tab == "10") {
-      history.push("/uploadDocument");
+      history.push(`/uploadDocument/${applicationStudentId}`);
     }
     if (tab == "11") {
-      history.push("/studentDeclaration");
+      history.push(`/studentDeclaration/${applicationStudentId}`);
     }
   };
 
   const backToStudentProfile = () => {
     history.push(
-      `/studentProfile/${localStorage.getItem("applictionStudentId")}`
+      `/studentProfile/${applicationStudentId}`
     );
   };
 
@@ -177,7 +176,7 @@ const ContactInformation = () => {
               autoDismiss: true,
             });
             setSuccess(!success);
-            history.push("/addStudentEducationalInformation");
+            history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
           }
         });
       } else {
@@ -188,7 +187,7 @@ const ContactInformation = () => {
               appearance: "success",
               autoDismiss: true,
             });
-            history.push("/addStudentEducationalInformation");
+            history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
           }
         });
       }
@@ -212,7 +211,7 @@ const ContactInformation = () => {
 
       <Card>
         <CardBody>
-          {method == "put" ? (
+          {update ? (
             <Nav tabs>
               <NavItem>
                 <NavLink
@@ -435,7 +434,7 @@ const ContactInformation = () => {
                   type="hidden"
                   name="studentId"
                   id="studentId"
-                  value={localStorage.getItem("applictionStudentId")}
+                  value={applicationStudentId}
                 />
 
                 {oneData?.id ? (

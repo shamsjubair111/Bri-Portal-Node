@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button, Row, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
@@ -12,6 +12,7 @@ const Experience = () => {
 
 
     const history = useHistory();
+    const {applicationStudentId, update} = useParams();
 
     const handleDate = e =>{
       var datee = e;
@@ -24,11 +25,12 @@ const Experience = () => {
     const [activetab, setActivetab] = useState("6");
     const [working, setWorking] = useState(false);
     const [endDate, setEndDate] = useState('');
+    const [delData, setDelData] = useState({});
 
   
      const [info, setInfo] = useState([]);
 
-    const studentIdVal = localStorage.getItem('applictionStudentId');
+  
 
     const {addToast} = useToasts();
 
@@ -39,7 +41,7 @@ const Experience = () => {
     const [sDate, setSDate] = useState('');
     const [eDate, setEDate] = useState('');
 
-    const method = localStorage.getItem('method');
+    
 
 
     const handleChange = (e) => {
@@ -56,7 +58,7 @@ const Experience = () => {
 
     useEffect(()=>{
 
-      get(`Experience/GetByStudentId/${studentIdVal}`)
+      get(`Experience/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
         setInfo(res);
@@ -70,55 +72,55 @@ const Experience = () => {
    
 
     const onPreviousPage = () => {
-      history.push('/addTestScore');
+      history.push(`/addTestScore/${applicationStudentId}/${1}`);
     }
 
     const backToStudentProfile = () => {
-      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+      history.push(`/studentProfile/${applicationStudentId}`);
   }
   
 
     const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
-          history.push("/addStudentApplicationInformation");
+          history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "2") {
-          history.push("/addStudentInformation");
+          history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "3") {
-          history.push("/addStudentContactInformation");
+          history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "4") {
-          history.push("/addStudentEducationalInformation");
+          history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "5") {
-          history.push("/addTestScore");
+          history.push(`/addTestScore/${applicationStudentId}/${1}`);
         }
       
         if (tab == "6") {
-          history.push("/addExperience");
+          history.push(`/addExperience/${applicationStudentId}`);
         }
       
         if (tab == "7") {
-          history.push("/addReference");
+          history.push(`/addReference/${applicationStudentId}`);
         }
       
         if (tab == "8") {
-          history.push("/addPersonalStatement");
+          history.push(`/addPersonalStatement/${applicationStudentId}`);
         }
         if (tab == "9") {
-          history.push("/addOtherInformation");
+          history.push(`/addOtherInformation/${applicationStudentId}`);
         }
         if (tab == "10") {
-          history.push("/uploadDocument");
+          history.push(`/uploadDocument/${applicationStudentId}`);
         }
         if (tab == "11") {
-          history.push("/studentDeclaration");
+          history.push(`/studentDeclaration/${applicationStudentId}`);
         }
 
         
@@ -150,7 +152,7 @@ const Experience = () => {
             autoDismiss: true
           });
           setValue({});
-          get(`Experience/GetByStudentId/${studentIdVal}`)
+          get(`Experience/GetByStudentId/${applicationStudentId}`)
           .then(res => {
            
             setInfo(res);
@@ -172,7 +174,7 @@ const Experience = () => {
             autoDismiss: true
           })
           setShowForm(false);
-          get(`Experience/GetByStudentId/${studentIdVal}`)
+          get(`Experience/GetByStudentId/${applicationStudentId}`)
           .then(res => {
            
             setInfo(res);
@@ -190,14 +192,15 @@ const Experience = () => {
 
       
 const toggleDanger = (id) => {
-   localStorage.setItem('deleteExperienceId',id);
+    setDelData(id);
+   
  
   setDeleteModal(true)
 }
 
 const handleDeletePermission = () => {
 
-  remove(`Experience/Delete/${localStorage.getItem('deleteExperienceId')}`)
+  remove(`Experience/Delete/${delData?.id}`)
   .then(res => {
     console.log(res);
     addToast(res,{
@@ -205,7 +208,7 @@ const handleDeletePermission = () => {
       autoDismiss: true
     })
     setDeleteModal(false);
-    get(`Experience/GetByStudentId/${studentIdVal}`)
+    get(`Experience/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
         setInfo(res);
@@ -270,7 +273,7 @@ console.log('trying', sDate?.split(",")[0]);
   // redirect to Next Page
   const onNextPage = () => {
     
-    history.push('/addReference',
+    history.push(`/addReference/${applicationStudentId}`
      
     );
   };
@@ -303,7 +306,7 @@ console.log('trying', sDate?.split(",")[0]);
       <CardBody>
       {
 
-        method == 'put'?
+        update ?
      
        <Nav tabs>
 
@@ -507,7 +510,7 @@ console.log('trying', sDate?.split(",")[0]);
                   </div>
 
                   <div className=""> 
-                     <Button type="button" color='danger' className="bankCard-style" onClick={()=>toggleDanger(inf.id)} ><i className="fas fa-trash-alt"></i></Button>
+                     <Button type="button" color='danger' className="bankCard-style" onClick={()=>toggleDanger(inf)} ><i className="fas fa-trash-alt"></i></Button>
                   </div>
                  </div>
 
@@ -547,7 +550,7 @@ console.log('trying', sDate?.split(",")[0]);
             type='hidden'
             name='studentId'
             id='studentId'
-            value={studentIdVal}
+            value={applicationStudentId}
             />
 
            {

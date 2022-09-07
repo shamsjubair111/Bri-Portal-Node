@@ -41,6 +41,7 @@ const EmployeeGeneralInfo = (props) => {
     const [files, setFiles] = useState([]);
     const [exactFile, setExactFile] = useState({});
     const [dropzoneErrorProfile, setDropzoneErrorProfile] = useState(false);
+    
 
     const [emailError, setEmailError] = useState(true);
 
@@ -183,7 +184,7 @@ const EmployeeGeneralInfo = (props) => {
                     // status = 'success' : status = res.data.message;
                     // status = res.data.message;
                     // data = res.data.result;
-                    localStorage.setItem("employeeId", res?.data?.result?.id);
+               
 
                     addToast(res.data.message, {
                         appearance: 'success',
@@ -198,7 +199,7 @@ const EmployeeGeneralInfo = (props) => {
                         //   //   state: { detail : uID},
                         //     id: uID
                         // })
-                        history.push(`/addEmployeeContactInfo`);
+                        history.push(`/addEmployeeContactInfo/${res?.data?.result?.id}`);
                     }
 
                 })

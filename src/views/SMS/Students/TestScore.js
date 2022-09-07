@@ -21,7 +21,7 @@ import {
   ModalHeader,
 } from "reactstrap";
 import Select from "react-select";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import get from "../../../helpers/get";
 import { useToasts } from "react-toast-notifications";
 import post from "../../../helpers/post";
@@ -36,6 +36,8 @@ const TestScore = () => {
   const [activetab, setActivetab] = useState("5");
   const [value, setValue] = useState(0);
   const [data, setData] = useState({});
+
+  const {applicationStudentId, update} = useParams();
 
   const [greData, setGreData] = useState({});
   const [gmatData, setGmatData] = useState({});
@@ -80,7 +82,7 @@ const TestScore = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
   const [modal3Open, setModal3Open] = useState(false);
-  const method = localStorage.getItem("method");
+
 
   const [testError, setTestError] = useState(false);
   const [loading, setLoading] =useState(false);
@@ -153,7 +155,7 @@ const TestScore = () => {
 
   useEffect(() => {
     get(
-      `GreScore/GetbyStudent/${localStorage.getItem("applictionStudentId")}`
+      `GreScore/GetbyStudent/${applicationStudentId}`
     ).then((res) => {
       console.log("fetch GRE data form API", res);
       setGreData(res);
@@ -161,21 +163,21 @@ const TestScore = () => {
     });
 
     get(
-      `GmatScore/GetByStudent/${localStorage.getItem("applictionStudentId")}`
+      `GmatScore/GetByStudent/${applicationStudentId}`
     ).then((res) => {
       console.log("Fetching Gmat Score Form Api", res);
       setGmatData(res);
       setLoading(false);
     });
 
-    get(`Ielts/Index/${localStorage.getItem("applictionStudentId")}`).then(
+    get(`Ielts/Index/${applicationStudentId}`).then(
       (res) => {
         setIelts(res);
         setLoading(false);
       }
     );
 
-    get(`Duolingo/Index/${localStorage.getItem("applictionStudentId")}`).then(
+    get(`Duolingo/Index/${applicationStudentId}`).then(
       (res) => {
         console.log("duolingo data", res);
         setDuolingo(res);
@@ -183,7 +185,7 @@ const TestScore = () => {
       }
     );
 
-    get(`Toefl/Index/${localStorage.getItem("applictionStudentId")}`).then(
+    get(`Toefl/Index/${applicationStudentId}`).then(
       (res) => {
         setToefl(res);
         setLoading(false);
@@ -191,34 +193,34 @@ const TestScore = () => {
     );
 
     get(
-      `FunctionalSkill/Index/${localStorage.getItem("applictionStudentId")}`
+      `FunctionalSkill/Index/${applicationStudentId}`
     ).then((res) => {
       setFunctions(res);
       setLoading(false);
     });
 
-    get(`Gcse/Index/${localStorage.getItem("applictionStudentId")}`).then(
+    get(`Gcse/Index/${applicationStudentId}`).then(
       (res) => {
         setGcse(res);
         setLoading(false);
       }
     );
 
-    get(`Pearson/Index/${localStorage.getItem("applictionStudentId")}`).then(
+    get(`Pearson/Index/${applicationStudentId}`).then(
       (res) => {
         setPearson(res);
         setLoading(false);
       }
     );
 
-    get(`Other/Index/${localStorage.getItem("applictionStudentId")}`).then(
+    get(`Other/Index/${applicationStudentId}`).then(
       (res) => {
         setOthers(res);
         setLoading(false);
       }
     );
 
-    get(`Pte/Index/${localStorage.getItem("applictionStudentId")}`).then(
+    get(`Pte/Index/${applicationStudentId}`).then(
       (res) => {
         console.log("pte Data ", res);
         setPte(res);
@@ -229,7 +231,7 @@ const TestScore = () => {
 
   const backToStudentProfile = () => {
     history.push(
-      `/studentProfile/${localStorage.getItem("applictionStudentId")}`
+      `/studentProfile/${applicationStudentId}`
     );
   };
 
@@ -374,11 +376,11 @@ const TestScore = () => {
   };
 
   const goBackward = () => {
-    history.push("/addStudentEducationalInformation");
+    history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
   };
 
   const handleForward = () => {
-    history.push("/addExperience");
+    history.push(`/addExperience/${applicationStudentId}`);
   };
 
   const toggleDanger = (info, number) => {
@@ -414,7 +416,7 @@ const TestScore = () => {
 
     setModalOpen(true);
 
-    localStorage.setItem("qualificationValue", value);
+    
   };
 
   const handleEditIelts = (data) => {
@@ -820,44 +822,44 @@ const TestScore = () => {
     setActivetab(tab);
 
     if (tab == "1") {
-      history.push("/addStudentApplicationInformation");
+      history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "2") {
-      history.push("/addStudentInformation");
+      history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "3") {
-      history.push("/addStudentContactInformation");
+      history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "4") {
-      history.push("/addStudentEducationalInformation");
+      history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "5") {
-      history.push("/addTestScore");
+      history.push(`/addTestScore/${applicationStudentId}`);
     }
 
     if (tab == "6") {
-      history.push("/addExperience");
+      history.push(`/addExperience/${applicationStudentId}`);
     }
 
     if (tab == "7") {
-      history.push("/addReference");
+      history.push(`/addReference/${applicationStudentId}`);
     }
 
     if (tab == "8") {
-      history.push("/addPersonalStatement");
+      history.push(`/addPersonalStatement/${applicationStudentId}`);
     }
     if (tab == "9") {
-      history.push("/addOtherInformation");
+      history.push(`/addOtherInformation/${applicationStudentId}`);
     }
     if (tab == "10") {
-      history.push("/uploadDocument");
+      history.push(`/uploadDocument/${applicationStudentId}`);
     }
     if (tab == "11") {
-      history.push("/studentDeclaration");
+      history.push(`/studentDeclaration/${applicationStudentId}`);
     }
   };
 
@@ -968,7 +970,7 @@ const TestScore = () => {
 
       <Card>
       <CardBody>
-        {method == "put" ? (
+        { update? (
           <Nav tabs>
             <NavItem>
               <NavLink
@@ -1273,7 +1275,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updateIelts ? (
@@ -1440,7 +1442,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updateToefl ? (
@@ -1607,7 +1609,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updateFunctions ? (
@@ -1786,7 +1788,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updateGcse ? (
@@ -1842,7 +1844,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updatePearson ? (
@@ -1900,7 +1902,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updateDuolingo ? (
@@ -1926,8 +1928,8 @@ const TestScore = () => {
                         <Col md="6">
                           <Input
                             type="number"
-                            name="literacy"
-                            id="literacy"
+                            name="leteracy"
+                            id="leteracy"
                             defaultValue={
                               updateDuolingo ? duolingo?.leteracy : ""
                             }
@@ -2055,7 +2057,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updateOther ? (
@@ -2135,7 +2137,7 @@ const TestScore = () => {
                         type="hidden"
                         name="studentId"
                         id="studentId"
-                        value={localStorage.getItem("applictionStudentId")}
+                        value={applicationStudentId}
                       />
 
                       {updatePte ? (
@@ -3177,7 +3179,7 @@ const TestScore = () => {
                       type="hidden"
                       name="studentId"
                       id="studentId"
-                      value={localStorage.getItem("applictionStudentId")}
+                      value={applicationStudentId}
                     />
 
                     {greData?.id ? (
@@ -3383,7 +3385,7 @@ const TestScore = () => {
                       type="hidden"
                       name="studentId"
                       id="studentId"
-                      value={localStorage.getItem("applictionStudentId")}
+                      value={applicationStudentId}
                     />
 
                     {gmatData?.id ? (

@@ -135,37 +135,37 @@ const DocumentUpload = () => {
     }
 
     if (tab == "2") {
-      history.push("/addStudentInformation");
+      history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "3") {
-      history.push("/addStudentContactInformation");
+      history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "4") {
-      history.push("/addStudentEducationalInformation");
+      history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "5") {
-      history.push("/addTestScore");
+      history.push(`/addTestScore/${applicationStudentId}/${1}`);
     }
 
     if (tab == "6") {
-      history.push("/addExperience");
+      history.push(`/addExperience/${applicationStudentId}/${1}`);
     }
 
     if (tab == "7") {
-      history.push("/addReference");
+      history.push(`/addReference/${applicationStudentId}/${1}`);
     }
 
     if (tab == "8") {
-      history.push("/addPersonalStatement");
+      history.push(`/addPersonalStatement/${applicationStudentId}/${1}`);
     }
     if (tab == "9") {
-      history.push("/addOtherInformation");
+      history.push(`/addOtherInformation/${applicationStudentId}/${1}`);
     }
     if (tab == "11") {
-      history.push("/studentDeclaration");
+      history.push(`/studentDeclaration/${applicationStudentId}`);
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane,Form, FormGroup, Col, Input, Button, Row, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import Select from "react-select";
 import get from '../../../helpers/get';
@@ -13,6 +13,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 const Reference = () => {
 
     const history = useHistory();
+    const {applicationStudentId, update} = useParams();
     
 
     const [activetab, setActivetab] = useState("7")
@@ -30,11 +31,12 @@ const Reference = () => {
       const [oneData, setOneData] = useState({});
 
       const {addToast} = useToasts();
+      const [delData,setDelData] = useState({});
   
 
-    const studentIdVal = localStorage.getItem('applictionStudentId');
+  
 
-    const method = localStorage.getItem('method');
+   
 
     const [referenceError, setReferenceError] = useState(false);
     const [countryError, setCountryError] = useState(false);
@@ -48,7 +50,7 @@ const Reference = () => {
             setCountry(res);
         })
 
-        get(`Reference/GetByStudentId/${studentIdVal}`)
+        get(`Reference/GetByStudentId/${applicationStudentId}`)
         .then(res => {
             console.log(res);
             setRefList(res);
@@ -67,51 +69,51 @@ const Reference = () => {
 
 
     const backToStudentProfile = () => {
-      history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+      history.push(`/studentProfile/${applicationStudentId}`);
   }
   
 
     const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
-          history.push("/addStudentApplicationInformation");
+          history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "2") {
-          history.push("/addStudentInformation");
+          history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "3") {
-          history.push("/addStudentContactInformation");
+          history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "4") {
-          history.push("/addStudentEducationalInformation");
+          history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "5") {
-          history.push("/addTestScore");
+          history.push(`/addTestScore/${applicationStudentId}/${1}`);
         }
       
         if (tab == "6") {
-          history.push("/addExperience");
+          history.push(`/addExperience/${applicationStudentId}/${1}`);
         }
       
         if (tab == "7") {
-          history.push("/addReference");
+          history.push(`/addReference/${applicationStudentId}`);
         }
       
         if (tab == "8") {
-          history.push("/addPersonalStatement");
+          history.push(`/addPersonalStatement/${applicationStudentId}`);
         }
         if (tab == "9") {
-          history.push("/addOtherInformation");
+          history.push(`/addOtherInformation/${applicationStudentId}`);
         }
         if (tab == "10") {
-          history.push("/uploadDocument");
+          history.push(`/uploadDocument/${applicationStudentId}`);
         }
         if (tab == "11") {
-          history.push("/studentDeclaration");
+          history.push(`/studentDeclaration/${applicationStudentId}`);
         }
 
         
@@ -154,8 +156,8 @@ const Reference = () => {
 
       
   const toggleDanger = (id) => {
-    console.log(id);
-    localStorage.setItem('deleteReferenceId',id);
+    setDelData(id);
+    
   
    setDeleteModal(true)
  }
@@ -165,7 +167,7 @@ const Reference = () => {
    
  
    
- remove(`Reference/Delete/${localStorage.getItem('deleteReferenceId')}`)
+ remove(`Reference/Delete/${delData?.id}`)
  .then(res => {
   console.log(res);
   addToast(res,{
@@ -173,7 +175,7 @@ const Reference = () => {
     autoDismiss: true
   })
   setDeleteModal(false);
-  get(`Reference/GetByStudentId/${studentIdVal}`)
+  get(`Reference/GetByStudentId/${applicationStudentId}`)
   .then(res => {
       console.log(res);
       setRefList(res);
@@ -211,15 +213,13 @@ const Reference = () => {
 // redirect to Next Page
 const onNextPage = () => {
   
-  history.push('/addPersonalStatement'
-   
-  );
+  history.push(`/addPersonalStatement/${applicationStudentId}`);
 };
 
 
 const onPreviousPage = () => {
 
-  history.push('/addExperience'
+  history.push(`/addExperience/${applicationStudentId}/${1}`
    
   );
 
@@ -260,7 +260,7 @@ const onShow=()=>{
           })
           setShowForm(false);
           setOneData({});
-          get(`Reference/GetByStudentId/${studentIdVal}`)
+          get(`Reference/GetByStudentId/${applicationStudentId}`)
           .then(res => {
               console.log(res);
               setRefList(res);
@@ -285,7 +285,7 @@ const onShow=()=>{
             appearance: 'success',
             autoDismiss: true
           })
-          get(`Reference/GetByStudentId/${studentIdVal}`)
+          get(`Reference/GetByStudentId/${applicationStudentId}`)
           .then(res => {
               console.log(res);
               setRefList(res);
@@ -329,7 +329,7 @@ const onShow=()=>{
       <CardBody>
       {
 
-        method == 'put'?
+        update ?
      
        <Nav tabs>
 
@@ -524,7 +524,7 @@ const onShow=()=>{
           </div>
 
           <div className=""> 
-             <Button type="button" color='danger' className="bankCard-style" onClick={()=>toggleDanger(ref.id)} ><i className="fas fa-trash-alt"></i></Button>
+             <Button type="button" color='danger' className="bankCard-style" onClick={()=>toggleDanger(ref)} ><i className="fas fa-trash-alt"></i></Button>
           </div>
          </div>
 
@@ -566,7 +566,7 @@ const onShow=()=>{
         type='hidden'
         name='studentId'
         id='studentId'
-        value={studentIdVal}
+        value={applicationStudentId}
         />
 
         {

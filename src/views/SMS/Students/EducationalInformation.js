@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import Select from "react-select";
 import get from '../../../helpers/get';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
@@ -12,6 +12,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 
 const EducationalInformation = () => {
 
+  const {applicationStudentId, update} = useParams();
     const [activetab, setActivetab] = useState("4");
     const history = useHistory();
     const [educationLevel, setEducationLevel] = useState([]);
@@ -39,7 +40,7 @@ const EducationalInformation = () => {
     const [from, setFrom] = useState('');
     const [to,setTo] = useState('');
 
-    const method = localStorage.getItem('method');
+    
 
     const [programError, setProgramError] = useState(false);
     const [countryError, setCountryError] = useState(false);
@@ -58,7 +59,7 @@ const EducationalInformation = () => {
         setCountry(res);
     })
 
-    get(`EducationInformation/GetByStudentId/${localStorage.getItem('applictionStudentId')}`)
+    get(`EducationInformation/GetByStudentId/${applicationStudentId}`)
     .then(res => {
       setEduDetails(res);
       console.log('Edu details', res);
@@ -68,7 +69,7 @@ const EducationalInformation = () => {
 
 
   const backToStudentProfile = () => {
-    history.push(`/studentProfile/${localStorage.getItem('applictionStudentId')}`);
+    history.push(`/studentProfile/${applicationStudentId}`);
 }
 
 // date handling
@@ -85,44 +86,44 @@ const handleDate = (e) =>{
     const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
-          history.push("/addStudentApplicationInformation");
+          history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "2") {
-          history.push("/addStudentInformation");
+          history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "3") {
-          history.push("/addStudentContactInformation");
+          history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
         }
       
         if (tab == "4") {
-          history.push("/addStudentEducationalInformation");
+          history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
         }
       
         if (tab == "5") {
-          history.push("/addTestScore");
+          history.push(`/addTestScore/${applicationStudentId}`);
         }
       
         if (tab == "6") {
-          history.push("/addExperience");
+          history.push(`/addExperience/${applicationStudentId}`);
         }
       
         if (tab == "7") {
-          history.push("/addReference");
+          history.push(`/addReference/${applicationStudentId}`);
         }
       
         if (tab == "8") {
-          history.push("/addPersonalStatement");
+          history.push(`/addPersonalStatement/${applicationStudentId}`);
         }
         if (tab == "9") {
-          history.push("/addOtherInformation");
+          history.push(`/addOtherInformation/${applicationStudentId}`);
         }
         if (tab == "10") {
-          history.push("/uploadDocument");
+          history.push(`/uploadDocument/${applicationStudentId}`);
         }
         if (tab == "11") {
-          history.push("/studentDeclaration");
+          history.push(`/studentDeclaration/${applicationStudentId}`);
         }
 
        
@@ -175,14 +176,14 @@ setCountryValue(value);
 
 const goForward = () => {
 
-  history.push('/AddTestScore');
+  history.push(`/AddTestScore/${applicationStudentId}`);
   
 }
 
 const goBackward = () => {
 
 
-  history.push('/AddStudentContactInformation');
+  history.push(`/AddStudentContactInformation/${applicationStudentId}/${1}`);
 
 }
 
@@ -357,7 +358,7 @@ const handleUpdate = (id) => {
       <CardBody>
       {
 
-        method == 'put'?
+        update?
      
        <Nav tabs>
 
@@ -595,7 +596,7 @@ const handleUpdate = (id) => {
             type='hidden'
              name='studentId'
              id='studentId'
-             value={localStorage?.getItem('applictionStudentId')}          
+             value={applicationStudentId}          
             />
 
         {
@@ -888,7 +889,7 @@ const handleUpdate = (id) => {
             type='hidden'
              name='studentId'
              id='studentId'
-             value={localStorage?.getItem('applictionStudentId')}          
+             value={applicationStudentId}          
             />
         
 

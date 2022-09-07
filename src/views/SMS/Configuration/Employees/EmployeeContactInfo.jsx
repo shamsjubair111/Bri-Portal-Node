@@ -47,7 +47,7 @@ const EmployeeContactInfo = () => {
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
-  const userId = localStorage.getItem("employeeId");
+ 
 
   useEffect(() => {
     get(`EmployeeContactInformation/GetByEmployeeId/${id}`).then((res) => {
@@ -212,7 +212,7 @@ const EmployeeContactInfo = () => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Input
-                    value={userId}
+                    value={id}
                     type="hidden"
                     name="employeeId"
                     id="employeeId"
