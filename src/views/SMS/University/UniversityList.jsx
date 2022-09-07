@@ -156,19 +156,19 @@ const UniversityList = (props) => {
       setUniCountryLabel('Select University Country');
     }
 
-    //  if(providerId !== 0){
-    //    var providertype = providerDataResult?.find(p => p.id === providerId);
+     if(providerId !== 0){
+       var providertype = providerDataResult?.find(p => p.id === providerId);
 
-    //   console.log(providertype);
+      console.log(providertype);
 
-    //    if(providertype === undefined){
-    //      setProviderLabel('Provider Type')
-    //    }
-    //    else{
-    //      setProviderLabel(providertype?.name);
-    //      setProviderValue(providerId);
-    //    }
-    //  }
+       if(providertype === undefined){
+         setProviderLabel('Provider Type')
+       }
+       else{
+         setProviderLabel(providertype?.name);
+         setProviderValue(providerId);
+       }
+     }
 
     // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
     //   console.log("providerHelper",typeof(res));

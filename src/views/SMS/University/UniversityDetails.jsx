@@ -740,7 +740,7 @@ const UniversityDetails = () => {
 
                           <FormGroup>
                             <span>
-                              Multiple File Upload{" "}
+                            Select Files{" "}
                               <span className="text-danger">*</span>{" "}
                             </span>
                             {loading ? (
@@ -1464,7 +1464,7 @@ const UniversityDetails = () => {
                     </div>
 
                     <div className="d-flex justify-content-between">
-                      <span>Intership Participation</span>
+                      <span>Internship Participation</span>
                       <p>
                         {universityFeatures?.intershipParticipation ===
                         false ? (

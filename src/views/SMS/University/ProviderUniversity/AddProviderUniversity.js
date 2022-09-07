@@ -2,7 +2,7 @@ import React, { createRef, useEffect, useState } from "react";
 // import 'react-dropzone-uploader/dist/styles.css'
 import { connect, useSelector } from "react-redux";
 import Select from "react-select";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import {
   Card,
   CardBody,
@@ -30,24 +30,24 @@ import {
 } from "reactstrap";
 import Axios from "axios";
 
-import { rootUrl } from "../../../constants/constants";
+import { rootUrl } from "../../../../constants/constants";
 import { padding } from "@mui/system";
-import get from "../../../helpers/get";
-import PicturesWall from "./UniversityLogo";
-import CoverPicturesWall from "./UniversityCover";
-import put from "../../../helpers/put";
+import get from "../../../../helpers/get";
+import PicturesWall from "../UniversityLogo";
+import CoverPicturesWall from "../UniversityCover";
+import put from "../../../../helpers/put";
 import { useToasts } from "react-toast-notifications";
-import ButtonForFunction from "../Components/ButtonForFunction";
+import ButtonForFunction from "../../Components/ButtonForFunction";
 
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
 import "antd/dist/antd.css";
 import { Image } from "antd";
-import { permissionList } from "../../../constants/AuthorizationConstant";
-import { userTypes } from "../../../constants/userTypeConstant";
+import { permissionList } from "../../../../constants/AuthorizationConstant";
+import { userTypes } from "../../../../constants/userTypeConstant";
 
-const AddUniversity = (props) => {
-  // const univerSityCountries = props.univerSityCountryList[0];
+const AddProviderUniversity = () => {
+     // const univerSityCountries = props.univerSityCountryList[0];
   const [univerSityCountries, setUniverSityCountries] = useState([]);
   // const universityTypes = props.univerSityTypeList[0];
   const [universityTypes, setUniversitiesType] = useState([]);
@@ -93,6 +93,11 @@ const AddUniversity = (props) => {
 
   const [submitData, setSubmitData] = useState(false);
 
+  const { addToast } = useToasts();
+  const location = useLocation();
+
+  const [providerProId, setProviderProId] = useState(location?.providerProfileId);
+
   const AuthStr = localStorage.getItem("token");
 
   const [logoFile, setLogoFile] = useState({});
@@ -103,7 +108,8 @@ const AddUniversity = (props) => {
 
   const method = localStorage.getItem("editMethod");
 
-  const { addToast } = useToasts();
+  console.log("proProfileId", location?.providerProfileId);
+  console.log("proProfileId", localStorage.getItem("proProfileId"));
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -117,7 +123,7 @@ const AddUniversity = (props) => {
   const [previewImage2, setPreviewImage2] = useState("");
   const [previewTitle2, setPreviewTitle2] = useState("");
 
-  const [providerValue, setProviderValue] = useState(0);
+//   const [providerValue, setProviderValue] = useState(0);
 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
@@ -175,17 +181,15 @@ const AddUniversity = (props) => {
     );
   };
 
-  useEffect(()=>{
-    get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-      console.log("providerHelper",typeof(res));
-        setProviderValue(res != 0 ? res : 0);
-        // if(res != 0){
-        //   localStorage.setItem("providerValue", res);
-        // }
-    })
-  },[userType, referenceId])
+//   useEffect(()=>{
+//     get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
+//       console.log("providerHelper",typeof(res));
+//         setProviderValue(res != 0 ? res : 0);
+        
+//     })
+//   },[userType, referenceId])
 
-  console.log("providervalue", typeof(providerValue));
+//   console.log("providervalue", typeof(providerValue));
 
   useEffect(() => {
     get("ProviderDD/Index")
@@ -348,90 +352,14 @@ const AddUniversity = (props) => {
       },
     };
 
-    if (providerValue === 0) {
-      if(providerTypeValue == 0){
-        setProviderTypeError(true);
-
-      }
-      
-      // if(providerTypeValue === 0){
-      //   console.log("providerTypeValue",providerTypeValue);
-      // setProviderTypeError(true);
-      // }
-      else if (uniTypeValue === 0) {
-        setUniTypeError(true);
-      }
-      else if(contractTypeValue === 0){
-        setContractTypeError(true);
-      }
-      else if (uniCountryValue === 0) {
-        setUniCountryError(true);
-      }
-      else if (unistateValue === 0) {
-        setUniStateError(true);
-      }
-      else if (FileList1.length < 1 && check) {
-        setLogoDropzoneError(true);
-      }
-      // if(FileList1.length>=1 && uniId != undefined ){
-      //   setLogoDropzoneError(false);
-      // }
-      else if (FileList2.length < 1 && check) {
-        setCoverDropzoneError(true);
-      }
-      // if(FileList2.length>=1 && uniId != undefined)
-      // {
-      //   setCoverDropzoneError(false);
-      // }
-      else {
-        if (uniId != undefined) {
-          put("University/Update", subdata, config).then((res) => {
-            console.log("1st put response", res);
-            if (res?.status == 200) {
-              addToast(res?.data?.message, {
-                appearance: "success",
-                autoDismiss: true,
-              });
-              
-              history.push("/addUniversityCampus");
-            }
-          });
-        } else {
-          Axios.post(`${rootUrl}University/Create`, subdata, config).then(
-            (res) => {
-              console.log("unipostData", res);
-  
-              localStorage.setItem("id", res.data.result.id);
-              const uniID = res.data.result.id;
-  
-              if (res.status === 200 && res.data.isSuccess === true) {
-                setSubmitData(true);
-                addToast(res?.data?.message, {
-                  appearance: "success",
-                  autoDismiss: true,
-                });
-                history.push({
-                  pathname: "/addUniversityCampus",
-                  id: uniID,
-                });
-              }
-            }
-          );
-        }
-    }
     
-    }
-    else{
-      // if(providerTypeValue == 0){
-      //   setProviderTypeError(true);
-
-      // }
+      
       
       // if(providerTypeValue === 0){
       //   console.log("providerTypeValue",providerTypeValue);
       // setProviderTypeError(true);
       // }
-       if (uniTypeValue === 0) {
+      if (uniTypeValue === 0) {
         setUniTypeError(true);
       }
       else if(contractTypeValue === 0){
@@ -466,7 +394,7 @@ const AddUniversity = (props) => {
                 autoDismiss: true,
               });
               
-              history.push("/addUniversityCampus");
+              history.push("/addProviderUniversityCampus");
             }
           });
         } else {
@@ -484,14 +412,13 @@ const AddUniversity = (props) => {
                   autoDismiss: true,
                 });
                 history.push({
-                  pathname: "/addUniversityCampus",
+                  pathname: "/addProviderUniversityCampus",
                   id: uniID,
                 });
               }
             }
           );
         }
-    }
     }
   };
 
@@ -531,22 +458,22 @@ const AddUniversity = (props) => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "2") {
-      history.push("/addUniversityCampus");
+      history.push("/addProviderUniversityCampus");
     }
     if (tab == "3") {
-      history.push("/addUniversityFinancial");
+      history.push("/addProviderUniversityFinancial");
     }
     if (tab == "4") {
-      history.push("/addUniversityFeatures");
+      history.push("/addProviderUniversityFeatures");
     }
     if (tab == "5") {
-      history.push("/addUniversityGallery");
+      history.push("/addProviderUniversityGallery");
     }
     if (tab == "6") {
-      history.push("/addUniversityApplicationDocument");
+      history.push("/addProviderUniversityApplicationDocument");
     }
     if (tab == "7") {
-      history.push("/addUniversityTemplateDocument");
+      history.push("/addProviderUniversityTemplateDocument");
     }
   };
 
@@ -564,21 +491,19 @@ const AddUniversity = (props) => {
   }));
 
   // redirect to dashboard
-  const backToUniList = () => {
-    history.push("/universityList");
+  const backToProviderDetails = () => {
+    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
+    localStorage.removeItem("proProfileId");
   };
-
-
-  return (
-    <div>
+    return (
+        <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University
-              List
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
           </div>
         </CardHeader>
@@ -631,11 +556,11 @@ const AddUniversity = (props) => {
             <NavItem>
               {submitData || JSON.parse(localStorage.getItem("id")) ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                  Financial
+                  Financial Information
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "3"}>
-                  Financial
+                  Financial Information
                 </NavLink>
               )}
             </NavItem>
@@ -755,48 +680,15 @@ const AddUniversity = (props) => {
                   ) : null
                 }
                {
-                 uniId === undefined &&  providerTypeValue === 0 ?
+                 uniId === undefined &&  location?.providerProfileId !== undefined ?
                  <Input
                    type="hidden"
                    name="providerId"
                    id="providerId"
-                   value={providerValue}
+                   value={location?.providerProfileId}
                  />
                  :null
                }
-
-                {
-                  !(userType == userTypes?.ProviderAdmin || userType == userTypes?.AdmissionManager) ?
-                  <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Provider <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={providerMenu}
-                      value={{
-                        label: providerTypeLabel,
-                        value: providerTypeValue,
-                      }}
-                      onChange={(opt) =>
-                        selectProviderType(opt.label, opt.value)
-                      }
-                      name="providerId"
-                      id="providerId"
-                    />
-
-                    {providerTypeError && (
-                      <span className="text-danger">
-                        You must select provider.
-                      </span>
-                    )}
-                  </Col>
-                </FormGroup>
-                :
-                null
-                }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -1265,11 +1157,7 @@ const AddUniversity = (props) => {
         </CardBody>
       </Card>
     </div>
-  );
+    );
 };
-const mapStateToProps = (state) => ({
-  univerSityTypeList: state.universityTypeDataReducer.universityTypes,
-  univerSityCountryList: state.universityCountryDataReducer.universityCountries,
-  univerSityStateList: state.universityStateDataReducer.universityStates,
-});
-export default connect(mapStateToProps)(AddUniversity);
+
+export default AddProviderUniversity;

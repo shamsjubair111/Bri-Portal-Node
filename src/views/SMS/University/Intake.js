@@ -135,7 +135,7 @@ const Intake = () => {
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Intake</h3>
+                <h3 className="text-light">Intake List</h3>
                 <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-light">
                     {" "}

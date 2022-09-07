@@ -22,16 +22,16 @@ import {
 } from "reactstrap";
 import { useToasts } from "react-toast-notifications";
 // import post from '../../../helpers/post';
-import { rootUrl } from "../../../constants/constants";
+import { rootUrl } from "../../../../constants/constants";
 import MediaPictures from "./UniversityMedia";
 import { useHistory } from "react-router-dom";
-import ButtonForFunction from "../Components/ButtonForFunction";
-import CustomButtonRipple from "../Components/CustomButtonRipple";
-import get from "../../../helpers/get";
-import remove from "../../../helpers/remove";
+import ButtonForFunction from "../../Components/ButtonForFunction";
+import CustomButtonRipple from "../../Components/CustomButtonRipple";
+import get from "../../../../helpers/get";
+import remove from "../../../../helpers/remove";
 
-const AddUniversityGallery = () => {
-  const [activetab, setActivetab] = useState("5");
+const AddProviderUniversityGallery = () => {
+    const [activetab, setActivetab] = useState("5");
   const [gallery, setGallery] = useState([]);
   const [FileList, setFileList] = useState([]);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -100,35 +100,36 @@ const AddUniversityGallery = () => {
     );
   }, [success]);
 
-  const backToUniList = () => {
-    history.push("/universityList");
+  const backToProviderDetails = () => {
+    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
+    localStorage.removeItem("proProfileId");
   };
 
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addUniversity");
+      history.push("/addProviderUniversity");
     }
     if (tab == "2") {
-      history.push("/addUniversityCampus");
+      history.push("/addProviderUniversityCampus");
     }
     if (tab == "3") {
-      history.push("/addUniversityFinancial");
+      history.push("/addProviderUniversityFinancial");
     }
     if (tab == "4") {
-      history.push("/addUniversityFeatures");
+      history.push("/addProviderUniversityFeatures");
     }
     if (tab == "5") {
-      history.push("/addUniversityGallery");
+      history.push("/addProviderUniversityGallery");
     }
     if (tab == "6") {
-      history.push("/addUniversityApplicationDocument");
+      history.push("/addProviderUniversityApplicationDocument");
     }
     if (tab == "7") {
-      history.push("/addUniversityTemplateDocument");
+      history.push("/addProviderUniversityTemplateDocument");
     }
     if (tab == "8") {
-      history.push("/addUniversityRequiredDocument");
+      history.push("/addProviderUniversityRequiredDocument");
     }
   };
 
@@ -171,17 +172,15 @@ const AddUniversityGallery = () => {
     setViewModalOpen(true);
     console.log("gOBj", gallery);
   };
-
-  return (
-    <div>
+    return (
+        <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University Gallery</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University
-              List
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
           </div>
         </CardHeader>
@@ -467,13 +466,7 @@ const AddUniversityGallery = () => {
         </CardBody>
       </Card>
     </div>
-  );
+    );
 };
 
-const mapStateToProps = (state) => ({
-  univerSityTypeList: state.universityTypeDataReducer.universityTypes,
-  univerSityCountryList: state.universityCountryDataReducer.universityCountries,
-  univerSityStateList: state.universityStateDataReducer.universityStates,
-});
-
-export default connect(mapStateToProps)(AddUniversityGallery);
+export default AddProviderUniversityGallery;

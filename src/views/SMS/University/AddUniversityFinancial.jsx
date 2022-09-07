@@ -154,7 +154,7 @@ const AddUniversityFinancial = (props) => {
 
           <Card className='uapp-card-bg'>
               <CardHeader className="page-header">              
-                <h3 className="text-light">Add University Financial Information</h3>
+                <h3 className="text-light">University Financial Information</h3>
                   <div className="page-header-back-to-home">
                   <span onClick={backToUniList} className="text-light">
                     {" "} 
@@ -265,6 +265,17 @@ const AddUniversityFinancial = (props) => {
 
                                 <TabPane tabId="3">
                                 <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
+                                <div className="hedding-titel d-flex justify-content-between mb-4">
+                      <div>
+                        <h5> <b>Financial Information</b> </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                        {/* <div className="text-right edit-style  p-3" >
+                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                        </div> */}
+
+                    </div>
 
                                 {
                                 //   method == 'put' ?

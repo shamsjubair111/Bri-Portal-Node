@@ -306,7 +306,7 @@ const DocumentGroup = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Document Group</h3>
+          <h3 className="text-light">Subject Document Group</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
@@ -333,8 +333,7 @@ const DocumentGroup = () => {
               Total{" "}
               <span className="badge badge-primary">
                 {documentGroupData?.length}
-              </span>{" "}
-              University Subject Document Group Found{" "}
+              </span>{" "}Subject Document Group Found{" "}
             </b>
           </div>
         </CardHeader>
@@ -343,7 +342,7 @@ const DocumentGroup = () => {
             <Modal
               isOpen={modalOpen}
               toggle={closeModal}
-              className="uapp-modal"
+              className="uapp-modal2"
             >
               <ModalHeader>Add Document Group</ModalHeader>
               <ModalBody>
@@ -379,7 +378,7 @@ const DocumentGroup = () => {
 
                       {applicationTypeError && (
                         <span className="text-danger">
-                          Application Type must be selected.
+                          You must select application type.
                         </span>
                       )}
                     </Col>
@@ -398,7 +397,7 @@ const DocumentGroup = () => {
                         name="title"
                         id="title"
                         value={title}
-                        placeholder="Write title"
+                        placeholder="Write Title"
                         onChange={(e) => setTitle(e.target.value)}
                       />
                     </Col>
@@ -418,7 +417,7 @@ const DocumentGroup = () => {
                         name="details"
                         id="details"
                         value={detail}
-                        placeholder="Write details"
+                        placeholder="Write Details"
                         onChange={(e) => setDetail(e.target.value)}
                       />
                     </Col>

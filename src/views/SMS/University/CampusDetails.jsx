@@ -85,6 +85,8 @@ const CampusDetails = () => {
   const [deleteModal1, setDeleteModal1] = useState(false);
   const [deleteModal2, setDeleteModal2] = useState(false);
 
+  
+
   const [loading, setLoading] = useState(false);
 
   const [subError, setSubError] = useState(false);
@@ -600,6 +602,10 @@ const CampusDetails = () => {
     }
   };
 
+  const handleMultipleSubjects = () => {
+    history.push(`/assignMultipleSubject/${id}`);
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -825,7 +831,7 @@ const CampusDetails = () => {
 
                           <FormGroup>
                             <span>
-                              Multiple File Upload{" "}
+                              Select Files{" "}
                               <span className="text-danger">*</span>{" "}
                             </span>
                             {loading ? (
@@ -919,7 +925,7 @@ const CampusDetails = () => {
             <div className=" info-item mt-4">
               <Card>
                 <CardBody>
-                  <div className="hedding-titel d-flex justify-content-between">
+                  <div className="hedding-titel d-flex justify-content-between mb-2">
                     <div>
                       <h5>
                         {" "}
@@ -934,7 +940,11 @@ const CampusDetails = () => {
                     </div> */}
                   </div>
 
-                  <div className="table-responsive pt-3">
+                  {
+                    subjectList.length < 1 ?
+                    <span>There is no data available.</span>
+                    :
+                    <div className="table-responsive pt-3">
                     <Table className="table-sm striped">
                       <thead className="">
                         <tr style={{ textAlign: "center" }}>
@@ -1213,6 +1223,7 @@ const CampusDetails = () => {
                       </tbody>
                     </Table>
                   </div>
+                  }
                 </CardBody>
               </Card>
             </div>
@@ -1226,7 +1237,7 @@ const CampusDetails = () => {
                     <div>
                       <h5>
                         {" "}
-                        <b>Assign single subject</b>{" "}
+                        <b>Assign Subject</b>{" "}
                       </h5>
 
                       <div className="bg-h"></div>
@@ -1415,252 +1426,54 @@ const CampusDetails = () => {
                     </FormGroup>
 
                     <FormGroup
+                      row
                       className="has-icon-left position-relative"
                       style={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        justifyContent: "end",
                       }}
                     >
+                      <Col md="6">
                       <Button.Ripple
                         type="submit"
-                        className="mr-1 mt-3 badge-primary"
+                        className="ms-md-4 ms-sm-0 mt-3 badge-primary"
                       >
                         Submit
                       </Button.Ripple>
+                      </Col>
                     </FormGroup>
                   </Form>
                 </CardBody>
               </Card>
             </div>
 
-            {/* Assign multiple subject */}
-
-            {/* <Card className="uapp-card-bg">
-            <CardHeader className="page-header">
-
-              <h3 className="text-light">Assign multiple subject</h3>
-
-            </CardHeader>
-         </Card> */}
+            {/* assign multiple subjects starts here */}
             <div className=" info-item mt-4">
               <Card className="uapp-employee-search">
                 <CardBody className="search-card-body">
-                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div className="d-flex justify-content-between">
+                  <div className="hedding-titel d-flex justify-content-between mb-2">
                     <div>
                       <h5>
                         {" "}
-                        <b>Assign multiple subjects</b>{" "}
+                        <b>Assign Multiple Subjects</b>{" "}
                       </h5>
 
                       <div className="bg-h"></div>
                     </div>
-                    {/* <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                 </div> */}
+                    
                   </div>
 
-                  <Form onSubmit={handleSubjectIntake}>
-                    {/* <Card>
-                  <CardHeader className="page-header">
-                  <CardHeader>Select Subject</CardHeader>
-                  </CardHeader>
-              </Card> */}
-
-                    {/* <Input
-                        type='hidden'
-                        name='campusId'
-                        id='campusId'
-                        value={id}
-                        
-                        /> */}
-
-                    <FormGroup>
-                      <Row>
-                        <Col sm="6" className="text-center">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              onChange={handleChange}
-                              type="checkbox"
-                              checked={
-                                subList.filter((sub) => sub?.isChecked !== true)
-                                  .length < 1
-                              }
-                              disabled={
-                                subList.filter((sub) => sub?.isChecked !== true)
-                                  .length < 1
-                              }
-                              name="allSelect"
-                            />
-                            <label className="form-check-label" htmlFor="">
-                              <b>Select all subjects</b>
-                            </label>
-                          </div>
-                        </Col>
-
-                        <Col sm="6" className="text-center">
-                          <div className="form-check ms-auto">
-                            <input
-                              className="form-check-input"
-                              onChange={handleChange}
-                              type="checkbox"
-                              checked={
-                                subList.filter(
-                                  (sub) => sub?.isChecked !== false
-                                ).length < 1
-                              }
-                              disabled={
-                                subList.filter(
-                                  (sub) => sub?.isChecked !== false
-                                ).length < 1
-                              }
-                              name="allDeselect"
-                            />
-                            <label className="form-check-label" htmlFor="">
-                              <b>Deselect all subjects</b>
-                            </label>
-                          </div>
-                        </Col>
-                        <br />
-                        <br />
-                      </Row>
-                    </FormGroup>
-
-                    <Row className="text-center">
-                      <Col xs="6" sm="4" md="3"></Col>
-
-                      <Col xs="6" sm="4" md="3">
-                        <span>Is accept home </span>
-                      </Col>
-
-                      <Col xs="6" sm="4" md="3">
-                        <span>Is accept EU_UK </span>
-                      </Col>
-
-                      <Col xs="6" sm="4" md="3">
-                        <span>Is accept international</span>
-                      </Col>
-                    </Row>
-
-                    {/* Map ongoing  */}
-
-                    {subList?.map((sub, i) => (
-                      <>
-                        <Row>
-                          <Col xs="6" sm="4" md="3" key={i} className="">
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                onChange={(e) => {
-                                  handleChange(e);
-                                  setSubId(sub?.id);
-                                  setSubName(sub?.name);
-                                }}
-                                // onChange={handleSubjectCheckList}
-                                // onChange={e=>console.log(e.target.checked,sub?.id)}
-                                name={sub.name}
-                                checked={sub?.isChecked || false}
-                                // defaultChecked={user?.checked}
-                                // tmpUsers={user?.checked}
-                                value={sub?.id}
-                              />
-                              <label className="form-check-label" htmlFor="">
-                                {sub.name}
-                              </label>
-                            </div>
-                          </Col>
-
-                          <Col xs="6" sm="4" md="3" className="text-center">
-                            {/* <span>Is accept home </span><br /> */}
-                            <FormGroup check inline>
-                              <Input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`${sub?.id}`}
-                                name="isAcceptHome"
-                                disabled={sub?.isChecked ? false : true}
-                                onChange={(e) => {
-                                  setHomeAccept(!homeAccept);
-                                  handleFeatureHome(e);
-                                }}
-                                // value={isAcceptHome}
-                                // checked={!sub?.isChecked ? false : true}
-                                // defaultChecked={false}
-                                // checked={sub?.isAcceptHome ? true : false}
-                                // defaultChecked={sub?.isChecked ? true : false}
-                              />
-                            </FormGroup>
-                          </Col>
-
-                          <Col xs="6" sm="4" md="3" className="text-center">
-                            {/* <span>Is accept EU_UK  </span><br /> */}
-                            <FormGroup check inline>
-                              <Input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`${sub?.id}`}
-                                name="isAcceptEU_UK"
-                                disabled={sub?.isChecked ? false : true}
-                                onChange={(e) => {
-                                  setUkAccept(!ukAccept);
-                                  handleFeatureUk(e);
-                                }}
-                                // value={isAcceptUk}
-                                // checked={isAcceptUk}
-                                defaultChecked={false}
-                              />
-                            </FormGroup>
-                          </Col>
-
-                          <Col xs="6" sm="4" md="3" className="text-center">
-                            {/* <span>Is accept international</span> */}
-
-                            <FormGroup check inline>
-                              <Input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`${sub?.id}`}
-                                name="isAcceptInternational"
-                                disabled={sub?.isChecked ? false : true}
-                                onChange={(e) => {
-                                  setIntAccept(!intAccept);
-                                  handleFeatureInt(e);
-                                }}
-                                // value={isAcceptInt}
-                                // defaultChecked = {false}
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </>
-                    ))}
-
-                    <FormGroup
-                      className="has-icon-left position-relative"
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Button.Ripple
-                        type="submit"
-                        className="mr-1 mt-3 badge-primary"
-                      >
-                        Submit
-                      </Button.Ripple>
-                    </FormGroup>
-                  </Form>
+                  <div>
+                  <Button onClick={handleMultipleSubjects} color="primary">Assign Subjects</Button>
+                  </div>
+                  </div>
                 </CardBody>
               </Card>
             </div>
+            {/* assign multiple subjects ends here */}
 
-            {/* subject List */}
-            {/* <Card className="uapp-card-bg">
-             <CardHeader className="page-header">
-                 <h3 className="text-light">Subject List</h3>
-             </CardHeader>
-          </Card> */}
+            
 
             {/* subject intake starts here */}
             <div className=" info-item mt-4">

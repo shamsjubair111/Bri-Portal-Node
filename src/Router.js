@@ -92,6 +92,13 @@ const AddUniversityType = lazy(() => import("./views/SMS/University/AddUniversit
 const AddUniversityCountry = lazy(() => import("./views/SMS/University/AddUniversityCountry.jsx"))
 const AddUniversityState = lazy(() => import("./views/SMS/University/AddUniversityState.jsx"))
 const AddUniversity = lazy(() => import("./views/SMS/University/AddUniversity.jsx"))
+const AddProviderUniversity = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversity"))
+const AddProviderUniversityCampus = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityCampus"))
+const AddProviderUniversityFinancial = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityFinancial"))
+const AddProviderUniversityFeatures = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityFeatures"))
+const AddProviderUniversityGallery = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityGallery"))
+const AddProviderUniversityApplicationDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityApplicationDocument"))
+const AddProviderUniversityTemplateDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTemplateDocument"))
 
 const AddUniversityCampus = lazy(() => import("./views/SMS/University/AddUniversityCampus.jsx"))
 const EditDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditDepartment"))
@@ -102,6 +109,7 @@ const UniversityList = lazy(() => import("./views/SMS/University/UniversityList.
 const UniversityDetails = lazy(() => import("./views/SMS/University/UniversityDetails.jsx"))
 const CampusList = lazy(() => import("./views/SMS/University/CampusList.jsx"))
 const CampusDetails = lazy(() => import("./views/SMS/University/CampusDetails.jsx"))
+const AssignMultipleSubject = lazy(() => import("./views/SMS/University/AssignMultipleSubject"))
 const CampusSubjectList = lazy(() => import("./views/SMS/University/CampusSubjectList.jsx"))
 const AddUniversityGallery = lazy(() => import("./views/SMS/University/AddUniversityGallery.jsx"))
 const AddUniversityTemplateDocument = lazy(() => import("./views/SMS/University/AddUniversityTemplateDocument"))
@@ -245,6 +253,7 @@ const Country = lazy(() => import("./views/core/country/pages/index"))
 const ProviderList = lazy(() => import("./views/SMS/Provider/ProviderList"))
 const ProviderAdminList = lazy(() => import("./views/SMS/Provider/Admin/ProviderAdminList"))
 const ProviderDetails = lazy(() => import("./views/SMS/Provider/ProviderDetails"))
+const AssignUniversity = lazy(() => import("./views/SMS/Provider/AssignUniversity"))
 const UpdateProvider = lazy(() => import("./views/SMS/Provider/UpdateProvider"))
 const Branch = lazy(() => import("./views/SMS/Branches/Branch/Branch"))
 const BranchManager = lazy(() => import("./views/SMS/Branches//Manager/BranchManager"))
@@ -417,8 +426,11 @@ class AppRouter extends React.Component {
          <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
          <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.Universitystate_List) ? AddUniversityState : NotAuthorized} />
          <AppRoute  path="/addUniversity" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddUniversity : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversity" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddProviderUniversity : NotAuthorized} />
          <AppRoute  path="/addUniversityApplicationDocument" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddUniversityApplicationDocument: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityApplicationDocument" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddProviderUniversityApplicationDocument: NotAuthorized} />
          <AppRoute  path="/addUniversityTemplateDocument" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddUniversityTemplateDocument : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityTemplateDocument" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddProviderUniversityTemplateDocument : NotAuthorized} />
          {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
           {/* intake */}
@@ -448,14 +460,19 @@ class AppRouter extends React.Component {
           
 
          <AppRoute  path="/addUniversityCampus" component={permissions?.includes(permissionList?.Add_UniversityCampus)? AddUniversityCampus: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityCampus" component={permissions?.includes(permissionList?.Add_UniversityCampus)? AddProviderUniversityCampus: NotAuthorized} />
          <AppRoute  path="/addUniversityFinancial" component={permissions?.includes(permissionList?.Add_Financialinfo)? AddUniversityFinancial : NotAuthorized }/>
+         <AppRoute  path="/addProviderUniversityFinancial" component={permissions?.includes(permissionList?.Add_Financialinfo)? AddProviderUniversityFinancial : NotAuthorized }/>
          <AppRoute  path="/addUniversityFeatures" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? AddUniversityFeatures : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityFeatures" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? AddProviderUniversityFeatures : NotAuthorized} />
          <AppRoute  path="/addUniversityGallery" component={permissions?.includes(permissionList?.Add_Universitygallery)? AddUniversityGallery: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityGallery" component={permissions?.includes(permissionList?.Add_Universitygallery)? AddProviderUniversityGallery: NotAuthorized} />
          <AppRoute  path="/universityList" component={permissions?.includes(permissionList?.University_List)? UniversityList : NotAuthorized} />
          <AppRoute  path="/universityDetails/:id" component={permissions?.includes(permissionList?.View_University)? UniversityDetails : NotAuthorized} />
          <AppRoute  path="/campusList" component={permissions?.includes(permissionList?.UniversityCampus_List)? CampusList : NotAuthorized } />
          <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
          <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? CampusDetails : NotAuthorized } />
+         <AppRoute  path="/assignMultipleSubject/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? AssignMultipleSubject : NotAuthorized } />
 
          {/* University Subject starts here */}
          <AppRoute  path="/universitySubjectList/:id" component={permissions?.includes(permissionList?.subject_List)? UniversitySubjectList : NotAuthorized } />
@@ -529,6 +546,7 @@ class AppRouter extends React.Component {
 
 
          <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider)? ProviderDetails : NotAuthorized} />
+         <AppRoute  path="/assignUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Assign_University)? AssignUniversity : NotAuthorized} />
          <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider)? UpdateProvider : NotAuthorized} />
          <AppRoute  path="/branchInformation" component={permissions?.includes(permissionList?.Add_Branch)? Branch : NotAuthorized} />
          <AppRoute  path="/addBranchManager" component={permissions?.includes(permissionList?.Add_Branch_Manager)? BranchManager : NotAuthorized} />

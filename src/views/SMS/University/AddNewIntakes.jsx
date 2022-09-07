@@ -125,7 +125,7 @@ const AddNewIntakes = () => {
                         <div className="page-header-back-to-home">
                           <span onClick={backToIntakeList} className="text-light">
                             {" "}
-                            <i className="fas fa-arrow-circle-left"></i> Back to Intake
+                            <i className="fas fa-arrow-circle-left"></i> Back to Intake List
                           </span>
                         </div>
                     </CardHeader>

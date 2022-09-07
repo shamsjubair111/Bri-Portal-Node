@@ -241,7 +241,7 @@ const AddUniversitySubjectFee = () => {
                       type='number'
                       min="0"
                       defaultValue={intTutionFee}
-                      placeholder='Enter international tution fee '
+                      placeholder='Enter International Tution Fee '
                       required
                       name="internationalTutionFee"
                       id="internationalTutionFee"
@@ -262,7 +262,7 @@ const AddUniversitySubjectFee = () => {
                       name="eU_TutionFee"
                       id="eU_TutionFee"
                       defaultValue={euTutionFee}
-                      placeholder="Enter EU tution fee"
+                      placeholder="Enter EU Tution Fee"
                       required
                     />
                   </Col>

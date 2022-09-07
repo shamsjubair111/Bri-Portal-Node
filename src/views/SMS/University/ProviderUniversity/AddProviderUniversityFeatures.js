@@ -28,14 +28,14 @@ import {
   NavLink,
 } from "reactstrap";
 // import { useDropzone } from "react-dropzone"
-import { rootUrl } from "../../../constants/constants";
+import { rootUrl } from "../../../../constants/constants";
 import { useToasts } from "react-toast-notifications";
-import get from "../../../helpers/get";
-import put from "../../../helpers/put";
-import ButtonForFunction from "../Components/ButtonForFunction";
+import get from "../../../../helpers/get";
+import put from "../../../../helpers/put";
+import ButtonForFunction from "../../Components/ButtonForFunction";
 
-const AddUniversityFeatures = () => {
-  const history = useHistory();
+const AddProviderUniversityFeatures = () => {
+    const history = useHistory();
   const [activetab, setActivetab] = useState("4");
   const [radioPracticalTraining, setRadioPracticalTraining] = useState("false");
   const [radioIntershipParticipation, setRadioIntershipParticipation] =
@@ -105,7 +105,7 @@ const AddUniversityFeatures = () => {
           });
 
           history.push({
-            pathname: "/addUniversityGallery",
+            pathname: "/addProviderUniversityGallery",
             id: localStorage.getItem("editUniId"),
           });
         }
@@ -121,7 +121,7 @@ const AddUniversityFeatures = () => {
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
           history.push({
-            pathname: "/addUniversityGallery",
+            pathname: "/addProviderUniversityGallery",
             id: uniID,
           });
 
@@ -142,25 +142,25 @@ const AddUniversityFeatures = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addUniversity");
+      history.push("/addProviderUniversity");
     }
     if (tab == "2") {
-      history.push("/addUniversityCampus");
+      history.push("/addProviderUniversityCampus");
     }
     if (tab == "3") {
-      history.push("/addUniversityFinancial");
+      history.push("/addProviderUniversityFinancial");
     }
     if (tab == "4") {
-      history.push("/addUniversityFeatures");
+      history.push("/addProviderUniversityFeatures");
     }
     if (tab == "5") {
-      history.push("/addUniversityGallery");
+      history.push("/addProviderUniversityGallery");
     }
     if (tab == "6") {
-      history.push("/addUniversityApplicationDocument");
+      history.push("/addProviderUniversityApplicationDocument");
     }
     if (tab == "7") {
-      history.push("/addUniversityTemplateDocument");
+      history.push("/addProviderUniversityTemplateDocument");
     }
   };
 
@@ -196,18 +196,19 @@ const AddUniversityFeatures = () => {
   };
 
   // redirect to dashboard
-  const backToUniList = () => {
-    history.push("/universityList");
+  const backToProviderDetails = () => {
+    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
+    localStorage.removeItem("proProfileId");
   };
-  return (
-    <div>
+    return (
+        <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University Features Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University List
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
           </div>
         </CardHeader>
@@ -574,7 +575,7 @@ const AddUniversityFeatures = () => {
         </CardBody>
       </Card>
     </div>
-  );
+    );
 };
-const mapStateToProps = (state) => ({});
-export default connect(mapStateToProps)(AddUniversityFeatures);
+
+export default AddProviderUniversityFeatures;

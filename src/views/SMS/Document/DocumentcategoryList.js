@@ -263,7 +263,7 @@ const DocumentcategoryList = () => {
                     {/* localStorage.getItem("updateUni") ? */}
                     {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
                     <Button.Ripple
-                      color="warning"
+                      color="primary"
                       type="submit"
                       className="mr-1 mt-3"
                     >

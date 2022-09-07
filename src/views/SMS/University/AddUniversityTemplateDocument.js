@@ -316,7 +316,7 @@ const AddUniversityTemplateDocument = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Template Document</h3>
+          <h3 className="text-light">University Template Document</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToUniList} className="text-light">
               {" "}
@@ -393,7 +393,7 @@ const AddUniversityTemplateDocument = () => {
 
                   <div className="hedding-titel d-flex justify-content-between mb-4">
                       <div>
-                        <h5> <b>Add Template Document</b> </h5>
+                        <h5> <b>Template Document</b> </h5>
 
                         <div className="bg-h"></div>
                       </div>
@@ -433,7 +433,7 @@ const AddUniversityTemplateDocument = () => {
                           name="name"
                           id="name"
                           defaultValue={applicationObject?.name}
-                          placeholder="Enter Name"
+                          placeholder="Write Name"
                           required
                         />
                       </Col>
@@ -455,7 +455,7 @@ const AddUniversityTemplateDocument = () => {
                           name="description"
                           id="description"
                           defaultValue={applicationObject?.description}
-                          placeholder="Enter  Description"
+                          placeholder="Write Description"
                           required
                         />
                       </Col>
@@ -481,7 +481,7 @@ const AddUniversityTemplateDocument = () => {
 
                         {applicationError && (
                           <span className="text-danger">
-                            Select Application Type.
+                            You must select application type.
                           </span>
                         )}
 
@@ -752,13 +752,13 @@ const AddUniversityTemplateDocument = () => {
                 style={{
                   display: "flex",
                   width: "100%",
-                  justifyContent: "end",
+                  justifyContent: "center",
                 }}
               >
                 <ButtonForFunction
                   func={onGoUniList}
                   color={"primary uapp-form-button"}
-                  name={"University list"}
+                  name={"Go to University List"}
                   permission={6}
                 />
 
@@ -766,7 +766,7 @@ const AddUniversityTemplateDocument = () => {
                   func={onGoUniProfile}
                   color={"primary uapp-form-button"}
                   className={"ms-lg-2 ms-sm-2"}
-                  name={"University Profile"}
+                  name={"Go to University Profile"}
                   permission={6}
                 />
               </FormGroup>
