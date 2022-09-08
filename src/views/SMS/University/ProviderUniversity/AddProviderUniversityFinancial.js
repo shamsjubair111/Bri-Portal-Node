@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { createRef, useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import {
   Card,
   CardBody,
@@ -38,9 +38,9 @@ const AddProviderUniversityFinancial = (props) => {
   const [financialData, setFinancialData] = useState({});
   const [financialId, setFinancialId] = useState(undefined);
 
-  const method = localStorage.getItem("editMethod");
 
   const { addToast } = useToasts();
+  const {providerProfileId, univerId} = useParams();
 
   const history = useHistory();
   const myForm = createRef();
@@ -55,15 +55,14 @@ const AddProviderUniversityFinancial = (props) => {
   }
 
   useEffect(() => {
-    // get(`FinancialInformation/GetByUniversity/${localStorage.getItem("editUniId")}`)
     get(
-      `FinancialInformation/GetByUniversity/${localStorage.getItem("id")}`
+      `FinancialInformation/GetByUniversity/${univerId}`
     ).then((res) => {
       console.log("finanInfo", res?.id);
       setFinancialData(res);
       setFinancialId(res?.id);
     });
-  }, []);
+  }, [univerId]);
 
   const AuthStr = localStorage.getItem("token");
 
@@ -100,7 +99,7 @@ const AddProviderUniversityFinancial = (props) => {
             autoDismiss: true,
           });
           history.push({
-            pathname: "/addProviderUniversityFeatures",
+            pathname: `/addProviderUniversityFeatures/${providerProfileId}/${univerId}`,
             id: uniID,
           });
         } else {
@@ -121,8 +120,7 @@ const AddProviderUniversityFinancial = (props) => {
           });
 
           history.push({
-            pathname: "/addProviderUniversityFeatures",
-            id: localStorage.getItem("editUniId"),
+            pathname: `/addProviderUniversityFeatures/${providerProfileId}/${univerId}`,
           });
         }
       });
@@ -132,31 +130,30 @@ const AddProviderUniversityFinancial = (props) => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addProviderUniversity");
+      history.push(`/addProviderUniversity/${providerProfileId}/${univerId}`);
     }
     if (tab == "2") {
-      history.push("/addProviderUniversityCampus");
+      history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
     }
     if (tab == "3") {
-      history.push("/addProviderUniversityFinancial");
+      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
     }
     if (tab == "4") {
-      history.push("/addProviderUniversityFeatures");
+      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
     }
     if (tab == "5") {
-      history.push("/addProviderUniversityGallery");
+      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
     }
     if (tab == "6") {
-      history.push("/addProviderUniversityApplicationDocument");
+      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
     }
     if (tab == "7") {
-      history.push("/addProviderUniversityTemplateDocument");
+      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
     }
   };
   // redirect to dashboard
   const backToProviderDetails = () => {
-    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
-    localStorage.removeItem("proProfileId");
+    history.push(`/providerDetails/${providerProfileId}`);
   };
   return (
     <div>
@@ -277,9 +274,8 @@ const AddProviderUniversityFinancial = (props) => {
                     type="hidden"
                     id="UniversityId"
                     name="UniversityId"
-                    value={localStorage.getItem("id")}
+                    value={univerId}
                   />
-                  {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">

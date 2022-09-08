@@ -57,6 +57,7 @@ const Subject = () => {
     const [subName, setSubName] = useState("");
     const [description, setDescription] = useState("");
     const [duration, setDuration] = useState("");
+    const [subjectId, setSubjectId] = useState(undefined);
 
     const [providerValue, setProviderValue] = useState(0);
 
@@ -107,7 +108,7 @@ const Subject = () => {
       .catch();
       }
       else{
-        get(`Subject/Get/${localStorage.getItem("subjectId")}`).then(res=> {
+        get(`Subject/Get/${subjectId}`).then(res=> {
           setSubject(res);
           setSubId(res?.id);
           setSubName(res?.name);
@@ -222,16 +223,16 @@ const Subject = () => {
     }
     else{
       if (tab == "2") {
-        history.push(`/addSubjectFee/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectFee/${subjectId}`);
       }
       if (tab == "3") {
-        history.push(`/addSubjectDeliveryPattern/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectDeliveryPattern/${subjectId}`);
       }
       if (tab == "4") {
-        history.push(`/addSubjectRequirements${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectRequirements${subjectId}`);
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectDocumentRequirement${subjectId}`);
       }
     }
   };
@@ -266,7 +267,7 @@ const Subject = () => {
                 autoDismiss: true,
               });
             history.push({
-              pathname: `/addSubjectFee/${id}`,
+              pathname: `/addSubjectFee/${subId}`,
             });
           }
         });
@@ -279,8 +280,9 @@ const Subject = () => {
           },
         }).then((res) => {
             
-          localStorage.setItem("subjectId",res?.data?.result?.id);
-          const subId = res?.data?.result?.id;
+          // localStorage.setItem("subjectId",res?.data?.result?.id);
+          const subjId = res?.data?.result?.id;
+          setSubjectId(subjId);
     
           if (res.status === 200 && res.data.isSuccess === true) {
             setSubmitData(true);
@@ -289,7 +291,7 @@ const Subject = () => {
               autoDismiss: true,
             })
             history.push({
-              pathname: `/addSubjectFee/${id != undefined ? id : localStorage.getItem("subjectId")}`,
+              pathname: `/addSubjectFee/${subjId}`,
               id: subId,
             });
           }
@@ -374,7 +376,7 @@ const Subject = () => {
               :
               <>
               <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+              {submitData || subjectId ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Subject Fee Information
                 </NavLink>
@@ -385,7 +387,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+            {submitData || subjectId ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
                   Delivery Pattern
                 </NavLink>
@@ -396,7 +398,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+            {submitData || subjectId ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                   Requirement
                 </NavLink>
@@ -407,7 +409,7 @@ const Subject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+            {submitData || subjectId ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                   Document Requirement
                 </NavLink>

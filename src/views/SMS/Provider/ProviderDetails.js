@@ -34,7 +34,7 @@ import LinkSpanButton from "../Components/LinkSpanButton.js";
 
 const ProviderDetails = () => {
   const { id } = useParams();
-  localStorage.setItem("providerId", id);
+  // localStorage.setItem("providerId", id);
   // console.log(id);
   const [providerInfo, setProviderInfo] = useState({});
   const [universityList, setUniversityList] = useState([]);
@@ -79,6 +79,9 @@ const ProviderDetails = () => {
   const [titleLabel, setTitleLabel] = useState("Select");
   const [titleValue, setTitleValue] = useState(0);
   const [titleError, setTitleError] = useState(false);
+
+  const [managerName, setManagerName] = useState('');
+  const [managerId, setManagerId] = useState(0);
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -185,11 +188,15 @@ const ProviderDetails = () => {
 
   const closeDeleteModal = () => {
     setDeleteModal(false);
+    setManagerId(0);
+    setManagerName('');
   };
 
-  const toggleDelete = (id) => {
-    localStorage.setItem("teamId", id?.id);
-    setDeleteData(id);
+  const toggleDelete = (manager) => {
+    console.log("manager", manager);
+    setManagerId(manager?.id);
+    setManagerName(manager?.firstName);
+    setDeleteData(manager);
     setDeleteModal(true);
   };
 
@@ -201,6 +208,8 @@ const ProviderDetails = () => {
       });
       setDeleteData({});
       setDeleteModal(false);
+      setManagerId(0);
+      setManagerName('');
       setSuccess(!success);
     });
   };
@@ -251,11 +260,11 @@ const ProviderDetails = () => {
 
   const handleAddUniversity = (e) => {
     e.preventDefault();
-    localStorage.removeItem("proProfileId");
-    localStorage.removeItem("id");
-    localStorage.setItem("proProfileId", id);
+    // localStorage.removeItem("proProfileId");
+    // localStorage.removeItem("id");
+    // localStorage.setItem("proProfileId", id);
     history.push({
-      pathname: "/addProviderUniversity",
+      pathname: `/addProviderUniversity/${id}`,
       providerProfileId: id,
     });
   };
@@ -604,7 +613,7 @@ const ProviderDetails = () => {
                             >
                               <ModalBody>
                                 <p>
-                                  Are You Sure to Delete this ? Once Deleted it
+                                  Are You Sure to Delete this <b>{managerName}</b> ? Once Deleted it
                                   can't be Undone!
                                 </p>
                               </ModalBody>
@@ -613,7 +622,7 @@ const ProviderDetails = () => {
                                 <Button color="danger" onClick={handleDelete}>
                                   YES
                                 </Button>
-                                <Button onClick={closeDeleteModal}>NO</Button>
+                                <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                               </ModalFooter>
                             </Modal>
                           </td>

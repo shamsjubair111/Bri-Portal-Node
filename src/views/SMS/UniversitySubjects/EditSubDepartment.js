@@ -97,7 +97,7 @@ const EditSubDepartment = () => {
               <CardHeader className="page-header">             
                  <h3 className="text-light">Update Sub Department </h3>
                   <div className="page-header-back-to-home">
-                     <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Department List</span>
+                     <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Sub Department List</span>
                   </div>             
               </CardHeader>      
             </Card>

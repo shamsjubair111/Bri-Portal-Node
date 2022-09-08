@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Row, Table, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup } from 'reactstrap';
 import get from '../../../helpers/get';
 import Select from "react-select";
@@ -50,6 +50,7 @@ const CampusList = (props) => {
     const [universityStates, setUniversityStates] = useState([]);
 
     const { addToast } = useToasts();
+    const {uniId} = useParams();
 
     const history = useHistory();
     const location = useLocation();
@@ -64,7 +65,7 @@ const CampusList = (props) => {
         const search = "";
 
         get(
-          `UniversityCampus/index?universityId=${localStorage.getItem('universityId')}&search=${searchStr}`
+          `UniversityCampus/index?universityId=${uniId}&search=${searchStr}`
         ).then((res) => {
           
           console.log("pagination",res);
@@ -77,13 +78,13 @@ const CampusList = (props) => {
           setCountryList(res);
         });
 
-        get(`University/Get/${localStorage.getItem('universityId')}`)
+        get(`University/Get/${uniId}`)
         .then(res => {
           console.log('single uni', res);
           setUniNameFromObj(res?.name);
         })
     
-      }, [callApi, currentPage, dataPerPage, searchStr, entity, loading, serialNum, success]);
+      }, [callApi, currentPage, dataPerPage, searchStr, entity, loading, serialNum, success, uniId]);
 
       const countryDD = countryList.map(countryOptions =>({label:countryOptions?.name, value:countryOptions?.id}) );
       
@@ -405,7 +406,7 @@ const CampusList = (props) => {
                 <Form onSubmit={handleSubmit} >
 
                 <FormGroup row className="has-icon-left position-relative">
-                  <Input type="hidden" id="universityId" name="universityId" value={localStorage.getItem('universityId')} />
+                  <Input type="hidden" id="universityId" name="universityId" value={uniId} />
                   <Input type="hidden" id="Id" name="Id" value={selectedId} />
                 </FormGroup>
 
@@ -731,7 +732,7 @@ const CampusList = (props) => {
                                  </Link> */}
 
                                   <LinkSpanButton
-                                    url={`campusSubjectList/${campus?.id}`}
+                                    url={`/campusSubjectList/${campus?.id}`}
                                     className={"text-decoration-none"}
                                     data={"View"}
                                     permission={6}

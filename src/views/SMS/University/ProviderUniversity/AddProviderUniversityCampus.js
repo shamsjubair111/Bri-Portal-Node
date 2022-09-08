@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, createRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import Select from "react-select";
 import {
   Card,
@@ -68,6 +68,7 @@ const AddProviderUniversityCampus = (props) => {
     const history = useHistory();
     const [universityId, setuniversityId] = useState(0);
     const location = useLocation();
+    const {providerProfileId, univerId} = useParams();
     const [success, setSuccess] = useState(false);
     const { addToast } = useToasts();
     const [selectedId, setSelectedId] = useState(0);
@@ -75,6 +76,8 @@ const AddProviderUniversityCampus = (props) => {
     const [showForm, setShowForm] = useState(false);
     const [universityCampus, setUniversityCampus] = useState([]);
     const [campusId, setCampusId] = useState(0);
+    const [UniversityCampusName, setUniversityCampusName] = useState('');
+    const [UniversityCampusId, setUniversityCampusId] = useState(0);
   
     let uniId;
     // let uniId = "10019";
@@ -94,12 +97,9 @@ const AddProviderUniversityCampus = (props) => {
   
     useEffect(() => {
       setuniversityId(uniId);
-      //  localStorage.setItem('uniCampNId', universityId);
-      // const universityId = "10019";
-      get(`UniversityCampus/GetByUniversity/${localStorage.getItem("id")}`).then(
+      
+      get(`UniversityCampus/GetByUniversity/${univerId}`).then(
         (action) => {
-          //  get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
-          // get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
           setuniversityCampusList(action);
           if (action.length > 0) {
             setShowForm(true);
@@ -110,31 +110,31 @@ const AddProviderUniversityCampus = (props) => {
           console.log("actionnnn", action);
         }
       );
-    }, [success, uniId, universityId]);
+    }, [success, uniId, universityId, univerId]);
   
     // tab toggle
     const toggle = (tab) => {
       setActivetab(tab);
       if (tab === "1") {
-        history.push("/addProviderUniversity");
+        history.push(`/addProviderUniversity/${providerProfileId}/${univerId}`);
       }
       if (tab === "2") {
-        history.push("/addProviderUniversityCampus");
+        history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
       }
       if (tab === "3") {
-        history.push("/addProviderUniversityFinancial");
+        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
       }
       if (tab === "4") {
-        history.push("/addProviderUniversityFeatures");
+        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
       }
       if (tab === "5") {
-        history.push("/addProviderUniversityGallery");
+        history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
       }
       if (tab === "6") {
-        history.push("/addProviderUniversityApplicationDocument");
+        history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
       }
       if (tab === "7") {
-        history.push("/addProviderUniversityTemplateDocument");
+        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
       }
     };
   
@@ -189,7 +189,10 @@ const AddProviderUniversityCampus = (props) => {
                 appearance: "success",
                 autoDismiss: true,
               });
-    
+              setUniCountryLabel("Select University Country...");
+              setUniCountryValue(0);
+              setUniStateLabel("Select University State...");
+              setUniStateValue(0);
               setSuccess(!success);
             }
           });
@@ -244,22 +247,21 @@ const AddProviderUniversityCampus = (props) => {
     };
     // redirect to dashboard
     const backToProviderDetails = () => {
-      history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
-      localStorage.removeItem("proProfileId");
+      history.push(`/providerDetails/${providerProfileId}`);
     };
   
     // redirect to Next Page
     const onNextPage = () => {
       const uniID = universityId;
       history.push({
-        pathname: "/addProviderUniversityFinancial",
+        pathname: `/addProviderUniversityFinancial/${providerProfileId}/${univerId}`,
         id: uniID,
       });
     };
   
     const toggleDanger = (p) => {
-      localStorage.setItem("UniversityCampusId", p.id);
-      localStorage.setItem("UniversityCampusName", p.name);
+      setUniversityCampusId(p?.id);
+      setUniversityCampusName(p?.name); 
       setDeleteModal(true);
     };
   
@@ -272,8 +274,8 @@ const AddProviderUniversityCampus = (props) => {
             appearance: "error",
             autoDismiss: true,
           });
-          localStorage.removeItem("UniversityCampusId");
-          localStorage.removeItem("UniversityCampusName");
+          setUniversityCampusId(0);
+          setUniversityCampusName('');
         }
       );
     };
@@ -386,7 +388,7 @@ const AddProviderUniversityCampus = (props) => {
 
               <div className="container test-score-div-1-style mt-4 mb-4">
                 <span className="test-score-span-1-style">
-                  University campus informations are showing here.
+                  University campus information is shown here.
                 </span>
               </div>
 
@@ -417,7 +419,7 @@ const AddProviderUniversityCampus = (props) => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       <Input
                         type="hidden"
@@ -436,7 +438,6 @@ const AddProviderUniversityCampus = (props) => {
             type="number"
             name="universityId"
             id="universityId"
-            defaultValue={localStorage.getItem("id")}
             // placeholder="Enter Total Student"
             required
           />
@@ -873,13 +874,17 @@ const AddProviderUniversityCampus = (props) => {
 
                     <Modal
                       isOpen={deleteModal}
-                      toggle={() => setDeleteModal(!deleteModal)}
+                      toggle={() => {
+                        setDeleteModal(false);
+                        setUniversityCampusId(0);
+                        setUniversityCampusName('');
+                      }}
                       className="uapp-modal"
                     >
                       <ModalBody>
                         <p>
                           Are You Sure to Delete this{" "}
-                          {localStorage.getItem("UniversityCampusName")} ? Once
+                          <b>{UniversityCampusName}</b> ? Once
                           Deleted it can't be Undone!
                         </p>
                       </ModalBody>
@@ -887,15 +892,17 @@ const AddProviderUniversityCampus = (props) => {
                       <ModalFooter>
                         <Button
                           onClick={() =>
-                            handleDeletePermission(
-                              localStorage.getItem("UniversityCampusId")
-                            )
-                          }
+                            handleDeletePermission(UniversityCampusId)
+                           }
                           color="danger"
                         >
                           YES
                         </Button>
-                        <Button onClick={() => setDeleteModal(false)}>
+                        <Button onClick={() => {
+                          setDeleteModal(false);
+                          setUniversityCampusId(0);
+                          setUniversityCampusName('');
+                        }}>
                           NO
                         </Button>
                       </ModalFooter>

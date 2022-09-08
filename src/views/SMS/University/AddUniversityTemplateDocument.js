@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, createRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import MediaPictures from "./UniversityMedia";
 import Select from "react-select";
 import {
@@ -49,6 +49,7 @@ import { permissionList } from "../../../constants/AuthorizationConstant";
 const AddUniversityTemplateDocument = () => {
   const { addToast } = useToasts();
   const history = useHistory();
+  const {univerId} = useParams();
   const [activetab, setActivetab] = useState("7");
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -78,6 +79,9 @@ const AddUniversityTemplateDocument = () => {
   const [previewTitle1, setPreviewTitle1] = useState("");
   const [FileList1, setFileList1] = useState([]);
   const [uploadError, setUploadError] = useState(false);
+  
+  const [templateName, setTemplateName] = useState('');
+  const [templateId, setTemplateId] = useState(0);
 
   const handleChange1 = ({ fileList }) => {
     setUploadError(false);
@@ -116,11 +120,9 @@ const AddUniversityTemplateDocument = () => {
       setApplicationTypeId(res);
     });
 
-    if(localStorage.getItem("id")){
+    if(univerId != undefined){
       get(
-        `UniversityTemplateDocument/GetByUniversity/${localStorage.getItem(
-          "id"
-        )}`
+        `UniversityTemplateDocument/GetByUniversity/${univerId}`
       ).then((res) => {
         console.log("tempDocuData", res);
         setTemplateList(res);
@@ -133,7 +135,7 @@ const AddUniversityTemplateDocument = () => {
       });
     }
 
-  }, [success]);
+  }, [success, univerId]);
 
   const applicationOptions = applicationTypeId?.map((app) => ({
     label: app?.name,
@@ -155,36 +157,33 @@ const AddUniversityTemplateDocument = () => {
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
-    if (tab === "1") {
-      history.push("/addUniversity");
+    if (tab == "1") {
+      history.push(`/addUniversity/${univerId}`);
     }
-    if (tab === "2") {
-      history.push("/addUniversityCampus");
+    if (tab == "2") {
+      history.push(`/addUniversityCampus/${univerId}`);
     }
-    if (tab === "3") {
-      history.push("/addUniversityFinancial");
+    if (tab == "3") {
+      history.push(`/addUniversityFinancial/${univerId}`);
     }
-    if (tab === "4") {
-      history.push("/addUniversityFeatures");
+    if (tab == "4") {
+      history.push(`/addUniversityFeatures/${univerId}`);
     }
-    if (tab === "5") {
-      history.push("/addUniversityGallery");
+    if (tab == "5") {
+      history.push(`/addUniversityGallery/${univerId}`);
     }
-    if (tab === "6") {
-      history.push("/addUniversityApplicationDocument");
+    if (tab == "6") {
+      history.push(`/addUniversityApplicationDocument/${univerId}`);
     }
-    if (tab === "7") {
-      history.push("/addUniversityTemplateDocument");
-    }
-    if (tab === "8") {
-      history.push("/addUniversityRequiredDocument");
+    if (tab == "7") {
+      history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
   };
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("templateId", p.id);
-    localStorage.setItem("templateName", p.name);
+    setTemplateId(p?.id);
+    setTemplateName(p?.name);
     setDeleteModal(true);
   };
 
@@ -257,13 +256,12 @@ const AddUniversityTemplateDocument = () => {
   };
 
   // redirect to Next Page
-  const onNextPage = () => {
-    const uniID = localStorage.getItem("id");
-    history.push({
-      pathname: "/addUniversityRequiredDocument",
-      id: uniID,
-    });
-  };
+  // const onNextPage = () => {
+  //   history.push({
+  //     pathname: "/addUniversityRequiredDocument",
+  //     id: uniID,
+  //   });
+  // };
 
   const cancel = () => {
     setShowForm(true);
@@ -283,8 +281,8 @@ const AddUniversityTemplateDocument = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("templateId");
-      localStorage.removeItem("templateName");
+      setTemplateId(0);
+      setTemplateName('');
     });
   };
 
@@ -308,8 +306,7 @@ const AddUniversityTemplateDocument = () => {
   }
 
   const onGoUniProfile = () => {
-    const id = localStorage.getItem("id");
-    history.push(`/universityDetails/${id}`)
+    history.push(`/universityDetails/${univerId}`)
   }
 
   return (
@@ -408,7 +405,7 @@ const AddUniversityTemplateDocument = () => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       {selectedId !== 0 ? (
                         <Input
@@ -708,14 +705,18 @@ const AddUniversityTemplateDocument = () => {
 
                             <Modal
                               isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
+                              toggle={() => {
+                                setDeleteModal(false);
+                                setTemplateId(0);
+                                setTemplateName('');
+                              }}
                               className="uapp-modal"
                             >
                               <ModalBody>
                                 <p>
                                   Are You Sure to Delete this{" "}
                                   <b>
-                                    {localStorage.getItem("templateName")}
+                                    {templateName}
                                   </b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
@@ -725,14 +726,16 @@ const AddUniversityTemplateDocument = () => {
                                 <Button
                                   color="danger"
                                   onClick={() =>
-                                    handleDeletePermission(
-                                      localStorage.getItem("templateId")
-                                    )
+                                    handleDeletePermission(templateId)
                                   }
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={() => setDeleteModal(false)}>
+                                <Button onClick={() => {
+                                  setDeleteModal(false);
+                                  setTemplateId(0);
+                                  setTemplateName('');
+                                }}>
                                   NO
                                 </Button>
                               </ModalFooter>

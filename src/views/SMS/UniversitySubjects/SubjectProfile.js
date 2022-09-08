@@ -14,15 +14,18 @@ const SubjectProfile = () => {
     const [serialNum, setSerialNum] = useState(1);
     const [loading, setLoading] = useState(false);
     const [campData, setCampData] = useState(null);
+    const [campusId, setCampusId] = useState(undefined);
 
     const location = useLocation();
     const history = useHistory();
     const {subjId} = useParams();
 
+    console.log("campusId", location?.campId);
+
     // handle back to subject list and campus subject list from subject profile
     const backToSubjectList = () =>{
-      if(localStorage.getItem("campIdSubProfile")){
-        history.push(`/campusSubjectList/${localStorage.getItem("campIdSubProfile")}`);
+      if(location?.campId != undefined){
+        history.push(`/campusSubjectList/${location?.campId}`);
       }
       else{
         history.push('/subjectList');
@@ -30,6 +33,7 @@ const SubjectProfile = () => {
     }
 
     useEffect(()=>{
+      setCampusId(location?.campId);
       get(`Subject/Profile/${subjId}`)
       .then(res=>{
         console.log("subjectPro", res);
@@ -38,8 +42,8 @@ const SubjectProfile = () => {
         setLoading(false);
       });
 
-      if(localStorage.getItem("campIdSubProfile")){
-            get(`UniversityCampus/Get/${localStorage.getItem("campIdSubProfile")}`)
+      if(campusId != undefined){
+            get(`UniversityCampus/Get/${campusId}`)
             .then(res=>{
                 console.log("oneCampObj", res);
                 setCampData(res);
@@ -49,9 +53,13 @@ const SubjectProfile = () => {
             return;
         }
         // localStorage.removeItem("campIdSubProfile");
-    },[])
+    },[campusId, subjId])
 
     console.log("campdata", campData);
+
+    const handleProfileEdit = () => {
+      history.push(`/addSubject/${subjectData?.id}`)
+    }
 
 
     return (
@@ -107,7 +115,7 @@ const SubjectProfile = () => {
 
 
 
-                  <div className="uapp-employee-profile-image-edit">
+                  <div className="">
                     <Row>
                       <Col> 
                         <div>
@@ -119,6 +127,7 @@ const SubjectProfile = () => {
 
                      <Col> 
                       <EditDivButton
+                        func={handleProfileEdit}
                         className={"uapp-employee-profile-Edit"}
                         permission={6}
                       />
@@ -318,7 +327,7 @@ const SubjectProfile = () => {
                             
                             <td style={{ width: "8%" }} className="text-center">
                               <ButtonGroup variant="text">
-                              <Link to= {`/campusDetails/${campus?.id}`}>
+                              <Link to= {`/campusDetails/${campus?.campusId}`}>
                                 <Button color="primary" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-eye"></i>{" "}

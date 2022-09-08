@@ -64,6 +64,7 @@ const AddUniversitySubject = () => {
     const [progLvlError, setProgLvlError] = useState(false);
     const [deptDropError, setDeptDropError] = useState(false);
     const [subDeptDropError, setSubDeptDropError] = useState(false);
+    const [subjectId, setSubjectId] = useState(undefined);
 
     const {addToast} = useToasts();
     const {id, subjId} = useParams();
@@ -107,7 +108,7 @@ const AddUniversitySubject = () => {
       .catch();
       }
       else{
-        get(`Subject/Get/${localStorage.getItem("subjectId")}`).then(res=> {
+        get(`Subject/Get/${subjectId}`).then(res=> {
           setSubject(res);
           setSubId(res?.id);
           setSubName(res?.name);
@@ -222,16 +223,16 @@ const AddUniversitySubject = () => {
     }
     else{
       if (tab == "2") {
-        history.push(`/addSubjectFee/${id}/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectFee/${id}/${subjectId}`);
       }
       if (tab == "3") {
-        history.push(`/addSubjectDeliveryPattern/${id}/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectDeliveryPattern/${id}/${subjectId}`);
       }
       if (tab == "4") {
-        history.push(`/addSubjectRequirements/${id}/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectRequirements/${id}/${subjectId}`);
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement/${id}/${localStorage.getItem("subjectId")}`);
+        history.push(`/addSubjectDocumentRequirement/${id}/${subjectId}`);
       }
     }
   };
@@ -279,8 +280,9 @@ const AddUniversitySubject = () => {
           },
         }).then((res) => {
             
-          localStorage.setItem("subjectId",res?.data?.result?.id);
-          const subId = res?.data?.result?.id;
+          // localStorage.setItem("subjectId",res?.data?.result?.id);
+          const subjeId = res?.data?.result?.id;
+          setSubjectId(subjeId);
     
           if (res.status === 200 && res.data.isSuccess === true) {
             setSubmitData(true);
@@ -289,7 +291,7 @@ const AddUniversitySubject = () => {
               autoDismiss: true,
             })
             history.push({
-              pathname: `/addUniversitySubjectFee/${id}/${subjId != undefined ? subjId : localStorage.getItem("subjectId")}`,
+              pathname: `/addUniversitySubjectFee/${id}/${subjeId}`,
               id: subId,
             });
           }
@@ -372,7 +374,7 @@ const AddUniversitySubject = () => {
               :
               <>
               <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+              {submitData || subjectId ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Subject Fee Information
                 </NavLink>
@@ -383,7 +385,7 @@ const AddUniversitySubject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+            {submitData || subjectId ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
                   Delivery Pattern
                 </NavLink>
@@ -394,7 +396,7 @@ const AddUniversitySubject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+            {submitData || subjectId ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                   Requirement
                 </NavLink>
@@ -405,7 +407,7 @@ const AddUniversitySubject = () => {
               )}
             </NavItem>
             <NavItem>
-            {submitData || JSON.parse(localStorage.getItem("subjectId")) ? (
+            {submitData || subjectId ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                   Document Requirement
                 </NavLink>

@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, { createRef, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import { rootUrl } from '../../../constants/constants';
 import { useToasts } from "react-toast-notifications";
@@ -17,9 +17,10 @@ const AddUniversityFinancial = (props) => {
     const [financialData, setFinancialData] = useState({});
     const [financialId, setFinancialId] = useState(undefined);
 
-    const method = localStorage.getItem('editMethod');
+    // const method = localStorage.getItem('editMethod');
 
     const { addToast } = useToasts();
+    const {univerId} = useParams();
 
     const history = useHistory();
     const myForm = createRef();
@@ -36,14 +37,14 @@ const AddUniversityFinancial = (props) => {
 
     useEffect(()=>{
         // get(`FinancialInformation/GetByUniversity/${localStorage.getItem("editUniId")}`)
-            get(`FinancialInformation/GetByUniversity/${localStorage.getItem("id")}`)
+            get(`FinancialInformation/GetByUniversity/${univerId}`)
         .then(res => {
             console.log("finanInfo", res?.id);
             setFinancialData(res);
             setFinancialId(res?.id);
         })
         
-    },[])
+    },[univerId])
  
     const AuthStr = localStorage.getItem("token");
 
@@ -84,7 +85,7 @@ const AddUniversityFinancial = (props) => {
                         autoDismiss: true,
                       })
                     history.push({
-                        pathname: '/addUniversityFeatures',
+                        pathname: `/addUniversityFeatures/${univerId}`,
                         id: uniID
                     })
                   }
@@ -111,7 +112,7 @@ const AddUniversityFinancial = (props) => {
                       })
                       
                       history.push({
-                        pathname: '/addUniversityFeatures',
+                        pathname: `/addUniversityFeatures/${univerId}`,
                         id: localStorage.getItem('editUniId')
                     })
                     }
@@ -123,25 +124,25 @@ const AddUniversityFinancial = (props) => {
     const toggle = (tab) => {
     setActivetab(tab)
     if(tab == '1'){
-        history.push('/addUniversity')
+        history.push(`/addUniversity/${univerId}`)
     }
     if(tab == '2'){
-        history.push('/addUniversityCampus')
+        history.push(`/addUniversityCampus/${univerId}`)
     }
     if(tab == '3'){
-        history.push('/addUniversityFinancial')
+        history.push(`/addUniversityFinancial/${univerId}`)
     }
     if(tab == '4'){
-        history.push('/addUniversityFeatures')
+        history.push(`/addUniversityFeatures/${univerId}`)
     }
     if(tab == '5'){
-        history.push('/addUniversityGallery')
+        history.push(`/addUniversityGallery/${univerId}`)
     }
     if(tab == '6'){
-        history.push('/addUniversityApplicationDocument')
+        history.push(`/addUniversityApplicationDocument/${univerId}`)
     }
     if(tab == '7'){
-        history.push('/addUniversityTemplateDocument')
+        history.push(`/addUniversityTemplateDocument/${univerId}`)
     }
 }
     // redirect to dashboard
@@ -297,7 +298,7 @@ const AddUniversityFinancial = (props) => {
                                 }
 
                                     <FormGroup row className="has-icon-left position-relative">
-                                            <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("id")} />
+                                            <Input type="hidden" id="UniversityId" name="UniversityId" value={univerId} />
                                             {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                                     </FormGroup>
 

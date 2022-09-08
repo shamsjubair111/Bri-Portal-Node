@@ -53,6 +53,9 @@ const AssignUniversity = () => {
 
   const [selectedId, setSelectedId] = useState(0);
 
+  const [managerUniName, setManagerUniName] = useState('');
+  const [managerUniId, setManagerUniId] = useState(0);
+
   const { providerId, managerId } = useParams();
   const history = useHistory();
   const { addToast } = useToasts();
@@ -181,8 +184,8 @@ const AssignUniversity = () => {
   };
 
   const toggleDanger = (p) => {
-    localStorage.setItem("managerUniId", p?.id);
-    localStorage.setItem("managerUniName", p?.university?.name);
+    setManagerUniId(p?.id);
+    setManagerUniName(p?.university?.name);
     setDeleteModal(true);
   };
 
@@ -196,8 +199,8 @@ const AssignUniversity = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("managerUniId");
-      localStorage.removeItem("managerUniName");
+      setManagerUniId(0);
+      setManagerUniName('');
     });
   };
 
@@ -318,13 +321,7 @@ const AssignUniversity = () => {
               </ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
-                  {/* <Input
-                      type="hidden"
-                      id="universityId"
-                      name="universityId"
-                      value={localStorage.getItem("universityId")}
-                    /> */}
-                  {/* <Input type="hidden" id="id" name="id" value={selectedId} /> */}
+                  
 
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="3">
@@ -523,7 +520,7 @@ const AssignUniversity = () => {
                     </Button>
 
                     <CustomButtonRipple
-                      color={"warning"}
+                      color={"primary"}
                       type={"submit"}
                       className={"mr-1 mt-3"}
                       name={"Submit"}
@@ -599,7 +596,7 @@ const AssignUniversity = () => {
                             <ModalBody>
                               <p>
                                 Are You Sure to Delete this{" "}
-                                <b>{localStorage.getItem("managerUniName")}</b>{" "}
+                                <b>{managerUniName}</b>{" "}
                                 ? Once Deleted it can't be Undone!
                               </p>
                             </ModalBody>
@@ -608,9 +605,7 @@ const AssignUniversity = () => {
                               <Button
                                 color="danger"
                                 onClick={() =>
-                                  handleDeletePermission(
-                                    localStorage.getItem("managerUniId")
-                                  )
+                                  handleDeletePermission(managerUniId)
                                 }
                               >
                                 YES
@@ -619,8 +614,8 @@ const AssignUniversity = () => {
                                 color="primary"
                                 onClick={() => {
                                   setDeleteModal(false);
-                                  localStorage.removeItem("managerUniId");
-                                  localStorage.removeItem("managerUniName");
+                                  setManagerUniId(0);
+                                  setManagerUniName('');
                                 }}
                               >
                                 NO

@@ -46,6 +46,8 @@ const AddUniversitySubjectDocumentRequirement = () => {
   const [success, setSuccess] = useState(false);
   const [update, setUpdate] = useState(0);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [delRequiredDocuId, setDelRequiredDocuId] = useState(0);
+  const [delRequiredDocuName, setDelRequiredDocuName] = useState('');
 
   const { id, subjId } = useParams();
 
@@ -224,16 +226,16 @@ const AddUniversitySubjectDocumentRequirement = () => {
 
   const toggleDanger = (document) => {
     console.log(document);
-    localStorage.setItem('delRequiredDocuName',document?.documentGroup?.title);
-    localStorage.setItem('delRequiredDocuId',document?.id);
+    setDelRequiredDocuName(document?.documentGroup?.title);
+    setDelRequiredDocuId(document?.id);
     setDeleteModal(true);
    }
 
    // on Close Delete Modal
 const closeDeleteModal = () => {
   setDeleteModal(false);
-  localStorage.removeItem('delRequiredDocuName');
-  localStorage.removeItem('delRequiredDocuId');
+  setDelRequiredDocuName('');
+  setDelRequiredDocuId(0);
 }
 
 const handleDeleteDocuRequired = (id) => {
@@ -245,8 +247,8 @@ const handleDeleteDocuRequired = (id) => {
        appearance: 'error',
        autoDismiss: true,
      })
-     localStorage.removeItem('delRequiredDocuName');
-     localStorage.removeItem('delRequiredDocuId');
+     setDelRequiredDocuName('');
+     setDelRequiredDocuId(0);
   })
 }
     return (
@@ -474,12 +476,12 @@ const handleDeleteDocuRequired = (id) => {
                                <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                       <ModalBody>
-                        <p>Are You Sure to Delete this <b>{localStorage.getItem('delRequiredDocuName')}</b> ? Once Deleted it can't be Undone!</p>
+                        <p>Are You Sure to Delete this <b>{delRequiredDocuName}</b> ? Once Deleted it can't be Undone!</p>
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button color="danger" onClick={() => handleDeleteDocuRequired(localStorage.getItem('delRequiredDocuId'))}>YES</Button>
-                        <Button onClick={closeDeleteModal}>NO</Button>
+                        <Button color="danger" onClick={() => handleDeleteDocuRequired(delRequiredDocuId)}>YES</Button>
+                        <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
                     </Modal>

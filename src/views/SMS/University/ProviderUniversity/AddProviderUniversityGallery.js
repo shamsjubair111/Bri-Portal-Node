@@ -24,7 +24,7 @@ import { useToasts } from "react-toast-notifications";
 // import post from '../../../helpers/post';
 import { rootUrl } from "../../../../constants/constants";
 import MediaPictures from "./UniversityMedia";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import CustomButtonRipple from "../../Components/CustomButtonRipple";
 import get from "../../../../helpers/get";
@@ -40,10 +40,14 @@ const AddProviderUniversityGallery = () => {
   const [galleryObj, setGalleryObj] = useState({});
   const [fileError, setFileError] = useState(false);
 
+  const [delGalId, setDelGalId] = useState(0);
+  const [delGalName, setDelGalName] = useState('');
+
   const [loading, setLoading] = useState(false);
 
   const { addToast } = useToasts();
   const history = useHistory();
+  const {providerProfileId, univerId} = useParams();
 
   const galleryResult = useSelector(
     (state) => state.UniversityGalleryImageReducer.universityGalleryImage
@@ -92,59 +96,55 @@ const AddProviderUniversityGallery = () => {
   };
 
   useEffect(() => {
-    get(`UniversityGallery/GetByUniversity/${localStorage.getItem("id")}`).then(
+    get(`UniversityGallery/GetByUniversity/${univerId}`).then(
       (res) => {
         console.log("gallery", res);
         setGallery(res);
       }
     );
-  }, [success]);
+  }, [success, univerId]);
 
   const backToProviderDetails = () => {
-    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
-    localStorage.removeItem("proProfileId");
+    history.push(`/providerDetails/${providerProfileId}`);
   };
 
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addProviderUniversity");
+      history.push(`/addProviderUniversity/${providerProfileId}/${univerId}`);
     }
     if (tab == "2") {
-      history.push("/addProviderUniversityCampus");
+      history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
     }
     if (tab == "3") {
-      history.push("/addProviderUniversityFinancial");
+      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
     }
     if (tab == "4") {
-      history.push("/addProviderUniversityFeatures");
+      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
     }
     if (tab == "5") {
-      history.push("/addProviderUniversityGallery");
+      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
     }
     if (tab == "6") {
-      history.push("/addProviderUniversityApplicationDocument");
+      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
     }
     if (tab == "7") {
-      history.push("/addProviderUniversityTemplateDocument");
-    }
-    if (tab == "8") {
-      history.push("/addProviderUniversityRequiredDocument");
+      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
     }
   };
 
   const handleDelete = (gallery) => {
     console.log("gallery", gallery);
-    localStorage.setItem("delGalName", gallery?.mediaFileMedia?.fileName);
-    localStorage.setItem("delGalId", gallery?.id);
+    setDelGalName(gallery?.mediaFileMedia?.fileName);
+    setDelGalId(gallery?.id);
     setDeleteModal(true);
   };
 
   // on Close Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delGalName");
-    localStorage.removeItem("delGalId");
+    setDelGalName('');
+    setDelGalId(0);
   };
   // on Close View Modal
   const closeViewModal = () => {
@@ -161,8 +161,8 @@ const AddProviderUniversityGallery = () => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("delGalName");
-        localStorage.removeItem("delGalId");
+        setDelGalName('');
+        setDelGalId(0);
       }
     );
   };
@@ -353,16 +353,6 @@ const AddProviderUniversityGallery = () => {
                           </ModalBody>
 
                           <ModalFooter>
-                            {/* <Button
-                            color="danger"
-                            onClick={() =>
-                              handleDeleteItem(
-                                localStorage.getItem("delGalId")
-                              )
-                            }
-                          >
-                            YES
-                          </Button> */}
                             <Button
                               className="bg-danger"
                               onClick={closeViewModal}
@@ -380,7 +370,7 @@ const AddProviderUniversityGallery = () => {
                           <ModalBody>
                             <p>
                               Are You Sure to Delete this{" "}
-                              <b>{localStorage.getItem("delGalName")}</b> ? Once
+                              <b>{delGalName}</b> ? Once
                               Deleted it can't be Undone!
                             </p>
                           </ModalBody>
@@ -389,14 +379,12 @@ const AddProviderUniversityGallery = () => {
                             <Button
                               color="danger"
                               onClick={() =>
-                                handleDeleteItem(
-                                  localStorage.getItem("delGalId")
-                                )
+                                handleDeleteItem(delGalId)
                               }
                             >
                               YES
                             </Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
+                            <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
                         </Modal>
                       </div>
@@ -412,7 +400,7 @@ const AddProviderUniversityGallery = () => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       {/* <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
                     </FormGroup>

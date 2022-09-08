@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { createRef, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import {
   Card,
   CardBody,
@@ -48,12 +48,13 @@ const AddUniversityFeatures = () => {
   const [features, setFeatures] = useState({});
   const [featureId, setFeatureId] = useState(undefined);
 
-  const method = localStorage.getItem("editMethod");
+  // const method = localStorage.getItem("editMethod");
 
   const myForm = createRef();
   const location = useLocation();
 
   const { addToast } = useToasts();
+  const {univerId} = useParams();
 
   let uniId;
   if (location.id) {
@@ -65,7 +66,7 @@ const AddUniversityFeatures = () => {
   useEffect(() => {
     // get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
     get(
-      `UniversityFeatures/GetByUniversity/${localStorage.getItem("id")}`
+      `UniversityFeatures/GetByUniversity/${univerId}`
     ).then((res) => {
       console.log("unifeatures", res?.id);
       setFeatures(res);
@@ -76,7 +77,7 @@ const AddUniversityFeatures = () => {
       setRadioConditionalOfferLetter(`${res?.conditionalOfferLetter}`);
       setRadioAccommodations(`${res?.accommodations}`);
     });
-  }, []);
+  }, [univerId]);
 
   const AuthStr = localStorage.getItem("token");
 
@@ -105,7 +106,7 @@ const AddUniversityFeatures = () => {
           });
 
           history.push({
-            pathname: "/addUniversityGallery",
+            pathname: `/addUniversityGallery/${univerId}`,
             id: localStorage.getItem("editUniId"),
           });
         }
@@ -121,7 +122,7 @@ const AddUniversityFeatures = () => {
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
           history.push({
-            pathname: "/addUniversityGallery",
+            pathname: `/addUniversityGallery/${univerId}`,
             id: uniID,
           });
 
@@ -142,25 +143,25 @@ const AddUniversityFeatures = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addUniversity");
+      history.push(`/addUniversity/${univerId}`);
     }
     if (tab == "2") {
-      history.push("/addUniversityCampus");
+      history.push(`/addUniversityCampus/${univerId}`);
     }
     if (tab == "3") {
-      history.push("/addUniversityFinancial");
+      history.push(`/addUniversityFinancial/${univerId}`);
     }
     if (tab == "4") {
-      history.push("/addUniversityFeatures");
+      history.push(`/addUniversityFeatures/${univerId}`);
     }
     if (tab == "5") {
-      history.push("/addUniversityGallery");
+      history.push(`/addUniversityGallery/${univerId}`);
     }
     if (tab == "6") {
-      history.push("/addUniversityApplicationDocument");
+      history.push(`/addUniversityApplicationDocument/${univerId}`);
     }
     if (tab == "7") {
-      history.push("/addUniversityTemplateDocument");
+      history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
   };
 
@@ -315,7 +316,7 @@ const AddUniversityFeatures = () => {
                     type="hidden"
                     id="UniversityId"
                     name="UniversityId"
-                    value={localStorage.getItem("id")}
+                    value={univerId}
                   />
                   {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                 </FormGroup>

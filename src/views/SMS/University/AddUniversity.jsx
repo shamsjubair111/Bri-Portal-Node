@@ -2,7 +2,7 @@ import React, { createRef, useEffect, useState } from "react";
 // import 'react-dropzone-uploader/dist/styles.css'
 import { connect, useSelector } from "react-redux";
 import Select from "react-select";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import {
   Card,
   CardBody,
@@ -101,9 +101,14 @@ const AddUniversity = (props) => {
   const [uniId, setUniId] = useState(undefined);
   const [check, setCheck] = useState(true);
 
+  const [universityId, setUniversityId] = useState(undefined);
+
   const method = localStorage.getItem("editMethod");
 
   const { addToast } = useToasts();
+  const {univerId} = useParams();
+
+  console.log("uniIds", universityId, uniId, univerId);
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -216,8 +221,8 @@ const AddUniversity = (props) => {
       })
       .catch();
 
-    if (localStorage.getItem("id")) {
-      get(`University/get/${localStorage.getItem("id")}`).then((res) => {
+    if (universityId != undefined) {
+      get(`University/get/${universityId}`).then((res) => {
         console.log("uniIddata", res);
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
@@ -234,7 +239,27 @@ const AddUniversity = (props) => {
         setCheck(false);
       });
     }
-  }, []);
+
+    if (univerId != undefined) {
+      get(`University/get/${univerId}`).then((res) => {
+        console.log("uniIddata", res);
+        setContractTypeLabel(res?.contractType?.name);
+        setContractTypeValue(res?.contractType?.id);
+        setUniversityData(res);
+        setProviderTypeLabel(res?.provider?.name);
+        setProviderTypeValue(res?.provider?.value);
+        setUniTypeLabel(res?.universityType?.name);
+        setUniTypeValue(res?.universityType?.id);
+        setUniCountryLabel(res?.universityCountry?.name);
+        setUniCountryValue(res?.universityCountry?.id);
+        setUniStateLabel(res?.universityState?.name);
+        setUniStateValue(res?.universityState?.id);
+        setUniId(res?.id);
+        setCheck(false);
+      });
+    }
+
+  }, [universityId, univerId]);
 
   // const logoResult =  useSelector((state) => state.UniversityLogoImageReducer.universityLogoImage);
   // const coverResult = useSelector((state)=> state.UniversityCoverImageReducer.universityCoverImage);
@@ -393,7 +418,7 @@ const AddUniversity = (props) => {
                 autoDismiss: true,
               });
               
-              history.push("/addUniversityCampus");
+              history.push(`/addUniversityCampus/${uniId}`);
             }
           });
         } else {
@@ -401,8 +426,9 @@ const AddUniversity = (props) => {
             (res) => {
               console.log("unipostData", res);
   
-              localStorage.setItem("id", res.data.result.id);
-              const uniID = res.data.result.id;
+              // localStorage.setItem("id", res.data.result.id);
+              const uniID = res?.data?.result?.id;
+              setUniversityId(uniID);
   
               if (res.status === 200 && res.data.isSuccess === true) {
                 setSubmitData(true);
@@ -411,7 +437,7 @@ const AddUniversity = (props) => {
                   autoDismiss: true,
                 });
                 history.push({
-                  pathname: "/addUniversityCampus",
+                  pathname: `/addUniversityCampus/${uniID}`,
                   id: uniID,
                 });
               }
@@ -466,7 +492,7 @@ const AddUniversity = (props) => {
                 autoDismiss: true,
               });
               
-              history.push("/addUniversityCampus");
+              history.push(`/addUniversityCampus/${uniId}`);
             }
           });
         } else {
@@ -475,7 +501,7 @@ const AddUniversity = (props) => {
               console.log("unipostData", res);
   
               localStorage.setItem("id", res.data.result.id);
-              const uniID = res.data.result.id;
+              const uniID = res?.data?.result?.id;
   
               if (res.status === 200 && res.data.isSuccess === true) {
                 setSubmitData(true);
@@ -484,7 +510,7 @@ const AddUniversity = (props) => {
                   autoDismiss: true,
                 });
                 history.push({
-                  pathname: "/addUniversityCampus",
+                  pathname: `/addUniversityCampus/${uniID}`,
                   id: uniID,
                 });
               }
@@ -530,24 +556,47 @@ const AddUniversity = (props) => {
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
-    if (tab == "2") {
-      history.push("/addUniversityCampus");
+    if(univerId != undefined){
+      if (tab == "2") {
+        history.push(`/addUniversityCampus/${univerId}`);
+      }
+      if (tab == "3") {
+        history.push(`/addUniversityFinancial/${univerId}`);
+      }
+      if (tab == "4") {
+        history.push(`/addUniversityFeatures/${univerId}`);
+      }
+      if (tab == "5") {
+        history.push(`/addUniversityGallery/${univerId}`);
+      }
+      if (tab == "6") {
+        history.push(`/addUniversityApplicationDocument/${univerId}`);
+      }
+      if (tab == "7") {
+        history.push(`/addUniversityTemplateDocument/${univerId}`);
+      }
     }
-    if (tab == "3") {
-      history.push("/addUniversityFinancial");
+    else{
+      if (tab == "2") {
+        history.push(`/addUniversityCampus/${universityId}`);
+      }
+      if (tab == "3") {
+        history.push(`/addUniversityFinancial/${universityId}`);
+      }
+      if (tab == "4") {
+        history.push(`/addUniversityFeatures/${universityId}`);
+      }
+      if (tab == "5") {
+        history.push(`/addUniversityGallery/${universityId}`);
+      }
+      if (tab == "6") {
+        history.push(`/addUniversityApplicationDocument/${universityId}`);
+      }
+      if (tab == "7") {
+        history.push(`/addUniversityTemplateDocument/${universityId}`);
+      }
     }
-    if (tab == "4") {
-      history.push("/addUniversityFeatures");
-    }
-    if (tab == "5") {
-      history.push("/addUniversityGallery");
-    }
-    if (tab == "6") {
-      history.push("/addUniversityApplicationDocument");
-    }
-    if (tab == "7") {
-      history.push("/addUniversityTemplateDocument");
-    }
+    
   };
 
   const universityTypeName = universityTypes?.map((uniType) => ({
@@ -593,7 +642,7 @@ const AddUniversity = (props) => {
               </NavLink>
             </NavItem>
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                   Campus Information
                 </NavLink>
@@ -629,7 +678,7 @@ const AddUniversity = (props) => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
                   Financial
                 </NavLink>
@@ -647,7 +696,7 @@ const AddUniversity = (props) => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                   Features
                 </NavLink>
@@ -665,7 +714,7 @@ const AddUniversity = (props) => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                   Gallery
                 </NavLink>
@@ -683,7 +732,7 @@ const AddUniversity = (props) => {
             </NavItem> */}
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
                   Application Document
                 </NavLink>
@@ -695,7 +744,7 @@ const AddUniversity = (props) => {
             </NavItem>
 
             <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
+              {submitData || univerId ? (
                 <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                   Template Document
                 </NavLink>

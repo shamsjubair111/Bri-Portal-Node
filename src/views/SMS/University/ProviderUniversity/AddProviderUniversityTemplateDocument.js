@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, createRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import MediaPictures from "./UniversityMedia";
 import Select from "react-select";
 import {
@@ -49,6 +49,7 @@ import { permissionList } from "../../../../constants/AuthorizationConstant";
 const AddProviderUniversityTemplateDocument = () => {
     const { addToast } = useToasts();
   const history = useHistory();
+  const {providerProfileId, univerId} = useParams();
   const [activetab, setActivetab] = useState("7");
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -71,6 +72,9 @@ const AddProviderUniversityTemplateDocument = () => {
   );
   const [applicationTypeValue, setApplicationTypeValue] = useState(0);
   const [applicationTypeId, setApplicationTypeId] = useState([]);
+
+  const [templateName, setTemplateName] = useState('');
+  const [templateId, setTemplateId] = useState(0);
 
   // image upload starts here
   const [previewVisible1, setPreviewVisible1] = useState(false);
@@ -116,11 +120,9 @@ const AddProviderUniversityTemplateDocument = () => {
       setApplicationTypeId(res);
     });
 
-    if(localStorage.getItem("id")){
+    if(univerId != undefined){
       get(
-        `UniversityTemplateDocument/GetByUniversity/${localStorage.getItem(
-          "id"
-        )}`
+        `UniversityTemplateDocument/GetByUniversity/${univerId}`
       ).then((res) => {
         console.log("tempDocuData", res);
         setTemplateList(res);
@@ -133,7 +135,7 @@ const AddProviderUniversityTemplateDocument = () => {
       });
     }
 
-  }, [success]);
+  }, [success, univerId]);
 
   const applicationOptions = applicationTypeId?.map((app) => ({
     label: app?.name,
@@ -149,43 +151,39 @@ const AddProviderUniversityTemplateDocument = () => {
 
   // redirect to 
   const backToProviderDetails = () => {
-    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
-    localStorage.removeItem("proProfileId");
+    history.push(`/providerDetails/${providerProfileId}`);
   };
 
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
-    if (tab === "1") {
-      history.push("/addProviderUniversity");
+    if (tab == "1") {
+      history.push(`/addProviderUniversity/${providerProfileId}/${univerId}`);
     }
-    if (tab === "2") {
-      history.push("/addProviderUniversityCampus");
+    if (tab == "2") {
+      history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
     }
-    if (tab === "3") {
-      history.push("/addProviderUniversityFinancial");
+    if (tab == "3") {
+      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
     }
-    if (tab === "4") {
-      history.push("/addProviderUniversityFeatures");
+    if (tab == "4") {
+      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
     }
-    if (tab === "5") {
-      history.push("/addProviderUniversityGallery");
+    if (tab == "5") {
+      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
     }
-    if (tab === "6") {
-      history.push("/addProviderUniversityApplicationDocument");
+    if (tab == "6") {
+      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
     }
-    if (tab === "7") {
-      history.push("/addProviderUniversityTemplateDocument");
-    }
-    if (tab === "8") {
-      history.push("/addProviderUniversityRequiredDocument");
+    if (tab == "7") {
+      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
     }
   };
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("templateId", p.id);
-    localStorage.setItem("templateName", p.name);
+    setTemplateId(p?.id);
+    setTemplateName(p?.name);
     setDeleteModal(true);
   };
 
@@ -258,13 +256,12 @@ const AddProviderUniversityTemplateDocument = () => {
   };
 
   // redirect to Next Page
-  const onNextPage = () => {
-    const uniID = localStorage.getItem("id");
-    history.push({
-      pathname: "/addUniversityRequiredDocument",
-      id: uniID,
-    });
-  };
+  // const onNextPage = () => {
+  //   history.push({
+  //     pathname: "/addUniversityRequiredDocument",
+  //     id: uniID,
+  //   });
+  // };
 
   const cancel = () => {
     setShowForm(true);
@@ -284,8 +281,8 @@ const AddProviderUniversityTemplateDocument = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("templateId");
-      localStorage.removeItem("templateName");
+      setTemplateId(0);
+      setTemplateName('');
     });
   };
 
@@ -309,8 +306,7 @@ const AddProviderUniversityTemplateDocument = () => {
   }
 
   const onGoUniProfile = () => {
-    const id = localStorage.getItem("id");
-    history.push(`/universityDetails/${id}`)
+    history.push(`/universityDetails/${univerId}`)
   }
     return (
         <div>
@@ -408,7 +404,7 @@ const AddProviderUniversityTemplateDocument = () => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       {selectedId !== 0 ? (
                         <Input
@@ -708,14 +704,18 @@ const AddProviderUniversityTemplateDocument = () => {
 
                             <Modal
                               isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
+                              toggle={() => {
+                                setDeleteModal(false);
+                                setTemplateId(0);
+                                setTemplateName('');
+                              }}
                               className="uapp-modal"
                             >
                               <ModalBody>
                                 <p>
                                   Are You Sure to Delete this{" "}
                                   <b>
-                                    {localStorage.getItem("templateName")}
+                                    {templateName}
                                   </b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
@@ -725,14 +725,16 @@ const AddProviderUniversityTemplateDocument = () => {
                                 <Button
                                   color="danger"
                                   onClick={() =>
-                                    handleDeletePermission(
-                                      localStorage.getItem("templateId")
-                                    )
-                                  }
+                                    handleDeletePermission(templateId)
+                                   }
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={() => setDeleteModal(false)}>
+                                <Button onClick={() => {
+                                  setDeleteModal(false);
+                                  setTemplateId(0);
+                                  setTemplateName('');
+                                }}>
                                   NO
                                 </Button>
                               </ModalFooter>

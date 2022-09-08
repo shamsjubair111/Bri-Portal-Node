@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, createRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import MediaPictures from "./UniversityMedia";
 import Select from "react-select";
 import {
@@ -49,6 +49,7 @@ import { permissionList } from "../../../constants/AuthorizationConstant";
 const AddUniversityApplicationDocument = () => {
   const { addToast } = useToasts();
   const history = useHistory();
+  const {univerId} = useParams();
   const [activetab, setActivetab] = useState("6");
 
   const [document, setDocument] = useState([]);
@@ -70,6 +71,8 @@ const AddUniversityApplicationDocument = () => {
   const [isMandatory, setIsMandatory] = useState(null);
   const [applicationError, setApplicationError] = useState(false);
   const [applicationTypeId, setApplicationTypeId] = useState([]);
+  const [applicationName, setApplicationName] = useState('');
+  const [applicationId, setApplicationId] = useState(0);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -83,11 +86,9 @@ const AddUniversityApplicationDocument = () => {
       setDocument(res);
     });
 
-    if (localStorage.getItem("id")) {
+    if (univerId != undefined) {
       get(
-        `UniversityApplicationDocument/GetByUniversity/${localStorage.getItem(
-          "id"
-        )}`
+        `UniversityApplicationDocument/GetByUniversity/${univerId}`
       ).then((res) => {
         console.log("appDocuData", res);
         setApplicationList(res);
@@ -99,7 +100,7 @@ const AddUniversityApplicationDocument = () => {
         }
       });
     }
-  }, [success]);
+  }, [success, univerId]);
 
   const documentOptions = document?.map((doc) => ({
     label: doc?.name,
@@ -131,33 +132,33 @@ const AddUniversityApplicationDocument = () => {
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
-    if (tab === "1") {
-      history.push("/addUniversity");
+    if (tab == "1") {
+      history.push(`/addUniversity/${univerId}`);
     }
-    if (tab === "2") {
-      history.push("/addUniversityCampus");
+    if (tab == "2") {
+      history.push(`/addUniversityCampus/${univerId}`);
     }
-    if (tab === "3") {
-      history.push("/addUniversityFinancial");
+    if (tab == "3") {
+      history.push(`/addUniversityFinancial/${univerId}`);
     }
-    if (tab === "4") {
-      history.push("/addUniversityFeatures");
+    if (tab == "4") {
+      history.push(`/addUniversityFeatures/${univerId}`);
     }
-    if (tab === "5") {
-      history.push("/addUniversityGallery");
+    if (tab == "5") {
+      history.push(`/addUniversityGallery/${univerId}`);
     }
-    if (tab === "7") {
-      history.push("/addUniversityTemplateDocument");
+    if (tab == "6") {
+      history.push(`/addUniversityApplicationDocument/${univerId}`);
     }
-    // if (tab === "8") {
-    //   history.push("/addUniversityRequiredDocument");
-    // }
+    if (tab == "7") {
+      history.push(`/addUniversityTemplateDocument/${univerId}`);
+    }
   };
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("applicationId", p?.id);
-    localStorage.setItem("applicationName", p?.document?.name);
+    setApplicationId(p?.id);
+    setApplicationName(p?.document?.name);
     setDeleteModal(true);
   };
 
@@ -228,10 +229,9 @@ const AddUniversityApplicationDocument = () => {
 
   // redirect to Next Page
   const onNextPage = () => {
-    const uniID = localStorage.getItem("id");
     history.push({
-      pathname: "/addUniversityTemplateDocument",
-      id: uniID,
+      pathname: `/addUniversityTemplateDocument/${univerId}`,
+      id: univerId,
     });
   };
 
@@ -256,8 +256,8 @@ const AddUniversityApplicationDocument = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("applicationId");
-      localStorage.removeItem("applicationName");
+      setApplicationName('');
+      setApplicationId(0);
     });
   };
 
@@ -389,7 +389,7 @@ const AddUniversityApplicationDocument = () => {
                         type="hidden"
                         id="universityId"
                         name="universityId"
-                        value={localStorage.getItem("id")}
+                        value={univerId}
                       />
                       {selectedId !== 0 ? (
                         <Input
@@ -657,14 +657,18 @@ const AddUniversityApplicationDocument = () => {
 
                             <Modal
                               isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
+                              toggle={() => {
+                                setDeleteModal(!deleteModal);
+                                setApplicationName('');
+                                setApplicationId(0);
+                              }}
                               className="uapp-modal"
                             >
                               <ModalBody>
                                 <p>
                                   Are You Sure to Delete this{" "}
                                   <b>
-                                    {localStorage.getItem("applicationName")}
+                                    {applicationName}
                                   </b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
@@ -674,14 +678,16 @@ const AddUniversityApplicationDocument = () => {
                                 <Button
                                   color="danger"
                                   onClick={() =>
-                                    handleDeletePermission(
-                                      localStorage.getItem("applicationId")
-                                    )
+                                    handleDeletePermission(applicationId)
                                   }
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={() => setDeleteModal(false)}>
+                                <Button onClick={() => {
+                                  setDeleteModal(false);
+                                  setApplicationName('');
+                                  setApplicationId(0);
+                                }}>
                                   NO
                                 </Button>
                               </ModalFooter>
