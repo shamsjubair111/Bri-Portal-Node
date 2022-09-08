@@ -363,72 +363,72 @@ const handleUpdate = (id) => {
        <Nav tabs>
 
        <NavItem>
-       <NavLink style={{ color: '#1e98b0'}} active={activetab === "1"} onClick={() => toggle("1")}>
+       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
          Application 
        </NavLink>
      </NavItem>
 
          <NavItem>
-           <NavLink style={{ color: '#1e98b0'}} active={activetab === "2"} onClick={() => toggle("2")}>
+           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
              Personal 
            </NavLink>
          </NavItem>
 
          <NavItem>
-           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "3"} onClick={() => toggle("3")}>
+           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
              Contact 
            </NavLink>
          </NavItem>
 
         
          <NavItem>
-           <NavLink  style={{ color: '#1e98b0'}} active={activetab === "4"} onClick={() => toggle("4")}>
+           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
              Educational 
            </NavLink>
          </NavItem>
 
          <NavItem>
-           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "5"} onClick={() => toggle("5")}>
+           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
              Test Score
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "6"} onClick={() => toggle("6")}>
+           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
              Experience 
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "7"} onClick={() => toggle("7")}>
+           <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
              Reference
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink style={{ color: '#1e98b0'}}  active={activetab === "8"} onClick={() => toggle("8")}>
+           <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
              Personal Statement
            </NavLink>
          </NavItem>
 
          <NavItem>
 
-           <NavLink  style={{ color: '#1e98b0'}} active={activetab === "9"} onClick={() => toggle("9")}>
+           <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
              Others
            </NavLink>
          </NavItem>
 
          <NavItem>
-              <NavLink style={{ color: '#1e98b0'}} active={activetab === "10"} onClick={() => toggle("10")}>
+              <NavLink  active={activetab === "10"} onClick={() => toggle("10")}>
                 Documents
               </NavLink>
             </NavItem>
 
          <NavItem>
-              <NavLink style={{ color: '#1e98b0'}} active={activetab === "11"} onClick={() => toggle("11")}>
+              <NavLink  active={activetab === "11"} onClick={() => toggle("11")}>
                 Declaration
               </NavLink>
             </NavItem>
