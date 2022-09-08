@@ -7,15 +7,16 @@ import { rootUrl } from '../../../../constants/constants';
 
 const EmployeeProfile = () => {
 
-    const {id} = useParams();
+    const {branchId,employeeId} = useParams();
     const [info,setInfo] = useState({});
     const history = useHistory();
     const componentRef = useRef();
+    console.log('12112112121221212',employeeId);
 
 
     useEffect(()=>{
 
-        get(`BranchEmployee/Get/${id}`)
+        get(`BranchEmployee/Get/${employeeId}`)
         .then(res => {
             console.log('new page', res);
             setInfo(res);
@@ -28,7 +29,7 @@ const EmployeeProfile = () => {
     }
 
     const redirect = () => {
-        history.push(`/branchEmployeeInformation/${id}`);
+        history.push(`/branchEmployeeInformation/${info?.branchId}/${employeeId}`);
     }
     
     

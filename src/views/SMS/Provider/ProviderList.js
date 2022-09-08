@@ -44,6 +44,8 @@ const ProviderList = () => {
 
     const {addToast} = useToasts();
     const [providerType, setProviderType] = useState([]);
+    const [delData,setDelData] = useState({});
+    const [success,setSuccess] = useState(false);
 
 
  
@@ -83,13 +85,14 @@ const ProviderList = () => {
         setProviderType(res);
         
       })
-    }, [providerValue,searchStr,currentPage]);
+    }, [providerValue,searchStr,currentPage, success]);
 
     // console.log(providerValue);
     // console.log(searchStr);
     
-    const toggleDeleteProvider = () => {
+    const toggleDeleteProvider = (data) => {
       
+      setDelData(data);
       setDeleteModal(true);
     
     };
@@ -112,8 +115,8 @@ const ProviderList = () => {
   
     },[])
 
-    const deleteProvider  = (id) =>{
-      remove(`Provider/Delete/${id}`)
+    const deleteProvider  = () =>{
+      remove(`Provider/Delete/${delData?.id}`)
       .then(res => {
       
         
@@ -122,8 +125,7 @@ const ProviderList = () => {
           autoDismiss: true,
         })
         setDeleteModal(false);
-        const newData = providerList.filter(data => data.id != id );
-        setProviderList(newData);
+        setSuccess(!success);
       })
 
     }
@@ -443,7 +445,7 @@ const ProviderList = () => {
 
                               <ButtonForFunction 
                                 color={"danger"}
-                                func={toggleDeleteProvider}
+                                func={()=>toggleDeleteProvider(prov)}
                                 className={"mx-1 btn-sm"}
                                 icon={<i class="fas fa-trash-alt"></i>}
                                 permission={6}
@@ -468,7 +470,7 @@ const ProviderList = () => {
                               <ModalFooter>
                                 <Button
                                   color="danger"
-                                  onClick={() => deleteProvider(prov?.id)}
+                                  onClick={deleteProvider}
                                 >
                                   YES
                                 </Button>

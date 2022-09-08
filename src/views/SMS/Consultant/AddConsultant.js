@@ -128,8 +128,8 @@ const AddConsultant = () => {
         
         if (res.status === 200 && res.data.isSuccess === true) {
           
-          localStorage.setItem('consultantRegisterId', res?.data?.result?.id);
-          history.push('/consultantInformation');
+         
+          history.push(`/consultantInformation/${res?.data?.result?.id}`);
           
         }
       })

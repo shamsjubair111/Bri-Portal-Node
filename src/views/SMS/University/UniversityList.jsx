@@ -738,7 +738,7 @@ const UniversityList = (props) => {
                           className="badge badge-primary"
                           style={{ cursor: "pointer" }}
                         >
-                          50
+                          {university?.totalApplication}
                         </span>{" "}
                       </td>
 

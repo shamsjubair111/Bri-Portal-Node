@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import {  useHistory, useLocation } from 'react-router-dom';
+import {  useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { rootUrl } from '../../../../constants/constants'
 import Select from "react-select";
@@ -14,6 +14,7 @@ import { permissionList } from '../../../../constants/AuthorizationConstant';
 const Branch = () => {
     const history = useHistory();
     const { addToast } = useToasts();
+    const {branchId} = useParams();
    
     const [activetab, setActivetab] = useState("1");
       const [submitData, setSubmitData] = useState(false);
@@ -31,15 +32,11 @@ const Branch = () => {
       const [emailError, setEmailError] = useState(true);
       const permissions = JSON.parse(localStorage.getItem("permissions"));
 
-      console.log('location',location);
-      if(location?.branchId){
-        localStorage.setItem('branchId',location?.branchId);
+      
+      
       
 
-      }
       
-
-      const branchIdValue = localStorage.getItem('branchId');
 
      
       
@@ -53,7 +50,7 @@ const Branch = () => {
 
     
        
-       get(`Branch/Get/${branchIdValue}`)
+       get(`Branch/Get/${branchId}`)
        .then(res => {
         console.log('yEEEEEEEEEEEEEE',res); 
         setBranchInfo(res)
@@ -66,7 +63,7 @@ const Branch = () => {
    
      
 
-     },[branchIdValue])
+     },[branchId])
 
      
   
@@ -163,7 +160,7 @@ const Branch = () => {
     }
     else{
 
-      if(branchIdValue){
+      if(branchId){
         put('Branch/Update', subdata).then((res) => {
           
     
@@ -188,7 +185,7 @@ const Branch = () => {
           },
         }).then((res) => {
         
-          localStorage.setItem("branchId",res?.data?.result?.id);
+          
           
           const uniID = res?.data?.result?.id;
           console.log((res));
@@ -265,10 +262,10 @@ const Branch = () => {
             <TabPane tabId="1">
               <Form className="mt-5" onSubmit={handleSubmit}>
                 {
-                  branchIdValue? 
+                  branchId? 
                   <Input 
                   type='hidden'
-                  value={branchIdValue}
+                  value={branchId}
                   name='id'
                   id='id' />
                   :

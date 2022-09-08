@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -30,6 +30,7 @@ import { userTypes } from "../../../constants/userTypeConstant";
 
 const AddConsultantInformation = () => {
   const { addToast } = useToasts();
+  const {consultantRegisterId} = useParams();
   const history = useHistory();
   const [nameTitle, setNameTitle] = useState([]);
   const [consParent, setConsParent] = useState([]);
@@ -119,7 +120,7 @@ const AddConsultantInformation = () => {
 
   // Checking Put method
 
-  const consultantMethod = localStorage.getItem("consultantMethod");
+
 
   useEffect(() => {
     get("NameTittleDD/index").then((res) => {
@@ -134,7 +135,7 @@ const AddConsultantInformation = () => {
       setConsType(res);
     });
 
-    get(`Consultant/Get/${localStorage.getItem("consultantRegisterId")}`).then(
+    get(`Consultant/Get/${consultantRegisterId}`).then(
       (res) => {
         console.log("fetching consultant info from api", res);
         setConsultantData(res);
@@ -182,7 +183,7 @@ const AddConsultantInformation = () => {
     });
 
     get(
-      `AccountStatusDD/index/${localStorage.getItem("consultantRegisterId")}`
+      `AccountStatusDD/index/${consultantRegisterId}`
     ).then((res) => {
       // console.log(res);
       setAccount(res);
@@ -460,11 +461,11 @@ const AddConsultantInformation = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/consultantInformation");
+      history.push(`/consultantInformation/${consultantRegisterId}`);
     }
 
     if (tab == "2") {
-      history.push("/consultantBankDetails");
+      history.push(`/consultantBankDetails/${consultantRegisterId}`);
     }
 
     if (tab == "3") {
@@ -472,7 +473,7 @@ const AddConsultantInformation = () => {
     }
 
     if (tab == "4") {
-      history.push("/consultantConscent");
+      history.push(`/consultantConscent/${consultantRegisterId}`);
     }
 
   };
@@ -570,7 +571,7 @@ const AddConsultantInformation = () => {
           setFileList3([]);
           setFileList4([]);
           setFileList5([]);
-          history.push("/consultantBankDetails");
+          history.push(`/consultantBankDetails/${consultantRegisterId}`);
           
         }
       });
@@ -654,7 +655,7 @@ const AddConsultantInformation = () => {
               type="hidden"
               name="id"
               id="id"
-              value={localStorage.getItem("consultantRegisterId")}
+              value={consultantRegisterId}
             />
 
             <FormGroup row className="has-icon-left position-relative">

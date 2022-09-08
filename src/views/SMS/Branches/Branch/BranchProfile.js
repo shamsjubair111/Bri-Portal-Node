@@ -72,11 +72,11 @@ const BranchProfile = (props) => {
 
   // }
 
-  const branchId = localStorage.getItem("branchId");
+
 
   //
 
-  localStorage.setItem("branchId", id);
+
 
   useEffect(() => {
     get(`Branch/Get/${id}`).then((res) => {
@@ -85,7 +85,7 @@ const BranchProfile = (props) => {
     });
 
     
-  }, [id, branchId]);
+  }, [id]);
 
   const backToBranchList = () => {
     history.push("/branchList");
@@ -268,6 +268,7 @@ const BranchProfile = (props) => {
             ></Manager>
         
             <Team
+            id={id}
             success={success}
             setSuccess={setSuccess}
             

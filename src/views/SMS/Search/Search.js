@@ -134,6 +134,7 @@ const Search = () => {
     
     
     const [primaryCampus,setPrimaryCampus] = useState({});
+    const [primaryintake, setPrimaryIntake] = useState({});
    
 
    
@@ -847,7 +848,7 @@ const Search = () => {
         {
           (campus?.length == 1)? 
 
-         <h6>{campus[0].name}</h6>
+         <h6>{modalCampus[0].name}</h6>
 
         :
 
@@ -903,8 +904,8 @@ const Search = () => {
         <Col md="6">
 
           {
-            intake.length == 1 ? 
-              <h6>{intake[0]?.name}</h6>
+            modalIntake.length == 1 ? 
+              <h6>{modalIntake[0]?.name}</h6>
               :
               <>
               <Select

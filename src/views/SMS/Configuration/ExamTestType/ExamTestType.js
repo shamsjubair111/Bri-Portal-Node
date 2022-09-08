@@ -54,21 +54,21 @@ const ExamTestType = () => {
         history.push('/');
     }
 
-    const toggleDanger = (name,id) => {
-        localStorage.setItem('examTestTypeName',name);
-        localStorage.setItem('examTestTypeValue',id);
+    // const toggleDanger = (name,id) => {
+    //     localStorage.setItem('examTestTypeName',name);
+    //     localStorage.setItem('examTestTypeValue',id);
        
-        setDeleteModal(true)
-       }
+    //     setDeleteModal(true)
+    //    }
 
 
     // on Close Delete Modal
-const closeDeleteModal = () => {
-    setDeleteModal(false);
-    localStorage.removeItem('examTestTypeName');
-    localStorage.removeItem('examTestTypeValue');
+// const closeDeleteModal = () => {
+//     setDeleteModal(false);
+//     localStorage.removeItem('examTestTypeName');
+//     localStorage.removeItem('examTestTypeValue');
 
-}
+// }
 
 // on Close Modal
 const closeModal = () => {
@@ -77,37 +77,37 @@ const closeModal = () => {
 
 }
 
-const handleDeleteUniCountry = (id) => {
+// const handleDeleteUniCountry = (id) => {
 
 
   
 
-     remove(`ExamTestType/Delete/${id}`).then((action)=> {
-      setDeleteModal(false);
-      setSuccess(!success);
-       addToast(action, {
-         appearance: 'error',
-         autoDismiss: true,
-       })
-       localStorage.removeItem('examTestTypeName');
-       localStorage.removeItem('examTestTypeValue');
-    })
+//      remove(`ExamTestType/Delete/${id}`).then((action)=> {
+//       setDeleteModal(false);
+//       setSuccess(!success);
+//        addToast(action, {
+//          appearance: 'error',
+//          autoDismiss: true,
+//        })
+//        localStorage.removeItem('examTestTypeName');
+//        localStorage.removeItem('examTestTypeValue');
+//     })
     
-      const newData = examTestType.filter( extp => extp?.id !== id);
-      setExamTestType(newData);
-      setExamTestTypeValue('');
-  }
+//       const newData = examTestType.filter( extp => extp?.id !== id);
+//       setExamTestType(newData);
+//       setExamTestTypeValue('');
+//   }
 
-  const handleUpdate = (data) => {
-    setModalOpen(true);
-    setExamTestTypeValue(data?.name);
+  // const handleUpdate = (data) => {
+  //   setModalOpen(true);
+  //   setExamTestTypeValue(data?.name);
     
-    localStorage.setItem('updateExamTestTypeValue',data.id);
+  //   localStorage.setItem('updateExamTestTypeValue',data.id);
  
     
   
    
-  }
+  // }
 
   const handleUpdateSubmit = () => {
 
@@ -176,12 +176,12 @@ const handleDeleteUniCountry = (id) => {
   
   }
 
-  const handleCheckExamTestTypeAttribute = (id) => {
-    console.log(id);
-    localStorage.setItem('examTestTypeAttributeId',id);
-    history.push('/examTestTypeAttribute');
+  // const handleCheckExamTestTypeAttribute = (id) => {
+  //   console.log(id);
+  //   localStorage.setItem('examTestTypeAttributeId',id);
+  //   history.push('/examTestTypeAttribute');
 
-  }
+  // }
 
 
   const idVal =localStorage.getItem('updateExamTestTypeValue');

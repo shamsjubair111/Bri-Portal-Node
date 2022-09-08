@@ -40,7 +40,7 @@ const Manager = (props) => {
               
                   <LinkButton
                   name={'Edit'}
-                  url={`/updateBranchManagerInformation/${branchManager?.id}`}
+                  url={`/updateBranchManagerInformation/${id}/${branchManager?.id}`}
                   className={"btn btn-primary px-lg-5 px-md-3 px-sm-1 py-2"}
                   
                   />
@@ -68,10 +68,10 @@ const Manager = (props) => {
             {!branchManager.nameTittleId && (
               <Card>
                 <div className="container py-3">
-                  <Link to="/addBranchManager">
+                  <Link to={`/addBranchManager/${id}`}>
                     
                     <Button className="btn btn-uapp-add "
-                    onClick={localStorage.removeItem('branchManagerId')}
+                    // onClick={localStorage.removeItem('branchManagerId')}
                     >
                       {" "}
                       <i class="fas fa-plus"></i> Add Branch Manager{" "}

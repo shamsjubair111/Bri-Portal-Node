@@ -23,7 +23,7 @@ import * as Icon from 'react-feather';
 import Select from "react-select";
 
 const BranchManagerInformation = () => {
-  const { id } = useParams();
+  const { branchId, managerId } = useParams();
   const history = useHistory();
   const { addToast } = useToasts();
   const [branchManagerInfo, setBranchManagerInfo] = useState({});
@@ -42,7 +42,7 @@ const BranchManagerInformation = () => {
   // );
 
   useEffect(() => {
-    get(`BranchManager/Get/${id}`).then((res) => {
+    get(`BranchManager/Get/${managerId}`).then((res) => {
       console.log(res,'Tring manager info noww');
       setBranchManagerInfo(res);
       setTitleLabel(res?.nameTittle?.name);
@@ -54,7 +54,7 @@ const BranchManagerInformation = () => {
       console.log('title',res);
       setTitle(res);
     })
-  }, [id]);
+  }, [managerId]);
 
 
   const nameTitle = title?.map((singleTitle) => ({

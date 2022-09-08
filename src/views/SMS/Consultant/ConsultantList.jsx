@@ -55,6 +55,8 @@ const ConsultantList = () => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [success,setSuccess] = useState(false);
     const {addToast} = useToasts();
+    const [delData,setDelData] = useState({});
+    const [data,setData] = useState({});
     // const [uniStateLabel, setUniStateLabel] = useState("State");
     // const [unistateValue, setUniStateValue] = useState(0);
     // const [providerLabel, setProviderLabel] = useState("Provider");
@@ -146,9 +148,8 @@ const ConsultantList = () => {
     const handleEdit = (data) =>{
 
       console.log(data);
-      localStorage.setItem('consultantRegisterId', data?.id);
-      localStorage.setItem('consultantMethod', true);
-      history.push('/consultantInformation');
+      
+      history.push(`/consultantInformation/${data?.id}`);
 
     }
 
@@ -156,8 +157,7 @@ const ConsultantList = () => {
 
      const toggleDanger = (p) => {
 
-      console.log(p);
-      localStorage.setItem('consultantIdForDelete',p?.id);
+      setDelData(p);
 
       setDeleteModal(true)
     }
@@ -168,7 +168,7 @@ const ConsultantList = () => {
 
      
 
-      remove(`Consultant/Delete/${localStorage.getItem('consultantIdForDelete')}`)
+      remove(`Consultant/Delete/${delData?.id}`)
       .then(res => {
         // console.log(res);
         addToast(res,{

@@ -43,6 +43,7 @@ const BankDetails = () => {
   const {addToast} = useToasts();
   const [success, setSuccess] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const {consultantRegisterId} = useParams();
 
   const userTypeId = localStorage.getItem('userType');
 
@@ -57,7 +58,7 @@ const BankDetails = () => {
   
   useEffect(()=>{
 
-    get(`BankDetails/Index/${localStorage.getItem('consultantRegisterId')}`)
+    get(`BankDetails/Index/${consultantRegisterId}`)
     .then(res => {
       console.log('Get Response For Bank Details in Array', res);
       setBankDetailsData(res);
@@ -77,11 +78,11 @@ const BankDetails = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/consultantInformation");
+      history.push(`/consultantInformation/${consultantRegisterId}`);
     }
 
     if (tab == "2") {
-      history.push("/consultantBankDetails");
+      history.push(`/consultantBankDetails//${consultantRegisterId}`);
     }
 
     if (tab == "3") {
@@ -89,7 +90,7 @@ const BankDetails = () => {
     }
 
     if (tab == "4") {
-      history.push("/consultantConscent");
+      history.push(`/consultantConscent/${consultantRegisterId}`);
     }
 
   };
@@ -228,7 +229,7 @@ const handleEdit = (data) => {
             type='hidden'
             name='consultantId'
             id='consultantId'
-            value={localStorage.getItem('consultantRegisterId')}
+            value={consultantRegisterId}
             
             />
 
@@ -604,7 +605,7 @@ const handleEdit = (data) => {
               type='hidden'
               name='consultantId'
               id='consultantId'
-              value={localStorage.getItem('consultantRegisterId')}
+              value={consultantRegisterId}
               
               />
   

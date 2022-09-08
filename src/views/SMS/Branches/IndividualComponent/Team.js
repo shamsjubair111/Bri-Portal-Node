@@ -9,7 +9,7 @@ import put from '../../../../helpers/put';
 
 const Team = (props) => {
 
-  const {success,setSuccess} = props;
+  const {id,success,setSuccess} = props;
 
 
     const [teammodalOpen, setteamModalOpen] = useState(false);
@@ -23,14 +23,14 @@ const Team = (props) => {
     const history = useHistory();
     const [delData,setDelData] = useState({});
     
-    const branchId = localStorage.getItem("branchId");
+    
 
     useEffect(()=>{
-        get(`BranchTeamEmployee/Count/${branchId}`).then((res) => {
+        get(`BranchTeamEmployee/Count/${id}`).then((res) => {
             console.log('aaaa',res);
             setBranchTeamEmployee(res);
           });
-    },[ success, branchId])
+    },[ success, id])
    
    
     const functionimplement = () => {
@@ -114,8 +114,8 @@ const Team = (props) => {
         // setTeamName('');
       };
 
-      const showTeamInfo = (id) => {
-        history.push(`/teamEmployee/${id}`);
+      const showTeamInfo = (data) => {
+        history.push(`/teamEmployee/${id}/${data}`);
       }
 
     return (
@@ -133,7 +133,7 @@ const Team = (props) => {
                 type="hidden"
                 name="branchId"
                 id="branchId"
-                value={branchId}
+                value={id}
               />
               {isUpdate ? (
                 <input type="hidden" name="id" id="id" value={teamInfo?.id} />

@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Col, FormGroup, Input, Form, Nav, NavItem, NavLink, TabContent, TabPane, Button } from 'reactstrap';
 import { rootUrl } from '../../../../constants/constants';
 import get from '../../../../helpers/get';
@@ -16,6 +16,7 @@ import { permissionList } from '../../../../constants/AuthorizationConstant';
 const BranchManager = () => {
 
 
+  const {branchId} = useParams();
     const history = useHistory(); 
     const [submitData, setSubmitData] = useState(false);
     const [activetab, setActivetab] = useState("2");
@@ -52,19 +53,19 @@ const BranchManager = () => {
 
     const {addToast} = useToasts();
 
-    const backwardBranchManager = localStorage.getItem("branchManagerId");
-    console.log(backwardBranchManager);
+  
+   
 
     useEffect(()=>{
 
-      get(`BranchManager/Get/${backwardBranchManager}`)
-      .then(res => {
-        console.log(res);
-        setBranchManagerInfo(res);
-        setBranchLabel(res?.branch?.name);
-        setCheck(false);
+      // get(`BranchManager/Get/${backwardBranchManager}`)
+      // .then(res => {
+      //   console.log(res);
+      //   setBranchManagerInfo(res);
+      //   setBranchLabel(res?.branch?.name);
+      //   setCheck(false);
         
-      })
+      // })
 
   
 
@@ -82,7 +83,7 @@ const BranchManager = () => {
       })
 
      
-    },[backwardBranchManager])
+    },[])
 
 
     const nameTitle = title?.map((singleTitle) => ({
@@ -180,7 +181,7 @@ const selectTitle = (label, value) => {
   
   };
 
-  const branchId = localStorage.getItem('branchId');
+
   //  const managerImageData = useSelector((state) => state?.ManagerImageReducer?.managerImage);
   //  console.log('yes',managerImageData);
   
@@ -217,39 +218,39 @@ const selectTitle = (label, value) => {
     setEmailError(emailError);
   }
 
-   else if(backwardBranchManager){
-      Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
-        console.log(res,'manager updated');
-        // (res.status === 200 && res.data.isSuccess === true) ?
-        // status = 'success' : status = res.data.message;
-        // status = res.data.message;
-        // data = res.data.result;
+  //  else if(backwardBranchManager){
+  //     Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
+  //       console.log(res,'manager updated');
+  //       // (res.status === 200 && res.data.isSuccess === true) ?
+  //       // status = 'success' : status = res.data.message;
+  //       // status = res.data.message;
+  //       // data = res.data.result;
   
-        //     addToast(res.data.message, {
-        //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
-        //     // autoDismiss: true,
-        //   })
+  //       //     addToast(res.data.message, {
+  //       //     appearance: res.data.message == 'University has been created successfully!' ? 'success': 'error',
+  //       //     // autoDismiss: true,
+  //       //   })
   
    
-        if(res?.status == 200){
+  //       if(res?.status == 200){
 
-          addToast(res?.data?.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          setSubmitData(true);
-          // console.log(res);
+  //         addToast(res?.data?.message,{
+  //           appearance: 'success',
+  //           autoDismiss: true
+  //         })
+  //         setSubmitData(true);
+  //         // console.log(res);
           
          
-          history.push(`/branchProfile/${branchId}`);
-        }
+  //         history.push(`/branchProfile/${branchId}`);
+  //       }
   
   
       
      
   
-      });
-    }
+  //     });
+  //   }
 
     else{
       Axios.post(`${rootUrl}BranchManager/Create`, subdata, config).then((res) => {
@@ -276,7 +277,7 @@ const selectTitle = (label, value) => {
           setSubmitData(true);
         console.log(res);
         
-        localStorage.setItem('branchManagerId',res?.data?.result?.id);
+       
         history.push(`/branchProfile/${branchId}`);
         
         }
@@ -353,7 +354,7 @@ const selectTitle = (label, value) => {
               <Form className="mt-5"  onSubmit={handleSubmit}>
            
 
-                {
+                {/* {
                   backwardBranchManager? 
                   <Input
                   type="hidden"
@@ -362,7 +363,7 @@ const selectTitle = (label, value) => {
                    value={branchManagerInfo?.id} />
                    :
                    null
-                }
+                } */}
 
                 <input 
                   type="hidden"
@@ -462,8 +463,7 @@ const selectTitle = (label, value) => {
                   </Col>
                 </FormGroup>
 
-                {
-                  !backwardBranchManager ? 
+              
                   <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
@@ -483,9 +483,7 @@ const selectTitle = (label, value) => {
                 
                   </Col>
                 </FormGroup>
-                : null
-
-                }
+               
                
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

@@ -12,7 +12,7 @@ import LinkButton from '../../Components/LinkButton';
 
 const AssignTeam = (props) => {
 
- 
+
 
   const customStyles = {
     control: (provided, state) => ({
@@ -66,16 +66,13 @@ const AssignTeam = (props) => {
     const [branchTeam, setBranchTeam] = useState([]);
     const [branchEmployeeCheckbox, setBranchEmployeeCheckbox] = useState([]);
     const [deleteId, setDeleteId] = useState('');
-     
+      console.log('xxxxxxxxxxxxxx',id);
    
-    const branchId = localStorage.getItem('branchId');
+    
 
     const handleAddBranchEmployee = () => {
-        localStorage.removeItem("employeeId");
-        history.push({
-          pathname: "/branchEmployeeInformation",
-          employeeBranchId: id,
-        });
+        
+        history.push(`/branchEmployeeInformation/${id}`);
       };
 
       useEffect(()=>{
@@ -93,10 +90,7 @@ const AssignTeam = (props) => {
       },[success, id])
 
       const handleEditBranchEmployee = (id) => {
-        history.push({
-          pathname: "/branchEmployeeInformation",
-          employeeId: id,
-        });
+        history.push(`branchEmployeeInformation/${id}`);
       };
 
       const toggleDeleteEmployee = (id) => {
@@ -134,7 +128,7 @@ const AssignTeam = (props) => {
       const gotoEmployeeProfile = (data) => {
 
         console.log(data);
-        history.push(`/branchEmployeeProfile/${data?.id}`)
+        history.push(`/branchEmployeeProfile/${id}/${data?.id}`);
         
   
       }
@@ -179,7 +173,7 @@ const AssignTeam = (props) => {
     post('BranchTeamEmployee/Create',subdata)
     .then(res => {
       console.log(res);
-      history.push(`/branchProfile/${branchId}`);
+      history.push(`/branchProfile/${id}`);
       addToast(res?.data?.message,{
         appearance: 'success',
         autoDismiss: true
@@ -295,7 +289,7 @@ const AssignTeam = (props) => {
                               icon={ <i class="fas fa-edit"></i>}
                               className={"mx-1 btn-sm"}
                               color={"warning"}
-                              url={`/branchEmployeeInformation/${employee?.id}`}
+                              url={`/branchEmployeeInformation/${id}/${employee?.id}`}
                               />
 
                              

@@ -51,16 +51,15 @@ const BranchList = () => {
     });
   }, [success]);
 
-  const handleLocalStorage = () => {
-    localStorage.removeItem("branchId");
-    // localStorage.removeItem("branchManagerId");
-  };
+  // const handleLocalStorage = () => {
+  //   localStorage.removeItem("branchId");
+  //   // localStorage.removeItem("branchManagerId");
+  // };
 
   const handleUpdate = (id) =>{
      
-     history.push({pathname:'/branchInformation',
-                    branchId: id
-                    });
+     history.push(`/branchInformation/${id}`);
+                  
   }
 
   const handleDeletebranch = () => {
@@ -132,7 +131,7 @@ const componentRef = useRef();
               permissions?.includes(permissionList?.Add_Branch) ?
                <LinkButton 
                url={"/branchInformation"}
-               func={handleLocalStorage}
+              //  func={handleLocalStorage}
                className={"btn btn-uapp-add "}
                icon={<i className="fas fa-plus"></i>}
                name={"Add New"}

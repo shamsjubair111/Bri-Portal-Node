@@ -87,8 +87,8 @@ const ProviderForm = (props) => {
           appearance:  'success',
           autoDismiss: true,
         })
-        localStorage.setItem('adminProviderHiddenId', action?.data?.result?.id);
-        history.push('/adminProviderForm');
+       
+        history.push(`/adminProviderForm/${action?.data?.result?.id}`);
         }
         })
         }

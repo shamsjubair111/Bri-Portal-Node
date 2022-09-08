@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Card, CardBody, CardHeader, CardTitle,  Button, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
 import Select from 'react-select';
 import AdminLogo from './AdminLogo';
@@ -12,7 +12,8 @@ import { useToasts } from 'react-toast-notifications';
 
 const AdminProviderForm = () => {
 
-    const hiddenId = localStorage.getItem('adminProviderHiddenId');
+    const {adminProviderHiddenId} = useParams();
+    
     const history = useHistory();
     const {addToast} = useToasts(); 
 
@@ -131,7 +132,7 @@ const handleSubmit  = (event) => {
           appearance: 'success',
           autoDismiss: true
         })
-        history.push(`providerDetails/${hiddenId}`);
+        history.push(`providerDetails/${adminProviderHiddenId}`);
       }
     })
 
@@ -172,7 +173,7 @@ const handleEmail = (e) => {
                 type='hidden'
                 name='providerId'
                 id='providerId'
-                value={hiddenId}
+                value={adminProviderHiddenId}
                 />
 
                 <FormGroup row>

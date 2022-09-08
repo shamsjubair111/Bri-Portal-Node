@@ -10,7 +10,7 @@ import remove from '../../../../helpers/remove';
 
 const BranchTeamEmployeeInformation = () => {
     const history = useHistory();
-    const {teamId} = useParams();
+    const {branchId,teamId} = useParams();
     const [teamDetails, setTeamDetails] = useState([]);
     const serialNum = 1;
     const [menus, setMenus] = useState([]);
@@ -25,7 +25,7 @@ const BranchTeamEmployeeInformation = () => {
    
     
 
-    const branchId = localStorage.getItem('branchId');
+    
 
     useEffect(()=> {
       get(`BranchTeamEmployee/GetEmployee/${teamId}`)
@@ -53,7 +53,7 @@ const BranchTeamEmployeeInformation = () => {
     const gotoEmployeeProfile = (data) => {
 
       console.log(data);
-      history.push(`/branchEmployeeProfile/${data?.id}`)
+      history.push(`/branchEmployeeProfile/${branchId}/${data?.id}`)
       
 
     }
@@ -121,7 +121,7 @@ const BranchTeamEmployeeInformation = () => {
         
         setDeleteModal(false);
         setDelData({});
-        history.push(`/branchProfile/${branchId}`);
+        history.push(`/branchList`);
          
       }
 

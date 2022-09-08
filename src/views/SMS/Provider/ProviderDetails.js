@@ -564,24 +564,37 @@ const ProviderDetails = () => {
                             </span>{" "}
                           </td>
                           <td>
+                          <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
+                           <Button color="primary" className="btn-sm me-1">
+                       
+                          <i className="fas fa-eye"></i>
+                         
+                           </Button>
+                           </Link>
+                            
+                          
                             {permissions?.includes(
                               permissionList?.Update_Admission_manager
                             ) ? (
+                              <Button color="warning btn-sm me-1">
                               <i
-                                className="fas fa-edit warning icon-hover-style mr-1"
+                                className="fas fa-edit"
                                 onClick={() =>
                                   updateAdmissionManager(manager?.id, id)
                                 }
                               ></i>
+                              </Button>
                             ) : null}
 
                             {permissions?.includes(
                               permissionList?.Delete_Admission_manager
                             ) ? (
+                              <Button color="danger" className="btn-sm">
                               <i
-                                className="fas fa-trash-alt text-danger icon-hover-style"
+                                className="fas fa-trash-alt"
                                 onClick={() => toggleDelete(manager)}
                               ></i>
+                              </Button>
                             ) : null}
 
                             <Modal

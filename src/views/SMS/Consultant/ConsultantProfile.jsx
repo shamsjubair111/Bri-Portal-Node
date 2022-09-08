@@ -78,7 +78,7 @@ const ConsultantProfile = () => {
       })
 
 
-      get(`AccountStatusDD/index/${localStorage.getItem('consultantRegisterId')}`)
+      get(`AccountStatusDD/index/${id}`)
       .then(res =>{
 
         setStatusType(res);
@@ -128,17 +128,17 @@ const ConsultantProfile = () => {
 
         const handleUpdateBankDetailsFromProfile = () =>{
 
-          localStorage.setItem('consultantRegisterId',id);
+          
 
-          history.push('/consultantBankDetails');
+          history.push(`/consultantBankDetails/${id}`);
         }
 
 
         const handleUpdateConsultantProfile = () =>{
 
-          localStorage.setItem('consultantRegisterId',id);
+          
 
-          history.push('/consultantInformation');
+          history.push(`/consultantInformation/${id}`);
 
         }
 
@@ -419,7 +419,7 @@ const ConsultantProfile = () => {
 
                    <Card>
                    <CardBody className='consultant-card-shadow-style d-flex justify-content-between'>
-                   <div>
+                   <div className='p-3'>
                    
                    <b>Account Name:</b> <span>{data?.accountName}</span>
                    <br/>
@@ -436,7 +436,7 @@ const ConsultantProfile = () => {
                    <b>Swift:</b> <span>{data?.swift}</span>
                    </div>
 
-                   <div className='edit-style'>
+                   <div className='edit-style mt-md-3'>
                <span> <i className="fas fa-pencil-alt pencil-style" onClick={handleUpdateBankDetailsFromProfile}></i> </span>
              </div>
                    </CardBody>

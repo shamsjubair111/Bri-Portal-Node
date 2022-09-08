@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -34,10 +34,11 @@ const Conscent = () => {
     const {addToast} = useToasts();
     const [success, setSuccess] = useState(false);
     const [conscentData, setConscentData] = useState({});
+    const {consultantRegisterId} = useParams();
 
     const userTypeId = localStorage.getItem('userType');
 
-    const consultantId = localStorage.getItem('consultantRegisterId');
+  
 
     const [apiInfo,setAPiInfo] = useState('');
     const [singTime,setSignTime] = useState([]);
@@ -46,7 +47,7 @@ const Conscent = () => {
 
     useEffect(()=>{
 
-        get(`ConsultantConscent/Get/${consultantId}`)
+        get(`ConsultantConscent/Get/${consultantRegisterId}`)
         .then(res => {
             console.log(res,'conscentData');
             setConscentData(res);
@@ -67,7 +68,7 @@ const Conscent = () => {
 
       const subData = new FormData();
 
-      subData.append('ConsultantId', consultantId);
+      subData.append('ConsultantId', consultantRegisterId);
       subData.append('IpAddress',apiInfo?.IPv4);
       post('ConsultantConscent/Sign',subData)
       .then(res => {
@@ -87,7 +88,7 @@ const Conscent = () => {
       };
 
       const sendEmail = () => {
-        put(`ConsultantConscent/SendEmail/${consultantId}`)
+        put(`ConsultantConscent/SendEmail/${consultantRegisterId}`)
         .then(res => {
             if(res?.status == 200){
                 addToast("Email Sending is in Process",{
@@ -105,11 +106,11 @@ const Conscent = () => {
       const toggle = (tab) => {
         setActivetab(tab);
         if (tab == "1") {
-          history.push("/consultantInformation");
+          history.push(`/consultantInformation/${consultantRegisterId}`);
         }
     
         if (tab == "2") {
-          history.push("/consultantBankDetails");
+          history.push(`/consultantBankDetails/${consultantRegisterId}`);
         }
     
         if (tab == "3") {
@@ -117,7 +118,7 @@ const Conscent = () => {
         }
     
         if (tab == "4") {
-          history.push("/consultantConscent");
+          history.push(`/consultantConscent/${consultantRegisterId}`);
         }
     
       };

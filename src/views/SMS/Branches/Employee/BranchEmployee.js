@@ -19,8 +19,8 @@ const Branch = () => {
 
   const AuthStr = localStorage.getItem("token");
     const history = useHistory();
-    const {id} = useParams();
-    console.log('Checking Use Params Id',id); 
+    const {branchId, employeeId} = useParams();
+    console.log('Checking Use Params Id',branchId); 
     const { addToast } = useToasts();
     const location = useLocation();
     const [activetab, setActivetab] = useState("3");
@@ -48,18 +48,12 @@ const Branch = () => {
       // console.log(employeeCoverImage);
 
       // console.log(location);
-      if(location?.employeeBranchId){
-        localStorage.setItem("employeeBranchId",location?.employeeBranchId);
-      }
+     
 
-      if(location?.employeeId){
-        localStorage.setItem("employeeId",location?.employeeId);
-      }
       
-      const employeeBranchId = localStorage.getItem("employeeBranchId");
-      console.log("empBrId",employeeBranchId);
-      const employeeId  = localStorage.getItem('employeeId');
-      console.log('empID',employeeId);
+      
+     
+    
 
       const [empLabel, setEmpLabel] = useState('Select Employee Type');
       const [empValue, setEmpValue] = useState(0);
@@ -97,7 +91,7 @@ const Branch = () => {
          setBranch(res);
        })
 
-       get(`BranchEmployee/Get/${id}`)
+       get(`BranchEmployee/Get/${employeeId}`)
        .then(res => {
          console.log("branch employee",res);
          setEmployeeInfo(res);
@@ -184,7 +178,7 @@ const Branch = () => {
     }
     else{
 
-   if(!id){
+   if(!employeeId){
 
 
     
@@ -197,7 +191,7 @@ const Branch = () => {
           appearance: 'success'
           
         })
-        history.push(`/branchProfile/${employeeBranchId}`)
+        history.push(`/branchProfile/${branchId}`)
       }
     });
 
@@ -217,7 +211,7 @@ const Branch = () => {
               appearance: 'success'
               
             })
-            history.push(`/branchProfile/${employeeBranchId}`)
+            history.push(`/branchProfile/${branchId}`)
            
           }
     
@@ -251,7 +245,7 @@ const Branch = () => {
          
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Branch Employee Information</h3>
+          <h3 className="text-light">Branch Employee Information</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToBranchList} className="text-light">
               {" "}
@@ -347,7 +341,7 @@ const Branch = () => {
             type='hidden'
             name='branchId'
             id='branchId'
-            value={localStorage.getItem('branchId')}
+            value={branchId}
             />
 
 
@@ -412,7 +406,7 @@ const Branch = () => {
         
            
            {
-             id? 
+             employeeId? 
              <input
              type='hidden'
              name='email'
@@ -450,7 +444,7 @@ const Branch = () => {
           
 
         {
-          id ? 
+          employeeId ? 
           null
           :
           <FormGroup row className="has-icon-left position-relative">
@@ -521,13 +515,13 @@ const Branch = () => {
            </FormGroup>
            
               {
-                id? 
+                employeeId? 
                 
             <Input
             type='hidden'
             name='id'
             id='id'
-            value={id}
+            value={employeeId}
             />
             : null
               }
@@ -542,7 +536,7 @@ const Branch = () => {
               <div className='d-flex'>
 
               {
-                id? 
+                employeeId? 
                <div className='me-2'>
                  <Image
                 width={104} height={104}
@@ -569,14 +563,14 @@ const Branch = () => {
            <FormGroup row className="has-icon-left position-relative">
              <Col md="2">
                <span>
-                  Cover Image <span className="text-danger">*</span>{" "}
+                  Cover Image <span className="text-danger"></span>{" "}
                </span>
              </Col>
              <Col md="4">
              <div className='d-flex'>
 
               {
-                (employeeInfo?.coverImageMedia?.thumbnailUrl !== null && id !== undefined) ?
+                (employeeInfo?.coverImageMedia?.thumbnailUrl !== null && employeeId !== undefined) ?
               <div className='me-2'>
                 <Image
                 width={104} height={104}

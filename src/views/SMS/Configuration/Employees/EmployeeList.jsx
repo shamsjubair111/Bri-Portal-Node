@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
+import { useParams } from 'react-router';
 import { Card, CardBody, CardHeader, ButtonGroup,  Button,   Input,  Col, Row, Table, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalFooter, ModalBody } from 'reactstrap';
 import Select from 'react-select';
 import Pagination from '../../Pagination/Pagination.jsx'
@@ -19,10 +20,11 @@ import { permissionList } from '../../../../constants/AuthorizationConstant.js';
 
 const EmployeeList = (props) => {
 
+  const {type} = useParams(); 
     const history = useHistory();
     const [employeeList, setEmployeeList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [employeeName, setEmployeeName] = useState('Select Employee Type...');
+    const [employeeName, setEmployeeName] = useState('Select Employee Type');
     const [employeeId, setEmployeeId] = useState(0);
     const [searchStr, setSearchStr] = useState('');
     const [dataPerPage,setDataPerPage] = useState(15);
@@ -47,12 +49,12 @@ const EmployeeList = (props) => {
     
 
     
-      useEffect(()=>{
-        if(location.id != undefined){
-          localStorage.setItem('locationId', location.id);
-          setEmployeeName(location.name);
-        }
-      },[])
+      // useEffect(()=>{
+      //   if(location.id != undefined){
+      //     localStorage.setItem('locationId', location.id);
+      //     setEmployeeName(location.name);
+      //   }
+      // },[])
  
     // const empId
     // user select data per page
@@ -72,19 +74,38 @@ const EmployeeList = (props) => {
 
     useEffect(()=>{
        
-        const empId = localStorage.getItem('locationId');
-         get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empValue}&searchstring=${searchStr}`).then((action)=>{
-            setEmployeeList(action.models);
-             console.log(action);
-            localStorage.removeItem('locationId');
-            setLoading(false)
-            setEntity(action.totalEntity);
-            setSerialNum(action.firstSerialNumber)
-        })
+      type ?
+
+   
+      get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${type ? type : empValue}&searchstring=${searchStr}`).then((action)=>{
+         setEmployeeList(action.models);
+          console.log(action);
+          setEmpLabel(action?.models[0]?.employeeType?.name);
+       
+         setLoading(false)
+         setEntity(action.totalEntity);
+         setSerialNum(action.firstSerialNumber);
+
+     })
+
+     :
+
+   
+     get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${type ? type : empValue}&searchstring=${searchStr}`).then((action)=>{
+        setEmployeeList(action.models);
+         console.log(action);
+        
+      
+        setLoading(false)
+        setEntity(action.totalEntity);
+        setSerialNum(action.firstSerialNumber);
+
+    })
 
         get(`EmployeeTypeDD/Index`)
         .then(res => {
           setEmpList(res);
+          
         })
 
     },[callApi, currentPage, dataPerPage, employeeId, searchStr, entity, success]);
@@ -236,6 +257,7 @@ const EmployeeList = (props) => {
                         onChange={opt => selectEmployeeType(opt.label, opt.value)}
                         name="employeeType"
                         id="employeeType"
+                        isDisabled={type?  true : false}
                     />
                 </Col>
 

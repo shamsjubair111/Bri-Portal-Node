@@ -26,6 +26,7 @@ const EmployeeType = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const EmployeesTypeList = props.EmployeesTypeList[0];
   const history = useHistory();
+ 
 
   const closeModal = () => {
     setModalOpen(false)
@@ -136,12 +137,8 @@ const EmployeeType = (props) => {
   }
 
   // employee count click
-  const handleEmpCount = (id,name) => {
-    history.push({
-      pathname: '/employeeList',
-      id: id,
-      name: name
-    })
+  const handleEmpCount = (id) => {
+    history.push(`/employeeList/${id}`)
   }
   // redirect to dashboard
   const backToDashboard = () => {
@@ -245,7 +242,7 @@ const EmployeeType = (props) => {
                   <th scope="row">{i + 1}</th>
                   <td>{etype.name}</td>
                   <td className="text-center">
-                    <span onClick={()=>handleEmpCount(etype.id, etype.name)} className="badge badge-pill badge-primary cursor-pointer">  {etype.employeeCount} </span>
+                    <span onClick={()=>handleEmpCount(etype.id)} className="badge badge-pill badge-primary cursor-pointer">  {etype.employeeCount} </span>
                   </td>
                   {/* <td> */}
 
