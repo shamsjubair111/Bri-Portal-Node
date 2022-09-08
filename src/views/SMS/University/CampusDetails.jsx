@@ -87,6 +87,9 @@ const CampusDetails = () => {
 
   const [uniId, setUniId] = useState(undefined);
 
+  const [delGalName, setDelGalName] = useState('');
+  const [delGalId, setDelGalId] = useState(0);
+
   
 
   const [loading, setLoading] = useState(false);
@@ -491,16 +494,16 @@ const CampusDetails = () => {
 
   const handleDelete = (gallery) => {
     console.log("gallery", gallery);
-    localStorage.setItem("delGalName", gallery?.mediaFileMedia?.fileName);
-    localStorage.setItem("delGalId", gallery?.id);
+    setDelGalName(gallery?.mediaFileMedia?.fileName);
+    setDelGalId(gallery?.id);
     setDeleteModal(true);
   };
 
   // on Close Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delGalName");
-    localStorage.removeItem("delGalId");
+    setDelGalName('');
+    setDelGalId(0);
   };
 
   // on Close View Modal
@@ -517,8 +520,8 @@ const CampusDetails = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("delGalName");
-      localStorage.removeItem("delGalId");
+      setDelGalName('');
+      setDelGalId(0);
     });
   };
 
@@ -792,7 +795,7 @@ const CampusDetails = () => {
                                 <ModalBody>
                                   <p>
                                     Are You Sure to Delete this{" "}
-                                    <b>{localStorage.getItem("delGalName")}</b>{" "}
+                                    <b>{delGalName}</b>{" "}
                                     ? Once Deleted it can't be Undone!
                                   </p>
                                 </ModalBody>
@@ -801,9 +804,7 @@ const CampusDetails = () => {
                                   <Button
                                     color="danger"
                                     onClick={() =>
-                                      handleDeleteItem(
-                                        localStorage.getItem("delGalId")
-                                      )
+                                      handleDeleteItem(delGalId)
                                     }
                                   >
                                     YES

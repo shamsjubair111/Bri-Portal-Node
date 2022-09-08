@@ -92,6 +92,10 @@ const UniversityDetails = () => {
   const [deleteModal1, setDeleteModal1] = useState(false);
   const [deleteModal2, setDeleteModal2] = useState(false);
 
+  const [delGalName, setDelGalName] = useState('');
+  const [delGalId, setDelGalId] = useState(0);
+
+
   const history = useHistory();
 
   useEffect(() => {
@@ -329,11 +333,11 @@ const UniversityDetails = () => {
   //  console.log('finalcialInfo', financialInfo?.avarageTutionFee);
 
   const handleProfileEdit = (id) =>{
-    localStorage.removeItem("id");
-    localStorage.removeItem('editMethod');
-    localStorage.setItem("id", id);
-    localStorage.setItem('editMethod','put');
-    history.push('/addUniversity');
+    // localStorage.removeItem("id");
+    // localStorage.removeItem('editMethod');
+    // localStorage.setItem("id", id);
+    // localStorage.setItem('editMethod','put');
+    history.push(`/addUniversity/${id}`);
   }
 
   const handleChange1 = ({ fileList }) => {
@@ -375,8 +379,8 @@ const UniversityDetails = () => {
 
   const handleDelete = (gallery) => {
     console.log("gallery", gallery);
-    localStorage.setItem("delGalName", gallery?.mediaFileMedia?.fileName);
-    localStorage.setItem("delGalId", gallery?.id);
+    setDelGalName(gallery?.mediaFileMedia?.fileName);
+    setDelGalId(gallery?.id);
     setDeleteModal(true);
   };
 
@@ -389,8 +393,8 @@ const UniversityDetails = () => {
    // on Close Modal
    const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delGalName");
-    localStorage.removeItem("delGalId");
+    setDelGalName('');
+    setDelGalId(0);
   };
 
   const handleDeleteItem = (id) => {
@@ -401,8 +405,8 @@ const UniversityDetails = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("delGalName");
-      localStorage.removeItem("delGalId");
+      setDelGalName('');
+      setDelGalId(0);
     });
   };
 
@@ -698,7 +702,7 @@ const UniversityDetails = () => {
                               >
                                 <ModalBody>
                                   <p>
-                                    Are You Sure to Delete this <b>{localStorage.getItem("delGalName")}</b>
+                                    Are You Sure to Delete this <b>{delGalName}</b>
                                     ? Once Deleted it can't be Undone!
                                   </p>
                                 </ModalBody>
@@ -707,10 +711,8 @@ const UniversityDetails = () => {
                                   <Button
                                     color="danger"
                                     onClick={() =>
-                                      handleDeleteItem(
-                                        localStorage.getItem("delGalId")
-                                      )
-                                    }
+                                      handleDeleteItem(delGalId)
+                                      }
                                   >
                                     YES
                                   </Button>
