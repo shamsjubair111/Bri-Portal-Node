@@ -48,11 +48,10 @@ const AddProviderUniversityFeatures = () => {
   const [features, setFeatures] = useState({});
   const [featureId, setFeatureId] = useState(undefined);
 
-  const method = localStorage.getItem("editMethod");
 
   const myForm = createRef();
   const location = useLocation();
-  const {univerId} = useParams();
+  const {providerProfileId, univerId} = useParams();
 
   const { addToast } = useToasts();
 
@@ -64,7 +63,6 @@ const AddProviderUniversityFeatures = () => {
   }
 
   useEffect(() => {
-    // get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
     get(
       `UniversityFeatures/GetByUniversity/${univerId}`
     ).then((res) => {
@@ -106,8 +104,7 @@ const AddProviderUniversityFeatures = () => {
           });
 
           history.push({
-            pathname: `/addProviderUniversityGallery/${univerId}`,
-            id: localStorage.getItem("editUniId"),
+            pathname: `/addProviderUniversityGallery/${providerProfileId}/${univerId}`,
           });
         }
       });
@@ -122,7 +119,7 @@ const AddProviderUniversityFeatures = () => {
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
           history.push({
-            pathname: `/addProviderUniversityGallery/${univerId}`,
+            pathname: `/addProviderUniversityGallery/${providerProfileId}/${univerId}`,
             id: uniID,
           });
 
@@ -143,25 +140,25 @@ const AddProviderUniversityFeatures = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push(`/addProviderUniversity/${univerId}`);
+      history.push(`/addProviderUniversity/${providerProfileId}/${univerId}`);
     }
     if (tab == "2") {
-      history.push(`/addProviderUniversityCampus/${univerId}`);
+      history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
     }
     if (tab == "3") {
-      history.push(`/addProviderUniversityFinancial/${univerId}`);
+      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
     }
     if (tab == "4") {
-      history.push(`/addProviderUniversityFeatures/${univerId}`);
+      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
     }
     if (tab == "5") {
-      history.push(`/addProviderUniversityGallery/${univerId}`);
+      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
     }
     if (tab == "6") {
-      history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
+      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
     }
     if (tab == "7") {
-      history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
+      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
     }
   };
 
@@ -198,8 +195,7 @@ const AddProviderUniversityFeatures = () => {
 
   // redirect to dashboard
   const backToProviderDetails = () => {
-    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
-    localStorage.removeItem("proProfileId");
+    history.push(`/providerDetails/${providerProfileId}`);
   };
     return (
         <div>
@@ -319,7 +315,6 @@ const AddProviderUniversityFeatures = () => {
                     name="UniversityId"
                     value={univerId}
                   />
-                  {/* <Input type="hidden" id="UniversityId" name="UniversityId" value={localStorage.getItem("editUniId")} /> */}
                 </FormGroup>
 
                 <FormGroup row className="pt-3">

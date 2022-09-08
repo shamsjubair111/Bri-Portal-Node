@@ -17,7 +17,7 @@ const AddUniversityFinancial = (props) => {
     const [financialData, setFinancialData] = useState({});
     const [financialId, setFinancialId] = useState(undefined);
 
-    const method = localStorage.getItem('editMethod');
+    // const method = localStorage.getItem('editMethod');
 
     const { addToast } = useToasts();
     const {univerId} = useParams();

@@ -96,7 +96,7 @@ const AddProviderUniversity = () => {
 
   const { addToast } = useToasts();
   const location = useLocation();
-  const {univerId} = useParams();
+  const {providerProfileId, univerId} = useParams();
 
   const [providerProId, setProviderProId] = useState(location?.providerProfileId);
 
@@ -108,10 +108,7 @@ const AddProviderUniversity = () => {
   const [uniId, setUniId] = useState(undefined);
   const [check, setCheck] = useState(true);
 
-  const method = localStorage.getItem("editMethod");
-
   console.log("proProfileId", location?.providerProfileId);
-  console.log("proProfileId", localStorage.getItem("proProfileId"));
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -415,7 +412,7 @@ const AddProviderUniversity = () => {
                 autoDismiss: true,
               });
               
-              history.push(`/addProviderUniversityCampus/${uniId}`);
+              history.push(`/addProviderUniversityCampus/${providerProfileId}/${uniId}`);
             }
           });
         } else {
@@ -423,7 +420,7 @@ const AddProviderUniversity = () => {
             (res) => {
               console.log("unipostData", res);
   
-              localStorage.setItem("id", res.data.result.id);
+              //  .setItem("id", res.data.result.id);
               const uniID = res.data.result.id;
               setUniversityId(uniID);
   
@@ -434,7 +431,7 @@ const AddProviderUniversity = () => {
                   autoDismiss: true,
                 });
                 history.push({
-                  pathname: `/addProviderUniversityCampus/${uniID}`,
+                  pathname: `/addProviderUniversityCampus/${providerProfileId}/${uniID}`,
                   id: uniID,
                 });
               }
@@ -482,42 +479,42 @@ const AddProviderUniversity = () => {
 
     if(univerId != undefined){
       if (tab == "2") {
-        history.push(`/addProviderUniversityCampus/${univerId}`);
+        history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
       }
       if (tab == "3") {
-        history.push(`/addProviderUniversityFinancial/${univerId}`);
+        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
       }
       if (tab == "4") {
-        history.push(`/addProviderUniversityFeatures/${univerId}`);
+        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
       }
       if (tab == "5") {
-        history.push(`/addProviderUniversityGallery/${univerId}`);
+        history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
       }
       if (tab == "6") {
-        history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
+        history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
       }
       if (tab == "7") {
-        history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
+        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
       }
     }
     else{
       if (tab == "2") {
-        history.push(`/addProviderUniversityCampus/${universityId}`);
+        history.push(`/addProviderUniversityCampus/${providerProfileId}/${universityId}`);
       }
       if (tab == "3") {
-        history.push(`/addProviderUniversityFinancial/${universityId}`);
+        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${universityId}`);
       }
       if (tab == "4") {
-        history.push(`/addProviderUniversityFeatures/${universityId}`);
+        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${universityId}`);
       }
       if (tab == "5") {
-        history.push(`/addProviderUniversityGallery/${universityId}`);
+        history.push(`/addProviderUniversityGallery/${providerProfileId}/${universityId}`);
       }
       if (tab == "6") {
         history.push(`/addProviderUniversityApplicationDocument/${universityId}`);
       }
       if (tab == "7") {
-        history.push(`/addProviderUniversityTemplateDocument/${universityId}`);
+        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${universityId}`);
       }
     }
 
@@ -538,8 +535,7 @@ const AddProviderUniversity = () => {
 
   // redirect to dashboard
   const backToProviderDetails = () => {
-    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
-    localStorage.removeItem("proProfileId");
+    history.push(`/providerDetails/${providerProfileId}`);
   };
     return (
         <div>
@@ -677,23 +673,6 @@ const AddProviderUniversity = () => {
               )}
             </NavItem>
 
-            {/* <NavItem>
-              <NavLink disabled active={activetab === "7"}>
-                Required Document 
-              </NavLink>
-            </NavItem> */}
-
-            {/* <NavItem>
-              {submitData || JSON.parse(localStorage.getItem("id")) ? (
-                <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
-                  Required Document
-                </NavLink>
-              ) : (
-                <NavLink disabled active={activetab === "7"}>
-                  Required Document
-                </NavLink>
-              )}
-            </NavItem> */}
           </Nav>
 
           <TabContent activeTab={activetab}>
@@ -726,12 +705,12 @@ const AddProviderUniversity = () => {
                   ) : null
                 }
                {
-                 uniId === undefined &&  location?.providerProfileId !== undefined ?
+                 uniId === undefined &&  providerProfileId !== undefined ?
                  <Input
                    type="hidden"
                    name="providerId"
                    id="providerId"
-                   value={location?.providerProfileId}
+                   value={providerProfileId}
                  />
                  :null
                }

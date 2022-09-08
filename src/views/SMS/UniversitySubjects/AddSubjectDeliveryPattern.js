@@ -43,6 +43,8 @@ const AddSubjectDeliveryPattern = () => {
   const [update, setUpdate] = useState(0);
   const [success, setSuccess] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [delPatternId, setDelPatternId] = useState(0);
+  const [delPatternName, setDelPatternName] = useState('');
 
   const { id } = useParams();
 
@@ -188,17 +190,16 @@ const AddSubjectDeliveryPattern = () => {
   };
 
   const toggleDanger = (pattern) => {
-    console.log(pattern);
-    localStorage.setItem('delPatternName',pattern?.deliveryPattern?.name);
-    localStorage.setItem('delPatternId',pattern?.id);
+    setDelPatternName(pattern?.deliveryPattern?.name);
+    setDelPatternId(pattern?.id);
     setDeleteModal(true);
    }
 
       // on Close Delete Modal
 const closeDeleteModal = () => {
   setDeleteModal(false);
-  localStorage.removeItem('delPatternName');
-  localStorage.removeItem('delPatternId');
+  setDelPatternName('');
+  setDelPatternId(0);
 }
 
 const handleDeleteDeliveryPattern = (id) => {
@@ -210,8 +211,8 @@ const handleDeleteDeliveryPattern = (id) => {
        appearance: 'error',
        autoDismiss: true,
      })
-     localStorage.removeItem('delRequiredDocuName');
-     localStorage.removeItem('delRequiredDocuId');
+     setDelPatternName('');
+     setDelPatternId(0);
   })
 }
 
@@ -396,12 +397,12 @@ const handleDeleteDeliveryPattern = (id) => {
                               <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                       <ModalBody>
-                        <p>Are You Sure to Delete this <b>{localStorage.getItem('delPatternName')}</b> ? Once Deleted it can't be Undone!</p>
+                        <p>Are You Sure to Delete this <b>{delPatternName}</b> ? Once Deleted it can't be Undone!</p>
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button color="danger" onClick={() => handleDeleteDeliveryPattern(localStorage.getItem('delPatternId'))}>YES</Button>
-                        <Button onClick={closeDeleteModal}>NO</Button>
+                        <Button color="danger" onClick={() => handleDeleteDeliveryPattern(delPatternId)}>YES</Button>
+                        <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
                     </Modal>

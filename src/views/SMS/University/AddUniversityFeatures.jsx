@@ -48,7 +48,7 @@ const AddUniversityFeatures = () => {
   const [features, setFeatures] = useState({});
   const [featureId, setFeatureId] = useState(undefined);
 
-  const method = localStorage.getItem("editMethod");
+  // const method = localStorage.getItem("editMethod");
 
   const myForm = createRef();
   const location = useLocation();

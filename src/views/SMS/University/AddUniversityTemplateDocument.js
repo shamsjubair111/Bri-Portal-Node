@@ -79,6 +79,9 @@ const AddUniversityTemplateDocument = () => {
   const [previewTitle1, setPreviewTitle1] = useState("");
   const [FileList1, setFileList1] = useState([]);
   const [uploadError, setUploadError] = useState(false);
+  
+  const [templateName, setTemplateName] = useState('');
+  const [templateId, setTemplateId] = useState(0);
 
   const handleChange1 = ({ fileList }) => {
     setUploadError(false);
@@ -179,8 +182,8 @@ const AddUniversityTemplateDocument = () => {
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("templateId", p.id);
-    localStorage.setItem("templateName", p.name);
+    setTemplateId(p?.id);
+    setTemplateName(p?.name);
     setDeleteModal(true);
   };
 
@@ -254,7 +257,6 @@ const AddUniversityTemplateDocument = () => {
 
   // redirect to Next Page
   // const onNextPage = () => {
-  //   const uniID = localStorage.getItem("id");
   //   history.push({
   //     pathname: "/addUniversityRequiredDocument",
   //     id: uniID,
@@ -279,8 +281,8 @@ const AddUniversityTemplateDocument = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("templateId");
-      localStorage.removeItem("templateName");
+      setTemplateId(0);
+      setTemplateName('');
     });
   };
 
@@ -304,7 +306,6 @@ const AddUniversityTemplateDocument = () => {
   }
 
   const onGoUniProfile = () => {
-    // const id = localStorage.getItem("id");
     history.push(`/universityDetails/${univerId}`)
   }
 
@@ -704,14 +705,18 @@ const AddUniversityTemplateDocument = () => {
 
                             <Modal
                               isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
+                              toggle={() => {
+                                setDeleteModal(false);
+                                setTemplateId(0);
+                                setTemplateName('');
+                              }}
                               className="uapp-modal"
                             >
                               <ModalBody>
                                 <p>
                                   Are You Sure to Delete this{" "}
                                   <b>
-                                    {localStorage.getItem("templateName")}
+                                    {templateName}
                                   </b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
@@ -721,14 +726,16 @@ const AddUniversityTemplateDocument = () => {
                                 <Button
                                   color="danger"
                                   onClick={() =>
-                                    handleDeletePermission(
-                                      localStorage.getItem("templateId")
-                                    )
+                                    handleDeletePermission(templateId)
                                   }
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={() => setDeleteModal(false)}>
+                                <Button onClick={() => {
+                                  setDeleteModal(false);
+                                  setTemplateId(0);
+                                  setTemplateName('');
+                                }}>
                                   NO
                                 </Button>
                               </ModalFooter>

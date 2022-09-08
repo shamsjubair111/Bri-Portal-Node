@@ -39,6 +39,8 @@ const AddUniversityGallery = () => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [galleryObj, setGalleryObj] = useState({});
   const [fileError, setFileError] = useState(false);
+  const [delGalId, setDelGalId] = useState(0);
+  const [delGalName, setDelGalName] = useState('');
 
   const [loading, setLoading] = useState(false);
 
@@ -132,16 +134,16 @@ const AddUniversityGallery = () => {
 
   const handleDelete = (gallery) => {
     console.log("gallery", gallery);
-    localStorage.setItem("delGalName", gallery?.mediaFileMedia?.fileName);
-    localStorage.setItem("delGalId", gallery?.id);
+    setDelGalName(gallery?.mediaFileMedia?.fileName);
+    setDelGalId(gallery?.id);
     setDeleteModal(true);
   };
 
   // on Close Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delGalName");
-    localStorage.removeItem("delGalId");
+    setDelGalName('');
+    setDelGalId(0);
   };
   // on Close View Modal
   const closeViewModal = () => {
@@ -158,8 +160,8 @@ const AddUniversityGallery = () => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("delGalName");
-        localStorage.removeItem("delGalId");
+        setDelGalName('');
+        setDelGalId(0);
       }
     );
   };
@@ -352,16 +354,6 @@ const AddUniversityGallery = () => {
                           </ModalBody>
 
                           <ModalFooter>
-                            {/* <Button
-                            color="danger"
-                            onClick={() =>
-                              handleDeleteItem(
-                                localStorage.getItem("delGalId")
-                              )
-                            }
-                          >
-                            YES
-                          </Button> */}
                             <Button
                               className="bg-danger"
                               onClick={closeViewModal}
@@ -379,7 +371,7 @@ const AddUniversityGallery = () => {
                           <ModalBody>
                             <p>
                               Are You Sure to Delete this{" "}
-                              <b>{localStorage.getItem("delGalName")}</b> ? Once
+                              <b>{delGalName}</b> ? Once
                               Deleted it can't be Undone!
                             </p>
                           </ModalBody>
@@ -388,14 +380,12 @@ const AddUniversityGallery = () => {
                             <Button
                               color="danger"
                               onClick={() =>
-                                handleDeleteItem(
-                                  localStorage.getItem("delGalId")
-                                )
+                                handleDeleteItem(delGalId)
                               }
                             >
                               YES
                             </Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
+                            <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
                         </Modal>
                       </div>

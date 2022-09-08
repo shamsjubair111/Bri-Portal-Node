@@ -32,6 +32,8 @@ const SubDepartment =(props)=>{
     const [departmentList, setdepartmentList]= useState([0]);
     const [subdepartmentList, setSubDepartmentList]= useState([]);
     const [searchStr, setSearchStr] = useState('');
+    const [SubdepId, setSubdepId] = useState(0);
+    const [SubdepName, setSubdepName] = useState('');
 
     const [description,setDescription] = useState('');
 
@@ -105,15 +107,15 @@ const SubDepartment =(props)=>{
     history.push("/");
     }
     const toggleDanger = (name,id) => {
-      localStorage.setItem('SubdepName',name)
-      localStorage.setItem('SubdepId',id)
+      setSubdepName(name);
+      setSubdepId(id);
       setDeleteModal(true)
      }
      // on Close Delete Modal
      const closeDeleteModal = () => {
       setDeleteModal(false);
-      localStorage.removeItem('SubdepName');
-      localStorage.removeItem('SubdepId');
+      setSubdepName('');
+      setSubdepId(0);
     }
 
     const handleDeleteSubDep = (id) => {
@@ -124,45 +126,46 @@ const SubDepartment =(props)=>{
            appearance: 'error',
            autoDismiss: true,
          })
-        console.log('actionnnn', action);
-         localStorage.removeItem('depName')
-
+        // console.log('actionnnn', action);
+        //  localStorage.removeItem('depName')
+         setSubdepName('');
+         setSubdepId(0);
       })
     }
 
     // update submit
-    const handleUpdateSubmit = () => {
+    // const handleUpdateSubmit = () => {
 
-      const id = localStorage.getItem('updateSupdep');
+    //   const id = localStorage.getItem('updateSupdep');
     
-      const subData = {
-        id: id,
-        name: subdepartment,
-        departmentId: departmentValue,
-        description:description
-      }
+    //   const subData = {
+    //     id: id,
+    //     name: subdepartment,
+    //     departmentId: departmentValue,
+    //     description:description
+    //   }
     
-     const returnvalue = put(`SubDepartment/Update`,subData).then((action)=> {
-        setSuccess(!success);
-        setModalOpen(false)
-        addToast(action, {
-          appearance: action == 'SubDepartment updated successfully.' ? 'success': 'error',
-          autoDismiss: true,
-        })
-        setdepartmentLabel('Select Department');
-        setdepartmentValue(0);
-       localStorage.removeItem('updateSupdep')
-      })
-    
-    
-    }
+    //  const returnvalue = put(`SubDepartment/Update`,subData).then((action)=> {
+    //     setSuccess(!success);
+    //     setModalOpen(false)
+    //     addToast(action, {
+    //       appearance: action == 'SubDepartment updated successfully.' ? 'success': 'error',
+    //       autoDismiss: true,
+    //     })
+    //     setdepartmentLabel('Select Department');
+    //     setdepartmentValue(0);
+    //    localStorage.removeItem('updateSupdep')
+    //   })
+    // }
+
+
     const AddModalOpen= () => {
       setModalOpen(true);
       setSubdepartment("");
       setdepartmentLabel('Select Department');
       setdepartmentValue(0);
       setDescription('');
-      localStorage.removeItem('updateSupdep')
+      // localStorage.removeItem('updateSupdep')
   }
   
   // on enter press
@@ -346,9 +349,9 @@ const SubDepartment =(props)=>{
 
       <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>     
       <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
-          {
+          {/* {
         localStorage.getItem("updateSupdep") ?
-          <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit} >Update</Button> :
+          <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit} >Update</Button> : */}
           <Button.Ripple
             color="primary"
             type="submit"
@@ -357,7 +360,7 @@ const SubDepartment =(props)=>{
           >
             Submit
           </Button.Ripple>
-          }
+          {/* } */}
       </FormGroup>
     </Form>
   </ModalBody>
@@ -410,12 +413,12 @@ const SubDepartment =(props)=>{
                     <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                       <ModalBody>
-                        <p>Are You Sure to Delete this <b>{localStorage.getItem('SubdepName')}</b> ? Once Deleted it can't be Undone!</p>
+                        <p>Are You Sure to Delete this <b>{SubdepName}</b> ? Once Deleted it can't be Undone!</p>
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button color="danger" onClick={() => handleDeleteSubDep(localStorage.getItem('SubdepId'))}>YES</Button>
-                        <Button onClick={closeDeleteModal}>NO</Button>
+                        <Button color="danger" onClick={() => handleDeleteSubDep(SubdepId)}>YES</Button>
+                        <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
                     </Modal>

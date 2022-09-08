@@ -71,6 +71,8 @@ const AddUniversityApplicationDocument = () => {
   const [isMandatory, setIsMandatory] = useState(null);
   const [applicationError, setApplicationError] = useState(false);
   const [applicationTypeId, setApplicationTypeId] = useState([]);
+  const [applicationName, setApplicationName] = useState('');
+  const [applicationId, setApplicationId] = useState(0);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -155,8 +157,8 @@ const AddUniversityApplicationDocument = () => {
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("applicationId", p?.id);
-    localStorage.setItem("applicationName", p?.document?.name);
+    setApplicationId(p?.id);
+    setApplicationName(p?.document?.name);
     setDeleteModal(true);
   };
 
@@ -227,10 +229,9 @@ const AddUniversityApplicationDocument = () => {
 
   // redirect to Next Page
   const onNextPage = () => {
-    const uniID = localStorage.getItem("id");
     history.push({
       pathname: `/addUniversityTemplateDocument/${univerId}`,
-      id: uniID,
+      id: univerId,
     });
   };
 
@@ -255,8 +256,8 @@ const AddUniversityApplicationDocument = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("applicationId");
-      localStorage.removeItem("applicationName");
+      setApplicationName('');
+      setApplicationId(0);
     });
   };
 
@@ -656,14 +657,18 @@ const AddUniversityApplicationDocument = () => {
 
                             <Modal
                               isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
+                              toggle={() => {
+                                setDeleteModal(!deleteModal);
+                                setApplicationName('');
+                                setApplicationId(0);
+                              }}
                               className="uapp-modal"
                             >
                               <ModalBody>
                                 <p>
                                   Are You Sure to Delete this{" "}
                                   <b>
-                                    {localStorage.getItem("applicationName")}
+                                    {applicationName}
                                   </b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
@@ -673,14 +678,16 @@ const AddUniversityApplicationDocument = () => {
                                 <Button
                                   color="danger"
                                   onClick={() =>
-                                    handleDeletePermission(
-                                      localStorage.getItem("applicationId")
-                                    )
+                                    handleDeletePermission(applicationId)
                                   }
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={() => setDeleteModal(false)}>
+                                <Button onClick={() => {
+                                  setDeleteModal(false);
+                                  setApplicationName('');
+                                  setApplicationId(0);
+                                }}>
                                   NO
                                 </Button>
                               </ModalFooter>

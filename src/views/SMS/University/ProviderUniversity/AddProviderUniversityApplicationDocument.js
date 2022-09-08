@@ -49,7 +49,7 @@ import { permissionList } from "../../../../constants/AuthorizationConstant";
 const AddProviderUniversityApplicationDocument = () => {
     const { addToast } = useToasts();
   const history = useHistory();
-  const {univerId} = useParams();
+  const {providerProfileId, univerId} = useParams();
   const [activetab, setActivetab] = useState("6");
 
   const [document, setDocument] = useState([]);
@@ -71,6 +71,9 @@ const AddProviderUniversityApplicationDocument = () => {
   const [isMandatory, setIsMandatory] = useState(null);
   const [applicationError, setApplicationError] = useState(false);
   const [applicationTypeId, setApplicationTypeId] = useState([]);
+
+  const [applicationName, setApplicationName] = useState('');
+  const [applicationId, setApplicationId] = useState(0);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -124,40 +127,39 @@ const AddProviderUniversityApplicationDocument = () => {
 
   // redirect to
   const backToProviderDetails = () => {
-    history.push(`/providerDetails/${localStorage.getItem("proProfileId")}`);
-    localStorage.removeItem("proProfileId");
+    history.push(`/providerDetails/${providerProfileId}`);
   };
 
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push(`/addProviderUniversity/${univerId}`);
+      history.push(`/addProviderUniversity/${providerProfileId}/${univerId}`);
     }
     if (tab == "2") {
-      history.push(`/addProviderUniversityCampus/${univerId}`);
+      history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
     }
     if (tab == "3") {
-      history.push(`/addProviderUniversityFinancial/${univerId}`);
+      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
     }
     if (tab == "4") {
-      history.push(`/addProviderUniversityFeatures/${univerId}`);
+      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
     }
     if (tab == "5") {
-      history.push(`/addProviderUniversityGallery/${univerId}`);
+      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
     }
     if (tab == "6") {
-      history.push(`/addProviderUniversityApplicationDocument/${univerId}`);
+      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
     }
     if (tab == "7") {
-      history.push(`/addProviderUniversityTemplateDocument/${univerId}`);
+      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
     }
   };
 
   const toggleDanger = (p) => {
     console.log("dele", p);
-    localStorage.setItem("applicationId", p?.id);
-    localStorage.setItem("applicationName", p?.document?.name);
+    setApplicationId(p?.id);
+    setApplicationName(p?.document?.name);
     setDeleteModal(true);
   };
 
@@ -228,10 +230,9 @@ const AddProviderUniversityApplicationDocument = () => {
 
   // redirect to Next Page
   const onNextPage = () => {
-    const uniID = localStorage.getItem("id");
     history.push({
-      pathname: `/addProviderUniversityTemplateDocument/${univerId}`,
-      id: uniID,
+      pathname: `/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`,
+      id: univerId,
     });
   };
 
@@ -256,8 +257,8 @@ const AddProviderUniversityApplicationDocument = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("applicationId");
-      localStorage.removeItem("applicationName");
+      setApplicationId(0);
+      setApplicationName('');
     });
   };
 
@@ -655,14 +656,18 @@ const AddProviderUniversityApplicationDocument = () => {
 
                             <Modal
                               isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
+                              toggle={() => {
+                                setDeleteModal(false);
+                                setApplicationName('');
+                                setApplicationId(0);
+                              }}
                               className="uapp-modal"
                             >
                               <ModalBody>
                                 <p>
                                   Are You Sure to Delete this{" "}
                                   <b>
-                                    {localStorage.getItem("applicationName")}
+                                    {applicationName}
                                   </b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
@@ -672,14 +677,16 @@ const AddProviderUniversityApplicationDocument = () => {
                                 <Button
                                   color="danger"
                                   onClick={() =>
-                                    handleDeletePermission(
-                                      localStorage.getItem("applicationId")
-                                    )
-                                  }
+                                    handleDeletePermission(applicationId)
+                                    }
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={() => setDeleteModal(false)}>
+                                <Button onClick={() => {
+                                  setDeleteModal(false);
+                                  setApplicationName('');
+                                  setApplicationId(0);
+                                }}>
                                   NO
                                 </Button>
                               </ModalFooter>

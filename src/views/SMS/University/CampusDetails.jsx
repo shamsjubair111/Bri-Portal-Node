@@ -85,6 +85,8 @@ const CampusDetails = () => {
   const [deleteModal1, setDeleteModal1] = useState(false);
   const [deleteModal2, setDeleteModal2] = useState(false);
 
+  const [uniId, setUniId] = useState(undefined);
+
   
 
   const [loading, setLoading] = useState(false);
@@ -144,6 +146,7 @@ const CampusDetails = () => {
     get(`UniversityCampus/Get/${id}`).then((res) => {
       setCampusInfo(res);
       console.log("unicamp", res);
+      setUniId(res?.university?.id);
     });
 
     // Subject get by university
@@ -280,7 +283,7 @@ const CampusDetails = () => {
   // on change Feature ends here
 
   const backToDashboard = () => {
-    history.push("/campusList");
+    history.push(`/campusList/${uniId}`);
   };
 
   // Delete Modal
@@ -610,7 +613,7 @@ const CampusDetails = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Campus details</h3>
+          <h3 className="text-light">Campus Details</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}

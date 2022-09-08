@@ -24,6 +24,11 @@ const ProgramLevel=(props)=>{
     const [description,setDescription] = useState('');
     const [levelValue, setLevelValue] = useState("Type Level Value");
 
+    const [ProgramId, setProgramId] = useState(0);
+    const [ProgramName, setProgramName] = useState('');
+
+    const [programLvlId, setProgramLvlId] = useState(undefined);
+
     
      // redirect to dashboard
      const backToDashboard = () => {
@@ -33,7 +38,8 @@ const ProgramLevel=(props)=>{
 // on Close Modal
 const closeModal = () => {
     setModalOpen(false);
-    localStorage.removeItem('ProgramId');
+    setProgramLvlId(undefined);
+    // localStorage.removeItem('ProgramId');
     setProgramLevel('');
   }
 
@@ -53,7 +59,7 @@ const closeModal = () => {
     // }
 
       
-        if(localStorage.getItem("ProgramId")){
+        if(programLvlId != undefined){
           const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
             setSuccess(!success);
             setModalOpen(false)
@@ -64,8 +70,9 @@ const closeModal = () => {
             setProgramLevel('');
             setDescription('');
             setLevelValue("Type Level Value");
-           localStorage.removeItem('ProgramName')
-           localStorage.removeItem('ProgramId')
+          //  localStorage.removeItem('ProgramName')
+          //  localStorage.removeItem('ProgramId')
+          setProgramLvlId(undefined);
         
           })
         }
@@ -98,23 +105,24 @@ const handleUpdate = (type) => {
     setProgramLevel(type?.name);
     setDescription(type?.description);
     setLevelValue(type?.levelValue);
-    localStorage.setItem('ProgramId',type?.id)   
+    setProgramLvlId(type?.id);
+    // localStorage.setItem('ProgramId',type?.id)   
   }
 
   const toggleDanger = (name,id) => {
-    localStorage.setItem('ProgramName',name)
-    localStorage.setItem('ProgramId',id)
+    setProgramName(name);
+    setProgramId(id);
     setDeleteModal(true)
    }
    // on Close Delete Modal
 const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem('ProgramName')
-    localStorage.removeItem('ProgramId')
+    setProgramName('');
+    setProgramId(0);
   
   }
 
-  const handleDeleteUniType = (id) => {
+  const handleDeleteProgram = (id) => {
     const returnValue = remove(`ProgramLevel/Delete/${id}`).then((action)=> {
       setDeleteModal(false);
       setSuccess(!success);
@@ -123,42 +131,45 @@ const closeDeleteModal = () => {
          appearance:  'error',
          autoDismiss: true,
        })
-       localStorage.removeItem('ProgramName')
-       localStorage.removeItem('ProgramId')
+       setProgramName('');
+       setProgramId(0);
     })
   }
 
-  const handleUpdateSubmit = () => {
-    const id = localStorage.getItem('ProgramId');
-    const subData = {
-      id: id,
-      name: programLevel,
-      description:description,
-      levelValue: levelValue
-    }
-   const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
-      setSuccess(!success);
-      setModalOpen(false)
-      addToast(action?.data?.message, {
-        appearance: 'success',
-        autoDismiss: true,
-      })
-      setProgramLevel('');
-      setDescription('');
-      setLevelValue("Type Level Value");
-     localStorage.removeItem('ProgramName')
-     localStorage.removeItem('ProgramId')
+  // const handleUpdateSubmit = () => {
+  //   const id = localStorage.getItem('ProgramId');
+  //   const subData = {
+  //     id: id,
+  //     name: programLevel,
+  //     description:description,
+  //     levelValue: levelValue
+  //   }
+  //  const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
+  //     setSuccess(!success);
+  //     setModalOpen(false)
+  //     addToast(action?.data?.message, {
+  //       appearance: 'success',
+  //       autoDismiss: true,
+  //     })
+  //     setProgramLevel('');
+  //     setDescription('');
+  //     setLevelValue("Type Level Value");
+  //    localStorage.removeItem('ProgramName')
+  //    localStorage.removeItem('ProgramId')
   
-    })
+  //   })
   
   
-  }
+  // }
+
+
 const AddModalOpen= () => {
     setModalOpen(true);
     setProgramLevel('');
     setDescription('');
     setLevelValue("Type Level Value");
-    localStorage.removeItem('ProgramId')
+    setProgramLvlId(undefined);
+    // localStorage.removeItem('ProgramId')
 }
 
 return (
@@ -196,12 +207,12 @@ return (
 <Form onSubmit={handleSubmit}>
 
   {
-    localStorage.getItem("ProgramId") ?
+    programLvlId != undefined ?
     <input
       type='hidden'
       name='id'
       id='id'
-      value={localStorage.getItem("ProgramId")}
+      value={programLvlId}
     />
         :
         null
@@ -330,7 +341,7 @@ return (
 
                 <ButtonForFunction
                   className={"mx-1 btn-sm"}
-                  func={() => toggleDanger( program.name,  program.id)}
+                  func={() => toggleDanger( program?.name,  program?.id)}
                   color={"danger"}
                   icon={<i className="fas fa-trash-alt"></i>}
                   permission={6}
@@ -350,11 +361,11 @@ return (
                 <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                   <ModalBody>
-                    <p>Are You Sure to Delete this <b>{localStorage.getItem('ProgramName')}</b> ? Once Deleted it can't be Undone!</p>
+                    <p>Are You Sure to Delete this <b>{ProgramName}</b> ? Once Deleted it can't be Undone!</p>
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={() => handleDeleteUniType(localStorage.getItem('ProgramId'))}>YES</Button>
+                    <Button color="danger" onClick={() => handleDeleteProgram(ProgramId)}>YES</Button>
                     <Button onClick={closeDeleteModal}>NO</Button>
                   </ModalFooter>
 

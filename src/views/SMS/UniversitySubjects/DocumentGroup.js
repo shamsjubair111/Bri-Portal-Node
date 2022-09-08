@@ -60,6 +60,11 @@ const DocumentGroup = () => {
   const [updateDocumentId, setUpdateDocumentId] = useState(undefined);
 
   const [documentGroupDocument, setDocumentGroupDocument] = useState([]);
+  const [delDocuGroupName, setDelDocuGroupName] = useState('');
+  const [delDocuGroupId,setDelDocuGroupId] = useState(0);
+
+  const [delDocuGroupDocuName, setDelDocuGroupDocuName] = useState('');
+  const [delDocuGroupDocuId, setDelDocuGroupDocuId] = useState(0);
 
   const { addToast } = useToasts();
 
@@ -196,8 +201,8 @@ const DocumentGroup = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("delDocuGroupName");
-      localStorage.removeItem("delDocuGroupId");
+      setDelDocuGroupName("");
+      setDelDocuGroupId(0);
     });
   };
 
@@ -210,15 +215,19 @@ const DocumentGroup = () => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("delDocuGroupDocuName");
-        localStorage.removeItem("delDocuGroupDocuId");
+        // localStorage.removeItem("delDocuGroupDocuName");
+        // localStorage.removeItem("delDocuGroupDocuId");
+        setDelDocuGroupDocuName('');
+        setDelDocuGroupDocuId(0);
       }
     );
   };
 
   const toggleDanger = (name, id) => {
-    localStorage.setItem("delDocuGroupName", name);
-    localStorage.setItem("delDocuGroupId", id);
+    // localStorage.setItem("delDocuGroupName", name);
+    // localStorage.setItem("delDocuGroupId", id);
+    setDelDocuGroupName(name);
+    setDelDocuGroupId(id);
 
     setDeleteModal(true);
   };
@@ -230,8 +239,8 @@ const DocumentGroup = () => {
       documentGrp?.document?.name,
       documentGrp?.id
     );
-    localStorage.setItem("delDocuGroupDocuName", documentGrp?.document?.name);
-    localStorage.setItem("delDocuGroupDocuId", documentGrp?.id);
+    setDelDocuGroupDocuName(documentGrp?.document?.name);
+    setDelDocuGroupDocuId(documentGrp?.id);
     setDeleteViewModal(true);
   };
 
@@ -249,20 +258,21 @@ const DocumentGroup = () => {
   // on Close Delete Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delDocuGroupName");
-    localStorage.removeItem("delDocuGroupId");
+    setDelDocuGroupName("");
+    setDelDocuGroupId(0);
   };
 
   // on Close Delete View Modal
   const closeDeleteViewModal = () => {
+    setDelDocuGroupDocuName('');
+    setDelDocuGroupDocuId(0);
     setDeleteViewModal(false);
-    localStorage.removeItem("delDocuGroupDocuName");
-    localStorage.removeItem("delDocuGroupDocuId");
   };
 
   // on close view modal
   const closeViewModal = () => {
     setViewModal(false);
+    setDocumentId(0);
   };
 
   // redirect to dashboard
@@ -303,8 +313,8 @@ const DocumentGroup = () => {
 
   const handleViewDocument = (document) => {
     console.log("view document", document);
-    setViewModal(true);
     setDocumentId(document?.id);
+    setViewModal(true);
   };
 
   return (
@@ -577,9 +587,7 @@ const DocumentGroup = () => {
                                                         Are You Sure to Delete
                                                         this{" "}
                                                         <b>
-                                                          {localStorage.getItem(
-                                                            "delDocuGroupDocuName"
-                                                          )}
+                                                          {delDocuGroupDocuName}
                                                         </b>{" "}
                                                         ? Once Deleted it can't
                                                         be Undone!
@@ -590,11 +598,7 @@ const DocumentGroup = () => {
                                                       <Button
                                                         color="danger"
                                                         onClick={() =>
-                                                          handleDeleteViewDocu(
-                                                            localStorage.getItem(
-                                                              "delDocuGroupDocuId"
-                                                            )
-                                                          )
+                                                          handleDeleteViewDocu(delDocuGroupDocuId)
                                                         }
                                                       >
                                                         YES
@@ -786,7 +790,7 @@ const DocumentGroup = () => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            <b>{localStorage.getItem("delDocuGroupName")}</b> ?
+                            <b>{delDocuGroupName}</b> ?
                             Once Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -795,9 +799,7 @@ const DocumentGroup = () => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeleteDocumentGroup(
-                                localStorage.getItem("delDocuGroupId")
-                              )
+                              handleDeleteDocumentGroup(delDocuGroupId)
                             }
                           >
                             YES

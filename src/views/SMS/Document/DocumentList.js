@@ -49,6 +49,9 @@ const DocumentList = () => {
   const [categoryError, setCategoryError] = useState(false);
   const [application, setApplication] = useState(null);
   const [applicationError, setApplicationError] = useState(false);
+  const [updateDocument, setUpdateDocument] =useState(undefined);
+  const [delDocuId, setDelDocuId] = useState(0);
+  const [delDocuName, setDelDocuName] = useState("");
   const { addToast } = useToasts();
 
   useEffect(() => {
@@ -82,7 +85,8 @@ const DocumentList = () => {
     setDocumentName(document?.name);
     setDocumentDes(document?.description);
     setApplication(`${document?.isVaryForApplication}`);
-    localStorage.setItem("updateDocument", document?.id);
+    // localStorage.setItem("updateDocument", document?.id);
+    setUpdateDocument(document?.id);
   };
 
   const handleSubmit = (event) => {
@@ -105,7 +109,7 @@ const DocumentList = () => {
       setApplicationError(true);
     }
     else{
-      if (localStorage.getItem("updateDocument")) {
+      if (updateDocument != undefined) {
         console.log(localStorage.getItem("updateDocument"));
         const returnvalue = put(`Document/Update`, subData).then((action) => {
           setSuccess(!success);
@@ -119,10 +123,10 @@ const DocumentList = () => {
           setDocuLabel("Select Document Category");
           setDocuValue(0);
           setApplication(null);
-          localStorage.removeItem("updateDocument");
+          setUpdateDocument(undefined);
         });
       } else {
-          localStorage.removeItem("updateDocument");
+        setUpdateDocument(undefined);
           
         const returnValue = post(`Document/Create`, subData).then((action) => {
           setSuccess(!success);
@@ -137,7 +141,6 @@ const DocumentList = () => {
           setDocuLabel("Select Document Category")
           setDocuValue(0);
           setApplication(null);
-  
         });
       }
     }
@@ -172,15 +175,14 @@ const DocumentList = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("delDocuName");
-      localStorage.removeItem("delDocuId");
+      setDelDocuName('');
+      setDelDocuId(0);
     });
   };
 
   const toggleDanger = (name, id) => {
-    localStorage.setItem("delDocuName", name);
-    localStorage.setItem("delDocuId", id);
-
+    setDelDocuName(name);
+    setDelDocuId(id);
     setDeleteModal(true);
   };
 
@@ -192,14 +194,14 @@ const DocumentList = () => {
     setDocuLabel("Select Document Category")
     setDocuValue(0);
     setApplication(null);
-    localStorage.removeItem("updateDocument");
+    setUpdateDocument(undefined);
   };
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
+    setDelDocuName("");
+    setDelDocuId(0);
     setDeleteModal(false);
-    localStorage.removeItem("delDocuName");
-    localStorage.removeItem("delDocuId");
   };
 
   // redirect to dashboard
@@ -249,12 +251,12 @@ const DocumentList = () => {
               <ModalHeader>Add Document</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
-                  {localStorage.getItem("updateDocument") ? (
+                  {updateDocument != undefined ? (
                     <input
                       type="hidden"
                       name="id"
                       id="id"
-                      value={localStorage.getItem("updateDocument")}
+                      value={updateDocument}
                     />
                   ) : null}
 
@@ -447,7 +449,7 @@ const DocumentList = () => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            <b>{localStorage.getItem("delDocuName")}</b> ? Once
+                            <b>{delDocuName}</b> ? Once
                             Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -456,9 +458,7 @@ const DocumentList = () => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeleteDocument(
-                                localStorage.getItem("delDocuId")
-                              )
+                              handleDeleteDocument(delDocuId)
                             }
                           >
                             YES

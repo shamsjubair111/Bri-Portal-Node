@@ -48,6 +48,8 @@ const Intake = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [intakeId, setIntakeId] = useState(0);
+    const [intakeName, setIntakeName] = useState('');
 
     const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -93,16 +95,17 @@ const Intake = () => {
         };
 
      const toggleDanger = (name,id) => {
-       localStorage.setItem('intakeName',name)
-       localStorage.setItem('intakeId',id)
+      //  localStorage.setItem('intakeName',name)
+      //  localStorage.setItem('intakeId',id)
+      setIntakeName(name);
+      setIntakeId(id);
        setDeleteModal(true)
       }
 
       const closeDeleteModal = () => {
         setDeleteModal(false);
-        localStorage.removeItem('intakeName')
-        localStorage.removeItem('intakeId')
-      
+        setIntakeName('');
+        setIntakeId(0);
       }
 
 
@@ -115,7 +118,8 @@ const Intake = () => {
              appearance: 'error',
              autoDismiss: true,
            })
-  
+           setIntakeName("");
+           setIntakeId(0);
         })
       };
 
@@ -280,12 +284,12 @@ const Intake = () => {
                           <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                              <ModalBody>
-                               <p>Are You Sure to Delete this {localStorage.getItem('intakeName')} ? Once Deleted it can't be Undone!</p>
+                               <p>Are You Sure to Delete this <b>{intakeName}</b> ? Once Deleted it can't be Undone!</p>
                              </ModalBody>
                      
                              <ModalFooter>
                              {/* onClick={()=>handleDelete(sub?.id)} */}
-                               <Button color="danger" onClick={() => handleDelete(localStorage.getItem('intakeId'))}>YES</Button>
+                               <Button color="danger" onClick={() => handleDelete(intakeId)}>YES</Button>
                                <Button onClick={closeDeleteModal}>NO</Button>
                              </ModalFooter>
                      

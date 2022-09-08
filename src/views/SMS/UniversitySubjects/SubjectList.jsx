@@ -78,6 +78,9 @@ const SubjectList = (props) => {
     const [submitData, setSubmitData] = useState(false);
     const [providerValue, setProviderValue] = useState(0);
 
+    const [subId, setSubId] = useState(0);
+    const [subName, setSubName] = useState('');
+
     // for tab
     const [activetab, setActivetab] = useState("1");
 
@@ -270,21 +273,23 @@ const SubjectList = (props) => {
            appearance: 'error',
            autoDismiss: true,
          })
-
+         setSubName('');
+         setSubId(0);
       })
     };
 
     const toggleDanger = (name,id) => {
-      localStorage.setItem('subName',name)
-      localStorage.setItem('subId',id)
+      // localStorage.setItem('subName',name)
+      // localStorage.setItem('subId',id)
+      setSubName(name);
+      setSubId(id);
       setDeleteModal(true)
      }
 
      const closeDeleteModal = () => {
       setDeleteModal(false);
-      localStorage.removeItem('subName')
-      localStorage.removeItem('subId')
-    
+      setSubName('');
+      setSubId(0);
     }
 
     // on clear
@@ -629,13 +634,13 @@ const SubjectList = (props) => {
                       <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                           <ModalBody>
-                            <p>Are You Sure to Delete this <b>{localStorage.getItem('subName')}</b> ? Once Deleted it can't be Undone!</p>
+                            <p>Are You Sure to Delete this <b>{subName}</b> ? Once Deleted it can't be Undone!</p>
                           </ModalBody>
 
                           <ModalFooter>
                           
-                            <Button color="danger" onClick={() => handleDelete(localStorage.getItem('subId'))}>YES</Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
+                            <Button color="danger" onClick={() => handleDelete(subId)}>YES</Button>
+                            <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
 
                       </Modal>

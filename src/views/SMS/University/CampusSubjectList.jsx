@@ -182,8 +182,13 @@ const CampusSubjectList = () => {
     const componentRef = useRef();
 
     const handleRedirectSubProfile = id =>{
-      localStorage.setItem("campIdSubProfile", camId);
-      history.push(`/subjectProfile/${id}`);
+      // localStorage.setItem("campIdSubProfile", camId);
+      history.push(
+        {
+          pathname: `/subjectProfile/${id}`,
+          campId: camId
+        }
+        );
     }
 
     return (

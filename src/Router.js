@@ -426,11 +426,11 @@ class AppRouter extends React.Component {
          <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
          <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.Universitystate_List) ? AddUniversityState : NotAuthorized} />
          <AppRoute  path="/addUniversity/:univerId?" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddUniversity : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversity/:univerId?" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddProviderUniversity : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversity/:providerProfileId/:univerId?" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddProviderUniversity : NotAuthorized} />
          <AppRoute  path="/addUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddUniversityApplicationDocument: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddProviderUniversityApplicationDocument: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityApplicationDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddProviderUniversityApplicationDocument: NotAuthorized} />
          <AppRoute  path="/addUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddUniversityTemplateDocument : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddProviderUniversityTemplateDocument : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityTemplateDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddProviderUniversityTemplateDocument : NotAuthorized} />
          {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
           {/* intake */}
@@ -460,16 +460,16 @@ class AppRouter extends React.Component {
           
 
          <AppRoute  path="/addUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_UniversityCampus)? AddUniversityCampus: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_UniversityCampus)? AddProviderUniversityCampus: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityCampus/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_UniversityCampus)? AddProviderUniversityCampus: NotAuthorized} />
          <AppRoute  path="/addUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_Financialinfo)? AddUniversityFinancial : NotAuthorized }/>
-         <AppRoute  path="/addProviderUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_Financialinfo)? AddProviderUniversityFinancial : NotAuthorized }/>
+         <AppRoute  path="/addProviderUniversityFinancial/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_Financialinfo)? AddProviderUniversityFinancial : NotAuthorized }/>
          <AppRoute  path="/addUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? AddUniversityFeatures : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? AddProviderUniversityFeatures : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityFeatures/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? AddProviderUniversityFeatures : NotAuthorized} />
          <AppRoute  path="/addUniversityGallery/:univerId" component={permissions?.includes(permissionList?.Add_Universitygallery)? AddUniversityGallery: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityGallery/:univerId" component={permissions?.includes(permissionList?.Add_Universitygallery)? AddProviderUniversityGallery: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityGallery/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_Universitygallery)? AddProviderUniversityGallery: NotAuthorized} />
          <AppRoute  path="/universityList" component={permissions?.includes(permissionList?.University_List)? UniversityList : NotAuthorized} />
          <AppRoute  path="/universityDetails/:id" component={permissions?.includes(permissionList?.View_University)? UniversityDetails : NotAuthorized} />
-         <AppRoute  path="/campusList" component={permissions?.includes(permissionList?.UniversityCampus_List)? CampusList : NotAuthorized } />
+         <AppRoute  path="/campusList/:uniId?" component={permissions?.includes(permissionList?.UniversityCampus_List)? CampusList : NotAuthorized } />
          <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
          <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? CampusDetails : NotAuthorized } />
          <AppRoute  path="/assignMultipleSubject/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? AssignMultipleSubject : NotAuthorized } />

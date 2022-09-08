@@ -49,6 +49,9 @@ const DocumentcategoryList = () => {
   // const [postId, setPostId] = useState(0);
   const [updateState, setUpdateState] = useState({});
 
+  const [docuName, setDocuName] = useState("");
+  const [docuId, setDocuId] = useState(0);
+
   // const [uName,setUName] = useState('');
 
   //  const onEditorStateChange = (editorState) => {
@@ -94,7 +97,7 @@ const DocumentcategoryList = () => {
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
-          appearance: "warning",
+          appearance: "success",
           autoDismiss: true,
         });
         setUpdateState({});
@@ -119,15 +122,15 @@ const DocumentcategoryList = () => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("docuName");
-        localStorage.removeItem("docuId");
+        setDocuName('');
+        setDocuId(0);
       }
     );
   };
 
   const toggleDanger = (name, id) => {
-    localStorage.setItem("docuName", name);
-    localStorage.setItem("docuId", id);
+    setDocuName(name);
+    setDocuId(id);
     setDeleteModal(true);
   };
 
@@ -139,9 +142,9 @@ const DocumentcategoryList = () => {
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
+    setDocuName('');
+    setDocuId(0);
     setDeleteModal(false);
-    localStorage.removeItem("docuName");
-    localStorage.removeItem("docuId");
   };
 
   // redirect to dashboard
@@ -335,7 +338,7 @@ const DocumentcategoryList = () => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            <b>{localStorage.getItem("docuName")}</b> ? Once
+                            <b>{docuName}</b> ? Once
                             Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -344,9 +347,7 @@ const DocumentcategoryList = () => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeleteCategory(
-                                localStorage.getItem("docuId")
-                              )
+                              handleDeleteCategory(docuId)
                             }
                           >
                             YES

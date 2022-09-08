@@ -75,6 +75,8 @@ const AddUniversityCampus = (props) => {
   const [showForm, setShowForm] = useState(false);
   const [universityCampus, setUniversityCampus] = useState([]);
   const [campusId, setCampusId] = useState(0);
+  const [UniversityCampusName, setUniversityCampusName] = useState('');
+  const [UniversityCampusId, setUniversityCampusId] = useState(0);
 
   console.log("univerId", univerId);
 
@@ -262,8 +264,10 @@ const AddUniversityCampus = (props) => {
   };
 
   const toggleDanger = (p) => {
-    localStorage.setItem("UniversityCampusId", p.id);
-    localStorage.setItem("UniversityCampusName", p.name);
+    // localStorage.setItem("UniversityCampusId", p.id);
+    // localStorage.setItem("UniversityCampusName", p.name);
+    setUniversityCampusId(p?.id);
+    setUniversityCampusName(p?.name);
     setDeleteModal(true);
   };
 
@@ -276,8 +280,8 @@ const AddUniversityCampus = (props) => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("UniversityCampusId");
-        localStorage.removeItem("UniversityCampusName");
+        setUniversityCampusId(0);
+        setUniversityCampusName('');
       }
     );
   };
@@ -877,13 +881,17 @@ const AddUniversityCampus = (props) => {
 
                     <Modal
                       isOpen={deleteModal}
-                      toggle={() => setDeleteModal(!deleteModal)}
+                      toggle={() => {
+                        setDeleteModal(!deleteModal);
+                        setUniversityCampusId(0);
+                        setUniversityCampusName('');
+                      }}
                       className="uapp-modal"
                     >
                       <ModalBody>
                         <p>
                           Are You Sure to Delete this{" "}
-                          {localStorage.getItem("UniversityCampusName")} ? Once
+                          <b>{UniversityCampusName}</b> ? Once
                           Deleted it can't be Undone!
                         </p>
                       </ModalBody>
@@ -891,15 +899,17 @@ const AddUniversityCampus = (props) => {
                       <ModalFooter>
                         <Button
                           onClick={() =>
-                            handleDeletePermission(
-                              localStorage.getItem("UniversityCampusId")
-                            )
+                            handleDeletePermission(UniversityCampusId)
                           }
                           color="danger"
                         >
                           YES
                         </Button>
-                        <Button onClick={() => setDeleteModal(false)}>
+                        <Button onClick={() => {
+                          setDeleteModal(false);
+                          setUniversityCampusId(0);
+                          setUniversityCampusName('');
+                        }}>
                           NO
                         </Button>
                       </ModalFooter>

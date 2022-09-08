@@ -285,7 +285,7 @@ const UniversityList = (props) => {
   const handleAddUniversity = () => {
     // localStorage.removeItem('editUniId');
     // localStorage.removeItem('editMethod');
-    localStorage.removeItem("id");
+    // localStorage.removeItem("id");
     history.push("/addUniversity");
   };
 
@@ -398,7 +398,7 @@ const UniversityList = (props) => {
   const redirectToCampusList = (id) => {
     localStorage.setItem("universityId", id);
     history.push({
-      pathname: "/campusList",
+      pathname: `/campusList/${id}`,
       id,
     });
   };
@@ -697,7 +697,7 @@ const UniversityList = (props) => {
                 <tbody>
                   {universityList?.map((university, i) => (
                     <tr key={university?.id} style={{ textAlign: "center" }}>
-                      <td>{serialNum + i}</td>
+                      <th scope="row">{serialNum + i}</th>
                       <td>
                         {" "}
                         <img
@@ -784,7 +784,7 @@ const UniversityList = (props) => {
 
                           <ButtonForFunction
                             func={() => handleEdit(university)}
-                            color={"dark"}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
                             permission={6}
