@@ -458,7 +458,7 @@ const PersonalInformation = () => {
             <Nav tabs>
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+              
                   active={activetab === "1"}
                   onClick={() => toggle("1")}
                 >
@@ -468,7 +468,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+               
                   active={activetab === "2"}
                   onClick={() => toggle("2")}
                 >
@@ -478,7 +478,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+                
                   active={activetab === "3"}
                   onClick={() => toggle("3")}
                 >
@@ -488,7 +488,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+                
                   active={activetab === "4"}
                   onClick={() => toggle("4")}
                 >
@@ -498,7 +498,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+               
                   active={activetab === "5"}
                   onClick={() => toggle("5")}
                 >
@@ -508,7 +508,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+                  
                   active={activetab === "6"}
                   onClick={() => toggle("6")}
                 >
@@ -518,7 +518,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+                
                   active={activetab === "7"}
                   onClick={() => toggle("7")}
                 >
@@ -528,7 +528,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+               
                   active={activetab === "8"}
                   onClick={() => toggle("8")}
                 >
@@ -538,7 +538,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+               
                   active={activetab === "9"}
                   onClick={() => toggle("9")}
                 >
@@ -548,7 +548,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+                  
                   active={activetab === "10"}
                   onClick={() => toggle("10")}
                 >
@@ -558,7 +558,7 @@ const PersonalInformation = () => {
 
               <NavItem>
                 <NavLink
-                  style={{ color: "#1e98b0" }}
+                  
                   active={activetab === "11"}
                   onClick={() => toggle("11")}
                 >
