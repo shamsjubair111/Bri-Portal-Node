@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -34,7 +34,7 @@ import { rootUrl } from "../../../constants/constants";
 import remove from "../../../helpers/remove";
 
 const DocumentUpload = () => {
-  const applicationStudentId = localStorage.getItem("applictionStudentId");
+  const {applicationStudentId} = useParams();
 
   const history = useHistory();
   const { addToast } = useToasts();
