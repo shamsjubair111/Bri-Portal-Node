@@ -16,13 +16,13 @@ const Branch = () => {
     const [stateValue, setStateValue] = useState(0);
     const [country,setCountry] = useState([]);
     const [state,setState] = useState([]);
-    console.log(location);
+    
 
 
     useEffect(()=>{
       get(`Country/Index`)
       .then(res => {
-        console.log('Country',res);
+       
         setCountry(res);
       })
 
@@ -33,7 +33,7 @@ const Branch = () => {
         get(`Branch/Get/${location?.pathname}`)
         .then(res => {
             setBranchInfo(res);
-            console.log(res);
+           
             setCountryLabel(res?.country?.name);
             setStateLabel(res?.state?.name);
         })
@@ -69,7 +69,7 @@ const Branch = () => {
   const searchStateByCountry = (countryValue) => {
     get(`State/GetbyCountryId/${countryValue}`)
     .then(res => {
-      console.log('State',res);
+      
       setState(res);
     })
   }
@@ -85,7 +85,7 @@ const Branch = () => {
      
      
     }
-    console.log(countryLabel);
+    
   
     // select University State
     const selectState = (label, value) => {
@@ -123,7 +123,7 @@ const Branch = () => {
       //     // autoDismiss: true,
       //   })
 
-      console.log(res);
+      
     
       localStorage.setItem("branchId",res?.data?.result?.id);
       const uniID = res?.data?.result?.id;

@@ -43,7 +43,7 @@ const BranchManagerInformation = () => {
 
   useEffect(() => {
     get(`BranchManager/Get/${managerId}`).then((res) => {
-      console.log(res,'Tring manager info noww');
+      
       setBranchManagerInfo(res);
       setTitleLabel(res?.nameTittle?.name);
       setTitleValue(res?.nameTittle?.id);
@@ -51,7 +51,7 @@ const BranchManagerInformation = () => {
 
     get('NameTittle/GetAll')
     .then(res => {
-      console.log('title',res);
+    
       setTitle(res);
     })
   }, [managerId]);
@@ -119,7 +119,7 @@ setTitleValue(value);
     
     
  };
- console.log('check files photos', FileList);
+
 
 
     // manager Image code end
@@ -141,10 +141,10 @@ setTitleValue(value);
     };
 
     for (let val of subData.values()) {
-      console.log(val);
+   
     }
     put(`BranchManager/Update`, subData, config).then((res) => {
-      //  console.log(res);
+    
       addToast(res?.data?.message, {
         appearance: "success",
       });

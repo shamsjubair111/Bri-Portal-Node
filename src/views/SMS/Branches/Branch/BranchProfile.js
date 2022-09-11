@@ -80,7 +80,7 @@ const BranchProfile = (props) => {
 
   useEffect(() => {
     get(`Branch/Get/${id}`).then((res) => {
-      // console.log(res);
+     
       setBranchInfo(res);
     });
 
@@ -98,7 +98,7 @@ const BranchProfile = (props) => {
 
   const handleTeamUpdate = (id) => {
     get(`BranchTeam/Get/${id}`).then((res) => {
-      console.log(res);
+    
       setTeamInfo(res);
       setTeamName(res?.name);
       setIsUpdate(true);
@@ -109,7 +109,7 @@ const BranchProfile = (props) => {
     e.preventDefault();
     const teamData = new FormData(e.target);
     // for(let  value of teamData.values()){
-    //   console.log(value);
+   
     // }
     if (!isUpdate) {
       post(`BranchTeam/Create`, teamData).then((action) => {
@@ -123,10 +123,10 @@ const BranchProfile = (props) => {
       });
     } else {
       for (let val of teamData.values()) {
-        console.log(val);
+        
       }
       put(`BranchTeam/Update`, teamData).then((res) => {
-        console.log(res);
+        
         setSuccess(!success);
         setModalOpen(false);
         addToast(res.data?.message, {
@@ -162,7 +162,7 @@ const BranchProfile = (props) => {
      
   //   });
   //    const newTeamData = branchTeam.filter((team) => team?.id != id);
-  //     console.log(newTeamData);
+  
   //     setBranchTeam(newTeamData);
 
   // };

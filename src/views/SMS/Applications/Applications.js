@@ -250,7 +250,7 @@ const Applications = () => {
       `AddmissionmanagerApplicationFilterDD/UappId/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
     ).then((res) => {
       setManagerUappIdDD(res);
-      console.log("AdmissionUappId", res);
+      
     });
     get(
       `AddmissionmanagerApplicationFilterDD/Student/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
@@ -311,7 +311,7 @@ const Applications = () => {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"28dea3ae-7c53-4622-97c3-bff7d8d13ce0"}`
       ).then((res) => {
-        console.log("values", res);
+        
         setLoading(false);
         setApplicationList(res?.models);
 
@@ -322,7 +322,7 @@ const Applications = () => {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"28df1a83-624f-48cb-8bb4-5817c8ee5da7"}`
       ).then((res) => {
-        console.log("values", res);
+        
         setLoading(false);
         setApplicationList(res?.models);
 
@@ -333,7 +333,7 @@ const Applications = () => {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
       ).then((res) => {
-        console.log("managerValue", res);
+       
         setLoading(false);
         setApplicationList(res?.models);
 
@@ -344,7 +344,7 @@ const Applications = () => {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${providerConsValue}&universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
       ).then((res) => {
-        console.log("managerValue", res);
+        
         setLoading(false);
         setApplicationList(res?.models);
         setEntity(res?.totalEntity);
@@ -354,7 +354,7 @@ const Applications = () => {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
-        console.log("managerValue", res);
+        
         setLoading(false);
         setApplicationList(res?.models);
         setEntity(res?.totalEntity);
@@ -540,7 +540,7 @@ const Applications = () => {
   }));
 
   const selectOrder = (label, value) => {
-    // console.log("value", label, value);
+    
     setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);

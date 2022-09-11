@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
-import get from '../../../helpers/get';
-import post from '../../../helpers/post';
-import put from '../../../helpers/put';
-import remove from '../../../helpers/remove';
+import get from '../../../../helpers/get';
+import post from '../../../../helpers/post';
+import put from '../../../../helpers/put';
+import remove from '../../../../helpers/remove';
 
 const AddCommissionPriceInformation = (props) => {
 

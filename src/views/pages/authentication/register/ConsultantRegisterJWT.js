@@ -27,7 +27,7 @@ const  ConsultantRegisterJWT = () => {
 
     get('NameTittleDD/index')
     .then(res => {
-      console.log(res);
+     
       settitle(res);
 
     })

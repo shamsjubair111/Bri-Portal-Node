@@ -46,7 +46,7 @@ const BranchList = () => {
 
   useEffect(() => {
     get(`Branch/Index`).then((res) => {
-      console.log(res,'arraydata');
+     
       setBranchList(res);
     });
   }, [success]);
@@ -64,7 +64,7 @@ const BranchList = () => {
 
   const handleDeletebranch = () => {
     remove(`Branch/Delete/${delData}`).then((res) => {
-      // console.log("respomse 39", res);
+     
       addToast(res, {
         appearance:  "error",
         autoDismiss: true,

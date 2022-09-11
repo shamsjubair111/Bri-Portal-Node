@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
-import get from '../../../helpers/get';
-import post from '../../../helpers/post';
-import put from '../../../helpers/put';
-import remove from '../../../helpers/remove';
+import get from '../../../../helpers/get';
+import post from '../../../../helpers/post';
+import put from '../../../../helpers/put';
+import remove from '../../../../helpers/remove';
 import AddCommissionPriceInformation from './AddCommissionPriceInformation';
 import ShowCommissionPriceListData from './ShowCommissionPriceListData';
 
@@ -30,7 +30,7 @@ const CommissionPriceList = () => {
 
         get(`GroupPriceRange/Index/${id}`)
         .then(res=> {
-            console.log('checking List', res);
+           
             setList(res);
         })
 
@@ -86,7 +86,7 @@ const CommissionPriceList = () => {
 
     }
 
-    // console.log(data);
+    // (data);
 
  
    
@@ -143,7 +143,7 @@ const CommissionPriceList = () => {
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Comission Price List</h3>
+                <h3 className="text-light">Commission Price List</h3>
                 <div className="page-header-back-to-home">
                   <span className="text-light" onClick={backToDashboard}>
                     {" "}

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
-import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonForFunction from '../../Components/ButtonForFunction';
 import { useToasts } from "react-toast-notifications";
 import Select from "react-select";
-import get from '../../../helpers/get';
-import loadingImages from '../../../assets/img/data.svg'
-import post from '../../../helpers/post';
-import put from '../../../helpers/put';
-import remove from '../../../helpers/remove';
-import { permissionList } from '../../../constants/AuthorizationConstant';
+import get from '../../../../helpers/get';
+import loadingImages from '../../../../assets/img/data.svg'
+import post from '../../../../helpers/post';
+import put from '../../../../helpers/put';
+import remove from '../../../../helpers/remove';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const AccountIntake = () => {
 
@@ -69,7 +69,7 @@ const AccountIntake = () => {
         get(`AccountIntake/Index`)
         .then(res => {
             setIntakeList(res);
-            console.log('checking intake list', res);
+          
             setLoading(false);
 
         })
@@ -89,7 +89,7 @@ const AccountIntake = () => {
       
         get(`AccountIntake/Get/${data?.id}`)
         .then(res => {
-            console.log(res);
+            
             const startMonth = month.find(data => data?.id == res?.startMonthId);
             const endMonth = month.find(data => data?.id == res?.endMonthId);
             const startYear = year.find(data => data?.id == res?.startYearId);
@@ -248,7 +248,7 @@ const AccountIntake = () => {
 
 
     const toggleDanger = (data) => {
-        console.log(data);
+       
         setCurrDeleteData(data);
         setDeleteModal(true);
     }

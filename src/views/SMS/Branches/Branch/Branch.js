@@ -44,7 +44,7 @@ const Branch = () => {
      useEffect(()=>{
        get(`CountryDD/Index`)
        .then(res => {
-         console.log('Country',res);
+         
          setCountry(res);
        })
 
@@ -52,7 +52,7 @@ const Branch = () => {
        
        get(`Branch/Get/${branchId}`)
        .then(res => {
-        console.log('yEEEEEEEEEEEEEE',res); 
+         
         setBranchInfo(res)
         setCountryLabel(res?.country?.name);
         setCountryValue(res?.country.id);
@@ -72,7 +72,7 @@ const Branch = () => {
     const searchStateByCountry = (countryValue) => {
       get(`StateDD/Index/${countryValue}`)
       .then(res => {
-        console.log('State',res);
+       
         setState(res);
       })
     }
@@ -102,18 +102,18 @@ const Branch = () => {
   }
 
   
-  console.log(countryLabel);
+  
 
   // select University State
   const selectState = (label, value) => {
     setStateError(false);
-    console.log(value);
+  
     setStateLabel(label);
     setStateValue(value);
 
   };
 
-  console.log(stateLabel);
+  
 
 
     const backToBranchList = () => {
@@ -144,7 +144,7 @@ const Branch = () => {
 
     //  watch form data values
     for (var value of subdata) {
-      console.log(value);
+      
     }
 
 
@@ -188,7 +188,7 @@ const Branch = () => {
           
           
           const uniID = res?.data?.result?.id;
-          console.log((res));
+         
     
           if (res?.status === 200 && res?.data?.isSuccess === true) {
             setSubmitData(true);
@@ -209,11 +209,11 @@ const Branch = () => {
   };
 
   const handleEmail = (e) => {
-    console.log(e.target.value);
+   
 
     get(`EmailCheck/EmailCheck/${e.target.value}`)
     .then(res => {
-      console.log('Checking Response', res);
+      
       setEmailError(res);
     })
   }

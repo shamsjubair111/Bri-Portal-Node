@@ -30,7 +30,7 @@ const  StudentRegisterJWT = () => {
 
     get('StudentTypeDD/Index')
     .then(res => {
-      console.log('Checking Student Types', res);
+     
       setStudents(res);
       
 

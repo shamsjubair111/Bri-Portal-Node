@@ -26,7 +26,7 @@ const handleNavigation = (e, path) => {
 
 const userInfo = JSON.parse(localStorage.getItem('current_user'));
 
-console.log('userInfo', userInfo);
+
 
 const UserDropdown = props => {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const UserDropdown = props => {
       }
     })
       .then(res => {
-        console.log(res);
+        
         // localStorage.removeItem('token');
         history.push("/");
         window.localStorage.clear();

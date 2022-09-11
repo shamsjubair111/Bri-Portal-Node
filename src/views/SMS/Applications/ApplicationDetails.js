@@ -135,7 +135,7 @@ const ApplicationDetails = () => {
   const handleChange1 = ({ fileList }) => {
     setUploadError(false);
     setFileList1(fileList);
-    console.log(fileList);
+    
   };
 
   const handleCancel1 = () => {
@@ -144,7 +144,7 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
-      console.log("applicationInfodata", res);
+    
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
@@ -161,7 +161,7 @@ const ApplicationDetails = () => {
     });
 
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
-      console.log("stdpro", res);
+     
       setStudentProInfo(res);
     });
     get("DeliveryPatternDD/index").then((res) => {
@@ -281,7 +281,7 @@ const ApplicationDetails = () => {
   };
 
   const toggleDanger = (docu) => {
-    console.log("delete", docu);
+    
     setdelDocData(docu);
     // localStorage.setItem("delDocNam", docu?.documentLevelName);
     // localStorage.setItem("delDocId", docu?.studentDocumentLevelId);
@@ -296,7 +296,7 @@ const ApplicationDetails = () => {
   };
 
   const handleDeleteDocument = () => {
-    console.log("delData", delDocData?.studentDocumentLevelId);
+  
     const returnValue = remove(
       `StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`
     ).then((action) => {
@@ -312,7 +312,7 @@ const ApplicationDetails = () => {
   };
 
   const toggleDangerFile = (docFile) => {
-    console.log("delete file", docFile, docFile?.studentDocumentFile?.fileName);
+    
     localStorage.setItem("delFileName", docFile?.studentDocumentFile?.fileName);
     localStorage.setItem("delFileId", docFile?.studentDocumentLevelId);
     setDeleteModal2(true);
@@ -348,12 +348,12 @@ const ApplicationDetails = () => {
     subData.append("studentDocumentLevelId", parseInt(studentDocuId));
 
     // for (var i of subData) {
-    //   console.log(i);
+    
     // }
 
     if (studentDocuId !== 0) {
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
-        console.log("document data create", res);
+        
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -392,7 +392,7 @@ const ApplicationDetails = () => {
     );
 
     for (var i of subData) {
-      console.log(i);
+     
     }
 
     if (docuTypeValue == 0) {
@@ -403,7 +403,7 @@ const ApplicationDetails = () => {
     // }
     else {
       post("StudentUploadDocument/Create", subData).then((res) => {
-        console.log("document data", res);
+        
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -425,7 +425,7 @@ const ApplicationDetails = () => {
   };
 
   const handleUpdateTestScores = (data) => {
-    console.log("Test Score Update", data);
+   
 
     localStorage.setItem("applictionStudentId", data?.id);
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
@@ -435,7 +435,7 @@ const ApplicationDetails = () => {
   };
 
   const handleEdit = (data) => {
-    console.log(data);
+   
     localStorage.setItem("applictionStudentId", data?.id);
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
     localStorage.setItem("method", "put");
@@ -479,7 +479,7 @@ const ApplicationDetails = () => {
     const subData = new FormData(e.target);
 
     // for (var i of subData.values()) {
-    //   console.log(i);
+    
     // }
 
     // const subData = {
@@ -665,7 +665,7 @@ const ApplicationDetails = () => {
   };
 
   const handleElptupdate = (e) => {
-    console.log(e);
+  
     setElptStatusLabel(applicationInfo?.elpt?.elptStatus?.name);
     setElptStatusValue(applicationInfo?.elpt?.elptStatus?.id);
     setElptModalOpen1(true);
@@ -2370,9 +2370,9 @@ const ApplicationDetails = () => {
 
                             <div
                               className="row"
-                              onClick={() =>
-                                console.log(docu?.studentDocumentLevelId)
-                              }
+                              // onClick={() =>
+                                
+                              // }
                             >
                               {docu?.studentDocumentFile === null ? (
                                 <div className="col-4">

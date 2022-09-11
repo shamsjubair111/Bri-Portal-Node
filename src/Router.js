@@ -13,20 +13,19 @@ import AdmissionGetData from "./views/Test/AdmissionGetData"
 
 import {permissionList} from './constants/AuthorizationConstant'
 
-console.log('testing',permissionList,'testing');
 
 
 
-console.log(typeof(permissionList?.Employee_type));
+
+
 
 // Authentication Checking
 const token = localStorage.getItem('token');
 const permissions= JSON.parse(localStorage.getItem('permissions'));
-// console.log(typeof(permissions),'1111111');
-// console.log(permissions);
+
 const isAuth = token != null ? true : false;
 const permission = JSON.parse(localStorage.getItem("current_user"));
-  // console.log(permission?.displayName);
+
 
 // Route-based code splitting
 const analyticsDashboard = lazy(() =>
@@ -323,13 +322,13 @@ const CountryList = lazy(() => import("./views/SMS/Configuration/Country/Country
 const Search = lazy(() => import("./views/SMS/Search/Search"))
 
 // Comission
-const AccountIntake = lazy(() => import("./views/SMS/Comission/AccountIntake"))
+const AccountIntake = lazy(() => import("./views/SMS/Comission/AccountIntake/AccountIntake"))
 
-const ComissionGroup = lazy(() => import("./views/SMS/Comission/ComissionGroup"))
+const ComissionGroup = lazy(() => import("./views/SMS/Comission/CommissionGroup/ComissionGroup"))
 
-const ComissionGroupRangeList = lazy(() => import("./views/SMS/Comission/ComissionGroupRangeList"))
 
-const CommissionPriceList = lazy(() => import("./views/SMS/Comission/CommissionPriceList"))
+
+const CommissionPriceList = lazy(() => import("./views/SMS/Comission/CommissionPrice/CommissionPriceList"))
 
 
 // practice
@@ -351,6 +350,10 @@ const BranchEmployeeProfile = lazy(() => import("./views/SMS/Branches/Employee/E
 const Nationality = lazy(() => import("./views/SMS/Nationality/Nationality"));
 
 const AdmissionManagerProfile = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerProfile"));
+
+const PromotionalCommissionList = lazy(() => import("./views/SMS/PromotionalCommission/CommissionList/PromotionalCommissionList"));
+
+const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/DistributionLevelSetting"));
 
 
 
@@ -613,7 +616,7 @@ class AppRouter extends React.Component {
 
         <AppRoute  path="/accountIntakeList" component={permissions?.includes(permissionList?.AccountIntake_List)? AccountIntake : NotAuthorized} />
         <AppRoute  path="/commissionGroupList" component={ComissionGroup} />
-        <AppRoute  path="/groupRangeList" component={ComissionGroupRangeList} />
+        
         <AppRoute  path="/commissionPriceList/:id" component={CommissionPriceList} />
 
         {/* Consultant Conscent Path */}
@@ -631,6 +634,11 @@ class AppRouter extends React.Component {
 
 
            <AppRoute  path="/providerAdmissionManager/:managerId/:providerId" component={AdmissionManagerProfile} />
+
+
+           <AppRoute  path="/promotionalCommissionList" component={PromotionalCommissionList} />
+
+           <AppRoute  path="/distributionLevelSetting" component={DistributionLevelSetting} />
 
 
 

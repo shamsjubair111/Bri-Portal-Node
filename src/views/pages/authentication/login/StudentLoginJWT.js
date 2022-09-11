@@ -32,7 +32,7 @@ class Login extends React.Component {
         password: this.state.password
       })
       .then(response => {
-        console.log('Checking Response', response);
+     
         if (response.data) {
           if (response.data.isSuccess == true) {
             this.setState({ error: '' });
@@ -46,7 +46,7 @@ class Login extends React.Component {
               }
             })
               .then(res => {
-                console.log('userinfo', res);
+                
                 if (res?.status == 200) {
                   if(res?.data?.isActive){
                     localStorage.setItem('current_user', JSON.stringify(res?.data))

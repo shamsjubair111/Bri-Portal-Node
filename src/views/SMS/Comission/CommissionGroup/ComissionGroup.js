@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
-import post from '../../../helpers/post';
+import post from '../../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
-import get from '../../../helpers/get';
-import put from '../../../helpers/put';
-import remove from '../../../helpers/remove';
+import get from '../../../../helpers/get';
+import put from '../../../../helpers/put';
+import remove from '../../../../helpers/remove';
 
 const ComissionGroup = () => {
 
@@ -24,7 +24,7 @@ const ComissionGroup = () => {
 
       get(`CommissionGroup/Index`)
       .then(res => {
-        console.log('commission SDta ', res);
+        
         setCommission(res);
       })
 
@@ -43,7 +43,7 @@ const ComissionGroup = () => {
 
     const toggleDanger = (data) => {
       setDeleteModal(true);
-      console.log(data);
+      
       setDelData(data);
 
     } 
@@ -182,7 +182,7 @@ const ComissionGroup = () => {
         <div className=''>
             <Button className ="btn btn-uapp-add" onClick={()=> setOpenModal(true)}>
                <i className="fas fa-plus"></i>
-             
+             {' '}
               Add New
                          
                  </Button>

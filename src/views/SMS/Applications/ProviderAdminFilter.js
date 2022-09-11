@@ -103,7 +103,7 @@ const ProviderAdminFilter = ({
   // const [financeLabel, setFinanceLabel] = useState("SLCs");
   // const [financeValue, setFinanceValue] = useState(0);
 
-  // console.log("financeDD2222", financeDD);
+  
 
   // const applicationMenu = applicationDD.map((application) => ({
   //   label: application?.name,
