@@ -27,7 +27,7 @@ import {
 } from "reactstrap";
 import Axios from "axios";
 import { rootUrl } from "../../../constants/constants";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams, useLocation } from "react-router";
 import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
@@ -42,6 +42,7 @@ const AddSubjectRequirements = () => {
   const [requiredId, setRequiredId] = useState(0);
 
   const { id } = useParams();
+  const location = useLocation();
 
   console.log("requiredId", requiredId);
 
@@ -83,23 +84,40 @@ const AddSubjectRequirements = () => {
 
   // redirect to SubjecList
   const backToSubjecList = () => {
-    history.push("/subjectList");
+    if(location.subjectId != undefined){
+      history.push(`/subjectProfile/${location.subjectId}`);
+    }
+    else{
+      history.push("/subjectList");
+    }
   };
 
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push(`/addSubject/${id}`);
+      history.push({
+        pathname: `/addSubject/${id}`,
+        subjectId: location.subjectId
+      });
     }
     if (tab == "2") {
-      history.push(`/addSubjectFee/${id}`);
+      history.push({
+        pathname: `/addSubjectFee/${id}`,
+        subjectId: location.subjectId
+      });
     }
     if (tab == "3") {
-      history.push(`/addSubjectDeliveryPattern/${id}`);
+      history.push({
+        pathname: `/addSubjectDeliveryPattern/${id}`,
+        subjectId: location.subjectId
+      });
     }
     if (tab == "5") {
-      history.push(`/addSubjectDocumentRequirement/${id}`);
+      history.push({
+        pathname: `/addSubjectDocumentRequirement/${id}`,
+        subjectId: location.subjectId
+      });
     }
   };
 
@@ -132,6 +150,7 @@ const AddSubjectRequirements = () => {
               });
               history.push({
                 pathname: `/addSubjectDocumentRequirement/${id}`,
+                subjectId: location.subjectId
               });
             }
           });
@@ -150,6 +169,7 @@ const AddSubjectRequirements = () => {
               });
               history.push({
                 pathname: `/addSubjectDocumentRequirement/${id}`,
+                subjectId: location.subjectId
               });
             }
           });
@@ -165,7 +185,13 @@ const AddSubjectRequirements = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Subject List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.subjectId ?
+                "Back to Subject Profile"
+                :
+                "Back to Subject List"
+              }
             </span>
           </div>
         </CardHeader>

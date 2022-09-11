@@ -55,6 +55,9 @@ const CampusSubjectList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [dataPerPage, setDataPerPage] = useState(15);
     const [callApi, setCallApi] = useState(false);
+
+    const [subId, setSubId] = useState(0);
+    const [subName, setSubName] = useState("");
     
     // const univerSList = props.univerSityDropDownList[0];
     // const camppus = props.campusDropDownList[0];
@@ -101,20 +104,19 @@ const CampusSubjectList = () => {
       };
 
     const toggleDanger = (name,id) => {
-      localStorage.setItem('subName',name)
-      localStorage.setItem('subId',id)
-      setDeleteModal(true)
+      setSubName(name);
+      setSubId(id);
+      setDeleteModal(true);
      }
 
     const closeDeleteModal = () => {
        setDeleteModal(false);
-       localStorage.removeItem('subName')
-       localStorage.removeItem('subId')
-     
+       setSubName("");
+       setSubId(0);
     }
 
     const handleDelete = (id) => {
-        const returnValue = remove(`Subject/Delete/${id}`).then((action)=> {
+        const returnValue = remove(`UniversityCampusSubject/Delete/${id}`).then((action)=> {
           // console.log(action);
           setSuccess(!success);
           setDeleteModal(false);
@@ -122,7 +124,8 @@ const CampusSubjectList = () => {
              appearance: 'error',
              autoDismiss: true,
            })
-  
+           setSubName("");
+           setSubId(0);
         })
       };
 
@@ -451,12 +454,12 @@ const CampusSubjectList = () => {
                       <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                           <ModalBody>
-                            <p>Are You Sure to Delete this <b>{localStorage.getItem('subName')}</b> ? Once Deleted it can't be Undone!</p>
+                            <p>Are You Sure to Delete this <b>{subName}</b> ? Once Deleted it can't be Undone!</p>
                           </ModalBody>
 
                           <ModalFooter>
                           
-                            <Button color="danger" onClick={() => handleDelete(localStorage.getItem('subId'))}>YES</Button>
+                            <Button color="danger" onClick={() => handleDelete(sub?.campusSubjectId)}>YES</Button>
                             <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
 

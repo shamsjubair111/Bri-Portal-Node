@@ -40,6 +40,7 @@ import ConsultantFilter from "./ConsultantFilter.js";
 import StudentFilter from "./StudentFilter.js";
 import AdmissionManagerFilter from "./AdmissionManagerFilter.js";
 import ProviderAdminFilter from "./ProviderAdminFilter.js";
+import { userTypes } from "../../../constants/userTypeConstant.js";
 
 const Applications = () => {
   const [loading, setLoading] = useState(false);
@@ -165,6 +166,9 @@ const Applications = () => {
   const [applicationList, setApplicationList] = useState([]);
   const [serialNumber, setSerialNumber] = useState(0);
 
+  // current_user
+  const [currentUser, setCurrentUser] = useState(undefined);
+
   const history = useHistory();
   const { addToast } = useToasts();
 
@@ -173,6 +177,14 @@ const Applications = () => {
   // const userId = "student";
   // const userId = "manager";
   // const userId = "provider";
+
+  // console.log("userType", typeof(userTypes?.ProviderAdmin), typeof(parseInt(localStorage.getItem("userType"))));
+
+  useEffect(()=>{
+    get("Account/GetCurrentUserId").then(res => {
+      setCurrentUser(res);
+    })
+  }, [])
 
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
@@ -217,99 +229,98 @@ const Applications = () => {
     get("CommonApplicationFilterDD/PhoneNumber").then((res) => {
       setCommonPhoneDD(res);
     });
-
     // for provider admin
     get(
-      `ProviderAdminApplicationFilterDD/UappId/${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
+      `ProviderAdminApplicationFilterDD/UappId/${currentUser}`
     ).then((res) => {
       setProviderUappIdDD(res);
     });
     get(
-      `ProviderAdminApplicationFilterDD/Student/${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
+      `ProviderAdminApplicationFilterDD/Student/${currentUser}`
     ).then((res) => {
       setProviderStdDD(res);
     });
     get(
-      `ProviderAdminApplicationFilterDD/Consultant/${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
+      `ProviderAdminApplicationFilterDD/Consultant/${currentUser}`
     ).then((res) => {
       setProviderConsDD(res);
     });
     get(
-      `ProviderAdminApplicationFilterDD/University/${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
+      `ProviderAdminApplicationFilterDD/University/${currentUser}`
     ).then((res) => {
       setProviderUniDD(res);
     });
     get(
-      `ProviderAdminApplicationFilterDD/PhoneNumber/${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
+      `ProviderAdminApplicationFilterDD/PhoneNumber/${currentUser}`
     ).then((res) => {
       setProviderPhoneDD(res);
     });
 
     // for admission manager
     get(
-      `AddmissionmanagerApplicationFilterDD/UappId/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
+      `AddmissionmanagerApplicationFilterDD/UappId/${currentUser}`
     ).then((res) => {
       setManagerUappIdDD(res);
       
     });
     get(
-      `AddmissionmanagerApplicationFilterDD/Student/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
+      `AddmissionmanagerApplicationFilterDD/Student/${currentUser}`
     ).then((res) => {
       setManagerStdDD(res);
     });
     get(
-      `AddmissionmanagerApplicationFilterDD/Consultant/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
+      `AddmissionmanagerApplicationFilterDD/Consultant/${currentUser}`
     ).then((res) => {
       setManagerConsDD(res);
     });
     get(
-      `AddmissionmanagerApplicationFilterDD/University/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
+      `AddmissionmanagerApplicationFilterDD/University/${currentUser}`
     ).then((res) => {
       setManagerUniDD(res);
     });
     get(
-      `AddmissionmanagerApplicationFilterDD/PhoneNumber/${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
+      `AddmissionmanagerApplicationFilterDD/PhoneNumber/${currentUser}`
     ).then((res) => {
       setManagerPhoneDD(res);
     });
     // for student
     get(
-      `StudentApplicationFilterDD/University/${"28dea3ae-7c53-4622-97c3-bff7d8d13ce0"}`
+      `StudentApplicationFilterDD/University/${currentUser}`
     ).then((res) => {
       setStudentUniDD(res);
     });
     get(
-      `StudentApplicationFilterDD/Consultant/${"28dea3ae-7c53-4622-97c3-bff7d8d13ce0"}`
+      `StudentApplicationFilterDD/Consultant/${currentUser}`
     ).then((res) => {
       setStudentConsDD(res);
     });
 
     // for consultant
     get(
-      `ConsultantApplicationFilterDD/UappId/${"28df1a83-624f-48cb-8bb4-5817c8ee5da7"}`
+      `ConsultantApplicationFilterDD/UappId/${currentUser}`
     ).then((res) => {
       setConsultantUappIdDD(res);
     });
     get(
-      `ConsultantApplicationFilterDD/Student/${"28df1a83-624f-48cb-8bb4-5817c8ee5da7"}`
+      `ConsultantApplicationFilterDD/Student/${currentUser}`
     ).then((res) => {
       setConsultantStdDD(res);
     });
     get(
-      `ConsultantApplicationFilterDD/University/${"28df1a83-624f-48cb-8bb4-5817c8ee5da7"}`
+      `ConsultantApplicationFilterDD/University/${currentUser}`
     ).then((res) => {
       setConsultantUniDD(res);
     });
     get(
-      `ConsultantApplicationFilterDD/PhoneNumber/${"28df1a83-624f-48cb-8bb4-5817c8ee5da7"}`
+      `ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`
     ).then((res) => {
       setConsultantPhnDD(res);
     });
 
     // for list
-    if (userId === "student") {
+    if (parseInt(localStorage.getItem("userType")) === userTypes?.Student) {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"28dea3ae-7c53-4622-97c3-bff7d8d13ce0"}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
         
         setLoading(false);
@@ -318,9 +329,9 @@ const Applications = () => {
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    } else if (userId === "consultant") {
+    } else if (parseInt(localStorage.getItem("userType")) === userTypes?.Consultant) {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"28df1a83-624f-48cb-8bb4-5817c8ee5da7"}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
         
         setLoading(false);
@@ -329,9 +340,9 @@ const Applications = () => {
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    } else if (userId === "manager") {
+    } else if (parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager) {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"549c0d47-1ddd-4216-8583-0d02830e0a5c"}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
        
         setLoading(false);
@@ -340,11 +351,10 @@ const Applications = () => {
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    } else if (userId === "provider") {
+    } else if (parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin) {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${providerConsValue}&universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${"4547ca98-a94b-4847-9095-ee97bc6053d2"}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${providerConsValue}&universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
-        
         setLoading(false);
         setApplicationList(res?.models);
         setEntity(res?.totalEntity);
@@ -354,7 +364,6 @@ const Applications = () => {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
-        
         setLoading(false);
         setApplicationList(res?.models);
         setEntity(res?.totalEntity);
@@ -396,6 +405,7 @@ const Applications = () => {
     entity,
     serialNumber,
     loading,
+    currentUser
   ]);
 
   // for all dropdown
@@ -609,7 +619,7 @@ const Applications = () => {
         </CardHeader>
       </Card>
       {/* filter */}
-      {userId === "consultant" ? (
+      {parseInt(localStorage.getItem("userType")) === userTypes?.Consultant ? (
         <ConsultantFilter
           applicationMenu={applicationMenu}
           applicationLabel={applicationLabel}
@@ -667,7 +677,7 @@ const Applications = () => {
           consPhnValue={consPhnValue}
           setConsPhnValue={setConsPhnValue}
         />
-      ) : userId === "student" ? (
+      ) : parseInt(localStorage.getItem("userType")) === userTypes?.Student ? (
         <StudentFilter
           applicationMenu={applicationMenu}
           applicationLabel={applicationLabel}
@@ -715,7 +725,7 @@ const Applications = () => {
           studentConsValue={studentConsValue}
           setStudentConsValue={setStudentConsValue}
         />
-      ) : userId === "manager" ? (
+      ) : parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager ? (
         <AdmissionManagerFilter
           applicationMenu={applicationMenu}
           applicationLabel={applicationLabel}
@@ -778,7 +788,7 @@ const Applications = () => {
           managerPhnValue={managerPhnValue}
           setManagerPhnValue={setManagerPhnValue}
         />
-      ) : userId === "provider" ? (
+      ) : parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin ? (
         <ProviderAdminFilter
           applicationMenu={applicationMenu}
           applicationLabel={applicationLabel}

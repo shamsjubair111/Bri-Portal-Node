@@ -44,6 +44,12 @@ const AddState = () => {
   const [codeValue, setCodeValue] = useState("");
   const [codeError, setCodeError] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const [delUniStateId, setDelUniStateId] = useState(0);
+  const [delUniStateName, setDelUniStateName] = useState("");
+
+  const [updateUniState, setUpdateUniState] = useState(undefined);
+
   const { addToast } = useToasts();
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -82,10 +88,10 @@ const AddState = () => {
     if(state === ""){
         setStateError(true);
     }
-    if(codeValue === ""){
+    else if(codeValue === ""){
         setCodeError(true);
     }
-    if(countryValue === 0){
+    else if(countryValue === 0){
         setCountryError(true);
     }
     else{
@@ -112,22 +118,25 @@ const AddState = () => {
     setCountryValue(0);
     setState("");
     setCodeValue("");
-    localStorage.removeItem("updateUniState");
+    setCountryError(false);
+    setStateError(false);
+    setCodeError(false);
+    setUpdateUniState(undefined);
   };
 
   // delete button click
   const toggleDanger = (state) => {
     console.log(state);
-    localStorage.setItem("delUniStateName", state?.name);
-    localStorage.setItem("delUniStateId", state?.id);
+    setDelUniStateName(state?.name);
+    setDelUniStateId(state?.id);
     setDeleteModal(true);
   };
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delUniStateName");
-    localStorage.removeItem("delUniStateId");
+    setDelUniStateId(0);
+    setDelUniStateName("");
   };
 
   // confirm delete
@@ -139,8 +148,8 @@ const AddState = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("delUniStateName");
-      localStorage.removeItem("delUniStateId");
+      setDelUniStateId(0);
+      setDelUniStateName("");
     });
   };
 
@@ -152,13 +161,12 @@ const AddState = () => {
     setCodeValue(state?.code);
     setCountryLabel(state?.country?.name);
     setCountryValue(state?.country?.id);
-
-    localStorage.setItem("updateUniState", state.id);
+    setUpdateUniState(state?.id);
   };
 
   // update submit
   const handleUpdateSubmit = () => {
-    const id = localStorage.getItem("updateUniState");
+    const id = updateUniState;
 
     const subData = {
       id: id,
@@ -178,7 +186,7 @@ const AddState = () => {
       setCodeValue("");
       setCountryLabel("Select Country");
       setCountryValue(0);
-      localStorage.removeItem("updateUniState");
+      setUpdateUniState(undefined);
     });
   };
 
@@ -330,7 +338,7 @@ const AddState = () => {
                       Close
                     </Button>
 
-                    {localStorage.getItem("updateUniState") ? (
+                    {updateUniState != undefined ? (
                       <Button
                         color="primary"
                         className="mr-0 mt-3"
@@ -400,7 +408,7 @@ const AddState = () => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            {localStorage.getItem("delUniStateName")} ? Once
+                            <b>{delUniStateName}</b> ? Once
                             Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -409,14 +417,12 @@ const AddState = () => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeleteUniState(
-                                localStorage.getItem("delUniStateId")
-                              )
-                            }
+                              handleDeleteUniState(delUniStateId)
+                              }
                           >
                             YES
                           </Button>
-                          <Button onClick={closeDeleteModal}>NO</Button>
+                          <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>
                       </Modal>
                     </td>

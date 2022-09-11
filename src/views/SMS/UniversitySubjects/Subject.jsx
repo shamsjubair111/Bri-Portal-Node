@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams, useLocation } from "react-router";
 import Select from "react-select";
 import {
   Card,
@@ -68,6 +68,7 @@ const Subject = () => {
 
     const {addToast} = useToasts();
     const {id} = useParams();
+    const location = useLocation();
     console.log("idddd", id);
     const history = useHistory();
 
@@ -75,6 +76,7 @@ const Subject = () => {
     const referenceId = localStorage.getItem("referenceId");
 
     console.log("subId", subId);
+    console.log("subjectId", location.subjectId);
 
     useEffect(()=>{
       get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
@@ -168,7 +170,12 @@ const Subject = () => {
 
   // redirect to dashboard
   const backToSubjectList = () => {
-    history.push("/subjectList");
+    if(location.subjectId != undefined){
+      history.push(`/subjectProfile/${location.subjectId}`);
+    }
+    else{
+      history.push("/subjectList");
+    }
   };
 
   const selectUniversity = (label, value) => {
@@ -209,30 +216,54 @@ const Subject = () => {
     setActivetab(tab);
     if(id != undefined){
       if (tab == "2") {
-        history.push(`/addSubjectFee/${id}`);
+        history.push({
+          pathname: `/addSubjectFee/${id}`,
+          subjectId: location.subjectId
+        });
       }
       if (tab == "3") {
-        history.push(`/addSubjectDeliveryPattern/${id}`);
+        history.push({
+          pathname: `/addSubjectDeliveryPattern/${id}`,
+          subjectId: location.subjectId
+        });
       }
       if (tab == "4") {
-        history.push(`/addSubjectRequirements/${id}`);
+        history.push({
+          pathname: `/addSubjectRequirements/${id}`,
+          subjectId: location.subjectId
+        });
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement/${id}`);
+        history.push({
+          pathname: `/addSubjectDocumentRequirement/${id}`,
+          subjectId: location.subjectId
+        });
       }
     }
     else{
       if (tab == "2") {
-        history.push(`/addSubjectFee/${subjectId}`);
+        history.push({
+          pathname: `/addSubjectFee/${subjectId}`,
+          subjectId: location.subjectId
+        });
       }
       if (tab == "3") {
-        history.push(`/addSubjectDeliveryPattern/${subjectId}`);
+        history.push({
+          pathname: `/addSubjectDeliveryPattern/${subjectId}`,
+          subjectId: location.subjectId
+        });
       }
       if (tab == "4") {
-        history.push(`/addSubjectRequirements${subjectId}`);
+        history.push({
+          pathname: `/addSubjectRequirements${subjectId}`,
+          subjectId: location.subjectId
+        });
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement${subjectId}`);
+        history.push({
+          pathname: `/addSubjectDocumentRequirement${subjectId}`,
+          subjectId: location.subjectId
+        });
       }
     }
   };
@@ -268,6 +299,7 @@ const Subject = () => {
               });
             history.push({
               pathname: `/addSubjectFee/${subId}`,
+              subjectId: location.subjectId
             });
           }
         });
@@ -293,6 +325,7 @@ const Subject = () => {
             history.push({
               pathname: `/addSubjectFee/${subjId}`,
               id: subId,
+              subjectId: location.subjectId
             });
           }
         });
@@ -310,7 +343,13 @@ const Subject = () => {
                 <div className="page-header-back-to-home">
                   <span onClick={backToSubjectList} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
+                    <i className="fas fa-arrow-circle-left"></i>{" "}
+                    {
+                      location.subjectId != undefined ?
+                      "Back to Subject Profile"
+                      :
+                      "Back to Subject List"
+                    } 
                   </span>
                 </div>
               </CardHeader>

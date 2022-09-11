@@ -46,6 +46,9 @@ const SubjectIntake = () => {
   const [serialNum, setSerialNum] = useState(1);
   const [deleteModal, setDeleteModal] = useState(false);
 
+  const [intId, setIntId] = useState(0);
+  const [intName, setIntName] = useState('');
+
   const [intakeError, setIntakeError] = useState(false);
 
   const history = useHistory();
@@ -129,15 +132,15 @@ const SubjectIntake = () => {
   };
 
   const toggleDanger = (name, id) => {
-    localStorage.setItem("intName", name);
-    localStorage.setItem("intId", id);
+    setIntName(name);
+    setIntId(id);
     setDeleteModal(true);
   };
 
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("intName");
-    localStorage.removeItem("intId");
+    setIntName('');
+    setIntId(0);
   };
 
   const handleDelete = (id) => {
@@ -150,6 +153,8 @@ const SubjectIntake = () => {
           appearance: "error",
           autoDismiss: true,
         });
+        setIntName('');
+        setIntId(0);
       }
     );
   };
@@ -339,7 +344,7 @@ const SubjectIntake = () => {
                               <p>
                                 Are You Sure to Delete this{" "}
                                 <span className="fw-bold">
-                                  {localStorage.getItem("intName")}
+                                  {intName}
                                 </span>{" "}
                                 ? Once Deleted it can't be Undone!
                               </p>
@@ -352,7 +357,7 @@ const SubjectIntake = () => {
                               >
                                 YES
                               </Button>
-                              <Button onClick={closeDeleteModal}>NO</Button>
+                              <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>
                           </Modal>
                         </td>

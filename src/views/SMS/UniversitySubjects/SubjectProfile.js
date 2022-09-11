@@ -58,7 +58,10 @@ const SubjectProfile = () => {
     console.log("campdata", campData);
 
     const handleProfileEdit = () => {
-      history.push(`/addSubject/${subjectData?.id}`)
+      history.push({
+        pathname: `/addSubject/${subjectData?.id}`,
+        subjectId: subjId
+      })
     }
 
 
