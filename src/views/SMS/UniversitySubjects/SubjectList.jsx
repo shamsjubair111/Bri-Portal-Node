@@ -100,7 +100,7 @@ const SubjectList = (props) => {
 
     // add university handler
     const handleAddSubject = () => {
-      localStorage.removeItem("subjectId");
+      // localStorage.removeItem("subjectId");
       history.push("/addSubject");
     };
 
