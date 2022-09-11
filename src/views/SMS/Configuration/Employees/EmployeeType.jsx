@@ -53,7 +53,7 @@ const EmployeeType = (props) => {
     const returnValue = post(`EmployeType/Create`, subdata).then((action) => {
       setSuccess(!success)
       setModalOpen(false)
-      console.log(action)
+      
      
       addToast(action?.data?.message, {
         appearance: 'success',
@@ -90,7 +90,7 @@ const EmployeeType = (props) => {
     const returnValue = remove(`EmployeType/Delete/${id}`).then((action) => {
       setDeleteModal(false);
       setSuccess(!success);
-      console.log(action);
+     
       
         addToast(action, {
           appearance:  'error',

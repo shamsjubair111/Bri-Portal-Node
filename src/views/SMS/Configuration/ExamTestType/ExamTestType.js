@@ -36,7 +36,7 @@ const ExamTestType = () => {
    get(`ExamTestType/Index`).then((action)=>{
 
     setExamTestType(action);
-    console.log('ExamTestType',action);
+    
    
   
     }).catch();
@@ -150,7 +150,7 @@ const closeModal = () => {
   
        post(`ExamTestType/Create`,subdata).then((action)=>{
 
-        console.log(action);
+       
   
           setSuccess(!success)
           setModalOpen(false)
@@ -177,7 +177,7 @@ const closeModal = () => {
   }
 
   // const handleCheckExamTestTypeAttribute = (id) => {
-  //   console.log(id);
+ 
   //   localStorage.setItem('examTestTypeAttributeId',id);
   //   history.push('/examTestTypeAttribute');
 

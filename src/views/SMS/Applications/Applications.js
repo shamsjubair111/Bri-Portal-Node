@@ -178,7 +178,7 @@ const Applications = () => {
   // const userId = "manager";
   // const userId = "provider";
 
-  // console.log("userType", typeof(userTypes?.ProviderAdmin), typeof(parseInt(localStorage.getItem("userType"))));
+ 
 
   useEffect(()=>{
     get("Account/GetCurrentUserId").then(res => {
