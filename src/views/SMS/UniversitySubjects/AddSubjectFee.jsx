@@ -27,7 +27,7 @@ import {
 } from "reactstrap";
 import Axios from 'axios';
 import { rootUrl } from "../../../constants/constants";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams, useLocation } from "react-router";
 import { useToasts } from 'react-toast-notifications';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { useEffect } from 'react';
@@ -49,10 +49,16 @@ const AddSubjectFee = () => {
     const history = useHistory();
     const { addToast } = useToasts();
     const {id} = useParams();
+    const location = useLocation();
 
     // redirect to dashboard
     const backToSubjectList = () => {
-      history.push("/subjectList");
+      if(location.subjectId != undefined){
+        history.push(`/subjectList/${location.subjectId}`);
+      }
+      else{
+        history.push("/subjectList");
+      }
     };
 
     useEffect(()=>{
@@ -77,19 +83,34 @@ const AddSubjectFee = () => {
     const toggle = (tab) => {
       setActivetab(tab);
       if (tab == '1') {
-        history.push(`/addSubject/${id}`)
+        history.push({
+          pathname: `/addSubject/${id}`,
+          subjectId: location.subjectId
+        })
       }
       if (tab == "2") {
-        history.push(`/addSubjectFee/${id}`);
+        history.push({
+          pathname: `/addSubjectFee/${id}`,
+          subjectId: location.subjectId
+        });
       }
       if(tab == '3'){
-        history.push(`/addSubjectDeliveryPattern/${id}`)
+        history.push({
+          pathname: `/addSubjectDeliveryPattern/${id}`,
+          subjectId: location.subjectId
+        })
       }
       if(tab == '4'){
-        history.push(`/addSubjectRequirements/${id}`)
+        history.push({
+          pathname: `/addSubjectRequirements/${id}`,
+          subjectId: location.subjectId
+        })
       }
       if (tab == "5") {
-        history.push(`/addSubjectDocumentRequirement/${id}`);
+        history.push({
+          pathname: `/addSubjectDocumentRequirement/${id}`,
+          subjectId: location.subjectId
+        });
       }
   };
 
@@ -114,6 +135,7 @@ const AddSubjectFee = () => {
            });
            history.push({
              pathname: `/addSubjectDeliveryPattern/${id}`,
+             subjectId: location.subjectId
            });
           }
        })
@@ -133,6 +155,7 @@ const AddSubjectFee = () => {
           });
           history.push({
             pathname: `/addSubjectDeliveryPattern/${id}`,
+            subjectId: location.subjectId
           });
         }
         else{
@@ -154,7 +177,13 @@ const AddSubjectFee = () => {
                 <div className="page-header-back-to-home">
                   <span onClick={backToSubjectList} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
+                    <i className="fas fa-arrow-circle-left"></i>{" "}
+                    {
+                      location.subjectId != undefined ?
+                      "Back to Subject Profile"
+                      :
+                      "Back to Subject List"
+                    } 
                   </span>
                 </div>
               </CardHeader>

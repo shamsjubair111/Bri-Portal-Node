@@ -56,6 +56,12 @@ const DocumentUpload = () => {
   const [studentDocuId, setStudentDocuId] = useState(0);
   const [deleteModal2, setDeleteModal2] = useState(false);
 
+  const [delDocId, setDelDocId] = useState(0);
+  const [delDocNam, setDelDocNam] = useState("");
+
+  const [delFileId, setDelFileId] = useState(0);
+  const [delFileName, setDelFileName] = useState("");
+
   const [delDocData, setdelDocData] = useState({});
 
   const [isSelected, setIsSelected] = useState(false);
@@ -211,31 +217,32 @@ const DocumentUpload = () => {
 
   const toggleDanger = (docu) => {
     console.log("delete", docu);
-    setdelDocData(docu)
-    // localStorage.setItem("delDocNam", docu?.documentLevelName);
-    // localStorage.setItem("delDocId", docu?.studentDocumentLevelId);
+    setdelDocData(docu);
+    setDelDocNam(docu?.documentLevelName);
+    setDelDocId(docu?.studentDocumentLevelId);
     setDeleteModal(true);
   };
   
   const toggleDangerFile = (docFile) => {
     console.log("delete file", docFile, docFile?.studentDocumentFile?.fileName);
-    localStorage.setItem("delFileName", docFile?.studentDocumentFile?.fileName);
-    localStorage.setItem("delFileId", docFile?.studentDocumentLevelId);
+    setDelFileName(docFile?.studentDocumentFile?.fileName);
+    setDelFileId(docFile?.studentDocumentLevelId);
     setDeleteModal2(true);
   }
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delDocNam");
-    localStorage.removeItem("delDocId");
+    setDelDocId(0);
+    setDelDocNam("");
+    setdelDocData({});
   };
 
   // on Close Delete Modal
   const closeDeleteModalFile = () => {
     setDeleteModal2(false);
-    localStorage.removeItem("delFileName");
-    localStorage.removeItem("delFileId");
+    setDelFileId(0);
+    setDelFileName("");
   };
 
   const handleDeleteDocument = () => {
@@ -248,8 +255,9 @@ const DocumentUpload = () => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("delDocNam");
-        localStorage.removeItem("delDocId");
+        setDelDocNam("");
+        setDelDocId(0);
+        setdelDocData({});
       }
     );
   };
@@ -263,8 +271,8 @@ const DocumentUpload = () => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("delFileName");
-        localStorage.removeItem("delFileId");
+        setDelFileName("");
+        setDelFileId(0);
       }
     );
   };
@@ -486,7 +494,7 @@ const DocumentUpload = () => {
                           <ModalBody>
                             <p>
                               Are You Sure to Delete this{" "}
-                              <b>{localStorage.getItem("delDocNam")}</b> ? Once
+                              <b>{delDocNam}</b> ? Once
                               Deleted it can't be Undone!
                             </p>
                           </ModalBody>
@@ -494,11 +502,6 @@ const DocumentUpload = () => {
                           <ModalFooter>
                             <Button
                               color="danger"
-                              // onClick={() =>
-                              //   handleDeleteDocument(
-                              //     localStorage.getItem("delDocId")
-                              //   )
-                              // }
                               onClick={handleDeleteDocument}
                             >
                               YES
@@ -534,7 +537,7 @@ const DocumentUpload = () => {
                           <ModalBody>
                             <p>
                               Are You Sure to Delete this{" "}
-                              <b>{localStorage.getItem("delFileName")}</b> ? Once
+                              <b>{delFileName}</b> ? Once
                               Deleted it can't be Undone!
                             </p>
                           </ModalBody>
@@ -543,9 +546,7 @@ const DocumentUpload = () => {
                             <Button
                               color="danger"
                               onClick={() =>
-                                handleDeleteFile(
-                                  localStorage.getItem("delFileId")
-                                )
+                                handleDeleteFile(delFileId)
                               }
                             >
                               YES

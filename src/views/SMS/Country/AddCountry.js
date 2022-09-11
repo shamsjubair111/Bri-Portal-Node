@@ -38,6 +38,10 @@ const AddCountry = () => {
   const [success, setSuccess] = useState(false);
   const [updateState, setUpdateState] = useState({});
   const [countries, setCountries] = useState([]);
+
+  const [delCountryId, setDelCountryId] = useState(0);
+  const [delCountryName, setDelCountryName] = useState("");
+
   const { addToast } = useToasts();
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -82,7 +86,6 @@ const AddCountry = () => {
         setCountry("");
         setCode("");
         setUpdateState({});
-        //  localStorage.removeItem('updatecountry')
       });
     }
   };
@@ -91,7 +94,6 @@ const AddCountry = () => {
     setModalOpen(true);
     setCountry(country?.name);
     setCode(country?.code);
-    // localStorage.setItem('updatecountry',country.id)
     console.log(country);
     setUpdateState(country);
   };
@@ -104,15 +106,14 @@ const AddCountry = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      localStorage.removeItem("delCountryName");
-      localStorage.removeItem("delCountryId");
+      setDelCountryId(0);
+      setDelCountryName("");
     });
   };
 
   const toggleDanger = (name, id) => {
-    localStorage.setItem("delCountryName", name);
-    localStorage.setItem("delCountryId", id);
-
+    setDelCountryName(name);
+    setDelCountryId(id);
     setDeleteModal(true);
   };
 
@@ -120,14 +121,13 @@ const AddCountry = () => {
   const closeModal = () => {
     setModalOpen(false);
     setUpdateState({});
-    localStorage.removeItem("updatecountry");
   };
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delCountryName");
-    localStorage.removeItem("delCountryId");
+    setDelCountryId(0);
+    setDelCountryName("");
   };
 
   // redirect to dashboard
@@ -274,9 +274,9 @@ const AddCountry = () => {
               </thead>
               <tbody>
                 {countries?.map((country, i) => (
-                  <tr key={country.id} style={{ textAlign: "center" }}>
+                  <tr key={country?.id} style={{ textAlign: "center" }}>
                     <th scope="row">{i + 1}</th>
-                    <td>{country.name}</td>
+                    <td>{country?.name}</td>
                     {/* <td className="text-center">
                       <span className="badge badge-pill badge-primary">
                         {" "}
@@ -318,7 +318,7 @@ const AddCountry = () => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            <b>{localStorage.getItem("delCountryName")}</b> ?
+                            <b>{delCountryName}</b> ?
                             Once Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -327,9 +327,7 @@ const AddCountry = () => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeletecountry(
-                                localStorage.getItem("delCountryId")
-                              )
+                              handleDeletecountry(delCountryId)
                             }
                           >
                             YES
