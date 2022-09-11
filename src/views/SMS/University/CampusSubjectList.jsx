@@ -459,7 +459,7 @@ const CampusSubjectList = () => {
 
                           <ModalFooter>
                           
-                            <Button color="danger" onClick={() => handleDelete(subId)}>YES</Button>
+                            <Button color="danger" onClick={() => handleDelete(sub?.campusSubjectId)}>YES</Button>
                             <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
 

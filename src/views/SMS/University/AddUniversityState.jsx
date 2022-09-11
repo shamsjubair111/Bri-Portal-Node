@@ -43,6 +43,12 @@ const AddUniversityState = () => {
   const [success, setSuccess] = useState(false);
   const [countryNameError, setCountryNameError] = useState(false);
   const [uniStateError, setUniStateError] = useState(false);
+
+  const [delUniStateId, setDelUniStateId] = useState(0);
+  const [delUniStateName, setDelUniStateName] = useState("");
+
+  const [updateUniState, setUpdateUniState] = useState(undefined);
+
   const { addToast } = useToasts();
 
   const history = useHistory();
@@ -105,21 +111,21 @@ const AddUniversityState = () => {
     setCountryLabel("Select Country");
     setCountryValue(0);
     setUniversityState("");
-    localStorage.removeItem("updateUniState");
+    setUpdateUniState(undefined);
   };
 
   // delete button click
   const toggleDanger = (uniDetails) => {
-    localStorage.setItem("delUniStateName", uniDetails.name);
-    localStorage.setItem("delUniStateId", uniDetails.id);
+    setDelUniStateName(uniDetails?.name);
+    setDelUniStateId(uniDetails?.id);
     setDeleteModal(true);
   };
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delUniStateName");
-    localStorage.removeItem("delUniStateId");
+    setDelUniStateName('');
+    setDelUniStateId(0);
   };
 
   // confirm delete
@@ -132,8 +138,8 @@ const AddUniversityState = () => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("delUniStateName");
-        localStorage.removeItem("delUniStateId");
+        setDelUniStateName('');
+        setDelUniStateId(0);
       }
     );
   };
@@ -144,13 +150,12 @@ const AddUniversityState = () => {
     setUniversityState(uniDetails.name);
     setCountryLabel(uniDetails.country.name);
     setCountryValue(uniDetails.country.id);
-
-    localStorage.setItem("updateUniState", uniDetails.id);
+    setUpdateUniState(uniDetails?.id);
   };
 
   // update submit
   const handleUpdateSubmit = () => {
-    const id = localStorage.getItem("updateUniState");
+    const id = updateUniState;
 
     const subData = {
       id: id,
@@ -169,7 +174,7 @@ const AddUniversityState = () => {
         setUniversityState("");
         setCountryLabel("Select Country");
         setCountryValue(0);
-        localStorage.removeItem("updateUniState");
+        setUpdateUniState(undefined);
       }
     );
   };
@@ -300,7 +305,7 @@ const AddUniversityState = () => {
                     >
                       Close
                     </Button>
-                    {localStorage.getItem("updateUniState") ? (
+                    {updateUniState != undefined ? (
                       <Button
                         color="primary"
                         className="mr-1 mt-3"
@@ -379,7 +384,7 @@ const AddUniversityState = () => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            {localStorage.getItem("delUniStateName")} ? Once
+                            <b>{delUniStateName}</b> ? Once
                             Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -388,14 +393,12 @@ const AddUniversityState = () => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeleteUniState(
-                                localStorage.getItem("delUniStateId")
-                              )
+                              handleDeleteUniState(delUniStateId)
                             }
                           >
                             YES
                           </Button>
-                          <Button onClick={closeDeleteModal}>NO</Button>
+                          <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>
                       </Modal>
                     </td>

@@ -39,7 +39,6 @@ import { permissionList } from "../../../constants/AuthorizationConstant";
 import LinkSpanButton from "../Components/LinkSpanButton";
 const AddUniversityCountry = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
-  console.log("uniC", univerSityCountries);
 
   const [universityCountry, setUniversityCountry] = useState("");
   //   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -50,6 +49,10 @@ const AddUniversityCountry = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
   const [updateState, setUpdateState] = useState({});
+
+  const [delUniCountryId, setDelUniCountryId] = useState(0);
+  const [delUniCountryName, setDelUniCountryName] = useState("");
+
   const { addToast } = useToasts();
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -64,7 +67,6 @@ const AddUniversityCountry = (props) => {
     const returnValue = get(`UniversityCountry/Index`)
       .then((action) => {
         dispatch(StoreUniversityCountryData(action));
-        console.log(action);
       })
       .catch();
 
@@ -112,7 +114,6 @@ const AddUniversityCountry = (props) => {
           });
           setUniversityCountry("");
           setUpdateState({});
-          //  localStorage.removeItem('updateUniCountry')
         }
       );
     }
@@ -121,32 +122,8 @@ const AddUniversityCountry = (props) => {
   const handleUpdate = (country) => {
     setModalOpen(true);
     setUniversityCountry(country.name);
-    // localStorage.setItem('updateUniCountry',country.id)
-    console.log(country);
     setUpdateState(country);
   };
-
-  // const handleUpdateSubmit = () => {
-
-  //   const id = localStorage.getItem('updateUniCountry');
-
-  //   const subData = {
-  //     id: id,
-  //     name: universityCountry
-  //   }
-
-  //  const returnvalue = put(`UniversityCountry/Update`,subData).then((action)=> {
-  //     setSuccess(!success);
-  //     setModalOpen(false)
-  //     addToast(action?.data?.message, {
-  //       appearance: 'success',
-  //       autoDismiss: true,
-  //     })
-  //     setUniversityCountry('');
-  //    localStorage.removeItem('updateUniCountry')
-  //   })
-
-  // }
 
   const handleDeleteUniCountry = (id) => {
     const returnValue = remove(`UniversityCountry/Delete/${id}`).then(
@@ -157,16 +134,15 @@ const AddUniversityCountry = (props) => {
           appearance: "error",
           autoDismiss: true,
         });
-        localStorage.removeItem("delUniCountryName");
-        localStorage.removeItem("delUniCountryId");
+        setDelUniCountryName("");
+        setDelUniCountryId(0);
       }
     );
   };
 
   const toggleDanger = (name, id) => {
-    localStorage.setItem("delUniCountryName", name);
-    localStorage.setItem("delUniCountryId", id);
-
+    setDelUniCountryName(name);
+    setDelUniCountryId(id);
     setDeleteModal(true);
   };
 
@@ -174,14 +150,13 @@ const AddUniversityCountry = (props) => {
   const closeModal = () => {
     setModalOpen(false);
     setUpdateState({});
-    localStorage.removeItem("updateUniCountry");
   };
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    localStorage.removeItem("delUniCountryName");
-    localStorage.removeItem("delUniCountryId");
+    setDelUniCountryName("");
+    setDelUniCountryId(0);
   };
 
   // redirect to dashboard
@@ -407,7 +382,7 @@ const AddUniversityCountry = (props) => {
                         <ModalBody>
                           <p>
                             Are You Sure to Delete this{" "}
-                            <b>{localStorage.getItem("delUniCountryName")}</b> ?
+                            <b>{delUniCountryName}</b> ?
                             Once Deleted it can't be Undone!
                           </p>
                         </ModalBody>
@@ -416,10 +391,8 @@ const AddUniversityCountry = (props) => {
                           <Button
                             color="danger"
                             onClick={() =>
-                              handleDeleteUniCountry(
-                                localStorage.getItem("delUniCountryId")
-                              )
-                            }
+                              handleDeleteUniCountry(delUniCountryId)
+                              }
                           >
                             YES
                           </Button>
