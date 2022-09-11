@@ -60,7 +60,7 @@ const BranchManager = () => {
 
       // get(`BranchManager/Get/${backwardBranchManager}`)
       // .then(res => {
-      //   console.log(res);
+     
       //   setBranchManagerInfo(res);
       //   setBranchLabel(res?.branch?.name);
       //   setCheck(false);
@@ -72,13 +72,13 @@ const BranchManager = () => {
 
       get(`Branch/Index`)
       .then(res => {
-        // console.log(res);
+        
         setBranch(res);
       })
 
       get('NameTittle/GetAll')
       .then(res => {
-        console.log('title',res);
+        
         setTitle(res);
       })
 
@@ -152,7 +152,7 @@ const selectTitle = (label, value) => {
     
     
  };
- console.log('check files photos', FileList);
+ 
 
 
     // manager Image code end
@@ -183,7 +183,7 @@ const selectTitle = (label, value) => {
 
 
   //  const managerImageData = useSelector((state) => state?.ManagerImageReducer?.managerImage);
-  //  console.log('yes',managerImageData);
+
   
   const AuthStr = localStorage.getItem("token");
 
@@ -201,7 +201,7 @@ const selectTitle = (label, value) => {
 
     //  watch form data values
     // for (var value of subdata.values()) {
-    //   console.log(value);
+  
      
     // }
     if(FileList.length <1 && check){
@@ -212,7 +212,7 @@ const selectTitle = (label, value) => {
     
   else if(titleValue == 0 ){
     setTitleError(true);
-    console.log('error 111111');
+   
   }
   else if(emailError == false){
     setEmailError(emailError);
@@ -220,7 +220,7 @@ const selectTitle = (label, value) => {
 
   //  else if(backwardBranchManager){
   //     Axios.put(`${rootUrl}BranchManager/Update`, subdata, config).then((res) => {
-  //       console.log(res,'manager updated');
+  //       
   //       // (res.status === 200 && res.data.isSuccess === true) ?
   //       // status = 'success' : status = res.data.message;
   //       // status = res.data.message;
@@ -239,7 +239,7 @@ const selectTitle = (label, value) => {
   //           autoDismiss: true
   //         })
   //         setSubmitData(true);
-  //         // console.log(res);
+  //         
           
          
   //         history.push(`/branchProfile/${branchId}`);
@@ -254,7 +254,7 @@ const selectTitle = (label, value) => {
 
     else{
       Axios.post(`${rootUrl}BranchManager/Create`, subdata, config).then((res) => {
-        console.log(res,'manager created');
+       
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
         // status = res.data.message;
@@ -275,7 +275,7 @@ const selectTitle = (label, value) => {
    
 
           setSubmitData(true);
-        console.log(res);
+     
         
        
         history.push(`/branchProfile/${branchId}`);
@@ -295,11 +295,11 @@ const selectTitle = (label, value) => {
   };
 
   const handleEmail = (e) => {
-    console.log(e.target.value);
+    
 
     get(`EmailCheck/EmailCheck/${e.target.value}`)
     .then(res => {
-      console.log('Checking Response', res);
+  
       setEmailError(res);
     })
   }

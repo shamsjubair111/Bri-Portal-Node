@@ -18,7 +18,7 @@ const Country = () => {
     useEffect(()=>{
         get('Country/Index')
         .then(res => {
-            console.log(res);
+           
             setCountryList(res);
         })
     },[])
@@ -47,14 +47,14 @@ const Country = () => {
 
         post('Country/Create',subdata)
         .then(res => {
-            console.log(res?.data?.message);
+            
             addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
             })
             get('Country/Index')
             .then(res => {
-                console.log(res);
+               
                 setCountryList(res);
             })
             setModalOpen(false);

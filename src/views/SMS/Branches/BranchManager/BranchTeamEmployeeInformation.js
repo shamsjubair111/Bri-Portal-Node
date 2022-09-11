@@ -30,18 +30,18 @@ const BranchTeamEmployeeInformation = () => {
     useEffect(()=> {
       get(`BranchTeamEmployee/GetEmployee/${teamId}`)
       .then(res => {
-        console.log(res,'test');
+        
         setTeamDetails(res)
       })
 
       get(`BranchTeam/GetbyBranch/${branchId}`).then((res) => {
-        console.log("Teams", res);
+        
         setBranchTeam(res);
       });
 
       get(`BranchTeamEmployee/GetUnassigned/${teamId}`).then(action => {
         selectBranchTeamName(action)
-        console.log("BranchTeam",action);
+       
       })
 
     },[success])
@@ -52,7 +52,7 @@ const BranchTeamEmployeeInformation = () => {
 
     const gotoEmployeeProfile = (data) => {
 
-      console.log(data);
+      
       history.push(`/branchEmployeeProfile/${branchId}/${data?.id}`)
       
 
@@ -63,10 +63,10 @@ const BranchTeamEmployeeInformation = () => {
       checked = [];
       // setBranchTeamLabel(label);
       // setBranchTeamValue(value);
-      // console.log('value',value);
+     
   
      
-        console.log("Action",action);
+     
         setMenus(action);
   
         let defaultChecked = checked;
@@ -105,7 +105,7 @@ const BranchTeamEmployeeInformation = () => {
       const toggleDanger = (data) => {
 
         setDelData(data);
-        console.log(data);
+        
         setDeleteModal(true);
       }
 
@@ -150,7 +150,7 @@ const BranchTeamEmployeeInformation = () => {
       }) 
 
       // for( let val of subData.values()){
-      //   console.log(val);
+     
       // }
 
 

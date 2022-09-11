@@ -27,7 +27,7 @@ const Team = (props) => {
 
     useEffect(()=>{
         get(`BranchTeamEmployee/Count/${id}`).then((res) => {
-            console.log('aaaa',res);
+           
             setBranchTeamEmployee(res);
           });
     },[ success, id])
@@ -45,7 +45,7 @@ const Team = (props) => {
 
       const handleTeamUpdate = (id) => {
         get(`BranchTeam/Get/${id}`).then((res) => {
-        //   console.log(res);
+       
           setTeamInfo(res);
           setTeamName(res?.name);
           setIsUpdate(true);
@@ -82,7 +82,7 @@ const Team = (props) => {
         e.preventDefault();
         const teamData = new FormData(e.target);
         // for(let  value of teamData.values()){
-        //   console.log(value);
+        
         // }
         if (!isUpdate) {
           post(`BranchTeam/Create`, teamData).then((action) => {
@@ -96,10 +96,10 @@ const Team = (props) => {
           });
         } else {
           for (let val of teamData.values()) {
-            // console.log(val);
+           
           }
           put(`BranchTeam/Update`, teamData).then((res) => {
-            // console.log(res);
+           
             setIsUpdate(false);
             setSuccess(!success);
             setteamModalOpen(false);

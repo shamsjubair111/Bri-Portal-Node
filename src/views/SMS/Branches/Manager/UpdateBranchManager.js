@@ -47,7 +47,7 @@ const UpdateBranchManager = () => {
   useEffect(()=>{
     get(`BranchManager/GetbyBranch/${id}`)
     .then(res => {
-        console.log(res,'manager info here');
+        
         setBranchManager(res);
         
     })
@@ -61,7 +61,7 @@ const UpdateBranchManager = () => {
       .then(res => {
          {
           if(res.status ==200){
-            console.log(res,'updated yet?');
+           
             if(res === 'Branch updated successfully.'){
                 history.push(`/branchProfile/${id}`);
             }

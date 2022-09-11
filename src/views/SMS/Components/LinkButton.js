@@ -7,7 +7,7 @@ const LinkButton = (props) => {
 
     const data = [1,2,3,4,6];
 
-    // console.log("forLink",url, color, className, icon);
+    
     return (
         <>
 

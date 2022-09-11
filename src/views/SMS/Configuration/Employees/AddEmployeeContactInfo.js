@@ -48,7 +48,7 @@ const EmployeeContactInfo = () => {
 
     useEffect(()=>{
       const returnValue = get(`AddressTypeDD/Index`).then((action)=>{
-        console.log(action)
+     
          
         setAddressLine(action);
       })

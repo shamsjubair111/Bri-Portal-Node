@@ -237,11 +237,11 @@ const EmployeeGeneralInfo = (props) => {
     }
 
     const handleEmail = (e) => {
-        console.log(e.target.value);
+       
   
         get(`Consultant/OnChangeEmail/${e.target.value}`)
         .then(res => {
-          console.log('Checking Response', res);
+       
           setEmailError(res);
         })
       }

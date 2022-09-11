@@ -66,7 +66,7 @@ const AssignTeam = (props) => {
     const [branchTeam, setBranchTeam] = useState([]);
     const [branchEmployeeCheckbox, setBranchEmployeeCheckbox] = useState([]);
     const [deleteId, setDeleteId] = useState('');
-      console.log('xxxxxxxxxxxxxx',id);
+      
    
     
 
@@ -77,12 +77,12 @@ const AssignTeam = (props) => {
 
       useEffect(()=>{
         get(`BranchTeam/GetbyBranch/${id}`).then((res) => {
-            // console.log("Teams", res);
+            
             setBranchTeam(res);
           });
 
           get(`BranchEmployee/GetbyBranch/${id}`).then((res) => {
-            // console.log(res);
+        
             setBranchEmployee(res);
         
           });
@@ -127,7 +127,7 @@ const AssignTeam = (props) => {
 
       const gotoEmployeeProfile = (data) => {
 
-        console.log(data);
+     
         history.push(`/branchEmployeeProfile/${id}/${data?.id}`);
         
   
@@ -140,10 +140,10 @@ const AssignTeam = (props) => {
     checked = [];
     setBranchTeamLabel(label);
     setBranchTeamValue(value);
-    // console.log('value',value);
+    
 
     get(`BranchTeamEmployee/GetUnassigned/${value}`).then((action) => {
-      // console.log("Action",action);
+     
       setMenus(action);
       setSuccess(!success);
       let defaultChecked = checked;
@@ -162,17 +162,17 @@ const AssignTeam = (props) => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    console.log(checked);
+  
     const subdata = new FormData(e.target);
     subdata.append('teamId',branchTeamValue);
     subdata.append('checkedArray',checked);
    
     // for( let val of subData.values()){
-    //   console.log(val);
+  
     // }
     post('BranchTeamEmployee/Create',subdata)
     .then(res => {
-      console.log(res);
+     
       history.push(`/branchProfile/${id}`);
       addToast(res?.data?.message,{
         appearance: 'success',

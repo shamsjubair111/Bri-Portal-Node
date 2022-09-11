@@ -11,14 +11,14 @@ const EmployeeProfile = () => {
     const [info,setInfo] = useState({});
     const history = useHistory();
     const componentRef = useRef();
-    console.log('12112112121221212',employeeId);
+    
 
 
     useEffect(()=>{
 
         get(`BranchEmployee/Get/${employeeId}`)
         .then(res => {
-            console.log('new page', res);
+            
             setInfo(res);
         })
 

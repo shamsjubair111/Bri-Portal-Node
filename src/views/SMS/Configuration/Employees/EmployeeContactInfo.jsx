@@ -51,7 +51,7 @@ const EmployeeContactInfo = () => {
 
   useEffect(() => {
     get(`EmployeeContactInformation/GetByEmployeeId/${id}`).then((res) => {
-      console.log(res,'data checking');
+  
       setContactInfo(res);
       setAddressLineValue(res !== null ? res?.addressTypeId : 0);
       setAddressLineName(res !== null  ? res?.addressType?.name : 'Select Address Type');
@@ -61,7 +61,7 @@ const EmployeeContactInfo = () => {
     });
 
     get(`AddressTypeDD/Index`).then((action) => {
-      console.log("address", action);
+    
       setAddressLine(action);
     });
 
@@ -123,7 +123,7 @@ const EmployeeContactInfo = () => {
           `EmployeeContactInformation/Update`,
           subData
         ).then((action) => {
-          console.log(action);
+        
   
           addToast(action?.data?.message, {
             appearance: "success",

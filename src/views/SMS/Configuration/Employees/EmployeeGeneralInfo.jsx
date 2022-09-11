@@ -70,7 +70,7 @@ const EmployeeGeneralInfo = (props) => {
 
   useEffect(() => {
     get(`Employee/Details/${id}`).then((res) => {
-      console.log('sdsdsdsdsdssd',res);
+   
       setEmployeeType(res.employeeType.name);
       setEmployeeValue(res.employeeType.id);
       setNationalityType(res.nationality.name);
@@ -179,7 +179,7 @@ const EmployeeGeneralInfo = (props) => {
     subData.append("coverImage", result1[0]?.originFileObj);
     //  watch form data values
     for (var value of subData.values()) {
-         console.log(value);
+         
      }
     
 

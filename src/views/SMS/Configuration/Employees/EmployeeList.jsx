@@ -79,7 +79,7 @@ const EmployeeList = (props) => {
    
       get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${type ? type : empValue}&searchstring=${searchStr}`).then((action)=>{
          setEmployeeList(action.models);
-          console.log(action);
+       
           setEmpLabel(action?.models[0]?.employeeType?.name);
        
          setLoading(false)
@@ -93,7 +93,7 @@ const EmployeeList = (props) => {
    
      get(`Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${type ? type : empValue}&searchstring=${searchStr}`).then((action)=>{
         setEmployeeList(action.models);
-         console.log(action);
+         
         
       
         setLoading(false)
@@ -135,7 +135,7 @@ const EmployeeList = (props) => {
      
       remove(`Employee/Delete/${data?.id}`)
       .then(res => {
-        console.log(res);
+   
         
         addToast(res, {
           appearance: 'error',

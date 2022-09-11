@@ -14,7 +14,7 @@ const Manager = (props) => {
 
     useEffect(()=>{
         get(`BranchManager/GetbyBranch/${id}`).then((res) => {
-            console.log('Manager info here',res);
+           
       
             setBranchManager(res);
           });

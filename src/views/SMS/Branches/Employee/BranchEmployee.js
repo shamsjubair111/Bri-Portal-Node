@@ -20,7 +20,7 @@ const Branch = () => {
   const AuthStr = localStorage.getItem("token");
     const history = useHistory();
     const {branchId, employeeId} = useParams();
-    console.log('Checking Use Params Id',branchId); 
+    
     const { addToast } = useToasts();
     const location = useLocation();
     const [activetab, setActivetab] = useState("3");
@@ -43,11 +43,11 @@ const Branch = () => {
       const permissions = JSON.parse(localStorage.getItem("permissions"));
 
       const employeeProfileImage = useSelector((state) => state?.BranchEmployeeProfileImageReducer?.employeeProfileImage);
-      // console.log(employeeProfileImage);
+      
       const employeeCoverImage = useSelector((state)=> state?.BranchEmployeeCoverImageReducer?.employeeCoverImage);
-      // console.log(employeeCoverImage);
+      
 
-      // console.log(location);
+      
      
 
       
@@ -68,7 +68,7 @@ const Branch = () => {
 
       get(`BranchEmployee/Index`)
       .then( res => {
-        // console.log(res);
+        
         setBranchEmployee(res);
         setEmpty(true);
       })
@@ -81,19 +81,19 @@ const Branch = () => {
 
        get(`NationalityDD/Index`)
        .then(res => {
-        //  console.log('Country',res);
+       
          setNationality(res);
        })
 
        get(`Branch/Index`)
        .then(res => {
-        //  console.log('Branch', res);
+       
          setBranch(res);
        })
 
        get(`BranchEmployee/Get/${employeeId}`)
        .then(res => {
-         console.log("branch employee",res);
+         
          setEmployeeInfo(res);
          setNationalityLabel(res?.nationality?.name);
          setNationalityValue(res?.nationality?.id);
@@ -230,11 +230,11 @@ const Branch = () => {
   };
 
   const handleEmail = (e) => {
-    console.log(e.target.value);
+    
 
     get(`EmailCheck/EmailCheck/${e.target.value}`)
     .then(res => {
-      console.log('Checking Response', res);
+      
       setEmailError(res);
     })
   }
