@@ -357,6 +357,10 @@ const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLeve
 
 const ApplicationTransaction = lazy(() => import("./views/SMS/ApplicationTransaction/Index"));
 
+const InFlow = lazy(() => import("./views/SMS/InFlow/Index"));
+
+const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction/Index"));
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -643,6 +647,10 @@ class AppRouter extends React.Component {
            <AppRoute  path="/distributionLevelSetting" component={DistributionLevelSetting} />
 
            <AppRoute  path="/applicationTransaction" component={ApplicationTransaction} />
+
+           <AppRoute  path="/inFlowTransaction" component={InFlow} />
+
+           <AppRoute  path="/accountTransaction" component={AccountTransactionList} />
 
 
 

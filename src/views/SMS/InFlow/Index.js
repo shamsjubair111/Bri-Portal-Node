@@ -3,34 +3,23 @@ import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, Mod
 import Select from 'react-select';
 import { Link, useHistory } from 'react-router-dom';
 import get from '../../../helpers/get';
+import { userTypes } from '../../../constants/userTypeConstant';
 import Pagination from '../Pagination/Pagination';
-import ButtonForFunction from '../Components/ButtonForFunction';
 import ReactToPrint from "react-to-print";
 import * as XLSX from "xlsx/xlsx.mjs";
-import { userTypes } from '../../../constants/userTypeConstant';
 
 const Index = () => {
 
-    const userType = localStorage.getItem("userType");
     const history = useHistory();
+    const userType = localStorage.getItem("userType");
+    const [success,setSuccess] = useState(false);
 
-    const [uapp,setUapp] = useState([]);
-    const [uappLabel,setUappLabel] = useState('UAPP ID');
-    const[uappValue,setUappValue] = useState(0);
-
-    const [student,setStudent] = useState([]);
-    const [studentLabel,setStudentLabel] = useState('All Student');
-    const[studentValue,setStudentValue] = useState(0);
+    const [data,setData] = useState([]);
 
     const [consultant,setConsultant] = useState([]);
     const [consultantLabel,setConsultantLabel] = useState('All Consultant');
     const[consultantValue,setConsultantValue] = useState(0);
 
-    const [intake,setIntake] = useState([]);
-    const [intakeLabel,setIntakeLabel] = useState('All Intake');
-    const[intakeValue,setIntakeValue] = useState(0);
-
-    const [data,setData] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [callApi, setCallApi] = useState(false);
@@ -61,6 +50,14 @@ const Index = () => {
         setCallApi((prev) => !prev);
       };
 
+      const handleExportXLSX = () => {
+        var wb = XLSX.utils.book_new(),
+          ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+    
+        XLSX.writeFile(wb, "MyExcel.xlsx");
+      };
+
       const handleKeyDown = (event) => {
         if (event.key === "Enter") {
           setCurrentPage(1);
@@ -77,58 +74,28 @@ const Index = () => {
     setDropdownOpen1((prev) => !prev);
   };
 
-      const handleExportXLSX = () => {
-        var wb = XLSX.utils.book_new(),
-          ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
-    
-        XLSX.writeFile(wb, "MyExcel.xlsx");
-      };
+ 
 
       const componentRef = useRef();
 
     useEffect(()=>{
-
         get(`ConsultantDD/index`)
         .then(res =>{
-            setConsultant(res);
+        setConsultant(res);
         })
 
-        get(`StudentDD/Index`)
-        .then(res =>{
-            setStudent(res);
-        })
-
-        get(`AccountIntake/index`)
+        get(`BonusTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${consultantValue}`)
         .then(res => {
-            setIntake(res);
-        })
-
-        get(`UappIdDD/Index`)
-        .then(res =>{
-            setUapp(res);
-        })
-
-        get(`ApplicationTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&uappid=${uappValue}&studentid=${studentValue}&consultantid=${consultantValue}&intakeid=${intakeValue}`)
-        .then(res =>{
             console.log(res);
-            setData(res?.models);
+            setData(res);
         })
 
-    },[currentPage, dataPerPage, callApi, uappValue, intakeValue, studentValue, consultantValue])
+    },[success, currentPage, dataPerPage, consultantValue])
+
 
     const backToDashboard = () =>{
         history.push('/');
-    }
 
-    const studentOptions = student?.map(std => ({
-        label: std?.name,
-        value: std?.id
-    }))
-
-    const selectStudent = (label,value) => {
-        setStudentLabel(label);
-        setStudentValue(value);
     }
 
     const consultantOptions = consultant?.map(con => ({
@@ -141,45 +108,13 @@ const Index = () => {
         setConsultantValue(value);
     }
 
-    const intakeOptions = intake?.map(int => ({
-        label: int?.intakeName,
-        value: int?.id
-    }))
-
-    const selectIntake = (label,value) => {
-        setIntakeLabel(label);
-        setIntakeValue(value);
-    }
-
-    const uappOptions = uapp?.map(int => ({
-        label: int?.intakeName,
-        value: int?.id
-    }))
-
-    const selectUapp = (label,value) => {
-        setUappLabel(label);
-        setUappValue(value);
-    }
-
-    const handleReset = () => {
-        setUappLabel('UAPP ID');
-        setUappValue(0);
-        setStudentLabel('All Student');
-        setStudentValue(0);
-        setConsultantLabel('All Consultant');
-        setConsultantValue(0);
-        setIntakeLabel('All Intake');
-        setIntakeValue(0);
-    }
-
-
 
     return (
         <div>
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Application Transaction List</h3>
+                <h3 className="text-light">Application InFlow List</h3>
                 <div className="page-header-back-to-home">
                   <span className="text-light" onClick={backToDashboard}>
                     {" "}
@@ -190,41 +125,18 @@ const Index = () => {
             </Card>
 
             <Card>
-
                 <CardBody>
 
-               
-                        <div className='row'>
-                            <div className='col-md-10'>
-                               
-                               <div className='row'>
+                   
 
-                                <div className='col-md-3'>
-                                <Select
-                                options={uappOptions}
-                                // styles={customStyles2}
-                                value={{ label: uappLabel, value: uappValue }}
-                                onChange={(opt) => selectUapp(opt.label, opt.value)}
-                                />
-
-
-                                </div>
-
-                                <div className='col-md-3'>
-                                <Select
-                                // styles={customStyles2}
-                                options={studentOptions}
-                                value={{ label: studentLabel, value: studentValue }}
-                                onChange={(opt) => selectStudent(opt.label, opt.value)}
-                                />
-
-
-                                </div>
-                                {
+                    <Row className="mb-4">
+            <Col lg="5" md="5" sm="4" xs="4">
+              
+            {
                                     (userType !== userTypes?.Consultant) ?
 
                                     
-                                    <div className='col-md-3'>
+                                   
                                     <Select
                                     // styles={customStyles2}
                                     options={consultantOptions}
@@ -233,50 +145,13 @@ const Index = () => {
                                     />
 
 
-                                    </div>
+                                  
 
                                     :
 
                                     null
                                 }
-                                
-                                <div className='col-md-3'>
-                                <Select
-                                // styles={customStyles2}
-                                options={intakeOptions}
-                                value={{ label: intakeLabel, value: intakeValue }}
-                                onChange={(opt) => selectIntake(opt.label, opt.value)}
-                                />
 
-
-                                </div>
-
-                               </div>
-
-                            </div>
-
-                            <div className='col-md-2'>
-                                <div className='d-flex justify-content-end'>
-                                    <Button color='danger' onClick={handleReset}>
-                                        Reset
-
-                                    </Button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                </CardBody>
-
-            </Card>
-
-            <Card>
-                <CardBody>
-                <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
-              
             </Col>
 
             <Col lg="7" md="7" sm="8" xs="8">
@@ -368,46 +243,41 @@ const Index = () => {
                     <tr style={{ textAlign: "center" }}>
                     
                     <th>SL/NO</th>
-                     <th>ID</th>
-                     <th>Intake</th>
-                     <th>Consultant</th>
-                     <th>Student</th>
-                     <th>University</th>
-                     <th>Subject</th>
-                     <th>Intake Range</th>
+                    <th>Transaction Date</th>
+                     <th>Consultant Name</th>
+                     <th>Transaction Code</th>
                      <th>Amount</th>
-                     <th>Reg. Status</th>
-                     <th>Payment Status</th>
-                     <th>Transaction Date</th>
-                     <th>Status</th>
+                     <th>Transaction Type</th>
+                     <th>Transaction Node</th>
                      <th>Action</th>
+                     
                     </tr>
                     </thead>
                     <tbody>
                     {data?.map((ls, i) => (
                     <tr key={i} style={{ textAlign: "center" }}>
                     
+                      
                       <td>
                         {i+1}
                       </td>
                       <td>
-                        {ls?.Id}
-                      </td>
-                      <td>
-                        {ls?.Intake}
+                        {ls?.TransactionDate}
                       </td>
                       <td>
                         {ls?.Consultant}
                       </td>
-                      <td>{ls?.Student}</td>
-                      <td>{ls?.Unviersity}</td>
-                      <td>{ls?.Subject}</td>
-                      <td>{ls?.AccountIntake}</td>
-                      <td>{ls?.Amount}</td>
-                      <td> {ls?.RegistrationStatus}</td>
-                      <td>{ls?.PaymentStatus}</td>
-                      <td>{ls?.TransactionDate}</td>
-                      <td>{ls?.TransactionStatus}</td>
+                      <td>
+                        {ls?.TransactionCode}
+                      </td>
+
+                      <td>
+                        {ls?.Amount}
+                      </td>
+                      <td>
+                        {ls?.TransactionType}
+                      </td>
+                      <td>{ls?.TransactionNote}</td>
                      
                      
                      
@@ -424,11 +294,6 @@ const Index = () => {
 
 
                         </ButtonGroup>
-
-                     
-                       
-
-
 
                       </td>
                     </tr>
@@ -447,8 +312,6 @@ const Index = () => {
                      />
                 </CardBody>
             </Card>
-
-
             
         </div>
     );
