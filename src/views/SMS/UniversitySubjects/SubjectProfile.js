@@ -20,12 +20,15 @@ const SubjectProfile = () => {
     const history = useHistory();
     const {subjId} = useParams();
 
-    console.log("campusId", location?.campId);
+    console.log("uniIDDDD", location?.uniSubList);
 
     // handle back to subject list and campus subject list from subject profile
     const backToSubjectList = () =>{
       if(location?.campId != undefined){
         history.push(`/campusSubjectList/${location?.campId}`);
+      }
+      else if(location.uniSubList != undefined){
+        history.push(`/universitySubjectList/${location.uniSubList}`);
       }
       else{
         history.push('/subjectList');
@@ -72,7 +75,15 @@ const SubjectProfile = () => {
 
               <h3 className="text-light">Subject Details</h3>
               <div className="page-header-back-to-home" >
-                <span onClick={backToSubjectList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Subject List</span>
+                <span onClick={backToSubjectList} className="text-light"> <i className="fas fa-arrow-circle-left"></i>{" "}
+                {
+                  location?.campId != undefined ? "Back to Campus Subject List"
+                  :
+                  location.uniSubList != undefined ? "Back to University Subject List"
+                  :
+                  "Back to Subject List"
+                }
+                </span>
               </div>
 
             </CardHeader>

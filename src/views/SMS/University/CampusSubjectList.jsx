@@ -9,9 +9,10 @@ import {
     ModalBody, 
     ModalFooter,
     Button,
-  
+    Label,
     Input,
-  
+    Form,
+    FormGroup,
     Col,
     Row,
     Table,
@@ -38,6 +39,8 @@ import ReactToPrint from 'react-to-print';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkSpanButton from '../Components/LinkSpanButton';
 import LinkButton from '../Components/LinkButton';
+import put from '../../../helpers/put';
+import post from '../../../helpers/post';
 
 const CampusSubjectList = () => {
 
@@ -58,6 +61,8 @@ const CampusSubjectList = () => {
 
     const [subId, setSubId] = useState(0);
     const [subName, setSubName] = useState("");
+
+    const [modalOpen, setModalOpen] = useState(false);
     
     // const univerSList = props.univerSityDropDownList[0];
     // const camppus = props.campusDropDownList[0];
@@ -72,6 +77,19 @@ const CampusSubjectList = () => {
     const [ulist,setUList] = useState([]);
     const [cam, setCam] = useState([]);
     const [campus, setCampus] = useState({});
+
+    const [universityId, setUniversityId] = useState(undefined);
+
+    const [subLabel, setSubLabel] = useState("Select Subject");
+    const [subValue, setSubValue] = useState(0);
+    const [radioIsAcceptHome, setRadioIsAcceptHome] = useState("false");
+    const [radioIsAcceptUk, setRadioIsAcceptUk] = useState("true");
+    const [radioIsAcceptInt, setRadioIsAcceptInt] = useState("false");
+    const [data, setData] = useState({});
+
+    const [subError, setSubError] = useState(false);
+
+    const [subListDD, setSubListDD] = useState([]);
 
     const location = useLocation();
     const history = useHistory();
@@ -88,8 +106,8 @@ const CampusSubjectList = () => {
       };
 
     // redirect to dashboard
-    const backToDashboard = () => {
-        history.push("/campusList");
+    const backToCampusList = () => {
+        history.push(`/campusList/${universityId}`);
       };
 
     const selectDataSize = (value) => {
@@ -131,7 +149,8 @@ const CampusSubjectList = () => {
 
     // add university handler
     const handleAddSubject = () => {
-        history.push("/addSubject");
+        // history.push("/addSubject");
+        setModalOpen(true);
       };
 
     // on clear
@@ -145,6 +164,12 @@ const CampusSubjectList = () => {
     };
 
     useEffect(()=>{
+
+        // Subject get by university
+        get(`UniversityCampusSubject/GetUnassigned/${camId}`).then((res) => {
+          setSubListDD(res);
+        });
+
         get(`Subject/GetByCampusId?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${camId}&search=${searchStr}`).then(res=>{
             console.log("subject",res);
             setSubList(res?.models);
@@ -152,9 +177,22 @@ const CampusSubjectList = () => {
         });
         get(`UniversityCampus/Get/${camId}`).then(res=>{
           console.log("campus", res);
+          setUniversityId(res?.university?.id);
           setCampus(res);
         })
     },[success, currentPage, dataPerPage, callApi, searchStr, camId]);
+
+    // for subject dropdown
+    const subMenu = subListDD.map((subOptions) => ({
+      label: subOptions.name,
+      value: subOptions.id,
+    }));
+
+    const selectSubject = (label, value) => {
+      setSubError(false);
+      setSubLabel(label);
+      setSubValue(value);
+    };
 
     // search handler
     const handleSearch = () => {
@@ -194,13 +232,139 @@ const CampusSubjectList = () => {
         );
     }
 
+    // on change radio button starts here
+    const onValueChangeIsAcceptHome = (event) => {
+      setRadioIsAcceptHome(event.target.value);
+    };
+
+    const onValueChangeIsAcceptUk = (event) => {
+      setRadioIsAcceptUk(event.target.value);
+    };
+
+    const onValueChangeIsAcceptInt = (event) => {
+      setRadioIsAcceptInt(event.target.value);
+    };
+    // on change radio button ends here
+
+    const taggleModal = () => {
+      setRadioIsAcceptHome('false');
+      setRadioIsAcceptUk('true');
+      setRadioIsAcceptInt('false');
+      setSubValue(0);
+      setSubLabel("Select Subject");
+      setData({});
+      setModalOpen(false);
+    }
+
+    const handleSubmit = e => {
+      e.preventDefault();
+
+      const subData = {
+        campusId: camId,
+        subjectId: subValue,
+        isAcceptHome: radioIsAcceptHome == "true" ? true : false,
+        isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
+        isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+      };
+
+      const subData1 = {
+        id: data?.id,
+        campusId: camId,
+        subjectId: subValue,
+        isAcceptHome: radioIsAcceptHome == "true" ? true : false,
+        isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
+        isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+      };
+
+      console.log("SubData", subData);
+
+      if(data?.id != undefined){
+         put(`UniversityCampusSubject/Update`, subData1).then((res) => {
+        if (res?.status == 200) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+          setData({});
+          setModalOpen(false);
+          setRadioIsAcceptHome('false');
+          setRadioIsAcceptUk('true');
+          setRadioIsAcceptInt('false');
+          setSubValue(0);
+          setSubLabel("Select Subject");
+        }
+      });
+      }
+      else{
+        if (subValue == 0) {
+          setSubError(true);
+        } else {
+          post(`UniversityCampusSubject/Create`, subData).then((res) => {
+            console.log(res);
+            if (res?.data?.isSuccess == true && res?.status == 200) {
+              addToast(res?.data?.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              setSuccess(!success);
+              setRadioIsAcceptHome('false');
+              setRadioIsAcceptUk('true');
+              setRadioIsAcceptInt('false');
+              setModalOpen(false);
+            }
+          });
+        }
+      }
+    }
+
+    const toggleEdit = (data) => {
+      setData(data);
+      setRadioIsAcceptHome(`${data?.isAcceptHome}`);
+      setRadioIsAcceptInt(`${data?.isAcceptInternational}`);
+      setRadioIsAcceptUk(`${data?.isAcceptEU_UK}`);
+      setSubValue(data?.subject?.id);
+      // setSubLabel("Select Subject");
+      setModalOpen(true);
+    };
+
+    const handleUpdateData = (e) => {
+      e.preventDefault();
+  
+      // const subData = {
+      //   id: data?.id,
+      //   campusId: id,
+      //   subjectId: subValue,
+      //   isAcceptHome: radioIsAcceptHome == "true" ? true : false,
+      //   isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
+      //   isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+      // };
+  
+      // put(`UniversityCampusSubject/Update`, subData).then((res) => {
+      //   if (res?.status == 200) {
+      //     addToast(res?.data?.message, {
+      //       appearance: "success",
+      //       autoDismiss: true,
+      //     });
+      //     setSuccess(!success);
+      //     setData({});
+      //     setModalOpen(false);
+      //     setRadioIsAcceptHome('false');
+      //     setRadioIsAcceptUk('true');
+      //     setRadioIsAcceptInt('false');
+      //     setSubValue(0);
+      //     setSubLabel("Select Subject");
+      //   }
+      // });
+    };
+
     return (
         <div>
             <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
                   <h3 className="text-light">Campus Subject List</h3>
                   <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard} className="text-light">
+                    <span onClick={backToCampusList} className="text-light">
                       {" "}
                       <i className="fas fa-arrow-circle-left"></i> Back to Campus List
                     </span>
@@ -343,10 +507,13 @@ const CampusSubjectList = () => {
                     <th>Subject</th>
                     {/* <th>Description</th>
                     <th>Duration</th> */}
-                    <th>University</th>
+                    {/* <th>University</th> */}
+                    <th>isAcceptHome</th>
+                    <th>isAcceptEU_UK	</th>
+                    <th>isAcceptInternational</th>
                     <th>Program Level</th>
                     <th>Department</th>
-                    <th>Sub Department</th>
+                    {/* <th>Sub Department</th> */}
                     <th>Intake</th>
                     {/* <th>Intakes</th> */}
                     <th style={{ width: "8%" }} className="text-center">
@@ -367,8 +534,18 @@ const CampusSubjectList = () => {
                         {sub?.duration}
                       </td> */}
 
-                      <td>
+                      {/* <td>
                         {sub?.university?.name}
+                      </td> */}
+
+                      <td>
+                        {sub?.isAcceptHome === false ? "No" : "Yes"}
+                      </td>
+                      <td>
+                        {sub?.isAcceptEU_UK	=== false ? "No" : "Yes" }
+                      </td>
+                      <td>
+                        {sub?.isAcceptInternational === false ? "No" : "Yes"}
                       </td>
 
                       <td>
@@ -376,12 +553,12 @@ const CampusSubjectList = () => {
                       </td>
 
                       <td>
-                        {sub?.department?.name}
+                        {sub?.department?.name}{","}{" "}{sub?.subDepartment?.name}
                       </td>
 
-                      <td>
+                      {/* <td>
                         {sub?.subDepartment?.name}
-                      </td>
+                      </td> */}
 
                       <td>
                         {" "}
@@ -428,9 +605,17 @@ const CampusSubjectList = () => {
                             </Button>
                           </Link> */}
 
-                          <LinkButton
-                            url={`/editSubject/${sub?.id}`}
-                            color={"dark"}
+                          {/* <LinkButton
+                            url={`/addSubject/${sub?.id}`}
+                            color={"warning"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          /> */}
+
+                          <ButtonForFunction
+                            func={() => toggleEdit(sub)}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
                             permission={6}
@@ -464,6 +649,239 @@ const CampusSubjectList = () => {
                           </ModalFooter>
 
                       </Modal>
+
+                      {/* add or delete subject feature starts here */}
+                              <Modal
+                                isOpen={modalOpen}
+                                toggle={taggleModal}
+                                className="uapp-modal2"
+                              >
+                                <ModalBody>
+
+                                <div className="hedding-titel d-flex justify-content-between mb-4">
+                                  <div>
+                                    <h5>
+                                      {" "}
+                                      <b>Assign Subject</b>{" "}
+                                    </h5>
+
+                                    <div className="bg-h"></div>
+                                  </div>
+                                  {/* <div className="text-right edit-style  p-3">
+                               <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                               </div> */}
+                                </div>
+
+                                  <Form onSubmit={handleSubmit}>
+
+                                  <FormGroup row className="has-icon-left position-relative">
+                                    <Col md="4">
+                                      <span>
+                                        Subject <span className="text-danger">*</span>{" "}
+                                      </span>
+                                    </Col>
+                                    <Col md="8">
+                                      <Select
+                                        options={subMenu}
+                                        value={{ label: subLabel, value: subValue }}
+                                        onChange={(opt) =>
+                                          selectSubject(opt.label, opt.value)
+                                        }
+                                        isDisabled={data?.id != undefined}
+                                        name="id"
+                                        id="id"
+                                      />
+                                      {subError ? (
+                                        <span className="text-danger">
+                                          Subject must be selected
+                                        </span>
+                                      ) : null}
+                                    </Col>
+                                  </FormGroup>
+
+                                    <FormGroup row className="pt-3">
+                                      <p>
+                                        <b>Subject features</b>
+                                      </p>
+                                      <br />
+                                      <br />
+                                      <Col md="6">
+                                        <span>
+                                          Is accept home{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+
+                                      <Col md="6">
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptHome"
+                                            onChange={onValueChangeIsAcceptHome}
+                                            name="isAcceptHome"
+                                            value="true"
+                                            checked={
+                                              radioIsAcceptHome == "true"
+                                            }
+                                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptHome"
+                                          >
+                                            Yes
+                                          </Label>
+                                        </FormGroup>
+
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptHome"
+                                            onChange={onValueChangeIsAcceptHome}
+                                            name="isAcceptHome"
+                                            value="false"
+                                            checked={
+                                              radioIsAcceptHome == "false"
+                                            }
+                                          />
+
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptHome"
+                                          >
+                                            No
+                                          </Label>
+                                        </FormGroup>
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup row className="pt-3">
+                                      <Col md="6">
+                                        <span>
+                                          Is accept EU_UK{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+
+                                      <Col md="6">
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptEU_UK"
+                                            onChange={onValueChangeIsAcceptUk}
+                                            name="isAcceptEU_UK"
+                                            value="true"
+                                            checked={radioIsAcceptUk == "true"}
+                                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptEU_UK"
+                                          >
+                                            Yes
+                                          </Label>
+                                        </FormGroup>
+
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptEU_UK"
+                                            onChange={onValueChangeIsAcceptUk}
+                                            name="isAcceptEU_UK"
+                                            value="false"
+                                            checked={radioIsAcceptUk == "false"}
+                                          />
+
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptEU_UK"
+                                          >
+                                            No
+                                          </Label>
+                                        </FormGroup>
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup row className="pt-3">
+                                      <Col md="6">
+                                        <span>
+                                          Is accept international{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+
+                                      <Col md="6">
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptInternational"
+                                            onChange={onValueChangeIsAcceptInt}
+                                            name="isAcceptInternational"
+                                            value="true"
+                                            checked={radioIsAcceptInt == "true"}
+                                          />
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptInternational"
+                                          >
+                                            Yes
+                                          </Label>
+                                        </FormGroup>
+
+                                        <FormGroup check inline>
+                                          <Input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="isAcceptInternational"
+                                            onChange={onValueChangeIsAcceptInt}
+                                            name="isAcceptInternational"
+                                            value="false"
+                                            checked={
+                                              radioIsAcceptInt == "false"
+                                            }
+                                          />
+
+                                          <Label
+                                            className="form-check-label"
+                                            check
+                                            htmlFor="isAcceptInternational"
+                                          >
+                                            No
+                                          </Label>
+                                        </FormGroup>
+                                      </Col>
+                                    </FormGroup>
+
+                                    <FormGroup
+                                      className="has-icon-left position-relative"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+
+                                      <Button className='mr-1 mt-3 bg-danger' onClick={taggleModal}>Cancel</Button>
+
+                                      <Button.Ripple
+                                        type="submit"
+                                        className="mr-1 mt-3 badge-primary"
+                                      >
+                                        Submit
+                                      </Button.Ripple>
+
+                                    </FormGroup>
+                                  </Form>
+                                </ModalBody>
+                              </Modal>
+                      {/* add or delete subject feature ends here */}
 
 
 

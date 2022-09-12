@@ -90,6 +90,8 @@ const UniversitySubjectList = (props) => {
     const { addToast } = useToasts();
     const {id} = useParams();
 
+    const uniIDD = id;
+
     // redirect to dashboard
     const backToUniversityList = () => {
       history.push("/universityList");
@@ -299,7 +301,10 @@ const UniversitySubjectList = (props) => {
   const handleView = id =>{
     // localStorage.setItem('subIdPro', id);
     localStorage.removeItem("campIdSubProfile");
-    history.push(`/subjectProfile/${id}`);
+    history.push({
+      pathname: `/subjectProfile/${id}`,
+      uniSubList: uniIDD
+    });
   }
 
   // localStorage.removeItem("uniIdForSubList");

@@ -210,16 +210,16 @@ const closeDeleteModal = () => {
        
             
 
-            <ButtonForFunction
+            {/* <ButtonForFunction
             name={' Add New'}
             icon={<i className="fas fa-plus"></i>}
             className={"btn btn-uapp-add"}
             func={()=>AddModalOpen('add')}
 
-            />
+            /> */}
 
 
-                  <div> <b> Total <span className="badge badge-primary"> {studentTypeInfo.length}</span> Student Type  Found </b></div>
+                  <div className='ms-auto'> <b> Total <span className="badge badge-primary"> {studentTypeInfo.length}</span> Student Type  Found </b></div>
             </CardHeader>
              <CardBody>
 
@@ -297,7 +297,7 @@ const closeDeleteModal = () => {
                 <th>SL/NO</th>
                 <th> Name</th>
                 <th> Student Count</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -309,12 +309,8 @@ const closeDeleteModal = () => {
                   <th scope='row'>{index+1}</th>
                   <td>{type?.name}</td>
                   <td>{type?.studentCount}</td>
-                  <td>
+                  {/* <td>
                   <ButtonGroup variant="text">
-
-                            {/* <Button  color="danger" onClick={()=>handleDelete(dept?.id)}   className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
-                          
-                       
 
                          <ButtonForFunction
                          className={"btn-sm mx-2"}
@@ -334,7 +330,7 @@ const closeDeleteModal = () => {
                           
                           </ButtonGroup>
 
-                  {/* modal for delete */}
+                  
                   <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
                       <ModalBody>
@@ -349,7 +345,7 @@ const closeDeleteModal = () => {
                   </Modal>
 
 
-                  </td>
+                  </td> */}
                     
                 
 

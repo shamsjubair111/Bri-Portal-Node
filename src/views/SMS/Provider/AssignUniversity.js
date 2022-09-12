@@ -25,7 +25,7 @@ import Select from "react-select";
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import { useToasts } from "react-toast-notifications";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
@@ -59,17 +59,16 @@ const AssignUniversity = () => {
   const { providerId, managerId } = useParams();
   const history = useHistory();
   const { addToast } = useToasts();
+  const location = useLocation();
 
   const componentRef = useRef();
 
   useEffect(() => {
     get(`ProviderUniversityDD/Index/${providerId}`).then((res) => {
-      console.log("uni", res);
       setProviderUniList(res);
     });
 
     get(`AdmissionManagerUniversity/Index/${managerId}`).then((res) => {
-      console.log("manageruni", res);
       setUniList(res);
     });
   }, [providerId, managerId, success]);
@@ -86,7 +85,12 @@ const AssignUniversity = () => {
   };
 
   const backToProviderDetails = () => {
-    history.push(`/providerDetails/${providerId}`);
+    if(location.managerList != undefined){
+      history.push(`/admissionManagerList`);
+    }
+    else{
+      history.push(`/providerDetails/${providerId}`);
+    }
   };
 
   // on Close Modal
@@ -94,6 +98,10 @@ const AssignUniversity = () => {
     setModalOpen(false);
     setUniLabel("Select University");
     setUniValue(0);
+    setSelectedId(0);
+    setRadioIsAcceptHome("false");
+    setRadioIsAcceptUk("true");
+    setRadioIsAcceptInt("false");
   };
 
   // toggle dropdown
@@ -164,6 +172,7 @@ const AssignUniversity = () => {
       if (uniValue === 0) {
         setUniError(true);
       } else {
+        setSelectedId(0);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
           if (res?.status == 200) {
             addToast(res?.data?.message, {
@@ -205,7 +214,6 @@ const AssignUniversity = () => {
   };
 
   const handleUpdate = (university) => {
-    console.log(university);
     setModalOpen(true);
     setUniLabel(university?.university?.name);
     setUniValue(university?.university?.id);
@@ -223,8 +231,13 @@ const AssignUniversity = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Provider
-              Details
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.managerList != undefined ?
+                "Back to Admission Manager List"
+                :
+                "Back to Provider Details"
+              }
             </span>
           </div>
         </CardHeader>

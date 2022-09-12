@@ -151,7 +151,7 @@ const AddUniversitySubjectFee = () => {
                 <div className="page-header-back-to-home">
                   <span onClick={backToSubjectList} className="text-light">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Subject List
+                    <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
                   </span>
                 </div>
               </CardHeader>

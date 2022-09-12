@@ -267,6 +267,7 @@ const BranchTeamEmployeeInformation = lazy(() => import("./views/SMS/Branches/Br
 // Admission Manager
 
 const AdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManager"))
+const AdmissionManagerList = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerList"))
 const UpdateAdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/UpdateAdmissionManager"))
 
 // Student
@@ -413,6 +414,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} />
          <AppRoute  path="/updateUser/:id" component={UpdateUser} />
          <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_Admission_manager)? AdmissionManager : NotAuthorized} />
+         <AppRoute exact path="/admissionManagerList" component={AdmissionManagerList} />
          <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager) ? UpdateAdmissionManager : NotAuthorized } />
 {/*   
          <AppRoute  path="/demo" component={demo} /> */}

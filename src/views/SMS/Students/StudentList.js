@@ -79,6 +79,8 @@ const StudentList = () => {
     const [callApi, setCallApi] = useState(false);
     const [entity, setEntity] = useState(0);
 
+    // const [check, setChecked] = useState("");
+
     const location = useLocation();
     const history = useHistory();
     const { addToast } = useToasts();
@@ -344,6 +346,29 @@ const StudentList = () => {
         var localeDate = utcDate.toLocaleString("en-CA");
         const x = localeDate.split(",")[0];
         return x;
+      }
+
+      const handleBlacklist = (e, id) => {
+        console.log(e.target.checked, id);
+        // setChecked(e.target.checked);
+        // console.log(check);
+
+        const subData = {
+          id: id
+        }
+
+        put(`Student/UpdateAccountStatus/${id}`, subData)
+        .then(res => {
+          if(res?.status ==200){
+            addToast(res?.data?.message,{
+              appearance:'success',
+              autoDismiss: true
+            })
+            setSuccess(!success);
+            // setPassData({});
+            // setPassModal(false);
+          }
+        })
       }
 
 
@@ -663,7 +688,10 @@ const StudentList = () => {
                         <label className="switch">
                           <input 
                           type="checkbox" 
-                          checked={student?.blackList == null ? false : student?.blackList == false ? false : true}
+                          defaultChecked={student?.blacklisted == null ? false : student?.blacklisted == false ? false : true}
+                          onChange={(e)=>{
+                            handleBlacklist(e, student?.id);
+                          }}
                           />
                           <span className="slider round"></span>
                         </label>

@@ -171,7 +171,7 @@ const SubjectIntake = () => {
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToList}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Subject List
+              <i className="fas fa-arrow-circle-left"></i> Back to Campus Subject List
             </span>
           </div>
         </CardHeader>

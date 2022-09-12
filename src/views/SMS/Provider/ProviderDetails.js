@@ -35,7 +35,6 @@ import LinkSpanButton from "../Components/LinkSpanButton.js";
 const ProviderDetails = () => {
   const { id } = useParams();
   // localStorage.setItem("providerId", id);
-  // console.log(id);
   const [providerInfo, setProviderInfo] = useState({});
   const [universityList, setUniversityList] = useState([]);
   const [providerId, setProviderId] = useState(0);
@@ -45,7 +44,6 @@ const ProviderDetails = () => {
   const { addToast } = useToasts();
   const [deleteData, setDeleteData] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
-  // console.log(id);
 
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
@@ -96,10 +94,8 @@ const ProviderDetails = () => {
     const uTypeId = 0;
 
     get(`Provider/Get/${id}`).then((res) => {
-      console.log(res);
       setProviderInfo(res);
       setProId(res?.providertype?.id);
-      // console.log(res?.providerType?.id);
     });
     get(
       `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${id}&universityCountryId=${
@@ -111,27 +107,22 @@ const ProviderDetails = () => {
       }&search=${searchStr}`
     ).then((action) => {
       setUniversityList(action?.models);
-      console.log("aaaaaa", action?.models);
-      // console.log(searchStr);
       setLoading(false);
       setEntity(action?.totalEntity);
       setSerialNum(action?.firstSerialNumber);
     });
 
     get(`AdmissionManager/GetbyProvider/${id}`).then((res) => {
-      console.log("admission manager",res);
       setAdmissionManager(res);
     });
 
     get(`ProviderAdmin/GetbyProvider/${id}`).then((res) => {
-      console.log("provider admin details", res);
       setAdminData(res);
       setTitleLabel(res?.nameTittle?.name);
       setTitleValue(res?.nameTittle?.id);
     });
 
     get("NameTittle/GetAll").then((res) => {
-      console.log("title", res);
       setTitle(res);
     });
   }, [
@@ -190,10 +181,10 @@ const ProviderDetails = () => {
     setDeleteModal(false);
     setManagerId(0);
     setManagerName('');
+    setDeleteData({});
   };
 
   const toggleDelete = (manager) => {
-    console.log("manager", manager);
     setManagerId(manager?.id);
     setManagerName(manager?.firstName);
     setDeleteData(manager);

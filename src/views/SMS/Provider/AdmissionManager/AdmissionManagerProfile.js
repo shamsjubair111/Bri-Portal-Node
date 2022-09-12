@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import {
   Button,
   ButtonGroup,
@@ -25,19 +25,24 @@ const AdmissionManagerProfile = () => {
     const {managerId, providerId} = useParams();
     const [managerData, setManagerData] = useState({});
     const history = useHistory();
+    const location = useLocation();
 
     const tableStyle = {
         overflowX: 'scroll',
       };
 
     const backToProviderDetails = () => {
-        history.push(`/providerDetails/${providerId}`);
+        if(location.managerList != undefined){
+          history.push(`/admissionManagerList`);
+        }
+        else{
+          history.push(`/providerDetails/${providerId}`);
+        }
       };
 
     useEffect(()=>{
         get(`AdmissionManager/Profile/${managerId}`)
         .then(res => {
-            console.log('Admission Manager Data',res);
             setManagerData(res);
             
         })
@@ -51,7 +56,13 @@ const AdmissionManagerProfile = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToProviderDetails} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back To Provider Details
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.managerList != undefined ?
+                "Back To Admission Manager List"
+                :
+                "Back To Provider Details"
+              }
             </span>
           </div>
         </CardHeader>

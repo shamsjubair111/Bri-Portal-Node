@@ -165,7 +165,7 @@ const AddUniversitySubjectRequirements = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Subject List
+              <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
             </span>
           </div>
         </CardHeader>

@@ -39,7 +39,7 @@ const CampusDetails = () => {
   const [subList, setSubList] = useState([]);
   const [subList1, setSubList1] = useState([]);
   const history = useHistory();
-  const [subLabel, setSubLabel] = useState("Select Subject...");
+  const [subLabel, setSubLabel] = useState("Select Subject");
   const [subValue, setSubValue] = useState(0);
   const [radioIsAcceptHome, setRadioIsAcceptHome] = useState("false");
   const [radioIsAcceptUk, setRadioIsAcceptUk] = useState("true");
@@ -228,17 +228,18 @@ const CampusDetails = () => {
     setRadioIsAcceptHome('false');
     setRadioIsAcceptUk('true');
     setRadioIsAcceptInt('false');
+    setSubValue(0);
+    setSubLabel("Select Subject");
     setDeleteModal2(!deleteModal2);
-
-
   }
+  
   const toggleEdit = (data) => {
     setData(data);
     setRadioIsAcceptHome(`${data?.isAcceptHome}`);
     setRadioIsAcceptInt(`${data?.isAcceptInternational}`);
     setRadioIsAcceptUk(`${data?.isAcceptEU_UK}`);
     setSubValue(data?.subject?.id);
-    setSubLabel(data?.subject?.name);
+    // setSubLabel("Select Subject");
     console.log(data);
 
     setDeleteModal2(true);
@@ -343,6 +344,8 @@ const CampusDetails = () => {
         setRadioIsAcceptHome('false');
         setRadioIsAcceptUk('true');
         setRadioIsAcceptInt('false');
+        setSubValue(0);
+        setSubLabel("Select Subject");
       }
     });
   };

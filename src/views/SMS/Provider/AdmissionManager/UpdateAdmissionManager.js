@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, CardTitle, Col, FormGroup, Input } 
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import Select from "react-select";
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import put from '../../../../helpers/put';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
@@ -14,6 +14,8 @@ const UpdateAdmissionManager = () => {
 
     console.log('one',id,'two',id2);
     const history = useHistory();
+    const location = useLocation();
+
 
     const permissions = JSON.parse(localStorage.getItem('permissions'));
     const [country,setCountry] = useState([]);
@@ -83,7 +85,12 @@ const selectTitle = (label, value) => {
 
 
     const backToProviderDetails = () => {
-        history.push(`/providerDetails/${id2}`);
+        if(location.managerList != undefined){
+          history.push(`/admissionManagerList`);
+        }
+        else{
+          history.push(`/providerDetails/${id2}`);
+        }
       }
 
 
@@ -135,7 +142,13 @@ const selectTitle = (label, value) => {
               appearance: 'success',
               autoDismiss: true
             })
-            history.push(`/providerDetails/${id2}`);
+            
+            if(location.managerList != undefined){
+              history.push(`/admissionManagerList`);
+            }
+            else{
+              history.push(`/providerDetails/${id2}`);
+            }
 
           }
         })
@@ -152,7 +165,13 @@ const selectTitle = (label, value) => {
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToProviderDetails}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.managerList != undefined ?
+                "Back to Admission Manager List"
+                :
+                "Back to Provider Details"
+              }
             </span>
           </div>
         </CardHeader>
