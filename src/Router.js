@@ -353,7 +353,9 @@ const AdmissionManagerProfile = lazy(() => import("./views/SMS/Provider/Admissio
 
 const PromotionalCommissionList = lazy(() => import("./views/SMS/PromotionalCommission/CommissionList/PromotionalCommissionList"));
 
-const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/DistributionLevelSetting"));
+const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/Index"));
+
+const ApplicationTransaction = lazy(() => import("./views/SMS/ApplicationTransaction/Index"));
 
 
 
@@ -639,6 +641,8 @@ class AppRouter extends React.Component {
            <AppRoute  path="/promotionalCommissionList" component={PromotionalCommissionList} />
 
            <AppRoute  path="/distributionLevelSetting" component={DistributionLevelSetting} />
+
+           <AppRoute  path="/applicationTransaction" component={ApplicationTransaction} />
 
 
 

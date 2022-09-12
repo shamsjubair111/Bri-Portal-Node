@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
 import { useToasts } from 'react-toast-notifications';
 import post from '../../../helpers/post';
+import put from '../../../helpers/put';
 const DistributionLevelSettingForm = (props) => {
 
-    const {success, setSuccess, name, setName, value, setValue, percent, setPercent} = props;
+    const {success, setSuccess, name, setName, value, setValue, percent, setPercent, update, setUpdate, data, setData} = props;
 
     const {addToast} = useToasts();
   
@@ -14,7 +15,28 @@ const DistributionLevelSettingForm = (props) => {
         event.preventDefault();
         const subData = new FormData(event.target);
 
-        post(`DistributionLevelSetting/Create`,subData)
+        if(update){
+
+            put(`DistributionLevelSetting/Update`,subData)
+            .then(res => {
+                    if(res?.status == 200 && res?.data?.isSuccess == true){
+                        addToast(res?.data?.message,{
+                            appearance: 'success',
+                            autoDismiss: true
+                        })
+                        setName('');
+                        setValue('');
+                        setPercent('');
+                        setSuccess(!success);
+                        setData({});
+                        setUpdate(false);
+                    }
+            })
+
+        }
+        else{
+
+            post(`DistributionLevelSetting/Create`,subData)
         .then(res => {
                 if(res?.status == 200 && res?.data?.isSuccess == true){
                     addToast(res?.data?.message,{
@@ -27,6 +49,8 @@ const DistributionLevelSettingForm = (props) => {
                     setSuccess(!success);
                 }
         })
+
+        }
 
 
     }
@@ -41,7 +65,18 @@ const DistributionLevelSettingForm = (props) => {
                 <form  onSubmit={handleSubmit}> 
 
 
-               
+               {
+                update ? 
+
+                <input
+                type='hidden'
+                name='id'
+                id='id'
+                value={data?.id}
+                />
+                :
+                null
+               }
 
                 <FormGroup row className="has-icon-left position-relative">
                 <Col md="4">

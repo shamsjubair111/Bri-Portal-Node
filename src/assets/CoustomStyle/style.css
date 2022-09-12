@@ -1227,3 +1227,10 @@ color: #fff!important;
 		  
 		 
 }
+
+.cursor-pointers{
+      background: #fff !important;
+    border: 1px solid #1e98b0 !important;
+    border-radius: 83px;
+}
+

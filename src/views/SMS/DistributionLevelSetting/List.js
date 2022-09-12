@@ -6,7 +6,7 @@ import { useToasts } from 'react-toast-notifications';
 
 const DistributionLevelSettingList = (props) => {
 
-    const {success, setSuccess, distributionData} = props;
+    const {success, setSuccess, distributionData, toggleUpdate} = props;
     const [deleteModal,setDeleteModal] = useState(false);
     const [delData,setDelData] = useState({});
     const {addToast} = useToasts();
@@ -27,6 +27,7 @@ const DistributionLevelSettingList = (props) => {
                 autoDismiss: true
             })
             setSuccess(!success);
+            setDeleteModal(false);
         })
     }
 
@@ -36,7 +37,7 @@ const DistributionLevelSettingList = (props) => {
     return (
         <div>
             <div className='mb-4'>
-              <span className='branch-title-style2'>Distribution Level Setting List List</span>
+              <span className='branch-title-style2'>Distribution Level Setting List</span>
              </div>
 
              <Table className="table-sm table-bordered">
@@ -69,12 +70,12 @@ const DistributionLevelSettingList = (props) => {
                         <ButtonGroup variant="text">
                        
 
-{/* 
+
                             <Button className='me-1 btn-sm' color='warning' onClick={()=>toggleUpdate(ls)}>
                             <i className="fas fa-edit"></i>
 
 
-                            </Button> */}
+                            </Button>
 
                             <Button className='ms-1 btn-sm' color='danger' onClick={()=>toggleDanger(ls)}>
                             <i className="fas fa-trash-alt"></i>
