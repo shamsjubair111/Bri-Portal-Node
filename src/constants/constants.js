@@ -1,5 +1,5 @@
 
-export const rootUrl = `http://192.168.0.11:45455/`
+export const rootUrl = `http://192.168.0.14:45455/`
 
 // export const rootUrl = `http://api.uapp.uk/`
 

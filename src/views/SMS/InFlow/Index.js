@@ -87,7 +87,8 @@ const Index = () => {
         get(`BonusTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${consultantValue}`)
         .then(res => {
             console.log(res);
-            setData(res);
+            setEntity(res?.totalEntity);
+            setData(res?.models);
         })
 
     },[success, currentPage, dataPerPage, consultantValue])
@@ -114,7 +115,7 @@ const Index = () => {
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Application InFlow List</h3>
+                <h3 className="text-light">Inflow Transaction List</h3>
                 <div className="page-header-back-to-home">
                   <span className="text-light" onClick={backToDashboard}>
                     {" "}
@@ -248,13 +249,13 @@ const Index = () => {
                      <th>Transaction Code</th>
                      <th>Amount</th>
                      <th>Transaction Type</th>
-                     <th>Transaction Node</th>
+                     <th>Transaction Note</th>
                      <th>Action</th>
                      
                     </tr>
                     </thead>
                     <tbody>
-                    {data?.map((ls, i) => (
+                    {data.map((ls, i) => (
                     <tr key={i} style={{ textAlign: "center" }}>
                     
                       
@@ -262,22 +263,22 @@ const Index = () => {
                         {i+1}
                       </td>
                       <td>
-                        {ls?.TransactionDate}
+                        {ls?.transactionDate}
                       </td>
                       <td>
-                        {ls?.Consultant}
+                        {ls?.consultant}
                       </td>
                       <td>
-                        {ls?.TransactionCode}
+                        {ls?.transactionCode}
                       </td>
 
                       <td>
-                        {ls?.Amount}
+                        {ls?.amount}
                       </td>
                       <td>
-                        {ls?.TransactionType}
+                        {ls?.transactionType}
                       </td>
-                      <td>{ls?.TransactionNote}</td>
+                      <td>{ls?.transactionNote}</td>
                      
                      
                      
@@ -285,11 +286,11 @@ const Index = () => {
                         <ButtonGroup variant="text">
                        
 
-
+                        <Link to='/' target='_blank'>
                             <Button className='me-1 btn-sm' color='primary'>
-                            <Link to='/' target='_black'><i className="fas fa-eye"></i></Link>
+                            <i className="fas fa-eye"></i>
                             </Button>
-
+                            </Link>
                           
 
 

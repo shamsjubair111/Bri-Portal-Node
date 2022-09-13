@@ -356,10 +356,14 @@ const PromotionalCommissionList = lazy(() => import("./views/SMS/PromotionalComm
 const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/Index"));
 
 const ApplicationTransaction = lazy(() => import("./views/SMS/ApplicationTransaction/Index"));
+const ApplicationTransactionDetails = lazy(() => import("./views/SMS/ApplicationTransaction/Details"));
 
 const InFlow = lazy(() => import("./views/SMS/InFlow/Index"));
+const InFlowDetails = lazy(() => import("./views/SMS/InFlow/Details"));
 
 const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction/Index"));
+
+const CreateWithdrawRequest = lazy(() => import("./views/SMS/WithdrawRequest/Create"));
 
 
 
@@ -647,14 +651,17 @@ class AppRouter extends React.Component {
            <AppRoute  path="/distributionLevelSetting" component={DistributionLevelSetting} />
 
            <AppRoute  path="/applicationTransaction" component={ApplicationTransaction} />
+           <AppRoute  path="/applicationTransactiondetails/:id" component={ApplicationTransactionDetails} />
 
            <AppRoute  path="/inFlowTransaction" component={InFlow} />
+           <AppRoute  path="/inFlow/details/:id" component={InFlowDetails} />
 
            <AppRoute  path="/accountTransaction" component={AccountTransactionList} />
 
+           <AppRoute  path="/createWithdrawRequest" component={CreateWithdrawRequest} />
 
 
-         <AppRoute  path="/search" component={Search} />
+  <AppRoute  path="/search" component={Search} />
 
          <AppRoute  path="/500" component={InternalServerError} />
 

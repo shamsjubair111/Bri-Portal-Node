@@ -658,6 +658,18 @@ const AddConsultantInformation = () => {
               value={consultantRegisterId}
             />
 
+            {
+              (consultantData?.id) ?
+              <input
+              type='hidden'
+              name='parentConsultantId'
+              id='parentConsultantId'
+              value={consultantData?.parentConsultantId}
+              />
+              :
+              null
+            }
+
             <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>

@@ -195,7 +195,7 @@ const Index = () => {
 
                
                         <div className='row'>
-                            <div className='col-md-10'>
+                            <div className='col-md-12'>
                                
                                <div className='row'>
 
@@ -255,18 +255,25 @@ const Index = () => {
 
                             </div>
 
-                            <div className='col-md-2'>
-                                <div className='d-flex justify-content-end'>
-                                    <Button color='danger' onClick={handleReset}>
-                                        Reset
-
-                                    </Button>
-
-                                </div>
-
-                            </div>
+                           
 
                         </div>
+
+                        <div className='row'>
+                        <div className='col-12 d-flex justify-content-end'>
+                        <div
+                        className="mt-1 mx-1 d-flex btn-clear"
+                        onClick={handleReset}
+                      >
+                      
+                        <span className="text-danger">
+                          <i className="fa fa-times"></i> Clear
+                        </span>
+                      </div>
+
+                        </div>
+
+                    </div>
 
                 </CardBody>
 
@@ -274,12 +281,12 @@ const Index = () => {
 
             <Card>
                 <CardBody>
-                <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+                <div className=" row mb-3">
+            <div className='col-lg-5 col-md-5 col-sm-4 col-xs-4'>
               
-            </Col>
+            </div>
 
-            <Col lg="7" md="7" sm="8" xs="8">
+            <div className='col-lg-7 col-md-7 col-sm-8 col-xs-8'>
               <div className="d-flex justify-content-end flex-wrap">
                
                 
@@ -360,8 +367,8 @@ const Index = () => {
                   </Dropdown>
                 </div>
               </div>
-            </Col>
-          </Row>
+            </div>
+          </div>
 
                 <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">

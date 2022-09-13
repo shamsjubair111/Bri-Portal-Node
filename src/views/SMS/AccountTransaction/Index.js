@@ -7,6 +7,9 @@ import { userTypes } from '../../../constants/userTypeConstant';
 import Pagination from '../Pagination/Pagination';
 import ReactToPrint from "react-to-print";
 import * as XLSX from "xlsx/xlsx.mjs";
+import post from '../../../helpers/post';
+import { useToasts } from 'react-toast-notifications';
+import { transactionTypes } from '../../../constants/TransactionConstant';
 
 const Index = () => {
 
@@ -26,6 +29,14 @@ const Index = () => {
     const [transactionCode,setTransactionCode] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
+    const [inflowConsultantError,setInflowConsultantError] = useState('');
+    const[inflowTransactionError,setInflowTransactionError] = useState('');
+    const {addToast} = useToasts();
+    const [bonusTransaction,setBonusTransaction] = useState([]);
+    const [bonusTransactionLabel,setBonusTransactionLabel] = useState('Select Transaction Type');
+    const [bonusTransactionValue, setBonusTransactionValue] = useState(0);
+    const [agree,setAgree] = useState(false);
+    
 
     const customStyles2 = {
         control: (provided, state) => ({
@@ -135,8 +146,48 @@ const Index = () => {
         setConsultant(res);
         })
 
+        get(`TransactionTypeDD/Index`)
+        .then(res => {
+          setTransaction(res);
+        })
 
-      },[])
+        get(`TransactionStatusDD/Index`)
+        .then(res => {
+          setStatus(res);
+        })
+        
+        get(`AccountTransaction/Index?page=${currentPage}&pageSize=${dataPerPage}&consultantid=${consultantValue}&typeid=${transactionValue}&transactionStatusId=${statusValue}&code=${transactionCode == ''? 'emptystring' :  transactionCode}`)
+        .then(res => {
+          console.log(res,'Res Check');
+          setEntity(res?.totalEntity);
+          setData(res?.models);
+        })
+
+        get(`BonusTransactionTypeDD/Index`)
+        .then(res =>{
+          setBonusTransaction(res);
+        })
+
+
+      },[success, consultantValue, transactionValue, statusValue, transactionCode, bonusTransactionValue])
+
+      const gotoDetailsPage  = (data) => {
+         if(data?.transactionTypeId == transactionTypes?.ApplicationTransaction){
+          
+          window.open(`/applicationTransactiondetails/${data?.id}`,'_blank');
+         }
+         else if(data?.transactionTypeId == transactionTypes?.BonusTransaction){
+        
+          window.open(`/inFlow/details/${data?.id}`,'_blank');
+         }
+         else if(data?.transactionTypeId == transactionTypes?.WithDrawnTransaction){
+          window.open(`/inFlow/details/${data?.id}`,'_blank');
+         }
+         else if(data?.transactionTypeId == transactionTypes?.CommissionTransaction){
+          window.open(`/inFlow/details/${data?.id}`,'_blank');
+         }
+
+      }
 
       const backToDashboard = () =>{
         history.push('/');
@@ -149,6 +200,7 @@ const Index = () => {
     }))
 
     const selectConsultant = (label,value) => {
+      setInflowConsultantError('');
         setConsultantLabel(label);
         setConsultantValue(value);
     }
@@ -159,8 +211,20 @@ const Index = () => {
     }))
 
     const selectTransaction = (label,value) => {
+      setInflowTransactionError('');
         setTransactionLabel(label);
         setTransactionValue(value);
+    }
+
+    const bonusTransactionOptions = bonusTransaction?.map(trn => ({
+        label: trn?.name,
+        value: trn?.id
+    }))
+
+    const selectBonusTransaction = (label,value) => {
+      setInflowTransactionError('');
+        setBonusTransactionLabel(label);
+        setBonusTransactionValue(value);
     }
 
     const statusOptions = status?.map(st => ({
@@ -181,6 +245,38 @@ const Index = () => {
         setStatusValue(0);
         setTransactionLabel('Select Transaction Type')
         setTransactionValue(0);
+    }
+
+    const handleInflowSubmit = (event) => {
+        event.preventDefault();
+        const subData = new FormData(event.target);
+        if(consultantValue == 0){
+          setInflowConsultantError('Consultant Must be Selected');
+        }
+        else if(bonusTransactionValue == 0){
+          setInflowTransactionError('Transaction Type Must be Selected');
+        }
+        else{
+
+          post(`BonusTransaction/Create`,subData)
+        .then(res => {
+          if(res?.status == 200 && res?.data?.isSuccess == true){
+            addToast(res?.data?.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            setSuccess(!success);
+            setConsultantValue(0);
+            setConsultantLabel('All Consultant');
+            setBonusTransactionValue(0);
+            setBonusTransactionLabel('Select TransactionType');
+            setAgree(false);
+            setModalOpen(false);
+          }
+        })
+
+        }
+        
     }
 
 
@@ -210,6 +306,7 @@ const Index = () => {
                                     value={{ label: consultantLabel, value: consultantValue }}
                                     onChange={(opt) => selectConsultant(opt.label, opt.value)}
                                     />
+                                    
                             </Col>
                         </FormGroup>
 
@@ -303,7 +400,7 @@ const Index = () => {
                     >
                     <ModalHeader>Inflow Transaction</ModalHeader>
                     <ModalBody>
-                        <Form>
+                        <Form onSubmit={handleInflowSubmit}>
 
                         <FormGroup row className="has-icon-left position-relative">
                             <Col md="4">
@@ -317,23 +414,30 @@ const Index = () => {
                                     options={consultantOptions}
                                     value={{ label: consultantLabel, value: consultantValue }}
                                     onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                                    name='consultantId'
+                                    id='consultantId'
                                     />
+                                    <span className='text-danger'>{inflowConsultantError}</span>
                             </Col>
                         </FormGroup>
 
                         <FormGroup row className="has-icon-left position-relative">
                             <Col md="4">
                             <span>
-                                Transaction Category <span className="text-danger">*</span>{" "}
+                                Transaction Type <span className="text-danger">*</span>{" "}
                             </span>
                             </Col>
                             <Col md="8">
                             <Select
                                     styles={customStyles2}
-                                    options={consultantOptions}
-                                    value={{ label: consultantLabel, value: consultantValue }}
-                                    onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                                    options={bonusTransactionOptions}
+                                    value={{ label: bonusTransactionLabel, value: bonusTransactionValue }}
+                                    onChange={(opt) => selectBonusTransaction(opt.label, opt.value)}
+                                    name='transactionTypeId'
+                                    id='transactionTypeId'
                                     />
+                                    <span className='text-danger'>{inflowTransactionError}</span>
+                                    
                             </Col>
                         </FormGroup>
 
@@ -345,8 +449,11 @@ const Index = () => {
                             </Col>
                             <Col md="8">
                             <Input
+                            type='number'
                             placeholder='Enter Amount'
                             required
+                            name='amount'
+                            id='amount'
                             />
                             </Col>
                         </FormGroup>
@@ -361,6 +468,8 @@ const Index = () => {
                             <Input
                             placeholder='Enter Reference'
                             required
+                            name='reference'
+                            id='reference'
                             />
                             </Col>
                         </FormGroup>
@@ -371,17 +480,47 @@ const Index = () => {
                             </span>
                             </Col>
                             <Col md="8">
-                            <Input type="textarea" name="statement" id="statement" rows={2} placeholder='Enter Note'
+                            <Input type="textarea" rows={2} placeholder='Enter Note'
                             required
+                            name='transactionNote'
+                            id='transactionNote'
                              />
                             </Col>
+                        </FormGroup>
+                       
+                        <FormGroup row className="has-icon-left position-relative">
+                            <Col md="12">
+                            <span>
+                                <span className='text-danger'><b>Note:</b></span> Adding any inflow will add amount directly to the withdrawal balance.
+                            </span>
+                            </Col>
+                            
+                        </FormGroup>
+
+                        <FormGroup row className="has-icon-left position-relative">
+                            
+                            <Col md="12">
+                              <div className='d-flex flex-wrap ms-3 ps-1'>
+                                <Input
+                                type='checkbox'
+                                checked={agree}
+                                onChange={(e)=>setAgree(e.target.checked)}
+                                />
+                                <span>I acknowledge and understand the process.</span>
+
+                              </div>
+                            
+                            </Col>
+                            
                         </FormGroup>
 
                         <div className='d-flex justify-content-end'>
                         <FormGroup className="has-icon-left position-relative">
                          <Button.Ripple
                             color="primary"
-                            className="mr-1 mt-3">
+                            className="mr-1 mt-3"
+                            disabled = {agree ? false : true}
+                            >
                             Submit
                             </Button.Ripple>
                           </FormGroup>
@@ -403,7 +542,7 @@ const Index = () => {
               </CardHeader>
             </Card>
 
-            <Card>
+            <Card className='uapp-employee-search'>
                 <CardBody>
                     <div className='row g-2'>
                         <div className='col-md-10'>
@@ -496,6 +635,98 @@ const Index = () => {
 
             <Card>
               <CardBody>
+
+              <div className=" row mb-3">
+            <div className='col-lg-5 col-md-5 col-sm-4 col-xs-4'>
+               <span className='me-2'><b>CB: </b>Created by.</span>
+               <span className='me-2'><b>LUO: </b>Last Updated on.</span>
+               <span><b>LUB: </b>Last Updated by.</span>
+            </div>
+
+            <div className='col-lg-7 col-md-7 col-sm-8 col-xs-8'>
+              <div className="d-flex justify-content-end flex-wrap">
+               
+                
+                <div className="me-3">
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">Showing :</div>
+                    <div>
+                      <Select
+                        options={dataSizeName}
+                        value={{ label: dataPerPage, value: dataPerPage }}
+                        onChange={(opt) => selectDataSize(opt.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="me-3">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen}
+                    toggle={toggle}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-print fs-7"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p>
+                        </div>
+                        <div className="text-light cursor-pointer">
+                          <ReactToPrint
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </div>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+
+                <div className="me-3">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p>
+                        </div>
+                        <div className="text-light cursor-pointer">
+                          <ReactToPrint
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </div>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+
               <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
@@ -503,20 +734,19 @@ const Index = () => {
                     <th>SL/NO</th>
                     <th>Date</th>
                      <th>Consultant</th>
-                     <th>Transaction Code</th>
-                     <th>Transaction Type</th>
+                     <th>Transaction Code/Type</th>
                      <th>Details</th>
                      <th>Inflow/Credit</th>
                      <th>Outflow/Debit</th>
                      <th>Balance</th>
-                     <th>Balance Available To Withdraw</th>
                      <th>Status</th>
+                     <th>Log</th>
                      <th>Action</th>
                      
                     </tr>
                     </thead>
                     <tbody>
-                    {/* {data?.map((ls, i) => (
+                    {data?.map((ls, i) => (
                     <tr key={i} style={{ textAlign: "center" }}>
                     
                       
@@ -524,23 +754,38 @@ const Index = () => {
                         {i+1}
                       </td>
                       <td>
-                        {ls?.TransactionDate}
+                       {ls?.transactionDate }
                       </td>
                       <td>
-                        {ls?.Consultant}
+                        {ls?.consultantName}
                       </td>
                       <td>
-                        {ls?.TransactionCode}
-                      </td>
-
-                      <td>
-                        {ls?.Amount}
+                      <b>{ls?.transactionCode}</b>
+                      <br/>
+                      {ls?.transactionType}
                       </td>
                       <td>
-                        {ls?.TransactionType}
+                        {ls?.details}
                       </td>
-                      <td>{ls?.TransactionNote}</td>
-                     
+                      <td>
+                        {ls?.credit}
+                      </td>
+                      <td>
+                        {ls?.debit}
+                      </td>
+                      <td>
+                        Total: {ls?.balance}
+                        <br/>
+                        ATW: {ls?.withdrawBalance}
+                      </td>
+                      <td>
+                        {ls?.status}
+                      </td>
+                      <td>
+                        CB: {ls?.createdBy}
+                        LUO: {ls?.updatedOn}
+                        LUB: {ls?.updatedBy}
+                      </td>
                      
                      
                       <td style={{ width: "15%" }} className="text-center">
@@ -548,8 +793,8 @@ const Index = () => {
                        
 
 
-                            <Button className='me-1 btn-sm' color='primary'>
-                            <Link to='/' target='_black'><i className="fas fa-eye"></i></Link>
+                            <Button className='me-1 btn-sm' color='primary' onClick={()=>gotoDetailsPage(ls)}>
+                            <i className="fas fa-eye"></i>{' '}Details
                             </Button>
 
                           
@@ -559,7 +804,7 @@ const Index = () => {
 
                       </td>
                     </tr>
-                  ))} */}
+                  ))}
 
            
                     
