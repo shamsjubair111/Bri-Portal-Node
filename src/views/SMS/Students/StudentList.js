@@ -34,6 +34,7 @@ import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import get from '../../../helpers/get';
 import remove from '../../../helpers/remove.js';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
 import LinkButton from '../Components/LinkButton.js';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
@@ -79,6 +80,9 @@ const StudentList = () => {
     const [callApi, setCallApi] = useState(false);
     const [entity, setEntity] = useState(0);
 
+    const [orderLabel, setOrderLabel] = useState("Select order by");
+    const [orderValue, setOrderValue] = useState(0);
+
     // const [check, setChecked] = useState("");
 
     const location = useLocation();
@@ -109,7 +113,7 @@ const StudentList = () => {
       
     useEffect(()=>{
 
-        get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${(userTypeId == userTypes?.Consultant)? referenceId : consultantValue}&status=${statusValue}`).then(res=>{
+        get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${(userTypeId == userTypes?.Consultant)? referenceId : consultantValue}&status=${statusValue}&sortby=${orderValue}`).then(res=>{
           console.log("stdLists111111111111111111111111111111",res);
           setStudentData(res?.models);
           setEntity(res?.totalEntity); 
@@ -121,7 +125,7 @@ const StudentList = () => {
           setConsultantLabel(cLabel);
           setConsultantValue(cId);
         }
-    },[currentPage, dataPerPage, callApi, searchStr, studentTypeValue, success])
+    },[currentPage, dataPerPage, callApi, searchStr, studentTypeValue, success, orderValue])
 
     
 
@@ -152,7 +156,38 @@ const StudentList = () => {
       setCallApi((prev) => !prev);
     };
 
-    console.log('lalalallala',localStorage.getItem('token'));
+    // user select order
+  const orderArr = [
+    {
+      label: "Newest",
+      value: 1,
+    },
+    {
+      label: "Oldest",
+      value: 2,
+    },
+    {
+      label: "A-Z",
+      value: 3,
+    },
+    {
+      label: "Z-A",
+      value: 4,
+    },
+  ];
+  // const orderName = orderArr.map((dsn) => ({ label: dsn.label, value: dsn.value }));
+  const orderName = orderArr.map((dsn) => ({
+    label: dsn.label,
+    value: dsn.value,
+  }));
+
+  const selectOrder = (label, value) => {
+    // console.log("value", label, value);
+    setLoading(true);
+    setOrderLabel(label);
+    setOrderValue(value);
+    setCallApi((prev) => !prev);
+  };
 
     const status = [
       {
@@ -463,41 +498,60 @@ const StudentList = () => {
 
          <Card className="uapp-employee-search">
         <CardBody>
-          <Row className="mb-3">
-            <Col lg="6" md="5" sm="6" xs="4">
-            {/* <Button
-                onClick={handleAddStudent}
-                className="btn btn-uapp-add "
-              >
-               
-                <i className="fas fa-plus"></i> Add New
-              </Button>
-            */}
-    
 
-              <ButtonForFunction className ={"btn btn-uapp-add "}
+          {/* new */}
+          <Row className="mb-3">
+            <Col lg="5" md="5" sm="4" xs="4">
+            <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
                  func={handleAddStudent} 
                  name={' Add New'}
                  
                  ></ButtonForFunction>
-
             </Col>
 
-            <Col lg="6" md="7" sm="6" xs="8">
-              <Row>
-                <Col lg="5" md="6"></Col>
-                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
-                  Showing
-                </Col>
-                <Col md="3" sm="7" xs="7">
-                  <Select
-                    options={dataSizeName}
-                    value={{ label: dataPerPage, value: dataPerPage }}
-                    onChange={(opt) => selectDataSize(opt.value)}
-                  />
-                </Col>
-                <Col lg="2">
+            <Col lg="7" md="7" sm="8" xs="8">
+              <div className="d-md-flex justify-content-end">
+                {/* <Col lg="2">
+                    
+                    <div className='ms-2'>
+                      <ReactToPrint
+                        trigger={()=><div className="uapp-print-icon">
+                          <div className="text-right">
+                            <span title="Print to pdf"> <i className="fas fa-print"></i> </span>
+                          </div>
+                        </div>}
+                        content={() => componentRef.current}
+                      />
+                    </div>
+                </Col> */}
+                <div className="me-3">
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">Order By :</div>
+                    <div>
+                      <Select
+                        options={orderName}
+                        value={{ label: orderLabel, value: orderValue }}
+                        onChange={(opt) => selectOrder(opt.label, opt.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="me-3">
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">Showing :</div>
+                    <div>
+                      <Select
+                        options={dataSizeName}
+                        value={{ label: dataPerPage, value: dataPerPage }}
+                        onChange={(opt) => selectDataSize(opt.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="me-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -505,42 +559,69 @@ const StudentList = () => {
                     toggle={toggle}
                   >
                     <DropdownToggle caret>
-                      <i className="fas fa-ellipsis-v"></i>
+                      <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className='bg-dd'>
-                    {/* <DropdownItem> */}
-                        <div className='d-flex justify-content-around align-items-center mt-2'>
-                          <div className='text-light cursor-pointer'>
-                             <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
-                          </div>
-                          <div className='text-light cursor-pointer'>
-                            <ReactToPrint
-                               trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
-                               content={() => componentRef.current}
-                             />
-                          </div>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          {/* <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p> */}
+                          <ReactTableConvertToXl 
+                            id="test-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            icon={<i className="fas fa-file-excel"></i>}
+                          />
                         </div>
-
-                        {/* <ReactHTMLTableToExcel
-                          id="test-table-xls-button"
-                          className="download-table-xls-button"
-                          table="table-to-xls"
-                          filename="tablexls"
-                          sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
-
-                        
-                           {/* <Button onClick={onDownload}> Export excel </Button> */}
-
-                      {/* </DropdownItem> */}
-
-                      {/* <DropdownItem> */}
-                      
-                      {/* </DropdownItem> */}
+                        <div className="text-light cursor-pointer">
+                          <ReactToPrint
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </div>
+                      </div>
                     </DropdownMenu>
                   </Dropdown>
-                </Col>
-              </Row>
+                </div>
+
+                {/* <div className="me-3">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p>
+                        </div>
+                        <div className="text-light cursor-pointer">
+                          <ReactToPrint
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </div>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div> */}
+              </div>
             </Col>
           </Row>
 
@@ -548,7 +629,7 @@ const StudentList = () => {
             <h2 className="text-center">Loading...</h2>
           ) : (
             <div className="table-responsive mb-3" ref={componentRef}>
-              <Table className="table-sm table-bordered">
+              <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>

@@ -193,7 +193,7 @@ const AddUniversityState = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add University State</h3>
+          <h3 className="text-light">University States</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}

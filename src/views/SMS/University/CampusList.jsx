@@ -8,6 +8,7 @@ import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import Axios from 'axios';
 import { rootUrl } from '../../../constants/constants';
 
+import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import post from '../../../helpers/post';
@@ -358,14 +359,21 @@ const CampusList = (props) => {
                     toggle={toggle}
                   >
                     <DropdownToggle caret>
-                      <i className="fas fa-bars"></i>
+                      <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
                     <DropdownMenu className='bg-dd'>
                     {/* <DropdownItem> */}
                         
                       <div className='d-flex justify-content-around align-items-center mt-2'>
                         <div className='text-light cursor-pointer'>
-                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
+                           {/* <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p> */}
+                           <ReactTableConvertToXl 
+                            id="test-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            icon={<i className="fas fa-file-excel"></i>}
+                          />
                         </div>
                         <div className='text-light cursor-pointer'>
                           <ReactToPrint
@@ -682,7 +690,7 @@ const CampusList = (props) => {
           ) :
           <div className="table-responsive" ref={componentRef}>
 
-              <Table className="table-sm table-bordered">
+              <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>

@@ -209,11 +209,11 @@ const AddUniversity = (props) => {
         setUniversitiesType(res);
       })
       .catch();
-    get("UniversityState/Index")
-      .then((res) => {
-        setUniversityStates(res);
-      })
-      .catch();
+    // get("UniversityState/Index")
+    //   .then((res) => {
+    //     setUniversityStates(res);
+    //   })
+    //   .catch();
     get("ContractTypeDD/Index")
       .then((res) => {
         setContractTypeDD(res);
@@ -528,23 +528,22 @@ const AddUniversity = (props) => {
     setUniTypeValue(value);
   };
 
+  const searchStateByCountry = (countryValue) => {
+    get(`UniversityStateDD/Index/${countryValue}`).then((res) => {
+      setUniversityStates(res);
+    });
+  };
+
   // select University Country
   const selectUniCountry = (label, value) => {
     setUniCountryError(false);
     setUniCountryLabel(label);
     setUniCountryValue(value);
+    setUniStateLabel("Select University State...");
+    setUniStateValue(0);
 
-    //Axios.get(`${rootUrl}/UniversityState/GetByCountry/${value}`)
-    //.then(res => {
-    //    if(res.data.result[0]){
-    //        setUniStateLabel(res.data.result[0].name)
-    //        setUniStateValue(res.data.result[0].id)
-    //    }else{
-    //        setUniStateLabel('No State Assigned')
-    //        setUniStateValue(0)
-    //    }
+    searchStateByCountry(value);
 
-    //})
   };
 
   // select University State

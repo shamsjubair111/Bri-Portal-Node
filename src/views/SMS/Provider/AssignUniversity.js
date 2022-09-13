@@ -51,7 +51,7 @@ const AssignUniversity = () => {
 
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, setSelectedId] = useState(undefined);
 
   const [managerUniName, setManagerUniName] = useState('');
   const [managerUniId, setManagerUniId] = useState(0);
@@ -98,7 +98,7 @@ const AssignUniversity = () => {
     setModalOpen(false);
     setUniLabel("Select University");
     setUniValue(0);
-    setSelectedId(0);
+    setSelectedId(undefined);
     setRadioIsAcceptHome("false");
     setRadioIsAcceptUk("true");
     setRadioIsAcceptInt("false");
@@ -150,7 +150,7 @@ const AssignUniversity = () => {
     };
 
 
-    if(selectedId !== 0){
+    if(selectedId !== undefined){
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
         if (res?.status == 200) {
           addToast(res?.data?.message, {
@@ -161,7 +161,7 @@ const AssignUniversity = () => {
           setModalOpen(false);
           setUniLabel("Select University");
           setUniValue(0);
-          setSelectedId(0);
+          setSelectedId(undefined);
           setRadioIsAcceptHome("false");
           setRadioIsAcceptUk("true");
           setRadioIsAcceptInt("false");
@@ -172,7 +172,7 @@ const AssignUniversity = () => {
       if (uniValue === 0) {
         setUniError(true);
       } else {
-        setSelectedId(0);
+        setSelectedId(undefined);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
           if (res?.status == 200) {
             addToast(res?.data?.message, {
@@ -227,7 +227,7 @@ const AssignUniversity = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Assign University</h3>
+          <h3 className="text-light">Assigned University</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToProviderDetails} className="text-light">
               {" "}
@@ -330,19 +330,23 @@ const AssignUniversity = () => {
               size="lg"
             >
               <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
-                <span className="text-white">Assign University</span>
+                <span className="text-white">University</span>
               </ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="3">
+                  {
+                      selectedId === undefined ?
+                    <>
+                      <Col md="3">
                       <span>
-                        Assign University <span className="text-danger">*</span>{" "}
+                        University Name <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
-                    <Col md="5">
+                    
+                      <Col md="5">
                       <Select
                         options={universityMenu}
                         value={{ label: uniLabel, value: uniValue }}
@@ -359,6 +363,10 @@ const AssignUniversity = () => {
                         </span>
                       )}
                     </Col>
+                    </>
+                    :
+                    null
+                    }
                   </FormGroup>
 
                   {uniValue > 0 ? (
@@ -573,6 +581,7 @@ const AssignUniversity = () => {
                         {uni?.isAcceptInternational === true
                           ? "International"
                           : null}
+                          {uni?.isAcceptHome === false && uni?.isAcceptEU_UK === false && uni?.isAcceptInternational === false ? "Not available" : null}
                       </td>
 
                       <td style={{ width: "8%" }} className="text-center">

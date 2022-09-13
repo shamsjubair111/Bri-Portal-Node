@@ -63,6 +63,9 @@ const CampusSubjectList = () => {
     const [subName, setSubName] = useState("");
 
     const [modalOpen, setModalOpen] = useState(false);
+
+    const [orderLabel, setOrderLabel] = useState("Select order by");
+    const [orderValue, setOrderValue] = useState(0);
     
     // const univerSList = props.univerSityDropDownList[0];
     // const camppus = props.campusDropDownList[0];
@@ -98,6 +101,39 @@ const CampusSubjectList = () => {
     // user select data per page
     const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
     const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
+
+    // user select order
+  const orderArr = [
+    {
+      label: "Newest",
+      value: 1,
+    },
+    {
+      label: "Oldest",
+      value: 2,
+    },
+    {
+      label: "A-Z",
+      value: 3,
+    },
+    {
+      label: "Z-A",
+      value: 4,
+    },
+  ];
+  // const orderName = orderArr.map((dsn) => ({ label: dsn.label, value: dsn.value }));
+  const orderName = orderArr.map((dsn) => ({
+    label: dsn.label,
+    value: dsn.value,
+  }));
+
+  const selectOrder = (label, value) => {
+    // console.log("value", label, value);
+    setLoading(true);
+    setOrderLabel(label);
+    setOrderValue(value);
+    setCallApi((prev) => !prev);
+  };
 
      //  change page
      const paginate = (pageNumber) => {
@@ -170,8 +206,9 @@ const CampusSubjectList = () => {
           setSubListDD(res);
         });
 
-        get(`Subject/GetByCampusId?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${camId}&search=${searchStr}`).then(res=>{
+        get(`Subject/GetByCampusId?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${camId}&search=${searchStr}&sortby=${orderValue}`).then(res=>{
             console.log("subject",res);
+            setLoading(false);
             setSubList(res?.models);
             setEntity(res?.totalEntity);
         });
@@ -180,7 +217,7 @@ const CampusSubjectList = () => {
           setUniversityId(res?.university?.id);
           setCampus(res);
         })
-    },[success, currentPage, dataPerPage, callApi, searchStr, camId]);
+    },[success, currentPage, dataPerPage, callApi, searchStr, camId, orderValue]);
 
     // for subject dropdown
     const subMenu = subListDD.map((subOptions) => ({
@@ -276,7 +313,7 @@ const CampusSubjectList = () => {
         isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
       };
 
-      console.log("SubData", subData);
+      console.log("SubData", subData1);
 
       if(data?.id != undefined){
          put(`UniversityCampusSubject/Update`, subData1).then((res) => {
@@ -319,44 +356,17 @@ const CampusSubjectList = () => {
     }
 
     const toggleEdit = (data) => {
+      console.log(data);
       setData(data);
       setRadioIsAcceptHome(`${data?.isAcceptHome}`);
       setRadioIsAcceptInt(`${data?.isAcceptInternational}`);
       setRadioIsAcceptUk(`${data?.isAcceptEU_UK}`);
-      setSubValue(data?.subject?.id);
+      setSubLabel(data?.name);
+      setSubValue(data?.id);
       // setSubLabel("Select Subject");
       setModalOpen(true);
     };
 
-    const handleUpdateData = (e) => {
-      e.preventDefault();
-  
-      // const subData = {
-      //   id: data?.id,
-      //   campusId: id,
-      //   subjectId: subValue,
-      //   isAcceptHome: radioIsAcceptHome == "true" ? true : false,
-      //   isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
-      //   isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
-      // };
-  
-      // put(`UniversityCampusSubject/Update`, subData).then((res) => {
-      //   if (res?.status == 200) {
-      //     addToast(res?.data?.message, {
-      //       appearance: "success",
-      //       autoDismiss: true,
-      //     });
-      //     setSuccess(!success);
-      //     setData({});
-      //     setModalOpen(false);
-      //     setRadioIsAcceptHome('false');
-      //     setRadioIsAcceptUk('true');
-      //     setRadioIsAcceptInt('false');
-      //     setSubValue(0);
-      //     setSubLabel("Select Subject");
-      //   }
-      // });
-    };
 
     return (
         <div>
@@ -430,33 +440,60 @@ const CampusSubjectList = () => {
           null
         }
 
+          {/* new */}
           <Row className="mb-3">
-            <Col lg="6" md="5" sm="6" xs="4">
-              
-              <ButtonForFunction
+            <Col lg="5" md="5" sm="4" xs="4">
+            <ButtonForFunction
                 func={handleAddSubject}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
                 name={" Add New"}
                 permission={6}
               />
-
             </Col>
 
-            <Col lg="6" md="7" sm="6" xs="8">
-              <Row>
-                <Col lg="5" md="6"></Col>
-                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
-                  Showing
-                </Col>
-                <Col md="3" sm="7" xs="7">
-                  <Select
-                    options={dataSizeName}
-                    value={{ label: dataPerPage, value: dataPerPage }}
-                    onChange={(opt) => selectDataSize(opt.value)}
-                  />
-                </Col>
-                <Col lg="2">
+            <Col lg="7" md="7" sm="8" xs="8">
+              <div className="d-md-flex justify-content-end">
+                {/* <Col lg="2">
+                    
+                    <div className='ms-2'>
+                      <ReactToPrint
+                        trigger={()=><div className="uapp-print-icon">
+                          <div className="text-right">
+                            <span title="Print to pdf"> <i className="fas fa-print"></i> </span>
+                          </div>
+                        </div>}
+                        content={() => componentRef.current}
+                      />
+                    </div>
+                </Col> */}
+                <div className="me-3">
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">Order By :</div>
+                    <div>
+                      <Select
+                        options={orderName}
+                        value={{ label: orderLabel, value: orderValue }}
+                        onChange={(opt) => selectOrder(opt.label, opt.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="me-3">
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">Showing :</div>
+                    <div>
+                      <Select
+                        options={dataSizeName}
+                        value={{ label: dataPerPage, value: dataPerPage }}
+                        onChange={(opt) => selectDataSize(opt.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="me-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -464,35 +501,62 @@ const CampusSubjectList = () => {
                     toggle={toggle}
                   >
                     <DropdownToggle caret>
-                      <i className="fas fa-ellipsis-v"></i>
+                      <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className='bg-dd'>
-                    <div className='d-flex justify-content-around align-items-center mt-2'>
-                          <div className='text-light cursor-pointer'>
-                             <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
-                          </div>
-                          <div className='text-light cursor-pointer'>
-                            <ReactToPrint
-                               trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
-                               content={() => componentRef.current}
-                             />
-                          </div>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p>
                         </div>
-
-                        {/* <ReactHTMLTableToExcel
-                          id="test-table-xls-button"
-                          className="download-table-xls-button"
-                          table="table-to-xls"
-                          filename="tablexls"
-                          sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
-
-                        
-                           {/* <Button onClick={onDownload}> Export excel </Button> */}
+                        <div className="text-light cursor-pointer">
+                          <ReactToPrint
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </div>
+                      </div>
                     </DropdownMenu>
                   </Dropdown>
-                </Col>
-              </Row>
+                </div>
+
+                {/* <div className="me-3">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p>
+                        </div>
+                        <div className="text-light cursor-pointer">
+                          <ReactToPrint
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </div>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div> */}
+              </div>
             </Col>
           </Row>
 
@@ -662,7 +726,7 @@ const CampusSubjectList = () => {
                                   <div>
                                     <h5>
                                       {" "}
-                                      <b>Assign Subject</b>{" "}
+                                      <b>Subject</b>{" "}
                                     </h5>
 
                                     <div className="bg-h"></div>

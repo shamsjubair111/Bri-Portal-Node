@@ -43,6 +43,7 @@ import Pagination from "../../../SMS/Pagination/Pagination.jsx";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import LinkButton from "../../Components/LinkButton";
 import { userTypes } from "../../../../constants/userTypeConstant";
+import put from "../../../../helpers/put";
 
 const AdmissionManagerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -217,6 +218,29 @@ const AdmissionManagerList = () => {
     });
   };
 
+  const handleAccountStatus = (e, managerId) => {
+    console.log(e.target.checked, managerId);
+    // setChecked(e.target.checked);
+    // console.log(check);
+
+    const subData = {
+      id: managerId
+    }
+
+    console.log("SubDataaa", subData);
+
+    put(`AdmissionManager/UpdateAccountStatus/${managerId}`, subData)
+    .then(res => {
+      if(res?.status ==200){
+        addToast(res?.data?.message,{
+          appearance:'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+      }
+    })
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -386,6 +410,7 @@ const AdmissionManagerList = () => {
                     <th>Phone No</th>
                     <th>Assign University</th>
                     <th>Application List</th>
+                    <th>Account Status</th>
                     {/* <th>Intakes</th> */}
                     <th style={{ width: "8%" }} className="text-center">
                       Action
@@ -412,6 +437,8 @@ const AdmissionManagerList = () => {
                         {manager?.phoneNumber}
                       </td>
 
+                      
+
                       <td>
                       {" "}
                             <span
@@ -423,7 +450,22 @@ const AdmissionManagerList = () => {
                       </td>
 
                       <td>
-                        {0}
+                        {manager?.totalApplication}
+                      </td>
+
+                      <td>
+                        {
+                          <label className="switch">
+                          <input 
+                          type="checkbox" 
+                          defaultChecked={manager?.isActive == false ? false : true}
+                          onChange={(e)=>{
+                            handleAccountStatus(e, manager?.id);
+                          }}
+                          />
+                          <span className="slider round"></span>
+                        </label>
+                        }
                       </td>
 
                       <td style={{ width: "8%" }} className="text-center">

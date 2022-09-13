@@ -168,7 +168,7 @@ const AddUniversityCountry = (props) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add University Country</h3>
+          <h3 className="text-light">University Countries</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
