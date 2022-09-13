@@ -542,7 +542,7 @@ const Index = () => {
               </CardHeader>
             </Card>
 
-            <Card className='uapp-employee-search'>
+            <Card>
                 <CardBody>
                     <div className='row g-2'>
                         <div className='col-md-10'>
@@ -633,7 +633,7 @@ const Index = () => {
                 </CardBody>
             </Card>
 
-            <Card>
+            <Card  className='uapp-employee-search'>
               <CardBody>
 
               <div className=" row mb-3">
