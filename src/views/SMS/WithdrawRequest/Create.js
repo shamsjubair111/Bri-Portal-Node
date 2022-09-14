@@ -3,6 +3,8 @@ import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, Mod
 import Select from 'react-select';
 import { Link, useHistory } from 'react-router-dom';
 import get from '../../../helpers/get';
+import post from '../../../helpers/post';
+import { useToasts } from 'react-toast-notifications';
 
 const Create = () => {
 
@@ -13,6 +15,8 @@ const Create = () => {
     const[consultantValue,setConsultantValue] = useState(0);
     const [consultantError, setConsultantError] = useState('');
     const [amount,setAmount] = useState(null);
+    const [amountInput, setAmountInput] = useState('');
+    const {addToast} = useToasts();
 
     useEffect(()=>{
 
@@ -28,8 +32,8 @@ const Create = () => {
 
     },[success,consultantValue])
 
-    const backToDashboard = () =>{
-        history.push('/');
+    const backToList = () =>{
+        history.push('/withdrawRequestList');
     }
 
     const consultantOptions = consultant?.map(con => ({
@@ -43,12 +47,33 @@ const Create = () => {
         setConsultantValue(value);
     }
 
+    const handleInputAmount = (e) => {
+        setAmountInput(e.target.value);
+
+    }
+
+    console.log(amountInput);
+    
+
     const handleSubmit = (event) => {
             event.preventDefault();
+            const subData = new FormData(event.target);
             if(consultantValue ==0) {
                 setConsultantError('Consultant Must be Selected');
             }
             else{
+                post(`WithdrawRequest/Create`,subData)
+                .then(res => {
+                    if(res?.status == 200 && res?.data?.isSuccess == true){
+                        addToast(res?.data?.message,{
+                            appearance: 'success',
+                            autoDismiss: true
+                        })
+                        setConsultantLabel('Select Consultant');
+                        setConsultantValue(0);
+                        setAmountInput('');
+                    }
+                })
 
             }
     }
@@ -60,9 +85,9 @@ const Create = () => {
               <CardHeader className="page-header">
                 <h3 className="text-light">Create Withdraw Request</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToDashboard}>
+                  <span className="text-light" onClick={backToList}>
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to Withdraw List
                   </span>
                 </div>
               </CardHeader>
@@ -107,6 +132,9 @@ const Create = () => {
                             id='amount'
                             placeholder='Enter Amount'
                             required
+                            value={amountInput}
+                            onChange={handleInputAmount}
+                            
                             />
                                     
                             </Col>
@@ -115,7 +143,9 @@ const Create = () => {
                     <FormGroup row className="has-icon-left position-relative">
                             <Col md="10">
                             <div className='d-flex justify-content-end'>
-                                <Button color='primary' type='submit'>
+                                <Button color='primary' type='submit'
+                                disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) )? true : false}
+                                >
                                     Submit
                                 </Button>
 
@@ -134,6 +164,29 @@ const Create = () => {
                             </div>
                             <br/>
                             <h2 className='text-center' style={{color: '#1e98b0'}}>&#xA3; {amount}</h2>
+
+                        </div>
+
+                    </div>
+
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            <div>
+                                <ul>
+                                    <li>
+                                        <span style={{fontWeight: '500'}}>Minimum withdraw limit is &#xA3; 50 </span>
+                                    </li>
+
+                                    <li>
+                                        <span style={{fontWeight: '500'}}>You can have only one withdraw request at a time</span>
+                                    </li>
+
+                                    <li>
+                                        <span style={{fontWeight: '500'}}>Deposit to your withdrawal account may take upto 7 business days</span>
+                                    </li>
+                                </ul>
+
+                            </div>
 
                         </div>
 

@@ -247,7 +247,7 @@ const AssignTeam = (props) => {
                   className="btn btn-uapp-add "
                 >
                   {" "}
-                  <i class="fas fa-plus"></i> Add New{" "}
+                  <i class="fas fa-plus"></i> Add New Employee{" "}
                 </Button>
                </div>
 

@@ -109,7 +109,7 @@ const StudentRegister = () => {
   }
 
   const cancelForm = () => {
-    history.push('/');
+    history.push('/studentList');
   }
 
 

@@ -223,7 +223,7 @@ const Branch = () => {
         <div>
              <Card className='uapp-card-bg'>
         <CardHeader className="page-header">
-          <h3 className='text-light'>Add Branch Information</h3>
+          <h3 className='text-light'>Branch Information</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToBranchList} className='text-light'>
               {" "}

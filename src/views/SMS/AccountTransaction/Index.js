@@ -556,7 +556,7 @@ const Index = () => {
                                     <h6 className='mb-2'>Consultant</h6>
 
                                     <Select
-                                    styles={customStyles2}
+                                   
                                     options={consultantOptions}
                                     value={{ label: consultantLabel, value: consultantValue }}
                                     onChange={(opt) => selectConsultant(opt.label, opt.value)}
@@ -572,7 +572,7 @@ const Index = () => {
                                 <div className='col-md-3'>
                                     <h6>Transaction Type</h6>
                                 <Select
-                                    styles={customStyles2}
+                                    
                                     options={transactionOptions}
                                     value={{ label: transactionLabel, value: transactionValue }}
                                     onChange={(opt) => selectTransaction(opt.label, opt.value)}
@@ -582,7 +582,7 @@ const Index = () => {
                                     <h6>Status</h6>
                                 <Select
                                 
-                                    styles={customStyles2}
+                                    
                                     options={statusOptions}
                                     value={{ label: statusLabel, value: statusValue }}
                                     onChange={(opt) => selectStatus(opt.label, opt.value)}
@@ -591,6 +591,7 @@ const Index = () => {
                                 <div className='col-md-3'>
                                     <h6>Transaction Code</h6>
                                  <Input
+                                 style={{height: '38px'}}
                                  type='text'
                                  placeholder='Enter Transaction Code'
                                  value={transactionCode}

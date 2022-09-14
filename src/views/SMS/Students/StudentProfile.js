@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import {  Card, CardBody, Input, CardHeader,Label, Col,  Row, Table, Form, FormGroup, Button } from 'reactstrap';
 import get from '../../../helpers/get';
 // import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg';
-import coverImage from '../../../assets/img/profile/user-uploads/cover.jpg';
+import coverImage from '../../../assets/img/UappLogo.png';
 // import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
 import ReactToPrint from 'react-to-print';
@@ -242,10 +242,8 @@ const StudentProfile = () => {
               <Card>
                 <CardBody>
                     <div className="uapp-employee-cover-image">
-                      <div className="bg-image" style={{ backgroundImage: `url(${coverImage})` }}>   
-                      <div className="uplode-cover-image">
-                        <span> <i className="fas fa-camera" > </i ></span>
-                        </div>               
+                      <div className="bg-image" style={{ backgroundImage: `url(${coverImage})`, width: '100%' , backgroundSize: 'contain'}}>   
+                                    
                     </div>
                   </div>
 

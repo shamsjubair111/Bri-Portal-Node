@@ -364,6 +364,7 @@ const InFlowDetails = lazy(() => import("./views/SMS/InFlow/Details"));
 const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction/Index"));
 
 const CreateWithdrawRequest = lazy(() => import("./views/SMS/WithdrawRequest/Create"));
+const WithdrawRequestList = lazy(() => import("./views/SMS/WithdrawRequest/List"));
 
 
 
@@ -659,6 +660,7 @@ class AppRouter extends React.Component {
            <AppRoute  path="/accountTransaction" component={AccountTransactionList} />
 
            <AppRoute  path="/createWithdrawRequest" component={CreateWithdrawRequest} />
+           <AppRoute  path="/withdrawRequestList" component={WithdrawRequestList} />
 
 
   <AppRoute  path="/search" component={Search} />

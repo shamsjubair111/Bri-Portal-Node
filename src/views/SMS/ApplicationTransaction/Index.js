@@ -279,7 +279,7 @@ const Index = () => {
 
             </Card>
 
-            <Card>
+            <Card className='uapp-employee-search'>
                 <CardBody>
                 <div className=" row mb-3">
             <div className='col-lg-5 col-md-5 col-sm-4 col-xs-4'>

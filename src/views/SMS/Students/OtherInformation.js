@@ -169,6 +169,9 @@ const OtherInformation = () => {
       history.push(`/addPersonalStatement/${applicationStudentId}/${1}`);
     }
 
+    const nextPage = () => {
+      history.push(`/uploadDocument/${applicationStudentId}`);
+    }
 
 
     return (
@@ -176,7 +179,7 @@ const OtherInformation = () => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Other Information</h3>
+          <h3 className="text-light">Other Information</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToStudentProfile}>
               {" "}
@@ -432,6 +435,13 @@ const OtherInformation = () => {
       className={"mr-1 mt-3 btn-warning"}
       func={previousPage}
       icon={<i className="fas fa-arrow-left-long me-1"></i>}
+      />
+      
+      <ButtonForFunction
+      name={'Next'}
+      className={"mr-1 mt-3 btn-warning"}
+      func={nextPage}
+      icon={<i className="fas fa-arrow-right-long me-1"></i>}
       />
      
     </FormGroup>

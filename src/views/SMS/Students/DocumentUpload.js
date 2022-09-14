@@ -68,10 +68,17 @@ const DocumentUpload = () => {
 
   const [FileList2, setFileList2] = useState([]);
 
+  const previousPage = () => {
+    history.push(`/addOtherInformation/${applicationStudentId}/${1}`);
+  }
+
+  const nextPage = () => {
+    history.push(`/studentDeclaration/${applicationStudentId}`);
+  }
 
   const backToStudentProfile = () => {
     history.push(
-      `/studentProfile/${localStorage.getItem("applictionStudentId")}`
+      `/studentProfile/${applicationStudentId}`
     );
   };
 
@@ -699,6 +706,28 @@ const DocumentUpload = () => {
               </Form>
             </div>
           </div>
+
+          <FormGroup
+      className="has-icon-left position-relative"
+      style={{ display: "flex", justifyContent: "space-between" }}
+    >
+    
+
+      <ButtonForFunction
+      name={'Previous'}
+      className={"mr-1 mt-3 btn-warning"}
+      func={previousPage}
+      icon={<i className="fas fa-arrow-left-long me-1"></i>}
+      />
+      
+      <ButtonForFunction
+      name={'Next'}
+      className={"mr-1 mt-3 btn-warning"}
+      func={nextPage}
+      icon={<i className="fas fa-arrow-right-long me-1"></i>}
+      />
+     
+    </FormGroup>
         </CardBody>
       </Card>
     </div>
