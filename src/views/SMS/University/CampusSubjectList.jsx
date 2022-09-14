@@ -158,6 +158,7 @@ const CampusSubjectList = () => {
       };
 
     const toggleDanger = (name,id) => {
+      console.log("name, id", name, id);
       setSubName(name);
       setSubId(id);
       setDeleteModal(true);
@@ -305,15 +306,13 @@ const CampusSubjectList = () => {
       };
 
       const subData1 = {
-        id: data?.id,
+        id: data?.campusSubjectId,
         campusId: camId,
         subjectId: subValue,
         isAcceptHome: radioIsAcceptHome == "true" ? true : false,
         isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
         isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
       };
-
-      console.log("SubData", subData1);
 
       if(data?.id != undefined){
          put(`UniversityCampusSubject/Update`, subData1).then((res) => {
@@ -348,6 +347,8 @@ const CampusSubjectList = () => {
               setRadioIsAcceptHome('false');
               setRadioIsAcceptUk('true');
               setRadioIsAcceptInt('false');
+              setSubValue(0);
+              setSubLabel("Select Subject");
               setModalOpen(false);
             }
           });
@@ -690,7 +691,7 @@ const CampusSubjectList = () => {
                           </Button> */}
 
                           <ButtonForFunction
-                            func={() => toggleDanger(sub?.name, sub?.id)}
+                            func={() => toggleDanger(sub?.name, sub?.campusSubjectId)}
                             color={"danger"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-trash-alt"></i>}
@@ -708,7 +709,7 @@ const CampusSubjectList = () => {
 
                           <ModalFooter>
                           
-                            <Button color="danger" onClick={() => handleDelete(sub?.campusSubjectId)}>YES</Button>
+                            <Button color="danger" onClick={() => handleDelete(subId)}>YES</Button>
                             <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
 

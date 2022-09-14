@@ -33,9 +33,9 @@ const CampusList = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [countryList, setCountryList] = useState([]);
-    const [uniStateLabel, setUniStateLabel] = useState('Select Country State...');
+    const [uniStateLabel, setUniStateLabel] = useState('Select State');
     const [unistateValue, setUniStateValue] = useState(0);
-    const [uniCountryLabel, setUniCountryLabel] = useState('Select Campus Country...');
+    const [uniCountryLabel, setUniCountryLabel] = useState('Select Country');
     const [uniCountryValue, setUniCountryValue] = useState(0);
     const [success, setSuccess] = useState(false);
     const [universityId, setuniversityId] = useState(0);
@@ -141,8 +141,13 @@ const CampusList = (props) => {
 
     // on Close Modal
     const closeModal = () => {
+      setCampObj({});
+      setUniCountryLabel("Select Country");
+      setUniCountryValue(0);
+      setUniStateLabel("Select State");
+      setUniStateValue(0);
+      setSelectedId(0);
       setModalOpen(false);
-      // setSelectedId(0);
     }
 
   const universityStateName = universityStates?.map(uniState => ({ label: uniState.name, value: uniState.id }));
@@ -207,6 +212,8 @@ const CampusList = (props) => {
     const selectUniCountry = (label, value) => {
       setUniCountryLabel(label);
       setUniCountryValue(value);
+      setUniStateLabel("Select State");
+      setUniStateValue(0);
       get(`UniversityStateDD/Index/${value}`)
         .then(res => {
           console.log("res", res);
@@ -257,6 +264,10 @@ const CampusList = (props) => {
         }
       );
     };
+
+    const handlRedirectToCampusDetails = (campusId) => {
+      history.push(`/campusDetails/${campusId}`);
+    }
 
     return (
         <div>
@@ -759,8 +770,16 @@ const CampusList = (props) => {
                                 </Button>
                                 </Link> */}
 
-                                <LinkButton
+                                {/* <LinkButton
                                   url={`/campusDetails/${campus?.id}`}
+                                  color={"primary"}
+                                  className={"mx-1 btn-sm"}
+                                  icon={<i className="fas fa-eye"></i>}
+                                  permission={6}
+                                /> */}
+
+                                <ButtonForFunction
+                                  func={()=> handlRedirectToCampusDetails(campus?.id)}
                                   color={"primary"}
                                   className={"mx-1 btn-sm"}
                                   icon={<i className="fas fa-eye"></i>}
@@ -774,7 +793,7 @@ const CampusList = (props) => {
 
                                 <ButtonForFunction
                                   func={()=> handleUpdate(campus?.id)}
-                                  color={"dark"}
+                                  color={"warning"}
                                   className={"mx-1 btn-sm"}
                                   icon={<i className="fas fa-edit"></i>}
                                   permission={6}

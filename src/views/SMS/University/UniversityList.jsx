@@ -132,6 +132,14 @@ const UniversityList = (props) => {
         ? location.providervalue
         : 0;
 
+    const countryId =
+    uniCountryValue !== 0
+      ? uniCountryValue
+      : typeof location?.universityCountry !== undefined ||
+      location?.universityCountry !== null
+      ? location?.universityCountry
+      : 0;
+
     if (uTypeId !== 0) {
       var unitype = universityTypes?.find((s) => s.id === uTypeId);
 
@@ -142,17 +150,28 @@ const UniversityList = (props) => {
         setUniTypeValue(uTypeId);
       }
     }
-    
-    if(location?.universityCountry != undefined){
-      setUniCountryValue(location?.universityCountry);
-    }
-    else{
-      setUniCountryValue(0);
-    }
 
-    if(location?.name != undefined){
-      setUniCountryLabel(location?.name);
+    if (countryId !== 0) {
+      var country = univerSityCountries?.find((s) => s.id === countryId);
+
+      if (country === undefined) {
+        setUniCountryLabel("Country");
+      } else {
+        setUniCountryLabel(country?.name);
+        setUniCountryValue(countryId);
+      }
     }
+    
+    // if(location?.universityCountry != undefined){
+    //   setUniCountryValue(location?.universityCountry);
+    // }
+    // else{
+    //   setUniCountryValue(0);
+    // }
+
+    // if(location?.name != undefined){
+    //   setUniCountryLabel(location?.name);
+    // }
     // else{
     //   setUniCountryLabel('Country');
     // }
@@ -163,7 +182,7 @@ const UniversityList = (props) => {
       console.log(providertype);
 
        if(providertype === undefined){
-        //  setProviderLabel('Provider Type');
+         setProviderLabel('Provider');
        }
        else{
          setProviderLabel(providertype?.name);
@@ -183,7 +202,7 @@ const UniversityList = (props) => {
       `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
         providerId ? providerId : providerValue
       }&universityCountryId=${
-        (location?.universityCountry) ? location?.universityCountry : 0
+        countryId ? countryId : uniCountryValue
       }&universityStateId=${
         uStateId ? uStateId : unistateValue
       }&universityTypeId=${
@@ -302,7 +321,18 @@ const UniversityList = (props) => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/");
+    if(location?.universityCountry != undefined){
+      history.push("/UniversityCountry")
+    }
+    else if(location.universityType != undefined){
+      history.push("/UniversityTypes")
+    }
+    else if(location.providervalue != undefined){
+      history.push("/providerList")
+    }
+    else{
+      history.push("/");
+    }
   };
 
   const universityCountryName = univerSityCountries?.map((uniCountry) => ({
@@ -451,6 +481,14 @@ const UniversityList = (props) => {
     history.push("/subjectList");
   };
 
+  const redirectToApplications = (universityId, universityName) => {
+    history.push({
+      pathname: "/applications",
+      universityIdFromUniList: universityId,
+      universityName: universityName
+    })
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -459,7 +497,19 @@ const UniversityList = (props) => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location?.universityCountry != undefined ?
+                "Back to University Countries"
+                :
+                location.universityType != undefined ?
+                "Back to University Types"
+                :
+                location.providervalue != undefined ? 
+                "Back to Provider List"
+                :
+                "Back to Dashboard"
+              }
             </span>
           </div>
         </CardHeader>
@@ -743,13 +793,21 @@ const UniversityList = (props) => {
                       </td>
 
                       <td>
-                        {" "}
-                        <span
+                        {/* <span
                           className="badge badge-primary"
                           style={{ cursor: "pointer" }}
                         >
                           {university?.totalApplication}
-                        </span>{" "}
+                        </span> */}
+
+                        <SpanButton
+                          func={() => redirectToApplications(university?.id, university?.name)}
+                          className={"badge badge-primary"}
+                          style={{ cursor: "pointer" }}
+                          data={university?.totalApplication}
+                          permission={6}
+                        />
+
                       </td>
 
                       {/* <td onClick={()=>handleRedirectToSubList(university?.id)}> */}

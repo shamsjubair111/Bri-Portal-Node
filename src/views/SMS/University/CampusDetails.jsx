@@ -194,7 +194,7 @@ const CampusDetails = () => {
     });
 
     get(`UniversityCampusSubject/GetByCampus/${id}`).then((res) => {
-      console.log("sdshdsjhsjdhsjhdjsdhsjdhjdhsjhdjs", res);
+      console.log("subject list main", res);
       setSubjectList(res);
     });
   }, [id, success]);

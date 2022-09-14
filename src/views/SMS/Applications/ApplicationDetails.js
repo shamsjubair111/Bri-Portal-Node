@@ -110,6 +110,7 @@ const ApplicationDetails = () => {
   const { addToast } = useToasts();
   const history = useHistory();
   const { id, stdId } = useParams();
+  const location = useLocation();
 
   function getBase641(file) {
     return new Promise((resolve, reject) => {
@@ -144,7 +145,7 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
-    
+      console.log("Application Info", res);
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
@@ -421,7 +422,13 @@ const ApplicationDetails = () => {
   };
 
   const handleRedirectToAppliPage = () => {
-    history.push("/applications");
+    if(location.providerId != undefined && location.managerId != undefined){
+      history.push(`/providerAdmissionManager/${location.managerId}/${location.providerId}`)
+    }
+    else{
+      history.push("/applications");
+    }
+    
   };
 
   const handleUpdateTestScores = (data) => {
@@ -694,8 +701,13 @@ const ApplicationDetails = () => {
           <div className="page-header-back-to-home">
             <span onClick={handleRedirectToAppliPage} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Application
-              List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.providerId != undefined && location.managerId != undefined ?
+                "Back to Admission Manager Details"
+                :
+                "Back to Application List"
+              }
             </span>
           </div>
         </CardHeader>
@@ -1394,7 +1406,7 @@ const ApplicationDetails = () => {
                                 className="uapp-modal"
                               >
                                 <ModalHeader>
-                                  Update Delivery Pattern
+                                  Update University Student Id
                                 </ModalHeader>
                                 <ModalBody>
                                   <Form onSubmit={handleUniStdIdSubmit}>
@@ -1458,7 +1470,7 @@ const ApplicationDetails = () => {
 
                         <tr>
                           <td width="40%">
-                            <b>University Application date:</b>
+                            <b>University Application Date:</b>
                           </td>
 
                           <td width="60%">
@@ -1491,7 +1503,7 @@ const ApplicationDetails = () => {
                                 className="uapp-modal"
                               >
                                 <ModalHeader>
-                                  Update Delivery Pattern
+                                  Update University Application Date
                                 </ModalHeader>
                                 <ModalBody>
                                   <Form onSubmit={handleUniAppDateSubmit}>
@@ -1562,6 +1574,16 @@ const ApplicationDetails = () => {
 
                           <td width="60%">
                             {applicationInfo?.university?.name}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>Campus Name:</b>
+                          </td>
+
+                          <td width="60%">
+                            {applicationInfo?.campus?.name}
                           </td>
                         </tr>
 

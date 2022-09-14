@@ -356,6 +356,9 @@ const PromotionalCommissionList = lazy(() => import("./views/SMS/PromotionalComm
 
 const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/DistributionLevelSetting"));
 
+// admission officer
+const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerList.js"));
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -416,6 +419,9 @@ class AppRouter extends React.Component {
          <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_Admission_manager)? AdmissionManager : NotAuthorized} />
          <AppRoute exact path="/admissionManagerList" component={AdmissionManagerList} />
          <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager) ? UpdateAdmissionManager : NotAuthorized } />
+
+         {/* admission officer */}
+         <AppRoute  path="/admissionOfficerList" component={AdmissionOfficerList} />
 {/*   
          <AppRoute  path="/demo" component={demo} /> */}
          {/* <AppRoute  path="/uni1" component={demo} /> */}

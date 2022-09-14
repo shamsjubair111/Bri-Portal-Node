@@ -171,6 +171,7 @@ const Applications = () => {
 
   const history = useHistory();
   const { addToast } = useToasts();
+  const location = useLocation();
 
   const userId = "";
   // const userId = "consultant";
@@ -361,8 +362,46 @@ const Applications = () => {
         setSerialNumber(res?.firstSerialNumber);
       });
     } else {
+      const uniId =
+      commonUniValue !== 0
+        ? commonUniValue
+        : typeof location.universityIdFromUniList !== undefined ||
+          location.universityIdFromUniList !== null
+        ? location.universityIdFromUniList
+        : 0;
+
+        if (uniId !== 0) {
+          var uni = commonUniDD?.find((s) => s.id === uniId);
+    
+          if (uni === undefined) {
+            setCommonUniLabel("University Name");
+          } else {
+            setCommonUniLabel(uni?.name);
+            setCommonUniValue(uniId);
+          }
+        }
+
+      const consId = 
+      consultantValue !== 0
+        ? consultantValue
+        : typeof location.consultantIdFromConsultantList !== undefined ||
+          location.consultantIdFromConsultantList !== null
+        ? location.consultantIdFromConsultantList
+        : 0;
+
+        if (consId !== 0) {
+          var consultant = commonConsultantDD?.find((s) => s.id === consId);
+    
+          if (consultant === undefined) {
+            setConsultantLabel("Consultant");
+          } else {
+            setConsultantLabel(consultant?.name);
+            setConsultantValue(consId);
+          }
+        }
+
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consId ? consId : consultantValue}&universityId=${uniId ? uniId : commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
         console.log("apppliList", res);
         setLoading(false);
@@ -406,7 +445,8 @@ const Applications = () => {
     entity,
     serialNumber,
     loading,
-    currentUser
+    currentUser,
+    location.universityIdFromUniList
   ]);
 
   // for all dropdown
@@ -595,7 +635,15 @@ const Applications = () => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/");
+    if(location.universityIdFromUniList != undefined){
+      history.push("/universityList");
+    }
+    else if(location.consultantIdFromConsultantList != undefined){
+      history.push("/consultantList");
+    }
+    else{
+      history.push("/");
+    }
   };
 
   const handleDate = (e) => {
@@ -614,7 +662,16 @@ const Applications = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.universityIdFromUniList != undefined ?
+                "Back to University List"
+                :
+                location.consultantIdFromConsultantList != undefined ? 
+                "Back to Consultant List"
+                :
+                "Back to Dashboard"
+              }
             </span>
           </div>
         </CardHeader>
@@ -1047,6 +1104,7 @@ const Applications = () => {
                     <th style={{ verticalAlign: "middle" }}>Applicant</th>
                     <th style={{ verticalAlign: "middle" }}>Contact</th>
                     <th style={{ verticalAlign: "middle" }}>University</th>
+                    <th style={{ verticalAlign: "middle" }}>Campus</th>
                     <th style={{ verticalAlign: "middle" }}>Course</th>
                     <th style={{ verticalAlign: "middle" }}>Intake</th>
                     <th style={{ verticalAlign: "middle" }}>
@@ -1086,6 +1144,10 @@ const Applications = () => {
 
                       <td style={{ verticalAlign: "middle" }}>
                         {app?.universityName}
+                      </td>
+
+                      <td style={{ verticalAlign: "middle" }}>
+                        {app?.campusName}
                       </td>
 
                       <td style={{ verticalAlign: "middle" }}>

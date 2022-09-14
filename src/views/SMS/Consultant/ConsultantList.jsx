@@ -37,6 +37,7 @@ import remove from '../../../helpers/remove.js';
 import LinkButton from '../Components/LinkButton.js';
 import ButtonForFunction from '../Components/ButtonForFunction.js';
 import { permissionList } from '../../../constants/AuthorizationConstant.js';
+import SpanButton from '../Components/SpanButton.js';
 
 const ConsultantList = () => {
 
@@ -191,6 +192,13 @@ const ConsultantList = () => {
     };
 
   const componentRef = useRef();
+
+  const redirectToApplications = (consultantId) => {
+    history.push({
+      pathname: "/applications",
+      consultantIdFromConsultantList: consultantId,
+    })
+  }
 
     return (
         <div>
@@ -452,13 +460,13 @@ const ConsultantList = () => {
                       </td>
                     
                       <td>
-                        {" "}
-                        <span
-                          className="badge badge-primary"
+                      <SpanButton
+                          func={() => redirectToApplications(consultant?.id)}
+                          className={"badge badge-primary"}
                           style={{ cursor: "pointer" }}
-                        >
-                          {0}
-                        </span>{" "}
+                          data={consultant?.applicationCount}
+                          permission={6}
+                        />
                       </td>
                       <td>
                         {" "}
@@ -466,7 +474,7 @@ const ConsultantList = () => {
                           className="badge badge-warning"
                           style={{ cursor: "pointer", textDecoration: "none" }}
                         >
-                          <Link style={{textDecoration: "none"}} to={`/consultantByConsultant/${consultant?.id}`}>{consultant?.childConsultantCount}</Link>
+                          <Link style={{textDecoration: "none"}} to={`/associates/${consultant?.id}`}>{consultant?.childConsultantCount}</Link>
                           
                         </span>{" "}
                       </td>
