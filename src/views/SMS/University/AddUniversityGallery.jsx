@@ -172,6 +172,14 @@ const AddUniversityGallery = () => {
     console.log("gOBj", gallery);
   };
 
+  const goBack = ()  =>{
+      history.push(`/addUniversityFeatures/${univerId}`);
+  }
+
+  const goFront = ()  =>{
+     history.push(`/addUniversityApplicationDocument/${univerId}`);
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -448,9 +456,25 @@ const AddUniversityGallery = () => {
                       </Col>
                     </FormGroup>
                   </Form>
+
+                  
+
                 </div>
               </div>
             </div>
+
+            <div className="d-flex justify-content-between mt-3">
+                <Button color="warning" onClick={goBack}>
+                      Previous Page
+                </Button>
+
+                <Button color="warning" onClick={goFront}>
+                      Next Page
+                </Button>
+
+            </div>
+
+
           </TabContent>
         </CardBody>
       </Card>

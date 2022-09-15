@@ -48,6 +48,8 @@ const UniversityDetails = () => {
   const [financialInfo, setFinancialInfo] = useState({});
   const [universityFeatures, setUniversityFeatures] = useState({});
   const [galleryData, setGalleryData] = useState([]);
+  const [appDocument,setAppDocument] = useState([]);
+  const [tempDocument,setTempDocument] = useState([]);
   // const [notAvl, setNotAvl] = useState('n/a');
 
   // for fake data
@@ -159,6 +161,17 @@ const UniversityDetails = () => {
       console.log("gallery", res);
       setGallery(res);
     });
+
+    get(`UniversityApplicationDocument/GetByUniversity/${id}`)
+    .then(res => {
+      setAppDocument(res);
+    })
+
+    get(`UniversityTemplateDocument/GetByUniversity/${id}`)
+    .then(res=> {
+      console.log(res);
+      setTempDocument(res);
+    })
 
     // for fake data
     // setUsers(userData);
@@ -846,7 +859,7 @@ const UniversityDetails = () => {
 
                       <div className="bg-h"></div>
                     </div>
-                    <div className="text-right edit-style  p-3">
+                    <div className="text-right edit-style  p-3" onClick={()=>handleProfileEdit(id)}>
                       <span>
                         {" "}
                         <i className="fas fa-pencil-alt pencil-style"></i>{" "}
@@ -1101,7 +1114,7 @@ const UniversityDetails = () => {
                                     className="text-center"
                                   >
                                     <ButtonGroup variant="text">
-                                      <Link to={`/campusDetails/${sub?.id}`}>
+                                      <Link to={`/subjectProfile/${sub?.id}`}>
                                         <Button
                                           color="primary"
                                           className="mx-1 btn-sm"
@@ -1315,7 +1328,7 @@ const UniversityDetails = () => {
                     <div>
                       <h5>
                         {" "}
-                        <b>Documents</b>{" "}
+                        <b>Application Documents</b>{" "}
                       </h5>
 
                       <div className="bg-h"></div>
@@ -1324,6 +1337,104 @@ const UniversityDetails = () => {
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                </div> */}
                   </div>
+
+                  <Table className="table-sm table-bordered">
+                    <thead className="thead-uapp-bg">
+                      <tr style={{ textAlign: "center" }}>
+                        <th>SL/NO</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                      {appDocument?.map((application, i) => (
+                        <tr
+                          key={application?.id}
+                          style={{ textAlign: "center" }}
+                        >
+                          <th scope="row">{i + 1}</th>
+                          <td>{application?.document?.name}</td>
+                          <td>
+                            {application?.applicationTypeId === 1
+                              ? "Home"
+                              : application?.applicationTypeId === 2
+                              ? "EU/UK"
+                              : "International"}
+                          </td>
+
+                          {/* <td>
+                            <a
+                              href={rootUrl + application?.document?.fileUrl}
+                              target="_blank"
+                              download
+                            >
+                              Download
+                            </a>
+                          </td> */}
+
+                          
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </CardBody>
+              </Card>
+            </div>
+
+
+            <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
+                        <b>Template Documents</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                  </div>
+
+                  <Table className="table-sm table-bordered">
+                    <thead className="thead-uapp-bg">
+                      <tr style={{ textAlign: "center" }}>
+                        <th>SL/NO</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th>File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {tempDocument?.map((temp, i) => (
+                        <tr
+                          key={temp?.id}
+                          style={{ textAlign: "center" }}
+                        >
+                          <th scope="row">{i + 1}</th>
+                          <td>{temp?.name}</td>
+                          <td>{temp?.description}</td>
+                          <td>
+                            {temp?.applicationTypeId ===1 ? 'Home' : temp?.applicationTypeId === 2 ? 'EU/UK' : 'International'}
+                          </td>
+                          <td>
+                            <a
+                              href={rootUrl + temp?.templateFile?.fileUrl}
+                              target="_blank"
+                              download
+                            >
+                              Download
+                            </a>
+                          </td>
+                          
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
                 </CardBody>
               </Card>
             </div>

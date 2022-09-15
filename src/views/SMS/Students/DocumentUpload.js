@@ -206,7 +206,7 @@ const DocumentUpload = () => {
     else {
       post("StudentUploadDocument/Create", subData).then((res) => {
         console.log("document data", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.isSuccess) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,

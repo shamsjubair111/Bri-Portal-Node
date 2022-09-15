@@ -14,9 +14,9 @@ const AdmissionManager = () => {
 
     const [country,setCountry] = useState([]);
     const [state, setState] = useState([]);
-    const  [countryLabel, setCountryLabel] = useState('Select country');
+    const  [countryLabel, setCountryLabel] = useState('Select Country');
     const  [countryValue, setCountryValue] = useState(0);
-    const  [stateLabel, setStateLabel] = useState('Select state');
+    const  [stateLabel, setStateLabel] = useState('Select State');
     const  [stateValue, setStateValue] = useState(0);
     const [countryError, setCountryError] = useState(false);
     const [stateError, setStateError] = useState(false);
@@ -24,7 +24,7 @@ const AdmissionManager = () => {
     const history = useHistory();
 
     const [title,setTitle] = useState([]);
-    const [titleLabel,setTitleLabel] = useState('Select');
+    const [titleLabel,setTitleLabel] = useState('Select Title');
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
     const [emailError, setEmailError] = useState(true);
@@ -109,7 +109,7 @@ const AdmissionManager = () => {
 
          if(titleValue == 0 ){
           setTitleError(true);
-          console.log('error 111111');
+          
         }
         else if(countryValue == 0){
           setCountryError(true);
@@ -177,7 +177,7 @@ const AdmissionManager = () => {
       <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span className="pl-2">
-                      Title <span className="text-danger">*</span>{" "}
+                      Title
                     </span>
                   </Col>
                   <Col md="4">
@@ -267,7 +267,7 @@ const AdmissionManager = () => {
                     {
                       !emailError ? 
 
-                      <span className='text-danger'>Email Already Exists</span>
+                      <span className='text-danger'>Email already exists</span>
                       :
                       null
 

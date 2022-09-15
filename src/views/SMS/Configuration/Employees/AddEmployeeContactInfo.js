@@ -22,11 +22,11 @@ const EmployeeContactInfo = () => {
     const history = useHistory();
     const [activetab, setActivetab] = useState('2');
     const [addressLine, setAddressLine] = useState([]);
-    const [addressLineName, setAddressLineName] = useState('Select Address Type...');
+    const [addressLineName, setAddressLineName] = useState('Select Address Type');
     const [addressLineValue, setAddressLineValue] = useState(0);
     const [addressLineError, setAddressLineError] = useState('');
     const [countryList, setCountryList] = useState([]);
-    const [countryLabel, setCountryLabel] = useState('Select Country...');
+    const [countryLabel, setCountryLabel] = useState('Select Country');
     const [countryValue, setCountryValue] = useState(0);
     const [countryError, setCountryError] = useState('');
     const { addToast } = useToasts();
@@ -76,10 +76,10 @@ const EmployeeContactInfo = () => {
        
         }
          if(addressLineValue == 0){
-            setAddressLineError('Address type is required')
+            setAddressLineError('Address type must be selected')
         }
         else if(countryValue == 0){
-            setCountryError('Country is required')
+            setCountryError('Country must be selected')
         }
         
         else{

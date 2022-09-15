@@ -2209,7 +2209,7 @@ const TestScore = () => {
            <ButtonForFunction className ={"btn btn-uapp-add "}
                 icon ={<i className="fas fa-plus"></i>}
                 func={addNewScore} 
-                name={' Add New'}
+                name={' Add New English Test Score'}
                 
                 ></ButtonForFunction>
            </div>

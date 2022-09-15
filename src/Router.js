@@ -366,6 +366,8 @@ const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction
 const CreateWithdrawRequest = lazy(() => import("./views/SMS/WithdrawRequest/Create"));
 const WithdrawRequestList = lazy(() => import("./views/SMS/WithdrawRequest/List"));
 
+const WithdrawTransaction = lazy(() => import("./views/SMS/WithdrawTransaction/Index"));
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -661,6 +663,8 @@ class AppRouter extends React.Component {
 
            <AppRoute  path="/createWithdrawRequest" component={CreateWithdrawRequest} />
            <AppRoute  path="/withdrawRequestList" component={WithdrawRequestList} />
+
+           <AppRoute  path="/withdrawTransaction" component={WithdrawTransaction} />
 
 
   <AppRoute  path="/search" component={Search} />

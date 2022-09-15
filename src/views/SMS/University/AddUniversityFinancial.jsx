@@ -149,6 +149,15 @@ const AddUniversityFinancial = (props) => {
     const backToUniList = () => {
         history.push("/universityList");
         }
+
+        const goBack = () => {
+            history.push(`/addUniversityCampus/${univerId}`)
+        }
+
+        const goFront = () => {
+            history.push(`/addUniversityFeatures/${univerId}`)
+        }
+
     return (
         <div>
 
@@ -398,6 +407,19 @@ const AddUniversityFinancial = (props) => {
                                 </FormGroup>
 
                                 </Form>
+
+                                <div className='d-flex justify-content-between'>
+
+                                        <Button color='warning' onClick={goBack}>
+                                            Previous Page
+                                            
+                                        </Button>
+
+                                        <Button color='warning' onClick={goFront}>
+                                            Next Page
+                                        </Button>
+
+                                </div>
                                     
                                 </TabPane>
 

@@ -32,6 +32,7 @@ import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
 import remove from "../../../helpers/remove";
+import { Link } from "react-router-dom";
 
 const AddSubjectDocumentRequirement = () => {
   const [activetab, setActivetab] = useState("5");
@@ -278,7 +279,7 @@ const handleDeleteDocuRequired = (id) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Subject Document Requirement</h3>
+          <h3 className="text-light">Subject Document Requirement</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}
@@ -351,7 +352,7 @@ const handleDeleteDocuRequired = (id) => {
                     <div>
                       <h5>
                         {" "}
-                        <b>Add Document Required</b>{" "}
+                        <b>Document Required</b>{" "}
                       </h5>
 
                       <div className="bg-h"></div>
@@ -524,6 +525,22 @@ const handleDeleteDocuRequired = (id) => {
                   }
                   
                 </div>
+              </div>
+              <div className="d-flex justify-content-end">
+                <Link to={`/subjectList`}>
+                <Button color="primary" className="me-1">
+                    Go to Subject List
+                  
+                </Button></Link>
+
+              <Link to={`/subjectProfile/${id}`}>
+              <Button color="primary" className="ms-1">
+                    Go to Subject Profile
+                  
+                </Button>
+              </Link>
+
+              
               </div>
             </TabPane>
           </TabContent>

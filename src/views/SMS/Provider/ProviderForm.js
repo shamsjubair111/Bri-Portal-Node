@@ -107,7 +107,7 @@ const ProviderForm = (props) => {
       const handleEmail = (e) => {
         console.log(e.target.value);
   
-        get(`EmailCheck/EmailCheck/${e.target.value}`)
+        get(`Provider/EmailCheck/${e.target.value}`)
         .then(res => {
           console.log('Checking Response', res);
           setEmailError(res);

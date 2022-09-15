@@ -892,7 +892,7 @@ const handleUpdate = (id) => {
 
                     programError && 
 
-                    <span className = 'text-danger'>Select Education Level</span>
+                    <span className = 'text-danger'>Education level must be selected</span>
                   }
 
                
@@ -975,7 +975,7 @@ const handleUpdate = (id) => {
 
           {
             countryError && 
-            <span className='text-danger'>Select Country</span>
+            <span className='text-danger'>Country must be selected</span>
           }
            
 

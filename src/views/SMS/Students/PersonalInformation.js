@@ -635,7 +635,7 @@ const PersonalInformation = () => {
                       required
                     />
                     {titleError && (
-                      <span className="text-danger">Select Title</span>
+                      <span className="text-danger">Title must be selected</span>
                     )}
 
                 
@@ -761,7 +761,7 @@ const PersonalInformation = () => {
                     />
                     {countryOfBirthError && (
                       <span className="text-danger">
-                        Select Country of Birth
+                        Country must be selected
                       </span>
                     )}
 
@@ -786,7 +786,7 @@ const PersonalInformation = () => {
                     />
 
                     {genderError && (
-                      <span className="text-danger">Select Gender</span>
+                      <span className="text-danger">Gender must be selected</span>
                     )}
 
                     
@@ -815,7 +815,7 @@ const PersonalInformation = () => {
                     />
 
                     {maritalStatusError && (
-                      <span className="text-danger">Select Marital Status</span>
+                      <span className="text-danger">Marital status must be selected</span>
                     )}
 
                    
@@ -844,7 +844,7 @@ const PersonalInformation = () => {
                     />
 
                     {nationalityError && (
-                      <span className="text-danger">Select Nationality</span>
+                      <span className="text-danger">Nationality must be selected</span>
                     )}
 
                    

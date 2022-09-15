@@ -522,8 +522,11 @@ const ProviderDetails = () => {
             </Card>
 
             <Card className="p-3">
-              <h6> Admission Manager</h6>
-              <span className="bg-wg bg-width"></span>
+            <div className="ms-3 mb-4 hedding-titel">
+                <h5> <b>Admission Manager</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
 
               {permissions?.includes(permissionList?.Add_Admission_manager) ? (
                 <Link to={`/addAdmissionManager/${id}`}>

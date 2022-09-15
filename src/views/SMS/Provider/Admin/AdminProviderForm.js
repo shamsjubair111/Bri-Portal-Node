@@ -115,7 +115,7 @@ const handleSubmit  = (event) => {
 
    if(titleValue == 0 ){
     setTitleError(true);
-    console.log('error 111111');
+   
   }
   else if(FileList?.length < 1){
     setImageError(true);
@@ -297,7 +297,7 @@ const handleEmail = (e) => {
                   {
                       !emailError ? 
 
-                      <span className='text-danger'>Email Already Exists</span>
+                      <span className='text-danger'>Email already exists</span>
                       :
                       null
 

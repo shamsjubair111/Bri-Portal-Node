@@ -525,7 +525,7 @@ const onShow=()=>{
           />
           {
             referenceError && 
-            <span className='text-danger'>Select Reference Type</span>
+            <span className='text-danger'>Reference type must be selected</span>
           }
 
           
@@ -630,7 +630,7 @@ const onShow=()=>{
           />
           {
             countryError && 
-            <span className='text-danger'>Select Country</span>
+            <span className='text-danger'>Country must be selected</span>
           }
 
        

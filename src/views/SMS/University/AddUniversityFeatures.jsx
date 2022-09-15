@@ -200,6 +200,16 @@ const AddUniversityFeatures = () => {
   const backToUniList = () => {
     history.push("/universityList");
   };
+
+  const goFront = () => {
+    history.push(`/addUniversityGallery/${univerId}`);
+
+  }
+
+  const goBack = () => {
+      history.push(`/addUniversityFinancial/${univerId}`);
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -570,6 +580,19 @@ const AddUniversityFeatures = () => {
                   </Col>
                 </FormGroup>
               </Form>
+
+              <div className="d-flex justify-content-between">
+
+                <Button color="warning" onClick={goBack}>
+                    Previous Page
+                </Button>
+
+                <Button color="warning" onClick={goFront}>
+                    Next Page
+                </Button>
+
+              </div>
+
             </TabPane>
           </TabContent>
         </CardBody>

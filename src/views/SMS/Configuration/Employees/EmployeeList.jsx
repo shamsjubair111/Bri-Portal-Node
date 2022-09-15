@@ -247,7 +247,7 @@ const EmployeeList = (props) => {
               </CardHeader>
             </Card>
 
-        <Card className="uapp-employee-search">
+        <Card>
               <CardBody>
               
                 <Row>
@@ -306,7 +306,7 @@ const EmployeeList = (props) => {
               </CardBody>
             </Card>
 
-            <Card>
+            <Card className="uapp-employee-search">
 
                 <CardBody>
     
@@ -320,7 +320,7 @@ const EmployeeList = (props) => {
                     func={handleAddStaff}
                     className={"btn btn-uapp-add "}
                     icon={<i className="fas fa-plus"></i>}
-                    name={" Add staff"}
+                    name={" Add New Employee"}
                     
                   />
                   : 
