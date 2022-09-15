@@ -354,7 +354,20 @@ const AdmissionManagerProfile = lazy(() => import("./views/SMS/Provider/Admissio
 
 const PromotionalCommissionList = lazy(() => import("./views/SMS/PromotionalCommission/CommissionList/PromotionalCommissionList"));
 
-const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/DistributionLevelSetting"));
+const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/Index"));
+
+const ApplicationTransaction = lazy(() => import("./views/SMS/ApplicationTransaction/Index"));
+const ApplicationTransactionDetails = lazy(() => import("./views/SMS/ApplicationTransaction/Details"));
+
+const InFlow = lazy(() => import("./views/SMS/InFlow/Index"));
+const InFlowDetails = lazy(() => import("./views/SMS/InFlow/Details"));
+
+const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction/Index"));
+
+const CreateWithdrawRequest = lazy(() => import("./views/SMS/WithdrawRequest/Create"));
+const WithdrawRequestList = lazy(() => import("./views/SMS/WithdrawRequest/List"));
+
+const WithdrawTransaction = lazy(() => import("./views/SMS/WithdrawTransaction/Index"));
 
 // admission officer
 const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerList.js"));
@@ -650,9 +663,21 @@ class AppRouter extends React.Component {
 
            <AppRoute  path="/distributionLevelSetting" component={DistributionLevelSetting} />
 
+           <AppRoute  path="/applicationTransaction" component={ApplicationTransaction} />
+           <AppRoute  path="/applicationTransactiondetails/:id" component={ApplicationTransactionDetails} />
+
+           <AppRoute  path="/inFlowTransaction" component={InFlow} />
+           <AppRoute  path="/inFlow/details/:id" component={InFlowDetails} />
+
+           <AppRoute  path="/accountTransaction" component={AccountTransactionList} />
+
+           <AppRoute  path="/createWithdrawRequest" component={CreateWithdrawRequest} />
+           <AppRoute  path="/withdrawRequestList" component={WithdrawRequestList} />
+
+           <AppRoute  path="/withdrawTransaction" component={WithdrawTransaction} />
 
 
-         <AppRoute  path="/search" component={Search} />
+  <AppRoute  path="/search" component={Search} />
 
          <AppRoute  path="/500" component={InternalServerError} />
 

@@ -33,7 +33,7 @@ const ProviderList = () => {
     const [providerList, setProviderList] = useState([]);
     const [searchStr, setSearchStr] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [providerLabel, setProviderLabel] = useState('Select provider type ');
+    const [providerLabel, setProviderLabel] = useState('Select Provider Type ');
     const [providerValue, setProviderValue] = useState(0);
     const [callApi, setCallApi] = useState(false);
     const [serialNum, setSerialNum] = useState(0);
@@ -180,7 +180,7 @@ const ProviderList = () => {
       
       
       setSearchStr('');
-      setProviderLabel('Select Provider');
+      setProviderLabel('Select Provider Type');
       setProviderValue(0);
       setCallApi(prev => !prev);
     }
@@ -306,7 +306,7 @@ const ProviderList = () => {
                url={'/providerForm'}
                className={"btn btn-uapp-add "}
                icon={<i className="fas fa-plus"></i>}
-               name={" Add New"}
+               name={" Add New Provider"}
                
                permission={6}
              />

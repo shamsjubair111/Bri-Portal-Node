@@ -47,7 +47,7 @@ const ExamTestTypeAttribute = () => {
     useEffect(()=>{
         // get('ExamTestTypeAttribute/Index')
         // .then(res => {
-        //     // console.log(res);
+        
         //     setExamTestTypeAttribute(res?.data?.result);
 
         // })
@@ -55,20 +55,20 @@ const ExamTestTypeAttribute = () => {
 
         get('FieldType/GetAll')
         .then(res => {
-          console.log(res);
+          
           setFieldType(res);
         })
 
 
         get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeAttributeId')}`)
         .then(res => {
-          console.log(res);
+          
           setExamTestTypeAttribute(res);
         })
 
         // get(`ExamTestTypeAttribute/GetByExamTestType/${examTestTypeAttributeId}`)
         // .then(res => {
-        //   console.log(res);
+       
         // })
 
     },[])

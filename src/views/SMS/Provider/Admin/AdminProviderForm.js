@@ -18,7 +18,7 @@ const AdminProviderForm = () => {
     const {addToast} = useToasts(); 
 
     const [title,setTitle] = useState([]);
-    const [titleLabel,setTitleLabel] = useState('Select');
+    const [titleLabel,setTitleLabel] = useState('Select Title');
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
     const [imageError, setImageError] = useState(false);
@@ -115,7 +115,7 @@ const handleSubmit  = (event) => {
 
    if(titleValue == 0 ){
     setTitleError(true);
-    console.log('error 111111');
+   
   }
   else if(FileList?.length < 1){
     setImageError(true);
@@ -127,12 +127,12 @@ const handleSubmit  = (event) => {
 
     post(`ProviderAdmin/Create`,subData)
     .then(res =>{
-      if(res?.status == 200){
+      if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
           appearance: 'success',
           autoDismiss: true
         })
-        history.push(`providerDetails/${adminProviderHiddenId}`);
+        history.push(`/providerDetails/${adminProviderHiddenId}`);
       }
     })
 
@@ -154,7 +154,7 @@ const handleEmail = (e) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Create Provider Admin</h3>
+          <h3 className="text-light">Provider Admin Information</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}
@@ -297,7 +297,7 @@ const handleEmail = (e) => {
                   {
                       !emailError ? 
 
-                      <span className='text-danger'>Email Already Exists</span>
+                      <span className='text-danger'>Email already exists</span>
                       :
                       null
 

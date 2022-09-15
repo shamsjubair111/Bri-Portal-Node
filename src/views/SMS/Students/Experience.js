@@ -292,7 +292,7 @@ console.log('trying', sDate?.split(",")[0]);
         <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Experience Information</h3>
+          <h3 className="text-light">Experience Information</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToStudentProfile}>
               {" "}
@@ -304,9 +304,7 @@ console.log('trying', sDate?.split(",")[0]);
 
       <Card>
       <CardBody>
-      {
-
-        update ?
+      
      
        <Nav tabs>
 
@@ -384,84 +382,7 @@ console.log('trying', sDate?.split(",")[0]);
 
        </Nav>
 
-       :
-
-       <Nav tabs>
-
-       <NavItem>
-       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
-         Application 
-       </NavLink>
-     </NavItem>
-
-         <NavItem>
-           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
-             Personal 
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
-             Contact 
-           </NavLink>
-         </NavItem>
-
-        
-         <NavItem>
-           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
-             Educational 
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-           <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
-             Test Score
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
-             Experience 
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink disabled  active={activetab === "7"} onClick={() => toggle("7")}>
-             Reference
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
-             Personal Statement
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
-             Others
-           </NavLink>
-         </NavItem>
-        
-         <NavItem>
-           <NavLink disabled active={activetab === "10"} onClick={() => toggle("10")}>
-             Documents
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-           <NavLink disabled active={activetab === "11"} onClick={() => toggle("11")}>
-             Declaration
-           </NavLink>
-         </NavItem>
-
-       </Nav>
-
-     }
+       
           <div className='row'>
         
       
@@ -789,7 +710,7 @@ console.log('trying', sDate?.split(",")[0]);
 
 
           <Button onClick={onNextPage} className="me-md-1 mt-3 btn-warning"
-          disabled = {info?.length <=0 ? true : false}
+          
           >
   
           Next Page

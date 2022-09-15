@@ -198,7 +198,7 @@ const AddUniversityApplicationDocument = () => {
       } else {
         put(`UniversityApplicationDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
-          if (res.status === 200 && res.data.isSuccess === true) {
+          if (res.status === 200) {
             // setSubmitData(false);
             addToast(res?.data?.message, {
               appearance: "success",
@@ -234,6 +234,13 @@ const AddUniversityApplicationDocument = () => {
       id: univerId,
     });
   };
+
+  const onPreviousPage = () => {
+    history.push({
+      pathname: `/addUniversityGallery/${univerId}`,
+      id: univerId,
+    });
+  }
 
   const cancel = () => {
     setShowForm(true);
@@ -700,15 +707,21 @@ const AddUniversityApplicationDocument = () => {
                 </div>
               ) : null}
 
-              {applicationList?.length > 0 ? (
+             
                 <FormGroup
                   className="has-icon-left position-relative"
                   style={{
                     display: "flex",
                     width: "100%",
-                    justifyContent: "end",
+                    justifyContent: "space-between",
                   }}
                 >
+                  <ButtonForFunction
+                    func={onPreviousPage}
+                    color={"warning uapp-form-button float-right"}
+                    name={"Previous Page"}
+                    permission={6}
+                  />
                   <ButtonForFunction
                     func={onNextPage}
                     color={"warning uapp-form-button float-right"}
@@ -716,7 +729,7 @@ const AddUniversityApplicationDocument = () => {
                     permission={6}
                   />
                 </FormGroup>
-              ) : null}
+              
             </TabPane>
           </TabContent>
         </CardBody>

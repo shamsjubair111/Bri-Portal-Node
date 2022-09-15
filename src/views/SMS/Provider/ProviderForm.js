@@ -53,6 +53,10 @@ const ProviderForm = (props) => {
         history.push("/")
     }
 
+    const backtoList = () => {
+      history.push(`/providerList`);
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
        
@@ -107,7 +111,7 @@ const ProviderForm = (props) => {
       const handleEmail = (e) => {
         console.log(e.target.value);
   
-        get(`EmailCheck/EmailCheck/${e.target.value}`)
+        get(`Provider/EmailCheck/${e.target.value}`)
         .then(res => {
           console.log('Checking Response', res);
           setEmailError(res);
@@ -119,7 +123,7 @@ const ProviderForm = (props) => {
         <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Create Provider</h3>
+          <h3 className="text-light">Provider Information</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}
@@ -357,12 +361,20 @@ const ProviderForm = (props) => {
                   >
 
                     <Col md="5">
+
+
+                     <div style={{position: 'relative', left: '-60px'}}>
+                     <Button color='danger' className='mt-3 ms-1' onClick={backtoList}>
+                        Cancel
+                      </Button>
+
                       <ButtonForFunction 
                         type={"submit"}
-                        className={"ms-lg-3 ms-sm-1 mt-3 badge-primary"}
+                        className={"mt-3 ms-1 badge-primary"}
                         name={"Submit"}
                         permission={6}
                       />
+                     </div>
                     </Col>
 
                     </FormGroup>

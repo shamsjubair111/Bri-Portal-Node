@@ -281,7 +281,7 @@ const ConsultantList = () => {
                 <LinkButton
                 url={'/addConsultant'}
                 className={"btn btn-uapp-add "}
-                name={"Add New"}
+                name={"Add New Consultant"}
                 icon={<i className="fas fa-plus"></i>}
                 // permission={6}
               />
@@ -492,7 +492,7 @@ const ConsultantList = () => {
 
                           <ButtonForFunction
                             func={()=>handleEdit(consultant)}
-                            color={"dark"}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
                         

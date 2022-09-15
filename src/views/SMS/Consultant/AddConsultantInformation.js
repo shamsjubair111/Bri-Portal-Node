@@ -658,6 +658,18 @@ const AddConsultantInformation = () => {
               value={consultantRegisterId}
             />
 
+            {
+              (consultantData?.id) ?
+              <input
+              type='hidden'
+              name='parentConsultantId'
+              id='parentConsultantId'
+              value={consultantData?.parentConsultantId}
+              />
+              :
+              null
+            }
+
             <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
@@ -674,7 +686,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {consultantError && (
-                  <span className="text-danger">Select Consultant Type</span>
+                  <span className="text-danger">Consultant type must be selected</span>
                 )}
               </Col>
             </FormGroup>
@@ -697,7 +709,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {parentError && (
-                  <span className="text-danger">Select Parent Consultant</span>
+                  <span className="text-danger">Parent consultant must be selected</span>
                 )}
               </Col>
             </FormGroup>
@@ -721,7 +733,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {titleError && (
-                  <span className="text-danger">Select Name Title</span>
+                  <span className="text-danger">Name title must be selected</span>
                 )}
               </Col>
             </FormGroup>
@@ -779,7 +791,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {!emailError ? (
-                  <span className="text-danger">Email Already Exists</span>
+                  <span className="text-danger">Email already exists</span>
                 ) : null}
               </Col>
             </FormGroup>
@@ -817,7 +829,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {accountError && (
-                  <span className="text-danger">Select Account Status</span>
+                  <span className="text-danger">Account status must be selected</span>
                 )}
               </Col>
             </FormGroup>
@@ -838,7 +850,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {residencyError && (
-                  <span className="text-danger">Select Residency Status</span>
+                  <span className="text-danger">Residency Status must be selected</span>
                 )}
               </Col>
             </FormGroup>
@@ -859,7 +871,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {branchError && (
-                  <span className="text-danger">Select Branch</span>
+                  <span className="text-danger">Branch must be selected</span>
                 )}
               </Col>
             </FormGroup>
@@ -880,7 +892,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {visaError && (
-                  <span className="text-danger">Select Visa Status</span>
+                  <span className="text-danger">Visa status must be selected</span>
                 )}
               </Col>
             </FormGroup>

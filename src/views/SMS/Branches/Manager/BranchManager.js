@@ -33,7 +33,7 @@ const BranchManager = () => {
   const [imageError,setImageError] = useState(false);
 
   const [title,setTitle] = useState([]);
-    const [titleLabel,setTitleLabel] = useState('Select');
+    const [titleLabel,setTitleLabel] = useState('Select Title');
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
 
@@ -391,7 +391,7 @@ const selectTitle = (label, value) => {
                    
                     {
                       titleError && 
-                      <span className='text-danger'>Select Title</span>
+                      <span className='text-danger'>Title must be selected</span>
                     }
 
                     {/* <div className="form-control-position">

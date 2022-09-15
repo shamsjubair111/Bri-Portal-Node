@@ -344,7 +344,7 @@ const handleUpdate = (id) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Educational Information</h3>
+          <h3 className="text-light">Educational Information</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToStudentProfile}>
               {" "}
@@ -356,9 +356,7 @@ const handleUpdate = (id) => {
 
       <Card>
       <CardBody>
-      {
-
-        update?
+     
      
        <Nav tabs>
 
@@ -436,85 +434,7 @@ const handleUpdate = (id) => {
 
        </Nav>
 
-       :
-
-       <Nav tabs>
-
-       <NavItem>
-       <NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
-         Application 
-       </NavLink>
-     </NavItem>
-
-         <NavItem>
-           <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
-             Personal 
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-           <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
-             Contact 
-           </NavLink>
-         </NavItem>
-
-        
-         <NavItem>
-           <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
-             Educational 
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-           <NavLink disabled  active={activetab === "5"} onClick={() => toggle("5")}>
-             Test Score
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink disabled  active={activetab === "6"} onClick={() => toggle("6")}>
-             Experience 
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink disabled  active={activetab === "7"} onClick={() => toggle("7")}>
-             Reference
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink disabled  active={activetab === "8"} onClick={() => toggle("8")}>
-             Personal Statement
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-
-           <NavLink disabled  active={activetab === "9"} onClick={() => toggle("9")}>
-             Others
-           </NavLink>
-         </NavItem>
-
-         <NavItem>
-              <NavLink disabled active={activetab === "10"} onClick={() => toggle("10")}>
-                Documents
-              </NavLink>
-            </NavItem>
-
-         <NavItem>
-              <NavLink disabled active={activetab === "11"} onClick={() => toggle("11")}>
-                Declaration
-              </NavLink>
-            </NavItem>
-        
-
-       </Nav>
-
-     }
+    
 
         <TabContent activeTab={activetab}>
           <TabPane tabId="4">
@@ -637,7 +557,7 @@ const handleUpdate = (id) => {
           <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Attended Institution From <span className="text-danger">*</span>{" "}
+                      Attended From <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -656,7 +576,7 @@ const handleUpdate = (id) => {
           <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Attended Institution To <span className="text-danger">*</span>{" "}
+                      Attended To <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -915,7 +835,7 @@ const handleUpdate = (id) => {
           <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Attended Institution From <span className="text-danger">*</span>{" "}
+                      Attended From <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -935,7 +855,7 @@ const handleUpdate = (id) => {
           <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Attended Institution To <span className="text-danger">*</span>{" "}
+                      Attended To <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -972,7 +892,7 @@ const handleUpdate = (id) => {
 
                     programError && 
 
-                    <span className = 'text-danger'>Select Education Level</span>
+                    <span className = 'text-danger'>Education level must be selected</span>
                   }
 
                
@@ -1055,7 +975,7 @@ const handleUpdate = (id) => {
 
           {
             countryError && 
-            <span className='text-danger'>Select Country</span>
+            <span className='text-danger'>Country must be selected</span>
           }
            
 
@@ -1173,7 +1093,7 @@ const handleUpdate = (id) => {
 
           {
             (eduDetails?.length > 0 && !showForm)     ?
-            <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+            <Button onClick={onShow} color="primary uapp-form-button">Add More</Button>
 
             :
 
@@ -1199,7 +1119,7 @@ const handleUpdate = (id) => {
           onClick={goForward}
             
             className="mr-1 mt-3 btn-warning"
-            disabled = {eduDetails.length <= 0 ? true : false}
+            
           >
             Next
             <i className="fas fa-arrow-right-long ms-1"></i>

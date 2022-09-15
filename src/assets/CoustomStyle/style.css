@@ -1231,3 +1231,29 @@ color: #fff!important;
 		  
 		 
 }
+
+.cursor-pointers{
+      background: #fff !important;
+    border: 1px solid #1e98b0 !important;
+    border-radius: 83px;
+}
+
+.acc-tran-btn-style{
+
+  background-color: white;
+  border: 1px solid #1e98b0;
+  color: #707070;
+  font-weight: 600;
+  border-radius: 3px;
+  line-height: 1.5;
+  padding: 8px 20px;
+
+}
+
+.acc-tran-btn-style:hover{
+  color: white;
+  background-color: #1E98B0;
+}
+
+
+

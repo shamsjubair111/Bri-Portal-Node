@@ -450,11 +450,16 @@ const ProviderDetails = () => {
               <CardBody>
                 <Row className="mb-3">
                   <Col lg="5" md="5" sm="4" xs="4">
+                  <div className="ms-3 mb-4 hedding-titel">
+                <h5> <b>University List</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
                     <ButtonForFunction
                       func={handleAddUniversity}
                       className={"ms-3 btn btn-uapp-add "}
                       icon={<i className="fas fa-plus"></i>}
-                      name={" Add New"}
+                      name={" Add New University"}
                       permission={6}
                     />
                   </Col>
@@ -508,8 +513,11 @@ const ProviderDetails = () => {
             </Card>
 
             <Card className="p-3">
-              <h6> Admission Manager</h6>
-              <span className="bg-wg bg-width"></span>
+            <div className="ms-3 mb-4 hedding-titel">
+                <h5> <b>Admission Manager</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
 
               {permissions?.includes(permissionList?.Add_Admission_manager) ? (
                 <Link to={`/addAdmissionManager/${id}`}>

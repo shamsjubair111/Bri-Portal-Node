@@ -3,8 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
 import get from '../../../helpers/get';
-import DistributionLevelSettingForm from './DistributionLevelSettingForm';
-import DistributionLevelSettingList from './DistributionLevelSettingList';
+import DistributionLevelSettingForm from './Form';
+import DistributionLevelSettingList from './List';
 
 const DistributionLevelSetting = () => {
 
@@ -14,6 +14,8 @@ const DistributionLevelSetting = () => {
     const [name,setName] = useState('');
     const [value,setValue] = useState('');
     const [percent,setPercent] = useState('');
+    const [update,setUpdate] = useState(false);
+    const [data,setData]= useState({});
 
     const backToDashboard = () => {
         history.push('/');
@@ -27,6 +29,19 @@ const DistributionLevelSetting = () => {
         })
 
     },[success])
+
+    const toggleUpdate = (data) =>{
+        setUpdate(true);
+        get(`DistributionLevelSetting/Get/${data?.id}`)
+        .then(res => {
+            setData(res);
+            setName(res?.levelName);
+            setValue(res?.levelValue);
+            setPercent(res?.commissionPercent);
+        })
+    }
+
+
 
 
     return (
@@ -53,6 +68,16 @@ const DistributionLevelSetting = () => {
                     <DistributionLevelSettingForm 
                     success={success}
                     setSuccess={setSuccess}
+                    update={update}
+                    setUpdate={setUpdate}
+                    name={name}
+                    setName={setName}
+                    value={value}
+                    setValue={setValue}
+                    percent={percent}
+                    setPercent={setPercent}
+                    data={data}
+                    setData={setData}
                     />
 
                 </div>
@@ -62,12 +87,9 @@ const DistributionLevelSetting = () => {
                     success={success}
                     setSuccess={setSuccess}
                     distributionData={distributionData}
-                    name={name}
-                    setName={setName}
-                    value={value}
-                    setValue={setValue}
-                    percent={percent}
-                    setPercent={setPercent}
+                    
+                    toggleUpdate={toggleUpdate}
+                    
                     />
 
                 </div>

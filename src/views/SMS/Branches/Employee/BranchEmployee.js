@@ -26,7 +26,7 @@ const Branch = () => {
     const [activetab, setActivetab] = useState("3");
       const [submitData, setSubmitData] = useState(false);
       const [success, setSuccess] = useState(false);
-      const [nationalityLabel, setNationalityLabel] = useState("Nationality");
+      const [nationalityLabel, setNationalityLabel] = useState("Select Nationality");
       const [nationalityValue, setNationalityValue] = useState(0);
       const [nationalityError, setNationalityError] = useState(false);
       const [serialNum, setSerialNum] = useState(0);
@@ -168,7 +168,7 @@ const Branch = () => {
       setNationalityError(true);
     }
     else if(empValue == 0){
-      setEmpError('Employee Type Must be Selected');
+      setEmpError('Employee type must be selected');
     }
     else if(employeeProfileImage.length <1 && check){
       setImageError(true);
@@ -433,7 +433,7 @@ const Branch = () => {
                 {
                       !emailError ? 
 
-                      <span className='text-danger'>Email Already Exists</span>
+                      <span className='text-danger'>email already exists</span>
                       :
                       null
 
@@ -505,7 +505,7 @@ const Branch = () => {
                />
                {
                 nationalityError? 
-                <span className='text-danger'>Nationality Must be Selected</span>
+                <span className='text-danger'>Nationality must be selected</span>
                 :
                 null
                }

@@ -223,7 +223,7 @@ const Branch = () => {
         <div>
              <Card className='uapp-card-bg'>
         <CardHeader className="page-header">
-          <h3 className='text-light'>Add Branch Information</h3>
+          <h3 className='text-light'>Branch Information</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToBranchList} className='text-light'>
               {" "}
@@ -328,7 +328,7 @@ const Branch = () => {
                     {
                       !emailError ? 
 
-                      <span className='text-danger'>Email Already Exists</span>
+                      <span className='text-danger'>Email already exists</span>
                       :
                       null
 
@@ -408,7 +408,7 @@ const Branch = () => {
                     />
                     {
                       countryError ? 
-                      <span className='text-danger'>Country Must Be Selected</span>
+                      <span className='text-danger'>Country must be selected</span>
                       :
                       null
                     }
@@ -437,7 +437,7 @@ const Branch = () => {
                     />
                      {
                       stateError ? 
-                      <span className='text-danger'>State Must Be Selected</span>
+                      <span className='text-danger'>State must be selected</span>
                       :
                       null
                     }

@@ -47,13 +47,13 @@ const AddUniversityCampus = (props) => {
   const [loading, setLoading] = useState(false);
   const myForm = createRef();
   const [uniStateLabel, setUniStateLabel] = useState(
-    "Select University State..."
+    "Select University State"
   );
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
   const [uniCountryLabel, setUniCountryLabel] = useState(
-    "Select University Country..."
+    "Select University Country"
   );
   const [uniCountryValue, setUniCountryValue] = useState(0);
   const [uniCountryError, setUniCountryError] = useState(false);
@@ -144,6 +144,8 @@ const AddUniversityCampus = (props) => {
 
   // select University Country
   const selectUniCountry = (label, value) => {
+    setUniStateLabel('Select University State')
+    setUniCountryValue(0);
     setUniCountryError(false);
     setUniCountryLabel(label);
     setUniCountryValue(value);
@@ -262,6 +264,14 @@ const AddUniversityCampus = (props) => {
       id: uniID,
     });
   };
+
+  const onPreviousPage = () => {
+    const uniID = universityId;
+    history.push({
+      pathname: `/addUniversity/${univerId}`,
+      id: uniID,
+    });
+  }
 
   const toggleDanger = (p) => {
     // localStorage.setItem("UniversityCampusId", p.id);
@@ -918,16 +928,21 @@ const AddUniversityCampus = (props) => {
                 </div>
               ))}
 
-              {
-                universityCampusList.length>0?
+              
                 <FormGroup
                 className="has-icon-left position-relative"
                 style={{
                   display: "flex",
                   width: "100%",
-                  justifyContent: "end",
+                  justifyContent: "space-between",
                 }}
               >
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
                 <ButtonForFunction
                   func={onNextPage}
                   color={"warning uapp-form-button float-right"}
@@ -935,9 +950,7 @@ const AddUniversityCampus = (props) => {
                   permission={6}
                 />
               </FormGroup>
-              :
-              null
-              }
+              
 
             </TabPane>
           </TabContent>

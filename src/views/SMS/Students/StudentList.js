@@ -246,7 +246,7 @@ const StudentList = () => {
 
     // on clear
     const handleClearSearch = () => {
-      setStudentTypeLabel("Select Student Type...");
+      setStudentTypeLabel("Select Student Type");
       setStudentTypeValue(0);
       setStatusValue(0);
       setStatusLabel('Select Account Status');
@@ -339,7 +339,7 @@ const StudentList = () => {
 
         put(`Password/Change`,subData)
         .then(res => {
-          if(res?.status ==200){
+          if(res?.status ==200 && res.data?.isSuccess){
             addToast(res?.data?.message,{
               appearance:'success',
               autoDismiss: true
@@ -505,7 +505,7 @@ const StudentList = () => {
             <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
                  func={handleAddStudent} 
-                 name={' Add New'}
+                 name={' Add New Student'}
                  
                  ></ButtonForFunction>
             </Col>
@@ -797,7 +797,7 @@ const StudentList = () => {
 
                             <ButtonForFunction
                             icon={<i className="fas fa-edit"></i>}
-                            color={"dark"}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
                             func={()=>handleEdit(student)}
                             />

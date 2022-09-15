@@ -30,11 +30,11 @@ const EmployeeGeneralInfo = (props) => {
     const history = useHistory();
     const [activetab, setActivetab] = useState('1');
     const [employeeList, setEmployeeList] = useState([]);
-    const [employeeType, setEmployeeType] = useState('Select Type...');
+    const [employeeType, setEmployeeType] = useState('Select Type');
     const [employeeValue, setEmployeeValue] = useState(0);
     const [employeeError, setEmployeeError] = useState('');
     const [nationality, setNationality] = useState([]);
-    const [nationalityType, setNationalityType] = useState('Select Nationality...');
+    const [nationalityType, setNationalityType] = useState('Select Nationality');
     const [nationalityValue, setNationalityValue] = useState(0);
     const [nationalityError, setNationalityError] = useState('');
     const { addToast } = useToasts();
@@ -152,11 +152,11 @@ const EmployeeGeneralInfo = (props) => {
       
 
         if (employeeValue == 0) {
-            setEmployeeError('Employee Type is Required');
+            setEmployeeError('Employee type must be selected');
             return;
         }
          else if (nationalityValue == 0) {
-            setNationalityError('Nationality is Required');
+            setNationalityError('Nationality must be selected');
             return;
         }
         else if(FileList?.length < 1) {

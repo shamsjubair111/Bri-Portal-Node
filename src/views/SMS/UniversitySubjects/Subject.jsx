@@ -43,13 +43,13 @@ const Subject = () => {
     const [programLevel, setProgramLevel] = useState([]);
     const [departmentList, setDepartmentList] = useState([]);
     const [subDepList, setSubDepList] = useState([]);
-    const [uniLabel, setUniLabel] = useState("Select University...");
+    const [uniLabel, setUniLabel] = useState("Select University");
     const [uniValue, setUniValue] = useState(0);
-    const [programLabel, setProgramLabel] = useState("Select Program Level...");
+    const [programLabel, setProgramLabel] = useState("Select Program Level");
     const [programValue, setProgramValue] = useState(0);
-    const [depLabel, setDepLabel] = useState("Select Department...");
+    const [depLabel, setDepLabel] = useState("Select Department");
     const [depValue, setDepValue] = useState(0);
-    const [subDepLabel, setSubDepLabel] = useState("Select Sub Department...");
+    const [subDepLabel, setSubDepLabel] = useState("Select Sub Department");
     const [subDepValue, setSubDepValue] = useState(0);
 
     const [subject, setSubject] = useState({});
@@ -191,6 +191,8 @@ const Subject = () => {
   }
 
   const selectDepartment = (label, value) => {
+    setSubDepLabel('Select Sub Department');
+    setSubDepValue(0);
     setDeptDropError(false);
     setDepLabel(label);
     setDepValue(value);
