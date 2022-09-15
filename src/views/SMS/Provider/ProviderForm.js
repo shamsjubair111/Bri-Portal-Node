@@ -53,6 +53,10 @@ const ProviderForm = (props) => {
         history.push("/")
     }
 
+    const backtoList = () => {
+      history.push(`/providerList`);
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
        
@@ -357,12 +361,20 @@ const ProviderForm = (props) => {
                   >
 
                     <Col md="5">
+
+
+                     <div style={{position: 'relative', left: '-60px'}}>
+                     <Button color='danger' className='mt-3 ms-1' onClick={backtoList}>
+                        Cancel
+                      </Button>
+
                       <ButtonForFunction 
                         type={"submit"}
-                        className={"ms-lg-3 ms-sm-1 mt-3 badge-primary"}
+                        className={"mt-3 ms-1 badge-primary"}
                         name={"Submit"}
                         permission={6}
                       />
+                     </div>
                     </Col>
 
                     </FormGroup>

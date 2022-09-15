@@ -305,7 +305,7 @@ const ProviderList = () => {
                url={'/providerForm'}
                className={"btn btn-uapp-add "}
                icon={<i className="fas fa-plus"></i>}
-               name={" Add New"}
+               name={" Add New Provider"}
                
                permission={6}
              />
