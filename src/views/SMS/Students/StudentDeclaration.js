@@ -477,7 +477,14 @@ update?
               }
 
               </div>
-        
+        <div>
+          <Link style={{marginLeft: '10px'}} to={`/uploadDocument/${applicationStudentId}/1`}>
+          <Button color='warning'>
+            Previous Page
+          </Button>
+          </Link>
+          
+        </div>
 
         </CardBody>
     </Card>
