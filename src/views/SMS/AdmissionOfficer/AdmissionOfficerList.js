@@ -71,8 +71,8 @@ const AdmissionOfficerList = () => {
 
   const [officerList, setOfficerList] = useState([]);
 
-  const [managerName, setManagerName] = useState('');
-  const [managerId, setManagerId] = useState(0);
+  const [officerName, setOfficerName] = useState('');
+  const [officerId, setOfficerId] = useState(0);
   const [deleteData, setDeleteData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -102,6 +102,10 @@ const AdmissionOfficerList = () => {
   const [managerFormValue, setManagerFormValue] = useState(0);
   const [managerFormError, setManagerFormError] = useState(false);
 
+  const [emailError, setEmailError] = useState(true);
+  const [officerObj, setOfficerObj] = useState({});
+  const [selectedId, setSelectedId] = useState(undefined);
+
   const location = useLocation();
   const history = useHistory();
   const { addToast } = useToasts();
@@ -113,10 +117,10 @@ const AdmissionOfficerList = () => {
   useEffect(() => {
     get("AdmissionManagerDD/Index").then((res) => {
       setManagerDD(res);
-      setManagerDDForm(res);
+      // setManagerDDForm(res);
     });
 
-    get("UniversityCountryDD/Index").then(res =>{
+    get("CountryDD/index").then(res =>{
         setCountryList(res);
       });
 
@@ -173,7 +177,7 @@ const AdmissionOfficerList = () => {
     setCountryError(false);
     setUniStateLabel("Select State");
     setUniStateValue(0);
-    get(`UniversityStateDD/Index/${value}`)
+    get(`StateDD/Index/${value}`)
       .then(res => {
         console.log("res", res);
         // setUniStateLabel(res.name)
@@ -216,6 +220,17 @@ const selectProvider = (label, value) => {
     setProviderError(false);
     setProviderLabel(label);
     setProviderValue(value);
+    setManagerFormLabel("Select Admission Manager");
+    setManagerFormValue(0);
+    get(`AdmissionManagerDD/Index/${value}`)
+      .then(res => {
+        console.log("res", res);
+        setManagerDDForm(res);
+        // setUniStateLabel(res.name)
+        // setUniStateValue(res.id)
+        // setUniversityStates(res);
+      })
+
 }
 
   // user select data per page
@@ -283,10 +298,11 @@ const selectProvider = (label, value) => {
     history.push("/");
   };
 
-  const redirectToAssignPage = (providerId, managerId) =>{
+  const redirectToOfficerAssignPage = (officerId) =>{
+    // console.log(officerId);
     history.push({
-        pathname: `/assignUniversity/${providerId}/${managerId}`,
-        managerList: "managerList"
+        pathname: `/assignAdmissionOfficer/${officerId}`,
+        officerList: "officerList"
     });
   }
 
@@ -297,38 +313,30 @@ const selectProvider = (label, value) => {
     });
   }
 
-  const updateAdmissionManager = (managerId, providerId) => {
-    history.push({
-        pathname: `/updateAdmissionManager/${managerId}/${providerId}`,
-        managerList: "managerList"
-    });
-  };
-
-  const toggleDelete = (manager) => {
-    console.log("manager", manager);
-    setManagerId(manager?.id);
-    setManagerName(manager?.firstName);
-    setDeleteData(manager);
-    setDeleteModal(true);
-  };
+  // const updateAdmissionManager = (managerId, providerId) => {
+  //   history.push({
+  //       pathname: `/updateAdmissionManager/${managerId}/${providerId}`,
+  //       managerList: "managerList"
+  //   });
+  // };
 
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    setManagerId(0);
-    setManagerName('');
+    setOfficerId(0);
+    setOfficerName('');
     setDeleteData({});
   };
 
   const handleDelete = () => {
-    remove(`AdmissionManager/Delete/${deleteData?.id}`).then((res) => {
+    remove(`AdmissionOfficer/Delete/${deleteData?.id}`).then((res) => {
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
       });
       setDeleteData({});
       setDeleteModal(false);
-      setManagerId(0);
-      setManagerName('');
+      setOfficerId(0);
+      setOfficerName('');
       setSuccess(!success);
     });
   };
@@ -358,19 +366,30 @@ const selectProvider = (label, value) => {
 
   // on Close Modal
   const closeModal = () => {
-    // setCampObj({});
+    setSelectedId(undefined);
+    setOfficerObj(null);
+    setNameTitleLabel("Select Title");
+    setNameTitleValue(0);
     setUniCountryLabel("Select Country");
     setUniCountryValue(0);
     setUniStateLabel("Select State");
     setUniStateValue(0);
-    setUniStateLabel("Select State");
-    setUniStateValue(0);
     setProviderLabel("Select Provider");
     setProviderValue(0);
-    setNameTitleLabel("Select Title");
-    setNameTitleValue(0);
-    // setSelectedId(0);
+    setManagerFormLabel("Select Admission Manager");
+    setManagerFormValue(0);
+    setCountryError(false);
+    setUniStateError(false);
+    setNameTitleError(false);
+    setProviderError(false);
+    setManagerFormError(false);
+    setEmailError(true);
     setModalOpen(false);
+  }
+
+  const handleAddNew = () =>{
+    setOfficerObj({});
+    setModalOpen(true);
   }
 
   const handleSubmit = event =>{
@@ -381,44 +400,95 @@ const selectProvider = (label, value) => {
         console.log(i);
     }
 
-    // if(selectedId === 0){
-      post(`AdmissionOfficer/Create`, subdata)
-    .then(res => {
-      setSuccess(!success);
-      setModalOpen(false);
-      console.log("ressss", res);
-    //   setuniversityId(res?.data?.result?.universityId)
-      if (res.status === 200 && res.data.isSuccess === true) {
-        // setSubmitData(false);
-        addToast(res.data.message, {
-          appearance: 'success',
-          autoDismiss: true,
+    if(nameTitleValue === 0){
+      setNameTitleError(true);
+    }
+    else if(emailError == false){
+      setEmailError(emailError);
+    }
+    else if(uniCountryValue === 0){
+      setCountryError(true);
+    }
+    else if(unistateValue === 0){
+      setUniStateError(true);
+    }
+    else if(providerValue === 0 && selectedId === undefined){
+      setProviderError(true);
+    }
+    else if(managerFormValue === 0 && selectedId === undefined){
+      setManagerFormError(true);
+    }
+    else{
+      if(selectedId === undefined){
+        setOfficerObj({});
+        post(`AdmissionOfficer/Create`, subdata)
+        .then(res => {
+          setSuccess(!success);
+          setModalOpen(false);
+          console.log("ressss", res);
+        //   setuniversityId(res?.data?.result?.universityId)
+          if (res?.status === 200 && res?.data?.isSuccess === true) {
+            // setSubmitData(false);
+            addToast(res.data.message, {
+              appearance: 'success',
+              autoDismiss: true,
+            })
+          }
         })
-      }
-    })
-    // }
-
-
-    // else{
-    //   put(`UniversityCampus/Update`, subdata)
-    //     .then(res => {
+        }
+        else{
+          put(`AdmissionOfficer/Update`, subdata)
+          .then(res => {
+            
+            if (res.status === 200 && res.data.isSuccess === true) {
+              addToast(res.data.message, {
+                appearance: 'success',
+                autoDismiss: true,
+              })
+              setOfficerObj({});
+              setSelectedId(undefined);
+              setSuccess(!success);
+              setModalOpen(false);
+            }
           
-    //       if (res.status === 200 && res.data.isSuccess === true) {
-    //         setSubmitData(false);
-    //         addToast(res.data.message, {
-    //           appearance: 'success',
-    //           autoDismiss: true,
-    //         })
-    //         setSelectedId(0);
-    //         setSuccess(!success);
-    //         setModalOpen(false);
-    //       }
-        
-    //     })
-    // }
-
+          })
+        }
+    }
   }
 
+  const handleEmail = (e) => {
+    console.log(e.target.value);
+
+    get(`Consultant/OnChangeEmail/${e.target.value}`)
+    .then(res => {
+      console.log('Checking Response', res);
+      setEmailError(res);
+    })
+  }
+
+  const toggleDanger = (officer) => {
+    console.log("officer", officer);
+    setOfficerId(officer?.id);
+    setOfficerName(officer?.firstName);
+    setDeleteData(officer);
+    setDeleteModal(true);
+  };
+
+  const handleUpdate = (officer) =>{
+
+    console.log("officer", officer);
+    setOfficerObj(officer);
+    setNameTitleLabel(officer?.nameTittle?.name);
+    setNameTitleValue(officer?.nameTittleId);
+    setUniCountryLabel(officer?.country?.name);
+    setUniCountryValue(officer?.countryId);
+    setUniStateLabel(officer?.state?.name);
+    setUniStateValue(officer?.stateId);
+    setProviderLabel(officer?.provider?.name);
+    setProviderValue(officer?.providerId);
+    setSelectedId(officer?.id);
+    setModalOpen(true);
+  }
 
     return (
         <div>
@@ -491,7 +561,7 @@ const selectProvider = (label, value) => {
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
               <ButtonForFunction
-                func={()=>setModalOpen(true)}
+                func={handleAddNew}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
                 name={" Add New"}
@@ -616,6 +686,7 @@ const selectProvider = (label, value) => {
                     <th>Email</th>
                     <th>Phone No</th>
                     <th>Country</th>
+                    {/* <th>Assigned Admission Officer</th> */}
                     <th style={{ width: "8%" }} className="text-center">
                       Action
                     </th>
@@ -639,7 +710,18 @@ const selectProvider = (label, value) => {
 
                     <td>{officer?.country?.name} ({officer?.state?.name})</td>
 
-                    <td>
+                    {/* <td>
+                      {" "}
+                      <span
+                        className="badge badge-secondary"
+                        style={{ cursor: "pointer" }}
+                      >
+                        
+                        <span onClick={()=>redirectToOfficerAssignPage(officer?.id)} className="text-decoration-none">View</span>
+                      </span>{" "}     
+                    </td> */}
+
+                    <td style={{ width: "8%" }} className="text-center">
                       <ButtonGroup variant="text">
                     
                         <ButtonForFunction
@@ -652,17 +734,58 @@ const selectProvider = (label, value) => {
                           permission={6}
                         />
 
+                      <ButtonForFunction
+                        func={() => handleUpdate(officer)}
+                        color={"warning"}
+                        className={"mx-1 btn-sm"}
+                        icon={<i className="fas fa-edit"></i>}
+                        permission={6}
+                      />
+
+                      <ButtonForFunction
+                        color={"danger"}
+                        func={() => toggleDanger(officer)}
+                        className={"mx-1 btn-sm"}
+                        icon={<i className="fas fa-trash-alt"></i>}
+                        permission={6}
+                      />
+
                       </ButtonGroup>
 
-                      <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal2" size='lg'>
-              <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Add Admission Officer</span></ModalHeader>
+                          <Modal
+                              isOpen={deleteModal}
+                              toggle={closeDeleteModal}
+                              className="uapp-modal"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are You Sure to Delete this <b>{officerName}</b> ? Once Deleted it
+                                  can't be Undone!
+                                </p>
+                              </ModalBody>
+
+                              <ModalFooter>
+                                <Button color="danger" onClick={handleDelete}>
+                                  YES
+                                </Button>
+                                <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                              </ModalFooter>
+                            </Modal>
+                            
+
+            <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal4" style={{height: '5px'}} size='lg'>
+              <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Admission Officer</span></ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit} >
 
-                <FormGroup row className="has-icon-left position-relative">
-                  {/* <Input type="hidden" id="universityId" name="universityId" value={uniId} />
-                  <Input type="hidden" id="Id" name="Id" value={selectedId} /> */}
+                {
+                  selectedId != undefined ?
+                  <FormGroup row className="has-icon-left position-relative">
+                  <Input type="hidden" id="id" name="id" value={selectedId} />
                 </FormGroup>
+                :
+                null
+                }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
@@ -674,8 +797,8 @@ const selectProvider = (label, value) => {
                       options={nameTitleMenu}
                       value={{ label: nameTitleLabel, value: nameTitleValue }}
                       onChange={opt => selectNameTitle(opt.label, opt.value)}
-                      name="nameTittleId "
-                      id="nameTittleId "
+                      name="nameTittleId"
+                      id="nameTittleId"
                     />
 
                     {/* <div className="form-control-position">
@@ -699,7 +822,7 @@ const selectProvider = (label, value) => {
                       name="firstName"
                       id="firstName"  
                       
-                    //  defaultValue={campObj?.name}
+                      defaultValue={officerObj?.firstName}
                       placeholder="Type First Name"
                       required
                     />
@@ -717,9 +840,8 @@ const selectProvider = (label, value) => {
                     <Input
                       type="text"
                       name="lastName"
-                      id="lastName"  
-                      
-                    //  defaultValue={campObj?.name}
+                      id="lastName"
+                      defaultValue={officerObj?.lastName}
                       placeholder="Type Last Name"
                       required
                     />
@@ -738,18 +860,27 @@ const selectProvider = (label, value) => {
                       type="email"
                       name="email"
                       id="email"  
-                      
-                    //  defaultValue={campObj?.name}
+                      onBlur={handleEmail}
+                      defaultValue={officerObj?.email}
                       placeholder="Type Your Email"
                       required
                     />
-                    {/* <div className="form-control-position">
-                                                <User size={15} />
-                                            </div> */}
+                   {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email already exists.</span>
+                      :
+                      null
+
+                    }
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {
+                  selectedId != undefined ?
+                  null
+                  :
+                  <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
                     <span>Password <span className="text-danger">*</span></span>
                   </Col>
@@ -758,15 +889,12 @@ const selectProvider = (label, value) => {
                       type="password"
                       name="password"
                       id="password"
-                    //   defaultValue={campObj?.totalStudent}
                       placeholder="Type Your Password"
                       required
                     />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
                   </Col>
                 </FormGroup>
+                }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
@@ -778,7 +906,7 @@ const selectProvider = (label, value) => {
                       name="phoneNumber"
                       id="phoneNumber"  
                       
-                    //  defaultValue={campObj?.name}
+                      defaultValue={officerObj?.phoneNumber}
                       placeholder="Type Your Phone Number"
                       required
                     />
@@ -838,7 +966,10 @@ const selectProvider = (label, value) => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {
+                  selectedId != undefined ? 
+                  null:
+                  <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
                     <span>Provider <span className="text-danger">*</span> </span>
                   </Col>
@@ -863,8 +994,13 @@ const selectProvider = (label, value) => {
                     }
                   </Col>
                 </FormGroup>
+                }
 
-                <FormGroup row className="has-icon-left position-relative">
+                {
+                  selectedId != undefined ?
+                  null
+                  :
+                  <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
                     <span>Admission Manager <span className="text-danger">*</span> </span>
                   </Col>
@@ -889,6 +1025,7 @@ const selectProvider = (label, value) => {
                     }
                   </Col>
                 </FormGroup>
+                }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
@@ -899,7 +1036,7 @@ const selectProvider = (label, value) => {
                       type="text"
                       name="city"
                       id="city"
-                    //   defaultValue={campObj?.campusCity}
+                      defaultValue={officerObj?.city}
                       placeholder="Type City Name"
                       required
                     />
@@ -918,7 +1055,7 @@ const selectProvider = (label, value) => {
                       type="text"
                       name="postCode"
                       id="postCode"
-                    //   defaultValue={campObj?.addressLine}
+                      defaultValue={officerObj?.postCode}
                       placeholder="Type Post Code"
                       required
                     />

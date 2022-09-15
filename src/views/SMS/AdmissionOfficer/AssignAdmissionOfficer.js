@@ -34,21 +34,17 @@ import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 
-const AssignUniversity = () => {
-  const [loading, setLoading] = useState(false);
+const AssignAdmissionOfficer = () => {
+    const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [providerUniList, setProviderUniList] = useState([]);
-  const [uniLabel, setUniLabel] = useState("Select University");
-  const [uniValue, setUniValue] = useState(0);
-  const [uniError, setUniError] = useState(false);
+  const [managerDD, setManagerDD] = useState([]);
+  const [managerLabel, setManagerLabel] = useState("Select Admission Manager");
+  const [managerValue, setManagerValue] = useState(0);
+  const [managerError, setManagerError] = useState(false);
 
-  const [uniList, setUniList] = useState([]);
+  const [managerList, setManagerList] = useState([]);
   const [success, setSuccess] = useState(false);
-
-  const [radioIsAcceptHome, setRadioIsAcceptHome] = useState("false");
-  const [radioIsAcceptUk, setRadioIsAcceptUk] = useState("true");
-  const [radioIsAcceptInt, setRadioIsAcceptInt] = useState("false");
 
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -57,7 +53,7 @@ const AssignUniversity = () => {
   const [managerUniName, setManagerUniName] = useState('');
   const [managerUniId, setManagerUniId] = useState(0);
 
-  const { providerId, managerId } = useParams();
+  const { officerId } = useParams();
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
@@ -65,44 +61,39 @@ const AssignUniversity = () => {
   const componentRef = useRef();
 
   useEffect(() => {
-    get(`ProviderUniversityDD/Index/${providerId}`).then((res) => {
-      setProviderUniList(res);
+    get(`AdmissionManagerDD/Index`).then((res) => {
+      setManagerDD(res);
     });
 
-    get(`AdmissionManagerUniversity/Index/${managerId}`).then((res) => {
-      setUniList(res);
+    get(`AdmissionOfficerOfmanager/byAdmissionofficer/${officerId}`).then((res) => {
+      setManagerList(res);
+    console.log("datasss", res);
     });
-  }, [providerId, managerId, success]);
+  }, [success, officerId]);
 
-  const universityMenu = providerUniList.map((uni) => ({
+  const managerMenu = managerDD.map((uni) => ({
     label: uni?.name,
     value: uni?.id,
   }));
 
-  const selectUniversity = (label, value) => {
-    setUniLabel(label);
-    setUniValue(value);
-    setUniError(false);
+  const selectManager = (label, value) => {
+    setManagerLabel(label);
+    setManagerValue(value);
+    setManagerError(false);
   };
 
-  const backToProviderDetails = () => {
-    if(location.managerList != undefined){
-      history.push(`/admissionManagerList`);
-    }
-    else{
-      history.push(`/providerDetails/${providerId}`);
-    }
+  const backToAdmissionOfficerList = () => {
+    
+      history.push(`/admissionOfficerList`);
+    
   };
 
   // on Close Modal
   const closeModal = () => {
     setModalOpen(false);
-    setUniLabel("Select University");
-    setUniValue(0);
+    setManagerLabel("Select Admission Manager");
+    setManagerValue(0);
     setSelectedId(undefined);
-    setRadioIsAcceptHome("false");
-    setRadioIsAcceptUk("true");
-    setRadioIsAcceptInt("false");
   };
 
   // toggle dropdown
@@ -112,42 +103,24 @@ const AssignUniversity = () => {
 
   const handleExportXLSX = () => {
     var wb = XLSX.utils.book_new(),
-      ws = XLSX.utils.json_to_sheet(uniList);
+      ws = XLSX.utils.json_to_sheet(managerList);
     XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
 
-  // on change radio button starts here
-  const onValueChangeIsAcceptHome = (event) => {
-    setRadioIsAcceptHome(event.target.value);
-  };
-
-  const onValueChangeIsAcceptUk = (event) => {
-    setRadioIsAcceptUk(event.target.value);
-  };
-
-  const onValueChangeIsAcceptInt = (event) => {
-    setRadioIsAcceptInt(event.target.value);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const subData = {
-      admissionManagerId: managerId,
-      universityId: uniValue,
-      isAcceptHome: radioIsAcceptHome == "true" ? true : false,
-      isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
-      isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+      admissionManagerId: managerValue,
+      admissionOfficerId: officerId,
     };
 
     const subData1 = {
       id: selectedId,
-      admissionManagerId: managerId,
-      universityId: uniValue,
-      isAcceptHome: radioIsAcceptHome == "true" ? true : false,
-      isAcceptEU_UK: radioIsAcceptUk == "true" ? true : false,
-      isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
+    //   admissionManagerId: managerId,
+    //   universityId: uniValue,
     };
 
 
@@ -160,21 +133,18 @@ const AssignUniversity = () => {
           });
           setSuccess(!success);
           setModalOpen(false);
-          setUniLabel("Select University");
-          setUniValue(0);
+          setManagerLabel("Select Admission Manager");
+          setManagerValue(0);
           setSelectedId(undefined);
-          setRadioIsAcceptHome("false");
-          setRadioIsAcceptUk("true");
-          setRadioIsAcceptInt("false");
         }
       });
     }
     else{
-      if (uniValue === 0) {
-        setUniError(true);
+      if (managerValue === 0) {
+        setManagerError(true);
       } else {
         setSelectedId(undefined);
-        post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
+        post(`AdmissionOfficerOfManager/Create`, subData).then((res) => {
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -182,11 +152,8 @@ const AssignUniversity = () => {
             });
             setSuccess(!success);
             setModalOpen(false);
-            setUniLabel("Select University");
-            setUniValue(0);
-            setRadioIsAcceptHome("false");
-            setRadioIsAcceptUk("true");
-            setRadioIsAcceptInt("false");
+            setManagerLabel("Select Admission Manager");
+            setManagerValue(0);
           }
         });
       }
@@ -214,31 +181,25 @@ const AssignUniversity = () => {
     });
   };
 
-  const handleUpdate = (university) => {
+  const handleUpdate = (manager) => {
+    console.log("update manager", manager);
     setModalOpen(true);
-    setUniLabel(university?.university?.name);
-    setUniValue(university?.university?.id);
-    setRadioIsAcceptHome(`${university?.isAcceptHome}`);
-    setRadioIsAcceptUk(`${university?.isAcceptEU_UK}`);
-    setRadioIsAcceptInt(`${university?.isAcceptInternational}`);
-    setSelectedId(university?.id);
+    // setManagerLabel(university?.university?.name);
+    // setManagerValue(university?.university?.id);
+    // setSelectedId(university?.id);
   }
-
-  return (
-    <div>
+    return (
+        <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Assigned University</h3>
+          <h3 className="text-light">Assigned Admission Manager List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-light">
+            <span onClick={backToAdmissionOfficerList} className="text-light">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {
-                location.managerList != undefined ?
-                "Back to Admission Manager List"
-                :
-                "Back to Provider Details"
-              }
+              
+                Back to Admission Officer List
+                
             </span>
           </div>
         </CardHeader>
@@ -252,7 +213,7 @@ const AssignUniversity = () => {
                 func={() => setModalOpen(true)}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New"}
+                name={" Assign Admission Manager"}
                 permission={6}
               />
             </Col>
@@ -338,203 +299,40 @@ const AssignUniversity = () => {
               size="lg"
             >
               <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
-                <span className="text-white">University</span>
+                <span className="text-white">Admission Officer</span>
               </ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   
 
                   <FormGroup row className="has-icon-left position-relative">
-                  {
-                      selectedId === undefined ?
-                    <>
                       <Col md="3">
                       <span>
-                        University Name <span className="text-danger">*</span>{" "}
+                        Admission Manager <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
                     
                       <Col md="5">
                       <Select
-                        options={universityMenu}
-                        value={{ label: uniLabel, value: uniValue }}
+                        options={managerMenu}
+                        value={{ label: managerLabel, value: managerValue }}
                         onChange={(opt) =>
-                          selectUniversity(opt.label, opt.value)
+                            selectManager(opt.label, opt.value)
                         }
-                        name="universityId"
-                        id="universityId"
+                        name="admissionmanagerId"
+                        id="admissionmanagerId"
                       />
 
-                      {uniError && (
+                      {managerError && (
                         <span className="text-danger">
-                          You must select university.
+                          You must select admission manager.
                         </span>
                       )}
                     </Col>
-                    </>
-                    :
-                    null
-                    }
                   </FormGroup>
 
-                  {uniValue > 0 ? (
-                    <>
-                      <FormGroup row className="pt-3">
-                        <p>
-                          <b>Recruitment Type</b>
-                        </p>
-                        <br />
-                        <br />
-                        <Col md="3">
-                          <span>
-                            Is accept home{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-
-                        <Col md="5">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="radio"
-                              id="isAcceptHome"
-                              onChange={onValueChangeIsAcceptHome}
-                              name="isAcceptHome"
-                              value="true"
-                              checked={radioIsAcceptHome == "true"}
-                            />
-                            <Label
-                              className="form-check-label"
-                              check
-                              htmlFor="isAcceptHome"
-                            >
-                              Yes
-                            </Label>
-                          </FormGroup>
-
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="radio"
-                              id="isAcceptHome"
-                              onChange={onValueChangeIsAcceptHome}
-                              name="isAcceptHome"
-                              value="false"
-                              checked={radioIsAcceptHome == "false"}
-                            />
-
-                            <Label
-                              className="form-check-label"
-                              check
-                              htmlFor="isAcceptHome"
-                            >
-                              No
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup row className="pt-3">
-                        <Col md="3">
-                          <span>
-                            Is accept EU_UK{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-
-                        <Col md="5">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="radio"
-                              id="isAcceptEU_UK"
-                              onChange={onValueChangeIsAcceptUk}
-                              name="isAcceptEU_UK"
-                              value="true"
-                              checked={radioIsAcceptUk == "true"}
-                            />
-                            <Label
-                              className="form-check-label"
-                              check
-                              htmlFor="isAcceptEU_UK"
-                            >
-                              Yes
-                            </Label>
-                          </FormGroup>
-
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="radio"
-                              id="isAcceptEU_UK"
-                              onChange={onValueChangeIsAcceptUk}
-                              name="isAcceptEU_UK"
-                              value="false"
-                              checked={radioIsAcceptUk == "false"}
-                            />
-
-                            <Label
-                              className="form-check-label"
-                              check
-                              htmlFor="isAcceptEU_UK"
-                            >
-                              No
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup row className="pt-3">
-                        <Col md="3">
-                          <span>
-                            Is accept international{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-
-                        <Col md="5">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="radio"
-                              id="isAcceptInternational"
-                              onChange={onValueChangeIsAcceptInt}
-                              name="isAcceptInternational"
-                              value="true"
-                              checked={radioIsAcceptInt == "true"}
-                            />
-                            <Label
-                              className="form-check-label"
-                              check
-                              htmlFor="isAcceptInternational"
-                            >
-                              Yes
-                            </Label>
-                          </FormGroup>
-
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="radio"
-                              id="isAcceptInternational"
-                              onChange={onValueChangeIsAcceptInt}
-                              name="isAcceptInternational"
-                              value="false"
-                              checked={radioIsAcceptInt == "false"}
-                            />
-
-                            <Label
-                              className="form-check-label"
-                              check
-                              htmlFor="isAcceptInternational"
-                            >
-                              No
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </FormGroup>
-                    </>
-                  ) : null}
+                  <br />
+                  <br />
 
                   <FormGroup
                     className="has-icon-left position-relative"
@@ -571,26 +369,18 @@ const AssignUniversity = () => {
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
                     <th>University Name</th>
-                    <th>Requirement Type</th>
+                    {/* <th>Requirement Type</th> */}
                     <th style={{ width: "8%" }} className="text-center">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {uniList?.map((uni, i) => (
-                    <tr key={uni?.id} style={{ textAlign: "center" }}>
+                  {managerList?.map((manager, i) => (
+                    <tr key={manager?.id} style={{ textAlign: "center" }}>
                       <th scope="row">{i + 1}</th>
 
-                      <td>{uni?.university?.name}</td>
-                      <td>
-                        {uni?.isAcceptHome === true ? `Home,` : null}{" "}
-                        {uni?.isAcceptEU_UK === true ? `EU/UK,` : null}{" "}
-                        {uni?.isAcceptInternational === true
-                          ? "International"
-                          : null}
-                          {uni?.isAcceptHome === false && uni?.isAcceptEU_UK === false && uni?.isAcceptInternational === false ? "Not available" : null}
-                      </td>
+                      <td>{manager?.admissionManager?.firstName}{" "}{manager?.admissionManager?.lastName}</td>
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
@@ -603,7 +393,7 @@ const AssignUniversity = () => {
                           /> */}
 
                           <ButtonForFunction
-                            func={() => handleUpdate(uni)}
+                            func={() => handleUpdate(manager)}
                             color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
@@ -612,7 +402,7 @@ const AssignUniversity = () => {
 
                           <ButtonForFunction
                             color={"danger"}
-                            func={() => toggleDanger(uni)}
+                            func={() => toggleDanger(manager)}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-trash-alt"></i>}
                             permission={6}
@@ -670,7 +460,7 @@ const AssignUniversity = () => {
         </CardBody>
       </Card>
     </div>
-  );
+    );
 };
 
-export default AssignUniversity;
+export default AssignAdmissionOfficer;

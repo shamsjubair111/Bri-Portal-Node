@@ -45,6 +45,9 @@ const CampusList = (props) => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [uniNameFromObj, setUniNameFromObj] = useState('');
 
+    const [camppName, setCamppName] = useState('');
+    const [camppId, setCamppId] = useState(0);
+
     
 
     // const universityStates = props.univerSityStateList[0];
@@ -245,8 +248,10 @@ const CampusList = (props) => {
 
     const toggleDanger = (p) => {
       console.log("dele", p);
-      localStorage.setItem("camppId", p?.id);
-      localStorage.setItem("camppName", p?.name);
+      // localStorage.setItem("camppId", p?.id);
+      // localStorage.setItem("camppName", p?.name);
+      setCamppId(p?.id);
+      setCamppName(p?.name);
       setDeleteModal(true);
     };
 
@@ -259,8 +264,8 @@ const CampusList = (props) => {
             appearance: "error",
             autoDismiss: true,
           });
-          localStorage.removeItem("camppId");
-          localStorage.removeItem("cammpName");
+          setCamppId(0);
+          setCamppName('');
         }
       );
     };
@@ -420,7 +425,7 @@ const CampusList = (props) => {
           <div>
 
             <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal2" size='lg'>
-              <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Add University Campus</span></ModalHeader>
+              <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>University Campus</span></ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit} >
 
@@ -813,13 +818,18 @@ const CampusList = (props) => {
 
                             <Modal
                               isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
+                              toggle={() => {
+                                setDeleteModal(!deleteModal);
+                                setCamppId(0);
+                                setCamppName("");
+                              }
+                              }
                               className="uapp-modal"
                             >
                               <ModalBody>
                                 <p>
                                   Are You Sure to Delete this{" "}
-                                  <b>{localStorage.getItem("camppName")}</b>{" "}
+                                  <b>{camppName}</b>{" "}
                                   ? Once Deleted it can't be Undone!
                                 </p>
                               </ModalBody>
@@ -828,14 +838,18 @@ const CampusList = (props) => {
                                 <Button
                                   color="danger"
                                   onClick={() =>
-                                    handleDeletePermission(
-                                      localStorage.getItem("camppId")
-                                    )
-                                  }
+                                    handleDeletePermission(camppId)
+                                    }
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={() => setDeleteModal(false)}>
+                                <Button onClick={() => 
+                                  {
+                                    setDeleteModal(false);
+                                    setCamppId(0);
+                                    setCamppName("");
+                                  }
+                                  }>
                                   NO
                                 </Button>
                               </ModalFooter>

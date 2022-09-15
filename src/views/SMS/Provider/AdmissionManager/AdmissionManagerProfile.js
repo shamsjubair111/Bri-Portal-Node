@@ -17,18 +17,69 @@ import {
   Row,
   Table,
 } from "reactstrap";
+import Select from "react-select";
 import get from "../../../../helpers/get";
 import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import CustomButtonRipple from "../../Components/CustomButtonRipple";
+import post from "../../../../helpers/post";
+import put from "../../../../helpers/put";
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
   const [managerData, setManagerData] = useState({});
   const [applicationData, setApplicationData] = useState([]);
   const [admissionOfficer, setAdmissionOfficer] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [assignModalOpen, setAssignModalOpen] = useState(false);
+
+  const [officerDD, setOfficerDD] = useState([]);
+  const [countryList, setCountryList] = useState([]);
+  const [uniCountryLabel, setUniCountryLabel] = useState('Select Country');
+  const [uniCountryValue, setUniCountryValue] = useState(0);
+
+  const [universityStates, setUniversityStates] = useState([]);
+
+  const [officerList, setOfficerList] = useState([]);
+
+  const [officerName, setOfficerName] = useState('');
+  const [officerId, setOfficerId] = useState(0);
+  const [deleteData, setDeleteData] = useState({});
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const [officerLabel, setOfficerLabel] = useState("Select Admission Officer");
+  const [officerValue, setOfficerValue] = useState(0);
+  const [officerError, setOfficerError] = useState(false);
+
+  const [countryError, setCountryError] = useState(false);
+
+  const [uniStateLabel, setUniStateLabel] = useState('Select State');
+  const [unistateValue, setUniStateValue] = useState(0);
+  const [uniStateError, setUniStateError] = useState(false);
+
+  const [nameTitleDD, setNameTitleDD] = useState([]);
+
+  const [nameTitleLabel, setNameTitleLabel] = useState("Select Title");
+  const [nameTitleValue, setNameTitleValue] = useState(0);
+
+  const [nameTitleError, setNameTitleError] = useState(false);
+
+  const [providerDD, setProviderDD] = useState([]);
+  // const [providerLabel, setProviderLabel] = useState("Select Provider");
+  // const [providerValue, setProviderValue] = useState(0);
+  // const [providerError, setProviderError] = useState(false);
+
+  const [success, setSuccess] = useState(false);
+
+  const [existsNote, setExistsNote] = useState();
+
+  const [emailError, setEmailError] = useState(true);
+  const [officerObj, setOfficerObj] = useState({});
+  const [selectedId, setSelectedId] = useState(undefined);
 
   const history = useHistory();
   const location = useLocation();
+  const { addToast } = useToasts();
 
   const tableStyle = {
     overflowX: "scroll",
@@ -43,13 +94,31 @@ const AdmissionManagerProfile = () => {
   };
 
   useEffect(() => {
+
+    get(`AdmissionOfficerDD/Index/${providerId}`).then((res) => {
+      setOfficerDD(res);
+      // setManagerDDForm(res);
+    });
+
+    get("CountryDD/index").then(res =>{
+        setCountryList(res);
+      });
+
+    get("NameTittleDD/index").then(res =>{
+        setNameTitleDD(res);
+      });
+
+    get("ProviderDD/Index").then(res =>{
+        setProviderDD(res);
+      });
+
     get(`AdmissionManager/Profile/${managerId}`).then((res) => {
       setManagerData(res);
       setApplicationData(res?.admissionManagerApplications);
       setAdmissionOfficer(res?.admissionOfficers);
       console.log("admission mnager", res);
     });
-  }, [managerId]);
+  }, [managerId, success, providerId]);
 
   const handlRedirectToApplicationDetails = (applicationId, studentId) => {
     history.push({
@@ -57,6 +126,206 @@ const AdmissionManagerProfile = () => {
       managerId: managerId,
       providerId: providerId
     });
+  }
+
+   // on Close Modal
+   const closeModal = () => {
+    setSelectedId(undefined);
+    setOfficerObj(null);
+    setNameTitleLabel("Select Title");
+    setNameTitleValue(0);
+    setUniCountryLabel("Select Country");
+    setUniCountryValue(0);
+    setUniStateLabel("Select State");
+    setUniStateValue(0);
+    // setProviderLabel("Select Provider");
+    // setProviderValue(0);
+    // setManagerFormLabel("Select Admission Manager");
+    // setManagerFormValue(0);
+    setCountryError(false);
+    setUniStateError(false);
+    setNameTitleError(false);
+    // setProviderError(false);
+    // setManagerFormError(false);
+    setEmailError(true);
+    setModalOpen(false);
+  }
+
+  const assignCloseModal = () => {
+    setOfficerError(false);
+    setExistsNote();
+    setOfficerLabel("Select Admission Officer");
+    setOfficerValue(0);
+    setAssignModalOpen(false);
+  }
+
+  const handleSubmit = event =>{
+    event.preventDefault();
+    const subdata = new FormData(event.target);
+
+    for(var i of subdata){
+        console.log(i);
+    }
+
+    if(nameTitleValue === 0){
+      setNameTitleError(true);
+    }
+    else if(emailError == false){
+      setEmailError(emailError);
+    }
+    else if(uniCountryValue === 0){
+      setCountryError(true);
+    }
+    else if(unistateValue === 0){
+      setUniStateError(true);
+    }
+    else{
+      if(selectedId === undefined){
+        setOfficerObj({});
+        post(`AdmissionOfficer/Create`, subdata)
+        .then(res => {
+          setSuccess(!success);
+          setModalOpen(false);
+          console.log("ressss", res);
+        //   setuniversityId(res?.data?.result?.universityId)
+          if (res?.status === 200 && res?.data?.isSuccess === true) {
+            // setSubmitData(false);
+            addToast(res.data.message, {
+              appearance: 'success',
+              autoDismiss: true,
+            })
+          }
+        })
+        }
+        else{
+          put(`AdmissionOfficer/Update`, subdata)
+          .then(res => {
+            
+            if (res.status === 200 && res.data.isSuccess === true) {
+              addToast(res.data.message, {
+                appearance: 'success',
+                autoDismiss: true,
+              })
+              setOfficerObj({});
+              setSelectedId(undefined);
+              setSuccess(!success);
+              setModalOpen(false);
+            }
+          
+          })
+        }
+    }
+  }
+
+  const handleSubmitAssign = (event) => {
+    event.preventDefault();
+    const subdata = {
+      admissionManagerId: managerId,
+      admissionOfficerId: officerValue
+    }
+
+    post("AdmissionOfficerOfManager/Create", subdata).then(res => {
+      if (res?.status == 200) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+        setAssignModalOpen(false);
+        setOfficerLabel("Select Admission Officer");
+        setOfficerValue(0);
+      }
+    })
+
+  }
+
+  const officerMenu = officerDD.map((manager) => ({
+    label: manager?.name,
+    value: manager?.id,
+  }));
+
+  const selectOfficer = (label, value) => {
+    setOfficerError(false);
+    setOfficerLabel(label);
+    setOfficerValue(value);
+
+    get(`AdmissionOfficerOfManager/OfficerExists/${value}`).then(res=>{
+      setExistsNote(res);
+    })
+  }
+
+  const countryDD = countryList.map(countryOptions =>({
+    label:countryOptions?.name, 
+    value:countryOptions?.id
+  }));
+
+  // select University Country
+  const selectUniCountry = (label, value) => {
+    setUniCountryLabel(label);
+    setUniCountryValue(value);
+    setCountryError(false);
+    setUniStateLabel("Select State");
+    setUniStateValue(0);
+    get(`StateDD/Index/${value}`)
+      .then(res => {
+        console.log("res", res);
+        // setUniStateLabel(res.name)
+        // setUniStateValue(res.id)
+        setUniversityStates(res);
+      })
+  }
+
+  const universityStateName = universityStates?.map(uniState => ({ 
+    label: uniState.name, 
+    value: uniState.id 
+  }));
+
+  // select University State
+  const selectUniState = (label, value) => {
+    setUniStateError(false);
+    setUniStateLabel(label);
+    setUniStateValue(value);
+  }
+
+  const nameTitleMenu = nameTitleDD?.map(nameTitle => ({
+    label: nameTitle?.name,
+    value: nameTitle?.id
+  }))
+
+//   select name title
+const selectNameTitle = (label, value) => {
+    setNameTitleError(false);
+    setNameTitleLabel(label);
+    setNameTitleValue(value);
+  }
+
+  const handleEmail = (e) => {
+    console.log(e.target.value);
+
+    get(`Consultant/OnChangeEmail/${e.target.value}`)
+    .then(res => {
+      console.log('Checking Response', res);
+      setEmailError(res);
+    })
+  }
+
+  const handleAddNew = () =>{
+    setOfficerObj({});
+    setModalOpen(true);
+  }
+
+  const handleUpdate = (officer) =>{
+
+    console.log("officer", officer);
+    setOfficerObj(officer);
+    setNameTitleLabel(officer?.nameTittleName);
+    setNameTitleValue(officer?.nameTittleId);
+    setUniCountryLabel(officer?.countryName);
+    setUniCountryValue(officer?.countryId);
+    setUniStateLabel(officer?.stateName);
+    setUniStateValue(officer?.stateId);
+    setSelectedId(officer?.id);
+    setModalOpen(true);
   }
 
   return (
@@ -288,6 +557,7 @@ const AdmissionManagerProfile = () => {
         <div className=" info-item mt-4">
           <Card>
             <CardBody>
+              <div className="d-flex justify-content-between">
               <div className="hedding-titel d-flex justify-content-between">
                 <div>
                   <h5>
@@ -297,6 +567,376 @@ const AdmissionManagerProfile = () => {
 
                   <div className="bg-h"></div>
                 </div>
+              </div>
+
+              <div>
+                {/* <Button color="primary" className="me-1">Add New Admission Officer</Button> */}
+                <ButtonForFunction
+                func={handleAddNew}
+                className={"btn btn-uapp-add me-1"}
+                // icon={<i className="fas fa-plus"></i>}
+                name={"Add New Admission Officer"}
+                permission={6}
+              />
+                {/* <Button color="primary" className="ms-1">Assign Admission Officer</Button> */}
+                <ButtonForFunction
+                func={() => setAssignModalOpen(true)}
+                className={"btn btn-uapp-add ms-1"}
+                // icon={<i className="fas fa-plus"></i>}
+                name={"Assign Admission Officer"}
+                permission={6}
+              />
+
+              {/* assign admission officer */}
+              <Modal
+              isOpen={assignModalOpen}
+              toggle={assignCloseModal}
+              className="uapp-modal2"
+              size="lg"
+            >
+              <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
+                <span className="text-white">Admission Officer</span>
+              </ModalHeader>
+              <ModalBody>
+                <Form onSubmit={handleSubmitAssign}>
+                  
+
+                  <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                      <span>
+                        Admission Officer <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    
+                      <Col md="5">
+                      <Select
+                        options={officerMenu}
+                        value={{ label: officerLabel, value: officerValue }}
+                        onChange={(opt) =>
+                          selectOfficer(opt.label, opt.value)
+                        }
+                        name="admissionOfficerId"
+                        id="admissionOfficerId"
+                      />
+
+                      {
+                        existsNote === true ? 
+                        <span className="text-danger">
+                          Admission officer is already working with another admission manager.
+                        </span>
+                        :
+                        existsNote === false ?
+                        <span className="text-danger">
+                          Admission officer is not working with another admission manager.
+                        </span>
+                        :
+                        null
+                      }
+
+                      {officerError && (
+                        <span className="text-danger">
+                          You must select admission officer.
+                        </span>
+                      )}
+                    </Col>
+                  </FormGroup>
+
+                  <br />
+                  <br />
+
+                  <FormGroup
+                    className="has-icon-left position-relative"
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Button
+                      color="danger"
+                      className="mr-1 mt-3"
+                      onClick={assignCloseModal}
+                    >
+                      Close
+                    </Button>
+
+                    <CustomButtonRipple
+                      color={"primary"}
+                      type={"submit"}
+                      className={"mr-1 mt-3"}
+                      name={"Submit"}
+                      permission={6}
+                    />
+                  </FormGroup>
+                </Form>
+              </ModalBody>
+            </Modal>
+
+              {/* add new admission officer */}
+              <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal4" style={{height: '5px'}} size='lg'>
+              <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Admission Officer</span></ModalHeader>
+              <ModalBody>
+                <Form onSubmit={handleSubmit} >
+
+                <Input type="hidden" id="providerId" name="providerId" value={providerId} />
+                <Input type="hidden" id="admissionManagerId" name="admissionManagerId" value={managerId} />
+
+                {
+                  selectedId != undefined ?
+                  <FormGroup row className="has-icon-left position-relative">
+                  <Input type="hidden" id="id" name="id" value={selectedId} />
+                </FormGroup>
+                :
+                null
+                }
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>Title <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+
+                    <Select
+                      options={nameTitleMenu}
+                      value={{ label: nameTitleLabel, value: nameTitleValue }}
+                      onChange={opt => selectNameTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                    {
+                        nameTitleError ? <span className="text-danger">You must select title.</span>
+                        :
+                        null
+                    }
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>First Name <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="firstName"
+                      id="firstName"  
+                      
+                      defaultValue={officerObj?.firstName}
+                      placeholder="Type First Name"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>Last Name <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="lastName"
+                      id="lastName"
+                      defaultValue={officerObj?.lastName}
+                      placeholder="Type Last Name"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>Email <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="email"
+                      name="email"
+                      id="email"  
+                      onBlur={handleEmail}
+                      defaultValue={officerObj?.email}
+                      placeholder="Type Your Email"
+                      required
+                    />
+                   {
+                      !emailError ? 
+
+                      <span className='text-danger'>Email already exists.</span>
+                      :
+                      null
+
+                    }
+                  </Col>
+                </FormGroup>
+
+                {
+                  selectedId != undefined ?
+                  null
+                  :
+                  <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>Password <span className="text-danger">*</span></span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="password"
+                      name="password"
+                      id="password"
+                      placeholder="Type Your Password"
+                      required
+                    />
+                  </Col>
+                </FormGroup>
+                }
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>Phone Number <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="phoneNumber"
+                      id="phoneNumber"  
+                      
+                      defaultValue={officerObj?.phoneNumber}
+                      placeholder="Type Your Phone Number"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>Country <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+
+                    <Select
+                      options={countryDD}
+                      value={{ label: uniCountryLabel, value: uniCountryValue }}
+                      onChange={opt => selectUniCountry(opt.label, opt.value)}
+                      name="countryId"
+                      id="countryId"
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                    {
+                        countryError ? <span className="text-danger">You must select country.</span>
+                        :
+                        null
+                    }
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>State <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+
+                    <Select
+                      options={universityStateName}
+                      value={{ label: uniStateLabel, value: unistateValue }}
+                      onChange={opt => selectUniState(opt.label, opt.value)}
+                      name="stateId"
+                      id="stateId"
+                    />
+
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                    {
+                        uniStateError ? <span className="text-danger">You must select state.</span>
+                        :
+                        null
+                    }
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>City <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="city"
+                      id="city"
+                      defaultValue={officerObj?.city}
+                      placeholder="Type City Name"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>Post Code <span className="text-danger">*</span> </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="postCode"
+                      id="postCode"
+                      defaultValue={officerObj?.postCode}
+                      placeholder="Type Post Code"
+                      required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                  <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+                    <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
+
+                    
+                    {/* localStorage.getItem("updateUni") ? */}
+                      {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
+
+                      {/* <Button.Ripple
+                        color="warning"
+                        type="submit"
+                        className="mr-1 mt-3"
+                       
+                      >
+                        Submit
+                      </Button.Ripple> */}
+
+                      <CustomButtonRipple
+                        color={"primary"}
+                        type={"submit"}
+                        className={"mr-1 mt-3"}
+                        name={"Submit"}
+                        permission={6}
+                      />
+
+                  </FormGroup>
+
+                </Form>
+              </ModalBody>
+
+            </Modal>
+
+              </div>
+
               </div>
 
               <div className="table-responsive pt-3">
@@ -346,6 +986,22 @@ const AdmissionManagerProfile = () => {
                               color={"primary"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-eye"></i>}
+                              permission={6}
+                            />
+
+                            <ButtonForFunction
+                              func={() => handleUpdate(officer)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
+      
+                            <ButtonForFunction
+                              color={"danger"}
+                              // func={() => toggleDanger(officer)}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
 

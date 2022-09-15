@@ -532,7 +532,7 @@ const ProviderDetails = () => {
                       <tr style={{ textAlign: "center" }}>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Assign University</th>
+                        <th>Assigned University</th>
                         <th>Action</th>
                       </tr>
                     </thead>

@@ -358,6 +358,7 @@ const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLeve
 
 // admission officer
 const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerList.js"));
+const AssignAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/AssignAdmissionOfficer.js"));
 
 
 
@@ -422,6 +423,7 @@ class AppRouter extends React.Component {
 
          {/* admission officer */}
          <AppRoute  path="/admissionOfficerList" component={AdmissionOfficerList} />
+         <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} />
 {/*   
          <AppRoute  path="/demo" component={demo} /> */}
          {/* <AppRoute  path="/uni1" component={demo} /> */}
