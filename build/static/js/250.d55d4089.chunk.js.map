@@ -1,1 +1,0 @@
-{"version":3,"sources":["views/SMS/InFlow/Details.js"],"names":["Details"],"mappings":"8GAAA,2BAUeA,UARC,WACZ,OACI","file":"static/js/250.d55d4089.chunk.js","sourcesContent":["import React from 'react';\r\n\r\nconst Details = () => {\r\n    return (\r\n        <div>\r\n            \r\n        </div>\r\n    );\r\n};\r\n\r\nexport default Details;"],"sourceRoot":""}
