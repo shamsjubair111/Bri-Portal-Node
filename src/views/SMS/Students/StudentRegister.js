@@ -39,6 +39,9 @@ const StudentRegister = () => {
    const [emailError,setEmailError] = useState(''); 
    const [email,setEmail] = useState('');
 
+   const [pass,setPass] = useState('');
+   const [passError,setPassError] = useState('');
+
 
   useEffect(() => {
 
@@ -80,6 +83,10 @@ const StudentRegister = () => {
     value: student.id,
   }));
 
+  const handlePass = (e) => {
+    setPassError('')
+    setPass(e.target.value);
+}
 
   // select  Student type
   const selectStudentType = (label, value) => {
@@ -130,6 +137,9 @@ const StudentRegister = () => {
       if (studentTypeValue == 0) {
         setStudentError(true);
       }
+      else if(pass.length <6){
+        setPassError('Password length can not be less than six digits');
+      }
       else {
         const subdata = new FormData(event.target);
         post('Student/Register', subdata)
@@ -155,6 +165,9 @@ const StudentRegister = () => {
   
       else if (consultantValue == 0) {
         setConsultantError(true);
+      }
+      else if(pass.length <6){
+        setPassError('Password length can not be less than six digits');
       }
       else {
         const subdata = new FormData(event.target);
@@ -352,8 +365,9 @@ const StudentRegister = () => {
                   id="password"
                   placeholder="Enter Password"
                   required
+                  onChange={handlePass}
                 />
-
+                <span className='text-danger'>{passError}</span>
 
               </Col>
             </FormGroup>

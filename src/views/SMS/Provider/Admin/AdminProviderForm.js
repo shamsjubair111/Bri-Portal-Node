@@ -30,6 +30,9 @@ const AdminProviderForm = () => {
     const [previewTitle, setPreviewTitle] = useState('');
     const [FileList, setFileList] = useState([]);
 
+    const [pass,setPass] = useState('');
+    const [passError,setPassError] = useState('');
+
     useEffect(()=>{
 
       get('NameTittle/GetAll')
@@ -120,6 +123,9 @@ const handleSubmit  = (event) => {
   else if(FileList?.length < 1){
     setImageError(true);
   }
+  else if(pass.length <6){
+    setPassError('Password length can not be less than six digits');
+  }
   else if(emailError == false){
     setEmailError(emailError);
   }
@@ -147,6 +153,11 @@ const handleEmail = (e) => {
     console.log('Checking Response', res);
     setEmailError(res);
   })
+}
+
+const handlePass = (e) => {
+  setPassError('')
+  setPass(e.target.value);
 }
 
     return (
@@ -283,6 +294,7 @@ const handleEmail = (e) => {
                 <Col md="2">
                
                 <span className="pl-2"> Password {' '}<span className='text-danger'>*</span></span>
+
                 </Col>
 
               
@@ -297,7 +309,9 @@ const handleEmail = (e) => {
                    id="password"
                    placeholder="Enter Password"
                    required
+                   onChange={handlePass}
                  />
+                 <span className='text-danger'>{passError}</span>
                   
                 </Col>
               </FormGroup>

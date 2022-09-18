@@ -54,23 +54,23 @@ const PersonalInformation = () => {
   const [activetab, setActivetab] = useState("2");
 
   const [title, setTitle] = useState([]);
-  const [titleLabel, setTitleLabel] = useState("Select");
+  const [titleLabel, setTitleLabel] = useState("Select Title");
   const [titleValue, setTitleValue] = useState(0);
   const [country, setCountry] = useState([]);
-  const [countryLabel, setCountryLabel] = useState("Country");
+  const [countryLabel, setCountryLabel] = useState("Select Country");
   const [countryValue, setCountryValue] = useState(0);
   const [gender, setGender] = useState([]);
-  const [genderLabel, setGenderLabel] = useState("Gender");
+  const [genderLabel, setGenderLabel] = useState("Select Gender");
   const [genderValue, setGenderValue] = useState(0);
   const [maritalStatus, setMaritalStatus] = useState([]);
   const [maritalStatusLabel, setMaritalStatusLabel] =
-    useState("Marital status");
+    useState("Select Marital status");
   const [maritalStatusValue, setMaritalStatusValue] = useState(0);
   const [nationality, setNationality] = useState([]);
-  const [nationalityLabel, setNationalityLabel] = useState("Nationality");
+  const [nationalityLabel, setNationalityLabel] = useState("Select Nationality");
   const [nationalityValue, setNationalityValue] = useState(0);
   const [consultant, setConsultant] = useState([]);
-  const [consultantLabel, setConsultantLabel] = useState("Consultant");
+  const [consultantLabel, setConsultantLabel] = useState("Select Consultant");
   const [consultantValue, setConsultantValue] = useState(0);
   const [studentType, setStudentType] = useState([]);
 
@@ -100,27 +100,27 @@ const PersonalInformation = () => {
   // const dispatch = useDispatch();
 
   useEffect(() => {
-    get("NameTittle/GetAll").then((res) => {
+    get("NameTittleDD/index").then((res) => {
       console.log("title", res);
       setTitle(res);
     });
 
-    get("MaritalStatus/GetAll").then((res) => {
+    get("MaritalStatusDD/Index").then((res) => {
       console.log(res);
       setMaritalStatus(res);
     });
 
-    get("Gender/GetAll").then((res) => {
+    get("GenderDD/Index").then((res) => {
       console.log(res);
       setGender(res);
     });
 
-    get("Country/Index").then((res) => {
+    get("CountryDD/index").then((res) => {
       console.log("Check Country", res);
       setCountry(res);
     });
 
-    get("Nationality/Index").then((res) => {
+    get("NationalityDD/Index").then((res) => {
       console.log(res);
       setNationality(res);
     });
@@ -132,7 +132,7 @@ const PersonalInformation = () => {
       setConsultantValue(res?.id);
     });
 
-    get("StudentType/Index").then((res) => {
+    get("StudentTypeDD/Index").then((res) => {
       console.log(res);
       setStudentType(res);
     });

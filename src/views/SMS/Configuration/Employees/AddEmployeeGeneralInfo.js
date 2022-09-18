@@ -41,6 +41,12 @@ const EmployeeGeneralInfo = (props) => {
     const [files, setFiles] = useState([]);
     const [exactFile, setExactFile] = useState({});
     const [dropzoneErrorProfile, setDropzoneErrorProfile] = useState(false);
+    const [pass,setPass] = useState('');
+    const [passError,setPassError] = useState('');
+    const [title, setTitle] = useState([]);
+    const [titleLabel, setTitleLabel] = useState("Select Title");
+    const [titleValue, setTitleValue] = useState(0);
+    const [titleError, setTitleError] = useState('');
     
 
     const [emailError, setEmailError] = useState(true);
@@ -115,11 +121,28 @@ const EmployeeGeneralInfo = (props) => {
         setFiles([]);
     };
 
+    const nameTitle = title?.map((singleTitle) => ({
+        label: singleTitle.name,
+        value: singleTitle.id,
+      }));
+    
+      // select  Title
+      const selectTitle = (label, value) => {
+        setTitleError('');
+        setTitleLabel(label);
+        setTitleValue(value);
+      };
+
 
     useEffect(() => {
         const returnValue = get(`EmployeeTypeDD/Index`).then((action) => {
             setEmployeeList(action)
         })
+
+        get("NameTittleDD/index").then((res) => {
+            console.log("title", res);
+            setTitle(res);
+          });
     }, [])
 
     useEffect(() => {
@@ -136,6 +159,11 @@ const EmployeeGeneralInfo = (props) => {
 
     const AuthStr = localStorage.getItem("token");
 
+    const handlePass = (e) => {
+        setPassError('')
+        setPass(e.target.value);
+    }
+
 
     // submitting form
     const handleSubmit = (event) => {
@@ -150,14 +178,21 @@ const EmployeeGeneralInfo = (props) => {
 
         }
       
+        if(titleValue == 0){
+            setTitleError('Name title must be selected');
+        }
 
-        if (employeeValue == 0) {
+       else if (employeeValue == 0) {
             setEmployeeError('Employee type must be selected');
             return;
         }
          else if (nationalityValue == 0) {
             setNationalityError('Nationality must be selected');
             return;
+        }
+        else if(pass.length<6){
+            setPassError('Password length can not be less than six digits');
+
         }
         else if(FileList?.length < 1) {
             setDropzoneErrorProfile(true);
@@ -302,6 +337,27 @@ const EmployeeGeneralInfo = (props) => {
 
                                 </FormGroup> */}
 
+<FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Title <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={nameTitle}
+                      value={{ label: titleLabel, value: titleValue }}
+                      onChange={(opt) => selectTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
+                      required
+                    />
+                    <span className='text-danger'>{titleError}</span>
+
+                
+                  </Col>
+                </FormGroup>
+
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
                                         <span>Employee Type <span className="text-danger">*</span>{" "}</span>
@@ -417,7 +473,10 @@ const EmployeeGeneralInfo = (props) => {
                                             id="password"
                                             placeholder='Enter Password'
                                             required
+                                            onChange={handlePass}
+
                                         />
+                                        <span className='text-danger'>{passError}</span>
                                         
                                     </Col>
                                 </FormGroup>

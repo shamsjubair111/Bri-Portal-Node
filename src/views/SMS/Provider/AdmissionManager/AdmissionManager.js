@@ -10,6 +10,8 @@ import { permissionList } from '../../../../constants/AuthorizationConstant';
 const AdmissionManager = () => {
     const {id} = useParams();
 
+    const [pass,setPass] = useState('');
+    const [passError,setPassError] = useState('');
     const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     const [country,setCountry] = useState([]);
@@ -80,6 +82,11 @@ const AdmissionManager = () => {
    
   }
 
+  const handlePass = (e) => {
+    setPassError('')
+    setPass(e.target.value);
+}
+
       
     const searchStateByCountry = (countryValue) => {
         get(`StateDD/Index/${countryValue}`)
@@ -110,6 +117,9 @@ const AdmissionManager = () => {
          if(titleValue == 0 ){
           setTitleError(true);
           
+        }
+        else if(pass.length <6){
+          setPassError('Password length can not be less than six digits');
         }
         else if(countryValue == 0){
           setCountryError(true);
@@ -291,9 +301,10 @@ const AdmissionManager = () => {
                         name="password"
                         id="password"
                         placeholder="Enter Password"
-                      
+                      onChange={handlePass}
                         required
                       />
+                      <span className='text-danger'>{passError}</span>
 
                     </Col>
                   </FormGroup>

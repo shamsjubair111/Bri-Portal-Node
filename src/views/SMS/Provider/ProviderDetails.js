@@ -117,6 +117,7 @@ const ProviderDetails = () => {
     });
 
     get(`ProviderAdmin/GetbyProvider/${id}`).then((res) => {
+      
       setAdminData(res);
       setTitleLabel(res?.nameTittle?.name);
       setTitleValue(res?.nameTittle?.id);
@@ -645,6 +646,7 @@ const ProviderDetails = () => {
               </div>
               <h5 className="pt-2 h3 text-center mb-4">
                 {" "}
+                <span className="pe-1">{adminData?.nameTittle?.name}</span>
                 <span className="pe-1">{adminData?.firstName}</span>
                 <span className=" ps-1">{adminData?.lastName}</span>
               </h5>

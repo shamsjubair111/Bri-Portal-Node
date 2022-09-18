@@ -32,10 +32,22 @@ const ProviderForm = (props) => {
     const [imageError, setImageError] = useState(false);
     const [emailError, setEmailError] = useState(true);
 
+    const [titles, setTitles] = useState([]);
+    const [titleLabel, setTitleLabel] = useState("Select Title");
+    const [titleValue, setTitleValue] = useState(0);
+    const [titleError, setTitleError] = useState('');
+
     
     const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
    
   
+    useEffect(()=>{
+      
+      get("NameTittleDD/index").then((res) => {
+        console.log("title", res);
+        setTitles(res);
+      });
+    },[])
 
   
     const [title,setTitle] = useState('');
@@ -52,6 +64,19 @@ const ProviderForm = (props) => {
     const backToDashboard = () => {
         history.push("/")
     }
+
+    const nameTitle = titles?.map((singleTitle) => ({
+      label: singleTitle.name,
+      value: singleTitle.id,
+    }));
+  
+    // select  Title
+    const selectTitle = (label, value) => {
+      setTitleError('');
+      setTitleLabel(label);
+      setTitleValue(value);
+    };
+
 
     const backtoList = () => {
       history.push(`/providerList`);
@@ -70,7 +95,10 @@ const ProviderForm = (props) => {
           },
         };
 
-        if(providerTypeValue == 0){
+        if(titleValue == 0){
+          setTitleError('Name title must be selected');
+      }
+       else if(providerTypeValue == 0){
           setProviderTypeError(true);
         }
         else if(providerLogo.length <1){
@@ -137,6 +165,28 @@ const ProviderForm = (props) => {
           
           <CardBody>
       <form onSubmit={handleSubmit} >
+
+
+      <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Title <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={nameTitle}
+                      value={{ label: titleLabel, value: titleValue }}
+                      onChange={(opt) => selectTitle(opt.label, opt.value)}
+                      name="nameTittleId"
+                      id="nameTittleId"
+                      required
+                    />
+                    <span className='text-danger'>{titleError}</span>
+
+                
+                  </Col>
+                </FormGroup>
 
                   <FormGroup row>
                     <Col md="2">
@@ -324,7 +374,7 @@ const ProviderForm = (props) => {
 
 
                      <div style={{position: 'relative', left: '-60px'}}>
-                     <Button color='danger' className='mt-3 ms-1' onClick={backtoList}>
+                     <Button color='warning' className='mt-3 ms-1' onClick={backtoList}>
                         Cancel
                       </Button>
 

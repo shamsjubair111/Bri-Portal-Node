@@ -424,7 +424,7 @@ const ConsultantList = () => {
                       <th scope='row'>{serialNum + i}</th>
                       
                       <td style={{width: '10px'}}>
-                        {consultant?.firstName} {consultant?.lastName}
+                        {consultant?.nameTittle?.name} {consultant?.firstName} {consultant?.lastName}
                       </td>
                       <td>{consultant?.email}</td>
                       <td>

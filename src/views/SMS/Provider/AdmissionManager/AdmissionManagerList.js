@@ -100,6 +100,8 @@ const AdmissionManagerList = () => {
   const location = useLocation();
   const history = useHistory();
   const { addToast } = useToasts();
+  const [pass,setPass] = useState('');
+    const [passError,setPassError] = useState('');
 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
@@ -171,6 +173,11 @@ const AdmissionManagerList = () => {
       setCallApi((prev) => !prev);
     }
   };
+
+  const handlePass = (e) => {
+    setPassError('')
+    setPass(e.target.value);
+}
 
   // search handler
   const handleSearch = () => {
@@ -323,6 +330,9 @@ const AdmissionManagerList = () => {
     }
     else if(nameTitleValue === 0){
       setNameTitleError(true);
+    }
+    else if(pass.length <6){
+        setPassError('Password length can not be less than six digits');
     }
     else if(uniCountryValue === 0){
       setCountryError(true);
@@ -477,7 +487,7 @@ const AdmissionManagerList = () => {
                 size="lg"
               >
                 <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
-                  <span className="text-white">Admission Officer</span>
+                  <span className="text-white">Admission Manager</span>
                 </ModalHeader>
                 <ModalBody>
                   <Form onSubmit={handleSubmit}>
@@ -611,7 +621,9 @@ const AdmissionManagerList = () => {
                           id="password"
                           placeholder="Type Your Password"
                           required
+                          onChange={handlePass}
                         />
+                        <span className="text-danger">{passError}</span>
                       </Col>
                     </FormGroup>
 
@@ -882,7 +894,7 @@ const AdmissionManagerList = () => {
                       <td>{manager?.sequenceId}</td>
 
                       <td>
-                        {manager?.firstName} {manager?.lastName}
+                        {manager?.nameTittle?.name} {manager?.firstName} {manager?.lastName}
                       </td>
 
                       <td>{manager?.provider?.name}</td>

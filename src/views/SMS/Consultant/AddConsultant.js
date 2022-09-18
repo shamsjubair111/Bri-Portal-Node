@@ -35,6 +35,8 @@ const AddConsultant = () => {
     const [consultantError, setConsultantError] = useState(false);
     const [parentError, setParentError] = useState(false);
     const [titleError, setTitleError] = useState(false);
+    const [pass,setPass] = useState('');
+    const [passError,setPassError] = useState('');
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -65,6 +67,12 @@ const AddConsultant = () => {
       setNameLabel(label);
       setNameValue(value);
     }
+
+    
+  const handlePass = (e) => {
+    setPassError('')
+    setPass(e.target.value);
+}
 
     const selectParentCons = (label, value) => {
 
@@ -118,7 +126,14 @@ const AddConsultant = () => {
     for (var value of subdata) {
       console.log(value);
     }
+    
+  
+      if(pass.length <6){
+        setPassError('Password length can not be less than six digits');
+      }
+  
 
+     else{
       post("Consultant/Register", subdata).then(res=>{
         console.log("consultant",res);
         addToast(res?.data?.message, {
@@ -133,6 +148,7 @@ const AddConsultant = () => {
           
         }
       })
+     }
 
 
     }
@@ -337,7 +353,9 @@ const AddConsultant = () => {
                       id="password"
                       placeholder="Enter Password"
                       required
+                      onChange={handlePass}
                     />
+                    <span className='text-danger'>{passError}</span>
 
                   
                   </Col>

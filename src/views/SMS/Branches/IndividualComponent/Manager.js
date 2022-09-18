@@ -15,7 +15,7 @@ const Manager = (props) => {
     useEffect(()=>{
         get(`BranchManager/GetbyBranch/${id}`).then((res) => {
            
-      
+            console.log(111,res);
             setBranchManager(res);
           });
 
@@ -32,6 +32,7 @@ const Manager = (props) => {
                 </div>
                 <h5 className="pt-2 h3 text-center mb-4">
                   {" "}
+                  <span className='pe-1'>{branchManager?.nameTittle?.name}</span>
                   <span className="pe-1">{branchManager?.firstName}</span>
                   <span className=" ps-1">{branchManager?.lastName}</span>
                 </h5>

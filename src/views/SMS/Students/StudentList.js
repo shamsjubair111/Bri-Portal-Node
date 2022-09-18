@@ -664,7 +664,7 @@ const StudentList = () => {
                       </td>
                       
                       <td>
-                        {student?.firstName} {student?.lastName}
+                       {student?.nameTittle?.name} {student?.firstName} {student?.lastName}
                       </td>
 
                       <td>

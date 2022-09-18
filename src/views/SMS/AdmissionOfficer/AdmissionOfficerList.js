@@ -114,6 +114,9 @@ const AdmissionOfficerList = () => {
   const referenceId = localStorage.getItem("referenceId");
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
+  const [pass,setPass] = useState('');
+  const [passError,setPassError] = useState('');
+
   useEffect(() => {
     get("AdmissionManagerDD/Index").then((res) => {
       setManagerDD(res);
@@ -148,6 +151,11 @@ const AdmissionOfficerList = () => {
     label: manager?.name,
     value: manager?.id,
   }));
+
+  const handlePass = (e) => {
+    setPassError('')
+    setPass(e.target.value);
+}
 
   const selectManager = (label, value) => {
     setManagerLabel(label);
@@ -402,6 +410,9 @@ const selectProvider = (label, value) => {
 
     if(nameTitleValue === 0){
       setNameTitleError(true);
+    }
+    else if(pass.length <6){
+      setPassError('Password length can not be less than six digits');
     }
     else if(emailError == false){
       setEmailError(emailError);
@@ -793,7 +804,9 @@ const selectProvider = (label, value) => {
                       id="password"
                       placeholder="Type Your Password"
                       required
+                      onChange={handlePass}
                     />
+                    <span className="text-danger">{passError}</span>
                   </Col>
                 </FormGroup>
                 }
