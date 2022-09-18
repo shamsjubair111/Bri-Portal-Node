@@ -106,12 +106,13 @@ const Index = () => {
 
         get(`UappIdDD/Index`)
         .then(res =>{
+          
             setUapp(res);
         })
 
         get(`ApplicationTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&uappid=${uappValue}&studentid=${studentValue}&consultantid=${consultantValue}&intakeid=${intakeValue}`)
         .then(res =>{
-            console.log(res);
+           
             setData(res?.models);
         })
 
@@ -152,7 +153,7 @@ const Index = () => {
     }
 
     const uappOptions = uapp?.map(int => ({
-        label: int?.intakeName,
+        label: int?.name,
         value: int?.id
     }))
 
@@ -162,7 +163,7 @@ const Index = () => {
     }
 
     const handleReset = () => {
-        setUappLabel('UAPP ID');
+        setUappLabel('UAPP Id');
         setUappValue(0);
         setStudentLabel('All Student');
         setStudentValue(0);
@@ -375,7 +376,7 @@ const Index = () => {
                     <tr style={{ textAlign: "center" }}>
                     
                     <th>SL/NO</th>
-                     <th>ID</th>
+                     <th>Id</th>
                      <th>Intake</th>
                      <th>Consultant</th>
                      <th>Student</th>

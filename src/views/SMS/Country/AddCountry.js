@@ -156,7 +156,7 @@ const AddCountry = () => {
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New"}
+            name={" Add New Country"}
             
           />
           : 
@@ -206,7 +206,7 @@ const AddCountry = () => {
                         name="name"
                         id="name"
                         defaultValue={updateState?.name}
-                        placeholder="Write Country Name"
+                        placeholder="Enter Country Name"
                         onChange={(e) => setCountry(e.target.value)}
                         required
                       />
@@ -225,7 +225,7 @@ const AddCountry = () => {
                         name="code"
                         id="code"
                         defaultValue={updateState?.code}
-                        placeholder="Write Country Code"
+                        placeholder="Enter Country Code"
                         onChange={(e) => setCode(e.target.value)}
                         required
                       />

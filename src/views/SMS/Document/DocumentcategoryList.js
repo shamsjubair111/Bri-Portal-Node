@@ -172,7 +172,7 @@ const DocumentcategoryList = () => {
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New"}
+            name={" Add New Category"}
             permission={6}
           />
 

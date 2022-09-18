@@ -64,6 +64,15 @@ const AddProviderUniversityFinancial = (props) => {
     });
   }, [univerId]);
 
+  const back = () => {
+
+    history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
+  }
+
+  const front = () => {
+    history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`)
+  }
+
   const AuthStr = localStorage.getItem("token");
 
   // on submit form
@@ -382,6 +391,16 @@ const AddProviderUniversityFinancial = (props) => {
                   </Col>
                 </FormGroup>
               </Form>
+              <div className="d-flex justify-content-between">
+                <Button color="warning" onClick={back}>
+                      Previous Page
+                </Button>
+
+                <Button color="warning" onClick={front}>
+                        Next Page
+                </Button>
+
+              </div>
             </TabPane>
           </TabContent>
         </CardBody>

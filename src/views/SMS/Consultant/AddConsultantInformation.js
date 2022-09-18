@@ -1076,7 +1076,7 @@ const AddConsultantInformation = () => {
             <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Id or Passport <span className="text-danger">*</span>{" "}
+                  Id Or Passport <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="6">

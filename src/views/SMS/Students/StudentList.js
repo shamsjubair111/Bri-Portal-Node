@@ -633,10 +633,10 @@ const StudentList = () => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
-                    <th>UAPP ID</th>
+                    <th>UAPP Id</th>
                     <th>Full Name</th>
                     <th>Email</th>
-                    <th>Phone</th>
+                    <th>Phone No</th>
                     <th>Consultant</th>
                     <th>UAPP Reg Date</th>
                     {

@@ -55,7 +55,7 @@ const Search = () => {
     const [departmentLabel,setDepartmentLabel] = useState('Select Department Category');
     const [departmentValue, setDepartmentValue] = useState(0);
 
-    const [subLabel,setSubLabel] = useState('Select SubDepartment Category');
+    const [subLabel,setSubLabel] = useState('Select Sub Department Category');
     const [subValue,setSubValue] = useState(0);
 
     const [programsActive, setProgramsActive] = useState(true);

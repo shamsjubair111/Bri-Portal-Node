@@ -235,7 +235,7 @@ const DocumentList = () => {
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New"}
+            name={" Add New Document"}
             permission={6}
           />
 
@@ -287,7 +287,7 @@ const DocumentList = () => {
             <FormGroup row className="has-icon-left position-relative">
               <Col md="4">
                 <span>
-                  Is Applicable <span className="text-danger">*</span>{" "}
+                  Applicable? <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="8">
@@ -368,7 +368,7 @@ const DocumentList = () => {
                         name="description"
                         id="description"
                         value={documentDes}
-                        placeholder="Write description"
+                        placeholder="Write Description"
                         onChange={(e) => setDocumentDes(e.target.value)}
                       />
                     </Col>

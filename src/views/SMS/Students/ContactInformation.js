@@ -351,7 +351,7 @@ const ContactInformation = () => {
                       type="text"
                       name="cellPhoneNumber"
                       id="cellPhoneNumber"
-                      placeholder="Enter cell phone number"
+                      placeholder="Enter Cell Phone Number"
                       required
                       defaultValue={oneData?.cellPhoneNumber}
                     />
@@ -371,7 +371,7 @@ const ContactInformation = () => {
                       type="string"
                       name="addressLine"
                       id="addressLine"
-                      placeholder="Enter address line"
+                      placeholder="Enter Address Line"
                       required
                       defaultValue={oneData?.addressLine}
                     />
@@ -389,7 +389,7 @@ const ContactInformation = () => {
                       type="string"
                       name="city"
                       id="city"
-                      placeholder="Enter city"
+                      placeholder="Enter City"
                       required
                       defaultValue={oneData?.city}
                     />
@@ -408,7 +408,7 @@ const ContactInformation = () => {
                       type="string"
                       name="state"
                       id="state"
-                      placeholder="Enter state"
+                      placeholder="Enter State"
                       required
                       defaultValue={oneData?.state}
                     />
@@ -426,7 +426,7 @@ const ContactInformation = () => {
                       type="string"
                       name="zipCode"
                       id="zipCode"
-                      placeholder="Enter zip code"
+                      placeholder="Enter Zip Code"
                       required
                       defaultValue={oneData?.zipCode}
                     />

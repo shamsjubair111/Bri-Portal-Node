@@ -378,7 +378,7 @@ const Branch = () => {
                  type="text"
                  name="firstName"
                  id="firstName"
-                 placeholder="Enter first name"
+                 placeholder="Enter First Name"
                  required
                  defaultValue={employeeInfo?.firstName}
                />
@@ -396,7 +396,7 @@ const Branch = () => {
                  type="text"
                  name="lastName"
                  id="lastName"
-                 placeholder="Enter last name"
+                 placeholder="Enter Last Name"
                  required
                  defaultValue={employeeInfo?.lastName}
                />
@@ -425,7 +425,7 @@ const Branch = () => {
                  type="email"
                  name="email"
                  id="email"
-                 placeholder="Enter email"
+                 placeholder="Enter Email"
                  required
                  defaultValue={employeeInfo?.email}
                  onBlur={handleEmail}
@@ -458,7 +458,7 @@ const Branch = () => {
               type="password"
               name="password"
               id="password"
-              placeholder="Enter password"
+              placeholder="Enter Password"
               required
             />
         
@@ -478,7 +478,7 @@ const Branch = () => {
                  type="text"
                  name="phoneNumber"
                  id="phoneNumber"
-                 placeholder="Enter phone number"
+                 placeholder="Enter Phone Number"
                  defaultValue={employeeInfo?.phoneNumber}
                
                />

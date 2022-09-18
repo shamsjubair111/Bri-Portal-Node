@@ -178,17 +178,11 @@ const handleEmail = (e) => {
 
                 <FormGroup row>
                 <Col md="2">
-                <i id="nametitleTooltip" className="fas fa-info-circle menuIcon"></i>
-                  <span className="pl-2"> Title</span>
+                
+                  <span className="pl-2"> Title {' '}<span className='text-danger'>*</span></span>
                 </Col>
               
-                <UncontrolledTooltip
-                placement="top"
-                target="nametitleTooltip"
-
-              >
-              Name Title
-              </UncontrolledTooltip>
+              
 
               <Col md="10" lg="6">
               <Select
@@ -211,17 +205,10 @@ const handleEmail = (e) => {
 
               <FormGroup row>
                 <Col md="2">
-                <i id="firstnameTooltip" className="fas fa-info-circle menuIcon"></i>
-                  <span className="pl-2">First Name</span>
+                
+                <span className="pl-2"> First Name {' '}<span className='text-danger'>*</span></span>
                 </Col>
 
-                <UncontrolledTooltip
-                placement="top"
-                target="firstnameTooltip"
-
-              >
-                First Name
-              </UncontrolledTooltip>
                
                 
                 
@@ -240,17 +227,11 @@ const handleEmail = (e) => {
 
               <FormGroup row>
                 <Col md="2">
-                <i id="lastnameTooltip" className="fas fa-info-circle menuIcon"></i>
-                  <span className="pl-2">Last Name</span>
+                
+                <span className="pl-2"> Last Name {' '}<span className='text-danger'>*</span></span>
                 </Col>
 
-                <UncontrolledTooltip
-                placement="top"
-                target="lastnameTooltip"
-
-              >
-                Last Name
-              </UncontrolledTooltip>
+              
                
                 
                 
@@ -269,17 +250,11 @@ const handleEmail = (e) => {
 
               <FormGroup row>
                 <Col md="2">
-               <i id="emailTooltip" className="fas fa-info-circle menuIcon"></i>
-                  <span className="pl-2">Email</span>
+               
+                <span className="pl-2"> Email {' '}<span className='text-danger'>*</span></span>
                 </Col>
 
-                <UncontrolledTooltip
-                placement="top"
-                target="emailTooltip"
-
-              >
-                Your Email
-              </UncontrolledTooltip>
+                
                 
 
             
@@ -289,7 +264,7 @@ const handleEmail = (e) => {
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Email"
                     required
                     onBlur={handleEmail}
                     // onChange={(e)=>setIcon(e.target.value)}
@@ -306,17 +281,11 @@ const handleEmail = (e) => {
               </FormGroup>
               <FormGroup row>
                 <Col md="2">
-               <i id="passwordTooltip" className="fas fa-info-circle menuIcon"></i>
-                  <span className="pl-2">Password</span>
+               
+                <span className="pl-2"> Password {' '}<span className='text-danger'>*</span></span>
                 </Col>
 
-                <UncontrolledTooltip
-                placement="top"
-                target="passwordTooltip"
-
-              >
-                Your Password
-              </UncontrolledTooltip>
+              
                 
 
             
@@ -326,7 +295,7 @@ const handleEmail = (e) => {
                    type="password"
                    name="password"
                    id="password"
-                   placeholder="Enter password"
+                   placeholder="Enter Password"
                    required
                  />
                   
@@ -335,17 +304,11 @@ const handleEmail = (e) => {
 
               <FormGroup row>
                 <Col md="2">
-               <i id="numberTooltip" className="fas fa-info-circle menuIcon"></i>
-                  <span className="pl-2">Phone Number</span>
+               
+                <span className="pl-2"> Phone Number {' '}<span className='text-danger'>*</span></span>
                 </Col>
 
-                <UncontrolledTooltip
-                placement="top"
-                target="numberTooltip"
-
-              >
-                Your Phone Number
-              </UncontrolledTooltip>
+              
 
               
 
@@ -365,17 +328,11 @@ const handleEmail = (e) => {
               
               <FormGroup row>
                 <Col md="2">
-                <i id="logoTooltip" className="fas fa-info-circle menuIcon"></i>
-                  <span className="pl-2"> Admin Logo</span>
+                
+                <span className="pl-2"> Admin Logo {' '}<span className='text-danger'>*</span></span>
                 </Col>
                
-                <UncontrolledTooltip
-                placement="top"
-                target="logoTooltip"
-
-              >
-               Admin Logo
-              </UncontrolledTooltip>
+             
 
                 <Col md="10" lg="6">
                 <Upload

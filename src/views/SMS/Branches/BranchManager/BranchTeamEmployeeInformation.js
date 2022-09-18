@@ -211,7 +211,7 @@ const BranchTeamEmployeeInformation = () => {
           <tr style={{ textAlign: "center" }}>
          
                         
-            <th>SL</th>                    
+            <th>SL/NO</th>                    
             <th>First Name</th>                    
             <th>Last Name</th>                    
             <th>Email</th>                    

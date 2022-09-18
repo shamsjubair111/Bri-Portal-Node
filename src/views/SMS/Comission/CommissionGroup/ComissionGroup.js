@@ -183,7 +183,7 @@ const ComissionGroup = () => {
             <Button className ="btn btn-uapp-add" onClick={()=> setOpenModal(true)}>
                <i className="fas fa-plus"></i>
              {' '}
-              Add New
+              Add New Commission Group
                          
                  </Button>
             </div>
@@ -194,7 +194,7 @@ const ComissionGroup = () => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     
-                    <th>S/L</th>
+                    <th>SL/NO</th>
                      <th>Name</th>
                      <th>Price Settings</th>
                      <th>Action</th>

@@ -104,6 +104,13 @@ const AddProviderUniversityGallery = () => {
     );
   }, [success, univerId]);
 
+  const back = () => {
+    history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
+  }
+  const front = () => {
+    history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`)
+  }
+
   const backToProviderDetails = () => {
     history.push(`/providerDetails/${providerProfileId}`);
   };
@@ -447,9 +454,19 @@ const AddProviderUniversityGallery = () => {
                       </Col>
                     </FormGroup>
                   </Form>
+                 
                 </div>
               </div>
             </div>
+            <div className="d-flex justify-content-between mt-3">
+                    <Button color="warning" onClick={back}>
+                         Previous Page
+                    </Button>
+                    <Button color="warning" onClick={front}>
+                         Next Page
+                    </Button>
+
+                  </div>
           </TabContent>
         </CardBody>
       </Card>

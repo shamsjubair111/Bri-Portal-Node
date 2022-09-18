@@ -24,7 +24,7 @@ const ApplicationInformation = () => {
   const [isStayedOutsideUKInLastThreeYears, setIsStayedOutsideUkInLastThreeYears] = useState('false');
   const [preSettlementStatus, setPresettlementStatus] = useState('false');
   const [studentType, setStudentType] = useState([]);
-  const [studentTypeLabel, setStudentTypeLabel] = useState('Student type');
+  const [studentTypeLabel, setStudentTypeLabel] = useState('Select Student Type');
   const [studentTypeValue, setStudentTypeValue] = useState(0);
   const [dateOfMoveToUk, setDateOfMoveToUk] = useState('');
   const [financeDetails, setFinanceDetails] = useState('');
@@ -33,7 +33,7 @@ const ApplicationInformation = () => {
 
 
   const [visaStatus, setVisaStatus] = useState([]);
-  const [visaStatusLabel, setVisaStatusLabel] = useState('Visa status');
+  const [visaStatusLabel, setVisaStatusLabel] = useState('Select Visa Status');
   const [visaStatusValue, setVisaStatusValue] = useState(0);
   const [code, setCode] = useState('');
 
@@ -447,7 +447,7 @@ const cancelForm = () => {
             <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Is Applied Student Finance? <span className="text-danger">*</span>{" "}
+                Applied Student Finance? <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">
@@ -482,7 +482,7 @@ const cancelForm = () => {
                 type="text"
                 name="financeApplicationDetails"
                 id="financeApplicationDetails"
-               placeholder='Enter finance application details'
+               placeholder='Enter Finance Application Details'
                 required
                 defaultValue={financeDetails}
               />
@@ -502,7 +502,7 @@ const cancelForm = () => {
                 type="text"
                 name="code"
                 id="code"
-               placeholder='Enter code'
+               placeholder='Enter Code'
                 required
                 defaultValue={code}
               />
@@ -529,7 +529,7 @@ const cancelForm = () => {
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Is Applying From Inside? <span className="text-danger">*</span>{" "}
+                  Applying From Inside? <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="6">
@@ -584,7 +584,7 @@ const cancelForm = () => {
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Source of Tution Fee  <span className="text-danger">*</span>{" "}
+                Source Of Tution Fee  <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">
@@ -593,7 +593,7 @@ const cancelForm = () => {
               type='text'
               name='tutionFeeSource'
               id='tutionFeeSource'
-              placeholder='Source of Tution Free'
+              placeholder='Enter Source Of Tution Free'
               required
               defaultValue={applicationInformation?.tutionFeeSource}
               />
@@ -605,7 +605,7 @@ const cancelForm = () => {
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Source of Fund  <span className="text-danger">*</span>{" "}
+                Source Of Fund  <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">
@@ -614,7 +614,7 @@ const cancelForm = () => {
               type='text'
               name='sourceOfFund'
               id='sourceOfFund'
-              placeholder='Source of Fund'
+              placeholder='Enter Source Of Fund'
               required
               defaultValue={applicationInformation?.sourceOfFund}
               />
@@ -626,7 +626,7 @@ const cancelForm = () => {
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Source of Sponsor  <span className="text-danger">*</span>{" "}
+                Source Of Sponsor  <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">
@@ -635,7 +635,7 @@ const cancelForm = () => {
               type='text'
               name='sourceOfSponsor'
               id='sourceOfSponsor'
-              placeholder='Source of Sponsor'
+              placeholder='Enter Source Of Sponsor'
               defaultValue={applicationInformation?.sourceOfSponsor}
               required
               />
@@ -667,7 +667,7 @@ const cancelForm = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Date of Move To UK <span className="text-danger">*</span>{" "}
+                      Date Of Move To UK <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -689,7 +689,7 @@ const cancelForm = () => {
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Is Stayed Outside EU/UK in Last 3 Years?  <span className="text-danger">*</span>{" "}
+                  Stayed Outside EU/UK In Last 3 Years?  <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="6">
@@ -716,7 +716,7 @@ const cancelForm = () => {
             <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Is Have Pre-Settlement Status?  <span className="text-danger">*</span>{" "}
+                Have Pre-Settlement Status?  <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">

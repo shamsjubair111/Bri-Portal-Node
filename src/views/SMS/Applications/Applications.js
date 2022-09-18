@@ -47,7 +47,7 @@ const Applications = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
-  const [orderLabel, setOrderLabel] = useState("Select order by");
+  const [orderLabel, setOrderLabel] = useState("Select Order By");
   const [orderValue, setOrderValue] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
@@ -135,7 +135,7 @@ const Applications = () => {
   const [consPhnValue, setConsPhnValue] = useState(0);
 
   // for common
-  const [commonUappIdLabel, setCommonUappIdLabel] = useState("UAPP ID");
+  const [commonUappIdLabel, setCommonUappIdLabel] = useState("UAPP Id");
   const [commonUappIdValue, setCommonUappIdValue] = useState(0);
   const [commonUniLabel, setCommonUniLabel] = useState("University Name");
   const [commonUniValue, setCommonUniValue] = useState(0);
@@ -159,7 +159,7 @@ const Applications = () => {
   const [interviewValue, setInterviewValue] = useState(0);
   const [elptLabel, setElptLabel] = useState("ELPT");
   const [elptValue, setElptValue] = useState(0);
-  const [financeLabel, setFinanceLabel] = useState("SLCs");
+  const [financeLabel, setFinanceLabel] = useState("SLCS");
   const [financeValue, setFinanceValue] = useState(0);
 
   // application list
@@ -1100,7 +1100,7 @@ const Applications = () => {
               >
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th style={{ verticalAlign: "middle" }}>UAPP ID</th>
+                    <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
                     <th style={{ verticalAlign: "middle" }}>Applicant</th>
                     <th style={{ verticalAlign: "middle" }}>Contact</th>
                     <th style={{ verticalAlign: "middle" }}>University</th>
@@ -1124,7 +1124,7 @@ const Applications = () => {
                       style={{ verticalAlign: "middle" }}
                       className="text-center"
                     >
-                      Actions
+                      Action
                     </th>
                   </tr>
                 </thead>

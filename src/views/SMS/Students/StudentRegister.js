@@ -24,11 +24,11 @@ const StudentRegister = () => {
   const userTypeId = localStorage.getItem('userType');
 
   const [studentType, setStudentType] = useState([]);
-  const [studentTypeLabel, setStudentTypeLabel] = useState('Student type');
+  const [studentTypeLabel, setStudentTypeLabel] = useState('Select Student Type');
   const [studentTypeValue, setStudentTypeValue] = useState(0);
 
   const [consultant, setConsultant] = useState([]);
-  const [consultantLabel, setconsultantLabel] = useState('Consultant');
+  const [consultantLabel, setconsultantLabel] = useState('Select Consultant');
   const [consultantValue, setConsultantValue] = useState(0);
 
   const [consultantError, setConsultantError] = useState(false);
@@ -288,7 +288,7 @@ const StudentRegister = () => {
                   type="text"
                   name="firstName"
                   id="firstName"
-                  placeholder="Enter first name"
+                  placeholder="Enter First Name"
                   required
                 />
 
@@ -307,7 +307,7 @@ const StudentRegister = () => {
                   type="text"
                   name="lastName"
                   id="lastName"
-                  placeholder="Enter last name"
+                  placeholder="Enter Last Name"
                   required
                 />
 
@@ -326,7 +326,7 @@ const StudentRegister = () => {
                   type="email"
                   name="email"
                   id="email"
-                  placeholder="Enter email"
+                  placeholder="Enter Email"
                   required
                  
                   onChange={(e)=> setEmail(e.target.value)}
@@ -350,7 +350,7 @@ const StudentRegister = () => {
                   type="password"
                   name="password"
                   id="password"
-                  placeholder="Enter password"
+                  placeholder="Enter Password"
                   required
                 />
 

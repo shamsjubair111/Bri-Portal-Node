@@ -226,10 +226,12 @@ const EmployeeType = (props) => {
               </Form>
             </ModalBody>
           </Modal>
+           <div className="table-responsive">
 
-          <Table>
-            <thead>
-              <tr>
+           
+          <Table id="table-to-xls" className="table-sm table-bordered">
+            <thead className="thead-uapp-bg">
+              <tr style={{ textAlign: "center" }}>
                 <th>SL/NO</th>
                 <th>Name</th>
                 <th className="text-center"> Total Employee</th>
@@ -238,7 +240,7 @@ const EmployeeType = (props) => {
             </thead>
             <tbody>
               {
-                EmployeesTypeList?.map((etype, i) => <tr key={etype.id}>
+                EmployeesTypeList?.map((etype, i) => <tr key={etype.id}  style={{ textAlign: "center" }}>
                   <th scope="row">{i + 1}</th>
                   <td>{etype.name}</td>
                   <td className="text-center">
@@ -286,7 +288,7 @@ const EmployeeType = (props) => {
 
             </tbody>
           </Table>
-
+          </div>
         </CardBody>
       </Card>
 

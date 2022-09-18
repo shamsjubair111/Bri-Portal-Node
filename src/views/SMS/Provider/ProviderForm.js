@@ -26,7 +26,7 @@ const ProviderForm = (props) => {
    
     const [providerType, setProviderType] = useState([]);
     const [providerTypeOptions, setProvidertypeOptions] = useState('');
-    const [providerTypeLabel, setProviderTypeLabel]= useState('Select Provider Type...');
+    const [providerTypeLabel, setProviderTypeLabel]= useState('Select Provider Type');
     const [providerTypeValue, setProviderTypeValue] = useState(0);
     const [providerTypeError, setProviderTypeError] = useState(false);
     const [imageError, setImageError] = useState(false);
@@ -140,17 +140,13 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                    <i id="nameTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Name</span>
+                  
+                      <span className="pl-2">Name {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="nameTooltip"
+                   
 
-                  >
-                    Your Name
-                  </UncontrolledTooltip>
+                 
                    
                     
                     
@@ -159,7 +155,7 @@ const ProviderForm = (props) => {
                         type="text"
                         name="name"
                         id="name"
-                        placeholder="Enter Your Name"
+                        placeholder="Enter Name"
                         onChange={(e)=>setTitle(e.target.value)}
                         required
                       />
@@ -169,17 +165,11 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                   <i id="emailTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Email</span>
+                  
+                   <span className="pl-2">Email {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="emailTooltip"
-
-                  >
-                    Your Email
-                  </UncontrolledTooltip>
+             
                     
 
                 
@@ -189,7 +179,7 @@ const ProviderForm = (props) => {
                         type="email"
                         name="email"
                         id="email"
-                        placeholder="Enter Your Email"
+                        placeholder="Enter Email"
                         required
                         onBlur={handleEmail}
                         // onChange={(e)=>setIcon(e.target.value)}
@@ -207,17 +197,11 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                   <i id="numberTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Phone Number</span>
+                   
+                   <span className="pl-2">Phone Number {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="numberTooltip"
-
-                  >
-                    Your Phone Number
-                  </UncontrolledTooltip>
+                  
 
                   
 
@@ -226,7 +210,7 @@ const ProviderForm = (props) => {
                         type="text"
                         name="phoneNumber"
                         id="phoneNumber"
-                        placeholder="Enter Your Phone Number"
+                        placeholder="Enter Phone Number"
                         required
                         // onChange={(e)=>setIcon(e.target.value)}
                       />
@@ -236,17 +220,11 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                   <i id="usernameTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Username</span>
+                   
+                   <span className="pl-2">User Name {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="usernameTooltip"
-
-                  >
-                    Your Username
-                  </UncontrolledTooltip>
+                   
                   
 
                     <Col md="10" lg="6">
@@ -254,7 +232,7 @@ const ProviderForm = (props) => {
                         type="text"
                         name="username"
                         id="username"
-                        placeholder="Enter Your Username"
+                        placeholder="Enter User Name"
                         required
                         // onChange={(e)=>setIcon(e.target.value)}
                       />
@@ -264,17 +242,11 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                   <i id="addressLineTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2">Address Line </span>
+                 
+                    <span className="pl-2">Address Line {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="addressLineTooltip"
-
-                  >
-                    Address Line
-                  </UncontrolledTooltip>
+                  
                   
 
                     <Col md="10" lg="6">
@@ -293,17 +265,11 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                    <i id="typeTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2"> Provider Type</span>
+                    
+                    <span className="pl-2">Provider Type {' '}<span className='text-danger'>*</span></span>
                     </Col>
                    
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="typeTooltip"
-
-                  >
-                   Provider Type
-                  </UncontrolledTooltip>
+                  
 
                     <Col md="10" lg="6">
                     <Select 
@@ -327,17 +293,11 @@ const ProviderForm = (props) => {
 
                   <FormGroup row>
                     <Col md="2">
-                    <i id="logoTooltip" className="fas fa-info-circle menuIcon"></i>
-                      <span className="pl-2"> Provider Logo</span>
+                    
+                    <span className="pl-2">Provider Logo {' '}<span className='text-danger'>*</span></span>
                     </Col>
                    
-                    <UncontrolledTooltip
-                    placement="top"
-                    target="logoTooltip"
-
-                  >
-                   Provider Logo
-                  </UncontrolledTooltip>
+                    
 
                     <Col md="10" lg="6">
                      <ProviderLogo setImageError={setImageError}/>

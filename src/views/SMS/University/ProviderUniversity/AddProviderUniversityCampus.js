@@ -258,6 +258,14 @@ const AddProviderUniversityCampus = (props) => {
         id: uniID,
       });
     };
+
+    const onPreviousPage = () => {
+      const uniID = universityId;
+      history.push({
+        pathname: `/addProviderUniversity/${providerProfileId}/${univerId}`,
+        id: uniID,
+      });
+    };
   
     const toggleDanger = (p) => {
       setUniversityCampusId(p?.id);
@@ -918,9 +926,10 @@ const AddProviderUniversityCampus = (props) => {
                 style={{
                   display: "flex",
                   width: "100%",
-                  justifyContent: "end",
+                  justifyContent: "space-between",
                 }}
               >
+                <Button color="warning" onClick={onPreviousPage}>Previous Page</Button>
                 <ButtonForFunction
                   func={onNextPage}
                   color={"warning uapp-form-button float-right"}
@@ -934,6 +943,7 @@ const AddProviderUniversityCampus = (props) => {
 
             </TabPane>
           </TabContent>
+         
         </CardBody>
       </Card>
     </div>

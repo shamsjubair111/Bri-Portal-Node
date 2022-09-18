@@ -948,7 +948,7 @@ const TestScore = () => {
             <span className="text-light" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to
-              StudentProfile
+              Student Profile
             </span>
           </div>
         </CardHeader>
@@ -1134,7 +1134,7 @@ const TestScore = () => {
               >
                 <Col md="2">
                   <span>
-                    Please Select the Type of English Language Qualification{" "}
+                    Please Select The Type Of English Language Qualification{" "}
                     <span className="text-danger">*</span>{" "}
                   </span>
                 </Col>
@@ -1155,7 +1155,7 @@ const TestScore = () => {
 
                   {testError && (
                     <span className="text-danger">
-                      Enlish Language Test Must Be Selected{" "}
+                      Enlish language test must be selected{" "}
                     </span>
                   )}
                 </Col>
@@ -3261,7 +3261,7 @@ const TestScore = () => {
                       </Button>
 
                       <Button.Ripple
-                        color="warning"
+                        color="primary"
                         type="submit"
                         className="mr-1 mt-3"
                       >
@@ -3513,7 +3513,7 @@ const TestScore = () => {
                       </Button>
 
                       <Button.Ripple
-                        color="warning"
+                        color="primary"
                         type="submit"
                         className="mr-1 mt-3"
                       >
