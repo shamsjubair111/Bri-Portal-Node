@@ -15,7 +15,7 @@ const Index = () => {
     const history = useHistory();
 
     const [uapp,setUapp] = useState([]);
-    const [uappLabel,setUappLabel] = useState('UAPP ID');
+    const [uappLabel,setUappLabel] = useState('UAPP Id');
     const[uappValue,setUappValue] = useState(0);
 
     const [student,setStudent] = useState([]);
