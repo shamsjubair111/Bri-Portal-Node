@@ -136,6 +136,15 @@ const AddProviderUniversityFeatures = () => {
       });
     }
   };
+
+  const back = () => {
+    history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
+  }
+
+  const front = () => {
+    history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
+  }
+
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
@@ -566,6 +575,15 @@ const AddProviderUniversityFeatures = () => {
                   </Col>
                 </FormGroup>
               </Form>
+              <div className="d-flex justify-content-between">
+                <Button color="warning" onClick={back}>
+                    Previous Page
+                </Button>
+                <Button color="warning" onClick={front}>
+                    Next Page
+                </Button>
+
+              </div>
             </TabPane>
           </TabContent>
         </CardBody>

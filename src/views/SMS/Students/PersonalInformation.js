@@ -645,7 +645,7 @@ const PersonalInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      First name <span className="text-danger">*</span>{" "}
+                      First Name <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -653,7 +653,7 @@ const PersonalInformation = () => {
                       type="text"
                       name="firstName"
                       id="firstName"
-                      placeholder="Enter first name"
+                      placeholder="Enter First Name"
                       required
                       onChange={(e) => setFirstName(e.target.value)}
                       defaultValue={FirstName}
@@ -666,7 +666,7 @@ const PersonalInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Last name <span className="text-danger">*</span>{" "}
+                      Last Name <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -674,7 +674,7 @@ const PersonalInformation = () => {
                       type="text"
                       name="lastName"
                       id="lastName"
-                      placeholder="Enter last name"
+                      placeholder="Enter Last Name"
                       onChange={(e) => setLastName(e.target.value)}
                       required
                       defaultValue={LastName}
@@ -686,7 +686,7 @@ const PersonalInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Date of birth <span className="text-danger">*</span>{" "}
+                      Date Of Birth <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -705,7 +705,7 @@ const PersonalInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Phone number <span className="text-danger">*</span>{" "}
+                      Phone Number <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -713,7 +713,7 @@ const PersonalInformation = () => {
                       type="number"
                       name="phoneNumber"
                       id="phoneNumber"
-                      placeholder="Enter phone number"
+                      placeholder="Enter Phone Number"
                       onChange={(e) => setNumber(e.target.value)}
                       required
                       defaultValue={number}
@@ -726,7 +726,7 @@ const PersonalInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Passport number <span className="text-danger">*</span>{" "}
+                      Passport Number <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -734,7 +734,7 @@ const PersonalInformation = () => {
                       type="text"
                       name="passportNumber"
                       id="passportNumber"
-                      placeholder="Enter passport number"
+                      placeholder="Enter Passport Number"
                       onChange={(e) => setPassport(e.target.value)}
                       required
                       defaultValue={passport}
@@ -747,7 +747,7 @@ const PersonalInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Country of birth <span className="text-danger">*</span>{" "}
+                      Country Of Birth <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">

@@ -177,7 +177,7 @@ const AdmissionManager = () => {
       <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span className="pl-2">
-                      Title
+                      Title {' '}<span className='text-danger'>*</span>
                     </span>
                   </Col>
                   <Col md="4">
@@ -202,7 +202,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">First Name</span>
+                      <span className="pl-2">First Name {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -213,7 +213,7 @@ const AdmissionManager = () => {
                         type="text"
                         name="firstName"
                         id="firstName"
-                        placeholder="Enter first name"
+                        placeholder="Enter First Name"
                       
                         required
                       />
@@ -224,7 +224,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">Last Name</span>
+                      <span className="pl-2">Last Name {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -235,7 +235,7 @@ const AdmissionManager = () => {
                         type="text"
                         name="lastName"
                         id="lastName"
-                        placeholder="Enter last name"
+                        placeholder="Enter Last Name"
                       
                         required
                       />
@@ -248,7 +248,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">Email</span>
+                      <span className="pl-2">Email {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -259,7 +259,7 @@ const AdmissionManager = () => {
                         type="email"
                         name="email"
                         id="email"
-                        placeholder="Enter email"
+                        placeholder="Enter Email"
                         onBlur={handleEmail}
                         required
                       />
@@ -279,7 +279,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">Password</span>
+                      <span className="pl-2">Password {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -290,7 +290,7 @@ const AdmissionManager = () => {
                         type="password"
                         name="password"
                         id="password"
-                        placeholder="Enter password"
+                        placeholder="Enter Password"
                       
                         required
                       />
@@ -301,7 +301,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">Phone Number</span>
+                      <span className="pl-2">Phone Number {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -312,7 +312,7 @@ const AdmissionManager = () => {
                         type="text"
                         name="phoneNumber"
                         id="phonenumber"
-                        placeholder="Enter phone number"
+                        placeholder="Enter Phone Number"
                       
                         required
                       />
@@ -323,7 +323,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">Post Code</span>
+                      <span className="pl-2">Post Code {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -334,7 +334,7 @@ const AdmissionManager = () => {
                         type="text"
                         name="postCode"
                         id="postCode"
-                        placeholder="Enter post code"
+                        placeholder="Enter Post Code"
                       
                         required
                       />
@@ -345,7 +345,7 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md="2">
                  
-                      <span className="pl-2">City</span>
+                      <span className="pl-2">City {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -356,7 +356,7 @@ const AdmissionManager = () => {
                         type="text"
                         name="city"
                         id="city"
-                        placeholder="Enter city"
+                        placeholder="Enter City"
                       
                         required
                       />
@@ -389,7 +389,7 @@ const AdmissionManager = () => {
                   <FormGroup row >
                   <Col md="2">
                     <span className='pl-2'>
-                       Country
+                       Country {' '}<span className='text-danger'>*</span>
                     </span>
                   </Col>
                   <Col md="10" lg="4">
@@ -417,7 +417,7 @@ const AdmissionManager = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span className='pl-2'>
-                       State
+                       State {' '}<span className='text-danger'>*</span>
                     </span>
                   </Col>
                   <Col md="4">

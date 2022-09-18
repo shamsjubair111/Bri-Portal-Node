@@ -816,7 +816,7 @@ const handleUpdate = (id) => {
             <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Name of Institution <span className="text-danger">*</span>{" "}
+                Name Of Institution <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">
@@ -824,7 +824,7 @@ const handleUpdate = (id) => {
                 type="text"
                 name="nameOfInstitution"
                 id="nameOfInstitution"
-                placeholder="Enter name of institution"
+                placeholder="Enter Name Of Institution"
                 required
               />
 
@@ -910,7 +910,7 @@ const handleUpdate = (id) => {
                   type="text"
                   name="qualificationSubject"
                   id="qualificationSubject"
-                  placeholder="Enter qualification subject"
+                  placeholder="Enter Qualification Subject"
                   required
                 />
   
@@ -929,7 +929,7 @@ const handleUpdate = (id) => {
                   type="text"
                   name="duration"
                   id="duration"
-                  placeholder="Enter duration"
+                  placeholder="Enter Duration"
                   required
                 />
   
@@ -948,7 +948,7 @@ const handleUpdate = (id) => {
                   type="text"
                   name="finalGrade"
                   id="finalGrade"
-                  placeholder="Enter final grade"
+                  placeholder="Enter Final Grade"
                   required
                 />
   
@@ -959,7 +959,7 @@ const handleUpdate = (id) => {
             <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Country of Education <span className="text-danger">*</span>{" "}
+                Country Of Education <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">
@@ -989,7 +989,7 @@ const handleUpdate = (id) => {
               <FormGroup row className="has-icon-left position-relative">
                 <Col md="2">
                   <span>
-                    Language of Institution <span className="text-danger">*</span>{" "}
+                    Language Of Institution <span className="text-danger">*</span>{" "}
                   </span>
                 </Col>
                 <Col md="6">
@@ -997,7 +997,7 @@ const handleUpdate = (id) => {
                     type="text"
                     name="languageOfInstitution"
                     id="languageOfInstitution"
-                    placeholder="Enter language of institution"
+                    placeholder="Enter Language Of Institution"
                     required
                   />
 
@@ -1016,7 +1016,7 @@ const handleUpdate = (id) => {
                     type="text"
                     name="instituteContactNumber"
                     id="instituteContactNumber"
-                    placeholder="Enter institute contact number"
+                    placeholder="Enter Institute Contact Number"
                     required
                   />
 
@@ -1035,7 +1035,7 @@ const handleUpdate = (id) => {
                     type="text"
                     name="instituteAddress"
                     id="instituteAddress"
-                    placeholder="Enter Institute address"
+                    placeholder="Enter Institute Address"
                     required
                   />
 

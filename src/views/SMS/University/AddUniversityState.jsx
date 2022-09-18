@@ -211,7 +211,7 @@ const AddUniversityState = () => {
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New"}
+            name={" Add New State"}
            
           />
           :
@@ -255,7 +255,7 @@ const AddUniversityState = () => {
                         name="name"
                         id="name"
                         value={universityState}
-                        placeholder="Write University State Name"
+                        placeholder="Enter University State"
                         onChange={(e) => {
                           setUniversityState(e.target.value);
                           setUniStateError(false);
@@ -263,7 +263,7 @@ const AddUniversityState = () => {
                       />
                       {uniStateError ? (
                         <span className="text-danger">
-                          You must write university state name
+                          University state name is required
                         </span>
                       ) : null}
                     </Col>

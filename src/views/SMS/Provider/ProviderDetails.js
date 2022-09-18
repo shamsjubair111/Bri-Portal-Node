@@ -521,7 +521,7 @@ const ProviderDetails = () => {
 
               {permissions?.includes(permissionList?.Add_Admission_manager) ? (
                 <Link to={`/addAdmissionManager/${id}`}>
-                  <Button className="btn btn-uapp-add mt-2 ">
+                  <Button className="btn btn-uapp-add mt-2 ms-3">
                     {" "}
                     <i class="fas fa-plus"></i> Add Admission Manager{" "}
                   </Button>

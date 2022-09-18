@@ -45,6 +45,7 @@ import { rootUrl } from "../../../constants/constants";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import { Link } from "react-router-dom";
 
 const AddUniversityTemplateDocument = () => {
   const { addToast } = useToasts();
@@ -779,6 +780,12 @@ const AddUniversityTemplateDocument = () => {
 
             </TabPane>
           </TabContent>
+
+          <Link to={`/addUniversityApplicationDocument/${univerId}`}>
+            <Button color="warning">
+                  Previous Page
+            </Button>
+          </Link>
         </CardBody>
       </Card>
       <br /> <br /> <br />

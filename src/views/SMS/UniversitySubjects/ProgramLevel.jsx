@@ -232,7 +232,7 @@ return (
         onChange={(e) => 
           setProgramLevel(e.target.value)
         }
-        placeholder="Create Program Level"
+        placeholder="Enter Program Level"
       />
 
     </Col>
@@ -249,7 +249,7 @@ return (
                   id="Description"
                   rows="3"
                   value={description}
-                  placeholder="Description"
+                  placeholder="Enter Description"
                    onChange={e => 
                     setDescription(e.target.value)
                   }
@@ -268,7 +268,7 @@ return (
         min="0"
         name="levelValue"
         id="levelValue"
-        placeholder='Type Level Value'
+        placeholder='Enter Level Value'
         value={levelValue}
         onChange={(e) => 
           setLevelValue(e.target.value)

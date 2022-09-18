@@ -258,7 +258,7 @@ const componentRef = useRef();
 
 
                             <ButtonForFunction 
-                              color={"dark"}
+                              color={"warning"}
                               className={"mx-1 btn-sm"}
                               func={()=>handleUpdate(singleBranch?.id)}
                               icon={<i className="fas fa-edit"></i>}

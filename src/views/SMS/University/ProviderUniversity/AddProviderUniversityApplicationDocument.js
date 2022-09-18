@@ -228,6 +228,13 @@ const AddProviderUniversityApplicationDocument = () => {
     setSelectedId(0);
   };
 
+  const back = () => {
+    history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
+  }
+  const front = () => {
+    history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+  }
+
   // redirect to Next Page
   const onNextPage = () => {
     history.push({
@@ -718,6 +725,17 @@ const AddProviderUniversityApplicationDocument = () => {
               ) : null}
             </TabPane>
           </TabContent>
+          <div className="d-flex justify-content-between">
+            <Button color="warning" onClick={back}>
+                    Previous Page
+            </Button>
+
+            <Button color="warning" onClick={front}>
+                    Next Page
+            </Button>
+
+          </div>
+
         </CardBody>
       </Card>
       <br /> <br /> <br />

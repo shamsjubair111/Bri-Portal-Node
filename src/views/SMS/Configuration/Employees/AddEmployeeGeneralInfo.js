@@ -30,7 +30,7 @@ const EmployeeGeneralInfo = (props) => {
     const history = useHistory();
     const [activetab, setActivetab] = useState('1');
     const [employeeList, setEmployeeList] = useState([]);
-    const [employeeType, setEmployeeType] = useState('Select Type');
+    const [employeeType, setEmployeeType] = useState('Select Employee Type');
     const [employeeValue, setEmployeeValue] = useState(0);
     const [employeeError, setEmployeeError] = useState('');
     const [nationality, setNationality] = useState([]);
@@ -355,7 +355,7 @@ const EmployeeGeneralInfo = (props) => {
                                             type="text"
                                             name="firstName"
                                             id="firstName"
-                                            placeholder='Your First Name'
+                                            placeholder='Enter First Name'
                                             required
                                         />
                                         {/* <div className="form-control-position">
@@ -373,7 +373,7 @@ const EmployeeGeneralInfo = (props) => {
                                             type="text"
                                             name="lastName"
                                             id="lastName"
-                                            placeholder='Your Last Name'
+                                            placeholder='Enter Last Name'
                                             required
                                         />
                                         {/* <div className="form-control-position">
@@ -391,7 +391,7 @@ const EmployeeGeneralInfo = (props) => {
                                             type="email"
                                             name="email"
                                             id="email"
-                                            placeholder='Your Email Address'
+                                            placeholder='Enter Email Address'
                                             required
                                             onBlur={handleEmail}
                                         />
@@ -415,7 +415,7 @@ const EmployeeGeneralInfo = (props) => {
                                             type="password"
                                             name="password"
                                             id="password"
-                                            placeholder='Your Password'
+                                            placeholder='Enter Password'
                                             required
                                         />
                                         
@@ -430,7 +430,7 @@ const EmployeeGeneralInfo = (props) => {
                                             type="number"
                                             name="phoneNumber"
                                             id="phoneNumber"
-                                            placeholder='Your Phone Number'
+                                            placeholder='Enter Phone Number'
                                             required
                                         />
                                         {/* <div className="form-control-position">

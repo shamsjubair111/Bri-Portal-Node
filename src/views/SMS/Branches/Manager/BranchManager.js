@@ -410,7 +410,7 @@ const selectTitle = (label, value) => {
                       type="text"
                       name="firstName"
                       id="firstName"
-                      placeholder="Enter first name"
+                      placeholder="Enter First Name"
                       required
                       defaultValue={branchManagerInfo?.firstName}
                     />
@@ -428,7 +428,7 @@ const selectTitle = (label, value) => {
                       type="text"
                       name="lastName"
                       id="lastName"
-                      placeholder="Enter last name"
+                      placeholder="Enter Last Name"
                       required
                       defaultValue={branchManagerInfo?.lastName}
                     />
@@ -447,7 +447,7 @@ const selectTitle = (label, value) => {
                       type="email"
                       name="email"
                       id="email"
-                      placeholder="Enter email"
+                      placeholder="Enter Email"
                       required
                       defaultValue={branchManagerInfo?.email}
                       onBlur={handleEmail}
@@ -455,7 +455,7 @@ const selectTitle = (label, value) => {
                     {
                       !emailError ? 
 
-                      <span className='text-danger'>Email Already Exists</span>
+                      <span className='text-danger'>Email already exists</span>
                       :
                       null
 
@@ -476,7 +476,7 @@ const selectTitle = (label, value) => {
                       type="password"
                       name="password"
                       id="password"
-                      placeholder="Enter password"
+                      placeholder="Enter Password"
                       required
                       defaultValue={branchManagerInfo?.password}
                     />
@@ -496,7 +496,7 @@ const selectTitle = (label, value) => {
                       type="text"
                       name="phoneNumber"
                       id="phoneNumber"
-                      placeholder="Enter phone number"
+                      placeholder="Enter Phone Number"
                       defaultValue={branchManagerInfo?.phoneNumber}
                     
                     />

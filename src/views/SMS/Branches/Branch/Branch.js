@@ -284,7 +284,7 @@ const Branch = () => {
                       type="text"
                       name="name"
                       id="name"
-                      placeholder="Enter branch name"
+                      placeholder="Enter Branch Name"
                       required
                       defaultValue={branchInfo?.name}
                     />
@@ -302,7 +302,7 @@ const Branch = () => {
                       type="text"
                       name="addressLine"
                       id="addressLine"
-                      placeholder="Enter address line"
+                      placeholder="Enter Address Line"
                       required
                       defaultValue={branchInfo?.addressLine}
                     />
@@ -320,7 +320,7 @@ const Branch = () => {
                       type="email"
                       name="email"
                       id="email"
-                      placeholder="Enter email"
+                      placeholder="Enter Email"
                       required
                       defaultValue={branchInfo?.email}
                       onBlur={handleEmail}
@@ -346,7 +346,7 @@ const Branch = () => {
                       type="text"
                       name="phoneNumber"
                       id="phoneNumber"
-                      placeholder="Enter phone number"
+                      placeholder="Enter Phone Number"
                       defaultValue={branchInfo?.phoneNumber}
                     
                     />
@@ -364,7 +364,7 @@ const Branch = () => {
                       type="text"
                       name="telePhoneNumber"
                       id="telePhoneNumber"
-                      placeholder="Enter telephone number"
+                      placeholder="Enter Telephone Number"
                       required
                       defaultValue={branchInfo?.telePhoneNumber}
                     />
@@ -382,7 +382,7 @@ const Branch = () => {
                       type="text"
                       name="branchCode"
                       id="branchCode"
-                      placeholder="Enter branch code"
+                      placeholder="Enter Branch Code"
                       required
                       defaultValue={branchInfo?.branchCode}
                     />

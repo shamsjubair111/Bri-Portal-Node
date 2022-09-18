@@ -21,7 +21,7 @@ const AddDegree = () => {
     const [educationLabel, setEducationLabel] = useState('Select Education Level');
     const [educationValue, setEducationValue] = useState(0);
     const [educationError, setEducationError] = useState(false);
-    const [errorMessage,setErrorMessage] = useState('Education Level Must Be Selected');
+    const [errorMessage,setErrorMessage] = useState('Education level must be selected');
 
 
     useEffect(()=> {

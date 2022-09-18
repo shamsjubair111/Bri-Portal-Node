@@ -98,6 +98,10 @@ const AddProviderUniversityTemplateDocument = () => {
     });
   }
 
+  const back = () => {
+    history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
+  }
+
   const handleCancel1 = () => {
     setPreviewVisible1(false);
   };
@@ -778,6 +782,12 @@ const AddProviderUniversityTemplateDocument = () => {
 
             </TabPane>
           </TabContent>
+          <div className="d-flex justify-content-start">
+            <Button color="warning" onClick={back}>
+                 Previous Page
+            </Button>
+
+          </div>
         </CardBody>
       </Card>
       <br /> <br /> <br />

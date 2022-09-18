@@ -186,7 +186,7 @@ const EmployeeContactInfo = () => {
                                         type="number"
                                         name="phoneNumber"
                                         id="phoneNumber"
-                                        placeholder="Your Phone Number"
+                                        placeholder="Enter Phone Number"
                                         required
                                        />
                                     </Col>
@@ -201,7 +201,7 @@ const EmployeeContactInfo = () => {
                                         type="number"
                                         name="cellPhoneNumber"
                                         id="cellPhoneNumber"
-                                        placeholder="Your Cell Phone Number"
+                                        placeholder="Enter Cell Phone Number"
                                        />
                                     </Col>
                                 </FormGroup>
@@ -215,7 +215,7 @@ const EmployeeContactInfo = () => {
                                         type="text"
                                         name="addressLine"
                                         id="addressLine"
-                                        placeholder="Your Address Line"
+                                        placeholder="Enter Address Line"
                                        />
                                     </Col>
                                 </FormGroup>
@@ -265,7 +265,7 @@ const EmployeeContactInfo = () => {
                                         type="text"
                                         name="city"
                                         id="city"
-                                        placeholder="Your City"
+                                        placeholder="Enter City"
                                         required
                                        />
                                     </Col>
@@ -280,7 +280,7 @@ const EmployeeContactInfo = () => {
                                         type="text"
                                         name="state"
                                         id="state"
-                                        placeholder="Your State"
+                                        placeholder="Enter State"
                                        />
                                     </Col>
                                 </FormGroup>
@@ -294,7 +294,7 @@ const EmployeeContactInfo = () => {
                                         type="number"
                                         name="zipCode"
                                         id="zipCode"
-                                        placeholder="Zip Code"
+                                        placeholder="Enter Zip Code"
                                        />
                                     </Col>
                                 </FormGroup>

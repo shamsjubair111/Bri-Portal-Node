@@ -502,7 +502,7 @@ console.log('trying', sDate?.split(",")[0]);
               type="text"
               name="jobTitle"
               id="jobTitle"
-              placeholder="Enter job title"
+              placeholder="Enter Job Title"
               required
               defaultValue={value.jobTitle}
             />
@@ -522,7 +522,7 @@ console.log('trying', sDate?.split(",")[0]);
               type="text"
               name="employeementDetails"
               id="employeementDetails"
-              placeholder="Enter employment details"
+              placeholder="Enter Employment Details"
               required
               defaultValue={value.employeementDetails}
             />
@@ -542,7 +542,7 @@ console.log('trying', sDate?.split(",")[0]);
               type="text"
               name="companyName"
               id="companyName"
-              placeholder="Enter company name"
+              placeholder="Enter Company Name"
               required
               defaultValue={value.companyName}
             />

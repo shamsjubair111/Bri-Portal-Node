@@ -28,16 +28,16 @@ const AccountIntake = () => {
 
     const [intakeList,setIntakeList] = useState([]);
 
-    const [sMonthLabel, setSMonthLabel] = useState('Select');
+    const [sMonthLabel, setSMonthLabel] = useState('Select Start Month');
     const [sMonthValue,setSMonthValue] = useState(0);
 
-    const [eMonthLabel, setEMonthLabel] = useState('Select');
+    const [eMonthLabel, setEMonthLabel] = useState('Select End Month');
     const [eMonthValue,setEMonthValue] = useState(0);
 
-    const [sYearLabel,setSYearLabel] = useState('Select');
+    const [sYearLabel,setSYearLabel] = useState('Select Start Year');
     const [sYearValue,setSYearValue] = useState(0);
     
-    const [eYearLabel,setEYearLabel] = useState('Select');
+    const [eYearLabel,setEYearLabel] = useState('Select End Year');
     const [eYearValue,setEYearValue] = useState(0);
 
     const [startMError,setStartMError] = useState('');
@@ -45,6 +45,7 @@ const AccountIntake = () => {
 
     const [startYError,setStartYError] = useState('');
     const [endYError,setEndYError] = useState('');
+    const [name,setName] = useState('');
 
     const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -85,6 +86,10 @@ const AccountIntake = () => {
         return x;
       }
 
+      const handleName = (e) => {
+          setName(e.target.value);
+      }
+
       const handleUpdate = (data) => {
       
         get(`AccountIntake/Get/${data?.id}`)
@@ -109,6 +114,7 @@ const AccountIntake = () => {
 
            setCurrUpdateData(res);
            setModalOpen(true);
+           setName(res?.intakeName);
         })
       }
 
@@ -169,6 +175,18 @@ const AccountIntake = () => {
       };
 
       const openModal = () => {
+        setSMonthLabel('Select Start Month');
+           setSMonthValue(0);
+
+           setEMonthLabel('Select End Month');
+           setEMonthValue(0);
+
+           setSYearLabel('Select Start Year');
+           setSYearValue(0);
+
+           setEYearLabel('Select End Year');
+           setEYearValue(0);
+           setName('');
         setModalOpen(true);
       }
 
@@ -179,17 +197,17 @@ const AccountIntake = () => {
         const subData = new FormData(event.target); 
 
         if(sMonthValue ==0){
-            setStartMError('Start Month Must Be Selected')
+            setStartMError('Start month must be selected');
         }
         else if(sYearValue == 0){
-            setStartYError('Start Year Must Be Selected')
+            setStartYError('Start year must be selected');
         }
         else if(eMonthValue ==0){
-            setEndMError('End Month Must Be Selected')
+            setEndMError('End month must me selected');
         }
         
         else if(eYearValue == 0){
-            setEndYError('End Year Must Be Selected')
+            setEndYError('End year must be selected');
         }
         
         else{
@@ -304,7 +322,7 @@ const AccountIntake = () => {
                     <ButtonForFunction className ={"btn btn-uapp-add "}
                         icon ={<i className="fas fa-plus"></i>}
                         func={openModal} 
-                        name={' Add New'}
+                        name={' Add New Intake'}
                                 
                         ></ButtonForFunction>
                     </div>
@@ -352,9 +370,10 @@ const AccountIntake = () => {
                             type='text'
                             name='IntakeName'
                             id='IntakeName'
-                            placeholder='Intake Name'
-                            defaultValue={currUpdateData?.intakeName}
+                            placeholder='Enter Intake Name'
+                            value={name}
                             required
+                            onChange={handleName}
                             />
                             </Col>
                         </FormGroup>

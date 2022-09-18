@@ -282,7 +282,7 @@ const Conscent = () => {
           {
              (conscentData == null || conscentData?.isSigned == false) ?
              <div className="conscentSign-style ms-md-3 py-1 mt-2">
-            <span className="inner-term-style">Terms and Conditions has not Signed yet !!!!</span>
+            <span className="inner-term-style">Terms and Conditions has not been Signed yet !!!!</span>
           </div>
           :
           <div className="conscentSign-style2 ms-md-3 py-1 mt-2 text-white">
@@ -309,7 +309,7 @@ const Conscent = () => {
                </div>
                :
                 (conscentData !== null && conscentData?.consentSignStatusId  == 2) ?
-                <div className="mb-1 right">
+                <div className="mb-1 ms-3 right">
                   
                  
                        <span className="text-info"> Email is sent with credentails </span>

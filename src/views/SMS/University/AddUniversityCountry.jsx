@@ -226,7 +226,7 @@ const AddUniversityCountry = (props) => {
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New"}
+            name={" Add New Country"}
             permission={6}
           />
           :
@@ -277,7 +277,7 @@ const AddUniversityCountry = (props) => {
                         name="name"
                         id="name"
                         defaultValue={updateState?.name}
-                        placeholder="Create University Country"
+                        placeholder="Enter Country Name"
                         onChange={(e) => setUniversityCountry(e.target.value)}
                         required
                       />

@@ -122,11 +122,10 @@ const Team = (props) => {
         <div>
              <div>
         <Modal isOpen={teammodalOpen} toggle={closeModal} className="uapp-modal">
-          {isUpdate ? (
-            <ModalHeader>Update Team Name</ModalHeader>
-          ) : (
-            <ModalHeader>Create a New Team</ModalHeader>
-          )}
+          
+          <ModalHeader>Team Information</ModalHeader>
+        
+         
           <ModalBody>
             <Form onSubmit={handleTeamSubmit}>
               <input
@@ -162,7 +161,7 @@ const Team = (props) => {
                       type="text"
                       name="name"
                       id="name"
-                      placeholder="Add team name"
+                      placeholder="Enter Team Name"
                     />
                   </Col>
                 </FormGroup>
@@ -242,16 +241,20 @@ const Team = (props) => {
                           <td>
                           
                             
-                                {" "}
-                                <i class="fas fa-edit warning icon-hover-style"
+                               <Button color='warning' className='btn-sm me-1'>
+                               {" "}
+                                <i class="fas fa-edit"
                                 onClick={() => handleTeamUpdate(btEmployee?.id)}
                                 ></i>{" "}
+                               </Button>
                              
 
                              
-                                <i class="fas fa-trash-alt text-danger icon-hover-style"
+                              <Button className='btn-sm' color='danger ms-1'>
+                              <i class="fas fa-trash-alt"
                                  onClick={() => toggleDeleteTeam(btEmployee)}
                                 ></i>
+                              </Button>
                            
                           
                             <Modal

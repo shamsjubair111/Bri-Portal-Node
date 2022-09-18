@@ -543,7 +543,7 @@ const onShow=()=>{
           type="text"
           name="referenceName"
           id="referenceName"
-          placeholder="Enter reference name"
+          placeholder="Enter Reference Name"
           required
           defaultValue={oneData?.referenceName}
         />
@@ -563,7 +563,7 @@ const onShow=()=>{
           type="text"
           name="institute_Company"
           id="institute_Company"
-          placeholder="Enter institute/company"
+          placeholder="Enter Institute/Company"
           required
           defaultValue={oneData?.institute_Company}
         />
@@ -583,7 +583,7 @@ const onShow=()=>{
           type="text"
           name="phoneNumber"
           id="phoneNumber"
-          placeholder="Enter phone number"
+          placeholder="Enter Phone Number"
           required
           defaultValue={oneData?.phoneNumber}
         />
@@ -595,7 +595,7 @@ const onShow=()=>{
       <FormGroup row className="has-icon-left position-relative">
       <Col md="2">
         <span>
-          Email Address <span className="text-danger">*</span>{" "}
+          Email <span className="text-danger">*</span>{" "}
         </span>
       </Col>
       <Col md="6">
@@ -603,7 +603,7 @@ const onShow=()=>{
           type="text"
           name="emailAddress"
           id="emailAddress"
-          placeholder="Enter email address"
+          placeholder="Enter Email"
           required
           defaultValue={oneData?.emailAddress}
         />
@@ -648,7 +648,7 @@ const onShow=()=>{
           type="text"
           name="addressLine"
           id="addressLine"
-          placeholder="Enter address line"
+          placeholder="Enter Address Line"
           required
           defaultValue={oneData?.addressLine}
         />
@@ -668,7 +668,7 @@ const onShow=()=>{
           type="text"
           name="city"
           id="city"
-          placeholder="Enter city"
+          placeholder="Enter City"
           required
           defaultValue={oneData?.city}
         />
@@ -690,7 +690,7 @@ const onShow=()=>{
           type="text"
           name="state"
           id="state"
-          placeholder="Enter state"
+          placeholder="Enter State"
           required
           defaultValue={oneData?.state}
         />
@@ -732,7 +732,7 @@ className={"mr-1 mt-3 badge-primary"}
     <FormGroup className="has-icon-left position-relative" style={{ display: 'flex',width:"100%", justifyContent: 'space-between' }}>
 
    
-    <Button onClick={onShow} color="primary uapp-form-button">Add another</Button>
+    <Button onClick={onShow} color="primary uapp-form-button">Add Another</Button>
    
     </FormGroup>
 
