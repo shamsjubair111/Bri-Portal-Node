@@ -948,7 +948,7 @@ const TestScore = () => {
             <span className="text-light" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to
-              StudentProfile
+              Student Profile
             </span>
           </div>
         </CardHeader>

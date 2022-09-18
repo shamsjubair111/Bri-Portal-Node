@@ -371,6 +371,7 @@ const WithdrawTransaction = lazy(() => import("./views/SMS/WithdrawTransaction/I
 
 // admission officer
 const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerList.js"));
+const AdmissionOfficerDetails = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerDetails.js"));
 const AssignAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/AssignAdmissionOfficer.js"));
 
 
@@ -436,6 +437,7 @@ class AppRouter extends React.Component {
 
          {/* admission officer */}
          <AppRoute  path="/admissionOfficerList" component={AdmissionOfficerList} />
+         <AppRoute  path="/admissionOfficerDetails/:officerId" component={AdmissionOfficerDetails} />
          <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} />
 {/*   
          <AppRoute  path="/demo" component={demo} /> */}

@@ -341,18 +341,18 @@ const selectProvider = (label, value) => {
     });
   };
 
-  const handleAccountStatus = (e, managerId) => {
-    console.log(e.target.checked, managerId);
+  const handleAccountStatus = (e, officerId) => {
+    console.log(e.target.checked, officerId);
     // setChecked(e.target.checked);
     // console.log(check);
 
     const subData = {
-      id: managerId
+      id: officerId
     }
 
     console.log("SubDataaa", subData);
 
-    put(`AdmissionManager/UpdateAccountStatus/${managerId}`, subData)
+    put(`AdmissionOfficer/UpdateAccountStatus/${officerId}`, subData)
     .then(res => {
       if(res?.status ==200){
         addToast(res?.data?.message,{
@@ -433,6 +433,7 @@ const selectProvider = (label, value) => {
               appearance: 'success',
               autoDismiss: true,
             })
+            closeModal();
           }
         })
         }
@@ -488,6 +489,10 @@ const selectProvider = (label, value) => {
     setProviderValue(officer?.providerId);
     setSelectedId(officer?.id);
     setModalOpen(true);
+  }
+
+  const handlRedirectToAdmissionofficerDetails = (officerId) => {
+    history.push(`/admissionOfficerDetails/${officerId}`);
   }
 
     return (
@@ -668,112 +673,9 @@ const selectProvider = (label, value) => {
             </Col>
           </Row>
 
-          {loading ? (
-            <div class="d-flex justify-content-center mb-5">
-              <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          ) : (
-            <div className="table-responsive" ref={componentRef}>
-              <Table id="table-to-xls" className="table-sm table-bordered">
-                <thead className="thead-uapp-bg">
-                  <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>UAPP Id</th>
-                    <th>Name</th>
-                    <th>Provider</th>
-                    <th>Email</th>
-                    <th>Phone No</th>
-                    <th>Country</th>
-                    {/* <th>Assigned Admission Officer</th> */}
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {officerList?.map((officer, i) => (
-                    <tr key={i} style={{ textAlign: "center" }}>
-                    <th scope="row">{1 + i}</th>
-                    <td>{officer?.sequenceId}</td>
+          {/* add / update modal */}
 
-                    <td>{officer?.nameTittle?.name}{" "}{officer?.firstName}{" "}{officer?.lastName}</td>
-
-                    <td>
-                      {officer?.provider?.name}
-                    </td>
-
-                    <td>{officer?.email}</td>
-
-                    <td>{officer?.phoneNumber}</td>
-
-                    <td>{officer?.country?.name} ({officer?.state?.name})</td>
-
-                    {/* <td>
-                      {" "}
-                      <span
-                        className="badge badge-secondary"
-                        style={{ cursor: "pointer" }}
-                      >
-                        
-                        <span onClick={()=>redirectToOfficerAssignPage(officer?.id)} className="text-decoration-none">View</span>
-                      </span>{" "}     
-                    </td> */}
-
-                    <td style={{ width: "8%" }} className="text-center">
-                      <ButtonGroup variant="text">
-                    
-                        <ButtonForFunction
-                          // func={() =>
-                          //   handlRedirectToApplicationDetails(officer?.applicationId, officer?.application?.studentId)
-                          // }
-                          color={"primary"}
-                          className={"mx-1 btn-sm"}
-                          icon={<i className="fas fa-eye"></i>}
-                          permission={6}
-                        />
-
-                      <ButtonForFunction
-                        func={() => handleUpdate(officer)}
-                        color={"warning"}
-                        className={"mx-1 btn-sm"}
-                        icon={<i className="fas fa-edit"></i>}
-                        permission={6}
-                      />
-
-                      <ButtonForFunction
-                        color={"danger"}
-                        func={() => toggleDanger(officer)}
-                        className={"mx-1 btn-sm"}
-                        icon={<i className="fas fa-trash-alt"></i>}
-                        permission={6}
-                      />
-
-                      </ButtonGroup>
-
-                          <Modal
-                              isOpen={deleteModal}
-                              toggle={closeDeleteModal}
-                              className="uapp-modal"
-                            >
-                              <ModalBody>
-                                <p>
-                                  Are You Sure to Delete this <b>{officerName}</b> ? Once Deleted it
-                                  can't be Undone!
-                                </p>
-                              </ModalBody>
-
-                              <ModalFooter>
-                                <Button color="danger" onClick={handleDelete}>
-                                  YES
-                                </Button>
-                                <Button color="primary" onClick={closeDeleteModal}>NO</Button>
-                              </ModalFooter>
-                            </Modal>
-                            
-
-            <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal4" style={{height: '5px'}} size='lg'>
+          <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal4" style={{height: '5px'}} size='lg'>
               <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Admission Officer</span></ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit} >
@@ -1096,6 +998,126 @@ const selectProvider = (label, value) => {
               </ModalBody>
 
             </Modal>
+
+          {loading ? (
+            <div class="d-flex justify-content-center mb-5">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <div className="table-responsive" ref={componentRef}>
+              <Table id="table-to-xls" className="table-sm table-bordered">
+                <thead className="thead-uapp-bg">
+                  <tr style={{ textAlign: "center" }}>
+                    <th>SL/NO</th>
+                    <th>UAPP Id</th>
+                    <th>Name</th>
+                    <th>Provider</th>
+                    <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Country</th>
+                    <th>Account Status</th>
+                    {/* <th>Assigned Admission Officer</th> */}
+                    <th style={{ width: "8%" }} className="text-center">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {officerList?.map((officer, i) => (
+                    <tr key={i} style={{ textAlign: "center" }}>
+                    <th scope="row">{1 + i}</th>
+                    <td>{officer?.sequenceId}</td>
+
+                    <td>{officer?.nameTittle?.name}{" "}{officer?.firstName}{" "}{officer?.lastName}</td>
+
+                    <td>
+                      {officer?.provider?.name}
+                    </td>
+
+                    <td>{officer?.email}</td>
+
+                    <td>{officer?.phoneNumber}</td>
+
+                    <td>{officer?.country?.name} ({officer?.state?.name})</td>
+
+                    <td>
+                         {
+                          <label className="switch">
+                          <input 
+                          type="checkbox" 
+                          defaultChecked={officer?.isActive == false ? false : true}
+                          onChange={(e)=>{
+                            handleAccountStatus(e, officer?.id);
+                          }}
+                          />
+                          <span className="slider round"></span>
+                        </label>
+                        }
+                    </td>
+
+                    {/* <td>
+                      {" "}
+                      <span
+                        className="badge badge-secondary"
+                        style={{ cursor: "pointer" }}
+                      >
+                        
+                        <span onClick={()=>redirectToOfficerAssignPage(officer?.id)} className="text-decoration-none">View</span>
+                      </span>{" "}     
+                    </td> */}
+
+                    <td style={{ width: "8%" }} className="text-center">
+                      <ButtonGroup variant="text">
+                    
+                        <ButtonForFunction
+                          func={() =>
+                            handlRedirectToAdmissionofficerDetails(officer?.id)
+                          }
+                          color={"primary"}
+                          className={"mx-1 btn-sm"}
+                          icon={<i className="fas fa-eye"></i>}
+                          permission={6}
+                        />
+
+                      <ButtonForFunction
+                        func={() => handleUpdate(officer)}
+                        color={"warning"}
+                        className={"mx-1 btn-sm"}
+                        icon={<i className="fas fa-edit"></i>}
+                        permission={6}
+                      />
+
+                      <ButtonForFunction
+                        color={"danger"}
+                        func={() => toggleDanger(officer)}
+                        className={"mx-1 btn-sm"}
+                        icon={<i className="fas fa-trash-alt"></i>}
+                        permission={6}
+                      />
+
+                      </ButtonGroup>
+
+                          <Modal
+                              isOpen={deleteModal}
+                              toggle={closeDeleteModal}
+                              className="uapp-modal"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are You Sure to Delete this <b>{officerName}</b> ? Once Deleted it
+                                  can't be Undone!
+                                </p>
+                              </ModalBody>
+
+                              <ModalFooter>
+                                <Button color="danger" onClick={handleDelete}>
+                                  YES
+                                </Button>
+                                <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                              </ModalFooter>
+                            </Modal>
 
                     </td>
                   </tr>

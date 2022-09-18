@@ -56,11 +56,11 @@ const AdmissionManager = () => {
       const selectCountry = (label, value) => {
         setCountryLabel(label);
         setCountryValue(value);
+        setStateLabel('Select State');
+        setStateValue(0);
         searchStateByCountry(value);
         // setStateLabel('Select');
         setCountryError(false);
-       
-       
       }
 
       const nameTitle = title?.map((singleTitle) => ({

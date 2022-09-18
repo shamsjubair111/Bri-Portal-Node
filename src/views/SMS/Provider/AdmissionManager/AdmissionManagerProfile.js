@@ -24,6 +24,7 @@ import ButtonForFunction from "../../Components/ButtonForFunction";
 import CustomButtonRipple from "../../Components/CustomButtonRipple";
 import post from "../../../../helpers/post";
 import put from "../../../../helpers/put";
+import remove from "../../../../helpers/remove";
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -40,11 +41,7 @@ const AdmissionManagerProfile = () => {
 
   const [universityStates, setUniversityStates] = useState([]);
 
-  const [officerList, setOfficerList] = useState([]);
-
-  const [officerName, setOfficerName] = useState('');
-  const [officerId, setOfficerId] = useState(0);
-  const [deleteData, setDeleteData] = useState({});
+  
   const [deleteModal, setDeleteModal] = useState(false);
 
   const [officerLabel, setOfficerLabel] = useState("Select Admission Officer");
@@ -76,6 +73,8 @@ const AdmissionManagerProfile = () => {
   const [emailError, setEmailError] = useState(true);
   const [officerObj, setOfficerObj] = useState({});
   const [selectedId, setSelectedId] = useState(undefined);
+  const [deleteId, setDeleteId] = useState(undefined);
+  const [deleteName, setDeleteName] = useState("");
 
   const history = useHistory();
   const location = useLocation();
@@ -88,14 +87,19 @@ const AdmissionManagerProfile = () => {
   const backToProviderDetails = () => {
     if (location.managerList != undefined) {
       history.push(`/admissionManagerList`);
-    } else {
+    } 
+    else if(location.officerId != undefined){
+      history.push(`/admissionOfficerDetails/${location.officerId}`)
+    }
+    else {
       history.push(`/providerDetails/${providerId}`);
     }
   };
 
   useEffect(() => {
 
-    get(`AdmissionOfficerDD/Index/${providerId}`).then((res) => {
+    get(`AdmissionOfficerDD/Index/${providerId}/${managerId}`).then((res) => {
+      console.log("rsdsd", res);
       setOfficerDD(res);
       // setManagerDDForm(res);
     });
@@ -328,6 +332,40 @@ const selectNameTitle = (label, value) => {
     setModalOpen(true);
   }
 
+  const toggleDanger = (officer) => {
+    console.log(officer);
+    setDeleteName(officer?.firstName);
+    setDeleteId(officer?.id);
+    setDeleteModal(true);
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setDeleteName("");
+    setDeleteId(undefined);
+  };
+
+  const handleDeleteAdmissionOfficer = (id) =>{
+    remove(`AdmissionOfficer/Delete/${id}`).then((res) => {
+      addToast(res, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setDeleteModal(false);
+      setDeleteName("");
+      setDeleteId(undefined);
+      setSuccess(!success);
+    });
+  }
+
+  const handlRedirectToAdmissionofficerDetails = (officerId) => {
+    history.push({
+      pathname: `/admissionOfficerDetails/${officerId}`,
+      managerId: managerId,
+      providerId: providerId
+    });
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -338,8 +376,12 @@ const selectNameTitle = (label, value) => {
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {location.managerList != undefined
-                ? "Back To Admission Manager List"
-                : "Back To Provider Details"}
+                ? "Back to Admission Manager List"
+                : 
+                location.officerId != undefined ? 
+                "Back to Admission Officer Details"
+                :
+                "Back to Provider Details"}
             </span>
           </div>
         </CardHeader>
@@ -979,15 +1021,15 @@ const selectNameTitle = (label, value) => {
                         <td>
                           <ButtonGroup variant="text">
                         
-                            <ButtonForFunction
-                              // func={() =>
-                              //   handlRedirectToApplicationDetails(officer?.applicationId, officer?.application?.studentId)
-                              // }
-                              color={"primary"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-eye"></i>}
-                              permission={6}
-                            />
+                          <ButtonForFunction
+                          func={() =>
+                            handlRedirectToAdmissionofficerDetails(officer?.id)
+                          }
+                          color={"primary"}
+                          className={"mx-1 btn-sm"}
+                          icon={<i className="fas fa-eye"></i>}
+                          permission={6}
+                        />
 
                             <ButtonForFunction
                               func={() => handleUpdate(officer)}
@@ -999,11 +1041,34 @@ const selectNameTitle = (label, value) => {
       
                             <ButtonForFunction
                               color={"danger"}
-                              // func={() => toggleDanger(officer)}
+                              func={() => toggleDanger(officer)}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+
+                        <Modal
+                          isOpen={deleteModal}
+                          toggle={closeDeleteModal}
+                          className="uapp-modal"
+                        >
+                          <ModalBody>
+                            <p>
+                              Are You Sure to Delete <b>{deleteName}</b> ? Once Deleted it can't
+                              be Undone!
+                            </p>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            <Button
+                              color="danger"
+                              onClick={() => handleDeleteAdmissionOfficer(deleteId)}
+                            >
+                              YES
+                            </Button>
+                            <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                          </ModalFooter>
+                        </Modal>
 
                           </ButtonGroup>
                         </td>

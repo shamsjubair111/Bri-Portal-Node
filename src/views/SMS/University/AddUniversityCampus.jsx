@@ -47,13 +47,13 @@ const AddUniversityCampus = (props) => {
   const [loading, setLoading] = useState(false);
   const myForm = createRef();
   const [uniStateLabel, setUniStateLabel] = useState(
-    "Select University State"
+    "Select Campus State"
   );
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
   const [uniCountryLabel, setUniCountryLabel] = useState(
-    "Select University Country"
+    "Select Campus Country"
   );
   const [uniCountryValue, setUniCountryValue] = useState(0);
   const [uniCountryError, setUniCountryError] = useState(false);
@@ -144,7 +144,7 @@ const AddUniversityCampus = (props) => {
 
   // select University Country
   const selectUniCountry = (label, value) => {
-    setUniStateLabel('Select University State')
+    setUniStateLabel('Select Campus State')
     setUniCountryValue(0);
     setUniCountryError(false);
     setUniCountryLabel(label);
@@ -195,9 +195,9 @@ const AddUniversityCampus = (props) => {
               appearance: "success",
               autoDismiss: true,
             });
-            setUniCountryLabel("Select University Country...");
+            setUniCountryLabel("Select Campus Country...");
             setUniCountryValue(0);
-            setUniStateLabel("Select University State...");
+            setUniStateLabel("Select Campus State...");
             setUniStateValue(0);
             setSuccess(!success);
           }
@@ -214,9 +214,9 @@ const AddUniversityCampus = (props) => {
             setShowForm(true);
             setSelectedId(0);
             setuniversityCampusObject({});
-            setUniCountryLabel("Select University Country...");
+            setUniCountryLabel("Select Campus Country...");
             setUniCountryValue(0);
-            setUniStateLabel("Select University State...");
+            setUniStateLabel("Select Campus State...");
             setUniStateValue(0);
             setSuccess(!success);
           }
@@ -330,9 +330,9 @@ const AddUniversityCampus = (props) => {
     setShowForm(true);
     setSelectedId(0);
     setuniversityCampusObject({});
-    setUniCountryLabel("Select University Country...");
+    setUniCountryLabel("Select Campus Country...");
     setUniCountryValue(0);
-    setUniStateLabel("Select University State...");
+    setUniStateLabel("Select Campus State...");
     setUniStateValue(0);
   };
   return (

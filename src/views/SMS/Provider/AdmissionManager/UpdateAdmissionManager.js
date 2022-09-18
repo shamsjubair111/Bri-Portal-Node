@@ -103,10 +103,8 @@ const selectTitle = (label, value) => {
         setCountryLabel(label);
         setCountryValue(value);
         searchStateByCountry(value);
-        setStateLabel('Select');
-    
-       
-       
+        setStateLabel('Select State');
+        setStateValue(value); 
       }
 
       

@@ -2,7 +2,7 @@ import React, { createRef, useEffect, useState } from "react";
 // import 'react-dropzone-uploader/dist/styles.css'
 import { connect, useSelector } from "react-redux";
 import Select from "react-select";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import {
   Card,
   CardBody,
@@ -107,6 +107,7 @@ const AddUniversity = (props) => {
 
   const { addToast } = useToasts();
   const {univerId} = useParams();
+  const location = useLocation();
 
   console.log("uniIds", universityId, uniId, univerId);
 
@@ -613,7 +614,12 @@ const AddUniversity = (props) => {
 
   // redirect to dashboard
   const backToUniList = () => {
-    history.push("/universityList");
+    if(location.uuId != undefined){
+      history.push(`/universityDetails/${location.uuId}`)
+    }
+    else{
+      history.push("/universityList");
+    }
   };
 
 
@@ -625,8 +631,13 @@ const AddUniversity = (props) => {
           <div className="page-header-back-to-home">
             <span onClick={backToUniList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University
-              List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.uuId != undefined ?
+                "Back to University Details"
+                :
+                "Back to University List"
+              }
             </span>
           </div>
         </CardHeader>

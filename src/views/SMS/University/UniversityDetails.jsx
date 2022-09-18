@@ -350,7 +350,10 @@ const UniversityDetails = () => {
     // localStorage.removeItem('editMethod');
     // localStorage.setItem("id", id);
     // localStorage.setItem('editMethod','put');
-    history.push(`/addUniversity/${id}`);
+    history.push({
+      pathname: `/addUniversity/${id}`,
+      uuId: id
+    });
   }
 
   const handleChange1 = ({ fileList }) => {

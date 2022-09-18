@@ -48,13 +48,13 @@ const AddProviderUniversityCampus = (props) => {
     const [loading, setLoading] = useState(false);
     const myForm = createRef();
     const [uniStateLabel, setUniStateLabel] = useState(
-      "Select University State..."
+      "Select Campus State"
     );
     const [unistateValue, setUniStateValue] = useState(0);
     const [uniStateError, setUniStateError] = useState(false);
   
     const [uniCountryLabel, setUniCountryLabel] = useState(
-      "Select University Country..."
+      "Select Campus Country"
     );
     const [uniCountryValue, setUniCountryValue] = useState(0);
     const [uniCountryError, setUniCountryError] = useState(false);
@@ -140,6 +140,8 @@ const AddProviderUniversityCampus = (props) => {
   
     // select University Country
     const selectUniCountry = (label, value) => {
+      setUniStateLabel('Select Campus State')
+      setUniCountryValue(0);
       setUniCountryError(false);
       setUniCountryLabel(label);
       setUniCountryValue(value);
@@ -151,7 +153,7 @@ const AddProviderUniversityCampus = (props) => {
   
     // select University State
     const selectUniState = (label, value) => {
-      // setUniStateError(false);
+      setUniStateError(false);
       setUniStateLabel(label);
       setUniStateValue(value);
     };
@@ -170,9 +172,9 @@ const AddProviderUniversityCampus = (props) => {
       if(uniCountryValue == 0){
         setUniCountryError(true);
       }
-      // if(unistateValue === 0){
-      //   setUniStateError(true);
-      // }
+      else if(unistateValue === 0){
+        setUniStateError(true);
+      }
       else{
         if (selectedId === 0) {
           Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
@@ -189,9 +191,9 @@ const AddProviderUniversityCampus = (props) => {
                 appearance: "success",
                 autoDismiss: true,
               });
-              setUniCountryLabel("Select University Country...");
+              setUniCountryLabel("Select Campus Country");
               setUniCountryValue(0);
-              setUniStateLabel("Select University State...");
+              setUniStateLabel("Select Campus State");
               setUniStateValue(0);
               setSuccess(!success);
             }
@@ -208,9 +210,9 @@ const AddProviderUniversityCampus = (props) => {
               setShowForm(true);
               setSelectedId(0);
               setuniversityCampusObject({});
-              setUniCountryLabel("Select University Country...");
+              setUniCountryLabel("Select Campus Country");
               setUniCountryValue(0);
-              setUniStateLabel("Select University State...");
+              setUniStateLabel("Select Campus State");
               setUniStateValue(0);
               setSuccess(!success);
             }
@@ -314,9 +316,9 @@ const AddProviderUniversityCampus = (props) => {
       setShowForm(true);
       setSelectedId(0);
       setuniversityCampusObject({});
-      setUniCountryLabel("Select University Country...");
+      setUniCountryLabel("Select Campus Country");
       setUniCountryValue(0);
-      setUniStateLabel("Select University State...");
+      setUniStateLabel("Select Campus State");
       setUniStateValue(0);
     };
     return (
@@ -514,9 +516,9 @@ const AddProviderUniversityCampus = (props) => {
                           id="CampusStateId"
                         />
 
-                        {/* {
+                        {
                           uniStateError && <span className="text-danger">Campus state must be selected</span>
-                        } */}
+                        }
 
                         {/* <div className="form-control-position">
                               <User size={15} />
