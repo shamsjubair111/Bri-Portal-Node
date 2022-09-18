@@ -104,6 +104,13 @@ const BankDetails = () => {
     setDeleteModal(true);
   }
 
+  const back = () => {
+    history.push(`/consultantInformation/${consultantRegisterId}`);
+  }
+
+  const front = () => {
+
+  }
 
   const addNewData = () => {
 
@@ -813,6 +820,18 @@ const handleEdit = (data) => {
 
 
              }
+
+             <div className='d-flex justify-content-between'>
+              <Button color='warning' onClick={back}>
+                Previous Page
+
+              </Button>
+              <Button color='warning' onClick={front}>
+                Next Page
+
+              </Button>
+
+             </div>
            
       </CardBody>
     </Card>

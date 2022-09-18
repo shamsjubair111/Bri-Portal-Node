@@ -123,6 +123,11 @@ const Conscent = () => {
     
       };
 
+      const back = () =>  {
+
+      }
+
+     
       const handleDate = e =>{
         var datee = e;
         var utcDate = new Date(datee);
@@ -372,6 +377,14 @@ const Conscent = () => {
           </div>
 
 
+        <div className="d-flex justify-content-start">
+
+          <Button color="warning ms-3 mt-3" onClick={back}>
+              Previous Page
+          </Button>
+
+
+        </div>
         
         </CardBody>
       </Card>

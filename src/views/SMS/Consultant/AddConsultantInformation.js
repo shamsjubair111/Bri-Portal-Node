@@ -205,6 +205,9 @@ const AddConsultantInformation = () => {
     setPreviewVisible1(false);
   };
 
+  const front = () => {
+    history.push(`/consultantBankDetails/${consultantRegisterId}`);
+  }
   const handlePreview1 = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase641(file.originFileObj);
@@ -1292,6 +1295,13 @@ const AddConsultantInformation = () => {
               </Col>
             </FormGroup>
           </Form>
+          <div className="d-flex justify-content-end">
+            <Button color="warning" onClick={front}>
+              Next Page
+
+            </Button>
+
+          </div>
         </CardBody>
       </Card>
     </div>
