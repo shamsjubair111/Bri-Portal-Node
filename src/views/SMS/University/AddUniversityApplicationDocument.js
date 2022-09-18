@@ -28,6 +28,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  ButtonGroup,
 } from "reactstrap";
 import get from "../../../helpers/get";
 
@@ -646,6 +647,7 @@ const AddUniversityApplicationDocument = () => {
                           </td> */}
 
                           <td>
+                            <ButtonGroup>
                             <ButtonForFunction
                               func={() => handleUpdate(application?.id)}
                               className={"mx-1 btn-sm"}
@@ -661,6 +663,7 @@ const AddUniversityApplicationDocument = () => {
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            </ButtonGroup>
 
                             <Modal
                               isOpen={deleteModal}

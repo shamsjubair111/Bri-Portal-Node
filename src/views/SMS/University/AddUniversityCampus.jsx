@@ -157,7 +157,7 @@ const AddUniversityCampus = (props) => {
 
   // select University State
   const selectUniState = (label, value) => {
-    // setUniStateError(false);
+    setUniStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
   };
@@ -176,9 +176,9 @@ const AddUniversityCampus = (props) => {
     if(uniCountryValue == 0){
       setUniCountryError(true);
     }
-    // if(unistateValue === 0){
-    //   setUniStateError(true);
-    // }
+    else if(unistateValue === 0){
+      setUniStateError(true);
+    }
     else{
       if (selectedId === 0) {
         Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
@@ -274,8 +274,6 @@ const AddUniversityCampus = (props) => {
   }
 
   const toggleDanger = (p) => {
-    // localStorage.setItem("UniversityCampusId", p.id);
-    // localStorage.setItem("UniversityCampusName", p.name);
     setUniversityCampusId(p?.id);
     setUniversityCampusName(p?.name);
     setDeleteModal(true);
@@ -531,9 +529,9 @@ const AddUniversityCampus = (props) => {
                           id="CampusStateId"
                         />
 
-                        {/* {
+                        {
                           uniStateError && <span className="text-danger">Campus state must be selected</span>
-                        } */}
+                        }
 
                         {/* <div className="form-control-position">
                               <User size={15} />

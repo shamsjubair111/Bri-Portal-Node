@@ -652,7 +652,8 @@ const CampusList = (props) => {
                   </Col>
                   <Col md="6">
                     <Input
-                      type="text"
+                      type="textarea"
+                      rows="3"
                       name="EmbededMap"
                       id="EmbededMap"
                        defaultValue={campObj?.embededMap}

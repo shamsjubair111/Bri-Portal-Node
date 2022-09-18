@@ -22,6 +22,7 @@ import {
   Col,
   Row,
   InputGroup,
+  ButtonGroup,
   Table,
   TabContent,
   TabPane,
@@ -685,7 +686,9 @@ const AddUniversityTemplateDocument = () => {
                               Download
                             </a>
                           </td>
-                          <td>
+
+                          <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
 
                             <ButtonForFunction
                               func={() => handleUpdate(temp?.id)}
@@ -697,12 +700,13 @@ const AddUniversityTemplateDocument = () => {
 
 
                             <ButtonForFunction
-                              className={"mx-1 btn-sm"}
                               func={() => toggleDanger(temp)}
+                              className={"mx-1 btn-sm"}
                               color={"danger"}
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                          </ButtonGroup>
 
                             <Modal
                               isOpen={deleteModal}

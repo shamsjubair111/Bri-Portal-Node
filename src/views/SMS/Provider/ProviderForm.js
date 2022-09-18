@@ -125,9 +125,9 @@ const ProviderForm = (props) => {
         <CardHeader className="page-header">
           <h3 className="text-light">Provider Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-light" onClick={backtoList}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider List
             </span>
           </div>
         </CardHeader>

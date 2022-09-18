@@ -54,7 +54,7 @@ const AddUniversityFeatures = () => {
   const location = useLocation();
 
   const { addToast } = useToasts();
-  const {univerId} = useParams();
+  const { univerId } = useParams();
 
   let uniId;
   if (location.id) {
@@ -65,9 +65,7 @@ const AddUniversityFeatures = () => {
 
   useEffect(() => {
     // get(`UniversityFeatures/GetByUniversity/${localStorage.getItem('editUniId')}`)
-    get(
-      `UniversityFeatures/GetByUniversity/${univerId}`
-    ).then((res) => {
+    get(`UniversityFeatures/GetByUniversity/${univerId}`).then((res) => {
       console.log("unifeatures", res?.id);
       setFeatures(res);
       setFeatureId(res?.id);
@@ -105,26 +103,26 @@ const AddUniversityFeatures = () => {
             autoDismiss: true,
           });
 
-          history.push({
-            pathname: `/addUniversityGallery/${univerId}`,
-            id: localStorage.getItem("editUniId"),
-          });
+          // history.push({
+          //   pathname: `/addUniversityGallery/${univerId}`,
+          //   id: localStorage.getItem("editUniId"),
+          // });
         }
       });
     } else {
       Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata, {
         headers: {
-          'authorization': AuthStr,
+          "authorization": AuthStr,
         },
       }).then((res) => {
         const uniID = res.data.result.universityId;
 
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
-          history.push({
-            pathname: `/addUniversityGallery/${univerId}`,
-            id: uniID,
-          });
+          // history.push({
+          //   pathname: `/addUniversityGallery/${univerId}`,
+          //   id: uniID,
+          // });
 
           addToast(res?.data?.message, {
             appearance: "success",
@@ -203,12 +201,11 @@ const AddUniversityFeatures = () => {
 
   const goFront = () => {
     history.push(`/addUniversityGallery/${univerId}`);
-
-  }
+  };
 
   const goBack = () => {
-      history.push(`/addUniversityFinancial/${univerId}`);
-  }
+    history.push(`/addUniversityFinancial/${univerId}`);
+  };
 
   return (
     <div>
@@ -218,7 +215,8 @@ const AddUniversityFeatures = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToUniList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University List
+              <i className="fas fa-arrow-circle-left"></i> Back to University
+              List
             </span>
           </div>
         </CardHeader>
@@ -268,7 +266,7 @@ const AddUniversityFeatures = () => {
                                 onClick={() =>toggle('2')}
                                 > */}
               <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                 Gallery
+                Gallery
               </NavLink>
             </NavItem>
 
@@ -296,17 +294,19 @@ const AddUniversityFeatures = () => {
           <TabContent activeTab={activetab}>
             <TabPane tabId="4">
               <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
-              <div className="hedding-titel d-flex justify-content-between mb-4">
-                      <div>
-                        <h5> <b>Features Information</b> </h5>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Features Information</b>{" "}
+                    </h5>
 
-                        <div className="bg-h"></div>
-                      </div>
-                        {/* <div className="text-right edit-style  p-3" >
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3" >
                         <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                         </div> */}
-
-                    </div>
+                </div>
                 {
                   //   method == 'put' ?
                   featureId !== undefined ? (
@@ -582,17 +582,14 @@ const AddUniversityFeatures = () => {
               </Form>
 
               <div className="d-flex justify-content-between">
-
                 <Button color="warning" onClick={goBack}>
-                    Previous Page
+                  Previous Page
                 </Button>
 
                 <Button color="warning" onClick={goFront}>
-                    Next Page
+                  Next Page
                 </Button>
-
               </div>
-
             </TabPane>
           </TabContent>
         </CardBody>
