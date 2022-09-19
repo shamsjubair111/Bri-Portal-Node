@@ -98,10 +98,10 @@ const AddUniversityFinancial = (props) => {
             appearance: "success",
             autoDismiss: true,
           });
-          // history.push({
-          //     pathname: `/addUniversityFeatures/${univerId}`,
-          //     id: uniID
-          // })
+          history.push({
+              pathname: `/addUniversityFeatures/${univerId}`,
+              id: uniID
+          })
         } else {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -119,10 +119,10 @@ const AddUniversityFinancial = (props) => {
             autoDismiss: true,
           });
 
-          //   history.push({
-          //     pathname: `/addUniversityFeatures/${univerId}`,
-          //     id: localStorage.getItem('editUniId')
-          // })
+            history.push({
+              pathname: `/addUniversityFeatures/${univerId}`,
+              id: localStorage.getItem('editUniId')
+          })
         }
       });
     }

@@ -103,10 +103,10 @@ const AddUniversityFeatures = () => {
             autoDismiss: true,
           });
 
-          // history.push({
-          //   pathname: `/addUniversityGallery/${univerId}`,
-          //   id: localStorage.getItem("editUniId"),
-          // });
+          history.push({
+            pathname: `/addUniversityGallery/${univerId}`,
+            id: localStorage.getItem("editUniId"),
+          });
         }
       });
     } else {
@@ -119,10 +119,10 @@ const AddUniversityFeatures = () => {
 
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
-          // history.push({
-          //   pathname: `/addUniversityGallery/${univerId}`,
-          //   id: uniID,
-          // });
+          history.push({
+            pathname: `/addUniversityGallery/${univerId}`,
+            id: uniID,
+          });
 
           addToast(res?.data?.message, {
             appearance: "success",

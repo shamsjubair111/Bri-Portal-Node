@@ -419,7 +419,7 @@ const AddUniversity = (props) => {
                 autoDismiss: true,
               });
               
-              // history.push(`/addUniversityCampus/${uniId}`);
+              history.push(`/addUniversityCampus/${uniId}`);
             }
           });
         } else {
@@ -437,10 +437,10 @@ const AddUniversity = (props) => {
                   appearance: "success",
                   autoDismiss: true,
                 });
-                // history.push({
-                //   pathname: `/addUniversityCampus/${uniID}`,
-                //   id: uniID,
-                // });
+                history.push({
+                  pathname: `/addUniversityCampus/${uniID}`,
+                  id: uniID,
+                });
               }
             }
           );
@@ -493,7 +493,7 @@ const AddUniversity = (props) => {
                 autoDismiss: true,
               });
               
-              // history.push(`/addUniversityCampus/${uniId}`);
+              history.push(`/addUniversityCampus/${uniId}`);
             }
           });
         } else {
@@ -510,10 +510,10 @@ const AddUniversity = (props) => {
                   appearance: "success",
                   autoDismiss: true,
                 });
-                // history.push({
-                //   pathname: `/addUniversityCampus/${uniID}`,
-                //   id: uniID,
-                // });
+                history.push({
+                  pathname: `/addUniversityCampus/${uniID}`,
+                  id: uniID,
+                });
               }
             }
           );
@@ -1307,10 +1307,6 @@ const AddUniversity = (props) => {
                 </FormGroup>
 
                 <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup>
-                <FormGroup
                   row
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -1361,8 +1357,7 @@ const AddUniversity = (props) => {
                   permission={6}
                 /> */}
 
-                {/* {
-                  univerId != undefined ?  */}
+                
                   <ButtonForFunction
                   func={onNextPage}
                   disable = {(uniId == undefined) ? true : false}
@@ -1370,9 +1365,7 @@ const AddUniversity = (props) => {
                   name={"Next Page"}
                   permission={6}
                 />
-                {/* :
-                null
-                } */}
+                
               </FormGroup>
 
             </TabPane>
