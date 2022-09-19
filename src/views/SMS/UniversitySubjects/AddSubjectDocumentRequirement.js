@@ -24,6 +24,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  ButtonGroup,
 } from "reactstrap";
 import Axios from "axios";
 import { rootUrl } from "../../../constants/constants";
@@ -495,6 +496,7 @@ const onPreviousPage = () => {
                                 : "International"}
                             </td>
                             <td>
+                              <ButtonGroup>
                               <ButtonForFunction
                                 func={() => handleUpdate(document)}
                                 className={"mx-1 btn-sm"}
@@ -509,6 +511,7 @@ const onPreviousPage = () => {
                                 icon={<i className="fas fa-trash-alt"></i>}
                                 permission={6}
                                /> 
+                              </ButtonGroup>
 
                                <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 

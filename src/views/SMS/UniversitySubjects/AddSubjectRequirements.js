@@ -196,7 +196,7 @@ const AddSubjectRequirements = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Subject Requirement</h3>
+          <h3 className="text-light">Subject Requirement</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}

@@ -326,7 +326,7 @@ const AddUniversitySubject = () => {
         <div>
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Add Subject Information</h3>
+                <h3 className="text-light">Subject Information</h3>
                 <div className="page-header-back-to-home">
                   <span onClick={backToUniversitySubjectList} className="text-light">
                     {" "}

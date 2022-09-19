@@ -200,6 +200,10 @@ const ConsultantList = () => {
     })
   }
 
+  const redirectToConsultantProfile = (consultantId) => {
+    history.push(`/consultantProfile/${consultantId}`);
+  }
+
     return (
         <div>
              <Card className="uapp-card-bg">
@@ -482,12 +486,19 @@ const ConsultantList = () => {
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
 
-                          <LinkButton
+                          {/* <LinkButton
                             url={`/consultantProfile/${consultant?.id}`}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
                          
+                          /> */}
+
+                         <ButtonForFunction
+                            func={()=>redirectToConsultantProfile(consultant?.id)}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
                           />
 
                           <ButtonForFunction

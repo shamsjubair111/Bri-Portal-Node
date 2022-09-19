@@ -24,6 +24,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  ButtonGroup,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import Axios from "axios";
@@ -268,7 +269,7 @@ const redirectToSubjectProfile = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Subject Document Requirement</h3>
+          <h3 className="text-light">Subject Document Requirement</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}
@@ -471,6 +472,7 @@ const redirectToSubjectProfile = () => {
                                 : "International"}
                             </td>
                             <td>
+                              <ButtonGroup>
                               <ButtonForFunction
                                 func={() => handleUpdate(document)}
                                 className={"mx-1 btn-sm"}
@@ -484,7 +486,8 @@ const redirectToSubjectProfile = () => {
                                 color={"danger"}
                                 icon={<i className="fas fa-trash-alt"></i>}
                                 permission={6}
-                               /> 
+                               />
+                              </ButtonGroup> 
 
                                <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 

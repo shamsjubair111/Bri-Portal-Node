@@ -24,6 +24,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  ButtonGroup,
 } from "reactstrap";
 import Axios from "axios";
 import { rootUrl } from "../../../../constants/constants";
@@ -224,7 +225,7 @@ const onPreviousPage = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Subject Delivery Pattern</h3>
+          <h3 className="text-light">Subject Delivery Pattern</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToSubjecList} className="text-light">
               {" "}
@@ -382,6 +383,7 @@ const onPreviousPage = () => {
                             <td>{pattern?.deliveryPattern?.name}</td>
 
                             <td>
+                              <ButtonGroup>
                               <ButtonForFunction
                                 func={() => handleUpdate(pattern)}
                                 className={"mx-1 btn-sm"}
@@ -397,6 +399,7 @@ const onPreviousPage = () => {
                                 icon={<i className="fas fa-trash-alt"></i>}
                                 permission={6}
                                /> 
+                              </ButtonGroup>
 
                               <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
 
