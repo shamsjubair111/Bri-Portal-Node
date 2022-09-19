@@ -208,6 +208,13 @@ const ProviderList = () => {
 
   const componentRef = useRef();
 
+  const redirectToProviderDetails = (providerId) => {
+    history.push(`/providerDetails/${providerId}`);
+  }
+
+  const redirectToUpdateProvider = (providerId) => {
+    history.push(`/updateProvider/${providerId}`);
+  }
 
     return (
         <div>
@@ -426,23 +433,40 @@ const ProviderList = () => {
                         <td style={{width: '8%'}} className="text-center">
                           <ButtonGroup variant="text">
 
-                            <LinkButton 
+                            {/* <LinkButton 
                               url={`/providerDetails/${prov?.id}`}
                               color={"primary"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
-                            />
+                            /> */}
+
+                              <ButtonForFunction 
+                                color={"primary"}
+                                func={()=>redirectToProviderDetails(prov?.id)}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-eye"></i>}
+                                permission={6}
+                              />
 
                               {
                               prov?.id !== 1 ?
-                            <LinkButton 
-                              url={`/updateProvider/${prov?.id}`}
-                              color={"dark"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
+                            // <LinkButton 
+                            //   url={`/updateProvider/${prov?.id}`}
+                            //   color={"warning"}
+                            //   className={"mx-1 btn-sm"}
+                            //   icon={<i className="fas fa-edit"></i>}
+                            //   permission={6}
+                            // />
+
+                            <ButtonForFunction 
+                                color={"warning"}
+                                func={()=>redirectToUpdateProvider(prov?.id)}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
+
                             :
                             null
                               }

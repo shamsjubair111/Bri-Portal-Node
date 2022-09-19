@@ -706,7 +706,7 @@ const AddProviderUniversityApplicationDocument = () => {
                 </div>
               ) : null}
 
-              {applicationList?.length > 0 ? (
+              {/* {applicationList?.length > 0 ? (
                 <FormGroup
                   className="has-icon-left position-relative"
                   style={{
@@ -722,7 +722,7 @@ const AddProviderUniversityApplicationDocument = () => {
                     permission={6}
                   />
                 </FormGroup>
-              ) : null}
+              ) : null} */}
             </TabPane>
           </TabContent>
           <div className="d-flex justify-content-between">

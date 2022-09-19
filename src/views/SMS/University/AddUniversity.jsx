@@ -501,7 +501,7 @@ const AddUniversity = (props) => {
             (res) => {
               console.log("unipostData", res);
   
-              localStorage.setItem("id", res.data.result.id);
+              // localStorage.setItem("id", res.data.result.id);
               const uniID = res?.data?.result?.id;
   
               if (res.status === 200 && res.data.isSuccess === true) {
@@ -622,6 +622,23 @@ const AddUniversity = (props) => {
     }
   };
 
+  // redirect to Next Page
+  const onNextPage = () => {
+    const uniID = universityId;
+    if (uniId != undefined){
+      history.push(`/addUniversityCampus/${uniId}`);
+    }
+    else{
+      history.push({
+        pathname: `/addUniversityCampus/${uniID}`,
+        id: uniID,
+      });
+    }
+  };
+
+  const handleCancelAdd = () => {
+    history.push("/universityList");
+  }
 
   return (
     <div>
@@ -1289,14 +1306,10 @@ const AddUniversity = (props) => {
                   </Col>
                 </FormGroup>
 
-                {/* <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup> */}
                 <FormGroup
                   row
                   className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "end" }}
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   {/* <Button.Ripple
                     type="submit"
@@ -1304,7 +1317,16 @@ const AddUniversity = (props) => {
                   >
                     Submit
                   </Button.Ripple> */}
-                  <Col md="5">
+                  <Col md="1">
+                  <ButtonForFunction
+                      func={handleCancelAdd}
+                      className={"mr-0 mt-3"}
+                      name={"Cancel"}
+                      color={"danger"}
+                    />
+                  </Col>
+
+                  <Col md="4">
                     {
                       permissions?.includes(permissionList?.Add_University || permissionList?.Update_University) ?
                       <ButtonForFunction
@@ -1319,6 +1341,33 @@ const AddUniversity = (props) => {
                   </Col>
                 </FormGroup>
               </Form>
+
+              <FormGroup
+                className="has-icon-left position-relative"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "end",
+                }}
+              >
+                {/* <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                /> */}
+
+                
+                  <ButtonForFunction
+                  func={onNextPage}
+                  disable = {(uniId == undefined) ? true : false}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Next Page"}
+                  permission={6}
+                />
+                
+              </FormGroup>
+
             </TabPane>
           </TabContent>
         </CardBody>

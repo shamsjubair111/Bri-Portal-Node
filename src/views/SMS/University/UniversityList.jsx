@@ -489,6 +489,10 @@ const UniversityList = (props) => {
     })
   }
 
+  const redirectToUniprofile = (uniId) => {
+    history.push(`/universityDetails/${uniId}`)
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -840,8 +844,16 @@ const UniversityList = (props) => {
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                          <LinkButton
+                          {/* <LinkButton
                             url={`/universityDetails/${university?.id}`}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          /> */}
+
+                          <ButtonForFunction
+                            func={() => redirectToUniprofile(university?.id)}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}

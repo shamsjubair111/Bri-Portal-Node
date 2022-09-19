@@ -921,8 +921,7 @@ const AddProviderUniversityCampus = (props) => {
                 </div>
               ))}
 
-              {
-                universityCampusList.length>0?
+              
                 <FormGroup
                 className="has-icon-left position-relative"
                 style={{
@@ -939,9 +938,7 @@ const AddProviderUniversityCampus = (props) => {
                   permission={6}
                 />
               </FormGroup>
-              :
-              null
-              }
+              
 
             </TabPane>
           </TabContent>

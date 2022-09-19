@@ -45,7 +45,7 @@ const AdminProviderForm = () => {
 
 
     const backToDashboard = () => {
-        history.push("/")
+        history.push("/providerList")
     }
 
 
@@ -169,7 +169,7 @@ const handlePass = (e) => {
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider List
             </span>
           </div>
         </CardHeader>

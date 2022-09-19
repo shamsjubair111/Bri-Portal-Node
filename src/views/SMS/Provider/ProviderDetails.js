@@ -3,6 +3,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import {
   Button,
+  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
@@ -263,6 +264,10 @@ const ProviderDetails = () => {
 
   const redirectToAssignPage = (managerId) =>{
     history.push(`/assignUniversity/${id}/${managerId}`);
+  }
+
+  const redirectToProviderAdmissionManager = (managerId, id) => {
+    history.push(`/providerAdmissionManager/${managerId}/${id}`)
   }
 
   return (
@@ -573,38 +578,56 @@ const ProviderDetails = () => {
                             </span>{" "}
                           </td>
                           <td>
-                          <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
+                            <ButtonGroup>
+                          {/* <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
                            <Button color="primary" className="btn-sm me-1">
                        
                           <i className="fas fa-eye"></i>
                          
                            </Button>
-                           </Link>
+                           </Link> */}
+
+                           <ButtonForFunction
+                            func={()=>redirectToProviderAdmissionManager(manager?.id, id)}
+                            className={"mx-1 btn-sm"}
+                            color = {"primary"}
+                            icon={<i className="fas fa-eye"></i>} 
+                           />
                             
                           
                             {permissions?.includes(
                               permissionList?.Update_Admission_manager
                             ) ? (
-                              <Button color="warning btn-sm me-1">
-                              <i
-                                className="fas fa-edit"
-                                onClick={() =>
-                                  updateAdmissionManager(manager?.id, id)
-                                }
-                              ></i>
-                              </Button>
+                              // <Button color="warning">
+                              // <i
+                              //   className="fas fa-edit"
+                              //   onClick={() =>
+                              //     updateAdmissionManager(manager?.id, id)
+                              //   }
+                              // ></i>
+                              // </Button>
+
+                            <ButtonForFunction
+                              func={()=>updateAdmissionManager(manager?.id, id)}
+                              className={"mx-1 btn-sm"}
+                              color = {"warning"}
+                              icon={<i className="fas fa-edit"></i>} 
+                            />
+
                             ) : null}
 
                             {permissions?.includes(
                               permissionList?.Delete_Admission_manager
                             ) ? (
-                              <Button color="danger" className="btn-sm">
+                              <Button color="danger" className="mx-1 btn-sm">
                               <i
                                 className="fas fa-trash-alt"
                                 onClick={() => toggleDelete(manager)}
                               ></i>
                               </Button>
                             ) : null}
+
+                            </ButtonGroup>
 
                             <Modal
                               isOpen={deleteModal}
