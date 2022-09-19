@@ -136,12 +136,19 @@ const AdmissionManager = () => {
 
           post(`AdmissionManager/Create`,subData)
           .then(res => {
-            if(res?.status == 200){
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
             })
             history.push(`/providerDetails/${id}`);
+            }
+            else if(res?.status == 200 && res?.data?.isSuccess == false){
+              addToast(res?.data?.message,{
+                appearance: 'error',
+                autoDismiss: true
+            })
+           
             }
              
           })

@@ -221,20 +221,26 @@ const EmployeeGeneralInfo = (props) => {
                     // data = res.data.result;
                
 
-                    addToast(res.data.message, {
-                        appearance: 'success',
-                        autoDismiss: true,
-                    })
+                  
 
-                    const uID = res.data.result.userId;
-                    const empID = res.data.result.id;
+           
                     if (res.status === 200 && res.data.isSuccess === true) {
+                        addToast(res.data.message, {
+                            appearance: 'success',
+                            autoDismiss: true,
+                        })
                         // history.push({
                         //     pathname: '/employeeContactInfo',
                         //   //   state: { detail : uID},
                         //     id: uID
                         // })
                         history.push(`/addEmployeeContactInfo/${res?.data?.result?.id}`);
+                    }
+                    else if(res.status === 200 && res.data.isSuccess === false){
+                        addToast(res.data.message, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                        })
                     }
 
                 })

@@ -415,7 +415,7 @@ const ProviderList = () => {
                       providerList?.map((prov, i) => <tr key={prov.id} style={{ textAlign: "center" }}>
                         <th scope='row'>{serialNum + i}</th>
                         
-                        <td>{prov?.name}</td>
+                        <td>{prov?.nameTittle?.name} {prov?.name}</td>
                         <td>{prov?.email}</td>
                         <td>{prov?.phoneNumber}</td>
 

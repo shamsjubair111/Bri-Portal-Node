@@ -59,6 +59,8 @@ const Branch = () => {
       const [empValue, setEmpValue] = useState(0);
       const [emp,setEmp] = useState([]);
       const [empError,setEmpError] = useState('');
+      const [pass,setPass] = useState('');
+      const [passError,setPassError] = useState('');
 
          
 
@@ -140,6 +142,11 @@ const Branch = () => {
       value: branchInfo.id,
     }));
 
+    const handlePass = (e) => {
+      setPassError('');
+      setPass(e.target.value);
+    }
+
 
      // select University Country
   const selectNationality = (label, value) => {
@@ -164,36 +171,56 @@ const Branch = () => {
     }
 
 
-    if(nationalityValue == 0){
-      setNationalityError(true);
-    }
-    else if(empValue == 0){
+     if(empValue == 0){
       setEmpError('Employee type must be selected');
     }
-    else if(employeeProfileImage.length <1 && check){
-      setImageError(true);
+    else if(nationalityValue == 0){
+      setNationalityError(true);
     }
+    
+   
     else if(emailError == false){
       setEmailError(emailError);
+    }
+    
+    else if(employeeProfileImage.length <1 && check){
+      setImageError(true);
     }
     else{
 
    if(!employeeId){
 
+    if(pass.length < 6){
+      setPassError('Password length can not be less than six digits');
 
+    }
+    else{
+
+      Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config).then((res) => {
+          
+        if (res?.status === 200 && res?.data?.isSuccess === true) {
+          setSubmitData(true);
+          
+          addToast(res?.data?.message, {
+            appearance: 'success'
+            
+          })
+          history.push(`/branchProfile/${branchId}`)
+        }
+        else if (res?.status === 200 && res?.data?.isSuccess === false) {
+          setSubmitData(true);
+          
+          addToast(res?.data?.message, {
+            appearance: 'error'
+            
+          })
+         
+        }
+      });
+
+    }
     
-    Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config).then((res) => {
-          
-      if (res?.status === 200 && res?.data?.isSuccess === true) {
-        setSubmitData(true);
-        
-        addToast(res?.data?.message, {
-          appearance: 'success'
-          
-        })
-        history.push(`/branchProfile/${branchId}`)
-      }
-    });
+    
 
    }
     
@@ -460,7 +487,9 @@ const Branch = () => {
               id="password"
               placeholder="Enter Password"
               required
+              onChange={handlePass}
             />
+            <span className='text-danger'>{passError}</span>
         
           </Col>
         </FormGroup>
@@ -548,7 +577,7 @@ const Branch = () => {
               }
             
               <div className='ms-2'>
-              <BranchProfileImage/>
+              <BranchProfileImage imageError={imageError} setImageError={setImageError} />
               {
                 imageError ? 
                 <span className='text-danger'>Profile image must be selected</span>

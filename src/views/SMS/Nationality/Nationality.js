@@ -129,8 +129,8 @@ const Nationality = () => {
             <Card>
             <CardHeader>
        
-            <Button className="btn btn-uapp-add" onClick={()=>AddModalOpen('add')} > <i className="fas fa-plus"></i>  Add New</Button>
-                  <div> <b> Total <span className="badge badge-primary">{countryList.length} </span> Countries  Found </b></div>
+            <Button className="btn btn-uapp-add" onClick={()=>AddModalOpen('add')} > <i className="fas fa-plus"></i>  Add New Nationality</Button>
+                  <div> <b> Total <span className="badge badge-primary">{countryList.length} </span> Nationalities  Found </b></div>
             </CardHeader>
              <CardBody>
 

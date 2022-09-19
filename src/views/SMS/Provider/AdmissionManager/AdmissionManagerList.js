@@ -477,7 +477,7 @@ const AdmissionManagerList = () => {
                 func={handleAddNew}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New"}
+                name={" Add New Admission Manager"}
                 permission={6}
               />
 

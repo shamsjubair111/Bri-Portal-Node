@@ -140,6 +140,13 @@ const handleSubmit  = (event) => {
         })
         history.push(`/providerDetails/${adminProviderHiddenId}`);
       }
+     else if(res?.status == 200 && res?.data?.isSuccess == false){
+        addToast(res?.data?.message,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+       
+      }
     })
 
   }

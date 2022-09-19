@@ -18,9 +18,9 @@ const Branch = () => {
    
     const [activetab, setActivetab] = useState("1");
       const [submitData, setSubmitData] = useState(false);
-      const [countryLabel, setCountryLabel] = useState("Country");
+      const [countryLabel, setCountryLabel] = useState("Select Country");
       const [countryValue, setCountryValue] = useState(0);
-      const [stateLabel, setStateLabel] = useState("State");
+      const [stateLabel, setStateLabel] = useState("Select State");
       const [stateValue, setStateValue] = useState(0);
       const [country,setCountry] = useState([]);
       const [state,setState] = useState([]);
@@ -96,7 +96,7 @@ const Branch = () => {
     setCountryLabel(label);
     setCountryValue(value);
     searchStateByCountry(value);
-    setStateLabel('Select');
+    setStateLabel('Select State');
    
    
   }

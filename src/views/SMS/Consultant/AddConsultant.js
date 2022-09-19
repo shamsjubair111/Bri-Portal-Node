@@ -137,7 +137,7 @@ const AddConsultant = () => {
       post("Consultant/Register", subdata).then(res=>{
         console.log("consultant",res);
         addToast(res?.data?.message, {
-          appearance:'success',
+          appearance: res?.data?.isSuccess == true ? 'success': 'error',
           autoDismiss: true,
         });
         
@@ -146,6 +146,9 @@ const AddConsultant = () => {
          
           history.push(`/consultantInformation/${res?.data?.result?.id}`);
           
+        }
+        else{
+          return;
         }
       })
      }

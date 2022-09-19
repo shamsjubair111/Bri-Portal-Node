@@ -176,10 +176,15 @@ const StudentRegister = () => {
             console.log('hello', res);
          
             addToast(res?.data?.message, {
-              appearance: 'success',
+              appearance: res?.data?.isSuccess == true? 'success' : 'error',
               autoDismiss: true
             })
+           if(res?.status == 200 && res?.data?.isSuccess == true){
             history.push(`/addStudentApplicationInformation/${res?.data?.result?.id}`);
+           }
+           else{
+            return;
+           }
           })
       }
     }
