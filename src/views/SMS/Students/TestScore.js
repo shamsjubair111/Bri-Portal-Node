@@ -3532,6 +3532,7 @@ const TestScore = () => {
             >
               <ButtonForFunction
                 name={"Previous"}
+                icon={<i className="fas fa-arrow-left-long me-1"></i>}
                 func={goBackward}
                 className={"ms-md-2 mt-3 btn-warning"}
               />

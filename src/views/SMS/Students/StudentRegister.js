@@ -152,7 +152,7 @@ const StudentRegister = () => {
                 appearance: 'success',
                 autoDismiss: true
               })
-              history.push(`/addStudentApplicationInformation/${res?.data?.result?.id}`);
+              history.push(`/studentApplication/${res?.data?.result?.id}`);
             }
            
           })
@@ -180,7 +180,7 @@ const StudentRegister = () => {
               autoDismiss: true
             })
            if(res?.status == 200 && res?.data?.isSuccess == true){
-            history.push(`/addStudentApplicationInformation/${res?.data?.result?.id}`);
+            history.push(`/studentApplication/${res?.data?.result?.id}`);
            }
            else{
             return;

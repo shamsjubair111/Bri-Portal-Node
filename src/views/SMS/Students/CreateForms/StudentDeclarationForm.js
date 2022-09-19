@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label } from 'reactstrap';
 import Select from "react-select";
-import get from '../../../helpers/get';
-import post from '../../../helpers/post';
+import get from '../../../../helpers/get';
+import post from '../../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
-import put from '../../../helpers/put';
-import ButtonForFunction from '../Components/ButtonForFunction';
-import { userTypes } from '../../../constants/userTypeConstant';
+import put from '../../../../helpers/put';
+import ButtonForFunction from '../../Components/ButtonForFunction';
+import { userTypes } from '../../../../constants/userTypeConstant';
 
+const StudentDocumentForm = () => {
 
-const StudentDeclaration = () => {
-
-  const {applicationStudentId, update} = useParams();
+    const {idVal} = useParams();
 
    
     const history = useHistory();
@@ -28,7 +27,7 @@ const StudentDeclaration = () => {
 
     useEffect(()=>{
 
-        get(`StudentConsent/Get/${applicationStudentId}`)
+        get(`StudentConsent/Get/${idVal}`)
         .then(res =>{ 
             console.log(res,'resStudentData');
             setConscentData(res);
@@ -43,60 +42,15 @@ const StudentDeclaration = () => {
 
     },[success])
 
-    const backToStudentProfile = () => {
-        history.push(`/studentProfile/${applicationStudentId}`);
-    }
+  
 
-    const toggle = (tab) => {
-        setActivetab(tab);
-        if (tab == "1") {
-          history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
-        }
-      
-        if (tab == "2") {
-          history.push(`/addStudentInformation/${applicationStudentId}/${1}`);
-        }
-      
-        if (tab == "3") {
-          history.push(`/addStudentContactInformation/${applicationStudentId}/${1}`);
-        }
-      
-        if (tab == "4") {
-          history.push(`/addStudentEducationalInformation/${applicationStudentId}/${1}`);
-        }
-      
-        if (tab == "5") {
-          history.push(`/addTestScore/${applicationStudentId}/${1}`);
-        }
-      
-        if (tab == "6") {
-          history.push(`/addExperience/${applicationStudentId}/${1}`);
-        }
-      
-        if (tab == "7") {
-          history.push(`/addReference/${applicationStudentId}/${1}`);
-        }
-      
-        if (tab == "8") {
-          history.push(`/addPersonalStatement/${applicationStudentId}/${1}`);
-        }
-        if (tab == "9") {
-          history.push(`/addOtherInformation/${applicationStudentId}/${1}`);
-        }
-        if (tab == "10") {
-          history.push(`/uploadDocument/${applicationStudentId}/${1}`);
-        }
-        if (tab == "11") {
-          history.push(`/studentDeclaration/${applicationStudentId}/${1}`);
-        }
 
-    }
 
     const handleTerms = (event) => {
 
         const subData = new FormData();
   
-        subData.append('StudentId', applicationStudentId);
+        subData.append('StudentId', idVal);
         subData.append('IpAddress',apiInfo?.IPv4);
         post('StudentConsent/Sign',subData)
         .then(res => {
@@ -109,10 +63,24 @@ const StudentDeclaration = () => {
           }
         })
       }
+     const finish = () => {
+        put(`StudentConsent/SendEmail/${idVal}`)
+        .then(res => {
+            if(res?.status == 200){
+                addToast("Email Sending is in Process",{
+                    appearance: 'success',
+                    autoDismiss: true
+                })
+                setSuccess(!success);
 
+            }
+            history.push(`/studentProfile/${idVal}`);
+        })
+
+     }
 
       const sendEmail = () => {
-        put(`StudentConsent/SendEmail/${applicationStudentId}`)
+        put(`StudentConsent/SendEmail/${idVal}`)
         .then(res => {
             if(res?.status == 200){
                 addToast("Email Sending is in Process",{
@@ -131,6 +99,7 @@ const StudentDeclaration = () => {
     }
 
 
+
     return (
         <div>
 
@@ -138,9 +107,9 @@ const StudentDeclaration = () => {
         <CardHeader className="page-header">
           <h3 className="text-light">Student Declaration</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
+              92% Completed
             </span>
           </div>
         </CardHeader>
@@ -151,167 +120,7 @@ const StudentDeclaration = () => {
 
         <CardBody>
 
-      {
-
-update?
-
-<Nav tabs>
-
-<NavItem>
-<NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
- Application 
-</NavLink>
-</NavItem>
-
- <NavItem>
-   <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
-     Personal 
-   </NavLink>
- </NavItem>
-
- <NavItem>
-   <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
-     Contact 
-   </NavLink>
- </NavItem>
-
-
- <NavItem>
-   <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
-     Educational 
-   </NavLink>
- </NavItem>
-
- <NavItem>
-   <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
-     Test Score
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
-     Experience 
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
-     Reference
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
-     Personal Statement
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
-     Others
-   </NavLink>
- </NavItem>
-
- <NavItem>
-     <NavLink  active={activetab === "10"} onClick={() => toggle("10")}>
-       Documents
-     </NavLink>
- </NavItem>
-
- <NavItem>
-     <NavLink  active={activetab === "11"} onClick={() => toggle("11")}>
-       Declaration
-     </NavLink>
- </NavItem>
-
-
-</Nav>
-
-:
-
-<Nav tabs>
-
-<NavItem>
-<NavLink  active={activetab === "1"} onClick={() => toggle("1")}>
- Application 
-</NavLink>
-</NavItem>
-
- <NavItem>
-   <NavLink  active={activetab === "2"} onClick={() => toggle("2")}>
-     Personal 
-   </NavLink>
- </NavItem>
-
- <NavItem>
-   <NavLink   active={activetab === "3"} onClick={() => toggle("3")}>
-     Contact 
-   </NavLink>
- </NavItem>
-
-
- <NavItem>
-   <NavLink   active={activetab === "4"} onClick={() => toggle("4")}>
-     Educational 
-   </NavLink>
- </NavItem>
-
- <NavItem>
-   <NavLink   active={activetab === "5"} onClick={() => toggle("5")}>
-     Test Score
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "6"} onClick={() => toggle("6")}>
-     Experience 
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "7"} onClick={() => toggle("7")}>
-     Reference
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "8"} onClick={() => toggle("8")}>
-     Personal Statement
-   </NavLink>
- </NavItem>
-
- <NavItem>
-
-   <NavLink   active={activetab === "9"} onClick={() => toggle("9")}>
-     Others
-   </NavLink>
- </NavItem>
-
-  <NavItem>
-     <NavLink  active={activetab === "10"} onClick={() => toggle("10")}>
-       Documents
-     </NavLink>
-   </NavItem>
-
-  <NavItem>
-     <NavLink  active={activetab === "11"} onClick={() => toggle("11")}>
-       Declaration
-     </NavLink>
-   </NavItem>
-
-
-</Nav>
-
-}
-
-
+ 
   
 
         <div className="container">
@@ -412,9 +221,9 @@ update?
                   (conscentData == null || conscentData?.consentSignStatusId == 1) ?
                    <div className="mb-1 text-right">
                    <Button color="primary"
-                   onClick={sendEmail}
+                   onClick={finish}
                    >
-                       Send Email
+                       Send Email & Finish
                    </Button>
                </div>
                :
@@ -477,21 +286,13 @@ update?
               }
 
               </div>
-        <div>
-          <Link style={{marginLeft: '10px'}} to={`/uploadDocument/${applicationStudentId}/1`}>
-          <Button color='warning'>
-          <i className="fas fa-arrow-left-long me-1"></i>
-            Previous
-          </Button>
-          </Link>
-          
-        </div>
+       
 
         </CardBody>
-    </Card>
+        </Card>
             
         </div>
     );
 };
 
-export default StudentDeclaration;
+export default StudentDocumentForm;

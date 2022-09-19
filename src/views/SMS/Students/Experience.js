@@ -713,7 +713,7 @@ console.log('trying', sDate?.split(",")[0]);
           
           >
   
-          Next Page
+          Next
           <i className="fas fa-arrow-right-long ms-1"></i>
           </Button>
           </FormGroup>

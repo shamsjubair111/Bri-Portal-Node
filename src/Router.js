@@ -374,6 +374,28 @@ const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/Adm
 const AdmissionOfficerDetails = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerDetails.js"));
 const AssignAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/AssignAdmissionOfficer.js"));
 
+// Student Create Forms
+const StudentApplicationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentApplicationForm"));
+
+const StudentPersonalForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentPersonalForm"));
+
+const StudentContactForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentContactForm"));
+
+const StudentEducationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentEducationForm"));
+
+const StudentTestScoreForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentTestScoreForm"));
+
+const StudentExperienceForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentExperienceForm"));
+
+const StudentReferenceForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentReferenceForm"));
+
+const StudentPersonalStatementForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentPersonalStatementForm"));
+
+const StudentOtherInformationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentOtherInformationForm"));
+
+const StudentDeclarationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentDeclarationForm"));
+
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -677,6 +699,19 @@ class AppRouter extends React.Component {
            <AppRoute  path="/withdrawRequestList" component={WithdrawRequestList} />
 
            <AppRoute  path="/withdrawTransaction" component={WithdrawTransaction} />
+
+
+           {/* Student Create Form Paths */}
+           <AppRoute  path="/studentApplication/:id" component={StudentApplicationForm} />
+           <AppRoute  path="/studentPersonal/:id" component={StudentPersonalForm} />
+           <AppRoute  path="/studentContact/:id" component={StudentContactForm} />
+           <AppRoute  path="/studentEducation/:id" component={StudentEducationForm} />
+           <AppRoute  path="/studentTestScore/:id" component={StudentTestScoreForm} />
+           <AppRoute  path="/studentExperience/:id" component={StudentExperienceForm} />
+           <AppRoute  path="/studentReference/:id" component={StudentReferenceForm} />
+           <AppRoute  path="/studentPersonalStatement/:idVal" component={StudentPersonalStatementForm} />
+           <AppRoute  path="/studentOtherInformation/:idVal" component={StudentOtherInformationForm} />
+           <AppRoute  path="/studentDeclarations/:idVal" component={StudentDeclarationForm} />
 
 
   <AppRoute  path="/search" component={Search} />

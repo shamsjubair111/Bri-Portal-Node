@@ -756,7 +756,7 @@ className={"mr-1 mt-3 badge-primary"}
        
        >
 
-       Next Page
+       Next
        <i className="fas fa-arrow-right-long ms-1"></i>
        </Button>
        </FormGroup>

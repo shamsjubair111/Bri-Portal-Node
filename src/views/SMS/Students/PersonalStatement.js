@@ -365,7 +365,7 @@ const PersonalStatement = () => {
         onClick={goNext}
         disabled = {statement == 'false' ? true : false}
       >
-        Next Page
+        Next
         <i className="fas fa-arrow-right-long ms-1"></i>
       </Button.Ripple>
     </FormGroup>
