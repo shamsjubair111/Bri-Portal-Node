@@ -337,7 +337,13 @@ const Subject = () => {
   };
 
   const handleCancelAdd = () => {
-    history.push("/subjectList");
+    if(location.uniSubList != undefined){
+      history.push(`/subjectProfile/${location.uniSubList}`);
+    }
+    else{
+      history.push("/subjectList");
+    }
+    
   }
 
   // redirect to Next Page
@@ -346,14 +352,16 @@ const Subject = () => {
     if (subId != 0){
       history.push({
         pathname: `/addSubjectFee/${subId}`,
-        subjectId: location.subjectId
+        subjectId: location.subjectId,
+        uniSubList: location.uniSubList
       });
     }
     else{
       history.push({
         pathname: `/addSubjectFee/${subjectId}`,
         id: subId,
-        subjectId: location.subjectId
+        subjectId: location.subjectId,
+        uniSubList: location.uniSubList
       });
     }
   };
