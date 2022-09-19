@@ -392,7 +392,7 @@ const selectProvider = (label, value) => {
     setProviderError(false);
     setManagerFormError(false);
     setEmailError(true);
-    setModalOpen(false);
+    // setModalOpen(false);
   }
 
   const handleAddNew = () =>{
@@ -435,16 +435,26 @@ const selectProvider = (label, value) => {
         post(`AdmissionOfficer/Create`, subdata)
         .then(res => {
           setSuccess(!success);
-          setModalOpen(false);
+          
           console.log("ressss", res);
         //   setuniversityId(res?.data?.result?.universityId)
-          if (res?.status === 200 && res?.data?.isSuccess === true) {
+          if (res?.status === 200 && res?.data?.isSuccess == true) {
             // setSubmitData(false);
             addToast(res.data.message, {
               appearance: 'success',
               autoDismiss: true,
             })
+            
             closeModal();
+            setModalOpen(false);
+          }
+          else if (res?.status === 200 && res?.data?.isSuccess == false) {
+            // setSubmitData(false);
+            addToast(res.data.message, {
+              appearance: 'error',
+              autoDismiss: true,
+            })
+            // closeModal();
           }
         })
         }

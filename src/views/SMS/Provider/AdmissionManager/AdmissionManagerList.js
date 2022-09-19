@@ -346,15 +346,24 @@ const AdmissionManagerList = () => {
         post(`AdmissionManager/Create`, subdata)
         .then(res => {
           setSuccess(!success);
-          setModalOpen(false);
+          
 
-          if (res?.status === 200 && res?.data?.isSuccess === true) {
+          if (res?.status === 200 && res?.data?.isSuccess == true) {
 
             addToast(res.data.message, {
               appearance: 'success',
               autoDismiss: true,
             })
             closeModal();
+            setModalOpen(false);
+          }
+          if (res?.status === 200 && res?.data?.isSuccess == false) {
+
+            addToast(res.data.message, {
+              appearance: 'error',
+              autoDismiss: true,
+            })
+            
           }
         })
 
