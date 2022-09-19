@@ -157,6 +157,18 @@ const AddUniversitySubjectRequirements = () => {
         }
     }
   };
+
+  // redirect to Next Page
+  const onNextPage = () => {
+    history.push({
+      pathname: `/addUniversitySubjectDocumentRequirement/${id}/${subjId}`,
+    });
+  };
+
+  const onPreviousPage = () => {
+    history.push(`/addUniversitySubjectDeliveryPattern/${id}/${subjId}`);
+  }
+
     return (
         <div>
       <Card className="uapp-card-bg">
@@ -294,13 +306,36 @@ const AddUniversitySubjectRequirements = () => {
                   <Col md="5">
                     <ButtonForFunction
                       type={"submit"}
-                      className={"mt-3 badge-primary"}
-                      name={"Submit"}
+                      className={"ms-3 mt-3 badge-primary"}
+                      name={"Save"}
                       permission={6}
                     />
                   </Col>
                 </FormGroup>
               </Form>
+
+              <FormGroup
+                className="has-icon-left position-relative"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
+                <ButtonForFunction
+                  func={onNextPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Next Page"}
+                  permission={6}
+                />
+              </FormGroup>
+
             </TabPane>
           </TabContent>
         </CardBody>

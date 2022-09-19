@@ -302,6 +302,26 @@ const AddUniversitySubject = () => {
     }
     
   };
+
+  const handleCancelAdd = () => {
+    history.push(`/universitySubjectList/${id}`);
+  }
+
+  // redirect to Next Page
+  const onNextPage = () => {
+    // const uniID = universityId;
+    if (subId != 0){
+      history.push({
+        pathname: `/addUniversitySubjectFee/${id}/${subjId}`,
+      });
+    }
+    else{
+      history.push({
+        pathname: `/addUniversitySubjectFee/${id}/${subjectId}`,
+      });
+    }
+  };
+
     return (
         <div>
             <Card className="uapp-card-bg">
@@ -588,7 +608,7 @@ const AddUniversitySubject = () => {
                 ></FormGroup> */}
                 <FormGroup row
                   className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "end" }}
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   {/* <Button.Ripple
                     type="submit"
@@ -596,17 +616,54 @@ const AddUniversitySubject = () => {
                   >
                     Submit
                   </Button.Ripple> */}
+
+                  <Col md="1">
+                  <ButtonForFunction
+                      func={handleCancelAdd}
+                      className={"mr-0 mt-3"}
+                      name={"Cancel"}
+                      color={"danger"}
+                    />
+                  </Col>
+
                   <Col md="5">
                     <ButtonForFunction 
                       type={"submit"}
-                      className={"mr-1 mt-3 badge-primary"}
-                      name={"Submit"}
+                      className={"ms-3 mt-3 badge-primary"}
+                      name={"Save"}
                       permission={6}
                     />
                   </Col>
 
                 </FormGroup>
               </Form>
+
+              <FormGroup
+                className="has-icon-left position-relative"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "end",
+                }}
+              >
+                {/* <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                /> */}
+
+                
+                  <ButtonForFunction
+                  func={onNextPage}
+                  disable = {(subId == 0) ? true : false}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Next Page"}
+                  permission={6}
+                />
+                
+              </FormGroup>
+
             </TabPane>
           </TabContent>
         </CardBody>

@@ -215,6 +215,11 @@ const handleDeleteDeliveryPattern = (id) => {
      setDelPatternId(0);
   })
 }
+
+const onPreviousPage = () => {
+  history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
+}
+
     return (
         <div>
       <Card className="uapp-card-bg">
@@ -343,7 +348,7 @@ const handleDeleteDeliveryPattern = (id) => {
                       <ButtonForFunction
                         type={"submit"}
                         className={"mr-0 mt-3 badge-primary"}
-                        name={"Submit"}
+                        name={"Save"}
                         permission={6}
                       />
                     </FormGroup>
@@ -418,8 +423,16 @@ const handleDeleteDeliveryPattern = (id) => {
           </TabContent>
           <FormGroup
             className="has-icon-left position-relative mt-5"
-            style={{ display: "flex", justifyContent: "end" }}
+            style={{ display: "flex", justifyContent: "space-between" }}
           >
+
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
+
             <Button onClick={redirectToNextPage} color="warning">
               Next Page
             </Button>

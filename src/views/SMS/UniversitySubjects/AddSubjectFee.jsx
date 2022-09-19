@@ -169,6 +169,21 @@ const AddSubjectFee = () => {
     
   };
 
+  // redirect to Next Page
+  const onNextPage = () => {
+    history.push({
+      pathname: `/addSubjectDeliveryPattern/${id}`,
+      subjectId: location.subjectId
+    })
+  };
+
+  const onPreviousPage = () => {
+    history.push({
+      pathname: `/addSubject/${id}`,
+      subjectId: location.subjectId
+    })
+  }
+
     return (
         <div>
             <Card className="uapp-card-bg">
@@ -319,13 +334,36 @@ const AddSubjectFee = () => {
                   <Col md="5">
                   <ButtonForFunction
                     type={"submit"}
-                    className={"mr-1 mt-3 badge-primary"}    
-                    name={"Submit"}
+                    className={"ms-3 mt-3 badge-primary"}    
+                    name={"Save"}
                     permission={6}
                   />
                   </Col>
                 </FormGroup>
               </Form>
+
+              <FormGroup
+                className="has-icon-left position-relative"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
+                <ButtonForFunction
+                  func={onNextPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Next Page"}
+                  permission={6}
+                />
+              </FormGroup>
+
             </TabPane>
           </TabContent>
         </CardBody>

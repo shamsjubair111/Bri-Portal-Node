@@ -30,6 +30,9 @@ const SubjectProfile = () => {
       else if(location.uniSubList != undefined){
         history.push(`/universitySubjectList/${location.uniSubList}`);
       }
+      else if(location.unnniId != undefined){
+        history.push(`/universitySubjectList/${location.unnniId}`);
+      }
       else{
         history.push('/subjectList');
       } 
@@ -79,7 +82,7 @@ const SubjectProfile = () => {
                 {
                   location?.campId != undefined ? "Back to Campus Subject List"
                   :
-                  location.uniSubList != undefined ? "Back to University Subject List"
+                  location.uniSubList != undefined || location.unnniId != undefined ? "Back to University Subject List"
                   :
                   "Back to Subject List"
                 }

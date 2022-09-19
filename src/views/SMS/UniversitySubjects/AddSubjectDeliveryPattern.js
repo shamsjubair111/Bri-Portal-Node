@@ -235,6 +235,22 @@ const handleDeleteDeliveryPattern = (id) => {
   })
 }
 
+// redirect to Next Page
+// const onNextPage = () => {
+//   const uniID = universityId;
+//   history.push({
+//     pathname: `/addUniversityFinancial/${univerId}`,
+//     id: uniID,
+//   });
+// };
+
+const onPreviousPage = () => {
+  history.push({
+    pathname: `/addSubjectFee/${id}`,
+    subjectId: location.subjectId
+  });
+}
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -369,7 +385,7 @@ const handleDeleteDeliveryPattern = (id) => {
                       <ButtonForFunction
                         type={"submit"}
                         className={"mr-0 mt-3 badge-primary"}
-                        name={"Submit"}
+                        name={"Save"}
                         permission={6}
                       />
                     </FormGroup>
@@ -440,15 +456,46 @@ const handleDeleteDeliveryPattern = (id) => {
                   </div>
                 </div>
               </div>
+
+              {/* <FormGroup
+                className="has-icon-left position-relative"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
+                <ButtonForFunction
+                  func={onNextPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Next Page"}
+                  permission={6}
+                />
+              </FormGroup> */}
+
             </TabPane>
           </TabContent>
           <FormGroup
             className="has-icon-left position-relative mt-5"
-            style={{ display: "flex", justifyContent: "end" }}
+            style={{ display: "flex", justifyContent: "space-between" }}
           >
-            <Button onClick={redirectToNextPage} color="warning">
-              Next Page
-            </Button>
+
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
+
+                <Button onClick={redirectToNextPage} color="warning">
+                  Next Page
+                </Button>
           </FormGroup>
         </CardBody>
       </Card>

@@ -275,6 +275,13 @@ const handleDeleteDocuRequired = (id) => {
   })
 }
 
+const onPreviousPage = () => {
+  history.push({
+    pathname: `/addSubjectRequirements/${id}`,
+    subjectId: location.subjectId
+  });
+}
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -443,7 +450,7 @@ const handleDeleteDocuRequired = (id) => {
                       <ButtonForFunction
                         type={"submit"}
                         className={"mt-3 badge-primary"}
-                        name={"Submit"}
+                        name={"Save"}
                         permission={6}
                       />
                     </FormGroup>
@@ -526,22 +533,32 @@ const handleDeleteDocuRequired = (id) => {
                   
                 </div>
               </div>
-              <div className="d-flex justify-content-end">
+
+              <div className="d-flex justify-content-between">
+                <div>
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
+                </div>
+                <div className="d-flex justify-content-end">
                 <Link to={`/subjectList`}>
                 <Button color="primary" className="me-1">
                     Go to Subject List
                   
                 </Button></Link>
 
-              <Link to={`/subjectProfile/${id}`}>
-              <Button color="primary" className="ms-1">
+                 <Link to={`/subjectProfile/${id}`}>
+                 <Button color="primary" className="ms-1">
                     Go to Subject Profile
                   
                 </Button>
-              </Link>
-
-              
+               </Link>
               </div>
+              </div>
+
             </TabPane>
           </TabContent>
         </CardBody>

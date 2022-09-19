@@ -75,7 +75,7 @@ const AddUniversitySubjectFee = () => {
     const toggle = (tab) => {
       setActivetab(tab);
       if (tab == '1') {
-        history.push(`/addUniversitySubject/${id}/${subjId}`)
+        history.push(`/addUniversitySubject/${id}/${subjId}`);
       }
       if (tab == "2") {
         history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
@@ -143,6 +143,18 @@ const AddUniversitySubjectFee = () => {
      }
     
   };
+
+   // redirect to Next Page
+   const onNextPage = () => {
+    history.push({
+      pathname: `/addUniversitySubjectDeliveryPattern/${id}/${subjId}`,
+    });
+  };
+
+  const onPreviousPage = () => {
+    history.push(`/addUniversitySubject/${id}/${subjId}`);
+  }
+
     return (
         <div>
             <Card className="uapp-card-bg">
@@ -287,13 +299,36 @@ const AddUniversitySubjectFee = () => {
                   <Col md="5">
                   <ButtonForFunction
                     type={"submit"}
-                    className={"mr-1 mt-3 badge-primary"}    
-                    name={"Submit"}
+                    className={"ms-3 mt-3 badge-primary"}    
+                    name={"Save"}
                     permission={6}
                   />
                   </Col>
                 </FormGroup>
               </Form>
+
+              <FormGroup
+                className="has-icon-left position-relative"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <ButtonForFunction
+                  func={onPreviousPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Previous Page"}
+                  permission={6}
+                />
+                <ButtonForFunction
+                  func={onNextPage}
+                  color={"warning uapp-form-button float-right"}
+                  name={"Next Page"}
+                  permission={6}
+                />
+              </FormGroup>
+
             </TabPane>
           </TabContent>
         </CardBody>

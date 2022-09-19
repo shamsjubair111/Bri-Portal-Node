@@ -309,6 +309,8 @@ const AdmissionManagerList = () => {
     setUniStateValue(0);
     setProviderLabel("Select Provider");
     setProviderValue(0);
+    setProviderLabel2("Select Provider");
+    setProviderValue2(0);
     setCountryError(false);
     setUniStateError(false);
     setNameTitleError(false);

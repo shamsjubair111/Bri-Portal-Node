@@ -464,7 +464,7 @@ const SubjectList = (props) => {
                 func={handleAddSubject}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New"}
+                name={" Add New Subject"}
                 permission={6}
               />
               :
