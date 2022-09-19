@@ -7,7 +7,8 @@ import { StoreEmployeeProfileImageData } from '../../../../redux/actions/SMS/Bra
 
 
 
-const  BranchProfileImage = () => {
+const  BranchProfileImage = (props) => {
+  const {imageError, setImageError} = props;
 
 
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -56,6 +57,7 @@ const  BranchProfileImage = () => {
   };
 
  const handleChange = ({ fileList }) => {
+      setImageError(false);
      setFileList(fileList);
     
     

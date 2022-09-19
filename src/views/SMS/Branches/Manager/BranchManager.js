@@ -41,12 +41,20 @@ const BranchManager = () => {
 
     const permissions = JSON.parse(localStorage.getItem("permissions"));
 
+    const [pass,setPass] = useState('');
+    const [passError, setPassError] = useState('');
+
    
 
 
     const backToBranchList = () => {
         history.push('/branchList');
 
+    }
+
+    const handlePass = (e) => {
+      setPass(e.target.value);
+      setPassError('');
     }
 
  
@@ -204,18 +212,22 @@ const selectTitle = (label, value) => {
   
      
     // }
-    if(FileList.length <1 && check){
-      setImageError(true);
-
-    }
+  
 
     
-  else if(titleValue == 0 ){
+if(titleValue == 0 ){
     setTitleError(true);
    
   }
   else if(emailError == false){
     setEmailError(emailError);
+  }
+  else if(pass?.length <6){
+    setPassError('Password length can not be less than six digits');
+  }
+  else if(FileList.length <1 && check){
+    setImageError(true);
+
   }
 
   //  else if(backwardBranchManager){
@@ -266,7 +278,7 @@ const selectTitle = (label, value) => {
         //   })
   
         
-        if(res?.status == 200){
+        if(res?.status == 200 && res?.data?.isSuccess == true){
 
           addToast(res?.data?.message,{
             appearance: 'success',
@@ -281,7 +293,16 @@ const selectTitle = (label, value) => {
         history.push(`/branchProfile/${branchId}`);
         
         }
-     
+
+        else if(res?.status == 200 && res?.data?.isSuccess == false)
+
+        addToast(res?.data?.message,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+ 
+
+        setSubmitData(true);
   
       
      
@@ -479,7 +500,9 @@ const selectTitle = (label, value) => {
                       placeholder="Enter Password"
                       required
                       defaultValue={branchManagerInfo?.password}
+                      onChange={handlePass}
                     />
+                    <span className='text-danger'>{passError}</span>
                 
                   </Col>
                 </FormGroup>
