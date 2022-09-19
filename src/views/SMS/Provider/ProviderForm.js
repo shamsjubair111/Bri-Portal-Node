@@ -169,7 +169,7 @@ const ProviderForm = (props) => {
 
       <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
-                    <span>
+                    <span className='pl-2'>
                       Title <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
