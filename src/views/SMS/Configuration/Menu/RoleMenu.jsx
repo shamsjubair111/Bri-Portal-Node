@@ -7,12 +7,13 @@ import { Button, Modal,  ModalBody,  Form, FormGroup,    Col, Row, Card, CardHea
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
+import { useEffect } from 'react';
 
 
 const RoleMenu = (props) => {
 
     const myForm = createRef();
-    const roles = props.roleList[0];
+    
     const [modalOpen, setModalOpen] = useState(false);
     const [rolelabel, setRoleLabel] = useState('Select Role...');
     const [roleValue, setRoleValue] = useState('');
@@ -22,6 +23,7 @@ const RoleMenu = (props) => {
     const { addToast } = useToasts();
     const history = useHistory();
     const permissions = JSON.parse(localStorage.getItem('permissions'));
+    const [roles,setRoles] = useState([]);
 
 
   // submitting form
@@ -35,6 +37,16 @@ const RoleMenu = (props) => {
   
     
   }
+
+  useEffect(()=>{
+    get(`UserRole/Index`)
+    .then(res => {
+      
+        setRoles(res);
+    })
+
+
+  },[])
 
 
 
@@ -119,7 +131,7 @@ const RoleMenu = (props) => {
       subData.append('CheckedArr',checked);
       // posting form Data
       post(`RoleMenuItem/Assign`,subData).then((action)=> {
-       
+        console.log('checking role menu action',action)
    
         setChecked([]);
             addToast(action?.data?.message, {

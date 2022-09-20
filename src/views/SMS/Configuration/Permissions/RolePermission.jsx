@@ -13,7 +13,7 @@ import { permissionList } from '../../../../constants/AuthorizationConstant';
 const RolePermission = (props) => {
 
   const myForm = createRef();
-  const roles = props.roleList[0];
+  
   const [modalOpen, setModalOpen] = useState(false);
   const [permissionName, setPermissionName] = useState([]);
   const [rolelabel, setRoleLabel] = useState('Select Role...');
@@ -23,9 +23,19 @@ const RolePermission = (props) => {
   const dispatch = useDispatch();
   const { addToast } = useToasts();
   const history = useHistory();
+  const [roles,setRoles] = useState([]);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
+  useEffect(()=>{
+    get(`UserRole/Index`)
+    .then(res => {
+      
+        setRoles(res);
+    })
+
+
+  },[])
 
   
 

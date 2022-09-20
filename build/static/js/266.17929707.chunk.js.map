@@ -1,1 +1,0 @@
-{"version":3,"sources":["views/SMS/WithdrawTransaction/Index.js"],"names":["Index"],"mappings":"8GAAA,2BAUeA,UARD,WACV,OACI","file":"static/js/266.17929707.chunk.js","sourcesContent":["import React from 'react';\r\n\r\nconst Index = () => {\r\n    return (\r\n        <div>\r\n            \r\n        </div>\r\n    );\r\n};\r\n\r\nexport default Index;"],"sourceRoot":""}
