@@ -124,7 +124,7 @@ const Conscent = () => {
       };
 
       const back = () =>  {
-
+          history.push(`/consultantCommission/${consultantRegisterId}`);
       }
 
      

@@ -109,6 +109,7 @@ const BankDetails = () => {
   }
 
   const front = () => {
+    history.push(`/consultantCommission/${consultantRegisterId}`);
 
   }
 

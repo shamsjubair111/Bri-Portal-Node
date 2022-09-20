@@ -40,7 +40,19 @@ import { userTypes } from "../../../constants/userTypeConstant";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 
 const PromotionalCommission = ({promotionalList}) => {
+
     console.log("compproList", promotionalList)
+    const {consultantRegisterId} = useParams();
+    const history = useHistory();
+
+    const front = () => {
+      history.push(`/consultantConscent/${consultantRegisterId}`);
+    }
+
+    const back = () => {
+      history.push(`/consultantBankDetails/${consultantRegisterId}`);
+    }
+
     return (
         <>
             <div className="mt-5 customCard mx-2">
@@ -84,6 +96,14 @@ const PromotionalCommission = ({promotionalList}) => {
                     ))}
                   </tbody>
                 </Table>
+                <div className="d-flex justify-content-between">
+                  <Button color="warning" onClick={back}>
+                    Previous Page
+                  </Button>
+                  <Button color="warning" onClick={front}>
+                    Next page
+                  </Button>
+                </div>
               </div>
             </div>
         </>
