@@ -46,7 +46,7 @@ const PromotionalCommission = ({promotionalList}) => {
 
     return (
         <>
-            <div className="mt-5 customCard mx-2">
+            <div className="mt-5 customCard mx-1">
               <div className="hedding-titel d-flex justify-content-between ms-2 mb-4">
                 <div>
                   <h5>

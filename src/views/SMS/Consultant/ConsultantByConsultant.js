@@ -108,6 +108,10 @@ const ConsultantByConsultant = () => {
 
   const componentRef = useRef();
 
+  const handleView = (consultantId) => {
+    history.push(`/consultantProfile/${consultantId}`)
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -278,8 +282,16 @@ const ConsultantByConsultant = () => {
 
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                          <LinkButton
+                          {/* <LinkButton
                             url={`/consultantProfile/${consultant?.id}`}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          /> */}
+
+                          <ButtonForFunction
+                            func={()=>handleView(consultant?.id)}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
@@ -288,7 +300,7 @@ const ConsultantByConsultant = () => {
 
                           <ButtonForFunction
                             // func={()=>handleEdit(consultant)}
-                            color={"dark"}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
                             permission={6}

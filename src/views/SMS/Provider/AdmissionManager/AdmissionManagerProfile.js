@@ -238,6 +238,7 @@ const AdmissionManagerProfile = () => {
         setAssignModalOpen(false);
         setOfficerLabel("Select Admission Officer");
         setOfficerValue(0);
+        setExistsNote();
       }
     })
 
