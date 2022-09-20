@@ -38,6 +38,7 @@ import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { userTypes } from "../../../constants/userTypeConstant";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
+import PromotionalCommission from "./PromotionalCommission";
 
 const ConsultantCommission = () => {
   const history = useHistory();
@@ -54,6 +55,12 @@ const ConsultantCommission = () => {
   const [delCommissionName, setDelCommissionName] = useState("");
   const [delCommissionId, setDelCommissionId] = useState(0);
   const [deleteModal, setDeleteModal] = useState(false);
+
+  const [commissionName, setCommissionName] = useState("");
+  const [commissionId, setCommissionId] = useState(0);
+  const [reAssignModal, setReAssignModal] = useState(false);
+
+  const [promotionalList, setPromotionalList] = useState([]);
 
   const [showForm, setShowForm] = useState(true);
   const [checked, setChecked] = useState(false);
@@ -80,6 +87,12 @@ const ConsultantCommission = () => {
       console.log("priceList", res);
       setPriceRangeList(res);
     });
+
+    get("PromotionalCommission/Index").then(res=>{
+      console.log("promotional commission", res);
+      setPromotionalList(res);
+    })
+
   }, [consultantRegisterId, success]);
 
   const commissionMenu = commissionDD.map((commission) => ({
@@ -185,6 +198,44 @@ const ConsultantCommission = () => {
       })
   }
 
+  const handleReAssign = (commission) =>{
+    console.log("update commission", commission);
+    setCommissionId(commission?.id);
+    setCommissionName(commission?.commissionGroup?.name);
+    setReAssignModal(true);
+  }
+
+  // on Close Re-assign Modal
+  const closeReAssignModal = () => {
+    setReAssignModal(false);
+    setCommissionId(0);
+    setCommissionName("");
+  };
+
+  const handleReAssignSubmit = (id) =>{
+
+    const subdata = {
+      id: id
+    }
+
+    put(`ConsultantCommissionGroup/ReAssign/${id}`, subdata).then((res) => {
+      if (res?.status === 200 && res?.data?.isSuccess == true) {
+        addToast(res.data.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+        setReAssignModal(false);
+      }
+      if (res?.status === 200 && res?.data?.isSuccess == false) {
+        addToast(res.data.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    });
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -232,8 +283,12 @@ const ConsultantCommission = () => {
 
           {/* nav tabs end */}
 
+          {/* {showForm && priceRangeList?.length > 0 ? ( */}
           {showForm ? (
-            <div className="row mt-4 ms-2">
+            <>
+            {
+              priceRangeList?.length > 0 ? 
+              <div className="row mt-4 ms-2">
               <div className="col-md-8 col-sm-12 customCard">
                 <span className="ms-3">
                   <b>
@@ -246,23 +301,24 @@ const ConsultantCommission = () => {
                     <thead>
                       <tr style={{ textAlign: "center" }}>
                         <th>#</th>
+                        <th>Price Range</th>
                         <th>Range From</th>
                         <th>Range To</th>
                         <th>Commission Amount</th>
-                        <th>Price Range</th>
                       </tr>
                     </thead>
                     <tbody>
                       {priceRangeList?.map((range, i) => (
                         <tr key={range.id} style={{ textAlign: "center" }}>
                           <th scope="row">{1 + i}</th>
+
+                          <td>{range?.priceRangeName}</td>
+
                           <td>{range?.rangeFrom}</td>
 
                           <td>{range?.rangeTo}</td>
 
                           <td>{range?.commissionAmount}</td>
-
-                          <td>{range?.priceRangeName}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -287,8 +343,13 @@ const ConsultantCommission = () => {
                 </div>
               </div>
             </div>
+            :
+            null
+            }
+            </>
           ) : null}
 
+          {/* { !showForm ? ( */}
           {priceRangeList?.length < 1 || !showForm ? (
             <Form onSubmit={handleSubmit} className="mt-5">
               <input
@@ -430,7 +491,7 @@ const ConsultantCommission = () => {
                         <td style={{ width: "20%" }} className="text-center">
                           <ButtonGroup variant="text">
                             <ButtonForFunction
-                              // func={() => handleEdit(university)}
+                              func={() => handleReAssign(commission)}
                               color={"primary"}
                               className={"mx-1 btn-sm"}
                               name={"Re-Assign"}
@@ -445,6 +506,8 @@ const ConsultantCommission = () => {
                               permission={6}
                             />
 
+                            {/* delete modal */}
+
                             <Modal
                               isOpen={deleteModal}
                               toggle={closeDeleteModal}
@@ -452,9 +515,9 @@ const ConsultantCommission = () => {
                             >
                               <ModalBody>
                                 <p>
-                                  Are You Sure to Delete this{" "}
-                                  <b>{delCommissionName}</b> ? Once Deleted it
-                                  can't be Undone!
+                                  Are you sure to delete this{" "}
+                                  <b>{delCommissionName}</b> ? Once deleted it
+                                  can't be undone!
                                 </p>
                               </ModalBody>
 
@@ -475,6 +538,42 @@ const ConsultantCommission = () => {
                                 </Button>
                               </ModalFooter>
                             </Modal>
+
+                            {/* Re Assign modal */}
+                            <Modal
+                              isOpen={reAssignModal}
+                              toggle={closeReAssignModal}
+                              className="uapp-modal"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are you sure to re-assign this{" "}
+                                  <b>{commissionName}</b> ?
+                                </p>
+                                <br/>
+                                <p className="text-danger">
+                                  Note : Re-assigning only affects new applications.
+                                </p>
+                              </ModalBody>
+
+                              <ModalFooter>
+                                <Button
+                                  color="danger"
+                                  onClick={() =>
+                                    handleReAssignSubmit(commissionId)
+                                  }
+                                >
+                                  YES
+                                </Button>
+                                <Button
+                                  color="primary"
+                                  onClick={closeReAssignModal}
+                                >
+                                  NO
+                                </Button>
+                              </ModalFooter>
+                            </Modal>
+
                           </ButtonGroup>
                         </td>
                       </tr>
@@ -484,6 +583,16 @@ const ConsultantCommission = () => {
               </div>
             </div>
           ) : null}
+
+          {
+            promotionalList.length > 0 ?
+            <PromotionalCommission
+            promotionalList={promotionalList}
+          />
+          :
+          null
+          }
+
         </CardBody>
       </Card>
     </div>
