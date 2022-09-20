@@ -114,7 +114,7 @@ const Conscent = () => {
         }
     
         if (tab == "3") {
-    
+          history.push(`/consultantCommission/${consultantRegisterId}`);
         }
     
         if (tab == "4") {

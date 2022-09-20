@@ -82,11 +82,11 @@ const BankDetails = () => {
     }
 
     if (tab == "2") {
-      history.push(`/consultantBankDetails//${consultantRegisterId}`);
+      history.push(`/consultantBankDetails/${consultantRegisterId}`);
     }
 
     if (tab == "3") {
-
+      history.push(`/consultantCommission/${consultantRegisterId}`);
     }
 
     if (tab == "4") {

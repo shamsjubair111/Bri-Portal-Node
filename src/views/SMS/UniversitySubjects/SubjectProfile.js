@@ -66,10 +66,10 @@ const SubjectProfile = () => {
     const handleProfileEdit = () => {
       history.push({
         pathname: `/addSubject/${subjectData?.id}`,
-        subjectId: subjId
+        subjectId: subjId,
+        uniSubList: location.uniSubList
       })
     }
-
 
     return (
         <div>
@@ -222,7 +222,7 @@ const SubjectProfile = () => {
                  <div className="bg-h"></div>
                  </div>
                  <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                 {/* <span> <i className="fas fa-pencil-alt pencil-style"></i> </span> */}
                </div>
 
                  </div>
