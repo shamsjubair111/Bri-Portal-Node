@@ -1240,7 +1240,7 @@ const AddConsultantInformation = () => {
                           <div className="text-danger" style={{ marginTop: 8 }}>
                             <Icon.Upload />
                             <br />
-                            <span>Upload Image Here</span>
+                            <span>Upload Here</span>
                           </div>
                         ) : (
                           ""

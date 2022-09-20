@@ -808,7 +808,7 @@ const handleEdit = (data) => {
               <ButtonForFunction 
                 func={addNewData}
                 className={"mr-1 mt-3 badge-primary"}
-                name={"Add New"}
+                name={"Add New Bank Details"}
                 permission={6}
               />
 

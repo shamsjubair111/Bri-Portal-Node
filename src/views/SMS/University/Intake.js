@@ -162,7 +162,7 @@ const Intake = () => {
                    func={handleAddNewButton}
                    className={"btn btn-uapp-add "}
                    icon={<i className="fas fa-plus"></i>}
-                   name={" Add New"}
+                   name={" Add New Intake"}
                    
                  />
                  :

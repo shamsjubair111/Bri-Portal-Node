@@ -100,7 +100,7 @@ const DegreeList = () => {
             <ButtonForFunction className ={"btn btn-uapp-add "}
                     icon ={<i className="fas fa-plus"></i>}
                     func={handleAddDegree} 
-                    name={' Add New'}
+                    name={' Add New Degree'}
                                 
             />
 

@@ -103,7 +103,7 @@ const EducationLevelList = () => {
       <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
                  func={handleAddEducationLevel} 
-                 name={' Add New'}
+                 name={' Add New Educational Level'}
                             
       />
 

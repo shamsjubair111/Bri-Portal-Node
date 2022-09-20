@@ -433,7 +433,7 @@ const PromotionalCommissionList = () => {
          <Button className ="btn btn-uapp-add" onClick={openModal}>
             <i className="fas fa-plus"></i>
           {' '}
-           Add New
+           Add New Promotional Commission
                       
               </Button>
          </div>
