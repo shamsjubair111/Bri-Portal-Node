@@ -144,7 +144,7 @@ const ConsultantCommission = () => {
             autoDismiss: true,
           });
           setSuccess(!success);
-          setShowForm(!showForm);
+          setShowForm(true);
           setCommissionLabel("Select Commission");
           setCommissionValue(0);
           setChecked(false);
