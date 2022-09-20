@@ -70,6 +70,16 @@ const ConsultantCommission = () => {
 
   const userTypeId = localStorage.getItem("userType");
 
+ 
+
+    const front = () => {
+      history.push(`/consultantConscent/${consultantRegisterId}`);
+    }
+
+    const back = () => {
+      history.push(`/consultantBankDetails/${consultantRegisterId}`);
+    }
+
   useEffect(() => {
     get("CommissionGroupDD/Index").then((res) => {
       console.log("ddd", res);
@@ -593,8 +603,19 @@ const ConsultantCommission = () => {
           null
           }
 
+                <div className="d-flex justify-content-between">
+                  <Button color="warning" onClick={back} className='ms-2 mt-3'>
+                    Previous Page
+                  </Button>
+                  <Button color="warning" onClick={front} className='ms-2 mt-3'>
+                    Next page
+                  </Button>
+                </div>
+
         </CardBody>
       </Card>
+
+                
     </div>
   );
 };
