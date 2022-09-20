@@ -444,7 +444,7 @@ const PromotionalCommissionList = () => {
              <thead className="thead-uapp-bg">
                <tr style={{ textAlign: "center" }}>
                  
-                 <th>S/L</th>
+                 <th>SL/NO</th>
                   <th>Account Intake</th>
                   <th>University</th>
                   <th>Commission Amount</th>
