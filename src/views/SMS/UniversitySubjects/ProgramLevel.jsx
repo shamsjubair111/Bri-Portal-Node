@@ -49,7 +49,7 @@ const closeModal = () => {
     const subData = new FormData(event.target);
 
     // for(var i of subData){
-    //   console.log(i);
+
     // }
 
     // const subdata = {
@@ -126,7 +126,7 @@ const closeDeleteModal = () => {
     const returnValue = remove(`ProgramLevel/Delete/${id}`).then((action)=> {
       setDeleteModal(false);
       setSuccess(!success);
-      console.log(action);
+      
        addToast(action, {
          appearance:  'error',
          autoDismiss: true,

@@ -24,11 +24,11 @@ const AdmissionManager = () => {
     e.preventDefault();
     const subData = new FormData(e.target);
     for(let i of subData.values()){
-      console.log(i);
+    
     }
-    // post(`Practice/Create`, subData).then(res => console.log(res));
+  
     const returnValue = post(`Practice/Create`, subData).then(action => {
-      console.log(action);
+     
       addToast(action, {
         appearance: 'success',
         autoDismiss: true,

@@ -59,7 +59,7 @@ const Department = (props) => {
 
   useEffect(() => {
     get(`Department/index`).then((res) => {
-      console.log(res);
+       
       setDepartmentInfo(res);
     });
   }, [success]);
@@ -80,13 +80,13 @@ const Department = (props) => {
     post(`Department/Create`, subdata).then((res) => {
       setSuccess(!success);
       setModalOpen(false);
-      console.log(res);
+       
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
       });
       get(`Department/index`).then((res) => {
-        console.log(res);
+         
         setDepartmentInfo(res);
       });
       setdepartment("");

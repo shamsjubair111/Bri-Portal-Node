@@ -53,7 +53,7 @@ const EditSubjectFee = () => {
     useEffect(()=>{
       get(`SubjectFeeStructure/GetBySubject/${subId}`)
       .then(res=>{
-        console.log(res);
+      
         setLocalTutionFee(res?.localTutionFee);
         setIntTutionFee(res?.internationalTutionFee);
         setEuTutionFee(res?.eU_TutionFee);

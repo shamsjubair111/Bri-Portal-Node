@@ -140,7 +140,7 @@ const EmployeeGeneralInfo = (props) => {
         })
 
         get("NameTittleDD/index").then((res) => {
-            console.log("title", res);
+          
             setTitle(res);
           });
     }, [])

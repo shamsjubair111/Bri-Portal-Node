@@ -39,7 +39,7 @@ const SubDepartment =(props)=>{
 
     useEffect(()=>{
         const returnValue = get(`DepartmentDD/Index`).then((action)=>{
-          // console.log(action);
+        
           setdepartmentList(action)
         });
       },[])
@@ -47,7 +47,7 @@ const SubDepartment =(props)=>{
       useEffect(()=>{
         const returnValue = get(`SubDepartment/Index?id=${filterdepartmentValue}`).then((action)=>{
           setSubDepartmentList(action);
-          console.log("dept id sublist", action);
+         
         })
       },[success, filterdepartmentValue])
 
@@ -76,7 +76,7 @@ const SubDepartment =(props)=>{
         // }
         const subdata = new FormData(e.target);
         for ( let val of subdata.values()){
-          console.log(val);
+        
         }
       
            post(`SubDepartment/Create`,subdata).then((action)=>{
@@ -126,7 +126,7 @@ const SubDepartment =(props)=>{
            appearance: 'error',
            autoDismiss: true,
          })
-        // console.log('actionnnn', action);
+     
         //  localStorage.removeItem('depName')
          setSubdepName('');
          setSubdepId(0);

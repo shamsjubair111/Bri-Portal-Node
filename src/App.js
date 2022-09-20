@@ -21,11 +21,11 @@ import get from "./helpers/get";
 const App = (props) => {
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-     get(`UserRole/Index`).then((action)=>{
-      dispatch(StoreRoleData(action))
-    });
-  },[dispatch]);
+  // useEffect(()=>{
+  //    get(`UserRole/Index`).then((action)=>{
+  //     dispatch(StoreRoleData(action))
+  //   });
+  // },[dispatch]);
 
   // useEffect(()=>{
   //    get(`EmployeTypeDD/Index`).then((action)=>{

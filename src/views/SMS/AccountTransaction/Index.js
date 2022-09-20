@@ -158,7 +158,7 @@ const Index = () => {
         
         get(`AccountTransaction/Index?page=${currentPage}&pageSize=${dataPerPage}&consultantid=${consultantValue}&typeid=${transactionValue}&transactionStatusId=${statusValue}&code=${transactionCode == ''? 'emptystring' :  transactionCode}`)
         .then(res => {
-          console.log(res,'Res Check');
+        
           setEntity(res?.totalEntity);
           setData(res?.models);
         })

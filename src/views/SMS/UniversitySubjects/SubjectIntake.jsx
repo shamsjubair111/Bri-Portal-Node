@@ -31,7 +31,7 @@ const SubjectIntake = () => {
   const { camId } = useParams();
   const { subbId } = useParams();
 
-  console.log("Ids", camId, subbId);
+
 
   const [intake, setIntake] = useState([]);
   const [status, setStatus] = useState([]);
@@ -55,27 +55,26 @@ const SubjectIntake = () => {
   const location = useLocation();
   const { addToast } = useToasts();
 
-  // console.log("campusId",location?.campusId);
-  // console.log("subjectId",location?.subjectId);
+
 
   // localStorage.setItem("camppId", location?.campusId);
   // localStorage.setItem("subbId", location?.subjectId);
 
   useEffect(() => {
     get("Intake/Index").then((res) => {
-      console.log("subject", res);
+     
       setIntake(res);
     });
 
     get("IntakeStatus/GetAll").then((res) => {
-      console.log("Status", res);
+     
       setStatus(res);
     });
 
     get(
       `SubjectIntake/GetAllSubjectIntake?subjectId=${subbId}&campusId=${camId}`
     ).then((res) => {
-      console.log("all sub intake", res);
+     
       setSubIntake(res);
     });
   }, [success]);
@@ -105,7 +104,7 @@ const SubjectIntake = () => {
     e.preventDefault();
     const subData = new FormData(e.target);
     for (var x of subData) {
-      console.log(x);
+     
     }
 
     if (intakeValue === 0) {
@@ -146,7 +145,7 @@ const SubjectIntake = () => {
   const handleDelete = (id) => {
     const returnValue = remove(`SubjectIntake/DeleteById/${id}`).then(
       (action) => {
-        // console.log(action);
+     
         setSuccess(!success);
         setDeleteModal(false);
         addToast(action, {

@@ -1,0 +1,1 @@
+{"version":3,"sources":["views/SMS/ApplicationTransaction/Details.js"],"names":["Details"],"mappings":"8GAAA,2BAUeA,UARC,WACZ,OACI","file":"static/js/261.b7825a3e.chunk.js","sourcesContent":["import React from 'react';\r\n\r\nconst Details = () => {\r\n    return (\r\n        <div>\r\n            \r\n        </div>\r\n    );\r\n};\r\n\r\nexport default Details;"],"sourceRoot":""}

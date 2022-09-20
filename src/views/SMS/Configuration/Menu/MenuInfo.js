@@ -59,7 +59,7 @@ const EmployeeList = (props) => {
     useEffect(()=>{
         get(`MenuItem/Index`)
         .then(res => {
-            console.log('2eee',res);
+        
             setMenuList(res);
         })
     },[])
@@ -78,7 +78,7 @@ const EmployeeList = (props) => {
     // },[callApi]);
 
     const handleDeleteMenu = (menuId) => {
-        // console.log(menuId);
+   
         remove(`MenuItem/Delete/${menuId}`)
         .then(res => {
         

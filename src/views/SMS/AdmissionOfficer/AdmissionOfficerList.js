@@ -139,7 +139,7 @@ const AdmissionOfficerList = () => {
     // setLoading(false);
 
     get(`AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&admissionmanagerId=${managerValue}&search=${searchStr}`).then(res=>{
-        console.log("admission officer",res);
+       
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
@@ -187,7 +187,7 @@ const AdmissionOfficerList = () => {
     setUniStateValue(0);
     get(`StateDD/Index/${value}`)
       .then(res => {
-        console.log("res", res);
+        
         // setUniStateLabel(res.name)
         // setUniStateValue(res.id)
         setUniversityStates(res);
@@ -232,7 +232,7 @@ const selectProvider = (label, value) => {
     setManagerFormValue(0);
     get(`AdmissionManagerDD/Index/${value}`)
       .then(res => {
-        console.log("res", res);
+        
         setManagerDDForm(res);
         // setUniStateLabel(res.name)
         // setUniStateValue(res.id)
@@ -307,7 +307,7 @@ const selectProvider = (label, value) => {
   };
 
   const redirectToOfficerAssignPage = (officerId) =>{
-    // console.log(officerId);
+    
     history.push({
         pathname: `/assignAdmissionOfficer/${officerId}`,
         officerList: "officerList"
@@ -350,15 +350,15 @@ const selectProvider = (label, value) => {
   };
 
   const handleAccountStatus = (e, officerId) => {
-    console.log(e.target.checked, officerId);
+    
     // setChecked(e.target.checked);
-    // console.log(check);
+    
 
     const subData = {
       id: officerId
     }
 
-    console.log("SubDataaa", subData);
+  
 
     put(`AdmissionOfficer/UpdateAccountStatus/${officerId}`, subData)
     .then(res => {
@@ -405,7 +405,7 @@ const selectProvider = (label, value) => {
     const subdata = new FormData(event.target);
 
     for(var i of subdata){
-        console.log(i);
+        
     }
 
     if(nameTitleValue === 0){
@@ -436,7 +436,7 @@ const selectProvider = (label, value) => {
         .then(res => {
           setSuccess(!success);
           
-          console.log("ressss", res);
+          
         //   setuniversityId(res?.data?.result?.universityId)
           if (res?.status === 200 && res?.data?.isSuccess == true) {
             // setSubmitData(false);
@@ -479,17 +479,17 @@ const selectProvider = (label, value) => {
   }
 
   const handleEmail = (e) => {
-    console.log(e.target.value);
+   
 
     get(`Consultant/OnChangeEmail/${e.target.value}`)
     .then(res => {
-      console.log('Checking Response', res);
+      
       setEmailError(res);
     })
   }
 
   const toggleDanger = (officer) => {
-    console.log("officer", officer);
+    
     setOfficerId(officer?.id);
     setOfficerName(officer?.firstName);
     setDeleteData(officer);
@@ -498,7 +498,7 @@ const selectProvider = (label, value) => {
 
   const handleUpdate = (officer) =>{
 
-    console.log("officer", officer);
+   
     setOfficerObj(officer);
     setNameTitleLabel(officer?.nameTittle?.name);
     setNameTitleValue(officer?.nameTittleId);

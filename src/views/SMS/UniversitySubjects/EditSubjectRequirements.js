@@ -45,12 +45,12 @@ const EditSubjectRequirements = () => {
 
   useEffect(() => {
     get("EducationLevelDD/Index").then((res) => {
-      console.log(res, "response");
+     
       setEduLevelDD(res);
       // setDeliveryDD(res);
     });
     get(`SubjectRequirement/GetBySubject/${id}`).then(res=>{
-        console.log("subReq", res);
+      
         setEduLabel(res?.educationLevel?.name);
         setEduValue(res?.educationLevel?.id);
         setRequiredId(res?.id);
@@ -107,7 +107,7 @@ const EditSubjectRequirements = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata) {
-      console.log("values", value);
+    
     }
 
     Axios.put(`${rootUrl}SubjectRequirement/Update`, subdata, {

@@ -37,10 +37,10 @@ const RolePermission = (props) => {
     subData.append('CheckedArr',checked);
     //  watch form data values
     for (var value of subData.values()) {
-       console.log(value);
+  
     }
     // setModalOpen(true);
-    // console.log(confirm);
+
     
 
       setPermissionName([]);

@@ -29,7 +29,7 @@ const EditDepartment = () => {
 
   useEffect(() => {
     get(`Department/Get/${id}`).then((res) => {
-      console.log(res);
+     
       setInfo(res);
       setdepartment(res.name);
       setDescription(res.description);
@@ -48,7 +48,7 @@ const EditDepartment = () => {
       name: department,
       description: description,
     };
-    // console.log(subData);
+   
     put(`Department/Update`, subData).then((res) => {
       addToast(res?.data?.message, {
         appearance: "success",

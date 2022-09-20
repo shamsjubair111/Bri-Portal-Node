@@ -119,7 +119,7 @@ const RoleMenu = (props) => {
       subData.append('CheckedArr',checked);
       // posting form Data
       post(`RoleMenuItem/Assign`,subData).then((action)=> {
-        console.log('checking role menu action',action)
+       
    
         setChecked([]);
             addToast(action?.data?.message, {

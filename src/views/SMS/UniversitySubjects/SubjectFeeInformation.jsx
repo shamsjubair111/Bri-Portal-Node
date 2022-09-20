@@ -65,7 +65,7 @@ const SubjectFeeInformation = () => {
 
     useEffect(()=>{
         get("SubjectFeeStructure/Index").then(res=>{
-            console.log("subjectFee",res);
+            
             setSubjectFee(res);
         })
     },[]);

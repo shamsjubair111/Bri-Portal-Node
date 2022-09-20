@@ -115,12 +115,12 @@ const handleSubmit = (e) => {
   const subData = new FormData(e.target);
 
   for(var y of subData.values()){
-    console.log(typeof(y));
+
   }
 
   post('ExamTestTypeAttribute/Create',subData)
   .then(res => {
-    console.log(res);
+   
     addToast(res?.data?.message,{
       appearance: 'error',
       autoDismiss: true
@@ -128,7 +128,7 @@ const handleSubmit = (e) => {
     })
     get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeAttributeId')}`)
     .then(res => {
-      console.log(res);
+    
       setExamTestTypeAttribute(res);
     })
   })
@@ -136,10 +136,10 @@ const handleSubmit = (e) => {
 
 const handleDelete = (data) => {
 
-  console.log(data);
+  
   remove(`ExamTestTypeAttribute/Delete/${data?.id}`)
   .then(res => {
-    console.log(res);
+   
     setDeleteModal(false);
     addToast(res,{
       appearance: 'error',
@@ -147,7 +147,7 @@ const handleDelete = (data) => {
     })
     get(`ExamTestTypeAttribute/GetByExamTestType/${localStorage.getItem('examTestTypeAttributeId')}`)
     .then(res => {
-      console.log(res);
+     
       setExamTestTypeAttribute(res);
     })
   }) 

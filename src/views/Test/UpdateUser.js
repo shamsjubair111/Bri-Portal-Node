@@ -35,7 +35,7 @@ const UpdateUser = () => {
       e.preventDefault();
       const subData = new FormData(e.target);
       // for(let i of subData.values()){
-      //   console.log(i);
+     
       // }
       put(`Practice/Update`, subData).then(action => {
         addToast(action, {

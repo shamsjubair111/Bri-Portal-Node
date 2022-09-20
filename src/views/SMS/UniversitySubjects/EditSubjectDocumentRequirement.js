@@ -47,19 +47,19 @@ const EditSubjectDocumentRequirement = () => {
   const [update, setUpdate] = useState(0);
 
   const { id } = useParams();
-  console.log(id, "SubIddddd");
+  
 
   useEffect(() => {
     get("DocumentGroupDD/Index").then((res) => {
-      console.log(res, "response");
+   
       setDocuDD(res);
     });
     get("ApplicationTypeDD/Index").then((res) => {
-      console.log(res, "response");
+     
       setApplicationTypeDD(res);
     });
     get(`SubjectDocumentRequirement/GetBySubject/${id}`).then((res) => {
-      console.log(res, "ssxcsxs");
+     
       setDocumentGrpList(res);
     });
   }, [id, success]);
@@ -125,7 +125,7 @@ const EditSubjectDocumentRequirement = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata) {
-      console.log("values", value);
+      
     }
 
     if (docuValue === 0) {
@@ -140,7 +140,7 @@ const EditSubjectDocumentRequirement = () => {
             authorization: AuthStr,
           },
         }).then((res) => {
-          console.log(res);
+         
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -176,7 +176,7 @@ const EditSubjectDocumentRequirement = () => {
             authorization: AuthStr,
           },
         }).then((res) => {
-          console.log(res);
+         
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -208,7 +208,7 @@ const EditSubjectDocumentRequirement = () => {
   };
 
   const handleUpdate = (document) => {
-    console.log("documentList", document);
+  
     setUpdate(document?.id);
     setDocuLabel(document?.documentGroup?.title);
     setDocuValue(document?.documentGroup?.id);

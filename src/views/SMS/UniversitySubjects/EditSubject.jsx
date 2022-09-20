@@ -77,7 +77,7 @@ const EditSubject = () => {
           setDepValue(res?.department?.id);
           setSubDepLabel(res?.subDepartment?.name);
           setSubDepValue(res?.subDepartment?.id);
-          console.log(res);
+         
       })
       .catch();
 
@@ -145,7 +145,7 @@ const EditSubject = () => {
 
 
     put('Subject/Update', subdata).then((res) => {
-      console.log(res);
+  
 
       if (res.status === 200 && res.data.isSuccess === true) {
         addToast(res?.data?.message, {

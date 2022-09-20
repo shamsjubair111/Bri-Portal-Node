@@ -33,8 +33,7 @@ const AddSiteSetting = () => {
   const result1 = useSelector(
     (state) => state.SightSettingCoverIconReducer.sightSettingCoverImage
   );
-  // console.log(result[0]?.originFileObj);
-  // console.log(result1[0]?.originFileObj);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +42,7 @@ const AddSiteSetting = () => {
     subData.append("uappfaviconFile", result1[0]?.originFileObj);
 
     for (const val of subData.values()) {
-      console.log(val);
+   
     }
 
     // const siteSettingInfo = {
@@ -60,10 +59,10 @@ const AddSiteSetting = () => {
     //     backupPath
 
     // }
-    // console.log(siteSettingInfo);
+  
 
     post(`SiteSetting/Create`, subData).then((res) => {
-      console.log(res);
+    
       alert(res);
       history.push("/siteSetting");
     });

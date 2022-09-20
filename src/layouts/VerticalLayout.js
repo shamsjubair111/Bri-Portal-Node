@@ -57,7 +57,7 @@ class VerticalLayout extends PureComponent {
         window.addEventListener("resize", this.updateWidth, false);
       }
       if (this.collapsedPaths.includes(pathname)) {
-        this.props.collapseSidebar(true);
+        this.props.collapseSidebar(false);
       }
 
       let layout = theme;

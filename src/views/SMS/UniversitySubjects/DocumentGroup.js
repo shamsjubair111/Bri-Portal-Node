@@ -70,24 +70,24 @@ const DocumentGroup = () => {
 
   useEffect(() => {
     get("ApplicationTypeDD/Index").then((res) => {
-      console.log("application DD data", res);
+    
       setApplicationDD(res);
     });
 
     if (documentId > 0) {
       get(`DocumentGroupDocument/GetByGroup/${documentId}`).then((res) => {
-        console.log("documentGroupDocument", res);
+      
         setDocumentGroupDocument(res);
       });
     }
 
     get(`DocumentDD/Index`).then((res) => {
-      console.log("Checking document requirement Status", res);
+      
       setDocument(res);
     });
 
     get("DocumentGroup/Index").then((res) => {
-      console.log("Group Data", res);
+     
       setDocumentGroupData(res);
     });
   }, [success, documentId]);
@@ -104,7 +104,7 @@ const DocumentGroup = () => {
   };
 
   const handleApplication = (event) => {
-    console.log(event.target.value);
+
     setApplication(event.target.value);
     setApplicationError(false);
   };
@@ -122,7 +122,7 @@ const DocumentGroup = () => {
 
   const handleUpdate = (document) => {
     setModalOpen(true);
-    console.log(document, document?.documentCategory?.id);
+    
     setApplicationLabel(
       document?.applicationTypeId === 1
         ? "Home"
@@ -143,7 +143,7 @@ const DocumentGroup = () => {
     const subData = new FormData(event.target);
 
     //   for(var i of subData){
-    //       console.log(i);
+    //      
     //   }
 
     // const subdata = {
@@ -154,7 +154,7 @@ const DocumentGroup = () => {
       setApplicationTypeError(true);
     } else {
       if (updateDocumentId != undefined) {
-        // console.log(localStorage.getItem("updateDocument"));
+      
         const returnvalue = put(`DocumentGroup/Update`, subData).then(
           (action) => {
             setSuccess(!success);
@@ -233,12 +233,7 @@ const DocumentGroup = () => {
   };
 
   const toggleDangerView = (documentGrp) => {
-    console.log(
-      "docugrppppp",
-      documentGrp,
-      documentGrp?.document?.name,
-      documentGrp?.id
-    );
+   
     setDelDocuGroupDocuName(documentGrp?.document?.name);
     setDelDocuGroupDocuId(documentGrp?.id);
     setDeleteViewModal(true);
@@ -285,7 +280,7 @@ const DocumentGroup = () => {
     const subData = new FormData(e.target);
 
     // for(var i of subData){
-    //     console.log(i);
+  
     // }
 
     if (documentValue == 0) {
@@ -295,7 +290,7 @@ const DocumentGroup = () => {
       setApplicationError(true);
     } else {
       post("DocumentGroupDocument/Create", subData).then((res) => {
-        console.log("document data", res);
+       
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -312,7 +307,7 @@ const DocumentGroup = () => {
   };
 
   const handleViewDocument = (document) => {
-    console.log("view document", document);
+   
     setDocumentId(document?.id);
     setViewModal(true);
   };

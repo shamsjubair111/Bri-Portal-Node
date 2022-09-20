@@ -52,7 +52,7 @@ const Create = () => {
 
     }
 
-    console.log(amountInput);
+  
     
 
     const handleSubmit = (event) => {

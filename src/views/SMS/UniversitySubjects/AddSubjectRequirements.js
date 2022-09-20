@@ -44,17 +44,17 @@ const AddSubjectRequirements = () => {
   const { id } = useParams();
   const location = useLocation();
 
-  console.log("requiredId", requiredId);
+  
 
   useEffect(() => {
     get("EducationLevelDD/Index").then((res) => {
-      console.log(res, "response");
+      
       setEduLevelDD(res);
     });
 
     
       get(`SubjectRequirement/GetBySubject/${id}`).then(res=>{
-        console.log("subReq", res);
+        
         setEduLabel(res?.id != undefined ? res?.educationLevel?.name : "Select Education Level");
         setEduValue(res?.id != undefined ? res?.educationLevel?.id : 0);
         setRequiredId(res?.id);
@@ -129,7 +129,7 @@ const AddSubjectRequirements = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata) {
-      console.log("values", value);
+      
     }
 
     if(eduValue === 0){

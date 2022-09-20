@@ -67,7 +67,7 @@ const Roles = (props) => {
      const returnValue = remove(`UserRole/Delete/${name}`).then((action)=> {
        setDeleteModal(false);
        setSuccess(!success);
-       console.log(action);
+    
       if(action?.status == 200){
         addToast(action?.data?.message, {
           appearance:  'error',

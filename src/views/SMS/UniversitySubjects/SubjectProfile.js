@@ -20,7 +20,7 @@ const SubjectProfile = () => {
     const history = useHistory();
     const {subjId} = useParams();
 
-    console.log("uniIDDDD", location?.uniSubList);
+   
 
     // handle back to subject list and campus subject list from subject profile
     const backToSubjectList = () =>{
@@ -42,7 +42,7 @@ const SubjectProfile = () => {
       setCampusId(location?.campId);
       get(`Subject/Profile/${subjId}`)
       .then(res=>{
-        console.log("subjectPro", res);
+      
         setSubjectData(res);
         setCampList(res?.campusSubjects);
         setLoading(false);
@@ -51,7 +51,7 @@ const SubjectProfile = () => {
       if(campusId != undefined){
             get(`UniversityCampus/Get/${campusId}`)
             .then(res=>{
-                console.log("oneCampObj", res);
+                
                 setCampData(res);
             })
         }
@@ -61,7 +61,7 @@ const SubjectProfile = () => {
         // localStorage.removeItem("campIdSubProfile");
     },[campusId, subjId])
 
-    console.log("campdata", campData);
+  
 
     const handleProfileEdit = () => {
       history.push({

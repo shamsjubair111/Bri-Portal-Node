@@ -128,7 +128,6 @@ const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultan
 
 const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
 const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
-const ConsultantCommission = lazy(() => import("./views/SMS/Consultant/ConsultantCommission"))
 const AssociateList = lazy(() => import("./views/SMS/Consultant/ConsultantByConsultant"))
 
 // Document
@@ -477,7 +476,8 @@ class AppRouter extends React.Component {
          <AppRoute  path="/employeeType" component={permissions.includes(permissionList?.EmployeeTypeList)? EmployeeType : NotAuthorized} />
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
-         <AppRoute  path="/employeeList/:type?" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
+         <AppRoute  path="/staffListByType/:type" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
+         <AppRoute exact path="/employeeList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
          <AppRoute  path="/employeeProfile/:id" component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
          <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.Add_Universitytype)? AddUniversityType : NotAuthorized} />
          <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
@@ -511,7 +511,6 @@ class AppRouter extends React.Component {
           <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.Consultant_type_List) ? AddConsultantType : NotAuthorized} />
           
           <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_Consultant)? BankDetails : NotAuthorized } />
-          <AppRoute  path="/consultantCommission/:consultantRegisterId" component={ConsultantCommission} />
           <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_Consultant)? AddConsultantInformation : NotAuthorized } />
           <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.Associate_List)? AssociateList : NotAuthorized} />
           

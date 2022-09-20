@@ -46,12 +46,12 @@ const EditDeliveryPattern = () => {
 
   useEffect(() => {
     get("DeliveryPatternDD/index").then((res) => {
-      console.log(res, "response");
+     
       setDeliveryDD(res);
     });
 
     get(`SubjectDeliveryPattern/GetBySubject/${id}`).then((res) => {
-      console.log("dsdsdsdds", res);
+     
       setPatternList(res);
     });
   }, [id, success]);
@@ -105,7 +105,7 @@ const EditDeliveryPattern = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata) {
-      console.log("values", value);
+     
     }
 
     if (deliveryValue === 0) {
@@ -176,7 +176,7 @@ const EditDeliveryPattern = () => {
   };
 
   const handleUpdate = pattern =>{
-    console.log(pattern);
+   
     setUpdate(pattern?.id);
     setDeliveryLabel(pattern?.deliveryPattern?.name);
     setDeliveryValue(pattern?.deliveryPattern?.id);

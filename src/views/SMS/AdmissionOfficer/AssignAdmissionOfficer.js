@@ -67,7 +67,7 @@ const AssignAdmissionOfficer = () => {
 
     get(`AdmissionOfficerOfmanager/byAdmissionofficer/${officerId}`).then((res) => {
       setManagerList(res);
-    console.log("datasss", res);
+   
     });
   }, [success, officerId]);
 
@@ -182,7 +182,7 @@ const AssignAdmissionOfficer = () => {
   };
 
   const handleUpdate = (manager) => {
-    console.log("update manager", manager);
+
     setModalOpen(true);
     // setManagerLabel(university?.university?.name);
     // setManagerValue(university?.university?.id);

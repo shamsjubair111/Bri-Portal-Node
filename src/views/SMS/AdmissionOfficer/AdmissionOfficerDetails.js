@@ -36,7 +36,7 @@ const AdmissionOfficerDetails = () => {
 
   useEffect(() => {
     get(`AdmissionOfficer/Profile/${officerId}`).then((res) => {
-      console.log("officerObj", res);
+   
       setOfficerObj(res);
       setAdmissionManagerList(res?.admissionManager);
     });
@@ -56,7 +56,7 @@ const AdmissionOfficerDetails = () => {
   };
 
   const handlRedirectToAdmissionManagerDetails = (manager) => {
-    console.log("view Manager", manager);
+   
     history.push({
         pathname: `/providerAdmissionManager/${manager?.id}/${officerObj?.providerId}`,
         officerId: officerId

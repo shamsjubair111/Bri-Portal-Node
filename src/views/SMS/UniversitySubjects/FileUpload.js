@@ -7,10 +7,10 @@ const FileUpload = () => {
     // const [message, setMessage] = useState("");
 
     const changeHandler = (event) => {
-        console.log(event.target.files[0].name);
+        
         var myFile = event.target.files[0]?.name;
         var ext = myFile.split('.').pop();
-        console.log("extension",ext)
+       
         if(ext=="pdf" || ext=="docx" || ext=="doc" || ext=="xls"){
             setSelectedFile(event.target.files[0]);
 		    setIsFilePicked(true);
@@ -31,9 +31,9 @@ const FileUpload = () => {
         }
 
         // var myFile = value?.name;
-        // console.log(myFile);
+      
         // var ext = myFile.split('.').pop();
-        // console.log("extension",ext)
+   
         // if(ext=="pdf" || ext=="docx" || ext=="doc" || ext=="xls"){
         //     alert("upload file", ext);
         // }
@@ -41,7 +41,7 @@ const FileUpload = () => {
         //     alert("Cannot upload this format.", ext);
         // }
 
-        console.log("formData",formData);
+       
 		
 	};
 
