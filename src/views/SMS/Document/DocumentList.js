@@ -20,6 +20,7 @@ import {
   Row,
   InputGroup,
   Table,
+  ButtonGroup,
 } from "reactstrap";
 import Select from 'react-select';
 
@@ -422,23 +423,26 @@ const DocumentList = () => {
                     <td>{document?.name}</td>
                     <td className="text-center">{document?.description}</td>
                     <td className="text-center">{document?.documentCategory?.name}</td>
+
                     <td>
 
-                      <ButtonForFunction
-                        func={() => handleUpdate(document)}
-                        className={"mx-1 btn-sm"}
-                        color={"warning"}
-                        icon={<i className="fas fa-edit"></i>}
-                        permission={6}
-                      />
-
-                      <ButtonForFunction
-                        className={"mx-1 btn-sm"}
-                        func={() => toggleDanger(document?.name, document?.id)}
-                        color={"danger"}
-                        icon={<i className="fas fa-trash-alt"></i>}
-                        permission={6}
-                      />
+                      <ButtonGroup>
+                        <ButtonForFunction
+                          func={() => handleUpdate(document)}
+                          className={"mx-1 btn-sm"}
+                          color={"warning"}
+                          icon={<i className="fas fa-edit"></i>}
+                          permission={6}
+                        />
+  
+                        <ButtonForFunction
+                          className={"mx-1 btn-sm"}
+                          func={() => toggleDanger(document?.name, document?.id)}
+                          color={"danger"}
+                          icon={<i className="fas fa-trash-alt"></i>}
+                          permission={6}
+                        />
+                      </ButtonGroup>
 
 
                       <Modal

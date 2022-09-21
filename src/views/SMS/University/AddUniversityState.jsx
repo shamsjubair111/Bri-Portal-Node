@@ -83,11 +83,11 @@ const AddUniversityState = () => {
       universityCountryId: countryValue,
     };
 
-    if (countryValue === 0) {
-      setCountryNameError(true);
-    }
-    if (universityState === "") {
+    if(universityState === "") {
       setUniStateError(true);
+    }
+    else if(countryValue === 0) {
+      setCountryNameError(true);
     } else {
       const returnValue = post(`UniversityState/Create`, subdata).then(
         (action) => {
@@ -112,6 +112,8 @@ const AddUniversityState = () => {
     setCountryValue(0);
     setUniversityState("");
     setUpdateUniState(undefined);
+    setUniStateError(false);
+    setCountryNameError(false);
   };
 
   // delete button click

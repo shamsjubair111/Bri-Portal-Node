@@ -434,7 +434,12 @@ const ConsultantCommission = () => {
                   <Button
                     color="danger"
                     className="mx-1 mt-3"
-                    onClick={() => setShowForm(!showForm)}
+                    onClick={() => {
+                      setShowForm(!showForm);
+                      setCommissionLabel("Select Commission");
+                      setCommissionValue(0);
+                      setChecked(false);
+                    }}
                   >
                     Cancel
                   </Button>

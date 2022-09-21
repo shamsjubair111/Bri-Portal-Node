@@ -78,6 +78,10 @@ const EducationLevelList = () => {
         history.push('/');
     }
 
+    const redirectToUpdate = (educationInfoName, educationInfoDescription, educationInfoLevelValue, educationInfoId) =>{
+      history.push(`/addEducationLevel/${educationInfoName}/${educationInfoDescription}/${educationInfoLevelValue}/${educationInfoId}`);
+    }
+
 
     return (
         <div>
@@ -144,23 +148,26 @@ const EducationLevelList = () => {
                         <ButtonGroup variant="text">
                        
 
+                        <ButtonForFunction
+                          icon={<i className="fas fa-edit"></i>}
+                          color={'warning'}
+                          className={"mx-1 btn-sm"}
+                          func={()=>redirectToUpdate(educationInfo?.name,educationInfo?.description,educationInfo?.levelValue,educationInfo?.id)}
+                          />
 
-                            <LinkButton
+
+                            {/* <LinkButton
                              icon={<i className="fas fa-edit"></i>}
                              color={"warning"}
                              className={"mx-1 btn-sm"}
                              url={`/addEducationLevel/${educationInfo?.name}/${educationInfo?.description}/${educationInfo?.levelValue}/${educationInfo?.id}`}
-                             
-                             
-                            />
+                            /> */}
                       
                           <ButtonForFunction
                           icon={<i className="fas fa-trash-alt"></i>}
                           color={'danger'}
                           className={"mx-1 btn-sm"}
                           func={()=>toggleDanger(educationInfo)}
-                          
-
                           />
 
                         </ButtonGroup>

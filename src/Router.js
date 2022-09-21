@@ -127,6 +127,7 @@ const AddConsultant = lazy(() => import("./views/SMS/Consultant/AddConsultant"))
 const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultantType"))
 
 const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
+const ConsultantCommission = lazy(() => import("./views/SMS/Consultant/ConsultantCommission"))
 const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
 const AssociateList = lazy(() => import("./views/SMS/Consultant/ConsultantByConsultant"))
 
@@ -511,6 +512,7 @@ class AppRouter extends React.Component {
           <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.Consultant_type_List) ? AddConsultantType : NotAuthorized} />
           
           <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_Consultant)? BankDetails : NotAuthorized } />
+          <AppRoute  path="/consultantCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.ConsultantCommissionGroup_List)? ConsultantCommission : NotAuthorized} />
           <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_Consultant)? AddConsultantInformation : NotAuthorized } />
           <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.Associate_List)? AssociateList : NotAuthorized} />
           
@@ -663,9 +665,9 @@ class AppRouter extends React.Component {
          {/* Comission paths */}
 
         <AppRoute  path="/accountIntakeList" component={permissions?.includes(permissionList?.AccountIntake_List)? AccountIntake : NotAuthorized} />
-        <AppRoute  path="/commissionGroupList" component={ComissionGroup} />
+        <AppRoute  path="/commissionGroupList" component={permissions?.includes(permissionList?.CommissionGroup_List)? ComissionGroup : NotAuthorized} />
         
-        <AppRoute  path="/commissionPriceList/:id" component={CommissionPriceList} />
+        <AppRoute  path="/commissionPriceList/:id" component={permissions?.includes(permissionList?.GroupPriceRange_List)? CommissionPriceList : NotAuthorized} />
 
         {/* Consultant Conscent Path */}
 
