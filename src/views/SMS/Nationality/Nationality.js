@@ -143,7 +143,7 @@ const Nationality = () => {
      
       <FormGroup row className="has-icon-left position-relative">
         <Col md="4">
-          <span> Name</span>
+          <span> Name <span className="text-danger">*</span>{" "}</span>
         </Col>
         <Col md="8">
 
@@ -166,8 +166,7 @@ const Nationality = () => {
             name="name"
             id="name"
             defaultValue={data?.name}
-           
-          
+            required
             placeholder="Enter Nationality"
           />
 

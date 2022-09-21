@@ -375,7 +375,7 @@ const selectProvider = (label, value) => {
   // on Close Modal
   const closeModal = () => {
     setSelectedId(undefined);
-    setOfficerObj(null);
+    setOfficerObj({});
     setNameTitleLabel("Select Title");
     setNameTitleValue(0);
     setUniCountryLabel("Select Country");
@@ -386,13 +386,13 @@ const selectProvider = (label, value) => {
     setProviderValue(0);
     setManagerFormLabel("Select Admission Manager");
     setManagerFormValue(0);
-    setCountryError(false);
-    setUniStateError(false);
-    setNameTitleError(false);
-    setProviderError(false);
-    setManagerFormError(false);
-    setEmailError(true);
-    // setModalOpen(false);
+    // setCountryError(false);
+    // setUniStateError(false);
+    // setNameTitleError(false);
+    // setProviderError(false);
+    // setManagerFormError(false);
+    // setEmailError(true);
+    setModalOpen(false);
   }
 
   const handleAddNew = () =>{
@@ -408,30 +408,31 @@ const selectProvider = (label, value) => {
         
     }
 
-    if(nameTitleValue === 0){
-      setNameTitleError(true);
-    }
-    else if(pass.length <6){
-      setPassError('Password length can not be less than six digits');
-    }
-    else if(emailError == false){
-      setEmailError(emailError);
-    }
-    else if(uniCountryValue === 0){
-      setCountryError(true);
-    }
-    else if(unistateValue === 0){
-      setUniStateError(true);
-    }
-    else if(providerValue === 0 && selectedId === undefined){
-      setProviderError(true);
-    }
-    else if(managerFormValue === 0 && selectedId === undefined){
-      setManagerFormError(true);
-    }
-    else{
+    
       if(selectedId === undefined){
-        setOfficerObj({});
+        if(nameTitleValue === 0){
+          setNameTitleError(true);
+        }
+        else if(pass.length <6){
+          setPassError('Password length can not be less than six digits');
+        }
+        else if(emailError == false){
+          setEmailError(emailError);
+        }
+        else if(uniCountryValue === 0){
+          setCountryError(true);
+        }
+        else if(unistateValue === 0){
+          setUniStateError(true);
+        }
+        else if(providerValue === 0 && selectedId === undefined){
+          setProviderError(true);
+        }
+        else if(managerFormValue === 0 && selectedId === undefined){
+          setManagerFormError(true);
+        }
+        else{
+          setOfficerObj({});
         post(`AdmissionOfficer/Create`, subdata)
         .then(res => {
           setSuccess(!success);
@@ -445,10 +446,19 @@ const selectProvider = (label, value) => {
               autoDismiss: true,
             })
             
-            closeModal();
+            setNameTitleLabel("Select Title");
+            setNameTitleValue(0);
+            setUniCountryLabel("Select Country");
+            setUniCountryValue(0);
+            setUniStateLabel("Select State");
+            setUniStateValue(0);
+            setProviderLabel("Select Provider");
+            setProviderValue(0);
+            setManagerFormLabel("Select Admission Manager");
+            setManagerFormValue(0);
             setModalOpen(false);
           }
-          else if (res?.status === 200 && res?.data?.isSuccess == false) {
+          else {
             // setSubmitData(false);
             addToast(res.data.message, {
               appearance: 'error',
@@ -458,8 +468,14 @@ const selectProvider = (label, value) => {
           }
         })
         }
+      }
+        
         else{
-          put(`AdmissionOfficer/Update`, subdata)
+          if(unistateValue === 0){
+            setUniStateError(true);
+          }
+          else{
+            put(`AdmissionOfficer/Update`, subdata)
           .then(res => {
             
             if (res.status === 200 && res.data.isSuccess === true) {
@@ -467,6 +483,16 @@ const selectProvider = (label, value) => {
                 appearance: 'success',
                 autoDismiss: true,
               })
+              setNameTitleLabel("Select Title");
+              setNameTitleValue(0);
+              setUniCountryLabel("Select Country");
+              setUniCountryValue(0);
+              setUniStateLabel("Select State");
+              setUniStateValue(0);
+              setProviderLabel("Select Provider");
+              setProviderValue(0);
+              setManagerFormLabel("Select Admission Manager");
+              setManagerFormValue(0);
               setOfficerObj({});
               setSelectedId(undefined);
               setSuccess(!success);
@@ -474,8 +500,8 @@ const selectProvider = (label, value) => {
             }
           
           })
+          }
         }
-    }
   }
 
   const handleEmail = (e) => {
@@ -774,7 +800,9 @@ const selectProvider = (label, value) => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {
+                  selectedId === undefined ?
+                  <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
                     <span>Email <span className="text-danger">*</span> </span>
                   </Col>
@@ -798,6 +826,9 @@ const selectProvider = (label, value) => {
                     }
                   </Col>
                 </FormGroup>
+                :
+                null
+                }
 
                 {
                   selectedId != undefined ?

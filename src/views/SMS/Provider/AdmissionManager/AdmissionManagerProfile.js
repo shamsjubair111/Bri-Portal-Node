@@ -191,6 +191,13 @@ const AdmissionManagerProfile = () => {
           setSuccess(!success);
           setModalOpen(false);
           console.log("ressss", res);
+          setNameTitleLabel("Select Title");
+          setNameTitleValue(0);
+          setUniCountryLabel("Select Country");
+          setUniCountryValue(0);
+          setUniStateLabel("Select State");
+          setUniStateValue(0);
+
         //   setuniversityId(res?.data?.result?.universityId)
           if (res?.status === 200 && res?.data?.isSuccess === true) {
             // setSubmitData(false);
@@ -214,6 +221,12 @@ const AdmissionManagerProfile = () => {
               setSelectedId(undefined);
               setSuccess(!success);
               setModalOpen(false);
+              setNameTitleLabel("Select Title");
+              setNameTitleValue(0);
+              setUniCountryLabel("Select Country");
+              setUniCountryValue(0);
+              setUniStateLabel("Select State");
+              setUniStateValue(0);
             }
           
           })
@@ -228,19 +241,24 @@ const AdmissionManagerProfile = () => {
       admissionOfficerId: officerValue
     }
 
-    post("AdmissionOfficerOfManager/Create", subdata).then(res => {
-      if (res?.status == 200) {
-        addToast(res?.data?.message, {
-          appearance: "success",
-          autoDismiss: true,
-        });
-        setSuccess(!success);
-        setAssignModalOpen(false);
-        setOfficerLabel("Select Admission Officer");
-        setOfficerValue(0);
-        setExistsNote();
-      }
-    })
+    if(officerValue === 0){
+      setOfficerError(true);
+    }
+    else{
+      post("AdmissionOfficerOfManager/Create", subdata).then(res => {
+        if (res?.status == 200) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+          setAssignModalOpen(false);
+          setOfficerLabel("Select Admission Officer");
+          setOfficerValue(0);
+          setExistsNote();
+        }
+      })
+    }
 
   }
 
@@ -273,7 +291,6 @@ const AdmissionManagerProfile = () => {
     setUniStateValue(0);
     get(`StateDD/Index/${value}`)
       .then(res => {
-        console.log("res", res);
         // setUniStateLabel(res.name)
         // setUniStateValue(res.id)
         setUniversityStates(res);
@@ -309,7 +326,6 @@ const selectNameTitle = (label, value) => {
 
     get(`Consultant/OnChangeEmail/${e.target.value}`)
     .then(res => {
-      console.log('Checking Response', res);
       setEmailError(res);
     })
   }
@@ -336,7 +352,7 @@ const selectNameTitle = (label, value) => {
   const toggleDanger = (officer) => {
     console.log(officer);
     setDeleteName(officer?.firstName);
-    setDeleteId(officer?.id);
+    setDeleteId(officer?.officermanagerId);
     setDeleteModal(true);
   }
 
@@ -347,7 +363,7 @@ const selectNameTitle = (label, value) => {
   };
 
   const handleDeleteAdmissionOfficer = (id) =>{
-    remove(`AdmissionOfficer/Delete/${id}`).then((res) => {
+    remove(`AdmissionOfficerOfManager/Delete/${id}`).then((res) => {
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -449,7 +465,7 @@ const selectNameTitle = (label, value) => {
                 <div>
                   <h5>
                     {" "}
-                    <b>University Information</b>{" "}
+                    <b>Assigned Universities</b>{" "}
                   </h5>
 
                   <div className="bg-h"></div>
@@ -531,7 +547,7 @@ const selectNameTitle = (label, value) => {
                 <div>
                   <h5>
                     {" "}
-                    <b>Application Information</b>{" "}
+                    <b>Applications</b>{" "}
                   </h5>
 
                   <div className="bg-h"></div>
@@ -605,7 +621,7 @@ const selectNameTitle = (label, value) => {
                 <div>
                   <h5>
                     {" "}
-                    <b>Admission Officer Information</b>{" "}
+                    <b>Admission Officers</b>{" "}
                   </h5>
 
                   <div className="bg-h"></div>
@@ -793,7 +809,9 @@ const selectNameTitle = (label, value) => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {
+                  selectedId === undefined ?
+                  <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
                     <span>Email <span className="text-danger">*</span> </span>
                   </Col>
@@ -817,6 +835,9 @@ const selectNameTitle = (label, value) => {
                     }
                   </Col>
                 </FormGroup>
+                :
+                null
+                }
 
                 {
                   selectedId != undefined ?

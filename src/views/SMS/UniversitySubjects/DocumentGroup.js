@@ -15,6 +15,7 @@ import {
   Input,
   Col,
   Table,
+  ButtonGroup,
 } from "reactstrap";
 import Select from "react-select";
 
@@ -267,6 +268,9 @@ const DocumentGroup = () => {
   // on close view modal
   const closeViewModal = () => {
     setViewModal(false);
+    setDocumentLabel("Select Document");
+    setDocumentValue(0);
+    setApplication(null);
     setDocumentId(0);
   };
 
@@ -492,28 +496,30 @@ const DocumentGroup = () => {
                     </td>
                     <td>
                       <ButtonForFunction
-                        name={"view"}
+                        name={"View"}
                         color={"success"}
                         func={() => handleViewDocument(document)}
                         className={"mx-1 btn-sm"}
                       />
                     </td>
                     <td>
-                      <ButtonForFunction
-                        func={() => handleUpdate(document)}
-                        className={"mx-1 btn-sm"}
-                        color={"warning"}
-                        icon={<i className="fas fa-edit"></i>}
-                        permission={6}
-                      />
+                      <ButtonGroup>
+                        <ButtonForFunction
+                          func={() => handleUpdate(document)}
+                          className={"mx-1 btn-sm"}
+                          color={"warning"}
+                          icon={<i className="fas fa-edit"></i>}
+                          permission={6}
+                        />
 
-                      <ButtonForFunction
-                        className={"mx-1 btn-sm"}
-                        func={() => toggleDanger(document?.title, document?.id)}
-                        color={"danger"}
-                        icon={<i className="fas fa-trash-alt"></i>}
-                        permission={6}
-                      />
+                        <ButtonForFunction
+                          className={"mx-1 btn-sm"}
+                          func={() => toggleDanger(document?.title, document?.id)}
+                          color={"danger"}
+                          icon={<i className="fas fa-trash-alt"></i>}
+                          permission={6}
+                        />
+                      </ButtonGroup>
 
                       {/* Modal for view */}
                       <Modal

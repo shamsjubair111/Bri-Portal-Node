@@ -87,10 +87,8 @@ const CampusDetails = () => {
 
   const [uniId, setUniId] = useState(undefined);
 
-  const [delGalName, setDelGalName] = useState('');
+  const [delGalName, setDelGalName] = useState("");
   const [delGalId, setDelGalId] = useState(0);
-
-  
 
   const [loading, setLoading] = useState(false);
 
@@ -225,14 +223,14 @@ const CampusDetails = () => {
   };
 
   const taggleModal = () => {
-    setRadioIsAcceptHome('false');
-    setRadioIsAcceptUk('true');
-    setRadioIsAcceptInt('false');
+    setRadioIsAcceptHome("false");
+    setRadioIsAcceptUk("true");
+    setRadioIsAcceptInt("false");
     setSubValue(0);
     setSubLabel("Select Subject");
     setDeleteModal2(!deleteModal2);
-  }
-  
+  };
+
   const toggleEdit = (data) => {
     setData(data);
     setRadioIsAcceptHome(`${data?.isAcceptHome}`);
@@ -341,9 +339,9 @@ const CampusDetails = () => {
         setSuccess(!success);
         setData({});
         setDeleteModal2(false);
-        setRadioIsAcceptHome('false');
-        setRadioIsAcceptUk('true');
-        setRadioIsAcceptInt('false');
+        setRadioIsAcceptHome("false");
+        setRadioIsAcceptUk("true");
+        setRadioIsAcceptInt("false");
         setSubValue(0);
         setSubLabel("Select Subject");
       }
@@ -371,9 +369,9 @@ const CampusDetails = () => {
             autoDismiss: true,
           });
           setSuccess(!success);
-          setRadioIsAcceptHome('false');
-          setRadioIsAcceptUk('true');
-          setRadioIsAcceptInt('false')
+          setRadioIsAcceptHome("false");
+          setRadioIsAcceptUk("true");
+          setRadioIsAcceptInt("false");
         }
       });
     }
@@ -464,15 +462,14 @@ const CampusDetails = () => {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
-        authorization: AuthStr,
+        "authorization": AuthStr,
       },
     };
-
-    setLoading(true);
 
     if (FileList1.length < 1) {
       setFileError(true);
     } else {
+      setLoading(true);
       Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config).then(
         (res) => {
           setSuccess(!success);
@@ -505,7 +502,7 @@ const CampusDetails = () => {
   // on Close Modal
   const closeDeleteModal = () => {
     setDeleteModal(false);
-    setDelGalName('');
+    setDelGalName("");
     setDelGalId(0);
   };
 
@@ -523,7 +520,7 @@ const CampusDetails = () => {
         appearance: "error",
         autoDismiss: true,
       });
-      setDelGalName('');
+      setDelGalName("");
       setDelGalId(0);
     });
   };
@@ -542,7 +539,7 @@ const CampusDetails = () => {
 
     const config = {
       headers: {
-        'authorization': AuthStr,
+        "authorization": AuthStr,
       },
     };
 
@@ -613,7 +610,7 @@ const CampusDetails = () => {
 
   const handleMultipleSubjects = () => {
     history.push(`/assignMultipleSubject/${id}`);
-  }
+  };
 
   return (
     <div>
@@ -798,17 +795,15 @@ const CampusDetails = () => {
                                 <ModalBody>
                                   <p>
                                     Are You Sure to Delete this{" "}
-                                    <b>{delGalName}</b>{" "}
-                                    ? Once Deleted it can't be Undone!
+                                    <b>{delGalName}</b> ? Once Deleted it can't
+                                    be Undone!
                                   </p>
                                 </ModalBody>
 
                                 <ModalFooter>
                                   <Button
                                     color="danger"
-                                    onClick={() =>
-                                      handleDeleteItem(delGalId)
-                                    }
+                                    onClick={() => handleDeleteItem(delGalId)}
                                   >
                                     YES
                                   </Button>
@@ -947,290 +942,312 @@ const CampusDetails = () => {
                     </div> */}
                   </div>
 
-                  {
-                    subjectList.length < 1 ?
+                  {subjectList.length < 1 ? (
                     <span>There is no data available.</span>
-                    :
+                  ) : (
                     <div className="table-responsive pt-3">
-                    <Table className="table-sm striped">
-                      <thead className="">
-                        <tr style={{ textAlign: "center" }}>
-                          <th>SL/NO</th>
-                          <th>Subject</th>
-                          <th>isAcceptEU_UK</th>
-                          <th>isAcceptHome</th>
-                          <th>isAcceptInternational</th>
-                          <th style={{ width: "8%" }} className="text-center">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {subjectList?.map((sub, i) => (
-                          <tr key={i} style={{ textAlign: "center" }}>
-                            <th scope="row">{1 + i}</th>
-
-                            <td>{sub?.subject?.name}</td>
-                            <td>
-                              {sub?.isAcceptEU_UK ? (
-                                <span>Yes</span>
-                              ) : (
-                                <span>No</span>
-                              )}
-                            </td>
-                            <td>
-                              {sub?.isAcceptHome ? (
-                                <span>Yes</span>
-                              ) : (
-                                <span>No</span>
-                              )}
-                            </td>
-                            <td>
-                              {sub?.isAcceptInternational ? (
-                                <span>Yes</span>
-                              ) : (
-                                <span>No</span>
-                              )}
-                            </td>
-
-                            <td style={{ width: "8%" }} className="text-center">
-                              <ButtonGroup variant="text">
-                                <Button
-                                  onClick={() => toggleEdit(sub)}
-                                  color="warning"
-                                  className="mx-1 btn-sm"
-                                >
-                                  {" "}
-                                  <i className="fas fa-edit"></i>{" "}
-                                </Button>
-
-                                <Button
-                                  onClick={() => toggleDanger(sub)}
-                                  color="danger"
-                                  className="mx-1 btn-sm"
-                                >
-                                  {" "}
-                                  <i className="fas fa-trash"></i>{" "}
-                                </Button>
-                              </ButtonGroup>
-                              <Modal
-                                isOpen={deleteModal1}
-                                toggle={() => setDeleteModal1(!deleteModal1)}
-                                className="uapp-modal"
-                              >
-                                <ModalBody>
-                                  <p>
-                                    Are You Sure to Delete this ? Once Deleted
-                                    it can't be Undone!
-                                  </p>
-                                </ModalBody>
-
-                                <ModalFooter>
-                                  <Button
-                                    color="danger"
-                                    onClick={handleDeleteData}
-                                  >
-                                    YES
-                                  </Button>
-                                  <Button
-                                    onClick={() => setDeleteModal1(false)}
-                                  >
-                                    NO
-                                  </Button>
-                                </ModalFooter>
-                              </Modal>
-                              <Modal
-                                isOpen={deleteModal2}
-                                toggle={taggleModal}
-                                className="uapp-modal"
-                              >
-                                <ModalBody>
-                                  <Form onSubmit={handleUpdateData}>
-                                    <FormGroup row className="pt-3">
-                                      <p>
-                                        <b>Subject features</b>
-                                      </p>
-                                      <br />
-                                      <br />
-                                      <Col md="3">
-                                        <span>
-                                          Is accept home{" "}
-                                          <span className="text-danger">*</span>{" "}
-                                        </span>
-                                      </Col>
-
-                                      <Col md="5">
-                                        <FormGroup check inline>
-                                          <Input
-                                            className="form-check-input"
-                                            type="radio"
-                                            id="isAcceptHome"
-                                            onChange={onValueChangeIsAcceptHome}
-                                            name="isAcceptHome"
-                                            value="true"
-                                            checked={
-                                              radioIsAcceptHome == "true"
-                                            }
-                                          />
-                                          <Label
-                                            className="form-check-label"
-                                            check
-                                            htmlFor="isAcceptHome"
-                                          >
-                                            Yes
-                                          </Label>
-                                        </FormGroup>
-
-                                        <FormGroup check inline>
-                                          <Input
-                                            className="form-check-input"
-                                            type="radio"
-                                            id="isAcceptHome"
-                                            onChange={onValueChangeIsAcceptHome}
-                                            name="isAcceptHome"
-                                            value="false"
-                                            checked={
-                                              radioIsAcceptHome == "false"
-                                            }
-                                          />
-
-                                          <Label
-                                            className="form-check-label"
-                                            check
-                                            htmlFor="isAcceptHome"
-                                          >
-                                            No
-                                          </Label>
-                                        </FormGroup>
-                                      </Col>
-                                    </FormGroup>
-
-                                    <FormGroup row className="pt-3">
-                                      <Col md="3">
-                                        <span>
-                                          Is accept EU_UK{" "}
-                                          <span className="text-danger">*</span>{" "}
-                                        </span>
-                                      </Col>
-
-                                      <Col md="5">
-                                        <FormGroup check inline>
-                                          <Input
-                                            className="form-check-input"
-                                            type="radio"
-                                            id="isAcceptEU_UK"
-                                            onChange={onValueChangeIsAcceptUk}
-                                            name="isAcceptEU_UK"
-                                            value="true"
-                                            checked={radioIsAcceptUk == "true"}
-                                          />
-                                          <Label
-                                            className="form-check-label"
-                                            check
-                                            htmlFor="isAcceptEU_UK"
-                                          >
-                                            Yes
-                                          </Label>
-                                        </FormGroup>
-
-                                        <FormGroup check inline>
-                                          <Input
-                                            className="form-check-input"
-                                            type="radio"
-                                            id="isAcceptEU_UK"
-                                            onChange={onValueChangeIsAcceptUk}
-                                            name="isAcceptEU_UK"
-                                            value="false"
-                                            checked={radioIsAcceptUk == "false"}
-                                          />
-
-                                          <Label
-                                            className="form-check-label"
-                                            check
-                                            htmlFor="isAcceptEU_UK"
-                                          >
-                                            No
-                                          </Label>
-                                        </FormGroup>
-                                      </Col>
-                                    </FormGroup>
-
-                                    <FormGroup row className="pt-3">
-                                      <Col md="3">
-                                        <span>
-                                          Is accept international{" "}
-                                          <span className="text-danger">*</span>{" "}
-                                        </span>
-                                      </Col>
-
-                                      <Col md="5">
-                                        <FormGroup check inline>
-                                          <Input
-                                            className="form-check-input"
-                                            type="radio"
-                                            id="isAcceptInternational"
-                                            onChange={onValueChangeIsAcceptInt}
-                                            name="isAcceptInternational"
-                                            value="true"
-                                            checked={radioIsAcceptInt == "true"}
-                                          />
-                                          <Label
-                                            className="form-check-label"
-                                            check
-                                            htmlFor="isAcceptInternational"
-                                          >
-                                            Yes
-                                          </Label>
-                                        </FormGroup>
-
-                                        <FormGroup check inline>
-                                          <Input
-                                            className="form-check-input"
-                                            type="radio"
-                                            id="isAcceptInternational"
-                                            onChange={onValueChangeIsAcceptInt}
-                                            name="isAcceptInternational"
-                                            value="false"
-                                            checked={
-                                              radioIsAcceptInt == "false"
-                                            }
-                                          />
-
-                                          <Label
-                                            className="form-check-label"
-                                            check
-                                            htmlFor="isAcceptInternational"
-                                          >
-                                            No
-                                          </Label>
-                                        </FormGroup>
-                                      </Col>
-                                    </FormGroup>
-
-                                    <FormGroup
-                                      className="has-icon-left position-relative"
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      <Button.Ripple
-                                        type="submit"
-                                        className="mr-1 mt-3 badge-primary"
-                                      >
-                                        Submit
-                                      </Button.Ripple>
-                                    </FormGroup>
-                                  </Form>
-                                </ModalBody>
-                              </Modal>
-                            </td>
+                      <Table className="table-sm striped">
+                        <thead className="">
+                          <tr style={{ textAlign: "center" }}>
+                            <th>SL/NO</th>
+                            <th>Subject</th>
+                            <th>isAcceptEU_UK</th>
+                            <th>isAcceptHome</th>
+                            <th>isAcceptInternational</th>
+                            <th style={{ width: "8%" }} className="text-center">
+                              Action
+                            </th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </div>
-                  }
+                        </thead>
+                        <tbody>
+                          {subjectList?.map((sub, i) => (
+                            <tr key={i} style={{ textAlign: "center" }}>
+                              <th scope="row">{1 + i}</th>
+
+                              <td>{sub?.subject?.name}</td>
+                              <td>
+                                {sub?.isAcceptEU_UK ? (
+                                  <span>Yes</span>
+                                ) : (
+                                  <span>No</span>
+                                )}
+                              </td>
+                              <td>
+                                {sub?.isAcceptHome ? (
+                                  <span>Yes</span>
+                                ) : (
+                                  <span>No</span>
+                                )}
+                              </td>
+                              <td>
+                                {sub?.isAcceptInternational ? (
+                                  <span>Yes</span>
+                                ) : (
+                                  <span>No</span>
+                                )}
+                              </td>
+
+                              <td
+                                style={{ width: "8%" }}
+                                className="text-center"
+                              >
+                                <ButtonGroup variant="text">
+                                  <Button
+                                    onClick={() => toggleEdit(sub)}
+                                    color="warning"
+                                    className="mx-1 btn-sm"
+                                  >
+                                    {" "}
+                                    <i className="fas fa-edit"></i>{" "}
+                                  </Button>
+
+                                  <Button
+                                    onClick={() => toggleDanger(sub)}
+                                    color="danger"
+                                    className="mx-1 btn-sm"
+                                  >
+                                    {" "}
+                                    <i className="fas fa-trash"></i>{" "}
+                                  </Button>
+                                </ButtonGroup>
+                                <Modal
+                                  isOpen={deleteModal1}
+                                  toggle={() => setDeleteModal1(!deleteModal1)}
+                                  className="uapp-modal"
+                                >
+                                  <ModalBody>
+                                    <p>
+                                      Are You Sure to Delete this ? Once Deleted
+                                      it can't be Undone!
+                                    </p>
+                                  </ModalBody>
+
+                                  <ModalFooter>
+                                    <Button
+                                      color="danger"
+                                      onClick={handleDeleteData}
+                                    >
+                                      YES
+                                    </Button>
+                                    <Button
+                                      onClick={() => setDeleteModal1(false)}
+                                    >
+                                      NO
+                                    </Button>
+                                  </ModalFooter>
+                                </Modal>
+                                <Modal
+                                  isOpen={deleteModal2}
+                                  toggle={taggleModal}
+                                  className="uapp-modal"
+                                >
+                                  <ModalBody>
+                                    <Form onSubmit={handleUpdateData}>
+                                      <FormGroup row className="pt-3">
+                                        <p>
+                                          <b>Subject features</b>
+                                        </p>
+                                        <br />
+                                        <br />
+                                        <Col md="3">
+                                          <span>
+                                            Is accept home{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </span>
+                                        </Col>
+
+                                        <Col md="5">
+                                          <FormGroup check inline>
+                                            <Input
+                                              className="form-check-input"
+                                              type="radio"
+                                              id="isAcceptHome"
+                                              onChange={
+                                                onValueChangeIsAcceptHome
+                                              }
+                                              name="isAcceptHome"
+                                              value="true"
+                                              checked={
+                                                radioIsAcceptHome == "true"
+                                              }
+                                            />
+                                            <Label
+                                              className="form-check-label"
+                                              check
+                                              htmlFor="isAcceptHome"
+                                            >
+                                              Yes
+                                            </Label>
+                                          </FormGroup>
+
+                                          <FormGroup check inline>
+                                            <Input
+                                              className="form-check-input"
+                                              type="radio"
+                                              id="isAcceptHome"
+                                              onChange={
+                                                onValueChangeIsAcceptHome
+                                              }
+                                              name="isAcceptHome"
+                                              value="false"
+                                              checked={
+                                                radioIsAcceptHome == "false"
+                                              }
+                                            />
+
+                                            <Label
+                                              className="form-check-label"
+                                              check
+                                              htmlFor="isAcceptHome"
+                                            >
+                                              No
+                                            </Label>
+                                          </FormGroup>
+                                        </Col>
+                                      </FormGroup>
+
+                                      <FormGroup row className="pt-3">
+                                        <Col md="3">
+                                          <span>
+                                            Is accept EU_UK{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </span>
+                                        </Col>
+
+                                        <Col md="5">
+                                          <FormGroup check inline>
+                                            <Input
+                                              className="form-check-input"
+                                              type="radio"
+                                              id="isAcceptEU_UK"
+                                              onChange={onValueChangeIsAcceptUk}
+                                              name="isAcceptEU_UK"
+                                              value="true"
+                                              checked={
+                                                radioIsAcceptUk == "true"
+                                              }
+                                            />
+                                            <Label
+                                              className="form-check-label"
+                                              check
+                                              htmlFor="isAcceptEU_UK"
+                                            >
+                                              Yes
+                                            </Label>
+                                          </FormGroup>
+
+                                          <FormGroup check inline>
+                                            <Input
+                                              className="form-check-input"
+                                              type="radio"
+                                              id="isAcceptEU_UK"
+                                              onChange={onValueChangeIsAcceptUk}
+                                              name="isAcceptEU_UK"
+                                              value="false"
+                                              checked={
+                                                radioIsAcceptUk == "false"
+                                              }
+                                            />
+
+                                            <Label
+                                              className="form-check-label"
+                                              check
+                                              htmlFor="isAcceptEU_UK"
+                                            >
+                                              No
+                                            </Label>
+                                          </FormGroup>
+                                        </Col>
+                                      </FormGroup>
+
+                                      <FormGroup row className="pt-3">
+                                        <Col md="3">
+                                          <span>
+                                            Is accept international{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </span>
+                                        </Col>
+
+                                        <Col md="5">
+                                          <FormGroup check inline>
+                                            <Input
+                                              className="form-check-input"
+                                              type="radio"
+                                              id="isAcceptInternational"
+                                              onChange={
+                                                onValueChangeIsAcceptInt
+                                              }
+                                              name="isAcceptInternational"
+                                              value="true"
+                                              checked={
+                                                radioIsAcceptInt == "true"
+                                              }
+                                            />
+                                            <Label
+                                              className="form-check-label"
+                                              check
+                                              htmlFor="isAcceptInternational"
+                                            >
+                                              Yes
+                                            </Label>
+                                          </FormGroup>
+
+                                          <FormGroup check inline>
+                                            <Input
+                                              className="form-check-input"
+                                              type="radio"
+                                              id="isAcceptInternational"
+                                              onChange={
+                                                onValueChangeIsAcceptInt
+                                              }
+                                              name="isAcceptInternational"
+                                              value="false"
+                                              checked={
+                                                radioIsAcceptInt == "false"
+                                              }
+                                            />
+
+                                            <Label
+                                              className="form-check-label"
+                                              check
+                                              htmlFor="isAcceptInternational"
+                                            >
+                                              No
+                                            </Label>
+                                          </FormGroup>
+                                        </Col>
+                                      </FormGroup>
+
+                                      <FormGroup
+                                        className="has-icon-left position-relative"
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                        }}
+                                      >
+                                        <Button.Ripple
+                                          type="submit"
+                                          className="mr-1 mt-3 badge-primary"
+                                        >
+                                          Submit
+                                        </Button.Ripple>
+                                      </FormGroup>
+                                    </Form>
+                                  </ModalBody>
+                                </Modal>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
                 </CardBody>
               </Card>
             </div>
@@ -1441,12 +1458,12 @@ const CampusDetails = () => {
                       }}
                     >
                       <Col md="6">
-                      <Button.Ripple
-                        type="submit"
-                        className="ms-md-4 ms-sm-0 mt-3 badge-primary"
-                      >
-                        Submit
-                      </Button.Ripple>
+                        <Button.Ripple
+                          type="submit"
+                          className="ms-md-4 ms-sm-0 mt-3 badge-primary"
+                        >
+                          Submit
+                        </Button.Ripple>
                       </Col>
                     </FormGroup>
                   </Form>
@@ -1459,28 +1476,27 @@ const CampusDetails = () => {
               <Card className="uapp-employee-search">
                 <CardBody className="search-card-body">
                   <div className="d-flex justify-content-between">
-                  <div className="hedding-titel d-flex justify-content-between mb-2">
-                    <div>
-                      <h5>
-                        {" "}
-                        <b>Assign Multiple Subjects</b>{" "}
-                      </h5>
+                    <div className="hedding-titel d-flex justify-content-between mb-2">
+                      <div>
+                        <h5>
+                          {" "}
+                          <b>Assign Multiple Subjects</b>{" "}
+                        </h5>
 
-                      <div className="bg-h"></div>
+                        <div className="bg-h"></div>
+                      </div>
                     </div>
-                    
-                  </div>
 
-                  <div>
-                  <Button onClick={handleMultipleSubjects} color="primary">Assign Subjects</Button>
-                  </div>
+                    <div>
+                      <Button onClick={handleMultipleSubjects} color="primary">
+                        Assign Subjects
+                      </Button>
+                    </div>
                   </div>
                 </CardBody>
               </Card>
             </div>
             {/* assign multiple subjects ends here */}
-
-            
 
             {/* subject intake starts here */}
             <div className=" info-item mt-4">
@@ -1520,12 +1536,11 @@ const CampusDetails = () => {
                             name="intakeId"
                             id="intakeId"
                           />
-                          {
-                            intakeError ?
-                            <span className="text-danger">Intake must be selected</span>
-                            :
-                            null
-                          }
+                          {intakeError ? (
+                            <span className="text-danger">
+                              Intake must be selected
+                            </span>
+                          ) : null}
                         </Col>
 
                         <Col lg="5" md="4" sm="6" xs="6">
@@ -1538,12 +1553,11 @@ const CampusDetails = () => {
                             name="statusId"
                             id="statusId"
                           />
-                          {
-                            statusError ?
-                            <span className="text-danger">Status must be selected</span>
-                            :
-                            null
-                          }
+                          {statusError ? (
+                            <span className="text-danger">
+                              Status must be selected
+                            </span>
+                          ) : null}
                         </Col>
 
                         <Col lg="2" md="4" sm="6" xs="6">

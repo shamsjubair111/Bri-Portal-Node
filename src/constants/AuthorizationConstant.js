@@ -495,6 +495,27 @@ export const  permissionList = {
       View_Nationality : 1584,
       Delete_Nationality : 1585,
 
+      //CommissionGroup 
+      CommissionGroup_List : 1591,
+      Add_CommissionGroup : 1592,
+      Update_CommissionGroup : 1593,
+      View_CommissionGroup : 1594,
+      Delete_CommissionGroup : 1595,
+      
+      //GroupPriceRange 
+      GroupPriceRange_List : 1596,
+      Add_GroupPriceRange : 1597,
+      Update_GroupPriceRange : 1598,
+      View_GroupPriceRange : 1599,
+      Delete_GroupPriceRange : 1600,
+      
+      //ConsultantCommissionGroup 
+      ConsultantCommissionGroup_List : 1601,
+      Add_ConsultantCommissionGroup : 1602,
+      Update_ConsultantCommissionGroup : 1603,
+      View_ConsultantCommissionGroup : 1604,
+      Delete_ConsultantCommissionGroup : 1605,
+
       Consultant_type_List : 117,
       View_Consultant_type : 118,
       Edit_Consultant_type: 119,

@@ -19,6 +19,7 @@ import {
   Row,
   InputGroup,
   Table,
+  ButtonGroup,
 } from "reactstrap";
 
 import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -314,6 +315,7 @@ const DocumentcategoryList = () => {
                   </td> */}
                     <td>
 
+                      <ButtonGroup>
                       <ButtonForFunction
                         func={() => handleUpdate(docu)}
                         className={"mx-1 btn-sm"}
@@ -329,6 +331,7 @@ const DocumentcategoryList = () => {
                         icon={<i className="fas fa-trash-alt"></i>}
                         permission={6}
                       />
+                      </ButtonGroup>
 
                       <Modal
                         isOpen={deleteModal}
