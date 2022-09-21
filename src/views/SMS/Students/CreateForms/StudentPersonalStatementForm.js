@@ -118,7 +118,7 @@ const StudentPersonalStatementForm = () => {
                 className="mr-1 mt-3 badge-primary"
                 disabled ={stringData < 300 ? true : false}
                 >
-                Submit
+                Save & Next
                </Button.Ripple>
 
             </div>

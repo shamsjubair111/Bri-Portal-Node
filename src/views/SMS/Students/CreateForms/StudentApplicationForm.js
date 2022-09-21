@@ -153,13 +153,13 @@ const handleSubmit = (event) => {
     
   
   
-      if(studentTypeLabel == 3){
-        if(visaStatusValue == 0){
+      if(studentTypeValue == 3 && visaStatusValue == 0){
+    
   
           setVisaError(true);
     
         }
-      }
+     
    
      else{
   

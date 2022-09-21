@@ -36,7 +36,7 @@ const StudentOtherInformationForm = () => {
         post('OtherInformation/Create', subData)
         .then(res => {
           console.log(res);
-          if(res?.status == 200){
+          if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance:'success',
               autoDismiss:true
@@ -213,7 +213,7 @@ const StudentOtherInformationForm = () => {
 
         <div className='col-md-8 d-flex justify-content-end'>
         <ButtonForFunction
-        name={'Submit & Next'}
+        name={'Save & Next'}
         className={"mt-3 badge-primary"}
         type={'submit'}
         />

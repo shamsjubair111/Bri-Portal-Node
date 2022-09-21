@@ -560,7 +560,7 @@ const AddConsultantInformation = () => {
    else if (FileList4.length < 1 && consultantData?.proofOfAddressMedia == null) {
       setProofOfAddressError(true);
     }
-    else if((work == 'true') && (FileList5.length < 1 || consultantData?.proofOfRightToWorkMedia == null)){
+    else if((work == 'true') && (FileList5.length < 1 && consultantData?.proofOfRightToWorkMedia == null)){
       console.log('hola we ')
       setProofOfRightError('You must upload a file');
    
