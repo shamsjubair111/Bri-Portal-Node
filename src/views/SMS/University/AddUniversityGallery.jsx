@@ -69,11 +69,10 @@ const AddUniversityGallery = () => {
       },
     };
 
-    setLoading(true);
-
     if (FileList.length < 1) {
       setFileError(true);
     } else {
+      setLoading(true);
       Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
         (res) => {
           setSuccess(!success);
