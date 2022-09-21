@@ -208,7 +208,7 @@ const ConsultantList = () => {
         <div>
              <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
-                  <h3 className="text-light">Consultant list</h3>
+                  <h3 className="text-light">Consultant List</h3>
                   <div className="page-header-back-to-home">
                     <span onClick={backToDashboard} className="text-light">
                       {" "}

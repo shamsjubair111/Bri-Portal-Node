@@ -298,7 +298,7 @@ const ConsultantCommission = () => {
             <>
             {
               priceRangeList?.length > 0 ? 
-              <div className="row mt-4 ms-2">
+              <div className="row mt-4 mx-1">
               <div className="col-md-8 col-sm-12 customCard">
                 <span className="ms-3">
                   <b>
@@ -452,7 +452,7 @@ const ConsultantCommission = () => {
           ) : null}
 
           {commissionGroupList?.length > 0 ? (
-            <div className="mt-5 customCard mx-2">
+            <div className="mt-5 customCard mx-1">
               <div className="hedding-titel d-flex justify-content-between ms-2 mb-4">
                 <div>
                   <h5>
@@ -603,12 +603,12 @@ const ConsultantCommission = () => {
           null
           }
 
-                <div className="d-flex justify-content-between">
-                  <Button color="warning" onClick={back} className='ms-2 mt-3'>
+                <div className="d-flex justify-content-between mt-4 mx-1">
+                  <Button color="warning" onClick={back} className='mt-3'>
                     Previous Page
                   </Button>
-                  <Button color="warning" onClick={front} className='ms-2 mt-3'>
-                    Next page
+                  <Button color="warning" onClick={front} className='mt-3'>
+                    Next Page
                   </Button>
                 </div>
 

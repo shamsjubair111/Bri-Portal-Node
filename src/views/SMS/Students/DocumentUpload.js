@@ -128,7 +128,7 @@ const DocumentUpload = () => {
     get("DocumentDD/Index").then((res) => {
       setDocuType(res);
     });
-  }, [success]);
+  }, [success, applicationStudentId]);
 
   const docuTypeDD = docuType.map((docu) => ({
     label: docu?.name,
@@ -206,7 +206,7 @@ const DocumentUpload = () => {
     else {
       post("StudentUploadDocument/Create", subData).then((res) => {
         console.log("document data", res);
-        if (res?.status == 200 && res?.isSuccess) {
+        if (res?.status == 200 && res?.data?.isSuccess) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
