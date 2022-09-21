@@ -46,7 +46,7 @@ const BranchTeamEmployeeInformation = () => {
 
     },[success])
     const backToBranchList = () => {
-        history.push('/branchList');
+      history.push(`/branchProfile/${branchId}`)
 
     }
 
@@ -121,7 +121,7 @@ const BranchTeamEmployeeInformation = () => {
         
         setDeleteModal(false);
         setDelData({});
-        history.push(`/branchList`);
+        history.push(`/branchProfile/${branchId}`)
          
       }
 
@@ -143,7 +143,7 @@ const BranchTeamEmployeeInformation = () => {
               appearance:  'success',
               autoDismiss: true,
             })
-            history.push('/branchList');
+         
        }
 
           
@@ -194,7 +194,7 @@ const BranchTeamEmployeeInformation = () => {
 
           <h3 className="text-light">Team Employee Details</h3>
           <div className="page-header-back-to-home" >
-            <span onClick={backToBranchList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Branch List</span>
+            <span onClick={backToBranchList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Branch Profile</span>
           </div>
 
         </CardHeader>

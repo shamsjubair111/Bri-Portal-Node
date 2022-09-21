@@ -212,6 +212,10 @@ const ProviderList = () => {
     history.push(`/providerDetails/${providerId}`);
   }
 
+  const redirectToProviderDashboard = (providerId) => {
+    history.push(`/providerDashboard/${providerId}`);
+  }
+
   const redirectToUpdateProvider = (providerId) => {
     history.push(`/updateProvider/${providerId}`);
   }
@@ -281,11 +285,16 @@ const ProviderList = () => {
           <Col lg="12" md="12" sm="12" xs="12">
               <div style={{display: 'flex', justifyContent: "end"}}>
 
-            
-
-              <div className="mt-2 mx-1 d-flex hovv  " style={{cursor: 'pointer'}} onClick={handleClearSearch}>
-                <Icon.X  className='text-danger' /><h5  className="text-danger">Clear</h5>
-              </div>
+      
+              <div
+                        className="mt-1 mx-1 d-flex btn-clear"
+                        onClick={handleClearSearch}
+                      >
+                        {/* <Icon.X  className='text-danger' />*/}
+                        <span className="text-danger">
+                          <i className="fa fa-times"></i> Clear
+                        </span>
+                      </div>
 
               {/* <div className="mt-2 mx-1">
                 <span className="btn btn-primary">Export</span>
@@ -446,6 +455,14 @@ const ProviderList = () => {
                                 func={()=>redirectToProviderDetails(prov?.id)}
                                 className={"mx-1 btn-sm"}
                                 icon={<i className="fas fa-eye"></i>}
+                                permission={6}
+                              />
+
+                              <ButtonForFunction 
+                                color={"primary"}
+                                func={()=>redirectToProviderDashboard(prov?.id)}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-tachometer-alt-fast"></i>}
                                 permission={6}
                               />
 

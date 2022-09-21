@@ -41,13 +41,13 @@ const ProviderForm = (props) => {
     const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
    
   
-    useEffect(()=>{
+    // useEffect(()=>{
       
-      get("NameTittleDD/index").then((res) => {
-        console.log("title", res);
-        setTitles(res);
-      });
-    },[])
+    //   get("NameTittleDD/index").then((res) => {
+    //     console.log("title", res);
+    //     setTitles(res);
+    //   });
+    // },[])
 
   
     const [title,setTitle] = useState('');
@@ -65,17 +65,17 @@ const ProviderForm = (props) => {
         history.push("/")
     }
 
-    const nameTitle = titles?.map((singleTitle) => ({
-      label: singleTitle.name,
-      value: singleTitle.id,
-    }));
+    // const nameTitle = titles?.map((singleTitle) => ({
+    //   label: singleTitle.name,
+    //   value: singleTitle.id,
+    // }));
   
-    // select  Title
-    const selectTitle = (label, value) => {
-      setTitleError('');
-      setTitleLabel(label);
-      setTitleValue(value);
-    };
+    // // select  Title
+    // const selectTitle = (label, value) => {
+    //   setTitleError('');
+    //   setTitleLabel(label);
+    //   setTitleValue(value);
+    // };
 
 
     const backtoList = () => {
@@ -95,10 +95,10 @@ const ProviderForm = (props) => {
           },
         };
 
-        if(titleValue == 0){
-          setTitleError('Name title must be selected');
-      }
-       else if(providerTypeValue == 0){
+      //   if(titleValue == 0){
+      //     setTitleError('Name title must be selected');
+      // }
+        if(providerTypeValue == 0){
           setProviderTypeError(true);
         }
         else if(providerLogo.length <1){
@@ -167,7 +167,7 @@ const ProviderForm = (props) => {
       <form onSubmit={handleSubmit} >
 
 
-      <FormGroup row className="has-icon-left position-relative">
+      {/* <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span className='pl-2'>
                       Title <span className="text-danger">*</span>{" "}
@@ -186,12 +186,12 @@ const ProviderForm = (props) => {
 
                 
                   </Col>
-                </FormGroup>
+                </FormGroup> */}
 
                   <FormGroup row>
                     <Col md="2">
                   
-                      <span className="pl-2">Name {' '}<span className='text-danger'>*</span></span>
+                      <span className="pl-2">Provider Name {' '}<span className='text-danger'>*</span></span>
                     </Col>
 
                    
@@ -205,7 +205,7 @@ const ProviderForm = (props) => {
                         type="text"
                         name="name"
                         id="name"
-                        placeholder="Enter Name"
+                        placeholder="Enter Provider Name"
                         onChange={(e)=>setTitle(e.target.value)}
                         required
                       />

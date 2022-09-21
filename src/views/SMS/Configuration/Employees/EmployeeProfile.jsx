@@ -37,13 +37,13 @@ const EmployeeProfile = () => {
 
 
   const redirect = () => {
-    history.push(`/employeeGeneralInfo/${id}`)
+    history.push(`/staffGeneralInfo/${id}`)
   }
   
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/employeeList")
+    history.push("/staffList")
   }
 
   const componentRef = useRef();
@@ -56,7 +56,7 @@ const EmployeeProfile = () => {
 
         <div className='d-flex align-items-center'>
               <div className='mt-1'>
-                <h3 className="text-light">Employee Profile</h3>
+                <h3 className="text-light">Staff Profile</h3>
               </div>
               <div className='ms-2'>
               <ReactToPrint
@@ -67,7 +67,7 @@ const EmployeeProfile = () => {
             </div>
 
             <div className="page-header-back-to-home" >
-              <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Employee List</span>
+              <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Staff List</span>
             </div>
 
         </CardHeader>

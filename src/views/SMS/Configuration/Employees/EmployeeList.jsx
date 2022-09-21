@@ -93,6 +93,7 @@ const EmployeeList = (props) => {
             type ? type : empValue
           }&searchstring=${searchStr}`
         ).then((action) => {
+         
           setEmployeeList(action.models);
 
           setEmpLabel(action?.models[0]?.employeeType?.name);
@@ -190,7 +191,7 @@ const EmployeeList = (props) => {
 
   // add staff handler
   const handleAddStaff = () => {
-    history.push("/addEmployeeGeneralInfo");
+    history.push("/addStaffGeneralInfo");
   };
 
   // toggle dropdown
@@ -201,7 +202,7 @@ const EmployeeList = (props) => {
   // employee click handler
   const handleEmpClick = (id) => {
     history.push({
-      pathname: `/employeeProfile/${id}`,
+      pathname: `/staffProfile/${id}`,
     });
   };
 
@@ -445,7 +446,7 @@ const EmployeeList = (props) => {
                           </Button> */}
 
                           <LinkButton
-                            url={`employeeProfile/${emp?.id}`}
+                            url={`staffProfile/${emp?.id}`}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
@@ -460,7 +461,7 @@ const EmployeeList = (props) => {
                           </Link> */}
 
                           <LinkButton
-                            url={`/employeeGeneralInfo/${emp?.id}`}
+                            url={`/staffGeneralInfo/${emp?.id}`}
                             color={"dark"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}

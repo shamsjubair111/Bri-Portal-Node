@@ -44,12 +44,12 @@ const EmployeeGeneralInfo = (props) => {
   const history = useHistory();
   const [activetab, setActivetab] = useState("1");
   const [employeeList, setEmployeeList] = useState([]);
-  const [employeeType, setEmployeeType] = useState("Select Type...");
+  const [employeeType, setEmployeeType] = useState("Select Staff Type");
   const [employeeValue, setEmployeeValue] = useState(0);
   const [employeeError, setEmployeeError] = useState("");
   const [nationality, setNationality] = useState([]);
   const [nationalityType, setNationalityType] = useState(
-    "Select Nationality..."
+    "Select Nationality"
   );
   const [nationalityValue, setNationalityValue] = useState(0);
   const [nationalityError, setNationalityError] = useState("");
@@ -185,7 +185,7 @@ const EmployeeGeneralInfo = (props) => {
 
 
     if (employeeValue == 0) {
-      setEmployeeError("Employee Type is Required");
+      setEmployeeError("Staff Type is Required");
     } 
     else if (nationalityValue == 0) {
       setNationalityError("Nationality is Required");
@@ -216,7 +216,7 @@ const EmployeeGeneralInfo = (props) => {
           //   //   state: { detail : uID},
           //     id: uID
           // })
-          history.push(`/employeeContactInfo/${id}`);
+          history.push(`/staffContactInfo/${id}`);
         }
       });
     }
@@ -239,19 +239,19 @@ const EmployeeGeneralInfo = (props) => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "2") {
-      history.push(`/employeeContactInfo/${id}`);
+      history.push(`/staffContactInfo/${id}`);
     }
   };
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/employeeList");
+    history.push("/staffList");
   };
 
   return (
     <div className="uapp-employee">
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Employee General Information</h3>
+          <h3 className="text-light">Staff General Information</h3>
           <div className="text-white"  style={{cursor: 'pointer'}}>
             <span onClick={backToDashboard} className="text-light">
               {" "}
@@ -294,7 +294,7 @@ const EmployeeGeneralInfo = (props) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
-                    <span>Employee Type <span className="text-danger">*</span>{" "}</span>
+                    <span>Staff Type <span className="text-danger">*</span>{" "}</span>
                   </Col>
                   <Col md="6">
                     <Select

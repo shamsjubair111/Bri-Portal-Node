@@ -32,6 +32,12 @@ const analyticsDashboard = lazy(() =>
   import("./views/dashboard/analytics/AnalyticsDashboard")
 )
 
+// trial dashboard start
+// const analyticsDashboard = lazy(() =>
+//   import("./views/SMS/Dashboard/Pages/ProviderAdmin/Index")
+// )
+// trial dashboard end
+
 const select = lazy(() => import("./views/forms/form-elements/select/Select"))
 const switchComponent = lazy(() =>
   import("./views/forms/form-elements/switch/Switch")
@@ -252,6 +258,7 @@ const Country = lazy(() => import("./views/core/country/pages/index"))
 const ProviderList = lazy(() => import("./views/SMS/Provider/ProviderList"))
 const ProviderAdminList = lazy(() => import("./views/SMS/Provider/Admin/ProviderAdminList"))
 const ProviderDetails = lazy(() => import("./views/SMS/Provider/ProviderDetails"))
+const ProviderDashboard = lazy(() => import("./views/SMS/Provider/ProviderDashboard"))
 const AssignUniversity = lazy(() => import("./views/SMS/Provider/AssignUniversity"))
 const UpdateProvider = lazy(() => import("./views/SMS/Provider/UpdateProvider"))
 const Branch = lazy(() => import("./views/SMS/Branches/Branch/Branch"))
@@ -473,12 +480,12 @@ class AppRouter extends React.Component {
          <AppRoute  path="/roleMenu" component={permissions?.includes(permissionList?.View_Menulist) ? RoleMenu : NotAuthorized} />
 
   
-         <AppRoute  path="/employeeType" component={permissions.includes(permissionList?.EmployeeTypeList)? EmployeeType : NotAuthorized} />
+         <AppRoute  path="/staffType" component={permissions.includes(permissionList?.EmployeeTypeList)? EmployeeType : NotAuthorized} />
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
          <AppRoute  path="/staffListByType/:type" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute exact path="/employeeList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute  path="/employeeProfile/:id" component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
+         <AppRoute exact path="/staffList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
+         <AppRoute  path="/staffProfile/:id" component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
          <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.Add_Universitytype)? AddUniversityType : NotAuthorized} />
          <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
          <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.Universitystate_List) ? AddUniversityState : NotAuthorized} />
@@ -586,10 +593,10 @@ class AppRouter extends React.Component {
 
          <AppRoute  path="/providerForm" component={permissions?.includes(permissionList?.Add_Provider)? ProviderForm : NotAuthorized} />
          <AppRoute  path="/adminProviderForm/:adminProviderHiddenId" component={permissions?.includes(permissionList?.Add_Provider_Admin)? AdminProviderForm : NotAuthorized} />
-         <AppRoute  path="/addEmployeeGeneralInfo" component={permissions?.includes(permissionList?.Add_Staff)? AddEmployeeGeneralInfo : NotAuthorized} />
-         <AppRoute  path="/addEmployeeContactInfo/:employeeId?" component={permissions?.includes(permissionList?.Add_Staff)? AddEmployeeContactInfo : NotAuthorized} />
-         <AppRoute  path="/employeeGeneralInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeGeneralInfo : NotAuthorized} />
-         <AppRoute  path="/employeeContactInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeContactInfo : NotAuthorized} />
+         <AppRoute  path="/addStaffGeneralInfo" component={permissions?.includes(permissionList?.Add_Staff)? AddEmployeeGeneralInfo : NotAuthorized} />
+         <AppRoute  path="/addStaffContactInfo/:employeeId?" component={permissions?.includes(permissionList?.Add_Staff)? AddEmployeeContactInfo : NotAuthorized} />
+         <AppRoute  path="/staffGeneralInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeGeneralInfo : NotAuthorized} />
+         <AppRoute  path="/staffContactInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeContactInfo : NotAuthorized} />
          {/* <AppRoute  path="/employeeInformatio" component={EmployeeInformation} /> */}
          {/* <AppRoute  path="/siteSetting" component={SiteSetting} />
          <AppRoute  path="/addSiteSetting" component={AddSiteSetting} />
@@ -603,6 +610,7 @@ class AppRouter extends React.Component {
 
 
          <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider)? ProviderDetails : NotAuthorized} />
+         <AppRoute  path="/providerDashboard/:id" component={ProviderDashboard} />
          <AppRoute  path="/assignUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Assign_University)? AssignUniversity : NotAuthorized} />
          <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider)? UpdateProvider : NotAuthorized} />
          <AppRoute  path="/branchInformation/:branchId?" component={permissions?.includes(permissionList?.Add_Branch)? Branch : NotAuthorized} />

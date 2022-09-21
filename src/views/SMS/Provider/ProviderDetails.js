@@ -118,6 +118,7 @@ const ProviderDetails = () => {
     });
 
     get(`ProviderAdmin/GetbyProvider/${id}`).then((res) => {
+      console.log('providerAdminInfo',res);
       
       setAdminData(res);
       setTitleLabel(res?.nameTittle?.name);
@@ -239,12 +240,17 @@ const ProviderDetails = () => {
 
     subData.append("providerAdmin", FileList[0]?.originFileObj);
 
+    // for(var x of subData.values()){
+    //     console.log(x);
+    // }
+
     put(`ProviderAdmin/Update`, subData).then((res) => {
       if (res?.status == 200) {
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,
         });
+        setFileList([]);
         setModalOpen(false);
         setSuccess(!success);
       }
@@ -351,7 +357,7 @@ const ProviderDetails = () => {
                         width={104}
                         height={104}
                         src={
-                          rootUrl + adminData?.providerAdminMedia?.thumbnailUrl
+                          rootUrl + adminData?.providerAdminMedia?.fileUrl
                         }
                       />
                     </div>
@@ -424,7 +430,7 @@ const ProviderDetails = () => {
 
       <div className="uapp-employee-profile">
         <Row>
-          <Col md="12">
+          <Col md="8">
             <Card className="uapp-employee-profile-right">
               <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
@@ -432,7 +438,7 @@ const ProviderDetails = () => {
                     src={
                       rootUrl + providerInfo?.providerLogoMedia?.thumbnailUrl
                     }
-                    alt="employee_profile"
+                    alt="provider_profile"
                   />
                 </div>
 
@@ -449,7 +455,50 @@ const ProviderDetails = () => {
               </CardBody>
             </Card>
           </Col>
+           <Col md='4'>
+           <Card className="uapp-employee-profile-right">
+              <div className="uapp-profile-CardHeader">
+                <div className="uapp-circle-image margin-top-minus">
+                  <img
+                    src={
+                      rootUrl + adminData?.providerAdminMedia?.fileUrl
+                    }
+                    alt="provider_profile"
+                  />
+                </div>
+
+                <h5>{adminData?.nameTittle?.name} {' '} {adminData?.firstName} {' '} {adminData?.lastName}</h5>
+                <p> {providerInfo?.providerType?.name} </p>
+              </div>
+              <CardBody>
+                <div className="d-flex justify-content-center">
+                  <ul className="uapp-ul text-center ms-4">
+                    <li> {adminData?.email} </li>
+                    <li> {adminData?.phoneNumber} </li>
+                  </ul>
+
+                  <div style={{position: 'relative', left: '55px'}}>
+                {permissions?.includes(
+                  permissionList?.Update_Provider_Admin
+                ) ? (
+                  <LinkButton
+                    // name={"Edit"}
+                    func={updateProviderAdmin}
+                    color={'primary'}
+                    icon={<i className="fas fa-edit"></i>}
+                    className={'btn-sm'}
+                  />
+                ) : null}
+              </div>
+                </div>
+
+               
+
+              </CardBody>
+            </Card>
+            </Col>
         </Row>
+
         <Row>
           <Col md="8">
             <Card>
@@ -659,42 +708,7 @@ const ProviderDetails = () => {
           </Col>
 
           <Col md="4">
-            <Card>
-              <div className="uapp-circle-image margin-top-minus mt-3">
-                <img
-                  className="p-1"
-                  src={rootUrl + adminData?.providerAdminMedia?.thumbnailUrl}
-                  alt="provider_image"
-                />
-              </div>
-              <h5 className="pt-2 h3 text-center mb-4">
-                {" "}
-                <span className="pe-1">{adminData?.nameTittle?.name}</span>
-                <span className="pe-1">{adminData?.firstName}</span>
-                <span className=" ps-1">{adminData?.lastName}</span>
-              </h5>
-
-              <div className="container text-center mb-4">
-                {permissions?.includes(
-                  permissionList?.Update_Provider_Admin
-                ) ? (
-                  <LinkButton
-                    name={"Edit"}
-                    func={updateProviderAdmin}
-                    className={"btn btn-primary px-lg-5 px-md-3 px-sm-1 py-2"}
-                  />
-                ) : null}
-              </div>
-
-              <div>
-                <ul className="uapp-ul text-center pb-3">
-                  <h5 className="py-b">
-                    {" "}
-                    <span>{adminData?.email}</span>{" "}
-                  </h5>
-                </ul>
-              </div>
-            </Card>
+            
 
             <Card className="p-3">
               <h6> Notice</h6>

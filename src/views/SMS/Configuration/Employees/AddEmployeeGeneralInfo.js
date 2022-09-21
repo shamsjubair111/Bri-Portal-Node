@@ -30,7 +30,7 @@ const EmployeeGeneralInfo = (props) => {
     const history = useHistory();
     const [activetab, setActivetab] = useState('1');
     const [employeeList, setEmployeeList] = useState([]);
-    const [employeeType, setEmployeeType] = useState('Select Employee Type');
+    const [employeeType, setEmployeeType] = useState('Select Staff Type');
     const [employeeValue, setEmployeeValue] = useState(0);
     const [employeeError, setEmployeeError] = useState('');
     const [nationality, setNationality] = useState([]);
@@ -183,7 +183,7 @@ const EmployeeGeneralInfo = (props) => {
         }
 
        else if (employeeValue == 0) {
-            setEmployeeError('Employee type must be selected');
+            setEmployeeError('Staff type must be selected');
             return;
         }
          else if (nationalityValue == 0) {
@@ -234,7 +234,7 @@ const EmployeeGeneralInfo = (props) => {
                         //   //   state: { detail : uID},
                         //     id: uID
                         // })
-                        history.push(`/addEmployeeContactInfo/${res?.data?.result?.id}`);
+                        history.push(`/addStaffContactInfo/${res?.data?.result?.id}`);
                     }
                     else if(res.status === 200 && res.data.isSuccess === false){
                         addToast(res.data.message, {
@@ -269,12 +269,12 @@ const EmployeeGeneralInfo = (props) => {
     const toggle = (tab) => {
         setActivetab(tab)
         if (tab == '2') {
-            history.push(`/addEmployeeContactInfo`)
+            history.push(`/addStaffContactInfo`)
         }
     }
     // redirect to dashboard
     const backToDashboard = () => {
-        history.push("/employeeList")
+        history.push("/staffList")
     }
 
     const handleEmail = (e) => {
@@ -293,7 +293,7 @@ const EmployeeGeneralInfo = (props) => {
             <Card className='uapp-card-bg'>
                 <CardHeader className="page-header">
 
-                    <h3 className='text-light'>Employee General Information</h3>
+                    <h3 className='text-light'>Staff General Information</h3>
                     <div className="page-header-back-to-home">
                         <span onClick={backToDashboard} className='text-light'> <i className="fas fa-arrow-circle-left"></i> Back to Staff List</span>
                     </div>
@@ -366,7 +366,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                        <span>Employee Type <span className="text-danger">*</span>{" "}</span>
+                                        <span>Staff Type <span className="text-danger">*</span>{" "}</span>
                                     </Col>
                                     <Col md="6">
                                         <Select options={employeeTypeName}

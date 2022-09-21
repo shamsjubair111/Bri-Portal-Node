@@ -91,7 +91,7 @@ const EmployeeContactInfo = () => {
                     appearance:  'success',
                     autoDismiss: true,
                   })
-                  history.push('/employeeList');
+                  history.push('/staffList');
                }
               
             })
@@ -103,7 +103,7 @@ const EmployeeContactInfo = () => {
    const toggle = (tab) => {
     setActivetab(tab)
         if(tab == '1'){
-            history.push(`/addEmployeeGeneralInfo`)
+            history.push(`/addStaffGeneralInfo`)
         }
     }
 
@@ -123,7 +123,7 @@ const EmployeeContactInfo = () => {
     }
     // redirect to dashboard
     const backToDashboard = () => {
-        history.push("/employeeList")
+        history.push("/staffList")
     }
     return (
 
@@ -131,7 +131,7 @@ const EmployeeContactInfo = () => {
             <Card className='uapp-card-bg'>
               <CardHeader className="page-header">
               
-                  <h3 className='text-light'>Employee Contact Information</h3>
+                  <h3 className='text-light'>Staff Contact Information</h3>
                   <div className="page-header-back-to-home">
                     <span onClick={backToDashboard} className='text-light'> <i className="fas fa-arrow-circle-left"></i> Back to Staff List</span>
                   </div>

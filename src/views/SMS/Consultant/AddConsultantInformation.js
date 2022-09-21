@@ -35,11 +35,11 @@ const AddConsultantInformation = () => {
   const [nameTitle, setNameTitle] = useState([]);
   const [consParent, setConsParent] = useState([]);
   const [consType, setConsType] = useState([]);
-  const [nameLabel, setNameLabel] = useState("Name Title");
+  const [nameLabel, setNameLabel] = useState("Select Name Title");
   const [nameValue, setNameValue] = useState(0);
-  const [parentLabel, setParentLabel] = useState("Parent Consultant");
+  const [parentLabel, setParentLabel] = useState("Select Parent Consultant");
   const [parentValue, setParentValue] = useState(0);
-  const [typeLabel, setTypeLabel] = useState("Consultant Type");
+  const [typeLabel, setTypeLabel] = useState("Select Consultant Type");
   const [typeValue, setTypeValue] = useState(0);
 
   const userTypeId = localStorage.getItem('userType');
@@ -116,7 +116,7 @@ const AddConsultantInformation = () => {
   const [previewImage5, setPreviewImage5] = useState("");
   const [previewTitle5, setPreviewTitle5] = useState("");
   const [FileList5, setFileList5] = useState([]);
-  const [proofOfRightError, setProofOfRightError] = useState(false);
+  const [proofOfRightError, setProofOfRightError] = useState('');
 
   // Checking Put method
 
@@ -373,7 +373,7 @@ const AddConsultantInformation = () => {
 
   const handleChange5 = ({ fileList }) => {
     setFileList5(fileList);
-    setProofOfRightError(false);
+    setProofOfRightError('');
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -489,6 +489,8 @@ const AddConsultantInformation = () => {
     setWorkError(false);
   };
 
+  console.log(FileList5);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -515,9 +517,9 @@ const AddConsultantInformation = () => {
       FileList5.length == 0 ? null : FileList5[0]?.originFileObj
     );
 
-    for (var x of subData) {
-      console.log(x);
-    }
+    // for (var x of subData) {
+    //   console.log(x);
+    // }
 
     // if (nameValue == 0) {
     //   setTitleError(true);
@@ -558,9 +560,11 @@ const AddConsultantInformation = () => {
    else if (FileList4.length < 1 && consultantData?.proofOfAddressMedia == null) {
       setProofOfAddressError(true);
     }
-    // if (FileList5.length < 1 && consultantData?.proofOfRightToWorkMedia == null) {
-    //   setProofOfRightError(true);
-    // } 
+    else if((work == 'true') && (FileList5.length < 1 || consultantData?.proofOfRightToWorkMedia == null)){
+      console.log('hola we ')
+      setProofOfRightError('You must upload a file');
+   
+    }
     else {
       put(`Consultant/Update`, subData).then((res) => {
         addToast(res?.data?.message, {
@@ -861,7 +865,7 @@ const AddConsultantInformation = () => {
             <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Branch <span className="text-danger">*</span>{" "}
+                  Branch <span className="text-danger"></span>
                 </span>
               </Col>
               <Col md="6">
@@ -1261,9 +1265,9 @@ const AddConsultantInformation = () => {
                     </div>
                   </div>
 
-                    {proofOfRightError && (
-                      <span className="text-danger">You must upload a file.</span>
-                    )}
+                  
+                      <span className="text-danger">{proofOfRightError}</span>
+                    
 
                 </Col>
               </FormGroup>
