@@ -639,9 +639,9 @@ const Index = () => {
 
               <div className=" row mb-3">
             <div className='col-lg-5 col-md-5 col-sm-4 col-xs-4'>
-               <span className='me-2'><b>CB: </b>Created by.</span>
-               <span className='me-2'><b>LUO: </b>Last Updated on.</span>
-               <span><b>LUB: </b>Last Updated by.</span>
+               <span className='me-2'><b>CB: </b>Created By.</span>
+               <span className='me-2'><b>LUO: </b>Last Updated On.</span>
+               <span><b>LUB: </b>Last Updated By.</span>
             </div>
 
             <div className='col-lg-7 col-md-7 col-sm-8 col-xs-8'>

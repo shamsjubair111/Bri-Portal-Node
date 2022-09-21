@@ -48,6 +48,7 @@ const Create = () => {
     }
 
     const handleInputAmount = (e) => {
+        
         setAmountInput(e.target.value);
 
     }

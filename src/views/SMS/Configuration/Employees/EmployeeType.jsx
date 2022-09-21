@@ -138,7 +138,7 @@ const EmployeeType = (props) => {
 
   // employee count click
   const handleEmpCount = (id) => {
-    history.push(`/employeeList/${id}`)
+    history.push(`/staffListByType/${id}`)
   }
   // redirect to dashboard
   const backToDashboard = () => {
