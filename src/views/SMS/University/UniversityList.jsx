@@ -71,14 +71,16 @@ const UniversityList = (props) => {
 
   const [stateByCountry, setStateByCountry] = useState(0);
 
-  const [uniTypeLabel, setUniTypeLabel] = useState("University type");
+  const [uniTypeLabel, setUniTypeLabel] = useState("University Type");
   const [uniTypeValue, setUniTypeValue] = useState(0);
-  const [uniCountryLabel, setUniCountryLabel] = useState("Country");
+  const [uniCountryLabel, setUniCountryLabel] = useState("University Country");
   const [uniCountryValue, setUniCountryValue] = useState(0);
-  const [uniStateLabel, setUniStateLabel] = useState("State");
+  const [uniStateLabel, setUniStateLabel] = useState("University State");
   const [unistateValue, setUniStateValue] = useState(0);
   const [providerLabel, setProviderLabel] = useState("Provider");
   const [providerValue, setProviderValue] = useState(0);
+
+
   const providerData = useSelector(
     (state) => state?.universityProviderDataReducer?.universityProviders
   );
@@ -144,7 +146,7 @@ const UniversityList = (props) => {
       var unitype = universityTypes?.find((s) => s.id === uTypeId);
 
       if (unitype === undefined) {
-        setUniTypeLabel("University type");
+        setUniTypeLabel("University Type");
       } else {
         setUniTypeLabel(unitype?.name);
         setUniTypeValue(uTypeId);
@@ -155,10 +157,11 @@ const UniversityList = (props) => {
       var country = univerSityCountries?.find((s) => s.id === countryId);
 
       if (country === undefined) {
-        setUniCountryLabel("Country");
+        setUniCountryLabel("University Country");
       } else {
         setUniCountryLabel(country?.name);
         setUniCountryValue(countryId);
+        searchStateByCountry(countryId);
       }
     }
     
@@ -182,7 +185,7 @@ const UniversityList = (props) => {
       console.log(providertype);
 
        if(providertype === undefined){
-         setProviderLabel('Provider');
+        //  setProviderLabel('Provider');
        }
        else{
          setProviderLabel(providertype?.name);
@@ -365,7 +368,7 @@ const UniversityList = (props) => {
   const selectUniCountry = (label, value) => {
     setUniCountryLabel(label);
     setUniCountryValue(value);
-    setUniStateLabel("State");
+    setUniStateLabel("University State");
     setUniStateValue(0);
     searchStateByCountry(value);
 
@@ -407,11 +410,12 @@ const UniversityList = (props) => {
 
   // on clear
   const handleClearSearch = () => {
-    setUniStateLabel(" University state...");
+    setUniStateLabel("University State");
     setUniStateValue(0);
-    setUniTypeLabel(" University type...");
+    setUniversityStates([]);
+    setUniTypeLabel("University Type");
     setUniTypeValue(0);
-    setUniCountryLabel("University country...");
+    setUniCountryLabel("University Country");
     setUniCountryValue(0);
     setSearchStr("");
     setProviderLabel("Provider");

@@ -144,8 +144,6 @@ const AddUniversityCampus = (props) => {
 
   // select University Country
   const selectUniCountry = (label, value) => {
-    setUniStateLabel('Select Campus State')
-    setUniCountryValue(0);
     setUniCountryError(false);
     setUniCountryLabel(label);
     setUniCountryValue(value);
@@ -153,6 +151,8 @@ const AddUniversityCampus = (props) => {
       console.log("uni states",res);
       setUniversityStates(res);
     });
+    setUniStateLabel('Select Campus State')
+    setUniStateValue(0);
   };
 
   // select University State
@@ -195,9 +195,9 @@ const AddUniversityCampus = (props) => {
               appearance: "success",
               autoDismiss: true,
             });
-            setUniCountryLabel("Select Campus Country...");
+            setUniCountryLabel("Select Campus Country");
             setUniCountryValue(0);
-            setUniStateLabel("Select Campus State...");
+            setUniStateLabel("Select Campus State");
             setUniStateValue(0);
             setSuccess(!success);
           }
@@ -214,9 +214,9 @@ const AddUniversityCampus = (props) => {
             setShowForm(true);
             setSelectedId(0);
             setuniversityCampusObject({});
-            setUniCountryLabel("Select Campus Country...");
+            setUniCountryLabel("Select Campus Country");
             setUniCountryValue(0);
-            setUniStateLabel("Select Campus State...");
+            setUniStateLabel("Select Campus State");
             setUniStateValue(0);
             setSuccess(!success);
           }
@@ -328,9 +328,9 @@ const AddUniversityCampus = (props) => {
     setShowForm(true);
     setSelectedId(0);
     setuniversityCampusObject({});
-    setUniCountryLabel("Select Campus Country...");
+    setUniCountryLabel("Select Campus Country");
     setUniCountryValue(0);
-    setUniStateLabel("Select Campus State...");
+    setUniStateLabel("Select Campus State");
     setUniStateValue(0);
   };
   return (
@@ -530,7 +530,7 @@ const AddUniversityCampus = (props) => {
                         />
 
                         {
-                          uniStateError && <span className="text-danger">Campus state must be selected</span>
+                          uniStateError && <span className="text-danger">You must select campus state.</span>
                         }
 
                         {/* <div className="form-control-position">

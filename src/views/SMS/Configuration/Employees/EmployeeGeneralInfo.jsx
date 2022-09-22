@@ -253,7 +253,7 @@ const EmployeeGeneralInfo = (props) => {
         <CardHeader className="page-header">
           <h3 className="text-light">Staff General Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span className="text-light" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List
             </span>

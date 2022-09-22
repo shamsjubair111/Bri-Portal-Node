@@ -226,6 +226,14 @@ const EmployeeList = (props) => {
   //   history.push('/employeeProfile');
   // }
 
+  const redirecttoStaffGeneralInfo = (empId) => {
+    history.push(`/staffGeneralInfo/${empId}`);
+  }
+
+  const redirectToStaffProfile = (empId) => {
+    history.push(`staffProfile/${empId}`);
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -445,8 +453,15 @@ const EmployeeList = (props) => {
                             <i className="fas fa-eye"></i>{" "}
                           </Button> */}
 
-                          <LinkButton
+                          {/* <LinkButton
                             url={`staffProfile/${emp?.id}`}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                          /> */}
+
+                          <ButtonForFunction
+                            func={() => redirectToStaffProfile(emp?.id)}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
@@ -460,8 +475,15 @@ const EmployeeList = (props) => {
                           </Button>
                           </Link> */}
 
-                          <LinkButton
+                          {/* <LinkButton
                             url={`/staffGeneralInfo/${emp?.id}`}
+                            color={"warning"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                          /> */}
+
+                          <ButtonForFunction
+                            func={() => redirecttoStaffGeneralInfo(emp?.id)}
                             color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}

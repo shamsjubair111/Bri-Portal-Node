@@ -32,6 +32,7 @@ import get from "../../../helpers/get";
 import remove from "../../../helpers/remove.js";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkButton from "../Components/LinkButton.js";
+import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import LinkSpanButton from "../Components/LinkSpanButton.js";
@@ -1040,9 +1041,16 @@ const Applications = () => {
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
                         <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
+                          {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
-                          </p>
+                          </p> */}
+                          <ReactTableConvertToXl 
+                            id="test-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            icon={<i className="fas fa-file-excel"></i>}
+                          />
                         </div>
                         <div className="text-light cursor-pointer">
                           <ReactToPrint
@@ -1095,6 +1103,7 @@ const Applications = () => {
           ) : (
             <div className="table-responsive mb-3" ref={componentRef}>
               <Table
+                id="table-to-xls"
                 style={{ verticalAlign: "middle" }}
                 className="table-sm table-bordered"
               >

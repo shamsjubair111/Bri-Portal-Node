@@ -596,7 +596,7 @@ const handleUpdate = (id) => {
             <FormGroup row className="has-icon-left position-relative">
                 <Col md="2">
                   <span>
-                    Education Label <span className="text-danger">*</span>{" "}
+                    Education Level <span className="text-danger">*</span>{" "}
                   </span>
                 </Col>
                 <Col md="6">

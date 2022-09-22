@@ -406,7 +406,9 @@ const StudentList = () => {
         })
       }
 
-
+      const redirectToStudentProfile = (studentId) => {
+        history.push(`/studentProfile/${studentId}`);
+      }
 
     return (
         <div>
@@ -783,14 +785,21 @@ const StudentList = () => {
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
                        
+                        <ButtonForFunction
+                          icon={<i className="fas fa-eye"></i>}
+                          color={"primary"}
+                          className={"mx-1 btn-sm"}
+                          func={()=>redirectToStudentProfile(student?.id)}
+                        />
 
-                        <LinkButton
+
+                        {/* <LinkButton
                         url={`/studentProfile/${student?.id}`}
                         color="primary"
                         className={"mx-1 btn-sm"}
                         icon={<i className="fas fa-eye"></i>}
 
-                        />
+                        /> */}
 
                        
                            

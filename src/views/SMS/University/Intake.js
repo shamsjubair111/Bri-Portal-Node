@@ -134,6 +134,10 @@ const Intake = () => {
     
       const componentRef = useRef();
 
+    const redirecttoUpdateIntake = (id) => {
+      history.push(`/updateIntake/${id}`);
+    }
+
       
     return (
         <div>
@@ -269,14 +273,22 @@ const Intake = () => {
                     
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
-                            
-                            <LinkButton
-                              url={`/updateIntake/${intake?.id}`}
+
+                            <ButtonForFunction
+                              func={() => redirecttoUpdateIntake(intake?.id)}
                               color={"warning"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
+                            
+                            {/* <LinkButton
+                              url={`/updateIntake/${intake?.id}`}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            /> */}
 
                             <ButtonForFunction
                               func={() => toggleDanger(intake?.name, intake?.id)}
