@@ -97,6 +97,7 @@ const StudentList = () => {
     const [passError,setPassError] = useState('');
     const [pass, setPass] = useState('');
     const [cPass,setCPass] = useState('');
+    const [error,setError] = useState('');
 
 
     
@@ -209,6 +210,19 @@ const StudentList = () => {
     setOrderValue(value);
     setCallApi((prev) => !prev);
   };
+
+  const passValidate = (e) => {
+    setPass(e.target.value);
+    if(e.target.value.length<6){
+      setError('Password length can not be less than six digits');
+    }
+  }
+
+  const handleToggle = () => {
+    setPassError('');
+    setError('');
+    setPassModal(!passModal);
+  }
 
     const status = [
       {
@@ -358,24 +372,39 @@ const StudentList = () => {
 
         subData.append('studentId', passData?.id);
         subData.append('password', pass);
+        if(pass !== cPass){
+          setPassError('Password do not match.');
+        }
+        else{
+          put(`Password/Change`,subData)
+          .then(res => {
+            if(res?.status ==200 && res.data?.isSuccess == true){
+              addToast(res?.data?.message,{
+                appearance:'success',
+                autoDismiss: true
+              })
+              setSuccess(!success);
+              setPassData({});
+              setPassModal(false);
+            }
+            else{
+              addToast(res?.data?.message,{
+                appearance:'error',
+                autoDismiss: true
+              })
+              setSuccess(!success);
+              setPassData({});
+              
+            }
+          })
+  
+        }
 
-        put(`Password/Change`,subData)
-        .then(res => {
-          if(res?.status ==200 && res.data?.isSuccess){
-            addToast(res?.data?.message,{
-              appearance:'success',
-              autoDismiss: true
-            })
-            setSuccess(!success);
-            setPassData({});
-            setPassModal(false);
-          }
-        })
+      
 
 
 
-
-        put(``)
+     
 
       }
 
@@ -712,7 +741,7 @@ const StudentList = () => {
                        <>
                          <td>
                         <Link to="/studentList" onClick={()=>handlePass(student)}>Change</Link>
-                        <Modal isOpen={passModal} toggle={() => setPassModal(!passModal)} className="uapp-modal">
+                        <Modal isOpen={passModal} toggle={() => handleToggle} className="uapp-modal">
                           <ModalHeader>
                           <div className='text-center mt-3'>
                           <span>Change password for {passData?.firstName} {' '} {passData?.lastName} {' '} ({passData?.studentViewId}) </span>
@@ -731,10 +760,12 @@ const StudentList = () => {
                           <Input
                           type='password'
                           
-                            onChange={(e)=> setPass(e.target.value)}
+                            onBlur={passValidate}
+                            onChange={()=>setError('')}
 
 
                           />
+                          <span className='text-danger'>{error}</span>
                         
                         </Col>
                       </FormGroup>
@@ -750,7 +781,7 @@ const StudentList = () => {
                           type='password'
                         
                             onChange={verifyPass}
-                            onBlur={confirmPassword}
+                            // onBlur={confirmPassword}
 
                           />
                           
