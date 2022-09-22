@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router';
-import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, ButtonGroup } from 'reactstrap';
 import { useToasts } from "react-toast-notifications";
 import { useDispatch } from 'react-redux';
 import {StoreProgramLevelData} from '../../../redux/actions/SMS/UniversitySubject/ProgramLevelAction';
@@ -337,6 +337,8 @@ return (
               <td>{ program?.levelValue}</td>
               <td>
 
+                <ButtonGroup>
+
                 {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger( program.name,  program.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
                 <ButtonForFunction
@@ -356,6 +358,8 @@ return (
                   icon={<i className="fas fa-edit"></i>}
                   permission={6}
                 />
+
+               </ButtonGroup>
 
 
                 <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">

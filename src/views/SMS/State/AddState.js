@@ -18,6 +18,7 @@ import {
   Row,
   InputGroup,
   Table,
+  ButtonGroup,
 } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
 import Select from "react-select";
@@ -379,6 +380,7 @@ const AddState = () => {
                     <td>{state?.name}</td>
                     <td>{state?.country?.name}</td>
                     <td>
+                      <ButtonGroup>
                      {
                       permissions?.includes(permissionList?.Delete_State)?
                       <ButtonForFunction
@@ -399,6 +401,7 @@ const AddState = () => {
                         icon={<i className="fas fa-edit"></i>}
                         permission={6}
                       />
+                      </ButtonGroup>
 
                       <Modal
                         isOpen={deleteModal}

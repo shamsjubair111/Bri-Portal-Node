@@ -20,6 +20,7 @@ import {
   Row,
   InputGroup,
   Table,
+  ButtonGroup,
 } from "reactstrap";
 import { useToasts } from "react-toast-notifications";
 import get from "../../../helpers/get";
@@ -284,6 +285,7 @@ const AddCountry = () => {
                       </span>
                     </td> */}
                     <td>
+                      <ButtonGroup>
                      {
                         permissions?.includes(permissionList?.Delete_Country) ?
                        <ButtonForFunction
@@ -309,6 +311,7 @@ const AddCountry = () => {
                       :
                       null
                       }
+                      </ButtonGroup>
 
                       <Modal
                         isOpen={deleteModal}
