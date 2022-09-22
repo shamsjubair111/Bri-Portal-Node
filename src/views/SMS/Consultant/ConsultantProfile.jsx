@@ -578,7 +578,7 @@ const ConsultantProfile = () => {
                 <div className='d-flex justify-content-between'>
 
                   <LinkButton
-                   url={`/studentList/${consultantData?.consultantType?.id}/${consultantData?.consultantType?.name}`}
+                   url={`/students/${consultantData?.consultantType?.id}/${consultantData?.consultantType?.name}`}
                    className={"btn btn-uapp-add "}
                    name={"Student"}
                    permission={6}

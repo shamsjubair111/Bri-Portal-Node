@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Badge,
   Button,
@@ -19,15 +19,40 @@ import {
   Row,
   Table, Nav, NavItem, NavLink,
   Modal, ModalBody, ModalFooter, ModalHeader,
-  Tooltip
+  Tooltip,
+  Input
 } from 'reactstrap';
-
+import Select from "react-select";
 import "../../../../../assets/scss/pages/dashboard-analytics.scss"
 import CardComponent from '../../Component/CardComponent';
 
 const ProviderAdmin = () => {
 
     const token = JSON.parse(localStorage.getItem('current_user'));
+
+    const customStyles2 = {
+      control: (provided, state) => ({
+        ...provided,
+        background: '#fff',
+        borderColor: '#9e9e9e',
+        minHeight: '33px',
+        height: '33px',
+        boxShadow: state.isFocused ? null : null,
+        paddingBottom: '20px',
+         
+      })
+
+    };
+
+    const [month,setMonth] = useState([]);
+    const [monthLabel,setMonthLabel] = useState('Select Month');
+    const [monthValue,setMonthValue] = useState(0);
+
+    const [year,setYear] = useState([]);
+    const [yearLabel,setYearLabel] = useState('Select Year');
+    const [yearValue,setYearValue] = useState(0);
+
+
     
     return (
         <React.Fragment>
@@ -40,9 +65,7 @@ const ProviderAdmin = () => {
                   <h2>Welcome, {token?.displayName}.</h2>
                 </Col>
   
-                <Col sm="3" xs="12 text-sm-right">
-                  <button className="uapp-btn btn">Add New Action</button>
-                </Col>
+               
               </Row>
             </div>
   
@@ -63,7 +86,52 @@ const ProviderAdmin = () => {
                   style={'uapp-primary-card'}
                   icon={<i class="fas fa-angle-double-right"></i>}
                   count={500}
-                  title={'Total Application'}
+                  title={'Total Application-1'}
+                  />
+                </div>
+
+                <div className="col-lg-2 col-md-4 col-sm-6">
+                <CardComponent
+                  style={'uapp-secondary-card'}
+                  icon={<i class="fas fa-angle-double-right"></i>}
+                  count={600}
+                  title={'Total Application-2'}
+                  />
+                </div>
+
+                <div className="col-lg-2 col-md-4 col-sm-6">
+                <CardComponent
+                  style={'uapp-purple-card'}
+                  icon={<i class="fas fa-angle-double-right"></i>}
+                  count={700}
+                  title={'Total Application-3'}
+                  />
+                </div>
+
+                <div className="col-lg-2 col-md-4 col-sm-6">
+                <CardComponent
+                  style={'uapp-danger-card'}
+                  icon={<i class="fas fa-angle-double-right"></i>}
+                  count={800}
+                  title={'Total Application-4'}
+                  />
+                </div>
+
+                <div className="col-lg-2 col-md-4 col-sm-6">
+                <CardComponent
+                  style={'uapp-warning-card'}
+                  icon={<i class="fas fa-angle-double-right"></i>}
+                  count={900}
+                  title={'Total Application-5'}
+                  />
+                </div>
+
+                <div className="col-lg-2 col-md-4 col-sm-6">
+                <CardComponent
+                  style={'uapp-info-card'}
+                  icon={<i class="fas fa-angle-double-right"></i>}
+                  count={1000}
+                  title={'Total Application-6'}
                   />
                 </div>
 
@@ -78,166 +146,145 @@ const ProviderAdmin = () => {
   
             <div className="uapp-dashboard-activity">
               <div className="row">
-                <div className="col-lg-8 col-md-8 col-12">
+                <div className="col-lg-6 col-md-6 col-12">
   
-                  <div className="card">
-                    <div class="db-card-header no-border-bottom card-header">
-                      <span>
+                  <div className="card" style={{height: '350px'}}>
+                    
+  
+                    <div className="card-body">
+
+                    <span>
                         <h5 class="uapp-dachboard-head">New Application</h5>
                       </span>
                       <span class="db-app-count">70</span>
-                    </div>
   
-                    <div className="card-body">
-  
-  
-                      <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Student ID</th>
-                              <th>University</th>
-                              <th>Status</th>
-                              <th>Date</th>
-                              <th>Consultant</th>
-                              <th>Admission Officer</th>
-                              <th>Actions</th>
-                            </tr></thead>
-                          <tbody>
-                            <tr class="borderBottom">
-                              <td>Claudia Iuliana Ivan</td>
-                              <td>STD00880</td>
-                              <td>Canterbury Christ Church University London- LSC</td>
-                              <td>New application</td>
-                              <td>20/09/21</td>
-                              <td>D Andreescu</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                            <tr class="borderBottom">
-                              <td>Carmen Simeanu</td>
-                              <td>STD00949</td>
-                              <td>New College Durham – LSC</td>
-                              <td>New application</td>
-                              <td>19/09/21</td>
-                              <td>BEATRICE</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class="btn uapp-actions-icon" href="#"><span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                            <tr class="borderBottom">
-                              <td>Carmen Simeanu</td>
-                              <td>STD00949</td>
-                              <td>New College Durham – LSC</td>
-                              <td>New application</td>
-                              <td>19/09/21</td>
-                              <td>BEATRICE</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class=" uapp-actions-icon" href="#"><span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-                            <tr class="borderBottom">
-                              <td>Tanya  Lazarova</td>
-                              <td>STD00574</td>
-                              <td>London Metropolitan University - Main Campus</td>
-                              <td>New application</td>
-                              <td>18/09/21</td>
-                              <td>Daniela</td>
-                              <td>Afsana</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-                            <tr class="borderBottom">
-                              <td>MIHAIL IORDACHI</td>
-                              <td>STD00156</td>
-                              <td>London Metropolitan University - Main Campus</td>
-                              <td>New application</td>
-                              <td>17/09/21</td>
-                              <td>Mihaiela-Florita </td>
-                              <td>Afsana</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span> <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                          </tbody>
-                        </table>
-                      </div>
+               
   
                     </div>
                   </div>
   
   
                 </div>
-                <div className="col-lg-4 col-md-4 col-12">
+                <div className="col-lg-6 col-md-6 col-12">
   
-                  <div className="card">
-                    <div class="db-card-header include-btn  no-border-bottom card-header">
-                      <h5 class="uapp-dachboard-head">Notice</h5>
-                      <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View All</button>
-                      </span>
-                    </div>
+                <div className="card" style={{height: '106px'}}>
+                    
   
                     <div className="card-body">
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View </button>
+
+                    <span>
+                        <h5 class="uapp-dachboard-head">Universities</h5>
                       </span>
-                      </div>
+                      <span class="db-app-count">70</span>
+  
+               
+  
                     </div>
+                  </div>
+
+                <div className="card" style={{height: '106px'}}>
+                    
   
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View </button>
+                    <div className="card-body">
+
+                    <span>
+                        <h5 class="uapp-dachboard-head">Admission Managers</h5>
                       </span>
-                      </div>
+                      <span class="db-app-count">70</span>
+  
+               
+  
                     </div>
+                  </div>
+
+                <div className="card" style={{height: '106px'}}>
+                    
   
-  
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View</button>
+                    <div className="card-body">
+
+                    <span>
+                        <h5 class="uapp-dachboard-head">Admission Officers</h5>
                       </span>
-                      </div>
-                    </div>
+                      <span class="db-app-count">70</span>
   
-  
-  
+               
   
                     </div>
                   </div>
   
                 </div>
+              </div>
+
+              {/* Progress Report Card */}
+              <div className='row'>
+
+                <div className='col-lg-12 col-md-12 col-12'>
+                  
+                <div className="card" >
+                    
+  
+                    <div className="card-body">
+
+                    <span>
+                        <h5 class="uapp-dachboard-head">Progress Report</h5>
+                      </span>
+
+                      <Card className='mt-3'>
+
+                        
+
+                          <div className='d-flex flex-wrap justify-content-between'>
+
+                            <div className='d-flex'>
+                              <span className='mt-1 me-1' style={{fontSize: '16px', fontWeight: '500'}}>Daily</span>
+                              <Input
+                              className='ms-1'
+                              type='date'
+                              
+                              />
+                            </div>
+
+                            <div className='d-flex'>
+                              <span className='mt-1 me-1' style={{fontSize: '16px', fontWeight: '500'}}>Monthly</span>
+                              <Select
+                              styles={customStyles2}
+                              value={{ label: monthLabel, value: monthValue }}
+                              className='ms-1'
+                              name="UniversityTypeId"
+                              id="UniversityTypeId"
+                            />
+                            </div>
+
+                            <div className='d-flex'>
+                              <span className='mt-1 me-1' style={{fontSize: '16px', fontWeight: '500'}}>Yearly</span>
+                              <Select
+                              styles={customStyles2}
+                              value={{ label: yearLabel, value: yearValue }}
+                              className='ms-1'
+                              name="UniversityTypeId"
+                              id="UniversityTypeId"
+                            />
+                            </div>
+
+                          </div>
+
+                          <hr/>
+
+
+
+
+                       
+
+                      </Card>
+                      
+  
+               
+  
+                    </div>
+                  </div>
+
+                </div>
+
               </div>
   
             </div>

@@ -625,7 +625,8 @@ class AppRouter extends React.Component {
          <AppRoute  path="/updateBranchManagerInformation/:branchId/:managerId" component={permissions?.includes(permissionList?.Update_Branch_Manager)? BranchManagerInformation : NotAuthorized} />
          <AppRoute  path="/teamEmployee/:branchId/:teamId" component={permissions?.includes(permissionList?.Branch_Team_Employee_List)? BranchTeamEmployeeInformation : NotAuthorized} />
 
-         <AppRoute  path="/studentList/:cId?/:cLabel?" component={permissions?.includes(permissionList?.Student_List)? StudentList : NotAuthorized} />
+         <AppRoute  path="/studentList" component={permissions?.includes(permissionList?.Student_List)? StudentList : NotAuthorized} />
+         <AppRoute  path="/students/:cId?/:cLabel?" component={permissions?.includes(permissionList?.Student_List)? StudentList : NotAuthorized} />
          <AppRoute  path="/studentProfile/:sId" component={permissions?.includes(permissionList?.View_Student)? StudentProfile : NotAuthorized} />
          <AppRoute  path="/addStudentInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? PersonalInformation : NotAuthorized} />
          <AppRoute  path="/addStudentContactInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? ContactInformation : NotAuthorized} />

@@ -581,13 +581,20 @@ const EmployeeGeneralInfo = (props) => {
                                     Submit
                                     </Button.Ripple> */}
 
-                                    <Col md="5">
+                                    <Col md="6">
+
+                                        <Button color='warning' className='mt-3 mx-2' onClick={()=> history.push('/staffList')}>
+                                            Cancel                                            
+                                        </Button>
+
                                         <ButtonForFunction
                                             type={"submit"}
-                                            className={"mr-1 mt-3 badge-primary"}
+                                            color={'primary'}
+                                            className={"mr-1 mt-3"}
                                             name={"Submit"}
                                             permission={6}
                                         />
+                                       
                                     </Col>
 
                                 </FormGroup>

@@ -252,7 +252,7 @@ const EmployeeGeneralInfo = (props) => {
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Staff General Information</h3>
-          <div className="text-white"  style={{cursor: 'pointer'}}>
+          <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List
@@ -544,6 +544,12 @@ const EmployeeGeneralInfo = (props) => {
                         
                     </TabPane> */}
           </TabContent>
+          <div className="d-flex justify-content-end">
+            <Button color="warning" onClick={()=>history.push(`/staffContactInfo/${id}`)}>
+              Next Page
+            </Button>
+
+          </div>
         </CardBody>
       </Card>
     </div>

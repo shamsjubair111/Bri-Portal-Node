@@ -462,7 +462,7 @@ const EmployeeList = (props) => {
 
                           <LinkButton
                             url={`/staffGeneralInfo/${emp?.id}`}
-                            color={"dark"}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
                           />

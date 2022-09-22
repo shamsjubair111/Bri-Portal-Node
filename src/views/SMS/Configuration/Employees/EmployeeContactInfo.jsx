@@ -51,6 +51,7 @@ const EmployeeContactInfo = () => {
 
   useEffect(() => {
     get(`EmployeeContactInformation/GetByEmployeeId/${id}`).then((res) => {
+      console.log('checking',res);
   
       setContactInfo(res);
       setAddressLineValue(res !== null ? res?.addressTypeId : 0);
@@ -168,8 +169,8 @@ const EmployeeContactInfo = () => {
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Staff Contact Information</h3>
-          <div className="text-white " style={{cursor: 'pointer'}}>
-            <span onClick={backToDashboard}>
+          <div className="page-header-back-to-home">
+            <span onClick={backToDashboard} className='text-light'>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List
             </span>
@@ -372,6 +373,13 @@ const EmployeeContactInfo = () => {
               </Form>
             </TabPane>
           </TabContent>
+          <div>
+            <Button color="warning" onClick={()=>  history.push(`/staffGeneralInfo/${id}`)}>
+              Previous Page
+
+            </Button>
+
+          </div>
         </CardBody>
       </Card>
     </div>
