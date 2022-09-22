@@ -715,8 +715,18 @@ const CampusSubjectList = () => {
 
                       </Modal>
 
-                      {/* add or delete subject feature starts here */}
-                              <Modal
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              
+
+            </div>
+          )}
+
+          {/* add or delete subject feature starts here */}
+          <Modal
                                 isOpen={modalOpen}
                                 toggle={taggleModal}
                                 className="uapp-modal2"
@@ -947,18 +957,6 @@ const CampusSubjectList = () => {
                                 </ModalBody>
                               </Modal>
                       {/* add or delete subject feature ends here */}
-
-
-
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              
-
-            </div>
-          )}
 
           <Pagination
             dataPerPage={dataPerPage}
