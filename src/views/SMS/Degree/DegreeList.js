@@ -75,6 +75,10 @@ const DegreeList = () => {
         history.push('/');
     }
 
+    const redirectToUpdate = (degreeName, degreeEducationLevelName, degreeEducationLevelId, degreeId) =>{
+        history.push(`/addDegree/${degreeName}/${degreeEducationLevelName}/${degreeEducationLevelId}/${degreeId}`);
+    }
+
     return (
         <div>
 
@@ -145,25 +149,25 @@ const DegreeList = () => {
                             <td style={{ width: "8%" }} className="text-center">
                             <ButtonGroup variant="text">
                             
+                                <ButtonForFunction
+                                  icon={<i className="fas fa-edit"></i>}
+                                  color={'warning'}
+                                  className={"mx-1 btn-sm"}
+                                  func={()=>redirectToUpdate(degree?.name, degree?.educationLevel?.name, degree?.educationLevel?.id, degree?.id)}
+                                />
 
-
-                                <LinkButton
+                                {/* <LinkButton
                                 icon={<i className="fas fa-edit"></i>}
                                 color={"warning"}
                                 className={"mx-1 btn-sm"}
                                 url={`/addDegree/${degree?.name}/${degree?.educationLevel?.name}/${degree?.educationLevel?.id}/${degree?.id}`}
-                              
-                                
-                                
-                                />
+                                /> */}
                             
                                 <ButtonForFunction
-                                icon={<i className="fas fa-trash-alt"></i>}
-                                color={'danger'}
-                                className={"mx-1 btn-sm"}
-                                func={()=>toggleDanger(degree)}
-                                
-
+                                  icon={<i className="fas fa-trash-alt"></i>}
+                                  color={'danger'}
+                                  className={"mx-1 btn-sm"}
+                                  func={()=>toggleDanger(degree)}
                                 />
 
                             </ButtonGroup>

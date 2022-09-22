@@ -18,6 +18,7 @@ import {
   Row,
   InputGroup,
   Table,
+  ButtonGroup,
 } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
 import Select from "react-select";
@@ -348,6 +349,7 @@ const AddUniversityState = () => {
                     <td>{uniDetails.name}</td>
                     <td>{uniDetails.country.name}</td>
                     <td>
+                      <ButtonGroup>
                       {/* <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
                     {
@@ -377,6 +379,8 @@ const AddUniversityState = () => {
                       :
                       null
                       }
+
+                     </ButtonGroup>
 
                       <Modal
                         isOpen={deleteModal}

@@ -20,6 +20,7 @@ import {
   Row,
   InputGroup,
   Table,
+  ButtonGroup,
 } from "reactstrap";
 // import { EditorState, convertToRaw } from 'draft-js';
 // import { Editor } from 'react-draft-wysiwyg';
@@ -346,6 +347,7 @@ const AddUniversityCountry = (props) => {
                     />
                     </td>
                     <td>
+                      <ButtonGroup>
                       {
                         permissions?.includes(permissionList?.Delete_UniversityCountry) ?
                         <ButtonForFunction
@@ -373,6 +375,7 @@ const AddUniversityCountry = (props) => {
                       :
                       null
                       }
+                      </ButtonGroup>
 
                       <Modal
                         isOpen={deleteModal}
