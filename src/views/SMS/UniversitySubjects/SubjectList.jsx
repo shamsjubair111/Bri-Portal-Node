@@ -302,6 +302,7 @@ const SubjectList = (props) => {
     setUniValue(0);
     setCampLabel("Select Campus");
     setCampValue(0);
+    setCampList([]);
     setCallApi((prev) => !prev);
     setSearchStr("");
     history.replace({

@@ -252,8 +252,8 @@ const EmployeeGeneralInfo = (props) => {
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Staff General Information</h3>
-          <div className="text-white"  style={{cursor: 'pointer'}}>
-            <span onClick={backToDashboard} className="text-light">
+          <div className="page-header-back-to-home">
+            <span className="text-light" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List
             </span>

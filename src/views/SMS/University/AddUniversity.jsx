@@ -59,24 +59,24 @@ const AddUniversity = (props) => {
   const [activetab, setActivetab] = useState("1");
   const [description, setDescription] = useState("");
   const [googleMap, setGoogleMap] = useState("");
-  const [uniTypeLabel, setUniTypeLabel] = useState("Select University Type...");
+  const [uniTypeLabel, setUniTypeLabel] = useState("Select University Type");
   const [uniTypeValue, setUniTypeValue] = useState(0);
   const [uniTypeError, setUniTypeError] = useState(false);
   const [provider, setProvider] = useState([]);
   const [uniCountryLabel, setUniCountryLabel] = useState(
-    "Select University Country..."
+    "Select University Country"
   );
   const [uniCountryValue, setUniCountryValue] = useState(0);
   const [uniCountryError, setUniCountryError] = useState(false);
 
   const [uniStateLabel, setUniStateLabel] = useState(
-    "Select University State..."
+    "Select University State"
   );
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
   const [contractTypeDD, setContractTypeDD] = useState([]);
-  const [contractTypeLabel, setContractTypeLabel] = useState("Select Contract Type...");
+  const [contractTypeLabel, setContractTypeLabel] = useState("Select Contract Type");
   const [contractTypeValue, setContractTypeValue] = useState(0);
   const [contractTypeError, setContractTypeError] = useState(false);
 
@@ -266,7 +266,7 @@ const AddUniversity = (props) => {
   // const coverResult = useSelector((state)=> state.UniversityCoverImageReducer.universityCoverImage);
 
   const [providerTypeLabel, setProviderTypeLabel] =
-    useState("Select Provider...");
+    useState("Select Provider");
   const [providerTypeValue, setProviderTypeValue] = useState(0);
   const [providerTypeError, setProviderTypeError] = useState(false);
 
@@ -540,7 +540,7 @@ const AddUniversity = (props) => {
     setUniCountryError(false);
     setUniCountryLabel(label);
     setUniCountryValue(value);
-    setUniStateLabel("Select University State...");
+    setUniStateLabel("Select University State");
     setUniStateValue(0);
 
     searchStateByCountry(value);

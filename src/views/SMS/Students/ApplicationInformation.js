@@ -788,7 +788,7 @@ const cancelForm = () => {
             <ButtonForFunction
             className={"mr-1 mt-3 btn-warning"}
             func={cancelForm}
-            name={"cancel"}
+            name={"Cancel"}
 
             />
 
