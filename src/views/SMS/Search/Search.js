@@ -622,7 +622,7 @@ const Search = () => {
   
      }
 
-     console.log(primaryCampus,'xxxasasas');
+    
   
 
      
@@ -848,7 +848,7 @@ const Search = () => {
         {
           (campus?.length == 1)? 
 
-         <h6>{modalCampus[0].name}</h6>
+         <h6>{modalCampus[0]?.name}</h6>
 
         :
 

@@ -55,6 +55,10 @@ const StudentType = () => {
  
   }
 
+  const gotoList = (id) => {
+    history.push(`/studentListByType/${id}`);
+  }
+
   const AddModalOpen= (id) => {
   
     console.log(id);
@@ -308,7 +312,9 @@ const closeDeleteModal = () => {
                   
                   <th scope='row'>{index+1}</th>
                   <td>{type?.name}</td>
-                  <td>{type?.studentCount}</td>
+                  <td>
+                  <span className='badge badge-pill badge-primary' style={{cursor: 'pointer'}} onClick={()=> gotoList(type?.id)}>{type?.studentCount}</span> 
+                  </td>
                   {/* <td>
                   <ButtonGroup variant="text">
 

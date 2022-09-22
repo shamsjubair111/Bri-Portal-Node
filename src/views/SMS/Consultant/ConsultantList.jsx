@@ -20,7 +20,7 @@ import {
     ModalBody,
     ModalFooter
   } from "reactstrap";
-  import { Link } from "react-router-dom";
+  import { Link,useParams } from "react-router-dom";
   import Select from "react-select";
   import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import { useHistory, useLocation } from "react-router";
@@ -44,6 +44,9 @@ const ConsultantList = () => {
   const permissions = JSON.parse(localStorage.getItem("permissions"));
     
     const [consultantList, setConsultantList] = useState([]);
+    const {type} = useParams();
+
+    console.log('checking type', type);
 
     const [entity, setEntity] = useState(0);
     const [callApi, setCallApi] = useState(false);

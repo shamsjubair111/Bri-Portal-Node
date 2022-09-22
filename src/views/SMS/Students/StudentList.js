@@ -47,7 +47,9 @@ const StudentList = () => {
      const [deleteModal, setDeleteModal] = useState(false);
      const [success, setSuccess] = useState(false);
 
-     const {cId, cLabel} = useParams();
+     const {cId, cLabel, type} = useParams();
+
+     console.log(cId, cLabel, type);
 
      console.log('CID',cId, 'CLABEL', cLabel);
 
@@ -59,6 +61,7 @@ const StudentList = () => {
     const [studentTypeValue, setStudentTypeValue] = useState(0);
     const [searchStr, setSearchStr] = useState("");
     const [date, setDate] = useState("");
+    const [delData,setDelData] = useState({});
 
     const referenceId = localStorage.getItem('referenceId');
 
@@ -112,14 +115,32 @@ const StudentList = () => {
 
       
     useEffect(()=>{
+      
+        type?
+
+        get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${type}&searchstring=${searchStr}&consultantId=${(userTypeId == userTypes?.Consultant)? referenceId : consultantValue}&status=${statusValue}&sortby=${orderValue}`).then(res=>{
+         
+          setStudentData(res?.models);
+          setEntity(res?.totalEntity); 
+          setSerialNum(res?.firstSerialNumber);       
+          setLoading(false);
+          setStudentTypeLabel(res?.models[0]?.studentType?.name);
+        })
+
+        :
 
         get(`Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${(userTypeId == userTypes?.Consultant)? referenceId : consultantValue}&status=${statusValue}&sortby=${orderValue}`).then(res=>{
-          console.log("stdLists111111111111111111111111111111",res);
+          
           setStudentData(res?.models);
           setEntity(res?.totalEntity); 
           setSerialNum(res?.firstSerialNumber);       
           setLoading(false);
         })
+
+
+
+      
+
 
         if(cId && cLabel){
           setConsultantLabel(cLabel);
@@ -300,7 +321,8 @@ const StudentList = () => {
    
       const toggleDanger = (data) => {
 
-        console.log(data);
+        
+        setDelData(data);
   
         setDeleteModal(true)
       }
@@ -359,9 +381,9 @@ const StudentList = () => {
 
 
 
-      const handleDeleteData = (data) => {
+      const handleDeleteData = () => {
 
-        remove(`Student/Delete/${data?.id}`)
+        remove(`Student/Delete/${delData?.id}`)
         .then(res => {
 
           console.log(res);
@@ -434,6 +456,7 @@ const StudentList = () => {
                       onChange={(opt) => selectStudentType(opt.label, opt.value)}
                       name="UniversityTypeId"
                       id="UniversityTypeId"
+                      isDisabled={type? true : false}
                     />
                   </Col>
 
@@ -835,7 +858,7 @@ const StudentList = () => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={()=>handleDeleteData(student)}>YES</Button>
+                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

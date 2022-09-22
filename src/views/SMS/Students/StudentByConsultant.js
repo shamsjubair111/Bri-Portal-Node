@@ -34,6 +34,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkButton from "../Components/LinkButton.js";
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
+import put from "../../../helpers/put.js";
 
 const StudentByConsultant = () => {
   const [serialNum, setSerialNum] = useState(1);
@@ -44,6 +45,10 @@ const StudentByConsultant = () => {
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
   const [entity, setEntity] = useState(0);
+  const [success, setSuccess] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [delData,setDelData] = useState({});
+  
 
   const history = useHistory();
   const {id} = useParams();
@@ -62,7 +67,7 @@ const StudentByConsultant = () => {
         console.log(res?.models);
         setLoading(false);
     })
-  }, [id,currentPage,dataPerPage,callApi,entity,loading])
+  }, [id,currentPage,dataPerPage,callApi,entity,loading,success])
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
@@ -86,6 +91,54 @@ const StudentByConsultant = () => {
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
+
+  const handleEdit = (data) => {
+    history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
+  }
+
+  const toggleDanger = (data) => {
+    setDelData(data)
+    setDeleteModal(true);
+  }
+
+  const handleBlacklist = (e, id) => {
+    console.log(e.target.checked, id);
+    // setChecked(e.target.checked);
+    // console.log(check);
+
+    const subData = {
+      id: id
+    }
+
+    put(`Student/UpdateAccountStatus/${id}`, subData)
+    .then(res => {
+      if(res?.status ==200){
+        addToast(res?.data?.message,{
+          appearance:'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+        // setPassData({});
+        // setPassModal(false);
+      }
+    })
+  }
+
+  const handleDeleteData = (data) => {
+
+    remove(`Student/Delete/${delData?.id}`)
+    .then(res => {
+
+      console.log(res);
+      addToast(res,{
+        appearance: 'error',
+        autoDismiss: true
+      })
+      setDeleteModal(false);
+      setSuccess(!success);
+    })
+    
+  }
 
   const componentRef = useRef();
 
@@ -219,7 +272,7 @@ const StudentByConsultant = () => {
                     <th>UAPP Reg Date</th>
                     <th>Password</th>
                     <th>Black List</th>
-                    <th>A/C Status</th>
+                   
                     {/* <th>Intakes</th> */}
                     <th style={{ width: "8%" }} className="text-center">
                       Action
@@ -248,19 +301,15 @@ const StudentByConsultant = () => {
                       <td>
                         <Link to="/">Change</Link>
                       </td>
+                      
                       <td>
                         <label className="switch">
-                          <input
-                            type="checkbox"
-                            //   checked
+                          <input type="checkbox"
+                          defaultChecked={student?.blacklisted == null ? false : student?.blacklisted == false ? false : true}
+                          onChange={(e)=>{
+                            handleBlacklist(e, student?.id);
+                          }}
                           />
-                          <span className="slider round"></span>
-                        </label>
-                      </td>
-
-                      <td>
-                        <label className="switch">
-                          <input type="checkbox" checked />
                           <span className="slider round"></span>
                         </label>
                       </td>
@@ -276,9 +325,9 @@ const StudentByConsultant = () => {
 
                           <ButtonForFunction
                             icon={<i className="fas fa-edit"></i>}
-                            color={"dark"}
+                            color={"warning"}
                             className={"mx-1 btn-sm"}
-                            // func={() => handleEdit(student)}
+                            func={() => handleEdit(student)}
                           />
 
                           {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
@@ -289,11 +338,11 @@ const StudentByConsultant = () => {
                             icon={<i className="fas fa-trash-alt"></i>}
                             color={"danger"}
                             className={"mx-1 btn-sm"}
-                            // func={() => toggleDanger(student)}
+                            func={() => toggleDanger(student)}
                           />
                         </ButtonGroup>
 
-                        {/* <Modal
+                        <Modal
                           isOpen={deleteModal}
                           toggle={() => setDeleteModal(!deleteModal)}
                           className="uapp-modal"
@@ -308,7 +357,7 @@ const StudentByConsultant = () => {
                           <ModalFooter>
                             <Button
                               color="danger"
-                              onClick={() => handleDeleteData(student)}
+                              onClick={handleDeleteData}
                             >
                               YES
                             </Button>
@@ -316,7 +365,7 @@ const StudentByConsultant = () => {
                               NO
                             </Button>
                           </ModalFooter>
-                        </Modal> */}
+                        </Modal>
                       </td>
                     </tr>
                   ))}
