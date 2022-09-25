@@ -10,6 +10,7 @@ import {
   ModalFooter,
   Button,
   Input,
+  FormGroup,
   Col,
   Row,
   Table,
@@ -48,6 +49,13 @@ const StudentByConsultant = () => {
   const [success, setSuccess] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [delData,setDelData] = useState({});
+
+  const [passModal, setPassModal] = useState(false);
+  const[passData,setPassData] = useState({});
+  const [passError,setPassError] = useState('');
+  const [pass, setPass] = useState('');
+  const [cPass,setCPass] = useState('');
+  const [error,setError] = useState('');
   
 
   const history = useHistory();
@@ -101,6 +109,68 @@ const StudentByConsultant = () => {
     setDeleteModal(true);
   }
 
+  const passValidate = (e) => {
+    setPass(e.target.value);
+    
+  }
+
+  const verifyPass = (e) => {
+        
+    setPassError('');
+  }
+
+  const handleToggle = () => {
+    setPassError('');
+    setError('');
+    setPassModal(!passModal);
+  }
+
+  const confirmPassword = (e) => {
+    setCPass(e.target.value);
+ 
+}
+
+  const submitModalForm = (event) => {
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+
+    subData.append('studentId', passData?.id);
+    subData.append('password', pass);
+    if(pass.length < 6){
+      setError('Password length can not be less than six digits');
+    }
+    else if(pass !== cPass){
+      setPassError('Passwords do not match');
+    }
+    else{
+      put(`Password/Change`,subData)
+      .then(res => {
+        if(res?.status ==200 && res.data?.isSuccess == true){
+          addToast(res?.data?.message,{
+            appearance:'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setPassData({});
+          setPassModal(false);
+        }
+        else{
+          addToast(res?.data?.message,{
+            appearance:'error',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          
+          
+        }
+      })
+
+    }
+
+  
+  }
+
   const handleBlacklist = (e, id) => {
     console.log(e.target.checked, id);
     // setChecked(e.target.checked);
@@ -138,6 +208,12 @@ const StudentByConsultant = () => {
       setSuccess(!success);
     })
     
+  }
+
+  const handlePass = (data) => {
+    setPassData(data);
+    console.log(data);
+    setPassModal(true);
   }
 
   const componentRef = useRef();
@@ -299,7 +375,82 @@ const StudentByConsultant = () => {
                       </td>
                       <td>{handleDate(student?.createdOn)}</td>
                       <td>
-                        <Link to="/">Change</Link>
+                         <span onClick={()=>handlePass(student)} className='passwordChangeStyle'>Change</span>
+                        <Modal isOpen={passModal} toggle={() => handleToggle} className="uapp-modal2">
+                          <ModalHeader>
+                          <div className='text-center mt-3'>
+                          <span>Change password for {passData?.firstName} {' '} {passData?.lastName} {' '} ({passData?.studentViewId}) </span>
+                          </div>
+                          </ModalHeader>
+                        <ModalBody>
+                         
+                          <form onSubmit={submitModalForm} className='mt-3'>
+                          <FormGroup row className="has-icon-left position-relative">
+                        <Col md="4">
+                          <span>
+                            Password <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="8">
+                          <Input
+                          type='password'
+                          
+                            onBlur={passValidate}
+                            onChange={()=>setError('')}
+
+
+                          />
+                          <span className='text-danger'>{error}</span>
+                        
+                        </Col>
+                      </FormGroup>
+
+                          <FormGroup row className="has-icon-left position-relative">
+                        <Col md="4">
+                          <span>
+                            Confirm Password <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="8">
+                          <Input
+                          type='password'
+                        
+                            onChange={verifyPass}
+                            onBlur={confirmPassword}
+
+                          />
+                          
+                          <br/>
+                          {
+                            <span className='text-danger'>{passError}</span>
+                          }
+
+                        
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup row className="has-icon-left position-relative">
+
+                        <Col md ='12'>
+                          <div className='d-flex justify-content-between'>
+                            <Button color='danger' onClick={()=> setPassModal(false)}>
+                              Cancel
+                            </Button>
+                            <Button color='primary' type='submit'>
+                              Submit
+
+                            </Button>
+                          </div>
+                        
+                        </Col>
+
+                      </FormGroup>
+
+                          </form>
+                        </ModalBody>
+        
+                        
+                     </Modal>
                       </td>
                       
                       <td>

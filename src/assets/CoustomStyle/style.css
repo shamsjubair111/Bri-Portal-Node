@@ -1254,5 +1254,15 @@ color: #fff!important;
   background-color: #1E98B0;
 }
 
+.passwordChangeStyle{
+  color: #007bff;
+  cursor: pointer;
+  
+}
+.passwordChangeStyle:hover{
+  
+  text-decoration: underline;
+}
+
 
 

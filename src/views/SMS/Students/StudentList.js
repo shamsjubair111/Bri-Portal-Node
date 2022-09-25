@@ -213,9 +213,7 @@ const StudentList = () => {
 
   const passValidate = (e) => {
     setPass(e.target.value);
-    if(e.target.value.length<6){
-      setError('Password length can not be less than six digits');
-    }
+    
   }
 
   const handleToggle = () => {
@@ -348,18 +346,13 @@ const StudentList = () => {
       }
 
       const verifyPass = (e) => {
+        
         setPassError('');
-        setCPass(e.target.value);
       }
 
-      const confirmPassword = () => {
-
-        if(pass !== cPass){
-            setPassError('Password do not match.');
-        }
-        else{
-          setPassError('');
-        }
+      const confirmPassword = (e) => {
+          setCPass(e.target.value);
+       
       }
 
       
@@ -372,8 +365,11 @@ const StudentList = () => {
 
         subData.append('studentId', passData?.id);
         subData.append('password', pass);
-        if(pass !== cPass){
-          setPassError('Password do not match.');
+        if(pass.length < 6){
+          setError('Password length can not be less than six digits');
+        }
+        else if(pass !== cPass){
+          setPassError('Passwords do not match');
         }
         else{
           put(`Password/Change`,subData)
@@ -393,7 +389,7 @@ const StudentList = () => {
                 autoDismiss: true
               })
               setSuccess(!success);
-              setPassData({});
+              
               
             }
           })
@@ -741,7 +737,7 @@ const StudentList = () => {
                        <>
                          <td>
                         <Link to="/studentList" onClick={()=>handlePass(student)}>Change</Link>
-                        <Modal isOpen={passModal} toggle={() => handleToggle} className="uapp-modal">
+                        <Modal isOpen={passModal} toggle={() => handleToggle} className="uapp-modal2">
                           <ModalHeader>
                           <div className='text-center mt-3'>
                           <span>Change password for {passData?.firstName} {' '} {passData?.lastName} {' '} ({passData?.studentViewId}) </span>
@@ -781,7 +777,7 @@ const StudentList = () => {
                           type='password'
                         
                             onChange={verifyPass}
-                            // onBlur={confirmPassword}
+                            onBlur={confirmPassword}
 
                           />
                           
