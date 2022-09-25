@@ -346,8 +346,8 @@ const AddUniversityState = () => {
                 {universityDetailsList?.map((uniDetails, i) => (
                   <tr key={uniDetails.id} style={{ textAlign: "center" }}>
                     <th scope="row">{i + 1}</th>
-                    <td>{uniDetails.name}</td>
-                    <td>{uniDetails.country.name}</td>
+                    <td>{uniDetails?.name}</td>
+                    <td>{uniDetails?.country?.name}</td>
                     <td>
                       <ButtonGroup>
                       {/* <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button> */}

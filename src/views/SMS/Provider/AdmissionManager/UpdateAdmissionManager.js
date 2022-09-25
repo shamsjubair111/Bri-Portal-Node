@@ -104,7 +104,7 @@ const selectTitle = (label, value) => {
         setCountryValue(value);
         searchStateByCountry(value);
         setStateLabel('Select State');
-        setStateValue(value); 
+        setStateValue(0); 
       }
 
       
@@ -122,6 +122,7 @@ const selectTitle = (label, value) => {
       }));
 
       const selectState = (label, value) => {
+        setStateError(false);
         setStateLabel(label);
         setStateValue(value);
        
@@ -133,24 +134,30 @@ const selectTitle = (label, value) => {
         event.preventDefault();
         const subData = new FormData(event.target);
 
-        put(`AdmissionManager/Update`,subData)
-        .then(res =>{
-          if(res?.status == 200){
-            addToast(res?.data?.message,{
-              appearance: 'success',
-              autoDismiss: true
-            })
-            
-            if(location.managerList != undefined){
-              history.push(`/admissionManagerList`);
-            }
-            else{
-              history.push(`/providerDetails/${id2}`);
-            }
+        if(stateValue == 0){
+          setStateError(true);
 
-          }
-        })
+        }
+        else{
+          put(`AdmissionManager/Update`,subData)
+          .then(res =>{
+            if(res?.status == 200){
+              addToast(res?.data?.message,{
+                appearance: 'success',
+                autoDismiss: true
+              })
+              
+              if(location.managerList != undefined){
+                history.push(`/admissionManagerList`);
+              }
+              else{
+                history.push(`/providerDetails/${id2}`);
+              }
+  
+            }
+          })
 
+        }
 
       }
 
@@ -397,6 +404,9 @@ const selectTitle = (label, value) => {
                       id="stateId"
                       required
                     />
+                    {
+                      stateError && <span className='text-danger'>State must be selected</span>
+                    }
                       
                  
                   </Col>
