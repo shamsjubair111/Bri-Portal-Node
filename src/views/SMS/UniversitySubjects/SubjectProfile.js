@@ -33,6 +33,9 @@ const SubjectProfile = () => {
       else if(location.unnniId != undefined){
         history.push(`/universitySubjectList/${location.unnniId}`);
       }
+      else if(location.uniDetailId != undefined){
+        history.push(`/universityDetails/${location.uniDetailId}`)
+      }
       else{
         history.push('/subjectList');
       } 
@@ -83,6 +86,8 @@ const SubjectProfile = () => {
                   location?.campId != undefined ? "Back to Campus Subject List"
                   :
                   location.uniSubList != undefined || location.unnniId != undefined ? "Back to University Subject List"
+                  :
+                  location.uniDetailId != undefined ? "Back to University Details"
                   :
                   "Back to Subject List"
                 }
@@ -510,17 +515,17 @@ const SubjectProfile = () => {
                     <>
                      <div className='d-flex justify-content-between'>
                        <span>EU Tution Fee</span>
-                       <p>{subjectData?.subjectFee?.eU_TutionFee}</p>
+                       <p>€{subjectData?.subjectFee?.eU_TutionFee}</p>
                      </div>
                      
                      <div className='d-flex justify-content-between'>
                         <span>International Tution Fee</span>
-                        <p>{subjectData?.subjectFee?.internationalTutionFee}</p>
+                        <p>€{subjectData?.subjectFee?.internationalTutionFee}</p>
                      </div>
                      
                      <div className='d-flex justify-content-between'>
                         <span>Local Tution Fee</span>
-                        <p>{subjectData?.subjectFee?.localTutionFee}</p>
+                        <p>€{subjectData?.subjectFee?.localTutionFee}</p>
                      </div>
                     </>
                     :

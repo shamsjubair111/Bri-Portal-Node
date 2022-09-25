@@ -36,6 +36,7 @@ import "antd/dist/antd.css";
 import EditDivButton from "../Components/EditDivButton";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";
+import ButtonForFunction from "../Components/ButtonForFunction";
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 // const userData = [{name: "Jubair", id:6, isChecked:false}, {name: "Rahul", id:2, isChecked:true}, {name: "Abir", id:3, isChecked:false}, {name: "Nahid", id:4, isChecked:true}];
@@ -463,6 +464,20 @@ const UniversityDetails = () => {
       );
     }
   };
+
+  const redirecttoCampDetails = campusId => {
+    history.push({
+      pathname: `/campusDetails/${campusId}`,
+      uniDetailId: id
+    })
+  }
+
+  const redirectToSubjectProfile = subjectId => {
+    history.push({
+      pathname: `/subjectProfile/${subjectId}`,
+      uniDetailId: id
+    })
+  }
 
   return (
     <div>
@@ -1021,7 +1036,7 @@ const UniversityDetails = () => {
                                     className="text-center"
                                   >
                                     <ButtonGroup variant="text">
-                                      <Link to={`/campusDetails/${campus?.id}`}>
+                                      {/* <Link to={`/campusDetails/${campus?.id}`}>
                                         <Button
                                           color="primary"
                                           className="mx-1 btn-sm"
@@ -1029,7 +1044,15 @@ const UniversityDetails = () => {
                                           {" "}
                                           <i className="fas fa-eye"></i>{" "}
                                         </Button>
-                                      </Link>
+                                      </Link> */}
+
+                                      <ButtonForFunction
+                                      func={()=>redirecttoCampDetails(campus?.id)}
+                                        className={"mx-1 btn-sm"}
+                                        color={"primary"}
+                                        icon={<i className="fas fa-eye"></i>}
+                                      />
+
                                       {/* <Button color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
@@ -1116,7 +1139,7 @@ const UniversityDetails = () => {
                                     className="text-center"
                                   >
                                     <ButtonGroup variant="text">
-                                      <Link to={`/subjectProfile/${sub?.id}`}>
+                                      {/* <Link to={`/subjectProfile/${sub?.id}`}>
                                         <Button
                                           color="primary"
                                           className="mx-1 btn-sm"
@@ -1124,7 +1147,14 @@ const UniversityDetails = () => {
                                           {" "}
                                           <i className="fas fa-eye"></i>{" "}
                                         </Button>
-                                      </Link>
+                                      </Link> */}
+
+                                      <ButtonForFunction
+                                      func={()=> redirectToSubjectProfile(sub?.id)}
+                                      className={"mx-1 btn-sm"}
+                                      color={"primary"}
+                                      icon={<i className="fas fa-eye"></i>}
+                                      />
                                       {/* <Button color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
@@ -1510,22 +1540,22 @@ const UniversityDetails = () => {
                   <>
                     <div className="d-flex justify-content-between">
                       <span>Avarage Tution Fee</span>
-                      <p>{financialInfo?.avarageTutionFee}</p>
+                      <p>€{financialInfo?.avarageTutionFee}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
                       <span>Avarage Application Fee</span>
-                      <p>{financialInfo?.avarageApplicationFee}</p>
+                      <p>€{financialInfo?.avarageApplicationFee}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
                       <span>Avarage Living Cost</span>
-                      <p>{financialInfo?.avarageLivingCost}</p>
+                      <p>€{financialInfo?.avarageLivingCost}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
                       <span>Estimated Total Cost</span>
-                      <p>{financialInfo?.estimatedTotalCost}</p>
+                      <p>€{financialInfo?.estimatedTotalCost}</p>
                     </div>
                   </>
                 )}

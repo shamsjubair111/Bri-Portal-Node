@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -35,6 +35,7 @@ import put from "../../../helpers/put";
 const CampusDetails = () => {
   const { id } = useParams();
   const { addToast } = useToasts();
+  const location = useLocation();
   const [campusInfo, setCampusInfo] = useState({});
   const [subList, setSubList] = useState([]);
   const [subList1, setSubList1] = useState([]);
@@ -285,7 +286,12 @@ const CampusDetails = () => {
   // on change Feature ends here
 
   const backToDashboard = () => {
-    history.push(`/campusList/${uniId}`);
+    if(location.uniDetailId != undefined){
+      history.push(`/universityDetails/${location.uniDetailId}`)
+    }
+    else{
+      history.push(`/campusList/${uniId}`);
+    }
   };
 
   // Delete Modal
@@ -627,7 +633,13 @@ const CampusDetails = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Campus List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.uniDetailId != undefined ?
+                "Back to University Details"
+                :
+                "Back to Campus List"
+              }
             </span>
           </div>
         </CardHeader>
