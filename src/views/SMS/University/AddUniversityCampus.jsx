@@ -253,7 +253,12 @@ const AddUniversityCampus = (props) => {
   };
   // redirect to dashboard
   const backToUniList = () => {
-    history.push("/universityList");
+    if(location.uniCampId != undefined){
+      history.push(`/campusDetails/${location.uniCampId}`)
+    }
+    else{
+      history.push("/universityList");
+    }
   };
 
   // redirect to Next Page
@@ -341,7 +346,13 @@ const AddUniversityCampus = (props) => {
           <div className="page-header-back-to-home">
             <span onClick={backToUniList} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.uniCampId != undefined ?
+                "Back to Campus Details"
+                :
+                "Back to University List"
+              }
             </span>
           </div>
         </CardHeader>

@@ -612,6 +612,13 @@ const CampusDetails = () => {
     history.push(`/assignMultipleSubject/${id}`);
   };
 
+  const redirectToCampusEdit = () => {
+    history.push({
+      pathname: `/addUniversityCampus/${uniId}`,
+      uniCampId: id
+    })
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -644,7 +651,7 @@ const CampusDetails = () => {
                     <Col>
                       <div className="uapp-employee-profile-Edit">
                         <div className="text-right">
-                          <span>
+                          <span onClick={redirectToCampusEdit} >
                             {" "}
                             <i className="fas fa-pencil-alt"></i>{" "}
                           </span>
