@@ -951,9 +951,9 @@ const CampusDetails = () => {
                           <tr style={{ textAlign: "center" }}>
                             <th>SL/NO</th>
                             <th>Subject</th>
-                            <th>isAcceptEU_UK</th>
-                            <th>isAcceptHome</th>
-                            <th>isAcceptInternational</th>
+                            <th>Accept EU/UK</th>
+                            <th>Accept Home</th>
+                            <th>Accept International</th>
                             <th style={{ width: "8%" }} className="text-center">
                               Action
                             </th>

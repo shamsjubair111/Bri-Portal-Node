@@ -44,6 +44,11 @@ const AssignMultipleSubject = () => {
 
   const [subId, setSubId] = useState(0);
   const [subName, setSubName] = useState('');
+  const [disable, setDisable] = useState(true);
+  const [checkboxData, setCheckboxData] = useState([]);
+  const [sub, setSub] = useState(0);
+
+  // console.log("datas", checkboxData)
 
   const { id } = useParams();
   const history = useHistory();
@@ -65,7 +70,23 @@ const AssignMultipleSubject = () => {
   // }
 
   const handleAssignSubjects = (e, sub) => {
+    // setCheckboxData[1](...checkboxData, homeAccept, ukAccept, intAccept);
+    
+    // checkboxData[1].push(ukAccept);
+    // checkboxData[1].push(intAccept);
+
+    
+
     e.preventDefault();
+
+    // const x = checkboxData[1].slice(0,3)
+
+    const subdata = [
+      [subId], [checkboxData.slice(0,3)]
+  ]
+
+  console.log("subdata", subdata);
+
     const subData = {
       campusId: sub?.campusId,
       subjectId: sub?.subjectId,
@@ -73,7 +94,12 @@ const AssignMultipleSubject = () => {
       isAcceptEU_UK: ukAccept,
       isAcceptInternational: intAccept,
     };
-    if(sub?.subjectId === subId){
+
+    // if(e.target.id === subId){
+    //   setDisable(false);
+    // }
+
+    // if(sub?.subjectId === subId){
       post("UniversityCampusSubject/Create", subData).then((res) => {
         if (res?.data?.isSuccess == true && res?.status == 200) {
           addToast(res?.data?.message, {
@@ -85,15 +111,15 @@ const AssignMultipleSubject = () => {
             setMultipleSubAssign([]);
             setMultipleSubAssign(res);
           });
-          // setHomeAccept(false);
-          // setUkAccept(false);
-          // setIntAccept(false);
+          setHomeAccept(false);
+          setUkAccept(false);
+          setIntAccept(false);
         }
       });
-    }
-    else{
-      alert("Click the right button");
-    }
+    // }
+    // else{
+    //   alert("Click the right button");
+    // }
     console.log("subdataaaaa", subData);
   };
 
@@ -144,7 +170,7 @@ const AssignMultipleSubject = () => {
 
   console.log("checkbox", homeAccept, ukAccept, intAccept);
 
-  console.log("successBefore post", success);
+  // console.log("successBefore post", success);
 
   const handleAssignAll = () =>{
     put(`UniversityCampusSubject/AssignAllSubject/${id}`)
@@ -165,7 +191,70 @@ const AssignMultipleSubject = () => {
     })
   }
 
-  console.log("successAfter post", success);
+  // console.log("successAfter post", success);
+
+  // for feature checkboxes
+  const handleFeatureHome = e =>{
+    const {name, id, checked, disabled} = e.target;
+    let val = e.target.checked;
+
+    setCheckboxData([...checkboxData, val]);
+    // setSub(id);
+
+    // if (val == true) {
+    //   checkboxData[0].push(id);
+    //   checkboxData[1].push(val);
+    // } 
+    //   else {
+    //   const index = checkboxData.indexOf(id);
+    //   if (index > -1) {
+    //     checkboxData.splice(index, 1);
+    //   }
+    // }
+
+    console.log("dataHome", checkboxData);
+    
+}
+
+const handleFeatureUk = e =>{
+  const {name, id, checked} = e.target;
+  let val = e.target.checked;
+
+  setCheckboxData([...checkboxData, val]);
+  // setSub(id);
+
+  // if (val == true) {
+  //   setCheckboxData([...checkboxData, val]);
+  // } else {
+  //   const index = checkboxData.indexOf(id);
+  //   if (index > -1) {
+  //     checkboxData.splice(index, 1);
+  //   }
+  // }
+ 
+  console.log("dataUk", checkboxData)
+}
+
+const handleFeatureInt = e =>{
+  const {name, id, checked} = e.target;
+  let val = e.target.checked;
+
+  setCheckboxData([...checkboxData, val]);
+  // setSub(id);
+
+  // if (val == true) {
+  //   setCheckboxData([...checkboxData, val]);
+  // } else {
+  //   const index = checkboxData.indexOf(id);
+  //   if (index > -1) {
+  //     checkboxData.splice(index, 1);
+  //   }
+  // }
+
+  console.log("dataInt", checkboxData)
+}
+
+console.log("data", checkboxData)
 
   return (
     <div>
@@ -236,7 +325,10 @@ const AssignMultipleSubject = () => {
            <div className="container test-score-div-1-style mt-1 mb-4">
             <span className="test-score-span-1-style">
             <div>
-              <span>Assign individual subjects with specific application types.</span>
+              <span>Assign an individual subject with specific application types.</span>
+              <div>
+                <span className="text-danger">N.B : Select the checkboxes of a particular subject only.</span>
+              </div>
             </div>
             </span>
            </div>
@@ -288,12 +380,13 @@ const AssignMultipleSubject = () => {
                       <Input
                         className="form-check-input"
                         type="checkbox"
-                        id={i}
-                        name={sub?.subjectName}
+                        id={sub?.subjectId}
+                        name='isAcceptHome'
                         // disabled={sub?.isChecked ? false : true}
                         onChange={(e) => {
                           setHomeAccept(false);
                           setHomeAccept(!homeAccept);
+                          // handleFeatureHome(e);
                           // setHomeAccept(e.target.checked);
                           setSubId(sub?.subjectId);
                           setSubName(sub?.subjectName);
@@ -310,12 +403,13 @@ const AssignMultipleSubject = () => {
                       <Input
                         className="form-check-input"
                         type="checkbox"
-                        id={i}
-                        name={sub?.subjectName}
+                        id={sub?.subjectId}
+                        name='isAcceptEU_UK'
                         // disabled={sub?.isChecked ? false : true}
                         onChange={(e) => {
                           setUkAccept(false);
                           setUkAccept(!ukAccept);
+                          // handleFeatureUk(e);
                           // setUkAccept(e.target.checked);
                           setSubId(sub?.subjectId);
                           setSubName(sub?.subjectName);
@@ -333,13 +427,13 @@ const AssignMultipleSubject = () => {
                       <Input
                         className="form-check-input"
                         type="checkbox"
-                        id={i}
-                        // name="isAcceptInternational"
-                        name={sub?.subjectName}
+                        id={sub?.subjectId}
+                        name='isAcceptInternational'
                         // disabled={sub?.isChecked ? false : true}
                         onChange={(e) => {
                           setIntAccept(false);
                           setIntAccept(!intAccept);
+                          // handleFeatureInt(e);
                           // setIntAccept(e.target.checked);
                           setSubId(sub?.subjectId);
                           setSubName(sub?.subjectName);
@@ -359,20 +453,10 @@ const AssignMultipleSubject = () => {
                           Remove
                         </Button>
                       ) : (
-                        // <>
-                        // {
-                        //   !(homeAccept  || ukAccept  || intAccept) && sub?.subjectId !== localStorage.getItem("subjectIdCheck") ?
                           
                           <Button id={sub?.subjectId} onClick={(e)=>handleAssignSubjects(e, sub)} color="primary">
                           Add
-                        </Button>
-                        // :
-                        // <Button id={`button${i}`} onClick={(e)=>handleAssignSubjects(e, sub)} color="primary">
-                        //   Add
-                        // </Button>
-                          
-                        // }
-                        // </>
+                        </Button> 
                       )}
                     </FormGroup>
                   </Col>

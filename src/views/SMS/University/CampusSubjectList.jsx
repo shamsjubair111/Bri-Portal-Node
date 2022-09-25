@@ -573,9 +573,9 @@ const CampusSubjectList = () => {
                     {/* <th>Description</th>
                     <th>Duration</th> */}
                     {/* <th>University</th> */}
-                    <th>isAcceptHome</th>
-                    <th>isAcceptEU_UK	</th>
-                    <th>isAcceptInternational</th>
+                    <th>Accept Home</th>
+                    <th>Accept EU/UK	</th>
+                    <th>Accept International</th>
                     <th>Program Level</th>
                     <th>Department</th>
                     {/* <th>Sub Department</th> */}

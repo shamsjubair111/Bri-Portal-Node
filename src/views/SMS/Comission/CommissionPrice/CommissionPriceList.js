@@ -37,7 +37,7 @@ const CommissionPriceList = () => {
     },[success])
 
     const backToDashboard = () => {
-        history.push("/")
+        history.push("/commissionGroupList")
     }
 
     const handleRange = (e) => {
@@ -147,7 +147,7 @@ const CommissionPriceList = () => {
                 <div className="page-header-back-to-home">
                   <span className="text-light" onClick={backToDashboard}>
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    <i className="fas fa-arrow-circle-left"></i> Back to Commission Groups
                   </span>
                 </div>
               </CardHeader>
