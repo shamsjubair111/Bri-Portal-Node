@@ -573,9 +573,9 @@ const CampusSubjectList = () => {
                     {/* <th>Description</th>
                     <th>Duration</th> */}
                     {/* <th>University</th> */}
-                    <th>isAcceptHome</th>
-                    <th>isAcceptEU_UK	</th>
-                    <th>isAcceptInternational</th>
+                    <th>Accept Home</th>
+                    <th>Accept EU/UK	</th>
+                    <th>Accept International</th>
                     <th>Program Level</th>
                     <th>Department</th>
                     {/* <th>Sub Department</th> */}
@@ -715,8 +715,18 @@ const CampusSubjectList = () => {
 
                       </Modal>
 
-                      {/* add or delete subject feature starts here */}
-                              <Modal
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              
+
+            </div>
+          )}
+
+          {/* add or delete subject feature starts here */}
+          <Modal
                                 isOpen={modalOpen}
                                 toggle={taggleModal}
                                 className="uapp-modal2"
@@ -947,18 +957,6 @@ const CampusSubjectList = () => {
                                 </ModalBody>
                               </Modal>
                       {/* add or delete subject feature ends here */}
-
-
-
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              
-
-            </div>
-          )}
 
           <Pagination
             dataPerPage={dataPerPage}

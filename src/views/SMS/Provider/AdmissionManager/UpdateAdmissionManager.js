@@ -63,7 +63,7 @@ const UpdateAdmissionManager = () => {
           setTitle(res);
         })
 
-    },[])
+    },[id])
 
 
     const nameTitle = title?.map((singleTitle) => ({
