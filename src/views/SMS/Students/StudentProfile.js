@@ -463,7 +463,7 @@ const StudentProfile = () => {
                       <tbody>
                         <tr>
                           <td width="40%">
-                           <span> <b>Address Type:</b></span>
+                           <span> <b>Address type:</b></span>
                           </td>
 
                           <td width="60%">
@@ -543,7 +543,7 @@ const StudentProfile = () => {
 
                         <tr>
                           <td width="40%">
-                           <span> <b>Address Line:</b></span>
+                           <span> <b>Address line:</b></span>
                           </td>
 
                           <td width="60%">
@@ -581,7 +581,7 @@ const StudentProfile = () => {
                       <tbody>
                         <tr>
                           <td width="40%">
-                          <span> <b>Have Disability:</b></span>
+                          <span> <b>Have disability:</b></span>
                           </td>
 
                           <td width="60%">
@@ -595,7 +595,7 @@ const StudentProfile = () => {
                             isHaveDisability ?
                             <tr>
                               <td width="40%">
-                               <span> <b>Disability Description:</b></span>
+                               <span> <b>Disability description:</b></span>
                               </td>
 
                               <td width="60%">
@@ -608,7 +608,7 @@ const StudentProfile = () => {
 
                         <tr>
                           <td width="40%">
-                          <span> <b>Have Criminal Convictions:</b></span>
+                          <span> <b>Have criminal convictions:</b></span>
                           </td>
 
                           <td width="60%">
@@ -622,7 +622,7 @@ const StudentProfile = () => {
                             isHaveCriminalConvictions ?
                             <tr>
                               <td width="40%">
-                               <span> <b>Criminal Convictions Description:</b></span>
+                               <span> <b>Criminal convictions description:</b></span>
                               </td>
 
                               <td width="60%">
@@ -682,7 +682,7 @@ const StudentProfile = () => {
                             </td>
 
                             <td>
-                              {edu?.educationLevel}
+                              {edu?.educationLevelName}
                             </td>
                         
                             <td>

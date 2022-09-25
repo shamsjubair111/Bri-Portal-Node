@@ -420,8 +420,8 @@ const EmployeeList = (props) => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
-                    <th>UAPP ID</th>
-                    <th>Employee Type</th>
+                    <th>UAPP Id</th>
+                    <th>Staff Type</th>
                     <th>Nationality</th>
                     <th>Full Name</th>
                     <th>Email Address</th>

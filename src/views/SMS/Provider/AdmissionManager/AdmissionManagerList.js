@@ -883,7 +883,7 @@ const AdmissionManagerList = () => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
-                    <th>ID</th>
+                    <th>UAPP Id</th>
                     <th>Full Name</th>
                     <th>Provider</th>
                     {/* <th>Duration</th> */}

@@ -172,7 +172,7 @@ const EmployeeProfile = () => {
 
                       <tr>
                         <td width="40%">
-                          <b>Employee type:</b>
+                          <b>Staff type:</b>
                         </td>
 
                         <td width="60%">

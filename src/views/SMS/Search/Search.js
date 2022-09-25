@@ -645,7 +645,12 @@ const Search = () => {
 
     const closeModal = () => {
  
- 
+      setModalCampusLabel('Select Campus');
+      setModalCampusValue(0);
+      setModalDeliveryPatternLabel('Select Delivery Pattern');
+      setModalDeliveryPatternValue(0);
+      setModalIntakeLabel('Select Intake');
+      setModalIntakeValue(0);
       setModal(false);
       
     
@@ -903,11 +908,7 @@ const Search = () => {
         </Col>
         <Col md="6">
 
-          {
-            modalIntake.length == 1 ? 
-              <h6>{modalIntake[0]?.name}</h6>
-              :
-              <>
+          
               <Select
            
               className=''
@@ -926,9 +927,7 @@ const Search = () => {
               :
               null
              }
-              </>
-            
-          }
+           
      
 
          
@@ -944,14 +943,7 @@ const Search = () => {
           </span>
         </Col>
         <Col md="6">
-        {
-          pattern?.length == 1 ?
-          
-          <h6>{pattern[0]?.name}</h6>
-
-          :
-
-          <>
+        
           <Select
            
            className=''
@@ -971,10 +963,7 @@ const Search = () => {
             : 
             null
           }
-          </>
-          
-        }
-
+        
          
 
           

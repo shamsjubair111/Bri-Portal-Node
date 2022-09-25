@@ -27,6 +27,7 @@ const Create = () => {
 
         get(`Balance/ConsultantBalance/${consultantValue}`)
         .then(res => {
+            
             setAmount(res);
         })
 
@@ -133,7 +134,6 @@ const Create = () => {
                             id='amount'
                             placeholder='Enter Amount'
                             required
-                            value={amountInput}
                             onChange={handleInputAmount}
                             
                             />

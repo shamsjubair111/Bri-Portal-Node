@@ -151,7 +151,7 @@ const EmployeeType = (props) => {
       <Card className='uapp-card-bg'>
         <CardHeader className="page-header">
 
-          <h3 className='text-light'>Employee Type </h3>
+          <h3 className='text-light'>Staff Type </h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className='text-light'> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
           </div>
@@ -234,7 +234,7 @@ const EmployeeType = (props) => {
               <tr style={{ textAlign: "center" }}>
                 <th>SL/NO</th>
                 <th>Name</th>
-                <th className="text-center"> Total Employee</th>
+                <th className="text-center"> Total Staff</th>
                 {/* <th>Action</th> */}
               </tr>
             </thead>
