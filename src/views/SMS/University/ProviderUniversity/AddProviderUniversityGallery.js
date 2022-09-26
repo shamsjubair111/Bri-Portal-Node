@@ -259,8 +259,8 @@ const AddProviderUniversityGallery = () => {
           </Nav>
 
           <TabContent activeTab={activetab}>
-            <div className="row mt-5">
-            <div className="hedding-titel d-flex justify-content-between ms-1 mb-4">
+
+          <div className="hedding-titel d-flex justify-content-between ms-1 mb-4">
                       <div>
                         <h5> <b>Gallery</b> </h5>
 
@@ -271,6 +271,9 @@ const AddProviderUniversityGallery = () => {
                         </div> */}
 
                     </div>
+
+            <div className="row mt-5">
+            
               <div className="col-md-8">
                 <div className="row row-cols-md-3 row-cols-sm-2 g-4">
                   {gallery.map((gall, i) => (

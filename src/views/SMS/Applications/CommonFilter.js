@@ -251,7 +251,7 @@ const CommonFilter = ({
     <Card className="uapp-employee-search">
       <CardBody className="search-card-body">
         <Row className="gy-3">
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={commonUappIdMenu}
               value={{ label: commonUappIdLabel, value: commonUappIdValue }}
@@ -262,7 +262,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={commonStdMenu}
               value={{ label: commonStdLabel, value: commonStdValue }}
@@ -273,7 +273,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={commonConsultantMenu}
               value={{ label: consultantLabel, value: consultantValue }}
@@ -284,7 +284,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={applicationMenu}
               value={{ label: applicationLabel, value: applicationValue }}
@@ -295,7 +295,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={offerMenu}
               value={{ label: offerLabel, value: offerValue }}
@@ -306,7 +306,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={enrollMenu}
               value={{ label: enrollLabel, value: enrollValue }}
@@ -317,7 +317,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={intakeMenu}
               value={{ label: intakeLabel, value: intakeValue }}
@@ -328,7 +328,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={interviewMenu}
               value={{ label: interviewLabel, value: interviewValue }}
@@ -339,7 +339,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={elptMenu}
               value={{ label: elptLabel, value: elptValue }}
@@ -350,7 +350,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={financeMenu}
               value={{ label: financeLabel, value: financeValue }}
@@ -361,7 +361,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={commonUniMenu}
               value={{ label: commonUniLabel, value: commonUniValue }}
@@ -372,7 +372,7 @@ const CommonFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={commonPhoneMenu}
               value={{ label: commonPhoneLabel, value: commonPhoneValue }}

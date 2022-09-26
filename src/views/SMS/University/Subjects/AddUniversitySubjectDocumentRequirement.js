@@ -524,7 +524,7 @@ const redirectToSubjectProfile = () => {
                 </div>
                 <div className="d-flex justify-content-end">
                 <Link to={`/universitySubjectList/${id}`}>
-                <Button color="primary" className="me-1">
+                <Button color="primary" className="mr-2">
                     Go to University Subject List
                   
                 </Button></Link>

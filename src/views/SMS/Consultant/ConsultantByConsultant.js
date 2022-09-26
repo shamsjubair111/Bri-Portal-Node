@@ -27,6 +27,7 @@ import get from "../../../helpers/get.js";
 import { rootUrl } from "../../../constants/constants.js";
 import { useState } from "react";
 
+import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import remove from "../../../helpers/remove.js";
@@ -161,31 +162,56 @@ const ConsultantByConsultant = () => {
 
       <Card className="uapp-employee-search">
         <CardBody>
+          
+
+          {/* new */}
           <Row className="mb-3">
-            <Col lg="6" md="5" sm="6" xs="4">
-              {/* <LinkButton
-                url={"/addConsultant"}
+            <Col lg="5" md="5" sm="4" xs="4">
+            {/* {
+                    permissions?.includes(permissionList?.Add_subject) ?
+              <ButtonForFunction
+                func={handleAddSubject}
                 className={"btn btn-uapp-add "}
-                name={"Add New"}
                 icon={<i className="fas fa-plus"></i>}
+                name={" Add New Subject"}
                 permission={6}
-              /> */}
+              />
+              :
+              null
+              } */}
             </Col>
 
-            <Col lg="6" md="7" sm="6" xs="8">
-              <Row>
-                <Col lg="5" md="6"></Col>
-                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
-                  Showing
-                </Col>
-                <Col md="3" sm="7" xs="7">
-                  <Select
-                    options={dataSizeName}
-                    value={{ label: dataPerPage, value: dataPerPage }}
-                    onChange={(opt) => selectDataSize(opt.value)}
-                  />
-                </Col>
-                <Col lg="2">
+            <Col lg="7" md="7" sm="8" xs="8">
+              <div className="d-md-flex justify-content-end">
+                {/* <Col lg="2">
+                    
+                    <div className='ms-2'>
+                      <ReactToPrint
+                        trigger={()=><div className="uapp-print-icon">
+                          <div className="text-right">
+                            <span title="Print to pdf"> <i className="fas fa-print"></i> </span>
+                          </div>
+                        </div>}
+                        content={() => componentRef.current}
+                      />
+                    </div>
+                </Col> */}
+                
+
+                <div className="mr-3">
+                  <div className="d-flex align-items-center">
+                    <div className="mr-2">Showing :</div>
+                    <div>
+                      <Select
+                        options={dataSizeName}
+                        value={{ label: dataPerPage, value: dataPerPage }}
+                        onChange={(opt) => selectDataSize(opt.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -193,7 +219,57 @@ const ConsultantByConsultant = () => {
                     toggle={toggle}
                   >
                     <DropdownToggle caret>
-                      <i className="fas fa-ellipsis-v"></i>
+                      <i className="fas fa-print fs-7"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd">
+                      <div className="d-flex justify-content-around align-items-center mt-2">
+                        <div className="text-light cursor-pointer">
+                          {/* <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p> */}
+
+                          {/* <ReactHTMLTableToExcel
+                            id="test-table-xls-button"
+                            className="download-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            buttonText="Download as XLS"
+                            /> */}
+
+                            <ReactTableConvertToXl
+                              id="test-table-xls-button"
+                              table="table-to-xls"
+                              filename="tablexls"
+                              sheet="tablexls"
+                              icon={<i className="fas fa-file-excel"></i>}
+                            />
+
+                        </div>
+                        <div className="text-light cursor-pointer">
+                          <ReactToPrint
+                            trigger={() => (
+                              <p>
+                                <i className="fas fa-file-pdf"></i>
+                              </p>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </div>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+
+                {/* <div className="me-3">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
@@ -213,20 +289,10 @@ const ConsultantByConsultant = () => {
                           />
                         </div>
                       </div>
-
-                      {/* <ReactHTMLTableToExcel
-                          id="test-table-xls-button"
-                          className="download-table-xls-button"
-                          table="table-to-xls"
-                          filename="tablexls"
-                          sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
-
-                      {/* <Button onClick={onDownload}> Export excel </Button> */}
                     </DropdownMenu>
                   </Dropdown>
-                </Col>
-              </Row>
+                </div> */}
+              </div>
             </Col>
           </Row>
 
@@ -234,7 +300,7 @@ const ConsultantByConsultant = () => {
             <h2 className="text-center">Loading...</h2>
           ) : (
             <div className="table-responsive mb-2" ref={componentRef}>
-              <Table className="table-sm table-bordered">
+              <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>

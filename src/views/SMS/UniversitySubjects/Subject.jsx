@@ -672,7 +672,7 @@ const Subject = () => {
                   <Col md="5">
                     <ButtonForFunction 
                       type={"submit"}
-                      className={"ms-3 mt-3 badge-primary"}
+                      className={"ml-3 mt-3 badge-primary"}
                       name={"Save"}
                       permission={6}
                     />

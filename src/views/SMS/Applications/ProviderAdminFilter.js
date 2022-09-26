@@ -232,7 +232,7 @@ const ProviderAdminFilter = ({
     <Card className="uapp-employee-search">
       <CardBody className="search-card-body">
         <Row className="gy-3">
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={providerUappIdMenu}
               value={{ label: providerUappIdLabel, value: providerUappIdValue }}
@@ -243,7 +243,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={providerStdMenu}
               value={{ label: providerStdLabel, value: providerStdvalue }}
@@ -254,7 +254,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={providerConsMenu}
               value={{ label: providerConsLabel, value: providerConsValue }}
@@ -265,7 +265,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={applicationMenu}
               value={{ label: applicationLabel, value: applicationValue }}
@@ -276,7 +276,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={offerMenu}
               value={{ label: offerLabel, value: offerValue }}
@@ -287,7 +287,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={enrollMenu}
               value={{ label: enrollLabel, value: enrollValue }}
@@ -298,7 +298,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={intakeMenu}
               value={{ label: intakeLabel, value: intakeValue }}
@@ -309,7 +309,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2" >
             <Select
               options={interviewMenu}
               value={{ label: interviewLabel, value: interviewValue }}
@@ -320,7 +320,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={elptMenu}
               value={{ label: elptLabel, value: elptValue }}
@@ -331,7 +331,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={financeMenu}
               value={{ label: financeLabel, value: financeValue }}
@@ -342,7 +342,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={providerUniMenu}
               value={{ label: providerUniLabel, value: providerUniValue }}
@@ -353,7 +353,7 @@ const ProviderAdminFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={providerPhoneMenu}
               value={{ label: providerPhoneLabel, value: providerPhoneValue }}

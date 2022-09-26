@@ -548,13 +548,13 @@ const onPreviousPage = () => {
                 </div>
                 <div className="d-flex justify-content-end">
                 <Link to={`/subjectList`}>
-                <Button color="primary" className="me-1">
+                <Button color="primary" className="mr-1">
                     Go to Subject List
                   
                 </Button></Link>
 
                  <Link to={`/subjectProfile/${id}`}>
-                 <Button color="primary" className="ms-1">
+                 <Button color="primary" className="ml-1">
                     Go to Subject Profile
                   
                 </Button>

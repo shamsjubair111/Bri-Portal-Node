@@ -488,9 +488,9 @@ const SubjectList = (props) => {
                       />
                     </div>
                 </Col> */}
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Order By :</div>
+                    <div className="mr-2">Order By :</div>
                     <div>
                       <Select
                         options={orderName}
@@ -501,9 +501,9 @@ const SubjectList = (props) => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
                         options={dataSizeName}
@@ -514,7 +514,7 @@ const SubjectList = (props) => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -591,7 +591,7 @@ const SubjectList = (props) => {
           {loading ? (
             <div class="d-flex justify-content-center mb-5">
             <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <span class="sr-only">Loading...</span>
             </div>
           </div>
           ) : (

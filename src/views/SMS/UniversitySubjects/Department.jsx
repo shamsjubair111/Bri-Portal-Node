@@ -155,6 +155,10 @@ const Department = (props) => {
     // localStorage.removeItem('updatedep')
   };
 
+  const redirectToEditDepartment = deptId => {
+    history.push(`/editDepartment/${deptId}`)
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -303,13 +307,22 @@ const Department = (props) => {
                          <Button color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
                          </Link> */}
 
-                        <LinkButton
+                        {/* <LinkButton
                           url={`editDepartment/${dept?.id}`}
                           color={"warning"}
-                          className={" btn-sm"}
+                          className={"btn-sm"}
+                          icon={<i className="fas fa-edit"></i>}
+                          permission={6}
+                        /> */}
+
+                        <ButtonForFunction
+                          func={() => redirectToEditDepartment(dept?.id)}
+                          className={"btn-sm"}
+                          color={"warning"}
                           icon={<i className="fas fa-edit"></i>}
                           permission={6}
                         />
+
                       </ButtonGroup>
 
                       {/* modal for delete */}

@@ -384,7 +384,7 @@ const AddProviderUniversityFinancial = (props) => {
                   <Col md="5">
                     <ButtonForFunction
                       type={"submit"}
-                      className={"ms-lg-3 ms-sm-1 mt-3 badge-primary"}
+                      className={"ml-lg-3 ml-sm-1 mt-3 badge-primary"}
                       name={"Save"}
                       permission={6}
                     />

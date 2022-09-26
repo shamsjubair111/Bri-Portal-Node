@@ -631,7 +631,7 @@ const UniversityList = (props) => {
               <div className="d-md-flex justify-content-end">
                 {/* <Col lg="2">
                     
-                    <div className='ms-2'>
+                    <div className='ml-2'>
                       <ReactToPrint
                         trigger={()=><div className="uapp-print-icon">
                           <div className="text-right">
@@ -642,9 +642,9 @@ const UniversityList = (props) => {
                       />
                     </div>
                 </Col> */}
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Order By :</div>
+                    <div className="mr-2">Order By :</div>
                     <div>
                       <Select
                         options={orderName}
@@ -655,9 +655,9 @@ const UniversityList = (props) => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
                         options={dataSizeName}
@@ -668,7 +668,7 @@ const UniversityList = (props) => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -707,7 +707,7 @@ const UniversityList = (props) => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
+                {/* <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}

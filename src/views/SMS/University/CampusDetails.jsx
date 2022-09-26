@@ -655,7 +655,7 @@ const CampusDetails = () => {
                     <Col>
                       <div>
                         <div className="text-left">
-                          <h4 className="ms-2">{campusInfo?.name}</h4>
+                          <h4 className="ml-2">{campusInfo?.name}</h4>
                         </div>
                       </div>
                     </Col>
@@ -730,9 +730,9 @@ const CampusDetails = () => {
 
                   <div className="row mt-5">
                     <div className="col-md-8">
-                      <div className="row row-cols-md-3 row-cols-sm-2 g-4">
+                      <div className="row row-cols-md-3 row-cols-sm-2 container-fluid g-4">
                         {gallery.map((gall, i) => (
-                          <div key={i} className="containerCustom">
+                          <div key={i} className="containerCustom pl-2 pb-2">
                             <img
                               src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
                               alt="Avatar"
@@ -748,7 +748,7 @@ const CampusDetails = () => {
                               </Button>
                               <Button
                                 onClick={() => handleDelete(gall)}
-                                className="bg-danger ms-2"
+                                className="bg-danger ml-2"
                               >
                                 Delete
                               </Button>
@@ -836,7 +836,7 @@ const CampusDetails = () => {
                     </div>
                     <div className="col-md-4">
                       <div className="customCard rounded">
-                        <Form className="ms-2" onSubmit={handleGalleryPost}>
+                        <Form className="ml-2" onSubmit={handleGalleryPost}>
                           <FormGroup
                             row
                             className="has-icon-left position-relative"
@@ -1062,13 +1062,12 @@ const CampusDetails = () => {
                                 >
                                   <ModalBody>
                                     <Form onSubmit={handleUpdateData}>
-                                      <FormGroup row className="pt-3">
                                         <p>
                                           <b>Subject features</b>
                                         </p>
-                                        <br />
-                                        <br />
-                                        <Col md="3">
+                                      <FormGroup row className="pt-3">
+                                        
+                                        <Col md="6">
                                           <span>
                                             Is accept home{" "}
                                             <span className="text-danger">
@@ -1077,7 +1076,7 @@ const CampusDetails = () => {
                                           </span>
                                         </Col>
 
-                                        <Col md="5">
+                                        <Col md="6">
                                           <FormGroup check inline>
                                             <Input
                                               className="form-check-input"
@@ -1127,8 +1126,8 @@ const CampusDetails = () => {
                                         </Col>
                                       </FormGroup>
 
-                                      <FormGroup row className="pt-3">
-                                        <Col md="3">
+                                      <FormGroup row className="">
+                                        <Col md="6">
                                           <span>
                                             Is accept EU_UK{" "}
                                             <span className="text-danger">
@@ -1137,7 +1136,7 @@ const CampusDetails = () => {
                                           </span>
                                         </Col>
 
-                                        <Col md="5">
+                                        <Col md="6">
                                           <FormGroup check inline>
                                             <Input
                                               className="form-check-input"
@@ -1183,8 +1182,8 @@ const CampusDetails = () => {
                                         </Col>
                                       </FormGroup>
 
-                                      <FormGroup row className="pt-3">
-                                        <Col md="3">
+                                      <FormGroup row className="">
+                                        <Col md="6">
                                           <span>
                                             Is accept international{" "}
                                             <span className="text-danger">
@@ -1193,7 +1192,7 @@ const CampusDetails = () => {
                                           </span>
                                         </Col>
 
-                                        <Col md="5">
+                                        <Col md="6">
                                           <FormGroup check inline>
                                             <Input
                                               className="form-check-input"
@@ -1247,9 +1246,19 @@ const CampusDetails = () => {
                                         className="has-icon-left position-relative"
                                         style={{
                                           display: "flex",
-                                          justifyContent: "space-between",
+                                          justifyContent: "end",
                                         }}
                                       >
+
+                                        <Button.Ripple
+                                          onClick={taggleModal}
+                                          type="submit"
+                                          color="danger"
+                                          className="mr-1 mt-3"
+                                        >
+                                          Cancel
+                                        </Button.Ripple>
+
                                         <Button.Ripple
                                           type="submit"
                                           className="mr-1 mt-3 badge-primary"
@@ -1315,19 +1324,17 @@ const CampusDetails = () => {
                       </Col>
                     </FormGroup>
 
-                    <FormGroup row className="pt-3">
-                      <p>
-                        <b>Subject features</b>
+                      <p className="mt-5">
+                        <b>Subject features :</b>
                       </p>
-                      <br />
-                      <br />
-                      <Col md="3">
+                    <FormGroup row className="">
+                      <Col md="4">
                         <span>
                           Is accept home <span className="text-danger">*</span>{" "}
                         </span>
                       </Col>
 
-                      <Col md="5">
+                      <Col md="4">
                         <FormGroup check inline>
                           <Input
                             className="form-check-input"
@@ -1369,14 +1376,14 @@ const CampusDetails = () => {
                       </Col>
                     </FormGroup>
 
-                    <FormGroup row className="pt-3">
-                      <Col md="3">
+                    <FormGroup row className="">
+                      <Col md="4">
                         <span>
                           Is accept EU_UK <span className="text-danger">*</span>{" "}
                         </span>
                       </Col>
 
-                      <Col md="5">
+                      <Col md="4">
                         <FormGroup check inline>
                           <Input
                             className="form-check-input"
@@ -1418,15 +1425,15 @@ const CampusDetails = () => {
                       </Col>
                     </FormGroup>
 
-                    <FormGroup row className="pt-3">
-                      <Col md="3">
+                    <FormGroup row className="">
+                      <Col md="4">
                         <span>
                           Is accept international{" "}
                           <span className="text-danger">*</span>{" "}
                         </span>
                       </Col>
 
-                      <Col md="5">
+                      <Col md="4">
                         <FormGroup check inline>
                           <Input
                             className="form-check-input"
@@ -1479,7 +1486,7 @@ const CampusDetails = () => {
                       <Col md="6">
                         <Button.Ripple
                           type="submit"
-                          className="ms-md-4 ms-sm-0 mt-3 badge-primary"
+                          className="ml-md-4 ml-sm-0 mt-3 badge-primary"
                         >
                           Submit
                         </Button.Ripple>

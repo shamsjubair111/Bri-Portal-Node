@@ -576,7 +576,7 @@ const AddUniversityTemplateDocument = () => {
                                <ButtonForFunction
                                color={"primary"}
                                type={"submit"}
-                               className={"ms-lg-3 ms-sm-1 mt-3"}
+                               className={"ml-lg-3 ml-sm-1 mt-3"}
                                name={"Save"}
                                
                               />
@@ -608,11 +608,10 @@ const AddUniversityTemplateDocument = () => {
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
-                                className={"ms-lg-3 ms-sm-1 mt-3"}
+                                className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
                                 permission={6}
                               />
-                            </Col>
 
                             <div>
                               {selectedId !== 0 ||
@@ -628,6 +627,10 @@ const AddUniversityTemplateDocument = () => {
                                 <></>
                               )}
                             </div>
+
+                            </Col>
+
+                            
                           </FormGroup>
                         </>
                       )}
@@ -773,7 +776,7 @@ const AddUniversityTemplateDocument = () => {
                 <ButtonForFunction
                   func={onGoUniProfile}
                   color={"primary uapp-form-button"}
-                  className={"ms-lg-2 ms-sm-2"}
+                  className={"ml-lg-2 ml-sm-2"}
                   name={"Go to University Profile"}
                   permission={6}
                 />

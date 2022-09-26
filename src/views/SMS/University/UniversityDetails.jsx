@@ -649,9 +649,9 @@ const UniversityDetails = () => {
                   </div>
                   <div className="row mt-5">
                     <div className="col-md-8">
-                      <div className="row row-cols-md-3 row-cols-sm-2 g-4">
+                      <div className="row row-cols-md-3 row-cols-sm-2 container-fluid">
                         {gallery.map((gall, i) => (
-                          <div key={i} className="containerCustom">
+                          <div key={i} className="containerCustom pl-2 pb-2">
                             <img
                               src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
                               alt="Avatar"
@@ -667,7 +667,7 @@ const UniversityDetails = () => {
                               </Button>
                               <Button
                                 onClick={() => handleDelete(gall)}
-                                className="bg-danger ms-2"
+                                className="bg-danger ml-1"
                               >
                                 Delete
                               </Button>
@@ -756,7 +756,7 @@ const UniversityDetails = () => {
                     </div>
                     <div className="col-md-4">
                       <div className="customCard rounded">
-                        <Form className="ms-2" onSubmit={handleGalleryPost}>
+                        <Form className="ml-2" onSubmit={handleGalleryPost}>
                           <FormGroup
                             row
                             className="has-icon-left position-relative"

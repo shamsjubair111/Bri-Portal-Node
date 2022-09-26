@@ -489,7 +489,7 @@ const DocumentUpload = () => {
                         <div className="col-4">
                           <Icon.XCircle
                             onClick={() => toggleDanger(docu)}
-                            className=" ms-2 text-danger cross-icon-style"
+                            className=" ml-2 text-danger cross-icon-style"
                           />
                         </div>
 
@@ -522,7 +522,7 @@ const DocumentUpload = () => {
                       {
                         docu?.studentDocumentFile != null ? 
                         <>
-                        <div>1 file uploaded: <span className="ms-2  px-2">{docu?.studentDocumentFile?.fileName} <i onClick={()=>toggleDangerFile(docu)} title="delete file" style={{cursor: "pointer"}} className="fas fa-times text-warning "></i>
+                        <div>1 file uploaded: <span className="ml-2  px-2">{docu?.studentDocumentFile?.fileName} <i onClick={()=>toggleDangerFile(docu)} title="delete file" style={{cursor: "pointer"}} className="fas fa-times text-warning "></i>
                         </span></div>
                          <div>
                         
@@ -600,6 +600,7 @@ const DocumentUpload = () => {
                   </p>
                     
                   <Select
+                    className="input-custom-style ms-3"
                     options={docuTypeDD}
                     value={{ label: docuTypeLabel, value: docuTypeValue }}
                     onChange={(opt) => selectDocumentType(opt.label, opt.value)}
@@ -636,7 +637,8 @@ const DocumentUpload = () => {
                             </div>
                           ) : null} */}
 
-                      <div className="col-md-3">
+
+                      {/* <div className="col-md-3"> */}
                         <Upload
                           listType="picture-card"
                           multiple={false}
@@ -673,7 +675,7 @@ const DocumentUpload = () => {
                           />
                         </AntdModal>
                       </div>
-                    </div>
+                    {/* </div> */}
 
                     {/* {uploadError && (
                       <span className="text-danger">

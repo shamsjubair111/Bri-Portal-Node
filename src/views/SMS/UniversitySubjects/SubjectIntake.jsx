@@ -180,7 +180,7 @@ const SubjectIntake = () => {
         <Card>
           <Row className="pt-3 gx-4">
             <Col md="4">
-            <div className="hedding-titel d-flex justify-content-between ms-3 mb-4">
+            <div className="hedding-titel d-flex justify-content-between ml-3 mb-4">
                   <div>
                     <h5>
                       {" "}
@@ -194,7 +194,7 @@ const SubjectIntake = () => {
                </div> */}
                 </div>
 
-              <Form className="mt-2 ms-4" onSubmit={handleSubmit}>
+              <Form className="mt-2 ml-4" onSubmit={handleSubmit}>
                 <input
                   type="hidden"
                   name="campusId"
@@ -271,7 +271,7 @@ const SubjectIntake = () => {
               </Form>
             </Col>
             <Col md="8">
-            <div className="hedding-titel d-flex justify-content-between ms-3 mb-4">
+            <div className="hedding-titel d-flex justify-content-between ml-3 mb-4">
                   <div>
                     <h5>
                       {" "}

@@ -260,8 +260,7 @@ const AddUniversityGallery = () => {
           </Nav>
 
           <TabContent activeTab={activetab}>
-            <div className="row mt-5">
-            <div className="hedding-titel d-flex justify-content-between ms-1 mb-4">
+          <div className="hedding-titel d-flex justify-content-between ml-1 mt-5 mb-4">
                       <div>
                         <h5> <b>Gallery</b> </h5>
 
@@ -272,10 +271,12 @@ const AddUniversityGallery = () => {
                         </div> */}
 
                     </div>
+            <div className="row pt-2 mb-5">
+            
               <div className="col-md-8">
-                <div className="row row-cols-md-3 row-cols-sm-2 g-4">
+                <div className="container row row-cols-md-3 row-cols-sm-2 g-4">
                   {gallery.map((gall, i) => (
-                    <div key={i} className="containerCustom">
+                    <div key={i} className="containerCustom p-2">
                       <img
                         src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
                         alt="Avatar"
@@ -291,7 +292,7 @@ const AddUniversityGallery = () => {
                         </Button>
                         <Button
                           onClick={() => handleDelete(gall)}
-                          className="bg-danger ms-2"
+                          className="bg-danger ml-2"
                         >
                           Delete
                         </Button>
@@ -400,9 +401,9 @@ const AddUniversityGallery = () => {
                   ))}
                 </div>
               </div>
-              <div className="col-md-4">
+              <div className="col-md-4 pt-2">
                 <div className="customCard rounded">
-                  <Form className="ms-2" onSubmit={handleUpload}>
+                  <Form className="ml-2" onSubmit={handleUpload}>
                     <FormGroup row className="has-icon-left position-relative">
                       <Input
                         type="hidden"

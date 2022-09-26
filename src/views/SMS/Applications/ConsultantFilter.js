@@ -215,7 +215,7 @@ const ConsultantFilter = ({
     <Card className="uapp-employee-search">
       <CardBody className="search-card-body">
         <Row className="text-danger">
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={consUappIdMenu}
               value={{ label: consUappIdLabel, value: consUappIdValue }}
@@ -226,7 +226,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={consStdMenu}
               value={{ label: consStdLabel, value: consStdValue }}
@@ -237,7 +237,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={applicationMenu}
               value={{ label: applicationLabel, value: applicationValue }}
@@ -248,7 +248,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={offerMenu}
               value={{ label: offerLabel, value: offerValue }}
@@ -259,7 +259,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={enrollMenu}
               value={{ label: enrollLabel, value: enrollValue }}
@@ -270,7 +270,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={intakeMenu}
               value={{ label: intakeLabel, value: intakeValue }}
@@ -281,7 +281,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={interviewMenu}
               value={{ label: interviewLabel, value: interviewValue }}
@@ -292,7 +292,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={elptMenu}
               value={{ label: elptLabel, value: elptValue }}
@@ -303,7 +303,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={financeMenu}
               value={{ label: financeLabel, value: financeValue }}
@@ -314,7 +314,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={consUniMenu}
               value={{ label: consUniLabel, value: consUniValue }}
@@ -325,7 +325,7 @@ const ConsultantFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={consPhnMenu}
               value={{ label: consPhnLabel, value: consPhnValue }}

@@ -170,7 +170,7 @@ const StudentFilter = ({
     <Card className="uapp-employee-search">
       <CardBody className="search-card-body">
         <Row className="gy-3">
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={studentConsMenu}
               value={{ label: studentConsLabel, value: studentConsValue }}
@@ -181,7 +181,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={applicationMenu}
               value={{ label: applicationLabel, value: applicationValue }}
@@ -192,7 +192,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={offerMenu}
               value={{ label: offerLabel, value: offerValue }}
@@ -203,7 +203,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={enrollMenu}
               value={{ label: enrollLabel, value: enrollValue }}
@@ -214,7 +214,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={intakeMenu}
               value={{ label: intakeLabel, value: intakeValue }}
@@ -225,7 +225,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={interviewMenu}
               value={{ label: interviewLabel, value: interviewValue }}
@@ -236,7 +236,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={elptMenu}
               value={{ label: elptLabel, value: elptValue }}
@@ -247,7 +247,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={financeMenu}
               value={{ label: financeLabel, value: financeValue }}
@@ -258,7 +258,7 @@ const StudentFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={studentUniMenu}
               value={{ label: studentUniLabel, value: studentUniValue }}

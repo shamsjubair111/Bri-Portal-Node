@@ -756,7 +756,7 @@ const AddUniversityCampus = (props) => {
                           <ButtonForFunction
                               color={"primary"}
                               type={"submit"}
-                              className={"ms-lg-3 ms-sm-1 mt-3"}
+                              className={"ml-lg-3 ml-sm-1 mt-3"}
                               name={"Save"}
                               permission={6}
                             />
@@ -786,13 +786,13 @@ const AddUniversityCampus = (props) => {
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
-                                className={"ms-lg-3 ms-sm-1 mt-3"}
+                                className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
                                 permission={6}
                               />
-                            </Col>
 
-                            <div>
+
+                             <div>
                               {selectedId !== 0 ||
                               universityCampusList.length > 0 ? (
 
@@ -806,6 +806,10 @@ const AddUniversityCampus = (props) => {
                                 <></>
                               )}
                             </div>
+
+                            </Col>
+
+                            
                           </FormGroup>
                         </>
                       )}
@@ -823,6 +827,7 @@ const AddUniversityCampus = (props) => {
                 >
                   <ButtonForFunction
                     func={onShow}
+                    className={"ml-lg-3 ml-sm-1 mt-3"}
                     color={"primary uapp-form-button"}
                     name={"Add another"}
                     permission={6}

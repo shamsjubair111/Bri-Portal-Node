@@ -740,7 +740,7 @@ const AddProviderUniversityCampus = (props) => {
                           <ButtonForFunction
                               color={"primary"}
                               type={"submit"}
-                              className={"ms-lg-3 ms-sm-1 mt-3"}
+                              className={"ml-lg-3 ml-sm-1 mt-3"}
                               name={"Save"}
                               permission={6}
                             />
@@ -770,11 +770,10 @@ const AddProviderUniversityCampus = (props) => {
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
-                                className={"ms-lg-3 ms-sm-1 mt-3"}
+                                className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
                                 permission={6}
                               />
-                            </Col>
 
                             <div>
                               {selectedId !== 0 ||
@@ -790,6 +789,9 @@ const AddProviderUniversityCampus = (props) => {
                                 <></>
                               )}
                             </div>
+
+                            </Col>
+
                           </FormGroup>
                         </>
                       )}

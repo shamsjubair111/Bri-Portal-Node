@@ -228,7 +228,7 @@ const AdmissionManagerFilter = ({
     <Card className="uapp-employee-search">
       <CardBody className="search-card-body">
         <Row className="gy-3">
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={managerUappIdMenu}
               value={{ label: managerUappIdLabel, value: managerUappIdValue }}
@@ -239,7 +239,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={managerStdMenu}
               value={{ label: managerStdLabel, value: managerStdValue }}
@@ -250,7 +250,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={managerConsMenu}
               value={{ label: managerConsLabel, value: managerConsValue }}
@@ -261,7 +261,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={applicationMenu}
               value={{ label: applicationLabel, value: applicationValue }}
@@ -272,7 +272,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={offerMenu}
               value={{ label: offerLabel, value: offerValue }}
@@ -283,7 +283,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={enrollMenu}
               value={{ label: enrollLabel, value: enrollValue }}
@@ -294,7 +294,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={intakeMenu}
               value={{ label: intakeLabel, value: intakeValue }}
@@ -305,7 +305,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={interviewMenu}
               value={{ label: interviewLabel, value: interviewValue }}
@@ -316,7 +316,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={elptMenu}
               value={{ label: elptLabel, value: elptValue }}
@@ -327,7 +327,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={financeMenu}
               value={{ label: financeLabel, value: financeValue }}
@@ -338,7 +338,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={managerUniMenu}
               value={{ label: managerUniLabel, value: managerUniValue }}
@@ -349,7 +349,7 @@ const AdmissionManagerFilter = ({
             />
           </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6">
+          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
             <Select
               options={managerPhnMenu}
               value={{ label: managerPhnLabel, value: managerPhnValue }}
