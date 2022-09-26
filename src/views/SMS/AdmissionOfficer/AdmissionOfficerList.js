@@ -639,8 +639,8 @@ const selectProvider = (label, value) => {
 
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
-                    <div>
+                    <div className="mr-2">Showing :</div>
+                    <div className="mr-2"> 
                       <Select
                         options={dataSizeName}
                         value={{ label: dataPerPage, value: dataPerPage }}
@@ -650,7 +650,7 @@ const selectProvider = (label, value) => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -1056,8 +1056,8 @@ const selectProvider = (label, value) => {
           {loading ? (
             <div class="d-flex justify-content-center mb-5">
               <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
+              <span class="sr-only">Loading...</span>
+            </div>
             </div>
           ) : (
             <div className="table-responsive" ref={componentRef}>

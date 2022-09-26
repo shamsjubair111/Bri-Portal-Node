@@ -224,13 +224,13 @@ const ComissionGroup = () => {
                             func={()=>handleEdit(student)}
                             /> */}
 
-                            <Button className='me-1 btn-sm' color='warning' onClick={()=>handleupdate(comm)}>
+                            <Button className='mr-1 btn-sm' color='warning' onClick={()=>handleupdate(comm)}>
                             <i className="fas fa-edit"></i>
 
 
                             </Button>
 
-                            <Button className='ms-1 btn-sm' color='danger' onClick={()=>toggleDanger(comm)}>
+                            <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(comm)}>
                             <i className="fas fa-trash-alt"></i>
 
 

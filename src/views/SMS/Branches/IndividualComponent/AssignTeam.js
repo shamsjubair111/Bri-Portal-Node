@@ -281,13 +281,13 @@ const AssignTeam = (props) => {
                           <td>
                             <ButtonGroup variant="text">
 
-                            <Button color='primary' className='me-1 btn-sm' onClick={()=>gotoEmployeeProfile(employee)}>
+                            <Button color='primary' className='mr-1 btn-sm' onClick={()=>gotoEmployeeProfile(employee)}>
                             <i className="fas fa-eye"></i>
                             </Button>
                               
                               <LinkButton
                               icon={ <i class="fas fa-edit"></i>}
-                              className={"mx-1 btn-sm"}
+                              className={"mr-1 btn-sm"}
                               color={"warning"}
                               url={`/branchEmployeeInformation/${id}/${employee?.id}`}
                               />
@@ -299,7 +299,7 @@ const AssignTeam = (props) => {
                                 onClick={() =>
                                   toggleDeleteEmployee(employee)
                                 }
-                                className="mx-1 btn-sm"
+                                className=" btn-sm"
                               >
                                 <i class="fas fa-trash-alt"></i>
                               </Button>

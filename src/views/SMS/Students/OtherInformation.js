@@ -434,15 +434,17 @@ const OtherInformation = () => {
       name={'Previous'}
       className={"mr-1 mt-3 btn-warning"}
       func={previousPage}
-      icon={<i className="fas fa-arrow-left-long me-1"></i>}
+      icon={<i className="fas fa-arrow-left-long mr-1"></i>}
       />
       
-      <ButtonForFunction
-      name={'Next'}
-      className={"mr-1 mt-3 btn-warning"}
-      func={nextPage}
-      icon={<i className="fas fa-arrow-right-long me-1"></i>}
-      />
+      <Button
+      
+      className="mr-1 mt-3 btn-warning"
+      onClick={nextPage}
+     >
+       Next
+       <i className="fas fa-arrow-right-long ml-1"></i>
+      </Button>
      
     </FormGroup>
 

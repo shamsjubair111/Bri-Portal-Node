@@ -392,8 +392,8 @@ const ConsultantList = () => {
 
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
-                    <div>
+                    <div className="mr-2">Showing :</div>
+                    <div className='mr-2'>
                       <Select
                         options={dataSizeName}
                         value={{ label: dataPerPage, value: dataPerPage }}
@@ -403,7 +403,7 @@ const ConsultantList = () => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
