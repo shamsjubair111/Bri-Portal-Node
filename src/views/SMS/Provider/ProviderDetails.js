@@ -467,8 +467,8 @@ const ProviderDetails = () => {
                   />
                 </div>
 
-                <h5>{adminData?.nameTittle?.name} {' '} {adminData?.firstName} {' '} {adminData?.lastName}</h5>
-                <p> {providerInfo?.providerType?.name} </p>
+                <h5 className="pb-2">{adminData?.nameTittle?.name} {' '} {adminData?.firstName} {' '} {adminData?.lastName}</h5>
+                {/* <p> {providerInfo?.providerType?.name} </p> */}
               </div>
               <CardBody>
                 <div className="d-flex justify-content-center">
