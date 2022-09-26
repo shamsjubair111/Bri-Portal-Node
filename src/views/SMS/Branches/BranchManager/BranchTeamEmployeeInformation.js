@@ -234,10 +234,10 @@ const BranchTeamEmployeeInformation = () => {
             <td>{details?.email}</td>
             <td>{details?.phoneNumber}</td>
             <td>
-              <Button color='primary' className='me-1' onClick={()=>gotoEmployeeProfile(details)}>
+              <Button color='primary' className='mr-1' onClick={()=>gotoEmployeeProfile(details)}>
               <i className="fas fa-eye"></i>
               </Button>
-              <Button color='danger' className='ms-1' onClick={()=>toggleDanger(details)}>
+              <Button color='danger' className='ml-1' onClick={()=>toggleDanger(details)}>
               Remove
               </Button>
               <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal2">

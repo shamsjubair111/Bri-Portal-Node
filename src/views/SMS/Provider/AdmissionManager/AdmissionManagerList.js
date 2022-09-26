@@ -874,8 +874,8 @@ const AdmissionManagerList = () => {
           {loading ? (
             <div class="d-flex justify-content-center mb-5">
               <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
+              <span class="sr-only">Loading...</span>
+            </div>
             </div>
           ) : (
             <div className="table-responsive" ref={componentRef}>

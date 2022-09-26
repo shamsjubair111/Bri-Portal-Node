@@ -94,6 +94,7 @@ const EmployeeList = (props) => {
           }&searchstring=${searchStr}`
         ).then((action) => {
          
+          
           setEmployeeList(action.models);
 
           setEmpLabel(action?.models[0]?.employeeType?.name);
@@ -327,7 +328,7 @@ const EmployeeList = (props) => {
 
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
                         options={dataSizeName}
@@ -338,7 +339,7 @@ const EmployeeList = (props) => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="ml-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -433,9 +434,9 @@ const EmployeeList = (props) => {
                   {employeeList?.map((emp, i) => (
                     <tr key={emp.id} style={{ textAlign: "center" }}>
                       <th scope="row">{serialNum + i}</th>
-                      <td>{emp.employeeViewId}</td>
-                      <td>{emp.employeeType.name}</td>
-                      <td>{emp.nationality.name}</td>
+                      <td>{emp?.employeeViewId}</td>
+                      <td>{emp?.employeeType?.name}</td>
+                      <td>{emp?.nationality?.name}</td>
                       <td
                         className="cursor-pointer hyperlink-hover"
                         onClick={() => handleEmpClick(emp.id)}

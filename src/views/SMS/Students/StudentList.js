@@ -577,9 +577,10 @@ const StudentList = () => {
                 </Col> */}
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Order By :</div>
+                    <div className="mr-2">Order By :</div>
                     <div>
                       <Select
+                      className='mr-2'
                         options={orderName}
                         value={{ label: orderLabel, value: orderValue }}
                         onChange={(opt) => selectOrder(opt.label, opt.value)}
@@ -590,9 +591,10 @@ const StudentList = () => {
 
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
+                      className='mr-2'
                         options={dataSizeName}
                         value={{ label: dataPerPage, value: dataPerPage }}
                         onChange={(opt) => selectDataSize(opt.value)}

@@ -214,7 +214,7 @@ const ConsultantFilter = ({
   return (
     <Card className="uapp-employee-search">
       <CardBody className="search-card-body">
-        <Row className="gy-3">
+        <Row className="text-danger">
           <Col lg="2" md="3" sm="6" xs="6">
             <Select
               options={consUappIdMenu}

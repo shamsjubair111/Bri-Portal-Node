@@ -1373,7 +1373,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
           <div className='col-md-6 d-flex align-items-center justify-content-space-evenly'>
 
 
-         <div className='me-1'>
+         <div className='mr-2'>
          Order By :
          </div>
 
@@ -1390,7 +1390,7 @@ value={{ label: studentTypeLabel, value: studentTypeValue }}
 
           <div className='col-md-6 d-flex align-items-center justify-content-space-evenly'>
 
-          <div className='me-1'>
+          <div className='mr-2'>
          Showing :
          </div>
 

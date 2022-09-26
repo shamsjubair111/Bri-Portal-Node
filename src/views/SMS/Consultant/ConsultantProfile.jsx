@@ -367,7 +367,7 @@ const ConsultantProfile = () => {
                     <tbody>
                       <tr>
                         <td width="40%">
-                        <span className='fw-bold'> Phone Number:</span>
+                        <b> Phone Number:</b>
                         </td>
 
                         <td width="60%">
@@ -478,7 +478,7 @@ const ConsultantProfile = () => {
           <br/>
           <br/>
 
-            <span className='fw-bold'>Id or Passport</span>
+            <b>Id or Passport</b>
           
             </CardBody>
          </Card>
@@ -498,7 +498,7 @@ const ConsultantProfile = () => {
           <br/>
           <br/>
 
-            <span className='fw-bold'>Proof of Address</span>
+            <b>Proof of Address</b>
           
             </CardBody>
          </Card>
@@ -518,7 +518,7 @@ const ConsultantProfile = () => {
           <br/>
           <br/>
 
-            <span className='fw-bold'>Proof of Right to Work</span>
+            <b>Proof of Right to Work</b>
           
             </CardBody>
          </Card>

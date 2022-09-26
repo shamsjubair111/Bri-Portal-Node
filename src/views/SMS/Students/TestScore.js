@@ -1095,13 +1095,13 @@ const TestScore = () => {
           </div>
         ) : null}
 
-        <div className="row mt-3">
+    
           {!(
            ielts !== null || duolingo !== null || toefl !== null || functions !== null || gcse !== null || pearson !== null || others !== null || pte !== null
           ) ? (
             <FormGroup
               row
-              className="has-icon-left position-relative ms-md-1"
+              className="has-icon-left position-relative ml-md-2 mt-3"
             >
               <Col md="2">
                 <span>
@@ -1130,7 +1130,7 @@ const TestScore = () => {
             <>
               <FormGroup
                 row
-                className="has-icon-left position-relative ms-md-1"
+                className="has-icon-left position-relative ml-md-2"
               >
                 <Col md="2">
                   <span>
@@ -2186,12 +2186,12 @@ const TestScore = () => {
           </div>
 
           {/* Showing English Test Score Forms */}
-        </div>
+
 
         {/* Showing English Test Result In Card */}
 
-        <div className="row mt-3">
-          <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+        
+          <div className="hedding-titel ml-md-2 mb-3">
             <div>
               <h5>
                 {" "}
@@ -2204,7 +2204,7 @@ const TestScore = () => {
 
          {
           (ielts !== null || duolingo !== null || toefl !== null || functions !== null || gcse !== null || pearson !== null || others !== null || pte !== null) ?
-           <div className="ms-md-2 mb-2">
+           <div className="ml-md-2 mb-2">
             
            <ButtonForFunction className ={"btn btn-uapp-add "}
                 icon ={<i className="fas fa-plus"></i>}
@@ -2218,8 +2218,10 @@ const TestScore = () => {
 
            null
          }
+         <div className="row mt-3">
 
           {ielts?.id ? (
+            
             <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
               <Card className="CampusCard test-score-card-style">
                 <CardBody className="shadow">
@@ -2823,8 +2825,8 @@ const TestScore = () => {
         </div>
 
         <section id="root">
-          <div className="row mt-3">
-            <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+          
+            <div className="hedding-titel ml-md-2 mb-3">
               <div>
                 <h5>
                   {" "}
@@ -2834,7 +2836,7 @@ const TestScore = () => {
                 <div className="bg-h"></div>
               </div>
             </div>
-
+            <div className="row mt-3">
             {greData?.id ? (
               <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
                 <Card className="CampusCard shadow-style test-score-card-style">
@@ -3532,7 +3534,7 @@ const TestScore = () => {
             >
               <ButtonForFunction
                 name={"Previous"}
-                icon={<i className="fas fa-arrow-left-long me-1"></i>}
+                icon={<i className="fas fa-arrow-left-long mr-1"></i>}
                 func={goBackward}
                 className={"ms-md-2 mt-3 btn-warning"}
               />
@@ -3544,7 +3546,7 @@ const TestScore = () => {
                
               >
                 Next
-                <i className="fas fa-arrow-right-long ms-1"></i>
+                <i className="fas fa-arrow-right-long ml-1"></i>
               </Button.Ripple>
             </FormGroup>
           </TabPane>

@@ -121,7 +121,7 @@ const AddDegree = () => {
 
     const backToDashboard = () => {
 
-        history.push('/');
+        history.push('/degreeList');
     }
 
     return (
@@ -129,11 +129,11 @@ const AddDegree = () => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add Degree Information</h3>
+          <h3 className="text-light">Degree Information</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Degree List
             </span>
           </div>
         </CardHeader>

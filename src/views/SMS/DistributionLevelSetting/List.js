@@ -71,13 +71,13 @@ const DistributionLevelSettingList = (props) => {
                        
 
 
-                            <Button className='me-1 btn-sm' color='warning' onClick={()=>toggleUpdate(ls)}>
+                            <Button className='mr-1 btn-sm' color='warning' onClick={()=>toggleUpdate(ls)}>
                             <i className="fas fa-edit"></i>
 
 
                             </Button>
 
-                            <Button className='ms-1 btn-sm' color='danger' onClick={()=>toggleDanger(ls)}>
+                            <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(ls)}>
                             <i className="fas fa-trash-alt"></i>
 
 

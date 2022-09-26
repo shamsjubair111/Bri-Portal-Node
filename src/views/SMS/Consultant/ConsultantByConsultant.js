@@ -50,6 +50,7 @@ const ConsultantByConsultant = () => {
   const [success, setSuccess] = useState(false);
   const { addToast } = useToasts();
   const history = useHistory();
+  const [delData,setDelData] = useState({});
 
   useEffect(() => {
     get(
@@ -62,7 +63,7 @@ const ConsultantByConsultant = () => {
       console.log(res?.models);
       setLoading(false);
     });
-  }, [id,currentPage,dataPerPage,callApi,entity,loading]);
+  }, [id,currentPage,dataPerPage,callApi,entity,loading, success]);
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
@@ -85,6 +86,30 @@ const ConsultantByConsultant = () => {
     setCallApi((prev) => !prev);
   };
 
+  const toggleDanger = (p) => {
+
+    setDelData(p);
+
+    setDeleteModal(true)
+  }
+
+  const handleDeleteData = () => {
+
+     
+
+    remove(`Consultant/Delete/${delData?.id}`)
+    .then(res => {
+      // console.log(res);
+      addToast(res,{
+        appearance: 'error',
+        autoDismiss: true
+      })
+      setDeleteModal(false);
+      setSuccess(!success);
+    })
+    
+  }
+
   // redirect to dashboard
   const backToDashboard = () => {
     history.push("/");
@@ -105,6 +130,14 @@ const ConsultantByConsultant = () => {
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
+
+  const handleEdit = (data) =>{
+
+    console.log(data);
+    
+    history.push(`/consultantInformation/${data?.id}`);
+
+  }
 
   const componentRef = useRef();
 
@@ -299,7 +332,7 @@ const ConsultantByConsultant = () => {
                           />
 
                           <ButtonForFunction
-                            // func={()=>handleEdit(consultant)}
+                            func={()=>handleEdit(consultant)}
                             color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
@@ -310,14 +343,14 @@ const ConsultantByConsultant = () => {
                             <ButtonForFunction
                               color={"danger"}
                               className={"mx-1 btn-sm"}
-                              // func={()=> toggleDanger(consultant)}
+                              func={()=> toggleDanger(consultant)}
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
                           ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
                           null}
                         </ButtonGroup>
-                        {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                         <ModalBody>
                           <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                         </ModalBody>
@@ -326,7 +359,7 @@ const ConsultantByConsultant = () => {
                           <Button  color="danger" onClick={handleDeleteData}>YES</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
-                     </Modal> */}
+                     </Modal>
                       </td>
                     </tr>
                   ))}

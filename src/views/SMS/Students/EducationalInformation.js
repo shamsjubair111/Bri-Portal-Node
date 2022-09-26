@@ -1110,7 +1110,7 @@ const handleUpdate = (id) => {
           name={'Previous'}
           func={goBackward}
           className={'mr-1 mt-3 btn-warning'}
-          icon={<i className="fas fa-arrow-left-long me-1"></i>}
+          icon={<i className="fas fa-arrow-left-long mr-1"></i>}
           />
 
           <Button.Ripple
@@ -1122,7 +1122,7 @@ const handleUpdate = (id) => {
             
           >
             Next
-            <i className="fas fa-arrow-right-long ms-1"></i>
+            <i className="fas fa-arrow-right-long ml-1"></i>
           </Button.Ripple>
         </FormGroup>
 

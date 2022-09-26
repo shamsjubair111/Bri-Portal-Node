@@ -480,7 +480,7 @@ update?
         <div>
           <Link style={{marginLeft: '10px'}} to={`/uploadDocument/${applicationStudentId}/1`}>
           <Button color='warning'>
-          <i className="fas fa-arrow-left-long me-1"></i>
+          <i className="fas fa-arrow-left-long mr-1"></i>
             Previous
           </Button>
           </Link>

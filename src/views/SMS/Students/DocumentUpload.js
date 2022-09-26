@@ -144,7 +144,7 @@ const DocumentUpload = () => {
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push("/addStudentApplicationInformation");
+      history.push(`/addStudentApplicationInformation/${applicationStudentId}/${1}`);
     }
 
     if (tab == "2") {
@@ -598,7 +598,7 @@ const DocumentUpload = () => {
                   <p>
                     Document Type <span className="text-danger">*</span>{" "}
                   </p>
-
+                    
                   <Select
                     options={docuTypeDD}
                     value={{ label: docuTypeLabel, value: docuTypeValue }}
@@ -717,15 +717,16 @@ const DocumentUpload = () => {
       name={'Previous'}
       className={"mr-1 mt-3 btn-warning"}
       func={previousPage}
-      icon={<i className="fas fa-arrow-left-long me-1"></i>}
+      icon={<i className="fas fa-arrow-left-long mr-1"></i>}
       />
       
-      <ButtonForFunction
-      name={'Next'}
-      className={"mr-1 mt-3 btn-warning"}
-      func={nextPage}
-      icon={<i className="fas fa-arrow-right-long me-1"></i>}
-      />
+      <Button
+     
+      className="mr-1 mt-3 btn-warning"      onClick={nextPage}
+     
+      >
+        Next <i className="fas fa-arrow-right-long ml-1"></i>
+        </Button>
      
     </FormGroup>
         </CardBody>

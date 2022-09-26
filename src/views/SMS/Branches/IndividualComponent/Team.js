@@ -241,7 +241,7 @@ const Team = (props) => {
                           <td>
                           
                             
-                               <Button color='warning' className='btn-sm me-1'>
+                               <Button color='warning' className='btn-sm mr-1'>
                                {" "}
                                 <i class="fas fa-edit"
                                 onClick={() => handleTeamUpdate(btEmployee?.id)}
@@ -250,7 +250,7 @@ const Team = (props) => {
                              
 
                              
-                              <Button className='btn-sm' color='danger ms-1'>
+                              <Button className='btn-sm' color='danger ml-1'>
                               <i class="fas fa-trash-alt"
                                  onClick={() => toggleDeleteTeam(btEmployee)}
                                 ></i>

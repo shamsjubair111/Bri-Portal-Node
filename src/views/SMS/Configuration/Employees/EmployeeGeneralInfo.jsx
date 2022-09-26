@@ -421,7 +421,7 @@ const EmployeeGeneralInfo = (props) => {
                    <div className="d-flex">
                    {
                       userInfo?.profileImageMedia?.fileUrl !== null ?
-                    <div className="me-2">
+                    <div className="mr-2">
                     
 
                       <Image
@@ -477,7 +477,7 @@ const EmployeeGeneralInfo = (props) => {
                   </Col>
                   <Col md="6">
                     <div className="d-flex">
-                   <div className="me-2">
+                   <div className="mr-2">
                    {
                       userInfo?.coverImageMedia?.fileUrl !== null ?
                       <Image

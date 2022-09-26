@@ -340,7 +340,7 @@ const AccountIntake = () => {
                     <Modal
                     isOpen={modalOpen}
                     toggle={closeModal}
-                    className="uapp-modal"
+                    className="uapp-modal2"
                     >
                     <ModalHeader>Add Account Intake</ModalHeader>
                     <ModalBody>
