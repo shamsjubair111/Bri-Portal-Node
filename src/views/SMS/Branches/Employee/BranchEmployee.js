@@ -566,7 +566,7 @@ const Branch = () => {
 
               {
                 employeeId? 
-               <div className='me-2'>
+               <div className='mr-2'>
                  <Image
                 width={104} height={104}
                 src={rootUrl+employeeInfo?.profileImageMedia?.thumbnailUrl}
@@ -600,7 +600,7 @@ const Branch = () => {
 
               {
                 (employeeInfo?.coverImageMedia?.thumbnailUrl !== null && employeeId !== undefined) ?
-              <div className='me-2'>
+              <div className='mr-2'>
                 <Image
                 width={104} height={104}
                 src={rootUrl+employeeInfo?.coverImageMedia?.thumbnailUrl}

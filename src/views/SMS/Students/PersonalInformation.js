@@ -956,8 +956,8 @@ const PersonalInformation = () => {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <ButtonForFunction
-                  className={"mr-1 mt-3 btn-warning"}
-                  icon={<i className="fas fa-arrow-left-long me-1"></i>}
+                  className={" mt-3 btn-warning"}
+                  icon={<i className="fas fa-arrow-left-long mr-1"></i>}
                   name={"Previous"}
                   func={goBackward}
                 />
@@ -968,7 +968,7 @@ const PersonalInformation = () => {
                   
                 >
                   Next
-                  <i className="fas fa-arrow-right-long ms-1"></i>
+                  <i className="fas fa-arrow-right-long ml-1"></i>
                 </Button.Ripple>
               </FormGroup>
             </TabPane>

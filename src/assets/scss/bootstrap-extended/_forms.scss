@@ -123,14 +123,14 @@ textarea.form-control {
   }
 }
 
-// Custom-File-Input
-.custom-file-label {
-  padding: ($custom-file-padding-y - 0.3) $custom-file-padding-x;
-  &::after {
-    padding: ($custom-file-padding-y - 0.3) $custom-file-padding-x;
-    height: auto;
-  }
-}
+// // Custom-File-Input
+// .custom-file-label {
+//   padding: ($custom-file-padding-y - 0.3) $custom-file-padding-x;
+//   &::after {
+//     padding: ($custom-file-padding-y - 0.3) $custom-file-padding-x;
+//     height: auto;
+//   }
+// }
 
 // Select Inputs Specific SCSS
 select.form-control {

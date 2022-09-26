@@ -781,16 +781,16 @@ const cancelForm = () => {
 
      <FormGroup
             className="has-icon-left position-relative"
-            style={{ display: "flex", justifyContent: "space-between" }}
+            style={{ display: "flex", justifyContent: "end" }}
           >
            
 
-            <ButtonForFunction
+            {/* <ButtonForFunction
             className={"mr-1 mt-3 btn-warning"}
             func={cancelForm}
             name={"Cancel"}
 
-            />
+            /> */}
 
          
             <Button.Ripple
@@ -800,7 +800,7 @@ const cancelForm = () => {
               className="mr-1 mt-3 btn-warning"
             >
             Next
-            <i className="fas fa-arrow-right-long ms-1"></i>
+            <i className="fas fa-arrow-right-long ml-1"></i>
            
             </Button.Ripple>
       

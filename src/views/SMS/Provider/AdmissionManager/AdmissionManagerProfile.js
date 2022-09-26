@@ -632,7 +632,7 @@ const selectNameTitle = (label, value) => {
                 {/* <Button color="primary" className="me-1">Add New Admission Officer</Button> */}
                 <ButtonForFunction
                 func={handleAddNew}
-                className={"btn btn-uapp-add me-1"}
+                className={"btn btn-uapp-add mr-1"}
                 // icon={<i className="fas fa-plus"></i>}
                 name={"Add New Admission Officer"}
                 permission={6}
@@ -640,7 +640,7 @@ const selectNameTitle = (label, value) => {
                 {/* <Button color="primary" className="ms-1">Assign Admission Officer</Button> */}
                 <ButtonForFunction
                 func={() => setAssignModalOpen(true)}
-                className={"btn btn-uapp-add ms-1"}
+                className={"btn btn-uapp-add ml-1"}
                 // icon={<i className="fas fa-plus"></i>}
                 name={"Assign Admission Officer"}
                 permission={6}

@@ -374,13 +374,14 @@ const ProviderForm = (props) => {
 
 
                      <div style={{position: 'relative', left: '-60px'}}>
-                     <Button color='warning' className='mt-3 ms-1' onClick={backtoList}>
+                     <Button color='warning' className='mt-3 ml-1' onClick={backtoList}>
                         Cancel
                       </Button>
 
                       <ButtonForFunction 
                         type={"submit"}
-                        className={"mt-3 ms-1 badge-primary"}
+                        color={'primary'}
+                        className={"mt-3 ml-1"}
                         name={"Submit"}
                         permission={6}
                       />

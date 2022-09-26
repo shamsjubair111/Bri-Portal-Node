@@ -355,7 +355,7 @@ const PersonalStatement = () => {
       <ButtonForFunction
       className={"mr-1 mt-3 btn-warning"}
       name={'Previous'}
-      icon={<i className="fas fa-arrow-left-long me-1"></i>}
+      icon={<i className="fas fa-arrow-left-long mr-1"></i>}
       func={previousPage}
       />
 
@@ -366,7 +366,7 @@ const PersonalStatement = () => {
         disabled = {statement == 'false' ? true : false}
       >
         Next
-        <i className="fas fa-arrow-right-long ms-1"></i>
+        <i className="fas fa-arrow-right-long ml-1"></i>
       </Button.Ripple>
     </FormGroup>
    

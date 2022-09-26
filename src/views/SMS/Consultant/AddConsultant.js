@@ -382,14 +382,14 @@ const AddConsultant = () => {
                    <Col md="6">
 
                    <Button onClick={ToConsultantList} 
-                    className='mt-3 me-1'
+                    className='mt-3 mr-1'
                     color='warning'>
                         Cancel
                     </Button>
 
                     <ButtonForFunction 
                       type={"submit"}
-                      className={'mt-3 ms-1'}
+                      className={'mt-3 ml-1'}
                       color={'primary'}
                       name={"Submit"}
                       

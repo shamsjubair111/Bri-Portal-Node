@@ -512,7 +512,7 @@ const ProviderDetails = () => {
                 </div>
                     <ButtonForFunction
                       func={handleAddUniversity}
-                      className={"ms-3 btn btn-uapp-add "}
+                      className={"ml-3 btn btn-uapp-add "}
                       icon={<i className="fas fa-plus"></i>}
                       name={" Add New University"}
                       permission={6}
@@ -576,7 +576,7 @@ const ProviderDetails = () => {
 
               {permissions?.includes(permissionList?.Add_Admission_manager) ? (
                 <Link to={`/addAdmissionManager/${id}`}>
-                  <Button className="btn btn-uapp-add mt-2 ms-3">
+                  <Button className="btn btn-uapp-add mt-2 ml-3">
                     {" "}
                     <i class="fas fa-plus"></i> Add Admission Manager{" "}
                   </Button>

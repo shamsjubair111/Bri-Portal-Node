@@ -219,7 +219,7 @@ const StudentProfile = () => {
               <div className='mt-1'>
                 <h3 className="text-light">Student Profile</h3>
               </div>
-              <div className='ms-2'>
+              <div className='ml-2'>
               <ReactToPrint
                 trigger={() => <span className="text-light cursor-pointer" title="Print to pdf"><i className="fas fa-print"></i></span>}
                 content={() => componentRef.current}

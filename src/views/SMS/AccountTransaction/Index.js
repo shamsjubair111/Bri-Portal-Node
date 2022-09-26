@@ -500,7 +500,7 @@ const Index = () => {
                         <FormGroup row className="has-icon-left position-relative">
                             
                             <Col md="12">
-                              <div className='d-flex flex-wrap ms-3 ps-1'>
+                              <div className='d-flex flex-wrap ml-3 pl-1'>
                                 <Input
                                 type='checkbox'
                                 checked={agree}
@@ -639,8 +639,8 @@ const Index = () => {
 
               <div className=" row mb-3">
             <div className='col-lg-5 col-md-5 col-sm-4 col-xs-4'>
-               <span className='me-2'><b>CB: </b>Created By.</span>
-               <span className='me-2'><b>LUO: </b>Last Updated On.</span>
+               <span className='mr-2'><b>CB: </b>Created By.</span>
+               <span className='mr-2'><b>LUO: </b>Last Updated On.</span>
                <span><b>LUB: </b>Last Updated By.</span>
             </div>
 
@@ -648,11 +648,12 @@ const Index = () => {
               <div className="d-flex justify-content-end flex-wrap">
                
                 
-                <div className="me-3">
+                <div className="ml-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
+                      className='mr-2'
                         options={dataSizeName}
                         value={{ label: dataPerPage, value: dataPerPage }}
                         onChange={(opt) => selectDataSize(opt.value)}
@@ -661,7 +662,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className='mr-2'>
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}

@@ -293,9 +293,10 @@ const Index = () => {
                 
                 <div className="me-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
+                      className='mr-2'
                         options={dataSizeName}
                         value={{ label: dataPerPage, value: dataPerPage }}
                         onChange={(opt) => selectDataSize(opt.value)}
@@ -304,7 +305,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-2">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}

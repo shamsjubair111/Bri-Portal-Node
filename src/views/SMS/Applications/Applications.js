@@ -1002,9 +1002,9 @@ const Applications = () => {
                       />
                     </div>
                 </Col> */}
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Order By :</div>
+                    <div className="mr-2">Order By :</div>
                     <div>
                       <Select
                         options={orderName}
@@ -1015,9 +1015,9 @@ const Applications = () => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
                         options={dataSizeName}
