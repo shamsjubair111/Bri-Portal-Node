@@ -8,6 +8,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import ReactToPrint from "react-to-print";
 import * as XLSX from "xlsx/xlsx.mjs";
 import { userTypes } from '../../../constants/userTypeConstant';
+import Loader from '../Search/Loader/Loader';
 
 const Index = () => {
 
@@ -43,6 +44,7 @@ const Index = () => {
      const [orderLabel, setOrderLabel] = useState("Select order by");
      const [orderValue, setOrderValue] = useState(0);
      const [dropdownOpen1, setDropdownOpen1] = useState(false);
+     const [loading,setLoading] = useState(true);
  
      const selectDataSize = (value) => {
        
@@ -114,6 +116,7 @@ const Index = () => {
         .then(res =>{
            
             setData(res?.models);
+            setLoading(false);
         })
 
     },[currentPage, dataPerPage, callApi, uappValue, intakeValue, studentValue, consultantValue])
@@ -178,7 +181,12 @@ const Index = () => {
     return (
         <div>
 
-            <Card className="uapp-card-bg">
+           {
+            loading?
+            <Loader/>
+            :
+            <div>
+               <Card className="uapp-card-bg">
               <CardHeader className="page-header">
                 <h3 className="text-light">Application Transaction List</h3>
                 <div className="page-header-back-to-home">
@@ -456,6 +464,8 @@ const Index = () => {
                      />
                 </CardBody>
             </Card>
+            </div>
+           }
 
 
             

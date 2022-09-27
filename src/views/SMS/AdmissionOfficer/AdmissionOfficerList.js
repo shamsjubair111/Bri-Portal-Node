@@ -25,6 +25,7 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
+import loader from '../../../assets/img/load.gif';
 
 // import { permissionList } from '../../../../constants/AuthorizationConstant';
 import { permissionList } from "../../../constants/AuthorizationConstant";
@@ -544,7 +545,17 @@ const selectProvider = (label, value) => {
 
     return (
         <div>
-      <Card className="uapp-card-bg">
+     {
+      loading? 
+      <div className="text-center">
+
+          <img src={loader} className='img-fluid' />
+        </div>
+
+        :
+
+        <div>
+           <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Admission Officer List</h3>
           <div className="page-header-back-to-home">
@@ -1053,13 +1064,8 @@ const selectProvider = (label, value) => {
 
             </Modal>
 
-          {loading ? (
-            <div class="d-flex justify-content-center mb-5">
-              <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-            </div>
-          ) : (
+          
+         
             <div className="table-responsive" ref={componentRef}>
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
@@ -1179,7 +1185,7 @@ const selectProvider = (label, value) => {
                 </tbody>
               </Table>
             </div>
-          )}
+         
 
           <Pagination
             dataPerPage={dataPerPage}
@@ -1208,6 +1214,8 @@ const selectProvider = (label, value) => {
           </Row> */}
         </CardBody>
       </Card>
+        </div>
+     }
     </div>
     );
 };

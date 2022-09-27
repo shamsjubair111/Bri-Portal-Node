@@ -48,6 +48,7 @@ import { StoreUniversityListData } from '../../../redux/actions/SMS/UniversityAc
 import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkButton from '../Components/LinkButton';
 import { userTypes } from '../../../constants/userTypeConstant';
+import Loader from '../Search/Loader/Loader';
 
 const SubjectList = (props) => {
 
@@ -55,7 +56,7 @@ const SubjectList = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [subList, setSubList] = useState([]);
     const [entity, setEntity] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [serialNum, setSerialNum] = useState(1);
     const [success, setSuccess] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
@@ -373,7 +374,12 @@ const SubjectList = (props) => {
     return (
 
         <div>
-            <Card className="uapp-card-bg">
+           {
+            loading?
+            <Loader/>
+            :
+            <div>
+               <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
                   <h3 className="text-light">Subject List</h3>
                   <div className="page-header-back-to-home">
@@ -767,6 +773,8 @@ const SubjectList = (props) => {
 
         </CardBody>
       </Card>
+            </div>
+           }
 
       
 

@@ -283,7 +283,7 @@ setTitleValue(value);
                 null
                 }
 
-                <div className='ms-2'>
+                <div className='ml-2'>
                 <Upload
          
          listType="picture-card"

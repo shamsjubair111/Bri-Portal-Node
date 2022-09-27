@@ -22,6 +22,7 @@ import ReactToPrint from 'react-to-print';
 import LinkButton from '../Components/LinkButton.js';
 import ButtonForFunction from '../Components/ButtonForFunction.js';
 import { permissionList } from '../../../constants/AuthorizationConstant.js';
+import Loader from '../Search/Loader/Loader.js';
 
 
 const ProviderList = () => {
@@ -40,7 +41,7 @@ const ProviderList = () => {
     const [entity, setEntity] = useState(0);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
 
     const {addToast} = useToasts();
@@ -73,7 +74,7 @@ const ProviderList = () => {
         
         // console.log(searchStr);
         // console.log(providerValue);
-        setLoading(false)
+        setLoading(false);
         setEntity(action?.totalEntity);
         setSerialNum(action?.firstSerialNumber)
       })
@@ -222,7 +223,13 @@ const ProviderList = () => {
 
     return (
         <div>
-        <Card className="uapp-card-bg">
+        
+        {
+          loading?
+          <Loader/>
+          :
+          <div>
+            <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Provider List</h3>
           <div className="page-header-back-to-home">
@@ -542,6 +549,8 @@ const ProviderList = () => {
 
         </CardBody>
       </Card>
+          </div>
+        }
 
     
             

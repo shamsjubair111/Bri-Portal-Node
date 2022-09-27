@@ -34,6 +34,7 @@ import ReactToPrint from 'react-to-print';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkButton from '../Components/LinkButton';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import Loader from '../Search/Loader/Loader';
 
 
 const Intake = () => {
@@ -45,7 +46,7 @@ const Intake = () => {
     const [serialNum, setSerialNum] = useState(1);
     const [entity, setEntity] = useState(0);
     // const [callApi, setCallApi] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -80,6 +81,7 @@ const Intake = () => {
             setIntakeList(res);
             setEntity(res?.totalEntity);
             setLoading(false);
+            
 
           });
         },[success])
@@ -142,7 +144,12 @@ const Intake = () => {
     return (
         <div>
 
-            <Card className="uapp-card-bg">
+           {
+            loading?
+            <Loader/>
+            :
+            <div>
+               <Card className="uapp-card-bg">
               <CardHeader className="page-header">
                 <h3 className="text-light">Intake List</h3>
                 <div className="page-header-back-to-home">
@@ -330,6 +337,8 @@ const Intake = () => {
 
         </CardBody>
       </Card>
+            </div>
+           }
 
         </div>      
     );

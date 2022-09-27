@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
 import get from '../../../helpers/get';
+import Loader from '../Search/Loader/Loader';
 import DistributionLevelSettingForm from './Form';
 import DistributionLevelSettingList from './List';
 
@@ -16,6 +17,7 @@ const DistributionLevelSetting = () => {
     const [percent,setPercent] = useState('');
     const [update,setUpdate] = useState(false);
     const [data,setData]= useState({});
+    const [loading,setLoading] = useState(true);
 
     const backToDashboard = () => {
         history.push('/');
@@ -26,6 +28,7 @@ const DistributionLevelSetting = () => {
         get(`DistributionLevelSetting/Index`)
         .then(res => {
             setDistributionData(res);
+            setLoading(false);
         })
 
     },[success])
@@ -47,7 +50,12 @@ const DistributionLevelSetting = () => {
     return (
         <div>
 
-        <Card className="uapp-card-bg">
+       {
+        loading?
+        <Loader/>
+        :
+        <div>
+             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
                 <h3 className="text-light">Distribution Level Setting</h3>
                 <div className="page-header-back-to-home">
@@ -99,6 +107,8 @@ const DistributionLevelSetting = () => {
                 </CardBody>
 
             </Card>
+        </div>
+       }
             
         </div>
     );

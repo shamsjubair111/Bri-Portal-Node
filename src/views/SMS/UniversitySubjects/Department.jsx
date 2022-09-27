@@ -36,6 +36,7 @@ import { Link } from "react-router-dom";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkButton from "../Components/LinkButton";
+import Loader from "../Search/Loader/Loader";
 
 const Department = (props) => {
   const history = useHistory();
@@ -49,6 +50,7 @@ const Department = (props) => {
   const [departmentInfo, setDepartmentInfo] = useState([]);
   const [depId, setDepId] = useState(0);
   const [depName, setDepName] = useState("");
+  const [loading,setLoading] = useState(true);
 
   const [id, setId] = useState("");
 
@@ -61,6 +63,7 @@ const Department = (props) => {
     get(`Department/index`).then((res) => {
        
       setDepartmentInfo(res);
+      setLoading(false);
     });
   }, [success]);
 
@@ -161,7 +164,12 @@ const Department = (props) => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading?
+        <Loader/>
+        :
+        <div>
+          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Department List</h3>
           <div className="page-header-back-to-home">
@@ -358,6 +366,8 @@ const Department = (props) => {
           </div>
         </CardBody>
       </Card>
+        </div>
+      }
     </div>
   );
 };

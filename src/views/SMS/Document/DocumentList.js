@@ -33,6 +33,7 @@ import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
+import Loader from "../Search/Loader/Loader";
 
 const DocumentList = () => {
   const [documentName, setDocumentName] = useState("");
@@ -54,11 +55,13 @@ const DocumentList = () => {
   const [delDocuId, setDelDocuId] = useState(0);
   const [delDocuName, setDelDocuName] = useState("");
   const { addToast } = useToasts();
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     get("Document/Index").then((res) => {
       console.log("doc data", res);
       setDocumentdata(res);
+      setLoading(false);
     });
 
     get("DocumentCategoryDD/Index").then((res) => {
@@ -218,7 +221,12 @@ const DocumentList = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading?
+      <Loader/>
+      :
+      <div>
+         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Document List</h3>
           <div className="page-header-back-to-home">
@@ -478,6 +486,8 @@ const DocumentList = () => {
           </div>
         </CardBody>
       </Card>
+      </div>
+     }
     </div>
   );
 };

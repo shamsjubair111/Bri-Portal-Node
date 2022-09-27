@@ -10,6 +10,7 @@ import * as XLSX from "xlsx/xlsx.mjs";
 import post from '../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
 import { transactionTypes } from '../../../constants/TransactionConstant';
+import Loader from '../Search/Loader/Loader';
 
 const Index = () => {
 
@@ -36,6 +37,7 @@ const Index = () => {
     const [bonusTransactionLabel,setBonusTransactionLabel] = useState('Select Transaction Type');
     const [bonusTransactionValue, setBonusTransactionValue] = useState(0);
     const [agree,setAgree] = useState(false);
+    const [loading,setLoading] = useState(true);
     
 
     const customStyles2 = {
@@ -161,6 +163,7 @@ const Index = () => {
         
           setEntity(res?.totalEntity);
           setData(res?.models);
+          setLoading(false);
         })
 
         get(`BonusTransactionTypeDD/Index`)
@@ -283,7 +286,12 @@ const Index = () => {
 
     return (
         <div>
-                    {/* Outflow Modal */}
+                   {
+                    loading?
+                    <Loader/>
+                    :
+                    <div>
+                       {/* Outflow Modal */}
                     <Modal
                     isOpen={modalOpen2}
                     toggle={closeModal2}
@@ -821,6 +829,8 @@ const Index = () => {
                      />
               </CardBody>
             </Card>
+                    </div>
+                   }
             
         </div>
     );

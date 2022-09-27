@@ -34,6 +34,7 @@ import ReactToPrint from "react-to-print";
 import ButtonForFunction from "../../Components/ButtonForFunction.js";
 import LinkButton from "../../Components/LinkButton.js";
 import { permissionList } from "../../../../constants/AuthorizationConstant.js";
+import loader from '../../../../assets/img/load.gif';
 
 const EmployeeList = (props) => {
   const { type } = useParams();
@@ -47,7 +48,7 @@ const EmployeeList = (props) => {
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
-  const [loading, setLoading] = useState(false);
+ 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const employeeTypeList = props.employeeTypeList[0];
   const location = useLocation();
@@ -60,6 +61,7 @@ const EmployeeList = (props) => {
   const [empLabel, setEmpLabel] = useState("Select Employee Type");
   const [empValue, setEmpValue] = useState(0);
   const [data, setData] = useState({});
+  const [loading,setLoading] = useState(true);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -102,6 +104,7 @@ const EmployeeList = (props) => {
           setLoading(false);
           setEntity(action.totalEntity);
           setSerialNum(action.firstSerialNumber);
+          setLoading(false);
         })
       : get(
           `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${
@@ -113,10 +116,12 @@ const EmployeeList = (props) => {
           setLoading(false);
           setEntity(action.totalEntity);
           setSerialNum(action.firstSerialNumber);
+          setLoading(false);
         });
 
     get(`EmployeeTypeDD/Index`).then((res) => {
       setEmpList(res);
+      setLoading(false);
     });
   }, [
     callApi,
@@ -237,7 +242,17 @@ const EmployeeList = (props) => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading ? 
+      <div className="text-center">
+        <img className="img-fluid" src={loader} alt='uapp_loader' />
+      </div>
+
+      :
+
+      <div>
+
+<Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Staff List</h3>
           <div className="page-header-back-to-home">
@@ -540,6 +555,9 @@ const EmployeeList = (props) => {
           />
         </CardBody>
       </Card>
+      </div>
+
+     }
     </div>
   );
 };

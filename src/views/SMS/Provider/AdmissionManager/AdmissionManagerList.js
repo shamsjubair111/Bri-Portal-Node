@@ -49,11 +49,12 @@ import { userTypes } from "../../../../constants/userTypeConstant";
 import put from "../../../../helpers/put";
 import CustomButtonRipple from "../../Components/CustomButtonRipple";
 import post from "../../../../helpers/post";
+import loader from '../../../../assets/img/load.gif';
 
 const AdmissionManagerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [entity, setEntity] = useState(0);
-  const [loading, setLoading] = useState(true);
+ 
   const [serialNum, setSerialNum] = useState(1);
   const [success, setSuccess] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -106,18 +107,22 @@ const AdmissionManagerList = () => {
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
   const permissions = JSON.parse(localStorage.getItem("permissions"));
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     get("ProviderDD/Index").then((res) => {
       setProviderDD(res);
+      setLoading(false);
     });
 
     get("NameTittleDD/index").then((res) => {
       setNameTitleDD(res);
+      setLoading(false);
     });
 
     get("CountryDD/index").then((res) => {
       setCountryList(res);
+      setLoading(false);
     });
 
     // setLoading(true);
@@ -416,7 +421,18 @@ const AdmissionManagerList = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading? 
+      <div className="text-center">
+        <img src={loader} className='img-fluid' alt="uapp_loader"/>
+
+      </div>
+
+      :
+
+      <div>
+
+<Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Admission Manager List</h3>
           <div className="page-header-back-to-home">
@@ -1069,6 +1085,10 @@ const AdmissionManagerList = () => {
           </Row> */}
         </CardBody>
       </Card>
+      </div>
+
+     }
+
     </div>
   );
 };

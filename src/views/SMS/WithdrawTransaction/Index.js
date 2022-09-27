@@ -5,6 +5,7 @@ import ReactToPrint from 'react-to-print';
 import Select from 'react-select';
 import get from '../../../helpers/get';
 import Pagination from '../Pagination/Pagination';
+import Loader from '../Search/Loader/Loader';
 
 const Index = () => {
 
@@ -50,6 +51,7 @@ const Index = () => {
         console.log('data', res);
         setListData(res?.models);
         setEntity(res?.totalEntity)
+        setLoading(false);
       })
 
       get(`ConsultantDD/index`)
@@ -86,6 +88,7 @@ const Index = () => {
    const [orderLabel, setOrderLabel] = useState("Select order by");
    const [orderValue, setOrderValue] = useState(0);
    const [dropdownOpen1, setDropdownOpen1] = useState(false);
+   const [loading,setLoading] = useState(true);
 
    const selectDataSize = (value) => {
      
@@ -146,7 +149,12 @@ const toggle1 = () => {
 
     return (
         <div>
-            <Modal
+           {
+            loading?
+            <Loader/>
+            :
+            <div>
+               <Modal
                     isOpen={modalOpen}
                     toggle={closeModal}
                     className="uapp-modal2"
@@ -424,6 +432,8 @@ const toggle1 = () => {
                      />
                 </CardBody>
             </Card>
+            </div>
+           }
             
         </div>
     );

@@ -27,6 +27,7 @@ import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
+import Loader from "../Search/Loader/Loader";
 
 const DocumentGroup = () => {
   const [title, setTitle] = useState("");
@@ -66,6 +67,7 @@ const DocumentGroup = () => {
 
   const [delDocuGroupDocuName, setDelDocuGroupDocuName] = useState('');
   const [delDocuGroupDocuId, setDelDocuGroupDocuId] = useState(0);
+  const [loading,setLoading] = useState(true);
 
   const { addToast } = useToasts();
 
@@ -73,23 +75,27 @@ const DocumentGroup = () => {
     get("ApplicationTypeDD/Index").then((res) => {
     
       setApplicationDD(res);
+      setLoading(false);
     });
 
     if (documentId > 0) {
       get(`DocumentGroupDocument/GetByGroup/${documentId}`).then((res) => {
       
         setDocumentGroupDocument(res);
+        setLoading(false);
       });
     }
 
     get(`DocumentDD/Index`).then((res) => {
       
       setDocument(res);
+      setLoading(false);
     });
 
     get("DocumentGroup/Index").then((res) => {
      
       setDocumentGroupData(res);
+      setLoading(false);
     });
   }, [success, documentId]);
 
@@ -318,7 +324,12 @@ const DocumentGroup = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading?
+      <Loader/>
+      :
+      <div>
+         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Subject Document Group</h3>
           <div className="page-header-back-to-home">
@@ -816,6 +827,8 @@ const DocumentGroup = () => {
           </div>
         </CardBody>
       </Card>
+      </div>
+     }
     </div>
   );
 };

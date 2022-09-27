@@ -18,6 +18,7 @@ import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkSpanButton from '../Components/LinkSpanButton';
+import Loader from '../Search/Loader/Loader';
 
 
 const AddUniversityType = (props) => {
@@ -36,6 +37,7 @@ const AddUniversityType = (props) => {
   const [universityList, setUniversityList] = useState([]);
   // const [postId, setPostId] = useState(0);
   const [updateState, setUpdateState] = useState({});
+  const [loading,setLoading] = useState(true);
 
   // const [uName,setUName] = useState('');
 
@@ -56,6 +58,7 @@ useEffect(()=> {
     setUniTypeId(action?.id);
    
       dispatch(StoreUniversitytypeData(action))
+      setLoading(false);
     });
 
 
@@ -198,7 +201,12 @@ const closeDeleteModal = () => {
     return (
 
         <div>
-            <Card className='uapp-card-bg'>
+            {
+              loading?
+              <Loader/>
+              :
+              <div>
+                <Card className='uapp-card-bg'>
               <CardHeader className="page-header">              
                 <h3 className="text-light">University Types</h3>
                   <div className="page-header-back-to-home">
@@ -436,6 +444,8 @@ const closeDeleteModal = () => {
 
         </CardBody>
       </Card>
+              </div>
+            }
             
         </div>
     )

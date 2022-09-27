@@ -38,6 +38,7 @@ import SpanButton from "../Components/SpanButton.js";
 import LinkButton from "../Components/LinkButton.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import { Axios } from "axios";
+import Loader from "../Search/Loader/Loader.js";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const UniversityList = (props) => {
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
-  const [loading, setLoading] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [orderLabel, setOrderLabel] = useState("Select order by");
@@ -79,6 +80,7 @@ const UniversityList = (props) => {
   const [unistateValue, setUniStateValue] = useState(0);
   const [providerLabel, setProviderLabel] = useState("Provider");
   const [providerValue, setProviderValue] = useState(0);
+  const [loading,setLoading] = useState(true);
 
 
   const providerData = useSelector(
@@ -218,6 +220,7 @@ const UniversityList = (props) => {
       setLoading(false);
       setEntity(action?.totalEntity);
       setSerialNum(action?.firstSerialNumber);
+      setLoading(false);
     });
   }, [
     currentPage,
@@ -499,7 +502,12 @@ const UniversityList = (props) => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading?
+        <Loader/>
+        :
+        <div>
+          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University List</h3>
           <div className="page-header-back-to-home">
@@ -925,6 +933,8 @@ const UniversityList = (props) => {
           />
         </CardBody>
       </Card>
+        </div>
+      }
     </div>
   );
 };

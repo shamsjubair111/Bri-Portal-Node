@@ -11,6 +11,7 @@ import remove from '../../../../helpers/remove';
 import put  from '../../../../helpers/put';
 import post from '../../../../helpers/post';
 import { ValueService } from 'ag-grid-community';
+import Loader from '../../Search/Loader/Loader';
 
 
 const ExamTestType = () => {
@@ -22,6 +23,7 @@ const ExamTestType = () => {
     const [success, setSuccess] = useState(false);
     const [examTestType , setExamTestType] = useState([]);
     const [examTestTypeValue , setExamTestTypeValue] = useState('');
+    const [loading,setLoading] = useState(true);
 
   const { addToast } = useToasts();
 
@@ -36,6 +38,7 @@ const ExamTestType = () => {
    get(`ExamTestType/Index`).then((action)=>{
 
     setExamTestType(action);
+    setLoading(false);
     
    
   
@@ -190,8 +193,12 @@ const closeModal = () => {
 
     return (
         <div>
-
-        <Card className="uapp-card-bg">
+          {
+            loading?
+            <Loader/>
+            :
+            <div>
+               <Card className="uapp-card-bg">
               <CardHeader className="page-header">
                 <h3 className="text-light">Exam Test Type</h3>
                 <div className="page-header-back-to-home">
@@ -335,6 +342,9 @@ const closeModal = () => {
             </CardBody>
           </Card>
 
+            </div>
+          }
+       
             
         </div>
     );

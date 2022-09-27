@@ -29,6 +29,7 @@ import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import Loader from "../Search/Loader/Loader";
 
 const AddCountry = () => {
   const [country, setCountry] = useState("");
@@ -44,6 +45,7 @@ const AddCountry = () => {
   const [delCountryName, setDelCountryName] = useState("");
 
   const { addToast } = useToasts();
+  const [loading,setLoading] = useState(true);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -51,6 +53,7 @@ const AddCountry = () => {
     get("Country/Index").then((res) => {
       console.log("country", res);
       setCountries(res);
+      setLoading(false);
     });
   }, [success]);
 
@@ -137,7 +140,12 @@ const AddCountry = () => {
   };
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading?
+        <Loader/>
+        :
+        <div>
+          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Country List</h3>
           <div className="page-header-back-to-home">
@@ -346,6 +354,8 @@ const AddCountry = () => {
           </div>
         </CardBody>
       </Card>
+        </div>
+      }
     </div>
   );
 };

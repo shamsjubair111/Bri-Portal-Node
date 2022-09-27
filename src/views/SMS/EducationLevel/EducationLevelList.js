@@ -6,6 +6,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import remove from '../../../helpers/remove';
 import { useToasts } from "react-toast-notifications";
 import LinkButton from '../Components/LinkButton';
+import Loader from '../Search/Loader/Loader';
 
 const EducationLevelList = () => {
 
@@ -18,6 +19,7 @@ const EducationLevelList = () => {
     const [deleteModal,setDeleteModal] = useState(false);
     const [serialNum, setSerialNum] = useState(1);
     const [success, setSuccess] = useState(false);
+    const [loading,setLoading] = useState(true);
 
 
     
@@ -66,6 +68,7 @@ const EducationLevelList = () => {
 
             console.log('Checking Educational Level Index', res);
             setEducationLevelData(res);
+            setLoading(false);
         })
 
     },[success])
@@ -86,7 +89,12 @@ const EducationLevelList = () => {
     return (
         <div>
 
-    <Card className="uapp-card-bg">
+    {
+      loading?
+      <Loader/>
+      :
+      <div>
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Education Level List</h3>
           <div className="page-header-back-to-home">
@@ -201,6 +209,8 @@ const EducationLevelList = () => {
 
 
       </Card>
+      </div>
+    }
             
             
         </div>

@@ -27,12 +27,13 @@ import ReactToPrint from 'react-to-print';
 import LinkButton from "../../Components/LinkButton";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
+import Loader from "../../Search/Loader/Loader";
 
 const BranchList = () => {
   const {addToast} = useToasts();
   const [deleteModal, setDeleteModal] = useState(false);
   const [branchList, setBranchList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [serialNum, setSerialNum] = useState(1);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [delData, setDelData] = useState(null);
@@ -49,6 +50,7 @@ const BranchList = () => {
     get(`Branch/Index`).then((res) => {
      
       setBranchList(res);
+      setLoading(false);
     });
   }, [success]);
 
@@ -110,7 +112,12 @@ const componentRef = useRef();
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading?
+      <Loader/>
+      :
+      <div>
+         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Branch List</h3>
           <div className="page-header-back-to-home">
@@ -297,6 +304,8 @@ const componentRef = useRef();
           )}
         </CardBody>
       </Card>
+      </div>
+     }
     </div>
   );
 };

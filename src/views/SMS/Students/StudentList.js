@@ -40,6 +40,8 @@ import * as XLSX from 'xlsx/xlsx.mjs';
 import ReactToPrint from 'react-to-print';
 import { userTypes } from '../../../constants/userTypeConstant.js';
 import put from '../../../helpers/put.js';
+import Loader from '../Search/Loader/Loader.js';
+
 
 const StudentList = () => {
 
@@ -77,7 +79,7 @@ const StudentList = () => {
     const [statusLabel,setStatusLabel] = useState('Select Account Status')
     const [statusValue, setStatusValue] = useState(0);
 
-    const [loading, setLoading] = useState(false);
+   
     const [currentPage, setCurrentPage] = useState(1);
     const [dataPerPage, setDataPerPage] = useState(15);
     const [callApi, setCallApi] = useState(false);
@@ -98,6 +100,7 @@ const StudentList = () => {
     const [pass, setPass] = useState('');
     const [cPass,setCPass] = useState('');
     const [error,setError] = useState('');
+    const [loading,setLoading] = useState(true);
 
 
     
@@ -126,6 +129,7 @@ const StudentList = () => {
           setSerialNum(res?.firstSerialNumber);       
           setLoading(false);
           setStudentTypeLabel(res?.models[0]?.studentType?.name);
+          setLoading(false);
         })
 
         :
@@ -459,7 +463,12 @@ const StudentList = () => {
 
     return (
         <div>
-            <Card className="uapp-card-bg">
+          {
+            loading? 
+            <Loader/>
+            :
+            <div>
+                <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
                   <h3 className="text-light">Student List</h3>
                   <div className="page-header-back-to-home">
@@ -912,6 +921,8 @@ const StudentList = () => {
           />
         </CardBody>
       </Card>
+            </div>
+          }
     </div>
     );
 };

@@ -10,6 +10,7 @@ import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
 import remove from '../../../../helpers/remove';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
+import Loader from '../../Search/Loader/Loader';
 
 const AccountIntake = () => {
 
@@ -289,17 +290,12 @@ const AccountIntake = () => {
     return (
         <div>
 
-            {
-                loading ?
-                <div className='text-center'>
-                    <img src={loadingImages} />
-                    
-                </div>
-
-                :
-
-                <>
-
+          {
+            loading?
+            <Loader/>
+            :
+            <div>
+                
                 <Card className="uapp-card-bg">
 
                 <CardHeader className="page-header">
@@ -620,10 +616,8 @@ const AccountIntake = () => {
                 </CardBody>
                 </Card>
 
-                </>
-            }
-
-       
+            </div>
+          }
             
         </div>
     );

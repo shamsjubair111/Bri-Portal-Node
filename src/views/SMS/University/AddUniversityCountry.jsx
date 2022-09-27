@@ -38,6 +38,7 @@ import UniversityList from "./UniversityList";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import LinkSpanButton from "../Components/LinkSpanButton";
+import Loader from "../Search/Loader/Loader";
 const AddUniversityCountry = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
 
@@ -55,6 +56,7 @@ const AddUniversityCountry = (props) => {
   const [delUniCountryName, setDelUniCountryName] = useState("");
 
   const { addToast } = useToasts();
+  const [loading,setLoading] = useState(true);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -68,6 +70,7 @@ const AddUniversityCountry = (props) => {
     const returnValue = get(`UniversityCountry/Index`)
       .then((action) => {
         dispatch(StoreUniversityCountryData(action));
+        setLoading(false);
       })
       .catch();
 
@@ -167,7 +170,12 @@ const AddUniversityCountry = (props) => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading?
+      <Loader/>
+      :
+      <div>
+         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University Countries</h3>
           <div className="page-header-back-to-home">
@@ -410,6 +418,8 @@ const AddUniversityCountry = (props) => {
           </div>
         </CardBody>
       </Card>
+      </div>
+     }
     </div>
   );
 };

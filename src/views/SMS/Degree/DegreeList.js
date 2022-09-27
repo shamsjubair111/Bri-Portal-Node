@@ -6,6 +6,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import remove from '../../../helpers/remove';
 import { useToasts } from "react-toast-notifications";
 import LinkButton from '../Components/LinkButton';
+import Loader from '../Search/Loader/Loader';
 
 const DegreeList = () => {
 
@@ -19,6 +20,7 @@ const DegreeList = () => {
     const [deleteModal,setDeleteModal] = useState(false);
     const [serialNum, setSerialNum] = useState(1);
     const [success, setSuccess] = useState(false);
+    const [loading,setLoading] = useState(true);
 
     useEffect(()=>{
 
@@ -26,6 +28,7 @@ const DegreeList = () => {
         .then(res => {
             console.log('Checking Degree Data from get method', res);
             setDegreeList(res);
+            setLoading(false);
         })
 
     },[success])
@@ -82,7 +85,12 @@ const DegreeList = () => {
     return (
         <div>
 
-            <Card className="uapp-card-bg">
+         {
+            loading?
+            <Loader/>
+            :
+            <div>
+                   <Card className="uapp-card-bg">
                     <CardHeader className="page-header">
                     <h3 className="text-light">Degree List</h3>
                     <div className="page-header-back-to-home">
@@ -201,6 +209,8 @@ const DegreeList = () => {
 
 
             </Card>
+            </div>
+         }
 
             
         </div>

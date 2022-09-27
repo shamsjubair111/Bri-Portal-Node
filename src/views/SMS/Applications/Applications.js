@@ -42,9 +42,10 @@ import StudentFilter from "./StudentFilter.js";
 import AdmissionManagerFilter from "./AdmissionManagerFilter.js";
 import ProviderAdminFilter from "./ProviderAdminFilter.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
+import Loader from "../Search/Loader/Loader.js";
 
 const Applications = () => {
-  const [loading, setLoading] = useState(false);
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
@@ -169,6 +170,7 @@ const Applications = () => {
 
   // current_user
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [loading,setLoading] = useState(true);
 
   const history = useHistory();
   const { addToast } = useToasts();
@@ -657,7 +659,12 @@ const Applications = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading?
+        <Loader/>
+        :
+        <div>
+          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Applications</h3>
           <div className="page-header-back-to-home">
@@ -1261,6 +1268,8 @@ const Applications = () => {
           />
         </CardBody>
       </Card>
+        </div>
+      }
     </div>
   );
 };

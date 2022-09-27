@@ -6,6 +6,7 @@ import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
 import remove from '../../../../helpers/remove';
+import Loader from '../../Search/Loader/Loader';
 import AddCommissionPriceInformation from './AddCommissionPriceInformation';
 import ShowCommissionPriceListData from './ShowCommissionPriceListData';
 
@@ -23,6 +24,7 @@ const CommissionPriceList = () => {
     const [data,setData] = useState({});
     const [delData,setDelData] = useState({});
     const [deleteModal,setDeleteModal] = useState(false);
+    const [loading,setLoading] = useState(true);
 
     const {addToast} = useToasts();
 
@@ -32,6 +34,7 @@ const CommissionPriceList = () => {
         .then(res=> {
            
             setList(res);
+            setLoading(false);
         })
 
     },[success])
@@ -141,7 +144,12 @@ const CommissionPriceList = () => {
     return (
         <div>
 
-            <Card className="uapp-card-bg">
+          {
+            loading?
+            <Loader/>
+            :
+            <div>
+                  <Card className="uapp-card-bg">
               <CardHeader className="page-header">
                 <h3 className="text-light">Commission Price List</h3>
                 <div className="page-header-back-to-home">
@@ -205,6 +213,8 @@ const CommissionPriceList = () => {
                 </CardBody>
 
             </Card>
+            </div>
+          }
             
         </div>
     );

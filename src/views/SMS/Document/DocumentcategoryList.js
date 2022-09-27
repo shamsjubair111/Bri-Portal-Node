@@ -34,6 +34,7 @@ import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkSpanButton from "../Components/LinkSpanButton";
+import Loader from "../Search/Loader/Loader";
 
 const DocumentcategoryList = () => {
   const [uniTypeId, setUniTypeId] = useState(0);
@@ -52,6 +53,7 @@ const DocumentcategoryList = () => {
 
   const [docuName, setDocuName] = useState("");
   const [docuId, setDocuId] = useState(0);
+  const [loading,setLoading] = useState(true);
 
   // const [uName,setUName] = useState('');
 
@@ -66,6 +68,7 @@ const DocumentcategoryList = () => {
     get(`DocumentCategory/Index`).then((action) => {
       setDocuList(action);
       setUniTypeId(action?.id);
+      setLoading(false);
       console.log("docuCate", action);
     });
   }, [success]);
@@ -155,7 +158,12 @@ const DocumentcategoryList = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading?
+        <Loader/>
+        :
+        <div>
+          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Document Category List</h3>
           <div className="page-header-back-to-home">
@@ -367,6 +375,8 @@ const DocumentcategoryList = () => {
           </div>
         </CardBody>
       </Card>
+        </div>
+      }
     </div>
   );
 };

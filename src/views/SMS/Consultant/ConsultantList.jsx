@@ -40,6 +40,7 @@ import ButtonForFunction from '../Components/ButtonForFunction.js';
 import { permissionList } from '../../../constants/AuthorizationConstant.js';
 import SpanButton from '../Components/SpanButton.js';
 import put from '../../../helpers/put.js';
+import loader from '../../../assets/img/load.gif';
 
 const ConsultantList = () => {
 
@@ -53,7 +54,7 @@ const ConsultantList = () => {
     const [entity, setEntity] = useState(0);
     const [callApi, setCallApi] = useState(false);
     const [serialNum, setSerialNum] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [dataPerPage, setDataPerPage] = useState(15);
     const [searchStr, setSearchStr] = useState("");
@@ -286,7 +287,17 @@ const ConsultantList = () => {
 
     return (
         <div>
-             <Card className="uapp-card-bg">
+             {
+              loading?
+              <div className='text-center'>
+                <img className='img-fluid' src={loader} />
+
+              </div>
+
+              :
+
+              <div>
+                <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
                   <h3 className="text-light">Consultant List</h3>
                   <div className="page-header-back-to-home">
@@ -707,6 +718,8 @@ const ConsultantList = () => {
         </CardBody>
     </Card>
 
+              </div>
+             }
 
         </div>
     );

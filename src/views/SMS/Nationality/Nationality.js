@@ -6,6 +6,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
+import Loader from '../Search/Loader/Loader';
 
 const Nationality = () => {
 
@@ -17,6 +18,7 @@ const Nationality = () => {
     const [success,setSuccess] = useState(false);
     const [data,setData] = useState({});
     const [delData, setDelData] = useState({});
+    const [loading,setLoading] = useState(true);
 
 
     const backToDashboard = () => {
@@ -28,6 +30,7 @@ const Nationality = () => {
         .then(res => {
             console.log(res);
             setCountryList(res);
+            setLoading(false);
         })
     },[success])
 
@@ -114,7 +117,12 @@ const Nationality = () => {
 
     return (
         <div>
-             <Card className="uapp-card-bg">
+             {
+              loading?
+              <Loader/>
+              :
+              <div>
+                <Card className="uapp-card-bg">
               <CardHeader className="page-header">
                 <h3 className="text-light">Nationality List</h3>
                 <div className="page-header-back-to-home">
@@ -269,6 +277,8 @@ const Nationality = () => {
 
          </CardBody>
       </Card>
+              </div>
+             }
             
         </div>
     );

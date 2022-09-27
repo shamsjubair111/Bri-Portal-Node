@@ -14,6 +14,7 @@ import post from '../../../../helpers/post';
 import remove from '../../../../helpers/remove';
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import loader from '../../../../assets/img/load.gif';
 const EmployeeType = (props) => {
 
   const myForm = createRef();
@@ -26,6 +27,8 @@ const EmployeeType = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const EmployeesTypeList = props.EmployeesTypeList[0];
   const history = useHistory();
+  const [loading,setLoading] = useState(true);
+ 
  
 
   const closeModal = () => {
@@ -36,9 +39,10 @@ const EmployeeType = (props) => {
   }
 
   useEffect(() => {
-    const returnValue = get(`EmployeType/Index`).then((data) => {
-     
+     get(`EmployeType/Index`).then((data) => {
+     setLoading(false);
       dispatch(StoreEmployeeTypeData(data))
+      
     })
   }, [dispatch])
 
@@ -148,7 +152,19 @@ const EmployeeType = (props) => {
   return (
 
     <div>
-      <Card className='uapp-card-bg'>
+      
+      {
+        loading? 
+
+        <div className='text-center'>
+          <img className='img-fluid' src={loader} alt='uapp_loader'/>
+
+        </div>
+
+        :
+
+        <div>
+          <Card className='uapp-card-bg'>
         <CardHeader className="page-header">
 
           <h3 className='text-light'>Staff Type </h3>
@@ -296,6 +312,8 @@ const EmployeeType = (props) => {
 
 
 
+        </div>
+      }
 
     </div>
   );

@@ -18,6 +18,7 @@ import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import loader from '../../../assets/img/load.gif';
 
 const AddConsultantType = () => {
 
@@ -29,6 +30,7 @@ const AddConsultantType = () => {
     const [consultantType,setConsultantType] = useState('');
     const [postId, setPostId] = useState(0);
     const [consName,setConsName] = useState('');
+    const [loading,setLoading] = useState(true);
 
     const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -38,6 +40,7 @@ const AddConsultantType = () => {
         get('ConsultantType/Index').then(res=>{
             console.log("consultantList", res);
             setConsultants(res);
+            setLoading(false);
         })
     },[success])
 
@@ -124,7 +127,17 @@ const AddConsultantType = () => {
 
     return (
         <div>
-            <Card className='uapp-card-bg'>
+           {
+            loading ?
+
+            <div className='text-center'>
+              <img className='img-fluid' src={loader} />
+
+            </div>
+            :
+
+            <div>
+               <Card className='uapp-card-bg'>
               <CardHeader className="page-header">              
                 <h3 className="text-light">Consultant Type</h3>
                   <div className="page-header-back-to-home">
@@ -295,6 +308,9 @@ const AddConsultantType = () => {
 
         </CardBody>
       </Card>
+            </div>
+
+           }
             
         </div>
     );

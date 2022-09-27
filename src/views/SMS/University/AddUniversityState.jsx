@@ -32,6 +32,7 @@ import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import Loader from "../Search/Loader/Loader";
 
 const AddUniversityState = () => {
   const [universityDetailsList, setUniversityDetailsList] = useState([]);
@@ -49,6 +50,7 @@ const AddUniversityState = () => {
   const [delUniStateName, setDelUniStateName] = useState("");
 
   const [updateUniState, setUpdateUniState] = useState(undefined);
+  const [loading,setLoading] = useState(true);
 
   const { addToast } = useToasts();
 
@@ -61,6 +63,7 @@ const AddUniversityState = () => {
     const returnValue = get(`UniversityState/Index`).then((action) => {
       setUniversityDetailsList(action);
       dispatch(StoreUniversityStateData(action));
+      setLoading(false);
     });
   }, [success]);
 
@@ -194,7 +197,12 @@ const AddUniversityState = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading?
+      <Loader/>
+      :
+      <div>
+         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">University States</h3>
           <div className="page-header-back-to-home">
@@ -415,6 +423,8 @@ const AddUniversityState = () => {
           </div>
         </CardBody>
       </Card>
+      </div>
+     }
     </div>
   );
 };

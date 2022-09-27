@@ -31,6 +31,7 @@ import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import Loader from "../Search/Loader/Loader";
 
 const AddState = () => {
   const [stateList, setStateList] = useState([]);
@@ -50,6 +51,7 @@ const AddState = () => {
   const [delUniStateName, setDelUniStateName] = useState("");
 
   const [updateUniState, setUpdateUniState] = useState(undefined);
+  const [loading,setLoading] = useState(true);
 
   const { addToast } = useToasts();
 
@@ -61,6 +63,7 @@ const AddState = () => {
   useEffect(() => {
     const returnValue = get(`State/GetAll`).then((action) => {
       setStateList(action);
+      setLoading(false);
       console.log("stateList", action);
     });
   }, [success]);
@@ -203,7 +206,12 @@ const AddState = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+     {
+      loading?
+      <Loader/>
+      :
+      <div>
+         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">State List</h3>
           <div className="page-header-back-to-home">
@@ -436,6 +444,8 @@ const AddState = () => {
           </div>
         </CardBody>
       </Card>
+      </div>
+     }
     </div>
   );
 };

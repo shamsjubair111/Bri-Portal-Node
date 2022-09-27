@@ -13,7 +13,7 @@ const List = () => {
     const history = useHistory();
     const [serialNum, setSerialNum] = useState(1);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [dataPerPage, setDataPerPage] = useState(15);
     const [callApi, setCallApi] = useState(false);
@@ -29,6 +29,7 @@ const List = () => {
     const [paymentValue,setPaymentValue] = useState(0);
     const [transactionCode, setTransactionCode] = useState('');
     const [success, setSuccess] = useState(false);
+    
 
     useEffect(()=>{
 
