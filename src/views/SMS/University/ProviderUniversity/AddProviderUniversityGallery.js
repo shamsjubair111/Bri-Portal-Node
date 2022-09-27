@@ -260,7 +260,7 @@ const AddProviderUniversityGallery = () => {
 
           <TabContent activeTab={activetab}>
 
-          <div className="hedding-titel d-flex justify-content-between ms-1 mb-4">
+          <div className="hedding-titel d-flex justify-content-between ml-1 mt-5 mb-4">
                       <div>
                         <h5> <b>Gallery</b> </h5>
 
@@ -272,12 +272,12 @@ const AddProviderUniversityGallery = () => {
 
                     </div>
 
-            <div className="row mt-5">
+            <div className="row pt-2 mb-5">
             
               <div className="col-md-8">
-                <div className="row row-cols-md-3 row-cols-sm-2 g-4">
+                <div className="container row row-cols-md-3 row-cols-sm-2 g-4">
                   {gallery.map((gall, i) => (
-                    <div key={i} className="containerCustom">
+                    <div key={i} className="containerCustom p-2">
                       <img
                         src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
                         alt="Avatar"

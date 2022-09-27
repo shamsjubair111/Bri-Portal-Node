@@ -335,7 +335,7 @@ const AssignUniversity = () => {
               isOpen={modalOpen}
               toggle={closeModal}
               className="uapp-modal2"
-              size="lg"
+              size="md"
             >
               <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
                 <span className="text-white">University</span>
@@ -348,13 +348,13 @@ const AssignUniversity = () => {
                   {
                       selectedId === undefined ?
                     <>
-                      <Col md="3">
+                      <Col md="5">
                       <span>
                         University Name <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
                     
-                      <Col md="5">
+                      <Col md="7">
                       <Select
                         options={universityMenu}
                         value={{ label: uniLabel, value: uniValue }}
@@ -379,20 +379,22 @@ const AssignUniversity = () => {
 
                   {uniValue > 0 ? (
                     <>
-                      <FormGroup row className="pt-3">
-                        <p>
-                          <b>Recruitment Type</b>
+
+                        <p className="pt-3">
+                          <b>Recruitment Type :</b>
                         </p>
-                        <br />
-                        <br />
-                        <Col md="3">
+
+                      <FormGroup row >
+                        
+                        
+                        <Col md="5">
                           <span>
                             Is accept home{" "}
                             <span className="text-danger">*</span>{" "}
                           </span>
                         </Col>
 
-                        <Col md="5">
+                        <Col md="7">
                           <FormGroup check inline>
                             <Input
                               className="form-check-input"
@@ -434,15 +436,15 @@ const AssignUniversity = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup row className="pt-3">
-                        <Col md="3">
+                      <FormGroup row className="">
+                        <Col md="5">
                           <span>
                             Is accept EU_UK{" "}
                             <span className="text-danger">*</span>{" "}
                           </span>
                         </Col>
 
-                        <Col md="5">
+                        <Col md="7">
                           <FormGroup check inline>
                             <Input
                               className="form-check-input"
@@ -484,15 +486,15 @@ const AssignUniversity = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup row className="pt-3">
-                        <Col md="3">
+                      <FormGroup row className="">
+                        <Col md="5">
                           <span>
                             Is accept international{" "}
                             <span className="text-danger">*</span>{" "}
                           </span>
                         </Col>
 
-                        <Col md="5">
+                        <Col md="7">
                           <FormGroup check inline>
                             <Input
                               className="form-check-input"

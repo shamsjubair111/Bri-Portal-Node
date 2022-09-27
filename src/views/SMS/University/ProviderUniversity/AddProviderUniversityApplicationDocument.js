@@ -28,6 +28,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  ButtonGroup,
 } from "reactstrap";
 import get from "../../../../helpers/get";
 
@@ -533,7 +534,7 @@ const AddProviderUniversityApplicationDocument = () => {
                                 <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
-                                className={"ms-lg-3 ms-sm-1 mt-3"}
+                                className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
                                
                               />
@@ -564,11 +565,10 @@ const AddProviderUniversityApplicationDocument = () => {
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
-                                className={"ms-lg-3 ms-sm-1 mt-3"}
+                                className={"ml-lg-2 ml-sm-1 mt-3"}
                                 name={"Save"}
                                 permission={6}
                               />
-                            </Col>
 
                             <div>
                               {selectedId !== 0 ||
@@ -583,6 +583,8 @@ const AddProviderUniversityApplicationDocument = () => {
                                 <></>
                               )}
                             </div>
+                            
+                            </Col>
                           </FormGroup>
                         </>
                       )}
@@ -645,21 +647,23 @@ const AddProviderUniversityApplicationDocument = () => {
                           </td> */}
 
                           <td>
-                            <ButtonForFunction
-                              func={() => handleUpdate(application?.id)}
-                              className={"mx-1 btn-sm"}
-                              color={"warning"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
+                            <ButtonGroup>
+                              <ButtonForFunction
+                                func={() => handleUpdate(application?.id)}
+                                className={"mx-1 btn-sm"}
+                                color={"warning"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
 
-                            <ButtonForFunction
-                              className={"mx-1 btn-sm"}
-                              func={() => toggleDanger(application)}
-                              color={"danger"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
+                              <ButtonForFunction
+                                className={"mx-1 btn-sm"}
+                                func={() => toggleDanger(application)}
+                                color={"danger"}
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                permission={6}
+                              />
+                            </ButtonGroup>
 
                             <Modal
                               isOpen={deleteModal}
