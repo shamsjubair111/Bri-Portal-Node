@@ -123,6 +123,12 @@ const PromotionalCommissionList = () => {
 
     const closeModal = () => {
         setModalOpen(false);
+        setUniversityLabel('Select University');
+        setUniversityValue(0);
+        setIntakeLabel("Select Intake");
+        setIntakeValue(0);
+        setCommissionLabel('Select Commission');
+        setCommissionvalue(0);
        
       
       };
@@ -251,7 +257,7 @@ const PromotionalCommissionList = () => {
 <Modal
                     isOpen={modalOpen}
                     toggle={closeModal}
-                    className="uapp-modal"
+                    className="uapp-modal2"
                     >
                     <ModalHeader>Add Promotional Commission</ModalHeader>
                     <ModalBody>
@@ -295,7 +301,7 @@ const PromotionalCommissionList = () => {
                             </Col>
                             <Col md="8">
                             <Input
-                            type='text'
+                            type='number'
                             name='minumumStudentRequirement'
                             id='minumumStudentRequirement'
                             placeholder='Enter Minimum Student Requirement'
