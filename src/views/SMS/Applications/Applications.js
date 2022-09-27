@@ -1206,7 +1206,7 @@ const Applications = () => {
 
                         <LinkSpanButton
                           url={{
-                            pathname: "/universityList",
+                            // pathname: "/universityList",
                             // universityType: uniType?.id,
                             // universityName: uniType?.name,
                           }}

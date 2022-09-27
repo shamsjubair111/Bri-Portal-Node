@@ -5,6 +5,8 @@ import { Link, useHistory } from 'react-router-dom';
 import get from '../../../helpers/get';
 import { userTypes } from '../../../constants/userTypeConstant';
 import Pagination from '../Pagination/Pagination';
+
+import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
 import ReactToPrint from "react-to-print";
 import * as XLSX from "xlsx/xlsx.mjs";
 import post from '../../../helpers/post';
@@ -675,9 +677,16 @@ const Index = () => {
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
                         <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
+                          {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
-                          </p>
+                          </p> */}
+                          <ReactTableConvertToXl 
+                            id="test-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            icon={<i className="fas fa-file-excel"></i>}
+                          />
                         </div>
                         <div className="text-light cursor-pointer">
                           <ReactToPrint
@@ -694,7 +703,7 @@ const Index = () => {
                   </Dropdown>
                 </div>
 
-                <div className="me-3">
+                {/* <div className="me-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -724,12 +733,12 @@ const Index = () => {
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
 
-              <Table className="table-sm table-bordered">
+              <Table id="table-to-xls" className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
                     

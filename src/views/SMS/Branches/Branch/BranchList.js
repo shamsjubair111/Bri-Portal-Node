@@ -106,7 +106,9 @@ const handleExportXLSX = () => {
 
 const componentRef = useRef();
 
-
+const redirectToBranchProfile = branchId => {
+  history.push(`/branchProfile/${branchId}`);
+}
 
   return (
     <div>
@@ -248,13 +250,21 @@ const componentRef = useRef();
                       <td style={{ width: "8%" }} className="text-center">
                         <ButtonGroup variant="text">
 
-                          <LinkButton 
+                          <ButtonForFunction 
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            func={()=>redirectToBranchProfile(singleBranch?.id)}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+
+                          {/* <LinkButton 
                             url={`/branchProfile/${singleBranch?.id}`}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
                             permission={6}
-                          />
+                          /> */}
 
 
                             <ButtonForFunction 

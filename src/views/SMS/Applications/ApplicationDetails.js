@@ -433,12 +433,13 @@ const ApplicationDetails = () => {
 
   const handleUpdateTestScores = (data) => {
    
+    console.log("datas", data);
 
     localStorage.setItem("applictionStudentId", data?.id);
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
     localStorage.setItem("method", "put");
 
-    history.push("/addTestScore");
+    history.push(`/addTestScore/${data?.id}/${1}`);
   };
 
   const handleEdit = (data) => {
@@ -447,7 +448,7 @@ const ApplicationDetails = () => {
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
     localStorage.setItem("method", "put");
 
-    history.push("/addStudentApplicationInformation");
+    history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
   };
 
   const handleEditDeliveryPattern = (name, id) => {
@@ -649,6 +650,7 @@ const ApplicationDetails = () => {
   // on close ELPT modal
   const closeElptModal1 = () => {
     setElptModalOpen1(false);
+    setElptStatusError(false);
   };
 
   const handleSubmitElpt = (e) => {
@@ -2604,8 +2606,8 @@ const ApplicationDetails = () => {
                         </span>
                       </Col> */}
                         <Col md="8">
-                          <div className="row">
-                            <span className="mb-2">Upload Document</span>
+                          {/* <div className="row"> */}
+                            <div className="mb-2">Upload Document</div>
 
                             {/* {applicationObject?.document ? (
                             <div className="col-md-3">
@@ -2656,7 +2658,7 @@ const ApplicationDetails = () => {
                                 />
                               </AntdModal>
                             </div>
-                          </div>
+                          {/* </div> */}
 
                           {/* {uploadError && (
                       <span className="text-danger">
