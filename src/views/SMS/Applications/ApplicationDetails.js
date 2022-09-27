@@ -1945,7 +1945,7 @@ const ApplicationDetails = () => {
                                   <CustomButtonRipple
                                     color={"primary"}
                                     type={"submit"}
-                                    className={"ms-5 mt-3"}
+                                    className={"ml-5 mt-3"}
                                     name={"Submit"}
                                     permission={6}
                                   />
@@ -2239,7 +2239,7 @@ const ApplicationDetails = () => {
                                   <CustomButtonRipple
                                     color={"primary"}
                                     type={"submit"}
-                                    className={"ms-5 mt-3"}
+                                    className={"ml-5 mt-3"}
                                     name={"Submit"}
                                     permission={6}
                                   />
@@ -2446,7 +2446,7 @@ const ApplicationDetails = () => {
                               <div className="col-4">
                                 <Icon.XCircle
                                   onClick={() => toggleDanger(docu)}
-                                  className=" ms-2 text-danger cross-icon-style"
+                                  className=" ml-2 text-danger cross-icon-style"
                                 />
                               </div>
 
@@ -2485,7 +2485,7 @@ const ApplicationDetails = () => {
                               <>
                                 <div>
                                   1 file uploaded:{" "}
-                                  <span className="ms-2  px-2">
+                                  <span className="ml-2  px-2">
                                     {docu?.studentDocumentFile?.fileName}{" "}
                                     <i
                                       onClick={() => toggleDangerFile(docu)}
