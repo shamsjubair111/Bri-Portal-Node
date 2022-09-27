@@ -362,9 +362,8 @@ const CampusList = (props) => {
               <span className="test-score-span-1-style">
                 <b>
                   {uniNameFromObj}
-                  {"'"}s
                 </b>{" "}
-                campus list is shown here.
+                university's campus list is shown here.
               </span>
             </div>
           ) : null}

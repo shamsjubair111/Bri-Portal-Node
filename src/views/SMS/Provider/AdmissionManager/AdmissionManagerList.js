@@ -890,7 +890,7 @@ const AdmissionManagerList = () => {
                     <th>Email</th>
                     <th>Phone No</th>
                     <th>Assign University</th>
-                    <th>Application List</th>
+                    <th>Applications</th>
                     <th>Account Status</th>
                     {/* <th>Intakes</th> */}
                     <th style={{ width: "8%" }} className="text-center">
@@ -933,8 +933,17 @@ const AdmissionManagerList = () => {
                           </span>
                         </span>{" "}
                       </td>
-
-                      <td>{manager?.totalApplication}</td>
+                      
+                      {/* Applications starts here */}
+                      <td>
+                        <span
+                          className="badge badge-primary"
+                          style={{ cursor: "pointer" }}
+                        >
+                          {manager?.totalApplication}
+                        </span>
+                        </td>
+                      {/* Applications ends here */}
 
                       <td>
                         {

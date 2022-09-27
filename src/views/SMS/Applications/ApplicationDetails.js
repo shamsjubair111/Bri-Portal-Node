@@ -1055,9 +1055,7 @@ const ApplicationDetails = () => {
                                         {applicationInfo?.enrollmentStatus
                                           ?.name === "Registered" ? (
                                           <div className="text-danger">
-                                            Once the enrolment status changed to
-                                            Registered it can't be changed
-                                            again.
+                                            Once the enrolment status is changed to "Registered" it can't be changed again.
                                           </div>
                                         ) : null}
                                       </Col>
@@ -1106,6 +1104,12 @@ const ApplicationDetails = () => {
                                       </Button>
 
                                       <CustomButtonRipple
+                                        isDisabled={
+                                          applicationInfo?.enrollmentStatus
+                                            ?.name === "Registered"
+                                            ? true
+                                            : false
+                                        }
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
