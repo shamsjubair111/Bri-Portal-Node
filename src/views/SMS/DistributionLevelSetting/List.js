@@ -37,7 +37,7 @@ const DistributionLevelSettingList = (props) => {
     return (
         <div>
             <div className='mb-4'>
-              <span className='branch-title-style2'>Distribution Level Setting List</span>
+              <span className='branch-title-style2'>Distribution Level Settings List</span>
              </div>
 
              <Table className="table-sm table-bordered">
@@ -46,7 +46,7 @@ const DistributionLevelSettingList = (props) => {
                     
                     <th>Level Name</th>
                      <th>Level Value</th>
-                     <th>Commission Percent</th>
+                     <th>Commission Percentage</th>
                      <th>Action</th>
                     </tr>
                     </thead>

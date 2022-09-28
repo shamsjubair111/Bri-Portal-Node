@@ -19,7 +19,7 @@ const Index = () => {
     const [success,setSuccess] = useState(false);
     const [data,setData] = useState([]);
     const [consultant,setConsultant] = useState([]);
-    const [consultantLabel,setConsultantLabel] = useState('All Consultant');
+    const [consultantLabel,setConsultantLabel] = useState('Select Consultant');
     const[consultantValue,setConsultantValue] = useState(0);
     const [transaction,setTransaction] = useState([]);
     const[transactionLabel,setTransactionLabel] = useState('Select Transaction Type');
@@ -242,7 +242,7 @@ const Index = () => {
 
     const handleReset = () => {
         setTransactionCode('');
-        setConsultantLabel('All Consultant');
+        setConsultantLabel('Select Consultant');
         setConsultantValue(0);
         setStatusLabel('Select Status');
         setStatusValue(0);
@@ -270,7 +270,7 @@ const Index = () => {
             })
             setSuccess(!success);
             setConsultantValue(0);
-            setConsultantLabel('All Consultant');
+            setConsultantLabel('Select Consultant');
             setBonusTransactionValue(0);
             setBonusTransactionLabel('Select TransactionType');
             setAgree(false);
@@ -540,7 +540,7 @@ const Index = () => {
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Account Transaction List</h3>
+                <h3 className="text-light">Accounts Transaction List</h3>
                 <div className="page-header-back-to-home">
                   <span className="text-light" onClick={backToDashboard}>
                     {" "}

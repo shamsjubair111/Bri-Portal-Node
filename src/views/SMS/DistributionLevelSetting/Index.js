@@ -57,7 +57,7 @@ const DistributionLevelSetting = () => {
         <div>
              <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Distribution Level Setting</h3>
+                <h3 className="text-light">Distribution Level Settings</h3>
                 <div className="page-header-back-to-home">
                   <span className="text-light" onClick={backToDashboard}>
                     {" "}

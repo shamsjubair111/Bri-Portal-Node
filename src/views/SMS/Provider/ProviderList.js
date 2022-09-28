@@ -231,7 +231,7 @@ const ProviderList = () => {
           <div>
             <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Provider List</h3>
+          <h3 className="text-light">Providers List</h3>
           <div className="page-header-back-to-home">
             <span className="text-light" onClick={backToDashboard}>
               {" "}

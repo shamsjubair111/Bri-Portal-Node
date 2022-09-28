@@ -74,6 +74,13 @@ const Create = () => {
                         setConsultantLabel('Select Consultant');
                         setConsultantValue(0);
                         setAmountInput('');
+                        history.push('/withdrawRequestList');
+                    }
+                    else{
+                        addToast(res?.data?.message,{
+                            appearance: 'error',
+                            autoDismiss: true
+                        })
                     }
                 })
 

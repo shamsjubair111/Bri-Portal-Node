@@ -6,6 +6,12 @@ import Select from 'react-select';
 import get from '../../../helpers/get';
 import Pagination from '../Pagination/Pagination';
 import Loader from '../Search/Loader/Loader';
+import { useHistory } from 'react-router-dom';
+import ButtonForFunction from '../Components/ButtonForFunction';
+
+import { useToasts } from 'react-toast-notifications';
+import post from '../../../helpers/post';
+import remove from '../../../helpers/remove';
 
 const Index = () => {
 
@@ -33,12 +39,24 @@ const Index = () => {
     };
     
 
-    const [label,setLabel] = useState('Select Consultant');
+    const [label1,setLabel1] = useState('Select Consultant');
+    const [label2,setLabel2] = useState('Select Consultant');
     const [consultant,setCounsultant] = useState([]);
-    const [value,setValue] = useState(0);
+    const [value1,setValue1] = useState(0);
+    const [value2,setValue2] = useState(0);
     const [transactionCode, setTransactionCode] = useState('');
     const [success,setSuccess]= useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const history = useHistory();
+    const [modal2Open,setModal2Open] = useState(false);
+    const [amount,setAmount]  = useState(0);
+    const [amountInput,setAmountInput] = useState('');
+    const [transaction,setTransaction] = useState([]);
+    const [tLabel,setTLabel] = useState('Select Transaction Type');
+    const [tValue, setTValue] = useState(0);
+    const [reference,setReference] = useState('');
+    const [deleteModal,setDeleteModal] = useState(false);
+    const [delData,setDelData] = useState({});
    
    
 
@@ -46,7 +64,7 @@ const Index = () => {
 
     useEffect(()=>{
 
-      get(`WithdrawTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${value}&code=${transactionCode}`)
+      get(`WithdrawTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${value1}&code=${transactionCode}`)
       .then(res => {
         console.log('data', res);
         setListData(res?.models);
@@ -59,7 +77,12 @@ const Index = () => {
           setCounsultant(res);
       })
 
-    },[value,  success, transactionCode])
+      get(`TransactionTypeDD/Index`)
+        .then(res => {
+          setTransaction(res);
+        })
+
+    },[value1,  success, transactionCode])
 
     const closeModal = () => {
       setModalOpen(false);
@@ -67,14 +90,58 @@ const Index = () => {
     
     };
 
+    const toggleDanger = (data) => {
+
+      setDelData(data);
+      setDeleteModal(true);
+    }
+
+    const handleDeleteData = () => {
+      remove(`WithdrawTransaction/Delete/${delData?.id}`)
+      .then(res=> {
+        addToast(res,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+        setDeleteModal(false);
+      })
+
+    }
+
+    const backToDashboard = () => {
+      history.pushState('/');
+    }
+
     const consultantOptions = consultant?.map(con => ({
       label: con?.name,
       value: con?.id
   }))
 
-  const selectConsultant = (label,value) => {
-      setLabel(label);
-      setValue(value);
+    const transactionOptions = transaction?.map(con => ({
+      label: con?.name,
+      value: con?.id
+  }))
+
+  const selectConsultant1 = (label,value) => {
+      setLabel1(label);
+      setValue1(value);
+  }
+  const selectTransaction = (label,value) => {
+    setTError('');
+      setTLabel(label);
+      setTValue(value);
+  }
+
+  const selectConsultant2 = (label,value) => {
+    setCError('');
+      setLabel2(label);
+      setValue2(value);
+      get(`Balance/ConsultantBalance/${value}`)
+      .then(res => {
+      
+        setAmount(res);
+      })
   }
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,12 +156,20 @@ const Index = () => {
    const [orderValue, setOrderValue] = useState(0);
    const [dropdownOpen1, setDropdownOpen1] = useState(false);
    const [loading,setLoading] = useState(true);
+   const {addToast} = useToasts();
+   const [note,setNote] = useState('');
+   const [cError,setCError] = useState('');
+   const [tError, setTError] = useState('');
 
    const selectDataSize = (value) => {
      
      setDataPerPage(value);
      setCallApi((prev) => !prev);
    };
+
+   const handleAmount = (e) => {
+    setAmountInput(e.target.value);
+   }
 
      // search handler
      const handleSearch = () => {
@@ -108,8 +183,8 @@ const Index = () => {
     };
 
     const handleReset = () => {
-      setLabel('Select Consultant');
-      setValue(0);
+      setLabel1('Select Consultant');
+      setValue1(0);
       setTransactionCode('');
   }
 
@@ -140,11 +215,75 @@ const toggle1 = () => {
     const componentRef = useRef();
  
      const handleClear = () => {
-         setLabel('Select Consultant');
-         setValue(0);
+         setLabel1('Select Consultant');
+         setValue1(0);
         
          setTransactionCode('');
          
+     }
+
+     const closeModal2 = () => {
+      setModal2Open(false);
+      setLabel2('Select Consultant');
+      setValue2(0);
+      setTLabel('Select Transaction Type');
+      setTValue(0);
+      setAmount(0);
+      
+
+     }
+
+     const submitWithdrawRequest = (event) => {
+      event.preventDefault();
+
+      const subData = {
+        consultantId: value2,
+        amount: amountInput,
+        transactionNote: note,
+        paymentTypeId: tValue,
+        reference: reference
+        }
+
+        if(value2 == 0){
+          setCError('Consultant must be Selected');
+        }
+        else if(tValue == 0){
+          setTError('Transaction type must be selected');
+        }
+
+        else{
+
+          post(`WithdrawTransaction/Create`,subData)
+          .then(res => {
+            if(res?.status == 200 && res?.data?.isSuccess == true)
+              {
+                addToast(res?.data?.message,{
+                  appearance:  'success',
+                  autoDismiss:true
+                })
+                setModal2Open(false);
+              setLabel2('Select Consultant');
+              setValue2(0);
+              setTLabel('Select Transaction Type');
+              setTValue(0);
+              setAmount(0);
+              setAmountInput(0);
+                setSuccess(!success);
+                setModal2Open(false);
+                
+              }
+              else{
+                addToast(res?.data?.message,{
+                  appearance:  'error',
+                  autoDismiss:true
+                })
+              }
+          }
+          )
+
+        }
+
+
      }
 
     return (
@@ -217,6 +356,135 @@ const toggle1 = () => {
               </Form>
                     </ModalBody>
                     </Modal>
+
+                    {/* create new withdraw transaction */}
+                    <Modal
+                    isOpen={modal2Open}
+                    toggle={closeModal2}
+                    className="uapp-modal2"
+                    >
+                    <ModalHeader>Create Withdraw Request</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit = {submitWithdrawRequest}>
+
+                        <FormGroup row className="has-icon-left position-relative">
+                            <Col md="4">
+                            <span>
+                                Select Consultant <span className="text-danger">*</span>{" "}
+                            </span>
+                            </Col>
+                            <Col md="8">
+                            <Select
+                                    styles={customStyles}
+                                    options={consultantOptions}
+                                    value={{ label: label2, value: value2 }}
+                                    onChange={(opt) => selectConsultant2(opt.label, opt.value)}
+                                    name='consultantId'
+                                    id='consultantId'
+                                    />
+                                    
+                            </Col>
+                        </FormGroup>
+
+                         <FormGroup row className="has-icon-left position-relative">
+                            <Col md="4">
+                            <span>
+                                Amount Available to Pay <span className="text-danger">*</span>{" "}
+                            </span>
+                            </Col>
+                            <Col md="8">
+                            <Input type="text"  value={amount} disabled
+                            required
+                             />
+                            </Col>
+                        </FormGroup>
+
+                         <FormGroup row className="has-icon-left position-relative">
+                            <Col md="4">
+                            <span>
+                                Amount<span className="text-danger">*</span>{" "}
+                            </span>
+                            </Col>
+                            <Col md="8">
+                            <Input type="text" onChange={handleAmount}  value={amountInput} placeholder='Enter Amount'
+                            required
+                             />
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup row className="has-icon-left position-relative">
+                            <Col md="4">
+                            <span>
+                                Select Payment Type <span className="text-danger">*</span>{" "}
+                            </span>
+                            </Col>
+                            <Col md="8">
+                            <Select
+                                    styles={customStyles}
+                                    options={transactionOptions}
+                                    value={{ label: tLabel, value: tValue }}
+                                    onChange={(opt) => selectTransaction(opt.label, opt.value)}
+                                    />
+                                      <span className='text-danger'>{tError}</span>
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup row className="has-icon-left position-relative">
+                            <Col md="4">
+                            <span>
+                                Ref/Invoice
+                            </span>
+                            </Col>
+                            <Col md="8">
+                            <Input type="text" value={reference} onChange={(e)=> setReference(e.target.value)}  placeholder='Enter Ref/Invoice'
+                            
+                             />
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup row className="has-icon-left position-relative">
+                            <Col md="4">
+                            <span>
+                                Note
+                            </span>
+                            </Col>
+                            <Col md="8">
+                            <Input type="textarea" onChange={(e)=> setNote(e.target.value)}  value={note}  rows={2} placeholder='Enter Note'
+                            
+                             />
+                            </Col>
+                        </FormGroup>
+
+                        <div className='d-flex justify-content-end'>
+                        <FormGroup className="has-icon-left position-relative">
+                         <Button
+                            color="primary"
+                            className="mr-1 mt-3"
+                            disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) )? true : false}
+                            >
+                              
+                            Submit
+                            </Button>
+                          </FormGroup>
+                        </div>
+
+                        </Form>
+                    </ModalBody>
+                    </Modal>
+
+                    <Card className="uapp-card-bg">
+                <CardHeader className="page-header">
+                  <h3 className="text-light">Withdraw Transaction List</h3>
+                  <div className="page-header-back-to-home">
+                    <span onClick={backToDashboard} className="text-light">
+                      {" "}
+                      <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+                    </span>
+                  </div>
+                </CardHeader>
+            </Card>
+
+
             <Card>
                 <CardBody>
                <div className='row'>
@@ -225,8 +493,8 @@ const toggle1 = () => {
                 styles={customStyles}
                 options={consultantOptions}
                                 
-                value={{ label: label, value: value }}
-                onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                value={{ label: label1, value: value1 }}
+                onChange={(opt) => selectConsultant1(opt.label, opt.value)}
                     />
 
                 </div>
@@ -236,8 +504,10 @@ const toggle1 = () => {
                   styles={{height: '40px'}}
                   type='text'
                   placeholder='Enter Transaction Code'
+                  value={transactionCode}
                   onChange={(e)=> setTransactionCode(e.target.value)}
                   />
+                
 
                 </div>
 
@@ -270,7 +540,14 @@ const toggle1 = () => {
 
                 <div className=" row mb-3">
             <div className='col-lg-5 col-md-5 col-sm-4 col-xs-4'>
-              
+
+            <ButtonForFunction className ={"btn btn-uapp-add "}
+                 icon ={<i className="fas fa-plus"></i>}
+                 func={()=> setModal2Open(true)} 
+                 name={' Add New Withdatw Transaction'}
+                 
+                 ></ButtonForFunction>
+
             </div>
 
             <div className='col-lg-7 col-md-7 col-sm-8 col-xs-8'>
@@ -366,7 +643,7 @@ const toggle1 = () => {
                   <tr style={{ textAlign: "center" }}>
                     <th>SL/NO</th>
                     <th>Transaction Date</th>
-                    <th>Agent Name</th>
+                    <th>Consultant Name</th>
                     <th>Transaction Code</th>
                     <th>Amount</th>
                     <th>Reference/Invoice No.</th>
@@ -403,10 +680,19 @@ const toggle1 = () => {
                         <ButtonGroup variant="text">
                        
 
-
-                            <Button className='' color='primary' onClick={()=> setModalOpen(true)}>
-                               Edit
+                            <Button className='ml-1' color='danger' onClick={()=>toggleDanger(ls)}>
+                            <i className="fas fa-trash-alt"></i>
                             </Button>
+                            <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                        <ModalBody>
+                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
+                        </ModalBody>
+        
+                        <ModalFooter>
+                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                          <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                        </ModalFooter>
+                     </Modal>
 
                           
 

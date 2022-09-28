@@ -59,7 +59,7 @@ const DistributionLevelSettingForm = (props) => {
         <div>
 
                 <div className='mb-4'>
-                <span className='branch-title-style2'>Add Distribution Level Setting</span>
+                <span className='branch-title-style2'>Add Distribution Level Settings</span>
                 </div>
 
                 <form  onSubmit={handleSubmit}> 

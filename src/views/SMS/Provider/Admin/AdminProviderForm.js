@@ -155,7 +155,7 @@ const handleSubmit  = (event) => {
 const handleEmail = (e) => {
   console.log(e.target.value);
 
-  get(`EmailCheck/EmailCheck/${e.target.value}`)
+  get(`EmailCheck/Validate/${e.target.value}`)
   .then(res => {
     console.log('Checking Response', res);
     setEmailError(res);
@@ -350,7 +350,7 @@ const handlePass = (e) => {
               <FormGroup row>
                 <Col md="2">
                 
-                <span className="pl-2"> Admin Logo {' '}<span className='text-danger'>*</span></span>
+                <span className="pl-2"> Admin Image {' '}<span className='text-danger'>*</span></span>
                 </Col>
                
              
@@ -384,7 +384,7 @@ const handlePass = (e) => {
                  
                  {
                   imageError ? 
-                  <span className='text-danger'>Admin logo must be selected</span>
+                  <span className='text-danger'>Admin image must be selected</span>
                   :
                   null
                  }
