@@ -12,6 +12,7 @@ import {
   Row,
   Table,
   Dropdown,
+  FormGroup,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -49,6 +50,7 @@ const EmployeeList = (props) => {
   const [serialNum, setSerialNum] = useState(0);
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const employeeTypeList = props.employeeTypeList[0];
   const location = useLocation();
   const { addToast } = useToasts();
@@ -60,6 +62,16 @@ const EmployeeList = (props) => {
   const [empLabel, setEmpLabel] = useState("Select Employee Type");
   const [empValue, setEmpValue] = useState(0);
   const [data, setData] = useState({});
+
+  // for hide/unhide table column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkId, setCheckId] = useState(true);
+  const [checkSType, setCheckSType] = useState(true);
+  const [checkNtn, setCheckNtn] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkEmail, setCheckEmail] = useState(true);
+  const [checkPhn, setCheckPhn] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -93,8 +105,6 @@ const EmployeeList = (props) => {
             type ? type : empValue
           }&searchstring=${searchStr}`
         ).then((action) => {
-         
-          
           setEmployeeList(action.models);
 
           setEmpLabel(action?.models[0]?.employeeType?.name);
@@ -200,6 +210,11 @@ const EmployeeList = (props) => {
     setDropdownOpen((prev) => !prev);
   };
 
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
+  };
+
   // employee click handler
   const handleEmpClick = (id) => {
     history.push({
@@ -229,11 +244,38 @@ const EmployeeList = (props) => {
 
   const redirecttoStaffGeneralInfo = (empId) => {
     history.push(`/staffGeneralInfo/${empId}`);
-  }
+  };
 
   const redirectToStaffProfile = (empId) => {
     history.push(`staffProfile/${empId}`);
-  }
+  };
+
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedId = (e) => {
+    setCheckId(e.target.checked);
+  };
+  const handleCheckedSType = (e) => {
+    setCheckSType(e.target.checked);
+  };
+  const handleCheckedNtn = (e) => {
+    setCheckNtn(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedEmail = (e) => {
+    setCheckEmail(e.target.checked);
+  };
+  const handleCheckedPhn = (e) => {
+    setCheckPhn(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
 
   return (
     <div>
@@ -326,7 +368,7 @@ const EmployeeList = (props) => {
                     </div>
                 </Col> */}
 
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Showing :</div>
                     <div>
@@ -339,7 +381,7 @@ const EmployeeList = (props) => {
                   </div>
                 </div>
 
-                <div className="ml-3">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -378,7 +420,9 @@ const EmployeeList = (props) => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
+                {/* column hide unhide starts here */}
+
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -388,27 +432,165 @@ const EmployeeList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-light cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Staff Type</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSType(e);
+                              }}
+                              defaultChecked={checkSType}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Nationality</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedNtn(e);
+                              }}
+                              defaultChecked={checkNtn}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Full Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Email</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedEmail(e);
+                              }}
+                              defaultChecked={checkEmail}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Phone No</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPhn(e);
+                              }}
+                              defaultChecked={checkPhn}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
               </div>
             </Col>
           </Row>
@@ -420,111 +602,120 @@ const EmployeeList = (props) => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>UAPP Id</th>
-                    <th>Staff Type</th>
-                    <th>Nationality</th>
-                    <th>Full Name</th>
-                    <th>Email Address</th>
-                    <th>Phone Number</th>
-                    <th className="text-center">Action</th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkId ? <th>UAPP Id</th> : null}
+                    {checkSType ? <th>Staff Type</th> : null}
+                    {checkNtn ? <th>Nationality</th> : null}
+                    {checkName ? <th>Full Name</th> : null}
+                    {checkEmail ? <th>Email</th> : null}
+                    {checkPhn ? <th>Phone No</th> : null}
+                    {checkAction ? (
+                      <th className="text-center">Action</th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {employeeList?.map((emp, i) => (
                     <tr key={emp.id} style={{ textAlign: "center" }}>
-                      <th scope="row">{serialNum + i}</th>
-                      <td>{emp?.employeeViewId}</td>
-                      <td>{emp?.employeeType?.name}</td>
-                      <td>{emp?.nationality?.name}</td>
-                      <td
-                        className="cursor-pointer hyperlink-hover"
-                        onClick={() => handleEmpClick(emp.id)}
-                      >
-                        {" "}
-                        <span> {`${emp.firstName} ${emp.lastName}`} </span>{" "}
-                      </td>
-                      <td>{emp.email}</td>
-                      <td>{emp.phoneNumber}</td>
-                      <td className="text-center">
-                        <ButtonGroup variant="text">
-                          {/* <Link to= {`/universityDetails`}> */}
-                          {/* <Button onClick={()=> handleRedirectProfile(emp?.id)} color="primary" className="mx-1 btn-sm">
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkId ? <td>{emp?.employeeViewId}</td> : null}
+                      {checkSType ? <td>{emp?.employeeType?.name}</td> : null}
+                      {checkNtn ? <td>{emp?.nationality?.name}</td> : null}
+                      {checkName ? (
+                        <td
+                          className="cursor-pointer hyperlink-hover"
+                          onClick={() => handleEmpClick(emp.id)}
+                        >
+                          {" "}
+                          <span>
+                            {" "}
+                            {`${emp.firstName} ${emp.lastName}`}{" "}
+                          </span>{" "}
+                        </td>
+                      ) : null}
+                      {checkEmail ? <td>{emp.email}</td> : null}
+                      {checkPhn ? <td>{emp.phoneNumber}</td> : null}
+                      {checkAction ? (
+                        <td className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <Link to= {`/universityDetails`}> */}
+                            {/* <Button onClick={()=> handleRedirectProfile(emp?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
                           </Button> */}
 
-                          {/* <LinkButton
+                            {/* <LinkButton
                             url={`staffProfile/${emp?.id}`}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-eye"></i>}
                           /> */}
 
-                          <ButtonForFunction
-                            func={() => redirectToStaffProfile(emp?.id)}
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                          />
+                            <ButtonForFunction
+                              func={() => redirectToStaffProfile(emp?.id)}
+                              color={"primary"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-eye"></i>}
+                            />
 
-                          {/* </Link>  */}
-                          {/* <Link to={`/employeeGeneralInfo/${emp?.id}`}>
+                            {/* </Link>  */}
+                            {/* <Link to={`/employeeGeneralInfo/${emp?.id}`}>
                           <Button  color="dark" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-edit"></i>{" "}
                           </Button>
                           </Link> */}
 
-                          {/* <LinkButton
+                            {/* <LinkButton
                             url={`/staffGeneralInfo/${emp?.id}`}
                             color={"warning"}
                             className={"mx-1 btn-sm"}
                             icon={<i className="fas fa-edit"></i>}
                           /> */}
 
-                          <ButtonForFunction
-                            func={() => redirecttoStaffGeneralInfo(emp?.id)}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                          />
+                            <ButtonForFunction
+                              func={() => redirecttoStaffGeneralInfo(emp?.id)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                            />
 
-                          {/* <Button onClick={toggleDanger} color="danger" className="mx-1 btn-sm">
+                            {/* <Button onClick={toggleDanger} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                          <ButtonForFunction
-                            func={() => toggleDanger(emp)}
-                            color={"danger"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                          />
-                        </ButtonGroup>
+                            <ButtonForFunction
+                              func={() => toggleDanger(emp)}
+                              color={"danger"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
+                            />
+                          </ButtonGroup>
 
-                        <Modal
-                          isOpen={deleteModal}
-                          toggle={closeDeleteModal}
-                          className="uapp-modal"
-                        >
-                          <ModalBody>
-                            <p>
-                              Are You Sure to Delete this? Once Deleted it can't
-                              be Undone!
-                            </p>
-                          </ModalBody>
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={closeDeleteModal}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this? Once Deleted it
+                                can't be Undone!
+                              </p>
+                            </ModalBody>
 
-                          <ModalFooter>
-                            <Button
-                              color="danger"
-                              onClick={() => handleDeleteStaff(emp?.id)}
-                            >
-                              YES
-                            </Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
-                          </ModalFooter>
-                        </Modal>
-                      </td>
+                            <ModalFooter>
+                              <Button
+                                color="danger"
+                                onClick={() => handleDeleteStaff(emp?.id)}
+                              >
+                                YES
+                              </Button>
+                              <Button onClick={closeDeleteModal}>NO</Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>
