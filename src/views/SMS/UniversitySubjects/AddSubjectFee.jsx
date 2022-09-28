@@ -54,7 +54,7 @@ const AddSubjectFee = () => {
     // redirect to dashboard
     const backToSubjectList = () => {
       if(location.subjectId != undefined){
-        history.push(`/subjectList/${location.subjectId}`);
+        history.push(`/subjectProfile/${location.subjectId}`);
       }
       else{
         history.push("/subjectList");

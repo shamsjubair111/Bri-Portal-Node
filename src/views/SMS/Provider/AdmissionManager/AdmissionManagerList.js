@@ -52,6 +52,7 @@ import post from "../../../../helpers/post";
 
 const AdmissionManagerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [entity, setEntity] = useState(0);
   const [loading, setLoading] = useState(true);
   const [serialNum, setSerialNum] = useState(1);
@@ -97,11 +98,23 @@ const AdmissionManagerList = () => {
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
+  // for hide/unhide table column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkId, setCheckId] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkPro, setCheckPro] = useState(true);
+  const [checkEmail, setCheckEmail] = useState(true);
+  const [checkPhn, setCheckPhn] = useState(true);
+  const [checkAssign, setCheckAssign] = useState(true);
+  const [checkAppli, setCheckAppli] = useState(true);
+  const [checkSts, setCheckSts] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
+
   const location = useLocation();
   const history = useHistory();
   const { addToast } = useToasts();
-  const [pass,setPass] = useState('');
-    const [passError,setPassError] = useState('');
+  const [pass, setPass] = useState("");
+  const [passError, setPassError] = useState("");
 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
@@ -175,9 +188,9 @@ const AdmissionManagerList = () => {
   };
 
   const handlePass = (e) => {
-    setPassError('')
+    setPassError("");
     setPass(e.target.value);
-}
+  };
 
   // search handler
   const handleSearch = () => {
@@ -202,6 +215,11 @@ const AdmissionManagerList = () => {
   // toggle dropdown
   const toggle = () => {
     setDropdownOpen((prev) => !prev);
+  };
+
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
   };
 
   // on clear
@@ -327,46 +345,35 @@ const AdmissionManagerList = () => {
       console.log(i);
     }
 
-    if(providerValue2 === 0){
+    if (providerValue2 === 0) {
       setProviderError(true);
-    }
-    else if(nameTitleValue === 0){
+    } else if (nameTitleValue === 0) {
       setNameTitleError(true);
-    }
-    else if(pass.length <6){
-        setPassError('Password length can not be less than six digits');
-    }
-    else if(uniCountryValue === 0){
+    } else if (pass.length < 6) {
+      setPassError("Password length can not be less than six digits");
+    } else if (uniCountryValue === 0) {
       setCountryError(true);
-    }
-    else if(unistateValue === 0){
+    } else if (unistateValue === 0) {
       setUniStateError(true);
-    }
-    else{
-        post(`AdmissionManager/Create`, subdata)
-        .then(res => {
-          setSuccess(!success);
-          
+    } else {
+      post(`AdmissionManager/Create`, subdata).then((res) => {
+        setSuccess(!success);
 
-          if (res?.status === 200 && res?.data?.isSuccess == true) {
-
-            addToast(res.data.message, {
-              appearance: 'success',
-              autoDismiss: true,
-            })
-            closeModal();
-            setModalOpen(false);
-          }
-          if (res?.status === 200 && res?.data?.isSuccess == false) {
-
-            addToast(res.data.message, {
-              appearance: 'error',
-              autoDismiss: true,
-            })
-            
-          }
-        })
-
+        if (res?.status === 200 && res?.data?.isSuccess == true) {
+          addToast(res.data.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          closeModal();
+          setModalOpen(false);
+        }
+        if (res?.status === 200 && res?.data?.isSuccess == false) {
+          addToast(res.data.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      });
     }
   };
 
@@ -412,6 +419,39 @@ const AdmissionManagerList = () => {
     setUniStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
+  };
+
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedId = (e) => {
+    setCheckId(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedPro = (e) => {
+    setCheckPro(e.target.checked);
+  };
+  const handleCheckedEmail = (e) => {
+    setCheckEmail(e.target.checked);
+  };
+  const handleCheckedPhn = (e) => {
+    setCheckPhn(e.target.checked);
+  };
+  const handleCheckedAssign = (e) => {
+    setCheckAssign(e.target.checked);
+  };
+  const handleCheckedAppli = (e) => {
+    setCheckAppli(e.target.checked);
+  };
+  const handleCheckedSts = (e) => {
+    setCheckSts(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
   };
 
   return (
@@ -784,9 +824,9 @@ const AdmissionManagerList = () => {
                     </div>
                 </Col> */}
 
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
                         options={dataSizeName}
@@ -797,7 +837,7 @@ const AdmissionManagerList = () => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -836,7 +876,9 @@ const AdmissionManagerList = () => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
+                {/* column hide unhide starts here */}
+
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -846,27 +888,203 @@ const AdmissionManagerList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-light cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Full Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Provider</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPro(e);
+                              }}
+                              defaultChecked={checkPro}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Email</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedEmail(e);
+                              }}
+                              defaultChecked={checkEmail}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Phone No</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPhn(e);
+                              }}
+                              defaultChecked={checkPhn}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Assign university</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAssign(e);
+                              }}
+                              defaultChecked={checkAssign}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Applications</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAppli(e);
+                              }}
+                              defaultChecked={checkAppli}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Account Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSts(e);
+                              }}
+                              defaultChecked={checkSts}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
               </div>
             </Col>
           </Row>
@@ -874,97 +1092,109 @@ const AdmissionManagerList = () => {
           {loading ? (
             <div class="d-flex justify-content-center mb-5">
               <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
           ) : (
             <div className="table-responsive" ref={componentRef}>
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>UAPP Id</th>
-                    <th>Full Name</th>
-                    <th>Provider</th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkId ? <th>UAPP Id</th> : null}
+                    {checkName ? <th>Full Name</th> : null}
+                    {checkPro ? <th>Provider</th> : null}
                     {/* <th>Duration</th> */}
-                    <th>Email</th>
-                    <th>Phone No</th>
-                    <th>Assign University</th>
-                    <th>Applications</th>
-                    <th>Account Status</th>
+                    {checkEmail ? <th>Email</th> : null}
+                    {checkPhn ? <th>Phone No</th> : null}
+                    {checkAssign ? <th>Assign University</th> : null}
+                    {checkAppli ? <th>Applications</th> : null}
+                    {checkSts ? <th>Account Status</th> : null}
                     {/* <th>Intakes</th> */}
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {managerList?.map((manager, i) => (
                     <tr key={manager.id} style={{ textAlign: "center" }}>
-                      <th scope="row">{serialNum + i}</th>
-                      <td>{manager?.sequenceId}</td>
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkId ? <td>{manager?.sequenceId}</td> : null}
 
-                      <td>
-                        {manager?.nameTittle?.name} {manager?.firstName} {manager?.lastName}
-                      </td>
-
-                      <td>{manager?.provider?.name}</td>
-
-                      <td>{manager?.email}</td>
-
-                      <td>{manager?.phoneNumber}</td>
-
-                      <td>
-                        {" "}
-                        <span
-                          className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          <span
-                            onClick={() =>
-                              redirectToAssignPage(
-                                manager?.provider?.id,
-                                manager?.id
-                              )
-                            }
-                            className="text-decoration-none"
-                          >
-                            View
-                          </span>
-                        </span>{" "}
-                      </td>
-                      
-                      {/* Applications starts here */}
-                      <td>
-                        <span
-                          className="badge badge-primary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {manager?.totalApplication}
-                        </span>
+                      {checkName ? (
+                        <td>
+                          {manager?.nameTittle?.name} {manager?.firstName}{" "}
+                          {manager?.lastName}
                         </td>
+                      ) : null}
+
+                      {checkPro ? <td>{manager?.provider?.name}</td> : null}
+
+                      {checkEmail ? <td>{manager?.email}</td> : null}
+
+                      {checkPhn ? <td>{manager?.phoneNumber}</td> : null}
+
+                      {checkAssign ? (
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span
+                              onClick={() =>
+                                redirectToAssignPage(
+                                  manager?.provider?.id,
+                                  manager?.id
+                                )
+                              }
+                              className="text-decoration-none"
+                            >
+                              View
+                            </span>
+                          </span>{" "}
+                        </td>
+                      ) : null}
+
+                      {/* Applications starts here */}
+                      {checkAppli ? (
+                        <td>
+                          <span
+                            className="badge badge-primary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {manager?.totalApplication}
+                          </span>
+                        </td>
+                      ) : null}
                       {/* Applications ends here */}
 
-                      <td>
-                        {
-                          <label className="switch">
-                            <input
-                              type="checkbox"
-                              defaultChecked={
-                                manager?.isActive == false ? false : true
-                              }
-                              onChange={(e) => {
-                                handleAccountStatus(e, manager?.id);
-                              }}
-                            />
-                            <span className="slider round"></span>
-                          </label>
-                        }
-                      </td>
+                      {checkSts ? (
+                        <td>
+                          {
+                            <label className="switch">
+                              <input
+                                type="checkbox"
+                                defaultChecked={
+                                  manager?.isActive == false ? false : true
+                                }
+                                onChange={(e) => {
+                                  handleAccountStatus(e, manager?.id);
+                                }}
+                              />
+                              <span className="slider round"></span>
+                            </label>
+                          }
+                        </td>
+                      ) : null}
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                          {/* <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
                            <Button color="primary" className="btn-sm me-1">
                        
                           <i className="fas fa-eye"></i>
@@ -972,78 +1202,82 @@ const AdmissionManagerList = () => {
                            </Button>
                            </Link> */}
 
-                          <ButtonForFunction
-                            func={() =>
-                              handleViewAdmissionManager(
-                                manager?.id,
-                                manager?.provider?.id
-                              )
-                            }
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                            permission={6}
-                          />
-
-                          {permissions?.includes(
-                            permissionList?.Update_Admission_manager
-                          ) ? (
-                            //   <LinkButton
-                            //     url={`/updateAdmissionManager/${manager?.id}/${manager?.provider?.id}`}
-                            //     color={"warning"}
-                            //     className={"mx-1 btn-sm"}
-                            //     icon={<i className="fas fa-edit"></i>}
-                            //     permission={6}
-                            //   />
                             <ButtonForFunction
                               func={() =>
-                                updateAdmissionManager(
+                                handleViewAdmissionManager(
                                   manager?.id,
                                   manager?.provider?.id
                                 )
                               }
-                              color={"warning"}
+                              color={"primary"}
                               className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
+                              icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
-                          ) : null}
 
-                          {permissions?.includes(
-                            permissionList?.Delete_subject
-                          ) ? (
-                            <ButtonForFunction
-                              func={() => toggleDelete(manager)}
-                              color={"danger"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
-                          ) : null}
-                        </ButtonGroup>
+                            {permissions?.includes(
+                              permissionList?.Update_Admission_manager
+                            ) ? (
+                              //   <LinkButton
+                              //     url={`/updateAdmissionManager/${manager?.id}/${manager?.provider?.id}`}
+                              //     color={"warning"}
+                              //     className={"mx-1 btn-sm"}
+                              //     icon={<i className="fas fa-edit"></i>}
+                              //     permission={6}
+                              //   />
+                              <ButtonForFunction
+                                func={() =>
+                                  updateAdmissionManager(
+                                    manager?.id,
+                                    manager?.provider?.id
+                                  )
+                                }
+                                color={"warning"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
+                            ) : null}
 
-                        <Modal
-                          isOpen={deleteModal}
-                          toggle={closeDeleteModal}
-                          className="uapp-modal"
-                        >
-                          <ModalBody>
-                            <p>
-                              Are You Sure to Delete this <b>{managerName}</b> ?
-                              Once Deleted it can't be Undone!
-                            </p>
-                          </ModalBody>
+                            {permissions?.includes(
+                              permissionList?.Delete_subject
+                            ) ? (
+                              <ButtonForFunction
+                                func={() => toggleDelete(manager)}
+                                color={"danger"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                permission={6}
+                              />
+                            ) : null}
+                          </ButtonGroup>
 
-                          <ModalFooter>
-                            <Button color="danger" onClick={handleDelete}>
-                              YES
-                            </Button>
-                            <Button color="primary" onClick={closeDeleteModal}>
-                              NO
-                            </Button>
-                          </ModalFooter>
-                        </Modal>
-                      </td>
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={closeDeleteModal}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this <b>{managerName}</b>{" "}
+                                ? Once Deleted it can't be Undone!
+                              </p>
+                            </ModalBody>
+
+                            <ModalFooter>
+                              <Button color="danger" onClick={handleDelete}>
+                                YES
+                              </Button>
+                              <Button
+                                color="primary"
+                                onClick={closeDeleteModal}
+                              >
+                                NO
+                              </Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

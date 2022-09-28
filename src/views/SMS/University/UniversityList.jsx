@@ -11,6 +11,8 @@ import {
   Row,
   Table,
   Dropdown,
+  Form,
+  FormGroup,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -29,7 +31,7 @@ import { Link } from "react-router-dom";
 import remove from "../../../helpers/remove.js";
 import { StoreUniversityListData } from "../../../redux/actions/SMS/UniversityAction/UniversityListAction";
 
-import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
+import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
@@ -80,6 +82,16 @@ const UniversityList = (props) => {
   const [providerLabel, setProviderLabel] = useState("Provider");
   const [providerValue, setProviderValue] = useState(0);
 
+  // for hide/unhide table column
+  const [checkLogo, setCheckLogo] = useState(true);
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkType, setCheckType] = useState(true);
+  const [checkCountry, setCheckCountry] = useState(true);
+  const [checkCampus, setCheckCampus] = useState(true);
+  const [checkAppli, setCheckAppli] = useState(true);
+  const [checkProg, setCheckProg] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
   const providerData = useSelector(
     (state) => state?.universityProviderDataReducer?.universityProviders
@@ -111,7 +123,6 @@ const UniversityList = (props) => {
     //     setProviderValue(res);
     //   }
     // })
-    
   }, []);
 
   console.log(location);
@@ -135,12 +146,12 @@ const UniversityList = (props) => {
         : 0;
 
     const countryId =
-    uniCountryValue !== 0
-      ? uniCountryValue
-      : typeof location?.universityCountry !== undefined ||
-      location?.universityCountry !== null
-      ? location?.universityCountry
-      : 0;
+      uniCountryValue !== 0
+        ? uniCountryValue
+        : typeof location?.universityCountry !== undefined ||
+          location?.universityCountry !== null
+        ? location?.universityCountry
+        : 0;
 
     if (uTypeId !== 0) {
       var unitype = universityTypes?.find((s) => s.id === uTypeId);
@@ -164,7 +175,7 @@ const UniversityList = (props) => {
         searchStateByCountry(countryId);
       }
     }
-    
+
     // if(location?.universityCountry != undefined){
     //   setUniCountryValue(location?.universityCountry);
     // }
@@ -179,19 +190,18 @@ const UniversityList = (props) => {
     //   setUniCountryLabel('Country');
     // }
 
-     if(providerId !== 0){
-       var providertype = providerDataResult?.find(p => p.id === providerId);
+    if (providerId !== 0) {
+      var providertype = providerDataResult?.find((p) => p.id === providerId);
 
       console.log(providertype);
 
-       if(providertype === undefined){
+      if (providertype === undefined) {
         //  setProviderLabel('Provider');
-       }
-       else{
-         setProviderLabel(providertype?.name);
-         setProviderValue(providerId);
-       }
-     }
+      } else {
+        setProviderLabel(providertype?.name);
+        setProviderValue(providerId);
+      }
+    }
 
     // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
     //   console.log("providerHelper",typeof(res));
@@ -230,15 +240,14 @@ const UniversityList = (props) => {
     unistateValue,
     universityTypes,
     orderValue,
-    providerValue, 
-    referenceId, 
+    providerValue,
+    referenceId,
     userType,
     entity,
     location.name,
-    location.universityCountry
+    location.universityCountry,
     // serialNum
   ]);
-
 
   const searchStateByCountry = (countryValue) => {
     get(`UniversityStateDD/Index/${countryValue}`).then((res) => {
@@ -282,7 +291,6 @@ const UniversityList = (props) => {
     label: dsn.label,
     value: dsn.value,
   }));
- 
 
   const selectDataSize = (value) => {
     setLoading(true);
@@ -324,16 +332,13 @@ const UniversityList = (props) => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    if(location?.universityCountry != undefined){
-      history.push("/UniversityCountry")
-    }
-    else if(location.universityType != undefined){
-      history.push("/UniversityTypes")
-    }
-    else if(location.providervalue != undefined){
-      history.push("/providerList")
-    }
-    else{
+    if (location?.universityCountry != undefined) {
+      history.push("/UniversityCountry");
+    } else if (location.universityType != undefined) {
+      history.push("/UniversityTypes");
+    } else if (location.providervalue != undefined) {
+      history.push("/providerList");
+    } else {
       history.push("/");
     }
   };
@@ -489,13 +494,49 @@ const UniversityList = (props) => {
     history.push({
       pathname: "/applications",
       universityIdFromUniList: universityId,
-      universityName: universityName
-    })
-  }
+      universityName: universityName,
+    });
+  };
 
   const redirectToUniprofile = (uniId) => {
-    history.push(`/universityDetails/${uniId}`)
-  }
+    history.push(`/universityDetails/${uniId}`);
+  };
+
+ 
+
+  // for hide/unhide column
+
+  const handleCheckedLogo = (e) => {
+    setCheckLogo(e.target.checked);
+  };
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+
+  const handleCheckedType = (e) => {
+    setCheckType(e.target.checked);
+  };
+
+  const handleCheckedCountry = (e) => {
+    setCheckCountry(e.target.checked);
+  };
+
+  const handleCheckedCampus = (e) => {
+    setCheckCampus(e.target.checked);
+  };
+
+  const handleCheckedAppli = (e) => {
+    setCheckAppli(e.target.checked);
+  };
+  const handleCheckedProg = (e) => {
+    setCheckProg(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
 
   return (
     <div>
@@ -506,18 +547,13 @@ const UniversityList = (props) => {
             <span onClick={backToDashboard} className="text-light">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {
-                location?.universityCountry != undefined ?
-                "Back to University Countries"
-                :
-                location.universityType != undefined ?
-                "Back to University Types"
-                :
-                location.providervalue != undefined ? 
-                "Back to Provider List"
-                :
-                "Back to Dashboard"
-              }
+              {location?.universityCountry != undefined
+                ? "Back to University Countries"
+                : location.universityType != undefined
+                ? "Back to University Types"
+                : location.providervalue != undefined
+                ? "Back to Provider List"
+                : "Back to Dashboard"}
             </span>
           </div>
         </CardHeader>
@@ -555,10 +591,11 @@ const UniversityList = (props) => {
                 id="UniversityStateId"
               />
             </Col>
-            {
-              !(userType == userTypes?.Provider ||
+            {!(
+              userType == userTypes?.Provider ||
               userType == userTypes?.ProviderAdmin ||
-              userType == userTypes?.AdmissionManager) ? (
+              userType == userTypes?.AdmissionManager
+            ) ? (
               <Col lg="2" md="3" sm="6" xs="6">
                 <Select
                   options={providerlist}
@@ -684,7 +721,7 @@ const UniversityList = (props) => {
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
-                          <ReactTableConvertToXl 
+                          <ReactTableConvertToXl
                             id="test-table-xls-button"
                             table="table-to-xls"
                             filename="tablexls"
@@ -707,7 +744,9 @@ const UniversityList = (props) => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="mr-3">
+                {/* column hide unhide starts here */}
+
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -717,27 +756,185 @@ const UniversityList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-light cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Logo</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedLogo(e);
+                              }}
+                              defaultChecked={checkLogo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Type</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedType(e);
+                              }}
+                              defaultChecked={checkType}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Country</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCountry(e);
+                              }}
+                              defaultChecked={checkCountry}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Campus</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCampus(e);
+                              }}
+                              defaultChecked={checkCampus}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Applications</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAppli(e);
+                              }}
+                              defaultChecked={checkAppli}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Programs</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedProg(e);
+                              }}
+                              defaultChecked={checkProg}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
+
               </div>
             </Col>
           </Row>
@@ -749,83 +946,115 @@ const UniversityList = (props) => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>Logo</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Country</th>
-                    <th>Campus</th>
-                    <th>Applications</th>
-                    <th>Programs</th>
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+
+                    {checkLogo ? <th>Logo</th> : null}
+
+                    {checkName ? <th>Name</th> : null}
+
+                    {checkType ? <th>Type</th> : null}
+
+                    {checkCountry ? <th>Country</th> : null}
+
+                    {checkCampus ? <th>Campus</th> : null}
+
+                    {checkAppli ? <th>Applications</th> : null}
+
+                    {checkProg ? <th>Programs</th> : null}
+
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {universityList?.map((university, i) => (
                     <tr key={university?.id} style={{ textAlign: "center" }}>
-                      <th scope="row">{serialNum + i}</th>
-                      <td>
-                        {" "}
-                        <img
-                          className="Uapp-c-image"
-                          src={rootUrl + university?.universityLogo?.fileUrl}
-                          alt="university_logo"
-                        />{" "}
-                      </td>
-                      <td>
-                        {university?.name} ({university?.shortName})
-                      </td>
-                      <td>{university?.universityType?.name}</td>
-                      <td>
-                        {university?.universityCountry?.name} (
-                        {university?.universityState?.name})
-                      </td>
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
 
-                      <td>
-                        {/* <span onClick={()=>redirectToCampusList(university?.id)}
+                      {checkLogo ? (
+                        <td>
+                          {" "}
+                          <img
+                            className="Uapp-c-image"
+                            src={rootUrl + university?.universityLogo?.fileUrl}
+                            alt="university_logo"
+                          />{" "}
+                        </td>
+                      ) : null}
+
+                      {checkName ? (
+                        <td>
+                          {university?.name} ({university?.shortName})
+                        </td>
+                      ) : null}
+
+                      {checkType ? (
+                        <td>{university?.universityType?.name}</td>
+                      ) : null}
+
+                      {checkCountry ? (
+                        <td>
+                          {university?.universityCountry?.name} (
+                          {university?.universityState?.name})
+                        </td>
+                      ) : null}
+
+                      {checkCampus ? (
+                        <td>
+                          {/* <span onClick={()=>redirectToCampusList(university?.id)}
                           className="badge badge-secondary"
                           style={{ cursor: "pointer" }}
                         >
                           {university?.totalCampus}
                         </span> */}
 
-                        <SpanButton
-                          func={() => redirectToCampusList(university?.id)}
-                          className={"badge badge-secondary"}
-                          style={{ cursor: "pointer" }}
-                          data={university?.totalCampus}
-                          permission={6}
-                        />
-                      </td>
+                          <SpanButton
+                            func={() => redirectToCampusList(university?.id)}
+                            className={"badge badge-secondary"}
+                            style={{ cursor: "pointer" }}
+                            data={university?.totalCampus}
+                            permission={6}
+                          />
+                        </td>
+                      ) : null}
 
-                      <td>
-                        {/* <span
+                      {checkAppli ? (
+                        <td>
+                          {/* <span
                           className="badge badge-primary"
                           style={{ cursor: "pointer" }}
                         >
                           {university?.totalApplication}
                         </span> */}
 
-                        <SpanButton
-                          func={() => redirectToApplications(university?.id, university?.name)}
-                          className={"badge badge-primary"}
-                          style={{ cursor: "pointer" }}
-                          data={university?.totalApplication}
-                          permission={6}
-                        />
-
-                      </td>
+                          <SpanButton
+                            func={() =>
+                              redirectToApplications(
+                                university?.id,
+                                university?.name
+                              )
+                            }
+                            className={"badge badge-primary"}
+                            style={{ cursor: "pointer" }}
+                            data={university?.totalApplication}
+                            permission={6}
+                          />
+                        </td>
+                      ) : null}
 
                       {/* <td onClick={()=>handleRedirectToSubList(university?.id)}> */}
-                      <td>
-                        {" "}
-                        <span
-                          className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {/* <Link className="text-decoration-none" to ={{
+
+                      {checkProg ? (
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {/* <Link className="text-decoration-none" to ={{
                              pathname: '/subjectList',
                              universityId: university?.id,
                              universityName: university?.name,
@@ -833,22 +1062,24 @@ const UniversityList = (props) => {
                           <span> {university?.totalSubject} </span>
                           </Link> */}
 
-                          <LinkSpanButton
-                            className={"text-decoration-none"}
-                            url={{
-                              pathname: `/universitySubjectList/${university?.id}`,
-                              universityId: university?.id,
-                              universityName: university?.name,
-                            }}
-                            data={university?.totalSubject}
-                            permission={6}
-                          />
-                        </span>{" "}
-                      </td>
+                            <LinkSpanButton
+                              className={"text-decoration-none"}
+                              url={{
+                                pathname: `/universitySubjectList/${university?.id}`,
+                                universityId: university?.id,
+                                universityName: university?.name,
+                              }}
+                              data={university?.totalSubject}
+                              permission={6}
+                            />
+                          </span>{" "}
+                        </td>
+                      ) : null}
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                          {/* <LinkButton
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <LinkButton
                             url={`/universityDetails/${university?.id}`}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
@@ -856,60 +1087,61 @@ const UniversityList = (props) => {
                             permission={6}
                           /> */}
 
-                          <ButtonForFunction
-                            func={() => redirectToUniprofile(university?.id)}
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              func={() => redirectToUniprofile(university?.id)}
+                              color={"primary"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-eye"></i>}
+                              permission={6}
+                            />
 
-                          {/* <Link to= {`/updateUniversityInformation/${university?.id}`}> */}
+                            {/* <Link to= {`/updateUniversityInformation/${university?.id}`}> */}
 
-                          <ButtonForFunction
-                            func={() => handleEdit(university)}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              func={() => handleEdit(university)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
 
-                          {/* </Link> */}
+                            {/* </Link> */}
 
-                          <ButtonForFunction
-                            func={() => toggleDanger(university?.id)}
-                            color={"danger"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
-                          />
-                        </ButtonGroup>
+                            <ButtonForFunction
+                              func={() => toggleDanger(university?.id)}
+                              color={"danger"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              permission={6}
+                            />
+                          </ButtonGroup>
 
-                        {/* modal for delete */}
-                        <Modal
-                          isOpen={deleteModal}
-                          toggle={closeDeleteModal}
-                          className="uapp-modal"
-                        >
-                          <ModalBody>
-                            <p>
-                              Are You Sure to Delete this{" "}
-                              {localStorage.getItem("depName")} ? Once Deleted
-                              it can't be Undone!
-                            </p>
-                          </ModalBody>
+                          {/* modal for delete */}
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={closeDeleteModal}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this{" "}
+                                {localStorage.getItem("depName")} ? Once Deleted
+                                it can't be Undone!
+                              </p>
+                            </ModalBody>
 
-                          <ModalFooter>
-                            <Button
-                              color="danger"
-                              onClick={handleDeleteUniversity}
-                            >
-                              YES
-                            </Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
-                          </ModalFooter>
-                        </Modal>
-                      </td>
+                            <ModalFooter>
+                              <Button
+                                color="danger"
+                                onClick={handleDeleteUniversity}
+                              >
+                                YES
+                              </Button>
+                              <Button onClick={closeDeleteModal}>NO</Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>
