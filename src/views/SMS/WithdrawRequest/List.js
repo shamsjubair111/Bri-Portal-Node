@@ -11,6 +11,7 @@ import { userTypes } from '../../../constants/userTypeConstant';
 import post from '../../../helpers/post';
 import { AddPhotoAlternateSharp } from '@material-ui/icons';
 import { useToasts } from 'react-toast-notifications';
+import Assets from '../../../assets/img/UappLogo.png';
 
 
 const List = () => {
@@ -597,9 +598,13 @@ const List = () => {
                         {/* {
                           ls?.paymentStatusId == 2 && */}
                           <ButtonGroup variant="text">
-                          <Button className='me-1 btn-sm' color='primary'>
-                              Download
-                              </Button>
+                          <ReactToPrint
+        trigger={() =>     <Button className='me-1 btn-sm' color='primary'>
+        Download
+        </Button>}
+        content={() => componentRef.current}
+      />
+                      
                           </ButtonGroup>
                         {/* } */}
                         
@@ -619,6 +624,20 @@ const List = () => {
 
                 </CardBody>
             </Card>
+
+            <div style={{display: 'none'}}>
+              <div ref={componentRef}>
+
+                <div className='d-flex justify-content-between'>
+
+                  <div>
+                    <img height={100} src={Assets} />
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
 
 
             

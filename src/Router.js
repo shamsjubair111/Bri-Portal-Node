@@ -374,6 +374,7 @@ const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction
 
 const CreateWithdrawRequest = lazy(() => import("./views/SMS/WithdrawRequest/Create"));
 const WithdrawRequestList = lazy(() => import("./views/SMS/WithdrawRequest/List"));
+const ExportWithdrawRequestPdf =  lazy(() => import("./views/SMS/WithdrawRequest/ExportWithdrawRequestPdf"));
 
 const WithdrawTransaction = lazy(() => import("./views/SMS/WithdrawTransaction/Index"));
 
@@ -712,6 +713,8 @@ class AppRouter extends React.Component {
            <AppRoute  path="/withdrawRequestList" component={WithdrawRequestList} />
 
            <AppRoute  path="/withdrawTransaction" component={WithdrawTransaction} />
+           <AppRoute  path="/exportPDF" component={ExportWithdrawRequestPdf} />
+
 
 
            {/* Student Create Form Paths */}
