@@ -145,7 +145,7 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
-     
+      console.log("admission manager", res);
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
@@ -3491,14 +3491,18 @@ const ApplicationDetails = () => {
                   null ? (
                     <img src={profileImage} alt="provider_img" />
                   ) : ( */}
-                    <img
+
+
+                    {/* <img
                       src={
                         rootUrl +
                         applicationInfo?.admissionManager?.providerLogoMedia
                           ?.fileUrl
                       }
                       alt="admission_manager_img"
-                    />
+                    /> */}
+
+
                     {/* )} */}
                   </div>
                 </div>
@@ -3547,7 +3551,7 @@ const ApplicationDetails = () => {
                       src={
                         rootUrl +
                         applicationInfo?.consultant?.consultantProfileImageMedia
-                          ?.fileUrl
+                          ?.thumbnailUrl
                       }
                       alt="consultant_img"
                     />

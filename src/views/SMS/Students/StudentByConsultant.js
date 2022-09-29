@@ -79,7 +79,7 @@ const StudentByConsultant = () => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/");
+    history.push("/consultantList");
   };
 
   useEffect(()=>{
@@ -297,7 +297,7 @@ const StudentByConsultant = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-light">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
           </div>
         </CardHeader>
