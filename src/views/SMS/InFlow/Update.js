@@ -4,18 +4,23 @@ import get from '../../../helpers/get';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip, ButtonGroup, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import Select from 'react-select';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import put from '../../../helpers/put';
+import { useToasts } from 'react-toast-notifications';
 
 const Update = () => {
 
     const {id} = useParams();
     const history = useHistory();
+    const {addToast} = useToasts();
+
     const [transactionInfo,setTransactionInfo] = useState({});
     const [consultant,setConsultant] = useState([]);
     const [transaction,setTransaction] = useState([]);
-    const [clabel,setCLabel] = useState('Select Consultant');
+    const [cLabel,setCLabel] = useState('Select Consultant');
     const [cValue, setCValue] = useState(0);
-    const [tLabel,setLabel] = useState('Select Transaction Type');
+    const [tLabel,setTLabel] = useState('Select Transaction Type');
     const [tValue,setTValue] = useState(0);
+    const [success,setSuccess] = useState(false);
 
     useEffect(()=>{
       
@@ -23,15 +28,61 @@ const Update = () => {
         .then( res => {
             console.log(res);
             setTransactionInfo(res);
+            setCLabel(res?.consultant);
+            setCValue(res?.consultantId);
+            setTLabel(res?.transactionType);
+            setTValue(res?.transactionTypeId);
         })
 
-        get(``)
+        get(`BonusTransactionTypeDD/Index`)
+        .then( res => {
+          
+          setTransaction(res);
+        })
 
-    },[])
+    },[success])
 
     const backToDashboard = () => {
         history.push('/inFlowTransaction');
     }
+
+    const transactionOptions = transaction?.map(tran => ({
+      label: tran?.name,
+      value: tran?.id
+    }))
+
+    const selectTransaction = (label,value) => {
+       
+      setTLabel(label);
+      setTValue(value);
+    }
+
+    const submitUpdateForm  = (event) => {
+
+      event.preventDefault();
+
+      const subData = new FormData(event.target);
+
+      put(`BonusTransaction/UPdate`,subData)
+      .then(res => {
+        if(res?.status == 200 && res?.data?.isSuccess == true){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+        }
+        else{
+          addToast(res?.data?.message,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+        }
+
+      })
+    }
+
+
 
     return (
         <div>
@@ -50,11 +101,25 @@ const Update = () => {
             <Card>
 
                 <CardBody>
-                    <span className='mr-1'><b>Code:</b></span><span className='ml-1'></span>
+                    <span className='mr-1'><b>Code:</b></span><span className=''>{' '}{transactionInfo?.transactionCode}</span>
                     <br/>
-                    <span className='mr-1'><b>Date:</b></span><span className='ml-1'></span>
+                    <span className='mr-1'><b>Date:</b></span><span className=''>{' '}{transactionInfo?.transactionDate}</span>
 
-                    <Form className='mt-3'>
+                    <Form className='mt-3' onSubmit={submitUpdateForm}>
+
+                      <input
+                      type='hidden'
+                      name='id'
+                      id='id'
+                      value={transactionInfo?.id}
+                      />
+
+                      <input
+                      type='hidden'
+                      name='consultantId'
+                      id='consultantId'
+                      value={cValue}
+                      />
 
              <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
@@ -64,9 +129,9 @@ const Update = () => {
               </Col>
               <Col md="6">
                 <Select
-                  
-                  name="studentTypeId"
-                  id="studentTypeId"
+                isDisabled={true}
+                  value={{label: cLabel, value: cValue }}
+                
                 />
                 
              </Col>
@@ -81,9 +146,11 @@ const Update = () => {
               </Col>
               <Col md="6">
                 <Select
-                  
-                  name="studentTypeId"
-                  id="studentTypeId"
+                  options={transactionOptions}
+                  value={{ label: tLabel, value: tValue }}
+                  onChange={(opt) => selectTransaction(opt.label, opt.value)}
+                  name="transactionTypeId"
+                  id="transactionTypeId"
                 />
                 
              </Col>
@@ -99,6 +166,9 @@ const Update = () => {
               <Col md="6">
                 <Input
                 type='number'
+                defaultValue={transactionInfo?.amount}
+                name='amount'
+                id='amount'
                 
                 />
                 
@@ -114,7 +184,10 @@ const Update = () => {
               </Col>
               <Col md="6">
                 <Input
-                type='number'
+                type='text'
+                defaultValue={transactionInfo?.reference}
+                name='reference'
+                id='reference'
 
                 />
                 
@@ -129,7 +202,10 @@ const Update = () => {
               </Col>
               <Col md="6">
                 <Input
-                type='number'
+                type='text'
+                defaultValue={transactionInfo?.transactionNote}
+                name='transactionNote'
+                id='transactionNote'
 
                 />
                 
