@@ -104,6 +104,7 @@ const Index = () => {
           autoDismiss: true
         })
         setSuccess(!success);
+        setDelData({});
         setDeleteModal(false);
       })
 
@@ -229,6 +230,7 @@ const toggle1 = () => {
       setTLabel('Select Transaction Type');
       setTValue(0);
       setAmount(0);
+      setAmountInput('');
       
 
      }
@@ -406,7 +408,7 @@ const toggle1 = () => {
                             </span>
                             </Col>
                             <Col md="8">
-                            <Input type="text" onChange={handleAmount}  value={amountInput} placeholder='Enter Amount'
+                            <Input type="number" onChange={handleAmount}  value={amountInput} placeholder='Enter Amount'
                             required
                              />
                             </Col>
@@ -680,9 +682,13 @@ const toggle1 = () => {
                         <ButtonGroup variant="text">
                        
 
-                            <Button className='ml-1' color='danger' onClick={()=>toggleDanger(ls)}>
-                            <i className="fas fa-trash-alt"></i>
-                            </Button>
+                           {
+                             (ls?.canDelete) && 
+                             <Button className='ml-1' color='danger' onClick={()=>toggleDanger(ls)}>
+                             <i className="fas fa-trash-alt"></i>
+                             </Button>
+                           }
+
                             <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                         <ModalBody>
                           <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>

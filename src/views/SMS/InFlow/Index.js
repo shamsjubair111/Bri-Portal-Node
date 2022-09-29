@@ -17,7 +17,7 @@ const Index = () => {
     const [data,setData] = useState([]);
 
     const [consultant,setConsultant] = useState([]);
-    const [consultantLabel,setConsultantLabel] = useState('All Consultant');
+    const [consultantLabel,setConsultantLabel] = useState('Select Consultant');
     const[consultantValue,setConsultantValue] = useState(0);
 
 
@@ -109,6 +109,14 @@ const Index = () => {
         setConsultantValue(value);
     }
 
+    const redirect = (data) => {
+      window.open(`/inFlow/details/${data?.id}`,'_blank')
+    }
+
+    const redirectForEdit = (data) => {
+      history.push(`/inFlow/Update/${data?.id}`);
+    }
+
 
     return (
         <div>
@@ -125,7 +133,7 @@ const Index = () => {
               </CardHeader>
             </Card>
 
-            <Card>
+            <Card className='uapp-employee-search'>
                 <CardBody>
 
                    
@@ -159,9 +167,9 @@ const Index = () => {
               <div className="d-flex justify-content-end flex-wrap">
                
                 
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
-                    <div className="me-2">Showing :</div>
+                    <div className="mr-2">Showing :</div>
                     <div>
                       <Select
                         options={dataSizeName}
@@ -172,7 +180,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -282,15 +290,20 @@ const Index = () => {
                      
                      
                      
-                      <td style={{ width: "15%" }} className="text-center">
+                      <td className="text-center">
                         <ButtonGroup variant="text">
                        
 
-                        <Link to='/' target='_blank'>
-                            <Button className='me-1 btn-sm' color='primary'>
+                        
+                            <Button className='mr-1 btn-sm' color='primary' onClick={()=>redirect(ls)}>
                             <i className="fas fa-eye"></i>
                             </Button>
-                            </Link>
+                            
+
+                            <Button color='warning' className='ml-1 btn-sm' onClick={()=>redirectForEdit(ls)}>
+                              <i className='fas fa-edit'></i>
+
+                            </Button>
                           
 
 

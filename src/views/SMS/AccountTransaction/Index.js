@@ -38,6 +38,20 @@ const Index = () => {
     const [bonusTransactionValue, setBonusTransactionValue] = useState(0);
     const [agree,setAgree] = useState(false);
     const [loading,setLoading] = useState(true);
+    const [outflowConsultantLabel,setOutflowConsultantLabel] = useState('Select Consultant');
+    const[outflowConsultantValue,setOutflowConsultantValue] = useState(0);
+    const [outflowConsultantError,setOutflowConsultantError] = useState('');
+    const [modal2Open,setModal2Open] = useState(false);
+    const [label2,setLabel2] = useState('Select Consultant');
+    const [value2,setValue2] = useState(0);
+    const [amount,setAmount]  = useState(0);
+    const [amountInput,setAmountInput] = useState('');
+    const [tError, setTError] = useState('');
+    const [tLabel,setTLabel] = useState('Select Transaction Type');
+    const [tValue, setTValue] = useState(0);
+    const [reference,setReference] = useState('');
+    const [note,setNote] = useState('');
+    const [cError,setCError] = useState('');
     
 
     const customStyles2 = {
@@ -68,6 +82,27 @@ const Index = () => {
         //   ...provided,
         //   height: '30px',
         // }),
+      };
+
+      const customStyles = {
+        control: (provided, state) => ({
+          ...provided,
+          background: '#fff',
+          borderColor: '#9e9e9e',
+          minHeight: '33px',
+          height: '33px',
+          boxShadow: state.isFocused ? null : null,
+          
+        }),
+  
+        // menu: () => ({
+          
+        //   overflowY: 'auto'
+          
+        // }),
+       
+       
+     
       };
   
       
@@ -101,6 +136,21 @@ const Index = () => {
         setCallApi((prev) => !prev);
       };
 
+      const handleAmount = (e) => {
+        setAmountInput(e.target.value);
+       }
+
+      const selectConsultant2 = (label,value) => {
+        setCError('');
+          setLabel2(label);
+          setValue2(value);
+          get(`Balance/ConsultantBalance/${value}`)
+          .then(res => {
+          
+            setAmount(res);
+          })
+      }
+
       const handleExportXLSX = () => {
         var wb = XLSX.utils.book_new(),
           ws = XLSX.utils.json_to_sheet(data);
@@ -127,13 +177,29 @@ const Index = () => {
 
 
   const closeModal = () => {
+    setConsultantLabel('Select Consultant');
+    setConsultantValue(0);
+    setBonusTransactionLabel('Select Transaction Type');
+    setBonusTransactionValue(0);
+    setAgree(false);
+    setInflowTransactionError('');
     setModalOpen(false);
    
   
   };
 
   const closeModal2 = () => {
-    setModalOpen2(false);
+    setLabel2('Select Consyltant');
+    setValue2(0);
+    setTLabel('Select Transaction Type');
+    setTValue(0);
+    setTError('');
+    setAmount(0);
+    setAmountInput('');
+    setNote('');
+    setReference('');
+    setModal2Open(false);
+    
    
   
   };
@@ -160,7 +226,7 @@ const Index = () => {
         
         get(`AccountTransaction/Index?page=${currentPage}&pageSize=${dataPerPage}&consultantid=${consultantValue}&typeid=${transactionValue}&transactionStatusId=${statusValue}&code=${transactionCode == ''? 'emptystring' :  transactionCode}`)
         .then(res => {
-        
+          console.log(res);
           setEntity(res?.totalEntity);
           setData(res?.models);
           setLoading(false);
@@ -177,17 +243,21 @@ const Index = () => {
       const gotoDetailsPage  = (data) => {
          if(data?.transactionTypeId == transactionTypes?.ApplicationTransaction){
           
-          window.open(`/applicationTransactiondetails/${data?.id}`,'_blank');
+          window.open(`/applicationTransactiondetails/${data?.baseTransactionId
+          }`,'_blank');
          }
          else if(data?.transactionTypeId == transactionTypes?.BonusTransaction){
         
-          window.open(`/inFlow/details/${data?.id}`,'_blank');
+          window.open(`/inFlow/details/${data?.baseTransactionId
+          }`,'_blank');
          }
          else if(data?.transactionTypeId == transactionTypes?.WithDrawnTransaction){
-          window.open(`/inFlow/details/${data?.id}`,'_blank');
+          window.open(`/withdrawTransactiondetails/${data?.baseTransactionId
+          }`,'_blank');
          }
          else if(data?.transactionTypeId == transactionTypes?.CommissionTransaction){
-          window.open(`/inFlow/details/${data?.id}`,'_blank');
+          window.open(`/commissionTransactiondetails/${data?.baseTransactionId
+          }`,'_blank');
          }
 
       }
@@ -202,13 +272,29 @@ const Index = () => {
         value: con?.id
     }))
 
+    const outflowConsultantOptions = consultant?.map(con => ({
+      label: con?.name,
+      value: con?.id
+  }))
+
     const selectConsultant = (label,value) => {
       setInflowConsultantError('');
         setConsultantLabel(label);
         setConsultantValue(value);
     }
 
+    const selectOutflowConsultant = (label,value) => {
+      setOutflowConsultantError('');
+        setOutflowConsultantLabel(label);
+        setOutflowConsultantValue(value);
+    }
+
     const transactionOptions = transaction?.map(trn => ({
+        label: trn?.name,
+        value: trn?.id
+    }))
+
+    const outflowTransactionOptions = transaction?.map(trn => ({
         label: trn?.name,
         value: trn?.id
     }))
@@ -218,6 +304,13 @@ const Index = () => {
         setTransactionLabel(label);
         setTransactionValue(value);
     }
+    const selectOutflowTransaction = (label,value) => {
+      setTError('');
+        setTLabel(label);
+        setTValue(value);
+    }
+
+   
 
     const bonusTransactionOptions = bonusTransaction?.map(trn => ({
         label: trn?.name,
@@ -283,6 +376,62 @@ const Index = () => {
     }
 
 
+    const submitWithdrawRequest = (event) => {
+      event.preventDefault();
+
+      const subData = {
+        consultantId: value2,
+        amount: amountInput,
+        transactionNote: note,
+        paymentTypeId: tValue,
+        reference: reference
+        }
+
+        if(value2 == 0){
+          setCError('Consultant must be Selected');
+        }
+        else if(tValue == 0){
+          setTError('Transaction type must be selected');
+        }
+
+        else{
+
+          post(`WithdrawTransaction/Create`,subData)
+          .then(res => {
+            if(res?.status == 200 && res?.data?.isSuccess == true)
+              {
+                addToast(res?.data?.message,{
+                  appearance:  'success',
+                  autoDismiss:true
+                })
+                setModal2Open(false);
+              setLabel2('Select Consultant');
+              setValue2(0);
+              setTLabel('Select Transaction Type');
+              setTValue(0);
+              setAmount(0);
+              setAmountInput('');
+              setReference('');
+              setNote('');
+                setSuccess(!success);
+                setModal2Open(false);
+                
+              }
+              else{
+                addToast(res?.data?.message,{
+                  appearance:  'error',
+                  autoDismiss:true
+                })
+              }
+          }
+          )
+
+        }
+
+
+     }
+
+
 
     return (
         <div>
@@ -292,14 +441,14 @@ const Index = () => {
                     :
                     <div>
                        {/* Outflow Modal */}
-                    <Modal
-                    isOpen={modalOpen2}
+                       <Modal
+                    isOpen={modal2Open}
                     toggle={closeModal2}
                     className="uapp-modal2"
                     >
-                    <ModalHeader>Outflow Transaction</ModalHeader>
+                    <ModalHeader>Create Withdraw Request</ModalHeader>
                     <ModalBody>
-                        <Form>
+                        <Form onSubmit = {submitWithdrawRequest}>
 
                         <FormGroup row className="has-icon-left position-relative">
                             <Col md="4">
@@ -309,10 +458,12 @@ const Index = () => {
                             </Col>
                             <Col md="8">
                             <Select
-                                    styles={customStyles2}
+                                    styles={customStyles}
                                     options={consultantOptions}
-                                    value={{ label: consultantLabel, value: consultantValue }}
-                                    onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                                    value={{ label: label2, value: value2 }}
+                                    onChange={(opt) => selectConsultant2(opt.label, opt.value)}
+                                    name='consultantId'
+                                    id='consultantId'
                                     />
                                     
                             </Col>
@@ -325,7 +476,7 @@ const Index = () => {
                             </span>
                             </Col>
                             <Col md="8">
-                            <Input type="text" name="statement" id="statement" value={0} disabled
+                            <Input type="text"  value={amount} disabled
                             required
                              />
                             </Col>
@@ -338,7 +489,7 @@ const Index = () => {
                             </span>
                             </Col>
                             <Col md="8">
-                            <Input type="text" name="statement" id="statement" value={1500} disabled
+                            <Input type="number" onChange={handleAmount}  value={amountInput} placeholder='Enter Amount'
                             required
                              />
                             </Col>
@@ -352,23 +503,24 @@ const Index = () => {
                             </Col>
                             <Col md="8">
                             <Select
-                                    styles={customStyles2}
-                                    options={consultantOptions}
-                                    value={{ label: consultantLabel, value: consultantValue }}
-                                    onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                                    styles={customStyles}
+                                    options={outflowTransactionOptions}
+                                    value={{ label: tLabel, value: tValue }}
+                                    onChange={(opt) => selectOutflowTransaction(opt.label, opt.value)}
                                     />
+                                      <span className='text-danger'>{tError}</span>
                             </Col>
                         </FormGroup>
 
                         <FormGroup row className="has-icon-left position-relative">
                             <Col md="4">
                             <span>
-                                Ref/Invoice<span className="text-danger">*</span>{" "}
+                                Ref/Invoice
                             </span>
                             </Col>
                             <Col md="8">
-                            <Input type="text" name="statement" id="statement" placeholder='Enter Ref/Invoice'
-                            required
+                            <Input type="text" value={reference} onChange={(e)=> setReference(e.target.value)}  placeholder='Enter Ref/Invoice'
+                            
                              />
                             </Col>
                         </FormGroup>
@@ -376,23 +528,26 @@ const Index = () => {
                         <FormGroup row className="has-icon-left position-relative">
                             <Col md="4">
                             <span>
-                                Note <span className="text-danger">*</span>{" "}
+                                Note
                             </span>
                             </Col>
                             <Col md="8">
-                            <Input type="textarea" name="statement" id="statement" rows={2} placeholder='Enter Note'
-                            required
+                            <Input type="textarea" onChange={(e)=> setNote(e.target.value)}  value={note}  rows={2} placeholder='Enter Note'
+                            
                              />
                             </Col>
                         </FormGroup>
 
                         <div className='d-flex justify-content-end'>
                         <FormGroup className="has-icon-left position-relative">
-                         <Button.Ripple
+                         <Button
                             color="primary"
-                            className="mr-1 mt-3">
+                            className="mr-1 mt-3"
+                            disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) )? true : false}
+                            >
+                              
                             Submit
-                            </Button.Ripple>
+                            </Button>
                           </FormGroup>
                         </div>
 
@@ -617,7 +772,7 @@ const Index = () => {
                             
                             <div className='d-flex flex-column'>
                             <button className='mb-1 acc-tran-btn-style' onClick={()=>setModalOpen(true)}>Inflow</button>
-                            <button className='mt-1 acc-tran-btn-style' onClick={()=>setModalOpen2(true)}>Outflow</button>
+                            <button className='mt-1 acc-tran-btn-style' onClick={()=>setModal2Open(true)}>Outflow</button>
                             </div>
 
                         </div>
@@ -792,19 +947,19 @@ const Index = () => {
                         {ls?.status}
                       </td>
                       <td>
-                        CB: {ls?.createdBy}
-                        LUO: {ls?.updatedOn}
-                        LUB: {ls?.updatedBy}
+                        CB: {ls?.createdBy}{' '}
+                        LUO: {ls?.updatedOn}{' '}
+                        LUB: {ls?.updatedBy}{' '}
                       </td>
                      
                      
-                      <td style={{ width: "15%" }} className="text-center">
+                      <td  className="text-center">
                         <ButtonGroup variant="text">
                        
 
 
                             <Button className='me-1 btn-sm' color='primary' onClick={()=>gotoDetailsPage(ls)}>
-                            <i className="fas fa-eye"></i>{' '}Details
+                            Details
                             </Button>
 
                           

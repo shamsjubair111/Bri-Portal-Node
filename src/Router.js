@@ -369,6 +369,7 @@ const ApplicationTransactionDetails = lazy(() => import("./views/SMS/Application
 
 const InFlow = lazy(() => import("./views/SMS/InFlow/Index"));
 const InFlowDetails = lazy(() => import("./views/SMS/InFlow/Details"));
+const InFlowUpdate = lazy(() => import("./views/SMS/InFlow/Update"));
 
 const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction/Index"));
 
@@ -706,6 +707,7 @@ class AppRouter extends React.Component {
 
            <AppRoute  path="/inFlowTransaction" component={InFlow} />
            <AppRoute  path="/inFlow/details/:id" component={InFlowDetails} />
+           <AppRoute  path="/inFlow/Update/:id" component={InFlowUpdate} />
 
            <AppRoute  path="/accountTransaction" component={AccountTransactionList} />
 

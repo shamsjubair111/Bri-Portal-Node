@@ -765,13 +765,25 @@ color: #1d94ab;
         background: #fff;
         box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
   }
+
   .hedding-titel h5{
+    font-size:16px;
+  }
+
+  .hedding-titel2 h5{
     font-size:16px;
   }
 
 .hedding-titel .bg-h{
     height: 3px;
     width: 100px;
+    background-color: #1d94ab;
+    border-radius: 100px;
+  }
+
+.hedding-titel2 .bg-h{
+    height: 3px;
+    width: 50%px;
     background-color: #1d94ab;
     border-radius: 100px;
   }

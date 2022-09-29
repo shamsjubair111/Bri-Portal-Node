@@ -20,15 +20,15 @@ const Index = () => {
     const[uappValue,setUappValue] = useState(0);
 
     const [student,setStudent] = useState([]);
-    const [studentLabel,setStudentLabel] = useState('All Student');
+    const [studentLabel,setStudentLabel] = useState('Select Student');
     const[studentValue,setStudentValue] = useState(0);
 
     const [consultant,setConsultant] = useState([]);
-    const [consultantLabel,setConsultantLabel] = useState('All Consultant');
+    const [consultantLabel,setConsultantLabel] = useState('Select Consultant');
     const[consultantValue,setConsultantValue] = useState(0);
 
     const [intake,setIntake] = useState([]);
-    const [intakeLabel,setIntakeLabel] = useState('All Intake');
+    const [intakeLabel,setIntakeLabel] = useState('Select Intake');
     const[intakeValue,setIntakeValue] = useState(0);
 
     const [data,setData] = useState([]);
@@ -168,11 +168,11 @@ const Index = () => {
     const handleReset = () => {
         setUappLabel('UAPP Id');
         setUappValue(0);
-        setStudentLabel('All Student');
+        setStudentLabel('Select Student');
         setStudentValue(0);
-        setConsultantLabel('All Consultant');
+        setConsultantLabel('Select Consultant');
         setConsultantValue(0);
-        setIntakeLabel('All Intake');
+        setIntakeLabel('Select Intake');
         setIntakeValue(0);
     }
 
