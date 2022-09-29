@@ -104,6 +104,8 @@ const Update = () => {
                     <span className='mr-1'><b>Code:</b></span><span className=''>{' '}{transactionInfo?.transactionCode}</span>
                     <br/>
                     <span className='mr-1'><b>Date:</b></span><span className=''>{' '}{transactionInfo?.transactionDate}</span>
+                    <br/>
+                    <span className='mr-1'><b>Consultant:</b></span><span className=''>{' '}{cLabel}</span>
 
                     <Form className='mt-3' onSubmit={submitUpdateForm}>
 
@@ -121,22 +123,7 @@ const Update = () => {
                       value={cValue}
                       />
 
-             <FormGroup row className="has-icon-left position-relative">
-              <Col md="2">
-                <span>
-                  Consultant <span className="text-danger">*</span>{" "}
-                </span>
-              </Col>
-              <Col md="6">
-                <Select
-                isDisabled={true}
-                  value={{label: cLabel, value: cValue }}
-                
-                />
-                
-             </Col>
-
-            </FormGroup>
+             
 
              <FormGroup row className="has-icon-left position-relative">
               <Col md="2">

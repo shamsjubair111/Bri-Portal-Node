@@ -13,6 +13,7 @@ import post from '../../../helpers/post';
 import { AddPhotoAlternateSharp } from '@material-ui/icons';
 import { useToasts } from 'react-toast-notifications';
 import Assets from '../../../assets/img/UappLogo.png';
+import Loader from '../Search/Loader/Loader';
 
 
 const List = () => {
@@ -52,6 +53,7 @@ const List = () => {
     const [modalPLabel,setModalPLabel] = useState('Select Payment Status');
     const [modalPValue,setModalPValue] = useState(0);
     
+    
 
     useEffect(()=>{
 
@@ -75,6 +77,7 @@ const List = () => {
           console.log(res?.models);
           setData(res?.models);
           setEntity(res?.totalEntity);
+          setLoading(false);
         })
 
     },[consultantValue, transactionValue, paymentValue, success, transactionCode])
@@ -162,7 +165,7 @@ const List = () => {
      const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
  
      const selectDataSize = (value) => {
-       setLoading(true);
+       
        setDataPerPage(value);
        setCallApi((prev) => !prev);
      };
@@ -193,6 +196,7 @@ const List = () => {
       };
 
     const componentRef = useRef();
+    const componentRef2 = useRef();
 
     const handleClear = () => {
         setConsultantLabel('Select Consultant');
@@ -273,7 +277,12 @@ const List = () => {
     return (
         <div>
 
-          {/* Update withdraw request status modal selected Transaction Status  */}
+          {
+            loading? 
+            <Loader/>
+            :
+            <>
+            {/* Update withdraw request status modal selected Transaction Status  */}
 
           <Modal
                     isOpen={modalOpen}
@@ -548,7 +557,7 @@ const List = () => {
           </div>
 
                 <div className='table-responsive' ref={componentRef}>
-                <Table className="table-sm table-bordered" >
+                <Table id="table-to-xls" className="table-sm table-bordered" >
                     <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
                     
@@ -610,7 +619,7 @@ const List = () => {
         trigger={() =>     <Button className='me-1 btn-sm' color='primary'>
         Download
         </Button>}
-        content={() => componentRef.current}
+        content={() => componentRef2.current}
       />
                       
                           </ButtonGroup>
@@ -634,7 +643,7 @@ const List = () => {
             </Card>
 
             <div style={{display: 'none'}}>
-              <div ref={componentRef}>
+              <div ref={componentRef2}>
 
                 <div className='d-flex justify-content-between'>
 
@@ -648,6 +657,8 @@ const List = () => {
             </div>
 
 
+            </>
+          }
             
         </div>
     );

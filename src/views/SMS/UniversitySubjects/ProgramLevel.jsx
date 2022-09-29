@@ -10,6 +10,7 @@ import get from '../../../helpers/get';
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import Loader from '../Search/Loader/Loader';
 
 const ProgramLevel=(props)=>{
     const programLevelList = props.allprogramLevelList[0];
@@ -23,6 +24,7 @@ const ProgramLevel=(props)=>{
     const [programValue,setProgramValue] = useState(0);
     const [description,setDescription] = useState('');
     const [levelValue, setLevelValue] = useState("Type Level Value");
+    const [loading,setLoading] = useState(true);
 
     const [ProgramId, setProgramId] = useState(0);
     const [ProgramName, setProgramName] = useState('');
@@ -96,6 +98,7 @@ const closeModal = () => {
     const returnValue = get(`ProgramLevel/Index`).then((action)=>{
     
         dispatch(StoreProgramLevelData(action))
+        setLoading(false);
       });
   },[success])
 
@@ -174,7 +177,12 @@ const AddModalOpen= () => {
 
 return (
     <div>
-        <Card className="uapp-card-bg">
+        {
+          loading ?
+          <Loader/>
+          :
+          <>
+          <Card className="uapp-card-bg">
           <CardHeader className="page-header">             
              <h3 className="text-light">Program Level List</h3>
               <div className="page-header-back-to-home">
@@ -384,6 +392,8 @@ return (
 
      </CardBody>
   </Card>
+          </>
+        }
     </div>
 )
 }

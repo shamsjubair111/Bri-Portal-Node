@@ -76,7 +76,7 @@ const StudentList = () => {
   const [statusLabel, setStatusLabel] = useState("Select Account Status");
   const [statusValue, setStatusValue] = useState(0);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
@@ -133,7 +133,7 @@ const StudentList = () => {
           setSerialNum(res?.firstSerialNumber);
           setLoading(false);
           setStudentTypeLabel(res?.models[0]?.studentType?.name);
-          setLoading(false);
+         
         })
       : get(
           `Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${
@@ -182,7 +182,7 @@ const StudentList = () => {
   const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
 
   const selectDataSize = (value) => {
-    setLoading(true);
+    
     setDataPerPage(value);
     setCallApi((prev) => !prev);
   };
@@ -214,7 +214,7 @@ const StudentList = () => {
 
   const selectOrder = (label, value) => {
     // console.log("value", label, value);
-    setLoading(true);
+    
     setOrderLabel(label);
     setOrderValue(value);
     setCallApi((prev) => !prev);
@@ -467,7 +467,12 @@ const StudentList = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading? 
+        <Loader/>
+        :
+        <>
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Student List</h3>
           <div className="page-header-back-to-home">
@@ -1111,6 +1116,8 @@ const StudentList = () => {
           />
         </CardBody>
       </Card>
+        </>
+      }
             </div>
           
     

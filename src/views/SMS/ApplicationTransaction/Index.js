@@ -61,6 +61,7 @@ const Index = () => {
     const[intakeValue,setIntakeValue] = useState(0);
 
     const [data, setData] = useState([]);
+   
 
     const [currentPage, setCurrentPage] = useState(1);
     const [callApi, setCallApi] = useState(false);
@@ -140,6 +141,7 @@ const Index = () => {
     ).then((res) => {
       setData(res?.models);
       setEntity(res?.totalEntity);
+      setLoading(false);
     });
   }, [
     currentPage,
@@ -208,7 +210,12 @@ const Index = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading?
+        <Loader/>
+        :
+        <>
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Application Transaction List</h3>
           <div className="page-header-back-to-home">
@@ -434,6 +441,8 @@ const Index = () => {
           />
         </CardBody>
       </Card>
+        </>
+      }
     </div>
   );
 };
