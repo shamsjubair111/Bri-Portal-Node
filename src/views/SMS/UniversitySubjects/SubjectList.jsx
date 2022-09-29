@@ -1,46 +1,46 @@
-import React, { useEffect, useState, Component, useRef } from 'react';
+import React, { useEffect, useState, Component, useRef } from "react";
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    ButtonGroup,
-    Modal, 
-    ModalHeader, 
-    ModalBody, 
-    ModalFooter,
-    Button,
-  
-    Input,
-  
-    Col,
-    Row,
-    Table,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
-  } from "reactstrap";
+  Card,
+  CardBody,
+  CardHeader,
+  ButtonGroup,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Input,
+  Form,
+  FormGroup,
+  Col,
+  Row,
+  Table,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+} from "reactstrap";
 
-  // import { permissionList } from '../../../../constants/AuthorizationConstant';
-  import { permissionList } from '../../../constants/AuthorizationConstant';
+// import { permissionList } from '../../../../constants/AuthorizationConstant';
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
-import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import * as XLSX from 'xlsx/xlsx.mjs';
+import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import * as XLSX from "xlsx/xlsx.mjs";
 // import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import ReactToPrint from 'react-to-print';
+import ReactToPrint from "react-to-print";
 
 import Select from "react-select";
 import { useHistory, useLocation } from "react-router";
-import { Link } from 'react-router-dom';
-import get from '../../../helpers/get';
-import { useToasts } from 'react-toast-notifications';
-import remove from '../../../helpers/remove';
+import { Link } from "react-router-dom";
+import get from "../../../helpers/get";
+import { useToasts } from "react-toast-notifications";
+import remove from "../../../helpers/remove";
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import { connect, useDispatch } from 'react-redux';
 import { StoreUniversityCampusListData } from '../../../redux/actions/SMS/UniversityAction/UniversityCampusListAction';
@@ -51,253 +51,276 @@ import { userTypes } from '../../../constants/userTypeConstant';
 import Loader from '../Search/Loader/Loader';
 
 const SubjectList = (props) => {
+  const dispatch = useDispatch();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
+  const [subList, setSubList] = useState([]);
+  const [entity, setEntity] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [serialNum, setSerialNum] = useState(1);
+  const [success, setSuccess] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
-    const dispatch = useDispatch();
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [subList, setSubList] = useState([]);
-    const [entity, setEntity] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const [serialNum, setSerialNum] = useState(1);
-    const [success, setSuccess] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage, setDataPerPage] = useState(15);
+  const [callApi, setCallApi] = useState(false);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [dataPerPage, setDataPerPage] = useState(15);
-    const [callApi, setCallApi] = useState(false);
-    
-    const univerSList = props.univerSityDropDownList[0];
-    const camppus = props.campusDropDownList[0];
+  const univerSList = props.univerSityDropDownList[0];
+  const camppus = props.campusDropDownList[0];
 
-    const [uniLabel, setUniLabel] = useState("Select University");
-    const [uniValue, setUniValue] = useState(0);
-    const [campLabel, setCampLabel] = useState("Select Campus");
-    const [campValue, setCampValue] = useState(0);
-    const [campList, setCampList] = useState([]);
-    const [searchStr, setSearchStr] = useState("");
-    const [uniTypeId ,setUTypeId] = useState(0);
-    const [ulist,setUList] = useState([]);
-    const [cam, setCam] = useState([]);
-    const [submitData, setSubmitData] = useState(false);
-    const [providerValue, setProviderValue] = useState(0);
+  const [uniLabel, setUniLabel] = useState("Select University");
+  const [uniValue, setUniValue] = useState(0);
+  const [campLabel, setCampLabel] = useState("Select Campus");
+  const [campValue, setCampValue] = useState(0);
+  const [campList, setCampList] = useState([]);
+  const [searchStr, setSearchStr] = useState("");
+  const [uniTypeId, setUTypeId] = useState(0);
+  const [ulist, setUList] = useState([]);
+  const [cam, setCam] = useState([]);
+  const [submitData, setSubmitData] = useState(false);
+  const [providerValue, setProviderValue] = useState(0);
 
-    const [subId, setSubId] = useState(0);
-    const [subName, setSubName] = useState('');
+  const [subId, setSubId] = useState(0);
+  const [subName, setSubName] = useState("");
 
-    const [orderLabel, setOrderLabel] = useState("Select order by");
-    const [orderValue, setOrderValue] = useState(0);
+  const [orderLabel, setOrderLabel] = useState("Select order by");
+  const [orderValue, setOrderValue] = useState(0);
 
-    // for tab
-    const [activetab, setActivetab] = useState("1");
+  // for tab
+  const [activetab, setActivetab] = useState("1");
 
-    const userType = localStorage.getItem("userType");
-    const referenceId = localStorage.getItem("referenceId");
+  // for hide/unhide table column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkUni, setCheckUni] = useState(true);
+  const [checkProg, setCheckProg] = useState(true);
+  const [checkDep, setCheckDep] = useState(true);
+  const [checkSubDep, setCheckSubDep] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
+  const userType = localStorage.getItem("userType");
+  const referenceId = localStorage.getItem("referenceId");
 
+  const location = useLocation();
+  const history = useHistory();
+  const { addToast } = useToasts();
 
-    const location = useLocation();
-    const history = useHistory();
-    const { addToast } = useToasts();
+  // redirect to dashboard
+  const backToDashboard = () => {
+    history.push("/");
+  };
 
-    // redirect to dashboard
-    const backToDashboard = () => {
-      history.push("/");
-    };
+  // add university handler
+  const handleAddSubject = () => {
+    // localStorage.removeItem("subjectId");
+    history.push("/addSubject");
+  };
 
-    // add university handler
-    const handleAddSubject = () => {
-      // localStorage.removeItem("subjectId");
-      history.push("/addSubject");
-    };
+  // toggle dropdown
+  const toggle = () => {
+    setDropdownOpen((prev) => !prev);
+  };
 
-    // toggle dropdown
-    const toggle = () => {
-      setDropdownOpen((prev) => !prev);
-    };
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
+  };
 
-    useEffect(()=>{
-      get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-       
-          setProviderValue(res != 0 ? res : 0);
-          // if(res != 0){
-          //   localStorage.setItem("providerValue", res);
-          // }
-      })
-    },[userType, referenceId]);
+  useEffect(() => {
+    get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(
+      (res) => {
+        setProviderValue(res != 0 ? res : 0);
+        // if(res != 0){
+        //   localStorage.setItem("providerValue", res);
+        // }
+      }
+    );
+  }, [userType, referenceId]);
 
-    useEffect(()=>{
-      if(userType == userTypes?.ProviderAdmin){
-        get(`ProviderUniversityDD/Index/${providerValue}`).then(res=> {
+  useEffect(() => {
+    if (userType == userTypes?.ProviderAdmin) {
+      get(`ProviderUniversityDD/Index/${providerValue}`)
+        .then((res) => {
           setUList(res);
           dispatch(StoreUniversityListData(res));
         })
         .catch();
-      }
-      else{
-        get("UniversityDD/Index").then(res =>{
-          setUList(res);
-          dispatch(StoreUniversityListData(res));
-        });
-      }
-    },[providerValue]);
+    } else {
+      get("UniversityDD/Index").then((res) => {
+        setUList(res);
+        dispatch(StoreUniversityListData(res));
+      });
+    }
+  }, [providerValue]);
 
-   
-    useEffect(()=>{
-      if(location?.universityId){
+  useEffect(() => {
+    if (location?.universityId) {
       // if(localStorage.getItem("uniIdForSubList")){
-        get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
-        // get(`UniversityCampus/GetbyUniversity/${localStorage.getItem("uniIdForSubList")}`).then(res =>{
+      get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(
+        (res) => {
+          // get(`UniversityCampus/GetbyUniversity/${localStorage.getItem("uniIdForSubList")}`).then(res =>{
           setCam(res);
           dispatch(StoreUniversityCampusListData(res));
-        });
-      }
-      else{
-        return;
-      }
-    },[]);
-
-    // if(location?.universityId){
-    //   get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
-    //     setCam(res);
-    //     dispatch(StoreUniversityCampusListData(res));
-    //   });
-    // }
-    
-    // const universityCampusList = useSelector(state=>state.universityCampusListReducer.universityCampusList);
-
-    useEffect(() => {
-
-      const uTypeId = uniValue !== 0 ? uniValue : typeof location?.universityId !== undefined || location?.universityId !== null ? location?.universityId : 0;
-      // const uTypeId = uniValue !== 0 ? uniValue : typeof JSON.parse(localStorage.getItem("uniIdForSubList")) !== undefined || JSON.parse(localStorage.getItem("uniIdForSubList")) !== null ? JSON.parse(localStorage.getItem("uniIdForSubList")) : 0;
-      setUTypeId(uTypeId);
-
-      if (uTypeId !== 0) {
-        var unitype = univerSList?.find((s) => s.id === uTypeId);
-      
-        if (unitype === undefined) {
-          setUniLabel("Select University");
-        } 
-        else {
-          setUniLabel(unitype?.name);
-          setUniValue(uTypeId);
-          searchCampusByUniversity(uTypeId);
         }
+      );
+    } else {
+      return;
+    }
+  }, []);
+
+  // if(location?.universityId){
+  //   get(`UniversityCampus/GetbyUniversity/${location?.universityId}`).then(res =>{
+  //     setCam(res);
+  //     dispatch(StoreUniversityCampusListData(res));
+  //   });
+  // }
+
+  // const universityCampusList = useSelector(state=>state.universityCampusListReducer.universityCampusList);
+
+  useEffect(() => {
+    const uTypeId =
+      uniValue !== 0
+        ? uniValue
+        : typeof location?.universityId !== undefined ||
+          location?.universityId !== null
+        ? location?.universityId
+        : 0;
+    // const uTypeId = uniValue !== 0 ? uniValue : typeof JSON.parse(localStorage.getItem("uniIdForSubList")) !== undefined || JSON.parse(localStorage.getItem("uniIdForSubList")) !== null ? JSON.parse(localStorage.getItem("uniIdForSubList")) : 0;
+    setUTypeId(uTypeId);
+
+    if (uTypeId !== 0) {
+      var unitype = univerSList?.find((s) => s.id === uTypeId);
+
+      if (unitype === undefined) {
+        setUniLabel("Select University");
+      } else {
+        setUniLabel(unitype?.name);
+        setUniValue(uTypeId);
+        searchCampusByUniversity(uTypeId);
       }
+    }
 
-      const camId = campValue !== 0 ? campValue : 0;
-      
-      // if(camId !== 0){
-      //   var caId = camppus?.find(s=>s?.id === camId);
-      // }
+    const camId = campValue !== 0 ? campValue : 0;
 
-      setLoading(true);
-  
-        get(`Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${uTypeId ? uTypeId : uniValue}&search=${searchStr}&sortby=${orderValue}`).then((res) => {
-          setSubList(res?.models);
-       
-          setSerialNum(res?.firstSerialNumber);
-          setEntity(res?.totalEntity);        
-          setLoading(false);
-        });
-    
+    // if(camId !== 0){
+    //   var caId = camppus?.find(s=>s?.id === camId);
+    // }
 
-    }, [success, currentPage, dataPerPage, callApi, searchStr, uniTypeId, campValue, univerSList, uniValue, location.universityId, orderValue]);
+    setLoading(true);
 
-   
+    get(
+      `Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${
+        uTypeId ? uTypeId : uniValue
+      }&search=${searchStr}&sortby=${orderValue}`
+    ).then((res) => {
+      setSubList(res?.models);
 
+      setSerialNum(res?.firstSerialNumber);
+      setEntity(res?.totalEntity);
+      setLoading(false);
+    });
+  }, [
+    success,
+    currentPage,
+    dataPerPage,
+    callApi,
+    searchStr,
+    uniTypeId,
+    campValue,
+    univerSList,
+    uniValue,
+    location.universityId,
+    orderValue,
+  ]);
 
-    const searchCampusByUniversity = (universityValue) =>{
-      get(`UniversityCampus/GetbyUniversity/${universityValue}`)
-      .then(res =>{
-     
+  const searchCampusByUniversity = (universityValue) => {
+    get(`UniversityCampus/GetbyUniversity/${universityValue}`).then((res) => {
       setCampList(res);
-    })
-    }
+    });
+  };
 
+  // user select data per page
+  const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
+  const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
 
-    // user select data per page
-    const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
-    const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
+  const selectDataSize = (value) => {
+    setLoading(true);
+    setDataPerPage(value);
+    setCallApi((prev) => !prev);
+  };
 
-    const selectDataSize = (value) => {
-      setLoading(true);
-      setDataPerPage(value);
-      setCallApi((prev) => !prev);
-    };
+  //  change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setCallApi((prev) => !prev);
+  };
 
-    //  change page
-    const paginate = (pageNumber) => {
-      setCurrentPage(pageNumber);
-      setCallApi((prev) => !prev);
-    };
-    
-     // search handler
-     const handleSearch = () => {
-       setCurrentPage(1);
-       setCallApi((prev) => !prev);
-     };
+  // search handler
+  const handleSearch = () => {
+    setCurrentPage(1);
+    setCallApi((prev) => !prev);
+  };
 
-    // university dropdown options
-    const universityOption = univerSList?.map((uni) => ({
-      label: uni?.name,
-      value: uni?.id,
-    }));
+  // university dropdown options
+  const universityOption = univerSList?.map((uni) => ({
+    label: uni?.name,
+    value: uni?.id,
+  }));
 
-    // campus dropdown options
-    const campusOption = campList?.map((camp) => ({
-      label: camp?.name,
-      value: camp?.id,
-    }));
+  // campus dropdown options
+  const campusOption = campList?.map((camp) => ({
+    label: camp?.name,
+    value: camp?.id,
+  }));
 
-    const selectUni = (label, value) => {
-      setUniLabel(label);
-      setUniValue(value);
-      setCampLabel("Select Campus");
-      setCampValue(0);
-      searchCampusByUniversity(value);
-      handleSearch();
-    };
+  const selectUni = (label, value) => {
+    setUniLabel(label);
+    setUniValue(value);
+    setCampLabel("Select Campus");
+    setCampValue(0);
+    searchCampusByUniversity(value);
+    handleSearch();
+  };
 
-    const selectUniCampus = (label, value) => {
-      setCampLabel(label);
-      setCampValue(value);
-      handleSearch();
-    };
+  const selectUniCampus = (label, value) => {
+    setCampLabel(label);
+    setCampValue(value);
+    handleSearch();
+  };
 
-    const searchValue = (e) => {
-      setSearchStr(e.target.value);
-      handleSearch();
-    };
+  const searchValue = (e) => {
+    setSearchStr(e.target.value);
+    handleSearch();
+  };
 
-
-    const handleDelete = (id) => {
-      const returnValue = remove(`Subject/Delete/${id}`).then((action)=> {
-   
-        setSuccess(!success);
-        setDeleteModal(false);
-         addToast(action, {
-           appearance: 'error',
-           autoDismiss: true,
-         })
-         setSubName('');
-         setSubId(0);
-      })
-    };
-
-    const toggleDanger = (name,id) => {
-      // localStorage.setItem('subName',name)
-      // localStorage.setItem('subId',id)
-      setSubName(name);
-      setSubId(id);
-      setDeleteModal(true)
-     }
-
-     const closeDeleteModal = () => {
+  const handleDelete = (id) => {
+    const returnValue = remove(`Subject/Delete/${id}`).then((action) => {
+      setSuccess(!success);
       setDeleteModal(false);
-      setSubName('');
+      addToast(action, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setSubName("");
       setSubId(0);
-    }
+    });
+  };
 
-    // on clear
+  const toggleDanger = (name, id) => {
+    // localStorage.setItem('subName',name)
+    // localStorage.setItem('subId',id)
+    setSubName(name);
+    setSubId(id);
+    setDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setSubName("");
+    setSubId(0);
+  };
+
+  // on clear
   const handleClearSearch = () => {
     setUniLabel("Select University");
     setUniValue(0);
@@ -307,12 +330,12 @@ const SubjectList = (props) => {
     setCallApi((prev) => !prev);
     setSearchStr("");
     history.replace({
-      universityId: null
-    })
+      universityId: null,
+    });
   };
 
-   // on enter press
-   const handleKeyDown = (event) => {
+  // on enter press
+  const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       setCurrentPage(1);
       setCallApi((prev) => !prev);
@@ -345,7 +368,6 @@ const SubjectList = (props) => {
   }));
 
   const selectOrder = (label, value) => {
-   
     setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
@@ -354,7 +376,7 @@ const SubjectList = (props) => {
 
   const handleExportXLSX = () => {
     var wb = XLSX.utils.book_new(),
-    ws = XLSX.utils.json_to_sheet(subList);
+      ws = XLSX.utils.json_to_sheet(subList);
     XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
@@ -362,38 +384,55 @@ const SubjectList = (props) => {
 
   const componentRef = useRef();
 
-  const handleView = id =>{
+  const handleView = (id) => {
     // localStorage.setItem('subIdPro', id);
     localStorage.removeItem("campIdSubProfile");
     history.push(`/subjectProfile/${id}`);
-  }
+  };
 
   // localStorage.removeItem("uniIdForSubList");
-  const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
 
-    return (
+  // for hide/unhide column
 
-        <div>
-           {
-            loading?
-            <Loader/>
-            :
-            <div>
-               <Card className="uapp-card-bg">
-                <CardHeader className="page-header">
-                  <h3 className="text-light">Subject List</h3>
-                  <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard} className="text-light">
-                      {" "}
-                      <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
-                    </span>
-                  </div>
-                </CardHeader>
-            </Card>
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedUni = (e) => {
+    setCheckUni(e.target.checked);
+  };
+  const handleCheckedProg = (e) => {
+    setCheckProg(e.target.checked);
+  };
+  const handleCheckedDep = (e) => {
+    setCheckDep(e.target.checked);
+  };
+  const handleCheckedSubDep = (e) => {
+    setCheckSubDep(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
 
-            <Card className="uapp-employee-search">
+  return (
+    <div>
+      <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-light">Subject List</h3>
+          <div className="page-header-back-to-home">
+            <span onClick={backToDashboard} className="text-light">
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+            </span>
+          </div>
+        </CardHeader>
+      </Card>
+
+      <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
-
           <Row>
             <Col lg="4" md="3" sm="6" xs="6">
               <Select
@@ -458,25 +497,20 @@ const SubjectList = (props) => {
         </CardBody>
       </Card>
 
-
       <Card className="uapp-employee-search">
         <CardBody>
-
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
-            {
-              permissions?.includes(permissionList?.Add_subject) ?
-              <ButtonForFunction
-                func={handleAddSubject}
-                className={"btn btn-uapp-add "}
-                icon={<i className="fas fa-plus"></i>}
-                name={" Add New Subject"}
-                permission={6}
-              />
-              :
-              null
-              }
+              {permissions?.includes(permissionList?.Add_subject) ? (
+                <ButtonForFunction
+                  func={handleAddSubject}
+                  className={"btn btn-uapp-add "}
+                  icon={<i className="fas fa-plus"></i>}
+                  name={" Add New Subject"}
+                  permission={6}
+                />
+              ) : null}
             </Col>
 
             <Col lg="7" md="7" sm="8" xs="8">
@@ -536,7 +570,7 @@ const SubjectList = (props) => {
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
-                          <ReactTableConvertToXl 
+                          <ReactTableConvertToXl
                             id="test-table-xls-button"
                             table="table-to-xls"
                             filename="tablexls"
@@ -559,7 +593,9 @@ const SubjectList = (props) => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
+                {/* column hide unhide starts here */}
+
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -569,178 +605,292 @@ const SubjectList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-light cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">University</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedUni(e);
+                              }}
+                              defaultChecked={checkUni}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Program Level</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedProg(e);
+                              }}
+                              defaultChecked={checkProg}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Department</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedDep(e);
+                              }}
+                              defaultChecked={checkDep}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Sub Department</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSubDep(e);
+                              }}
+                              defaultChecked={checkSubDep}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
+                
               </div>
             </Col>
           </Row>
 
           {loading ? (
             <div class="d-flex justify-content-center mb-5">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
-          </div>
           ) : (
             <div className="table-responsive" ref={componentRef}>
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>Name</th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkName ? <th>Name</th> : null}
                     {/* <th>Description</th>
                     <th>Duration</th> */}
-                    <th>University</th>
-                    <th>Program Level</th>
-                    <th>Department</th>
-                    <th>Sub Department</th>
+                    {checkUni ? <th>University</th> : null}
+                    {checkProg ? <th>Program Level</th> : null}
+                    {checkDep ? <th>Department</th> : null}
+                    {checkSubDep ? <th>Sub Department</th> : null}
                     {/* <th>Intakes</th> */}
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {subList?.map((sub, i) => (
                     <tr key={sub.id} style={{ textAlign: "center" }}>
-                      <th scope='row'>{serialNum + i}</th>
-                      <td>
-                        {sub?.name}
-                      </td>
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkName ? <td>{sub?.name}</td> : null}
                       {/* <td>{sub?.description}</td>
 
                       <td>
                         {sub?.duration}
                       </td> */}
 
-                      <td>
-                        {sub?.universityName}
-                      </td>
+                      {checkUni ? <td>{sub?.universityName}</td> : null}
 
-                      <td>
-                        {sub?.programLevelName}
-                      </td>
+                      {checkProg ? <td>{sub?.programLevelName}</td> : null}
 
-                      <td>
-                        {sub?.departmentName}
-                      </td>
+                      {checkDep ? <td>{sub?.departmentName}</td> : null}
 
-                      <td>
-                        {sub?.subDepartmentName}
-                      </td>
+                      {checkSubDep ? <td>{sub?.subDepartmentName}</td> : null}
 
-                  
-                        {/* <td>
+                      {/* <td>
                           <Link className='text-decoration-none' to="/subjectIntake">
                              View
                           </Link>
                         </td> */}
-                  
-                      
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                        {/* <Link to= "">
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <Link to= "">
                           <Button onClick={()=>handleView(sub?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
                           </Button>
                         </Link> */}
-                        {
-                        permissions?.includes(permissionList?.View_subject) ?
-                        <ButtonForFunction 
-                          func={()=>handleView(sub?.id)}
-                          color={"primary"}
-                          className={"mx-1 btn-sm"}
-                          icon={<i className="fas fa-eye"></i>}
-                          permission={6}
-                        />
-                        :
-                        null
-                        }
+                            {permissions?.includes(
+                              permissionList?.View_subject
+                            ) ? (
+                              <ButtonForFunction
+                                func={() => handleView(sub?.id)}
+                                color={"primary"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-eye"></i>}
+                                permission={6}
+                              />
+                            ) : null}
 
-                          {/* <Link to={`editSubject/${sub?.id}`}>
+                            {/* <Link to={`editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
                           </Link> */}
-                        {
-                         permissions?.includes(permissionList?.Update_subject) ?
-                          <LinkButton
-                            url={`addSubject/${sub?.id}`}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                            permission={6}
-                          />
-                          :
-                          null}
+                            {permissions?.includes(
+                              permissionList?.Update_subject
+                            ) ? (
+                              <LinkButton
+                                url={`addSubject/${sub?.id}`}
+                                color={"warning"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
+                            ) : null}
 
-                          {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
+                            {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                          {
-                            permissions?.includes(permissionList?.Delete_subject) ?
-                          <ButtonForFunction
-                            func={() => toggleDanger(sub?.name, sub?.id)}
-                            color={"danger"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
-                          />
-                          :
-                          null
-                           }
+                            {permissions?.includes(
+                              permissionList?.Delete_subject
+                            ) ? (
+                              <ButtonForFunction
+                                func={() => toggleDanger(sub?.name, sub?.id)}
+                                color={"danger"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                permission={6}
+                              />
+                            ) : null}
+                          </ButtonGroup>
 
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={closeDeleteModal}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this <b>{subName}</b> ?
+                                Once Deleted it can't be Undone!
+                              </p>
+                            </ModalBody>
 
-
-                        </ButtonGroup>
-
-                     
-                      <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
-
-                          <ModalBody>
-                            <p>Are You Sure to Delete this <b>{subName}</b> ? Once Deleted it can't be Undone!</p>
-                          </ModalBody>
-
-                          <ModalFooter>
-                          
-                            <Button color="danger" onClick={() => handleDelete(subId)}>YES</Button>
-                            <Button color="primary" onClick={closeDeleteModal}>NO</Button>
-                          </ModalFooter>
-
-                      </Modal>
-
-
-
-                      </td>
+                            <ModalFooter>
+                              <Button
+                                color="danger"
+                                onClick={() => handleDelete(subId)}
+                              >
+                                YES
+                              </Button>
+                              <Button
+                                color="primary"
+                                onClick={closeDeleteModal}
+                              >
+                                NO
+                              </Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>
               </Table>
-              
-
             </div>
           )}
 
@@ -769,22 +919,15 @@ const SubjectList = (props) => {
                </div>
              </Col>
           </Row> */}
-
-
         </CardBody>
       </Card>
-            </div>
-           }
-
-      
-
-        </div>
-    );
+    </div>
+  );
 };
 
 // export default SubjectList;
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   univerSityDropDownList: state.universityListReducer.universityList,
   campusDropDownList: state.universityCampusListReducer.universityCampusList,
-})
+});
 export default connect(mapStateToProps)(SubjectList);

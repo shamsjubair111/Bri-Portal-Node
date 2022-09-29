@@ -241,20 +241,22 @@ const Team = (props) => {
                           <td>
                           
                             
-                               <Button color='warning' className='btn-sm mr-1'>
-                               {" "}
-                                <i class="fas fa-edit"
-                                onClick={() => handleTeamUpdate(btEmployee?.id)}
-                                ></i>{" "}
-                               </Button>
-                             
-
-                             
-                              <Button className='btn-sm' color='danger ml-1'>
-                              <i class="fas fa-trash-alt"
-                                 onClick={() => toggleDeleteTeam(btEmployee)}
-                                ></i>
-                              </Button>
+                               <ButtonGroup>
+                                 <Button color='warning' className='btn-sm mr-1'>
+                                 {" "}
+                                  <i class="fas fa-edit"
+                                  onClick={() => handleTeamUpdate(btEmployee?.id)}
+                                  ></i>{" "}
+                                 </Button>
+                              
+                        
+                              
+                                <Button className='btn-sm' color='danger ml-1'>
+                                <i class="fas fa-trash-alt"
+                                   onClick={() => toggleDeleteTeam(btEmployee)}
+                                  ></i>
+                                </Button>
+                               </ButtonGroup>
                            
                           
                             <Modal

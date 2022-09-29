@@ -375,6 +375,8 @@ const CampusDetails = () => {
             autoDismiss: true,
           });
           setSuccess(!success);
+          setSubLabel("Select Subject");
+          setSubValue(0);
           setRadioIsAcceptHome("false");
           setRadioIsAcceptUk("true");
           setRadioIsAcceptInt("false");
@@ -623,6 +625,21 @@ const CampusDetails = () => {
       pathname: `/addUniversityCampus/${uniId}`,
       uniCampId: id
     })
+  }
+
+  const handleCancelForm = () => {
+    setSubLabel("Select Subject");
+    setSubValue(0);
+    setRadioIsAcceptHome("false");
+    setRadioIsAcceptUk("true");
+    setRadioIsAcceptInt("false");
+  }
+
+  const handleClearSearch = () => {
+    setStatusLabel("Select Status");
+    setStatusValue(0);
+    setIntakeLabel("Select Intake");
+    setIntakeValue(0);
   }
 
   return (
@@ -1062,17 +1079,15 @@ const CampusDetails = () => {
                                 >
                                   <ModalBody>
                                     <Form onSubmit={handleUpdateData}>
-                                        <p>
-                                          <b>Subject features</b>
+                                        <p className="pt-3">
+                                          <b>Subject Features</b>
                                         </p>
-                                      <FormGroup row className="pt-3">
+                                      <FormGroup row>
                                         
                                         <Col md="6">
                                           <span>
-                                            Is accept home{" "}
-                                            <span className="text-danger">
-                                              *
-                                            </span>{" "}
+                                            Is Accept Home{" "}
+                                            
                                           </span>
                                         </Col>
 
@@ -1129,10 +1144,8 @@ const CampusDetails = () => {
                                       <FormGroup row className="">
                                         <Col md="6">
                                           <span>
-                                            Is accept EU_UK{" "}
-                                            <span className="text-danger">
-                                              *
-                                            </span>{" "}
+                                            Is Accept EU/UK{" "}
+                                           
                                           </span>
                                         </Col>
 
@@ -1185,10 +1198,8 @@ const CampusDetails = () => {
                                       <FormGroup row className="">
                                         <Col md="6">
                                           <span>
-                                            Is accept international{" "}
-                                            <span className="text-danger">
-                                              *
-                                            </span>{" "}
+                                            Is Accept International{" "}
+                                           
                                           </span>
                                         </Col>
 
@@ -1325,12 +1336,12 @@ const CampusDetails = () => {
                     </FormGroup>
 
                       <p className="mt-5">
-                        <b>Subject features :</b>
+                        <b>Subject Features :</b>
                       </p>
                     <FormGroup row className="">
                       <Col md="4">
                         <span>
-                          Is accept home <span className="text-danger">*</span>{" "}
+                          Is Accept Home 
                         </span>
                       </Col>
 
@@ -1379,7 +1390,7 @@ const CampusDetails = () => {
                     <FormGroup row className="">
                       <Col md="4">
                         <span>
-                          Is accept EU_UK <span className="text-danger">*</span>{" "}
+                          Is Accept EU/UK 
                         </span>
                       </Col>
 
@@ -1428,8 +1439,8 @@ const CampusDetails = () => {
                     <FormGroup row className="">
                       <Col md="4">
                         <span>
-                          Is accept international{" "}
-                          <span className="text-danger">*</span>{" "}
+                          Is Accept International{" "}
+                          
                         </span>
                       </Col>
 
@@ -1483,13 +1494,23 @@ const CampusDetails = () => {
                         justifyContent: "end",
                       }}
                     >
-                      <Col md="6">
+                      <Col md="7">
+                        <div className="ml-3 mt-4">
+                        <Button.Ripple
+                          onClick={handleCancelForm}
+                          color='danger'
+                          className=" mt-3"
+                        >
+                          Reset
+                        </Button.Ripple>
+
                         <Button.Ripple
                           type="submit"
-                          className="ml-md-4 ml-sm-0 mt-3 badge-primary"
+                          className="ml-md-2 mt-3 badge-primary"
                         >
                           Submit
                         </Button.Ripple>
+                        </div>
                       </Col>
                     </FormGroup>
                   </Form>
@@ -1607,7 +1628,7 @@ const CampusDetails = () => {
                           >
                             <div
                               className="mt-1 mx-1 d-flex btn-clear"
-                              // onClick={handleClearSearch}
+                              onClick={handleClearSearch}
                             >
                               {/* <Icon.X  className='text-danger' />*/}
                               <span className="text-danger">
@@ -1680,7 +1701,7 @@ const CampusDetails = () => {
                 <div className="uapp-circle-image margin-top-minus">
                   <img
                     src={
-                      rootUrl + campusInfo?.university?.universityLogo?.fileUrl
+                      rootUrl + campusInfo?.university?.universityLogo?.thumbnailUrl
                     }
                     alt="university_img"
                   />

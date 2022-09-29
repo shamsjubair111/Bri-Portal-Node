@@ -50,6 +50,7 @@ const CampusList = (props) => {
   const [serialNum, setSerialNum] = useState(1);
   const [entity, setEntity] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [uniStateLabel, setUniStateLabel] = useState("Select State");
@@ -71,6 +72,14 @@ const CampusList = (props) => {
 
   // const universityStates = props.univerSityStateList[0];
   const [universityStates, setUniversityStates] = useState([]);
+
+  // for hide/unhide table column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkCity, setCheckCity] = useState(true);
+  const [checkStd, setCheckStd] = useState(true);
+  const [checkProg, setCheckProg] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
   const { addToast } = useToasts();
   const { uniId } = useParams();
@@ -167,6 +176,11 @@ const CampusList = (props) => {
     setDropdownOpen((prev) => !prev);
   };
 
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
+  };
+
   // on Close Modal
   const closeModal = () => {
     setCampObj({});
@@ -204,11 +218,9 @@ const CampusList = (props) => {
     if (selectedId === 0) {
       if (uniCountryValue === 0) {
         setCountryError(true);
-      } 
-      else if(unistateValue === 0){
+      } else if (unistateValue === 0) {
         setStateError(true);
-      }
-      else {
+      } else {
         post(`UniversityCampus/Create`, subdata).then((res) => {
           setSuccess(!success);
           setModalOpen(false);
@@ -303,6 +315,27 @@ const CampusList = (props) => {
     history.push(`/campusDetails/${campusId}`);
   };
 
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedCity = (e) => {
+    setCheckCity(e.target.checked);
+  };
+  const handleCheckedStd = (e) => {
+    setCheckStd(e.target.checked);
+  };
+  const handleCheckedProg = (e) => {
+    setCheckProg(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -360,11 +393,7 @@ const CampusList = (props) => {
           {uniNameFromObj ? (
             <div className="container test-score-div-1-style mt-1 mb-4">
               <span className="test-score-span-1-style">
-                <b>
-                  {uniNameFromObj}
-                  {"'"}s
-                </b>{" "}
-                campus list is shown here.
+                <b>{uniNameFromObj}</b> university's campus list is shown here.
               </span>
             </div>
           ) : null}
@@ -381,19 +410,8 @@ const CampusList = (props) => {
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
-              <Row>
-                <Col lg="5" md="6"></Col>
-                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
-                  {/* Showing */}
-                </Col>
-                <Col md="3" sm="7" xs="7">
-                  {/* <Select
-                    options={dataSizeName}
-                    value={{ label: dataPerPage, value: dataPerPage }}
-                    onChange={(opt) => selectDataSize(opt.value)}
-                  /> */}
-                </Col>
-                <Col lg="2">
+              <div className="d-md-flex justify-content-end">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -404,11 +422,11 @@ const CampusList = (props) => {
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
-                      {/* <DropdownItem> */}
-
                       <div className="d-flex justify-content-around align-items-center mt-2">
                         <div className="text-light cursor-pointer">
-                          {/* <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p> */}
+                          {/* <p onClick={handleExportXLSX}>
+                            <i className="fas fa-file-excel"></i>
+                          </p> */}
                           <ReactTableConvertToXl
                             id="test-table-xls-button"
                             table="table-to-xls"
@@ -428,26 +446,144 @@ const CampusList = (props) => {
                           />
                         </div>
                       </div>
-
-                      {/* <ReactHTMLTableToExcel
-                          id="test-table-xls-button"
-                          className="download-table-xls-button"
-                          table="table-to-xls"
-                          filename="tablexls"
-                          sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
-
-                      {/* <Button onClick={onDownload}> Export excel </Button> */}
-
-                      {/* </DropdownItem> */}
-
-                      {/* <DropdownItem> */}
-
-                      {/* </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
-                </Col>
-              </Row>
+                </div>
+
+                {/* column hide unhide starts here */}
+
+                <div className="">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Campus City</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCity(e);
+                              }}
+                              defaultChecked={checkCity}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Student</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedStd(e);
+                              }}
+                              defaultChecked={checkStd}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Programs</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedProg(e);
+                              }}
+                              defaultChecked={checkProg}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+
+                {/* column hide unhide ends here */}
+              </div>
             </Col>
           </Row>
 
@@ -514,11 +650,11 @@ const CampusList = (props) => {
                         id="CampusCountryId"
                       />
 
-                      {
-                        countryError ? <span className="text-danger">You must select country.</span>
-                        :
-                        null
-                      }
+                      {countryError ? (
+                        <span className="text-danger">
+                          You must select country.
+                        </span>
+                      ) : null}
                     </Col>
                   </FormGroup>
 
@@ -537,11 +673,11 @@ const CampusList = (props) => {
                         id="CampusStateId"
                       />
 
-                      {
-                        stateError ? <span className="text-danger">You must select state.</span>
-                        :
-                        null
-                      }
+                      {stateError ? (
+                        <span className="text-danger">
+                          You must select state.
+                        </span>
+                      ) : null}
                     </Col>
                   </FormGroup>
 
@@ -765,28 +901,32 @@ const CampusList = (props) => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>Name</th>
-                    <th>Campus City</th>
-                    <th>Student</th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkName ? <th>Name</th> : null}
+                    {checkCity ? <th>Campus City</th> : null}
+                    {checkStd ? <th>Student</th> : null}
                     {/* <th>Cost</th> */}
-                    <th>Programs</th>
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkProg ? <th>Programs</th> : null}
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {campusList?.map((campus, i) => (
                     <tr key={campus?.id} style={{ textAlign: "center" }}>
-                      <td>{serialNum + i}</td>
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
 
-                      <td>{campus?.name}</td>
-                      <td>{campus?.campusCity}</td>
-                      <td>
-                        Total Student - {campus?.totalStudent} {<br />}
-                        International Student - {campus?.internationalStudent}
-                      </td>
+                      {checkName ? <td>{campus?.name}</td> : null}
+                      {checkCity ? <td>{campus?.campusCity}</td> : null}
+                      {checkStd ? (
+                        <td>
+                          Total Student - {campus?.totalStudent} {<br />}
+                          International Student - {campus?.internationalStudent}
+                        </td>
+                      ) : null}
                       {/* <td>{campus?.internationalStudent}</td> */}
 
                       {/* <td>
@@ -795,35 +935,38 @@ const CampusList = (props) => {
                               Avg. Application Fee - {campus?.avarageApplicationFee} {<br />}
                               Est. Total Cost - {campus?.estimatedTotalCost}
                             </td> */}
-                      <td>
-                        {" "}
-                        <span
-                          className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {/* <Link className="text-decoration-none" to = {`campusSubjectList/${campus?.id}`}> 
+                      {checkProg ? (
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {/* <Link className="text-decoration-none" to = {`campusSubjectList/${campus?.id}`}> 
                                  <span> View </span>
                                  </Link> */}
 
-                          <LinkSpanButton
-                            url={`/campusSubjectList/${campus?.id}`}
-                            className={"text-decoration-none"}
-                            data={"View"}
-                            permission={6}
-                          />
-                        </span>{" "}
-                      </td>
+                            <LinkSpanButton
+                              url={`/campusSubjectList/${campus?.id}`}
+                              className={"text-decoration-none"}
+                              data={"View"}
+                              permission={6}
+                            />
+                          </span>{" "}
+                        </td>
+                      ) : null}
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                          {/* <Link to= {`/campusDetails/${campus?.id}`}>
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <Link to= {`/campusDetails/${campus?.id}`}>
                                 <Button color="primary" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-eye"></i>{" "}
                                 </Button>
                                 </Link> */}
 
-                          {/* <LinkButton
+                            {/* <LinkButton
                                   url={`/campusDetails/${campus?.id}`}
                                   color={"primary"}
                                   className={"mx-1 btn-sm"}
@@ -831,77 +974,80 @@ const CampusList = (props) => {
                                   permission={6}
                                 /> */}
 
-                          <ButtonForFunction
-                            func={() =>
-                              handlRedirectToCampusDetails(campus?.id)
-                            }
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              func={() =>
+                                handlRedirectToCampusDetails(campus?.id)
+                              }
+                              color={"primary"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-eye"></i>}
+                              permission={6}
+                            />
 
-                          {/* <Button onClick={()=> handleUpdate(campus?.id)} color="dark" className="mx-1 btn-sm">
+                            {/* <Button onClick={()=> handleUpdate(campus?.id)} color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button> */}
 
-                          <ButtonForFunction
-                            func={() => handleUpdate(campus?.id)}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              func={() => handleUpdate(campus?.id)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
 
-                          {/* <Button color="danger" className="mx-1 btn-sm">
+                            {/* <Button color="danger" className="mx-1 btn-sm">
                                   <i className="fas fa-trash-alt"></i>
                                 </Button> */}
 
-                          <ButtonForFunction
-                            color={"danger"}
-                            func={() => toggleDanger(campus)}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              color={"danger"}
+                              func={() => toggleDanger(campus)}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              permission={6}
+                            />
 
-                          <Modal
-                            isOpen={deleteModal}
-                            toggle={() => {
-                              setDeleteModal(!deleteModal);
-                              setCamppId(0);
-                              setCamppName("");
-                            }}
-                            className="uapp-modal"
-                          >
-                            <ModalBody>
-                              <p>
-                                Are You Sure to Delete this <b>{camppName}</b> ?
-                                Once Deleted it can't be Undone!
-                              </p>
-                            </ModalBody>
+                            <Modal
+                              isOpen={deleteModal}
+                              toggle={() => {
+                                setDeleteModal(!deleteModal);
+                                setCamppId(0);
+                                setCamppName("");
+                              }}
+                              className="uapp-modal"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are You Sure to Delete this <b>{camppName}</b>{" "}
+                                  ? Once Deleted it can't be Undone!
+                                </p>
+                              </ModalBody>
 
-                            <ModalFooter>
-                              <Button
-                                color="danger"
-                                onClick={() => handleDeletePermission(camppId)}
-                              >
-                                YES
-                              </Button>
-                              <Button
-                                onClick={() => {
-                                  setDeleteModal(false);
-                                  setCamppId(0);
-                                  setCamppName("");
-                                }}
-                              >
-                                NO
-                              </Button>
-                            </ModalFooter>
-                          </Modal>
-                        </ButtonGroup>
-                      </td>
+                              <ModalFooter>
+                                <Button
+                                  color="danger"
+                                  onClick={() =>
+                                    handleDeletePermission(camppId)
+                                  }
+                                >
+                                  YES
+                                </Button>
+                                <Button
+                                  onClick={() => {
+                                    setDeleteModal(false);
+                                    setCamppId(0);
+                                    setCamppName("");
+                                  }}
+                                >
+                                  NO
+                                </Button>
+                              </ModalFooter>
+                            </Modal>
+                          </ButtonGroup>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

@@ -22,7 +22,7 @@ import {
   FormGroup,
 } from "reactstrap";
 import Select from "react-select";
-import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
+import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import { useToasts } from "react-toast-notifications";
@@ -38,6 +38,7 @@ const AssignUniversity = () => {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [providerUniList, setProviderUniList] = useState([]);
   const [uniLabel, setUniLabel] = useState("Select University");
   const [uniValue, setUniValue] = useState(0);
@@ -54,8 +55,14 @@ const AssignUniversity = () => {
 
   const [selectedId, setSelectedId] = useState(undefined);
 
-  const [managerUniName, setManagerUniName] = useState('');
+  const [managerUniName, setManagerUniName] = useState("");
   const [managerUniId, setManagerUniId] = useState(0);
+
+  // for hide/unhide column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkType, setCheckType] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
   const { providerId, managerId } = useParams();
   const history = useHistory();
@@ -86,10 +93,9 @@ const AssignUniversity = () => {
   };
 
   const backToProviderDetails = () => {
-    if(location.managerList != undefined){
+    if (location.managerList != undefined) {
       history.push(`/admissionManagerList`);
-    }
-    else{
+    } else {
       history.push(`/providerDetails/${providerId}`);
     }
   };
@@ -108,6 +114,11 @@ const AssignUniversity = () => {
   // toggle dropdown
   const toggle = () => {
     setDropdownOpen((prev) => !prev);
+  };
+
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
   };
 
   const handleExportXLSX = () => {
@@ -150,8 +161,7 @@ const AssignUniversity = () => {
       isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
     };
 
-
-    if(selectedId !== undefined){
+    if (selectedId !== undefined) {
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
         if (res?.status == 200) {
           addToast(res?.data?.message, {
@@ -168,8 +178,7 @@ const AssignUniversity = () => {
           setRadioIsAcceptInt("false");
         }
       });
-    }
-    else{
+    } else {
       if (uniValue === 0) {
         setUniError(true);
       } else {
@@ -210,7 +219,7 @@ const AssignUniversity = () => {
         autoDismiss: true,
       });
       setManagerUniId(0);
-      setManagerUniName('');
+      setManagerUniName("");
     });
   };
 
@@ -222,7 +231,22 @@ const AssignUniversity = () => {
     setRadioIsAcceptUk(`${university?.isAcceptEU_UK}`);
     setRadioIsAcceptInt(`${university?.isAcceptInternational}`);
     setSelectedId(university?.id);
-  }
+  };
+
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedType = (e) => {
+    setCheckType(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
 
   return (
     <div>
@@ -233,12 +257,9 @@ const AssignUniversity = () => {
             <span onClick={backToProviderDetails} className="text-light">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {
-                location.managerList != undefined ?
-                "Back to Admission Manager List"
-                :
-                "Back to Provider Details"
-              }
+              {location.managerList != undefined
+                ? "Back to Admission Manager List"
+                : "Back to Provider Details"}
             </span>
           </div>
         </CardHeader>
@@ -252,25 +273,14 @@ const AssignUniversity = () => {
                 func={() => setModalOpen(true)}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New"}
+                name={" Assign New University"}
                 permission={6}
               />
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
-              <Row>
-                <Col lg="5" md="6"></Col>
-                <Col lg="2" md="3" sm="5" xs="5" className="mt-2">
-                  {/* Showing */}
-                </Col>
-                <Col md="3" sm="7" xs="7">
-                  {/* <Select
-                    options={dataSizeName}
-                    value={{ label: dataPerPage, value: dataPerPage }}
-                    onChange={(opt) => selectDataSize(opt.value)}
-                  /> */}
-                </Col>
-                <Col lg="2">
+              <div className="d-md-flex justify-content-end">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -281,14 +291,12 @@ const AssignUniversity = () => {
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
-                      {/* <DropdownItem> */}
-
                       <div className="d-flex justify-content-around align-items-center mt-2">
                         <div className="text-light cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p> */}
-                          <ReactTableConvertToXl 
+                              <i className="fas fa-file-excel"></i>
+                            </p> */}
+                          <ReactTableConvertToXl
                             id="test-table-xls-button"
                             table="table-to-xls"
                             filename="tablexls"
@@ -307,26 +315,104 @@ const AssignUniversity = () => {
                           />
                         </div>
                       </div>
-
-                      {/* <ReactHTMLTableToExcel
-                          id="test-table-xls-button"
-                          className="download-table-xls-button"
-                          table="table-to-xls"
-                          filename="tablexls"
-                          sheet="tablexls"
-                          buttonText="Download as XLS"/> */}
-
-                      {/* <Button onClick={onDownload}> Export excel </Button> */}
-
-                      {/* </DropdownItem> */}
-
-                      {/* <DropdownItem> */}
-
-                      {/* </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
-                </Col>
-              </Row>
+                </div>
+
+                {/* column hide unhide starts here */}
+
+                <div className="">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd-3">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">University Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Requirement Type</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedType(e);
+                              }}
+                              defaultChecked={checkType}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+
+                {/* column hide unhide ends here */}
+              </div>
             </Col>
           </Row>
 
@@ -342,56 +428,46 @@ const AssignUniversity = () => {
               </ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
-                  
-
                   <FormGroup row className="has-icon-left position-relative">
-                  {
-                      selectedId === undefined ?
-                    <>
-                      <Col md="5">
-                      <span>
-                        University Name <span className="text-danger">*</span>{" "}
-                      </span>
-                    </Col>
-                    
-                      <Col md="7">
-                      <Select
-                        options={universityMenu}
-                        value={{ label: uniLabel, value: uniValue }}
-                        onChange={(opt) =>
-                          selectUniversity(opt.label, opt.value)
-                        }
-                        name="universityId"
-                        id="universityId"
-                      />
+                    {selectedId === undefined ? (
+                      <>
+                        <Col md="5">
+                          <span>
+                            University Name{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
 
-                      {uniError && (
-                        <span className="text-danger">
-                          You must select university.
-                        </span>
-                      )}
-                    </Col>
-                    </>
-                    :
-                    null
-                    }
+                        <Col md="7">
+                          <Select
+                            options={universityMenu}
+                            value={{ label: uniLabel, value: uniValue }}
+                            onChange={(opt) =>
+                              selectUniversity(opt.label, opt.value)
+                            }
+                            name="universityId"
+                            id="universityId"
+                          />
+
+                          {uniError && (
+                            <span className="text-danger">
+                              You must select university.
+                            </span>
+                          )}
+                        </Col>
+                      </>
+                    ) : null}
                   </FormGroup>
 
                   {uniValue > 0 ? (
                     <>
+                      <p className="pt-3">
+                        <b>Recruitment Type :</b>
+                      </p>
 
-                        <p className="pt-3">
-                          <b>Recruitment Type :</b>
-                        </p>
-
-                      <FormGroup row >
-                        
-                        
+                      <FormGroup row>
                         <Col md="5">
-                          <span>
-                            Is accept home{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
+                          <span>Is Accept Home </span>
                         </Col>
 
                         <Col md="7">
@@ -438,10 +514,7 @@ const AssignUniversity = () => {
 
                       <FormGroup row className="">
                         <Col md="5">
-                          <span>
-                            Is accept EU_UK{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
+                          <span>Is Accept EU/UK </span>
                         </Col>
 
                         <Col md="7">
@@ -488,10 +561,7 @@ const AssignUniversity = () => {
 
                       <FormGroup row className="">
                         <Col md="5">
-                          <span>
-                            Is accept international{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </span>
+                          <span>Is Accept International </span>
                         </Col>
 
                         <Col md="7">
@@ -571,32 +641,41 @@ const AssignUniversity = () => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>University Name</th>
-                    <th>Requirement Type</th>
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkName ? <th>University Name</th> : null}
+                    {checkType ? <th>Requirement Type</th> : null}
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {uniList?.map((uni, i) => (
                     <tr key={uni?.id} style={{ textAlign: "center" }}>
-                      <th scope="row">{i + 1}</th>
+                      {checkSlNo ? <th scope="row">{i + 1}</th> : null}
 
-                      <td>{uni?.university?.name}</td>
-                      <td>
-                        {uni?.isAcceptHome === true ? `Home,` : null}{" "}
-                        {uni?.isAcceptEU_UK === true ? `EU/UK,` : null}{" "}
-                        {uni?.isAcceptInternational === true
-                          ? "International"
-                          : null}
-                          {uni?.isAcceptHome === false && uni?.isAcceptEU_UK === false && uni?.isAcceptInternational === false ? "Not available" : null}
-                      </td>
+                      {checkName ? <td>{uni?.university?.name}</td> : null}
+                      {checkType ? (
+                        <td>
+                          {uni?.isAcceptHome === true ? `Home,` : null}{" "}
+                          {uni?.isAcceptEU_UK === true ? `EU/UK,` : null}{" "}
+                          {uni?.isAcceptInternational === true
+                            ? "International"
+                            : null}
+                          {uni?.isAcceptHome === false &&
+                          uni?.isAcceptEU_UK === false &&
+                          uni?.isAcceptInternational === false
+                            ? "Not available"
+                            : null}
+                        </td>
+                      ) : null}
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                          {/* <LinkButton
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <LinkButton
                             url={`/campusDetails/${campus?.id}`}
                             color={"primary"}
                             className={"mx-1 btn-sm"}
@@ -604,58 +683,59 @@ const AssignUniversity = () => {
                             permission={6}
                           /> */}
 
-                          <ButtonForFunction
-                            func={() => handleUpdate(uni)}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              func={() => handleUpdate(uni)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
 
-                          <ButtonForFunction
-                            color={"danger"}
-                            func={() => toggleDanger(uni)}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              color={"danger"}
+                              func={() => toggleDanger(uni)}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              permission={6}
+                            />
 
-                          <Modal
-                            isOpen={deleteModal}
-                            toggle={() => setDeleteModal(!deleteModal)}
-                            className="uapp-modal"
-                          >
-                            <ModalBody>
-                              <p>
-                                Are You Sure to Delete this{" "}
-                                <b>{managerUniName}</b>{" "}
-                                ? Once Deleted it can't be Undone!
-                              </p>
-                            </ModalBody>
+                            <Modal
+                              isOpen={deleteModal}
+                              toggle={() => setDeleteModal(!deleteModal)}
+                              className="uapp-modal"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are You Sure to Delete this{" "}
+                                  <b>{managerUniName}</b> ? Once Deleted it
+                                  can't be Undone!
+                                </p>
+                              </ModalBody>
 
-                            <ModalFooter>
-                              <Button
-                                color="danger"
-                                onClick={() =>
-                                  handleDeletePermission(managerUniId)
-                                }
-                              >
-                                YES
-                              </Button>
-                              <Button
-                                color="primary"
-                                onClick={() => {
-                                  setDeleteModal(false);
-                                  setManagerUniId(0);
-                                  setManagerUniName('');
-                                }}
-                              >
-                                NO
-                              </Button>
-                            </ModalFooter>
-                          </Modal>
-                        </ButtonGroup>
-                      </td>
+                              <ModalFooter>
+                                <Button
+                                  color="danger"
+                                  onClick={() =>
+                                    handleDeletePermission(managerUniId)
+                                  }
+                                >
+                                  YES
+                                </Button>
+                                <Button
+                                  color="primary"
+                                  onClick={() => {
+                                    setDeleteModal(false);
+                                    setManagerUniId(0);
+                                    setManagerUniName("");
+                                  }}
+                                >
+                                  NO
+                                </Button>
+                              </ModalFooter>
+                            </Modal>
+                          </ButtonGroup>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

@@ -94,6 +94,45 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
   margin-right: 10px; */
 }
 
+.bg-dd-1 {
+  background-color: #1d94ab;
+  /* border: none; */
+  height: 200px;
+  overflow-y: scroll;
+  /* padding: 5px 15px; */
+  color: #ffffff;
+  /* font-size: 25px; */
+  /* font-weight: 300; */
+  /* margin-top: 10px;
+  margin-right: 10px; */
+}
+
+.bg-dd-2 {
+  background-color: #1d94ab;
+  /* border: none; */
+  height: 110px;
+  /* overflow-y: scroll; */
+  /* padding: 5px 15px; */
+  color: #ffffff;
+  /* font-size: 25px; */
+  /* font-weight: 300; */
+  /* margin-top: 10px;
+  margin-right: 10px; */
+}
+
+.bg-dd-3 {
+  background-color: #1d94ab;
+  /* border: none; */
+  height: 185px;
+  /* overflow-y: scroll; */
+  /* padding: 5px 15px; */
+  color: #ffffff;
+  /* font-size: 25px; */
+  /* font-weight: 300; */
+  /* margin-top: 10px;
+  margin-right: 10px; */
+}
+
 /* Show form input in vertical center start */
 
 /* .flexbox-container2{

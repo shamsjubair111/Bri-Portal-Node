@@ -17,7 +17,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Form, 
+  Form,
   FormGroup,
   TabContent,
   TabPane,
@@ -30,7 +30,7 @@ import loader from '../../../assets/img/load.gif';
 // import { permissionList } from '../../../../constants/AuthorizationConstant';
 import { permissionList } from "../../../constants/AuthorizationConstant";
 
-import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
+import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import * as XLSX from "xlsx/xlsx.mjs";
 // import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -53,6 +53,7 @@ import post from "../../../helpers/post";
 
 const AdmissionOfficerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [entity, setEntity] = useState(0);
   const [loading, setLoading] = useState(true);
   const [serialNum, setSerialNum] = useState(1);
@@ -65,14 +66,14 @@ const AdmissionOfficerList = () => {
 
   const [managerDD, setManagerDD] = useState([]);
   const [countryList, setCountryList] = useState([]);
-  const [uniCountryLabel, setUniCountryLabel] = useState('Select Country');
+  const [uniCountryLabel, setUniCountryLabel] = useState("Select Country");
   const [uniCountryValue, setUniCountryValue] = useState(0);
 
   const [universityStates, setUniversityStates] = useState([]);
 
   const [officerList, setOfficerList] = useState([]);
 
-  const [officerName, setOfficerName] = useState('');
+  const [officerName, setOfficerName] = useState("");
   const [officerId, setOfficerId] = useState(0);
   const [deleteData, setDeleteData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
@@ -82,7 +83,7 @@ const AdmissionOfficerList = () => {
 
   const [countryError, setCountryError] = useState(false);
 
-  const [uniStateLabel, setUniStateLabel] = useState('Select State');
+  const [uniStateLabel, setUniStateLabel] = useState("Select State");
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
@@ -99,13 +100,26 @@ const AdmissionOfficerList = () => {
   const [providerError, setProviderError] = useState(false);
 
   const [managerDDForm, setManagerDDForm] = useState([]);
-  const [managerFormLabel, setManagerFormLabel] = useState("Select Admission Manager");
+  const [managerFormLabel, setManagerFormLabel] = useState(
+    "Select Admission Manager"
+  );
   const [managerFormValue, setManagerFormValue] = useState(0);
   const [managerFormError, setManagerFormError] = useState(false);
 
   const [emailError, setEmailError] = useState(true);
   const [officerObj, setOfficerObj] = useState({});
   const [selectedId, setSelectedId] = useState(undefined);
+
+  // for hide/unhide table column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkId, setCheckId] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkPro, setCheckPro] = useState(true);
+  const [checkEmail, setCheckEmail] = useState(true);
+  const [checkPhn, setCheckPhn] = useState(true);
+  const [checkCountry, setCheckCountry] = useState(true);
+  const [checkSts, setCheckSts] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
   const location = useLocation();
   const history = useHistory();
@@ -115,8 +129,8 @@ const AdmissionOfficerList = () => {
   const referenceId = localStorage.getItem("referenceId");
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
-  const [pass,setPass] = useState('');
-  const [passError,setPassError] = useState('');
+  const [pass, setPass] = useState("");
+  const [passError, setPassError] = useState("");
 
   useEffect(() => {
     get("AdmissionManagerDD/Index").then((res) => {
@@ -124,28 +138,29 @@ const AdmissionOfficerList = () => {
       // setManagerDDForm(res);
     });
 
-    get("CountryDD/index").then(res =>{
-        setCountryList(res);
-      });
+    get("CountryDD/index").then((res) => {
+      setCountryList(res);
+    });
 
-    get("NameTittleDD/index").then(res =>{
-        setNameTitleDD(res);
-      });
+    get("NameTittleDD/index").then((res) => {
+      setNameTitleDD(res);
+    });
 
-    get("ProviderDD/Index").then(res =>{
-        setProviderDD(res);
-      });
+    get("ProviderDD/Index").then((res) => {
+      setProviderDD(res);
+    });
 
     // setLoading(true);
     // setLoading(false);
 
-    get(`AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&admissionmanagerId=${managerValue}&search=${searchStr}`).then(res=>{
-       
-        setOfficerList(res?.models);
-        setEntity(res?.totalEntity);
-        setSerialNum(res?.firstSerialNumber);
-        setLoading(false);
-    })
+    get(
+      `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&admissionmanagerId=${managerValue}&search=${searchStr}`
+    ).then((res) => {
+      setOfficerList(res?.models);
+      setEntity(res?.totalEntity);
+      setSerialNum(res?.firstSerialNumber);
+      setLoading(false);
+    });
   }, [currentPage, dataPerPage, managerValue, searchStr, success, loading]);
 
   const managerMenu = managerDD.map((manager) => ({
@@ -154,29 +169,29 @@ const AdmissionOfficerList = () => {
   }));
 
   const handlePass = (e) => {
-    setPassError('')
+    setPassError("");
     setPass(e.target.value);
-}
+  };
 
   const selectManager = (label, value) => {
     setManagerLabel(label);
     setManagerValue(value);
-  }
+  };
 
-  const managerMenuForm = managerDDForm.map(managerForm => ({
+  const managerMenuForm = managerDDForm.map((managerForm) => ({
     label: managerForm?.name,
-    value: managerForm?.id
-  }))
+    value: managerForm?.id,
+  }));
 
   const selectManagerForm = (label, value) => {
     setManagerFormError(false);
     setManagerFormLabel(label);
     setManagerFormValue(value);
-  }
+  };
 
-  const countryDD = countryList.map(countryOptions =>({
-    label:countryOptions?.name, 
-    value:countryOptions?.id
+  const countryDD = countryList.map((countryOptions) => ({
+    label: countryOptions?.name,
+    value: countryOptions?.id,
   }));
 
   // select University Country
@@ -186,18 +201,16 @@ const AdmissionOfficerList = () => {
     setCountryError(false);
     setUniStateLabel("Select State");
     setUniStateValue(0);
-    get(`StateDD/Index/${value}`)
-      .then(res => {
-        
-        // setUniStateLabel(res.name)
-        // setUniStateValue(res.id)
-        setUniversityStates(res);
-      })
-  }
+    get(`StateDD/Index/${value}`).then((res) => {
+      // setUniStateLabel(res.name)
+      // setUniStateValue(res.id)
+      setUniversityStates(res);
+    });
+  };
 
-  const universityStateName = universityStates?.map(uniState => ({ 
-    label: uniState.name, 
-    value: uniState.id 
+  const universityStateName = universityStates?.map((uniState) => ({
+    label: uniState.name,
+    value: uniState.id,
   }));
 
   // select University State
@@ -205,42 +218,39 @@ const AdmissionOfficerList = () => {
     setUniStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
-  }
+  };
 
-  const nameTitleMenu = nameTitleDD?.map(nameTitle => ({
+  const nameTitleMenu = nameTitleDD?.map((nameTitle) => ({
     label: nameTitle?.name,
-    value: nameTitle?.id
-  }))
+    value: nameTitle?.id,
+  }));
 
-//   select name title
-const selectNameTitle = (label, value) => {
+  //   select name title
+  const selectNameTitle = (label, value) => {
     setNameTitleError(false);
     setNameTitleLabel(label);
     setNameTitleValue(value);
-  }
+  };
 
-  const providerMenu = providerDD?.map(provider => ({
+  const providerMenu = providerDD?.map((provider) => ({
     label: provider?.name,
-    value: provider?.id
-  }))
+    value: provider?.id,
+  }));
 
-//   select provider
-const selectProvider = (label, value) => {
+  //   select provider
+  const selectProvider = (label, value) => {
     setProviderError(false);
     setProviderLabel(label);
     setProviderValue(value);
     setManagerFormLabel("Select Admission Manager");
     setManagerFormValue(0);
-    get(`AdmissionManagerDD/Index/${value}`)
-      .then(res => {
-        
-        setManagerDDForm(res);
-        // setUniStateLabel(res.name)
-        // setUniStateValue(res.id)
-        // setUniversityStates(res);
-      })
-
-}
+    get(`AdmissionManagerDD/Index/${value}`).then((res) => {
+      setManagerDDForm(res);
+      // setUniStateLabel(res.name)
+      // setUniStateValue(res.id)
+      // setUniversityStates(res);
+    });
+  };
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
@@ -279,7 +289,7 @@ const selectProvider = (label, value) => {
 
   const handleExportXLSX = () => {
     var wb = XLSX.utils.book_new(),
-    ws = XLSX.utils.json_to_sheet(officerList);
+      ws = XLSX.utils.json_to_sheet(officerList);
     XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
@@ -289,6 +299,11 @@ const selectProvider = (label, value) => {
   // toggle dropdown
   const toggle = () => {
     setDropdownOpen((prev) => !prev);
+  };
+
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
   };
 
   // on clear
@@ -307,20 +322,19 @@ const selectProvider = (label, value) => {
     history.push("/");
   };
 
-  const redirectToOfficerAssignPage = (officerId) =>{
-    
+  const redirectToOfficerAssignPage = (officerId) => {
     history.push({
-        pathname: `/assignAdmissionOfficer/${officerId}`,
-        officerList: "officerList"
+      pathname: `/assignAdmissionOfficer/${officerId}`,
+      officerList: "officerList",
     });
-  }
+  };
 
-  const handleViewAdmissionManager = (managerId, providerId) =>{
+  const handleViewAdmissionManager = (managerId, providerId) => {
     history.push({
-        pathname: `/providerAdmissionManager/${managerId}/${providerId}`,
-        managerList: "managerList"
+      pathname: `/providerAdmissionManager/${managerId}/${providerId}`,
+      managerList: "managerList",
     });
-  }
+  };
 
   // const updateAdmissionManager = (managerId, providerId) => {
   //   history.push({
@@ -332,7 +346,7 @@ const selectProvider = (label, value) => {
   const closeDeleteModal = () => {
     setDeleteModal(false);
     setOfficerId(0);
-    setOfficerName('');
+    setOfficerName("");
     setDeleteData({});
   };
 
@@ -345,33 +359,30 @@ const selectProvider = (label, value) => {
       setDeleteData({});
       setDeleteModal(false);
       setOfficerId(0);
-      setOfficerName('');
+      setOfficerName("");
       setSuccess(!success);
     });
   };
 
   const handleAccountStatus = (e, officerId) => {
-    
     // setChecked(e.target.checked);
-    
 
     const subData = {
-      id: officerId
-    }
+      id: officerId,
+    };
 
-  
-
-    put(`AdmissionOfficer/UpdateAccountStatus/${officerId}`, subData)
-    .then(res => {
-      if(res?.status ==200){
-        addToast(res?.data?.message,{
-          appearance:'success',
-          autoDismiss: true
-        })
-        setSuccess(!success);
+    put(`AdmissionOfficer/UpdateAccountStatus/${officerId}`, subData).then(
+      (res) => {
+        if (res?.status == 200) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+        }
       }
-    })
-  }
+    );
+  };
 
   // on Close Modal
   const closeModal = () => {
@@ -394,59 +405,48 @@ const selectProvider = (label, value) => {
     // setManagerFormError(false);
     // setEmailError(true);
     setModalOpen(false);
-  }
+  };
 
-  const handleAddNew = () =>{
+  const handleAddNew = () => {
     setOfficerObj({});
     setModalOpen(true);
-  }
+  };
 
-  const handleSubmit = event =>{
+  const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
 
-    for(var i of subdata){
-        
+    for (var i of subdata) {
     }
 
-    
-      if(selectedId === undefined){
-        if(nameTitleValue === 0){
-          setNameTitleError(true);
-        }
-        else if(pass.length <6){
-          setPassError('Password length can not be less than six digits');
-        }
-        else if(emailError == false){
-          setEmailError(emailError);
-        }
-        else if(uniCountryValue === 0){
-          setCountryError(true);
-        }
-        else if(unistateValue === 0){
-          setUniStateError(true);
-        }
-        else if(providerValue === 0 && selectedId === undefined){
-          setProviderError(true);
-        }
-        else if(managerFormValue === 0 && selectedId === undefined){
-          setManagerFormError(true);
-        }
-        else{
-          setOfficerObj({});
-        post(`AdmissionOfficer/Create`, subdata)
-        .then(res => {
+    if (selectedId === undefined) {
+      if (nameTitleValue === 0) {
+        setNameTitleError(true);
+      } else if (pass.length < 6) {
+        setPassError("Password length can not be less than six digits");
+      } else if (emailError == false) {
+        setEmailError(emailError);
+      } else if (uniCountryValue === 0) {
+        setCountryError(true);
+      } else if (unistateValue === 0) {
+        setUniStateError(true);
+      } else if (providerValue === 0 && selectedId === undefined) {
+        setProviderError(true);
+      } else if (managerFormValue === 0 && selectedId === undefined) {
+        setManagerFormError(true);
+      } else {
+        setOfficerObj({});
+        post(`AdmissionOfficer/Create`, subdata).then((res) => {
           setSuccess(!success);
-          
-          
-        //   setuniversityId(res?.data?.result?.universityId)
+
+          //   setuniversityId(res?.data?.result?.universityId)
           if (res?.status === 200 && res?.data?.isSuccess == true) {
             // setSubmitData(false);
             addToast(res.data.message, {
-              appearance: 'success',
+              appearance: "success",
               autoDismiss: true,
-            })
-            
+            });
+
             setNameTitleLabel("Select Title");
             setNameTitleValue(0);
             setUniCountryLabel("Select Country");
@@ -458,74 +458,60 @@ const selectProvider = (label, value) => {
             setManagerFormLabel("Select Admission Manager");
             setManagerFormValue(0);
             setModalOpen(false);
-          }
-          else {
+          } else {
             // setSubmitData(false);
             addToast(res.data.message, {
-              appearance: 'error',
+              appearance: "error",
               autoDismiss: true,
-            })
+            });
             // closeModal();
           }
-        })
-        }
+        });
       }
-        
-        else{
-          if(unistateValue === 0){
-            setUniStateError(true);
+    } else {
+      if (unistateValue === 0) {
+        setUniStateError(true);
+      } else {
+        put(`AdmissionOfficer/Update`, subdata).then((res) => {
+          if (res.status === 200 && res.data.isSuccess === true) {
+            addToast(res.data.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setNameTitleLabel("Select Title");
+            setNameTitleValue(0);
+            setUniCountryLabel("Select Country");
+            setUniCountryValue(0);
+            setUniStateLabel("Select State");
+            setUniStateValue(0);
+            setProviderLabel("Select Provider");
+            setProviderValue(0);
+            setManagerFormLabel("Select Admission Manager");
+            setManagerFormValue(0);
+            setOfficerObj({});
+            setSelectedId(undefined);
+            setSuccess(!success);
+            setModalOpen(false);
           }
-          else{
-            put(`AdmissionOfficer/Update`, subdata)
-          .then(res => {
-            
-            if (res.status === 200 && res.data.isSuccess === true) {
-              addToast(res.data.message, {
-                appearance: 'success',
-                autoDismiss: true,
-              })
-              setNameTitleLabel("Select Title");
-              setNameTitleValue(0);
-              setUniCountryLabel("Select Country");
-              setUniCountryValue(0);
-              setUniStateLabel("Select State");
-              setUniStateValue(0);
-              setProviderLabel("Select Provider");
-              setProviderValue(0);
-              setManagerFormLabel("Select Admission Manager");
-              setManagerFormValue(0);
-              setOfficerObj({});
-              setSelectedId(undefined);
-              setSuccess(!success);
-              setModalOpen(false);
-            }
-          
-          })
-          }
-        }
-  }
+        });
+      }
+    }
+  };
 
   const handleEmail = (e) => {
-   
-
-    get(`Consultant/OnChangeEmail/${e.target.value}`)
-    .then(res => {
-      
+    get(`Consultant/OnChangeEmail/${e.target.value}`).then((res) => {
       setEmailError(res);
-    })
-  }
+    });
+  };
 
   const toggleDanger = (officer) => {
-    
     setOfficerId(officer?.id);
     setOfficerName(officer?.firstName);
     setDeleteData(officer);
     setDeleteModal(true);
   };
 
-  const handleUpdate = (officer) =>{
-
-   
+  const handleUpdate = (officer) => {
     setOfficerObj(officer);
     setNameTitleLabel(officer?.nameTittle?.name);
     setNameTitleValue(officer?.nameTittleId);
@@ -537,11 +523,41 @@ const selectProvider = (label, value) => {
     setProviderValue(officer?.providerId);
     setSelectedId(officer?.id);
     setModalOpen(true);
-  }
+  };
 
   const handlRedirectToAdmissionofficerDetails = (officerId) => {
     history.push(`/admissionOfficerDetails/${officerId}`);
-  }
+  };
+
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedId = (e) => {
+    setCheckId(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedPro = (e) => {
+    setCheckPro(e.target.checked);
+  };
+  const handleCheckedEmail = (e) => {
+    setCheckEmail(e.target.checked);
+  };
+  const handleCheckedPhn = (e) => {
+    setCheckPhn(e.target.checked);
+  };
+  const handleCheckedCountry = (e) => {
+    setCheckCountry(e.target.checked);
+  };
+  const handleCheckedSts = (e) => {
+    setCheckSts(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
 
     return (
         <div>
@@ -618,8 +634,6 @@ const selectProvider = (label, value) => {
 
       <Card className="uapp-employee-search">
         <CardBody>
-          
-
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
@@ -648,10 +662,10 @@ const selectProvider = (label, value) => {
                     </div>
                 </Col> */}
 
-                <div className="me-3">
+                <div className="mr-3">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Showing :</div>
-                    <div className="mr-2"> 
+                    <div className="mr-2">
                       <Select
                         options={dataSizeName}
                         value={{ label: dataPerPage, value: dataPerPage }}
@@ -677,7 +691,7 @@ const selectProvider = (label, value) => {
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
-                          <ReactTableConvertToXl 
+                          <ReactTableConvertToXl
                             id="test-table-xls-button"
                             table="table-to-xls"
                             filename="tablexls"
@@ -700,8 +714,10 @@ const selectProvider = (label, value) => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
-                <Dropdown
+                {/* column hide unhide starts here */}
+
+                <div className="ml-3">
+                  <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
                     isOpen={dropdownOpen1}
@@ -710,53 +726,219 @@ const selectProvider = (label, value) => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className='bg-dd'>
-                        
-                      <div className='d-flex justify-content-around align-items-center mt-2'>
-                        <div className='text-light cursor-pointer'>
-                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
-                        </div>
-                        <div className='text-light cursor-pointer'>
-                          <ReactToPrint
-                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
-                             content={() => componentRef.current}
-                           />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
 
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Provider</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPro(e);
+                              }}
+                              defaultChecked={checkPro}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Email</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedEmail(e);
+                              }}
+                              defaultChecked={checkEmail}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Phone No</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPhn(e);
+                              }}
+                              defaultChecked={checkPhn}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Country</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCountry(e);
+                              }}
+                              defaultChecked={checkCountry}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Account Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSts(e);
+                              }}
+                              defaultChecked={checkSts}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
               </div>
             </Col>
           </Row>
 
           {/* add / update modal */}
 
-          <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal4" style={{height: '5px'}} size='lg'>
-              <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Admission Officer</span></ModalHeader>
-              <ModalBody>
-                <Form onSubmit={handleSubmit} >
-
-                {
-                  selectedId != undefined ?
+          <Modal
+            isOpen={modalOpen}
+            toggle={closeModal}
+            className="uapp-modal4"
+            style={{ height: "5px" }}
+            size="lg"
+          >
+            <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
+              <span className="text-white">Admission Officer</span>
+            </ModalHeader>
+            <ModalBody>
+              <Form onSubmit={handleSubmit}>
+                {selectedId != undefined ? (
                   <FormGroup row className="has-icon-left position-relative">
-                  <Input type="hidden" id="id" name="id" value={selectedId} />
-                </FormGroup>
-                :
-                null
-                }
+                    <Input type="hidden" id="id" name="id" value={selectedId} />
+                  </FormGroup>
+                ) : null}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>Title <span className="text-danger">*</span> </span>
+                    <span>
+                      Title <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
-
                     <Select
                       options={nameTitleMenu}
                       value={{ label: nameTitleLabel, value: nameTitleValue }}
-                      onChange={opt => selectNameTitle(opt.label, opt.value)}
+                      onChange={(opt) => selectNameTitle(opt.label, opt.value)}
                       name="nameTittleId"
                       id="nameTittleId"
                     />
@@ -764,24 +946,25 @@ const selectProvider = (label, value) => {
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
-                    {
-                        nameTitleError ? <span className="text-danger">You must select title.</span>
-                        :
-                        null
-                    }
+                    {nameTitleError ? (
+                      <span className="text-danger">
+                        You must select title.
+                      </span>
+                    ) : null}
                   </Col>
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>First Name <span className="text-danger">*</span> </span>
+                    <span>
+                      First Name <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
                     <Input
                       type="text"
                       name="firstName"
-                      id="firstName"  
-                      
+                      id="firstName"
                       defaultValue={officerObj?.firstName}
                       placeholder="Type First Name"
                       required
@@ -794,7 +977,9 @@ const selectProvider = (label, value) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>Last Name <span className="text-danger">*</span> </span>
+                    <span>
+                      Last Name <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
                     <Input
@@ -811,68 +996,64 @@ const selectProvider = (label, value) => {
                   </Col>
                 </FormGroup>
 
-                {
-                  selectedId === undefined ?
+                {selectedId === undefined ? (
                   <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>Email <span className="text-danger">*</span> </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="email"
-                      name="email"
-                      id="email"  
-                      onBlur={handleEmail}
-                      defaultValue={officerObj?.email}
-                      placeholder="Type Your Email"
-                      required
-                    />
-                   {
-                      !emailError ? 
+                    <Col md="3">
+                      <span>
+                        Email <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="6">
+                      <Input
+                        type="email"
+                        name="email"
+                        id="email"
+                        onBlur={handleEmail}
+                        defaultValue={officerObj?.email}
+                        placeholder="Type Your Email"
+                        required
+                      />
+                      {!emailError ? (
+                        <span className="text-danger">
+                          Email already exists.
+                        </span>
+                      ) : null}
+                    </Col>
+                  </FormGroup>
+                ) : null}
 
-                      <span className='text-danger'>Email already exists.</span>
-                      :
-                      null
-
-                    }
-                  </Col>
-                </FormGroup>
-                :
-                null
-                }
-
-                {
-                  selectedId != undefined ?
-                  null
-                  :
+                {selectedId != undefined ? null : (
                   <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>Password <span className="text-danger">*</span></span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Type Your Password"
-                      required
-                      onChange={handlePass}
-                    />
-                    <span className="text-danger">{passError}</span>
-                  </Col>
-                </FormGroup>
-                }
+                    <Col md="3">
+                      <span>
+                        Password <span className="text-danger">*</span>
+                      </span>
+                    </Col>
+                    <Col md="6">
+                      <Input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Type Your Password"
+                        required
+                        onChange={handlePass}
+                      />
+                      <span className="text-danger">{passError}</span>
+                    </Col>
+                  </FormGroup>
+                )}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>Phone Number <span className="text-danger">*</span> </span>
+                    <span>
+                      Phone Number <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
                     <Input
                       type="text"
                       name="phoneNumber"
-                      id="phoneNumber"  
-                      
+                      id="phoneNumber"
                       defaultValue={officerObj?.phoneNumber}
                       placeholder="Type Your Phone Number"
                       required
@@ -885,14 +1066,15 @@ const selectProvider = (label, value) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>Country <span className="text-danger">*</span> </span>
+                    <span>
+                      Country <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
-
                     <Select
                       options={countryDD}
                       value={{ label: uniCountryLabel, value: uniCountryValue }}
-                      onChange={opt => selectUniCountry(opt.label, opt.value)}
+                      onChange={(opt) => selectUniCountry(opt.label, opt.value)}
                       name="countryId"
                       id="countryId"
                     />
@@ -900,24 +1082,25 @@ const selectProvider = (label, value) => {
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
-                    {
-                        countryError ? <span className="text-danger">You must select country.</span>
-                        :
-                        null
-                    }
+                    {countryError ? (
+                      <span className="text-danger">
+                        You must select country.
+                      </span>
+                    ) : null}
                   </Col>
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>State <span className="text-danger">*</span> </span>
+                    <span>
+                      State <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
-
                     <Select
                       options={universityStateName}
                       value={{ label: uniStateLabel, value: unistateValue }}
-                      onChange={opt => selectUniState(opt.label, opt.value)}
+                      onChange={(opt) => selectUniState(opt.label, opt.value)}
                       name="stateId"
                       id="stateId"
                     />
@@ -925,78 +1108,82 @@ const selectProvider = (label, value) => {
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
-                    {
-                        uniStateError ? <span className="text-danger">You must select state.</span>
-                        :
-                        null
-                    }
+                    {uniStateError ? (
+                      <span className="text-danger">
+                        You must select state.
+                      </span>
+                    ) : null}
                   </Col>
                 </FormGroup>
 
-                {
-                  selectedId != undefined ? 
-                  null:
+                {selectedId != undefined ? null : (
                   <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>Provider <span className="text-danger">*</span> </span>
-                  </Col>
-                  <Col md="6">
+                    <Col md="3">
+                      <span>
+                        Provider <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="6">
+                      <Select
+                        options={providerMenu}
+                        value={{ label: providerLabel, value: providerValue }}
+                        onChange={(opt) => selectProvider(opt.label, opt.value)}
+                        name="providerId"
+                        id="providerId"
+                      />
 
-                    <Select
-                      options={providerMenu}
-                      value={{ label: providerLabel, value: providerValue }}
-                      onChange={opt => selectProvider(opt.label, opt.value)}
-                      name="providerId"
-                      id="providerId"
-                    />
-
-                    {/* <div className="form-control-position">
+                      {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
 
-                    {
-                        providerError ? <span className="text-danger">You must select provider.</span>
-                        :
-                        null
-                    }
-                  </Col>
-                </FormGroup>
-                }
+                      {providerError ? (
+                        <span className="text-danger">
+                          You must select provider.
+                        </span>
+                      ) : null}
+                    </Col>
+                  </FormGroup>
+                )}
 
-                {
-                  selectedId != undefined ?
-                  null
-                  :
+                {selectedId != undefined ? null : (
                   <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>Admission Manager <span className="text-danger">*</span> </span>
-                  </Col>
-                  <Col md="6">
+                    <Col md="3">
+                      <span>
+                        Admission Manager <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="6">
+                      <Select
+                        options={managerMenuForm}
+                        value={{
+                          label: managerFormLabel,
+                          value: managerFormValue,
+                        }}
+                        onChange={(opt) =>
+                          selectManagerForm(opt.label, opt.value)
+                        }
+                        name="admissionmanagerId"
+                        id="admissionmanagerId"
+                      />
 
-                    <Select
-                      options={managerMenuForm}
-                      value={{ label: managerFormLabel, value: managerFormValue }}
-                      onChange={opt => selectManagerForm(opt.label, opt.value)}
-                      name="admissionmanagerId"
-                      id="admissionmanagerId"
-                    />
-
-                    {/* <div className="form-control-position">
+                      {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
 
-                    {
-                        managerFormError ? <span className="text-danger">You must select admission manager.</span>
-                        :
-                        null
-                    }
-                  </Col>
-                </FormGroup>
-                }
+                      {managerFormError ? (
+                        <span className="text-danger">
+                          You must select admission manager.
+                        </span>
+                      ) : null}
+                    </Col>
+                  </FormGroup>
+                )}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>City <span className="text-danger">*</span> </span>
+                    <span>
+                      City <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
                     <Input
@@ -1015,7 +1202,9 @@ const selectProvider = (label, value) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
-                    <span>Post Code <span className="text-danger">*</span> </span>
+                    <span>
+                      Post Code <span className="text-danger">*</span>{" "}
+                    </span>
                   </Col>
                   <Col md="6">
                     <Input
@@ -1032,15 +1221,22 @@ const selectProvider = (label, value) => {
                   </Col>
                 </FormGroup>
 
-                  <FormGroup className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <FormGroup
+                  className="has-icon-left position-relative"
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Button
+                    color="danger"
+                    className="mr-1 mt-3"
+                    onClick={closeModal}
+                  >
+                    Close
+                  </Button>
 
-                    <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
+                  {/* localStorage.getItem("updateUni") ? */}
+                  {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
 
-                    
-                    {/* localStorage.getItem("updateUni") ? */}
-                      {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
-
-                      {/* <Button.Ripple
+                  {/* <Button.Ripple
                         color="warning"
                         type="submit"
                         className="mr-1 mt-3"
@@ -1049,20 +1245,17 @@ const selectProvider = (label, value) => {
                         Submit
                       </Button.Ripple> */}
 
-                      <CustomButtonRipple
-                        color={"primary"}
-                        type={"submit"}
-                        className={"mr-1 mt-3"}
-                        name={"Submit"}
-                        permission={6}
-                      />
-
-                  </FormGroup>
-
-                </Form>
-              </ModalBody>
-
-            </Modal>
+                  <CustomButtonRipple
+                    color={"primary"}
+                    type={"submit"}
+                    className={"mr-1 mt-3"}
+                    name={"Submit"}
+                    permission={6}
+                  />
+                </FormGroup>
+              </Form>
+            </ModalBody>
+          </Modal>
 
           
          
@@ -1070,54 +1263,67 @@ const selectProvider = (label, value) => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>UAPP Id</th>
-                    <th>Name</th>
-                    <th>Provider</th>
-                    <th>Email</th>
-                    <th>Phone No</th>
-                    <th>Country</th>
-                    <th>Account Status</th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkId ? <th>UAPP Id</th> : null}
+                    {checkName ? <th>Name</th> : null}
+                    {checkPro ? <th>Provider</th> : null}
+                    {checkEmail ? <th>Email</th> : null}
+                    {checkPhn ? <th>Phone No</th> : null}
+                    {checkCountry ? <th>Country</th> : null}
+                    {checkSts ? <th>Account Status</th> : null}
                     {/* <th>Assigned Admission Officer</th> */}
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {officerList?.map((officer, i) => (
                     <tr key={i} style={{ textAlign: "center" }}>
-                    <th scope="row">{1 + i}</th>
-                    <td>{officer?.sequenceId}</td>
+                      {checkSlNo ? <th scope="row">{1 + i}</th> : null}
+                      {checkId ? <td>{officer?.sequenceId}</td> : null}
 
-                    <td>{officer?.nameTittle?.name}{" "}{officer?.firstName}{" "}{officer?.lastName}</td>
+                      {checkName ? (
+                        <td>
+                          {officer?.nameTittle?.name} {officer?.firstName}{" "}
+                          {officer?.lastName}
+                        </td>
+                      ) : null}
 
-                    <td>
-                      {officer?.provider?.name}
-                    </td>
+                      {checkPro ? <td>{officer?.provider?.name}</td> : null}
 
-                    <td>{officer?.email}</td>
+                      {checkEmail ? <td>{officer?.email}</td> : null}
 
-                    <td>{officer?.phoneNumber}</td>
+                      {checkPhn ? <td>{officer?.phoneNumber}</td> : null}
 
-                    <td>{officer?.country?.name} ({officer?.state?.name})</td>
+                      {checkCountry ? (
+                        <td>
+                          {officer?.country?.name} ({officer?.state?.name})
+                        </td>
+                      ) : null}
 
-                    <td>
-                         {
-                          <label className="switch">
-                          <input 
-                          type="checkbox" 
-                          defaultChecked={officer?.isActive == false ? false : true}
-                          onChange={(e)=>{
-                            handleAccountStatus(e, officer?.id);
-                          }}
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                        }
-                    </td>
+                      {checkSts ? (
+                        <td>
+                          {
+                            <label className="switch">
+                              <input
+                                type="checkbox"
+                                defaultChecked={
+                                  officer?.isActive == false ? false : true
+                                }
+                                onChange={(e) => {
+                                  handleAccountStatus(e, officer?.id);
+                                }}
+                              />
+                              <span className="slider round"></span>
+                            </label>
+                          }
+                        </td>
+                      ) : null}
 
-                    {/* <td>
+                      {/* <td>
                       {" "}
                       <span
                         className="badge badge-secondary"
@@ -1128,59 +1334,65 @@ const selectProvider = (label, value) => {
                       </span>{" "}     
                     </td> */}
 
-                    <td style={{ width: "8%" }} className="text-center">
-                      <ButtonGroup variant="text">
-                    
-                        <ButtonForFunction
-                          func={() =>
-                            handlRedirectToAdmissionofficerDetails(officer?.id)
-                          }
-                          color={"primary"}
-                          className={"mx-1 btn-sm"}
-                          icon={<i className="fas fa-eye"></i>}
-                          permission={6}
-                        />
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            <ButtonForFunction
+                              func={() =>
+                                handlRedirectToAdmissionofficerDetails(
+                                  officer?.id
+                                )
+                              }
+                              color={"primary"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-eye"></i>}
+                              permission={6}
+                            />
 
-                      <ButtonForFunction
-                        func={() => handleUpdate(officer)}
-                        color={"warning"}
-                        className={"mx-1 btn-sm"}
-                        icon={<i className="fas fa-edit"></i>}
-                        permission={6}
-                      />
+                            <ButtonForFunction
+                              func={() => handleUpdate(officer)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
 
-                      <ButtonForFunction
-                        color={"danger"}
-                        func={() => toggleDanger(officer)}
-                        className={"mx-1 btn-sm"}
-                        icon={<i className="fas fa-trash-alt"></i>}
-                        permission={6}
-                      />
-
-                      </ButtonGroup>
+                            <ButtonForFunction
+                              color={"danger"}
+                              func={() => toggleDanger(officer)}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              permission={6}
+                            />
+                          </ButtonGroup>
 
                           <Modal
-                              isOpen={deleteModal}
-                              toggle={closeDeleteModal}
-                              className="uapp-modal"
-                            >
-                              <ModalBody>
-                                <p>
-                                  Are You Sure to Delete this <b>{officerName}</b> ? Once Deleted it
-                                  can't be Undone!
-                                </p>
-                              </ModalBody>
+                            isOpen={deleteModal}
+                            toggle={closeDeleteModal}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this <b>{officerName}</b>{" "}
+                                ? Once Deleted it can't be Undone!
+                              </p>
+                            </ModalBody>
 
-                              <ModalFooter>
-                                <Button color="danger" onClick={handleDelete}>
-                                  YES
-                                </Button>
-                                <Button color="primary" onClick={closeDeleteModal}>NO</Button>
-                              </ModalFooter>
-                            </Modal>
-
-                    </td>
-                  </tr>
+                            <ModalFooter>
+                              <Button color="danger" onClick={handleDelete}>
+                                YES
+                              </Button>
+                              <Button
+                                color="primary"
+                                onClick={closeDeleteModal}
+                              >
+                                NO
+                              </Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
+                    </tr>
                   ))}
                 </tbody>
               </Table>
@@ -1217,7 +1429,7 @@ const selectProvider = (label, value) => {
         </div>
      }
     </div>
-    );
+  );
 };
 
 export default AdmissionOfficerList;

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip, ButtonGroup, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from 'react-to-print';
 import Select from 'react-select';
@@ -583,9 +584,16 @@ const toggle1 = () => {
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
                         <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
+                          {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
-                          </p>
+                          </p> */}
+                          <ReactTableConvertToXl 
+                            id="test-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            icon={<i className="fas fa-file-excel"></i>}
+                          />
                         </div>
                         <div className="text-light cursor-pointer">
                           <ReactToPrint
@@ -602,7 +610,7 @@ const toggle1 = () => {
                   </Dropdown>
                 </div>
 
-                <div className="me-3">
+                {/* <div className="me-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -632,7 +640,7 @@ const toggle1 = () => {
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -293,7 +293,7 @@ const AddProviderUniversityGallery = () => {
                         </Button>
                         <Button
                           onClick={() => handleDelete(gall)}
-                          className="bg-danger ms-2"
+                          className="bg-danger ml-2"
                         >
                           Delete
                         </Button>
@@ -404,7 +404,7 @@ const AddProviderUniversityGallery = () => {
               </div>
               <div className="col-md-4">
                 <div className="customCard rounded">
-                  <Form className="ms-2" onSubmit={handleUpload}>
+                  <Form className="ml-2" onSubmit={handleUpload}>
                     <FormGroup row className="has-icon-left position-relative">
                       <Input
                         type="hidden"

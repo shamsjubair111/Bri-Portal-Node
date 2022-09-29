@@ -145,7 +145,7 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
-     
+      console.log("admission manager", res);
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
@@ -433,12 +433,13 @@ const ApplicationDetails = () => {
 
   const handleUpdateTestScores = (data) => {
    
+    console.log("datas", data);
 
     localStorage.setItem("applictionStudentId", data?.id);
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
     localStorage.setItem("method", "put");
 
-    history.push("/addTestScore");
+    history.push(`/addTestScore/${data?.id}/${1}`);
   };
 
   const handleEdit = (data) => {
@@ -447,7 +448,7 @@ const ApplicationDetails = () => {
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
     localStorage.setItem("method", "put");
 
-    history.push("/addStudentApplicationInformation");
+    history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
   };
 
   const handleEditDeliveryPattern = (name, id) => {
@@ -649,6 +650,7 @@ const ApplicationDetails = () => {
   // on close ELPT modal
   const closeElptModal1 = () => {
     setElptModalOpen1(false);
+    setElptStatusError(false);
   };
 
   const handleSubmitElpt = (e) => {
@@ -1053,9 +1055,7 @@ const ApplicationDetails = () => {
                                         {applicationInfo?.enrollmentStatus
                                           ?.name === "Registered" ? (
                                           <div className="text-danger">
-                                            Once the enrolment status changed to
-                                            Registered it can't be changed
-                                            again.
+                                            Once the enrolment status is changed to "Registered" it can't be changed again.
                                           </div>
                                         ) : null}
                                       </Col>
@@ -1104,6 +1104,12 @@ const ApplicationDetails = () => {
                                       </Button>
 
                                       <CustomButtonRipple
+                                        isDisabled={
+                                          applicationInfo?.enrollmentStatus
+                                            ?.name === "Registered"
+                                            ? true
+                                            : false
+                                        }
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
@@ -1943,7 +1949,7 @@ const ApplicationDetails = () => {
                                   <CustomButtonRipple
                                     color={"primary"}
                                     type={"submit"}
-                                    className={"ms-5 mt-3"}
+                                    className={"ml-5 mt-3"}
                                     name={"Submit"}
                                     permission={6}
                                   />
@@ -2237,7 +2243,7 @@ const ApplicationDetails = () => {
                                   <CustomButtonRipple
                                     color={"primary"}
                                     type={"submit"}
-                                    className={"ms-5 mt-3"}
+                                    className={"ml-5 mt-3"}
                                     name={"Submit"}
                                     permission={6}
                                   />
@@ -2444,7 +2450,7 @@ const ApplicationDetails = () => {
                               <div className="col-4">
                                 <Icon.XCircle
                                   onClick={() => toggleDanger(docu)}
-                                  className=" ms-2 text-danger cross-icon-style"
+                                  className=" ml-2 text-danger cross-icon-style"
                                 />
                               </div>
 
@@ -2483,7 +2489,7 @@ const ApplicationDetails = () => {
                               <>
                                 <div>
                                   1 file uploaded:{" "}
-                                  <span className="ms-2  px-2">
+                                  <span className="ml-2  px-2">
                                     {docu?.studentDocumentFile?.fileName}{" "}
                                     <i
                                       onClick={() => toggleDangerFile(docu)}
@@ -2604,8 +2610,8 @@ const ApplicationDetails = () => {
                         </span>
                       </Col> */}
                         <Col md="8">
-                          <div className="row">
-                            <span className="mb-2">Upload Document</span>
+                          {/* <div className="row"> */}
+                            <div className="mb-2">Upload Document</div>
 
                             {/* {applicationObject?.document ? (
                             <div className="col-md-3">
@@ -2656,7 +2662,7 @@ const ApplicationDetails = () => {
                                 />
                               </AntdModal>
                             </div>
-                          </div>
+                          {/* </div> */}
 
                           {/* {uploadError && (
                       <span className="text-danger">
@@ -3485,14 +3491,18 @@ const ApplicationDetails = () => {
                   null ? (
                     <img src={profileImage} alt="provider_img" />
                   ) : ( */}
-                    <img
+
+
+                    {/* <img
                       src={
                         rootUrl +
                         applicationInfo?.admissionManager?.providerLogoMedia
                           ?.fileUrl
                       }
                       alt="admission_manager_img"
-                    />
+                    /> */}
+
+
                     {/* )} */}
                   </div>
                 </div>
@@ -3541,7 +3551,7 @@ const ApplicationDetails = () => {
                       src={
                         rootUrl +
                         applicationInfo?.consultant?.consultantProfileImageMedia
-                          ?.fileUrl
+                          ?.thumbnailUrl
                       }
                       alt="consultant_img"
                     />

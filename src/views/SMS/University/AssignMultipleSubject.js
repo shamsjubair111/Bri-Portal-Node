@@ -352,15 +352,15 @@ console.log("data", checkboxData)
                 <Col xs="6" sm="4" md="2"></Col>
 
                 <Col xs="6" sm="4" md="3">
-                  <span>Is accept home </span>
+                  <span>Is Accept Home </span>
                 </Col>
 
                 <Col xs="6" sm="4" md="2">
-                  <span>Is accept EU_UK </span>
+                  <span>Is Accept EU/UK </span>
                 </Col>
 
                 <Col xs="6" sm="4" md="3">
-                  <span>Is accept international</span>
+                  <span>Is Accept International</span>
                 </Col>
 
                 <Col xs="6" sm="4" md="2"></Col>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const LinkSpanButton = (props) => {
-    const {url, className, icon, permission, name, data} = props;
+    const {style, url, className, icon, permission, name, data} = props;
     
 
     const datass = [1,2,3,4,6];
@@ -11,7 +11,7 @@ const LinkSpanButton = (props) => {
         <>
           {
             datass?.includes(permission) ?
-            <Link className={className} to={url}>
+            <Link style={style} className={className} to={url}>
                 <span>
                    {data}
                 </span>

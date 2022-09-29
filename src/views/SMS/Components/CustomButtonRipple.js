@@ -5,7 +5,7 @@ import {
   
   } from "reactstrap";
 
-const CustomButtonRipple = ({className, icon,color, permission, type,url, func, name}) => {
+const CustomButtonRipple = ({isDisabled, className, icon,color, permission, type,url, func, name}) => {
 
    
 
@@ -13,6 +13,7 @@ const CustomButtonRipple = ({className, icon,color, permission, type,url, func, 
         <>
          
             <Button.Ripple
+               disabled={isDisabled}
                onClick={func}
                color={color}
                type={type}

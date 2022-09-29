@@ -28,7 +28,7 @@ const Manager = (props) => {
               <Card>
                 <div className=' pl-3 mt-2'> <span className='branch-title-style'>Branch Manager</span></div>
                 <div className="uapp-circle-image margin-top-minus mt-3">
-                  <img className="p-1" src={rootUrl+branchManager?.managerImageMedia?.fileUrl} alt="provider_image" />
+                  <img className="p-1" src={rootUrl+branchManager?.managerImageMedia?.thumbnailUrl} alt="provider_image" />
                 </div>
                 <h5 className="pt-2 h3 text-center mb-4">
                   {" "}

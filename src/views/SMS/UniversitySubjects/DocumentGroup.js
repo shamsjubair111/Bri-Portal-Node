@@ -278,6 +278,8 @@ const DocumentGroup = () => {
     setDocumentValue(0);
     setApplication(null);
     setDocumentId(0);
+    setApplicationError(false);
+    setDocumentError(false);
   };
 
   // redirect to dashboard

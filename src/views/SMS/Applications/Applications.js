@@ -14,6 +14,8 @@ import {
   Row,
   Table,
   Dropdown,
+  Form,
+  FormGroup,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -32,7 +34,7 @@ import get from "../../../helpers/get";
 import remove from "../../../helpers/remove.js";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkButton from "../Components/LinkButton.js";
-import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
+import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import LinkSpanButton from "../Components/LinkSpanButton.js";
@@ -172,6 +174,24 @@ const Applications = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading,setLoading] = useState(true);
 
+  // for hide/unhide column
+  const [checkId, setCheckId] = useState(true);
+  const [checkApplic, setCheckApplic] = useState(true);
+  const [checkContact, setCheckContact] = useState(true);
+  const [checkUni, setCheckUni] = useState(true);
+  const [checkCamp, setCheckCamp] = useState(true);
+  const [checkCourse, setCheckCourse] = useState(true);
+  const [checkIntake, setCheckIntake] = useState(true);
+  const [checkDate, setCheckDate] = useState(true);
+  const [checkSts, setCheckSts] = useState(true);
+  const [checkOfr, setCheckOfr] = useState(true);
+  const [checkIntrv, setCheckIntrv] = useState(true);
+  const [checkElpt, setCheckElpt] = useState(true);
+  const [checkEnSts, setCheckEnSts] = useState(true);
+  const [checkSlcs, setCheckEnSlcs] = useState(true);
+  const [checkCons, setCheckCons] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
+
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
@@ -182,13 +202,11 @@ const Applications = () => {
   // const userId = "manager";
   // const userId = "provider";
 
- 
-
-  useEffect(()=>{
-    get("Account/GetCurrentUserId").then(res => {
+  useEffect(() => {
+    get("Account/GetCurrentUserId").then((res) => {
       setCurrentUser(res);
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
@@ -234,128 +252,122 @@ const Applications = () => {
       setCommonPhoneDD(res);
     });
     // for provider admin
-    get(
-      `ProviderAdminApplicationFilterDD/UappId/${currentUser}`
-    ).then((res) => {
-      setProviderUappIdDD(res);
-    });
-    get(
-      `ProviderAdminApplicationFilterDD/Student/${currentUser}`
-    ).then((res) => {
-      setProviderStdDD(res);
-    });
-    get(
-      `ProviderAdminApplicationFilterDD/Consultant/${currentUser}`
-    ).then((res) => {
-      setProviderConsDD(res);
-    });
-    get(
-      `ProviderAdminApplicationFilterDD/University/${currentUser}`
-    ).then((res) => {
-      setProviderUniDD(res);
-    });
-    get(
-      `ProviderAdminApplicationFilterDD/PhoneNumber/${currentUser}`
-    ).then((res) => {
-      setProviderPhoneDD(res);
-    });
+    get(`ProviderAdminApplicationFilterDD/UappId/${currentUser}`).then(
+      (res) => {
+        setProviderUappIdDD(res);
+      }
+    );
+    get(`ProviderAdminApplicationFilterDD/Student/${currentUser}`).then(
+      (res) => {
+        setProviderStdDD(res);
+      }
+    );
+    get(`ProviderAdminApplicationFilterDD/Consultant/${currentUser}`).then(
+      (res) => {
+        setProviderConsDD(res);
+      }
+    );
+    get(`ProviderAdminApplicationFilterDD/University/${currentUser}`).then(
+      (res) => {
+        setProviderUniDD(res);
+      }
+    );
+    get(`ProviderAdminApplicationFilterDD/PhoneNumber/${currentUser}`).then(
+      (res) => {
+        setProviderPhoneDD(res);
+      }
+    );
 
     // for admission manager
-    get(
-      `AddmissionmanagerApplicationFilterDD/UappId/${currentUser}`
-    ).then((res) => {
-      setManagerUappIdDD(res);
-      
-    });
-    get(
-      `AddmissionmanagerApplicationFilterDD/Student/${currentUser}`
-    ).then((res) => {
-      setManagerStdDD(res);
-    });
-    get(
-      `AddmissionmanagerApplicationFilterDD/Consultant/${currentUser}`
-    ).then((res) => {
-      setManagerConsDD(res);
-    });
-    get(
-      `AddmissionmanagerApplicationFilterDD/University/${currentUser}`
-    ).then((res) => {
-      setManagerUniDD(res);
-    });
-    get(
-      `AddmissionmanagerApplicationFilterDD/PhoneNumber/${currentUser}`
-    ).then((res) => {
-      setManagerPhoneDD(res);
-    });
+    get(`AddmissionmanagerApplicationFilterDD/UappId/${currentUser}`).then(
+      (res) => {
+        setManagerUappIdDD(res);
+      }
+    );
+    get(`AddmissionmanagerApplicationFilterDD/Student/${currentUser}`).then(
+      (res) => {
+        setManagerStdDD(res);
+      }
+    );
+    get(`AddmissionmanagerApplicationFilterDD/Consultant/${currentUser}`).then(
+      (res) => {
+        setManagerConsDD(res);
+      }
+    );
+    get(`AddmissionmanagerApplicationFilterDD/University/${currentUser}`).then(
+      (res) => {
+        setManagerUniDD(res);
+      }
+    );
+    get(`AddmissionmanagerApplicationFilterDD/PhoneNumber/${currentUser}`).then(
+      (res) => {
+        setManagerPhoneDD(res);
+      }
+    );
     // for student
-    get(
-      `StudentApplicationFilterDD/University/${currentUser}`
-    ).then((res) => {
+    get(`StudentApplicationFilterDD/University/${currentUser}`).then((res) => {
       setStudentUniDD(res);
     });
-    get(
-      `StudentApplicationFilterDD/Consultant/${currentUser}`
-    ).then((res) => {
+    get(`StudentApplicationFilterDD/Consultant/${currentUser}`).then((res) => {
       setStudentConsDD(res);
     });
 
     // for consultant
-    get(
-      `ConsultantApplicationFilterDD/UappId/${currentUser}`
-    ).then((res) => {
+    get(`ConsultantApplicationFilterDD/UappId/${currentUser}`).then((res) => {
       setConsultantUappIdDD(res);
     });
-    get(
-      `ConsultantApplicationFilterDD/Student/${currentUser}`
-    ).then((res) => {
+    get(`ConsultantApplicationFilterDD/Student/${currentUser}`).then((res) => {
       setConsultantStdDD(res);
     });
-    get(
-      `ConsultantApplicationFilterDD/University/${currentUser}`
-    ).then((res) => {
-      setConsultantUniDD(res);
-    });
-    get(
-      `ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`
-    ).then((res) => {
-      setConsultantPhnDD(res);
-    });
+    get(`ConsultantApplicationFilterDD/University/${currentUser}`).then(
+      (res) => {
+        setConsultantUniDD(res);
+      }
+    );
+    get(`ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`).then(
+      (res) => {
+        setConsultantPhnDD(res);
+      }
+    );
 
     // for list
     if (parseInt(localStorage.getItem("userType")) === userTypes?.Student) {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
-        
         setLoading(false);
         setApplicationList(res?.models);
 
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    } else if (parseInt(localStorage.getItem("userType")) === userTypes?.Consultant) {
+    } else if (
+      parseInt(localStorage.getItem("userType")) === userTypes?.Consultant
+    ) {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
-        
         setLoading(false);
         setApplicationList(res?.models);
 
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    } else if (parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager) {
+    } else if (
+      parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager
+    ) {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
-       
         setLoading(false);
         setApplicationList(res?.models);
 
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    } else if (parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin) {
+    } else if (
+      parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin
+    ) {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${providerConsValue}&universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
       ).then((res) => {
@@ -366,47 +378,50 @@ const Applications = () => {
       });
     } else {
       const uniId =
-      commonUniValue !== 0
-        ? commonUniValue
-        : typeof location.universityIdFromUniList !== undefined ||
-          location.universityIdFromUniList !== null
-        ? location.universityIdFromUniList
-        : 0;
+        commonUniValue !== 0
+          ? commonUniValue
+          : typeof location.universityIdFromUniList !== undefined ||
+            location.universityIdFromUniList !== null
+          ? location.universityIdFromUniList
+          : 0;
 
-        if (uniId !== 0) {
-          var uni = commonUniDD?.find((s) => s.id === uniId);
-    
-          if (uni === undefined) {
-            setCommonUniLabel("University Name");
-          } else {
-            setCommonUniLabel(uni?.name);
-            setCommonUniValue(uniId);
-          }
+      if (uniId !== 0) {
+        var uni = commonUniDD?.find((s) => s.id === uniId);
+
+        if (uni === undefined) {
+          setCommonUniLabel("University Name");
+        } else {
+          setCommonUniLabel(uni?.name);
+          setCommonUniValue(uniId);
         }
+      }
 
-      const consId = 
-      consultantValue !== 0
-        ? consultantValue
-        : typeof location.consultantIdFromConsultantList !== undefined ||
-          location.consultantIdFromConsultantList !== null
-        ? location.consultantIdFromConsultantList
-        : 0;
+      const consId =
+        consultantValue !== 0
+          ? consultantValue
+          : typeof location.consultantIdFromConsultantList !== undefined ||
+            location.consultantIdFromConsultantList !== null
+          ? location.consultantIdFromConsultantList
+          : 0;
 
-        if (consId !== 0) {
-          var consultant = commonConsultantDD?.find((s) => s.id === consId);
-    
-          if (consultant === undefined) {
-            setConsultantLabel("Consultant");
-          } else {
-            setConsultantLabel(consultant?.name);
-            setConsultantValue(consId);
-          }
+      if (consId !== 0) {
+        var consultant = commonConsultantDD?.find((s) => s.id === consId);
+
+        if (consultant === undefined) {
+          setConsultantLabel("Consultant");
+        } else {
+          setConsultantLabel(consultant?.name);
+          setConsultantValue(consId);
         }
+      }
 
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consId ? consId : consultantValue}&universityId=${uniId ? uniId : commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
+          consId ? consId : consultantValue
+        }&universityId=${
+          uniId ? uniId : commonUniValue
+        }&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
-     
         setLoading(false);
         setApplicationList(res?.models);
         setEntity(res?.totalEntity);
@@ -449,7 +464,7 @@ const Applications = () => {
     serialNumber,
     loading,
     currentUser,
-    location.universityIdFromUniList
+    location.universityIdFromUniList,
   ]);
 
   // for all dropdown
@@ -594,7 +609,6 @@ const Applications = () => {
   }));
 
   const selectOrder = (label, value) => {
-    
     setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
@@ -638,13 +652,11 @@ const Applications = () => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    if(location.universityIdFromUniList != undefined){
+    if (location.universityIdFromUniList != undefined) {
       history.push("/universityList");
-    }
-    else if(location.consultantIdFromConsultantList != undefined){
+    } else if (location.consultantIdFromConsultantList != undefined) {
       history.push("/consultantList");
-    }
-    else{
+    } else {
       history.push("/");
     }
   };
@@ -655,6 +667,57 @@ const Applications = () => {
     var localeDate = utcDate.toLocaleString("en-CA");
     const x = localeDate.split(",")[0];
     return x;
+  };
+
+  // for hide/unhide column
+
+  const handleCheckedId = (e) => {
+    setCheckId(e.target.checked);
+  };
+  const handleCheckedApplic = (e) => {
+    setCheckApplic(e.target.checked);
+  };
+  const handleCheckedContact = (e) => {
+    setCheckContact(e.target.checked);
+  };
+  const handleCheckedUni = (e) => {
+    setCheckUni(e.target.checked);
+  };
+  const handleCheckedCamp = (e) => {
+    setCheckCamp(e.target.checked);
+  };
+  const handleCheckedCourse = (e) => {
+    setCheckCourse(e.target.checked);
+  };
+  const handleCheckedIntake = (e) => {
+    setCheckIntake(e.target.checked);
+  };
+  const handleCheckedDate = (e) => {
+    setCheckDate(e.target.checked);
+  };
+  const handleCheckedSts = (e) => {
+    setCheckSts(e.target.checked);
+  };
+  const handleCheckedOfr = (e) => {
+    setCheckOfr(e.target.checked);
+  };
+  const handleCheckedIntrv = (e) => {
+    setCheckIntrv(e.target.checked);
+  };
+  const handleCheckedElpt = (e) => {
+    setCheckElpt(e.target.checked);
+  };
+  const handleCheckedEnSts = (e) => {
+    setCheckEnSts(e.target.checked);
+  };
+  const handleCheckedSlcs = (e) => {
+    setCheckEnSlcs(e.target.checked);
+  };
+  const handleCheckedCons = (e) => {
+    setCheckCons(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
   };
 
   return (
@@ -671,15 +734,11 @@ const Applications = () => {
             <span onClick={backToDashboard} className="text-light">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {
-                location.universityIdFromUniList != undefined ?
-                "Back to University List"
-                :
-                location.consultantIdFromConsultantList != undefined ? 
-                "Back to Consultant List"
-                :
-                "Back to Dashboard"
-              }
+              {location.universityIdFromUniList != undefined
+                ? "Back to University List"
+                : location.consultantIdFromConsultantList != undefined
+                ? "Back to Consultant List"
+                : "Back to Dashboard"}
             </span>
           </div>
         </CardHeader>
@@ -791,7 +850,8 @@ const Applications = () => {
           studentConsValue={studentConsValue}
           setStudentConsValue={setStudentConsValue}
         />
-      ) : parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager ? (
+      ) : parseInt(localStorage.getItem("userType")) ===
+        userTypes?.AdmissionManager ? (
         <AdmissionManagerFilter
           applicationMenu={applicationMenu}
           applicationLabel={applicationLabel}
@@ -854,7 +914,8 @@ const Applications = () => {
           managerPhnValue={managerPhnValue}
           setManagerPhnValue={setManagerPhnValue}
         />
-      ) : parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin ? (
+      ) : parseInt(localStorage.getItem("userType")) ===
+        userTypes?.ProviderAdmin ? (
         <ProviderAdminFilter
           applicationMenu={applicationMenu}
           applicationLabel={applicationLabel}
@@ -1035,7 +1096,7 @@ const Applications = () => {
                   </div>
                 </div>
 
-                <div className="me-3">
+                <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -1051,7 +1112,7 @@ const Applications = () => {
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
-                          <ReactTableConvertToXl 
+                          <ReactTableConvertToXl
                             id="test-table-xls-button"
                             table="table-to-xls"
                             filename="tablexls"
@@ -1074,8 +1135,10 @@ const Applications = () => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
-                <Dropdown
+                {/* column hide unhide starts here */}
+
+                <div className="">
+                  <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
                     isOpen={dropdownOpen1}
@@ -1084,23 +1147,317 @@ const Applications = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className='bg-dd'>
-                        
-                      <div className='d-flex justify-content-around align-items-center mt-2'>
-                        <div className='text-light cursor-pointer'>
-                           <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p>
-                        </div>
-                        <div className='text-light cursor-pointer'>
-                          <ReactToPrint
-                             trigger={() => <p><i className="fas fa-file-pdf"></i></p>}
-                             content={() => componentRef.current}
-                           />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
 
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Applicant</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedApplic(e);
+                              }}
+                              defaultChecked={checkApplic}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Contact</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedContact(e);
+                              }}
+                              defaultChecked={checkContact}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">University</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedUni(e);
+                              }}
+                              defaultChecked={checkUni}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Campus</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCamp(e);
+                              }}
+                              defaultChecked={checkCamp}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Course</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCourse(e);
+                              }}
+                              defaultChecked={checkCourse}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Intake</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedIntake(e);
+                              }}
+                              defaultChecked={checkIntake}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Uni Application Date</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedDate(e);
+                              }}
+                              defaultChecked={checkDate}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSts(e);
+                              }}
+                              defaultChecked={checkSts}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Offer</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedOfr(e);
+                              }}
+                              defaultChecked={checkOfr}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Interview</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedIntrv(e);
+                              }}
+                              defaultChecked={checkIntrv}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">ELPT</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedElpt(e);
+                              }}
+                              defaultChecked={checkElpt}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Enrolment Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedEnSts(e);
+                              }}
+                              defaultChecked={checkEnSts}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SLCS</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSlcs(e);
+                              }}
+                              defaultChecked={checkSlcs}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Consultant</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCons(e);
+                              }}
+                              defaultChecked={checkCons}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
               </div>
             </Col>
           </Row>
@@ -1116,108 +1473,179 @@ const Applications = () => {
               >
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
-                    <th style={{ verticalAlign: "middle" }}>Applicant</th>
-                    <th style={{ verticalAlign: "middle" }}>Contact</th>
-                    <th style={{ verticalAlign: "middle" }}>University</th>
-                    <th style={{ verticalAlign: "middle" }}>Campus</th>
-                    <th style={{ verticalAlign: "middle" }}>Course</th>
-                    <th style={{ verticalAlign: "middle" }}>Intake</th>
-                    <th style={{ verticalAlign: "middle" }}>
-                      Uni Application Date
-                    </th>
-                    <th style={{ verticalAlign: "middle" }}>Status</th>
-                    <th style={{ verticalAlign: "middle" }}>Offer</th>
-                    <th style={{ verticalAlign: "middle" }}>Interview</th>
-                    <th style={{ verticalAlign: "middle" }}>ELPT</th>
-                    <th style={{ verticalAlign: "middle" }}>
-                      Enrolment Status
-                    </th>
-                    <th style={{ verticalAlign: "middle" }}>SLCS</th>
-                    <th style={{ verticalAlign: "middle" }}>Consultant</th>
-                    {/* <th>Msg</th> */}
-                    <th
-                      style={{ verticalAlign: "middle" }}
-                      className="text-center"
-                    >
-                      Action
-                    </th>
+                    {checkId ? (
+                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
+                    ) : null}
+                    {checkApplic ? (
+                      <th style={{ verticalAlign: "middle" }}>Applicant</th>
+                    ) : null}
+                    {checkContact ? (
+                      <th style={{ verticalAlign: "middle" }}>Contact</th>
+                    ) : null}
+                    {checkUni ? (
+                      <th style={{ verticalAlign: "middle" }}>University</th>
+                    ) : null}
+                    {checkCamp ? (
+                      <th style={{ verticalAlign: "middle" }}>Campus</th>
+                    ) : null}
+                    {checkCourse ? (
+                      <th style={{ verticalAlign: "middle" }}>Course</th>
+                    ) : null}
+                    {checkIntake ? (
+                      <th style={{ verticalAlign: "middle" }}>Intake</th>
+                    ) : null}
+                    {checkDate ? (
+                      <th style={{ verticalAlign: "middle" }}>
+                        Uni Application Date
+                      </th>
+                    ) : null}
+                    {checkSts ? (
+                      <th style={{ verticalAlign: "middle" }}>Status</th>
+                    ) : null}
+                    {checkOfr ? (
+                      <th style={{ verticalAlign: "middle" }}>Offer</th>
+                    ) : null}
+                    {checkIntrv ? (
+                      <th style={{ verticalAlign: "middle" }}>Interview</th>
+                    ) : null}
+                    {checkElpt ? (
+                      <th style={{ verticalAlign: "middle" }}>ELPT</th>
+                    ) : null}
+                    {checkEnSts ? (
+                      <th style={{ verticalAlign: "middle" }}>
+                        Enrolment Status
+                      </th>
+                    ) : null}
+                    {checkSlcs ? (
+                      <th style={{ verticalAlign: "middle" }}>SLCS</th>
+                    ) : null}
+                    {checkCons ? (
+                      <th style={{ verticalAlign: "middle" }}>Consultant</th>
+                    ) : null}
+                    {checkAction ? (
+                      <th
+                        style={{ verticalAlign: "middle" }}
+                        className="text-center"
+                      >
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {applicationList?.map((app, i) => (
                     <tr key={i}>
-                      <td style={{ verticalAlign: "middle" }}>{app?.uappId}</td>
+                      {checkId ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.uappId}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.studentName}
-                      </td>
+                      {checkApplic ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.studentName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.studentPhone} <br />
-                        {app?.studentEmail}
-                      </td>
+                      {checkContact ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.studentPhone} <br />
+                          {app?.studentEmail}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.universityName}
-                      </td>
+                      {checkUni ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.universityName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.campusName}
-                      </td>
+                      {checkCamp ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.campusName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.subjectName}
-                      </td>
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.intakeName}
-                      </td>
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.applicationDate ? (
-                          <>{handleDate(app?.applicationDate)}</>
-                        ) : null}
-                      </td>
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.applicationStatusName}
-                      </td>
+                      {checkCourse ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.subjectName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.offerStatusName}
-                      </td>
+                      {checkIntake ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.intakeName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.interviewStatusName}
-                      </td>
+                      {checkDate ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.applicationDate ? (
+                            <>{handleDate(app?.applicationDate)}</>
+                          ) : null}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.elptStatusName}
-                      </td>
+                      {checkSts ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.applicationStatusName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.enrollmentStatusName}
-                      </td>
+                      {checkOfr ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.offerStatusName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.studentFinanceName}
-                      </td>
+                      {checkIntrv ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.interviewStatusName}
+                        </td>
+                      ) : null}
 
-                      <td style={{ verticalAlign: "middle" }}>
-                        {app?.consultantName}
-                      </td>
+                      {checkElpt ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.elptStatusName}
+                        </td>
+                      ) : null}
 
-                      <td
-                        style={{ verticalAlign: "middle" }}
+                      {checkEnSts ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.enrollmentStatusName}
+                        </td>
+                      ) : null}
+
+                      {checkSlcs ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.studentFinanceName}
+                        </td>
+                      ) : null}
+
+                      {checkCons ? (
+                        <td style={{ verticalAlign: "middle" }}>
+                          {app?.consultantName}
+                        </td>
+                      ) : null}
+
+                      {
+                        checkAction ?
+                        <td
+                        style={{ width: "8%", verticalAlign: "middle" }}
                         className="text-center"
                       >
-                        {/* <ButtonGroup variant="text" className='d-flex flex-column'> */}
+                        <ButtonGroup variant="text">
 
                         <LinkSpanButton
-                          url={{
-                            pathname: "/universityList",
-                            // universityType: uniType?.id,
-                            // universityName: uniType?.name,
-                          }}
-                          className={"badge badge-pill badge-primary p-2 px-3"}
+                          style={{padding: "8px 12px"}}
+                          url={
+                            {
+                              // pathname: "/universityList",
+                              // universityType: uniType?.id,
+                              // universityName: uniType?.name,
+                            }
+                          }
+                          className={"badge badge-primary mx-1 btn-sm mt-2"}
                           data={2}
                           permission={6}
                         />
@@ -1240,7 +1668,7 @@ const Applications = () => {
                           //   func={()=> toggleDanger(student)}
                         />
 
-                        {/* </ButtonGroup> */}
+                        </ButtonGroup>
 
                         {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                         <ModalBody>
@@ -1253,6 +1681,9 @@ const Applications = () => {
                         </ModalFooter>
                      </Modal> */}
                       </td>
+                      :
+                      null
+                      }
                     </tr>
                   ))}
                 </tbody>

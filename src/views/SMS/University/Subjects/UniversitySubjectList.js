@@ -11,7 +11,7 @@ import {
     Button,
   
     Input,
-  
+    FormGroup,
     Col,
     Row,
     Table,
@@ -55,6 +55,7 @@ import { userTypes } from '../../../../constants/userTypeConstant';
 const UniversitySubjectList = (props) => {
     const dispatch = useDispatch();
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [subList, setSubList] = useState([]);
     const [entity, setEntity] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -84,8 +85,20 @@ const UniversitySubjectList = (props) => {
     const [orderLabel, setOrderLabel] = useState("Select order by");
     const [orderValue, setOrderValue] = useState(0);
 
+    const [subId, setSubId] = useState(0);
+    const [subName, setSubName] = useState("");
+
     // for tab
     const [activetab, setActivetab] = useState("1");
+
+    // for hide/unhide table column
+    const [checkSlNo, setCheckSlNo] = useState(true);
+    const [checkName, setCheckName] = useState(true);
+    const [checkUni, setCheckUni] = useState(true);
+    const [checkProg, setCheckProg] = useState(true);
+    const [checkDep, setCheckDep] = useState(true);
+    const [checkSubDep, setCheckSubDep] = useState(true);
+    const [checkAction, setCheckAction] = useState(true);
 
     const userType = localStorage.getItem("userType");
     const referenceId = localStorage.getItem("referenceId");
@@ -110,6 +123,11 @@ const UniversitySubjectList = (props) => {
     // toggle dropdown
     const toggle = () => {
       setDropdownOpen((prev) => !prev);
+    };
+
+    // toggle1 dropdown
+    const toggle1 = () => {
+      setDropdownOpen1((prev) => !prev);
     };
 
     useEffect(()=>{
@@ -292,15 +310,15 @@ const UniversitySubjectList = (props) => {
     };
 
     const toggleDanger = (name,id) => {
-      localStorage.setItem('subName',name)
-      localStorage.setItem('subId',id)
+      setSubName(name);
+      setSubId(id);
       setDeleteModal(true)
      }
 
      const closeDeleteModal = () => {
       setDeleteModal(false);
-      localStorage.removeItem('subName')
-      localStorage.removeItem('subId')
+      setSubName("");
+      setSubId(0);
     
     }
 
@@ -350,6 +368,31 @@ const UniversitySubjectList = (props) => {
   const handleEdit = subId =>{
     history.push(`/addUniversitySubject/${id}/${subId}`);
   }
+
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedUni = (e) => {
+    setCheckUni(e.target.checked);
+  };
+  const handleCheckedProg = (e) => {
+    setCheckProg(e.target.checked);
+  };
+  const handleCheckedDep = (e) => {
+    setCheckDep(e.target.checked);
+  };
+  const handleCheckedSubDep = (e) => {
+    setCheckSubDep(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
+
     return (
         <div>
             <Card className="uapp-card-bg">
@@ -543,7 +586,9 @@ const UniversitySubjectList = (props) => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
+                {/* column hide unhide starts here */}
+
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -553,27 +598,146 @@ const UniversitySubjectList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-light cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">University</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedUni(e);
+                              }}
+                              defaultChecked={checkUni}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Program Level</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedProg(e);
+                              }}
+                              defaultChecked={checkProg}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Department</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedDep(e);
+                              }}
+                              defaultChecked={checkDep}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Sub Department</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSubDep(e);
+                              }}
+                              defaultChecked={checkSubDep}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
               </div>
             </Col>
           </Row>
@@ -589,137 +753,132 @@ const UniversitySubjectList = (props) => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>Name</th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkName ? <th>Name</th> : null}
                     {/* <th>Description</th>
                     <th>Duration</th> */}
-                    <th>University</th>
-                    <th>Program Level</th>
-                    <th>Department</th>
-                    <th>Sub Department</th>
+                    {checkUni ? <th>University</th> : null}
+                    {checkProg ? <th>Program Level</th> : null}
+                    {checkDep ? <th>Department</th> : null}
+                    {checkSubDep ? <th>Sub Department</th> : null}
                     {/* <th>Intakes</th> */}
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {subList?.map((sub, i) => (
                     <tr key={sub.id} style={{ textAlign: "center" }}>
-                      <th scope='row'>{serialNum + i}</th>
-                      <td>
-                        {sub?.name}
-                      </td>
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkName ? <td>{sub?.name}</td> : null}
                       {/* <td>{sub?.description}</td>
 
                       <td>
                         {sub?.duration}
                       </td> */}
 
-                      <td>
-                        {sub?.universityName}
-                      </td>
+                      {checkUni ? <td>{sub?.universityName}</td> : null}
 
-                      <td>
-                        {sub?.programLevelName}
-                      </td>
+                      {checkProg ? <td>{sub?.programLevelName}</td> : null}
 
-                      <td>
-                        {sub?.departmentName}
-                      </td>
+                      {checkDep ? <td>{sub?.departmentName}</td> : null}
 
-                      <td>
-                        {sub?.subDepartmentName}
-                      </td>
+                      {checkSubDep ? <td>{sub?.subDepartmentName}</td> : null}
 
-                  
-                        {/* <td>
+                      {/* <td>
                           <Link className='text-decoration-none' to="/subjectIntake">
                              View
                           </Link>
                         </td> */}
-                  
-                      
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                        {/* <Link to= "">
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <Link to= "">
                           <Button onClick={()=>handleView(sub?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
                           </Button>
                         </Link> */}
-                        {
-                        permissions?.includes(permissionList?.View_subject) ?
-                        <ButtonForFunction 
-                          func={()=>handleView(sub?.id)}
-                          color={"primary"}
-                          className={"mx-1 btn-sm"}
-                          icon={<i className="fas fa-eye"></i>}
-                          permission={6}
-                        />
-                        :
-                        null
-                        }
+                            {permissions?.includes(
+                              permissionList?.View_subject
+                            ) ? (
+                              <ButtonForFunction
+                                func={() => handleView(sub?.id)}
+                                color={"primary"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-eye"></i>}
+                                permission={6}
+                              />
+                            ) : null}
 
-                          {/* <Link to={`editSubject/${sub?.id}`}>
+                            {/* <Link to={`editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
                           </Link> */}
-                        {/* {
-                         permissions?.includes(permissionList?.Update_subject) ?
-                          <LinkButton
-                            url={`addUniversitySubject/${id}/${sub?.id}`}
-                            color={"dark"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                          />
-                          :
-                          null} */}
+                            {permissions?.includes(
+                              permissionList?.Update_subject
+                            ) ? (
+                              <LinkButton
+                                url={`/addUniversitySubject/${id}/${sub.id}`}
+                                color={"warning"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-edit"></i>}
+                                permission={6}
+                              />
+                            ) : null}
 
-                          <Button onClick={()=>handleEdit(sub?.id)} color={"warning"} className={"mx-1 btn-sm"}><i className="fas fa-edit"></i></Button>
-
-                          {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
+                            {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                          {
-                            permissions?.includes(permissionList?.Delete_subject) ?
-                          <ButtonForFunction
-                            func={() => toggleDanger(sub?.name, sub?.id)}
-                            color={"danger"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
-                          />
-                          :
-                          null
-                           }
+                            {permissions?.includes(
+                              permissionList?.Delete_subject
+                            ) ? (
+                              <ButtonForFunction
+                                func={() => toggleDanger(sub?.name, sub?.id)}
+                                color={"danger"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                permission={6}
+                              />
+                            ) : null}
+                          </ButtonGroup>
 
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={closeDeleteModal}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this <b>{subName}</b> ?
+                                Once Deleted it can't be Undone!
+                              </p>
+                            </ModalBody>
 
-
-                        </ButtonGroup>
-
-                     
-                      <Modal isOpen={deleteModal} toggle={closeDeleteModal} className="uapp-modal">
-
-                          <ModalBody>
-                            <p>Are You Sure to Delete this <b>{localStorage.getItem('subName')}</b> ? Once Deleted it can't be Undone!</p>
-                          </ModalBody>
-
-                          <ModalFooter>
-                          
-                            <Button color="danger" onClick={() => handleDelete(localStorage.getItem('subId'))}>YES</Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
-                          </ModalFooter>
-
-                      </Modal>
-
-
-
-                      </td>
+                            <ModalFooter>
+                              <Button
+                                color="danger"
+                                onClick={() => handleDelete(subId)}
+                              >
+                                YES
+                              </Button>
+                              <Button
+                                color="primary"
+                                onClick={closeDeleteModal}
+                              >
+                                NO
+                              </Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

@@ -230,6 +230,10 @@ const AssignTeam = (props) => {
     }
   };
 
+  const redirectToUpdateBranchEmployee = (branchId, employeeId) => {
+    history.push(`/branchEmployeeInformation/${branchId}/${employeeId}`);
+  }
+
 
     return (
         <div>
@@ -281,25 +285,33 @@ const AssignTeam = (props) => {
                           <td>
                             <ButtonGroup variant="text">
 
-                            <Button color='primary' className='mr-1 btn-sm' onClick={()=>gotoEmployeeProfile(employee)}>
+                            <Button color='primary' className='mx-1 btn-sm' onClick={()=>gotoEmployeeProfile(employee)}>
                             <i className="fas fa-eye"></i>
                             </Button>
+
+                              <Button
+                                color="warning"
+                                onClick={() =>
+                                  redirectToUpdateBranchEmployee(id, employee?.id)
+                                }
+                                className="mx-1 btn-sm"
+                              >
+                                <i class="fas fa-edit"></i>
+                              </Button>
                               
-                              <LinkButton
+                              {/* <LinkButton
                               icon={ <i class="fas fa-edit"></i>}
                               className={"mr-1 btn-sm"}
                               color={"warning"}
                               url={`/branchEmployeeInformation/${id}/${employee?.id}`}
-                              />
-
-                             
+                              /> */}
 
                               <Button
                                 color="danger"
                                 onClick={() =>
                                   toggleDeleteEmployee(employee)
                                 }
-                                className=" btn-sm"
+                                className="mx-1 btn-sm"
                               >
                                 <i class="fas fa-trash-alt"></i>
                               </Button>
