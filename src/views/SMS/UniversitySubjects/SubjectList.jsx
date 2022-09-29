@@ -56,7 +56,7 @@ const SubjectList = (props) => {
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [subList, setSubList] = useState([]);
   const [entity, setEntity] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [serialNum, setSerialNum] = useState(1);
   const [success, setSuccess] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -206,7 +206,7 @@ const SubjectList = (props) => {
     //   var caId = camppus?.find(s=>s?.id === camId);
     // }
 
-    setLoading(true);
+    
 
     get(
       `Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${
@@ -244,7 +244,7 @@ const SubjectList = (props) => {
   const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
 
   const selectDataSize = (value) => {
-    setLoading(true);
+    
     setDataPerPage(value);
     setCallApi((prev) => !prev);
   };
@@ -368,7 +368,7 @@ const SubjectList = (props) => {
   }));
 
   const selectOrder = (label, value) => {
-    setLoading(true);
+    
     setOrderLabel(label);
     setOrderValue(value);
     setCallApi((prev) => !prev);
@@ -419,7 +419,12 @@ const SubjectList = (props) => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading ? 
+        <Loader/>
+        :
+        <>
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Subject List</h3>
           <div className="page-header-back-to-home">
@@ -921,6 +926,8 @@ const SubjectList = (props) => {
           </Row> */}
         </CardBody>
       </Card>
+        </>
+      }
     </div>
   );
 };

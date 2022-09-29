@@ -43,7 +43,7 @@ const Intake = () => {
   const [serialNum, setSerialNum] = useState(1);
   const [entity, setEntity] = useState(0);
   // const [callApi, setCallApi] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -156,7 +156,12 @@ const Intake = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading ? 
+        <Loader/>
+        :
+        <>
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Intake List</h3>
           <div className="page-header-back-to-home">
@@ -394,6 +399,8 @@ const Intake = () => {
           </div>
         </CardBody>
       </Card>
+        </>
+      }
     </div>
   );
 };

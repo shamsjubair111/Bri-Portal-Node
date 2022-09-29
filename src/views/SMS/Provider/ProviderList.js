@@ -39,6 +39,7 @@ import ReactToPrint from "react-to-print";
 import LinkButton from "../Components/LinkButton.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
+import Loader from "../Search/Loader/Loader.js";
 
 const ProviderList = () => {
   const history = useHistory();
@@ -53,7 +54,7 @@ const ProviderList = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // for hide/unhide table column
   const [checkSlNo, setCheckSlNo] = useState(true);
@@ -234,7 +235,12 @@ const ProviderList = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
+      {
+        loading? 
+        <Loader/>
+        :
+        <>
+        <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-light">Providers List</h3>
           <div className="page-header-back-to-home">
@@ -651,6 +657,8 @@ const ProviderList = () => {
           )}
         </CardBody>
       </Card>
+        </>
+      }
     </div>
   );
 };
