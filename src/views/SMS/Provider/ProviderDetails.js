@@ -107,6 +107,7 @@ const ProviderDetails = () => {
         uTypeId ? uTypeId : uniTypeValue
       }&search=${searchStr}`
     ).then((action) => {
+      console.log("unilist", action?.models);
       setUniversityList(action?.models);
       setLoading(false);
       setEntity(action?.totalEntity);
@@ -357,7 +358,7 @@ const ProviderDetails = () => {
                         width={104}
                         height={104}
                         src={
-                          rootUrl + adminData?.providerAdminMedia?.fileUrl
+                          rootUrl + adminData?.providerAdminMedia?.thumbnailUrl
                         }
                       />
                     </div>
@@ -461,7 +462,7 @@ const ProviderDetails = () => {
                 <div className="uapp-circle-image margin-top-minus">
                   <img
                     src={
-                      rootUrl + adminData?.providerAdminMedia?.fileUrl
+                      rootUrl + adminData?.providerAdminMedia?.thumbnailUrl
                     }
                     alt="provider_profile"
                   />

@@ -42,6 +42,7 @@ import put from "../../../helpers/put.js";
 const StudentByConsultant = () => {
   const [serialNum, setSerialNum] = useState(1);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [studentList, setStudentList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,6 +59,18 @@ const StudentByConsultant = () => {
   const [pass, setPass] = useState('');
   const [cPass,setCPass] = useState('');
   const [error,setError] = useState('');
+
+  // for hide/unhide column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkId, setCheckId] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkEmail, setCheckEmail] = useState(true);
+  const [checkPhn, setCheckPhn] = useState(true);
+  const [checkCons, setCheckCons] = useState(true);
+  const [checkDate, setCheckDate] = useState(true);
+  const [checkPass, setCheckPass] = useState(true);
+  const [checkBlackList, setCheckBlacklist] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
   
 
   const history = useHistory();
@@ -92,6 +105,11 @@ const StudentByConsultant = () => {
   // toggle dropdown
   const toggle = () => {
     setDropdownOpen((prev) => !prev);
+  };
+
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
   };
 
   const handleExportXLSX = () => {
@@ -238,6 +256,39 @@ const StudentByConsultant = () => {
     history.push(`/studentProfile/${studentId}`);
   }
 
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedId = (e) => {
+    setCheckId(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedEmail = (e) => {
+    setCheckEmail(e.target.checked);
+  };
+  const handleCheckedPhn = (e) => {
+    setCheckPhn(e.target.checked);
+  };
+  const handleCheckedCons = (e) => {
+    setCheckCons(e.target.checked);
+  };
+  const handleCheckedDate = (e) => {
+    setCheckDate(e.target.checked);
+  };
+  const handleCheckedPass = (e) => {
+    setCheckPass(e.target.checked);
+  };
+  const handleCheckedBlackList = (e) => {
+    setCheckBlacklist(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -328,7 +379,9 @@ const StudentByConsultant = () => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
+                {/* column hide unhide starts here */}
+
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -338,27 +391,203 @@ const StudentByConsultant = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-light cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Full Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Email</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedEmail(e);
+                              }}
+                              defaultChecked={checkEmail}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Phone No</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPhn(e);
+                              }}
+                              defaultChecked={checkPhn}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Consultant</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCons(e);
+                              }}
+                              defaultChecked={checkCons}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Reg Date</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedDate(e);
+                              }}
+                              defaultChecked={checkDate}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Password</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPass(e);
+                              }}
+                              defaultChecked={checkPass}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Black List</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedBlackList(e);
+                              }}
+                              defaultChecked={checkBlackList}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
               </div>
             </Col>
           </Row>
@@ -370,193 +599,236 @@ const StudentByConsultant = () => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>UAPP ID</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Consultant</th>
-                    <th>UAPP Reg Date</th>
-                    <th>Password</th>
-                    <th>Black List</th>
-                   
+                  {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkId ? <th>UAPP Id</th> : null}
+                    {checkName ? <th>Full Name</th> : null}
+                    {checkEmail ? <th>Email</th> : null}
+                    {checkPhn ? <th>Phone No</th> : null}
+                    {checkCons ? <th>Consultant</th> : null}
+                    {checkDate ? <th>UAPP Reg Date</th> : null}
+                    {
+                      checkPass ? <th>Password</th> : null
+                    }
+                    {checkBlackList ? <th>Black List</th> : null}
+
                     {/* <th>Intakes</th> */}
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {studentList?.map((student, i) => (
                     <tr key={student.id} style={{ textAlign: "center" }}>
-                      <th scope="row">{serialNum + i}</th>
-                      <td>{student?.studentViewId}</td>
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkId ? <td>{student?.studentViewId}</td> : null}
 
-                      <td>
-                        {student?.firstName} {student?.lastName}
-                      </td>
+                      {checkName ? (
+                        <td>
+                          {student?.nameTittle?.name} {student?.firstName}{" "}
+                          {student?.lastName}
+                        </td>
+                      ) : null}
 
-                      <td>{student?.email}</td>
+                      {checkEmail ? <td>{student?.email}</td> : null}
 
-                      <td>{student?.phoneNumber}</td>
+                      {checkPhn ? <td>{student?.phoneNumber}</td> : null}
 
-                      <td>
-                        {student?.consultant?.firstName}{" "}
-                        {student?.consultant?.lastName}
-                      </td>
-                      <td>{handleDate(student?.createdOn)}</td>
-                      <td>
-                         <span onClick={()=>handlePass(student)} className='passwordChangeStyle'>Change</span>
-                        <Modal isOpen={passModal} toggle={() => handleToggle} className="uapp-modal2">
-                          <ModalHeader>
-                          <div className='text-center mt-3'>
-                          <span>Change password for {passData?.firstName} {' '} {passData?.lastName} {' '} ({passData?.studentViewId}) </span>
-                          </div>
-                          </ModalHeader>
-                        <ModalBody>
-                         
-                          <form onSubmit={submitModalForm} className='mt-3'>
-                          <FormGroup row className="has-icon-left position-relative">
-                        <Col md="4">
-                          <span>
-                            Password <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="8">
-                          <Input
-                          type='password'
-                          
-                            onBlur={passValidate}
-                            onChange={()=>setError('')}
+                      {checkCons ? (
+                        <td>
+                          {student?.consultant?.firstName}{" "}
+                          {student?.consultant?.lastName}
+                        </td>
+                      ) : null}
 
+                      {checkDate ? (
+                        <td>{handleDate(student?.createdOn)}</td>
+                      ) : null}
 
-                          />
-                          <span className='text-danger'>{error}</span>
-                        
-                        </Col>
-                      </FormGroup>
-
-                          <FormGroup row className="has-icon-left position-relative">
-                        <Col md="4">
-                          <span>
-                            Confirm Password <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="8">
-                          <Input
-                          type='password'
-                        
-                            onChange={verifyPass}
-                            onBlur={confirmPassword}
-
-                          />
-                          
-                          <br/>
-                          {
-                            <span className='text-danger'>{passError}</span>
-                          }
-
-                        
-                        </Col>
-                      </FormGroup>
-
-                      <FormGroup row className="has-icon-left position-relative">
-
-                        <Col md ='12'>
-                          <div className='d-flex justify-content-between'>
-                            <Button color='danger' onClick={()=> setPassModal(false)}>
-                              Cancel
-                            </Button>
-                            <Button color='primary' type='submit'>
-                              Submit
-
-                            </Button>
-                          </div>
-                        
-                        </Col>
-
-                      </FormGroup>
-
-                          </form>
-                        </ModalBody>
-        
-                        
-                     </Modal>
-                      </td>
                       
-                      <td>
-                        <label className="switch">
-                          <input type="checkbox"
-                          defaultChecked={student?.blacklisted == null ? false : student?.blacklisted == false ? false : true}
-                          onChange={(e)=>{
-                            handleBlacklist(e, student?.id);
-                          }}
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                      </td>
+                          {checkPass ? (
+                            <td>
+                              <Link
+                                to="/studentList"
+                                onClick={() => handlePass(student)}
+                              >
+                                Change
+                              </Link>
+                              <Modal
+                                isOpen={passModal}
+                                toggle={() => handleToggle}
+                                className="uapp-modal2"
+                              >
+                                <ModalHeader>
+                                  <div className="text-center mt-3">
+                                    <span>
+                                      Change password for {passData?.firstName}{" "}
+                                      {passData?.lastName} (
+                                      {passData?.studentViewId}){" "}
+                                    </span>
+                                  </div>
+                                </ModalHeader>
+                                <ModalBody>
+                                  <form
+                                    onSubmit={submitModalForm}
+                                    className="mt-3"
+                                  >
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          Password{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Input
+                                          type="password"
+                                          onBlur={passValidate}
+                                          onChange={() => setError("")}
+                                        />
+                                        <span className="text-danger">
+                                          {error}
+                                        </span>
+                                      </Col>
+                                    </FormGroup>
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="4">
+                                        <span>
+                                          Confirm Password{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </span>
+                                      </Col>
+                                      <Col md="8">
+                                        <Input
+                                          type="password"
+                                          onChange={verifyPass}
+                                          onBlur={confirmPassword}
+                                        />
 
-                        <ButtonForFunction
-                            icon={<i className="fas fa-eye"></i>}
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            func={() => redirectToStudentProfile(student?.id)}
-                          />
+                                        <br />
+                                        {
+                                          <span className="text-danger">
+                                            {passError}
+                                          </span>
+                                        }
+                                      </Col>
+                                    </FormGroup>
 
-                          {/* <LinkButton
-                            url={`/studentProfile/${student?.id}`}
-                            color="primary"
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                          /> */}
+                                    <FormGroup
+                                      row
+                                      className="has-icon-left position-relative"
+                                    >
+                                      <Col md="12">
+                                        <div className="d-flex justify-content-between">
+                                          <Button
+                                            color="danger"
+                                            onClick={() => setPassModal(false)}
+                                          >
+                                            Cancel
+                                          </Button>
+                                          <Button color="primary" type="submit">
+                                            Submit
+                                          </Button>
+                                        </div>
+                                      </Col>
+                                    </FormGroup>
+                                  </form>
+                                </ModalBody>
+                              </Modal>
+                            </td>
+                          ) : null}
+                        
 
-                          <ButtonForFunction
-                            icon={<i className="fas fa-edit"></i>}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            func={() => handleEdit(student)}
-                          />
+                      {checkBlackList ? (
+                        <td>
+                          <label className="switch">
+                            <input
+                              type="checkbox"
+                              defaultChecked={
+                                student?.blacklisted == null
+                                  ? false
+                                  : student?.blacklisted == false
+                                  ? false
+                                  : true
+                              }
+                              onChange={(e) => {
+                                handleBlacklist(e, student?.id);
+                              }}
+                            />
+                            <span className="slider round"></span>
+                          </label>
+                        </td>
+                      ) : null}
 
-                          {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            <ButtonForFunction
+                              icon={<i className="fas fa-eye"></i>}
+                              color={"primary"}
+                              className={"mx-1 btn-sm"}
+                              func={() => redirectToStudentProfile(student?.id)}
+                            />
+
+                            {/* <LinkButton
+                        url={`/studentProfile/${student?.id}`}
+                        color="primary"
+                        className={"mx-1 btn-sm"}
+                        icon={<i className="fas fa-eye"></i>}
+
+                        /> */}
+
+                            <ButtonForFunction
+                              icon={<i className="fas fa-edit"></i>}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              func={() => handleEdit(student)}
+                            />
+
+                            {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                          <ButtonForFunction
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            color={"danger"}
-                            className={"mx-1 btn-sm"}
-                            func={() => toggleDanger(student)}
-                          />
-                        </ButtonGroup>
+                            <ButtonForFunction
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              color={"danger"}
+                              className={"mx-1 btn-sm"}
+                              func={() => toggleDanger(student)}
+                            />
+                          </ButtonGroup>
 
-                        <Modal
-                          isOpen={deleteModal}
-                          toggle={() => setDeleteModal(!deleteModal)}
-                          className="uapp-modal"
-                        >
-                          <ModalBody>
-                            <p>
-                              Are You Sure to Delete this ? Once Deleted it
-                              can't be Undone!
-                            </p>
-                          </ModalBody>
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={() => setDeleteModal(!deleteModal)}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this ? Once Deleted it
+                                can't be Undone!
+                              </p>
+                            </ModalBody>
 
-                          <ModalFooter>
-                            <Button
-                              color="danger"
-                              onClick={handleDeleteData}
-                            >
-                              YES
-                            </Button>
-                            <Button onClick={() => setDeleteModal(false)}>
-                              NO
-                            </Button>
-                          </ModalFooter>
-                        </Modal>
-                      </td>
+                            <ModalFooter>
+                              <Button color="danger" onClick={handleDeleteData}>
+                                YES
+                              </Button>
+                              <Button onClick={() => setDeleteModal(false)}>
+                                NO
+                              </Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

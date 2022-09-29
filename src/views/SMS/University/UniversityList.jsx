@@ -746,7 +746,7 @@ const UniversityList = (props) => {
 
                 {/* column hide unhide starts here */}
 
-                <div className="mr-3">
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -979,7 +979,7 @@ const UniversityList = (props) => {
                           {" "}
                           <img
                             className="Uapp-c-image"
-                            src={rootUrl + university?.universityLogo?.fileUrl}
+                            src={rootUrl + university?.universityLogo?.thumbnailUrl}
                             alt="university_logo"
                           />{" "}
                         </td>

@@ -414,19 +414,6 @@ const ConsultantList = () => {
 
             <Col lg="7" md="7" sm="8" xs="8">
               <div className="d-md-flex justify-content-end">
-                {/* <Col lg="2">
-                    
-                    <div className='ms-2'>
-                      <ReactToPrint
-                        trigger={()=><div className="uapp-print-icon">
-                          <div className="text-right">
-                            <span title="Print to pdf"> <i className="fas fa-print"></i> </span>
-                          </div>
-                        </div>}
-                        content={() => componentRef.current}
-                      />
-                    </div>
-                </Col> */}
 
                 <div className="mr-3">
                   <div className="d-flex align-items-center">
@@ -482,7 +469,7 @@ const ConsultantList = () => {
 
                 {/* column hide unhide starts here */}
 
-                <div className="mr-3">
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -803,7 +790,7 @@ const ConsultantList = () => {
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
 
                       {checkName ? (
-                        <td style={{ width: "10px" }}>
+                        <td>
                           {consultant?.nameTitle?.name} {consultant?.firstName}{" "}
                           {consultant?.lastName}
                         </td>
@@ -988,20 +975,24 @@ const ConsultantList = () => {
                               icon={<i className="fas fa-eye"></i>}
                             />
 
-                            <ButtonForFunction
-                              func={() => handleEdit(consultant)}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                            />
-
                             {consultant?.id !== 1 ? (
-                              <ButtonForFunction
-                                color={"danger"}
-                                className={"mx-1 btn-sm"}
-                                func={() => toggleDanger(consultant)}
-                                icon={<i className="fas fa-trash-alt"></i>}
-                              />
+
+                               <>
+                                   <ButtonForFunction
+                                   func={() => handleEdit(consultant)}
+                                   color={"warning"}
+                                   className={"mx-1 btn-sm"}
+                                   icon={<i className="fas fa-edit"></i>}
+                                   />
+
+                                  <ButtonForFunction
+                                    color={"danger"}
+                                    className={"mx-1 btn-sm"}
+                                    func={() => toggleDanger(consultant)}
+                                    icon={<i className="fas fa-trash-alt"></i>}
+                                  />
+                               </>
+
                             ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
                             null}
                           </ButtonGroup>

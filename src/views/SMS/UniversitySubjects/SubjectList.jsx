@@ -594,7 +594,7 @@ const SubjectList = (props) => {
 
                 {/* column hide unhide starts here */}
 
-                <div className="mr-3">
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}

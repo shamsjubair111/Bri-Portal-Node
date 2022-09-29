@@ -34,6 +34,7 @@ import { useToasts } from "react-toast-notifications";
 import remove from "../../../helpers/remove";
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
+import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import ButtonForFunction from "../Components/ButtonForFunction";
@@ -46,6 +47,7 @@ const CampusSubjectList = () => {
   const { camId } = useParams();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [subList, setSubList] = useState([]);
   const [entity, setEntity] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -91,6 +93,17 @@ const CampusSubjectList = () => {
   const [subError, setSubError] = useState(false);
 
   const [subListDD, setSubListDD] = useState([]);
+
+  // for hide/unhide table column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkSub, setCheckSub] = useState(true);
+  const [checkHome, setCheckHome] = useState(true);
+  const [checkEuUk, setCheckEuUk] = useState(true);
+  const [checkInt, setCheckInt] = useState(true);
+  const [checkProg, setCheckProg] = useState(true);
+  const [checkDep, setCheckDep] = useState(true);
+  const [checkIntake, setCheckIntake] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
   const location = useLocation();
   const history = useHistory();
@@ -153,6 +166,11 @@ const CampusSubjectList = () => {
   // toggle dropdown
   const toggle = () => {
     setDropdownOpen((prev) => !prev);
+  };
+
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
   };
 
   const toggleDanger = (name, id) => {
@@ -374,6 +392,36 @@ const CampusSubjectList = () => {
     setModalOpen(true);
   };
 
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedSub = (e) => {
+    setCheckSub(e.target.checked);
+  };
+  const handleCheckedHome = (e) => {
+    setCheckHome(e.target.checked);
+  };
+  const handleCheckedEuUk = (e) => {
+    setCheckEuUk(e.target.checked);
+  };
+  const handleCheckedInt = (e) => {
+    setCheckInt(e.target.checked);
+  };
+  const handleCheckedProg = (e) => {
+    setCheckProg(e.target.checked);
+  };
+  const handleCheckedDep = (e) => {
+    setCheckDep(e.target.checked);
+  };
+  const handleCheckedIntake = (e) => {
+    setCheckIntake(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -511,9 +559,16 @@ const CampusSubjectList = () => {
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
                         <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
+                          {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
-                          </p>
+                          </p> */}
+                          <ReactTableConvertToXl
+                            id="test-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            icon={<i className="fas fa-file-excel"></i>}
+                          />
                         </div>
                         <div className="text-light cursor-pointer">
                           <ReactToPrint
@@ -530,7 +585,9 @@ const CampusSubjectList = () => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="me-3">
+                {/* column hide unhide starts here */}
+
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -540,27 +597,184 @@ const CampusSubjectList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-light cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Subject</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSub(e);
+                              }}
+                              defaultChecked={checkSub}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Accept Home</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedHome(e);
+                              }}
+                              defaultChecked={checkHome}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Accept EU/UK</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedEuUk(e);
+                              }}
+                              defaultChecked={checkEuUk}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Accept International</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedInt(e);
+                              }}
+                              defaultChecked={checkInt}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Program Level</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedProg(e);
+                              }}
+                              defaultChecked={checkProg}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Department</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedDep(e);
+                              }}
+                              defaultChecked={checkDep}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Intake</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedIntake(e);
+                              }}
+                              defaultChecked={checkIntake}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+                {/* column hide unhide ends here */}
               </div>
             </Col>
           </Row>
@@ -569,32 +783,34 @@ const CampusSubjectList = () => {
             <h2 className="text-center">Loading...</h2>
           ) : (
             <div className="table-responsive" ref={componentRef}>
-              <Table className="table-sm table-bordered">
+              <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
-                    <th>Subject</th>
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkSub ? <th>Subject</th> : null}
                     {/* <th>Description</th>
                     <th>Duration</th> */}
                     {/* <th>University</th> */}
-                    <th>Accept Home</th>
-                    <th>Accept EU/UK </th>
-                    <th>Accept International</th>
-                    <th>Program Level</th>
-                    <th>Department</th>
+                    {checkHome ? <th>Accept Home</th> : null}
+                    {checkEuUk ? <th>Accept EU/UK</th> : null}
+                    {checkInt ? <th>Accept International</th> : null}
+                    {checkProg ? <th>Program Level</th> : null}
+                    {checkDep ? <th>Department</th> : null}
                     {/* <th>Sub Department</th> */}
-                    <th>Intake</th>
+                    {checkIntake ? <th>Intake</th> : null}
                     {/* <th>Intakes</th> */}
-                    <th style={{ width: "8%" }} className="text-center">
-                      Action
-                    </th>
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {subList?.map((sub, i) => (
                     <tr key={sub?.id} style={{ textAlign: "center" }}>
-                      <td>{serialNum + i}</td>
-                      <td>{sub?.name}</td>
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkSub ? <td>{sub?.name}</td> : null}
                       {/* <td>{sub?.description}</td>
 
                       <td>
@@ -605,68 +821,79 @@ const CampusSubjectList = () => {
                         {sub?.university?.name}
                       </td> */}
 
-                      <td>{sub?.isAcceptHome === false ? "No" : "Yes"}</td>
-                      <td>{sub?.isAcceptEU_UK === false ? "No" : "Yes"}</td>
-                      <td>
-                        {sub?.isAcceptInternational === false ? "No" : "Yes"}
-                      </td>
+                      {checkHome ? (
+                        <td>{sub?.isAcceptHome === false ? "No" : "Yes"}</td>
+                      ) : null}
+                      {checkEuUk ? (
+                        <td>{sub?.isAcceptEU_UK === false ? "No" : "Yes"}</td>
+                      ) : null}
+                      {checkInt ? (
+                        <td>
+                          {sub?.isAcceptInternational === false ? "No" : "Yes"}
+                        </td>
+                      ) : null}
 
-                      <td>{sub?.programLevel?.name}</td>
+                      {checkProg ? <td>{sub?.programLevel?.name}</td> : null}
 
-                      <td>
-                        {sub?.department?.name}
-                        {","} {sub?.subDepartment?.name}
-                      </td>
+                      {checkDep ? (
+                        <td>
+                          {sub?.department?.name}
+                          {","} {sub?.subDepartment?.name}
+                        </td>
+                      ) : null}
 
                       {/* <td>
                         {sub?.subDepartment?.name}
                       </td> */}
 
-                      <td>
-                        {" "}
-                        <span
-                          className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {/* <Link className="text-decoration-none" to = {`/subjectIntake/${camId}/${sub?.id}`}> 
+                      {checkIntake ? (
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {/* <Link className="text-decoration-none" to = {`/subjectIntake/${camId}/${sub?.id}`}> 
                           <span> View </span>
                           </Link> */}
 
-                          <LinkSpanButton
-                            url={`/subjectIntake/${camId}/${sub?.id}`}
-                            className={"text-decoration-none"}
-                            data={"View"}
-                            permission={6}
-                          />
-                        </span>{" "}
-                      </td>
+                            <LinkSpanButton
+                              url={`/subjectIntake/${camId}/${sub?.id}`}
+                              className={"text-decoration-none"}
+                              data={"View"}
+                              permission={6}
+                            />
+                          </span>{" "}
+                        </td>
+                      ) : null}
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                          {/* <Link to= ""> */}
-                          {/* <Button onClick={()=>handleRedirectSubProfile(sub?.id)} color="primary" className="mx-1 btn-sm">
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <Link to= ""> */}
+                            {/* <Button onClick={()=>handleRedirectSubProfile(sub?.id)} color="primary" className="mx-1 btn-sm">
                             {" "}
                             <i className="fas fa-eye"></i>{" "}
                           </Button> */}
 
-                          <ButtonForFunction
-                            func={() => handleRedirectSubProfile(sub?.id)}
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              func={() => handleRedirectSubProfile(sub?.id)}
+                              color={"primary"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-eye"></i>}
+                              permission={6}
+                            />
 
-                          {/* </Link> */}
+                            {/* </Link> */}
 
-                          {/* <Link to={`/editSubject/${sub?.id}`}>
+                            {/* <Link to={`/editSubject/${sub?.id}`}>
                             <Button color="dark" className="mx-1 btn-sm">
                               {" "}
                               <i className="fas fa-edit"></i>{" "}
                             </Button>
                           </Link> */}
 
-                          {/* <LinkButton
+                            {/* <LinkButton
                             url={`/addSubject/${sub?.id}`}
                             color={"warning"}
                             className={"mx-1 btn-sm"}
@@ -674,52 +901,53 @@ const CampusSubjectList = () => {
                             permission={6}
                           /> */}
 
-                          <ButtonForFunction
-                            func={() => toggleEdit(sub)}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                            permission={6}
-                          />
+                            <ButtonForFunction
+                              func={() => toggleEdit(sub)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
 
-                          {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
+                            {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                          <ButtonForFunction
-                            func={() =>
-                              toggleDanger(sub?.name, sub?.campusSubjectId)
-                            }
-                            color={"danger"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
-                          />
-                        </ButtonGroup>
+                            <ButtonForFunction
+                              func={() =>
+                                toggleDanger(sub?.name, sub?.campusSubjectId)
+                              }
+                              color={"danger"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-trash-alt"></i>}
+                              permission={6}
+                            />
+                          </ButtonGroup>
 
-                        <Modal
-                          isOpen={deleteModal}
-                          toggle={closeDeleteModal}
-                          className="uapp-modal"
-                        >
-                          <ModalBody>
-                            <p>
-                              Are You Sure to Delete this <b>{subName}</b> ?
-                              Once Deleted it can't be Undone!
-                            </p>
-                          </ModalBody>
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={closeDeleteModal}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this <b>{subName}</b> ?
+                                Once Deleted it can't be Undone!
+                              </p>
+                            </ModalBody>
 
-                          <ModalFooter>
-                            <Button
-                              color="danger"
-                              onClick={() => handleDelete(subId)}
-                            >
-                              YES
-                            </Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
-                          </ModalFooter>
-                        </Modal>
-                      </td>
+                            <ModalFooter>
+                              <Button
+                                color="danger"
+                                onClick={() => handleDelete(subId)}
+                              >
+                                YES
+                              </Button>
+                              <Button onClick={closeDeleteModal}>NO</Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>
@@ -772,15 +1000,14 @@ const CampusSubjectList = () => {
                   </Col>
                 </FormGroup>
 
-                  <p className="mt-4">
-                    <b>Subject features</b>
-                  </p>
+                <p className="mt-4">
+                  <b>Subject Features</b>
+                </p>
 
                 <FormGroup row className="">
-                  
                   <Col md="6">
                     <span>
-                      Is accept home <span className="text-danger">*</span>{" "}
+                      Is Accept Home 
                     </span>
                   </Col>
 
@@ -829,7 +1056,7 @@ const CampusSubjectList = () => {
                 <FormGroup row className="">
                   <Col md="6">
                     <span>
-                      Is accept EU_UK <span className="text-danger">*</span>{" "}
+                      Is Accept EU/UK 
                     </span>
                   </Col>
 
@@ -878,8 +1105,8 @@ const CampusSubjectList = () => {
                 <FormGroup row className="">
                   <Col md="6">
                     <span>
-                      Is accept international{" "}
-                      <span className="text-danger">*</span>{" "}
+                      Is Accept International{" "}
+                      
                     </span>
                   </Col>
 
@@ -932,15 +1159,15 @@ const CampusSubjectList = () => {
                     justifyContent: "end",
                   }}
                 >
-                  <Button color="danger" className="mr-2 mt-3" onClick={taggleModal}>
+                  <Button
+                    color="danger"
+                    className="mr-2 mt-3"
+                    onClick={taggleModal}
+                  >
                     Cancel
                   </Button>
 
-                  <Button.Ripple
-                    type="submit"
-                    color="primary"
-                    className="mt-3"
-                  >
+                  <Button.Ripple type="submit" color="primary" className="mt-3">
                     Submit
                   </Button.Ripple>
                 </FormGroup>
