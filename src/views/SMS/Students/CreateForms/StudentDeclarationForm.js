@@ -24,6 +24,7 @@ const StudentDocumentForm = () => {
     const [singTime,setSignTime] = useState([]);
     const userTypeId = localStorage.getItem('userType');
     const [success,setSuccess] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -64,8 +65,10 @@ const StudentDocumentForm = () => {
         })
       }
      const finish = () => {
+      setButtonStatus(true);
         put(`StudentConsent/SendEmail/${idVal}`)
         .then(res => {
+          setButtonStatus(false);
             if(res?.status == 200){
                 addToast("Email Sending is in Process",{
                     appearance: 'success',
@@ -80,8 +83,10 @@ const StudentDocumentForm = () => {
      }
 
       const sendEmail = () => {
+        setButtonStatus(true);
         put(`StudentConsent/SendEmail/${idVal}`)
         .then(res => {
+          setButtonStatus(false);
             if(res?.status == 200){
                 addToast("Email Sending is in Process",{
                     appearance: 'success',
@@ -222,6 +227,7 @@ const StudentDocumentForm = () => {
                    <div className="mb-1 text-right">
                    <Button color="primary"
                    onClick={finish}
+                   disabled={buttonStatus}
                    >
                        Send Email & Finish
                    </Button>
@@ -234,6 +240,7 @@ const StudentDocumentForm = () => {
                        <span className="text-info"> Email is sent with credentails </span>
                        <Button color="primary"
                    onClick={sendEmail}
+                   disabled={buttonStatus}
                    >
                        Send Email Again
                    </Button>

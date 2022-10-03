@@ -42,6 +42,7 @@ const Conscent = () => {
 
     const [apiInfo,setAPiInfo] = useState('');
     const [singTime,setSignTime] = useState([]);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
 
 
@@ -88,8 +89,10 @@ const Conscent = () => {
       };
 
       const sendEmail = () => {
+        setButtonStatus(true);
         put(`ConsultantConscent/SendEmail/${consultantRegisterId}`)
         .then(res => {
+          setButtonStatus(false);
             if(res?.status == 200){
                 addToast("Email Sending is in Process",{
                     appearance: 'success',
@@ -308,6 +311,7 @@ const Conscent = () => {
                    <div className="mb-1 text-right">
                    <Button color="primary"
                    onClick={sendEmail}
+                   disabled={buttonStatus}
                    >
                        Send Email
                    </Button>
@@ -320,6 +324,7 @@ const Conscent = () => {
                        <span className="text-info"> Email is sent with credentails </span>
                        <Button color="primary"
                    onClick={sendEmail}
+                   disabled={buttonStatus}
                    >
                        Send Email Again
                    </Button>

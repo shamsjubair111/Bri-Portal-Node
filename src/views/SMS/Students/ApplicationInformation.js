@@ -46,6 +46,8 @@ const ApplicationInformation = () => {
   const [applicationId, setApplicationId] = useState(0);
 
   const {addToast} = useToasts();
+  const [buttonStatus,setButtonStatus] = useState(false);
+ 
 
   
  
@@ -246,8 +248,10 @@ const handleSubmit = (event) => {
 
     if(update){
 
+      setButtonStatus(true);
     put(`ApplicationInfo/Update`,subData)
     .then(res => {
+      setButtonStatus(false);
       console.log('2nd put response',res);
       if(res?.status == 200){
        
@@ -266,9 +270,10 @@ const handleSubmit = (event) => {
 
    else{
 
-
+    setButtonStatus(true);
     post('ApplicationInfo/Create',subData)
     .then(res => {
+      setButtonStatus(false);
       console.log('application response',res);
       if(res?.status == 200){
         addToast(res.data.message,{
@@ -770,6 +775,7 @@ const cancelForm = () => {
     name={'Submit'}
     type={'submit'}
     className="mr-1 mt-3 badge-primary"
+    disable={buttonStatus}
     
     />
 

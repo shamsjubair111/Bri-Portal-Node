@@ -71,6 +71,7 @@ const StudentByConsultant = () => {
   const [checkPass, setCheckPass] = useState(true);
   const [checkBlackList, setCheckBlacklist] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
   
 
   const history = useHistory();
@@ -215,10 +216,10 @@ const StudentByConsultant = () => {
   }
 
   const handleDeleteData = (data) => {
-
+    setButtonStatus(true);
     remove(`Student/Delete/${delData?.id}`)
     .then(res => {
-
+      setButtonStatus(false);
       console.log(res);
       addToast(res,{
         appearance: 'error',
@@ -819,7 +820,7 @@ const StudentByConsultant = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={handleDeleteData}>
+                              <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>

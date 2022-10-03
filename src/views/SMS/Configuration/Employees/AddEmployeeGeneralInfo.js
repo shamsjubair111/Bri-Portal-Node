@@ -47,6 +47,7 @@ const EmployeeGeneralInfo = (props) => {
     const [titleLabel, setTitleLabel] = useState("Select Title");
     const [titleValue, setTitleValue] = useState(0);
     const [titleError, setTitleError] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
     
 
     const [emailError, setEmailError] = useState(true);
@@ -169,6 +170,7 @@ const EmployeeGeneralInfo = (props) => {
     const handleSubmit = (event) => {
 
         event.preventDefault();
+        
         const subData = new FormData(event.target);
         subData.append('profileImage', FileList[0]?.originFileObj);
         subData.append('coverImage', result1.length > 0 ? result1[0]?.originFileObj : null);
@@ -204,7 +206,8 @@ const EmployeeGeneralInfo = (props) => {
           }
 
         else{
-            
+
+            setButtonStatus(true);
             axios.post(`${rootUrl}Employee/Create`,subData, {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -225,6 +228,7 @@ const EmployeeGeneralInfo = (props) => {
 
            
                     if (res.status === 200 && res.data.isSuccess === true) {
+                        setButtonStatus(false);
                         addToast(res.data.message, {
                             appearance: 'success',
                             autoDismiss: true,
@@ -237,6 +241,7 @@ const EmployeeGeneralInfo = (props) => {
                         history.push(`/addStaffContactInfo/${res?.data?.result?.id}`);
                     }
                     else if(res.status === 200 && res.data.isSuccess === false){
+                        setButtonStatus(false);
                         addToast(res.data.message, {
                             appearance: 'error',
                             autoDismiss: true,
@@ -593,6 +598,7 @@ const EmployeeGeneralInfo = (props) => {
                                             className={"mr-1 mt-3"}
                                             name={"Submit"}
                                             permission={6}
+                                            disable={buttonStatus}
                                         />
                                        
                                     </Col>

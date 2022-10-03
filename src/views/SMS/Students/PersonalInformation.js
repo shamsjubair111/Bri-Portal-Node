@@ -96,6 +96,7 @@ const PersonalInformation = () => {
   const [FileList, setFileList] = useState([]);
 
   const [imgError, setImgError] = useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   // const dispatch = useDispatch();
 
@@ -422,7 +423,9 @@ const PersonalInformation = () => {
       setImgError(true);
     } 
     else {
+      setButtonStatus(true);
       put("Student/Update", subData).then((res) => {
+        setButtonStatus(false);
         console.log("posted data", res);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
@@ -941,6 +944,7 @@ const PersonalInformation = () => {
                       className={"mr-1 mt-3 badge-primary"}
                       type={"submit"}
                       name={"Submit"}
+                      disable={buttonStatus}
                     />
                   </Col>
                 </FormGroup>

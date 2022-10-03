@@ -79,6 +79,7 @@ const AdmissionManagerProfile = () => {
   const history = useHistory();
   const location = useLocation();
   const { addToast } = useToasts();
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const tableStyle = {
     overflowX: "scroll",
@@ -186,6 +187,7 @@ const AdmissionManagerProfile = () => {
     else{
       if(selectedId === undefined){
         setOfficerObj({});
+        setButtonStatus(true);
         post(`AdmissionOfficer/Create`, subdata)
         .then(res => {
           setSuccess(!success);
@@ -197,6 +199,7 @@ const AdmissionManagerProfile = () => {
           setUniCountryValue(0);
           setUniStateLabel("Select State");
           setUniStateValue(0);
+          setButtonStatus(false);
 
         //   setuniversityId(res?.data?.result?.universityId)
           if (res?.status === 200 && res?.data?.isSuccess === true) {
@@ -245,6 +248,7 @@ const AdmissionManagerProfile = () => {
       setOfficerError(true);
     }
     else{
+      setButtonStatus(true);
       post("AdmissionOfficerOfManager/Create", subdata).then(res => {
         if (res?.status == 200) {
           addToast(res?.data?.message, {
@@ -256,6 +260,7 @@ const AdmissionManagerProfile = () => {
           setOfficerLabel("Select Admission Officer");
           setOfficerValue(0);
           setExistsNote();
+          setButtonStatus(false);
         }
       })
     }
@@ -354,6 +359,7 @@ const selectNameTitle = (label, value) => {
     setDeleteName(officer?.firstName);
     setDeleteId(officer?.officermanagerId);
     setDeleteModal(true);
+    
   }
 
   const closeDeleteModal = () => {
@@ -363,6 +369,7 @@ const selectNameTitle = (label, value) => {
   };
 
   const handleDeleteAdmissionOfficer = (id) =>{
+    setButtonStatus(true);
     remove(`AdmissionOfficerOfManager/Delete/${id}`).then((res) => {
       addToast(res, {
         appearance: "error",
@@ -372,6 +379,7 @@ const selectNameTitle = (label, value) => {
       setDeleteName("");
       setDeleteId(undefined);
       setSuccess(!success);
+      setButtonStatus(false);
     });
   }
 
@@ -721,6 +729,7 @@ const selectNameTitle = (label, value) => {
                       className={"mr-1 mt-3"}
                       name={"Submit"}
                       permission={6}
+                      isDisabled={buttonStatus}
                     />
                   </FormGroup>
                 </Form>
@@ -990,6 +999,7 @@ const selectNameTitle = (label, value) => {
                         className={"mr-1 mt-3"}
                         name={"Submit"}
                         permission={6}
+                        isDisabled={buttonStatus}
                       />
 
                   </FormGroup>
@@ -1059,6 +1069,7 @@ const selectNameTitle = (label, value) => {
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
+                              
                             />
       
                             <ButtonForFunction
@@ -1085,6 +1096,7 @@ const selectNameTitle = (label, value) => {
                             <Button
                               color="danger"
                               onClick={() => handleDeleteAdmissionOfficer(deleteId)}
+                              disabled={buttonStatus}
                             >
                               YES
                             </Button>

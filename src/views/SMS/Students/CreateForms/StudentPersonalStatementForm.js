@@ -20,6 +20,7 @@ const StudentPersonalStatementForm = () => {
     const [id, setId] = useState(0);
     const [stringData,setStringData] = useState(0);
     const {idVal} = useParams();
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     function countWords(str) {
         const arr = str.split(' ');
@@ -39,9 +40,10 @@ const StudentPersonalStatementForm = () => {
           event.preventDefault();
   
           const subData = new FormData(event.target);
-  
+              setButtonStatus(true);
              post('PersonalStatement/Create',subData)
             .then(res => {
+              setButtonStatus(false);
               console.log(res);
               if(res?.status == 200){
                 addToast(res?.data?.message,{
@@ -113,13 +115,13 @@ const StudentPersonalStatementForm = () => {
       
         <div className='row'>
             <div className='col-md-8 d-flex justify-content-end'>
-            <Button.Ripple
+            <Button
                 type="submit"
                 className="mr-1 mt-3 badge-primary"
-                disabled ={stringData < 300 ? true : false}
+                disabled ={(stringData < 300 || buttonStatus)}
                 >
                 Save & Next
-               </Button.Ripple>
+               </Button>
 
             </div>
 

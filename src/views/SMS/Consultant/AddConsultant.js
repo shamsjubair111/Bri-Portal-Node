@@ -37,7 +37,7 @@ const AddConsultant = () => {
     const [titleError, setTitleError] = useState(false);
     const [pass,setPass] = useState('');
     const [passError,setPassError] = useState('');
-
+    const [buttonStatus,setButtonStatus] = useState(false);
     const history = useHistory();
     const { addToast } = useToasts();
       
@@ -134,12 +134,14 @@ const AddConsultant = () => {
   
 
      else{
+      setButtonStatus(true);
       post("Consultant/Register", subdata).then(res=>{
         console.log("consultant",res);
         addToast(res?.data?.message, {
           appearance: res?.data?.isSuccess == true ? 'success': 'error',
           autoDismiss: true,
         });
+        setButtonStatus(false);
         
         if (res.status === 200 && res.data.isSuccess === true) {
           
@@ -392,7 +394,7 @@ const AddConsultant = () => {
                       className={'mt-3 ml-1'}
                       color={'primary'}
                       name={"Submit"}
-                      
+                      disable={buttonStatus}
                     />
 
                  

@@ -44,6 +44,7 @@ const StudentEducationForm = () => {
 
     const [programError, setProgramError] = useState(false);
     const [countryError, setCountryError] = useState(false);
+    const [buttonStatus, setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -130,10 +131,11 @@ setCountryError(true);
 
 else{
 
-
+ setButtonStatus(true);
   post('EducationInformation/Create',subData)
   .then(res => {
-    console.log('Educatinal information Post ',res);
+    setButtonStatus(false);
+    
     addToast(res?.data?.message,{
       appearance: 'success',
       autoDismiss: true
@@ -430,6 +432,7 @@ else{
         name={'Save & Next'}
         type={'submit'}
         className={'mt-3 badge-primary'}
+        disable={buttonStatus}
         />
 
                 </div>

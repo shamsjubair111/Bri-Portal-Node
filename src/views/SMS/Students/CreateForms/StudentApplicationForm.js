@@ -45,6 +45,7 @@ const StudentApplicationForm = () => {
     const [applicationId, setApplicationId] = useState(0);
   
     const {addToast} = useToasts();
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     
   useEffect(()=>{
@@ -163,9 +164,10 @@ const handleSubmit = (event) => {
    
      else{
   
-  
+      setButtonStatus(true);
       post('ApplicationInfo/Create',subData)
       .then(res => {
+        setButtonStatus(false);
         console.log('application response',res);
         if(res?.status == 200){
           addToast(res.data.message,{
@@ -569,6 +571,7 @@ const handleSubmit = (event) => {
     name={'Save & Next'}
     type={'submit'}
     className=" mt-3 badge-primary"
+    disable={buttonStatus}
     
     />
     </div>

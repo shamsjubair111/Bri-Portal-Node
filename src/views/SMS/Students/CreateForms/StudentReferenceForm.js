@@ -34,6 +34,7 @@ const StudentReferenceForm = () => {
   
      const [referenceError, setReferenceError] = useState(false);
      const [countryError, setCountryError] = useState(false);
+     const [buttonStatus, setButtonStatus] = useState(false);
 
      useEffect(()=>{
 
@@ -103,9 +104,10 @@ const StudentReferenceForm = () => {
       setCountryError(true);
     }
      else{
+      setButtonStatus(true);
          post('Reference/Create',subData)
       .then(res => {
-    
+        setButtonStatus(false);
         if(res?.status == 200){
   
          
@@ -355,6 +357,7 @@ const StudentReferenceForm = () => {
      name={'Save & Next'}
      type={'submit'}
      className={"mt-3 badge-primary"}
+     disable={buttonStatus}
      />
 
     </div>

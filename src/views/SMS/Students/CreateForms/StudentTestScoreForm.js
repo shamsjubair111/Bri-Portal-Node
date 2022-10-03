@@ -87,6 +87,7 @@ const StudentTestScoreForm = () => {
 
   const [testError, setTestError] = useState(false);
   const [loading, setLoading] =useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
 // Test Options
 
@@ -198,9 +199,10 @@ const StudentTestScoreForm = () => {
 
     const subData = new FormData(event.target);
     if (ELqualificationLabel == "IELTS") {
-     
+        setButtonStatus(true);
         post("Ielts/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
+          
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -218,9 +220,10 @@ const StudentTestScoreForm = () => {
         });
      
     } else if (ELqualificationLabel == "DUOLINGO") {
-      
+         setButtonStatus(true);
         post("Duolingo/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
+          
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -238,9 +241,9 @@ const StudentTestScoreForm = () => {
         });
 
     } else if (ELqualificationLabel == "TOEFL") {
-    
+        setButtonStatus(true);
         post("Toefl/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -258,9 +261,9 @@ const StudentTestScoreForm = () => {
         });
  
     } else if (ELqualificationLabel == "FUNCTION SKILLS") {
-   
+         setButtonStatus(true);
         post("FunctionalSkill/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -278,9 +281,9 @@ const StudentTestScoreForm = () => {
         });
    
     } else if (ELqualificationLabel == "GCSE") {
-     
+        setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -298,9 +301,9 @@ const StudentTestScoreForm = () => {
         });
      
     } else if (ELqualificationLabel == "PEARSON") {
-     
+        setButtonStatus(true);
         post("Pearson/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -318,9 +321,9 @@ const StudentTestScoreForm = () => {
         });
    
     } else if (ELqualificationLabel == "OTHER SCORE") {
-    
+        setButtonStatus(true);
         post("Other/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -338,9 +341,9 @@ const StudentTestScoreForm = () => {
         });
      
     } else {
-     
+        setButtonStatus(true);
         post("PTE/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -391,8 +394,9 @@ const StudentTestScoreForm = () => {
       console.log(x);
     }
 
-
+       setButtonStatus(true);
       post(`GreScore/Create`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -416,8 +420,9 @@ const StudentTestScoreForm = () => {
     for (var x of subData.values()) {
       console.log(x);
     }
-
+        setButtonStatus(true);
       post(`GmatScore/Create`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -476,11 +481,11 @@ const StudentTestScoreForm = () => {
             </div>
          
   
-          <div className="row mt-3">
+       
           
               <FormGroup
                 row
-                className="has-icon-left position-relative ms-md-1"
+                className="has-icon-left position-relative ml-md-2 mt-3"
               >
                 <Col md="2">
                   <span>
@@ -509,7 +514,7 @@ const StudentTestScoreForm = () => {
               <>
                 <FormGroup
                   row
-                  className="has-icon-left position-relative ms-md-1"
+                  className="has-icon-left position-relative ml-md-2"
                 >
                   <Col md="2">
                     <span>
@@ -702,6 +707,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -859,6 +865,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1015,6 +1022,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1062,6 +1070,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1109,6 +1118,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1241,6 +1251,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1309,6 +1320,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1443,6 +1455,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1456,12 +1469,12 @@ const StudentTestScoreForm = () => {
             </div>
   
             {/* Showing English Test Score Forms */}
-          </div>
+         
   
           {/* Showing English Test Result In Card */}
   
           <div className="row mt-3">
-            <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+            <div className="hedding-titel d-flex justify-content-between ml-md-4 mb-3">
               <div>
                 <h5>
                   {" "}
@@ -1477,7 +1490,7 @@ const StudentTestScoreForm = () => {
   
           <section id="root">
             <div className="row mt-3">
-              <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+              <div className="hedding-titel d-flex justify-content-between ml-md-4 mb-3">
                 <div>
                   <h5>
                     {" "}
@@ -1491,12 +1504,12 @@ const StudentTestScoreForm = () => {
   
            </div>
           
-             <Button color="primary" onClick={()=> setModal2Open(true)}>
+             <Button color="primary" className="ml-2" onClick={()=> setModal2Open(true)}>
              <i className="fas fa-plus"></i> <span>{' '}Add GRE Score</span>
              </Button>
              <br/>
              <br/>
-             <Button color="primary" onClick={()=> setModal3Open(true)}>
+             <Button color="primary" className="ml-2" onClick={()=> setModal3Open(true)}>
              <i className="fas fa-plus"></i> <span>{' '}Add GMAT Score</span>
              </Button>
           
@@ -1681,6 +1694,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1912,6 +1926,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>

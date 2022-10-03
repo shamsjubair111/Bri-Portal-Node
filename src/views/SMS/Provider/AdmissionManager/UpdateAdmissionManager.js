@@ -33,6 +33,7 @@ const UpdateAdmissionManager = () => {
     const [titleLabel,setTitleLabel] = useState('Select');
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
     
 
     console.log('checking id for upadating admission Manager',id);
@@ -139,8 +140,10 @@ const selectTitle = (label, value) => {
 
         }
         else{
+          setButtonStatus(true);
           put(`AdmissionManager/Update`,subData)
           .then(res =>{
+            setButtonStatus(false);
             if(res?.status == 200){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -437,13 +440,13 @@ const selectTitle = (label, value) => {
                    <div className='d-flex justify-content-end'>
                    {
                     permissions?.includes(permissionList?.Update_Admission_manager) ?
-                    <Button.Ripple
+                    <Button
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
-                     
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                       : null
                    }
                    </div>

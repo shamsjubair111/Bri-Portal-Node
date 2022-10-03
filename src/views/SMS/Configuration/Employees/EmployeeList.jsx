@@ -74,6 +74,7 @@ const EmployeeList = (props) => {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -158,9 +159,11 @@ const EmployeeList = (props) => {
     setData(data);
 
     setDeleteModal(true);
+    
   };
 
   const handleDeleteStaff = () => {
+    setButtonStatus(true);
     remove(`Employee/Delete/${data?.id}`).then((res) => {
       addToast(res, {
         appearance: "error",
@@ -169,6 +172,7 @@ const EmployeeList = (props) => {
 
       setDeleteModal(false);
       setSuccess(!success);
+      setButtonStatus(false);
     });
   };
 
@@ -704,6 +708,7 @@ const EmployeeList = (props) => {
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
+                              disable={buttonStatus}
                             />
                           </ButtonGroup>
 

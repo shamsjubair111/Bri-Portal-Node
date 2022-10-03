@@ -121,6 +121,7 @@ const AdmissionManagerList = () => {
   const referenceId = localStorage.getItem("referenceId");
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [loading,setLoading] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("ProviderDD/Index").then((res) => {
@@ -280,6 +281,7 @@ const AdmissionManagerList = () => {
   };
 
   const handleDelete = () => {
+    setButtonStatus(true);
     remove(`AdmissionManager/Delete/${deleteData?.id}`).then((res) => {
       addToast(res, {
         appearance: "error",
@@ -290,6 +292,7 @@ const AdmissionManagerList = () => {
       setManagerId(0);
       setManagerName("");
       setSuccess(!success);
+      setButtonStatus(false);
     });
   };
 
@@ -1264,6 +1267,7 @@ const AdmissionManagerList = () => {
                                 className={"mx-1 btn-sm"}
                                 icon={<i className="fas fa-trash-alt"></i>}
                                 permission={6}
+                                disable={buttonStatus}
                               />
                             ) : null}
                           </ButtonGroup>

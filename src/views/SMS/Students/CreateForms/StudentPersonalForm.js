@@ -93,6 +93,7 @@ const StudentPersonalForm = () => {
   const [FileList, setFileList] = useState([]);
 
   const [imgError, setImgError] = useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("NameTittleDD/index").then((res) => {
@@ -299,7 +300,9 @@ const StudentPersonalForm = () => {
       setImgError(true);
     } 
     else {
+      setButtonStatus(true);
       put("Student/Update", subData).then((res) => {
+        setButtonStatus(false);
         console.log("posted data", res);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
@@ -696,6 +699,7 @@ const StudentPersonalForm = () => {
                         className={"badge-primary"}
                         type={"submit"}
                         name={"Save & Next"}
+                        disable={buttonStatus}
                       />
                 
 

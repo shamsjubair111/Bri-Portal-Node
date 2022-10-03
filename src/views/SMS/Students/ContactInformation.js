@@ -40,6 +40,7 @@ const ContactInformation = () => {
 
   const [countryError, setCountryError] = useState(false);
   const [addressError, setAddressError] = useState(false);
+  const  [buttonStatus, setButtonStatus] =useState(false);
 
   
 
@@ -168,8 +169,9 @@ const ContactInformation = () => {
       setAddressError(true);
     } else {
       if (oneData?.id) {
+        setButtonStatus(true);
         put("StudentContactInformation/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -180,8 +182,9 @@ const ContactInformation = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         post("StudentContactInformation/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -494,6 +497,7 @@ const ContactInformation = () => {
                       type={"submit"}
                       name={"Submit"}
                       className={"mr-1 mt-3 badge-primary"}
+                      disable={buttonStatus}
                     />
                   </Col>
                 </FormGroup>

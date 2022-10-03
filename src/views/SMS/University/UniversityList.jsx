@@ -41,6 +41,7 @@ import LinkButton from "../Components/LinkButton.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import { Axios } from "axios";
 import Loader from "../Search/Loader/Loader.js";
+import { useToasts } from "react-toast-notifications";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
@@ -94,6 +95,9 @@ const UniversityList = (props) => {
   const [checkAppli, setCheckAppli] = useState(true);
   const [checkProg, setCheckProg] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [delData,setDelData] = useState({});
+  const {addToast} = useToasts();
+  const [success,setSuccess] = useState(false);
 
   const providerData = useSelector(
     (state) => state?.universityProviderDataReducer?.universityProviders
@@ -249,6 +253,7 @@ const UniversityList = (props) => {
     entity,
     location.name,
     location.universityCountry,
+    success,
     // serialNum
   ]);
 
@@ -451,15 +456,20 @@ const UniversityList = (props) => {
   // deleteing university
 
   const handleDeleteUniversity = () => {
-    const id = localStorage.getItem("universityId_from_universityList_Page");
-    remove(`University/Delete/${id}`).then((res) => {
-      console.log(res);
+    
+    remove(`University/Delete/${delData?.id}`).then((res) => {
+      addToast(res,{
+        appearance: 'error',
+        autoDismiss: true
+      })
+      setSuccess(!success);
+      setDeleteModal(false);
     });
   };
 
   const toggleDanger = (id) => {
-    localStorage.setItem("universityId_from_universityList_Page", id);
-
+    
+    setDelData(id);
     setDeleteModal(true);
   };
 
@@ -1116,7 +1126,7 @@ const UniversityList = (props) => {
                             {/* </Link> */}
 
                             <ButtonForFunction
-                              func={() => toggleDanger(university?.id)}
+                              func={() => toggleDanger(university)}
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}

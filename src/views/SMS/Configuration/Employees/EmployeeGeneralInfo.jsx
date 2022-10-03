@@ -57,6 +57,7 @@ const EmployeeGeneralInfo = (props) => {
   const [files, setFiles] = useState([]);
   const [exactFile, setExactFile] = useState({});
   const [dropzoneError, setDropzoneError] = useState("");
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -192,11 +193,13 @@ const EmployeeGeneralInfo = (props) => {
     }
      
      else {
+      setButtonStatus(true);
       Axios.put(`${rootUrl}Employee/Update`, subData, {
         headers: {
           'authorization': AuthStr,
         },
       }).then((res) => {
+        setButtonStatus(false);
 
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
@@ -216,6 +219,7 @@ const EmployeeGeneralInfo = (props) => {
           //   //   state: { detail : uID},
           //     id: uID
           // })
+          
           history.push(`/staffContactInfo/${id}`);
         }
       });
@@ -531,6 +535,7 @@ const EmployeeGeneralInfo = (props) => {
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
+                    disable={buttonStatus}
                    />
                    :
                    null

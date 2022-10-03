@@ -67,6 +67,7 @@ const ConsultantCommission = () => {
   const { addToast } = useToasts();
   const [success, setSuccess] = useState(false);
   const { consultantRegisterId } = useParams();
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const userTypeId = localStorage.getItem("userType");
 
@@ -147,7 +148,9 @@ const ConsultantCommission = () => {
     if (commissionValue === 0) {
       setCommissionError(true);
     } else {
+      setButtonStatus(true);
       post("ConsultantCommissionGroup/Create", subdata).then((res) => {
+        setButtonStatus(false);
         if (res?.status === 200 && res?.data?.isSuccess == true) {
           addToast(res.data.message, {
             appearance: "success",
@@ -195,7 +198,9 @@ const ConsultantCommission = () => {
   };
 
   const handleDeleteCommission = id => {
+    setButtonStatus(true);
     const returnValue = remove(`ConsultantCommissionGroup/Delete/${id}`).then((action)=> {
+      setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
         // console.log(action);
@@ -228,7 +233,9 @@ const ConsultantCommission = () => {
       id: id
     }
 
+    setButtonStatus(true);
     put(`ConsultantCommissionGroup/ReAssign/${id}`, subdata).then((res) => {
+      setButtonStatus(false);
       if (res?.status === 200 && res?.data?.isSuccess == true) {
         addToast(res.data.message, {
           appearance: "success",
@@ -451,6 +458,7 @@ const ConsultantCommission = () => {
                   className={"mx-1 mt-3"}
                   name={"Submit"}
                   permission={6}
+                  isDisabled={buttonStatus}
                 />
               </FormGroup>
             </Form>
@@ -542,6 +550,7 @@ const ConsultantCommission = () => {
                                   onClick={() =>
                                     handleDeleteCommission(delCommissionId)
                                   }
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>
@@ -577,6 +586,7 @@ const ConsultantCommission = () => {
                                   onClick={() =>
                                     handleReAssignSubmit(commissionId)
                                   }
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>

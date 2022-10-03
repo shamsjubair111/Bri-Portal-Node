@@ -91,6 +91,7 @@ const ConsultantList = () => {
   const [checkAppli, setCheckAppli] = useState(true);
   const [checkAsso, setCheckAsso] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const history = useHistory();
 
@@ -251,7 +252,9 @@ const ConsultantList = () => {
   // Delete Data
 
   const handleDeleteData = () => {
+    setButtonStatus(true);
     remove(`Consultant/Delete/${delData?.id}`).then((res) => {
+      setButtonStatus(false);
       // console.log(res);
       addToast(res, {
         appearance: "error",
@@ -997,6 +1000,7 @@ const ConsultantList = () => {
                                     className={"mx-1 btn-sm"}
                                     func={() => toggleDanger(consultant)}
                                     icon={<i className="fas fa-trash-alt"></i>}
+                                    
                                   />
                                </>
 
@@ -1016,7 +1020,7 @@ const ConsultantList = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={handleDeleteData}>
+                              <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>

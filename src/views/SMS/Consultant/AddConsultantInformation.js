@@ -78,6 +78,7 @@ const AddConsultantInformation = () => {
   const [success, setSuccess] = useState(false);
 
   const [activetab, setActivetab] = useState("1");
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   // Profile Image States
 
@@ -566,7 +567,9 @@ const AddConsultantInformation = () => {
    
     }
     else {
+      setButtonStatus(true);
       put(`Consultant/Update`, subData).then((res) => {
+        setButtonStatus(false);
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,
@@ -1295,6 +1298,7 @@ const AddConsultantInformation = () => {
                   className={"mr-1 mt-3 badge-primary"}
                   name={"Submit"}
                   permission={6}
+                  disable={buttonStatus}
                 />
               </Col>
             </FormGroup>

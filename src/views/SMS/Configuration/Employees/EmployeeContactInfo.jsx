@@ -44,6 +44,7 @@ const EmployeeContactInfo = () => {
   const [countryValue, setCountryValue] = useState(0);
   const [countryError, setCountryError] = useState("");
   const { addToast } = useToasts();
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -106,9 +107,11 @@ const EmployeeContactInfo = () => {
     }
     else {
       if(contactInfo == null){
+        setButtonStatus(true);
         post(`EmployeeContactInformation/Create`,subData).then((action)=> {
+          setButtonStatus(false);
               
-          if(action?.status == 200){
+          if(action?.status == 200 && action?.data?.isSuccess == true){
            addToast(action?.data?.message, {
                appearance:  'success',
                autoDismiss: true,
@@ -120,10 +123,12 @@ const EmployeeContactInfo = () => {
         
       }
       else{
+        setButtonStatus(true);
         const returnValue = put(
           `EmployeeContactInformation/Update`,
           subData
         ).then((action) => {
+          setButtonStatus(false);
         
   
           addToast(action?.data?.message, {
@@ -363,6 +368,7 @@ const EmployeeContactInfo = () => {
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
+                    disable={buttonStatus}
                  
                   />
                   : null

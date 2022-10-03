@@ -131,6 +131,7 @@ const AdmissionOfficerList = () => {
 
   const [pass, setPass] = useState("");
   const [passError, setPassError] = useState("");
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("AdmissionManagerDD/Index").then((res) => {
@@ -351,6 +352,7 @@ const AdmissionOfficerList = () => {
   };
 
   const handleDelete = () => {
+    setButtonStatus(true);
     remove(`AdmissionOfficer/Delete/${deleteData?.id}`).then((res) => {
       addToast(res, {
         appearance: "error",
@@ -361,6 +363,7 @@ const AdmissionOfficerList = () => {
       setOfficerId(0);
       setOfficerName("");
       setSuccess(!success);
+      setButtonStatus(false);
     });
   };
 
@@ -436,8 +439,10 @@ const AdmissionOfficerList = () => {
         setManagerFormError(true);
       } else {
         setOfficerObj({});
+        setButtonStatus(true);
         post(`AdmissionOfficer/Create`, subdata).then((res) => {
           setSuccess(!success);
+          setButtonStatus(false);
 
           //   setuniversityId(res?.data?.result?.universityId)
           if (res?.status === 200 && res?.data?.isSuccess == true) {
@@ -472,7 +477,9 @@ const AdmissionOfficerList = () => {
       if (unistateValue === 0) {
         setUniStateError(true);
       } else {
+        setButtonStatus(true);
         put(`AdmissionOfficer/Update`, subdata).then((res) => {
+          setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res.data.message, {
               appearance: "success",
@@ -1251,6 +1258,7 @@ const AdmissionOfficerList = () => {
                     className={"mr-1 mt-3"}
                     name={"Submit"}
                     permission={6}
+                    isDisabled={buttonStatus}
                   />
                 </FormGroup>
               </Form>
@@ -1379,7 +1387,7 @@ const AdmissionOfficerList = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={handleDelete}>
+                              <Button color="danger" onClick={handleDelete} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button

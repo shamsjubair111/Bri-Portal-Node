@@ -31,6 +31,7 @@ const AddConsultantType = () => {
     const [postId, setPostId] = useState(0);
     const [consName,setConsName] = useState('');
     const [loading,setLoading] = useState(true);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -95,6 +96,7 @@ const AddConsultantType = () => {
         const subdata = new FormData(event.target);
         
         if(postId === 0){
+          setButtonStatus(true);
             post(`ConsultantType/Create`,subdata)
             .then(res => {
               addToast(res?.data?.message, {
@@ -103,9 +105,11 @@ const AddConsultantType = () => {
               })
               setModalOpen(false);
               setSuccess(!success);
+              setButtonStatus(false);
             })
         }
         else{
+            setButtonStatus(true);
             put(`ConsultantType/Update`,subdata).then((action)=> {
                 setSuccess(!success);
                 setModalOpen(false)
@@ -116,6 +120,7 @@ const AddConsultantType = () => {
                 setConsultantType('');
                 setConsName('');
                 setPostId(0);
+                setButtonStatus(false);
               })
         }  
       }
@@ -213,14 +218,14 @@ const AddConsultantType = () => {
 
                     
                     
-                      <Button.Ripple
-                        color="warning"
+                      <Button
+                        color="primary"
                         type="submit"
                         className="mr-1 mt-3"
-                       
+                       disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
 
                   
 

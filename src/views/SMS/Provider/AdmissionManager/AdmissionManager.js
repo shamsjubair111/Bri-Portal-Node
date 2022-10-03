@@ -30,6 +30,7 @@ const AdmissionManager = () => {
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
     const [emailError, setEmailError] = useState(true);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
         get(`CountryDD/index`)
@@ -134,8 +135,10 @@ const AdmissionManager = () => {
        
         else{
 
+          setButtonStatus(true);
           post(`AdmissionManager/Create`,subData)
           .then(res => {
+            setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -474,13 +477,14 @@ const AdmissionManager = () => {
                    <div className='d-flex justify-content-end'>
                    {
                     permissions?.includes(permissionList?.Add_Admission_manager) ?
-                    <Button.Ripple
+                    <Button
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                         // onClick={(e)=>handleSubmit(e)}
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                       : null
                    }
                    </div>

@@ -109,6 +109,7 @@ const StudentList = () => {
   const [checkPass, setCheckPass] = useState(true);
   const [checkBlackList, setCheckBlacklist] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("StudentTypeDD/Index").then((res) => {
@@ -366,7 +367,9 @@ const StudentList = () => {
     } else if (pass !== cPass) {
       setPassError("Passwords do not match");
     } else {
+      setButtonStatus(true);
       put(`Password/Change`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200 && res.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -387,8 +390,9 @@ const StudentList = () => {
   };
 
   const handleDeleteData = () => {
+    setButtonStatus(true);
     remove(`Student/Delete/${delData?.id}`).then((res) => {
-      console.log(res);
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -414,8 +418,10 @@ const StudentList = () => {
     const subData = {
       id: id,
     };
+    setButtonStatus(true);
 
     put(`Student/UpdateAccountStatus/${id}`, subData).then((res) => {
+      setButtonStatus(false);
       if (res?.status == 200) {
         addToast(res?.data?.message, {
           appearance: "success",
@@ -828,6 +834,7 @@ const StudentList = () => {
                                 handleCheckedBlackList(e);
                               }}
                               defaultChecked={checkBlackList}
+                              disabled={buttonStatus}
                             />
                           </FormGroup>
                         </Col>
@@ -1006,7 +1013,7 @@ const StudentList = () => {
                                           >
                                             Cancel
                                           </Button>
-                                          <Button color="primary" type="submit">
+                                          <Button color="primary" type="submit" disabled={buttonStatus}>
                                             Submit
                                           </Button>
                                         </div>
@@ -1075,6 +1082,7 @@ const StudentList = () => {
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               func={() => toggleDanger(student)}
+                              
                             />
                           </ButtonGroup>
 
@@ -1091,7 +1099,7 @@ const StudentList = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={handleDeleteData}>
+                              <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>

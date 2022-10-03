@@ -26,6 +26,7 @@ const StudentExperience = () => {
 
     const [sDate, setSDate] = useState('');
     const [eDate, setEDate] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     const handleChange = (e) => {
       
@@ -51,10 +52,10 @@ const StudentExperience = () => {
         for( var a of subData.values()){
           console.log(a);
         }
-
+         setButtonStatus(true);
         post('Experience/Create',subData)
         .then(res => {
-          console.log(res);
+          setButtonStatus(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -184,7 +185,7 @@ const StudentExperience = () => {
               Still Working? <span className="text-danger">*</span>{" "}
             </span>
           </Col>
-          <Col md="6" className='ms-4'>
+          <Col md="6" className='ml-4'>
            <Input
               type="checkbox"
             
@@ -241,6 +242,7 @@ const StudentExperience = () => {
             type={'submit'}
             className={"mr-1 mt-3 badge-primary"}
             name={'Save & Next'}
+            disable={buttonStatus}
     />
 
             </div>
