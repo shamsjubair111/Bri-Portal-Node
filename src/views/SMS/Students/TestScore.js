@@ -86,6 +86,7 @@ const TestScore = () => {
 
   const [testError, setTestError] = useState(false);
   const [loading, setLoading] =useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const handleDate = (e) => {
     var datee = e;
@@ -237,7 +238,9 @@ const TestScore = () => {
 
   const deleteEnglishTestScore = () => {
     if (value == 1) {
+      setButtonStatus(true);
       remove(`Ielts/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -248,7 +251,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 2) {
+      setButtonStatus(true);
       remove(`Duolingo/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -259,7 +264,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 3) {
+      setButtonStatus(true);
       remove(`Toefl/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -270,7 +277,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 4) {
+      setButtonStatus(true);
       remove(`FunctionalSkill/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -281,7 +290,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 5) {
+      setButtonStatus(true);
       remove(`Gcse/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -292,7 +303,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 6) {
+      setButtonStatus(true);
       remove(`Pearson/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -303,7 +316,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 7) {
+      setButtonStatus(true);
       remove(`Other/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -314,8 +329,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 8) {
+      setButtonStatus(true);
       remove(`Pte/Delete/${data?.id}`).then((res) => {
-        console.log(res);
+        setButtonStatus(false);
 
         addToast(res, {
           appearance: "error",
@@ -330,9 +346,10 @@ const TestScore = () => {
   };
 
   const handleDeleteGreData = (data) => {
-    console.log(data);
+    setButtonStatus(true);
 
     remove(`GreScore/Delete/${data?.id}`).then((res) => {
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -349,10 +366,10 @@ const TestScore = () => {
   }
 
   const handleDeleteGmatData = (data) => {
-    console.log(data);
+    setButtonStatus(true);
 
     remove(`GmatScore/Delete/${data?.id}`).then((res) => {
-      console.log(res);
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -501,8 +518,10 @@ const TestScore = () => {
     const subData = new FormData(event.target);
     if (ELqualificationLabel == "IELTS") {
       if (!updateIelts) {
+        setButtonStatus(true);
         post("Ielts/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
+          
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -518,8 +537,9 @@ const TestScore = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put("Ielts/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -538,8 +558,9 @@ const TestScore = () => {
       }
     } else if (ELqualificationLabel == "DUOLINGO") {
       if (!updateDuolingo) {
+        setButtonStatus(true);
         post("Duolingo/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -555,8 +576,9 @@ const TestScore = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put("Duolingo/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -575,8 +597,9 @@ const TestScore = () => {
       }
     } else if (ELqualificationLabel == "TOEFL") {
       if (!updateToefl) {
+        setButtonStatus(true);
         post("Toefl/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -593,9 +616,10 @@ const TestScore = () => {
         });
       }
 
-      {
+      else{
+        setButtonStatus(true);
         put("Toefl/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -614,8 +638,9 @@ const TestScore = () => {
       }
     } else if (ELqualificationLabel == "FUNCTION SKILLS") {
       if (!updateFunctions) {
+        setButtonStatus(true);
         post("FunctionalSkill/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -631,8 +656,9 @@ const TestScore = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put("FunctionalSkill/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -651,8 +677,9 @@ const TestScore = () => {
       }
     } else if (ELqualificationLabel == "GCSE") {
       if (!updateGcse) {
+        setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -668,8 +695,9 @@ const TestScore = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put("Gcse/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -688,8 +716,9 @@ const TestScore = () => {
       }
     } else if (ELqualificationLabel == "PEARSON") {
       if (!updatePearson) {
+        setButtonStatus(true);
         post("Pearson/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -705,8 +734,9 @@ const TestScore = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put("Pearson/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -725,8 +755,9 @@ const TestScore = () => {
       }
     } else if (ELqualificationLabel == "OTHER SCORE") {
       if (!updateOther) {
+        setButtonStatus(true);
         post("Other/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -742,8 +773,9 @@ const TestScore = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put("Other/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -762,8 +794,9 @@ const TestScore = () => {
       }
     } else {
       if (!updatePte) {
+        setButtonStatus(true);
         post("PTE/Create", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -779,8 +812,9 @@ const TestScore = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put("PTE/Update", subData).then((res) => {
-          console.log(res);
+          setButtonStatus(false);
           if (res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -875,7 +909,9 @@ const TestScore = () => {
     }
 
     if (greData?.id) {
+      setButtonStatus(true);
       put(`GreScore/Update`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -886,7 +922,9 @@ const TestScore = () => {
         }
       });
     } else {
+      setButtonStatus(true);
       post(`GreScore/Create`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -911,7 +949,9 @@ const TestScore = () => {
     }
 
     if (gmatData?.id) {
+      setButtonStatus(true);
       put(`GmatScore/Update`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -922,7 +962,9 @@ const TestScore = () => {
         }
       });
     } else {
+      setButtonStatus(true);
       post(`GmatScore/Create`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -935,9 +977,7 @@ const TestScore = () => {
     }
   };
 
-  const handleAdd = () => {
-    setAdd(true);
-  };
+  
 
   return (
     <div>
@@ -2294,7 +2334,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2369,7 +2409,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2450,7 +2490,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2530,7 +2570,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2598,7 +2638,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2666,7 +2706,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2737,7 +2777,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2813,7 +2853,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2914,7 +2954,7 @@ const TestScore = () => {
                       <Button
                         color="danger"
                         onClick={() => handleDeleteGreData(greData)}
-                      >
+                        disabled={buttonStatus}                       >
                         YES
                       </Button>
                       <Button onClick={() => setDeleteModal2(false)}>
@@ -3006,7 +3046,7 @@ const TestScore = () => {
                       <Button
                         color="danger"
                         onClick={() => handleDeleteGmatData(gmatData)}
-                      >
+                        disabled={buttonStatus} >
                         YES
                       </Button>
                       <Button onClick={() => setDeleteModal3(false)}>

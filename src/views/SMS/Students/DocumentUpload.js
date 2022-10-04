@@ -67,6 +67,7 @@ const DocumentUpload = () => {
   const [isSelected, setIsSelected] = useState(false);
 
   const [FileList2, setFileList2] = useState([]);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const previousPage = () => {
     history.push(`/addOtherInformation/${applicationStudentId}/${1}`);
@@ -204,8 +205,9 @@ const DocumentUpload = () => {
     //   setUploadError(true);
     // }
     else {
+      setButtonStatus(true);
       post("StudentUploadDocument/Create", subData).then((res) => {
-        console.log("document data", res);
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -254,8 +256,10 @@ const DocumentUpload = () => {
 
   const handleDeleteDocument = () => {
     console.log("delData", delDocData?.studentDocumentLevelId);
+    setButtonStatus(true);
     const returnValue = remove(`StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`).then(
       (action) => {
+        setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -270,8 +274,10 @@ const DocumentUpload = () => {
   };
 
   const handleDeleteFile = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`StudentUploadDocument/FileDelete/${id}`).then(
       (action) => {
+        setButtonStatus(false);
         setDeleteModal2(false);
         setSuccess(!success);
         addToast(action, {
@@ -305,9 +311,9 @@ const DocumentUpload = () => {
     // }
 
     if(studentDocuId !== 0){
-
+      setButtonStatus(true);
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
-        console.log("document data create", res);
+        setButtonStatus(false);
         if (res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -702,6 +708,7 @@ const DocumentUpload = () => {
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Upload"}
                     permission={6}
+                    disable={buttonStatus}
                   />
                 </FormGroup>
                 </div>

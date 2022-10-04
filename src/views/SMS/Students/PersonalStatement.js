@@ -21,6 +21,7 @@ const PersonalStatement = () => {
     const [id, setId] = useState(0);
     const [stringData,setStringData] = useState(0);
     const {applicationStudentId, update} = useParams();
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     
 
@@ -115,10 +116,10 @@ const PersonalStatement = () => {
         const subData = new FormData(event.target);
 
         if(statement == null || statement == 'undefined'){
-
+          setButtonStatus(true);
           post('PersonalStatement/Create',subData)
           .then(res => {
-            console.log(res);
+            setButtonStatus(false);
             if(res?.status == 200){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -134,9 +135,10 @@ const PersonalStatement = () => {
   
 
        else if(update || id){
-
+        setButtonStatus(true);
         put('PersonalStatement/Update',subData)
         .then(res => {
+          setButtonStatus(false);
           if(res?.status == 200){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -150,10 +152,10 @@ const PersonalStatement = () => {
 
     
        else{
-
+        setButtonStatus(true);
         post('PersonalStatement/Create',subData)
         .then(res => {
-          console.log(res);
+          setButtonStatus(true);
           if(res?.status == 200){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -332,7 +334,7 @@ const PersonalStatement = () => {
     <Button.Ripple
     type="submit"
     className="mr-1 mt-3 badge-primary"
-    disabled ={stringData < 300 ? true : false}
+    disabled ={(stringData < 300 || buttonStatus) }
   >
     Submit
   </Button.Ripple>

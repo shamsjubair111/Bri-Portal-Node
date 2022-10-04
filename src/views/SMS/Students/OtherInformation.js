@@ -35,6 +35,7 @@ const OtherInformation = () => {
     const {addToast} = useToasts();
 
     const [data, setData] = useState({});
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -103,10 +104,10 @@ const OtherInformation = () => {
         const subData = new FormData(event.target);
 
         if(update){
-
+          setButtonStatus(true);
           put('OtherInformation/Update',subData)
           .then(res => {
-            console.log(res);
+            setButtonStatus(false);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',
@@ -119,10 +120,10 @@ const OtherInformation = () => {
         }
 
         else if(id){
-
+          setButtonStatus(true);
           put('OtherInformation/Update',subData)
           .then(res => {
-            console.log(res);
+            setButtonStatus(false);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',
@@ -135,10 +136,10 @@ const OtherInformation = () => {
         }
 
         else{
-
+          setButtonStatus(true);
           post('OtherInformation/Create', subData)
         .then(res => {
-          console.log(res);
+          setButtonStatus(false);
           if(res?.status == 200){
             addToast(res?.data?.message,{
               appearance:'success',
@@ -416,6 +417,7 @@ const OtherInformation = () => {
       name={'Submit'}
       className={"mr-1 mt-3 badge-primary"}
       type={'submit'}
+      disable={buttonStatus}
       />
 
   </Col>

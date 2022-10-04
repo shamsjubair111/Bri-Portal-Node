@@ -25,6 +25,7 @@ const StudentDeclaration = () => {
     const [singTime,setSignTime] = useState([]);
     const userTypeId = localStorage.getItem('userType');
     const [success,setSuccess] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -112,8 +113,10 @@ const StudentDeclaration = () => {
 
 
       const sendEmail = () => {
+        setButtonStatus(true);
         put(`StudentConsent/SendEmail/${applicationStudentId}`)
         .then(res => {
+          setButtonStatus(false);
             if(res?.status == 200){
                 addToast("Email Sending is in Process",{
                     appearance: 'success',
@@ -413,6 +416,7 @@ update?
                    <div className="mb-1 text-right">
                    <Button color="primary"
                    onClick={sendEmail}
+                   disabled={buttonStatus}
                    >
                        Send Email
                    </Button>
@@ -425,6 +429,7 @@ update?
                        <span className="text-info"> Email is sent with credentails </span>
                        <Button color="primary"
                    onClick={sendEmail}
+                   disabled={buttonStatus}
                    >
                        Send Email Again
                    </Button>

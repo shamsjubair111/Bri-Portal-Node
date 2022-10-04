@@ -33,13 +33,9 @@ const Reference = () => {
       const {addToast} = useToasts();
       const [delData,setDelData] = useState({});
   
-
-  
-
-   
-
     const [referenceError, setReferenceError] = useState(false);
     const [countryError, setCountryError] = useState(false);
+    const [buttonStatus, setButtonStatus] = useState(false);
 
 
     useEffect(()=>{
@@ -164,12 +160,10 @@ const Reference = () => {
  
  const handleDeletePermission = () => {
  
-   
- 
-   
+  setButtonStatus(true);
  remove(`Reference/Delete/${delData?.id}`)
  .then(res => {
-  console.log(res);
+  setButtonStatus(false);
   addToast(res,{
     appearance: 'error',
     autoDismiss: true
@@ -250,10 +244,10 @@ const onShow=()=>{
     else{
 
       if(oneData?.id){
-
+        setButtonStatus(true);
         put('Reference/Update',subData)
         .then(res => {
-          console.log(res);
+          setButtonStatus(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -275,9 +269,10 @@ const onShow=()=>{
       }
   
       else{
+        setButtonStatus(true);
         post('Reference/Create',subData)
       .then(res => {
-        console.log(res);
+        setButtonStatus(false);
         if(res?.status == 200){
   
           setShowForm(false);
@@ -440,7 +435,7 @@ const onShow=()=>{
 
           <div className="CampusCardAction">
           <div className=""> 
-             <Button type="button" color='primary' className="bankCard-style" onClick={() => handleUpdate(ref.id)}> <i className="fas fa-edit"></i> </Button>
+             <Button type="button" color='primary' className="bankCard-style" onClick={() => handleUpdate(ref.id)} disabled={buttonStatus}> <i className="fas fa-edit"></i> </Button>
           </div>
 
           <div className=""> 
@@ -461,7 +456,7 @@ const onShow=()=>{
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={handleDeletePermission} color="danger">YES</Button>
+            <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>YES</Button>
             <Button onClick={() => setDeleteModal(false)}>NO</Button>
           </ModalFooter>
        </Modal>
@@ -713,6 +708,7 @@ const onShow=()=>{
 name={'Submit'}
 type={'submit'}
 className={"mr-1 mt-3 badge-primary"}
+disable={buttonStatus}
 />
 
 </Col>
