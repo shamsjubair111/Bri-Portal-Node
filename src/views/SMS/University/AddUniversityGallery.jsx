@@ -129,6 +129,9 @@ const AddUniversityGallery = () => {
     if (tab == "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
 
   const handleDelete = (gallery) => {
@@ -255,6 +258,15 @@ const AddUniversityGallery = () => {
                                 > */}
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Commission
               </NavLink>
             </NavItem>
           </Nav>

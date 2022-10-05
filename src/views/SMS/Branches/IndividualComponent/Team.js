@@ -46,7 +46,7 @@ const Team = (props) => {
 
       const handleTeamUpdate = (id) => {
         get(`BranchTeam/Get/${id}`).then((res) => {
-       
+          
           setTeamInfo(res);
           setTeamName(res?.name);
           setIsUpdate(true);

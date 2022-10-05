@@ -551,6 +551,130 @@ const SubjectProfile = () => {
                   
                  <div className="bg-h"></div>
                  </div>
+               
+
+                 </div>
+
+                 {
+                   subjectData?.deliveryPatterns?.map((val,i) => 
+                   <li key={i}>
+                    {val?.deliveryPattern?.name}
+                   </li>)
+                }
+
+                </CardBody>
+              </Card>
+            </div>
+
+
+              <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+
+                <div className="hedding-titel mb-4">
+                 <div>
+                 <h5> <b>Document Group</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+
+                <div className='mt-2'>
+                  <Table className="table-sm striped">
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th scope='row'>#</th>
+                          <th>Title</th> 
+                          <th>Details</th>
+                          <th>Application Type</th>
+                          
+                  
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {subjectData?.subjectRequireDocuments?.map((sub, i) => (
+                          <tr key={i} style={{ textAlign: "center" }}>
+                            <th scope='row'>{serialNum + i}</th>
+                            
+                            <td>
+                              {sub?.documentGroup?.title}
+                            </td>
+                            <td>
+                              {sub?.documentGroup?.details}
+                            </td>
+                            <td>
+                              {sub?.applicationTypeId ==1 ? 'Home' : sub?.applicationTypeId == 2? 'EU_UK' : 'International' }
+                            </td>
+                    
+                            
+                           
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                
+                </div>
+
+                
+
+
+                 </div>
+
+                </CardBody>
+              </Card>
+            </div>
+
+              <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+
+                <div className="hedding-titel mb-4">
+                 <div>
+                 <h5> <b>Subject Requirement</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+
+                <div className='mt-2'>
+                <Table className="table-bordered mt-4" >
+                      <tbody>
+                        
+                        <tr>
+                          <td width="40%">
+                            <b>Name:</b>
+                          </td>
+
+                          <td width="60%">
+                            {subjectData?.subjectRequirementProfile?.educationLevel?.name}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>Description:</b>
+                          </td>
+
+                          <td width="60%">
+                            {subjectData?.subjectRequirementProfile?.educationLevel?.description}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td width="40%">
+                            <b>Result Percentage:</b>
+                          </td>
+                          <td width="60%">
+                            {subjectData?.subjectRequirementProfile?.requiredResultInPercent}%
+                          </td>
+
+                        
+                        </tr>
+
+                      </tbody>
+                      </Table>
+                
+                </div>
+
+                
 
 
                  </div>

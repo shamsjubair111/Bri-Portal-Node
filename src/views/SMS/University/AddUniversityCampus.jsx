@@ -140,6 +140,9 @@ const AddUniversityCampus = (props) => {
     if (tab === "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab === "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
 
   // select University Country
@@ -403,6 +406,11 @@ const AddUniversityCampus = (props) => {
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Commission
               </NavLink>
             </NavItem>
           </Nav>

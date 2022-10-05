@@ -575,6 +575,9 @@ const AddUniversity = (props) => {
       if (tab == "7") {
         history.push(`/addUniversityTemplateDocument/${univerId}`);
       }
+      if (tab == "8") {
+        history.push(`/addUniversityCommission/${univerId}`);
+      }
     }
     else{
       if (tab == "2") {
@@ -594,6 +597,9 @@ const AddUniversity = (props) => {
       }
       if (tab == "7") {
         history.push(`/addUniversityTemplateDocument/${universityId}`);
+      }
+      if (tab == "8") {
+        history.push(`/addUniversityCommission/${univerId}`);
       }
     }
     
@@ -776,8 +782,20 @@ const AddUniversity = (props) => {
                   Template Document
                 </NavLink>
               ) : (
-                <NavLink disabled active={activetab === "6"}>
+                <NavLink disabled active={activetab === "7"}>
                   Template Document
+                </NavLink>
+              )}
+            </NavItem>
+
+            <NavItem>
+              {submitData || univerId ? (
+                <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                  Commission
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "8"}>
+                  Commission
                 </NavLink>
               )}
             </NavItem>

@@ -220,34 +220,34 @@ class NavbarUser extends React.PureComponent {
  
   //  latestChat.current = chat;
  
-componentDidMount() { 
-  const newConnection = new HubConnectionBuilder()
-         .withUrl(`${rootUrl}Trial`)
-         .withAutomaticReconnect()
-         .build();
+// componentDidMount() { 
+//   const newConnection = new HubConnectionBuilder()
+//          .withUrl(`${rootUrl}Trial`)
+//          .withAutomaticReconnect()
+//          .build();
  
-     this.setState = {connection : newConnection};
+//      this.setState = {connection : newConnection};
 
-     if (newConnection) {
-      newConnection.start()
-          .then(result => {
-              console.log('Connected!');
+//      if (newConnection) {
+//       newConnection.start()
+//           .then(result => {
+//               console.log('Connected!');
 
-              newConnection.on('notificationHub', message => {
-                 //  const updatedChat = [...latestChat.current];
-                 //  updatedChat.push(message);
+//               newConnection.on('notificationHub', message => {
+//                  //  const updatedChat = [...latestChat.current];
+//                  //  updatedChat.push(message);
               
-                  this.setState = {chat: message}
-                 //  console.log(message)
-              });
-          })
-          .catch(e => console.log('Connection failed: ', e));
-  }
- }
+//                   this.setState = {chat: message}
+//                  //  console.log(message)
+//               });
+//           })
+//           .catch(e => console.log('Connection failed: ', e));
+//   }
+//  }
  
  
 
- // Code testing end
+//  // Code testing end
 
   handleNavbarSearch = () => {
     this.setState({
@@ -595,7 +595,7 @@ componentDidMount() {
             <i className="far fa-bell fa-20px"></i>
             <Badge pill color="primary" className="badge-up">
               {" "}
-              {this.state.chat}{" "}
+              5{" "}
             </Badge>
           </DropdownToggle>
           <DropdownMenu tag="ul" right className="dropdown-menu-media">

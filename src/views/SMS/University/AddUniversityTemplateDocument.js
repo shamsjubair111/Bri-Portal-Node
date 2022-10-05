@@ -180,6 +180,9 @@ const AddUniversityTemplateDocument = () => {
     if (tab == "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
 
   const toggleDanger = (p) => {
@@ -369,6 +372,11 @@ const AddUniversityTemplateDocument = () => {
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
               Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+              Commission
               </NavLink>
             </NavItem>
 
@@ -788,11 +796,20 @@ const AddUniversityTemplateDocument = () => {
             </TabPane>
           </TabContent>
 
+          <div className=" d-flex justify-content-between">
           <Link to={`/addUniversityApplicationDocument/${univerId}`}>
             <Button color="warning">
                   Previous Page
             </Button>
           </Link>
+
+          <Link to={`/addUniversityCommission/${univerId}`}>
+            <Button color="warning">
+                  Next Page
+            </Button>
+          </Link>
+
+          </div>
         </CardBody>
       </Card>
       <br /> <br /> <br />

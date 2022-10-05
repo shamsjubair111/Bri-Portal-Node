@@ -48,7 +48,7 @@ const AddSubjectRequirements = () => {
 
   useEffect(() => {
     get("EducationLevelDD/Index").then((res) => {
-      
+    
       setEduLevelDD(res);
     });
 

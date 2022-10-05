@@ -69,7 +69,7 @@ const UniversityDetails = () => {
   const [menus, setMenus] = useState([]);
   let [checked, setChecked] = useState([]);
 
-  console.log(location);
+
 
   // for showing campus list
   const [campusList, setCampusList] = useState([]);
@@ -956,6 +956,15 @@ const UniversityDetails = () => {
 
                         <td width="60%">
                           {universityInfo?.partTimeWorkInformation}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="40%">
+                          <b>Contract Type:</b>
+                        </td>
+
+                        <td width="60%">
+                          {universityInfo?.contractType?.name}
                         </td>
                       </tr>
                     </tbody>

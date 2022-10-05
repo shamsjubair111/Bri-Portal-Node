@@ -405,6 +405,8 @@ const StudentOtherInformationForm = lazy(() => import("./views/SMS/Students/Crea
 
 const StudentDeclarationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentDeclarationForm"));
 
+const UniversityCommission = lazy(() => import("./views/SMS/University/UniversityCommission"));
+
 
 const TrialNotification = lazy(() => import("./views/Test/Notification"));
 
@@ -733,6 +735,8 @@ class AppRouter extends React.Component {
            <AppRoute  path="/studentPersonalStatement/:idVal" component={StudentPersonalStatementForm} />
            <AppRoute  path="/studentOtherInformation/:idVal" component={StudentOtherInformationForm} />
            <AppRoute  path="/studentDeclarations/:idVal" component={StudentDeclarationForm} />
+
+           <AppRoute  path="/addUniversityCommission/:univerId" component={UniversityCommission} />
 
 
   <AppRoute  path="/search" component={Search} />

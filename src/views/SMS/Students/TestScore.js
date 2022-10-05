@@ -1366,19 +1366,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1533,19 +1541,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1712,19 +1728,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1768,19 +1792,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1826,19 +1858,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1981,19 +2021,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-9 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -2061,19 +2109,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -2205,19 +2261,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="warning"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
                 </Form>
@@ -3295,20 +3359,21 @@ const TestScore = () => {
                       }}
                     >
                       <Button
-                        color="danger"
+                        color="warning"
                         className="mr-1 mt-3"
                         onClick={closeModal2}
                       >
-                        Close
+                        Cancel
                       </Button>
 
-                      <Button.Ripple
+                      <Button
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                     </FormGroup>
                   </Form>
                 </ModalBody>
@@ -3547,20 +3612,21 @@ const TestScore = () => {
                       }}
                     >
                       <Button
-                        color="danger"
+                        color="warning"
                         className="mr-1 mt-3"
                         onClick={closeModal3}
                       >
-                        Close
+                        Cancel
                       </Button>
 
-                      <Button.Ripple
+                      <Button
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                     </FormGroup>
                   </Form>
                 </ModalBody>
