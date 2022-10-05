@@ -15,6 +15,7 @@ const SubjectProfile = () => {
     const [loading, setLoading] = useState(false);
     const [campData, setCampData] = useState(null);
     const [campusId, setCampusId] = useState(undefined);
+    
 
     const location = useLocation();
     const history = useHistory();
@@ -45,7 +46,7 @@ const SubjectProfile = () => {
       setCampusId(location?.campId);
       get(`Subject/Profile/${subjId}`)
       .then(res=>{
-      
+        console.log(res);
         setSubjectData(res);
         setCampList(res?.campusSubjects);
         setLoading(false);
@@ -386,26 +387,7 @@ const SubjectProfile = () => {
             {/* camp list end */}
 
       
-            <div className=" info-item mt-4">
-              <Card>
-                <CardBody>
-
-                <div className="hedding-titel d-flex justify-content-between mb-4">
-                 <div>
-                 <h5> <b>Documents</b> </h5>
-                  
-                 <div className="bg-h"></div>
-                 </div>
-                 {/* <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div> */}
-
-                 </div>
-
-                </CardBody>
-              </Card>
-            </div>
-
+         
             <br /><br /><br />
             <br /><br /><br />
 
@@ -558,6 +540,25 @@ const SubjectProfile = () => {
               
                 </CardBody>
               </Card> */}
+
+              <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                 <div>
+                 <h5> <b>Delivery Pattern</b> </h5>
+                  
+                 <div className="bg-h"></div>
+                 </div>
+
+
+                 </div>
+
+                </CardBody>
+              </Card>
+            </div>
+
 
 
           </Col>

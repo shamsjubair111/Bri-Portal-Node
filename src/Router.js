@@ -406,6 +406,9 @@ const StudentOtherInformationForm = lazy(() => import("./views/SMS/Students/Crea
 const StudentDeclarationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentDeclarationForm"));
 
 
+const TrialNotification = lazy(() => import("./views/Test/Notification"));
+
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -737,6 +740,10 @@ class AppRouter extends React.Component {
          <AppRoute  path="/500" component={InternalServerError} />
 
          <AppRoute  path="/notAuthorized" component={NotAuthorized} />
+
+
+         {/* trial notification */}
+         <AppRoute  path="/notification" component={TrialNotification} />
 
   
           {/* Session Expired  */}
