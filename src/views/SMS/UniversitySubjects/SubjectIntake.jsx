@@ -166,9 +166,9 @@ const SubjectIntake = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Subject Intake List</h3>
+          <h3 className="text-white">Subject Intake List</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToList}>
+            <span className="text-white" onClick={backToList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Campus Subject List
             </span>

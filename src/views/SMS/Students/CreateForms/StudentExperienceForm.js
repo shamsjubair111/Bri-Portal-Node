@@ -75,9 +75,9 @@ const StudentExperience = () => {
         <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Experience Information</h3>
+          <h3 className="text-white">Experience Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
               44% Completed
             </span>

@@ -54,6 +54,7 @@ const Index = () => {
     const [reference,setReference] = useState('');
     const [note,setNote] = useState('');
     const [cError,setCError] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
     
 
     const customStyles2 = {
@@ -355,9 +356,10 @@ const Index = () => {
           setInflowTransactionError('Transaction Type Must be Selected');
         }
         else{
-
+          setButtonStatus(true);
           post(`BonusTransaction/Create`,subData)
         .then(res => {
+          setButtonStatus(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -397,9 +399,10 @@ const Index = () => {
         }
 
         else{
-
+            setButtonStatus(true);
           post(`WithdrawTransaction/Create`,subData)
           .then(res => {
+            setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true)
               {
                 addToast(res?.data?.message,{
@@ -545,7 +548,7 @@ const Index = () => {
                          <Button
                             color="primary"
                             className="mr-1 mt-3"
-                            disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) )? true : false}
+                            disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) || buttonStatus )? true : false}
                             >
                               
                             Submit
@@ -684,7 +687,7 @@ const Index = () => {
                          <Button.Ripple
                             color="primary"
                             className="mr-1 mt-3"
-                            disabled = {agree ? false : true}
+                            disabled = {!agree || buttonStatus}
                             >
                             Submit
                             </Button.Ripple>
@@ -697,9 +700,9 @@ const Index = () => {
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Accounts Transaction List</h3>
+                <h3 className="text-white">Accounts Transaction List</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToDashboard}>
+                  <span className="text-white" onClick={backToDashboard}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                   </span>
@@ -839,7 +842,7 @@ const Index = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -851,7 +854,7 @@ const Index = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -878,12 +881,12 @@ const Index = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p>
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

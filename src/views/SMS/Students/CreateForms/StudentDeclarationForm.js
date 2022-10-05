@@ -110,9 +110,9 @@ const StudentDocumentForm = () => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Student Declaration</h3>
+          <h3 className="text-white">Student Declaration</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light">
+            <span className="text-white">
               {" "}
               92% Completed
             </span>

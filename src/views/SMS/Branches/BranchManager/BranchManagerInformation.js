@@ -156,9 +156,9 @@ setTitleValue(value);
     <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Update Branch Manager Information</h3>
+          <h3 className="text-white">Update Branch Manager Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToBranchList} className="text-light">
+            <span onClick={backToBranchList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Branch List
             </span>

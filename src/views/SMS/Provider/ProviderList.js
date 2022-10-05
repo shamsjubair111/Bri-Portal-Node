@@ -73,6 +73,8 @@ const ProviderList = () => {
   const dispatch = useDispatch();
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
+  const [provider,setProvider] = useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     const providerTypeId = 0;
@@ -122,7 +124,9 @@ const ProviderList = () => {
   }, []);
 
   const deleteProvider = () => {
+    setButtonStatus(true);
     remove(`Provider/Delete/${delData?.id}`).then((res) => {
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -242,9 +246,9 @@ const ProviderList = () => {
         <>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Providers List</h3>
+          <h3 className="text-white">Providers List</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-white" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -339,7 +343,7 @@ const ProviderList = () => {
                     <DropdownMenu className="bg-dd">
                       {/* <DropdownItem> */}
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p> */}
                           <ReactTableConvertToXl
                             id="test-table-xls-button"
@@ -349,7 +353,7 @@ const ProviderList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -641,7 +645,7 @@ const ProviderList = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={deleteProvider}>
+                              <Button color="danger" onClick={deleteProvider} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button onClick={closeDeleteModal}>NO</Button>

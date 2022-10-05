@@ -175,7 +175,7 @@ const EmployeeContactInfo = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Staff Contact Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className='text-light'>
+            <span onClick={backToDashboard} className='text-white'>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List
             </span>

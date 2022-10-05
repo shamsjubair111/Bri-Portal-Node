@@ -283,6 +283,7 @@ const AdmissionManagerList = () => {
   const handleDelete = () => {
     setButtonStatus(true);
     remove(`AdmissionManager/Delete/${deleteData?.id}`).then((res) => {
+      
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -477,9 +478,9 @@ const AdmissionManagerList = () => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Admission Manager List</h3>
+          <h3 className="text-white">Admission Manager List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -868,7 +869,7 @@ const AdmissionManagerList = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -880,7 +881,7 @@ const AdmissionManagerList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

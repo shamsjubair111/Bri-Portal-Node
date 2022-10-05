@@ -32,6 +32,7 @@ const AdminProviderForm = () => {
 
     const [pass,setPass] = useState('');
     const [passError,setPassError] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -130,9 +131,10 @@ const handleSubmit  = (event) => {
     setEmailError(emailError);
   }
   else{
-
+    setButtonStatus(true);
     post(`ProviderAdmin/Create`,subData)
     .then(res =>{
+      setButtonStatus(false);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -172,9 +174,9 @@ const handlePass = (e) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Provider Admin Information</h3>
+          <h3 className="text-white">Provider Admin Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-white" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider List
             </span>
@@ -396,13 +398,14 @@ const handlePass = (e) => {
                 <Col md='8'>
                   <div className='d-flex justify-content-end'>
                     
-              <Button.Ripple
+              <Button
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
                     // onClick={(e)=>handleSubmit(e)}
+                    disabled={buttonStatus}
                   >
                     Submit
-                  </Button.Ripple>
+                  </Button>
                   </div>
                 
                 </Col>

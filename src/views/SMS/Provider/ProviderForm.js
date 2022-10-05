@@ -36,6 +36,7 @@ const ProviderForm = (props) => {
     const [titleLabel, setTitleLabel] = useState("Select Title");
     const [titleValue, setTitleValue] = useState(0);
     const [titleError, setTitleError] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     
     const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
@@ -109,7 +110,9 @@ const ProviderForm = (props) => {
         }
         else{
         //  post form data and notify the response to user
+        setButtonStatus(true);
         post(`Provider/Create`,subData,config).then((action)=> {
+          setButtonStatus(false);
                 
           if(action?.status ==200){
 
@@ -151,9 +154,9 @@ const ProviderForm = (props) => {
         <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Provider Information</h3>
+          <h3 className="text-white">Provider Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backtoList}>
+            <span className="text-white" onClick={backtoList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider List
             </span>
@@ -384,6 +387,7 @@ const ProviderForm = (props) => {
                         className={"mt-3 ml-1"}
                         name={"Submit"}
                         permission={6}
+                        disable={buttonStatus}
                       />
                      </div>
                     </Col>

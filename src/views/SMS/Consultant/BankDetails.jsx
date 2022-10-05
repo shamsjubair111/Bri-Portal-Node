@@ -436,11 +436,11 @@ const handleEdit = (data) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light"> Consultant Bank Details</h3>
+          <h3 className="text-white"> Consultant Bank Details</h3>
           {
             !(userTypeId == userTypes?.Consultant) ?
             <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToConsultantList}>
+            <span className="text-white" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>

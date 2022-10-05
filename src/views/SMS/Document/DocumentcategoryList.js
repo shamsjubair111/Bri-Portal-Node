@@ -54,6 +54,7 @@ const DocumentcategoryList = () => {
   const [docuName, setDocuName] = useState("");
   const [docuId, setDocuId] = useState(0);
   const [loading,setLoading] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   // const [uName,setUName] = useState('');
 
@@ -85,7 +86,9 @@ const DocumentcategoryList = () => {
 
     if (!updateState?.id) {
       setUpdateState({});
+      setButtonStatus(true);
       post(`DocumentCategory/Create`, subdata).then((res) => {
+        setButtonStatus(false);
         setSuccess(!success);
         addToast(res?.data?.message, {
           appearance: "success",
@@ -97,7 +100,9 @@ const DocumentcategoryList = () => {
         setUpdateState({});
       });
     } else {
+      setButtonStatus(true);
       put(`DocumentCategory/Update`, subdata).then((action) => {
+        setButtonStatus(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -117,8 +122,10 @@ const DocumentcategoryList = () => {
   };
 
   const handleDeleteCategory = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`Documentcategory/Delete/${id}`).then(
       (action) => {
+        setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
         // console.log(action);
@@ -165,9 +172,9 @@ const DocumentcategoryList = () => {
         <div>
           <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Document Category List</h3>
+          <h3 className="text-white">Document Category List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDocumentList} className="text-light">
+            <span onClick={backToDocumentList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Document List
             </span>
@@ -274,13 +281,14 @@ const DocumentcategoryList = () => {
 
                     {/* localStorage.getItem("updateUni") ? */}
                     {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
-                    <Button.Ripple
+                    <Button
                       color="primary"
                       type="submit"
                       className="mr-1 mt-3"
+                      disabled={buttonStatus}
                     >
                       Submit
-                    </Button.Ripple>
+                    </Button>
                   </FormGroup>
                 </Form>
               </ModalBody>
@@ -360,6 +368,7 @@ const DocumentcategoryList = () => {
                             onClick={() =>
                               handleDeleteCategory(docuId)
                             }
+                            disabled={buttonStatus}
                           >
                             YES
                           </Button>

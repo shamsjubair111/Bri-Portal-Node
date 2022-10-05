@@ -136,6 +136,7 @@ const Search = () => {
     
     const [primaryCampus,setPrimaryCampus] = useState({});
     const [primaryintake, setPrimaryIntake] = useState({});
+    const [buttonStatus,setButtonStatus] = useState(false);
    
 
    
@@ -732,10 +733,10 @@ const Search = () => {
               campusId:  primaryCampus?.campusId,
               additionalMessage: message
             }
-      
+            setButtonStatus(true);
             post(`Apply/Submit`,subData)
             .then(res => {
-              
+              setButtonStatus(false);
               if(res?.isSuccess == true){
                 addToast(res?.data?.message,{
                   appearance: 'success',
@@ -786,10 +787,10 @@ const Search = () => {
             campusId: modalCampusValue,
             additionalMessage: message
           }
-    
+           setButtonStatus(true);
           post(`Apply/Submit`,subData)
           .then(res => {
-            
+            setButtonStatus(false);
             if(res?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -1014,23 +1015,15 @@ Additional Message <span className="text-danger">*</span>{" "}
 
   </FormGroup>
 
- 
+  <FormGroup row className='has-icon-left position-relative'>
 
-
-
-</Form>
-
-
-</div>
-
-<div className='row'>
-  <div className='col-md-11'>
-
-  <div className='d-flex justify-content-between'>
+   <Col md="9">
+    
+   <div className='d-flex justify-content-end'>
 
 <div>
 
-<Button color='danger' onClick={closeModal}>
+<Button color='danger' className='mr-1' onClick={closeModal}>
 Cancel
 </Button>
 
@@ -1041,8 +1034,8 @@ Cancel
 {
 (studentDataValue !==0) ?
 
-<div className='' style={{position: 'relative', right: '30px'}}>
-<Button color='primary' type='submit' onClick={submitModalForm}>Submit</Button> 
+<div className=''>
+<Button color='primary' className='ml-1' type='submit' onClick={submitModalForm}>Submit</Button> 
 </div>
 
 :
@@ -1050,15 +1043,32 @@ Cancel
 null
 }
 
-</div>
-
-</div>
 
 
   </div>
 
 </div>
 
+   
+   </Col>
+
+
+
+
+  </FormGroup>
+
+ 
+
+
+
+</Form>
+
+
+</div>
+
+
+
+  
 
 </div>
 

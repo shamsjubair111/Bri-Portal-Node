@@ -31,6 +31,7 @@ const Branch = () => {
       const [stateError, setStateError] = useState(false);
       const [emailError, setEmailError] = useState(true);
       const permissions = JSON.parse(localStorage.getItem("permissions"));
+      const [buttonStatus,setButtoStatus] = useState(false);
 
       
       
@@ -161,9 +162,10 @@ const Branch = () => {
     else{
 
       if(branchId){
+        setButtoStatus(true);
         put('Branch/Update', subdata).then((res) => {
           
-    
+          setButtoStatus(false);
           if (res?.status === 200 && res?.data?.isSuccess === true) {
             setSubmitData(true);
             addToast(res.data.message, {
@@ -179,6 +181,7 @@ const Branch = () => {
        }
 
        else{
+        setButtoStatus(true);
         Axios.post(`${rootUrl}Branch/Create`, subdata, {
           headers: {
             'authorization': AuthStr,
@@ -186,10 +189,7 @@ const Branch = () => {
         }).then((res) => {
         
           
-          
-          const uniID = res?.data?.result?.id;
-         
-    
+          setButtoStatus(false);
           if (res?.status === 200 && res?.data?.isSuccess === true) {
             setSubmitData(true);
                  addToast(res.data.message, {
@@ -223,9 +223,9 @@ const Branch = () => {
         <div>
              <Card className='uapp-card-bg'>
         <CardHeader className="page-header">
-          <h3 className='text-light'>Branch Information</h3>
+          <h3 className='text-white'>Branch Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToBranchList} className='text-light'>
+            <span onClick={backToBranchList} className='text-white'>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Branch List
             </span>
@@ -466,6 +466,7 @@ const Branch = () => {
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
                     permission={6}
+                    disable={buttonStatus}
                   />
                   :
                   null

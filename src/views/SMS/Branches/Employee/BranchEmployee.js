@@ -41,6 +41,7 @@ const Branch = () => {
       const [imageError, setImageError] = useState(false);
       const [emailError, setEmailError] = useState(true);
       const permissions = JSON.parse(localStorage.getItem("permissions"));
+      const [buttonStatus,setButtonStatus] = useState(false);
 
       const employeeProfileImage = useSelector((state) => state?.BranchEmployeeProfileImageReducer?.employeeProfileImage);
       
@@ -195,9 +196,9 @@ const Branch = () => {
 
     }
     else{
-
+      setButtonStatus(true);
       Axios.post(`${rootUrl}BranchEmployee/Create`, subdata, config).then((res) => {
-          
+          setButtonStatus(false);
         if (res?.status === 200 && res?.data?.isSuccess === true) {
           setSubmitData(true);
           
@@ -229,8 +230,10 @@ const Branch = () => {
        
     
        else{
+        setButtonStatus(true);
         Axios.put(`${rootUrl}BranchEmployee/Update`, subdata, config)
         .then(res => {
+          setButtonStatus(false);
           if (res?.status === 200 && res?.data?.isSuccess === true) {
           
             
@@ -272,9 +275,9 @@ const Branch = () => {
          
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Branch Employee Information</h3>
+          <h3 className="text-white">Branch Employee Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToBranchList} className="text-light">
+            <span onClick={backToBranchList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Branch List
             </span>
@@ -633,12 +636,13 @@ const Branch = () => {
              {
 
               permissions?.includes(permissionList?.Add_Branch_Employee) ?
-               <Button.Ripple
+               <Button
                type="submit"
                className="mr-1 mt-3 badge-primary"
+               disabled={buttonStatus}
              >
                Submit
-             </Button.Ripple>
+             </Button>
              :
              null
              }

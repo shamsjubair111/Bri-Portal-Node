@@ -301,9 +301,9 @@ const cancelForm = () => {
 
     <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Application Information</h3>
+          <h3 className="text-white">Application Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>

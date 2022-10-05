@@ -56,6 +56,7 @@ const DocumentList = () => {
   const [delDocuName, setDelDocuName] = useState("");
   const { addToast } = useToasts();
   const [loading,setLoading] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("Document/Index").then((res) => {
@@ -115,7 +116,9 @@ const DocumentList = () => {
     else{
       if (updateDocument != undefined) {
         console.log(localStorage.getItem("updateDocument"));
+        setButtonStatus(true);
         const returnvalue = put(`Document/Update`, subData).then((action) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -131,8 +134,9 @@ const DocumentList = () => {
         });
       } else {
         setUpdateDocument(undefined);
-          
+          setButtonStatus(true);
         const returnValue = post(`Document/Create`, subData).then((action) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -172,7 +176,9 @@ const DocumentList = () => {
   };
 
   const handleDeleteDocument = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`Document/Delete/${id}`).then((action) => {
+      setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -228,9 +234,9 @@ const DocumentList = () => {
       <div>
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Document List</h3>
+          <h3 className="text-white">Document List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -405,6 +411,7 @@ const DocumentList = () => {
                       className={"mr-1 mt-3"}
                       name={"Submit"}
                       permission={6}
+                      isDisabled={buttonStatus}
                     />
 
                     {/* }  */}
@@ -441,6 +448,7 @@ const DocumentList = () => {
                           color={"warning"}
                           icon={<i className="fas fa-edit"></i>}
                           permission={6}
+                          
                         />
   
                         <ButtonForFunction
@@ -472,6 +480,7 @@ const DocumentList = () => {
                             onClick={() =>
                               handleDeleteDocument(delDocuId)
                             }
+                            disabled={buttonStatus}
                           >
                             YES
                           </Button>

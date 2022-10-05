@@ -41,18 +41,18 @@ const EmployeeProfile = () => {
 
         <div className='d-flex align-items-center'>
               <div className='mt-1'>
-                <h3 className="text-light">Branch Employee Profile</h3>
+                <h3 className="text-white">Branch Employee Profile</h3>
               </div>
-              <div className='ms-2'>
+              <div className='ml-2'>
               <ReactToPrint
-                trigger={() => <span className="text-light cursor-pointer" title="Print to pdf"><i className="fas fa-print"></i></span>}
+                trigger={() => <span className="text-white cursor-pointer" title="Print to pdf"><i className="fas fa-print"></i></span>}
                 content={() => componentRef.current}
               />
               </div>
             </div>
 
             <div className="page-header-back-to-home" >
-              <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Branch Profile</span>
+              <span onClick={backToDashboard} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Branch Profile</span>
             </div>
 
         </CardHeader>

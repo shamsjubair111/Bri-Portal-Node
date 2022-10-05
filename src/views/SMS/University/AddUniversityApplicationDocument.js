@@ -303,9 +303,9 @@ const AddUniversityApplicationDocument = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Application Document</h3>
+          <h3 className="text-white">University Application Document</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University
               List

@@ -160,9 +160,9 @@ const handleDelete = (data) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Exam Test Type Attribute Details </h3>
+          <h3 className="text-white">Exam Test Type Attribute Details </h3>
           <div className="page-header-back-to-home">
-            <span className="text-light"  onClick={backToList}>
+            <span className="text-white"  onClick={backToList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Exam Test Type List
             </span>
@@ -177,7 +177,7 @@ const handleDelete = (data) => {
           <Col md="4">
           <Card className="uapp-card-bg mx-2">
           <CardHeader className="page-header">
-            <h3 className="text-light">Add Attribute</h3>
+            <h3 className="text-white">Add Attribute</h3>
            
           </CardHeader>
         </Card>

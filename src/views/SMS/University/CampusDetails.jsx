@@ -646,9 +646,9 @@ const CampusDetails = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Campus Details</h3>
+          <h3 className="text-white">Campus Details</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {

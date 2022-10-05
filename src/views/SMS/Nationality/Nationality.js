@@ -19,6 +19,7 @@ const Nationality = () => {
     const [data,setData] = useState({});
     const [delData, setDelData] = useState({});
     const [loading,setLoading] = useState(true);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
 
     const backToDashboard = () => {
@@ -50,8 +51,10 @@ const Nationality = () => {
 
 
   const deleteConfirm = () => {
+    setButtonStatus(true);
     remove(`Nationality/Delete/${delData?.id}`)
     .then(res => {
+      setButtonStatus(false);
         addToast(res,{
             appearance: 'error',
             autoDismiss: true
@@ -75,8 +78,10 @@ const Nationality = () => {
         const subdata = new FormData(e.target);
 
         if(data?.id){
+          setButtonStatus(true);
             put('Nationality/Update',subdata)
             .then(res => {
+              setButtonStatus(false);
                if(res?.status ==200){
                 console.log(res?.data?.message);
                 addToast(res?.data?.message,{
@@ -91,8 +96,10 @@ const Nationality = () => {
             })
         }
         else{
+          setButtonStatus(true);
             post('Nationality/Create',subdata)
         .then(res => {
+          setButtonStatus(false);
             if(res?.status == 200){
                 console.log(res?.data?.message);
             addToast(res?.data?.message,{
@@ -124,9 +131,9 @@ const Nationality = () => {
               <div>
                 <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Nationality List</h3>
+                <h3 className="text-white">Nationality List</h3>
                 <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToDashboard} className="text-white">
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                   </span>
@@ -189,14 +196,14 @@ const Nationality = () => {
         <Button color="danger" className="mr-1 mt-3" onClick={closeModal}>Close</Button>
 
    
-          <Button.Ripple
+          <Button
             color="primary"
             type="submit"
             className="mr-1 mt-3"
-           
+           disabled={buttonStatus}
           >
             Submit
-          </Button.Ripple>
+          </Button>
 
       
 
@@ -252,7 +259,7 @@ const Nationality = () => {
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button color="danger" onClick={deleteConfirm} >YES</Button>
+                        <Button color="danger" onClick={deleteConfirm} disabled={buttonStatus} >YES</Button>
                         <Button >NO</Button>
                       </ModalFooter>
 

@@ -60,9 +60,9 @@ const EmployeeList = (props) => {
         <Card className="uapp-card-bg">
               <CardHeader className="page-header">
 
-            <h3 className="text-light">Site Setting List</h3>
+            <h3 className="text-white">Site Setting List</h3>
             <div className="page-header-back-to-home" >
-              <span onClick={backToDashboard} className="text-light"> <i class="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+              <span onClick={backToDashboard} className="text-white"> <i class="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
                   </div>
               
               </CardHeader>

@@ -57,6 +57,7 @@ const AddUniversityCountry = (props) => {
 
   const { addToast } = useToasts();
   const [loading,setLoading] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -95,9 +96,10 @@ const AddUniversityCountry = (props) => {
 
     if (!updateState?.id) {
       setUpdateState({});
-
+      setButtonStatus(true);
       const returnValue = post(`UniversityCountry/Create`, subdata).then(
         (action) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -108,8 +110,10 @@ const AddUniversityCountry = (props) => {
         }
       );
     } else {
+      setButtonStatus(true);
       const returnvalue = put(`UniversityCountry/Update`, subdata).then(
         (action) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -130,8 +134,10 @@ const AddUniversityCountry = (props) => {
   };
 
   const handleDeleteUniCountry = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`UniversityCountry/Delete/${id}`).then(
       (action) => {
+        setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -177,9 +183,9 @@ const AddUniversityCountry = (props) => {
       <div>
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Countries</h3>
+          <h3 className="text-white">University Countries</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -308,14 +314,15 @@ const AddUniversityCountry = (props) => {
                     {/* {
                     localStorage.getItem("updateUniCountry") ?
                       <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
-                    <Button.Ripple
+                    <Button
                       color="primary"
                       type="submit"
                       className="mr-1 mt-3"
                       // onClick={(e) => handleSubmit(e)}
+                      disabled={buttonStatus}
                     >
                       Submit
-                    </Button.Ripple>
+                    </Button>
 
                     {/* } */}
                   </FormGroup>
@@ -404,6 +411,7 @@ const AddUniversityCountry = (props) => {
                             onClick={() =>
                               handleDeleteUniCountry(delUniCountryId)
                               }
+                              disabled={buttonStatus}
                           >
                             YES
                           </Button>

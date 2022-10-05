@@ -54,6 +54,7 @@ const AddState = () => {
   const [loading,setLoading] = useState(true);
 
   const { addToast } = useToasts();
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -99,7 +100,9 @@ const AddState = () => {
         setCountryError(true);
     }
     else{
+      setButtonStatus(true);
         const returnValue = post(`State/Create`, subdata).then((action) => {
+          setButtonStatus(false);
             setSuccess(!success);
             setModalOpen(false);
             addToast(action?.data?.message, {
@@ -145,7 +148,9 @@ const AddState = () => {
 
   // confirm delete
   const handleDeleteUniState = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`State/Delete/${id}`).then((action) => {
+      setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -178,8 +183,9 @@ const AddState = () => {
       countryId: countryValue,
       code: codeValue,
     };
-
+     setButtonStatus(true);
     const returnvalue = put(`State/Update`, subData).then((action) => {
+      setButtonStatus(false);
       setSuccess(!success);
       setModalOpen(false);
       addToast(action?.data?.message, {
@@ -213,9 +219,9 @@ const AddState = () => {
       <div>
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">State List</h3>
+          <h3 className="text-white">State List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -352,18 +358,20 @@ const AddState = () => {
                         color="primary"
                         className="mr-0 mt-3"
                         onClick={handleUpdateSubmit}
+                        disabled={buttonStatus}
                       >
                         Submit
                       </Button>
                     ) : (
-                      <Button.Ripple
+                      <Button
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
                         onClick={(e) => handleSubmit(e)}
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                     )}
                   </FormGroup>
                 </Form>
@@ -430,6 +438,7 @@ const AddState = () => {
                             onClick={() =>
                               handleDeleteUniState(delUniStateId)
                               }
+                              disabled={buttonStatus}
                           >
                             YES
                           </Button>

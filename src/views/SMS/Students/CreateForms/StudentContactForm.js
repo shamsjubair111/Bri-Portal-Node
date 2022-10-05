@@ -121,9 +121,9 @@ const StudentContactForm = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Contact Information</h3>
+          <h3 className="text-white">Contact Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
               <i className="fas fa-arrow-circle-left"></i> 28% Completed
             </span>

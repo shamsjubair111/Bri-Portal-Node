@@ -79,9 +79,9 @@ const SubjectProfile = () => {
           <Card className="uapp-card-bg">
             <CardHeader className="page-header">
 
-              <h3 className="text-light">Subject Details</h3>
+              <h3 className="text-white">Subject Details</h3>
               <div className="page-header-back-to-home" >
-                <span onClick={backToSubjectList} className="text-light"> <i className="fas fa-arrow-circle-left"></i>{" "}
+                <span onClick={backToSubjectList} className="text-white"> <i className="fas fa-arrow-circle-left"></i>{" "}
                 {
                   location?.campId != undefined ? "Back to Campus Subject List"
                   :

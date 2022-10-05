@@ -99,9 +99,9 @@ const userType = localStorage.getItem('current_user');
       <Card className='uapp-card-bg'>
               <CardHeader className="page-header">
               
-                  <h3 className='text-light'>Assign Menu</h3>
+                  <h3 className='text-white'>Assign Menu</h3>
                   <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard} className='text-light'> <i class="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+                    <span onClick={backToDashboard} className='text-white'> <i class="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
                   </div>
               
               </CardHeader>

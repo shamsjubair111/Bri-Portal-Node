@@ -342,9 +342,9 @@ const AddUniversityCampus = (props) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Campus Information</h3>
+          <h3 className="text-white">University Campus Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {

@@ -203,9 +203,9 @@ const StudentRegister = () => {
 
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Register Student</h3>
+          <h3 className="text-white">Register Student</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentList}>
+            <span className="text-white" onClick={backToStudentList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student List
             </span>

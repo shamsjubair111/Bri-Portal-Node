@@ -699,9 +699,9 @@ const ApplicationDetails = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Application Details</h3>
+          <h3 className="text-white">Application Details</h3>
           <div className="page-header-back-to-home">
-            <span onClick={handleRedirectToAppliPage} className="text-light">
+            <span onClick={handleRedirectToAppliPage} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {

@@ -68,9 +68,9 @@ const StudentOtherInformationForm = () => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Other Information</h3>
+          <h3 className="text-white">Other Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
               74% Completed
             </span>

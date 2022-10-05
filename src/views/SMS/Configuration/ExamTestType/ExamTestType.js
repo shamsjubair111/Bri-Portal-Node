@@ -200,9 +200,9 @@ const closeModal = () => {
             <div>
                <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Exam Test Type</h3>
+                <h3 className="text-white">Exam Test Type</h3>
                 <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToDashboard} className="text-white">
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                   </span>

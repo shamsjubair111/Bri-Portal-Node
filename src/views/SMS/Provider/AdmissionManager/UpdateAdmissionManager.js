@@ -169,9 +169,9 @@ const selectTitle = (label, value) => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Update Admission Manager</h3>
+          <h3 className="text-white">Update Admission Manager</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToProviderDetails}>
+            <span className="text-white" onClick={backToProviderDetails}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {

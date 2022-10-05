@@ -25,6 +25,7 @@ const UpdateProvider = () => {
     const history = useHistory();
     const { addToast } = useToasts();
     const permissions = JSON.parse(localStorage.getItem("permissions"));
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     const providerLogo = useSelector((state) => state?.GeneralProviderlogoFile ?.ProviderLogoFile);
     
@@ -130,12 +131,14 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
       for(let val of subData.values()){
           console.log(val);
       }
+      setButtonStatus(true);
       put(`Provider/Update`,subData,config)
       .then(res => {
+        setButtonStatus(false);
         // for (const val of subData.value()){
         //   console.log(val);
         // }
-        console.log(res);
+       
         addToast(res?.data?.message, {
             appearance:'success',
             autoDismiss: true,
@@ -151,9 +154,9 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
         <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Update Provider Information</h3>
+          <h3 className="text-white">Update Provider Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-white" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider List
             </span>
@@ -369,7 +372,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                    <div className='d-flex'>
                   {
                     providerInfo?.providerLogoMedia?.thumbnailUrl !== null ?
-                    <div className='me-2'>
+                    <div className='mr-2'>
                     <Image
                   width={104} height={104}
                   src={rootUrl+providerInfo?.providerLogoMedia?.thumbnailUrl} />
@@ -426,6 +429,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                      type={"submit"}
                      className={"ms-lg-3 ms-sm-1 badge-primary"}
                      name={"Submit"}
+                     disable={buttonStatus}
                      
                    />
                    :

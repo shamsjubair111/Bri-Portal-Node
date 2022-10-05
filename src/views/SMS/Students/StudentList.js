@@ -480,7 +480,7 @@ const StudentList = () => {
         <>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Student List</h3>
+          <h3 className="text-white">Student List</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
@@ -626,7 +626,7 @@ const StudentList = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -638,7 +638,7 @@ const StudentList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

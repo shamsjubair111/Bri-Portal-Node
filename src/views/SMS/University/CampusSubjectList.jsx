@@ -426,9 +426,9 @@ const CampusSubjectList = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Campus Subject List</h3>
+          <h3 className="text-white">Campus Subject List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToCampusList} className="text-light">
+            <span onClick={backToCampusList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Campus List
             </span>
@@ -558,7 +558,7 @@ const CampusSubjectList = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -570,7 +570,7 @@ const CampusSubjectList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

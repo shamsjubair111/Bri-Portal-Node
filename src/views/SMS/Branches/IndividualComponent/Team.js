@@ -22,6 +22,7 @@ const Team = (props) => {
     const [deleteModal, setDeleteModal] = useState(false);
     const history = useHistory();
     const [delData,setDelData] = useState({});
+    const [buttonStatus,setButtonStatus] = useState(false);
     
     
 
@@ -58,8 +59,9 @@ const Team = (props) => {
       };
     
       const handleDeletebranchTeam = () => {
-        
+        setButtonStatus(true);
         remove(`BranchTeam/Delete/${delData?.id}`).then((res) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setDeleteModal(false);
           addToast(res, {
@@ -85,7 +87,9 @@ const Team = (props) => {
         
         // }
         if (!isUpdate) {
+          setButtonStatus(true);
           post(`BranchTeam/Create`, teamData).then((action) => {
+            setButtonStatus(false);
             setSuccess(!success);
             setteamModalOpen(false);
             addToast(action?.data?.message, {
@@ -98,8 +102,9 @@ const Team = (props) => {
           for (let val of teamData.values()) {
            
           }
+          setButtonStatus(true);
           put(`BranchTeam/Update`, teamData).then((res) => {
-           
+           setButtonStatus(false);
             setIsUpdate(false);
             setSuccess(!success);
             setteamModalOpen(false);
@@ -179,13 +184,14 @@ const Team = (props) => {
                   Close
                 </Button>
 
-                <Button.Ripple
+                <Button
                   color="primary"
                   type="submit"
                   className="mr-1 mt-3"
+                  disabled={buttonStatus}
                 >
                   Submit
-                </Button.Ripple>
+                </Button>
               </FormGroup>
             </Form>
           </ModalBody>
@@ -204,6 +210,7 @@ const Team = (props) => {
                 <Button
                   onClick={functionimplement}
                   className="btn btn-uapp-add "
+                  disabled={buttonStatus}
                 >
                   {" "}
                   <i class="fas fa-plus"></i> Add Team{" "}
@@ -275,6 +282,7 @@ const Team = (props) => {
                                 <Button
                                   color="danger"
                                   onClick={handleDeletebranchTeam}
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>

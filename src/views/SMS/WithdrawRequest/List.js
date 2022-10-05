@@ -52,6 +52,7 @@ const List = () => {
     const [modalOpen2,setModalOpen2] = useState(false);
     const [modalPLabel,setModalPLabel] = useState('Select Payment Status');
     const [modalPValue,setModalPValue] = useState(0);
+    const [buttonStatus,setButtonStatus] = useState(false);
     
     
 
@@ -217,8 +218,10 @@ const List = () => {
         setMTerror('Transaction status must be selected');
       }
       else{
+        setButtonStatus(true);
         get(`WithdrawRequest/TransactionStatus/${currData?.id}/${modalTValue}`)
         .then(res => {
+          setButtonStatus(false);
           if(res == true){
             addToast('Status changed successfully',{
               appearance:'success',
@@ -249,8 +252,10 @@ const List = () => {
         setMPerror('Transaction status must be selected');
       }
       else{
+        setButtonStatus(true);
         get(`WithdrawRequest/PaymentStatus/${currData2?.id}/${modalPValue}`)
         .then(res => {
+          setButtonStatus(false);
           if(res == true){
             addToast('Status changed successfully',{
               appearance:'success',
@@ -405,9 +410,9 @@ const List = () => {
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Withdraw Request List</h3>
+                <h3 className="text-white">Withdraw Request List</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToDashboard}>
+                  <span className="text-white" onClick={backToDashboard}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                   </span>
@@ -522,7 +527,7 @@ const List = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -534,7 +539,7 @@ const List = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -595,7 +600,7 @@ const List = () => {
                       <td>{ls?.transactionStatus}
                       {
                         (!(ls?.paymentStatusId == 2) && current_user?.userTypeId == userTypes?.SystemAdmin) && 
-                        <Button color='warning' className='ml-2 btn-sm' onClick={()=>handleUpdate(ls)}>
+                        <Button color='warning' className='ml-2 btn-sm' onClick={()=>handleUpdate(ls)} disabled={buttonStatus}>
                           <i className='fas fa-edit'></i>
 
                         </Button>
@@ -604,7 +609,7 @@ const List = () => {
                       <td>{ls?.paymentStatus}
                       {
                         (ls?.transactionStatusId ==2 && !(ls?.paymentStatusId ==2) && current_user?.userTypeId == userTypes?.SystemAdmin) && 
-                        <Button color='warning' className='ml-2 btn-sm' onClick={()=>handleUpdate2(ls)}>
+                        <Button color='warning' className='ml-2 btn-sm' onClick={()=>handleUpdate2(ls)}disabled={buttonStatus}>
                           <i className='fas fa-edit'></i>
 
                         </Button>

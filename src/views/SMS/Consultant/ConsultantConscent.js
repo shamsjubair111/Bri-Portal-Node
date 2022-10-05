@@ -149,11 +149,11 @@ const Conscent = () => {
         <div>
              <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light"> Terms and Conditions</h3>
+          <h3 className="text-white"> Terms and Conditions</h3>
           {
             !(userTypeId == userTypes?.Consultant) ?
             <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToConsultantList}>
+            <span className="text-white" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant
               List

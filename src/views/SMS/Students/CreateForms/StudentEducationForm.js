@@ -164,9 +164,9 @@ else{
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Educational Information</h3>
+          <h3 className="text-white">Educational Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
                36% Completed
             </span>

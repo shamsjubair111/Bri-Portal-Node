@@ -46,6 +46,7 @@ const AddCountry = () => {
 
   const { addToast } = useToasts();
   const [loading,setLoading] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -68,8 +69,9 @@ const AddCountry = () => {
 
     if (!updateState?.id) {
       setUpdateState({});
-
+      setButtonStatus(true);
       const returnValue = post(`Country/Create`, subdata).then((action) => {
+        setButtonStatus(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -80,7 +82,9 @@ const AddCountry = () => {
         setCode("");
       });
     } else {
+      setButtonStatus(true);
       const returnvalue = put(`Country/Update`, subdata).then((action) => {
+        setButtonStatus(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -103,7 +107,9 @@ const AddCountry = () => {
   };
 
   const handleDeletecountry = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`Country/Delete/${id}`).then((action) => {
+      setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -147,9 +153,9 @@ const AddCountry = () => {
         <div>
           <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Country List</h3>
+          <h3 className="text-white">Country List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -256,14 +262,15 @@ const AddCountry = () => {
                     {/* {
                     localStorage.getItem("updatecountry") ?
                       <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
-                    <Button.Ripple
+                    <Button
                       color="primary"
                       type="submit"
                       className="mr-1 mt-3"
                       // onClick={(e) => handleSubmit(e)}
+                      disabled={buttonStatus}
                     >
                       Submit
-                    </Button.Ripple>
+                    </Button>
 
                     {/* } */}
                   </FormGroup>
@@ -340,6 +347,7 @@ const AddCountry = () => {
                             onClick={() =>
                               handleDeletecountry(delCountryId)
                             }
+                            disabled={buttonStatus}
                           >
                             YES
                           </Button>

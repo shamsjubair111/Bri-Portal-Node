@@ -123,9 +123,9 @@ const Index = () => {
 
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Inflow Transaction List</h3>
+                <h3 className="text-white">Inflow Transaction List</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToDashboard}>
+                  <span className="text-white" onClick={backToDashboard}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                   </span>
@@ -192,12 +192,12 @@ const Index = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p>
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -224,12 +224,12 @@ const Index = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p>
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
