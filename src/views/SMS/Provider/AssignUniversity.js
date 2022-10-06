@@ -163,7 +163,7 @@ const AssignUniversity = () => {
 
     if (selectedId !== undefined) {
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -190,7 +190,7 @@ const AssignUniversity = () => {
       } else {
         setSelectedId(undefined);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,

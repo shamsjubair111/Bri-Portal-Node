@@ -574,7 +574,7 @@ const AddConsultantInformation = () => {
           appearance: "success",
           autoDismiss: true,
         });
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           setSuccess(!success);
           setFileList1([]);
           setFileList2([]);

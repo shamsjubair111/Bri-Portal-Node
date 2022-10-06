@@ -145,10 +145,20 @@ setTitleValue(value);
     }
     put(`BranchManager/Update`, subData, config).then((res) => {
     
-      addToast(res?.data?.message, {
-        appearance: "success",
-      });
-      history.push(`/branchProfile/${branchManagerInfo?.branchId}`);
+      if(res?.status == 200 && res?.data?.isSuccess == true){
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true
+        });
+        history.push(`/branchProfile/${branchManagerInfo?.branchId}`);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true
+        });
+      }
+     
     });
   };
 

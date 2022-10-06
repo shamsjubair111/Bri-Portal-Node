@@ -355,7 +355,7 @@ const ApplicationDetails = () => {
     if (studentDocuId !== 0) {
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
         
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -409,7 +409,7 @@ const ApplicationDetails = () => {
     else {
       post("StudentUploadDocument/Create", subData).then((res) => {
         
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,

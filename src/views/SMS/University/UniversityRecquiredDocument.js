@@ -139,7 +139,7 @@ const UniversityRecquiredDocument = () => {
     } else {
       post("UniversityRequiredDocuments/Create", subData).then((res) => {
         console.log("document data", res);
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,

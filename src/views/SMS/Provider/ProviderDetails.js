@@ -249,7 +249,7 @@ const ProviderDetails = () => {
 
     put(`ProviderAdmin/Update`, subData).then((res) => {
       setButtonStatus(false);
-      if (res?.status == 200 && res?.data?.isSucess == true) {
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,

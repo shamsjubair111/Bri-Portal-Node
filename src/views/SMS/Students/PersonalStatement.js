@@ -120,7 +120,7 @@ const PersonalStatement = () => {
           post('PersonalStatement/Create',subData)
           .then(res => {
             setButtonStatus(false);
-            if(res?.status == 200 && res?.data?.isSucess == true){
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
@@ -145,7 +145,7 @@ const PersonalStatement = () => {
         put('PersonalStatement/Update',subData)
         .then(res => {
           setButtonStatus(false);
-          if(res?.status == 200 && res?.data?.isSucess == true){
+          if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
               autoDismiss: true
@@ -168,7 +168,7 @@ const PersonalStatement = () => {
         post('PersonalStatement/Create',subData)
         .then(res => {
           setButtonStatus(true);
-          if(res?.status == 200 && res?.data?.isSucess == true){
+          if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
               autoDismiss: true

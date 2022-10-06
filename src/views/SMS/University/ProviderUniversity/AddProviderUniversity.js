@@ -406,7 +406,7 @@ const AddProviderUniversity = () => {
         if (uniId != undefined) {
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
-            if (res?.status == 200 && res?.data?.isSucess == true) {
+            if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
                 autoDismiss: true,

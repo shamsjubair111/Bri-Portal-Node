@@ -13,11 +13,16 @@ async function put(url, body = {}, authToken = "") {
     });
     return await res;
   } catch (error) {
-    if (error.response.status === 404) {
-      history.push("/404");
-    }
+    return error;
+    // if (error.response.status === 404) {
+    //   history.push("/404");
+      
+    // }
+    // else if(error.response.status === 400){
+    //   history.push('/400')
+    // }
 
-    throw error;
+    // throw error;
   }
 }
 

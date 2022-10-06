@@ -106,7 +106,7 @@ const StudentType = () => {
      put('StudentType/Update',subdata)
      .then(res => {
        console.log(res);
-       if(res?.status == 200 && res?.data?.isSucess == true){
+       if(res?.status == 200 && res?.data?.isSuccess == true){
         setSuccess(!success)
         setModalOpen(false)
      

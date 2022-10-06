@@ -203,7 +203,7 @@ const StudentTestScoreForm = () => {
         post("Ielts/Create", subData).then((res) => {
           setButtonStatus(false);
           
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -230,7 +230,7 @@ const StudentTestScoreForm = () => {
         post("Duolingo/Create", subData).then((res) => {
           setButtonStatus(false);
           
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -256,7 +256,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Toefl/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -282,7 +282,7 @@ const StudentTestScoreForm = () => {
          setButtonStatus(true);
         post("FunctionalSkill/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -308,7 +308,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -334,7 +334,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Pearson/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -360,7 +360,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Other/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -386,7 +386,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("PTE/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200 && res?.data?.isSucess == true) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -447,7 +447,7 @@ const StudentTestScoreForm = () => {
        setButtonStatus(true);
       post(`GreScore/Create`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -479,7 +479,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
       post(`GmatScore/Create`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,

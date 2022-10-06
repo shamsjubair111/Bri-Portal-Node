@@ -273,7 +273,7 @@ const onShow=()=>{
         post('Reference/Create',subData)
       .then(res => {
         setButtonStatus(false);
-        if(res?.status == 200 && res?.data?.isSucess == true){
+        if(res?.status == 200 && res?.data?.isSuccess == true){
   
           setShowForm(false);
           addToast(res?.data?.message,{

@@ -97,45 +97,45 @@ const StudentPersonalForm = () => {
 
   useEffect(() => {
     get("NameTittleDD/index").then((res) => {
-      console.log("title", res);
+     
       setTitle(res);
     });
 
     get("MaritalStatusDD/Index").then((res) => {
-      console.log(res);
+     
       setMaritalStatus(res);
     });
 
     get("GenderDD/Index").then((res) => {
-      console.log(res);
+     
       setGender(res);
     });
 
     get("CountryDD/index").then((res) => {
-      console.log("Check Country", res);
+     
       setCountry(res);
     });
 
     get("NationalityDD/Index").then((res) => {
-      console.log(res);
+    
       setNationality(res);
     });
 
     get("ConsultantDD/index").then((res) => {
-      console.log("r", res);
+     
       setConsultant(res);
       setConsultantLabel(res?.name);
       setConsultantValue(res?.id);
     });
 
     get("StudentTypeDD/Index").then((res) => {
-      console.log(res);
+      
       setStudentType(res);
     });
 
       get(`Student/Get/${id}`).then(
         (res) => {
-          console.log("fetching student info from api", res);
+          
           setConsultantLabel(
             res?.consultant?.firstName + " " + res?.consultant?.lastName
           );
@@ -183,7 +183,7 @@ const StudentPersonalForm = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  console.log("One two three", FileList[0]?.originFileObj);
+
 
   // Trial End
 
@@ -269,9 +269,7 @@ const StudentPersonalForm = () => {
     const subData = new FormData(event.target);
     subData.append("profileImageFile", FileList[0]?.originFileObj);
 
-    // for( var x of subData.values()){
-    //   console.log(x);
-    // }
+   
 
   
 
@@ -302,10 +300,10 @@ const StudentPersonalForm = () => {
     else {
       setButtonStatus(true);
       put("Student/Update", subData).then((res) => {
-        console.log(res,'dwshjfhjdhdjhdjhdjfhj');
+       
         setButtonStatus(false);
-        console.log("posted data", res);
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+     
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -316,7 +314,7 @@ const StudentPersonalForm = () => {
 
         }
         else{
-          addToast(res?.message, {
+          addToast(res?.response?.data?.message, {
             appearance: "error",
             autoDismiss: true,
           });

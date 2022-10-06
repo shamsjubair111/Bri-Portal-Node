@@ -100,7 +100,7 @@ const Nationality = () => {
             post('Nationality/Create',subdata)
         .then(res => {
           setButtonStatus(false);
-            if(res?.status == 200 && res?.data?.isSucess == true){
+            if(res?.status == 200 && res?.data?.isSuccess == true){
                 console.log(res?.data?.message);
             addToast(res?.data?.message,{
                 appearance: 'success',

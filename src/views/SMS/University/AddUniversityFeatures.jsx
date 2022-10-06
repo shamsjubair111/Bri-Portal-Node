@@ -97,7 +97,7 @@ const AddUniversityFeatures = () => {
     if (featureId !== undefined) {
       put("UniversityFeatures/Update", subdata).then((res) => {
         console.log("1st put response", res);
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,

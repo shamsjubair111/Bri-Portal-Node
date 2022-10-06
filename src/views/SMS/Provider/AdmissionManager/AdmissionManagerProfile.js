@@ -250,7 +250,7 @@ const AdmissionManagerProfile = () => {
     else{
       setButtonStatus(true);
       post("AdmissionOfficerOfManager/Create", subdata).then(res => {
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,

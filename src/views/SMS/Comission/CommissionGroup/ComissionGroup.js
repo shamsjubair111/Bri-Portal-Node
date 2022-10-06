@@ -77,7 +77,7 @@ const ComissionGroup = () => {
           put(`CommissionGroup/Update`,subData)
           .then(res => {
             setButtonStatus(false);
-            if(res?.status == 200 && res?.data?.isSucess == true){
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
@@ -101,7 +101,7 @@ const ComissionGroup = () => {
           post(`CommissionGroup/Create`,subData)
           .then(res => {
             setButtonStatus(false);
-            if(res?.status == 200 && res?.data?.isSucess == true){
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true

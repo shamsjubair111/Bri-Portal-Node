@@ -47,7 +47,7 @@ class Login extends React.Component {
             })
               .then(res => {
                 
-                if (res?.status == 200 && res?.data?.isSucess == true) {
+                if (res?.status == 200 && res?.data?.isSuccess == true) {
                   if(res?.data?.isActive){
                     localStorage.setItem('current_user', JSON.stringify(res?.data))
                   localStorage.setItem('userType', res?.data?.userTypeId);

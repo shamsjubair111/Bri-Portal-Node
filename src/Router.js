@@ -210,6 +210,9 @@ const accessControl = lazy(() =>
 const notFound = lazy(() =>
   import("./views/pages/misc/error/404")
 )
+const BadRequest = lazy(() =>
+  import("./views/pages/misc/error/400")
+)
 
 const InternalServerError = lazy(() =>
   import("./views/pages/misc/error/500")
@@ -748,6 +751,8 @@ class AppRouter extends React.Component {
 
          {/* trial notification */}
          <AppRoute  path="/notification" component={TrialNotification} />
+
+         <AppRoute  path="/400" component={BadRequest}  fullLayout/>
 
   
           {/* Session Expired  */}

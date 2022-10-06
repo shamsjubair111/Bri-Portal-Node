@@ -253,7 +253,7 @@ const handleSubmit = (event) => {
     .then(res => {
       setButtonStatus(false);
       console.log('2nd put response',res);
-      if(res?.status == 200 && res?.data?.isSucess == true){
+      if(res?.status == 200 && res?.data?.isSuccess == true){
        
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -281,7 +281,7 @@ const handleSubmit = (event) => {
     .then(res => {
       setButtonStatus(false);
       console.log('application response',res);
-      if(res?.status == 200 && res?.data?.isSucess == true){
+      if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res.data.message,{
           appearance: 'success',
           autoDismiss: true

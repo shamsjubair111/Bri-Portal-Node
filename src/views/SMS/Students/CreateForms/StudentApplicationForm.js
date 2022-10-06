@@ -169,19 +169,24 @@ const handleSubmit = (event) => {
       .then(res => {
         setButtonStatus(false);
         console.log('application response',res);
-        if(res?.status == 200 && res?.data?.isSucess == true){
-          addToast(res.data.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          history.push(`/studentPersonal/${id}`);
+        if(res?.status == 200){
+          if(res?.data?.isSuccess == true){
+
+            addToast(res.data.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push(`/studentPersonal/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+
         }
-        else{
-          addToast(res?.data?.message, {
-            appearance: "error",
-            autoDismiss: true,
-          });
-        }
+       
     
       })
   

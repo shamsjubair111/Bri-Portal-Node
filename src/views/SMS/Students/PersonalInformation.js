@@ -427,7 +427,7 @@ const PersonalInformation = () => {
       put("Student/Update", subData).then((res) => {
         setButtonStatus(false);
         console.log("posted data", res);
-        if (res?.status == 200 && res?.data?.isSucess == true) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
