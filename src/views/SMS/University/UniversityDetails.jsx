@@ -1467,10 +1467,11 @@ const UniversityDetails = () => {
                             <a
                               href={rootUrl + temp?.templateFile?.fileUrl}
                               target="_blank"
-                              download
+                              // download
                             >
                               Download
                             </a>
+                           
                           </td>
                           
                         </tr>
