@@ -1369,7 +1369,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -1544,7 +1544,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -1731,7 +1731,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -1795,7 +1795,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -1861,7 +1861,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -2024,7 +2024,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-9 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -2112,7 +2112,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -2264,7 +2264,7 @@ const TestScore = () => {
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
-                            color="warning"
+                            color="danger"
                             className="mt-3 mr-1"
                             onClick={()=> setModalOpen(false)}
 
@@ -3359,7 +3359,7 @@ const TestScore = () => {
                       }}
                     >
                       <Button
-                        color="warning"
+                        color="danger"
                         className="mr-1 mt-3"
                         onClick={closeModal2}
                       >
@@ -3612,7 +3612,7 @@ const TestScore = () => {
                       }}
                     >
                       <Button
-                        color="warning"
+                        color="danger"
                         className="mr-1 mt-3"
                         onClick={closeModal3}
                       >

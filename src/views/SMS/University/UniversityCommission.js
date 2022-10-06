@@ -120,6 +120,15 @@ const UniversityCommission = () => {
     }
   };
 
+  const onGoUniList = () => {
+    history.push('/universityList')
+  }
+
+  const onGoUniProfile = () => {
+    history.push(`/universityDetails/${univerId}`)
+  }
+
+
   const submitFormData = (event) => {
 
     event.preventDefault();
@@ -468,11 +477,45 @@ const UniversityCommission = () => {
 
             </TabContent>
 
+         <div className='d-flex justify-content-between'>
+         <div>
           <Link to={`/addUniversityTemplateDocument/${univerId}`}>
           <Button color='warning'>
               Previous Page
           </Button>
           </Link>
+          </div>
+
+          <div>
+
+          <FormGroup
+                className="has-icon-left position-relative"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "center",
+                }}
+              >
+                <ButtonForFunction
+                  func={onGoUniList}
+                  color={"primary uapp-form-button"}
+                  name={"Go to University List"}
+                  permission={6}
+                />
+
+                <ButtonForFunction
+                  func={onGoUniProfile}
+                  color={"primary uapp-form-button"}
+                  className={"ml-lg-2 ml-sm-2"}
+                  name={"Go to University Profile"}
+                  permission={6}
+                />
+              </FormGroup>
+
+          </div>
+
+         </div>
+
         </CardBody>
       </Card>
             

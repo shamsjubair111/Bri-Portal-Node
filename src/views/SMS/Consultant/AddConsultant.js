@@ -385,7 +385,7 @@ const AddConsultant = () => {
 
                    <Button onClick={ToConsultantList} 
                     className='mt-3 mr-1'
-                    color='warning'>
+                    color='danger'>
                         Cancel
                     </Button>
 

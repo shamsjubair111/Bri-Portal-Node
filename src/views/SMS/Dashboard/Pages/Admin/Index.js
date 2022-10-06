@@ -13,7 +13,7 @@ const Admin = () => {
 
     return (
         <React.Fragment>
-        <div className="animated fadeIn">
+        {/* <div className="animated fadeIn">
           <div className="uapp-dashboard">
   
             <div className="uapp-user-name">
@@ -266,6 +266,11 @@ const Admin = () => {
             </div>
   
           </div>
+        </div> */}
+
+<div className='mt-5 text-center'>
+          <h3>Dashboard Is Under Maintenace. Stay Tuned for Further Notification</h3>
+
         </div>
   
       </React.Fragment>

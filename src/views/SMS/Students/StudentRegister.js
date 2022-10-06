@@ -398,9 +398,9 @@ const StudentRegister = () => {
               style={{ display: "flex", justifyContent: "end" }}
               >
                  <ButtonForFunction
-                className={'mr-1 mt-3 btn-warning'}
+                className={'mr-1 mt-3'}
                 func={cancelForm}
-               
+                color={'danger'}
                 name={'Cancel'}
               />
 

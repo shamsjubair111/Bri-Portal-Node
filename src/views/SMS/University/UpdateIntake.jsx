@@ -203,7 +203,8 @@ const UpdateIntake = () => {
                                 
                                 <ButtonForFunction
                                   func={handleCancel}
-                                  className={'btn btn-danger mt-md-3'}
+                                  className={'mt-md-3'}
+                                  color={'danger'}
                                   name={"Cancel"}
                                   permission={6}
                                 />

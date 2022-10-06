@@ -717,7 +717,8 @@ const UniversityDetails = () => {
 
                                 <ModalFooter>
                                   <Button
-                                    className="bg-danger"
+                                    className=""
+                                    color="danger"
                                     onClick={closeViewModal}
                                   >
                                     Close

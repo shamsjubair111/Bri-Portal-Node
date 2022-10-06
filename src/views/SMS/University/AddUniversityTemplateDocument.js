@@ -306,14 +306,7 @@ const AddUniversityTemplateDocument = () => {
     });
   };
 
-  const onGoUniList = () => {
-    history.push('/universityList')
-  }
-
-  const onGoUniProfile = () => {
-    history.push(`/universityDetails/${univerId}`)
-  }
-
+  
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -764,34 +757,9 @@ const AddUniversityTemplateDocument = () => {
                 </div>
               ) : null}
 
-              {
-                templateList?.length>0?
-                <FormGroup
-                className="has-icon-left position-relative"
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <ButtonForFunction
-                  func={onGoUniList}
-                  color={"primary uapp-form-button"}
-                  name={"Go to University List"}
-                  permission={6}
-                />
-
-                <ButtonForFunction
-                  func={onGoUniProfile}
-                  color={"primary uapp-form-button"}
-                  className={"ml-lg-2 ml-sm-2"}
-                  name={"Go to University Profile"}
-                  permission={6}
-                />
-              </FormGroup>
-              :
-              null
-              }
+            
+               
+            
 
             </TabPane>
           </TabContent>

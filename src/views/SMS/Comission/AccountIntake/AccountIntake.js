@@ -506,7 +506,7 @@ const AccountIntake = () => {
 
                     
                         <Button.Ripple
-                            color="warning"
+                            color="danger"
                             onClick={closeModal}
                             className="mr-1 mt-3"
                         

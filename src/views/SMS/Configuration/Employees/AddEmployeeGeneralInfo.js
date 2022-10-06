@@ -588,7 +588,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                     <Col md="6">
 
-                                        <Button color='warning' className='mt-3 mx-2' onClick={()=> history.push('/staffList')}>
+                                        <Button color='danger' className='mt-3 mx-2' onClick={()=> history.push('/staffList')}>
                                             Cancel                                            
                                         </Button>
 
