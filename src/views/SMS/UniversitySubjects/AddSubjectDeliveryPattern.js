@@ -446,7 +446,7 @@ const onPreviousPage = () => {
 
                       <ModalFooter>
                         <Button color="danger" onClick={() => handleDeleteDeliveryPattern(delPatternId)}>YES</Button>
-                        <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                        <Button  onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
                     </Modal>

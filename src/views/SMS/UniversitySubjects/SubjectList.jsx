@@ -883,7 +883,7 @@ const SubjectList = (props) => {
                                 YES
                               </Button>
                               <Button
-                                color="primary"
+                               
                                 onClick={closeDeleteModal}
                               >
                                 NO
