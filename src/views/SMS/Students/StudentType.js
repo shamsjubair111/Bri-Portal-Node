@@ -106,7 +106,7 @@ const StudentType = () => {
      put('StudentType/Update',subdata)
      .then(res => {
        console.log(res);
-       if(res?.status == 200){
+       if(res?.status == 200 && res?.data?.isSucess == true){
         setSuccess(!success)
         setModalOpen(false)
      
@@ -120,6 +120,12 @@ const StudentType = () => {
           setStudentTypeInfo(res);
         } )
        }
+       else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
      
 
      })

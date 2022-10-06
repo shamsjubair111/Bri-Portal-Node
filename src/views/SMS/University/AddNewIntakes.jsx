@@ -51,12 +51,12 @@ const AddNewIntakes = () => {
 
     useEffect(()=>{
 
-        get('Month/GetAll').then(res=> {
+        get('MonthDD/Index').then(res=> {
           setMonth(res);
         })
         .catch();
 
-        get('Year/GetAll').then(res=> {
+        get('YearDD/Index').then(res=> {
             setYear(res);
           })
           .catch();

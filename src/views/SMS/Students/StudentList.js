@@ -422,7 +422,7 @@ const StudentList = () => {
 
     put(`Student/UpdateAccountStatus/${id}`, subData).then((res) => {
       setButtonStatus(false);
-      if (res?.status == 200) {
+      if (res?.status == 200 && res?.data?.isSucess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,
@@ -430,6 +430,12 @@ const StudentList = () => {
         setSuccess(!success);
         // setPassData({});
         // setPassModal(false);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
     });
   };

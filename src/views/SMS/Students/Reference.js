@@ -273,7 +273,7 @@ const onShow=()=>{
         post('Reference/Create',subData)
       .then(res => {
         setButtonStatus(false);
-        if(res?.status == 200){
+        if(res?.status == 200 && res?.data?.isSucess == true){
   
           setShowForm(false);
           addToast(res?.data?.message,{
@@ -291,6 +291,12 @@ const onShow=()=>{
           })
   
   
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
   
       })

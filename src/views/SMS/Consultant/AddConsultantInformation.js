@@ -574,7 +574,7 @@ const AddConsultantInformation = () => {
           appearance: "success",
           autoDismiss: true,
         });
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           setSuccess(!success);
           setFileList1([]);
           setFileList2([]);
@@ -583,6 +583,12 @@ const AddConsultantInformation = () => {
           setFileList5([]);
           history.push(`/consultantBankDetails/${consultantRegisterId}`);
           
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }

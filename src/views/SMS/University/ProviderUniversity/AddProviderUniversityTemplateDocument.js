@@ -217,7 +217,7 @@ const AddProviderUniversityTemplateDocument = () => {
       if (selectedId === 0) {
         post("UniversityTemplateDocument/Create", subData).then((res) => {
           console.log("document data", res);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -228,6 +228,12 @@ const AddProviderUniversityTemplateDocument = () => {
             setFileList1([]);
             setApplicationTypeLabel("Select Application Type");
             setApplicationTypeValue(0);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       } else {

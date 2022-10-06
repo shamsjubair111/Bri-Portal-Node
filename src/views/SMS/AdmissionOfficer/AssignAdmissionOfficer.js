@@ -126,7 +126,7 @@ const AssignAdmissionOfficer = () => {
 
     if(selectedId !== undefined){
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -137,6 +137,12 @@ const AssignAdmissionOfficer = () => {
           setManagerValue(0);
           setSelectedId(undefined);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     }
     else{
@@ -145,7 +151,7 @@ const AssignAdmissionOfficer = () => {
       } else {
         setSelectedId(undefined);
         post(`AdmissionOfficerOfManager/Create`, subData).then((res) => {
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -154,6 +160,12 @@ const AssignAdmissionOfficer = () => {
             setModalOpen(false);
             setManagerLabel("Select Admission Manager");
             setManagerValue(0);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }

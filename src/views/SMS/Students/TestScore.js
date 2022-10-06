@@ -522,7 +522,7 @@ const TestScore = () => {
         post("Ielts/Create", subData).then((res) => {
           setButtonStatus(false);
           
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -535,12 +535,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         put("Ielts/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -554,6 +560,12 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateIelts(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "DUOLINGO") {
@@ -561,7 +573,7 @@ const TestScore = () => {
         setButtonStatus(true);
         post("Duolingo/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -574,12 +586,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         put("Duolingo/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -593,6 +611,12 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateDuolingo(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "TOEFL") {
@@ -600,7 +624,7 @@ const TestScore = () => {
         setButtonStatus(true);
         post("Toefl/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -613,6 +637,12 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
 
@@ -620,7 +650,7 @@ const TestScore = () => {
         setButtonStatus(true);
         put("Toefl/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -634,6 +664,12 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateToefl(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "FUNCTION SKILLS") {
@@ -641,7 +677,7 @@ const TestScore = () => {
         setButtonStatus(true);
         post("FunctionalSkill/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -654,12 +690,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         put("FunctionalSkill/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -673,6 +715,12 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateFunctions(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "GCSE") {
@@ -680,7 +728,7 @@ const TestScore = () => {
         setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -693,12 +741,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         put("Gcse/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -712,6 +766,12 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateGcse(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "PEARSON") {
@@ -719,7 +779,7 @@ const TestScore = () => {
         setButtonStatus(true);
         post("Pearson/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -732,12 +792,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         put("Pearson/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -751,6 +817,12 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdatePearson(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "OTHER SCORE") {
@@ -758,7 +830,7 @@ const TestScore = () => {
         setButtonStatus(true);
         post("Other/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -771,12 +843,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         put("Other/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -790,6 +868,12 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateOther(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else {
@@ -797,7 +881,7 @@ const TestScore = () => {
         setButtonStatus(true);
         post("PTE/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -810,12 +894,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         put("PTE/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -828,6 +918,12 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
             setUpdatepte(false);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -912,7 +1008,7 @@ const TestScore = () => {
       setButtonStatus(true);
       put(`GreScore/Update`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -920,18 +1016,30 @@ const TestScore = () => {
           setSuccess(!success);
           setModal2Open(false);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     } else {
       setButtonStatus(true);
       post(`GreScore/Create`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
           });
           setSuccess(!success);
           setModal2Open(false);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
@@ -952,7 +1060,7 @@ const TestScore = () => {
       setButtonStatus(true);
       put(`GmatScore/Update`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -960,18 +1068,30 @@ const TestScore = () => {
           setSuccess(!success);
           setModal3Open(false);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     } else {
       setButtonStatus(true);
       post(`GmatScore/Create`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
           });
           setSuccess(!success);
           setModal3Open(false);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }

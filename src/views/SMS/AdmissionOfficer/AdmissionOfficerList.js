@@ -376,12 +376,18 @@ const AdmissionOfficerList = () => {
 
     put(`AdmissionOfficer/UpdateAccountStatus/${officerId}`, subData).then(
       (res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
           });
           setSuccess(!success);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       }
     );

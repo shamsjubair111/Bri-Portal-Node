@@ -172,7 +172,7 @@ const ContactInformation = () => {
         setButtonStatus(true);
         put("StudentContactInformation/Update", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -180,17 +180,29 @@ const ContactInformation = () => {
             setSuccess(!success);
             history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
         setButtonStatus(true);
         post("StudentContactInformation/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
             });
             history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }

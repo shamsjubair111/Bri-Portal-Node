@@ -203,7 +203,7 @@ const StudentTestScoreForm = () => {
         post("Ielts/Create", subData).then((res) => {
           setButtonStatus(false);
           
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -216,6 +216,12 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
      
@@ -224,7 +230,7 @@ const StudentTestScoreForm = () => {
         post("Duolingo/Create", subData).then((res) => {
           setButtonStatus(false);
           
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -237,6 +243,12 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
 
@@ -244,7 +256,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Toefl/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -257,6 +269,12 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
  
@@ -264,7 +282,7 @@ const StudentTestScoreForm = () => {
          setButtonStatus(true);
         post("FunctionalSkill/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -277,6 +295,12 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
    
@@ -284,7 +308,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -297,6 +321,12 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
      
@@ -304,7 +334,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Pearson/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -317,6 +347,12 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
    
@@ -324,7 +360,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("Other/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -337,6 +373,12 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
      
@@ -344,7 +386,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
         post("PTE/Create", subData).then((res) => {
           setButtonStatus(false);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -358,6 +400,14 @@ const StudentTestScoreForm = () => {
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
           }
+
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+
         });
      
     }
@@ -397,7 +447,7 @@ const StudentTestScoreForm = () => {
        setButtonStatus(true);
       post(`GreScore/Create`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -405,6 +455,12 @@ const StudentTestScoreForm = () => {
           setSuccess(!success);
           setModal2Open(false);
           history.push(`/studentExperience/${id}`);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
   
@@ -423,7 +479,7 @@ const StudentTestScoreForm = () => {
         setButtonStatus(true);
       post(`GmatScore/Create`, subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -431,6 +487,12 @@ const StudentTestScoreForm = () => {
           setSuccess(!success);
           setModal3Open(false);
           history.push(`/studentExperience/${id}`);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
   

@@ -303,7 +303,7 @@ const DocumentGroup = () => {
     } else {
       post("DocumentGroupDocument/Create", subData).then((res) => {
        
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -313,6 +313,12 @@ const DocumentGroup = () => {
           setDocumentLabel("Select Document");
           setDocumentValue(0);
           setApplication(null);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }

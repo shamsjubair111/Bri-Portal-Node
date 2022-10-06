@@ -31,6 +31,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import get from '../../../helpers/get';
 import { useToasts } from 'react-toast-notifications';
 import post from '../../../helpers/post';
+import put from '../../../helpers/put';
 
 const UniversityCommission = () => {
 
@@ -49,6 +50,10 @@ const UniversityCommission = () => {
     const [homeError,setHomeError] = useState('');
     const [intError,setIntError] = useState('');
     const [euukhomeError,setEUUKError] = useState('');
+    const [data,setData] = useState({});
+    const [success,setSuccess] = useState(false);
+    const [showForm,setShowForm] = useState(false);
+    const [val,setVal] = useState({});
 
     useEffect(()=>{
         get(`StudentComissionTypeDD/Index`)
@@ -57,7 +62,19 @@ const UniversityCommission = () => {
             setCommission(res);
         })
 
-    },[])
+        get(`UniversityComission/GetByUniversity/${univerId}`)
+        .then(res => {
+          console.log(res);
+          setData(res);
+          setCommissionTitleHome(res?.homeStudentComissionType ==1 ? 'Amount' : 'Percentage');
+          setCommissionTitleinternational(res?.internationalStudentComissionType ==1 ? 'Amount' : 'Percentage');
+          setCommissionTitleEU_UK(res?.eU_UKStudentComissionType ==1 ? 'Amount' : 'Percentage');
+          setCommissionValueHome(res?.homeStudentComissionValue);
+          setCommissionValueInternational(res?.internationalStudentComissionValue);
+          setCommissionValueEU_UK(res?.eU_UKStudentComissionValue);
+        })
+
+    },[success])
 
      // redirect to 
   const backToUniList = () => {
@@ -128,6 +145,12 @@ const UniversityCommission = () => {
     history.push(`/universityDetails/${univerId}`)
   }
 
+  const toggleDanger = (data) => {
+    setShowForm(true);
+    setVal(data);
+
+  }
+
 
   const submitFormData = (event) => {
 
@@ -145,23 +168,72 @@ const UniversityCommission = () => {
 
     else{
        
+     if(data?.id){
 
-    post(`UniversityComission/Create`,subData)
-    .then(res => {
-        if(res?.status == 200 && res?.data?.isSuccess == true){
-            addToast(res?.data?.message,{
-                appearance:'success',
-                autoDismiss: true
-            })
+      put(`UniversityComission/Update`,subData)
+      .then(res => {
+          if(res?.status == 200 && res?.data?.isSuccess == true){
+              addToast(res?.data?.message,{
+                  appearance:'success',
+                  autoDismiss: true
+              })
+              setSuccess(!success);
+              setVal({});
+              setShowForm(false);
+              setCommissionTitleHome('Select Commission Type');
+              setCommissionTitleinternational('Select Commission Type');
+              setCommissionTitleEU_UK('Select Commission Type');
+              setCommissionValueHome(0);
+              setCommissionValueInternational(0);
+              setCommissionValueEU_UK(0);
+  
+          }
+          else{
+              addToast(res?.data?.message,{
+                  appearance: 'error',
+                  autoDismiss: true
+              })
+          }
+  
+      })
 
-        }
-        else{
-            addToast(res?.data?.message,{
-                appearance: 'error',
-                autoDismiss: true
-            })
-        }
-    })
+
+     }
+
+     else{
+
+      post(`UniversityComission/Create`,subData)
+      .then(res => {
+          if(res?.status == 200 && res?.data?.isSuccess == true){
+              addToast(res?.data?.message,{
+                  appearance:'success',
+                  autoDismiss: true
+              })
+              setSuccess(!success);
+              setVal({});
+              setShowForm(false);
+              setCommissionTitleHome('Select Commission Type');
+              setCommissionTitleinternational('Select Commission Type');
+              setCommissionTitleEU_UK('Select Commission Type');
+              setCommissionValueHome(0);
+              setCommissionValueInternational(0);
+              setCommissionValueEU_UK(0);
+  
+          }
+          else{
+              addToast(res?.data?.message,{
+                  appearance: 'error',
+                  autoDismiss: true
+              })
+          }
+  
+      })
+
+     }
+
+
+
+   
     }
 
   }
@@ -182,7 +254,9 @@ const UniversityCommission = () => {
         </CardHeader>
       </Card>
 
-      <Card>
+      
+
+        <Card>
 
         <CardBody>
         <Nav tabs>
@@ -235,10 +309,17 @@ const UniversityCommission = () => {
 
           </Nav>
 
+       
+
           <TabContent activeTab={activetab}>
 
           <TabPane tabId="8">
 
+          {
+
+          (!(data?.id) || showForm)? 
+         
+       
           <Form  className="mt-5" onSubmit={submitFormData}>
 
                     <div className="hedding-titel d-flex justify-content-between mb-3">
@@ -257,6 +338,18 @@ const UniversityCommission = () => {
                         name="universityId"
                         value={univerId}
                       />
+
+                     {
+                      (data?.id) ?
+                      <input
+                      type='hidden'
+                      name='id'
+                      id='id'
+                      value={data?.id}
+                      />
+                      : 
+                      null
+                     }
                      
                     </FormGroup>
 
@@ -297,9 +390,10 @@ const UniversityCommission = () => {
                           type="number"
                           name="homeStudentComissionInstallment"
                           id="homeStudentComissionInstallment"
-                          
+                          max={'10'}
                           placeholder="Write Commission Installment"
                           required
+                          defaultValue={val?.homeStudentComissionInstallment}
                         />
                        
                       </Col>
@@ -316,7 +410,7 @@ const UniversityCommission = () => {
                           type="number"
                           name="homeStudentComissionValue"
                           id="homeStudentComissionValue"
-                        
+                          defaultValue={val?.homeStudentComissionValue}
                           placeholder="Write Commission Value"
                           required
                         />
@@ -360,9 +454,10 @@ const UniversityCommission = () => {
                           type="number"
                           name="internationalStudentComissionInstallment"
                           id="internationalStudentComissionInstallment"
-                          
+                          max={'10'}
                           placeholder="Write Commission Installment"
                           required
+                          defaultValue={val?.internationalStudentComissionInstallment}
                         />
                        
                       </Col>
@@ -379,7 +474,7 @@ const UniversityCommission = () => {
                           type="number"
                           name="internationalStudentComissionValue"
                           id="internationalStudentComissionValue"
-                        
+                          defaultValue={val?.internationalStudentComissionValue}
                           placeholder="Write Commission Value"
                           required
                         />
@@ -422,9 +517,10 @@ const UniversityCommission = () => {
                           type="number"
                           name="eU_UKStudentComissionInstallment"
                           id="eU_UKStudentComissionInstallment"
-                          
+                          max={'10'}
                           placeholder="Write Commission Installment"
                           required
+                          defaultValue={val?.eU_UKStudentComissionInstallment}
                         />
                        
                       </Col>
@@ -441,7 +537,7 @@ const UniversityCommission = () => {
                           type="number"
                           name="eU_UKStudentComissionValue"
                           id="eU_UKStudentComissionValue"
-                        
+                          defaultValue={val?.eU_UKStudentComissionValue}
                           placeholder="Write Commission Value"
                           required
                         />
@@ -472,6 +568,99 @@ const UniversityCommission = () => {
                    
                 
                   </Form>
+
+
+                  :
+
+<Card className='CampusCard'>
+  <CardBody className='shaodw'>
+    <div className='row'>
+
+      <div className='col-md-11'>
+
+        
+<div className='row'>
+
+
+   
+
+                          <div className='col-md-4'>
+ 
+                          <h5> Home </h5>
+                          <span>
+                            
+                           Commission Type: {' '} {data?.homeStudentComissionType == 1? 'Amount' : 'Percentage'} 
+                            
+                          </span>
+                          <br/>
+                         
+                          <span>Installment: {' '} {data?.homeStudentComissionInstallment}</span>
+                          <br/>
+                          <span>Value: {' '} {data?.homeStudentComissionValue}</span>
+
+
+</div>
+
+                          <div className='col-md-4'>
+                          <h5> International </h5>
+                          <span>
+                            
+                           Commission Type: {' '} {data?.internationalStudentComissionType == 1? 'Amount' : 'Percentage'} 
+                            
+                          </span>
+                          <br/>
+                         
+                          <span>Installment: {' '} {data?.internationalStudentComissionInstallment}</span>
+                          <br/>
+                          <span>Value: {' '} {data?.internationalStudentComissionValue}</span>
+
+</div>
+
+                          <div className='col-md-4'>
+                          <h5> EU_UK </h5>
+                          <span>
+                            
+                           Commission Type: {' '} {data?.eU_UKStudentComissionType == 1? 'Amount' : 'Percentage'} 
+                            
+                          </span>
+                          <br/>
+                         
+                          <span>Installment: {' '} {data?.eU_UKStudentComissionInstallment}</span>
+                          <br/>
+                          <span>Value: {' '} {data?.eU_UKStudentComissionValue}</span>
+
+</div>
+
+
+
+</div>
+        
+
+      </div>
+      <div className='col-md-1'>
+      <div className="CampusCardAction">
+                    <ButtonForFunction
+                      type={"button"}
+                      color={"primary"}
+                      className={'mr-2'}
+                      func={() => toggleDanger(data)}
+                      icon={<i className="fas fa-edit"></i>}
+                      permission={6}
+                    />
+                  </div>
+
+
+      </div>
+
+    </div>
+
+
+
+  </CardBody>
+  </Card>
+
+}
+
 
             </TabPane>
 
@@ -518,6 +707,10 @@ const UniversityCommission = () => {
 
         </CardBody>
       </Card>
+
+   
+
+    
             
         </div>
     );

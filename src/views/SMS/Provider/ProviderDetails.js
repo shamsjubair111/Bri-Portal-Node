@@ -249,7 +249,7 @@ const ProviderDetails = () => {
 
     put(`ProviderAdmin/Update`, subData).then((res) => {
       setButtonStatus(false);
-      if (res?.status == 200) {
+      if (res?.status == 200 && res?.data?.isSucess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,
@@ -257,6 +257,12 @@ const ProviderDetails = () => {
         setFileList([]);
         setModalOpen(false);
         setSuccess(!success);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
     });
   };

@@ -427,7 +427,7 @@ const PersonalInformation = () => {
       put("Student/Update", subData).then((res) => {
         setButtonStatus(false);
         console.log("posted data", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -435,6 +435,13 @@ const PersonalInformation = () => {
           setSuccess(!success);
           setFileList([]);
 
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+         
         }
       });
     }

@@ -245,7 +245,7 @@ if(titleValue == 0 ){
   //       //   })
   
    
-  //       if(res?.status == 200){
+  //       if(res?.status == 200 && res?.data?.isSucess == true){
 
   //         addToast(res?.data?.message,{
   //           appearance: 'success',

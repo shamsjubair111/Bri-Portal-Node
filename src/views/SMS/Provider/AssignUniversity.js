@@ -163,7 +163,7 @@ const AssignUniversity = () => {
 
     if (selectedId !== undefined) {
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -177,6 +177,12 @@ const AssignUniversity = () => {
           setRadioIsAcceptUk("true");
           setRadioIsAcceptInt("false");
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     } else {
       if (uniValue === 0) {
@@ -184,7 +190,7 @@ const AssignUniversity = () => {
       } else {
         setSelectedId(undefined);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -196,6 +202,12 @@ const AssignUniversity = () => {
             setRadioIsAcceptHome("false");
             setRadioIsAcceptUk("true");
             setRadioIsAcceptInt("false");
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }

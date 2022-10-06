@@ -250,7 +250,7 @@ const AdmissionManagerProfile = () => {
     else{
       setButtonStatus(true);
       post("AdmissionOfficerOfManager/Create", subdata).then(res => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -261,6 +261,12 @@ const AdmissionManagerProfile = () => {
           setOfficerValue(0);
           setExistsNote();
           setButtonStatus(false);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       })
     }

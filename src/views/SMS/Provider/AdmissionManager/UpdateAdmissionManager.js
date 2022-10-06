@@ -144,7 +144,7 @@ const selectTitle = (label, value) => {
           put(`AdmissionManager/Update`,subData)
           .then(res =>{
             setButtonStatus(false);
-            if(res?.status == 200){
+            if(res?.status == 200 && res?.data?.isSucess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
@@ -157,6 +157,12 @@ const selectTitle = (label, value) => {
                 history.push(`/providerDetails/${id2}`);
               }
   
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           })
 

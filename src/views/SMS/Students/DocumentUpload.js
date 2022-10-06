@@ -314,7 +314,7 @@ const DocumentUpload = () => {
       setButtonStatus(true);
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
         setButtonStatus(false);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -323,6 +323,12 @@ const DocumentUpload = () => {
           setFileList2(undefined);
           setIsSelected(false);
           setStudentDocuId(0);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }

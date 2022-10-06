@@ -100,7 +100,7 @@ const Nationality = () => {
             post('Nationality/Create',subdata)
         .then(res => {
           setButtonStatus(false);
-            if(res?.status == 200){
+            if(res?.status == 200 && res?.data?.isSucess == true){
                 console.log(res?.data?.message);
             addToast(res?.data?.message,{
                 appearance: 'success',
@@ -108,6 +108,12 @@ const Nationality = () => {
             })
            setSuccess(!success);
             setModalOpen(false);
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
 
         })

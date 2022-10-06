@@ -97,7 +97,7 @@ const AddUniversityFeatures = () => {
     if (featureId !== undefined) {
       put("UniversityFeatures/Update", subdata).then((res) => {
         console.log("1st put response", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -106,6 +106,12 @@ const AddUniversityFeatures = () => {
           history.push({
             pathname: `/addUniversityGallery/${univerId}`,
             id: localStorage.getItem("editUniId"),
+          });
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
           });
         }
       });

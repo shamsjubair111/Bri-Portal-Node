@@ -187,7 +187,7 @@ const AddUniversityApplicationDocument = () => {
       if (selectedId === 0) {
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSucess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -197,6 +197,12 @@ const AddUniversityApplicationDocument = () => {
             setShowForm(!showForm);
             // setDocumentLabel("Select Requirement Status")
             // setDocumentValue(0);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       } else {

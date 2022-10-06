@@ -45,13 +45,19 @@ const StudentPersonalStatementForm = () => {
             .then(res => {
               setButtonStatus(false);
               console.log(res);
-              if(res?.status == 200){
+              if(res?.status == 200 && res?.data?.isSucess == true){
                 addToast(res?.data?.message,{
                   appearance: 'success',
                   autoDismiss: true
                   
                 })
                 history.push(`/studentOtherInformation/${idVal}`);
+              }
+              else{
+                addToast(res?.data?.message, {
+                  appearance: "error",
+                  autoDismiss: true,
+                });
               }
     
             })

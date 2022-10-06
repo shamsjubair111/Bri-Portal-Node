@@ -253,7 +253,7 @@ const handleSubmit = (event) => {
     .then(res => {
       setButtonStatus(false);
       console.log('2nd put response',res);
-      if(res?.status == 200){
+      if(res?.status == 200 && res?.data?.isSucess == true){
        
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -263,6 +263,12 @@ const handleSubmit = (event) => {
         history.push(`/addStudentinformation/${applicationStudentId}`);
         
        
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
     })
 
@@ -275,12 +281,18 @@ const handleSubmit = (event) => {
     .then(res => {
       setButtonStatus(false);
       console.log('application response',res);
-      if(res?.status == 200){
+      if(res?.status == 200 && res?.data?.isSucess == true){
         addToast(res.data.message,{
           appearance: 'success',
           autoDismiss: true
         })
         history.push(`/addStudentinformation/${applicationStudentId}`);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
   
     })

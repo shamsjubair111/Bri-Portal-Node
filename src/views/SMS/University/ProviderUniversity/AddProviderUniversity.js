@@ -406,13 +406,19 @@ const AddProviderUniversity = () => {
         if (uniId != undefined) {
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
-            if (res?.status == 200) {
+            if (res?.status == 200 && res?.data?.isSucess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
                 autoDismiss: true,
               });
               
               history.push(`/addProviderUniversityCampus/${providerProfileId}/${uniId}`);
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           });
         } else {

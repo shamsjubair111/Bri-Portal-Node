@@ -243,7 +243,7 @@ const AccountIntake = () => {
                 put(`AccountIntake/Update`,subData)
                 .then(res => {
                     setButtonStatus(false);
-                    if(res?.status == 200){
+                    if(res?.status == 200 && res?.data?.isSucess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
                             autoDismiss: true
@@ -260,6 +260,12 @@ const AccountIntake = () => {
                         setModalOpen(false);
                         setSuccess(!success);
                     }
+                    else{
+                        addToast(res?.data?.message, {
+                          appearance: "error",
+                          autoDismiss: true,
+                        });
+                      }
                 })
             }
           
@@ -344,7 +350,7 @@ const AccountIntake = () => {
                     toggle={closeModal}
                     className="uapp-modal2"
                     >
-                    <ModalHeader>Add Account Intake</ModalHeader>
+                    <ModalHeader> Account Intake</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={handleSubmit}>
 
@@ -562,7 +568,7 @@ const AccountIntake = () => {
                       </td>
 
                       <td>
-                        {list?.applications}
+                        <span className='badge badge-pill badge-primary' style={{cursor: 'pointer'}}>{list?.applications}</span>
                       </td>
 
                     

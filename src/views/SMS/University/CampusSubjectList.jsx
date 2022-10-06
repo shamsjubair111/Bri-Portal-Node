@@ -341,7 +341,7 @@ const CampusSubjectList = () => {
 
     if (data?.id != undefined) {
       put(`UniversityCampusSubject/Update`, subData1).then((res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -354,6 +354,12 @@ const CampusSubjectList = () => {
           setRadioIsAcceptInt("false");
           setSubValue(0);
           setSubLabel("Select Subject");
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     } else {

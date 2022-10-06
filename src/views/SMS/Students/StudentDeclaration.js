@@ -101,12 +101,18 @@ const StudentDeclaration = () => {
         subData.append('IpAddress',apiInfo?.IPv4);
         post('StudentConsent/Sign',subData)
         .then(res => {
-          if(res?.status == 200){
+          if(res?.status == 200 && res?.data?.isSucess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
               autoDismiss: true
             })
             setSuccess(!success);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         })
       }
@@ -117,13 +123,19 @@ const StudentDeclaration = () => {
         put(`StudentConsent/SendEmail/${applicationStudentId}`)
         .then(res => {
           setButtonStatus(false);
-            if(res?.status == 200){
+            if(res?.status == 200 && res?.data?.isSucess == true){
                 addToast("Email Sending is in Process",{
                     appearance: 'success',
                     autoDismiss: true
                 })
                 setSuccess(!success);
 
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
         })
       }

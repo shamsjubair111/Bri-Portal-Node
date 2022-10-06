@@ -302,9 +302,10 @@ const StudentPersonalForm = () => {
     else {
       setButtonStatus(true);
       put("Student/Update", subData).then((res) => {
+        console.log(res,'dwshjfhjdhdjhdjhdjfhj');
         setButtonStatus(false);
         console.log("posted data", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -313,6 +314,12 @@ const StudentPersonalForm = () => {
           setFileList([]);
           history.push(`/studentContact/${id}`);
 
+        }
+        else{
+          addToast(res?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }

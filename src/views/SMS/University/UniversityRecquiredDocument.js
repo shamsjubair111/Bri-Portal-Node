@@ -139,7 +139,7 @@ const UniversityRecquiredDocument = () => {
     } else {
       post("UniversityRequiredDocuments/Create", subData).then((res) => {
         console.log("document data", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSucess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -147,6 +147,12 @@ const UniversityRecquiredDocument = () => {
           setSuccess(!success);
           setShowForm(!showForm);
           // history.push('/universityList');
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
