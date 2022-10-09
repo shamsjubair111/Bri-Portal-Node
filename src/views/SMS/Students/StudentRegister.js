@@ -174,8 +174,10 @@ const StudentRegister = () => {
       }
       else {
         const subdata = new FormData(event.target);
+        setButtonStatus(true);
         post('Student/Register', subdata)
           .then(res => {
+            setButtonStatus(false);
             console.log('hello', res);
          
             addToast(res?.data?.message, {
@@ -410,7 +412,7 @@ const StudentRegister = () => {
                 className={'mr-1 mt-3 badge-primary'}
                 name={'Submit'}
                 type={'submit'}
-                disable={canSubmit || buttonStatus}
+                disable={buttonStatus}
 
               />
 
