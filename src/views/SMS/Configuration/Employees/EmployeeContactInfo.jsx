@@ -118,6 +118,12 @@ const EmployeeContactInfo = () => {
              })
              history.push('/staffList');
           }
+          else{
+            addToast(action?.data?.message, {
+              appearance:  'error',
+              autoDismiss: true,
+            })
+          }
          
        })
         

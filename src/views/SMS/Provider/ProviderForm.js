@@ -114,7 +114,7 @@ const ProviderForm = (props) => {
         post(`Provider/Create`,subData,config).then((action)=> {
           setButtonStatus(false);
                 
-          if(action?.status ==200){
+          if(action?.status ==200 && action?.data?.isSuccess == true){
 
 
         
@@ -124,6 +124,12 @@ const ProviderForm = (props) => {
         })
        
         history.push(`/adminProviderForm/${action?.data?.result?.id}`);
+        }
+        else{
+          addToast(action?.data?.message, {
+            appearance:  'success',
+            autoDismiss: true,
+          })
         }
         })
         }

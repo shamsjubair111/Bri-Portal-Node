@@ -136,6 +136,12 @@ const EmployeeType = (props) => {
           dispatch(StoreEmployeeTypeData(data))
         })
       }
+      else{
+        addToast(action?.data?.message, {
+          appearance:  'error',
+          autoDismiss: true
+        })
+      }
       
     })
   }

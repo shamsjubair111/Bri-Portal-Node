@@ -139,13 +139,19 @@ const BranchTeamEmployeeInformation = () => {
       // posting form Data
      post(`BranchTeamEmployee/Create`,subData).then((action)=> {
    
-       if(action?.status == 200){
+       if(action?.status == 200 && action?.data?.isSuccess  == true){
          setChecked([]);
             addToast(action?.data?.message, {
               appearance:  'success',
               autoDismiss: true,
             })
          
+       }
+       else{
+        addToast(action?.data?.message, {
+          appearance:  'error',
+          autoDismiss: true,
+        })
        }
 
           

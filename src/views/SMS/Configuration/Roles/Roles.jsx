@@ -68,14 +68,20 @@ const Roles = (props) => {
        setDeleteModal(false);
        setSuccess(!success);
     
-      if(action?.status == 200){
+      if(action?.status == 200 && action?.data?.isSuccess == true){
         addToast(action?.data?.message, {
-          appearance:  'error',
+          appearance:  'success',
           autoDismiss: true,
         })
         get(`UserRole/Index`).then((action)=>{
           dispatch(StoreRoleData(action))
         });
+      }
+      else{
+        addToast(action?.data?.message, {
+          appearance:  'error',
+          autoDismiss: true,
+        })
       }
      })
   }
