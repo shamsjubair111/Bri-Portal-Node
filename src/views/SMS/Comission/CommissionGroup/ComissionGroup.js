@@ -120,6 +120,11 @@ const ComissionGroup = () => {
      
     }
 
+    const modalOff = () => {
+      setOpenModal(false);
+      setData({});
+    }
+
 
           return (
               <div>
@@ -128,7 +133,7 @@ const ComissionGroup = () => {
                 <Loader/>
                 :
                 <div>
-                   <Modal isOpen={openModal} toggle={() => setOpenModal(!openModal)} className="uapp-modal">
+                   <Modal isOpen={openModal} toggle={modalOff} className="uapp-modal">
                           
                           <ModalBody>
                            
