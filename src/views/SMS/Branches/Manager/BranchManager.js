@@ -414,7 +414,7 @@ if(titleValue == 0 ){
                    
                     {
                       titleError && 
-                      <span className='text-danger'>Title must be selected</span>
+                      <span className='text-danger'>Title is required</span>
                     }
 
                     {/* <div className="form-control-position">
@@ -604,7 +604,7 @@ if(titleValue == 0 ){
        </Modal>
        {
         imageError ? 
-        <span className='text-danger'>Image must be selected</span>
+        <span className='text-danger'>Image is required</span>
         :
         null
        }

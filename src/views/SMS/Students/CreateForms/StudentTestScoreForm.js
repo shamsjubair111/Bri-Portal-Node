@@ -601,7 +601,7 @@ const StudentTestScoreForm = () => {
   
                     {testError && (
                       <span className="text-danger">
-                        Enlish language test must be selected{" "}
+                        Enlish language test is required{" "}
                       </span>
                     )}
                   </Col>

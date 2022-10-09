@@ -622,7 +622,7 @@ const DocumentUpload = () => {
 
                   {docutypeError && (
                     <span className="text-danger">
-                      Document type must be selected.
+                      Document type is required.
                     </span>
                   )}
                 </FormGroup>

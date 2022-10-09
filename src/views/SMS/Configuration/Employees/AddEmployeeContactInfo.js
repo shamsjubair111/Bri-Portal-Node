@@ -77,10 +77,10 @@ const EmployeeContactInfo = () => {
        
         }
          if(addressLineValue == 0){
-            setAddressLineError('Address type must be selected')
+            setAddressLineError('Address type is required')
         }
         else if(countryValue == 0){
-            setCountryError('Country must be selected')
+            setCountryError('Country is required')
         }
         
         else{

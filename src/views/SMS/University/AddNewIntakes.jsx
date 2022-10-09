@@ -90,11 +90,11 @@ const AddNewIntakes = () => {
         //       console.log('valueeee',value);
         //     }
         if(monthTypeValue == 0){
-          setMonthError('Month must be selected');
+          setMonthError('Month is required');
         }
 
         else if(yearTypeValue == 0){
-          setYearError('Year must be selected');
+          setYearError('Year is required');
         }
 
         else{

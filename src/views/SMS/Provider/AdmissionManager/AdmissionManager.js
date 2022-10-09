@@ -213,7 +213,7 @@ const AdmissionManager = () => {
                    
                     {
                       titleError && 
-                      <span className='text-danger'>Title must be selected</span>
+                      <span className='text-danger'>Title is required</span>
                     }
 
                   </Col>
@@ -426,7 +426,7 @@ const AdmissionManager = () => {
 
                      {
                       countryError? 
-                      <span className='text-danger'>Country must be selected</span>
+                      <span className='text-danger'>Country is required</span>
                       :
                       null
                      } 
@@ -452,7 +452,7 @@ const AdmissionManager = () => {
                     />
                       {
                         stateError? 
-                        <span className='text-danger'>State must be selected</span>
+                        <span className='text-danger'>State is required</span>
                         :
                         null
                       }

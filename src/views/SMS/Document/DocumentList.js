@@ -292,7 +292,7 @@ const DocumentList = () => {
 
                       {categoryError && (
                         <span className="text-danger">
-                          Category must be selected.
+                          Category is required.
                         </span>
                       )}
 
@@ -348,7 +348,7 @@ const DocumentList = () => {
 
                 {applicationError && (
                   <span className="text-danger">
-                    Is vary for application must be selected.
+                    Is vary for application is required.
                   </span>
                 )}
               </Col>

@@ -702,7 +702,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {consultantError && (
-                  <span className="text-danger">Consultant type must be selected</span>
+                  <span className="text-danger">Consultant type is required</span>
                 )}
               </Col>
             </FormGroup>
@@ -725,7 +725,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {parentError && (
-                  <span className="text-danger">Parent consultant must be selected</span>
+                  <span className="text-danger">Parent consultant is required</span>
                 )}
               </Col>
             </FormGroup>
@@ -749,7 +749,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {titleError && (
-                  <span className="text-danger">Name title must be selected</span>
+                  <span className="text-danger">Name title is required</span>
                 )}
               </Col>
             </FormGroup>
@@ -845,7 +845,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {accountError && (
-                  <span className="text-danger">Account status must be selected</span>
+                  <span className="text-danger">Account status is required</span>
                 )}
               </Col>
             </FormGroup>
@@ -866,7 +866,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {residencyError && (
-                  <span className="text-danger">Residency Status must be selected</span>
+                  <span className="text-danger">Residency Status is required</span>
                 )}
               </Col>
             </FormGroup>
@@ -887,7 +887,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {branchError && (
-                  <span className="text-danger">Branch must be selected</span>
+                  <span className="text-danger">Branch is required</span>
                 )}
               </Col>
             </FormGroup>
@@ -908,7 +908,7 @@ const AddConsultantInformation = () => {
                 />
 
                 {visaError && (
-                  <span className="text-danger">Visa status must be selected</span>
+                  <span className="text-danger">Visa status is required</span>
                 )}
               </Col>
             </FormGroup>
@@ -961,7 +961,7 @@ const AddConsultantInformation = () => {
 
                 {workError && (
                   <span className="text-danger">
-                    Have right to work must be selected.
+                    Have right to work is required.
                   </span>
                 )}
               </Col>

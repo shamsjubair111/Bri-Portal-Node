@@ -465,7 +465,7 @@ const ContactInformation = () => {
                     />
 
                     {countryError && (
-                      <span className="text-danger">Country must be selected</span>
+                      <span className="text-danger">Country is required</span>
                     )}
                   </Col>
                 </FormGroup>
@@ -492,7 +492,7 @@ const ContactInformation = () => {
                     />
 
                     {addressError && (
-                      <span className="text-danger">Address type must be selected</span>
+                      <span className="text-danger">Address type is required</span>
                     )}
 
                    

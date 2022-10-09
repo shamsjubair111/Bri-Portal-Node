@@ -217,7 +217,7 @@ const handlePass = (e) => {
                    
                     {
                       titleError && 
-                      <span className='text-danger'>Title must be selected</span>
+                      <span className='text-danger'>Title is required</span>
                     }
 
                 </Col>
@@ -386,7 +386,7 @@ const handlePass = (e) => {
                  
                  {
                   imageError ? 
-                  <span className='text-danger'>Admin image must be selected</span>
+                  <span className='text-danger'>Admin image is required</span>
                   :
                   null
                  }

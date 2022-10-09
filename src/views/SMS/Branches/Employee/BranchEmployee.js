@@ -173,7 +173,7 @@ const Branch = () => {
 
 
      if(empValue == 0){
-      setEmpError('Employee type must be selected');
+      setEmpError('Employee type is required');
     }
     else if(nationalityValue == 0){
       setNationalityError(true);
@@ -537,7 +537,7 @@ const Branch = () => {
                />
                {
                 nationalityError? 
-                <span className='text-danger'>Nationality must be selected</span>
+                <span className='text-danger'>Nationality is required</span>
                 :
                 null
                }
@@ -583,7 +583,7 @@ const Branch = () => {
               <BranchProfileImage imageError={imageError} setImageError={setImageError} />
               {
                 imageError ? 
-                <span className='text-danger'>Profile image must be selected</span>
+                <span className='text-danger'>Profile image is required</span>
                 :
                 null
               }

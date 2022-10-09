@@ -227,7 +227,7 @@ const SubjectIntake = () => {
 
                     {intakeError && (
                       <span className="text-danger">
-                        Intake must be selected
+                        Intake is required
                       </span>
                     )}
                   </Col>
@@ -250,7 +250,7 @@ const SubjectIntake = () => {
 
                     {statusError && (
                       <span className="text-danger">
-                        Status must be selected
+                        Status is required
                       </span>
                     )}
                   </Col>

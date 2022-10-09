@@ -215,7 +215,7 @@ const List = () => {
       
 
       if(modalTValue == 0){
-        setMTerror('Transaction status must be selected');
+        setMTerror('Transaction status is required');
       }
       else{
         setButtonStatus(true);
@@ -249,7 +249,7 @@ const List = () => {
       
 
       if(modalPValue == 0){
-        setMPerror('Transaction status must be selected');
+        setMPerror('Transaction status is required');
       }
       else{
         setButtonStatus(true);

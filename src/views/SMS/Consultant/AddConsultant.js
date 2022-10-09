@@ -205,7 +205,7 @@ const AddConsultant = () => {
                     {
 
                       consultantError && 
-                      <span className='text-danger'>Consultant type must be selected</span>
+                      <span className='text-danger'>Consultant type is required</span>
                     }
 
                   </Col>
@@ -228,7 +228,7 @@ const AddConsultant = () => {
 
                    {
                     parentError && 
-                    <span className='text-danger'>Parent consultant must be selected</span>
+                    <span className='text-danger'>Parent consultant is required</span>
                    }
 
                   </Col>
@@ -251,7 +251,7 @@ const AddConsultant = () => {
 
                     {
                       titleError && 
-                      <span className='text-danger'>Name title must be selected</span>
+                      <span className='text-danger'>Name title is required</span>
 
                     }
 

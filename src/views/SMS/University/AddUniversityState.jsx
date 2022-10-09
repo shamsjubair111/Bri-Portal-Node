@@ -305,7 +305,7 @@ const AddUniversityState = () => {
                       />
                       {countryNameError ? (
                         <span className="text-danger">
-                          Country name must be selected
+                          Country name is required
                         </span>
                       ) : null}
                     </Col>

@@ -254,7 +254,7 @@ const toggle1 = () => {
           setCError('Consultant must be Selected');
         }
         else if(tValue == 0){
-          setTError('Transaction type must be selected');
+          setTError('Transaction type is required');
         }
 
         else{

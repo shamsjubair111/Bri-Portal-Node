@@ -1941,7 +1941,7 @@ const ApplicationDetails = () => {
                                   />
                                   {elptStatusError ? (
                                     <div className="text-danger">
-                                      ELPT status must be selected
+                                      Please provide ELPT status
                                     </div>
                                   ) : null}
                                 </Col>
@@ -2235,7 +2235,7 @@ const ApplicationDetails = () => {
                                   />
                                   {elptStatusError ? (
                                     <div className="text-danger">
-                                      ELPT status must be selected
+                                      ELPT status is required
                                     </div>
                                   ) : null}
                                 </Col>
@@ -2605,7 +2605,7 @@ const ApplicationDetails = () => {
 
                         {docutypeError && (
                           <span className="text-danger ml-3">
-                            Document type must be selected.
+                            Document type is required
                           </span>
                         )}
                       </FormGroup>

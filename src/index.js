@@ -1,27 +1,21 @@
 import React, { Suspense, lazy } from "react"
+import "./index.scss"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import './assets/CoustomStyle/style.css'
+import './assets/CoustomStyle/pageView.css'
 import ReactDOM from "react-dom"
-import { Redirect, Route, Switch } from 'react-router-dom';
 import { Provider } from "react-redux"
 import { Auth0Provider } from "./authServices/auth0/auth0Service"
 import config from "./authServices/auth0/auth0Config.json"
-
 import { Layout } from "./utility/context/Layout"
 import * as serviceWorker from "./serviceWorker"
 import { store } from "./redux/storeConfig/store"
 import Spinner from "./components/core/spinner/Fallback-spinner"
-import "./index.scss"
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './assets/CoustomStyle/style.css'
-import './assets/CoustomStyle/pageView.css'
-import '@fortawesome/fontawesome-free/css/all.min.css'
-window.Popper = require("popper.js").default;
-window.$ = window.jQuery = require("jquery");
-require("bootstrap");
 const LazyApp = lazy(() => import("./App"))
 
-// configureDatabase()
-const isAuth = localStorage.getItem('token');
+
+
 
 ReactDOM.render(
   <Auth0Provider

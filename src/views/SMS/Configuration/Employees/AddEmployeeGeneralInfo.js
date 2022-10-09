@@ -181,15 +181,15 @@ const EmployeeGeneralInfo = (props) => {
         }
       
         if(titleValue == 0){
-            setTitleError('Name title must be selected');
+            setTitleError('Name title is required');
         }
 
        else if (employeeValue == 0) {
-            setEmployeeError('Staff type must be selected');
+            setEmployeeError('Staff type is required');
             return;
         }
          else if (nationalityValue == 0) {
-            setNationalityError('Nationality must be selected');
+            setNationalityError('Nationality is required');
             return;
         }
         else if(pass.length<6){
@@ -542,7 +542,7 @@ const EmployeeGeneralInfo = (props) => {
 
                                         {
                                             dropzoneErrorProfile ?
-                                                <span className='text-danger'>Profile image must be selected</span>
+                                                <span className='text-danger'>Profile image is required</span>
                                                 :
                                                 null
                                         }

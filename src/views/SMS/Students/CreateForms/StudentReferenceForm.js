@@ -182,7 +182,7 @@ const StudentReferenceForm = () => {
           />
           {
             referenceError && 
-            <span className='text-danger'>Reference type must be selected</span>
+            <span className='text-danger'>Reference type is required</span>
           }
 
           
@@ -287,7 +287,7 @@ const StudentReferenceForm = () => {
           />
           {
             countryError && 
-            <span className='text-danger'>Country must be selected</span>
+            <span className='text-danger'>Country is required</span>
           }
 
        

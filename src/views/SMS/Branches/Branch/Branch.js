@@ -408,7 +408,7 @@ const Branch = () => {
                     />
                     {
                       countryError ? 
-                      <span className='text-danger'>Country must be selected</span>
+                      <span className='text-danger'>Country is required</span>
                       :
                       null
                     }
@@ -437,7 +437,7 @@ const Branch = () => {
                     />
                      {
                       stateError ? 
-                      <span className='text-danger'>State must be selected</span>
+                      <span className='text-danger'>State is required</span>
                       :
                       null
                     }

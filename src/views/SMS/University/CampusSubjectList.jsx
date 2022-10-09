@@ -1000,7 +1000,7 @@ const CampusSubjectList = () => {
                     />
                     {subError ? (
                       <span className="text-danger">
-                        Subject must be selected
+                        Subject is required
                       </span>
                     ) : null}
                   </Col>

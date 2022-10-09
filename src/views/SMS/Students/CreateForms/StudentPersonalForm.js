@@ -410,7 +410,7 @@ const StudentPersonalForm = () => {
                         required
                       />
                       {titleError && (
-                        <span className="text-danger">Title must be selected</span>
+                        <span className="text-danger">Title is required</span>
                       )}
   
                   
@@ -536,7 +536,7 @@ const StudentPersonalForm = () => {
                       />
                       {countryOfBirthError && (
                         <span className="text-danger">
-                          Country must be selected
+                          Country is required
                         </span>
                       )}
   
@@ -561,7 +561,7 @@ const StudentPersonalForm = () => {
                       />
   
                       {genderError && (
-                        <span className="text-danger">Gender must be selected</span>
+                        <span className="text-danger">Gender is required</span>
                       )}
   
                       
@@ -590,7 +590,7 @@ const StudentPersonalForm = () => {
                       />
   
                       {maritalStatusError && (
-                        <span className="text-danger">Marital status must be selected</span>
+                        <span className="text-danger">Marital status is required</span>
                       )}
   
                      
@@ -619,7 +619,7 @@ const StudentPersonalForm = () => {
                       />
   
                       {nationalityError && (
-                        <span className="text-danger">Nationality must be selected</span>
+                        <span className="text-danger">Nationality is required</span>
                       )}
   
                      

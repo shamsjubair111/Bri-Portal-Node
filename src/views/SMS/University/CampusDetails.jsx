@@ -1336,7 +1336,7 @@ const CampusDetails = () => {
                         />
                         {subError ? (
                           <span className="text-danger">
-                            Subject must be selected
+                            Subject is required
                           </span>
                         ) : null}
                       </Col>
@@ -1592,7 +1592,7 @@ const CampusDetails = () => {
                           />
                           {intakeError ? (
                             <span className="text-danger">
-                              Intake must be selected
+                              Intake is required
                             </span>
                           ) : null}
                         </Col>
@@ -1609,7 +1609,7 @@ const CampusDetails = () => {
                           />
                           {statusError ? (
                             <span className="text-danger">
-                              Status must be selected
+                              Status is required
                             </span>
                           ) : null}
                         </Col>

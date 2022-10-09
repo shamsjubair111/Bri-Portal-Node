@@ -695,7 +695,7 @@ const DocumentGroup = () => {
 
                                     {documentError && (
                                       <span className="text-danger">
-                                        Document must be selected.
+                                        Document is required.
                                       </span>
                                     )}
                                   </Col>
@@ -754,7 +754,7 @@ const DocumentGroup = () => {
 
                                     {applicationError && (
                                       <span className="text-danger">
-                                        Is mandatory must be selected.
+                                        Is mandatory is required.
                                       </span>
                                     )}
                                   </Col>

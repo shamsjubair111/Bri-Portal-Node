@@ -392,10 +392,10 @@ const Index = () => {
         }
 
         if(value2 == 0){
-          setCError('Consultant must be Selected');
+          setCError('Consultant is required');
         }
         else if(tValue == 0){
-          setTError('Transaction type must be selected');
+          setTError('Transaction type is required');
         }
 
         else{

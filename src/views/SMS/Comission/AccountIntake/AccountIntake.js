@@ -200,17 +200,17 @@ const AccountIntake = () => {
         const subData = new FormData(event.target); 
 
         if(sMonthValue ==0){
-            setStartMError('Start month must be selected');
+            setStartMError('Start month is required');
         }
         else if(sYearValue == 0){
-            setStartYError('Start year must be selected');
+            setStartYError('Start year is required');
         }
         else if(eMonthValue ==0){
             setEndMError('End month must me selected');
         }
         
         else if(eYearValue == 0){
-            setEndYError('End year must be selected');
+            setEndYError('End year is required');
         }
         
         else{

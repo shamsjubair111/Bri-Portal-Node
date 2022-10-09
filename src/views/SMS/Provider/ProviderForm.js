@@ -97,7 +97,7 @@ const ProviderForm = (props) => {
         };
 
       //   if(titleValue == 0){
-      //     setTitleError('Name title must be selected');
+      //     setTitleError('Name title is required');
       // }
         if(providerTypeValue == 0){
           setProviderTypeError(true);
@@ -342,7 +342,7 @@ const ProviderForm = (props) => {
                            />
                            {
                             providerTypeError? 
-                            <span className='text-danger'>Provider type must be selected</span>
+                            <span className='text-danger'>Provider type is required</span>
                             :
                             null
                            }
@@ -362,7 +362,7 @@ const ProviderForm = (props) => {
                      <ProviderLogo setImageError={setImageError}/>
                      {
                       imageError ? 
-                      <span className='text-danger'>Image must be selected</span>
+                      <span className='text-danger'>Image is required</span>
                       :
                       null
                      }

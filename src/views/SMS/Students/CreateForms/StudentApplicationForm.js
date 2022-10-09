@@ -387,7 +387,7 @@ const handleSubmit = (event) => {
 
                   {
                     visaError ? 
-                    <span className='text-danger'>Visa status must be selected.</span>
+                    <span className='text-danger'>Visa status is required.</span>
                     :
                     null
                   }

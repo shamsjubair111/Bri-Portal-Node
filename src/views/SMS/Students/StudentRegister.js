@@ -245,7 +245,7 @@ const StudentRegister = () => {
                 />
                 {
                   studentError &&
-                  <span className='text-danger'>Student type must be selected</span>
+                  <span className='text-danger'>Student type is required</span>
                 }
 
 
@@ -279,7 +279,7 @@ const StudentRegister = () => {
 
                     {
                       consultantError &&
-                      <span className='text-danger'>Consultant must be selected</span>
+                      <span className='text-danger'>Consultant is required</span>
                     }
 
 

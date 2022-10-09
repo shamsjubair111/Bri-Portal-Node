@@ -414,7 +414,7 @@ const selectTitle = (label, value) => {
                       required
                     />
                     {
-                      stateError && <span className='text-danger'>State must be selected</span>
+                      stateError && <span className='text-danger'>State is required</span>
                     }
                       
                  

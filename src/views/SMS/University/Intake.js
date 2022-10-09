@@ -233,16 +233,16 @@ const Intake = () => {
     const subData = new FormData(event.target);
 
     if(smValue == 0){
-      setsmError('Month must be selected');
+      setsmError('Month is required');
     }
     else if(emValue == 0){
-      setemError('Month must be selected');
+      setemError('Month is required');
     }
     else if(syValue == 0){
-      setsyError('Year must be selected')
+      setsyError('Year is required')
     }
     else if( eyValue == 0){
-      seteyError('Year must be selected');
+      seteyError('Year is required');
     }
 
     else{
