@@ -175,7 +175,7 @@ const RoleMenu = (props) => {
 
             <br />
             <div>
-              Selected user role to see assigned menu items for that user. Checkboxes can contain cascading menus. For submenus, if the parent is not selected, the submenu will not be shown in the menu bar. Please discuss this with developers before assigning the menu to the user. Or contact with administrator.
+              Select a user role to see the assigned menu items for that user. Checkboxes can contain cascading menus. If the parent is not selected, the submenu will not be shown in the menu bar. Please discuss this with the developers before assigning the menu to the user. Or contact the administrator.
             </div>
           </div>
                 </CardHeader>

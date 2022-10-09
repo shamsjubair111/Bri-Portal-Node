@@ -173,7 +173,7 @@ const RolePermission = (props) => {
             </span>
             <br />
             <div>
-              Select user role to see the permissions of that user group. Checkboxes that are marked, each user from the selected can perform the operation. Each checkbox represents a specific operation/function. Please check multiple times while assigning permission to a user group.
+              Select a user role to see the permissions of that user group. Checkboxes that are marked, each user from the selected can perform the operation. Each checkbox represents a specific operation/function. Please check multiple times while assigning permission to a user group.
             </div>
           </div>
           </CardHeader>
