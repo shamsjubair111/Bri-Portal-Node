@@ -217,6 +217,8 @@ const handleSubmit = (event) => {
           autoDismiss: true
         })
        setSuccess(!success);
+       setCountryLabel('Select Country');
+       setCountryValue(0);
        setShowForm(false);
        setOneData({});
       })
@@ -233,6 +235,8 @@ const handleSubmit = (event) => {
           autoDismiss: true
         })
         setSuccess(!success);
+        setCountryLabel('Select Country');
+       setCountryValue(0);
         setShowForm(false);
       })
     }
