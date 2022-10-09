@@ -269,7 +269,7 @@ const ComplianceManager = () => {
         </div> */}
 
 <div className='mt-5 text-center'>
-          <h3>Dashboard Is Under Maintenace. Stay Tuned for Further Notification</h3>
+          <h3>Dashboard Is Under Maintenance. Stay Tuned for Further Notification</h3>
 
         </div>
   
