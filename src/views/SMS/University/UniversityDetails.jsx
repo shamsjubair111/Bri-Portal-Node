@@ -427,6 +427,11 @@ const UniversityDetails = () => {
     });
   };
 
+  const handleCampusEdit = (id) => {
+    history.push(`/addUniversityCampus/${id}`)
+
+  }
+
   const AuthStr = localStorage.getItem("token");
 
   const handleGalleryPost = (e) => {
@@ -987,6 +992,13 @@ const UniversityDetails = () => {
                       </h5>
 
                       <div className="bg-h"></div>
+                      
+                    </div>
+                    <div className="text-right edit-style  p-3" onClick={()=>handleCampusEdit(id)}>
+                      <span>
+                        {" "}
+                        <i className="fas fa-pencil-alt pencil-style"></i>{" "}
+                      </span>
                     </div>
                     {/* <div className="text-right edit-style  p-3">
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>

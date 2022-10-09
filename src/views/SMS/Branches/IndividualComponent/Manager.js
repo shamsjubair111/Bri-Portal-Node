@@ -32,9 +32,9 @@ const Manager = (props) => {
                 </div>
                 <h5 className="pt-2 h3 text-center mb-4">
                   {" "}
-                  <span className='pe-1'>{branchManager?.nameTittle?.name}</span>
-                  <span className="pe-1">{branchManager?.firstName}</span>
-                  <span className=" ps-1">{branchManager?.lastName}</span>
+                  <span className='pr-1'>{branchManager?.nameTittle?.name}</span>
+                  <span className="pr-1">{branchManager?.firstName}</span>
+                  <span className=" pl-1">{branchManager?.lastName}</span>
                 </h5>
 
                 <div className="container text-center mb-4">

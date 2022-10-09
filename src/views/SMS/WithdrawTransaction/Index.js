@@ -235,7 +235,8 @@ const toggle1 = () => {
       setTValue(0);
       setAmount(0);
       setAmountInput('');
-      
+      setNote('');
+      setReference('');
 
      }
 
