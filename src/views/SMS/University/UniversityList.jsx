@@ -1178,3 +1178,4 @@ const mapStateToProps = (state) => ({
   univerSityDropDownList: state.universityListReducer.universityList,
 });
 export default connect(mapStateToProps)(UniversityList);
+ 

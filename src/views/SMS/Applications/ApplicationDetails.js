@@ -2594,7 +2594,7 @@ const ApplicationDetails = () => {
                         </Col>
 
                         {docutypeError && (
-                          <span className="text-danger">
+                          <span className="text-danger ml-3">
                             Document type must be selected.
                           </span>
                         )}
