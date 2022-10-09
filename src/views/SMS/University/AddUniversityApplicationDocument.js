@@ -75,6 +75,8 @@ const AddUniversityApplicationDocument = () => {
   const [applicationName, setApplicationName] = useState('');
   const [applicationId, setApplicationId] = useState(0);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   useEffect(() => {
@@ -185,8 +187,10 @@ const AddUniversityApplicationDocument = () => {
       setApplicationError(true);
     } else {
       if (selectedId === 0) {
+        setButtonStatus(true);
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
+          setButtonStatus(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -206,8 +210,10 @@ const AddUniversityApplicationDocument = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put(`UniversityApplicationDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
+          setButtonStatus(false);
           if (res.status === 200) {
             // setSubmitData(false);
             addToast(res?.data?.message, {
@@ -264,9 +270,11 @@ const AddUniversityApplicationDocument = () => {
   };
 
   const handleDeletePermission = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(
       `UniversityApplicationDocument/Delete/${id}`
     ).then((action) => {
+      setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -551,13 +559,13 @@ const AddUniversityApplicationDocument = () => {
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
+                                disable={buttonStatus}
                                
                               />
                               :
                               null
                               
                               }
-                            </Col>
 
                             <div>
                               <ButtonForFunction
@@ -567,6 +575,10 @@ const AddUniversityApplicationDocument = () => {
                                 permission={6}
                               />
                             </div>
+
+                            </Col>
+
+                            
                           </FormGroup>
                         </>
                       ) : (
@@ -582,6 +594,7 @@ const AddUniversityApplicationDocument = () => {
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
+                                disable={buttonStatus}
                                 permission={6}
                               />
 
@@ -707,6 +720,7 @@ const AddUniversityApplicationDocument = () => {
                                   onClick={() =>
                                     handleDeletePermission(applicationId)
                                   }
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>

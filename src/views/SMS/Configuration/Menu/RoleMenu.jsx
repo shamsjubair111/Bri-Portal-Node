@@ -170,8 +170,13 @@ const RoleMenu = (props) => {
                 <CardHeader>
                 <div className="container test-score-div-1-style mt-1 mb-4">
             <span className="test-score-span-1-style">
-              Assign or Revoke Menu for User Types.
+              <b>Assign or Revoke Menu for User Types.</b>
             </span>
+
+            <br />
+            <div>
+              Selected user role to see assigned menu items for that user. Checkboxes can contain cascading menus. For submenus, if the parent is not selected, the submenu will not be shown to the menu bar. Please discuss this with developers before assigning the menu to the user. Or contact with administrator.
+            </div>
           </div>
                 </CardHeader>
 

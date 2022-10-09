@@ -76,6 +76,8 @@ const AddProviderUniversityApplicationDocument = () => {
   const [applicationName, setApplicationName] = useState('');
   const [applicationId, setApplicationId] = useState(0);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   useEffect(() => {
@@ -183,8 +185,10 @@ const AddProviderUniversityApplicationDocument = () => {
       setApplicationError(true);
     } else {
       if (selectedId === 0) {
+        setButtonStatus(true);
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
+          setButtonStatus(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -204,8 +208,10 @@ const AddProviderUniversityApplicationDocument = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put(`UniversityApplicationDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
+          setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             // setSubmitData(false);
             addToast(res?.data?.message, {
@@ -262,9 +268,11 @@ const AddProviderUniversityApplicationDocument = () => {
   };
 
   const handleDeletePermission = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(
       `UniversityApplicationDocument/Delete/${id}`
     ).then((action) => {
+      setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -542,22 +550,24 @@ const AddProviderUniversityApplicationDocument = () => {
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
-                               
+                                disable={buttonStatus}
                               />
                               :
                               null
                               
                               }
+
+                              <div>
+                                <ButtonForFunction
+                                  func={cancel}
+                                  color={"danger uapp-form-button float-right"}
+                                  name={"Cancel"}
+                                  permission={6}
+                                />
+                              </div>
                             </Col>
 
-                            <div>
-                              <ButtonForFunction
-                                func={cancel}
-                                color={"danger uapp-form-button float-right"}
-                                name={"Cancel"}
-                                permission={6}
-                              />
-                            </div>
+                            
                           </FormGroup>
                         </>
                       ) : (
@@ -573,6 +583,7 @@ const AddProviderUniversityApplicationDocument = () => {
                                 type={"submit"}
                                 className={"ml-lg-2 ml-sm-1 mt-3"}
                                 name={"Save"}
+                                disable={buttonStatus}
                                 permission={6}
                               />
 
@@ -695,7 +706,8 @@ const AddProviderUniversityApplicationDocument = () => {
                                   color="danger"
                                   onClick={() =>
                                     handleDeletePermission(applicationId)
-                                    }
+                                  }
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>

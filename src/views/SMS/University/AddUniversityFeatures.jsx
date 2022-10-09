@@ -48,6 +48,8 @@ const AddUniversityFeatures = () => {
   const [features, setFeatures] = useState({});
   const [featureId, setFeatureId] = useState(undefined);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   // const method = localStorage.getItem("editMethod");
 
   const myForm = createRef();
@@ -95,8 +97,10 @@ const AddUniversityFeatures = () => {
     //}
 
     if (featureId !== undefined) {
+      setButtonStatus(true);
       put("UniversityFeatures/Update", subdata).then((res) => {
         console.log("1st put response", res);
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -116,12 +120,14 @@ const AddUniversityFeatures = () => {
         }
       });
     } else {
+      setButtonStatus(true);
       Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata, {
         headers: {
           "authorization": AuthStr,
         },
       }).then((res) => {
         const uniID = res.data.result.universityId;
+        setButtonStatus(false);
 
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
@@ -593,6 +599,7 @@ const AddUniversityFeatures = () => {
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
                       name={"Save"}
+                      disable={buttonStatus}
                       permission={6}
                     />
                   </Col>

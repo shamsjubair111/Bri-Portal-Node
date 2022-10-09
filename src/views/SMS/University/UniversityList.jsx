@@ -99,6 +99,8 @@ const UniversityList = (props) => {
   const {addToast} = useToasts();
   const [success,setSuccess] = useState(false);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const providerData = useSelector(
     (state) => state?.universityProviderDataReducer?.universityProviders
   );
@@ -456,8 +458,9 @@ const UniversityList = (props) => {
   // deleteing university
 
   const handleDeleteUniversity = () => {
-    
+    setButtonStatus(true);
     remove(`University/Delete/${delData?.id}`).then((res) => {
+      setButtonStatus(false);
       addToast(res,{
         appearance: 'error',
         autoDismiss: true
@@ -1152,6 +1155,7 @@ const UniversityList = (props) => {
                               <Button
                                 color="danger"
                                 onClick={handleDeleteUniversity}
+                                disabled={buttonStatus}
                               >
                                 YES
                               </Button>

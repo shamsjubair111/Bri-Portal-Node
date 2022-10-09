@@ -77,6 +77,8 @@ const AddProviderUniversityTemplateDocument = () => {
   const [templateName, setTemplateName] = useState('');
   const [templateId, setTemplateId] = useState(0);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   // image upload starts here
   const [previewVisible1, setPreviewVisible1] = useState(false);
   const [previewImage1, setPreviewImage1] = useState("");
@@ -215,8 +217,10 @@ const AddProviderUniversityTemplateDocument = () => {
    
     else {
       if (selectedId === 0) {
+        setButtonStatus(true);
         post("UniversityTemplateDocument/Create", subData).then((res) => {
           console.log("document data", res);
+          setButtonStatus(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -237,8 +241,10 @@ const AddProviderUniversityTemplateDocument = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         put(`UniversityTemplateDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
+          setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             // setSubmitData(false);
             addToast(res?.data?.message, {
@@ -283,9 +289,11 @@ const AddProviderUniversityTemplateDocument = () => {
   };
 
   const handleDeletePermission = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(
       `UniversityTemplateDocument/Delete/${id}`
     ).then((action) => {
+      setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -586,13 +594,12 @@ const AddProviderUniversityTemplateDocument = () => {
                                type={"submit"}
                                className={"ml-lg-3 ml-sm-1 mt-3"}
                                name={"Save"}
-                               
+                               disable={buttonStatus}
                               />
                               :
                               null
                         
                              }
-                            </Col>
 
                             <div>
                               <ButtonForFunction
@@ -603,6 +610,9 @@ const AddProviderUniversityTemplateDocument = () => {
                               />
 
                             </div>
+                            </Col>
+
+                            
                           </FormGroup>
                         </>
                       ) : (
@@ -618,6 +628,7 @@ const AddProviderUniversityTemplateDocument = () => {
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
+                                disable={buttonStatus}
                                 permission={6}
                               />
 
@@ -741,7 +752,8 @@ const AddProviderUniversityTemplateDocument = () => {
                                   color="danger"
                                   onClick={() =>
                                     handleDeletePermission(templateId)
-                                   }
+                                  }
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>

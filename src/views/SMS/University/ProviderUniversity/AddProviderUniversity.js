@@ -94,6 +94,8 @@ const AddProviderUniversity = () => {
   const [submitData, setSubmitData] = useState(false);
   const [universityId, setUniversityId] = useState(undefined);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const { addToast } = useToasts();
   const location = useLocation();
   const {providerProfileId, univerId} = useParams();
@@ -404,8 +406,10 @@ const AddProviderUniversity = () => {
       // }
       else {
         if (uniId != undefined) {
+          setButtonStatus(true);
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
+            setButtonStatus(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -422,9 +426,11 @@ const AddProviderUniversity = () => {
             }
           });
         } else {
+          setButtonStatus(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
               console.log("unipostData", res);
+              setButtonStatus(false);
   
               //  .setItem("id", res.data.result.id);
               const uniID = res.data.result.id;
@@ -1204,7 +1210,7 @@ const AddProviderUniversity = () => {
                       type={"submit"}
                       className={"mr-0 mt-3 badge-primary"}
                       name={"Save"}
-                    
+                      disable={buttonStatus}
                     />
                     :
                     null

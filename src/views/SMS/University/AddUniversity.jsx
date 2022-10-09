@@ -101,6 +101,8 @@ const AddUniversity = (props) => {
   const [uniId, setUniId] = useState(undefined);
   const [check, setCheck] = useState(true);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const [universityId, setUniversityId] = useState(undefined);
 
   const method = localStorage.getItem("editMethod");
@@ -411,8 +413,10 @@ const AddUniversity = (props) => {
       // }
       else {
         if (uniId != undefined) {
+          setButtonStatus(true);
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
+            setButtonStatus(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -429,9 +433,11 @@ const AddUniversity = (props) => {
             }
           });
         } else {
+          setButtonStatus(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
               console.log("unipostData", res);
+              setButtonStatus(false);
   
               // localStorage.setItem("id", res.data.result.id);
               const uniID = res?.data?.result?.id;
@@ -491,8 +497,10 @@ const AddUniversity = (props) => {
       // }
       else {
         if (uniId != undefined) {
+          setButtonStatus(true);
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
+            setButtonStatus(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -509,9 +517,11 @@ const AddUniversity = (props) => {
             }
           });
         } else {
+          setButtonStatus(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
               console.log("unipostData", res);
+              setButtonStatus(false);
   
               // localStorage.setItem("id", res.data.result.id);
               const uniID = res?.data?.result?.id;
@@ -1363,6 +1373,7 @@ const AddUniversity = (props) => {
                       type={"submit"}
                       className={"mr-0 mt-3 badge-primary"}
                       name={"Save"}
+                      disable={buttonStatus}
                     
                     />
                     :

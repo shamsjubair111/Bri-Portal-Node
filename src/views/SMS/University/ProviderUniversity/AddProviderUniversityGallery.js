@@ -45,6 +45,8 @@ const AddProviderUniversityGallery = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const { addToast } = useToasts();
   const history = useHistory();
   const {providerProfileId, univerId} = useParams();
@@ -75,8 +77,10 @@ const AddProviderUniversityGallery = () => {
       setFileError(true);
     } else {
       setLoading(true);
+      setButtonStatus(true);
       Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
         (res) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setFileList([]);
           setFileError(false);
@@ -160,8 +164,10 @@ const AddProviderUniversityGallery = () => {
   };
 
   const handleDeleteItem = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`UniversityGallery/Delete/${id}`).then(
       (action) => {
+        setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -392,6 +398,7 @@ const AddProviderUniversityGallery = () => {
                               onClick={() =>
                                 handleDeleteItem(delGalId)
                               }
+                              disabled={buttonStatus}
                             >
                               YES
                             </Button>
@@ -453,6 +460,7 @@ const AddProviderUniversityGallery = () => {
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary"}
                           name={"Save"}
+                          isDisabled={buttonStatus}
                           permission={6}
                         />
                       </Col>

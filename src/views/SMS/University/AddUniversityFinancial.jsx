@@ -38,6 +38,8 @@ const AddUniversityFinancial = (props) => {
   const [financialData, setFinancialData] = useState({});
   const [financialId, setFinancialId] = useState(undefined);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   // const method = localStorage.getItem('editMethod');
 
   const { addToast } = useToasts();
@@ -85,11 +87,13 @@ const AddUniversityFinancial = (props) => {
 
     if (financialId == undefined) {
       console.log("fin Id", financialId);
+      setButtonStatus(true);
       Axios.post(`${rootUrl}FinancialInformation/Create`, subdata, {
         headers: {
           "authorization": AuthStr,
         },
       }).then((res) => {
+        setButtonStatus(false);
         const uniID = res.data.result.universityId;
 
         if (res.status === 200 && res.data.isSuccess === true) {
@@ -111,8 +115,10 @@ const AddUniversityFinancial = (props) => {
       });
     } else {
       console.log("financial id", financialId);
+      setButtonStatus(true);
       put("FinancialInformation/Update", subdata).then((res) => {
         console.log("1st put response", res);
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -405,8 +411,9 @@ const AddUniversityFinancial = (props) => {
                   <Col md="5">
                     <ButtonForFunction
                       type={"submit"}
-                      className={"ms-lg-3 ms-sm-1 mt-3 badge-primary"}
+                      className={"ml-lg-2 ml-sm-1 mt-3 badge-primary"}
                       name={"Save"}
+                      disable={buttonStatus}
                       permission={6}
                     />
                   </Col>
