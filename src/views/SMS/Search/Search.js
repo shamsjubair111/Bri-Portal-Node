@@ -636,11 +636,12 @@ const Search = () => {
       setPrimaryCampus(data?.campuses.find(s=> s.campusId == campusValue));
    
       setModal(true);
+      console.log(data);
   
      }
 
     
-  
+ 
 
      
 
@@ -736,8 +737,9 @@ const Search = () => {
             setButtonStatus(true);
             post(`Apply/Submit`,subData)
             .then(res => {
+              console.log(res);
               setButtonStatus(false);
-              if(res?.isSuccess == true){
+              if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
                   appearance: 'success',
                   autoDismiss: true
@@ -790,8 +792,9 @@ const Search = () => {
            setButtonStatus(true);
           post(`Apply/Submit`,subData)
           .then(res => {
+            console.log(res);
             setButtonStatus(false);
-            if(res?.isSuccess == true){
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
@@ -823,16 +826,7 @@ const Search = () => {
     return (
         <div>
 
-         {
-          loading? 
-
-          <div className='text-center'>
-            <img className='img-fluid' src={loader} />
-
-          </div>
-
-          :
-
+       
           <div>
 
              {/* Modal For Apply Button Code Start */}
@@ -868,7 +862,7 @@ const Search = () => {
 
 <div className='col-md-7'>
 
-<Form className='px-3'>
+<Form className='px-3' onSubmit={submitModalForm}>
 
 <FormGroup row className="has-icon-left position-relative">
 <Col md="3">
@@ -882,7 +876,7 @@ Campus <span className="text-danger">*</span>{" "}
 {
 (campus?.length == 1)? 
 
-<h6>{modalCampus[0]?.name}</h6>
+<h6>{modalCampus[0]?.campusName}</h6>
 
 :
 
@@ -913,7 +907,7 @@ onChange={(opt) => selectModalCampus(opt.label, opt.value)}
 />
 {
 campusError? 
-<span className='text-danger'>Campus Must be Selected</span>
+<span className='text-danger'>Campus is required</span>
 :
 null
 }
@@ -1035,7 +1029,7 @@ Cancel
 (studentDataValue !==0) ?
 
 <div className=''>
-<Button color='primary' className='ml-1' type='submit' onClick={submitModalForm}>Submit</Button> 
+<Button color='primary' className='ml-1' type='submit'>Submit</Button> 
 </div>
 
 :
@@ -1338,6 +1332,23 @@ Clear
 </div>
 
 </div>
+
+{
+
+loading? 
+
+<div className='col-md-9'>
+
+<div className='text-center'>
+  <img className='img-fluid' src={loader} />
+
+</div>
+
+</div>
+
+:
+
+
 
 <div className='col-md-9'>
 
@@ -2030,6 +2041,8 @@ currentPage={page}
 
 </div>
 
+}
+
 </div>
 
 
@@ -2037,7 +2050,7 @@ currentPage={page}
 
           </div>
 
-         }
+         
  
             
         </div>
