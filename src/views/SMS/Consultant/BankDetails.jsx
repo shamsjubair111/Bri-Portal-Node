@@ -55,6 +55,7 @@ const BankDetails = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const [activetab, setActivetab] = useState("2");
+  const [buttonStatus,setButtonStatus] = useState(false);
   
   useEffect(()=>{
 
@@ -148,11 +149,13 @@ const handleEdit = (data) => {
   const handleSubmitUpdate = (event) =>{
 
     event.preventDefault();
+    
 
     const subData = new FormData(event.target);
-
+    setButtonStatus(true);
     put('BankDetails/Update',subData)
     .then( res => {
+      setButtonStatus(false);
       addToast(res?.data?.message, {
         appearance: 'success',
         autoDismiss: true
@@ -170,10 +173,11 @@ const handleEdit = (data) => {
 
   const handleDeletePermission = () => {
 
-    
+    setButtonStatus(true);
     remove(`BankDetails/Delete/${deleteData?.id}`)
     .then(res => {
-      console.log(res);
+      setButtonStatus(false);
+      
       addToast(res, {
         appearance: 'error',
         autoDismiss: true
@@ -199,9 +203,10 @@ const handleEdit = (data) => {
     event.preventDefault();
 
     const subData = new FormData(event.target);
-
+      setButtonStatus(true);
       post('BankDetails/Create',subData)
     .then(res => {
+      setButtonStatus(false);
       console.log('Bank Data Post Resonse', res);
       if(res?.status ==200){
         addToast(res?.data?.message,{
@@ -410,7 +415,7 @@ const handleEdit = (data) => {
                     color="warning"
                     type="submit"
                     className="mr-1 mt-3"
-                   
+                    disable={buttonStatus}
                   >
                     Submit
                   </Button.Ripple>
@@ -431,11 +436,11 @@ const handleEdit = (data) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light"> Consultant Bank Details</h3>
+          <h3 className="text-white"> Consultant Bank Details</h3>
           {
             !(userTypeId == userTypes?.Consultant) ?
             <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToConsultantList}>
+            <span className="text-white" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
@@ -549,6 +554,7 @@ const handleEdit = (data) => {
                       func={()=>handleEdit(details)}
                       icon={<i className="fas fa-edit"></i>}
                       className={'bankCard-style'}
+                      
                     />
 
                  </div>
@@ -563,6 +569,7 @@ const handleEdit = (data) => {
                       icon={<i className="fas fa-trash-alt"></i>}
                       permission={6}
                       className={'bankCard-style'}
+                      
                     />
 
                  </div>
@@ -588,7 +595,7 @@ const handleEdit = (data) => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button onClick={handleDeletePermission} color="danger">YES</Button>
+                  <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>YES</Button>
                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                 </ModalFooter>
              </Modal>
@@ -784,6 +791,7 @@ const handleEdit = (data) => {
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
                     permission={6}
+                    disable={buttonStatus}
                   />
                   </Col>
 

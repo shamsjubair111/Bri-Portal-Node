@@ -41,6 +41,7 @@ const StudentContactForm = () => {
   
     const [countryError, setCountryError] = useState(false);
     const [addressError, setAddressError] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(() => {
         get("CountryDD/index").then((res) => {
@@ -98,10 +99,12 @@ const StudentContactForm = () => {
        else if (addressTypeValue == 0) {
           setAddressError(true);
         } else {
+          setButtonStatus(true);
           
             post("StudentContactInformation/Create", subData).then((res) => {
-              console.log(res);
-              if (res?.status == 200) {
+              setButtonStatus(false);
+              if (res?.status == 200 && res?.data?.isSuccess == true) {
+                
                 addToast(res?.data?.message, {
                   appearance: "success",
                   autoDismiss: true,
@@ -118,9 +121,9 @@ const StudentContactForm = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Contact Information</h3>
+          <h3 className="text-white">Contact Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
               <i className="fas fa-arrow-circle-left"></i> 28% Completed
             </span>
@@ -293,6 +296,7 @@ const StudentContactForm = () => {
                       type={"submit"}
                       name={"Save & Next"}
                       className={"mr-1 mt-3 badge-primary"}
+                      disable={buttonStatus}
                     />
 
                     </div>

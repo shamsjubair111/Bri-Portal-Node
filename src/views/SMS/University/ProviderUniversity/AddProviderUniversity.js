@@ -406,13 +406,19 @@ const AddProviderUniversity = () => {
         if (uniId != undefined) {
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
-            if (res?.status == 200) {
+            if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
                 autoDismiss: true,
               });
               
               history.push(`/addProviderUniversityCampus/${providerProfileId}/${uniId}`);
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           });
         } else {
@@ -560,9 +566,9 @@ const AddProviderUniversity = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Information</h3>
+          <h3 className="text-white">University Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-light">
+            <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>

@@ -21,6 +21,7 @@ const ComissionGroup = () => {
     const [data,setData] = useState({});
     const [delData,setDelData] = useState({});
     const [loading,setLoading] = useState(true);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -52,8 +53,10 @@ const ComissionGroup = () => {
     } 
 
     const confirmDelete = () => {
+      setButtonStatus(true);
       remove(`CommissionGroup/Delete/${delData?.id}`)
       .then(res => {
+        setButtonStatus(false);
         addToast(res,{
           appearance:'error',
           autoDismiss: true
@@ -70,9 +73,11 @@ const ComissionGroup = () => {
 
       const subData = new FormData(event.target);
         if(edit){
+          setButtonStatus(true);
           put(`CommissionGroup/Update`,subData)
           .then(res => {
-            if(res?.status == 200){
+            setButtonStatus(false);
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
@@ -82,19 +87,33 @@ const ComissionGroup = () => {
               setOpenModal(false);
               setSuccess(!success);
             }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+            }
           })
 
         }
         else{
+          setButtonStatus(true);
           post(`CommissionGroup/Create`,subData)
           .then(res => {
-            if(res?.status == 200){
+            setButtonStatus(false);
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
               })
               setOpenModal(false);
               setSuccess(!success);
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           })
         }
@@ -155,7 +174,7 @@ const ComissionGroup = () => {
                               <Button color='danger' onClick={()=> setOpenModal(false)}>
                                 Cancel
                               </Button>
-                              <Button color='primary' type='submit'>
+                              <Button color='primary' type='submit' disabled={buttonStatus}>
                                 Submit
   
                               </Button>
@@ -173,9 +192,9 @@ const ComissionGroup = () => {
   
         <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
-                  <h3 className="text-light">Comission Groups</h3>
+                  <h3 className="text-white">Comission Groups</h3>
                   <div className="page-header-back-to-home">
-                    <span className="text-light" onClick={backToDashboard}>
+                    <span className="text-white" onClick={backToDashboard}>
                       {" "}
                       <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                     </span>
@@ -270,7 +289,7 @@ const ComissionGroup = () => {
                           </ModalBody>
           
                           <ModalFooter>
-                            <Button  color="danger" onClick={confirmDelete}>YES</Button>
+                            <Button  color="danger" onClick={confirmDelete} disabled={buttonStatus}>YES</Button>
                             <Button onClick={() => setDeleteModal(false)}>NO</Button>
                           </ModalFooter>
                        </Modal>

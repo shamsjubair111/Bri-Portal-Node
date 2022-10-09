@@ -131,6 +131,7 @@ const AdmissionOfficerList = () => {
 
   const [pass, setPass] = useState("");
   const [passError, setPassError] = useState("");
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("AdmissionManagerDD/Index").then((res) => {
@@ -351,6 +352,7 @@ const AdmissionOfficerList = () => {
   };
 
   const handleDelete = () => {
+    setButtonStatus(true);
     remove(`AdmissionOfficer/Delete/${deleteData?.id}`).then((res) => {
       addToast(res, {
         appearance: "error",
@@ -361,6 +363,7 @@ const AdmissionOfficerList = () => {
       setOfficerId(0);
       setOfficerName("");
       setSuccess(!success);
+      setButtonStatus(false);
     });
   };
 
@@ -373,12 +376,18 @@ const AdmissionOfficerList = () => {
 
     put(`AdmissionOfficer/UpdateAccountStatus/${officerId}`, subData).then(
       (res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
           });
           setSuccess(!success);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       }
     );
@@ -436,8 +445,10 @@ const AdmissionOfficerList = () => {
         setManagerFormError(true);
       } else {
         setOfficerObj({});
+        setButtonStatus(true);
         post(`AdmissionOfficer/Create`, subdata).then((res) => {
           setSuccess(!success);
+          setButtonStatus(false);
 
           //   setuniversityId(res?.data?.result?.universityId)
           if (res?.status === 200 && res?.data?.isSuccess == true) {
@@ -472,7 +483,9 @@ const AdmissionOfficerList = () => {
       if (unistateValue === 0) {
         setUniStateError(true);
       } else {
+        setButtonStatus(true);
         put(`AdmissionOfficer/Update`, subdata).then((res) => {
+          setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res.data.message, {
               appearance: "success",
@@ -573,9 +586,9 @@ const AdmissionOfficerList = () => {
         <div>
            <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Admission Officer List</h3>
+          <h3 className="text-white">Admission Officer List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -687,7 +700,7 @@ const AdmissionOfficerList = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -699,7 +712,7 @@ const AdmissionOfficerList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -1251,6 +1264,7 @@ const AdmissionOfficerList = () => {
                     className={"mr-1 mt-3"}
                     name={"Submit"}
                     permission={6}
+                    isDisabled={buttonStatus}
                   />
                 </FormGroup>
               </Form>
@@ -1379,7 +1393,7 @@ const AdmissionOfficerList = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={handleDelete}>
+                              <Button color="danger" onClick={handleDelete} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button

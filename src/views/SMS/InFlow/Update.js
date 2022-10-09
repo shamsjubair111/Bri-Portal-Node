@@ -21,6 +21,7 @@ const Update = () => {
     const [tLabel,setTLabel] = useState('Select Transaction Type');
     const [tValue,setTValue] = useState(0);
     const [success,setSuccess] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
       
@@ -62,9 +63,10 @@ const Update = () => {
       event.preventDefault();
 
       const subData = new FormData(event.target);
-
+      setButtonStatus(true);
       put(`BonusTransaction/UPdate`,subData)
       .then(res => {
+        setButtonStatus(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
           addToast(res?.data?.message,{
             appearance: 'success',
@@ -88,9 +90,9 @@ const Update = () => {
         <div>
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Update Inflow Transaction</h3>
+                <h3 className="text-white">Update Inflow Transaction</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToDashboard}>
+                  <span className="text-white" onClick={backToDashboard}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Inflow Transaction List
                   </span>
@@ -219,6 +221,7 @@ const Update = () => {
                 color={'primary'}
                 name={'Submit'}
                 type={'submit'}
+                disable={buttonStatus}
                 
 
               />

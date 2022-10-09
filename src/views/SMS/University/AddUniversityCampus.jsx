@@ -140,6 +140,9 @@ const AddUniversityCampus = (props) => {
     if (tab === "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab === "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
 
   // select University Country
@@ -342,9 +345,9 @@ const AddUniversityCampus = (props) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Campus Information</h3>
+          <h3 className="text-white">University Campus Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {
@@ -403,6 +406,11 @@ const AddUniversityCampus = (props) => {
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Commission
               </NavLink>
             </NavItem>
           </Nav>

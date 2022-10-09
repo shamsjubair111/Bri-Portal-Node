@@ -113,7 +113,7 @@ const AddUniversityFinancial = (props) => {
       console.log("financial id", financialId);
       put("FinancialInformation/Update", subdata).then((res) => {
         console.log("1st put response", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -123,6 +123,12 @@ const AddUniversityFinancial = (props) => {
               pathname: `/addUniversityFeatures/${univerId}`,
               id: localStorage.getItem('editUniId')
           })
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
@@ -151,6 +157,9 @@ const AddUniversityFinancial = (props) => {
     if (tab == "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
   // redirect to dashboard
   const backToUniList = () => {
@@ -169,9 +178,9 @@ const AddUniversityFinancial = (props) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Financial Information</h3>
+          <h3 className="text-white">University Financial Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University
               List
@@ -245,6 +254,15 @@ const AddUniversityFinancial = (props) => {
                                 > */}
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Commission
               </NavLink>
             </NavItem>
           </Nav>

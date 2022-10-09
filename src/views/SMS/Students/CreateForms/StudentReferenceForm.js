@@ -34,6 +34,7 @@ const StudentReferenceForm = () => {
   
      const [referenceError, setReferenceError] = useState(false);
      const [countryError, setCountryError] = useState(false);
+     const [buttonStatus, setButtonStatus] = useState(false);
 
      useEffect(()=>{
 
@@ -103,10 +104,11 @@ const StudentReferenceForm = () => {
       setCountryError(true);
     }
      else{
+      setButtonStatus(true);
          post('Reference/Create',subData)
       .then(res => {
-    
-        if(res?.status == 200){
+        setButtonStatus(false);
+        if(res?.status == 200 && res?.data?.isSuccess == true){
   
          
           addToast(res?.data?.message,{
@@ -115,6 +117,12 @@ const StudentReferenceForm = () => {
           })
             history.push(`/StudentPersonalStatement/${id}`);
 
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
   
       })
@@ -131,9 +139,9 @@ const StudentReferenceForm = () => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Reference Information</h3>
+          <h3 className="text-white">Reference Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
               52% Completed
             </span>
@@ -355,6 +363,7 @@ const StudentReferenceForm = () => {
      name={'Save & Next'}
      type={'submit'}
      className={"mt-3 badge-primary"}
+     disable={buttonStatus}
      />
 
     </div>

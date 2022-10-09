@@ -413,13 +413,19 @@ const AddUniversity = (props) => {
         if (uniId != undefined) {
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
-            if (res?.status == 200) {
+            if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
                 autoDismiss: true,
               });
               
               history.push(`/addUniversityCampus/${uniId}`);
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           });
         } else {
@@ -487,13 +493,19 @@ const AddUniversity = (props) => {
         if (uniId != undefined) {
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
-            if (res?.status == 200) {
+            if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
                 autoDismiss: true,
               });
               
               history.push(`/addUniversityCampus/${uniId}`);
+            }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           });
         } else {
@@ -575,6 +587,9 @@ const AddUniversity = (props) => {
       if (tab == "7") {
         history.push(`/addUniversityTemplateDocument/${univerId}`);
       }
+      if (tab == "8") {
+        history.push(`/addUniversityCommission/${univerId}`);
+      }
     }
     else{
       if (tab == "2") {
@@ -594,6 +609,9 @@ const AddUniversity = (props) => {
       }
       if (tab == "7") {
         history.push(`/addUniversityTemplateDocument/${universityId}`);
+      }
+      if (tab == "8") {
+        history.push(`/addUniversityCommission/${univerId}`);
       }
     }
     
@@ -644,9 +662,9 @@ const AddUniversity = (props) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Information</h3>
+          <h3 className="text-white">University Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {
@@ -776,8 +794,20 @@ const AddUniversity = (props) => {
                   Template Document
                 </NavLink>
               ) : (
-                <NavLink disabled active={activetab === "6"}>
+                <NavLink disabled active={activetab === "7"}>
                   Template Document
+                </NavLink>
+              )}
+            </NavItem>
+
+            <NavItem>
+              {submitData || univerId ? (
+                <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                  Commission
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "8"}>
+                  Commission
                 </NavLink>
               )}
             </NavItem>

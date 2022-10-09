@@ -126,7 +126,7 @@ const AssignAdmissionOfficer = () => {
 
     if(selectedId !== undefined){
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -137,6 +137,12 @@ const AssignAdmissionOfficer = () => {
           setManagerValue(0);
           setSelectedId(undefined);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     }
     else{
@@ -145,7 +151,7 @@ const AssignAdmissionOfficer = () => {
       } else {
         setSelectedId(undefined);
         post(`AdmissionOfficerOfManager/Create`, subData).then((res) => {
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -154,6 +160,12 @@ const AssignAdmissionOfficer = () => {
             setModalOpen(false);
             setManagerLabel("Select Admission Manager");
             setManagerValue(0);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -192,9 +204,9 @@ const AssignAdmissionOfficer = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Assigned Admission Manager List</h3>
+          <h3 className="text-white">Assigned Admission Manager List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToAdmissionOfficerList} className="text-light">
+            <span onClick={backToAdmissionOfficerList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               
@@ -245,7 +257,7 @@ const AssignAdmissionOfficer = () => {
                       {/* <DropdownItem> */}
 
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -257,7 +269,7 @@ const AssignAdmissionOfficer = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

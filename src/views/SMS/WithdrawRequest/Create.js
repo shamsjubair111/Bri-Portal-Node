@@ -17,6 +17,7 @@ const Create = () => {
     const [amount,setAmount] = useState(null);
     const [amountInput, setAmountInput] = useState('');
     const {addToast} = useToasts();
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -64,8 +65,10 @@ const Create = () => {
                 setConsultantError('Consultant Must be Selected');
             }
             else{
+                setButtonStatus(true);
                 post(`WithdrawRequest/Create`,subData)
                 .then(res => {
+                    setButtonStatus(false);
                     if(res?.status == 200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
@@ -92,9 +95,9 @@ const Create = () => {
         <div>
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Create Withdraw Request</h3>
+                <h3 className="text-white">Create Withdraw Request</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToList}>
+                  <span className="text-white" onClick={backToList}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Withdraw List
                   </span>
@@ -152,7 +155,7 @@ const Create = () => {
                             <Col md="10">
                             <div className='d-flex justify-content-end'>
                                 <Button color='primary' type='submit'
-                                disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) )? true : false}
+                                disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) || buttonStatus )? true : false}
                                 >
                                     Submit
                                 </Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
   Button,
@@ -32,6 +32,7 @@ const AddEducationLevel = () => {
 
   const history = useHistory();
   const { addToast } = useToasts();
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   // back to dashboard
 
@@ -51,7 +52,9 @@ const AddEducationLevel = () => {
       levelValue !== undefined &&
       id !== undefined
     ) {
+      setButtonStatus(true);
       put(`EducationLevel/Update`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -61,7 +64,9 @@ const AddEducationLevel = () => {
         }
       });
     } else {
+      setButtonStatus(true);
       post(`EducationLevel/Create`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -77,9 +82,9 @@ const AddEducationLevel = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Education Level</h3>
+          <h3 className="text-white">Education Level</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToEducationLevelList}>
+            <span className="text-white" onClick={backToEducationLevelList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Education
               Level List
@@ -165,6 +170,7 @@ const AddEducationLevel = () => {
                   type={"submit"}
                   name={"Submit"}
                   className={"mr-1 mt-3 badge-primary"}
+                  disable={buttonStatus}
                 />
               </Col>
             </FormGroup>

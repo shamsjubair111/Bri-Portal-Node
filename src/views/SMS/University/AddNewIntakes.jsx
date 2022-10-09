@@ -51,12 +51,12 @@ const AddNewIntakes = () => {
 
     useEffect(()=>{
 
-        get('Month/GetAll').then(res=> {
+        get('MonthDD/Index').then(res=> {
           setMonth(res);
         })
         .catch();
 
-        get('Year/GetAll').then(res=> {
+        get('YearDD/Index').then(res=> {
             setYear(res);
           })
           .catch();
@@ -121,9 +121,9 @@ const AddNewIntakes = () => {
             <Card>
                 <Card className="uapp-card-bg m-3 p-2">
                     <CardHeader className="page-header">
-                        <h3 className="text-light my-auto">Add Intake</h3>
+                        <h3 className="text-white my-auto">Add Intake</h3>
                         <div className="page-header-back-to-home">
-                          <span onClick={backToIntakeList} className="text-light">
+                          <span onClick={backToIntakeList} className="text-white">
                             {" "}
                             <i className="fas fa-arrow-circle-left"></i> Back to Intake List
                           </span>
@@ -206,7 +206,8 @@ const AddNewIntakes = () => {
 
                                 <ButtonForFunction
                                   func={handleCancel}
-                                  className={'btn btn-danger mt-md-3'}
+                                  className={'mt-md-3'}
+                                  color={'danger'}
                                   name={"Cancel"}
                                   permission={6}
                                 />

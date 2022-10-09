@@ -33,8 +33,8 @@ class Login extends React.Component {
       })
       .then(response => {
      
-        if (response.data) {
-          if (response.data.isSuccess == true) {
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess == true) {
             this.setState({ error: '' });
             localStorage.setItem('token', 'Bearer ' + response?.data?.message);
             localStorage.setItem('permissions', JSON.stringify(response?.data?.permissions));
@@ -46,9 +46,10 @@ class Login extends React.Component {
               }
             })
               .then(res => {
+                console.log(res);
                 
                 if (res?.status == 200) {
-                  if(res?.data?.isActive){
+                  if(res?.data?.isActive == true){
                     localStorage.setItem('current_user', JSON.stringify(res?.data))
                   localStorage.setItem('userType', res?.data?.userTypeId);
                   localStorage.setItem('referenceId', res?.data?.referenceId);

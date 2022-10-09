@@ -5,6 +5,7 @@ import get from '../../../../helpers/get';
 import put from '../../../../helpers/put';
 import ManagerImage from './ManagerImage';
 import Select from "react-select";
+import { useToasts } from 'react-toast-notifications';
 
 const UpdateBranchManager = () => {
     const {id}= useParams();
@@ -16,6 +17,8 @@ const UpdateBranchManager = () => {
     const [branch, setBranch] = useState([]);
     const [branchLabel, setBranchLabel] = useState('Enter branch');
     const [branchValue, setBranchValue] = useState(0);
+    const [buttonStatus,setButtonStatus] = useState(false);
+    const {addToast}  = useToasts();
     const backToDashboard = () => {
         history.push('/');
 
@@ -56,15 +59,25 @@ const UpdateBranchManager = () => {
   const handleSubmit = (e) => {
       e.preventDefault();
       const subData = new FormData(e.target);
-
+      setButtonStatus(true);
       put(`BranchManager/Update`,subData)
       .then(res => {
+        setButtonStatus(false);
          {
-          if(res.status ==200){
+          if(res.status ==200 && res?.data?.isSuccess == true){
            
-            if(res === 'Branch updated successfully.'){
+           addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+           })
                 history.push(`/branchProfile/${id}`);
-            }
+            
+          }
+          else{
+            addToast(res?.data?.message,{
+              appearance: 'error',
+              autoDismiss: true
+             })
           }
          }
       })
@@ -284,12 +297,13 @@ const UpdateBranchManager = () => {
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Button.Ripple
+                  <Button
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
+                    disabled={buttonStatus}
                   >
                     Submit
-                  </Button.Ripple>
+                  </Button>
                 </FormGroup>
               </Form>
           

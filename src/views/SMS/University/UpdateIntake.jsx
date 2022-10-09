@@ -122,9 +122,9 @@ const UpdateIntake = () => {
             <Card>
                 <Card className="uapp-card-bg">
                     <CardHeader className="page-header">
-                        <h3 className="text-light">Update Intake</h3>
+                        <h3 className="text-white">Update Intake</h3>
                         <div className="page-header-back-to-home">
-                  <span onClick={backToIntakeList} className="text-light">
+                  <span onClick={backToIntakeList} className="text-white">
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Intake List
                   </span>
@@ -203,7 +203,8 @@ const UpdateIntake = () => {
                                 
                                 <ButtonForFunction
                                   func={handleCancel}
-                                  className={'btn btn-danger mt-md-3'}
+                                  className={'mt-md-3'}
+                                  color={'danger'}
                                   name={"Cancel"}
                                   permission={6}
                                 />

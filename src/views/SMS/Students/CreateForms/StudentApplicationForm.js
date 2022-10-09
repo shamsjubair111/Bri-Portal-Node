@@ -45,6 +45,7 @@ const StudentApplicationForm = () => {
     const [applicationId, setApplicationId] = useState(0);
   
     const {addToast} = useToasts();
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     
   useEffect(()=>{
@@ -163,17 +164,29 @@ const handleSubmit = (event) => {
    
      else{
   
-  
+      setButtonStatus(true);
       post('ApplicationInfo/Create',subData)
       .then(res => {
+        setButtonStatus(false);
         console.log('application response',res);
         if(res?.status == 200){
-          addToast(res.data.message,{
-            appearance: 'success',
-            autoDismiss: true
-          })
-          history.push(`/studentPersonal/${id}`);
+          if(res?.data?.isSuccess == true){
+
+            addToast(res.data.message,{
+              appearance: 'success',
+              autoDismiss: true
+            })
+            history.push(`/studentPersonal/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+
         }
+       
     
       })
   
@@ -187,9 +200,9 @@ const handleSubmit = (event) => {
 
     <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Application Information</h3>
+          <h3 className="text-white">Application Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
                12% Completed
             </span>
@@ -569,6 +582,7 @@ const handleSubmit = (event) => {
     name={'Save & Next'}
     type={'submit'}
     className=" mt-3 badge-primary"
+    disable={buttonStatus}
     
     />
     </div>

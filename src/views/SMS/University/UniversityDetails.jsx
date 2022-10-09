@@ -69,7 +69,7 @@ const UniversityDetails = () => {
   const [menus, setMenus] = useState([]);
   let [checked, setChecked] = useState([]);
 
-  console.log(location);
+
 
   // for showing campus list
   const [campusList, setCampusList] = useState([]);
@@ -483,9 +483,9 @@ const UniversityDetails = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Details</h3>
+          <h3 className="text-white">University Details</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University
               List
@@ -717,7 +717,8 @@ const UniversityDetails = () => {
 
                                 <ModalFooter>
                                   <Button
-                                    className="bg-danger"
+                                    className=""
+                                    color="danger"
                                     onClick={closeViewModal}
                                   >
                                     Close
@@ -956,6 +957,15 @@ const UniversityDetails = () => {
 
                         <td width="60%">
                           {universityInfo?.partTimeWorkInformation}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="40%">
+                          <b>Contract Type:</b>
+                        </td>
+
+                        <td width="60%">
+                          {universityInfo?.contractType?.name}
                         </td>
                       </tr>
                     </tbody>
@@ -1457,10 +1467,11 @@ const UniversityDetails = () => {
                             <a
                               href={rootUrl + temp?.templateFile?.fileUrl}
                               target="_blank"
-                              download
+                              // download
                             >
                               Download
                             </a>
+                           
                           </td>
                           
                         </tr>

@@ -122,7 +122,7 @@ const AddProviderUniversityFinancial = (props) => {
       console.log("financial id", financialId);
       put("FinancialInformation/Update", subdata).then((res) => {
         console.log("1st put response", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -130,6 +130,12 @@ const AddProviderUniversityFinancial = (props) => {
 
           history.push({
             pathname: `/addProviderUniversityFeatures/${providerProfileId}/${univerId}`,
+          });
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
           });
         }
       });
@@ -168,9 +174,9 @@ const AddProviderUniversityFinancial = (props) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Financial Information</h3>
+          <h3 className="text-white">University Financial Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-light">
+            <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>

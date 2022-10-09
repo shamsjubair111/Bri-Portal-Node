@@ -41,6 +41,7 @@ import LinkButton from "../Components/LinkButton.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import { Axios } from "axios";
 import Loader from "../Search/Loader/Loader.js";
+import { useToasts } from "react-toast-notifications";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
@@ -94,6 +95,9 @@ const UniversityList = (props) => {
   const [checkAppli, setCheckAppli] = useState(true);
   const [checkProg, setCheckProg] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [delData,setDelData] = useState({});
+  const {addToast} = useToasts();
+  const [success,setSuccess] = useState(false);
 
   const providerData = useSelector(
     (state) => state?.universityProviderDataReducer?.universityProviders
@@ -249,6 +253,7 @@ const UniversityList = (props) => {
     entity,
     location.name,
     location.universityCountry,
+    success,
     // serialNum
   ]);
 
@@ -451,15 +456,20 @@ const UniversityList = (props) => {
   // deleteing university
 
   const handleDeleteUniversity = () => {
-    const id = localStorage.getItem("universityId_from_universityList_Page");
-    remove(`University/Delete/${id}`).then((res) => {
-      console.log(res);
+    
+    remove(`University/Delete/${delData?.id}`).then((res) => {
+      addToast(res,{
+        appearance: 'error',
+        autoDismiss: true
+      })
+      setSuccess(!success);
+      setDeleteModal(false);
     });
   };
 
   const toggleDanger = (id) => {
-    localStorage.setItem("universityId_from_universityList_Page", id);
-
+    
+    setDelData(id);
     setDeleteModal(true);
   };
 
@@ -550,9 +560,9 @@ const UniversityList = (props) => {
         <div>
           <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University List</h3>
+          <h3 className="text-white">University List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {location?.universityCountry != undefined
@@ -725,7 +735,7 @@ const UniversityList = (props) => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -737,7 +747,7 @@ const UniversityList = (props) => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -1116,7 +1126,7 @@ const UniversityList = (props) => {
                             {/* </Link> */}
 
                             <ButtonForFunction
-                              func={() => toggleDanger(university?.id)}
+                              func={() => toggleDanger(university)}
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}

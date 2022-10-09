@@ -355,7 +355,7 @@ const ApplicationDetails = () => {
     if (studentDocuId !== 0) {
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
         
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -365,10 +365,14 @@ const ApplicationDetails = () => {
           setIsSelected(false);
           setStudentDocuId(0);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
-    } else {
-      return;
-    }
+    }  
   };
 
   if (
@@ -405,7 +409,7 @@ const ApplicationDetails = () => {
     else {
       post("StudentUploadDocument/Create", subData).then((res) => {
         
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -416,6 +420,12 @@ const ApplicationDetails = () => {
           setDocLevel("");
           setDocuTypeLabel("Select Document Type");
           setDocuTypeValue(0);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
@@ -699,9 +709,9 @@ const ApplicationDetails = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Application Details</h3>
+          <h3 className="text-white">Application Details</h3>
           <div className="page-header-back-to-home">
-            <span onClick={handleRedirectToAppliPage} className="text-light">
+            <span onClick={handleRedirectToAppliPage} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {

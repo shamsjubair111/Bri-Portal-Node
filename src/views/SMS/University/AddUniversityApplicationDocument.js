@@ -154,6 +154,9 @@ const AddUniversityApplicationDocument = () => {
     if (tab == "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
 
   const toggleDanger = (p) => {
@@ -184,7 +187,7 @@ const AddUniversityApplicationDocument = () => {
       if (selectedId === 0) {
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -194,6 +197,12 @@ const AddUniversityApplicationDocument = () => {
             setShowForm(!showForm);
             // setDocumentLabel("Select Requirement Status")
             // setDocumentValue(0);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       } else {
@@ -303,9 +312,9 @@ const AddUniversityApplicationDocument = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Application Document</h3>
+          <h3 className="text-white">University Application Document</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University
               List
@@ -358,6 +367,11 @@ const AddUniversityApplicationDocument = () => {
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Commission
               </NavLink>
             </NavItem>
 

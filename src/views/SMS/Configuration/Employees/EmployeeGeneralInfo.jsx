@@ -57,6 +57,7 @@ const EmployeeGeneralInfo = (props) => {
   const [files, setFiles] = useState([]);
   const [exactFile, setExactFile] = useState({});
   const [dropzoneError, setDropzoneError] = useState("");
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -192,11 +193,13 @@ const EmployeeGeneralInfo = (props) => {
     }
      
      else {
+      setButtonStatus(true);
       Axios.put(`${rootUrl}Employee/Update`, subData, {
         headers: {
           'authorization': AuthStr,
         },
       }).then((res) => {
+        setButtonStatus(false);
 
         // (res.status === 200 && res.data.isSuccess === true) ?
         // status = 'success' : status = res.data.message;
@@ -216,6 +219,7 @@ const EmployeeGeneralInfo = (props) => {
           //   //   state: { detail : uID},
           //     id: uID
           // })
+          
           history.push(`/staffContactInfo/${id}`);
         }
       });
@@ -251,9 +255,9 @@ const EmployeeGeneralInfo = (props) => {
     <div className="uapp-employee">
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Staff General Information</h3>
+          <h3 className="text-white">Staff General Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-white" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List
             </span>
@@ -531,6 +535,7 @@ const EmployeeGeneralInfo = (props) => {
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
+                    disable={buttonStatus}
                    />
                    :
                    null

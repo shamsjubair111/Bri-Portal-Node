@@ -30,6 +30,7 @@ const ProgramLevel=(props)=>{
     const [ProgramName, setProgramName] = useState('');
 
     const [programLvlId, setProgramLvlId] = useState(undefined);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     
      // redirect to dashboard
@@ -62,7 +63,9 @@ const closeModal = () => {
 
       
         if(programLvlId != undefined){
+          setButtonStatus(true);
           const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
+            setButtonStatus(false);
             setSuccess(!success);
             setModalOpen(false)
             addToast(action?.data?.message, {
@@ -79,7 +82,9 @@ const closeModal = () => {
           })
         }
         else{
+          setButtonStatus(true);
           const returnValue = post(`ProgramLevel/Create`,subData).then((action)=>{
+            setButtonStatus(false);
             setSuccess(!success)
             setModalOpen(false)
             addToast(action?.data?.message, {
@@ -126,7 +131,9 @@ const closeDeleteModal = () => {
   }
 
   const handleDeleteProgram = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`ProgramLevel/Delete/${id}`).then((action)=> {
+      setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
       
@@ -184,9 +191,9 @@ return (
           <>
           <Card className="uapp-card-bg">
           <CardHeader className="page-header">             
-             <h3 className="text-light">Program Level List</h3>
+             <h3 className="text-white">Program Level List</h3>
               <div className="page-header-back-to-home">
-                 <span onClick={backToDashboard} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+                 <span onClick={backToDashboard} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
               </div>             
           </CardHeader>      
         </Card>
@@ -308,6 +315,7 @@ return (
         className={"mr-1 mt-3"}
         name={"Submit"}
         permission={6}
+        disable={buttonStatus}
       />
 
   {/* } */}
@@ -377,7 +385,7 @@ return (
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={() => handleDeleteProgram(ProgramId)}>YES</Button>
+                    <Button color="danger" onClick={() => handleDeleteProgram(ProgramId)} disabled={buttonStatus}>YES</Button>
                     <Button onClick={closeDeleteModal}>NO</Button>
                   </ModalFooter>
 

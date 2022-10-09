@@ -30,6 +30,7 @@ const AdmissionManager = () => {
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
     const [emailError, setEmailError] = useState(true);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
         get(`CountryDD/index`)
@@ -134,8 +135,10 @@ const AdmissionManager = () => {
        
         else{
 
+          setButtonStatus(true);
           post(`AdmissionManager/Create`,subData)
           .then(res => {
+            setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -175,9 +178,9 @@ const AdmissionManager = () => {
 
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Create Admission Manager</h3>
+          <h3 className="text-white">Create Admission Manager</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToProviderDetails}>
+            <span className="text-white" onClick={backToProviderDetails}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
@@ -474,13 +477,14 @@ const AdmissionManager = () => {
                    <div className='d-flex justify-content-end'>
                    {
                     permissions?.includes(permissionList?.Add_Admission_manager) ?
-                    <Button.Ripple
+                    <Button
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                         // onClick={(e)=>handleSubmit(e)}
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                       : null
                    }
                    </div>

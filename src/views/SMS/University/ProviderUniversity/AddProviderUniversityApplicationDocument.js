@@ -185,7 +185,7 @@ const AddProviderUniversityApplicationDocument = () => {
       if (selectedId === 0) {
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -195,6 +195,12 @@ const AddProviderUniversityApplicationDocument = () => {
             setShowForm(!showForm);
             // setDocumentLabel("Select Requirement Status")
             // setDocumentValue(0);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       } else {
@@ -303,9 +309,9 @@ const AddProviderUniversityApplicationDocument = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Application Document</h3>
+          <h3 className="text-white">University Application Document</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-light">
+            <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>

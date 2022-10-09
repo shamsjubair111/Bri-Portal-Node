@@ -269,9 +269,9 @@ const redirectToSubjectProfile = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Subject Document Requirement</h3>
+          <h3 className="text-white">Subject Document Requirement</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToSubjecList} className="text-light">
+            <span onClick={backToSubjecList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
             </span>

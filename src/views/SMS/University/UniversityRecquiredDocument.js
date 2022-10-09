@@ -139,7 +139,7 @@ const UniversityRecquiredDocument = () => {
     } else {
       post("UniversityRequiredDocuments/Create", subData).then((res) => {
         console.log("document data", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -147,6 +147,12 @@ const UniversityRecquiredDocument = () => {
           setSuccess(!success);
           setShowForm(!showForm);
           // history.push('/universityList');
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
@@ -206,9 +212,9 @@ const UniversityRecquiredDocument = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Add University Required Document</h3>
+          <h3 className="text-white">Add University Required Document</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University List
             </span>

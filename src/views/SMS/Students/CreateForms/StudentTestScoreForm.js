@@ -87,6 +87,7 @@ const StudentTestScoreForm = () => {
 
   const [testError, setTestError] = useState(false);
   const [loading, setLoading] =useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
 // Test Options
 
@@ -198,10 +199,11 @@ const StudentTestScoreForm = () => {
 
     const subData = new FormData(event.target);
     if (ELqualificationLabel == "IELTS") {
-     
+        setButtonStatus(true);
         post("Ielts/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -214,14 +216,21 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
      
     } else if (ELqualificationLabel == "DUOLINGO") {
-      
+         setButtonStatus(true);
         post("Duolingo/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -234,14 +243,20 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
 
     } else if (ELqualificationLabel == "TOEFL") {
-    
+        setButtonStatus(true);
         post("Toefl/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -254,14 +269,20 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
  
     } else if (ELqualificationLabel == "FUNCTION SKILLS") {
-   
+         setButtonStatus(true);
         post("FunctionalSkill/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -274,14 +295,20 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
    
     } else if (ELqualificationLabel == "GCSE") {
-     
+        setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -294,14 +321,20 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
      
     } else if (ELqualificationLabel == "PEARSON") {
-     
+        setButtonStatus(true);
         post("Pearson/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -314,14 +347,20 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
    
     } else if (ELqualificationLabel == "OTHER SCORE") {
-    
+        setButtonStatus(true);
         post("Other/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -334,14 +373,20 @@ const StudentTestScoreForm = () => {
             setQualificationValue(0);
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
      
     } else {
-     
+        setButtonStatus(true);
         post("PTE/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -355,6 +400,14 @@ const StudentTestScoreForm = () => {
             setModalOpen(false);
             history.push(`/studentExperience/${id}`);
           }
+
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+
         });
      
     }
@@ -391,9 +444,10 @@ const StudentTestScoreForm = () => {
       console.log(x);
     }
 
-
+       setButtonStatus(true);
       post(`GreScore/Create`, subData).then((res) => {
-        if (res?.status == 200) {
+        setButtonStatus(false);
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -401,6 +455,12 @@ const StudentTestScoreForm = () => {
           setSuccess(!success);
           setModal2Open(false);
           history.push(`/studentExperience/${id}`);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
   
@@ -416,9 +476,10 @@ const StudentTestScoreForm = () => {
     for (var x of subData.values()) {
       console.log(x);
     }
-
+        setButtonStatus(true);
       post(`GmatScore/Create`, subData).then((res) => {
-        if (res?.status == 200) {
+        setButtonStatus(false);
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -426,6 +487,12 @@ const StudentTestScoreForm = () => {
           setSuccess(!success);
           setModal3Open(false);
           history.push(`/studentExperience/${id}`);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
   
@@ -438,9 +505,9 @@ const StudentTestScoreForm = () => {
         <div>
         <Card className="uapp-card-bg">
           <CardHeader className="page-header">
-            <h3 className="text-light">English Language / Test Score</h3>
+            <h3 className="text-white">English Language / Test Score</h3>
             <div className="page-header-back-to-home">
-              <span className="text-light" >
+              <span className="text-white" >
                 {" "}
                  36% Completed
               </span>
@@ -476,11 +543,11 @@ const StudentTestScoreForm = () => {
             </div>
          
   
-          <div className="row mt-3">
+       
           
               <FormGroup
                 row
-                className="has-icon-left position-relative ms-md-1"
+                className="has-icon-left position-relative ml-md-2 mt-3"
               >
                 <Col md="2">
                   <span>
@@ -509,7 +576,7 @@ const StudentTestScoreForm = () => {
               <>
                 <FormGroup
                   row
-                  className="has-icon-left position-relative ms-md-1"
+                  className="has-icon-left position-relative ml-md-2"
                 >
                   <Col md="2">
                     <span>
@@ -702,6 +769,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -859,6 +927,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1015,6 +1084,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1062,6 +1132,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1109,6 +1180,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1241,6 +1313,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1309,6 +1382,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1443,6 +1517,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1456,12 +1531,12 @@ const StudentTestScoreForm = () => {
             </div>
   
             {/* Showing English Test Score Forms */}
-          </div>
+         
   
           {/* Showing English Test Result In Card */}
   
           <div className="row mt-3">
-            <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+            <div className="hedding-titel d-flex justify-content-between ml-md-4 mb-3">
               <div>
                 <h5>
                   {" "}
@@ -1477,7 +1552,7 @@ const StudentTestScoreForm = () => {
   
           <section id="root">
             <div className="row mt-3">
-              <div className="hedding-titel d-flex justify-content-between ms-md-2 mb-3">
+              <div className="hedding-titel d-flex justify-content-between ml-md-4 mb-3">
                 <div>
                   <h5>
                     {" "}
@@ -1491,12 +1566,12 @@ const StudentTestScoreForm = () => {
   
            </div>
           
-             <Button color="primary" onClick={()=> setModal2Open(true)}>
+             <Button color="primary" className="ml-2" onClick={()=> setModal2Open(true)}>
              <i className="fas fa-plus"></i> <span>{' '}Add GRE Score</span>
              </Button>
              <br/>
              <br/>
-             <Button color="primary" onClick={()=> setModal3Open(true)}>
+             <Button color="primary" className="ml-2" onClick={()=> setModal3Open(true)}>
              <i className="fas fa-plus"></i> <span>{' '}Add GMAT Score</span>
              </Button>
           
@@ -1681,6 +1756,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>
@@ -1912,6 +1988,7 @@ const StudentTestScoreForm = () => {
                               name={"Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
+                              disable={buttonStatus}
                             />
 
                             </div>

@@ -145,10 +145,20 @@ setTitleValue(value);
     }
     put(`BranchManager/Update`, subData, config).then((res) => {
     
-      addToast(res?.data?.message, {
-        appearance: "success",
-      });
-      history.push(`/branchProfile/${branchManagerInfo?.branchId}`);
+      if(res?.status == 200 && res?.data?.isSuccess == true){
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true
+        });
+        history.push(`/branchProfile/${branchManagerInfo?.branchId}`);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true
+        });
+      }
+     
     });
   };
 
@@ -156,9 +166,9 @@ setTitleValue(value);
     <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Update Branch Manager Information</h3>
+          <h3 className="text-white">Update Branch Manager Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToBranchList} className="text-light">
+            <span onClick={backToBranchList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Branch List
             </span>

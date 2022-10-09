@@ -48,6 +48,7 @@ const BranchList = () => {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const history = useHistory();
   const backToDashboard = () => {
@@ -73,7 +74,9 @@ const BranchList = () => {
   };
 
   const handleDeletebranch = () => {
+    setButtonStatus(true);
     remove(`Branch/Delete/${delData}`).then((res) => {
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -145,9 +148,9 @@ const BranchList = () => {
       <div>
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Branch List</h3>
+          <h3 className="text-white">Branch List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -185,7 +188,7 @@ const BranchList = () => {
                     <DropdownMenu className="bg-dd">
                       {/* <DropdownItem> */}
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}><i className="fas fa-file-excel"></i></p> */}
                           <ReactTableConvertToXl
                             id="test-table-xls-button"
@@ -195,7 +198,7 @@ const BranchList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -393,7 +396,8 @@ const BranchList = () => {
                             icon={<i className="fas fa-eye"></i>}
                             permission={6}
                           /> */}
-
+                            {
+                              singleBranch?.email  !== 'info@smsheg.co.uk' ?
                             <ButtonForFunction
                               color={"warning"}
                               className={"mx-1 btn-sm"}
@@ -401,14 +405,24 @@ const BranchList = () => {
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
+                            : 
+                            null
+                            }
 
+                            {
+                              singleBranch?.email !== 'info@smsheg.co.uk'?
                             <ButtonForFunction
                               color={"danger"}
                               func={() => toggleDanger(singleBranch?.id)}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
+                              
+                              
                             />
+                            :
+                              null
+                            }
 
                             <Modal
                               isOpen={deleteModal}
@@ -426,10 +440,11 @@ const BranchList = () => {
                                 <Button
                                   color="danger"
                                   onClick={handleDeletebranch}
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>
-                                <Button onClick={closeDeleteModal}>NO</Button>
+                                <Button onClick={closeDeleteModal} >NO</Button>
                               </ModalFooter>
                             </Modal>
                           </ButtonGroup>

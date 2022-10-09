@@ -86,6 +86,7 @@ const TestScore = () => {
 
   const [testError, setTestError] = useState(false);
   const [loading, setLoading] =useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const handleDate = (e) => {
     var datee = e;
@@ -237,7 +238,9 @@ const TestScore = () => {
 
   const deleteEnglishTestScore = () => {
     if (value == 1) {
+      setButtonStatus(true);
       remove(`Ielts/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -248,7 +251,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 2) {
+      setButtonStatus(true);
       remove(`Duolingo/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -259,7 +264,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 3) {
+      setButtonStatus(true);
       remove(`Toefl/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -270,7 +277,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 4) {
+      setButtonStatus(true);
       remove(`FunctionalSkill/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -281,7 +290,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 5) {
+      setButtonStatus(true);
       remove(`Gcse/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -292,7 +303,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 6) {
+      setButtonStatus(true);
       remove(`Pearson/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -303,7 +316,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 7) {
+      setButtonStatus(true);
       remove(`Other/Delete/${data?.id}`).then((res) => {
+        setButtonStatus(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -314,8 +329,9 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 8) {
+      setButtonStatus(true);
       remove(`Pte/Delete/${data?.id}`).then((res) => {
-        console.log(res);
+        setButtonStatus(false);
 
         addToast(res, {
           appearance: "error",
@@ -330,9 +346,10 @@ const TestScore = () => {
   };
 
   const handleDeleteGreData = (data) => {
-    console.log(data);
+    setButtonStatus(true);
 
     remove(`GreScore/Delete/${data?.id}`).then((res) => {
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -349,10 +366,10 @@ const TestScore = () => {
   }
 
   const handleDeleteGmatData = (data) => {
-    console.log(data);
+    setButtonStatus(true);
 
     remove(`GmatScore/Delete/${data?.id}`).then((res) => {
-      console.log(res);
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -501,9 +518,11 @@ const TestScore = () => {
     const subData = new FormData(event.target);
     if (ELqualificationLabel == "IELTS") {
       if (!updateIelts) {
+        setButtonStatus(true);
         post("Ielts/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -516,11 +535,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         put("Ielts/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -534,13 +560,20 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateIelts(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "DUOLINGO") {
       if (!updateDuolingo) {
+        setButtonStatus(true);
         post("Duolingo/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -553,11 +586,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         put("Duolingo/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -571,13 +611,20 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateDuolingo(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "TOEFL") {
       if (!updateToefl) {
+        setButtonStatus(true);
         post("Toefl/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -590,13 +637,20 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
 
-      {
+      else{
+        setButtonStatus(true);
         put("Toefl/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -610,13 +664,20 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateToefl(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "FUNCTION SKILLS") {
       if (!updateFunctions) {
+        setButtonStatus(true);
         post("FunctionalSkill/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -629,11 +690,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         put("FunctionalSkill/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -647,13 +715,20 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateFunctions(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "GCSE") {
       if (!updateGcse) {
+        setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -666,11 +741,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         put("Gcse/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -684,13 +766,20 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateGcse(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "PEARSON") {
       if (!updatePearson) {
+        setButtonStatus(true);
         post("Pearson/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -703,11 +792,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         put("Pearson/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -721,13 +817,20 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdatePearson(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else if (ELqualificationLabel == "OTHER SCORE") {
       if (!updateOther) {
+        setButtonStatus(true);
         post("Other/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -740,11 +843,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         put("Other/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -758,13 +868,20 @@ const TestScore = () => {
             setModalOpen(false);
             setUpdateOther(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     } else {
       if (!updatePte) {
+        setButtonStatus(true);
         post("PTE/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -777,11 +894,18 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         put("PTE/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -794,6 +918,12 @@ const TestScore = () => {
             setQualificationValue(0);
             setModalOpen(false);
             setUpdatepte(false);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -875,8 +1005,10 @@ const TestScore = () => {
     }
 
     if (greData?.id) {
+      setButtonStatus(true);
       put(`GreScore/Update`, subData).then((res) => {
-        if (res?.status == 200) {
+        setButtonStatus(false);
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -884,16 +1016,30 @@ const TestScore = () => {
           setSuccess(!success);
           setModal2Open(false);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     } else {
+      setButtonStatus(true);
       post(`GreScore/Create`, subData).then((res) => {
-        if (res?.status == 200) {
+        setButtonStatus(false);
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
           });
           setSuccess(!success);
           setModal2Open(false);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
@@ -911,8 +1057,10 @@ const TestScore = () => {
     }
 
     if (gmatData?.id) {
+      setButtonStatus(true);
       put(`GmatScore/Update`, subData).then((res) => {
-        if (res?.status == 200) {
+        setButtonStatus(false);
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
@@ -920,32 +1068,44 @@ const TestScore = () => {
           setSuccess(!success);
           setModal3Open(false);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     } else {
+      setButtonStatus(true);
       post(`GmatScore/Create`, subData).then((res) => {
-        if (res?.status == 200) {
+        setButtonStatus(false);
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoComplete: true,
           });
           setSuccess(!success);
           setModal3Open(false);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
   };
 
-  const handleAdd = () => {
-    setAdd(true);
-  };
+  
 
   return (
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">English Language / Test Score</h3>
+          <h3 className="text-white">English Language / Test Score</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to
               Student Profile
@@ -1326,19 +1486,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1493,19 +1661,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1672,19 +1848,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1728,19 +1912,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1786,19 +1978,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -1941,19 +2141,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-9 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -2021,19 +2229,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
 
@@ -2165,19 +2381,27 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                        style={{ display: "flex", justifyContent: "end" }}
-                      >
-                        <Col md="5">
-                          <ButtonForFunction
+                      <div className="row">
+                        <div className="col-md-8 d-flex justify-content-end">
+                        <Button
+                            color="danger"
+                            className="mt-3 mr-1"
+                            onClick={()=> setModalOpen(false)}
+
+                          >
+                            Cancel
+                            </Button>
+
+                            <ButtonForFunction
                             name={"Save"}
-                            className={"mr-1 mt-3 badge-primary"}
+                            className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
+                            disable={buttonStatus}
                           />
-                        </Col>
-                      </FormGroup>
+
+                        </div>
+
+                      </div>
                     </>
                   )}
                 </Form>
@@ -2294,7 +2518,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2369,7 +2593,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2450,7 +2674,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2530,7 +2754,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2598,7 +2822,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2666,7 +2890,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2737,7 +2961,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2813,7 +3037,7 @@ const TestScore = () => {
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={deleteEnglishTestScore}>
+                    <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
                       YES
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
@@ -2914,7 +3138,7 @@ const TestScore = () => {
                       <Button
                         color="danger"
                         onClick={() => handleDeleteGreData(greData)}
-                      >
+                        disabled={buttonStatus}                       >
                         YES
                       </Button>
                       <Button onClick={() => setDeleteModal2(false)}>
@@ -3006,7 +3230,7 @@ const TestScore = () => {
                       <Button
                         color="danger"
                         onClick={() => handleDeleteGmatData(gmatData)}
-                      >
+                        disabled={buttonStatus} >
                         YES
                       </Button>
                       <Button onClick={() => setDeleteModal3(false)}>
@@ -3259,16 +3483,17 @@ const TestScore = () => {
                         className="mr-1 mt-3"
                         onClick={closeModal2}
                       >
-                        Close
+                        Cancel
                       </Button>
 
-                      <Button.Ripple
+                      <Button
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                     </FormGroup>
                   </Form>
                 </ModalBody>
@@ -3511,16 +3736,17 @@ const TestScore = () => {
                         className="mr-1 mt-3"
                         onClick={closeModal3}
                       >
-                        Close
+                        Cancel
                       </Button>
 
-                      <Button.Ripple
+                      <Button
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                     </FormGroup>
                   </Form>
                 </ModalBody>

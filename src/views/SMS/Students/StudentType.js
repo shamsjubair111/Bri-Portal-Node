@@ -106,7 +106,7 @@ const StudentType = () => {
      put('StudentType/Update',subdata)
      .then(res => {
        console.log(res);
-       if(res?.status == 200){
+       if(res?.status == 200 && res?.data?.isSuccess == true){
         setSuccess(!success)
         setModalOpen(false)
      
@@ -120,6 +120,12 @@ const StudentType = () => {
           setStudentTypeInfo(res);
         } )
        }
+       else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
      
 
      })
@@ -198,9 +204,9 @@ const closeDeleteModal = () => {
             
             <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Student Type List</h3>
+                <h3 className="text-white">Student Type List</h3>
                 <div className="page-header-back-to-home">
-                  <span onClick={backToDashboard} className="text-light">
+                  <span onClick={backToDashboard} className="text-white">
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                   </span>

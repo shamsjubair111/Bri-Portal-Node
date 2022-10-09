@@ -40,6 +40,7 @@ const ContactInformation = () => {
 
   const [countryError, setCountryError] = useState(false);
   const [addressError, setAddressError] = useState(false);
+  const  [buttonStatus, setButtonStatus] =useState(false);
 
   
 
@@ -168,9 +169,10 @@ const ContactInformation = () => {
       setAddressError(true);
     } else {
       if (oneData?.id) {
+        setButtonStatus(true);
         put("StudentContactInformation/Update", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -178,16 +180,29 @@ const ContactInformation = () => {
             setSuccess(!success);
             history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       } else {
+        setButtonStatus(true);
         post("StudentContactInformation/Create", subData).then((res) => {
-          console.log(res);
-          if (res?.status == 200) {
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
             });
             history.push(`/addStudentEducationalInformation/${applicationStudentId}`);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -198,9 +213,9 @@ const ContactInformation = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Contact Information</h3>
+          <h3 className="text-white">Contact Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student
               Profile
@@ -494,6 +509,7 @@ const ContactInformation = () => {
                       type={"submit"}
                       name={"Submit"}
                       className={"mr-1 mt-3 badge-primary"}
+                      disable={buttonStatus}
                     />
                   </Col>
                 </FormGroup>

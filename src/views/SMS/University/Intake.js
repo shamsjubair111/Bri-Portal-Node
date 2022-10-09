@@ -18,6 +18,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Form,
 } from "reactstrap";
 import Select from "react-select";
 import { Link } from "react-router-dom";
@@ -34,6 +35,9 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkButton from '../Components/LinkButton';
 import { permissionList } from '../../../constants/AuthorizationConstant';
 import Loader from '../Search/Loader/Loader';
+import CustomButtonRipple from "../Components/CustomButtonRipple";
+import post from "../../../helpers/post";
+
 
 const Intake = () => {
   const [intakeList, setIntakeList] = useState([]);
@@ -50,6 +54,21 @@ const Intake = () => {
   const [success, setSuccess] = useState(false);
   const [intakeId, setIntakeId] = useState(0);
   const [intakeName, setIntakeName] = useState("");
+  const [month,setMonth] = useState([]);
+  const [year,setYear] = useState([]);
+  const [smTitle,setsmTitle] = useState('Select Month');
+  const [emTitle,setemTitle] = useState('Select Month');
+  const [syTitle,setsyTitle] = useState('Select Year');
+  const [eyTitle,seteyTitle] = useState('Select Year');
+  const [syValue,setsyValue] = useState(0);
+  const [eyValue,seteyValue] = useState(0);
+  const [smValue,setsmValue] = useState(0);
+  const [emValue,setemValue] = useState(0);
+  const [smError,setsmError] = useState('');
+  const [emError,setemError] = useState('');
+  const [syError,setsyError] = useState('');
+  const [eyError,seteyError] = useState('');
+
 
   // for hide/unhide table column
   const [checkSlNo, setCheckSlNo] = useState(true);
@@ -60,6 +79,7 @@ const Intake = () => {
 
   const history = useHistory();
   const { addToast } = useToasts();
+  const [modalOpen,setModalopen] = useState(false);
 
   const handleAddNewButton = () => {
     history.push("/addNewIntakes");
@@ -83,12 +103,48 @@ const Intake = () => {
       setEntity(res?.totalEntity);
       setLoading(false);
     });
+
+    get('MonthDD/Index').then(res=> {
+      setMonth(res);
+    })
+    .catch();
+
+    get('YearDD/Index').then(res=> {
+        setYear(res);
+      })
   }, [success]);
 
   // redirect to dashboard
   const backToDashboard = () => {
     history.push("/");
   };
+
+  const monthMenu = month.map(monthOptions =>({label:monthOptions.name, value:monthOptions.id}));
+      const yearMenu = year.map(yearOptions =>({label:yearOptions.name, value:yearOptions.id}));
+
+      
+    const selectSMonthType = (label, value) => {
+      setsmError('');
+        setsmTitle(label);
+        setsmValue(value); 
+      }
+    const selectEMonthType = (label, value) => {
+      setemError('');
+        setemTitle(label);
+        setemValue(value); 
+      }
+
+      const selectSYearType = (label, value) => {
+        setsyError('');
+        setsyTitle(label);
+        setsyValue(value); 
+      }
+
+      const selectEYearType = (label, value) => {
+        seteyError('');
+        seteyTitle(label);
+        seteyValue(value); 
+      }
 
   // toggle dropdown
   const toggle = () => {
@@ -114,6 +170,20 @@ const Intake = () => {
     setIntakeId(0);
   };
 
+  const closeOpenModal = () => {
+    setModalopen(false);
+    setsmTitle('Select Month')
+    setemTitle('Select Month')
+    setsmValue(0);
+    setemValue(0);
+    setsyTitle('Select Year');
+    setsyValue(0);
+    seteyTitle('Select Year');
+    seteyValue(0);
+  }
+
+ 
+
   const handleDelete = (id) => {
     const returnValue = remove(`Intake/Delete/${id}`).then((action) => {
       console.log(action, "kdkfjdfhdhdjhfd");
@@ -127,6 +197,10 @@ const Intake = () => {
       setIntakeId(0);
     });
   };
+
+  const handleGenerateIntake = () => {
+    setModalopen(true);
+  }
 
   const handleExportXLSX = () => {
     var wb = XLSX.utils.book_new(),
@@ -154,6 +228,46 @@ const Intake = () => {
     setCheckAction(e.target.checked);
   };
 
+  const submitForm = (event) => {
+    event.preventDefault();
+    const subData = new FormData(event.target);
+
+    if(smValue == 0){
+      setsmError('Month must be selected');
+    }
+    else if(emValue == 0){
+      setemError('Month must be selected');
+    }
+    else if(syValue == 0){
+      setsyError('Year must be selected')
+    }
+    else if( eyValue == 0){
+      seteyError('Year must be selected');
+    }
+
+    else{
+      post(`Intake/Generate`,subData)
+      .then(res => {
+        if(res?.status ==200 && res?.data?.isSuccess == true){
+          addToast(res?.data?.message,{
+            appearance: 'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          closeOpenModal();
+          
+        }
+        else{
+          addToast(res?.data?.message,{
+            appearance: 'error',
+            autoDismiss: true
+          })
+        }
+      })
+    }
+
+  }
+
   return (
     <div>
       {
@@ -161,11 +275,156 @@ const Intake = () => {
         <Loader/>
         :
         <>
+         <Modal
+                            isOpen={modalOpen}
+                            toggle={closeOpenModal}
+                            className="uapp-modal2"
+                          >
+                            <ModalHeader>Generate Intake</ModalHeader>
+                            <ModalBody>
+                            <Form onSubmit={submitForm}>
+                    <FormGroup row>
+                        <Col md="4">
+                            <span>
+                               <span >Start Month</span> <span className="text-danger">*</span>{" "}
+                            </span>
+                        </Col>
+
+                        <Col md="6">
+                        <Select
+                            options={monthMenu}
+                            value={{ label: smTitle, value: smValue }}
+                            onChange={(opt) => selectSMonthType(opt.label, opt.value)}
+                            name="startMonthId"
+                            id="startMonthId"
+                        />
+                        
+                           <span className='text-danger'>{smError}</span>
+                        
+                        </Col>
+
+                        <Col md="4">
+
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Col md="4">
+                            <span>
+                               <span >End Month</span> <span className="text-danger">*</span>{" "}
+                            </span>
+                        </Col>
+
+                        <Col md="6">
+                        <Select
+                            options={monthMenu}
+                            value={{ label: emTitle, value: emValue }}
+                            onChange={(opt) => selectEMonthType(opt.label, opt.value)}
+                            name="endMonthId"
+                            id="endMonthId"
+                        />
+                        
+                           <span className='text-danger'>{emError}</span>
+                        
+                        </Col>
+
+                        <Col md="4">
+
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row className='mt-3'>
+                        <Col md="4">
+                            <span>
+                               <span >Start Year</span> <span className="text-danger">*</span>{" "}
+                            </span>
+                        </Col>
+
+                        <Col md="6">
+                        <Select
+                            options={yearMenu}
+                            value={{ label: syTitle, value: syValue }}
+                            onChange={(opt) => selectSYearType(opt.label, opt.value)}
+                            name="startYearId"
+                            id="startYearId"
+                        />
+                        
+                           <span className='text-danger'>{syError}</span>
+                        
+
+
+                          
+                        </Col>
+
+                       
+                    </FormGroup>
+
+                    <FormGroup row className='mt-3'>
+                        <Col md="4">
+                            <span>
+                               <span >End Year</span> <span className="text-danger">*</span>{" "}
+                            </span>
+                        </Col>
+
+                        <Col md="6">
+                        <Select
+                            options={yearMenu}
+                            value={{ label: eyTitle, value: eyValue }}
+                            onChange={(opt) => selectEYearType(opt.label, opt.value)}
+                            name="endYearId"
+                            id="endYearId"
+                        />
+                        
+                           <span className='text-danger'>{eyError}</span>
+                        
+
+
+                          
+                        </Col>
+
+                       
+                    </FormGroup>
+
+                    <FormGroup row>
+
+                    <Col md="10" className="d-flex justify-content-end align-items-end">
+                            <div>
+
+                            <Button
+                                  onClick={closeOpenModal}
+                                  className='mt-md-3 mr-1'
+                                  color='danger'                                 
+                                
+                                >
+                                  Cancel
+                                  </Button>
+
+                                <ButtonForFunction
+                                 type={'submit'}
+                                  className={'mt-md-3 ml-1'}
+                                  color={'primary'}
+                                  name={"Submit"}
+                                  permission={6}
+                                />
+
+                               
+
+                            </div>
+                        </Col>
+                    </FormGroup>
+
+                    
+                </Form>
+                            </ModalBody>
+
+                           
+                          </Modal>
+
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Intake List</h3>
+          <h3 className="text-white">Intake List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -180,11 +439,19 @@ const Intake = () => {
               {permissions?.includes(permissionList?.Add_subject_intake) ? (
                 <ButtonForFunction
                   func={handleAddNewButton}
-                  className={"btn btn-uapp-add "}
+                  className={"btn btn-uapp-add mr-1"}
                   icon={<i className="fas fa-plus"></i>}
                   name={" Add New Intake"}
                 />
               ) : null}
+
+                  <ButtonForFunction
+                  func={handleGenerateIntake}
+                  className={"btn btn-uapp-add ml-1"}
+                  icon={<i className="fas fa-plus"></i>}
+                  name={" Generate Intake"}
+                />
+
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -201,7 +468,7 @@ const Intake = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -213,7 +480,7 @@ const Intake = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

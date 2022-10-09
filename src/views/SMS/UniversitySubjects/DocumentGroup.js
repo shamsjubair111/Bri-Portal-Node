@@ -303,7 +303,7 @@ const DocumentGroup = () => {
     } else {
       post("DocumentGroupDocument/Create", subData).then((res) => {
        
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -313,6 +313,12 @@ const DocumentGroup = () => {
           setDocumentLabel("Select Document");
           setDocumentValue(0);
           setApplication(null);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
@@ -333,9 +339,9 @@ const DocumentGroup = () => {
       <div>
          <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Subject Document Group</h3>
+          <h3 className="text-white">Subject Document Group</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>

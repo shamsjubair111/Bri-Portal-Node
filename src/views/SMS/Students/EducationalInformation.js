@@ -44,6 +44,7 @@ const EducationalInformation = () => {
 
     const [programError, setProgramError] = useState(false);
     const [countryError, setCountryError] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(()=>{
 
@@ -207,9 +208,10 @@ const handleSubmit = (event) => {
   else{
 
     if(oneData?.id){
+      setButtonStatus(true);
       put(`EducationInformation/Update`,subData)
       .then(res => {
-        console.log('update done',res);
+        setButtonStatus(false);
         addToast(res?.data?.message,{
           appearance: 'success',
           autoDismiss: true
@@ -222,10 +224,10 @@ const handleSubmit = (event) => {
     
      else{
 
-   
+      setButtonStatus(true);
       post('EducationInformation/Create',subData)
       .then(res => {
-        console.log('Educatinal information Post ',res);
+        setButtonStatus(false);
         addToast(res?.data?.message,{
           appearance: 'success',
           autoDismiss: true
@@ -344,9 +346,9 @@ const handleUpdate = (id) => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Educational Information</h3>
+          <h3 className="text-white">Educational Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
@@ -790,6 +792,7 @@ const handleUpdate = (id) => {
         name={'Submit'}
         type={'submit'}
         className={'mr-1 mt-3 badge-primary'}
+        disable={buttonStatus}
         />
        
           </Col>
@@ -1058,6 +1061,7 @@ const handleUpdate = (id) => {
           type={'submit'}
           className={'mr-1 mt-3 badge-primary'}
           name={'Submit'}
+          disable={buttonStatus}
           />
          
             </Col>

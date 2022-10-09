@@ -79,6 +79,7 @@ const AdmissionManagerProfile = () => {
   const history = useHistory();
   const location = useLocation();
   const { addToast } = useToasts();
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const tableStyle = {
     overflowX: "scroll",
@@ -186,6 +187,7 @@ const AdmissionManagerProfile = () => {
     else{
       if(selectedId === undefined){
         setOfficerObj({});
+        setButtonStatus(true);
         post(`AdmissionOfficer/Create`, subdata)
         .then(res => {
           setSuccess(!success);
@@ -197,6 +199,7 @@ const AdmissionManagerProfile = () => {
           setUniCountryValue(0);
           setUniStateLabel("Select State");
           setUniStateValue(0);
+          setButtonStatus(false);
 
         //   setuniversityId(res?.data?.result?.universityId)
           if (res?.status === 200 && res?.data?.isSuccess === true) {
@@ -245,8 +248,9 @@ const AdmissionManagerProfile = () => {
       setOfficerError(true);
     }
     else{
+      setButtonStatus(true);
       post("AdmissionOfficerOfManager/Create", subdata).then(res => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -256,6 +260,13 @@ const AdmissionManagerProfile = () => {
           setOfficerLabel("Select Admission Officer");
           setOfficerValue(0);
           setExistsNote();
+          setButtonStatus(false);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       })
     }
@@ -354,6 +365,7 @@ const selectNameTitle = (label, value) => {
     setDeleteName(officer?.firstName);
     setDeleteId(officer?.officermanagerId);
     setDeleteModal(true);
+    
   }
 
   const closeDeleteModal = () => {
@@ -363,6 +375,7 @@ const selectNameTitle = (label, value) => {
   };
 
   const handleDeleteAdmissionOfficer = (id) =>{
+    setButtonStatus(true);
     remove(`AdmissionOfficerOfManager/Delete/${id}`).then((res) => {
       addToast(res, {
         appearance: "error",
@@ -372,6 +385,7 @@ const selectNameTitle = (label, value) => {
       setDeleteName("");
       setDeleteId(undefined);
       setSuccess(!success);
+      setButtonStatus(false);
     });
   }
 
@@ -387,9 +401,9 @@ const selectNameTitle = (label, value) => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Admission Manager Details</h3>
+          <h3 className="text-white">Admission Manager Details</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-light">
+            <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {location.managerList != undefined
@@ -721,6 +735,7 @@ const selectNameTitle = (label, value) => {
                       className={"mr-1 mt-3"}
                       name={"Submit"}
                       permission={6}
+                      isDisabled={buttonStatus}
                     />
                   </FormGroup>
                 </Form>
@@ -990,6 +1005,7 @@ const selectNameTitle = (label, value) => {
                         className={"mr-1 mt-3"}
                         name={"Submit"}
                         permission={6}
+                        isDisabled={buttonStatus}
                       />
 
                   </FormGroup>
@@ -1059,6 +1075,7 @@ const selectNameTitle = (label, value) => {
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
+                              
                             />
       
                             <ButtonForFunction
@@ -1085,6 +1102,7 @@ const selectNameTitle = (label, value) => {
                             <Button
                               color="danger"
                               onClick={() => handleDeleteAdmissionOfficer(deleteId)}
+                              disabled={buttonStatus}
                             >
                               YES
                             </Button>

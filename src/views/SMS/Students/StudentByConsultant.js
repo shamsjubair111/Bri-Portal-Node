@@ -71,6 +71,7 @@ const StudentByConsultant = () => {
   const [checkPass, setCheckPass] = useState(true);
   const [checkBlackList, setCheckBlacklist] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
   
 
   const history = useHistory();
@@ -215,10 +216,10 @@ const StudentByConsultant = () => {
   }
 
   const handleDeleteData = (data) => {
-
+    setButtonStatus(true);
     remove(`Student/Delete/${delData?.id}`)
     .then(res => {
-
+      setButtonStatus(false);
       console.log(res);
       addToast(res,{
         appearance: 'error',
@@ -293,9 +294,9 @@ const StudentByConsultant = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Student List</h3>
+          <h3 className="text-white">Student List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
@@ -341,7 +342,7 @@ const StudentByConsultant = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -364,7 +365,7 @@ const StudentByConsultant = () => {
                             />
 
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -819,7 +820,7 @@ const StudentByConsultant = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={handleDeleteData}>
+                              <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>

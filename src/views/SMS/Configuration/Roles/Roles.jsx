@@ -68,14 +68,20 @@ const Roles = (props) => {
        setDeleteModal(false);
        setSuccess(!success);
     
-      if(action?.status == 200){
+      if(action?.status == 200 && action?.data?.isSuccess == true){
         addToast(action?.data?.message, {
-          appearance:  'error',
+          appearance:  'success',
           autoDismiss: true,
         })
         get(`UserRole/Index`).then((action)=>{
           dispatch(StoreRoleData(action))
         });
+      }
+      else{
+        addToast(action?.data?.message, {
+          appearance:  'error',
+          autoDismiss: true,
+        })
       }
      })
   }
@@ -104,9 +110,9 @@ const Roles = (props) => {
       <Card className='uapp-card-bg'>
               <CardHeader className="page-header">
               
-          <h3 className='text-light'>User Roles</h3>
+          <h3 className='text-white'>User Roles</h3>
                   <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className='text-light'> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
+            <span onClick={backToDashboard} className='text-white'> <i className="fas fa-arrow-circle-left"></i> Back to Dashboard</span>
                   </div>
               
               </CardHeader>

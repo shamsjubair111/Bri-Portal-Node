@@ -30,6 +30,7 @@ const EmployeeContactInfo = () => {
     const [countryValue, setCountryValue] = useState(0);
     const [countryError, setCountryError] = useState('');
     const { addToast } = useToasts();
+    const [buttonStatus,setButtonStatus] = useState(false);
     
 
 
@@ -83,15 +84,25 @@ const EmployeeContactInfo = () => {
         }
         
         else{
-           
+
+            setButtonStatus(true);
              post(`EmployeeContactInformation/Create`,subData).then((action)=> {
               
-               if(action?.status == 200){
+               if(action?.status == 200 && action?.data?.isSuccess == true){
+                setButtonStatus(false);
                 addToast(action?.data?.message, {
                     appearance:  'success',
                     autoDismiss: true,
                   })
                   history.push('/staffList');
+               }
+               else{
+                setButtonStatus(false);
+                addToast(action?.data?.message, {
+                    appearance:  'error',
+                    autoDismiss: true,
+                  })
+                 
                }
               
             })
@@ -131,9 +142,9 @@ const EmployeeContactInfo = () => {
             <Card className='uapp-card-bg'>
               <CardHeader className="page-header">
               
-                  <h3 className='text-light'>Staff Contact Information</h3>
+                  <h3 className='text-white'>Staff Contact Information</h3>
                   <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard} className='text-light'> <i className="fas fa-arrow-circle-left"></i> Back to Staff List</span>
+                    <span onClick={backToDashboard} className='text-white'> <i className="fas fa-arrow-circle-left"></i> Back to Staff List</span>
                   </div>
               
               </CardHeader>
@@ -318,6 +329,7 @@ const EmployeeContactInfo = () => {
                                       className={"mr-1 mt-3 badge-primary"}
                                       name={"Submit"}
                                       permission={6}
+                                      disable={buttonStatus}
                                     />
                                     </Col>
 

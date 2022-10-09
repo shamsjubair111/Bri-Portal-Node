@@ -78,6 +78,7 @@ const AddConsultantInformation = () => {
   const [success, setSuccess] = useState(false);
 
   const [activetab, setActivetab] = useState("1");
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   // Profile Image States
 
@@ -566,12 +567,14 @@ const AddConsultantInformation = () => {
    
     }
     else {
+      setButtonStatus(true);
       put(`Consultant/Update`, subData).then((res) => {
+        setButtonStatus(false);
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,
         });
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           setSuccess(!success);
           setFileList1([]);
           setFileList2([]);
@@ -581,6 +584,12 @@ const AddConsultantInformation = () => {
           history.push(`/consultantBankDetails/${consultantRegisterId}`);
           
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     }
   };
@@ -589,11 +598,11 @@ const AddConsultantInformation = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light"> Consultant Information</h3>
+          <h3 className="text-white"> Consultant Information</h3>
           {
             !(userTypeId == userTypes?.Consultant) ?
             <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToConsultantList}>
+            <span className="text-white" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant
               List
@@ -1295,6 +1304,7 @@ const AddConsultantInformation = () => {
                   className={"mr-1 mt-3 badge-primary"}
                   name={"Submit"}
                   permission={6}
+                  disable={buttonStatus}
                 />
               </Col>
             </FormGroup>

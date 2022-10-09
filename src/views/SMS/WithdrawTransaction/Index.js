@@ -58,6 +58,7 @@ const Index = () => {
     const [reference,setReference] = useState('');
     const [deleteModal,setDeleteModal] = useState(false);
     const [delData,setDelData] = useState({});
+    const [buttonStatus,setButtonStatus] = useState(false);
    
    
 
@@ -98,8 +99,10 @@ const Index = () => {
     }
 
     const handleDeleteData = () => {
+      setButtonStatus(true);
       remove(`WithdrawTransaction/Delete/${delData?.id}`)
       .then(res=> {
+        setButtonStatus(false);
         addToast(res,{
           appearance: 'error',
           autoDismiss: true
@@ -255,9 +258,10 @@ const toggle1 = () => {
         }
 
         else{
-
+          setButtonStatus(true);
           post(`WithdrawTransaction/Create`,subData)
           .then(res => {
+            setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true)
               {
                 addToast(res?.data?.message,{
@@ -346,13 +350,14 @@ const toggle1 = () => {
              
                
 
-              <Button.Ripple
+              <Button
                   color="primary"
                   className="mr-1 mt-3"
+                  disabled={buttonStatus}
                   
                   >
                   Submit
-                  </Button.Ripple>
+                  </Button>
                 
               </div>
 
@@ -463,7 +468,7 @@ const toggle1 = () => {
                          <Button
                             color="primary"
                             className="mr-1 mt-3"
-                            disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) )? true : false}
+                            disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) || buttonStatus)? true : false}
                             >
                               
                             Submit
@@ -477,9 +482,9 @@ const toggle1 = () => {
 
                     <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
-                  <h3 className="text-light">Withdraw Transaction List</h3>
+                  <h3 className="text-white">Withdraw Transaction List</h3>
                   <div className="page-header-back-to-home">
-                    <span onClick={backToDashboard} className="text-light">
+                    <span onClick={backToDashboard} className="text-white">
                       {" "}
                       <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                     </span>
@@ -583,7 +588,7 @@ const toggle1 = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -595,7 +600,7 @@ const toggle1 = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -622,12 +627,12 @@ const toggle1 = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p>
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -703,7 +708,7 @@ const toggle1 = () => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                          <Button  color="danger" onClick={handleDeleteData} buttonStatus>YES</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

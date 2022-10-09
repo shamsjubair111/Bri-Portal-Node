@@ -96,6 +96,7 @@ const PersonalInformation = () => {
   const [FileList, setFileList] = useState([]);
 
   const [imgError, setImgError] = useState(false);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   // const dispatch = useDispatch();
 
@@ -422,9 +423,11 @@ const PersonalInformation = () => {
       setImgError(true);
     } 
     else {
+      setButtonStatus(true);
       put("Student/Update", subData).then((res) => {
+        setButtonStatus(false);
         console.log("posted data", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -432,6 +435,13 @@ const PersonalInformation = () => {
           setSuccess(!success);
           setFileList([]);
 
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+         
         }
       });
     }
@@ -441,9 +451,9 @@ const PersonalInformation = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Personal Information</h3>
+          <h3 className="text-white">Personal Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student
               Profile
@@ -941,6 +951,7 @@ const PersonalInformation = () => {
                       className={"mr-1 mt-3 badge-primary"}
                       type={"submit"}
                       name={"Submit"}
+                      disable={buttonStatus}
                     />
                   </Col>
                 </FormGroup>

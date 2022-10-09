@@ -22,6 +22,7 @@ const AddDegree = () => {
     const [educationValue, setEducationValue] = useState(0);
     const [educationError, setEducationError] = useState(false);
     const [errorMessage,setErrorMessage] = useState('Education level must be selected');
+    const [buttonStatus,setButtonStatus] = useState(false);
 
 
     useEffect(()=> {
@@ -77,8 +78,10 @@ const AddDegree = () => {
         else{
 
             if(degreeName !== undefined && eduLabel !== undefined && educationId !== undefined && id !== undefined){
+              setButtonStatus(true);
                 put(`Degree/Update`,subData)
                 .then( res => {
+                  setButtonStatus(false);
                     if(res?.status ==200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
@@ -93,10 +96,10 @@ const AddDegree = () => {
             }
 
             else{
-                
+                setButtonStatus(true);
                 post('Degree/Create',subData)
                 .then( res => {
-                    
+                    setButtonStatus(false);
                     if(res?.status ==200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
@@ -129,9 +132,9 @@ const AddDegree = () => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Degree Information</h3>
+          <h3 className="text-white">Degree Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-white" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Degree List
             </span>
@@ -236,6 +239,7 @@ const AddDegree = () => {
           type={'submit'}
           name={"Submit"}
           className={"mr-1 mt-3 badge-primary"}
+          disable={buttonStatus}
 
           />
           

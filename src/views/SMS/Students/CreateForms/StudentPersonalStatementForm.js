@@ -20,6 +20,7 @@ const StudentPersonalStatementForm = () => {
     const [id, setId] = useState(0);
     const [stringData,setStringData] = useState(0);
     const {idVal} = useParams();
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     function countWords(str) {
         const arr = str.split(' ');
@@ -39,17 +40,24 @@ const StudentPersonalStatementForm = () => {
           event.preventDefault();
   
           const subData = new FormData(event.target);
-  
+              setButtonStatus(true);
              post('PersonalStatement/Create',subData)
             .then(res => {
+              setButtonStatus(false);
               console.log(res);
-              if(res?.status == 200){
+              if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
                   appearance: 'success',
                   autoDismiss: true
                   
                 })
                 history.push(`/studentOtherInformation/${idVal}`);
+              }
+              else{
+                addToast(res?.data?.message, {
+                  appearance: "error",
+                  autoDismiss: true,
+                });
               }
     
             })
@@ -62,9 +70,9 @@ const StudentPersonalStatementForm = () => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Personal Statement</h3>
+          <h3 className="text-white">Personal Statement</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
               60% Completed
             </span>
@@ -113,13 +121,13 @@ const StudentPersonalStatementForm = () => {
       
         <div className='row'>
             <div className='col-md-8 d-flex justify-content-end'>
-            <Button.Ripple
+            <Button
                 type="submit"
                 className="mr-1 mt-3 badge-primary"
-                disabled ={stringData < 300 ? true : false}
+                disabled ={(stringData < 300 || buttonStatus)}
                 >
                 Save & Next
-               </Button.Ripple>
+               </Button>
 
             </div>
 

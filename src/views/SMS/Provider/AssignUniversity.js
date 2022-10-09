@@ -163,7 +163,7 @@ const AssignUniversity = () => {
 
     if (selectedId !== undefined) {
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -177,6 +177,12 @@ const AssignUniversity = () => {
           setRadioIsAcceptUk("true");
           setRadioIsAcceptInt("false");
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     } else {
       if (uniValue === 0) {
@@ -184,7 +190,7 @@ const AssignUniversity = () => {
       } else {
         setSelectedId(undefined);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -196,6 +202,12 @@ const AssignUniversity = () => {
             setRadioIsAcceptHome("false");
             setRadioIsAcceptUk("true");
             setRadioIsAcceptInt("false");
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -252,9 +264,9 @@ const AssignUniversity = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Assigned University</h3>
+          <h3 className="text-white">Assigned University</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-light">
+            <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {location.managerList != undefined
@@ -292,7 +304,7 @@ const AssignUniversity = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                               <i className="fas fa-file-excel"></i>
                             </p> */}
@@ -304,7 +316,7 @@ const AssignUniversity = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

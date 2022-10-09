@@ -129,6 +129,9 @@ const AddUniversityGallery = () => {
     if (tab == "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
 
   const handleDelete = (gallery) => {
@@ -183,9 +186,9 @@ const AddUniversityGallery = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Gallery</h3>
+          <h3 className="text-white">University Gallery</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University
               List
@@ -255,6 +258,15 @@ const AddUniversityGallery = () => {
                                 > */}
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Commission
               </NavLink>
             </NavItem>
           </Nav>
@@ -363,7 +375,8 @@ const AddUniversityGallery = () => {
 
                           <ModalFooter>
                             <Button
-                              className="bg-danger"
+                              className=""
+                              color="danger"
                               onClick={closeViewModal}
                             >
                               Close

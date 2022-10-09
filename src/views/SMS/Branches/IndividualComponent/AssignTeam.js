@@ -66,6 +66,7 @@ const AssignTeam = (props) => {
     const [branchTeam, setBranchTeam] = useState([]);
     const [branchEmployeeCheckbox, setBranchEmployeeCheckbox] = useState([]);
     const [deleteId, setDeleteId] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
       
    
     
@@ -108,16 +109,17 @@ const AssignTeam = (props) => {
       // }
 
       const handleDeleteBranchEmployee = () => {
-      
+        setButtonStatus(true);
         remove(`BranchEmployee/Delete/${deleteId}`).then((res) => {
+          setButtonStatus(false);
           addToast(res, {
             appearance: "error",
             autoDismiss: true
           });
          setSuccess(!success);
-         
+         setEmployeeModal(false);
         });
-        setEmployeeModal(false);
+        
       };
 
       const closeEmployeeModal = () => {
@@ -170,9 +172,10 @@ const AssignTeam = (props) => {
     // for( let val of subData.values()){
   
     // }
+    setButtonStatus(true);
     post('BranchTeamEmployee/Create',subdata)
     .then(res => {
-     
+     setButtonStatus(false);
       history.push(`/branchProfile/${id}`);
       addToast(res?.data?.message,{
         appearance: 'success',
@@ -332,6 +335,7 @@ const AssignTeam = (props) => {
                                 <Button
                                   color="danger"
                                   onClick={handleDeleteBranchEmployee}
+                                  disabled={buttonStatus}
                                 >
                                   YES
                                 </Button>
@@ -407,12 +411,13 @@ const AssignTeam = (props) => {
                             <Row>
 
                                 <Col>
-                                <Button.Ripple
+                                <Button
                                 type="submit"
                                 className="mr-1 mt-3 badge-primary"
+                                disabled={buttonStatus}
                             >
                                 Submit
-                            </Button.Ripple>
+                            </Button>
                                 </Col>
 
                             </Row>

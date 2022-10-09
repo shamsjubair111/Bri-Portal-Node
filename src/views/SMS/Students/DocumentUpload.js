@@ -67,6 +67,7 @@ const DocumentUpload = () => {
   const [isSelected, setIsSelected] = useState(false);
 
   const [FileList2, setFileList2] = useState([]);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const previousPage = () => {
     history.push(`/addOtherInformation/${applicationStudentId}/${1}`);
@@ -204,8 +205,9 @@ const DocumentUpload = () => {
     //   setUploadError(true);
     // }
     else {
+      setButtonStatus(true);
       post("StudentUploadDocument/Create", subData).then((res) => {
-        console.log("document data", res);
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -254,8 +256,10 @@ const DocumentUpload = () => {
 
   const handleDeleteDocument = () => {
     console.log("delData", delDocData?.studentDocumentLevelId);
+    setButtonStatus(true);
     const returnValue = remove(`StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`).then(
       (action) => {
+        setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -270,8 +274,10 @@ const DocumentUpload = () => {
   };
 
   const handleDeleteFile = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`StudentUploadDocument/FileDelete/${id}`).then(
       (action) => {
+        setButtonStatus(false);
         setDeleteModal2(false);
         setSuccess(!success);
         addToast(action, {
@@ -305,10 +311,10 @@ const DocumentUpload = () => {
     // }
 
     if(studentDocuId !== 0){
-
+      setButtonStatus(true);
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
-        console.log("document data create", res);
-        if (res?.status == 200) {
+        setButtonStatus(false);
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -317,6 +323,12 @@ const DocumentUpload = () => {
           setFileList2(undefined);
           setIsSelected(false);
           setStudentDocuId(0);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       });
     }
@@ -348,9 +360,9 @@ const DocumentUpload = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Upload Documents</h3>
+          <h3 className="text-white">Upload Documents</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student
               Profile
@@ -702,6 +714,7 @@ const DocumentUpload = () => {
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Upload"}
                     permission={6}
+                    disable={buttonStatus}
                   />
                 </FormGroup>
                 </div>

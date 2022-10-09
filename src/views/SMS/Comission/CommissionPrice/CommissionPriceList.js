@@ -151,9 +151,9 @@ const CommissionPriceList = () => {
             <div>
                   <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Commission Price List</h3>
+                <h3 className="text-white">Commission Price List</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToDashboard}>
+                  <span className="text-white" onClick={backToDashboard}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Commission Groups
                   </span>

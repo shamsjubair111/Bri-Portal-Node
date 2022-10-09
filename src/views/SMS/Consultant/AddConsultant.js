@@ -37,7 +37,7 @@ const AddConsultant = () => {
     const [titleError, setTitleError] = useState(false);
     const [pass,setPass] = useState('');
     const [passError,setPassError] = useState('');
-
+    const [buttonStatus,setButtonStatus] = useState(false);
     const history = useHistory();
     const { addToast } = useToasts();
       
@@ -134,12 +134,14 @@ const AddConsultant = () => {
   
 
      else{
+      setButtonStatus(true);
       post("Consultant/Register", subdata).then(res=>{
         console.log("consultant",res);
         addToast(res?.data?.message, {
           appearance: res?.data?.isSuccess == true ? 'success': 'error',
           autoDismiss: true,
         });
+        setButtonStatus(false);
         
         if (res.status === 200 && res.data.isSuccess === true) {
           
@@ -171,9 +173,9 @@ const AddConsultant = () => {
 
              <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Consultant Registration</h3>
+          <h3 className="text-white">Consultant Registration</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToConsultantList}>
+            <span className="text-white" onClick={backToConsultantList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
@@ -383,7 +385,7 @@ const AddConsultant = () => {
 
                    <Button onClick={ToConsultantList} 
                     className='mt-3 mr-1'
-                    color='warning'>
+                    color='danger'>
                         Cancel
                     </Button>
 
@@ -392,7 +394,7 @@ const AddConsultant = () => {
                       className={'mt-3 ml-1'}
                       color={'primary'}
                       name={"Submit"}
-                      
+                      disable={buttonStatus}
                     />
 
                  

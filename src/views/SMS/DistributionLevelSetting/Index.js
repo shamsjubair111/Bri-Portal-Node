@@ -57,9 +57,9 @@ const DistributionLevelSetting = () => {
         <div>
              <Card className="uapp-card-bg">
               <CardHeader className="page-header">
-                <h3 className="text-light">Distribution Level Settings</h3>
+                <h3 className="text-white">Distribution Level Settings</h3>
                 <div className="page-header-back-to-home">
-                  <span className="text-light" onClick={backToDashboard}>
+                  <span className="text-white" onClick={backToDashboard}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                   </span>

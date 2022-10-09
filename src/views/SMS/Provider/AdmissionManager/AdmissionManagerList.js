@@ -121,6 +121,7 @@ const AdmissionManagerList = () => {
   const referenceId = localStorage.getItem("referenceId");
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [loading,setLoading] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("ProviderDD/Index").then((res) => {
@@ -280,7 +281,9 @@ const AdmissionManagerList = () => {
   };
 
   const handleDelete = () => {
+    setButtonStatus(true);
     remove(`AdmissionManager/Delete/${deleteData?.id}`).then((res) => {
+      
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -290,6 +293,7 @@ const AdmissionManagerList = () => {
       setManagerId(0);
       setManagerName("");
       setSuccess(!success);
+      setButtonStatus(false);
     });
   };
 
@@ -306,12 +310,18 @@ const AdmissionManagerList = () => {
 
     put(`AdmissionManager/UpdateAccountStatus/${managerId}`, subData).then(
       (res) => {
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
           });
           setSuccess(!success);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         }
       }
     );
@@ -474,9 +484,9 @@ const AdmissionManagerList = () => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Admission Manager List</h3>
+          <h3 className="text-white">Admission Manager List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -865,7 +875,7 @@ const AdmissionManagerList = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -877,7 +887,7 @@ const AdmissionManagerList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -1264,6 +1274,7 @@ const AdmissionManagerList = () => {
                                 className={"mx-1 btn-sm"}
                                 icon={<i className="fas fa-trash-alt"></i>}
                                 permission={6}
+                                disable={buttonStatus}
                               />
                             ) : null}
                           </ButtonGroup>

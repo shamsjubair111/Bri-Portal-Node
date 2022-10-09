@@ -35,6 +35,7 @@ const OtherInformation = () => {
     const {addToast} = useToasts();
 
     const [data, setData] = useState({});
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -103,10 +104,10 @@ const OtherInformation = () => {
         const subData = new FormData(event.target);
 
         if(update){
-
+          setButtonStatus(true);
           put('OtherInformation/Update',subData)
           .then(res => {
-            console.log(res);
+            setButtonStatus(false);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',
@@ -119,10 +120,10 @@ const OtherInformation = () => {
         }
 
         else if(id){
-
+          setButtonStatus(true);
           put('OtherInformation/Update',subData)
           .then(res => {
-            console.log(res);
+            setButtonStatus(false);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',
@@ -135,17 +136,23 @@ const OtherInformation = () => {
         }
 
         else{
-
+          setButtonStatus(true);
           post('OtherInformation/Create', subData)
         .then(res => {
-          console.log(res);
-          if(res?.status == 200){
+          setButtonStatus(false);
+          if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance:'success',
               autoDismiss:true
             })
             
 
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         })
 
@@ -179,9 +186,9 @@ const OtherInformation = () => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Other Information</h3>
+          <h3 className="text-white">Other Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
@@ -416,6 +423,7 @@ const OtherInformation = () => {
       name={'Submit'}
       className={"mr-1 mt-3 badge-primary"}
       type={'submit'}
+      disable={buttonStatus}
       />
 
   </Col>

@@ -41,6 +41,7 @@ const StudentRegister = () => {
 
    const [pass,setPass] = useState('');
    const [passError,setPassError] = useState('');
+   const [buttonStatus,setButtonStatus] = useState(false);
 
 
   useEffect(() => {
@@ -142,8 +143,10 @@ const StudentRegister = () => {
       }
       else {
         const subdata = new FormData(event.target);
+        setButtonStatus(true);
         post('Student/Register', subdata)
           .then(res => {
+            setButtonStatus(false);
            
             if(res?.status === 200 && res?.data?.isSuccess === true){
               console.log('hello', res);
@@ -200,9 +203,9 @@ const StudentRegister = () => {
 
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Register Student</h3>
+          <h3 className="text-white">Register Student</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentList}>
+            <span className="text-white" onClick={backToStudentList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student List
             </span>
@@ -213,10 +216,14 @@ const StudentRegister = () => {
       <Card>
         <CardBody>
 
+        <span style={{fontSize: '17px'}}><b>Create Student Account</b></span>
+        <br/>
+        <span>Provide Information Below To Create Student Account.</span>
+
+          <Form onSubmit={handleRegisterStudent} className="mt-4">
 
 
-          <Form onSubmit={handleRegisterStudent} className="mt-5">
-
+           
 
             <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
@@ -391,9 +398,9 @@ const StudentRegister = () => {
               style={{ display: "flex", justifyContent: "end" }}
               >
                  <ButtonForFunction
-                className={'mr-1 mt-3 btn-warning'}
+                className={'mr-1 mt-3'}
                 func={cancelForm}
-               
+                color={'danger'}
                 name={'Cancel'}
               />
 
@@ -403,7 +410,7 @@ const StudentRegister = () => {
                 className={'mr-1 mt-3 badge-primary'}
                 name={'Submit'}
                 type={'submit'}
-                disable={canSubmit}
+                disable={canSubmit || buttonStatus}
 
               />
 

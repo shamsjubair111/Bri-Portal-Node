@@ -26,16 +26,17 @@ const StudentOtherInformationForm = () => {
     const {addToast} = useToasts();
 
     const [data, setData] = useState({});
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     const handleOtherInformation = (event) => {
 
         event.preventDefault();
 
         const subData = new FormData(event.target);
-
+          setButtonStatus(true);
         post('OtherInformation/Create', subData)
         .then(res => {
-          console.log(res);
+          setButtonStatus(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance:'success',
@@ -67,9 +68,9 @@ const StudentOtherInformationForm = () => {
 
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Other Information</h3>
+          <h3 className="text-white">Other Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" >
+            <span className="text-white" >
               {" "}
               74% Completed
             </span>
@@ -216,6 +217,7 @@ const StudentOtherInformationForm = () => {
         name={'Save & Next'}
         className={"mt-3 badge-primary"}
         type={'submit'}
+        disable={buttonStatus}
         />
 
         </div>

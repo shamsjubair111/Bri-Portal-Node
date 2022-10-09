@@ -24,6 +24,7 @@ const StudentDocumentForm = () => {
     const [singTime,setSignTime] = useState([]);
     const userTypeId = localStorage.getItem('userType');
     const [success,setSuccess] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
 
@@ -54,35 +55,51 @@ const StudentDocumentForm = () => {
         subData.append('IpAddress',apiInfo?.IPv4);
         post('StudentConsent/Sign',subData)
         .then(res => {
-          if(res?.status == 200){
+          if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
               autoDismiss: true
             })
             setSuccess(!success);
           }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         })
       }
      const finish = () => {
+      setButtonStatus(true);
         put(`StudentConsent/SendEmail/${idVal}`)
         .then(res => {
-            if(res?.status == 200){
+          setButtonStatus(false);
+            if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast("Email Sending is in Process",{
                     appearance: 'success',
                     autoDismiss: true
                 })
                 setSuccess(!success);
-
+                history.push(`/studentProfile/${idVal}`);
             }
-            history.push(`/studentProfile/${idVal}`);
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+            }
+            
         })
 
      }
 
       const sendEmail = () => {
+        setButtonStatus(true);
         put(`StudentConsent/SendEmail/${idVal}`)
         .then(res => {
-            if(res?.status == 200){
+          setButtonStatus(false);
+            if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast("Email Sending is in Process",{
                     appearance: 'success',
                     autoDismiss: true
@@ -90,6 +107,13 @@ const StudentDocumentForm = () => {
                 setSuccess(!success);
 
             }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+            }
+
         })
       }
 
@@ -105,9 +129,9 @@ const StudentDocumentForm = () => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Student Declaration</h3>
+          <h3 className="text-white">Student Declaration</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light">
+            <span className="text-white">
               {" "}
               92% Completed
             </span>
@@ -222,6 +246,7 @@ const StudentDocumentForm = () => {
                    <div className="mb-1 text-right">
                    <Button color="primary"
                    onClick={finish}
+                   disabled={buttonStatus}
                    >
                        Send Email & Finish
                    </Button>
@@ -234,6 +259,7 @@ const StudentDocumentForm = () => {
                        <span className="text-info"> Email is sent with credentails </span>
                        <Button color="primary"
                    onClick={sendEmail}
+                   disabled={buttonStatus}
                    >
                        Send Email Again
                    </Button>

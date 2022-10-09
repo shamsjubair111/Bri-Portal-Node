@@ -180,6 +180,9 @@ const AddUniversityTemplateDocument = () => {
     if (tab == "7") {
       history.push(`/addUniversityTemplateDocument/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addUniversityCommission/${univerId}`);
+    }
   };
 
   const toggleDanger = (p) => {
@@ -214,7 +217,7 @@ const AddUniversityTemplateDocument = () => {
       if (selectedId === 0) {
         post("UniversityTemplateDocument/Create", subData).then((res) => {
           console.log("document data", res);
-          if (res?.status == 200) {
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
               autoDismiss: true,
@@ -225,6 +228,12 @@ const AddUniversityTemplateDocument = () => {
             setFileList1([]);
             setApplicationTypeLabel("Select Application Type");
             setApplicationTypeValue(0);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       } else {
@@ -303,21 +312,14 @@ const AddUniversityTemplateDocument = () => {
     });
   };
 
-  const onGoUniList = () => {
-    history.push('/universityList')
-  }
-
-  const onGoUniProfile = () => {
-    history.push(`/universityDetails/${univerId}`)
-  }
-
+  
   return (
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Template Document</h3>
+          <h3 className="text-white">University Template Document</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToUniList} className="text-light">
+            <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to University List
             </span>
@@ -369,6 +371,11 @@ const AddUniversityTemplateDocument = () => {
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
               Template Document
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+              Commission
               </NavLink>
             </NavItem>
 
@@ -756,43 +763,27 @@ const AddUniversityTemplateDocument = () => {
                 </div>
               ) : null}
 
-              {
-                templateList?.length>0?
-                <FormGroup
-                className="has-icon-left position-relative"
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <ButtonForFunction
-                  func={onGoUniList}
-                  color={"primary uapp-form-button"}
-                  name={"Go to University List"}
-                  permission={6}
-                />
-
-                <ButtonForFunction
-                  func={onGoUniProfile}
-                  color={"primary uapp-form-button"}
-                  className={"ml-lg-2 ml-sm-2"}
-                  name={"Go to University Profile"}
-                  permission={6}
-                />
-              </FormGroup>
-              :
-              null
-              }
+            
+               
+            
 
             </TabPane>
           </TabContent>
 
+          <div className=" d-flex justify-content-between">
           <Link to={`/addUniversityApplicationDocument/${univerId}`}>
             <Button color="warning">
                   Previous Page
             </Button>
           </Link>
+
+          <Link to={`/addUniversityCommission/${univerId}`}>
+            <Button color="warning">
+                  Next Page
+            </Button>
+          </Link>
+
+          </div>
         </CardBody>
       </Card>
       <br /> <br /> <br />

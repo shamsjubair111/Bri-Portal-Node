@@ -22,6 +22,7 @@ const BranchTeamEmployeeInformation = () => {
     const [deleteModal,setDeleteModal] = useState(false);
     const [delData, setDelData] = useState({});
     const [success, setSuccess] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
    
     
 
@@ -110,9 +111,10 @@ const BranchTeamEmployeeInformation = () => {
       }
 
       const handleDeleteEmployee = () => {
-
+        setButtonStatus(true);
         remove(`BranchTeamEmployee/Delete/${delData?.teamEmployeeId}`)
         .then(res => {
+          setButtonStatus(false);
           addToast(res,{
             appearance: 'error',
             autoDismiss: true
@@ -137,13 +139,19 @@ const BranchTeamEmployeeInformation = () => {
       // posting form Data
      post(`BranchTeamEmployee/Create`,subData).then((action)=> {
    
-       if(action?.status == 200){
+       if(action?.status == 200 && action?.data?.isSuccess  == true){
          setChecked([]);
             addToast(action?.data?.message, {
               appearance:  'success',
               autoDismiss: true,
             })
          
+       }
+       else{
+        addToast(action?.data?.message, {
+          appearance:  'error',
+          autoDismiss: true,
+        })
        }
 
           
@@ -192,9 +200,9 @@ const BranchTeamEmployeeInformation = () => {
             <Card className="uapp-card-bg">
         <CardHeader className="page-header">
 
-          <h3 className="text-light">Team Employee Details</h3>
+          <h3 className="text-white">Team Employee Details</h3>
           <div className="page-header-back-to-home" >
-            <span onClick={backToBranchList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Branch Profile</span>
+            <span onClick={backToBranchList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Branch Profile</span>
           </div>
 
         </CardHeader>
@@ -247,7 +255,7 @@ const BranchTeamEmployeeInformation = () => {
               </ModalBody>
 
               <ModalFooter>
-                <Button color="danger"   onClick={handleDeleteEmployee}>YES</Button>
+                <Button color="danger"   onClick={handleDeleteEmployee} disabled={buttonStatus}>YES</Button>
                 <Button onClick={closeDeleteModal}>NO</Button>
               </ModalFooter>
 

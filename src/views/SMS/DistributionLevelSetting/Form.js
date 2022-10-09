@@ -8,6 +8,8 @@ const DistributionLevelSettingForm = (props) => {
     const {success, setSuccess, name, setName, value, setValue, percent, setPercent, update, setUpdate, data, setData} = props;
 
     const {addToast} = useToasts();
+    const [buttonStatus,setButtonStatus] = useState(false);
+
   
     
 
@@ -16,9 +18,10 @@ const DistributionLevelSettingForm = (props) => {
         const subData = new FormData(event.target);
 
         if(update){
-
+            setButtonStatus(true);
             put(`DistributionLevelSetting/Update`,subData)
             .then(res => {
+                setButtonStatus(false);
                     if(res?.status == 200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
@@ -35,9 +38,10 @@ const DistributionLevelSettingForm = (props) => {
 
         }
         else{
-
+            setButtonStatus(true);
             post(`DistributionLevelSetting/Create`,subData)
         .then(res => {
+            setButtonStatus(false);
                 if(res?.status == 200 && res?.data?.isSuccess == true){
                     addToast(res?.data?.message,{
                         appearance: 'success',
@@ -144,7 +148,7 @@ const DistributionLevelSettingForm = (props) => {
                 
                     
                 <div>
-                <Button color='primary' type='submit'>
+                <Button color='primary' type='submit' disabled={buttonStatus}>
                     Submit
 
                     </Button>

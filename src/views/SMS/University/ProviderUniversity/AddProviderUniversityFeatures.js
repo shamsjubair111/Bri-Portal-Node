@@ -97,7 +97,7 @@ const AddProviderUniversityFeatures = () => {
     if (featureId !== undefined) {
       put("UniversityFeatures/Update", subdata).then((res) => {
         console.log("1st put response", res);
-        if (res?.status == 200) {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
             autoDismiss: true,
@@ -105,6 +105,12 @@ const AddProviderUniversityFeatures = () => {
 
           history.push({
             pathname: `/addProviderUniversityGallery/${providerProfileId}/${univerId}`,
+          });
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
           });
         }
       });
@@ -210,9 +216,9 @@ const AddProviderUniversityFeatures = () => {
         <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">University Features Information</h3>
+          <h3 className="text-white">University Features Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-light">
+            <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>

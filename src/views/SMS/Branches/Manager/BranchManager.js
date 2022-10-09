@@ -43,6 +43,7 @@ const BranchManager = () => {
 
     const [pass,setPass] = useState('');
     const [passError, setPassError] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
 
    
 
@@ -244,7 +245,7 @@ if(titleValue == 0 ){
   //       //   })
   
    
-  //       if(res?.status == 200){
+  //       if(res?.status == 200 && res?.data?.isSuccess == true){
 
   //         addToast(res?.data?.message,{
   //           appearance: 'success',
@@ -265,6 +266,7 @@ if(titleValue == 0 ){
   //   }
 
     else{
+      setButtonStatus(true);
       Axios.post(`${rootUrl}BranchManager/Create`, subdata, config).then((res) => {
        
         // (res.status === 200 && res.data.isSuccess === true) ?
@@ -277,7 +279,7 @@ if(titleValue == 0 ){
         //     // autoDismiss: true,
         //   })
   
-        
+        setButtonStatus(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
 
           addToast(res?.data?.message,{
@@ -332,9 +334,9 @@ if(titleValue == 0 ){
               <Card className="uapp-card-bg">
         <CardHeader className="page-header">
 
-          <h3 className="text-light">Add Branch Manager Information</h3>
+          <h3 className="text-white">Add Branch Manager Information</h3>
           <div className="page-header-back-to-home" >
-            <span onClick={backToBranchList} className="text-light"> <i className="fas fa-arrow-circle-left"></i> Back to Branch List</span>
+            <span onClick={backToBranchList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Branch List</span>
           </div>
 
         </CardHeader>
@@ -621,12 +623,13 @@ if(titleValue == 0 ){
                   <div className='d-flex justify-content-end'>
                   {
                     permissions?.includes(permissionList?.Add_Branch_Manager)?
-                    <Button.Ripple
+                    <Button
                     type="submit"
                     className="mr-1 mt-3 badge-primary"
+                    disabled={buttonStatus}
                   >
                     Submit
-                  </Button.Ripple>
+                  </Button>
                   :
                   null
                   }

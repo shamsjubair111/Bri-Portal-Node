@@ -86,6 +86,7 @@ const ProviderDetails = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [FileList, setFileList] = useState([]);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -244,9 +245,11 @@ const ProviderDetails = () => {
     // for(var x of subData.values()){
     //     console.log(x);
     // }
+    setButtonStatus(true);
 
     put(`ProviderAdmin/Update`, subData).then((res) => {
-      if (res?.status == 200) {
+      setButtonStatus(false);
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,
@@ -254,6 +257,12 @@ const ProviderDetails = () => {
         setFileList([]);
         setModalOpen(false);
         setSuccess(!success);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
     });
   };
@@ -407,7 +416,7 @@ const ProviderDetails = () => {
             <FormGroup row>
               <Col md="9">
                 <div className="d-flex justify-content-end">
-                  <Button className="mr-1 mt-3" color="warning">
+                  <Button className="mr-1 mt-3" color="primary" disabled={buttonStatus}>
                     Update
                   </Button>
                 </div>
@@ -419,9 +428,9 @@ const ProviderDetails = () => {
 
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Provider Details</h3>
+          <h3 className="text-white">Provider Details</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider List
             </span>

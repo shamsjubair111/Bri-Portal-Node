@@ -109,6 +109,7 @@ const StudentList = () => {
   const [checkPass, setCheckPass] = useState(true);
   const [checkBlackList, setCheckBlacklist] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   useEffect(() => {
     get("StudentTypeDD/Index").then((res) => {
@@ -366,7 +367,9 @@ const StudentList = () => {
     } else if (pass !== cPass) {
       setPassError("Passwords do not match");
     } else {
+      setButtonStatus(true);
       put(`Password/Change`, subData).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200 && res.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -387,8 +390,9 @@ const StudentList = () => {
   };
 
   const handleDeleteData = () => {
+    setButtonStatus(true);
     remove(`Student/Delete/${delData?.id}`).then((res) => {
-      console.log(res);
+      setButtonStatus(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -414,9 +418,11 @@ const StudentList = () => {
     const subData = {
       id: id,
     };
+    setButtonStatus(true);
 
     put(`Student/UpdateAccountStatus/${id}`, subData).then((res) => {
-      if (res?.status == 200) {
+      setButtonStatus(false);
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
           autoDismiss: true,
@@ -424,6 +430,12 @@ const StudentList = () => {
         setSuccess(!success);
         // setPassData({});
         // setPassModal(false);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
     });
   };
@@ -474,9 +486,9 @@ const StudentList = () => {
         <>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Student List</h3>
+          <h3 className="text-white">Student List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -620,7 +632,7 @@ const StudentList = () => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -632,7 +644,7 @@ const StudentList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -828,6 +840,7 @@ const StudentList = () => {
                                 handleCheckedBlackList(e);
                               }}
                               defaultChecked={checkBlackList}
+                              disabled={buttonStatus}
                             />
                           </FormGroup>
                         </Col>
@@ -1006,7 +1019,7 @@ const StudentList = () => {
                                           >
                                             Cancel
                                           </Button>
-                                          <Button color="primary" type="submit">
+                                          <Button color="primary" type="submit" disabled={buttonStatus}>
                                             Submit
                                           </Button>
                                         </div>
@@ -1075,6 +1088,7 @@ const StudentList = () => {
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               func={() => toggleDanger(student)}
+                              
                             />
                           </ButtonGroup>
 
@@ -1091,7 +1105,7 @@ const StudentList = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                              <Button color="danger" onClick={handleDeleteData}>
+                              <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>

@@ -10,6 +10,7 @@ const DistributionLevelSettingList = (props) => {
     const [deleteModal,setDeleteModal] = useState(false);
     const [delData,setDelData] = useState({});
     const {addToast} = useToasts();
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     console.log(distributionData);
 
@@ -20,8 +21,10 @@ const DistributionLevelSettingList = (props) => {
     }
 
     const confirmDelete = () => {
+      setButtonStatus(true);
         remove(`DistributionLevelSetting/Delete/${delData?.id}`)
         .then(res => {
+          setButtonStatus(false);
             addToast(res,{
                 appearance:'error',
                 autoDismiss: true
@@ -93,7 +96,7 @@ const DistributionLevelSettingList = (props) => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={confirmDelete}>YES</Button>
+                          <Button  color="danger" onClick={confirmDelete} disabled={buttonStatus}>YES</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

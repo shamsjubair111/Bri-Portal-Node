@@ -20,6 +20,7 @@ const EducationLevelList = () => {
     const [serialNum, setSerialNum] = useState(1);
     const [success, setSuccess] = useState(false);
     const [loading,setLoading] = useState(true);
+    const [buttonStatus,setButtonStatus] = useState(false);
 
 
     
@@ -37,9 +38,10 @@ const EducationLevelList = () => {
       // Delete Button
 
       const handleDeleteData = (data) => {
-
+        setButtonStatus(true);
       remove(`EducationLevel/Delete/${data?.id}`)
       .then(res => {
+        setButtonStatus(false);
         addToast(res,{
           appearance: 'error',
           autoDismiss: true
@@ -96,9 +98,9 @@ const EducationLevelList = () => {
       <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Education Level List</h3>
+          <h3 className="text-white">Education Level List</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToDashboard}>
+            <span className="text-white" onClick={backToDashboard}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -187,7 +189,7 @@ const EducationLevelList = () => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={()=>handleDeleteData(deleteData)}>YES</Button>
+                          <Button  color="danger" onClick={()=>handleDeleteData(deleteData)} disabled={buttonStatus}>YES</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

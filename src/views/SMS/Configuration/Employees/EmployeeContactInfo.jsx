@@ -44,6 +44,7 @@ const EmployeeContactInfo = () => {
   const [countryValue, setCountryValue] = useState(0);
   const [countryError, setCountryError] = useState("");
   const { addToast } = useToasts();
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -106,24 +107,34 @@ const EmployeeContactInfo = () => {
     }
     else {
       if(contactInfo == null){
+        setButtonStatus(true);
         post(`EmployeeContactInformation/Create`,subData).then((action)=> {
+          setButtonStatus(false);
               
-          if(action?.status == 200){
+          if(action?.status == 200 && action?.data?.isSuccess == true){
            addToast(action?.data?.message, {
                appearance:  'success',
                autoDismiss: true,
              })
              history.push('/staffList');
           }
+          else{
+            addToast(action?.data?.message, {
+              appearance:  'error',
+              autoDismiss: true,
+            })
+          }
          
        })
         
       }
       else{
+        setButtonStatus(true);
         const returnValue = put(
           `EmployeeContactInformation/Update`,
           subData
         ).then((action) => {
+          setButtonStatus(false);
         
   
           addToast(action?.data?.message, {
@@ -170,7 +181,7 @@ const EmployeeContactInfo = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Staff Contact Information</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className='text-light'>
+            <span onClick={backToDashboard} className='text-white'>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Staff List
             </span>
@@ -363,6 +374,7 @@ const EmployeeContactInfo = () => {
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     name={"Submit"}
+                    disable={buttonStatus}
                  
                   />
                   : null

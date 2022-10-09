@@ -74,6 +74,7 @@ const EmployeeList = (props) => {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -158,9 +159,11 @@ const EmployeeList = (props) => {
     setData(data);
 
     setDeleteModal(true);
+    
   };
 
   const handleDeleteStaff = () => {
+    setButtonStatus(true);
     remove(`Employee/Delete/${data?.id}`).then((res) => {
       addToast(res, {
         appearance: "error",
@@ -169,6 +172,7 @@ const EmployeeList = (props) => {
 
       setDeleteModal(false);
       setSuccess(!success);
+      setButtonStatus(false);
     });
   };
 
@@ -296,9 +300,9 @@ const EmployeeList = (props) => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Staff List</h3>
+          <h3 className="text-white">Staff List</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-light">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
@@ -408,7 +412,7 @@ const EmployeeList = (props) => {
                     </DropdownToggle>
                     <DropdownMenu className="bg-dd">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -420,7 +424,7 @@ const EmployeeList = (props) => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-light cursor-pointer">
+                        <div className="text-white cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -704,6 +708,7 @@ const EmployeeList = (props) => {
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
+                              disable={buttonStatus}
                             />
                           </ButtonGroup>
 

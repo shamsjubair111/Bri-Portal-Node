@@ -49,6 +49,8 @@ const AccountIntake = () => {
     const [name,setName] = useState('');
 
     const permissions = JSON.parse(localStorage.getItem('permissions'));
+    const [buttonStatus,setButtonStatus] = useState(false);
+
 
 
 
@@ -213,9 +215,10 @@ const AccountIntake = () => {
         
         else{
             if(!currUpdateData?.id){
-
+                setButtonStatus(true);
                 post(`AccountIntake/Create`,subData)
                 .then(res => {
+                    setButtonStatus(false);
                     if(res?.status ==200){
                         addToast(res?.data?.message,{
                             appearance: 'success',
@@ -236,9 +239,11 @@ const AccountIntake = () => {
             }
 
             else{
+                setButtonStatus(true);
                 put(`AccountIntake/Update`,subData)
                 .then(res => {
-                    if(res?.status == 200){
+                    setButtonStatus(false);
+                    if(res?.status == 200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
                             autoDismiss: true
@@ -255,6 +260,12 @@ const AccountIntake = () => {
                         setModalOpen(false);
                         setSuccess(!success);
                     }
+                    else{
+                        addToast(res?.data?.message, {
+                          appearance: "error",
+                          autoDismiss: true,
+                        });
+                      }
                 })
             }
           
@@ -274,9 +285,10 @@ const AccountIntake = () => {
 
 
     const handleDeleteData = () => {
-
+        setButtonStatus(true);
         remove(`AccountIntake/Delete/${currDeleteData?.id}`)
         .then(res => {
+            setButtonStatus(false);
             addToast(res,{
                 appearance: 'error',
                 autoDismiss: true
@@ -299,9 +311,9 @@ const AccountIntake = () => {
                 <Card className="uapp-card-bg">
 
                 <CardHeader className="page-header">
-                <h3 className="text-light">Account Intake List</h3>
+                <h3 className="text-white">Account Intake List</h3>
                 <div className="page-header-back-to-home">
-                    <span className="text-light" onClick={backToDashboard}>
+                    <span className="text-white" onClick={backToDashboard}>
                     {" "}
                     <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
                     </span>
@@ -338,7 +350,7 @@ const AccountIntake = () => {
                     toggle={closeModal}
                     className="uapp-modal2"
                     >
-                    <ModalHeader>Add Account Intake</ModalHeader>
+                    <ModalHeader> Account Intake</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={handleSubmit}>
 
@@ -500,7 +512,7 @@ const AccountIntake = () => {
 
                     
                         <Button.Ripple
-                            color="warning"
+                            color="danger"
                             onClick={closeModal}
                             className="mr-1 mt-3"
                         
@@ -508,14 +520,15 @@ const AccountIntake = () => {
                             Cancel
                             </Button.Ripple>
 
-                        <Button.Ripple
+                        <Button
                             color="primary"
                             
                             className="mr-1 mt-3"
-                        
+                            disabled={buttonStatus}
                             >
                             Submit
-                            </Button.Ripple>
+
+                            </Button>
                 
 
                         </FormGroup>
@@ -555,7 +568,7 @@ const AccountIntake = () => {
                       </td>
 
                       <td>
-                        {list?.applications}
+                        <span className='badge badge-pill badge-primary' style={{cursor: 'pointer'}}>{list?.applications}</span>
                       </td>
 
                     
@@ -599,7 +612,7 @@ const AccountIntake = () => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
+                          <Button  color="danger" onClick={handleDeleteData} disabled={buttonStatus}>YES</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

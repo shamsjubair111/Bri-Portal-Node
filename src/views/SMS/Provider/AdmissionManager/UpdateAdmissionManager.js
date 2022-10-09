@@ -33,6 +33,7 @@ const UpdateAdmissionManager = () => {
     const [titleLabel,setTitleLabel] = useState('Select');
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
+    const [buttonStatus,setButtonStatus] = useState(false);
     
 
     console.log('checking id for upadating admission Manager',id);
@@ -139,9 +140,11 @@ const selectTitle = (label, value) => {
 
         }
         else{
+          setButtonStatus(true);
           put(`AdmissionManager/Update`,subData)
           .then(res =>{
-            if(res?.status == 200){
+            setButtonStatus(false);
+            if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
@@ -155,6 +158,12 @@ const selectTitle = (label, value) => {
               }
   
             }
+            else{
+              addToast(res?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+            }
           })
 
         }
@@ -166,9 +175,9 @@ const selectTitle = (label, value) => {
 
 <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Update Admission Manager</h3>
+          <h3 className="text-white">Update Admission Manager</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToProviderDetails}>
+            <span className="text-white" onClick={backToProviderDetails}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {
@@ -437,13 +446,13 @@ const selectTitle = (label, value) => {
                    <div className='d-flex justify-content-end'>
                    {
                     permissions?.includes(permissionList?.Update_Admission_manager) ?
-                    <Button.Ripple
+                    <Button
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
-                     
+                        disabled={buttonStatus}
                       >
                         Submit
-                      </Button.Ripple>
+                      </Button>
                       : null
                    }
                    </div>

@@ -40,6 +40,7 @@ const Experience = () => {
 
     const [sDate, setSDate] = useState('');
     const [eDate, setEDate] = useState('');
+    const [buttonStatus,setButtonStatus] = useState(false);
 
     
 
@@ -144,9 +145,10 @@ const Experience = () => {
         }
 
        if(value.id){
-
+         setButtonStatus(true);
         put('Experience/Update',subData)
         .then(res => {
+          setButtonStatus(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -166,9 +168,10 @@ const Experience = () => {
        }
 
        else{
+        setButtonStatus(true);
         post('Experience/Create',subData)
         .then(res => {
-          console.log(res);
+          setButtonStatus(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -199,10 +202,10 @@ const toggleDanger = (id) => {
 }
 
 const handleDeletePermission = () => {
-
+  setButtonStatus(true);
   remove(`Experience/Delete/${delData?.id}`)
   .then(res => {
-    console.log(res);
+    setButtonStatus(false);
     addToast(res,{
       appearance:'error',
       autoDismiss: true
@@ -292,9 +295,9 @@ console.log('trying', sDate?.split(",")[0]);
         <div>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-light">Experience Information</h3>
+          <h3 className="text-white">Experience Information</h3>
           <div className="page-header-back-to-home">
-            <span className="text-light" onClick={backToStudentProfile}>
+            <span className="text-white" onClick={backToStudentProfile}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Student Profile
             </span>
@@ -427,7 +430,7 @@ console.log('trying', sDate?.split(",")[0]);
 
                   <div className="CampusCardAction">
                   <div className=""> 
-                     <Button type="button" color='primary' className="bankCard-style" onClick={() => handleUpdate(inf.id)}> <i className="fas fa-edit"></i> </Button>
+                     <Button type="button" color='primary' className="bankCard-style" onClick={() => handleUpdate(inf.id)} disabled={buttonStatus}> <i className="fas fa-edit"></i> </Button>
                   </div>
 
                   <div className=""> 
@@ -448,7 +451,7 @@ console.log('trying', sDate?.split(",")[0]);
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button onClick={handleDeletePermission} color="danger">YES</Button>
+                    <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>YES</Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
                </Modal>
@@ -643,6 +646,7 @@ console.log('trying', sDate?.split(",")[0]);
     type={'submit'}
     className={"mr-1 mt-3 badge-primary"}
     name={'Update'}
+    disable={buttonStatus}
     />
    
       </Col>
@@ -665,6 +669,7 @@ console.log('trying', sDate?.split(",")[0]);
     type={'submit'}
     className={"mr-1 mt-3 badge-primary"}
     name={'Submit'}
+    disable={buttonStatus}
     />
  
     </Col>

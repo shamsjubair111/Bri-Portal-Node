@@ -210,6 +210,9 @@ const accessControl = lazy(() =>
 const notFound = lazy(() =>
   import("./views/pages/misc/error/404")
 )
+const BadRequest = lazy(() =>
+  import("./views/pages/misc/error/400")
+)
 
 const InternalServerError = lazy(() =>
   import("./views/pages/misc/error/500")
@@ -404,6 +407,11 @@ const StudentPersonalStatementForm = lazy(() => import("./views/SMS/Students/Cre
 const StudentOtherInformationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentOtherInformationForm"));
 
 const StudentDeclarationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentDeclarationForm"));
+
+const UniversityCommission = lazy(() => import("./views/SMS/University/UniversityCommission"));
+
+
+const TrialNotification = lazy(() => import("./views/Test/Notification"));
 
 
 
@@ -731,12 +739,20 @@ class AppRouter extends React.Component {
            <AppRoute  path="/studentOtherInformation/:idVal" component={StudentOtherInformationForm} />
            <AppRoute  path="/studentDeclarations/:idVal" component={StudentDeclarationForm} />
 
+           <AppRoute  path="/addUniversityCommission/:univerId" component={UniversityCommission} />
+
 
   <AppRoute  path="/search" component={Search} />
 
          <AppRoute  path="/500" component={InternalServerError} />
 
          <AppRoute  path="/notAuthorized" component={NotAuthorized} />
+
+
+         {/* trial notification */}
+         <AppRoute  path="/notification" component={TrialNotification} />
+
+         <AppRoute  path="/400" component={BadRequest}  fullLayout/>
 
   
           {/* Session Expired  */}
