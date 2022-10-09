@@ -173,8 +173,8 @@ const StudentRegister = () => {
         setPassError('Password length can not be less than six digits');
       }
       else {
-        const subdata = new FormData(event.target);
         setButtonStatus(true);
+        const subdata = new FormData(event.target);
         post('Student/Register', subdata)
           .then(res => {
             setButtonStatus(false);
@@ -412,7 +412,7 @@ const StudentRegister = () => {
                 className={'mr-1 mt-3 badge-primary'}
                 name={'Submit'}
                 type={'submit'}
-                disable={buttonStatus}
+                disable={canSubmit || buttonStatus}
 
               />
 
