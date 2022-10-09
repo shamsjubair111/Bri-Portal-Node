@@ -711,7 +711,7 @@ class AppRouter extends React.Component {
            <AppRoute  path="/distributionLevelSetting" component={DistributionLevelSetting} />
 
            <AppRoute  path="/applicationTransaction" component={ApplicationTransaction} />
-           <AppRoute  path="/applicationTransactiondetails/:id" component={ApplicationTransactionDetails} />
+           <AppRoute  path="/applicationTransactionDetails/:id" component={ApplicationTransactionDetails} />
 
            <AppRoute  path="/inFlowTransaction" component={InFlow} />
            <AppRoute  path="/inFlow/details/:id" component={InFlowDetails} />

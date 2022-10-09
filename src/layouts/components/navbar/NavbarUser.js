@@ -26,6 +26,7 @@ const handleNavigation = (e, path) => {
 }
 
 const userInfo = JSON.parse(localStorage.getItem('current_user'));
+const AuthStr = localStorage.getItem("token");
 
 
 
@@ -202,7 +203,8 @@ class NavbarUser extends React.PureComponent {
     langDropdown: false,
     suggestions: [],
     connection: null,
-    chat: ''
+    chat: '',
+    notificationCount: 0
   }
 
   // componentDidMount() {
@@ -212,42 +214,56 @@ class NavbarUser extends React.PureComponent {
   // }
 
 
-   // Code testing start
+  //  Code testing start
 
   //  const [ connection, setConnection ] = useState(null);
   //  const [ chat, setChat ] = useState('');
   //  const latestChat = useRef(null);
  
   //  latestChat.current = chat;
- 
-// componentDidMount() { 
-//   const newConnection = new HubConnectionBuilder()
-//          .withUrl(`${rootUrl}Trial`)
-//          .withAutomaticReconnect()
-//          .build();
- 
-//      this.setState = {connection : newConnection};
 
-//      if (newConnection) {
-//       newConnection.start()
-//           .then(result => {
-//               console.log('Connected!');
 
-//               newConnection.on('notificationHub', message => {
-//                  //  const updatedChat = [...latestChat.current];
-//                  //  updatedChat.push(message);
+ 
+componentDidMount() { 
+
+  axios.get(`${rootUrl}Notification/UserNotificationCount`,{
+    headers: {
+      authorization: AuthStr
+    }
+  })
+  .then(res => {
+    console.log(res,'111');
+    this.setState({notificationCount : res?.data})
+  })
+
+  // const newConnection = new HubConnectionBuilder()
+  //        .withUrl(`${rootUrl}notificationHub`)
+  //        .withAutomaticReconnect()
+  //        .build();
+ 
+  //    this.setState = {connection : newConnection};
+
+  //    if (newConnection) {
+  //     newConnection.start()
+  //         .then(result => {
+  //             console.log('Connected!');
+
+  //             newConnection.on('notificationHub', message => {
+  //                //  const updatedChat = [...latestChat.current];
+  //                //  updatedChat.push(message);
               
-//                   this.setState = {chat: message}
-//                  //  console.log(message)
-//               });
-//           })
-//           .catch(e => console.log('Connection failed: ', e));
-//   }
-//  }
+  //                 this.setState = {chat: message}
+  //                //  console.log(message)
+  //             });
+  //         })
+  //         .catch(e => console.log('Connection failed: ', e));
+  // }
+ }
+
  
  
 
-//  // Code testing end
+ // Code testing end
 
   handleNavbarSearch = () => {
     this.setState({
@@ -595,7 +611,7 @@ class NavbarUser extends React.PureComponent {
             <i className="far fa-bell fa-20px"></i>
             <Badge pill color="primary" className="badge-up">
               {" "}
-              5{" "}
+              {this?.state?.notificationCount}{" "}
             </Badge>
           </DropdownToggle>
           <DropdownMenu tag="ul" right className="dropdown-menu-media">

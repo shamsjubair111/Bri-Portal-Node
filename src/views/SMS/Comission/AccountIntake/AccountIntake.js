@@ -173,6 +173,7 @@ const AccountIntake = () => {
 
     const closeModal = () => {
         setModalOpen(false);
+        setCurrUpdateData({});
        
       
       };

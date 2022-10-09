@@ -744,7 +744,7 @@ const Search = () => {
                   appearance: 'success',
                   autoDismiss: true
                 })
-                history.push(`/applicationDetails/${res?.data?.result?.id}/${studentValue}`);
+                history.push(`/applicationDetails/${res?.data?.result?.applicationId}/${studentDataValue}`);
               }
               else{
                 addToast(res?.data?.message,{
@@ -799,7 +799,7 @@ const Search = () => {
                 appearance: 'success',
                 autoDismiss: true
               })
-              history.push(`/applicationDetails/${res?.data?.result?.id}/${studentValue}`);
+              history.push(`/applicationDetails/${res?.data?.result?.applicationId}/${studentDataValue}`);
             }
             else{
               addToast(res?.data?.message,{
@@ -873,12 +873,12 @@ Campus <span className="text-danger">*</span>{" "}
 
 <Col md="6">
 
-{
+{/* {
 (campus?.length == 1)? 
 
 <h6>{modalCampus[0]?.campusName}</h6>
 
-:
+: */}
 
 <>
 {
@@ -915,7 +915,7 @@ null
 }
 </>
 
-}
+{/* } */}
 
 
 

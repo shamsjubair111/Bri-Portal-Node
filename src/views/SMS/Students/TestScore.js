@@ -3298,7 +3298,7 @@ const TestScore = () => {
               <Modal
                 isOpen={modal2Open}
                 toggle={closeModal2}
-                className="uapp-modal"
+                className="uapp-modal2"
               >
                 {greData?.id ? (
                   <ModalHeader>Update GRE Result</ModalHeader>
@@ -3505,7 +3505,7 @@ const TestScore = () => {
               <Modal
                 isOpen={modal3Open}
                 toggle={closeModal3}
-                className="uapp-modal"
+                className="uapp-modal2"
               >
                 {gmatData?.id ? (
                   <ModalHeader>Update GMAT Result</ModalHeader>

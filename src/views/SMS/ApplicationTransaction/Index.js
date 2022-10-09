@@ -49,7 +49,7 @@ const Index = () => {
   const [uappValue, setUappValue] = useState(0);
 
   const [student, setStudent] = useState([]);
-  const [studentLabel, setStudentLabel] = useState("All Student");
+  const [studentLabel, setStudentLabel] = useState("Select Student");
   const [studentValue, setStudentValue] = useState(0);
 
     const [consultant,setConsultant] = useState([]);
@@ -139,6 +139,7 @@ const Index = () => {
     get(
       `ApplicationTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&uappid=${uappValue}&studentid=${studentValue}&consultantid=${consultantValue}&intakeid=${intakeValue}`
     ).then((res) => {
+      
       setData(res?.models);
       setEntity(res?.totalEntity);
       setLoading(false);
@@ -200,13 +201,17 @@ const Index = () => {
   const handleReset = () => {
     setUappLabel("UAPP Id");
     setUappValue(0);
-    setStudentLabel("All Student");
+    setStudentLabel("Select Student");
     setStudentValue(0);
-    setConsultantLabel("All Consultant");
+    setConsultantLabel("Select Consultant");
     setConsultantValue(0);
-    setIntakeLabel("All Intake");
+    setIntakeLabel("Select Intake");
     setIntakeValue(0);
   };
+
+  const viewDetails = (data) => {
+    history.push(`/applicationTransactionDetails/${data?.id}`);
+  }
 
   return (
     <div>
@@ -396,7 +401,7 @@ const Index = () => {
                 <th>Intake Range</th>
                 <th>Amount</th>
                 <th>Reg. Status</th>
-                <th>Payment Status</th>
+                
                 <th>Transaction Date</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -406,25 +411,25 @@ const Index = () => {
               {data?.map((ls, i) => (
                 <tr key={i} style={{ textAlign: "center" }}>
                   <td>{i + 1}</td>
-                  <td>{ls?.Id}</td>
-                  <td>{ls?.Intake}</td>
-                  <td>{ls?.Consultant}</td>
-                  <td>{ls?.Student}</td>
-                  <td>{ls?.Unviersity}</td>
-                  <td>{ls?.Subject}</td>
-                  <td>{ls?.AccountIntake}</td>
-                  <td>{ls?.Amount}</td>
-                  <td> {ls?.RegistrationStatus}</td>
-                  <td>{ls?.PaymentStatus}</td>
-                  <td>{ls?.TransactionDate}</td>
-                  <td>{ls?.TransactionStatus}</td>
+                  <td>{ls?.id}</td>
+                  <td>{ls?.intake}</td>
+                  <td>{ls?.consultant}</td>
+                  <td>{ls?.student}</td>
+                  <td>{ls?.unviersity}</td>
+                  <td>{ls?.subject}</td>
+                  <td>{ls?.accountIntake}</td>
+                  <td>{ls?.amount}</td>
+                  <td> {ls?.registrationStatus}</td>
+                
+                  <td>{ls?.transactionDate}</td>
+                  <td>{ls?.transactionStatus}</td>
 
-                  <td style={{ width: "15%" }} className="text-center">
+                  <td className="text-center">
                     <ButtonGroup variant="text">
-                      <Button className="me-1 btn-sm" color="primary">
-                        <Link to="/" target="_black">
+                      <Button className="me-1 btn-sm" color="primary" onClick={()=>viewDetails(ls)}>
+                       
                           <i className="fas fa-eye"></i>
-                        </Link>
+                       
                       </Button>
                     </ButtonGroup>
                   </td>

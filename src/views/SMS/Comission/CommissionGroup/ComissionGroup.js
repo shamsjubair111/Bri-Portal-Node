@@ -192,7 +192,7 @@ const ComissionGroup = () => {
   
         <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
-                  <h3 className="text-white">Comission Groups</h3>
+                  <h3 className="text-white">Commission Groups</h3>
                   <div className="page-header-back-to-home">
                     <span className="text-white" onClick={backToDashboard}>
                       {" "}
