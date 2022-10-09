@@ -909,3 +909,12 @@ display: flex;
     background-color: #0000001f !important;
 }
 
+.notification-active-style{
+  background-color: #1e98b0;
+  color: white;
+}
+
+.notification-inactive-style{
+  background-color: #ededed;
+  color: white;
+}
