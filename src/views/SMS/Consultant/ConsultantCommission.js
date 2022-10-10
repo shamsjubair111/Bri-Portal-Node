@@ -581,8 +581,16 @@ const ConsultantCommission = () => {
                               </ModalBody>
 
                               <ModalFooter>
+                          
                                 <Button
                                   color="danger"
+                                  onClick={closeReAssignModal}
+                                >
+                                  NO
+                                </Button>
+
+                                <Button
+                                  color="primary"
                                   onClick={() =>
                                     handleReAssignSubmit(commissionId)
                                   }
@@ -590,12 +598,7 @@ const ConsultantCommission = () => {
                                 >
                                   YES
                                 </Button>
-                                <Button
-                                  color="primary"
-                                  onClick={closeReAssignModal}
-                                >
-                                  NO
-                                </Button>
+
                               </ModalFooter>
                             </Modal>
 
