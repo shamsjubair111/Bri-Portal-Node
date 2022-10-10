@@ -25,6 +25,9 @@ const SubDepartment =(props)=>{
     const {addToast} = useToasts();
     const [departmentLabel, setdepartmentLabel] = useState('Select Department');
     const [departmentValue, setdepartmentValue] = useState(0);
+
+    const [departmentError, setDepartmentError] = useState(false);
+
     const [filterdepartmentLabel, setfilterdepartmentLabel] = useState('Select Department');
     const [filterdepartmentValue, setfilterdepartmentValue] = useState(0);
 
@@ -57,7 +60,7 @@ const SubDepartment =(props)=>{
     const selectDepartmentName = (label, value) => {
         setdepartmentLabel(label);
         setdepartmentValue(value);
-     
+        setDepartmentError(false);
       }
       
       const selectDepartmentNamefilder = (label, value) => {
@@ -79,7 +82,11 @@ const SubDepartment =(props)=>{
         
         }
       
-           post(`SubDepartment/Create`,subdata).then((action)=>{
+           if(departmentValue === 0){
+            setDepartmentError(true);
+           }
+           else{
+            post(`SubDepartment/Create`,subdata).then((action)=>{
       
               setSuccess(!success)
               setModalOpen(false)
@@ -91,6 +98,7 @@ const SubDepartment =(props)=>{
               setdepartmentValue(0);
 
           });
+           }
       
       
       }
@@ -300,11 +308,12 @@ const SubDepartment =(props)=>{
     <Form onSubmit={handleSubmit}>
       <FormGroup row className="has-icon-left position-relative">
         <Col md="4">
-          <span> Name</span>
+          <span>Name <span className="text-danger">*</span>{" "}</span>
         </Col>
         <Col md="8">
           <Input
             type="text"
+            required
             name="name"
             id="name"
           
@@ -317,7 +326,7 @@ const SubDepartment =(props)=>{
 
       <FormGroup row className="has-icon-left position-relative">
         <Col md="4">
-          <span>Department</span>
+          <span>Department <span className="text-danger">*</span>{" "}</span>
         </Col>
         <Col md="8">
         <Select
@@ -326,13 +335,21 @@ const SubDepartment =(props)=>{
                onChange={opt => selectDepartmentName(opt.label, opt.value)}
                name="departmentId"
                id="departmentId"
-               />               
+               />
+
+              {
+                departmentError ? <span className='text-danger'>Department is required.</span>
+                :
+                null
+              }
+
+
         </Col>
       </FormGroup>
 
       <FormGroup row className="has-icon-left position-relative">
              <Col md="4">
-             <span>University Description</span>
+             <span>Description</span>
                  </Col>
                       <Col md="8">
                         <Input

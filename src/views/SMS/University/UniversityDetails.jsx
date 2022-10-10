@@ -179,7 +179,12 @@ const UniversityDetails = () => {
   }, [id, callApi, currentPage, dataPerPage, searchStr, success]);
 
   const backToDashboard = () => {
-    history.push("/universityList");
+    if(location.subjectDataUniversityId != undefined){
+      history.push(`/subjectProfile/${location.subjectDataUniversityId}`);
+    }
+    else{
+      history.push("/universityList");
+    }
   };
 
   const intakeDropDown = intakeData?.map((intake) => ({
@@ -487,8 +492,13 @@ const UniversityDetails = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University
-              List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.subjectDataUniversityId != undefined ? 
+                "Back to Subject Details"
+                :
+                " Back to University List"
+              }
             </span>
           </div>
         </CardHeader>
@@ -1656,6 +1666,39 @@ const UniversityDetails = () => {
                 )}
               </CardBody>
             </Card>
+
+            {/* embedded map starts here */}
+
+            <Card>
+              <CardBody>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Embeded Map</b>{" "}
+                    </h5>
+
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                </div>
+
+                {universityInfo?.locationOnGoogleMap === null ? (
+                  <p>There is no embeded map added here.</p>
+                ) : (
+                  <>
+                    <div className="">
+                      <iframe src={universityInfo?.locationOnGoogleMap} width="100%" height="300"  loading="lazy" style={{border: "0"}} referrerpolicy="no-referrer-when-downgrade" title="efef"></iframe>
+                    </div>
+                  </>
+                )}
+              </CardBody>
+            </Card>
+
+            {/* embedded map ends here */}
+
           </Col>
         </Row>
       </div>

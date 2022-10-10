@@ -6,6 +6,7 @@ import Select from "react-select";
 import { rootUrl } from '../../../constants/constants';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
 import EditDivButton from '../Components/EditDivButton';
+import ButtonForFunction from '../Components/ButtonForFunction';
 
 const SubjectProfile = () => {
 
@@ -72,6 +73,14 @@ const SubjectProfile = () => {
         pathname: `/addSubject/${subjectData?.id}`,
         subjectId: subjId,
         uniSubList: location.uniSubList
+      })
+    }
+
+    const handleRedirectUniProfile = (subjectData) => {
+      console.log("subData", subjectData?.id);
+      history.push({
+        pathname: `/universityDetails/${subjectData?.university?.id}`,
+        subjectDataUniversityId: subjectData?.id
       })
     }
 
@@ -413,7 +422,19 @@ const SubjectProfile = () => {
                      
                 </div>    
                 
-                <h5>{subjectData?.university?.name} ({subjectData?.university?.shortName})</h5>
+                <div className='d-flex justify-content-center'>
+                  <h5>{subjectData?.university?.name} ({subjectData?.university?.shortName})</h5>
+                  <div>
+                  <ButtonForFunction
+                    func={() => handleRedirectUniProfile(subjectData)}
+                    color={"primary"}
+                    className={"mx-1 btn-sm my-auto"}
+                    icon={<i className="fas fa-eye"></i>}
+                    permission={6}
+                  />
+                  </div>
+                </div>
+
                  <p> {subjectData?.university?.universityType?.name} </p>  
             </div>
               <CardBody>

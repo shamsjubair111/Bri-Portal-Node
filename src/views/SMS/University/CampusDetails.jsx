@@ -1781,6 +1781,39 @@ const CampusDetails = () => {
               </CardBody>
             </Card>
             {/* tution fee ends here */}
+
+            {/* embedded map starts here */}
+
+            <Card>
+              <CardBody>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Embeded Map</b>{" "}
+                    </h5>
+
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                </div>
+
+                {campusInfo?.embededMap === null ? (
+                  <p>There is no embeded map added here.</p>
+                ) : (
+                  <>
+                    <div className="">
+                      <iframe src={campusInfo?.embededMap} width="100%" height="300"  loading="lazy" style={{border: "0"}} referrerpolicy="no-referrer-when-downgrade" title="efef"></iframe>
+                    </div>
+                  </>
+                )}
+              </CardBody>
+            </Card>
+
+            {/* embedded map ends here */}
+
           </Col>
         </Row>
       </div>

@@ -145,7 +145,7 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
-      console.log("admission manager", res);
+      console.log("Application", res);
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
@@ -1680,7 +1680,9 @@ const ApplicationDetails = () => {
                       </div>
                       <div className="text-right">
                         {/* <span> <i className="fas fa-pencil-alt pencil-style"></i> </span> */}
-                        <SpanButton
+                        {
+                          applicationInfo?.elpt !== null ?
+                          <SpanButton
                           icon={
                             <i
                               style={{ cursor: "pointer" }}
@@ -1690,6 +1692,9 @@ const ApplicationDetails = () => {
                           func={handleElptupdate}
                           permission={6}
                         />
+                        :
+                        null
+                        }
 
                         <Modal
                           size="lg"
