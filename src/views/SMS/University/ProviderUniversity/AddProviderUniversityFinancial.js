@@ -38,6 +38,8 @@ const AddProviderUniversityFinancial = (props) => {
   const [financialData, setFinancialData] = useState({});
   const [financialId, setFinancialId] = useState(undefined);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
 
   const { addToast } = useToasts();
   const {providerProfileId, univerId} = useParams();
@@ -94,11 +96,13 @@ const AddProviderUniversityFinancial = (props) => {
 
     if (financialId == undefined) {
       console.log("fin Id", financialId);
+      setButtonStatus(true);
       Axios.post(`${rootUrl}FinancialInformation/Create`, subdata, {
         headers: {
           'authorization': AuthStr,
         },
       }).then((res) => {
+        setButtonStatus(false);
         const uniID = res.data.result.universityId;
 
         if (res.status === 200 && res.data.isSuccess === true) {
@@ -120,8 +124,11 @@ const AddProviderUniversityFinancial = (props) => {
       });
     } else {
       console.log("financial id", financialId);
+      setButtonStatus(true);
       put("FinancialInformation/Update", subdata).then((res) => {
         console.log("1st put response", res);
+        setButtonStatus(false);
+
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -392,6 +399,7 @@ const AddProviderUniversityFinancial = (props) => {
                       type={"submit"}
                       className={"ml-lg-3 ml-sm-1 mt-3 badge-primary"}
                       name={"Save"}
+                      disable={buttonStatus}
                       permission={6}
                     />
                   </Col>

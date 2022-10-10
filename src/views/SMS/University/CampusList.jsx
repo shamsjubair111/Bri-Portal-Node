@@ -232,6 +232,10 @@ const CampusList = (props) => {
               appearance: "success",
               autoDismiss: true,
             });
+            setUniCountryLabel("Select Country");
+            setUniCountryValue(0);
+            setUniStateLabel("Select State");
+            setUniStateValue(0);
           }
         });
       }
@@ -245,6 +249,11 @@ const CampusList = (props) => {
           });
           setSelectedId(0);
           setSuccess(!success);
+          setCampObj({});
+          setUniCountryLabel("Select Country");
+          setUniCountryValue(0);
+          setUniStateLabel("Select State");
+          setUniStateValue(0);
           setModalOpen(false);
         }
       });

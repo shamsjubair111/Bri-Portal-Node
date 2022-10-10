@@ -166,6 +166,7 @@ const CampusDetails = () => {
     });
 
     get(`Subject/GetByCampusIdWithIntake/${id}`).then((res) => {
+      console.log("ressssssSSSS", res);
       setSubjectIds(res);
       let defaultChecked = checked1;
       if (res.length > 0) {

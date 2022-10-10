@@ -103,9 +103,9 @@ const SubjectIntake = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
-    for (var x of subData) {
+    // for (var x of subData) {
      
-    }
+    // }
 
     if (intakeValue === 0) {
       setIntakeError(true);
@@ -120,6 +120,10 @@ const SubjectIntake = () => {
             autoDismiss: true,
           });
           setSuccess(!success);
+          setIntakeLabel("Select Intake");
+          setIntakeValue(0);
+          setStatusLabel("Select Status");
+          setStatusValue(0);
         } else {
           addToast(res?.data?.message, {
             appearance: "warning",
@@ -161,6 +165,13 @@ const SubjectIntake = () => {
   const backToList = () => {
     history.push(`/campusSubjectList/${camId}`);
   };
+
+  const handleReset = () => {
+    setIntakeLabel("Select Intake");
+    setIntakeValue(0);
+    setStatusLabel("Select Status");
+    setStatusValue(0);
+  }
 
   return (
     <div>
@@ -261,9 +272,16 @@ const SubjectIntake = () => {
                   style={{ display: "flex", justifyContent: "end" }}
                 >
 
+                  <Button 
+                    color="danger"
+                    className={"mr-0 mt-3"}
+                    onClick={handleReset}
+                    >Reset
+                  </Button>
+
                   <CustomButtonRipple
                     type={"submit"}
-                    className={"mr-0 mt-3 badge-primary"}
+                    className={"mr-0 mt-3 ml-1 badge-primary"}
                     name={"Submit"}
                     permission={6}
                   />

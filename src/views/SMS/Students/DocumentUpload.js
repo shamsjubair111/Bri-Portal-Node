@@ -220,6 +220,12 @@ const DocumentUpload = () => {
           setDocuTypeLabel("Select Document Type");
           setDocuTypeValue(0);
         }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
       });
     }
   };

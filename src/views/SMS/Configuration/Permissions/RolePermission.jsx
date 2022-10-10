@@ -169,8 +169,12 @@ const RolePermission = (props) => {
           <CardHeader>
           <div className="container test-score-div-1-style mt-1 mb-4">
             <span className="test-score-span-1-style">
-              Assign or Revoke Permissions for User Types.
+              <b>Assign or Revoke Permissions for User Types.</b>
             </span>
+            <br />
+            <div>
+              Select a user role to see the permissions of that user group. Checkboxes that are marked, each user from the selected can perform the operation. Each checkbox represents a specific operation/function. Please check multiple times while assigning permission to a user group.
+            </div>
           </div>
           </CardHeader>
           <CardBody>

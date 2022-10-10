@@ -55,6 +55,8 @@ const UniversityCommission = () => {
     const [showForm,setShowForm] = useState(false);
     const [val,setVal] = useState({});
 
+    const [buttonStatus,setButtonStatus] = useState(false);
+
     useEffect(()=>{
         get(`StudentComissionTypeDD/Index`)
         .then(res => {
@@ -169,9 +171,10 @@ const UniversityCommission = () => {
     else{
        
      if(data?.id){
-
+      setButtonStatus(true);
       put(`UniversityComission/Update`,subData)
       .then(res => {
+        setButtonStatus(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                   appearance:'success',
@@ -201,9 +204,10 @@ const UniversityCommission = () => {
      }
 
      else{
-
+      setButtonStatus(true);
       post(`UniversityComission/Create`,subData)
       .then(res => {
+        setButtonStatus(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                   appearance:'success',
@@ -557,6 +561,7 @@ const UniversityCommission = () => {
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
+                                disable={buttonStatus}
                                 permission={6}
                               />
 
@@ -666,7 +671,7 @@ const UniversityCommission = () => {
 
             </TabContent>
 
-         <div className='d-flex justify-content-between'>
+         <div className='d-flex justify-content-between mt-5'>
          <div>
           <Link to={`/addUniversityTemplateDocument/${univerId}`}>
           <Button color='warning'>

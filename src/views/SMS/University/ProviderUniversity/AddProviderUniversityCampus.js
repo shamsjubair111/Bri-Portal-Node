@@ -78,6 +78,8 @@ const AddProviderUniversityCampus = (props) => {
     const [campusId, setCampusId] = useState(0);
     const [UniversityCampusName, setUniversityCampusName] = useState('');
     const [UniversityCampusId, setUniversityCampusId] = useState(0);
+
+    const [buttonStatus,setButtonStatus] = useState(false);
   
     let uniId;
     // let uniId = "10019";
@@ -177,12 +179,14 @@ const AddProviderUniversityCampus = (props) => {
       }
       else{
         if (selectedId === 0) {
+          setButtonStatus(true);
           Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
             headers: {
               'Content-Type': 'application/json',
               'authorization': AuthStr,
             },
           }).then((res) => {
+            setButtonStatus(false);
             console.log(res);
             setuniversityId(res.data.result.universityId);
             if (res.status === 200 && res.data.isSuccess === true) {
@@ -199,8 +203,10 @@ const AddProviderUniversityCampus = (props) => {
             }
           });
         } else {
+          setButtonStatus(true);
           put(`UniversityCampus/Update`, subdata).then((res) => {
             // setuniversityId(res.data.result.universityId)
+            setButtonStatus(false);
             if (res.status === 200 && res.data.isSuccess === true) {
               setSubmitData(false);
               addToast(res?.data?.message, {
@@ -276,8 +282,10 @@ const AddProviderUniversityCampus = (props) => {
     };
   
     const handleDeletePermission = (id) => {
+      setButtonStatus(true);
       const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
         (action) => {
+          setButtonStatus(false);
           setDeleteModal(false);
           setSuccess(!success);
           addToast(action, {
@@ -742,6 +750,7 @@ const AddProviderUniversityCampus = (props) => {
                               type={"submit"}
                               className={"ml-lg-3 ml-sm-1 mt-3"}
                               name={"Save"}
+                              disable={buttonStatus}
                               permission={6}
                             />
 
@@ -772,6 +781,7 @@ const AddProviderUniversityCampus = (props) => {
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
                                 name={"Save"}
+                                disable={buttonStatus}
                                 permission={6}
                               />
 
@@ -907,6 +917,7 @@ const AddProviderUniversityCampus = (props) => {
                             handleDeletePermission(UniversityCampusId)
                            }
                           color="danger"
+                          disabled={buttonStatus}
                         >
                           YES
                         </Button>
