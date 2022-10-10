@@ -416,7 +416,10 @@ const ProviderDetails = () => {
             <FormGroup row>
               <Col md="9">
                 <div className="d-flex justify-content-end">
-                  <Button className="mr-1 mt-3" color="primary" disabled={buttonStatus}>
+                  <Button color='danger' onClick={()=>setModalOpen(false)} className='mr-1 mt-3'>
+                        Cancel
+                  </Button>
+                  <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus}>
                     Update
                   </Button>
                 </div>

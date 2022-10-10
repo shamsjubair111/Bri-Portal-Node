@@ -37,6 +37,7 @@ const Nationality = () => {
 
     // on Close Modal
    const closeModal = () => {
+    setData({});
     setModalOpen(false);
  
   }

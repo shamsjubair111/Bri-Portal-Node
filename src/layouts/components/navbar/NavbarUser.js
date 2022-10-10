@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux"
 import { rootUrl } from "../../../constants/constants"
 import { userTypes } from "../../../constants/userTypeConstant"
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import { Link } from "react-router-dom"
 
 const handleNavigation = (e, path) => {
   e.preventDefault()
@@ -65,6 +66,13 @@ const UserDropdown = props => {
     }
   }
 
+  const handleDate = (e) => {
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    const x = localeDate.split(",")[0];
+    return x;
+  };
  
 
   const handleLogOut = (e) => {
@@ -202,9 +210,10 @@ class NavbarUser extends React.PureComponent {
     navbarSearch: false,
     langDropdown: false,
     suggestions: [],
-    connection: null,
+    connection: [],
     chat: '',
-    notificationCount: 0
+    notificationCount: 0,
+    notificationData: []
   }
 
   // componentDidMount() {
@@ -222,6 +231,35 @@ class NavbarUser extends React.PureComponent {
  
   //  latestChat.current = chat;
 
+   countFunction = () => {
+    axios.get(`${rootUrl}Notification/UserNotificationCount`,{
+      headers: {
+        authorization: AuthStr
+      }
+    })
+    .then(res => {
+      
+      this.setState({notificationCount : res?.data})
+    })
+  }
+
+  initialFunction = () => {
+    axios.get(`${rootUrl}Notification/GetInitial`,{
+      headers: {
+        authorization: AuthStr
+      }
+    })
+    .then(res => {
+      console.log(res,'111');
+      this.setState({notificationData: res?.data?.result});
+      
+    })
+  }
+
+
+  redirect = (data) => {
+     window.open(data?.targetUrl, '_blank');
+  }
 
  
 componentDidMount() { 
@@ -232,32 +270,49 @@ componentDidMount() {
     }
   })
   .then(res => {
-    console.log(res,'111');
+    
     this.setState({notificationCount : res?.data})
   })
 
-  // const newConnection = new HubConnectionBuilder()
-  //        .withUrl(`${rootUrl}notificationHub`)
-  //        .withAutomaticReconnect()
-  //        .build();
+  axios.get(`${rootUrl}Notification/GetInitial`,{
+    headers: {
+      authorization: AuthStr
+    }
+  })
+  .then(res => {
+    console.log(res,'111');
+    this.setState({notificationData: res?.data?.result});
+    
+  })
+
+  const newConnection = new HubConnectionBuilder()
+         .withUrl(`${rootUrl}notificationHub`)
+         .withAutomaticReconnect()
+         .build();
  
-  //    this.setState = {connection : newConnection};
+    //  this.setState = {connection : newConnection};
 
-  //    if (newConnection) {
-  //     newConnection.start()
-  //         .then(result => {
-  //             console.log('Connected!');
+     if (newConnection) {
+      newConnection.start()
+          .then(result => {
+              console.log('Connected!');
 
-  //             newConnection.on('notificationHub', message => {
-  //                //  const updatedChat = [...latestChat.current];
-  //                //  updatedChat.push(message);
+              newConnection.on('notificationHub', message => {
+                  //  const updatedChat = [...latestChat.current];
+                  // updatedChat.push(message);
+              if(message){
+               this.countFunction();
+
+               this.initialFunction();
               
-  //                 this.setState = {chat: message}
-  //                //  console.log(message)
-  //             });
-  //         })
-  //         .catch(e => console.log('Connection failed: ', e));
-  // }
+               
+              }
+                  // this.setState = {chat: message}
+                  //  console.log(message)
+              });
+          })
+          .catch(e => console.log('Connection failed: ', e));
+  }
  }
 
  
@@ -281,12 +336,12 @@ componentDidMount() {
       <ul className="nav navbar-nav navbar-nav-user float-right">
 
 
-        <UncontrolledDropdown
+        {/* <UncontrolledDropdown
           tag="li"
           className="dropdown-notification nav-item"
         >
           <DropdownToggle tag="a" className="nav-link nav-link-label">
-            {/*<Icon.MessageSquare size={21} />*/}
+          
             <i className="far fa-bookmark fa-20px"></i>
             <Badge pill color="primary" className="badge-up">
               {" "}
@@ -440,14 +495,14 @@ componentDidMount() {
               </DropdownItem>
             </li>
           </DropdownMenu>
-        </UncontrolledDropdown>
+        </UncontrolledDropdown> */}
 
-        <UncontrolledDropdown
+        {/* <UncontrolledDropdown
           tag="li"
           className="dropdown-notification nav-item"
         >
           <DropdownToggle tag="a" className="nav-link nav-link-label">
-            {/*   <Icon.MessageSquare size={21} />*/}
+            
             <i className="far fa-envelope fa-20px"></i>
             <Badge pill color="primary" className="badge-up">
               {" "}
@@ -601,7 +656,8 @@ componentDidMount() {
               </DropdownItem>
             </li>
           </DropdownMenu>
-        </UncontrolledDropdown>
+        </UncontrolledDropdown> */}
+
         <UncontrolledDropdown
           tag="li"
           className="dropdown-notification nav-item"
@@ -616,10 +672,16 @@ componentDidMount() {
           </DropdownToggle>
           <DropdownMenu tag="ul" right className="dropdown-menu-media">
             <li className="dropdown-menu-header">
-              <div className="dropdown-header mt-0">
-                <h3 className="text-white">5 New</h3>
-                <span className="notification-title">App Notifications</span>
+             <div className="d-flex justify-content-between">
+             <div className="dropdown-header mt-0">
+                <h6 className=" notification-title text-white">{this?.state?.notificationCount} Unread Notifications</h6>
+                
               </div>
+              <div className="dropdown-header mt-0" style={{cursor: 'pointer'}}>
+              <span className="notification-title text-white">Read All</span>
+                
+              </div>
+             </div>
             </li>
             <PerfectScrollbar
               className="media-list overflow-hidden position-relative"
@@ -627,138 +689,47 @@ componentDidMount() {
                 wheelPropagation: false
               }}
             >
-              <div className="d-flex justify-content-between">
+             {
+               this.state.notificationData?.map((data,i) => (
+                  <div id={i} 
+               
+                  
+                   className={data?.isSeen? 'd-flex justify-content-between notification-active-style': 'd-flex justify-content-between notification-inactive-style'}>
                 <Media className="d-flex align-items-start">
-                  <Media left href="#">
+                  {/* <Media left href="#">
                     <Icon.PlusSquare
                       className="font-medium-5 primary"
                       size={21}
                     />
-                  </Media>
-                  <Media body>
-                    <Media heading className="primary media-heading" tag="h6">
-                      You have new order!
+                  </Media> */}
+                
+                 <Media body>
+                    <Media heading className="primary media-heading" tag="h6" onClick={()=>this.redirect(data)}>
+                      {data?.title}
                     </Media>
                     <p className="notification-text">
-                      Are your going to meet me tonight?
+                      {data?.description}
                     </p>
                   </Media>
                   <small>
-                    <time
-                      className="media-meta"
-                      dateTime="2015-06-11T18:29:20+08:00"
-                    >
-                      9 hours ago
-                    </time>
+                   
+                      {/* {handleDate(data?.createdOn)} */}
+                 
                   </small>
+                 
                 </Media>
-              </div>
-              <div className="d-flex justify-content-between">
-                <Media className="d-flex align-items-start">
-                  <Media left href="#">
-                    <Icon.DownloadCloud
-                      className="font-medium-5 success"
-                      size={21}
-                    />
-                  </Media>
-                  <Media body>
-                    <Media heading className="success media-heading" tag="h6">
-                      99% Server load
-                    </Media>
-                    <p className="notification-text">
-                      You got new order of goods?
-                    </p>
-                  </Media>
-                  <small>
-                    <time
-                      className="media-meta"
-                      dateTime="2015-06-11T18:29:20+08:00"
-                    >
-                      5 hours ago
-                    </time>
-                  </small>
-                </Media>
-              </div>
-              <div className="d-flex justify-content-between">
-                <Media className="d-flex align-items-start">
-                  <Media left href="#">
-                    <Icon.AlertTriangle
-                      className="font-medium-5 danger"
-                      size={21}
-                    />
-                  </Media>
-                  <Media body>
-                    <Media heading className="danger media-heading" tag="h6">
-                      Warning Notification
-                    </Media>
-                    <p className="notification-text">
-                      Server has used 99% of CPU
-                    </p>
-                  </Media>
-                  <small>
-                    <time
-                      className="media-meta"
-                      dateTime="2015-06-11T18:29:20+08:00"
-                    >
-                      Today
-                    </time>
-                  </small>
-                </Media>
-              </div>
-              <div className="d-flex justify-content-between">
-                <Media className="d-flex align-items-start">
-                  <Media left href="#">
-                    <Icon.CheckCircle
-                      className="font-medium-5 info"
-                      size={21}
-                    />
-                  </Media>
-                  <Media body>
-                    <Media heading className="info media-heading" tag="h6">
-                      Complete the task
-                    </Media>
-                    <p className="notification-text">
-                      One of your task is pending.
-                    </p>
-                  </Media>
-                  <small>
-                    <time
-                      className="media-meta"
-                      dateTime="2015-06-11T18:29:20+08:00"
-                    >
-                      Last week
-                    </time>
-                  </small>
-                </Media>
-              </div>
-              <div className="d-flex justify-content-between">
-                <Media className="d-flex align-items-start">
-                  <Media left href="#">
-                    <Icon.File className="font-medium-5 warning" size={21} />
-                  </Media>
-                  <Media body>
-                    <Media heading className="warning media-heading" tag="h6">
-                      Generate monthly report
-                    </Media>
-                    <p className="notification-text">
-                      Reminder to generate monthly report
-                    </p>
-                  </Media>
-                  <small>
-                    <time
-                      className="media-meta"
-                      dateTime="2015-06-11T18:29:20+08:00"
-                    >
-                      Last month
-                    </time>
-                  </small>
-                </Media>
-              </div>
+              </div> 
+               ))
+             }
+           
+             
+            
+             
             </PerfectScrollbar>
             <li className="dropdown-menu-footer">
-              <DropdownItem tag="a" className="p-1 text-center">
-                <span className="align-middle">Read all notifications</span>
-              </DropdownItem>
+              {/* <DropdownItem tag="a" className="p-1 text-center">
+                
+              </DropdownItem> */}
             </li>
           </DropdownMenu>
         </UncontrolledDropdown>
