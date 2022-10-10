@@ -254,7 +254,7 @@ return (
   </FormGroup>
   <FormGroup row className="has-icon-left position-relative">
               <Col md="4">
-              <span>University Description <span className="text-danger">*</span>{" "}</span>
+              <span>Description <span className="text-danger">*</span>{" "}</span>
               </Col>
               <Col md="8">
                    <Input
