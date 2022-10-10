@@ -163,61 +163,6 @@ const CampusSubjectList = () => {
     setCallApi((prev) => !prev);
   };
 
-  // toggle dropdown
-  const toggle = () => {
-    setDropdownOpen((prev) => !prev);
-  };
-
-  // toggle1 dropdown
-  const toggle1 = () => {
-    setDropdownOpen1((prev) => !prev);
-  };
-
-  const toggleDanger = (name, id) => {
-    console.log("name, id", name, id);
-    setSubName(name);
-    setSubId(id);
-    setDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => {
-    setDeleteModal(false);
-    setSubName("");
-    setSubId(0);
-  };
-
-  const handleDelete = (id) => {
-    const returnValue = remove(`UniversityCampusSubject/Delete/${id}`).then(
-      (action) => {
-        // console.log(action);
-        setSuccess(!success);
-        setDeleteModal(false);
-        addToast(action, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        setSubName("");
-        setSubId(0);
-      }
-    );
-  };
-
-  // add university handler
-  const handleAddSubject = () => {
-    // history.push("/addSubject");
-    setModalOpen(true);
-  };
-
-  // on clear
-  const handleClearSearch = () => {
-    setUniLabel("Select University");
-    setUniValue(0);
-    setCampLabel("Select Campus");
-    setCampValue(0);
-    setCallApi((prev) => !prev);
-    setSearchStr("");
-  };
-
   useEffect(() => {
     // Subject get by university
     get(`UniversityCampusSubject/GetUnassigned/${camId}`).then((res) => {
@@ -246,6 +191,64 @@ const CampusSubjectList = () => {
     camId,
     orderValue,
   ]);
+
+  // toggle dropdown
+  const toggle = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
+  };
+
+  const toggleDanger = (name, id) => {
+    console.log("name, id", name, id);
+    setSubName(name);
+    setSubId(id);
+    setDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setSubName("");
+    setSubId(0);
+  };
+
+  const handleDelete = (id) => {
+    const returnValue = remove(`UniversityCampusSubject/Delete/${id}`).then(
+      (action) => {
+        // console.log(action);
+        
+        setDeleteModal(false);
+        addToast(action, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        setSubName("");
+        setSubId(0);
+        setSuccess(false);
+        setSuccess(true);
+      }
+    );
+  };
+
+  // add university handler
+  const handleAddSubject = () => {
+    // history.push("/addSubject");
+    setModalOpen(true);
+  };
+
+  // on clear
+  const handleClearSearch = () => {
+    setUniLabel("Select University");
+    setUniValue(0);
+    setCampLabel("Select Campus");
+    setCampValue(0);
+    setCallApi((prev) => !prev);
+    setSearchStr("");
+  };
+
 
   // for subject dropdown
   const subMenu = subListDD.map((subOptions) => ({
@@ -380,6 +383,12 @@ const CampusSubjectList = () => {
             setSubValue(0);
             setSubLabel("Select Subject");
             setModalOpen(false);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "danger",
+              autoDismiss: true,
+            });
           }
         });
       }
