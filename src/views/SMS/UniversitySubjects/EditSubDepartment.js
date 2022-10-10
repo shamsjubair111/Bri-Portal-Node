@@ -162,7 +162,7 @@ const EditSubDepartment = () => {
 
       <FormGroup row className="has-icon-left position-relative">
              <Col md="2">
-             <span>University Description</span>
+             <span>Description</span>
                  </Col>
                       <Col md="6">
                         <Input
