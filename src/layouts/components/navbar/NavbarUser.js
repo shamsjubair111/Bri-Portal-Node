@@ -258,7 +258,7 @@ class NavbarUser extends React.PureComponent {
 
 
   redirect = (data) => {
-     window.open(data?.targetUrl, '_blank');
+     history.push(data?.targetUrl);
   }
 
  
