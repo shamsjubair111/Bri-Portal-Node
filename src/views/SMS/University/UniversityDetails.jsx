@@ -19,7 +19,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
 } from "reactstrap";
 import Axios from "axios";
 import * as Icon from "react-feather";
@@ -37,6 +37,7 @@ import EditDivButton from "../Components/EditDivButton";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import post from "../../../helpers/post";
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 // const userData = [{name: "Jubair", id:6, isChecked:false}, {name: "Rahul", id:2, isChecked:true}, {name: "Abir", id:3, isChecked:false}, {name: "Nahid", id:4, isChecked:true}];
@@ -49,8 +50,8 @@ const UniversityDetails = () => {
   const [financialInfo, setFinancialInfo] = useState({});
   const [universityFeatures, setUniversityFeatures] = useState({});
   const [galleryData, setGalleryData] = useState([]);
-  const [appDocument,setAppDocument] = useState([]);
-  const [tempDocument,setTempDocument] = useState([]);
+  const [appDocument, setAppDocument] = useState([]);
+  const [tempDocument, setTempDocument] = useState([]);
   // const [notAvl, setNotAvl] = useState('n/a');
 
   // for fake data
@@ -68,8 +69,6 @@ const UniversityDetails = () => {
   const [subList, setSubList] = useState([]);
   const [menus, setMenus] = useState([]);
   let [checked, setChecked] = useState([]);
-
-
 
   // for showing campus list
   const [campusList, setCampusList] = useState([]);
@@ -95,9 +94,19 @@ const UniversityDetails = () => {
   const [deleteModal1, setDeleteModal1] = useState(false);
   const [deleteModal2, setDeleteModal2] = useState(false);
 
-  const [delGalName, setDelGalName] = useState('');
-  const [delGalId, setDelGalId] = useState(0);
+  // for adding campus
+  const [modalOpen, setModalOpen] = useState(false);
+  const [uniCountryLabel, setUniCountryLabel] = useState("Select Country");
+  const [uniCountryValue, setUniCountryValue] = useState(0);
+  const [countryError, setCountryError] = useState(false);
+  const [uniStateLabel, setUniStateLabel] = useState("Select State");
+  const [unistateValue, setUniStateValue] = useState(0);
+  const [stateError, setStateError] = useState(false);
+  const [countryList, setCountryList] = useState([]);
+  const [universityStates, setUniversityStates] = useState([]);
 
+  const [delGalName, setDelGalName] = useState("");
+  const [delGalId, setDelGalId] = useState(0);
 
   const history = useHistory();
 
@@ -163,26 +172,90 @@ const UniversityDetails = () => {
       setGallery(res);
     });
 
-    get(`UniversityApplicationDocument/GetByUniversity/${id}`)
-    .then(res => {
+    get(`UniversityApplicationDocument/GetByUniversity/${id}`).then((res) => {
       setAppDocument(res);
-    })
+    });
 
-    get(`UniversityTemplateDocument/GetByUniversity/${id}`)
-    .then(res=> {
+    get(`UniversityTemplateDocument/GetByUniversity/${id}`).then((res) => {
       console.log(res);
       setTempDocument(res);
-    })
+    });
+
+    get("UniversityCountryDD/Index").then((res) => {
+      setCountryList(res);
+    });
 
     // for fake data
     // setUsers(userData);
   }, [id, callApi, currentPage, dataPerPage, searchStr, success]);
 
+  const countryDD = countryList.map((countryOptions) => ({
+    label: countryOptions?.name,
+    value: countryOptions?.id,
+  }));
+
+  // select University Country
+  const selectUniCountry = (label, value) => {
+    setCountryError(false);
+    setUniCountryLabel(label);
+    setUniCountryValue(value);
+    setUniStateLabel("Select State");
+    setUniStateValue(0);
+    get(`UniversityStateDD/Index/${value}`).then((res) => {
+      console.log("res", res);
+      // setUniStateLabel(res.name)
+      // setUniStateValue(res.id)
+      setUniversityStates(res);
+    });
+  };
+
+  const universityStateName = universityStates?.map((uniState) => ({
+    label: uniState.name,
+    value: uniState.id,
+  }));
+
+  // select University State
+  const selectUniState = (label, value) => {
+    setStateError(false);
+    setUniStateLabel(label);
+    setUniStateValue(value);
+  };
+
+  const handleSubmitCampus = (event) => {
+    event.preventDefault();
+    const subdata = new FormData(event.target);
+
+    
+      if (uniCountryValue === 0) {
+        setCountryError(true);
+      } else if (unistateValue === 0) {
+        setStateError(true);
+      } else {
+        post(`UniversityCampus/Create`, subdata).then((res) => {
+          setSuccess(!success);
+          setModalOpen(false);
+          console.log("ressss", res);
+          // setuniversityId(res?.data?.result?.universityId);
+          if (res.status === 200 && res.data.isSuccess === true) {
+            // setSubmitData(false);
+            addToast(res.data.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setUniCountryLabel("Select Country");
+            setUniCountryValue(0);
+            setUniStateLabel("Select State");
+            setUniStateValue(0);
+          }
+        });
+      }
+    
+  };
+
   const backToDashboard = () => {
-    if(location.subjectDataUniversityId != undefined){
+    if (location.subjectDataUniversityId != undefined) {
       history.push(`/subjectProfile/${location.subjectDataUniversityId}`);
-    }
-    else{
+    } else {
       history.push("/universityList");
     }
   };
@@ -351,16 +424,16 @@ const UniversityDetails = () => {
 
   //  console.log('finalcialInfo', financialInfo?.avarageTutionFee);
 
-  const handleProfileEdit = (id) =>{
+  const handleProfileEdit = (id) => {
     // localStorage.removeItem("id");
     // localStorage.removeItem('editMethod');
     // localStorage.setItem("id", id);
     // localStorage.setItem('editMethod','put');
     history.push({
       pathname: `/addUniversity/${id}`,
-      uuId: id
+      uuId: id,
     });
-  }
+  };
 
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
@@ -406,36 +479,37 @@ const UniversityDetails = () => {
     setDeleteModal(true);
   };
 
-   // on Close View Modal
-   const closeViewModal = () => {
+  // on Close View Modal
+  const closeViewModal = () => {
     // setGalleryObj({});
     setViewModalOpen(false);
   };
 
-   // on Close Modal
-   const closeDeleteModal = () => {
+  // on Close Modal
+  const closeDeleteModal = () => {
     setDeleteModal(false);
-    setDelGalName('');
+    setDelGalName("");
     setDelGalId(0);
   };
 
   const handleDeleteItem = (id) => {
-    const returnValue = remove(`UniversityGallery/Delete/${id}`).then((action) => {
-      setDeleteModal(false);
-      setSuccess(!success);
-      addToast(action, {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setDelGalName('');
-      setDelGalId(0);
-    });
+    const returnValue = remove(`UniversityGallery/Delete/${id}`).then(
+      (action) => {
+        setDeleteModal(false);
+        setSuccess(!success);
+        addToast(action, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        setDelGalName("");
+        setDelGalId(0);
+      }
+    );
   };
 
   const handleCampusEdit = (id) => {
-    history.push(`/addUniversityCampus/${id}`)
-
-  }
+    history.push(`/addUniversityCampus/${id}`);
+  };
 
   const AuthStr = localStorage.getItem("token");
 
@@ -451,7 +525,7 @@ const UniversityDetails = () => {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
-        'authorization': AuthStr,
+        "authorization": AuthStr,
       },
     };
 
@@ -475,19 +549,19 @@ const UniversityDetails = () => {
     }
   };
 
-  const redirecttoCampDetails = campusId => {
+  const redirecttoCampDetails = (campusId) => {
     history.push({
       pathname: `/campusDetails/${campusId}`,
-      uniDetailId: id
-    })
-  }
+      uniDetailId: id,
+    });
+  };
 
-  const redirectToSubjectProfile = subjectId => {
+  const redirectToSubjectProfile = (subjectId) => {
     history.push({
       pathname: `/subjectProfile/${subjectId}`,
-      uniDetailId: id
-    })
-  }
+      uniDetailId: id,
+    });
+  };
 
   // const handleAddUniversitySubject = () => {
   //   history.push(`/addUniversitySubject/${id}`);
@@ -495,7 +569,16 @@ const UniversityDetails = () => {
 
   const handleAddUniversitySubject = () => {
     history.push(`/addUniProfileSubject/${id}`);
-  }
+  };
+
+  // on Close Modal
+  const closeModal = () => {
+    setUniCountryLabel("Select Country");
+    setUniCountryValue(0);
+    setUniStateLabel("Select State");
+    setUniStateValue(0);
+    setModalOpen(false);
+  };
 
   return (
     <div>
@@ -506,12 +589,9 @@ const UniversityDetails = () => {
             <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {
-                location.subjectDataUniversityId != undefined ? 
-                "Back to Subject Details"
-                :
-                " Back to University List"
-              }
+              {location.subjectDataUniversityId != undefined
+                ? "Back to Subject Details"
+                : " Back to University List"}
             </span>
           </div>
         </CardHeader>
@@ -756,17 +836,16 @@ const UniversityDetails = () => {
                               >
                                 <ModalBody>
                                   <p>
-                                    Are You Sure to Delete this <b>{delGalName}</b>
-                                    ? Once Deleted it can't be Undone!
+                                    Are You Sure to Delete this{" "}
+                                    <b>{delGalName}</b>? Once Deleted it can't
+                                    be Undone!
                                   </p>
                                 </ModalBody>
 
                                 <ModalFooter>
                                   <Button
                                     color="danger"
-                                    onClick={() =>
-                                      handleDeleteItem(delGalId)
-                                      }
+                                    onClick={() => handleDeleteItem(delGalId)}
                                   >
                                     YES
                                   </Button>
@@ -796,7 +875,7 @@ const UniversityDetails = () => {
 
                           <FormGroup>
                             <span>
-                            Select Files{" "}
+                              Select Files{" "}
                               <span className="text-danger">*</span>{" "}
                             </span>
                             {loading ? (
@@ -900,7 +979,10 @@ const UniversityDetails = () => {
 
                       <div className="bg-h"></div>
                     </div>
-                    <div className="text-right edit-style  p-3" onClick={()=>handleProfileEdit(id)}>
+                    <div
+                      className="text-right edit-style  p-3"
+                      onClick={() => handleProfileEdit(id)}
+                    >
                       <span>
                         {" "}
                         <i className="fas fa-pencil-alt pencil-style"></i>{" "}
@@ -1010,14 +1092,379 @@ const UniversityDetails = () => {
                       </h5>
 
                       <div className="bg-h"></div>
-                      
                     </div>
-                    <div className="text-right edit-style  p-3" onClick={()=>handleCampusEdit(id)}>
+
+                    <ButtonForFunction
+                      func={() => setModalOpen(true)}
+                      className={"btn btn-uapp-add "}
+                      icon={<i className="fas fa-plus"></i>}
+                      name={" Add New Campus"}
+                      permission={6}
+                    />
+
+                    {/* campus adding modal starts here */}
+
+                    <Modal
+                      isOpen={modalOpen}
+                      toggle={closeModal}
+                      className="uapp-modal2"
+                      size="lg"
+                    >
+                      <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
+                        <span className="text-white">University Campus</span>
+                      </ModalHeader>
+                      <ModalBody>
+                        <Form onSubmit={handleSubmitCampus}>
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Input
+                              type="hidden"
+                              id="universityId"
+                              name="universityId"
+                              value={id}
+                            />
+                            {/* <Input
+                              type="hidden"
+                              id="Id"
+                              name="Id"
+                              value={selectedId}
+                            /> */}
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>
+                                Campus Name{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="text"
+                                name="Name"
+                                id="Name"
+                                placeholder="Enter Campus Name"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>
+                                Campus Country{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </span>
+                            </Col>
+                            <Col md="6">
+                              <Select
+                                options={countryDD}
+                                value={{
+                                  label: uniCountryLabel,
+                                  value: uniCountryValue,
+                                }}
+                                onChange={(opt) =>
+                                  selectUniCountry(opt.label, opt.value)
+                                }
+                                name="CampusCountryId"
+                                id="CampusCountryId"
+                              />
+
+                              {countryError ? (
+                                <span className="text-danger">
+                                  Country is required
+                                </span>
+                              ) : null}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>
+                                Campus State{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </span>
+                            </Col>
+                            <Col md="6">
+                              <Select
+                                options={universityStateName}
+                                value={{
+                                  label: uniStateLabel,
+                                  value: unistateValue,
+                                }}
+                                onChange={(opt) =>
+                                  selectUniState(opt.label, opt.value)
+                                }
+                                name="CampusStateId"
+                                id="CampusStateId"
+                              />
+
+                              {stateError ? (
+                                <span className="text-danger">
+                                  State is required
+                                </span>
+                              ) : null}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>
+                                Campus City{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="text"
+                                name="CampusCity"
+                                id="CampusCity"
+                                placeholder="Enter Campus City Name"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>
+                                Address Line
+                                <span className="text-danger">*</span>{" "}
+                              </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="text"
+                                name="AddressLine"
+                                id="AddressLine"
+                                placeholder="Enter Address Line"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>Total Student </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="number"
+                                name="TotalStudent"
+                                id="TotalStudent"
+                                placeholder="Enter Total Student"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>International Student </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="number"
+                                name="InternationalStudent"
+                                id="InternationalStudent"
+                                placeholder="Enter International Student"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>Average Tution Fee </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="number"
+                                name="AvarageTutionFee"
+                                id="AvarageTutionFee"
+                                placeholder="Avarage Tution Fee"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>Average Living Cost </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="number"
+                                name="AvarageLivingCost"
+                                id="AvarageLivingCost"
+                                placeholder="Avarage Living Cost"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>Average Application Fee </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="number"
+                                name="AvarageApplicationFee"
+                                id="AvarageApplicationFee"
+                                placeholder="Avarage Application Fee"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>Estimated Total Cost </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="number"
+                                name="EstimatedTotalCost"
+                                id="EstimatedTotalCost"
+                                placeholder="Estimated Total Cost"
+                                required
+                              />
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="2">
+                              <span>Campus on Map </span>
+                            </Col>
+                            <Col md="6">
+                              <Input
+                                type="textarea"
+                                rows="3"
+                                name="EmbededMap"
+                                id="EmbededMap"
+                                placeholder="Location on Google Map"
+                                // placeholder="Please type the src link only from the embed map"
+                              />
+                              <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
+                              {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                            </Col>
+                          </FormGroup>
+
+                          <FormGroup
+                            className="has-icon-left position-relative"
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Button
+                              color="danger"
+                              className="mr-1 mt-3"
+                              onClick={closeModal}
+                            >
+                              Close
+                            </Button>
+
+                            {/* localStorage.getItem("updateUni") ? */}
+                            {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
+
+                            {/* <Button.Ripple
+                        color="warning"
+                        type="submit"
+                        className="mr-1 mt-3"
+                       
+                      >
+                        Submit
+                      </Button.Ripple> */}
+
+                            <CustomButtonRipple
+                              color={"primary"}
+                              type={"submit"}
+                              className={"mr-1 mt-3"}
+                              name={"Submit"}
+                              permission={6}
+                            />
+                          </FormGroup>
+                        </Form>
+                      </ModalBody>
+                    </Modal>
+
+                    {/* campus adding modal ends here */}
+
+                    {/* <div className="text-right edit-style  p-3" onClick={()=>handleCampusEdit(id)}>
                       <span>
                         {" "}
                         <i className="fas fa-pencil-alt pencil-style"></i>{" "}
                       </span>
-                    </div>
+                    </div> */}
                     {/* <div className="text-right edit-style  p-3">
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                </div> */}
@@ -1087,7 +1534,9 @@ const UniversityDetails = () => {
                                       </Link> */}
 
                                       <ButtonForFunction
-                                      func={()=>redirecttoCampDetails(campus?.id)}
+                                        func={() =>
+                                          redirecttoCampDetails(campus?.id)
+                                        }
                                         className={"mx-1 btn-sm"}
                                         color={"primary"}
                                         icon={<i className="fas fa-eye"></i>}
@@ -1136,7 +1585,7 @@ const UniversityDetails = () => {
                       name={" Add New Subject"}
                       permission={6}
                     />
-               {/* </div> */}
+                    {/* </div> */}
                   </div>
                   {subList.length < 1 ? (
                     <p className="mt-4">There is no subject added here.</p>
@@ -1196,10 +1645,12 @@ const UniversityDetails = () => {
                                       </Link> */}
 
                                       <ButtonForFunction
-                                      func={()=> redirectToSubjectProfile(sub?.id)}
-                                      className={"mx-1 btn-sm"}
-                                      color={"primary"}
-                                      icon={<i className="fas fa-eye"></i>}
+                                        func={() =>
+                                          redirectToSubjectProfile(sub?.id)
+                                        }
+                                        className={"mx-1 btn-sm"}
+                                        color={"primary"}
+                                        icon={<i className="fas fa-eye"></i>}
                                       />
                                       {/* <Button color="dark" className="mx-1 btn-sm">
                                   {" "}
@@ -1422,7 +1873,7 @@ const UniversityDetails = () => {
                         <th>SL/NO</th>
                         <th>Name</th>
                         <th>Type</th>
-                       </tr>
+                      </tr>
                     </thead>
                     <tbody>
                       {appDocument?.map((application, i) => (
@@ -1449,8 +1900,6 @@ const UniversityDetails = () => {
                               Download
                             </a>
                           </td> */}
-
-                          
                         </tr>
                       ))}
                     </tbody>
@@ -1458,7 +1907,6 @@ const UniversityDetails = () => {
                 </CardBody>
               </Card>
             </div>
-
 
             <div className=" info-item mt-4">
               <Card>
@@ -1485,19 +1933,20 @@ const UniversityDetails = () => {
                         <th>Description</th>
                         <th>Type</th>
                         <th>File</th>
-                        </tr>
+                      </tr>
                     </thead>
                     <tbody>
                       {tempDocument?.map((temp, i) => (
-                        <tr
-                          key={temp?.id}
-                          style={{ textAlign: "center" }}
-                        >
+                        <tr key={temp?.id} style={{ textAlign: "center" }}>
                           <th scope="row">{i + 1}</th>
                           <td>{temp?.name}</td>
                           <td>{temp?.description}</td>
                           <td>
-                            {temp?.applicationTypeId ===1 ? 'Home' : temp?.applicationTypeId === 2 ? 'EU/UK' : 'International'}
+                            {temp?.applicationTypeId === 1
+                              ? "Home"
+                              : temp?.applicationTypeId === 2
+                              ? "EU/UK"
+                              : "International"}
                           </td>
                           <td>
                             <a
@@ -1507,9 +1956,7 @@ const UniversityDetails = () => {
                             >
                               Download
                             </a>
-                           
                           </td>
-                          
                         </tr>
                       ))}
                     </tbody>
@@ -1716,7 +2163,15 @@ const UniversityDetails = () => {
                 ) : (
                   <>
                     <div className="">
-                      <iframe src={universityInfo?.locationOnGoogleMap} width="100%" height="300"  loading="lazy" style={{border: "0"}} referrerpolicy="no-referrer-when-downgrade" title="efef"></iframe>
+                      <iframe
+                        src={universityInfo?.locationOnGoogleMap}
+                        width="100%"
+                        height="300"
+                        loading="lazy"
+                        style={{ border: "0" }}
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="efef"
+                      ></iframe>
                     </div>
                   </>
                 )}
@@ -1724,7 +2179,6 @@ const UniversityDetails = () => {
             </Card>
 
             {/* embedded map ends here */}
-
           </Col>
         </Row>
       </div>
