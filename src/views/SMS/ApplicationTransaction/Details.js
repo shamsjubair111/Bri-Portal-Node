@@ -99,7 +99,7 @@ const Details = () => {
 
         get(`InstallmentStatusDD/Index`)
         .then(res => {
-          console.log('second', res);
+          // console.log('second', res);
           setPayment(res);
         })
 
@@ -804,7 +804,7 @@ const Details = () => {
                       <b>Status: </b> <span>{' '} {installment?.secondInstallmentStatus == 1? 'Pending' : installment?.firstInstallmentStatus == 2? 'Received'  : installment?.secondInstallmentStatus == 3? 'Rejected' : null}</span>
                       <Modal
                               isOpen={openModal3}
-                              toggle={closeModal3}
+                              toggle={closeModal4}
                               className="uapp-modal2"
                             >
                               <ModalHeader>
@@ -835,8 +835,8 @@ const Details = () => {
                                        
                                         options={installmentOptions}
                                         value={{
-                                          label: firstLabel,
-                                          value: firstValue,
+                                          label: secondLabel,
+                                          value: secondValue,
                                         }}
                                         onChange={(opt) =>
                                           select2ndPayment(opt.label, opt.value)
@@ -936,7 +936,7 @@ const Details = () => {
                                   className="fas fa-pencil-alt pencil-style"
                                 ></i>
                               }
-                              func={()=> setOpenModal3(true)}
+                              func={()=> setOpenModal4(true)}
                               
                               permission={6}
                               
@@ -989,8 +989,8 @@ const Details = () => {
                                        
                                         options={installmentOptions}
                                         value={{
-                                          label: firstLabel,
-                                          value: firstValue,
+                                          label: thirdLabel,
+                                          value: thirdValue,
                                         }}
                                         onChange={(opt) =>
                                           select3rdPayment(opt.label, opt.value)
