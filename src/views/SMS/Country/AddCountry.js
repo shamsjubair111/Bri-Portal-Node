@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
+import 'antd/dist/antd.css';
 import {
   Card,
   CardBody,
@@ -22,6 +23,8 @@ import {
   Table,
   ButtonGroup,
 } from "reactstrap";
+import { Upload, Modal as Modals } from "antd";
+import * as Icon from "react-feather";
 import { useToasts } from "react-toast-notifications";
 import get from "../../../helpers/get";
 import post from "../../../helpers/post";
@@ -36,6 +39,7 @@ const AddCountry = () => {
   const [code, setCode] = useState("");
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen2, setModalOpen2] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
   const [updateState, setUpdateState] = useState({});
@@ -47,6 +51,12 @@ const AddCountry = () => {
   const { addToast } = useToasts();
   const [loading,setLoading] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [FileList, setFileList] = useState([]);
+  const [imgError, setImgError] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -98,6 +108,45 @@ const AddCountry = () => {
     }
   };
 
+
+  // Trial start
+
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  const handleCancel = () => {
+    setPreviewVisible(false);
+  };
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+
+  const handleChange = ({ fileList }) => {
+    setFileList(fileList);
+    setImgError(false);
+  };
+
+  // dispatch(StoreStudentProfileImageData(FileList));
+
+  console.log("One two three", FileList[0]?.originFileObj);
+
+  // Trial End
+
   const handleUpdate = (country) => {
     setModalOpen(true);
     setCountry(country?.name);
@@ -132,6 +181,43 @@ const AddCountry = () => {
     setModalOpen(false);
     setUpdateState({});
   };
+  const closeModal2 = () => {
+    setModalOpen2(false);
+  
+  };
+
+  const uploadFileCountry  = (event) => {
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+    subData.append('countryfile',FileList?.length < 1? null : FileList[0]?.originFileObj);
+    if(FileList?.length < 1){
+      setImgError(true);
+    }
+    else{
+      setButtonStatus(true);
+    post(`Country/CreateFromExcel`,subData)
+    .then(res => {
+      setButtonStatus(false);
+      if(res?.status == 200 && res?.data?.isSuccess ==true){
+        addToast(res?.data?.message,{
+          appearance:'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+        setModalOpen2(false);
+      }
+      else{
+        addToast(res?.data?.message,{
+          appearance:'error',
+          autoDismiss: true
+        })
+      }
+    })
+    }
+
+
+  }
 
   // on Close Delete Modal
   const closeDeleteModal = () => {
@@ -167,17 +253,36 @@ const AddCountry = () => {
         <CardHeader>
           {
             permissions?.includes(permissionList?.Add_Country) ?
-            <ButtonForFunction
-            className={"btn btn-uapp-add"}
+           <>
+           
+          <div>
+          <ButtonForFunction
+            className={"btn btn-uapp-add mr-1"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add New Country"}
             
           />
+
+          <ButtonForFunction
+          className={"btn btn-uapp-add ml-1"}
+          func={() => setModalOpen2(true)}
+          icon={<i className="fas fa-plus mr-1"></i>}
+          name={"Add From Excel"}
+          disable={buttonStatus}
+          
+        />
+          </div>
+
+           </>
+
+
+          
           : 
           null
           }
 
+       
           <div>
             {" "}
             <b>
@@ -273,6 +378,106 @@ const AddCountry = () => {
                     </Button>
 
                     {/* } */}
+                  </FormGroup>
+                </Form>
+              </ModalBody>
+            </Modal>
+            <Modal
+              isOpen={modalOpen2}
+              toggle={closeModal2}
+              className="uapp-modal"
+            >
+              <ModalHeader>Upload Document</ModalHeader>
+              <ModalBody>
+                <Form onSubmit={uploadFileCountry}>
+                  {updateState?.id ? (
+                    <Input
+                      type="hidden"
+                      name="id"
+                      id="id"
+                      defaultValue={updateState?.id}
+                    />
+                  ) : null}
+
+                  <FormGroup row className="has-icon-left position-relative">
+                    <Col md="3">
+                      <span>
+                        Document <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="3">
+                    <>
+                          <Upload
+                            listType="picture-card"
+                            multiple={false}
+                            fileList={FileList}
+                            onPreview={handlePreview}
+                            onChange={handleChange}
+                            beforeUpload={(file) => {
+                              return false;
+                            }}
+                          >
+                            {FileList.length < 1 ? (
+                              <div
+                                className="text-danger"
+                                style={{ marginTop: 8 }}
+                              >
+                                <Icon.Upload />
+                                <br />
+                                <span>Upload Here</span>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </Upload>
+                          <Modals
+                            visible={previewVisible}
+                            title={previewTitle}
+                            footer={null}
+                            onCancel={handleCancel}
+                          >
+                            <img
+                              alt="example"
+                              style={{ width: "100%" }}
+                              src={previewImage}
+                            />
+                          </Modals>
+                        </>
+                        {
+                          imgError ?
+                          <span className="text-danger">File is required</span>
+                          :
+                          null
+                        }
+                    </Col>
+                  </FormGroup>
+
+                  
+
+                  <FormGroup
+                    className="has-icon-left position-relative"
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Button
+                      color="danger"
+                      className="mr-1 mt-3"
+                      onClick={closeModal2}
+                    >
+                      Close
+                    </Button>
+
+                    
+                    <Button
+                      color="primary"
+                      type="submit"
+                      className="mr-1 mt-3"
+                  
+                      disabled={buttonStatus}
+                    >
+                      Submit
+                    </Button>
+
+                 
                   </FormGroup>
                 </Form>
               </ModalBody>

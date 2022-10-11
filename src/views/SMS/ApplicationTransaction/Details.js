@@ -57,6 +57,7 @@ const Details = () => {
     const [openModal2,setOpenModal2] = useState(false);
     const [openModal3,setOpenModal3] = useState(false);
     const [openModal4,setOpenModal4] = useState(false);
+    const [openModal5,setOpenModal5] = useState(false);
     const [installment,setInstallment] = useState({});
 
 
@@ -68,7 +69,7 @@ const Details = () => {
 
         get(`ApplicationTransaction/Details/${id}`)
         .then(res => {
-          //  console.log(res,'string');
+           console.log(res,'string');
             setData(res);
             setTransactionLabel(res?.transactionStatus);
             setTransactionValue(res?.transactionStatusId);
@@ -81,7 +82,7 @@ const Details = () => {
 
         get(`ApplicationTransactionInstallment/Get/${id}`)
         .then(res => {
-          console.log('first', res);
+          // console.log('first', res);
           setInstallment(res);
           setFirstLabel(res?.firstInstallmentStatus == 1 ? 'Pending' : res?.firstInstallmentStatus == 2 ? 'Received' : 'Rejected');
           setFirstValue(res?.firstInstallmentStatus);
@@ -129,6 +130,9 @@ const Details = () => {
     }
     const closeModal4 = () => {
       setOpenModal4(false);
+    }
+    const closeModal5 = () => {
+      setOpenModal5(false);
     }
 
     const transactionOptions = transaction?.map(tr => ({
@@ -229,6 +233,40 @@ const Details = () => {
         })
       }
     })
+  }
+
+  const submit4 = (event) => {
+
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+
+    put(`ApplicationTransaction/TransactionNote`,subData)
+    .then(res => {
+      if(res?.status == 200 && res?.data?.isSuccess  == true){
+        {
+          addToast(res?.data?.message,{
+            appearance:'success',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+          setOpenModal5(false);
+        }
+
+      }
+      else{
+        {
+          addToast(res?.data?.message,{
+            appearance:'error',
+            autoDismiss: true
+          })
+        }
+      }
+    })
+
+
+
+
   }
 
     const updateTransactionStatus = (event) => {
@@ -409,7 +447,7 @@ const Details = () => {
                             <div className="d-flex justify-content-between">
                             
                             
-                                <>&#163; {' '}{data?.amount}</>
+                                <>&#163;{data?.amount}</>
                              
                             </div>
                           </td>
@@ -419,6 +457,127 @@ const Details = () => {
 
                 </CardBody>
 
+            </Card>
+
+            <Card>
+              <CardBody>
+              <Modal
+                              isOpen={openModal5}
+                              toggle={closeModal5}
+                              className="uapp-modal2"
+                            >
+                              <ModalHeader>
+                                Transaction Note
+                              </ModalHeader>
+                              <ModalBody>
+                                <Form onSubmit={submit4}>
+                                  <input
+                                    type="hidden"
+                                    name="id"
+                                    id="id"
+                                    value={installment?.id}
+                                    
+                                  />
+
+                                  <FormGroup
+                                    row
+                                    className="has-icon-left position-relative"
+                                  >
+                                    <Col md="2">
+                                      <span>
+                                        Note {" "}
+                                        <span className="text-danger">*</span>{" "}
+                                      </span>
+                                    </Col>
+                                    <Col md="8">
+                                     <Input
+                                     type='textarea'
+                                     Row={6}
+                                     defaultValue={data?.transactionNote}
+                                     name='transactionNote'
+                                     id ='transactionNote'
+                                     required
+                                     />
+                                     
+                                    </Col>
+                                  </FormGroup>
+
+                                 <div className='row'>
+
+                                  <div className='col-md-10'>
+                                  <div className='d-flex justify-content-between'>
+
+
+                                <Button color='danger' onClick={()=> setOpenModal5(false)}>
+                                  Cancel
+                                </Button>
+
+                                <Button color='primary' type='submit'>
+                                  Submit
+                                </Button>
+                                </div>
+
+                                  </div>
+
+                                 </div>
+
+                                 
+                                </Form>
+                              </ModalBody>
+                            </Modal>
+                  {
+                    data?.transactionNote == null ?
+
+                    <>
+                    
+                    <Button color='primary' onClick={()=>setOpenModal5(true)}>
+                <i className="fas fa-plus"></i> <span className='ml-1'>Add New Note</span>
+                </Button>
+                
+
+                    </>
+
+                    :
+
+                    <>
+                    
+                    <div className='d-flex justify-content-between'>
+
+                      <div>
+                      <div className="hedding-titel mb-3">
+                        <h5>
+                          {" "}
+                          <b>Note</b>{" "}
+                        </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+
+                      <span>{data?.transactionNote}</span>
+                       
+                      </div>
+
+                      <div>
+                      <SpanButton
+                              icon={
+                                <i
+                                  style={{ cursor: "pointer" }}
+                                  className="fas fa-pencil-alt pencil-style"
+                                ></i>
+                              }
+                              func={()=>setOpenModal5(true)}
+                              
+                              permission={6}
+                              
+                            />
+                      </div>
+
+                    </div>
+                    
+                    </>
+                  }
+               
+              </CardBody>
             </Card>
 
         </div>
@@ -718,6 +877,7 @@ const Details = () => {
                                       id ='firstInstallmentNote'
                                       placeholder='Enter Note'
                                       defaultValue={installment?.firstInstallmentNote}
+                                      required
                                       />
                                      
                                     </Col>
@@ -804,7 +964,7 @@ const Details = () => {
                       <b>Status: </b> <span>{' '} {installment?.secondInstallmentStatus == 1? 'Pending' : installment?.firstInstallmentStatus == 2? 'Received'  : installment?.secondInstallmentStatus == 3? 'Rejected' : null}</span>
                       <Modal
                               isOpen={openModal3}
-                              toggle={closeModal4}
+                              toggle={closeModal3}
                               className="uapp-modal2"
                             >
                               <ModalHeader>
@@ -866,6 +1026,7 @@ const Details = () => {
                                       id ='secondInstallmentNote'
                                       placeholder='Enter Note'
                                       defaultValue={installment?.secondInstallmentNote}
+                                      required
                                       />
                                      
                                     </Col>
@@ -1020,6 +1181,7 @@ const Details = () => {
                                       id ='thirdInstallmentNote'
                                       placeholder='Enter Note'
                                       defaultValue={installment?.thirdInstallmentNote}
+                                      required
                                       />
                                      
                                     </Col>
