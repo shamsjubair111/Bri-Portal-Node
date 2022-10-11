@@ -708,7 +708,7 @@ const selectNameTitle = (label, value) => {
 
                       {officerError && (
                         <span className="text-danger">
-                          You must select admission officer.
+                          Admission officer is required
                         </span>
                       )}
                     </Col>
@@ -778,7 +778,7 @@ const selectNameTitle = (label, value) => {
                                         <User size={15} />
                                     </div> */}
                     {
-                        nameTitleError ? <span className="text-danger">You must select title.</span>
+                        nameTitleError ? <span className="text-danger">Title is required</span>
                         :
                         null
                     }
@@ -912,7 +912,7 @@ const selectNameTitle = (label, value) => {
                                         <User size={15} />
                                     </div> */}
                     {
-                        countryError ? <span className="text-danger">You must select country.</span>
+                        countryError ? <span className="text-danger">Country is required</span>
                         :
                         null
                     }
@@ -937,7 +937,7 @@ const selectNameTitle = (label, value) => {
                                         <User size={15} />
                                     </div> */}
                     {
-                        uniStateError ? <span className="text-danger">You must select state.</span>
+                        uniStateError ? <span className="text-danger">State is required</span>
                         :
                         null
                     }

@@ -366,7 +366,7 @@ const onPreviousPage = () => {
 
                         {deliveryError && (
                           <span className="text-danger">
-                            You must select delivery pattern
+                            Delivery pattern is required
                           </span>
                         )}
                       </Col>

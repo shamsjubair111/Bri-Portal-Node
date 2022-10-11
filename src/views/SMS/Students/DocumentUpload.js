@@ -697,7 +697,7 @@ const DocumentUpload = () => {
 
                     {/* {uploadError && (
                       <span className="text-danger">
-                        You must upload a document.
+                        Document is required
                       </span>
                     )} */}
                   </Col>

@@ -935,7 +935,7 @@ const PersonalInformation = () => {
 
                     {imgError ? (
                       <span className="text-danger">
-                        You must select a profile picture
+                        Profile picture is required
                       </span>
                     ) : null}
                   </Col>

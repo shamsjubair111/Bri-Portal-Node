@@ -397,7 +397,7 @@ const ConsultantCommission = () => {
 
                     {commissionError && (
                       <span className="text-danger">
-                        You must select commission group.
+                        Commission group is required
                       </span>
                     )}
                   </Col>

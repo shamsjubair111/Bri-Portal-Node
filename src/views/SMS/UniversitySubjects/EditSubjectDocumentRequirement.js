@@ -330,7 +330,7 @@ const EditSubjectDocumentRequirement = () => {
 
                         {docuError && (
                           <span className="text-danger">
-                            You must select document group
+                            Document group is required
                           </span>
                         )}
                       </Col>
@@ -356,7 +356,7 @@ const EditSubjectDocumentRequirement = () => {
 
                         {appliError && (
                           <span className="text-danger">
-                            You must select application type
+                            Application type is required
                           </span>
                         )}
                       </Col>

@@ -905,7 +905,7 @@ const AddUniversity = (props) => {
 
                     {providerTypeError && (
                       <span className="text-danger">
-                        You must select provider.
+                        Provider is required
                       </span>
                     )}
                   </Col>
@@ -974,7 +974,7 @@ const AddUniversity = (props) => {
 
                     {uniTypeError ? (
                       <span className="text-danger">
-                        You must select university type.
+                        University type is required
                       </span>
                     ) : null}
 
@@ -1001,7 +1001,7 @@ const AddUniversity = (props) => {
 
                     {contractTypeError ? (
                       <span className="text-danger">
-                        You must select contract type.
+                        Contract type is required
                       </span>
                     ) : null}
 
@@ -1028,7 +1028,7 @@ const AddUniversity = (props) => {
 
                     {uniCountryError && (
                       <span className="text-danger">
-                        You must select university country.
+                        University country is required
                       </span>
                     )}
 
@@ -1055,7 +1055,7 @@ const AddUniversity = (props) => {
 
                     {uniStateError && (
                       <span className="text-danger">
-                        You must select university state.
+                        University state is required
                       </span>
                     )}
 
@@ -1270,7 +1270,7 @@ const AddUniversity = (props) => {
 
                     {logoDropzoneError && (
                       <span className="text-danger">
-                        You must upload a logo.
+                        Logo is required
                       </span>
                     )}
                   </Col>
@@ -1340,7 +1340,7 @@ const AddUniversity = (props) => {
 
                     {coverDropzoneError && (
                       <span className="text-danger">
-                        You must upload a cover photo
+                        Cover photo is required
                       </span>
                     )}
                   </Col>

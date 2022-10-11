@@ -454,7 +454,7 @@ const AddUniversityGallery = () => {
 
                         {fileError && (
                           <span className="text-danger">
-                            You must select at least one file.
+                            At least one file is required
                           </span>
                         )}
                       </Col>

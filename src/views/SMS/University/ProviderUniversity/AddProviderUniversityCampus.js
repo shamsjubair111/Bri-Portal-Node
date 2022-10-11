@@ -505,7 +505,7 @@ const AddProviderUniversityCampus = (props) => {
                         />
 
                         {
-                          uniCountryError && <span className="text-danger">You must select campus country.</span>
+                          uniCountryError && <span className="text-danger">Campus country is required</span>
                         }
 
                         {/* <div className="form-control-position">

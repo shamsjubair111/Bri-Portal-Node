@@ -463,7 +463,7 @@ const AssignUniversity = () => {
 
                           {uniError && (
                             <span className="text-danger">
-                              You must select university.
+                               University is required
                             </span>
                           )}
                         </Col>

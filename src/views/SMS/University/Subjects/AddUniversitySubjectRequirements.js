@@ -264,7 +264,7 @@ const AddUniversitySubjectRequirements = () => {
 
                     {eduError && (
                       <span className="text-danger">
-                        You must select education level
+                        Education level is required
                       </span>
                     )}
                   </Col>

@@ -961,7 +961,7 @@ const AdmissionOfficerList = () => {
                                     </div> */}
                     {nameTitleError ? (
                       <span className="text-danger">
-                        You must select title.
+                        Title is required
                       </span>
                     ) : null}
                   </Col>
@@ -1097,7 +1097,7 @@ const AdmissionOfficerList = () => {
                                     </div> */}
                     {countryError ? (
                       <span className="text-danger">
-                        You must select country.
+                        Country is required
                       </span>
                     ) : null}
                   </Col>
@@ -1123,7 +1123,7 @@ const AdmissionOfficerList = () => {
                                     </div> */}
                     {uniStateError ? (
                       <span className="text-danger">
-                        You must select state.
+                        State is required
                       </span>
                     ) : null}
                   </Col>
@@ -1151,7 +1151,7 @@ const AdmissionOfficerList = () => {
 
                       {providerError ? (
                         <span className="text-danger">
-                          You must select provider.
+                          Provider is required
                         </span>
                       ) : null}
                     </Col>
@@ -1185,7 +1185,7 @@ const AdmissionOfficerList = () => {
 
                       {managerFormError ? (
                         <span className="text-danger">
-                          You must select admission manager.
+                          Admission manager is required
                         </span>
                       ) : null}
                     </Col>

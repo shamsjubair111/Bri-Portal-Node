@@ -661,7 +661,7 @@ const CampusList = (props) => {
 
                       {countryError ? (
                         <span className="text-danger">
-                          You must select country.
+                          Country is required
                         </span>
                       ) : null}
                     </Col>
@@ -684,7 +684,7 @@ const CampusList = (props) => {
 
                       {stateError ? (
                         <span className="text-danger">
-                          You must select state.
+                          State is required
                         </span>
                       ) : null}
                     </Col>

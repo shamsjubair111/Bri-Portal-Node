@@ -563,7 +563,7 @@ const AddConsultantInformation = () => {
     }
     else if((work == 'true') && (FileList5.length < 1 && consultantData?.proofOfRightToWorkMedia == null)){
       
-      setProofOfRightError('You must upload a file');
+      setProofOfRightError('File is required');
    
     }
     else {
@@ -1026,7 +1026,7 @@ const AddConsultantInformation = () => {
 
                 {profilePicError && (
                   <span className="text-danger">
-                    You must upload a profile photo.
+                    Profile photo is required
                   </span>
                 )}
               </Col>
@@ -1146,7 +1146,7 @@ const AddConsultantInformation = () => {
                 </div>
 
                     {idPassportError && (
-                      <span className="text-danger">You must upload a file.</span>
+                      <span className="text-danger">File is required </span>
                     )}
 
               </Col>
@@ -1209,7 +1209,7 @@ const AddConsultantInformation = () => {
                 </div>
 
                     {proofOfAddressError && (
-                      <span className="text-danger">You must upload a file.</span>
+                      <span className="text-danger">File is required</span>
                     )}
 
               </Col>

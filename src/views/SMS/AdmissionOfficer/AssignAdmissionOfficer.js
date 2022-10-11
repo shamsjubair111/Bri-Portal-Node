@@ -337,7 +337,7 @@ const AssignAdmissionOfficer = () => {
 
                       {managerError && (
                         <span className="text-danger">
-                          You must select admission manager.
+                          Admission manager is required
                         </span>
                       )}
                     </Col>

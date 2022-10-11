@@ -495,7 +495,7 @@ const AddUniversityTemplateDocument = () => {
 
                         {applicationError && (
                           <span className="text-danger">
-                            You must select application type.
+                            Application type is required
                           </span>
                         )}
 
@@ -565,7 +565,7 @@ const AddUniversityTemplateDocument = () => {
                         </div>
 
                         {uploadError && (
-                          <span className="text-danger">You must upload a document.</span>
+                          <span className="text-danger">Document is required</span>
                         )}
 
                         {/* {

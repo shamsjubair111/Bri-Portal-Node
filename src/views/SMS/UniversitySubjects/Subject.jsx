@@ -579,7 +579,7 @@ const Subject = () => {
                     />
 
                     {uniDropError && (
-                      <span className="text-danger">You must select university.</span>
+                      <span className="text-danger">University is required</span>
                     )}
 
                   </Col>
@@ -600,7 +600,7 @@ const Subject = () => {
                       id="programLevelId"
                     />
                     {progLvlError && (
-                      <span className="text-danger">You must select program level.</span>
+                      <span className="text-danger">Program level is required</span>
                     )}
                   </Col>
                 </FormGroup>
@@ -620,7 +620,7 @@ const Subject = () => {
                       id="departmentId"
                     />
                     {deptDropError && (
-                      <span className="text-danger">You must select department.</span>
+                      <span className="text-danger">Department is required</span>
                     )}
                   </Col>
                 </FormGroup>
@@ -640,7 +640,7 @@ const Subject = () => {
                       id="subDepartmentId"
                     />
                     {subDeptDropError && (
-                      <span className="text-danger">You must select sub-department.</span>
+                      <span className="text-danger">Sub-department is required.</span>
                     )}
                   </Col>
                 </FormGroup>

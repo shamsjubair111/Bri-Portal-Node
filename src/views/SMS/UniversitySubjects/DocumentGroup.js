@@ -411,7 +411,7 @@ const DocumentGroup = () => {
 
                       {applicationTypeError && (
                         <span className="text-danger">
-                          You must select application type.
+                          Application type is required
                         </span>
                       )}
                     </Col>

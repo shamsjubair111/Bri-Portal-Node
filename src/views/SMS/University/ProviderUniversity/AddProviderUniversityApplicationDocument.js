@@ -441,7 +441,7 @@ const AddProviderUniversityApplicationDocument = () => {
 
                         {documentError && (
                           <span className="text-danger">
-                            You must select document.
+                            Document is required
                           </span>
                         )}
                       </Col>
@@ -470,7 +470,7 @@ const AddProviderUniversityApplicationDocument = () => {
 
                         {applicationTypeError && (
                           <span className="text-danger">
-                            You must select application type.
+                           Application type is required
                           </span>
                         )}
                       </Col>
@@ -525,7 +525,7 @@ const AddProviderUniversityApplicationDocument = () => {
 
                         {applicationError && (
                           <span className="text-danger">
-                            You must choose yes or no.
+                             Yes or no is required
                           </span>
                         )}
                       </Col>

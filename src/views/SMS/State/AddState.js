@@ -286,7 +286,7 @@ const AddState = () => {
                         setStateError(false)}}
                       />
                       {
-                        stateError ? <span className="text-danger">You must write state name</span>
+                        stateError ? <span className="text-danger">State is required</span>
                         :
                         null
                       }
@@ -310,7 +310,7 @@ const AddState = () => {
                         setCodeError(false)}}
                       />
                       {
-                        codeError ? <span className="text-danger">You must write state code</span>
+                        codeError ? <span className="text-danger">State code is required</span>
                         :
                         null
                       }
@@ -334,7 +334,7 @@ const AddState = () => {
                         id="country"
                       />
                       {
-                        countryError ? <span className="text-danger">You must select country</span>
+                        countryError ? <span className="text-danger">Country is required</span>
                         :
                         null
                       }

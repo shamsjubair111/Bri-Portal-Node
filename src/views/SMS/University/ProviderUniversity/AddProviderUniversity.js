@@ -806,7 +806,7 @@ const AddProviderUniversity = () => {
 
                     {uniTypeError ? (
                       <span className="text-danger">
-                        You must select university type.
+                        University type is required
                       </span>
                     ) : null}
 
@@ -833,7 +833,7 @@ const AddProviderUniversity = () => {
 
                     {contractTypeError ? (
                       <span className="text-danger">
-                        You must select contract type.
+                        Contract type is required
                       </span>
                     ) : null}
 
@@ -860,7 +860,7 @@ const AddProviderUniversity = () => {
 
                     {uniCountryError && (
                       <span className="text-danger">
-                        You must select university country.
+                        University country is required
                       </span>
                     )}
 
@@ -887,7 +887,7 @@ const AddProviderUniversity = () => {
 
                     {uniStateError && (
                       <span className="text-danger">
-                        You must select university state.
+                      University state is required
                       </span>
                     )}
 
@@ -1102,7 +1102,7 @@ const AddProviderUniversity = () => {
 
                     {logoDropzoneError && (
                       <span className="text-danger">
-                        You must upload a logo.
+                        Logo is required
                       </span>
                     )}
                   </Col>
@@ -1172,7 +1172,7 @@ const AddProviderUniversity = () => {
 
                     {coverDropzoneError && (
                       <span className="text-danger">
-                        You must upload a cover photo
+                        Cover photo is required
                       </span>
                     )}
                   </Col>

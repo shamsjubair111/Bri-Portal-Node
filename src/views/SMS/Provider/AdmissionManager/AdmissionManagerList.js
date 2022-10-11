@@ -590,7 +590,7 @@ const AdmissionManagerList = () => {
 
                         {providerError ? (
                           <span className="text-danger">
-                            You must select provider.
+                            Provider is required
                           </span>
                         ) : null}
                       </Col>
@@ -618,7 +618,7 @@ const AdmissionManagerList = () => {
 
                         {nameTitleError ? (
                           <span className="text-danger">
-                            You must select title.
+                            Title is required
                           </span>
                         ) : null}
                       </Col>
@@ -776,7 +776,7 @@ const AdmissionManagerList = () => {
                         />
                         {countryError ? (
                           <span className="text-danger">
-                            You must select country.
+                            Country is required
                           </span>
                         ) : null}
                       </Col>
@@ -800,7 +800,7 @@ const AdmissionManagerList = () => {
                         />
                         {uniStateError ? (
                           <span className="text-danger">
-                            You must select state.
+                            State is required
                           </span>
                         ) : null}
                       </Col>
