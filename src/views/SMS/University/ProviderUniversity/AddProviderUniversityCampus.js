@@ -725,7 +725,7 @@ const AddProviderUniversityCampus = (props) => {
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
-                        <span>Embeded Map </span>
+                        <span>Campus on Map </span>
                       </Col>
                       <Col md="6">
                         <Input
@@ -734,8 +734,9 @@ const AddProviderUniversityCampus = (props) => {
                           name="EmbededMap"
                           id="EmbededMap"
                           defaultValue={universityCampusObject?.embededMap}
-                          placeholder="Embeded Map"
+                          placeholder="Location on Google Map"
                         />
+                        <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
                         {/* <div className="form-control-position">
                               <User size={15} />
                           </div> */}

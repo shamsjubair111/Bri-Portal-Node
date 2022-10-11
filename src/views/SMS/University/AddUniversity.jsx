@@ -1167,7 +1167,7 @@ const AddUniversity = (props) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
-                    <span>Embeded Map</span>
+                    <span>University on Map</span>
                   </Col>
                   <Col md="6">
                     <Input
@@ -1180,6 +1180,7 @@ const AddUniversity = (props) => {
                       placeholder="Location on Google Map"
                       onChange={(e) => setDescription(e.target.value)}
                     />
+                    <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
 
                     {/* <div className="form-control-position">
                                         <User size={15} />
