@@ -191,6 +191,9 @@ const Applications = () => {
   const [checkSlcs, setCheckEnSlcs] = useState(true);
   const [checkCons, setCheckCons] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [delData,setDelData] = useState({});
+  const [deleteModal,setDeleteModal] = useState(false);
+  const [success,setSuccess] = useState(false);
 
   const history = useHistory();
   const { addToast } = useToasts();
@@ -206,7 +209,7 @@ const Applications = () => {
     get("Account/GetCurrentUserId").then((res) => {
       setCurrentUser(res);
     });
-  }, []);
+  }, [success]);
 
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
@@ -465,6 +468,7 @@ const Applications = () => {
     loading,
     currentUser,
     location.universityIdFromUniList,
+    success
   ]);
 
   // for all dropdown
@@ -625,6 +629,12 @@ const Applications = () => {
     setCallApi((prev) => !prev);
   };
 
+  const toggleDanger = (data) => {
+    
+    setDelData(data);
+    setDeleteModal(true);
+  }
+
   // toggle1 dropdown
   const toggle1 = () => {
     setDropdownOpen1((prev) => !prev);
@@ -668,6 +678,19 @@ const Applications = () => {
     const x = localeDate.split(",")[0];
     return x;
   };
+
+  const handleDeleteData = () => {
+    remove(`Application/Delete/${delData?.id}`)
+    .then(res => {
+      addToast(res,{
+        appearance: 'error',
+        autoDismiss:true
+      })
+      setSuccess(!success);
+      setDeleteModal(false);
+      setDelData({});
+    })
+  }
 
   // for hide/unhide column
 
@@ -1665,21 +1688,21 @@ const Applications = () => {
                           icon={<i className="fas fa-trash-alt"></i>}
                           color={"danger"}
                           className={"mx-1 btn-sm mt-2"}
-                          //   func={()=> toggleDanger(student)}
+                            func={()=> toggleDanger(app)}
                         />
 
                         </ButtonGroup>
 
-                        {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
                         <ModalBody>
                           <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={()=>handleDeleteData(student)}>YES</Button>
+                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
-                     </Modal> */}
+                     </Modal>
                       </td>
                       :
                       null

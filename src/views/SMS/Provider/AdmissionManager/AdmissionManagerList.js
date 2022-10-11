@@ -1292,11 +1292,12 @@ const AdmissionManagerList = () => {
                             </ModalBody>
 
                             <ModalFooter>
+                            
                               <Button color="danger" onClick={handleDelete}>
                                 YES
                               </Button>
                               <Button
-                                color="primary"
+                                
                                 onClick={closeDeleteModal}
                               >
                                 NO

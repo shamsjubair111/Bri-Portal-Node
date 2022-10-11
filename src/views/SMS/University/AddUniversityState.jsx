@@ -256,7 +256,7 @@ const AddUniversityState = () => {
               toggle={closeModal}
               className="uapp-modal"
             >
-              <ModalHeader>Add University State</ModalHeader>
+              <ModalHeader>University State</ModalHeader>
 
               <ModalBody>
                 <Form>
@@ -368,6 +368,19 @@ const AddUniversityState = () => {
                       <ButtonGroup>
                       {/* <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
+                      {
+                        permissions?.includes(permissionList?.Update_Universitystate) ?
+                        <ButtonForFunction
+                        func={() => handleUpdate(uniDetails)}
+                        className={"mx-1 btn-sm"}
+                        color={"warning"}
+                        icon={<i className="fas fa-edit"></i>}
+                        permission={6}
+                      />
+                      :
+                      null
+                      }
+                      
                     {
                         permissions?.includes(permissionList?.Delete_Universitystate) ?
                         <ButtonForFunction
@@ -383,18 +396,7 @@ const AddUniversityState = () => {
 
                       {/* <Button onClick={()=> handleUpdate(uniDetails)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
 
-                      {
-                        permissions?.includes(permissionList?.Update_Universitystate) ?
-                        <ButtonForFunction
-                        func={() => handleUpdate(uniDetails)}
-                        className={"mx-1 btn-sm"}
-                        color={"warning"}
-                        icon={<i className="fas fa-edit"></i>}
-                        permission={6}
-                      />
-                      :
-                      null
-                      }
+                     
 
                      </ButtonGroup>
 

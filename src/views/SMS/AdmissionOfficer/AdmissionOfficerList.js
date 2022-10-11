@@ -1393,11 +1393,12 @@ const AdmissionOfficerList = () => {
                             </ModalBody>
 
                             <ModalFooter>
+                            
                               <Button color="danger" onClick={handleDelete} disabled={buttonStatus}>
                                 YES
                               </Button>
                               <Button
-                                color="primary"
+                                
                                 onClick={closeDeleteModal}
                               >
                                 NO

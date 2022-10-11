@@ -66,11 +66,11 @@ const UniversityCommission = () => {
 
         get(`UniversityComission/GetByUniversity/${univerId}`)
         .then(res => {
-          console.log(res);
+          console.log(res,'112222');
           setData(res);
-          setCommissionTitleHome(res?.homeStudentComissionType ==1 ? 'Amount' : 'Percentage');
-          setCommissionTitleinternational(res?.internationalStudentComissionType ==1 ? 'Amount' : 'Percentage');
-          setCommissionTitleEU_UK(res?.eU_UKStudentComissionType ==1 ? 'Amount' : 'Percentage');
+          setCommissionTitleHome(res?.homeStudentComissionType ==1 ? 'Amount' : res?.homeStudentComissionType ==2 ? 'Percentage' : 'Select Commission Type');
+          setCommissionTitleinternational(res?.internationalStudentComissionType ==1 ? 'Amount' : res?.internationalStudentComissionType ==2 ?'Percentage' : 'Select Commission Type');
+          setCommissionTitleEU_UK(res?.eU_UKStudentComissionType ==1 ? 'Amount' : res?.eU_UKStudentComissionType ==2 ? 'Percentage': 'Select Commission Type');
           setCommissionValueHome(res?.homeStudentComissionValue);
           setCommissionValueInternational(res?.internationalStudentComissionValue);
           setCommissionValueEU_UK(res?.eU_UKStudentComissionValue);

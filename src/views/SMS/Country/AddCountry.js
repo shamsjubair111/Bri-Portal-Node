@@ -197,7 +197,7 @@ const AddCountry = () => {
               toggle={closeModal}
               className="uapp-modal"
             >
-              <ModalHeader>Add Country</ModalHeader>
+              <ModalHeader>Country</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   {updateState?.id ? (
@@ -301,6 +301,19 @@ const AddCountry = () => {
                     </td> */}
                     <td>
                       <ButtonGroup>
+                      {
+                        permissions?.includes(permissionList?.Update_Country)?
+                        <ButtonForFunction
+                        func={() => handleUpdate(country)}
+                        className={"mx-1 btn-sm"}
+                        color={"warning"}
+                        icon={<i className="fas fa-edit"></i>}
+                     
+                      />
+                      :
+                      null
+                      }
+
                      {
                         permissions?.includes(permissionList?.Delete_Country) ?
                        <ButtonForFunction
@@ -314,18 +327,7 @@ const AddCountry = () => {
                      null
                      }
 
-                      {
-                        permissions?.includes(permissionList?.Update_Country)?
-                        <ButtonForFunction
-                        func={() => handleUpdate(country)}
-                        className={"mx-1 btn-sm"}
-                        color={"warning"}
-                        icon={<i className="fas fa-edit"></i>}
                      
-                      />
-                      :
-                      null
-                      }
                       </ButtonGroup>
 
                       <Modal

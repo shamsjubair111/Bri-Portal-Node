@@ -358,6 +358,14 @@ return (
                 {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger( program.name,  program.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
                 <ButtonForFunction
+                  func={()=> handleUpdate( program)}
+                  className={"mx-1 btn-sm"}
+                  color={"warning"}
+                  icon={<i className="fas fa-edit"></i>}
+                  permission={6}
+                />
+                
+                <ButtonForFunction
                   className={"mx-1 btn-sm"}
                   func={() => toggleDanger( program?.name,  program?.id)}
                   color={"danger"}
@@ -367,13 +375,7 @@ return (
 
                 {/* <Button onClick={()=> handleUpdate( program)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
 
-                <ButtonForFunction
-                  func={()=> handleUpdate( program)}
-                  className={"mx-1 btn-sm"}
-                  color={"warning"}
-                  icon={<i className="fas fa-edit"></i>}
-                  permission={6}
-                />
+              
 
                </ButtonGroup>
 

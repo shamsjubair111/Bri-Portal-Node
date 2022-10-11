@@ -267,7 +267,7 @@ const AddUniversityCountry = (props) => {
               toggle={closeModal}
               className="uapp-modal"
             >
-              <ModalHeader>Add University Country</ModalHeader>
+              <ModalHeader>University Country</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   {updateState?.id ? (
@@ -363,20 +363,7 @@ const AddUniversityCountry = (props) => {
                     </td>
                     <td>
                       <ButtonGroup>
-                      {
-                        permissions?.includes(permissionList?.Delete_UniversityCountry) ?
-                        <ButtonForFunction
-                        className={"mx-1 btn-sm"}
-                        func={() =>
-                          toggleDanger(uniCountry.name, uniCountry.id)
-                        }
-                        color={"danger"}
-                        icon={<i className="fas fa-trash-alt"></i>}
-                        permission={6}
-                      />
-                      :
-                      null
-                      }
+                     
 
                       {
                         permissions?.includes(permissionList?.Update_UniversityCountry) ?
@@ -386,6 +373,20 @@ const AddUniversityCountry = (props) => {
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
                        
+                      />
+                      :
+                      null
+                      }
+                       {
+                        permissions?.includes(permissionList?.Delete_UniversityCountry) ?
+                        <ButtonForFunction
+                        className={"mx-1 btn-sm"}
+                        func={() =>
+                          toggleDanger(uniCountry.name, uniCountry.id)
+                        }
+                        color={"danger"}
+                        icon={<i className="fas fa-trash-alt"></i>}
+                        permission={6}
                       />
                       :
                       null

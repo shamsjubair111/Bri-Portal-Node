@@ -159,7 +159,7 @@ const Nationality = () => {
              <div>
 
 <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
-  <ModalHeader>Add Nationality </ModalHeader>
+  <ModalHeader>Nationality </ModalHeader>
   <ModalBody>
     <Form onSubmit={handleAddCountry} >
      
@@ -250,10 +250,12 @@ const Nationality = () => {
 
                             {/* <Button  color="danger" onClick={()=>handleDelete(dept?.id)}   className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
                           
-                         <Button className="btn-sm mx-2" onClick={()=>toggleDeleteModal(list)}  color="danger"><i className="fas fa-trash-alt"></i></Button>
+                      
                        
                       
                          <Button color="warning" onClick={()=> handleUpdateCountry(list)}    className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
+
+                         <Button className="btn-sm mx-2" onClick={()=>toggleDeleteModal(list)}  color="danger"><i className="fas fa-trash-alt"></i></Button>
                        
                           
                           </ButtonGroup>

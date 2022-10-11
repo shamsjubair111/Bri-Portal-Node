@@ -265,7 +265,7 @@ const AddState = () => {
               toggle={closeModal}
               className="uapp-modal"
             >
-              <ModalHeader>Add State</ModalHeader>
+              <ModalHeader> State</ModalHeader>
 
               <ModalBody>
                 <Form>
@@ -397,7 +397,17 @@ const AddState = () => {
                     <td>{state?.country?.name}</td>
                     <td>
                       <ButtonGroup>
-                     {
+                 
+
+                      <ButtonForFunction
+                        func={() => handleUpdate(state)}
+                        className={"mx-1 btn-sm"}
+                        color={"warning"}
+                        icon={<i className="fas fa-edit"></i>}
+                        permission={6}
+                      />
+
+{
                       permissions?.includes(permissionList?.Delete_State)?
                       <ButtonForFunction
                       func={() => toggleDanger(state)}
@@ -409,20 +419,12 @@ const AddState = () => {
                     :
                     null
                      }
-
-                      <ButtonForFunction
-                        func={() => handleUpdate(state)}
-                        className={"mx-1 btn-sm"}
-                        color={"warning"}
-                        icon={<i className="fas fa-edit"></i>}
-                        permission={6}
-                      />
                       </ButtonGroup>
 
                       <Modal
                         isOpen={deleteModal}
                         toggle={closeDeleteModal}
-                        className="uapp-modal"
+                        className="uapp-modal2"
                       >
                         <ModalBody>
                           <p>
@@ -433,6 +435,8 @@ const AddState = () => {
                         </ModalBody>
 
                         <ModalFooter>
+                          
+                          <Button onClick={closeDeleteModal}>NO</Button>
                           <Button
                             color="danger"
                             onClick={() =>
@@ -442,7 +446,6 @@ const AddState = () => {
                           >
                             YES
                           </Button>
-                          <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>
                       </Modal>
                     </td>
