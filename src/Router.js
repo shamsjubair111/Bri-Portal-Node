@@ -104,6 +104,7 @@ const AddProviderUniversityFeatures = lazy(() => import("./views/SMS/University/
 const AddProviderUniversityGallery = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityGallery"))
 const AddProviderUniversityApplicationDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityApplicationDocument"))
 const AddProviderUniversityTemplateDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTemplateDocument"))
+const AddProviderUniversityCommission = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityCommission"))
 
 const AddUniversityCampus = lazy(() => import("./views/SMS/University/AddUniversityCampus.jsx"))
 const EditDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditDepartment"))
@@ -168,6 +169,13 @@ const AddUniversitySubjectFee = lazy(() => import("./views/SMS/University/Subjec
 const AddUniversitySubjectDeliveryPattern = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectDeliveryPattern"));
 const AddUniversitySubjectRequirements = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectRequirements"));
 const AddUniversitySubjectDocumentRequirement = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectDocumentRequirement"));
+
+// university profile subject
+const AddUniProfileSubject = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubject"));
+const AddUniProfileSubjectFee = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectFee"));
+const AddUniProfileSubjectDeliveryPattern = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectDeliveryPattern"));
+const AddUniProfileSubjectRequirements = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectRequirements.js"));
+const AddUniProfileSubjectDocumentRequirement = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectDocumentRequirement"));
 
 // country List
 const AddCountry = lazy(() => import("./views/SMS/Country/AddCountry"))
@@ -506,6 +514,9 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addProviderUniversityApplicationDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddProviderUniversityApplicationDocument: NotAuthorized} />
          <AppRoute  path="/addUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddUniversityTemplateDocument : NotAuthorized} />
          <AppRoute  path="/addProviderUniversityTemplateDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddProviderUniversityTemplateDocument : NotAuthorized} />
+         
+         <AppRoute  path="/addProviderUniversityCommission/:providerProfileId/:univerId" component={AddProviderUniversityCommission} />
+
          {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
           {/* intake */}
@@ -559,6 +570,18 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addUniversitySubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement_document)? AddUniversitySubjectDocumentRequirement : NotAuthorized} />
 
          {/* University Subject ends here */}
+
+         {/* university profile subject add starts here */}
+         <AppRoute  path="/addUniProfileSubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_subject)? AddUniProfileSubject : NotAuthorized} />
+
+         <AppRoute  path="/addUniProfileSubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_fee_structure)? AddUniProfileSubjectFee : NotAuthorized} />
+
+         <AppRoute  path="/addUniProfileSubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_Subject_Delivery_Pattern)? AddUniProfileSubjectDeliveryPattern : NotAuthorized} />
+
+         <AppRoute  path="/addUniProfileSubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement)? AddUniProfileSubjectRequirements : NotAuthorized} />
+
+         <AppRoute  path="/addUniProfileSubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement_document)? AddUniProfileSubjectDocumentRequirement : NotAuthorized} />
+         {/* university profile subject add ends here */}
 
          <AppRoute  path="/documentlist" component={permissions?.includes(permissionList?.Document_List)? DocumentList : NotAuthorized} />
          <AppRoute  path="/documentCategoryList" component={permissions?.includes(permissionList?.Document_Category_List)? DocumentCategoryList : NotAuthorized} />

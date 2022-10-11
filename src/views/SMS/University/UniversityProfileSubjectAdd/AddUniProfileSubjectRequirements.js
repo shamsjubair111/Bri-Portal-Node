@@ -32,9 +32,8 @@ import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import get from "../../../../helpers/get";
 
-
-const AddUniversitySubjectRequirements = () => {
-  const [activetab, setActivetab] = useState("4");
+const AddUniProfileSubjectRequirements = () => {
+    const [activetab, setActivetab] = useState("4");
   const [eduLevelDD, setEduLevelDD] = useState([]);
   const [eduLabel, setEduLabel] = useState("Select Education Level");
   const [eduValue, setEduValue] = useState(0);
@@ -83,24 +82,24 @@ const AddUniversitySubjectRequirements = () => {
   const { addToast } = useToasts();
 
   // redirect to SubjecList
-  const backToSubjecList = () => {
-    history.push(`/universitySubjectList/${id}`);
+  const backToUniDetails = () => {
+    history.push(`/universityDetails/${id}`);
   };
 
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push(`/addUniversitySubject/${id}/${subjId}`);
+      history.push(`/addUniProfileSubject/${id}/${subjId}`);
     }
     if (tab == "2") {
-      history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectFee/${id}/${subjId}`);
     }
     if (tab == "3") {
-      history.push(`/addUniversitySubjectDeliveryPattern/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectDeliveryPattern/${id}/${subjId}`);
     }
     if (tab == "5") {
-      history.push(`/addUniversitySubjectDocumentRequirement/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectDocumentRequirement/${id}/${subjId}`);
     }
   };
 
@@ -132,7 +131,7 @@ const AddUniversitySubjectRequirements = () => {
                 autoDismiss: true,
               });
               history.push({
-                pathname: `/addUniversitySubjectDocumentRequirement/${id}/${subjId}`,
+                pathname: `/addUniProfileSubjectDocumentRequirement/${id}/${subjId}`,
               });
             }
           });
@@ -150,7 +149,7 @@ const AddUniversitySubjectRequirements = () => {
                 autoDismiss: true,
               });
               history.push({
-                pathname: `/addUniversitySubjectDocumentRequirement/${id}/${subjId}`,
+                pathname: `/addUniProfileSubjectDocumentRequirement/${id}/${subjId}`,
               });
             }
           });
@@ -161,12 +160,12 @@ const AddUniversitySubjectRequirements = () => {
   // redirect to Next Page
   const onNextPage = () => {
     history.push({
-      pathname: `/addUniversitySubjectDocumentRequirement/${id}/${subjId}`,
+      pathname: `/addUniProfileSubjectDocumentRequirement/${id}/${subjId}`,
     });
   };
 
   const onPreviousPage = () => {
-    history.push(`/addUniversitySubjectDeliveryPattern/${id}/${subjId}`);
+    history.push(`/addUniProfileSubjectDeliveryPattern/${id}/${subjId}`);
   }
 
     return (
@@ -175,9 +174,9 @@ const AddUniversitySubjectRequirements = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Subject Requirement</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToSubjecList} className="text-white">
+            <span onClick={backToUniDetails} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
+              <i className="fas fa-arrow-circle-left"></i> Back to University Details
             </span>
           </div>
         </CardHeader>
@@ -264,7 +263,7 @@ const AddUniversitySubjectRequirements = () => {
 
                     {eduError && (
                       <span className="text-danger">
-                        Education level is required
+                        You must select education level
                       </span>
                     )}
                   </Col>
@@ -344,4 +343,4 @@ const AddUniversitySubjectRequirements = () => {
     );
 };
 
-export default AddUniversitySubjectRequirements;
+export default AddUniProfileSubjectRequirements;

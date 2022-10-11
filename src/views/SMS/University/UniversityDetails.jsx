@@ -489,6 +489,14 @@ const UniversityDetails = () => {
     })
   }
 
+  // const handleAddUniversitySubject = () => {
+  //   history.push(`/addUniversitySubject/${id}`);
+  // }
+
+  const handleAddUniversitySubject = () => {
+    history.push(`/addUniProfileSubject/${id}`);
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -1120,9 +1128,15 @@ const UniversityDetails = () => {
 
                       <div className="bg-h"></div>
                     </div>
-                    {/* <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div> */}
+                    {/* <div className="text-right edit-style  p-3"> */}
+                    <ButtonForFunction
+                      func={handleAddUniversitySubject}
+                      className={"btn btn-uapp-add "}
+                      icon={<i className="fas fa-plus"></i>}
+                      name={" Add New Subject"}
+                      permission={6}
+                    />
+               {/* </div> */}
                   </div>
                   {subList.length < 1 ? (
                     <p className="mt-4">There is no subject added here.</p>
