@@ -45,6 +45,11 @@ const Index = () => {
         setCallApi((prev) => !prev);
       };
 
+      const handleClearSearch = () => {
+        setConsultantLabel('Select Consultant');
+        setConsultantValue(0);
+      }
+
      const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         setCallApi((prev) => !prev);
@@ -210,6 +215,9 @@ const Index = () => {
                       </div>
                     </DropdownMenu>
                   </Dropdown>
+
+                  
+
                 </div>
 
                 <div className="me-3">
@@ -244,6 +252,19 @@ const Index = () => {
                   </Dropdown>
                 </div>
               </div>
+
+              {/* Clear Button */}
+
+              <div
+                  className="mt-1 mx-1 d-flex justify-content-end btn-clear"
+                  onClick={handleClearSearch}
+                >
+                  {/* <Icon.X  className='text-danger' />*/}
+                  <span className="text-danger">
+                    <i className="fa fa-times"></i> Clear
+                  </span>
+                </div>
+
             </Col>
           </Row>
 

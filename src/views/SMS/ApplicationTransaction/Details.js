@@ -318,96 +318,104 @@ const Details = () => {
                                  <div className="d-flex justify-content-between">
                              
 
+                             {
+                              (data?.transactionStatusId !== 2) &&
                               <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={()=> setOpenModal(true)}
-                                
-                                permission={6}
-                                
-                              />
+                              icon={
+                                <i
+                                  style={{ cursor: "pointer" }}
+                                  className="fas fa-pencil-alt pencil-style"
+                                ></i>
+                              }
+                              func={()=> setOpenModal(true)}
+                              
+                              permission={6}
+                              
+                            />
+                             }
+
+                             {
+                              (data?.transactionStatusId !==2) &&
 
                               <Modal
-                                isOpen={openModal}
-                                toggle={closeModal}
-                                className="uapp-modal2"
-                              >
-                                <ModalHeader>
-                                  Update Transaction Status
-                                </ModalHeader>
-                                <ModalBody>
-                                  <Form onSubmit={updateTransactionStatus}>
-                                    <input
-                                      type="hidden"
-                                      name="applicationTransactionId"
-                                      id="applicationTransactionId"
-                                      value={data?.id}
-                                      
+                              isOpen={openModal}
+                              toggle={closeModal}
+                              className="uapp-modal2"
+                            >
+                              <ModalHeader>
+                                Update Transaction Status
+                              </ModalHeader>
+                              <ModalBody>
+                                <Form onSubmit={updateTransactionStatus}>
+                                  <input
+                                    type="hidden"
+                                    name="applicationTransactionId"
+                                    id="applicationTransactionId"
+                                    value={data?.id}
+                                    
+                                  />
+
+                                  <FormGroup
+                                    row
+                                    className="has-icon-left position-relative"
+                                  >
+                                    <Col md="4">
+                                      <span>
+                                        Transaction Status{" "}
+                                        <span className="text-danger">*</span>{" "}
+                                      </span>
+                                    </Col>
+                                    <Col md="8">
+                                      <Select
+                                       
+                                        options={transactionOptions}
+                                        value={{
+                                          label: transactionLabel,
+                                          value: transactionValue,
+                                        }}
+                                        onChange={(opt) =>
+                                          selectTransaction(opt.label, opt.value)
+                                        }
+                                        name="transactionStatusId"
+                                        id="transactionStatusId"
+                                      />
+                                     
+                                    </Col>
+                                  </FormGroup>
+
+                                  
+                                  <FormGroup
+                                    className="has-icon-left position-relative"
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                    }}
+                                  >
+                                    <Button
+                                      color="danger"
+                                      className="mr-1 mt-3"
+                                      onClick={closeModal}
+                                    >
+                                      Close
+                                    </Button>
+
+                                    <CustomButtonRipple
+                                     
+                                      color={"primary"}
+                                      type={"submit"}
+                                      className={"mr-1 mt-3"}
+                                      name={"Submit"}
+                                      permission={6}
+                                      isDisabled={buttonStatus}
                                     />
 
-                                    <FormGroup
-                                      row
-                                      className="has-icon-left position-relative"
-                                    >
-                                      <Col md="4">
-                                        <span>
-                                          Transaction Status{" "}
-                                          <span className="text-danger">*</span>{" "}
-                                        </span>
-                                      </Col>
-                                      <Col md="8">
-                                        <Select
-                                         
-                                          options={transactionOptions}
-                                          value={{
-                                            label: transactionLabel,
-                                            value: transactionValue,
-                                          }}
-                                          onChange={(opt) =>
-                                            selectTransaction(opt.label, opt.value)
-                                          }
-                                          name="transactionStatusId"
-                                          id="transactionStatusId"
-                                        />
-                                       
-                                      </Col>
-                                    </FormGroup>
+                                    {/* }  */}
+                                  </FormGroup>
+                                </Form>
+                              </ModalBody>
+                            </Modal>
+                             }
 
-                                    
-                                    <FormGroup
-                                      className="has-icon-left position-relative"
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      <Button
-                                        color="danger"
-                                        className="mr-1 mt-3"
-                                        onClick={closeModal}
-                                      >
-                                        Close
-                                      </Button>
-
-                                      <CustomButtonRipple
-                                       
-                                        color={"primary"}
-                                        type={"submit"}
-                                        className={"mr-1 mt-3"}
-                                        name={"Submit"}
-                                        permission={6}
-                                        isDisabled={buttonStatus}
-                                      />
-
-                                      {/* }  */}
-                                    </FormGroup>
-                                  </Form>
-                                </ModalBody>
-                              </Modal>
                             </div>
                              
                             </div>
