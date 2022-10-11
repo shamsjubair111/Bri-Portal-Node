@@ -45,11 +45,9 @@ const StudentList = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const { cId, cLabel, type } = useParams();
+  const { cId, type } = useParams();
 
-  console.log(cId, cLabel, type);
 
-  console.log("CID", cId, "CLABEL", cLabel);
 
   const [serialNum, setSerialNum] = useState(1);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -136,7 +134,23 @@ const StudentList = () => {
           setStudentTypeLabel(res?.models[0]?.studentType?.name);
          
         })
-      : get(
+      : 
+
+        cId? 
+        get(
+          `Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${
+            userTypeId == userTypes?.Consultant ? referenceId : cId
+          }&status=${statusValue}&sortby=${orderValue}`
+        ).then((res) => {
+          console.log(res);
+          setStudentData(res?.models);
+          setEntity(res?.totalEntity);
+          setSerialNum(res?.firstSerialNumber);
+          setLoading(false);
+          setConsultantLabel(res?.models[0]?.consultant?.firstName + ' ' +  res?.models[0]?.consultant?.lastName)
+        })
+        :
+        get(
           `Student/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&StudentType=${studentTypeValue}&searchstring=${searchStr}&consultantId=${
             userTypeId == userTypes?.Consultant ? referenceId : consultantValue
           }&status=${statusValue}&sortby=${orderValue}`
@@ -147,10 +161,9 @@ const StudentList = () => {
           setLoading(false);
         });
 
-    if (cId && cLabel) {
-      setConsultantLabel(cLabel);
-      setConsultantValue(cId);
-    }
+
+    
+
   }, [
     currentPage,
     dataPerPage,
@@ -525,16 +538,17 @@ const StudentList = () => {
           </Row>
 
           <Row className="mt-3">
-            {/* <Col lg="6" md="6" sm="12" xs="12">
+            <Col lg="6" md="6" sm="12" xs="12">
                     <Select
                     options={consultantOption}
                     value={{ label: consultantLabel, value: consultantValue }}
                     onChange={(opt) => selectConsultant(opt.label, opt.value)}
                     name="consultantId"
                     id="consultantId"
+                    isDisabled={cId}
                       
                     />
-                  </Col> */}
+                  </Col>
 
             <Col lg="6" md="6" sm="12" xs="12">
               <Select
