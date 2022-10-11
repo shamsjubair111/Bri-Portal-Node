@@ -52,6 +52,9 @@ const ConsultantProfile = () => {
     const [statusLabel, setStatusLabel] = useState("Account Status");
     const [statusValue, setStatusValue] = useState(0);
 
+    const [priceRangeList, setPriceRangeList] = useState([]);
+    const [commissionGroupList, setCommissionGrouplist] = useState([]);
+
     const [success, setSuccess] = useState(false);
 
     const {addToast} = useToasts();
@@ -86,7 +89,20 @@ const ConsultantProfile = () => {
       })
 
 
-    },[success])
+      get(`GroupPriceRange/ByConsultant/${id}`).then((res) => {
+        console.log("priceList", res);
+        setPriceRangeList(res);
+      });
+
+      get(`ConsultantCommissionGroup/Index/${id}`).then(
+        (res) => {
+          console.log("consultantCommissionList", res);
+          setCommissionGrouplist(res);
+        }
+      );
+
+
+    },[success, id])
 
     const statusTypeMenu = statusType?.map(statusTypeOptions => ({label:statusTypeOptions?.name, value:statusTypeOptions?.id}));
 
@@ -146,6 +162,14 @@ const ConsultantProfile = () => {
 
         const tableStyle = {
           overflowX: 'scroll',
+        };
+
+        const handleDate = (e) => {
+          var datee = e;
+          var utcDate = new Date(datee);
+          var localeDate = utcDate.toLocaleString("en-CA");
+          const x = localeDate.split(",")[0];
+          return x;
         };
 
     return (
@@ -456,10 +480,149 @@ const ConsultantProfile = () => {
            
            </div>
 
+           {/* commission starts here */}
+
+           <div className=" info-item mt-4">
+         
+               <Card>
+              
+               <div className="hedding-titel d-flex justify-content-between">
+               <div>
+               <h5> <b>Current Commission Group {
+                priceRangeList.length > 0 ?
+                <>
+                  :{" "}
+                    {priceRangeList[0]?.commissionGroup?.name}
+                </>
+                :
+                null
+                }
+                </b> </h5>
+                
+               <div className="bg-h"></div>
+               </div>
+               
+
+               </div>
+              
+           
+
+             
+               {
+                priceRangeList.length < 1 ?
+                <p className="mt-4">There is no data available here.</p>
+                :
+                <div className="table-responsive container mt-4">
+                  <Table id="table-to-xls">
+                    <thead>
+                      <tr style={{ textAlign: "center" }}>
+                        <th>#</th>
+                        <th>Price Range</th>
+                        <th>Range From</th>
+                        <th>Range To</th>
+                        <th>Commission Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {priceRangeList?.map((range, i) => (
+                        <tr key={range.id} style={{ textAlign: "center" }}>
+                          <th scope="row">{1 + i}</th>
+
+                          <td>{range?.priceRangeName}</td>
+
+                          <td>{range?.rangeFrom}</td>
+
+                          <td>{range?.rangeTo}</td>
+
+                          <td>{range?.commissionAmount}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
+               }
+             
+                   </Card>
+           
+           </div>
+
+           {/* commission history starts here */}
+
+           {
+            commissionGroupList.length > 1 ?
+            <div className=" info-item mt-4">
+         
+               <Card>
+              
+               <div className="hedding-titel d-flex justify-content-between">
+               <div>
+               <h5> <b>Consultant Commission Group History</b> </h5>
+                
+               <div className="bg-h"></div>
+               </div>
+               
+
+               </div>
+              
+           
+
+             
+               <span className="ml-3 mt-3">
+                <b>Assigned Commission Groups</b>
+              </span>
+              <div className="table-responsive container mt-2">
+                <Table id="table-to-xls">
+                  <thead>
+                    <tr style={{ textAlign: "center" }}>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Applications</th>
+                      <th>Status</th>
+                      <th>Date Range</th>
+                      {/* <th>Action</th> */}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {commissionGroupList?.map((commission, i) => (
+                      <tr key={commission?.id} style={{ textAlign: "center" }}>
+                        <th scope="row">{1 + i}</th>
+                        <td>{commission?.commissionGroup?.name}</td>
+
+                        <td>{commission?.applicationCount}</td>
+
+                        <td>
+                          {commission?.isActive == false
+                            ? "Deactivated"
+                            : "Active"}
+                        </td>
+
+                        <td>
+                          {handleDate(commission?.createdOn)}
+                          {" to "}
+                          {handleDate(commission?.updatedOn)}
+                        </td>
+
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+             
+                   </Card>
+           
+           </div>
+           :
+           null
+           }
+
+           {/* commission history ends here */}
+
+           {/* commission ends here */}
+
         <div className=" info-item mt-4">
         <Card >
         <div className="hedding-titel">
-        <h5> <b>Document</b> </h5>
+        <h5> <b>Documents</b> </h5>
         <div className="bg-h"></div>
       </div>
          
@@ -578,7 +741,7 @@ const ConsultantProfile = () => {
                 <div className='d-flex justify-content-between'>
 
                   <LinkButton
-                   url={`/students/${consultantData?.consultantType?.id}/${consultantData?.consultantType?.name}`}
+                   url={`/studentListByConsultant/${id}`}
                    className={"btn btn-uapp-add "}
                    name={"Student"}
                    permission={6}

@@ -185,6 +185,9 @@ const AddProviderUniversityTemplateDocument = () => {
     if (tab == "7") {
       history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
+    }
   };
 
   const toggleDanger = (p) => {
@@ -327,6 +330,11 @@ const AddProviderUniversityTemplateDocument = () => {
   const onGoUniProfile = () => {
     history.push(`/universityDetails/${univerId}`)
   }
+
+  const front = () => {
+    history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
+  }
+
     return (
         <div>
       <Card className="uapp-card-bg">
@@ -385,6 +393,12 @@ const AddProviderUniversityTemplateDocument = () => {
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
               Template Document
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+              Commission
               </NavLink>
             </NavItem>
 
@@ -774,7 +788,7 @@ const AddProviderUniversityTemplateDocument = () => {
                 </div>
               ) : null}
 
-              {
+              {/* {
                 templateList?.length>0?
                 <FormGroup
                 className="has-icon-left position-relative mt-5"
@@ -801,13 +815,17 @@ const AddProviderUniversityTemplateDocument = () => {
               </FormGroup>
               :
               null
-              }
+              } */}
 
             </TabPane>
           </TabContent>
-          <div className="d-flex justify-content-start">
+          <div className="d-flex justify-content-between">
             <Button color="warning" onClick={back}>
                  Previous Page
+            </Button>
+
+            <Button color="warning" onClick={front}>
+                    Next Page
             </Button>
 
           </div>

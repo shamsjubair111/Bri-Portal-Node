@@ -506,6 +506,9 @@ const AddProviderUniversity = () => {
       if (tab == "7") {
         history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
       }
+      if (tab == "8") {
+        history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
+      }
     }
     else{
       if (tab == "2") {
@@ -525,6 +528,9 @@ const AddProviderUniversity = () => {
       }
       if (tab == "7") {
         history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${universityId}`);
+      }
+      if (tab == "8") {
+        history.push(`/addProviderUniversityCommission/${providerProfileId}/${universityId}`);
       }
     }
 
@@ -698,8 +704,20 @@ const AddProviderUniversity = () => {
                   Template Document
                 </NavLink>
               ) : (
-                <NavLink disabled active={activetab === "6"}>
+                <NavLink disabled active={activetab === "7"}>
                   Template Document
+                </NavLink>
+              )}
+            </NavItem>
+
+            <NavItem>
+              {submitData || univerId ? (
+                <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                  Commission
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "8"}>
+                  Commission
                 </NavLink>
               )}
             </NavItem>

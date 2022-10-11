@@ -35,8 +35,7 @@ import { useToasts } from "react-toast-notifications";
 import put from '../../../../helpers/put';
 import { userTypes } from '../../../../constants/userTypeConstant';
 
-
-const AddUniversitySubject = () => {
+const AddUniProfileSubject = () => {
     const [submitData, setSubmitData] = useState(false);
     const [activetab, setActivetab] = useState("1");
     const [universityList, setUniversityList] = useState([]);
@@ -167,8 +166,8 @@ const AddUniversitySubject = () => {
     }
 
   // redirect to dashboard
-  const backToUniversitySubjectList = () => {
-    history.push(`/universitySubjectList/${id}`);
+  const backToUniversityDetails = () => {
+    history.push(`/universityDetails/${id}`);
   };
 
 //   const selectUniversity = (label, value) => {
@@ -211,30 +210,30 @@ const AddUniversitySubject = () => {
     setActivetab(tab);
     if(id != undefined){
       if (tab == "2") {
-        history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
+        history.push(`/addUniProfileSubjectFee/${id}/${subjId}`);
       }
       if (tab == "3") {
-        history.push(`/addUniversitySubjectDeliveryPattern/${id}/${subjId}`);
+        history.push(`/addUniProfileSubjectDeliveryPattern/${id}/${subjId}`);
       }
       if (tab == "4") {
-        history.push(`/addUniversitySubjectRequirements/${id}/${subjId}`);
+        history.push(`/addUniProfileSubjectRequirements/${id}/${subjId}`);
       }
       if (tab == "5") {
-        history.push(`/addUniversitySubjectDocumentRequirement/${id}/${subjId}`);
+        history.push(`/addUniProfileSubjectDocumentRequirement/${id}/${subjId}`);
       }
     }
     else{
       if (tab == "2") {
-        history.push(`/addUniversitySubjectFee/${id}/${subjectId}`);
+        history.push(`/addUniProfileSubjectFee/${id}/${subjectId}`);
       }
       if (tab == "3") {
-        history.push(`/addUniversitySubjectDeliveryPattern/${id}/${subjectId}`);
+        history.push(`/addUniProfileSubjectDeliveryPattern/${id}/${subjectId}`);
       }
       if (tab == "4") {
-        history.push(`/addUniversitySubjectRequirements/${id}/${subjectId}`);
+        history.push(`/addUniProfileSubjectRequirements/${id}/${subjectId}`);
       }
       if (tab == "5") {
-        history.push(`/addUniversitySubjectDocumentRequirement/${id}/${subjectId}`);
+        history.push(`/addUniProfileSubjectDocumentRequirement/${id}/${subjectId}`);
       }
     }
   };
@@ -269,7 +268,7 @@ const AddUniversitySubject = () => {
                 autoDismiss: true,
               });
             history.push({
-              pathname: `/addUniversitySubjectFee/${id}/${subjId}`,
+              pathname: `/addUniProfileSubjectFee/${id}/${subjId}`,
             });
           }
         });
@@ -293,7 +292,7 @@ const AddUniversitySubject = () => {
               autoDismiss: true,
             })
             history.push({
-              pathname: `/addUniversitySubjectFee/${id}/${subjeId}`,
+              pathname: `/addUniProfileSubjectFee/${id}/${subjeId}`,
               id: subId,
             });
           }
@@ -304,7 +303,7 @@ const AddUniversitySubject = () => {
   };
 
   const handleCancelAdd = () => {
-    history.push(`/universitySubjectList/${id}`);
+    history.push(`/universityDetails/${id}`);
   }
 
   // redirect to Next Page
@@ -312,12 +311,12 @@ const AddUniversitySubject = () => {
     // const uniID = universityId;
     if (subId != 0){
       history.push({
-        pathname: `/addUniversitySubjectFee/${id}/${subjId}`,
+        pathname: `/addUniProfileSubjectFee/${id}/${subjId}`,
       });
     }
     else{
       history.push({
-        pathname: `/addUniversitySubjectFee/${id}/${subjectId}`,
+        pathname: `/addUniProfileSubjectFee/${id}/${subjectId}`,
       });
     }
   };
@@ -328,9 +327,9 @@ const AddUniversitySubject = () => {
               <CardHeader className="page-header">
                 <h3 className="text-white">Subject Information</h3>
                 <div className="page-header-back-to-home">
-                  <span onClick={backToUniversitySubjectList} className="text-white">
+                  <span onClick={backToUniversityDetails} className="text-white">
                     {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
+                    <i className="fas fa-arrow-circle-left"></i> Back to University Details
                   </span>
                 </div>
               </CardHeader>
@@ -674,4 +673,4 @@ const AddUniversitySubject = () => {
     );
 };
 
-export default AddUniversitySubject;
+export default AddUniProfileSubject;

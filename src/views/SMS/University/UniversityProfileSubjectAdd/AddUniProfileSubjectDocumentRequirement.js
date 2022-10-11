@@ -35,8 +35,8 @@ import ButtonForFunction from "../../Components/ButtonForFunction";
 import get from "../../../../helpers/get";
 import remove from "../../../../helpers/remove";
 
-const AddUniversitySubjectDocumentRequirement = () => {
-  const [activetab, setActivetab] = useState("5");
+const AddUniProfileSubjectDocumentRequirement = () => {
+    const [activetab, setActivetab] = useState("5");
   const [docuDD, setDocuDD] = useState([]);
   const [docuLabel, setDocuLabel] = useState("Select Document Group");
   const [docuValue, setDocuValue] = useState(0);
@@ -98,27 +98,27 @@ const AddUniversitySubjectDocumentRequirement = () => {
   const { addToast } = useToasts();
 
   // redirect to SubjecList
-  const backToSubjecList = () => {
-    history.push(`/universitySubjectList/${id}`);
+  const backToUniDetails = () => {
+    history.push(`/universityDetails/${id}`);
   };
 
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push(`/addUniversitySubject/${id}/${subjId}`);
+      history.push(`/addUniProfileSubject/${id}/${subjId}`);
     }
     if (tab == "2") {
-      history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectFee/${id}/${subjId}`);
     }
     if (tab == "3") {
-      history.push(`/addUniversitySubjectDeliveryPattern/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectDeliveryPattern/${id}/${subjId}`);
     }
     if (tab == "4") {
-      history.push(`/addUniversitySubjectRequirements/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectRequirements/${id}/${subjId}`);
     }
     if (tab == "5") {
-      history.push(`/addUniversitySubjectDocumentRequirement/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectDocumentRequirement/${id}/${subjId}`);
     }
   };
 
@@ -256,7 +256,7 @@ const handleDeleteDocuRequired = (id) => {
 }
 
 const onPreviousPage = () => {
-  history.push(`/addUniversitySubjectRequirements/${id}/${subjId}`);
+  history.push(`/addUniProfileSubjectRequirements/${id}/${subjId}`);
 }
 
 const redirectToSubjectProfile = () => {
@@ -272,9 +272,9 @@ const redirectToSubjectProfile = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Subject Document Requirement</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToSubjecList} className="text-white">
+            <span onClick={backToUniDetails} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
+              <i className="fas fa-arrow-circle-left"></i> Back to University Details
             </span>
           </div>
         </CardHeader>
@@ -555,4 +555,4 @@ const redirectToSubjectProfile = () => {
     );
 };
 
-export default AddUniversitySubjectDocumentRequirement;
+export default AddUniProfileSubjectDocumentRequirement;

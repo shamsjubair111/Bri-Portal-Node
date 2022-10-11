@@ -181,6 +181,9 @@ const AddProviderUniversityFeatures = () => {
     if (tab == "7") {
       history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
     }
+    if (tab == "8") {
+      history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
+    }
   };
 
   // on change radio button
@@ -297,6 +300,16 @@ const AddProviderUniversityFeatures = () => {
                                 > */}
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Template Document
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              {/* <NavLink disabled
+                                active={activetab === '2'}
+                                onClick={() =>toggle('2')}
+                                > */}
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Commission
               </NavLink>
             </NavItem>
           </Nav>

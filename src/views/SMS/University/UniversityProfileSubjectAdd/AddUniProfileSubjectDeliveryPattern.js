@@ -34,7 +34,7 @@ import ButtonForFunction from "../../Components/ButtonForFunction";
 import get from "../../../../helpers/get";
 import remove from "../../../../helpers/remove";
 
-const AddUniversitySubjectDeliveryPattern = () => {
+const AddUniProfileSubjectDeliveryPattern = () => {
   const [activetab, setActivetab] = useState("3");
   const [deliveryDD, setDeliveryDD] = useState([]);
   const [deliveryLabel, setDeliveryLabel] = useState("Select Delivery Pattern");
@@ -81,24 +81,24 @@ const AddUniversitySubjectDeliveryPattern = () => {
   const { addToast } = useToasts();
 
   // redirect to SubjecList
-  const backToSubjecList = () => {
-    history.push(`/universitySubjectList/${id}`);
+  const backToUniDetails = () => {
+    history.push(`/universityDetails/${id}`);
   };
 
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
     if (tab == "1") {
-      history.push(`/addUniversitySubject/${id}/${subjId}`);
+      history.push(`/addUniProfileSubject/${id}/${subjId}`);
     }
     if (tab == "2") {
-      history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectFee/${id}/${subjId}`);
     }
     if (tab == "4") {
-      history.push(`/addUniversitySubjectRequirements/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectRequirements/${id}/${subjId}`);
     }
     if (tab == "5") {
-      history.push(`/addUniversitySubjectDocumentRequirement/${id}/${subjId}`);
+      history.push(`/addUniProfileSubjectDocumentRequirement/${id}/${subjId}`);
     }
   };
 
@@ -186,7 +186,7 @@ const AddUniversitySubjectDeliveryPattern = () => {
 
   const redirectToNextPage = () => {
     history.push({
-      pathname: `/addUniversitySubjectRequirements/${id}/${subjId}`,
+      pathname: `/addUniProfileSubjectRequirements/${id}/${subjId}`,
     });
   };
 
@@ -218,7 +218,7 @@ const handleDeleteDeliveryPattern = (id) => {
 }
 
 const onPreviousPage = () => {
-  history.push(`/addUniversitySubjectFee/${id}/${subjId}`);
+  history.push(`/addUniProfileSubjectFee/${id}/${subjId}`);
 }
 
     return (
@@ -227,9 +227,9 @@ const onPreviousPage = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Subject Delivery Pattern</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToSubjecList} className="text-white">
+            <span onClick={backToUniDetails} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to University Subject List
+              <i className="fas fa-arrow-circle-left"></i> Back to University Details
             </span>
           </div>
         </CardHeader>
@@ -446,4 +446,4 @@ const onPreviousPage = () => {
     );
 };
 
-export default AddUniversitySubjectDeliveryPattern;
+export default AddUniProfileSubjectDeliveryPattern;
