@@ -170,6 +170,9 @@ const Applications = () => {
   const [applicationList, setApplicationList] = useState([]);
   const [serialNumber, setSerialNumber] = useState(0);
 
+  const [cId, setConsId] = useState(undefined);
+  const [uId, setUniId] = useState(undefined);
+
   // current_user
   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading,setLoading] = useState(true);
@@ -209,7 +212,7 @@ const Applications = () => {
     get("Account/GetCurrentUserId").then((res) => {
       setCurrentUser(res);
     });
-  }, [success]);
+  }, []);
 
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
@@ -388,6 +391,8 @@ const Applications = () => {
           ? location.universityIdFromUniList
           : 0;
 
+      setUniId(parseInt(uniId));
+
       if (uniId !== 0) {
         var uni = commonUniDD?.find((s) => s.id === uniId);
 
@@ -407,16 +412,20 @@ const Applications = () => {
           ? location.consultantIdFromConsultantList
           : 0;
 
-      if (consId !== 0) {
-        var consultant = commonConsultantDD?.find((s) => s.id === consId);
+          setConsId(parseInt(consId));
+
+      if (parseInt(consId) !== 0) {
+        var consultant = commonConsultantDD?.find((s) => s.id === parseInt(consId));
 
         if (consultant === undefined) {
-          setConsultantLabel("Consultant");
+          // setConsultantLabel("Consultant");
         } else {
           setConsultantLabel(consultant?.name);
           setConsultantValue(consId);
         }
       }
+
+      console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
 
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
@@ -465,10 +474,7 @@ const Applications = () => {
     orderValue,
     entity,
     serialNumber,
-    loading,
-    currentUser,
-    location.universityIdFromUniList,
-    success
+    // loading,
   ]);
 
   // for all dropdown
@@ -1063,6 +1069,8 @@ const Applications = () => {
           commonPhoneValue={commonPhoneValue}
           setCommonPhoneLabel={setCommonPhoneLabel}
           commonPhoneLabel={commonPhoneLabel}
+          uId={location.universityIdFromUniList}
+          cId={location.consultantIdFromConsultantList}
         />
       )}
       <Card className="uapp-employee-search">
