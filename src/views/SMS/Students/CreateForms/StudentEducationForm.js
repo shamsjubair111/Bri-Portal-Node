@@ -318,7 +318,7 @@ else{
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Final Grade <span className="text-danger">*</span>{" "}
+                  Result In Percentage <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="6">
@@ -326,7 +326,7 @@ else{
                   type="text"
                   name="finalGrade"
                   id="finalGrade"
-                  placeholder="Enter Final Grade"
+                  placeholder="Enter Percentage"
                   required
                  
 

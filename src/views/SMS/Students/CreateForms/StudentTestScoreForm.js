@@ -632,27 +632,7 @@ const StudentTestScoreForm = () => {
   
                        
   
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                            
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                       
   
                         <FormGroup
                           row
@@ -762,6 +742,28 @@ const StudentTestScoreForm = () => {
                             />
                           </Col>
                         </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              Overall
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="overall"
+                              id="overall"
+                            
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
   
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
@@ -790,27 +792,7 @@ const StudentTestScoreForm = () => {
   
                     
   
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                             
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                        
   
                         <FormGroup
                           row
@@ -917,6 +899,50 @@ const StudentTestScoreForm = () => {
                               name="examDate"
                               id="examDate"
                              
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              Overall
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="overall"
+                              id="overall"
+                             
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              IELTS Equivalent Score
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="ieltsEquivalent"
+                              id="ieltsEquivalent"
+                             
+                              min="0"
                             />
                           </Col>
                         </FormGroup>
@@ -947,27 +973,7 @@ const StudentTestScoreForm = () => {
   
                      
   
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                              
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                       
   
                         <FormGroup
                           row
@@ -1074,6 +1080,50 @@ const StudentTestScoreForm = () => {
                               name="examDate"
                               id="examDate"
                             
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              Overall
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="overall"
+                              id="overall"
+                              
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              IELTS Equivalent Score
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="ieltsEquivalent"
+                              id="ieltsEquivalent"
+                              
+                              min="0"
                             />
                           </Col>
                         </FormGroup>
@@ -1125,6 +1175,28 @@ const StudentTestScoreForm = () => {
                             />
                           </Col>
                         </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              IELTS Equivalent Score
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="ieltsEquivalent"
+                              id="result"
+                              
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
   
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
@@ -1168,6 +1240,28 @@ const StudentTestScoreForm = () => {
                               type="number"
                               name="result"
                               id="result"
+                            
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              IELTS Equivalent Score
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="ieltsEquivalent"
+                              id="ieltsEquivalent"
                             
                               min="0"
                             />
@@ -1306,6 +1400,50 @@ const StudentTestScoreForm = () => {
                             />
                           </Col>
                         </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="3">
+                            <span>
+                              {" "}
+                              Overall
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="overall"
+                              id="overall"
+                             
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="3">
+                            <span>
+                              {" "}
+                              IELTS Equivalent Score
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="ieltsEquivalent"
+                              id="ieltsEquivalent"
+                             
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
   
                         <div className="row">
                             <div className="col-md-9 d-flex justify-content-end">
@@ -1375,6 +1513,28 @@ const StudentTestScoreForm = () => {
                             />
                           </Col>
                         </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              IELTS Equivalent Score
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="ieltsEquivalent"
+                              id="ieltsEquivalent"
+                          
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
   
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
@@ -1401,27 +1561,7 @@ const StudentTestScoreForm = () => {
                         />
   
   
-                        <FormGroup
-                          row
-                          className="has-icon-left position-relative"
-                        >
-                          <Col md="2">
-                            <span>
-                              {" "}
-                              Overall
-                              <span className="text-danger">*</span>{" "}
-                            </span>
-                          </Col>
-                          <Col md="6">
-                            <Input
-                              type="number"
-                              name="overall"
-                              id="overall"
-                              
-                              min="0"
-                            />
-                          </Col>
-                        </FormGroup>
+                        
   
                         <FormGroup
                           row
@@ -1505,6 +1645,50 @@ const StudentTestScoreForm = () => {
                               type="number"
                               name="listening"
                               id="listening"
+                              
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              Overall
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="overall"
+                              id="overall"
+                              
+                              min="0"
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col md="2">
+                            <span>
+                              {" "}
+                              IELTS Equivalent Score
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <Input
+                              type="number"
+                              name="ieltsEquivalent"
+                              id="ieltsEquivalent"
                               
                               min="0"
                             />

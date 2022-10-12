@@ -35,7 +35,7 @@ const StudentContactForm = () => {
     const [countryValue, setCountryValue] = useState(0);
   
     const [addressType, setAddressType] = useState([]);
-    const [addressTypeLabel, setAddressTypeLabel] = useState("Address type");
+    const [addressTypeLabel, setAddressTypeLabel] = useState("Address Type");
     const [addressTypeValue, setAddressTypeValue] = useState(0);
     const [oneData, setOneData] = useState({});
   

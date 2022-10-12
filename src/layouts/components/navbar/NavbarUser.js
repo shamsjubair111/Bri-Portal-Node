@@ -670,7 +670,7 @@ componentDidMount() {
               {this?.state?.notificationCount}{" "}
             </Badge>
           </DropdownToggle>
-          <DropdownMenu tag="ul" right className="dropdown-menu-media">
+          <DropdownMenu tag="ul" right className="dropdown-menu-media" >
             <li className="dropdown-menu-header">
              <div className="d-flex justify-content-between">
              <div className="dropdown-header mt-0">

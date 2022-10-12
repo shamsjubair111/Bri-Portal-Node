@@ -592,12 +592,15 @@ const AddUniversity = (props) => {
         history.push(`/addUniversityGallery/${univerId}`);
       }
       if (tab == "6") {
-        history.push(`/addUniversityApplicationDocument/${univerId}`);
+        history.push(`/addUniversityTestScore/${univerId}`);
       }
       if (tab == "7") {
-        history.push(`/addUniversityTemplateDocument/${univerId}`);
+        history.push(`/addUniversityApplicationDocument/${univerId}`);
       }
       if (tab == "8") {
+        history.push(`/addUniversityTemplateDocument/${univerId}`);
+      }
+      if (tab == "9") {
         history.push(`/addUniversityCommission/${univerId}`);
       }
     }
@@ -615,13 +618,16 @@ const AddUniversity = (props) => {
         history.push(`/addUniversityGallery/${universityId}`);
       }
       if (tab == "6") {
-        history.push(`/addUniversityApplicationDocument/${universityId}`);
+        history.push(`/addUniversityTestScore/${universityId}`);
       }
       if (tab == "7") {
-        history.push(`/addUniversityTemplateDocument/${universityId}`);
+        history.push(`/addUniversityApplicationDocument/${universityId}`);
       }
       if (tab == "8") {
-        history.push(`/addUniversityCommission/${univerId}`);
+        history.push(`/addUniversityTemplateDocument/${universityId}`);
+      }
+      if (tab == "9") {
+        history.push(`/addUniversityCommission/${universityId}`);
       }
     }
     
@@ -780,6 +786,18 @@ const AddUniversity = (props) => {
               )}
             </NavItem>
 
+            <NavItem>
+              {submitData || univerId ? (
+                <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
+                  Test Score
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "6"}>
+                  Test Score
+                </NavLink>
+              )}
+            </NavItem>
+
             {/* <NavItem>
               <NavLink disabled active={activetab === "6"}>
                 Application Document
@@ -788,24 +806,12 @@ const AddUniversity = (props) => {
 
             <NavItem>
               {submitData || univerId ? (
-                <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
-                  Application Document
-                </NavLink>
-              ) : (
-                <NavLink disabled active={activetab === "6"}>
-                  Application Document
-                </NavLink>
-              )}
-            </NavItem>
-
-            <NavItem>
-              {submitData || univerId ? (
                 <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
-                  Template Document
+                  Application Document
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "7"}>
-                  Template Document
+                  Application Document
                 </NavLink>
               )}
             </NavItem>
@@ -813,10 +819,22 @@ const AddUniversity = (props) => {
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
-                  Commission
+                  Template Document
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "8"}>
+                  Template Document
+                </NavLink>
+              )}
+            </NavItem>
+
+            <NavItem>
+              {submitData || univerId ? (
+                <NavLink active={activetab === "9"} onClick={() => toggle("9")}>
+                  Commission
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "9"}>
                   Commission
                 </NavLink>
               )}

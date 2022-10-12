@@ -1353,27 +1353,7 @@ const TestScore = () => {
                         />
                       ) : null}
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="2">
-                          <span>
-                            {" "}
-                            Overall
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="number"
-                            name="overall"
-                            id="overall"
-                            defaultValue={updateIelts ? ielts?.overall : ""}
-                            min="0"
-                          />
-                        </Col>
-                      </FormGroup>
+                      
 
                       <FormGroup
                         row
@@ -1486,6 +1466,28 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={updateIelts ? ielts?.overall : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
@@ -1528,27 +1530,7 @@ const TestScore = () => {
                         />
                       ) : null}
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="2">
-                          <span>
-                            {" "}
-                            Overall
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="number"
-                            name="overall"
-                            id="overall"
-                            defaultValue={updateToefl ? toefl?.overall : ""}
-                            min="0"
-                          />
-                        </Col>
-                      </FormGroup>
+                      
 
                       <FormGroup
                         row
@@ -1657,6 +1639,50 @@ const TestScore = () => {
                             defaultValue={
                               updateToefl ? handleDate(toefl?.examDate) : ""
                             }
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={updateToefl ? toefl?.overall : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            IELTS Equivalent Score
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="ieltsEquivalent"
+                            id="ieltsEquivalent"
+                            defaultValue={updateToefl ? toefl?.ieltsEquivalent : ""}
+                            min="0"
                           />
                         </Col>
                       </FormGroup>
@@ -1848,6 +1874,54 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={
+                              updateFunctions ? functions?.overall : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            IELTS Equivalent Score
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="ieltsEquivalent"
+                            id="ieltsEquivalent"
+                            defaultValue={
+                              updateFunctions ? functions?.ieltsEquivalent : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
@@ -1907,6 +1981,28 @@ const TestScore = () => {
                             name="result"
                             id="result"
                             defaultValue={updateGcse ? gcse?.result : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            IELTS Equivalent Score
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="ieltsEquivalent"
+                            id="ieltsEquivalent"
+                            defaultValue={updateGcse ? gcse?.ieltsEquivalent : ""}
                             min="0"
                           />
                         </Col>
@@ -1972,6 +2068,30 @@ const TestScore = () => {
                             id="result"
                             defaultValue={
                               updatePearson ? pearson?.result : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            IELTS Equivalent Score
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="ieltsEquivalent"
+                            id="ieltsEquivalent"
+                            defaultValue={
+                              updatePearson ? pearson?.ieltsEquivalent : ""
                             }
                             min="0"
                           />
@@ -2141,6 +2261,54 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={
+                              updateDuolingo ? duolingo?.overall : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            {" "}
+                            IELTS Equivalent Score
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="ieltsEquivalent"
+                            id="ieltsEquivalent"
+                            defaultValue={
+                              updateDuolingo ? duolingo?.ieltsEquivalent : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
                       <div className="row">
                         <div className="col-md-9 d-flex justify-content-end">
                         <Button
@@ -2229,6 +2397,30 @@ const TestScore = () => {
                         </Col>
                       </FormGroup>
 
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            IELTS Equivalent Score
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="ieltsEquivalent"
+                            id="ieltsEquivalent"
+                            defaultValue={
+                              updateOther ? others?.ieltsEquivalent : ""
+                            }
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
                       <div className="row">
                         <div className="col-md-8 d-flex justify-content-end">
                         <Button
@@ -2271,27 +2463,7 @@ const TestScore = () => {
                         />
                       ) : null}
 
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="2">
-                          <span>
-                            {" "}
-                            Overall
-                            <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Input
-                            type="number"
-                            name="overall"
-                            id="overall"
-                            defaultValue={updatePte ? pte?.overall : ""}
-                            min="0"
-                          />
-                        </Col>
-                      </FormGroup>
+                     
 
                       <FormGroup
                         row
@@ -2376,6 +2548,50 @@ const TestScore = () => {
                             name="listening"
                             id="listening"
                             defaultValue={updatePte ? pte?.listening : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            Overall
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="overall"
+                            id="overall"
+                            defaultValue={updatePte ? pte?.overall : ""}
+                            min="0"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="2">
+                          <span>
+                            {" "}
+                            IELTS Equivalent Score
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="number"
+                            name="ieltsEquivalent"
+                            id="ieltsEquivalent"
+                            defaultValue={updatePte ? pte?.ieltsEquivalent : ""}
                             min="0"
                           />
                         </Col>
@@ -2571,6 +2787,8 @@ const TestScore = () => {
                   <span  className='bank-account-info-text'>Production: {duolingo?.production}</span>
                   <br/>
                   <span  className='bank-account-info-text'>Exam Date: {handleDate(duolingo?.examDate)}</span>
+                  <br/>
+                  <span  className='bank-account-info-text'>IELTS Equivalent Score: {duolingo?.ieltsEquivalent}</span>
                     </div>
 
                     <div>
@@ -2650,6 +2868,8 @@ const TestScore = () => {
                   <span  className="bank-account-info-text">Listening: {toefl?.listening}</span>
                   <br/>
                   <span  className="bank-account-info-text">Exam Date: {handleDate(toefl?.examDate)}</span>
+                  <br/>
+                  <span  className="bank-account-info-text">IELTS Equivalent Score: {toefl?.ieltsEquivalent}</span>
 
                     </div>
 
@@ -2728,6 +2948,8 @@ const TestScore = () => {
                   <span className="bank-account-info-text">Listening: {functions?.listening}</span>
                   <br/>
                   <span className="bank-account-info-text">Exam Date: {handleDate(functions?.examDate)}</span>
+                  <br/>
+                  <span className="bank-account-info-text">IELTS Equivalent Score: {functions?.ieltsEquivalent}</span>
                   </div>
 
                   <div>
@@ -2800,6 +3022,7 @@ const TestScore = () => {
                   <div>
                   <span className="bank-account-info-text">Result: {gcse?.result}</span>
                   <br/>
+                  <span className="bank-account-info-text">IELTS Equivalent Score: {gcse?.ieltsEquivalent}</span>
                   </div>
                   <div>
                     <img src={cardImage} />
@@ -2867,6 +3090,8 @@ const TestScore = () => {
                  <div className="d-flex justify-content-between">
                   <div>
                   <span className="bank-account-info-text">Result: {pearson?.result}</span>
+                  <br/>
+                  <span className="bank-account-info-text">IELTS Equivalent Score: {pearson?.ieltsEquivalent}</span>
                   </div>
 
                   <div>
@@ -2937,6 +3162,8 @@ const TestScore = () => {
                   <span className="bank-account-info-text">Test Name: {others?.testName}</span>
                   <br/>
                   <span className="bank-account-info-text">Overall Score: {others?.scoreOverall}</span>
+                  <br/>
+                  <span className="bank-account-info-text">IELTS Equivalent Score: {others?.ieltsEquivalent}</span>
                   </div>
 
                   <div>
@@ -3014,6 +3241,8 @@ const TestScore = () => {
                   <span className="bank-account-info-text">Writing: {pte?.writing}</span>
                   <br/>
                   <span className="bank-account-info-text">Listening: {pte?.listening}</span>
+                  <br/>
+                  <span className="bank-account-info-text">IELTS Equivalent Score: {pte?.ieltsEquivalent}</span>
                     </div>
 
                     <div>

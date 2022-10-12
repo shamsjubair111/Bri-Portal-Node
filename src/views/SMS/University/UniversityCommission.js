@@ -37,7 +37,7 @@ const UniversityCommission = () => {
 
     const history = useHistory();
     const {univerId} = useParams();
-    const [activetab, setActivetab] = useState("8");
+    const [activetab, setActivetab] = useState("9");
     const [commission,setCommission] = useState([]);
     const {addToast} = useToasts();
  
@@ -129,12 +129,15 @@ const UniversityCommission = () => {
       history.push(`/addUniversityGallery/${univerId}`);
     }
     if (tab == "6") {
-      history.push(`/addUniversityApplicationDocument/${univerId}`);
+      history.push(`/addUniversityTestScore/${univerId}`);
     }
     if (tab == "7") {
-      history.push(`/addUniversityTemplateDocument/${univerId}`);
+      history.push(`/addUniversityApplicationDocument/${univerId}`);
     }
     if (tab == "8") {
+      history.push(`/addUniversityTemplateDocument/${univerId}`);
+    }
+    if (tab == "9") {
       history.push(`/addUniversityCommission/${univerId}`);
     }
   };
@@ -296,17 +299,23 @@ const UniversityCommission = () => {
 
             <NavItem>
               <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
-                Application Document
+                 Test Score
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
+                Application Document
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
               Template Document
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+              <NavLink active={activetab === "9"} onClick={() => toggle("9")}>
               Commission
               </NavLink>
             </NavItem>
@@ -317,7 +326,7 @@ const UniversityCommission = () => {
 
           <TabContent activeTab={activetab}>
 
-          <TabPane tabId="8">
+          <TabPane tabId="9">
 
           {
 

@@ -29,7 +29,7 @@ import get from "../../../helpers/get";
 import Select from "react-select";
 import { rootUrl } from "../../../constants/constants";
 import profileImage from "../../../assets/img/profile/user-uploads/user-07.jpg";
-
+import { userTypes } from "../../../constants/userTypeConstant" 
 import { Image } from "antd";
 import { useToasts } from "react-toast-notifications";
 import "antd/dist/antd.css";
@@ -107,6 +107,9 @@ const UniversityDetails = () => {
 
   const [delGalName, setDelGalName] = useState("");
   const [delGalId, setDelGalId] = useState(0);
+  const userType = localStorage.getItem('userType');
+
+
 
   const history = useHistory();
 
@@ -680,7 +683,14 @@ const UniversityDetails = () => {
                         <li>
                           <h4>
                             {universityInfo?.name} ({universityInfo?.shortName})
+                            
                           </h4>
+                          {
+                            (userType == userTypes?.SystemAdmin)?
+                            <h6 className='mt-2'>Contract Type: {universityInfo?.contractType?.name}</h6>
+                            :
+                            null
+                          }
                         </li>
 
                         <li>{/* <h6>{employeeType.name}</h6> */}</li>
@@ -1064,15 +1074,7 @@ const UniversityDetails = () => {
                           {universityInfo?.partTimeWorkInformation}
                         </td>
                       </tr>
-                      <tr>
-                        <td width="40%">
-                          <b>Contract Type:</b>
-                        </td>
-
-                        <td width="60%">
-                          {universityInfo?.contractType?.name}
-                        </td>
-                      </tr>
+                      
                     </tbody>
                   </Table>
                 </CardBody>
@@ -1974,7 +1976,56 @@ const UniversityDetails = () => {
           </Col>
 
           <Col md="4">
-            {/* for showing provider information starts here */}
+          {
+            (universityInfo?.contractTypeId !== 1) ?
+            <>
+           
+            {
+            
+
+              (userType == userTypes?.SystemAdmin)?
+
+              <Card className="uapp-employee-profile-right">
+              <div className="uapp-profile-CardHeader">
+                <div className="uapp-circle-image margin-top-minus">
+                  {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
+                  null ? (
+                    <img src={profileImage} alt="provider_img" />
+                  ) : (
+                    <img
+                      src={
+                        rootUrl +
+                        universityInfo?.provider?.providerLogoMedia?.fileUrl
+                      }
+                      alt="provider_img"
+                    />
+                  )}
+                </div>
+
+                <h5>
+                  {universityInfo?.provider?.name} (
+                  {universityInfo?.provider?.providerViewId})
+                </h5>
+                <p> {universityInfo?.provider?.providerType?.name} </p>
+              </div>
+              <CardBody>
+                <div>
+                  <ul className="uapp-ul text-center">
+                    <li> {universityInfo?.provider?.addressLine} </li>
+                    <li> {universityInfo?.provider?.email} </li>
+                    <li> {universityInfo?.provider?.phoneNumber} </li>
+                  </ul>
+                </div>
+              </CardBody>
+            </Card>
+
+            :
+
+            null
+            }
+            </>
+            :
+            <>
             <Card className="uapp-employee-profile-right">
               <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
@@ -2008,6 +2059,8 @@ const UniversityDetails = () => {
                 </div>
               </CardBody>
             </Card>
+            </>
+          }
             {/* for showing provider information ends here */}
 
             {/* For showing financial cost */}

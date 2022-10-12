@@ -18,6 +18,7 @@ const EducationalInformation = () => {
     const [educationLevel, setEducationLevel] = useState([]);
   const [educationLevelLabel, setEducationLevelLabel] = useState('Select Education Level');
   const [educationLevelValue, setEducationLevelValue] = useState(0);
+  const [ielts,setIelts] = useState(false);
  
   const [deleteData, setDeleteData]  = useState({});
 
@@ -81,6 +82,10 @@ const handleDate = (e) =>{
   var localeDate = utcDate.toLocaleString("en-CA");
   const x = localeDate.split(",")[0];
   return x;
+}
+
+const handleIelts = (e) => {
+  setIelts(e.target.checked);
 }
 
 
@@ -336,7 +341,7 @@ const handleUpdate = (id) => {
     setShowForm(true);
     setFrom('');
     setTo('');
-    setEducationLevelLabel('Select');
+    setEducationLevelLabel('Select Education Level');
     setEducationLevelValue(0);
    
   
@@ -460,7 +465,7 @@ const handleUpdate = (id) => {
                     <h5 className='test-score-title-styles'> {edu?.nameOfInstitution}  </h5>
                     <p className="bank-account-info-text">From: {handleDate(edu?.attendedInstitutionFrom)}</p>
                     <p className="bank-account-info-text">To: {handleDate(edu?.attendedInstitutionTo)}</p>
-                    <p className="bank-account-info-text"> {edu?.finalGrade}</p>
+                    <p className="bank-account-info-text">Result Percentage: {edu?.finalGrade}</p>
                     <p className="bank-account-info-text"> {edu?.educationLevel?.name}</p>
                 </Col>
 
@@ -552,7 +557,7 @@ const handleUpdate = (id) => {
                 name="nameOfInstitution"
                 id="nameOfInstitution"
                 defaultValue={oneData.nameOfInstitution}
-                placeholder="Enter name of institution"
+                placeholder="Enter Name Of Institution"
                 required
               />
 
@@ -637,7 +642,7 @@ const handleUpdate = (id) => {
                   type="text"
                   name="qualificationSubject"
                   id="qualificationSubject"
-                  placeholder="Enter qualification subject"
+                  placeholder="Enter Qualification Subject"
                   required
                   defaultValue={oneData.qualificationSubject}
                 />
@@ -657,7 +662,7 @@ const handleUpdate = (id) => {
                   type="text"
                   name="duration"
                   id="duration"
-                  placeholder="Enter duration"
+                  placeholder="Enter Duration"
                   required
                   defaultValue={oneData.duration}
                   
@@ -670,7 +675,7 @@ const handleUpdate = (id) => {
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Final Grade <span className="text-danger">*</span>{" "}
+                  Result In Percentage <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="6">
@@ -678,7 +683,7 @@ const handleUpdate = (id) => {
                   type="text"
                   name="finalGrade"
                   id="finalGrade"
-                  placeholder="Enter final grade"
+                  placeholder="Enter Percentage"
                   required
                   defaultValue={oneData.finalGrade}
 
@@ -728,7 +733,7 @@ const handleUpdate = (id) => {
                     type="text"
                     name="languageOfInstitution"
                     id="languageOfInstitution"
-                    placeholder="Enter language of institution"
+                    placeholder="Enter Language Of Institution"
                     required
                     defaultValue={oneData.languageOfInstitution}
                   />
@@ -748,7 +753,7 @@ const handleUpdate = (id) => {
                     type="text"
                     name="instituteContactNumber"
                     id="instituteContactNumber"
-                    placeholder="Enter institute contact number"
+                    placeholder="Enter Institute Contact Number"
                     required
                     defaultValue={oneData.instituteContactNumber}
                   />
@@ -768,7 +773,7 @@ const handleUpdate = (id) => {
                     type="text"
                     name="instituteAddress"
                     id="instituteAddress"
-                    placeholder="Enter Institute address"
+                    placeholder="Enter Institute Address"
                     required
                     defaultValue={oneData.instituteAddress}
                   />
@@ -777,8 +782,7 @@ const handleUpdate = (id) => {
                 </Col>
               </FormGroup>
 
-             
-
+              
 
               
 
@@ -947,7 +951,7 @@ const handleUpdate = (id) => {
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Final Grade <span className="text-danger">*</span>{" "}
+                  Result In Percentage <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="6">
@@ -955,7 +959,7 @@ const handleUpdate = (id) => {
                   type="text"
                   name="finalGrade"
                   id="finalGrade"
-                  placeholder="Enter Final Grade"
+                  placeholder="Enter Percentage"
                   required
                 />
   
@@ -1049,6 +1053,8 @@ const handleUpdate = (id) => {
              
                 </Col>
               </FormGroup>
+
+             
 
              
 
