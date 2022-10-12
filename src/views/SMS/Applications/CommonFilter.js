@@ -88,6 +88,8 @@ const CommonFilter = ({
   commonPhoneValue,
   setCommonPhoneLabel,
   commonPhoneLabel,
+  cId,
+  uId
 }) => {
   // const [applicationLabel, setApplicationLabel] = useState("Status");
   // const [applicationValue, setApplicationValue] = useState(0);
@@ -235,7 +237,7 @@ const CommonFilter = ({
     setElptValue(0);
     setFinanceLabel("SLCs");
     setFinanceValue(0);
-    setCommonUappIdLabel("UAPP ID");
+    setCommonUappIdLabel("UAPP Id");
     setCommonUappIdValue(0);
     setCommonUniLabel("University Name");
     setCommonUniValue(0);
@@ -281,6 +283,7 @@ const CommonFilter = ({
               placeholder="Consultant"
               name="name"
               id="id"
+              isDisabled={cId ? true : false}
             />
           </Col>
 
@@ -369,6 +372,7 @@ const CommonFilter = ({
               placeholder="University N..."
               name="name"
               id="id"
+              isDisabled={uId ? true : false}
             />
           </Col>
 

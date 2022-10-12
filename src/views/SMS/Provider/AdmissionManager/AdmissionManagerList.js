@@ -50,6 +50,7 @@ import put from "../../../../helpers/put";
 import CustomButtonRipple from "../../Components/CustomButtonRipple";
 import post from "../../../../helpers/post";
 import loader from '../../../../assets/img/load.gif';
+import ToggleSwitch from "../../Components/ToggleSwitch";
 
 const AdmissionManagerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -1201,18 +1202,27 @@ const AdmissionManagerList = () => {
                       {checkSts ? (
                         <td>
                           {
-                            <label className="switch">
-                              <input
-                                type="checkbox"
+                            // <label className="switch">
+                            //   <input
+                            //     type="checkbox"
+                            //     defaultChecked={
+                            //       manager?.isActive == false ? false : true
+                            //     }
+                            //     onChange={(e) => {
+                            //       handleAccountStatus(e, manager?.id);
+                            //     }}
+                            //   />
+                            //   <span className="slider round"></span>
+                            // </label>
+                            
+                            <ToggleSwitch 
                                 defaultChecked={
                                   manager?.isActive == false ? false : true
                                 }
                                 onChange={(e) => {
                                   handleAccountStatus(e, manager?.id);
                                 }}
-                              />
-                              <span className="slider round"></span>
-                            </label>
+                            />
                           }
                         </td>
                       ) : null}

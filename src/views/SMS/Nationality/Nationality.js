@@ -248,7 +248,7 @@ const Nationality = () => {
             <CardHeader>
        
             <div>
-              <Button className="btn btn-uapp-add mr-1" onClick={()=>AddModalOpen('add')} > <i className="fas fa-plus"></i>  Add New Nationality</Button>
+              <Button className="btn btn-uapp-add mr-2" onClick={()=>AddModalOpen('add')} > <i className="fas fa-plus"></i>  Add New Nationality</Button>
               <Button className="btn btn-uapp-add" onClick={()=>AddExelModalOpen()} > <i className="fas fa-plus"></i>  Add New Nationality From Excel</Button>
             </div>
             

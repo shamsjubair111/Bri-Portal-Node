@@ -172,6 +172,13 @@ const ConsultantProfile = () => {
           return x;
         };
 
+        const redirectToApplications = (consultantId) => {
+          history.push({
+            pathname: "/applications",
+            consultantIdFromConsultantList: consultantId,
+          });
+        };
+
     return (
         <div>
           <Card className="uapp-card-bg">
@@ -748,7 +755,15 @@ const ConsultantProfile = () => {
                   />
 
 
+                  {/* <LinkButton
+                    url={`/applicationsByConsultant/${id}`}
+                    className={"btn btn-uapp-add "}
+                    name={"Application"}
+                    permission={6}
+                  /> */}
+
                   <ButtonForFunction
+                    func={() => redirectToApplications(id)}
                     className={"btn btn-uapp-add "}
                     name={"Application"}
                     permission={6}
