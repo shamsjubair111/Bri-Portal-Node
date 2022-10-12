@@ -12,6 +12,7 @@ import EditDivButton from '../Components/EditDivButton';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkButton from '../Components/LinkButton';
 import axios from 'axios'
+import { userTypes } from '../../../constants/userTypeConstant';
 
 const StudentProfile = () => {
 
@@ -29,6 +30,8 @@ const StudentProfile = () => {
 
     const history = useHistory();
     const {sId} = useParams();
+
+    console.log("userType", parseInt(localStorage.getItem("userType")));
 
     useEffect(()=>{
        get(`StudentProfile/Get/${sId}`).then(res=>{
@@ -1049,8 +1052,20 @@ const StudentProfile = () => {
 
               <Card className="p-3">
 
-                  <h6> Notice</h6>
-                  <span className="bg-wg bg-width"></span>
+                  <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Notice</b> </h5>
+                     
+                    <div className="bg-h"></div>
+                    </div>
+
+                    {/* <EditDivButton
+                      className={"text-right edit-style  p-3"}
+                      func={()=>handleUpdatePersonalStatement(studentDetails)}
+                      permission={6}
+                    /> */}
+
+                    </div>
 
 
                     <div className="notice-item card-widget mt-3 ">
@@ -1113,10 +1128,24 @@ const StudentProfile = () => {
         
               </Card>
 
-              <Card className='p-3'>
+              {
+                parseInt(localStorage.getItem("userType")) === userTypes?.Student ?
+                <Card className='p-3'>
 
-              <h6> Concent</h6>
-              <span className="bg-wg bg-width"></span>
+              <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Concent</b> </h5>
+                     
+                    <div className="bg-h"></div>
+                    </div>
+
+                    {/* <EditDivButton
+                      className={"text-right edit-style  p-3"}
+                      func={()=>handleUpdatePersonalStatement(studentDetails)}
+                      permission={6}
+                    /> */}
+
+                    </div>
 
               <div className="notice-item card-widget mt-3 ">
                       
@@ -1138,11 +1167,23 @@ const StudentProfile = () => {
               </div>
 
               </Card>
-
+              :
               <Card className='p-3'>
 
-              <h6> Concent</h6>
-              <span className="bg-wg bg-width"></span>
+              <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Concent</b> </h5>
+                     
+                    <div className="bg-h"></div>
+                    </div>
+
+                    {/* <EditDivButton
+                      className={"text-right edit-style  p-3"}
+                      func={()=>handleUpdatePersonalStatement(studentDetails)}
+                      permission={6}
+                    /> */}
+
+                    </div>
 
               <div className="notice-item card-widget mt-3 ">
                       
@@ -1160,6 +1201,7 @@ const StudentProfile = () => {
               </div>
 
               </Card>
+              }
 
               </Col>
               </Row>

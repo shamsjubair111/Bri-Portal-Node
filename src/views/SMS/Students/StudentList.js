@@ -39,6 +39,8 @@ import ReactToPrint from 'react-to-print';
 import { userTypes } from '../../../constants/userTypeConstant.js';
 import put from '../../../helpers/put.js';
 import Loader from '../Search/Loader/Loader.js';
+import { Switch } from "antd";
+import ToggleSwitch from "../Components/ToggleSwitch.js";
 
 
 const StudentList = () => {
@@ -856,6 +858,7 @@ const StudentList = () => {
                               defaultChecked={checkBlackList}
                               disabled={buttonStatus}
                             />
+
                           </FormGroup>
                         </Col>
                       </div>
@@ -1049,7 +1052,7 @@ const StudentList = () => {
 
                       {checkBlackList ? (
                         <td>
-                          <label className="switch">
+                          {/* <label className="switch">
                             <input
                               type="checkbox"
                               defaultChecked={
@@ -1064,7 +1067,21 @@ const StudentList = () => {
                               }}
                             />
                             <span className="slider round"></span>
-                          </label>
+                          </label> */}
+
+                          <ToggleSwitch 
+                              defaultChecked={
+                                student?.blacklisted == null
+                                  ? false
+                                  : student?.blacklisted == false
+                                  ? false
+                                  : true
+                              }
+                              onChange={(e) => {
+                                handleBlacklist(e, student?.id);
+                              }}
+                          />
+
                         </td>
                       ) : null}
 

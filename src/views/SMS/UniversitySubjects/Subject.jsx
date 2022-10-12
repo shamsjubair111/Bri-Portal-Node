@@ -66,6 +66,8 @@ const Subject = () => {
     const [deptDropError, setDeptDropError] = useState(false);
     const [subDeptDropError, setSubDeptDropError] = useState(false);
 
+    const [buttonStatus,setButtonStatus] = useState(false);
+
     const {addToast} = useToasts();
     const {id} = useParams();
     const location = useLocation();
@@ -290,9 +292,10 @@ const Subject = () => {
     }
     else{
       if(subId != 0){
+        setButtonStatus(true);
         put('Subject/Update', subdata).then((res) => {
           
-    
+          setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
                 appearance:'success',
@@ -306,13 +309,14 @@ const Subject = () => {
         });
       }
       else{
+        setButtonStatus(true);
         Axios.post(`${rootUrl}Subject/Create`, subdata,{
           headers: {
             'Content-Type': 'application/json',
             'authorization': AuthStr,
           },
         }).then((res) => {
-            
+          setButtonStatus(false);
           // localStorage.setItem("subjectId",res?.data?.result?.id);
           const subjId = res?.data?.result?.id;
           setSubjectId(subjId);
@@ -675,6 +679,7 @@ const Subject = () => {
                       className={"ml-3 mt-3 badge-primary"}
                       name={"Save"}
                       permission={6}
+                      disable={buttonStatus}
                     />
                   </Col>
 

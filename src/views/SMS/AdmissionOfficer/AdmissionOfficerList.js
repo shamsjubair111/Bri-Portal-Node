@@ -50,6 +50,7 @@ import { userTypes } from "../../../constants/userTypeConstant";
 import put from "../../../helpers/put";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import post from "../../../helpers/post";
+import ToggleSwitch from "../Components/ToggleSwitch";
 
 const AdmissionOfficerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -1321,18 +1322,27 @@ const AdmissionOfficerList = () => {
                       {checkSts ? (
                         <td>
                           {
-                            <label className="switch">
-                              <input
-                                type="checkbox"
-                                defaultChecked={
-                                  officer?.isActive == false ? false : true
-                                }
-                                onChange={(e) => {
-                                  handleAccountStatus(e, officer?.id);
-                                }}
-                              />
-                              <span className="slider round"></span>
-                            </label>
+                            // <label className="switch">
+                            //   <input
+                            //     type="checkbox"
+                            //     defaultChecked={
+                            //       officer?.isActive == false ? false : true
+                            //     }
+                            //     onChange={(e) => {
+                            //       handleAccountStatus(e, officer?.id);
+                            //     }}
+                            //   />
+                            //   <span className="slider round"></span>
+                            // </label>
+
+                            <ToggleSwitch 
+                              defaultChecked={
+                                officer?.isActive == false ? false : true
+                              }
+                              onChange={(e) => {
+                                handleAccountStatus(e, officer?.id);
+                              }}
+                            />
                           }
                         </td>
                       ) : null}
