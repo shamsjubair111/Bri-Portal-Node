@@ -256,8 +256,26 @@ class NavbarUser extends React.PureComponent {
     })
   }
 
+  allNotifications = () => {
+    history.push(`/allNotifications`);
+  }
+
+
+  notificationByIdFunction = (data) => {
+    axios.get(`${rootUrl}Notification/ViewNotification/${data}`,{
+      headers: {
+        authorization: AuthStr
+      }
+    })
+    .then(res => {
+      console.log(res,'abcdefg');
+    })
+  }
+
 
   redirect = (data) => {
+    console.log(data);
+     this.notificationByIdFunction(data?.id);
      history.push(data?.targetUrl);
   }
 
@@ -678,7 +696,7 @@ componentDidMount() {
                 
               </div>
               <div className="dropdown-header mt-0" style={{cursor: 'pointer'}}>
-              <span className="notification-title text-white">Read All</span>
+             
                 
               </div>
              </div>
@@ -704,7 +722,7 @@ componentDidMount() {
                   </Media> */}
                 
                  <Media body>
-                    <Media heading className="primary media-heading" tag="h6" onClick={()=>this.redirect(data)}>
+                    <Media style={{color: '#1e98b0'}} heading className=" media-heading" tag="h6" onClick={()=>this.redirect(data)}>
                       {data?.title}
                     </Media>
                     <p className="notification-text">
@@ -727,12 +745,13 @@ componentDidMount() {
              
             </PerfectScrollbar>
             <li className="dropdown-menu-footer">
-              {/* <DropdownItem tag="a" className="p-1 text-center">
-                
-              </DropdownItem> */}
+              <DropdownItem tag="a" className="p-3 text-center" onClick={()=>this.allNotifications()}>
+                <span className="align-middle">Read All</span>
+              </DropdownItem>
             </li>
           </DropdownMenu>
         </UncontrolledDropdown>
+        
         <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
           <DropdownToggle tag="a" className="nav-link dropdown-user-link">
             <div className="user-nav d-sm-flex d-none">

@@ -419,6 +419,8 @@ const StudentDeclarationForm = lazy(() => import("./views/SMS/Students/CreateFor
 const UniversityCommission = lazy(() => import("./views/SMS/University/UniversityCommission"));
 const UniversityTestScore = lazy(() => import("./views/SMS/University/UniversityTestScore"));
 
+const ReadAllNotifiation = lazy(() => import("./views/SMS/ReadAllNotification/ReadAllNotifiation"));
+
 
 const TrialNotification = lazy(() => import("./views/Test/Notification"));
 
@@ -765,9 +767,10 @@ class AppRouter extends React.Component {
 
            <AppRoute  path="/addUniversityCommission/:univerId" component={UniversityCommission} />
            <AppRoute  path="/addUniversityTestScore/:univerId" component={UniversityTestScore} />
+           <AppRoute  path="/allNotifications" component={ReadAllNotifiation} />
 
 
-  <AppRoute  path="/search" component={Search} />
+        <AppRoute  path="/search" component={Search} />
 
          <AppRoute  path="/500" component={InternalServerError} />
 

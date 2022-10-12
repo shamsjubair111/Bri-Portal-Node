@@ -910,11 +910,19 @@ display: flex;
 }
 
 .notification-active-style{
-  background-color: #1e98b0;
+  background-color: #fff;
   color: white;
 }
 
 .notification-inactive-style{
   background-color: #ededed;
   color: white;
+}
+
+.notification-footer-style{
+  background-color: #ededed;
+}
+
+.notification-footer-style:hover{
+  background-color: #fff;
 }
