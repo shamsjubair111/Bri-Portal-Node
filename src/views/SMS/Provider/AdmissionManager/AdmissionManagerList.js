@@ -123,6 +123,7 @@ const AdmissionManagerList = () => {
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [loading,setLoading] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
 
   useEffect(() => {
     get("ProviderDD/Index").then((res) => {
@@ -372,7 +373,9 @@ const AdmissionManagerList = () => {
     } else if (unistateValue === 0) {
       setUniStateError(true);
     } else {
+      setButtonStatus1(true);
       post(`AdmissionManager/Create`, subdata).then((res) => {
+        setButtonStatus1(false);
         setSuccess(!success);
 
         if (res?.status === 200 && res?.data?.isSuccess == true) {
@@ -828,6 +831,7 @@ const AdmissionManagerList = () => {
                         className={"mr-1 mt-3"}
                         name={"Submit"}
                         permission={6}
+                        isDisabled={buttonStatus1}
                       />
                     </FormGroup>
                   </Form>
@@ -1284,7 +1288,7 @@ const AdmissionManagerList = () => {
                                 className={"mx-1 btn-sm"}
                                 icon={<i className="fas fa-trash-alt"></i>}
                                 permission={6}
-                                disable={buttonStatus}
+                                // disable={buttonStatus}
                               />
                             ) : null}
                           </ButtonGroup>
@@ -1303,7 +1307,8 @@ const AdmissionManagerList = () => {
 
                             <ModalFooter>
                             
-                              <Button color="danger" onClick={handleDelete}>
+                              <Button 
+                                disabled={buttonStatus} color="danger" onClick={handleDelete}>
                                 YES
                               </Button>
                               <Button

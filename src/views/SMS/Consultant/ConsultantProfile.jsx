@@ -184,7 +184,7 @@ const ConsultantProfile = () => {
           <Card className="uapp-card-bg">
             <CardHeader className="page-header">
 
-              <h3 className="text-white">Consultant profile</h3>
+              <h3 className="text-white">Consultant Profile</h3>
               {
                   !(userTypeId == userTypes?.Consultant)?
                   <div className="page-header-back-to-home" >

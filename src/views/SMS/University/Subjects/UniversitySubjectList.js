@@ -100,6 +100,8 @@ const UniversitySubjectList = (props) => {
     const [checkSubDep, setCheckSubDep] = useState(true);
     const [checkAction, setCheckAction] = useState(true);
 
+    const [buttonStatus,setButtonStatus] = useState(false);
+
     const userType = localStorage.getItem("userType");
     const referenceId = localStorage.getItem("referenceId");
 
@@ -297,7 +299,9 @@ const UniversitySubjectList = (props) => {
 
 
     const handleDelete = (id) => {
+      setButtonStatus(true);
       const returnValue = remove(`Subject/Delete/${id}`).then((action)=> {
+        setButtonStatus(false);
         // console.log(action);
         setSuccess(!success);
         setDeleteModal(false);
@@ -864,13 +868,14 @@ const UniversitySubjectList = (props) => {
 
                             <ModalFooter>
                               <Button
+                                disabled={buttonStatus}
                                 color="danger"
                                 onClick={() => handleDelete(subId)}
                               >
                                 YES
                               </Button>
                               <Button
-                                color="primary"
+                                
                                 onClick={closeDeleteModal}
                               >
                                 NO

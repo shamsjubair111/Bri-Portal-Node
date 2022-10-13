@@ -86,6 +86,13 @@ const CampusDetails = () => {
   const [deleteModal1, setDeleteModal1] = useState(false);
   const [deleteModal2, setDeleteModal2] = useState(false);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [buttonStatus2,setButtonStatus2] = useState(false);
+  const [buttonStatus3,setButtonStatus3] = useState(false);
+  const [buttonStatus4,setButtonStatus4] = useState(false);
+  const [buttonStatus5,setButtonStatus5] = useState(false);
+
   const [uniId, setUniId] = useState(undefined);
 
   const [delGalName, setDelGalName] = useState("");
@@ -117,7 +124,9 @@ const CampusDetails = () => {
   };
 
   const handleDeleteData = () => {
+    setButtonStatus2(true);
     remove(`UniversityCampusSubject/Delete/${data?.id}`).then((res) => {
+      setButtonStatus2(false);
       console.log(res);
       addToast(res, {
         appearance: "error",
@@ -337,7 +346,9 @@ const CampusDetails = () => {
       isAcceptInternational: radioIsAcceptInt == "true" ? true : false,
     };
 
+    setButtonStatus4(true);
     put(`UniversityCampusSubject/Update`, subData).then((res) => {
+      setButtonStatus4(false);
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
@@ -374,7 +385,9 @@ const CampusDetails = () => {
     if (subValue == 0) {
       setSubError(true);
     } else {
+      setButtonStatus3(true);
       post(`UniversityCampusSubject/Create`, subData).then((res) => {
+        setButtonStatus3(false);
         console.log(res);
         if (res?.data?.isSuccess == true && res?.status == 200) {
           addToast(res?.data?.message, {
@@ -485,8 +498,10 @@ const CampusDetails = () => {
       setFileError(true);
     } else {
       setLoading(true);
+      setButtonStatus(true);
       Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config).then(
         (res) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setFileList1([]);
           setFileError(false);
@@ -528,7 +543,9 @@ const CampusDetails = () => {
   };
 
   const handleDeleteItem = (id) => {
+    setButtonStatus1(true);
     const returnValue = remove(`CampusGallery/Delete/${id}`).then((action) => {
+      setButtonStatus1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -565,11 +582,13 @@ const CampusDetails = () => {
     } else if (statusValue === 0) {
       setStatusError(true);
     } else {
+      setButtonStatus5(true);
       Axios.post(
         `${rootUrl}SubjectIntake/AssignToSubjectRange`,
         subdata,
         config
       ).then((res) => {
+        setButtonStatus5(false);
         // setSubjectIds([]);
         setIntakeLabel("Select Intake");
         setIntakeValue(0);
@@ -777,6 +796,12 @@ const CampusDetails = () => {
                                 Delete
                               </Button>
 
+                            </div>
+                          </div>
+                        ))}
+
+                        {/* view modal starts here */}
+
                               <Modal
                                 size="50%"
                                 isOpen={viewModalOpen}
@@ -831,6 +856,10 @@ const CampusDetails = () => {
                                 </ModalFooter>
                               </Modal>
 
+                              {/* view modal ends here */}
+
+                              {/* delete modal starts here */}
+
                               <Modal
                                 isOpen={deleteModal}
                                 toggle={closeDeleteModal}
@@ -846,6 +875,7 @@ const CampusDetails = () => {
 
                                 <ModalFooter>
                                   <Button
+                                    disabled={buttonStatus1}
                                     color="danger"
                                     onClick={() => handleDeleteItem(delGalId)}
                                   >
@@ -854,9 +884,9 @@ const CampusDetails = () => {
                                   <Button onClick={closeDeleteModal}>NO</Button>
                                 </ModalFooter>
                               </Modal>
-                            </div>
-                          </div>
-                        ))}
+
+                              {/* view modal ends here */}
+
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -900,6 +930,7 @@ const CampusDetails = () => {
 
                                 <div className="col-md-3">
                                   <Upload
+                                    accept={"image/png, image/gif, image/jpeg"}
                                     listType="picture-card"
                                     multiple={true}
                                     fileList={FileList1}
@@ -955,6 +986,7 @@ const CampusDetails = () => {
                                 className={"mr-1 mt-3 badge-primary"}
                                 name={"Save"}
                                 permission={6}
+                                isDisabled={buttonStatus}
                               />
                             </Col>
                           </FormGroup>
@@ -1068,6 +1100,7 @@ const CampusDetails = () => {
 
                                   <ModalFooter>
                                     <Button
+                                      disabled={buttonStatus2}
                                       color="danger"
                                       onClick={handleDeleteData}
                                     >
@@ -1279,6 +1312,7 @@ const CampusDetails = () => {
                                         </Button.Ripple>
 
                                         <Button.Ripple
+                                          disabled={buttonStatus4}
                                           type="submit"
                                           className="mr-1 mt-3 badge-primary"
                                         >
@@ -1513,6 +1547,7 @@ const CampusDetails = () => {
                         </Button.Ripple>
 
                         <Button.Ripple
+                          disabled={buttonStatus3}
                           type="submit"
                           className="ml-md-2 mt-3 badge-primary"
                         >
@@ -1572,7 +1607,11 @@ const CampusDetails = () => {
                     </div> */}
                   </div>
 
-                  <Form onSubmit={handleSubjectAssignInIntake}>
+                  {
+                    subjectIds.length < 1 ?
+                    <p>There is no subject added here.</p>
+                    :
+                    <Form onSubmit={handleSubjectAssignInIntake}>
                     <Input
                       type="hidden"
                       id="campusId"
@@ -1618,6 +1657,7 @@ const CampusDetails = () => {
                         <Col lg="2" md="4" sm="6" xs="6">
                           {/* <div className='d-flex justify-content-center'> */}
                           <Button
+                            disabled={buttonStatus5}
                             type="submit"
                             className="btn btn-uapp-add btn btn-secondary"
                           >
@@ -1689,6 +1729,9 @@ const CampusDetails = () => {
                       </Row>
                     </FormGroup>
                   </Form>
+                  }
+
+
                 </CardBody>
               </Card>
             </div>

@@ -51,6 +51,9 @@ const SubjectIntake = () => {
 
   const [intakeError, setIntakeError] = useState(false);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+
   const history = useHistory();
   const location = useLocation();
   const { addToast } = useToasts();
@@ -113,7 +116,9 @@ const SubjectIntake = () => {
     if (statusValue === 0) {
       setStatusError(true);
     } else {
+      setButtonStatus(true);
       post(`SubjectIntake/AssignToSubject`, subData).then((res) => {
+        setButtonStatus(false);
         if (res.status === 200 && res.data.isSuccess === true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -147,9 +152,10 @@ const SubjectIntake = () => {
   };
 
   const handleDelete = (id) => {
+    setButtonStatus1(true);
     const returnValue = remove(`SubjectIntake/DeleteById/${id}`).then(
       (action) => {
-     
+        setButtonStatus1(false);
         setSuccess(!success);
         setDeleteModal(false);
         addToast(action, {
@@ -284,6 +290,7 @@ const SubjectIntake = () => {
                     className={"mr-0 mt-3 ml-1 badge-primary"}
                     name={"Submit"}
                     permission={6}
+                    isDisabled={buttonStatus}
                   />
                 </FormGroup>
               </Form>
@@ -360,7 +367,7 @@ const SubjectIntake = () => {
                             <ModalBody>
                               <p>
                                 Are You Sure to Delete this{" "}
-                                <span className="fw-bold">
+                                <span className="font-weight-bold">
                                   {intName}
                                 </span>{" "}
                                 ? Once Deleted it can't be Undone!
@@ -369,12 +376,13 @@ const SubjectIntake = () => {
 
                             <ModalFooter>
                               <Button
+                                disabled={buttonStatus1}
                                 color="danger"
                                 onClick={() => handleDelete(int?.id)}
                               >
                                 YES
                               </Button>
-                              <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                              <Button onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>
                           </Modal>
                         </td>

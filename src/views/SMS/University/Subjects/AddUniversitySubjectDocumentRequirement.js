@@ -52,6 +52,9 @@ const AddUniversitySubjectDocumentRequirement = () => {
   const [delRequiredDocuId, setDelRequiredDocuId] = useState(0);
   const [delRequiredDocuName, setDelRequiredDocuName] = useState('');
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+
   const { id, subjId } = useParams();
 
   useEffect(() => {
@@ -139,12 +142,14 @@ const AddUniversitySubjectDocumentRequirement = () => {
       setAppliError(true);
     } else {
       if (update != 0) {
+        setButtonStatus(true);
         Axios.put(`${rootUrl}SubjectDocumentRequirement/Update`, subdata, {
           headers: {
             "Content-Type": "application/json",
             authorization: AuthStr,
           },
         }).then((res) => {
+          setButtonStatus(false);
           console.log(res);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
@@ -175,12 +180,14 @@ const AddUniversitySubjectDocumentRequirement = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
           headers: {
             "Content-Type": "application/json",
             authorization: AuthStr,
           },
         }).then((res) => {
+          setButtonStatus(false);
           console.log(res);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
@@ -242,7 +249,9 @@ const closeDeleteModal = () => {
 }
 
 const handleDeleteDocuRequired = (id) => {
+  setButtonStatus1(true);
   const returnValue = remove(`SubjectDocumentRequirement/Delete/${id}`).then((action)=> {
+    setButtonStatus1(false);
     setDeleteModal(false);
     setSuccess(!success);
     // console.log(action);
@@ -430,6 +439,7 @@ const redirectToSubjectProfile = () => {
                         className={"mt-3 badge-primary"}
                         name={"Save"}
                         permission={6}
+                        disable={buttonStatus}
                       />
                     </FormGroup>
                   </Form>
@@ -497,8 +507,8 @@ const redirectToSubjectProfile = () => {
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button color="danger" onClick={() => handleDeleteDocuRequired(delRequiredDocuId)}>YES</Button>
-                        <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDocuRequired(delRequiredDocuId)}>YES</Button>
+                        <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
                     </Modal>
