@@ -69,6 +69,11 @@ const DocumentGroup = () => {
   const [delDocuGroupDocuId, setDelDocuGroupDocuId] = useState(0);
   const [loading,setLoading] = useState(true);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [buttonStatus2,setButtonStatus2] = useState(false);
+  const [buttonStatus3,setButtonStatus3] = useState(false);
+
   const { addToast } = useToasts();
 
   useEffect(() => {
@@ -161,9 +166,10 @@ const DocumentGroup = () => {
       setApplicationTypeError(true);
     } else {
       if (updateDocumentId != undefined) {
-      
+        setButtonStatus(true);
         const returnvalue = put(`DocumentGroup/Update`, subData).then(
           (action) => {
+            setButtonStatus(false);
             setSuccess(!success);
             setModalOpen(false);
             addToast(action?.data?.message, {
@@ -180,9 +186,10 @@ const DocumentGroup = () => {
         );
       } else {
         // localStorage.removeItem("updateDocument");
-
+        setButtonStatus(true);
         const returnValue = post(`DocumentGroup/Create`, subData).then(
           (action) => {
+            setButtonStatus(false);
             setSuccess(!success);
             setModalOpen(false);
             addToast(action?.data?.message, {
@@ -201,7 +208,9 @@ const DocumentGroup = () => {
   };
 
   const handleDeleteDocumentGroup = (id) => {
+    setButtonStatus2(true);
     const returnValue = remove(`DocumentGroup/Delete/${id}`).then((action) => {
+      setButtonStatus2(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -214,8 +223,10 @@ const DocumentGroup = () => {
   };
 
   const handleDeleteViewDocu = (id) => {
+    setButtonStatus1(true);
     const returnValue = remove(`DocumentGroupDocument/Delete/${id}`).then(
       (action) => {
+        setButtonStatus1(false);
         setDeleteViewModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -301,8 +312,9 @@ const DocumentGroup = () => {
     else if (application === null) {
       setApplicationError(true);
     } else {
+      setButtonStatus3(true);
       post("DocumentGroupDocument/Create", subData).then((res) => {
-       
+        setButtonStatus3(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -478,6 +490,7 @@ const DocumentGroup = () => {
                       className={"mr-0 mt-3"}
                       name={"Submit"}
                       permission={6}
+                      isDisabled={buttonStatus}
                     />
 
                    
@@ -616,6 +629,7 @@ const DocumentGroup = () => {
 
                                                     <ModalFooter>
                                                       <Button
+                                                        disabled={buttonStatus1}
                                                         color="danger"
                                                         onClick={() =>
                                                           handleDeleteViewDocu(delDocuGroupDocuId)
@@ -624,7 +638,7 @@ const DocumentGroup = () => {
                                                         YES
                                                       </Button>
                                                       <Button
-                                                        color="primary"
+                                                        // color="primary"
                                                         onClick={
                                                           closeDeleteViewModal
                                                         }
@@ -650,7 +664,7 @@ const DocumentGroup = () => {
                                   <div>
                                     <h5>
                                       {" "}
-                                      <b>Add to group</b>{" "}
+                                      <b>Add to Group</b>{" "}
                                     </h5>
 
                                     <div className="bg-h"></div>
@@ -775,6 +789,7 @@ const DocumentGroup = () => {
                                         className={"ms-lg-3 ms-sm-1 mt-3"}
                                         name={"Submit"}
                                         permission={6}
+                                        disable={buttonStatus3}
                                       />
                                     </FormGroup>
                                   </>
@@ -817,6 +832,7 @@ const DocumentGroup = () => {
 
                         <ModalFooter>
                           <Button
+                            disabled={buttonStatus2}
                             color="danger"
                             onClick={() =>
                               handleDeleteDocumentGroup(delDocuGroupId)

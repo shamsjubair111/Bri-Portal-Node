@@ -217,7 +217,7 @@ return (
          <div>
 
 <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
-<ModalHeader>Add Program Level </ModalHeader>
+<ModalHeader>Program Level </ModalHeader>
 <ModalBody>
 <Form onSubmit={handleSubmit}>
 

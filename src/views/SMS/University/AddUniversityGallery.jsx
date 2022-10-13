@@ -328,7 +328,11 @@ const AddUniversityGallery = () => {
                           Delete
                         </Button>
 
-                        {/* view modal */}
+                      </div>
+                    </div>
+                  ))}
+
+                        {/* view modal starts here */}
                         <Modal
                           size="50%"
                           isOpen={viewModalOpen}
@@ -403,6 +407,10 @@ const AddUniversityGallery = () => {
                           </ModalFooter>
                         </Modal>
 
+                        {/* view modal ends here */}
+
+                        {/* delete modal starts here */}
+
                         <Modal
                           isOpen={deleteModal}
                           toggle={closeDeleteModal}
@@ -426,12 +434,12 @@ const AddUniversityGallery = () => {
                             >
                               YES
                             </Button>
-                            <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                            <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
                         </Modal>
-                      </div>
-                    </div>
-                  ))}
+
+                        {/* delete modal ends here */}
+
                 </div>
               </div>
               <div className="col-md-4 pt-2">
@@ -459,6 +467,7 @@ const AddUniversityGallery = () => {
                       <Col md="7">
                         {
                           <MediaPictures
+                            accept={"image/png, image/jpeg"}
                             FileList={FileList}
                             setFileList={setFileList}
                             setFileError={setFileError}

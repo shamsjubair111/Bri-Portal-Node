@@ -218,7 +218,7 @@ const DocumentcategoryList = () => {
               toggle={closeModal}
               className="uapp-modal"
             >
-              <ModalHeader>Add Document Category</ModalHeader>
+              <ModalHeader>Document Category</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   <FormGroup row className="has-icon-left position-relative">
