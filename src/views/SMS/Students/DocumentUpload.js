@@ -26,7 +26,7 @@ import * as Icon from "react-feather";
 import get from "../../../helpers/get";
 import { useToasts } from "react-toast-notifications";
 import { Upload, Modal as AntdModal } from "antd";
-import "antd/dist/antd.css";
+
 import { Image } from "antd";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import post from "../../../helpers/post";

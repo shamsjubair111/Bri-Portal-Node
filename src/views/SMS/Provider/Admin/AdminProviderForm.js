@@ -5,7 +5,7 @@ import Select from 'react-select';
 import AdminLogo from './AdminLogo';
 import get from '../../../../helpers/get';
 import { Upload, Modal } from 'antd';
-import "antd/dist/antd.css";
+
 import * as Icon from 'react-feather';
 import post from '../../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';

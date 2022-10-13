@@ -28,7 +28,7 @@ import {
 } from "reactstrap";
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
-import "antd/dist/antd.css";
+
 import get from "../../../helpers/get";
 import Select from "react-select";
 import { rootUrl } from "../../../constants/constants";

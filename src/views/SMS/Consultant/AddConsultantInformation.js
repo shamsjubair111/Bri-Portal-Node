@@ -22,7 +22,7 @@ import get from "../../../helpers/get";
 import { Upload, Modal } from "antd";
 import * as Icon from "react-feather";
 import { Image } from "antd";
-import "antd/dist/antd.css";
+
 import put from "../../../helpers/put";
 import { rootUrl } from "../../../constants/constants";
 import ButtonForFunction from "../Components/ButtonForFunction";

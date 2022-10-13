@@ -22,7 +22,7 @@ import Axios from "axios";
 import { useToasts } from "react-toast-notifications";
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
-import "antd/dist/antd.css";
+
 import { Image } from "antd";
 import get from "../../../helpers/get";
 import Select from "react-select";

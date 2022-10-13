@@ -24,7 +24,7 @@ import {
 import Axios from "axios";
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
-import "antd/dist/antd.css";
+
 import get from "../../../helpers/get";
 import Select from "react-select";
 import { rootUrl } from "../../../constants/constants";
@@ -32,7 +32,7 @@ import profileImage from "../../../assets/img/profile/user-uploads/user-07.jpg";
 import { userTypes } from "../../../constants/userTypeConstant" 
 import { Image } from "antd";
 import { useToasts } from "react-toast-notifications";
-import "antd/dist/antd.css";
+
 import EditDivButton from "../Components/EditDivButton";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";

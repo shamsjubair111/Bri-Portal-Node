@@ -8,7 +8,7 @@ import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import Loader from '../Search/Loader/Loader';
 import { Upload, Modal as AntdModal } from "antd";
-import "antd/dist/antd.css";
+
 import * as Icon from "react-feather";
 import { Image } from "antd";
 

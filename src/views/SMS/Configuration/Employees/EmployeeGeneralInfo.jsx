@@ -2,7 +2,7 @@ import React, { createRef, useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
 import { Upload, Modal } from 'antd';
-import "antd/dist/antd.css";
+
 import * as Icon from 'react-feather';
 import { Image } from 'antd';
 import {

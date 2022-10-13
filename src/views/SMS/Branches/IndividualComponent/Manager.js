@@ -4,7 +4,7 @@ import { Button, Card } from 'reactstrap';
 import { rootUrl } from '../../../../constants/constants';
 import get from '../../../../helpers/get';
 import { Image } from 'antd';
-import "antd/dist/antd.css";
+
 import LinkButton from '../../Components/LinkButton';
 const Manager = (props) => {
 

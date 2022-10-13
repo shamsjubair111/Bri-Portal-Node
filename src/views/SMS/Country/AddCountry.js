@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
-import 'antd/dist/antd.css';
+
 import {
   Card,
   CardBody,

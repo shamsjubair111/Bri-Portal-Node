@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {  Link, useParams } from 'react-router-dom';
 import { Image } from 'antd';
-import "antd/dist/antd.css";
+
 import Select from "react-select";
 import { useToasts } from 'react-toast-notifications';
 import 

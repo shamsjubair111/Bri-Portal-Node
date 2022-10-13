@@ -6,7 +6,7 @@ import { Button, ButtonGroup, Card, CardBody, CardHeader, Col, Form, FormGroup, 
 import { rootUrl } from '../../../../constants/constants';
 import Select from "react-select";
 import { Image } from 'antd';
-import "antd/dist/antd.css";
+
 import get from '../../../../helpers/get';
 import BranchProfileImage from './BranchProfileImage';
 import BranchCoverImage from './BranchCoverimage';

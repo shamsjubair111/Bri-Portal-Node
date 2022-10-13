@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Select from "react-select";
-import 'antd/dist/antd.css';
+
 import {
   Card,
   CardBody,

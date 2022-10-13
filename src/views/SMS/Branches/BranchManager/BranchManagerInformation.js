@@ -16,7 +16,7 @@ import put from "../../../../helpers/put";
 import ManagerImage from "../BranchManager/BranchManagerImage";
 import { useToasts } from "react-toast-notifications";
 import { Image } from 'antd';
-import "antd/dist/antd.css";
+
 import { rootUrl } from "../../../../constants/constants";
 import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';

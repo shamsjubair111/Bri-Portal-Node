@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useState } from 'react'
 import { Upload, Modal } from 'antd';
-import "antd/dist/antd.css";
+
 import * as Icon from 'react-feather';
 import { connect, useSelector } from 'react-redux'
 import { Button, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';

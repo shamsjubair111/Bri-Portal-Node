@@ -1,5 +1,5 @@
 import { Upload, Modal } from 'antd';
-import "antd/dist/antd.css";
+
 import React, { useState } from 'react';
 import * as Icon from 'react-feather';
 import { useDispatch } from 'react-redux';

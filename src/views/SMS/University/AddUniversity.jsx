@@ -41,7 +41,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
-import "antd/dist/antd.css";
+
 import { Image } from "antd";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import { userTypes } from "../../../constants/userTypeConstant";

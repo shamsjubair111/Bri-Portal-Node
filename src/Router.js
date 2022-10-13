@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react"
 import { Router, Switch, Route } from "react-router-dom"
+
 import { history } from "./history"
 import { connect } from "react-redux"
 import { Redirect } from "react-router-dom"
@@ -8,6 +9,8 @@ import { ContextLayout } from "./utility/context/Layout"
 
 
 import { ToastProvider } from "react-toast-notifications";
+import './assets/CoustomStyle/style.css'
+import './assets/CoustomStyle/pageView.css'
 import AdmissionGetData from "./views/Test/AdmissionGetData"
 
 

@@ -12,7 +12,7 @@ import { commentDataReducer } from '../../../redux/reducers/SMS/DemoReducers'
 import { roleDataReducer } from '../../../redux/reducers/SMS/RoleReducer';
 import rootUrl from '../../../constants/constants'
 import { Select } from 'antd';
-import "antd/dist/antd.css";
+
 
 
 

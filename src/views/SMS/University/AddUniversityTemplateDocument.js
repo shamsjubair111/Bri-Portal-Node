@@ -34,7 +34,7 @@ import get from "../../../helpers/get";
 
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
-import "antd/dist/antd.css";
+
 import { Image } from "antd";
 
 import CustomButtonRipple from "../Components/CustomButtonRipple";

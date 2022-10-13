@@ -27,7 +27,7 @@ import * as Icon from "react-feather";
 import LinkButton from "../Components/LinkButton.js";
 import Form from "../../core/country/pages/form.js";
 import Select from "react-select";
-import "antd/dist/antd.css";
+
 import put from "../../../helpers/put.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
