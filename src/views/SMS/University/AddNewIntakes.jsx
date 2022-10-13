@@ -44,6 +44,9 @@ const AddNewIntakes = () => {
     const [montherror,setMonthError] = useState('');
     const [yearError, setYearError] = useState('');
 
+    
+  const [buttonStatus,setButtonStatus] = useState(false);
+
     const permissions = JSON.parse(localStorage.getItem('permissions')); 
 
 
@@ -98,8 +101,9 @@ const AddNewIntakes = () => {
         }
 
         else{
-
+          setButtonStatus(true);
           post(`Intake/Create`, subData).then(action => {
+            setButtonStatus(false);
             addToast(action?.data?.message, {
                 appearance: 'success',
                 autoDismiss: true,
@@ -188,7 +192,7 @@ const AddNewIntakes = () => {
                            type={"submit"}
                            className={"mr-1 mt-3 badge-primary mx-auto"}
                            name={"Submit"}
-                           
+                           isDisabled={buttonStatus}
                          />
                          :
                          null

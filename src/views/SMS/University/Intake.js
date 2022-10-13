@@ -75,6 +75,8 @@ const Intake = () => {
   const [checkName, setCheckName] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
   const history = useHistory();
@@ -185,7 +187,9 @@ const Intake = () => {
  
 
   const handleDelete = (id) => {
+    setButtonStatus(true);
     const returnValue = remove(`Intake/Delete/${id}`).then((action) => {
+      setButtonStatus(false);
       console.log(action, "kdkfjdfhdhdjhfd");
       setSuccess(!success);
       setDeleteModal(false);
@@ -644,6 +648,7 @@ const Intake = () => {
                             <ModalFooter>
                               {/* onClick={()=>handleDelete(sub?.id)} */}
                               <Button
+                                disabled={buttonStatus}
                                 color="danger"
                                 onClick={() => handleDelete(intakeId)}
                               >

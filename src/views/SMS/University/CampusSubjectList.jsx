@@ -105,6 +105,9 @@ const CampusSubjectList = () => {
   const [checkIntake, setCheckIntake] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+
   const location = useLocation();
   const history = useHistory();
   const { addToast } = useToasts();
@@ -216,8 +219,10 @@ const CampusSubjectList = () => {
   };
 
   const handleDelete = (id) => {
+    setButtonStatus1(true);
     const returnValue = remove(`UniversityCampusSubject/Delete/${id}`).then(
       (action) => {
+        setButtonStatus1(false);
         // console.log(action);
         
         setDeleteModal(false);
@@ -343,7 +348,9 @@ const CampusSubjectList = () => {
     };
 
     if (data?.id != undefined) {
+      setButtonStatus(true);
       put(`UniversityCampusSubject/Update`, subData1).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -369,7 +376,9 @@ const CampusSubjectList = () => {
       if (subValue == 0) {
         setSubError(true);
       } else {
+        setButtonStatus(true);
         post(`UniversityCampusSubject/Create`, subData).then((res) => {
+          setButtonStatus(false);
           console.log(res);
           if (res?.data?.isSuccess == true && res?.status == 200) {
             addToast(res?.data?.message, {
@@ -953,6 +962,7 @@ const CampusSubjectList = () => {
 
                             <ModalFooter>
                               <Button
+                                disabled={buttonStatus1}
                                 color="danger"
                                 onClick={() => handleDelete(subId)}
                               >
@@ -1182,7 +1192,7 @@ const CampusSubjectList = () => {
                     Cancel
                   </Button>
 
-                  <Button.Ripple type="submit" color="primary" className="mt-3">
+                  <Button.Ripple disabled={buttonStatus} type="submit" color="primary" className="mt-3">
                     Submit
                   </Button.Ripple>
                 </FormGroup>

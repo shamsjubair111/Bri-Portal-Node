@@ -39,6 +39,9 @@ const UpdateIntake = () => {
     const [yearId, setYearId] = useState('');
     const [intake, setIntake] = useState({});
     const [year, setYear] = useState([]);
+
+    const [buttonStatus,setButtonStatus] = useState(false);
+
     const history = useHistory();
 
     const permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -101,8 +104,10 @@ const UpdateIntake = () => {
         // for(let i of subData.values()){
         
         // }
+        setButtonStatus(true);
         put(`Intake/Update`, subData).then(action => {
-          console.log(action);
+          setButtonStatus(true);
+          // console.log(action);
           addToast(action?.data?.message, {
             appearance: 'success',
             autoDismiss: true,
@@ -188,7 +193,7 @@ const UpdateIntake = () => {
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary mx-auto"}
                           name={"Update"}
-                          
+                          isDisabled={buttonStatus}
                         />
                         :
                         null

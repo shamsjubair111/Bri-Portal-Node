@@ -107,6 +107,12 @@ const UniversityDetails = () => {
 
   const [delGalName, setDelGalName] = useState("");
   const [delGalId, setDelGalId] = useState(0);
+
+  
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [buttonStatus2,setButtonStatus2] = useState(false);
+
   const userType = localStorage.getItem('userType');
 
 
@@ -234,7 +240,9 @@ const UniversityDetails = () => {
       } else if (unistateValue === 0) {
         setStateError(true);
       } else {
+        setButtonStatus2(true);
         post(`UniversityCampus/Create`, subdata).then((res) => {
+          setButtonStatus2(false);
           setSuccess(!success);
           setModalOpen(false);
           console.log("ressss", res);
@@ -496,8 +504,10 @@ const UniversityDetails = () => {
   };
 
   const handleDeleteItem = (id) => {
+    setButtonStatus1(true);
     const returnValue = remove(`UniversityGallery/Delete/${id}`).then(
       (action) => {
+        setButtonStatus1(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -536,8 +546,10 @@ const UniversityDetails = () => {
       setFileError(true);
     } else {
       setLoading(true);
+      setButtonStatus(true);
       Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
         (res) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setFileList1([]);
           setFileError(false);
@@ -785,6 +797,12 @@ const UniversityDetails = () => {
                                 Delete
                               </Button>
 
+                            </div>
+                          </div>
+                        ))}
+
+                            {/* Gallery view modal starts here */}
+
                               <Modal
                                 size="50%"
                                 isOpen={viewModalOpen}
@@ -839,6 +857,10 @@ const UniversityDetails = () => {
                                 </ModalFooter>
                               </Modal>
 
+                              {/* Gallery view modal ends here */}
+
+                              {/* Gallery delete modal starts here */}
+
                               <Modal
                                 isOpen={deleteModal}
                                 toggle={closeDeleteModal}
@@ -854,6 +876,7 @@ const UniversityDetails = () => {
 
                                 <ModalFooter>
                                   <Button
+                                    disabled={buttonStatus1}
                                     color="danger"
                                     onClick={() => handleDeleteItem(delGalId)}
                                   >
@@ -862,9 +885,9 @@ const UniversityDetails = () => {
                                   <Button onClick={closeDeleteModal}>NO</Button>
                                 </ModalFooter>
                               </Modal>
-                            </div>
-                          </div>
-                        ))}
+
+                              {/* Gallery delete modal ends here */}
+
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -908,6 +931,7 @@ const UniversityDetails = () => {
 
                                 <div className="col-md-3">
                                   <Upload
+                                    accept={"image/png, image/gif, image/jpeg"}
                                     listType="picture-card"
                                     multiple={true}
                                     fileList={FileList1}
@@ -963,6 +987,7 @@ const UniversityDetails = () => {
                                 className={"mr-1 mt-3 badge-primary"}
                                 name={"Save"}
                                 permission={6}
+                                isDisabled = {buttonStatus}
                               />
                             </Col>
                           </FormGroup>
@@ -1453,6 +1478,7 @@ const UniversityDetails = () => {
                               className={"mr-1 mt-3"}
                               name={"Submit"}
                               permission={6}
+                              isDisabled={buttonStatus2}
                             />
                           </FormGroup>
                         </Form>
@@ -1869,7 +1895,11 @@ const UniversityDetails = () => {
                </div> */}
                   </div>
 
-                  <Table className="table-sm table-bordered">
+                  {
+                    appDocument.length < 1 ?
+                    <p>There are no application documents added here.</p>
+                    :
+                    <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>
                         <th>SL/NO</th>
@@ -1906,6 +1936,8 @@ const UniversityDetails = () => {
                       ))}
                     </tbody>
                   </Table>
+                  }
+                  
                 </CardBody>
               </Card>
             </div>
@@ -1927,7 +1959,11 @@ const UniversityDetails = () => {
                </div> */}
                   </div>
 
-                  <Table className="table-sm table-bordered">
+                  {
+                    tempDocument.length < 1 ?
+                    <p>There are no template documents added here.</p>
+                    :
+                    <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>
                         <th>SL/NO</th>
@@ -1963,6 +1999,8 @@ const UniversityDetails = () => {
                       ))}
                     </tbody>
                   </Table>
+                  }
+
                 </CardBody>
               </Card>
             </div>

@@ -81,6 +81,9 @@ const CampusList = (props) => {
   const [checkProg, setCheckProg] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+
   const { addToast } = useToasts();
   const { uniId } = useParams();
 
@@ -221,7 +224,9 @@ const CampusList = (props) => {
       } else if (unistateValue === 0) {
         setStateError(true);
       } else {
+        setButtonStatus(true);
         post(`UniversityCampus/Create`, subdata).then((res) => {
+          setButtonStatus(false);
           setSuccess(!success);
           setModalOpen(false);
           console.log("ressss", res);
@@ -240,7 +245,9 @@ const CampusList = (props) => {
         });
       }
     } else {
+      setButtonStatus(true);
       put(`UniversityCampus/Update`, subdata).then((res) => {
+        setButtonStatus(false);
         if (res.status === 200 && res.data.isSuccess === true) {
           setSubmitData(false);
           addToast(res.data.message, {
@@ -306,8 +313,10 @@ const CampusList = (props) => {
   };
 
   const handleDeletePermission = (id) => {
+    setButtonStatus1(true);
     const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
       (action) => {
+        setButtonStatus1(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -619,8 +628,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>
+                    <Col md="4">
+                      <span className="ml-5">
                         Campus Name <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
@@ -640,8 +649,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>
+                    <Col md="4">
+                      <span className="ml-5">
                         Campus Country <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
@@ -668,8 +677,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>
+                    <Col md="4">
+                      <span className="ml-5">
                         Campus State <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
@@ -691,8 +700,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>
+                    <Col md="4">
+                      <span className="ml-5">
                         Campus City <span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
@@ -712,8 +721,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>
+                    <Col md="4">
+                      <span className="ml-5">
                         Address Line<span className="text-danger">*</span>{" "}
                       </span>
                     </Col>
@@ -733,8 +742,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>Total Student </span>
+                    <Col md="4">
+                      <span className="ml-5">Total Student </span>
                     </Col>
                     <Col md="6">
                       <Input
@@ -752,8 +761,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>International Student </span>
+                    <Col md="4">
+                      <span className="ml-5">International Student </span>
                     </Col>
                     <Col md="6">
                       <Input
@@ -771,8 +780,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>Average Tution Fee </span>
+                    <Col md="4">
+                      <span className="ml-5">Average Tution Fee </span>
                     </Col>
                     <Col md="6">
                       <Input
@@ -790,8 +799,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>Average Living Cost </span>
+                    <Col md="4">
+                      <span className="ml-5">Average Living Cost </span>
                     </Col>
                     <Col md="6">
                       <Input
@@ -809,8 +818,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>Average Application Fee </span>
+                    <Col md="4">
+                      <span className="ml-5">Average Application Fee </span>
                     </Col>
                     <Col md="6">
                       <Input
@@ -828,8 +837,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>Estimated Total Cost </span>
+                    <Col md="4">
+                      <span className="ml-5">Estimated Total Cost </span>
                     </Col>
                     <Col md="6">
                       <Input
@@ -847,8 +856,8 @@ const CampusList = (props) => {
                   </FormGroup>
 
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
-                      <span>Campus on Map </span>
+                    <Col md="4">
+                      <span className="ml-5">Campus on Map </span>
                     </Col>
                     <Col md="6">
                       <Input
@@ -868,7 +877,7 @@ const CampusList = (props) => {
 
                   <FormGroup
                     className="has-icon-left position-relative"
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{ display: "flex", justifyContent: "end" }}
                   >
                     <Button
                       color="danger"
@@ -893,9 +902,10 @@ const CampusList = (props) => {
                     <CustomButtonRipple
                       color={"primary"}
                       type={"submit"}
-                      className={"mr-1 mt-3"}
+                      className={"ml-1 mt-3"}
                       name={"Submit"}
                       permission={6}
+                      isDisabled={buttonStatus}
                     />
                   </FormGroup>
                 </Form>
@@ -1037,6 +1047,7 @@ const CampusList = (props) => {
 
                               <ModalFooter>
                                 <Button
+                                  disabled={buttonStatus1}
                                   color="danger"
                                   onClick={() =>
                                     handleDeletePermission(camppId)
