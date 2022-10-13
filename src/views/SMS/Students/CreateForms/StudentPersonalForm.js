@@ -30,6 +30,7 @@ import { useToasts } from "react-toast-notifications";
 import { rootUrl } from "../../../../constants/constants";
 
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import { SelectUnstyledContext } from "@mui/base";
 
 const StudentPersonalForm = () => {
 
@@ -94,6 +95,7 @@ const StudentPersonalForm = () => {
 
   const [imgError, setImgError] = useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [text,setText] = useState('');
 
   useEffect(() => {
     get("NameTittleDD/index").then((res) => {
@@ -260,6 +262,7 @@ const StudentPersonalForm = () => {
   };
 
 
+ 
 
 
   const handleSubmit = (event) => {
@@ -268,6 +271,7 @@ const StudentPersonalForm = () => {
 
     const subData = new FormData(event.target);
     subData.append("profileImageFile", FileList[0]?.originFileObj);
+    console.log(FileList);
 
    
 
@@ -297,7 +301,11 @@ const StudentPersonalForm = () => {
     else if (FileList?.length < 1 && check) {
       setImgError(true);
     } 
+    else if( FileList[0]?.type !== 'image/jpeg' && FileList[0]?.type !== 'image/jpg' && FileList[0]?.type !== 'image/png'){
+      setText('Only jpeg, jpg, png image is allowed');
+    }
     else {
+      setText('');
       setButtonStatus(true);
       put("Student/Update", subData).then((res) => {
        
@@ -684,9 +692,11 @@ const StudentPersonalForm = () => {
                                 src={previewImage}
                               />
                             </Modal>
+                           
                           </>
                         </div>
                       </div>
+                      <span className="text-danger d-block">{text}</span>
   
                       {imgError ? (
                         <span className="text-danger">
