@@ -42,7 +42,9 @@ const AddUniversitySubjectFee = () => {
     const [sId, setSId] = useState("");
     const [id1, setId] = useState(undefined);
 
-    console.log("id1",id1);
+    const [buttonStatus,setButtonStatus] = useState(false);
+
+    // console.log("id1",id1);
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -103,8 +105,10 @@ const AddUniversitySubjectFee = () => {
      }
 
      if(id1 != undefined){
+      setButtonStatus(true);
       put("SubjectFeeStructure/Update", subdata)
       .then(res=>{
+        setButtonStatus(false);
        if (res.status === 200 && res.data.isSuccess === true) {
            addToast(res?.data?.message, {
              appearance:'success',
@@ -117,12 +121,14 @@ const AddUniversitySubjectFee = () => {
        })
      }
      else{
+      setButtonStatus(true);
       Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': AuthStr,
         },
       }).then((res) => {
+        setButtonStatus(false);
         console.log("post response", res);
         if (res.status === 200 && res.data.isSuccess === true) {
           addToast(res?.data?.message, {
@@ -302,6 +308,7 @@ const AddUniversitySubjectFee = () => {
                     className={"ml-3 mt-3 badge-primary"}    
                     name={"Save"}
                     permission={6}
+                    disable={buttonStatus}
                   />
                   </Col>
                 </FormGroup>

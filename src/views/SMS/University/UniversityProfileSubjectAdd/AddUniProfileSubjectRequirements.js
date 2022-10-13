@@ -41,6 +41,8 @@ const AddUniProfileSubjectRequirements = () => {
   const [requiredRes, setRequiredRes] = useState("");
   const [requiredId, setRequiredId] = useState(0);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+
   const { id, subjId } = useParams();
 
   console.log("requiredId", requiredId);
@@ -119,12 +121,14 @@ const AddUniProfileSubjectRequirements = () => {
     }
     else{
         if(requiredId != undefined){
+          setButtonStatus(true);
           Axios.put(`${rootUrl}SubjectRequirement/Update`, subdata, {
             headers: {
               "Content-Type": "application/json",
               authorization: AuthStr,
             },
           }).then((res) => {
+            setButtonStatus(false);
             if (res.status === 200 && res.data.isSuccess === true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -137,12 +141,14 @@ const AddUniProfileSubjectRequirements = () => {
           });
         }
         else{
+          setButtonStatus(true);
           Axios.post(`${rootUrl}SubjectRequirement/Create`, subdata, {
             headers: {
               "Content-Type": "application/json",
               authorization: AuthStr,
             },
           }).then((res) => {
+            setButtonStatus(false);
             if (res.status === 200 && res.data.isSuccess === true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -308,6 +314,7 @@ const AddUniProfileSubjectRequirements = () => {
                       className={"ml-3 mt-3 badge-primary"}
                       name={"Save"}
                       permission={6}
+                      disable={buttonStatus}
                     />
                   </Col>
                 </FormGroup>

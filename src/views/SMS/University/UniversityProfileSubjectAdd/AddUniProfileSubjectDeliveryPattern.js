@@ -47,6 +47,9 @@ const AddUniProfileSubjectDeliveryPattern = () => {
   const [delPatternName, setDelPatternName] = useState('');
   const [delPatternId, setDelPatternId] = useState(0);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+
   const { id, subjId} = useParams();
 
   useEffect(() => {
@@ -117,12 +120,14 @@ const AddUniProfileSubjectDeliveryPattern = () => {
       setDeliveryError(true);
     } else {
       if (update != 0) {
+        setButtonStatus(true);
         Axios.put(`${rootUrl}SubjectDeliveryPattern/Update`, subdata, {
           headers: {
             "Content-Type": "application/json",
             'authorization': AuthStr,
           },
         }).then((res) => {
+          setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -146,12 +151,14 @@ const AddUniProfileSubjectDeliveryPattern = () => {
           }
         });
       } else {
+        setButtonStatus(true);
         Axios.post(`${rootUrl}SubjectDeliveryPattern/Create`, subdata, {
           headers: {
             "Content-Type": "application/json",
             'authorization': AuthStr,
           },
         }).then((res) => {
+          setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -204,7 +211,9 @@ const closeDeleteModal = () => {
 }
 
 const handleDeleteDeliveryPattern = (id) => {
+  setButtonStatus1(true);
   const returnValue = remove(`SubjectDeliveryPattern/Delete/${id}`).then((action)=> {
+    setButtonStatus1(false);
     setDeleteModal(false);
     setSuccess(!success);
     // console.log(action);
@@ -351,6 +360,7 @@ const onPreviousPage = () => {
                         className={"mr-0 mt-3 badge-primary"}
                         name={"Save"}
                         permission={6}
+                        disable={buttonStatus}
                       />
                     </FormGroup>
                   </Form>
@@ -408,7 +418,7 @@ const onPreviousPage = () => {
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button color="danger" onClick={() => handleDeleteDeliveryPattern(delPatternId)}>YES</Button>
+                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDeliveryPattern(delPatternId)}>YES</Button>
                         <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
