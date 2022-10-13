@@ -317,6 +317,10 @@ const AddProviderUniversityGallery = () => {
                           Delete
                         </Button>
 
+                      </div>
+                    </div>
+                  ))}
+
                         {/* view modal */}
                         <Modal
                           size="50%"
@@ -418,9 +422,7 @@ const AddProviderUniversityGallery = () => {
                             <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
                         </Modal>
-                      </div>
-                    </div>
-                  ))}
+                  
                 </div>
               </div>
               <div className="col-md-4">

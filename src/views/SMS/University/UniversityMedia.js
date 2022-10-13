@@ -5,7 +5,7 @@ import * as Icon from 'react-feather';
 import { useDispatch } from 'react-redux';
 import { StoreUniversityGalleryImageData } from '../../../redux/actions/SMS/UniversityAction/UniversityGalleryImageActions';
 
-const MediaPictures = ({FileList, setFileList, setFileError}) => {
+const MediaPictures = ({FileList, setFileList, setFileError, accept}) => {
 
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
@@ -59,7 +59,7 @@ const MediaPictures = ({FileList, setFileList, setFileError}) => {
     return (
         <>
         <Upload
-         
+          accept={accept}
           listType="picture-card"
           multiple={true}
           fileList={FileList}

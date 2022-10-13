@@ -564,7 +564,7 @@ const AdmissionManagerList = () => {
                 isOpen={modalOpen}
                 toggle={closeModal}
                 className="uapp-modal4"
-                style={{ height: "5px" }}
+                // style={{ height: "5px" }}
                 size="lg"
               >
                 <ModalHeader style={{ backgroundColor: "#1d94ab" }}>

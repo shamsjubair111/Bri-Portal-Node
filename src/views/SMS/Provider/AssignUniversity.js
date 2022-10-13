@@ -64,6 +64,9 @@ const AssignUniversity = () => {
   const [checkType, setCheckType] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
 
+  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
+
   const { providerId, managerId } = useParams();
   const history = useHistory();
   const { addToast } = useToasts();
@@ -162,7 +165,9 @@ const AssignUniversity = () => {
     };
 
     if (selectedId !== undefined) {
+      setButtonStatus(true);
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
+        setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -188,8 +193,10 @@ const AssignUniversity = () => {
       if (uniValue === 0) {
         setUniError(true);
       } else {
+        setButtonStatus(true);
         setSelectedId(undefined);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
+          setButtonStatus(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -221,9 +228,11 @@ const AssignUniversity = () => {
   };
 
   const handleDeletePermission = (managerUniId) => {
+    setButtonStatus1(true);
     const returnValue = remove(
       `AdmissionManagerUniversity/Delete/${managerUniId}`
     ).then((action) => {
+      setButtonStatus1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -638,6 +647,7 @@ const AssignUniversity = () => {
                       className={"mr-1 mt-3"}
                       name={"Submit"}
                       permission={6}
+                      isDisabled={buttonStatus}
                     />
                   </FormGroup>
                 </Form>
@@ -726,15 +736,7 @@ const AssignUniversity = () => {
 
                               <ModalFooter>
                                 <Button
-                                  color="danger"
-                                  onClick={() =>
-                                    handleDeletePermission(managerUniId)
-                                  }
-                                >
-                                  YES
-                                </Button>
-                                <Button
-                                  color="primary"
+                                  // color="primary"
                                   onClick={() => {
                                     setDeleteModal(false);
                                     setManagerUniId(0);
@@ -742,6 +744,16 @@ const AssignUniversity = () => {
                                   }}
                                 >
                                   NO
+                                </Button>
+
+                                <Button
+                                  disabled={buttonStatus1}
+                                  color="danger"
+                                  onClick={() =>
+                                    handleDeletePermission(managerUniId)
+                                  }
+                                >
+                                  YES
                                 </Button>
                               </ModalFooter>
                             </Modal>
