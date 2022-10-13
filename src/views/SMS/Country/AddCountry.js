@@ -268,7 +268,7 @@ const AddCountry = () => {
           className={"btn btn-uapp-add ml-1"}
           func={() => setModalOpen2(true)}
           icon={<i className="fas fa-plus mr-1"></i>}
-          name={"Add From Excel"}
+          name={"Add New Country From Excel"}
           disable={buttonStatus}
           
         />
@@ -408,6 +408,7 @@ const AddCountry = () => {
                     <Col md="3">
                     <>
                           <Upload
+                          accept=".xlsx, .xls"
                             listType="picture-card"
                             multiple={false}
                             fileList={FileList}

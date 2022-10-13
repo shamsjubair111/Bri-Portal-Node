@@ -89,7 +89,7 @@ const StudentProfile = () => {
     };
 
     const handleEditFromProfilePage = (data) =>{
-      console.log('Started Working',data);
+      
       
   
 

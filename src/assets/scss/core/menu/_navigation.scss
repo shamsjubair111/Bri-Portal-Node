@@ -261,6 +261,16 @@
       margin-bottom: 0.25rem;
     }
   }
+
+  .dropdown-bottom-header {
+    border-bottom-left-radius: $dropdown-border-radius;
+    border-bottom-right-radius: $dropdown-border-radius;
+    background-color: #ededed;
+    text-align: center;
+    .dropdown-header h3 {
+      margin-bottom: 0.25rem;
+    }
+  }
 }
 
 // Navigation Themes

@@ -921,8 +921,23 @@ display: flex;
 
 .notification-footer-style{
   background-color: #ededed;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .notification-footer-style:hover{
-  background-color: #fff;
+  background-color: #1e98b0;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
 }
+
+.login-img{
+  background-image: url('../img/Login.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: fit-content;
+  height: fit-content;
+ 
+}
+

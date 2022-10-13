@@ -47,6 +47,8 @@ const AddConsultantType = () => {
 
     // on Close Modal
     const closeModal = () => {
+      setConsultantType('');
+      setConsName('');
       setModalOpen(false);
     }
 
@@ -180,7 +182,7 @@ const AddConsultantType = () => {
           <div>
 
             <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
-              <ModalHeader>Add Consultant Type</ModalHeader>
+              <ModalHeader>Consultant Type</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit} >
                      {

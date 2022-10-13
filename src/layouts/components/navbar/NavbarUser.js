@@ -688,7 +688,7 @@ componentDidMount() {
               {this?.state?.notificationCount}{" "}
             </Badge>
           </DropdownToggle>
-          <DropdownMenu tag="ul" right className="dropdown-menu-media" >
+          <DropdownMenu tag="ul" right className="dropdown-menu-media notification-menu-style" >
             <li className="dropdown-menu-header">
              <div className="d-flex justify-content-between">
              <div className="dropdown-header mt-0">
@@ -745,9 +745,9 @@ componentDidMount() {
              
             </PerfectScrollbar>
             <li className="dropdown-menu-footer">
-              <DropdownItem tag="a" className="p-3 text-center" onClick={()=>this.allNotifications()}>
+              <div className="p-3 notification-footer-style text-center dropdown-bottom-header" onClick={()=>this.allNotifications()}>
                 <span className="align-middle">Read All</span>
-              </DropdownItem>
+              </div>
             </li>
           </DropdownMenu>
         </UncontrolledDropdown>
