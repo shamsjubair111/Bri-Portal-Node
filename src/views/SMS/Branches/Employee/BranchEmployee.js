@@ -124,6 +124,9 @@ const Branch = () => {
       value: em.id,
     }));
     
+    const goBack = () => {
+      history.push(`/branchProfile/${branchId}`);
+    }
     
     const selectEmp = (label, value) => {
     
@@ -648,12 +651,16 @@ const Branch = () => {
             <Col md="6">
               <div className='d-flex justify-content-end'>
 
+                <Button color='danger mt-3 mr-1' onClick={goBack}>
+                  Cancel
+                </Button>
+
              {
 
               permissions?.includes(permissionList?.Add_Branch_Employee) ?
                <Button
                type="submit"
-               className="mr-1 mt-3 badge-primary"
+               className="ml-1 mt-3 badge-primary"
                disabled={buttonStatus}
              >
                Submit

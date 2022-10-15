@@ -88,6 +88,10 @@ const AdmissionManager = () => {
     setPass(e.target.value);
 }
 
+const goBack = () => {
+  history.push(`/providerDetails/${id}`);
+}
+
       
     const searchStateByCountry = (countryValue) => {
         get(`StateDD/Index/${countryValue}`)
@@ -475,11 +479,14 @@ const AdmissionManager = () => {
                   <FormGroup row>
                     <Col md='6'>
                    <div className='d-flex justify-content-end'>
+                    <Button color='danger' className='mr-1 mt-3' onClick={goBack}>
+                      Cancel
+                    </Button>
                    {
                     permissions?.includes(permissionList?.Add_Admission_manager) ?
                     <Button
                         type="submit"
-                        className="mr-1 mt-3 badge-primary"
+                        className="ml-1 mt-3 badge-primary"
                         // onClick={(e)=>handleSubmit(e)}
                         disabled={buttonStatus}
                       >

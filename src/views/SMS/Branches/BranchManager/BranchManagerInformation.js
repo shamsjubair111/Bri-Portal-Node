@@ -344,7 +344,14 @@ setTitleValue(value);
             >
               <Col md="6">
                 <div className="d-flex justify-content-end">
-                <Button.Ripple type="submit" className="mr-1 mt-3 badge-primary">
+
+                  <Button className="mt-3 mr-1" color="danger" onClick={()=>{
+                    history.push(`/branchProfile/${branchId}`)
+                  }}>
+                    Cancel
+
+                  </Button>
+                <Button.Ripple type="submit" className="ml-1 mt-3 badge-primary">
                 Submit
               </Button.Ripple>
                 </div>

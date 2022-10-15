@@ -462,43 +462,43 @@ const Search = () => {
 
 
 
-    const customStyles = {
-      control: (provided, state) => ({
-        ...provided,
-        background: '#fff',
-        borderColor: '#9e9e9e',
-        minHeight: '30px',
-        height: '40px',
-        boxShadow: state.isFocused ? null : null,
+    // const customStyles = {
+    //   control: (provided, state) => ({
+    //     ...provided,
+    //     background: '#fff',
+    //     borderColor: '#9e9e9e',
+    //     minHeight: '30px',
+    //     height: '40px',
+    //     boxShadow: state.isFocused ? null : null,
         
-      }),
+    //   }),
 
-      menu: () => ({
+    //   menu: () => ({
         
-        overflowY: 'auto'
+    //     overflowY: 'auto'
         
-      }),
+    //   }),
      
      
   
-      // valueContainer: (provided, state) => ({
-      //   ...provided,
-      //   height: '30px',
-      //   padding: '0 6px'
-      // }),
+    //   // valueContainer: (provided, state) => ({
+    //   //   ...provided,
+    //   //   height: '30px',
+    //   //   padding: '0 6px'
+    //   // }),
   
-      // input: (provided, state) => ({
-      //   ...provided,
-      //   margin: '0px',
-      // }),
-      // indicatorSeparator: state => ({
-      //   display: 'none',
-      // }),
-      // indicatorsContainer: (provided, state) => ({
-      //   ...provided,
-      //   height: '30px',
-      // }),
-    };
+    //   // input: (provided, state) => ({
+    //   //   ...provided,
+    //   //   margin: '0px',
+    //   // }),
+    //   // indicatorSeparator: state => ({
+    //   //   display: 'none',
+    //   // }),
+    //   // indicatorsContainer: (provided, state) => ({
+    //   //   ...provided,
+    //   //   height: '30px',
+    //   // }),
+    // };
 
 
 
@@ -1142,7 +1142,7 @@ value={programName}
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={uniTypeOptions}
 value={{ label: universityTypeLabel, value: universityTypeValue }}
 name="providerTypeId"
@@ -1156,7 +1156,7 @@ onChange={(opt) => selectUniversityType(opt.label, opt.value)}
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={countryOptions}
 value={{ label: universityCountryLabel, value: universityCountryValue }}
 name="providerTypeId"
@@ -1170,7 +1170,7 @@ onChange={(opt) => selectCountry(opt.label, opt.value)}
 <Select
 className='mt-3' 
 options={stateOptions}
-styles={customStyles}
+// styles={customStyles}
 value={{ label: cityLabel, value: cityValue }}
 name="providerTypeId"
 id="providerTypeId"
@@ -1180,7 +1180,7 @@ onChange={(opt) => selectState(opt.label, opt.value)}
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={universityOptions}
 value={{ label: universityLabel, value: universityValue }}
 name="providerTypeId"
@@ -1194,7 +1194,7 @@ onChange={(opt) => selectUniversity(opt.label, opt.value)}
 
 <Select
 className='mt-3' 
-styles={customStyles}
+// styles={customStyles}
 options={campusOptions}
 value={{ label: campusLabel, value: campusValue }}
 name="providerTypeId"
@@ -1228,7 +1228,7 @@ isDisabled={universityValue == 0 ? true : false}
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={studentTypeOptions}
 value={{ label: studentTypeLabel, value: studentTypeValue }}
 name="providerTypeId"
@@ -1241,7 +1241,7 @@ onChange={(opt) => selectStudentType(opt.label, opt.value)}
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={patternOptions}
 value={{ label: patternLabel, value: patternValue }}
 onChange={(opt) => selectPattern(opt.label, opt.value)}
@@ -1253,7 +1253,7 @@ id="providerTypeId"
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={intakeOptions}
 value={{ label: intakeLabel, value: intakeValue }}
 onChange={(opt) => selectIntake(opt.label, opt.value)}
@@ -1267,7 +1267,7 @@ id="providerTypeId"
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={programLevelOptions}
 value={{ label: programLabel, value: programValue }}
 name="providerTypeId"
@@ -1281,7 +1281,7 @@ onChange={(opt) => selectProgramLevel(opt.label, opt.value)}
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={departmentOptions}
 value={{ label: departmentLabel, value: departmentValue }}
 name="providerTypeId"
@@ -1298,7 +1298,7 @@ onChange={(opt) => selectDepartment(opt.label, opt.value)}
 
 <Select 
 className='mt-3'
-styles={customStyles}
+// styles={customStyles}
 options={subDepartmentOptions}
 value={{ label: subLabel, value: subValue }}
 onChange={(opt) => selectSubDepartment(opt.label, opt.value)}
