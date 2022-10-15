@@ -42,7 +42,7 @@ const EmployeeList = (props) => {
   const history = useHistory();
   const [employeeList, setEmployeeList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [employeeName, setEmployeeName] = useState("Select Employee Type");
+  const [employeeName, setEmployeeName] = useState("Select Staff Type");
   const [employeeId, setEmployeeId] = useState(0);
   const [searchStr, setSearchStr] = useState("");
   const [dataPerPage, setDataPerPage] = useState(15);
@@ -60,7 +60,7 @@ const EmployeeList = (props) => {
   const [success, setSuccess] = useState(false);
 
   const [empList, setEmpList] = useState([]);
-  const [empLabel, setEmpLabel] = useState("Select Employee Type");
+  const [empLabel, setEmpLabel] = useState("Select Staff Type");
   const [empValue, setEmpValue] = useState(0);
   const [data, setData] = useState({});
   const [loading,setLoading] = useState(true);
@@ -196,7 +196,7 @@ const EmployeeList = (props) => {
 
   //  on reset
   const handleReset = () => {
-    setEmpLabel("Select Employee Type");
+    setEmpLabel("Select Staff Type");
     setEmpValue(0);
     setSearchStr("");
     setCurrentPage(1);

@@ -165,11 +165,17 @@ const AddEducationLevel = () => {
               className="has-icon-left position-relative"
               style={{ display: "flex", justifyContent: "end" }}
             >
-              <Col md="5">
+              <Col md="6">
+
+                <Button color="danger" className="mt-3 mr-1" onClick={()=> history.push(`/educationalLevelList`)}>
+                  Cancel
+                </Button>
+
+
                 <ButtonForFunction
                   type={"submit"}
                   name={"Submit"}
-                  className={"mr-1 mt-3 badge-primary"}
+                  className={"ml-1 mt-3 badge-primary"}
                   disable={buttonStatus}
                 />
               </Col>
