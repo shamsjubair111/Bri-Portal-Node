@@ -38,6 +38,8 @@ const ProviderForm = (props) => {
     const [titleError, setTitleError] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
 
+    const [text, setText] = useState('');
+
     
     const providerMenu = providerType.map(providerOptions =>({label:providerOptions.name, value:providerOptions.id}) )
    
@@ -359,7 +361,13 @@ const ProviderForm = (props) => {
                     
 
                     <Col md="10" lg="6">
-                     <ProviderLogo setImageError={setImageError}/>
+                     <ProviderLogo 
+                       setImageError={setImageError}
+                       setText={setText}
+                     />
+
+                     <span className="text-danger d-block">{text}</span>
+
                      {
                       imageError ? 
                       <span className='text-danger'>Image is required</span>

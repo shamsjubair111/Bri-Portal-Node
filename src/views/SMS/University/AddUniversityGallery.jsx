@@ -425,6 +425,9 @@ const AddUniversityGallery = () => {
                           </ModalBody>
 
                           <ModalFooter>
+                            
+                          <Button onClick={closeDeleteModal}>NO</Button>
+                          
                             <Button
                               color="danger"
                               onClick={() =>
@@ -434,7 +437,6 @@ const AddUniversityGallery = () => {
                             >
                               YES
                             </Button>
-                            <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
                         </Modal>
 
@@ -467,7 +469,7 @@ const AddUniversityGallery = () => {
                       <Col md="7">
                         {
                           <MediaPictures
-                            accept={"image/png, image/jpeg"}
+                            accept={"image/png, image/jpeg, image/jpg"}
                             FileList={FileList}
                             setFileList={setFileList}
                             setFileError={setFileError}

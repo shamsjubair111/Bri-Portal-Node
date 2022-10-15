@@ -45,6 +45,8 @@ const BranchManager = () => {
     const [passError, setPassError] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
 
+    const [text, setText] = useState("");
+
    
 
 
@@ -155,9 +157,17 @@ const selectTitle = (label, value) => {
   };
 
  const handleChange = ({ fileList }) => {
-     setFileList(fileList);
+    //  setFileList(fileList);
      setImageError(false);
 
+     if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setText('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setText('');
+    }
     
     
  };
@@ -602,6 +612,9 @@ if(titleValue == 0 ){
        >
          <img alt="example" style={{ width: '100%' }} src={previewImage} />
        </Modal>
+
+       <span className="text-danger d-block">{text}</span>
+
        {
         imageError ? 
         <span className='text-danger'>Image is required</span>

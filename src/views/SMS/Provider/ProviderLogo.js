@@ -12,7 +12,7 @@ import { StoreProviderDataLogoFile } from '../../../redux/actions/SMS/Provider/P
 
 
 
-const  ProviderLogo = ({setImageError}) => {
+const  ProviderLogo = ({setImageError, setText}) => {
 
 
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -58,7 +58,16 @@ const  ProviderLogo = ({setImageError}) => {
 
  const handleChange = ({ fileList }) => {
      setImageError(false);
-     setFileList(fileList);
+    //  setFileList(fileList);
+
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setText('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setText('');
+    }
     
     
  };

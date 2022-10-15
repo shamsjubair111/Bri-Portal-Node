@@ -22,6 +22,7 @@ const AdminProviderForm = () => {
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
     const [imageError, setImageError] = useState(false);
+    const [text, setText] = useState('');
 
     const [emailError, setEmailError] = useState(true);
 
@@ -102,7 +103,16 @@ const handlePreview = async file => {
 
 const handleChange = ({ fileList }) => {
   setImageError(false);
-   setFileList(fileList);
+  //  setFileList(fileList);
+
+  if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    setFileList([]);
+    setText('Only jpeg, jpg, png image is allowed');
+  }
+  else{
+    setFileList(fileList);
+    setText('');
+  }
   
   
 };
@@ -383,6 +393,8 @@ const handlePass = (e) => {
         >
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
+
+        <span className="text-danger d-block">{text}</span>
                  
                  {
                   imageError ? 
