@@ -634,11 +634,17 @@ if(titleValue == 0 ){
                 >
                  <Col md="6">
                   <div className='d-flex justify-content-end'>
+
+                    <Button color='danger' className='mr-1 mt-3' onClick={()=>{
+                      history.push(`/branchProfile/${branchId}`)
+                    }}>
+                        Cancel
+                    </Button>
                   {
                     permissions?.includes(permissionList?.Add_Branch_Manager)?
                     <Button
                     type="submit"
-                    className="mr-1 mt-3 badge-primary"
+                    className="ml-1 mt-3 badge-primary"
                     disabled={buttonStatus}
                   >
                     Submit

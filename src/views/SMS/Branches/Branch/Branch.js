@@ -131,6 +131,10 @@ const Branch = () => {
   
   // };
 
+  const backtoBranchList = () => {
+     history.push('/branchList');
+  }
+
   
   
   const AuthStr = localStorage.getItem("token");
@@ -449,21 +453,20 @@ const Branch = () => {
                 </FormGroup>
 
 
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                ></FormGroup>
-                <FormGroup row
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "end" }}
-                >
+             
                 
-                  <Col md="7">
-                  {
+               <div className='row'>
+
+              <div className='col-md-6 d-flex justify-content-end'>
+                <Button color='danger' className='mr-1 mt-3' onClick={backtoBranchList}>
+                  Cancel
+
+                </Button>
+              {
                     permissions?.includes(permissionList?.Add_Branch) ?
                     <ButtonForFunction 
                     type={"submit"}
-                    className={"mr-1 mt-3 badge-primary"}
+                    className={"ml-1 mt-3 badge-primary"}
                     name={"Submit"}
                     permission={6}
                     disable={buttonStatus}
@@ -471,9 +474,10 @@ const Branch = () => {
                   :
                   null
                   }
-                  </Col>
+              </div>
 
-                </FormGroup>
+               </div>
+
               </Form>
             </TabPane>
           </TabContent>
