@@ -283,7 +283,7 @@ const closeDeleteModal = () => {
 
           <br/>
          
-          <div> <b> Total <span className="badge badge-primary">{universityList.length}</span> University Type Found </b></div>
+          <div> <b> Total <span className="badge badge-primary">{universityList.length}</span> University Types Found </b></div>
         </CardHeader>
         
         <CardBody>

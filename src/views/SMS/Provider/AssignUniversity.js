@@ -273,7 +273,7 @@ const AssignUniversity = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-white">Assigned University</h3>
+          <h3 className="text-white">Assigned University List</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToProviderDetails} className="text-white">
               {" "}
