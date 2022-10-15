@@ -302,6 +302,14 @@ const Department = (props) => {
                         {/* <Button  color="danger" onClick={()=>handleDelete(dept?.id)}   className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
 
                         {/* <Button className="btn-sm mx-2" onClick={() => toggleDanger(dept.name, dept.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
+                        
+                        <ButtonForFunction
+                          func={() => redirectToEditDepartment(dept?.id)}
+                          className={"btn-sm"}
+                          color={"warning"}
+                          icon={<i className="fas fa-edit"></i>}
+                          permission={6}
+                        />
 
                         <ButtonForFunction
                           func={() => toggleDanger(dept.name, dept.id)}
@@ -323,14 +331,6 @@ const Department = (props) => {
                           permission={6}
                         /> */}
 
-                        <ButtonForFunction
-                          func={() => redirectToEditDepartment(dept?.id)}
-                          className={"btn-sm"}
-                          color={"warning"}
-                          icon={<i className="fas fa-edit"></i>}
-                          permission={6}
-                        />
-
                       </ButtonGroup>
 
                       {/* modal for delete */}
@@ -347,15 +347,18 @@ const Department = (props) => {
                         </ModalBody>
 
                         <ModalFooter>
+                          
+                          <Button onClick={closeDeleteModal}>
+                            NO
+                          </Button>
+                          
                           <Button
                             color="danger"
                             onClick={() => handleDelete(depId)}
                           >
                             YES
                           </Button>
-                          <Button color="primary" onClick={closeDeleteModal}>
-                            NO
-                          </Button>
+
                         </ModalFooter>
                       </Modal>
                     </td>

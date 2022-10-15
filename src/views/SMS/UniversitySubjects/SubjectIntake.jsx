@@ -113,7 +113,7 @@ const SubjectIntake = () => {
     if (intakeValue === 0) {
       setIntakeError(true);
     }
-    if (statusValue === 0) {
+    else if (statusValue === 0) {
       setStatusError(true);
     } else {
       setButtonStatus(true);

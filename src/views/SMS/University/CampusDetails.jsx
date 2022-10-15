@@ -1833,7 +1833,7 @@ const CampusDetails = () => {
                   <div>
                     <h5>
                       {" "}
-                      <b>Embeded Map</b>{" "}
+                      <b>Location</b>{" "}
                     </h5>
 
                     <div className="bg-h"></div>

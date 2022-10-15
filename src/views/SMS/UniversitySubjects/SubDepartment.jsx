@@ -443,6 +443,16 @@ const SubDepartment = (props) => {
                         {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger(subDeplist.name, subDeplist.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
                        <ButtonGroup variant="text">
 
+                       <ButtonForFunction
+                          func={() =>
+                            redirectToEditSubDepartment(subDeplist?.id)
+                          }
+                          className={"mx-1 btn-sm"}
+                          color={"warning"}
+                          icon={<i className="fas fa-edit"></i>}
+                          permission={6}
+                        />
+
                         <ButtonForFunction
                           func={() =>
                             toggleDanger(subDeplist.name, subDeplist.id)
@@ -465,16 +475,6 @@ const SubDepartment = (props) => {
                           permission={6}
                         /> */}
 
-                        <ButtonForFunction
-                          func={() =>
-                            redirectToEditSubDepartment(subDeplist?.id)
-                          }
-                          className={"mx-1 btn-sm"}
-                          color={"warning"}
-                          icon={<i className="fas fa-edit"></i>}
-                          permission={6}
-                        />
-
                         </ButtonGroup>
 
                         <Modal
@@ -490,15 +490,18 @@ const SubDepartment = (props) => {
                           </ModalBody>
 
                           <ModalFooter>
+                            
+                            <Button onClick={closeDeleteModal}>
+                              NO
+                            </Button>
+
                             <Button
                               color="danger"
                               onClick={() => handleDeleteSubDep(SubdepId)}
                             >
                               YES
                             </Button>
-                            <Button color="primary" onClick={closeDeleteModal}>
-                              NO
-                            </Button>
+
                           </ModalFooter>
                         </Modal>
                       </td>
