@@ -121,6 +121,12 @@ const AddConsultantInformation = () => {
 
   // Checking Put method
 
+  const [error,setError] = useState('');
+  const [error2,setError2] = useState('');
+  const [error3,setError3] = useState('');
+  const [error4,setError4] = useState('');
+  const [error5,setError5] = useState('');
+
 
 
   useEffect(() => {
@@ -223,7 +229,16 @@ const AddConsultantInformation = () => {
 
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
-    setProfilePicError(false);
+    
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList1([]);
+      setError('Only jpeg, jpg, png image is allowed');
+      setProfilePicError(false);
+    }
+    else{
+      setFileList1(fileList);
+      setError('');
+    }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -260,7 +275,14 @@ const AddConsultantInformation = () => {
   };
 
   const handleChange2 = ({ fileList }) => {
-    setFileList2(fileList);
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList2([]);
+      setError2('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList2(fileList);
+      setError2('');
+    }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -297,8 +319,18 @@ const AddConsultantInformation = () => {
   };
 
   const handleChange3 = ({ fileList }) => {
-    setFileList3(fileList);
-    setIdPassportError(false);
+  
+    
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList3([]);
+      setError3('Only jpeg, jpg, png image is allowed');
+      
+    }
+    else{
+      setFileList3(fileList);
+      setError3('');
+      setIdPassportError(false);
+    }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -335,8 +367,18 @@ const AddConsultantInformation = () => {
   };
 
   const handleChange4 = ({ fileList }) => {
-    setFileList4(fileList);
-    setProofOfAddressError(false);
+    
+    
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList4([]);
+      setError4('Only jpeg, jpg, png image is allowed');
+      
+    }
+    else{
+      setFileList4(fileList);
+      setError4('');
+      setProofOfAddressError(false);
+    }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -373,8 +415,17 @@ const AddConsultantInformation = () => {
   };
 
   const handleChange5 = ({ fileList }) => {
-    setFileList5(fileList);
-    setProofOfRightError('');
+    
+    
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList5([]);
+      setError5('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList5(fileList);
+      setError5('');
+      setProofOfRightError('');
+    }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -1021,6 +1072,7 @@ const AddConsultantInformation = () => {
                         src={previewImage1}
                       />
                     </Modal>
+                    <span className="text-danger d-block">{error}</span>
                   </div>
                 </div>
 
@@ -1084,6 +1136,7 @@ const AddConsultantInformation = () => {
                         src={previewImage2}
                       />
                     </Modal>
+                    <span className="text-danger d-block">{error2}</span>
                   </div>
                 </div>
               </Col>
@@ -1142,6 +1195,7 @@ const AddConsultantInformation = () => {
                         src={previewImage3}
                       />
                     </Modal>
+                    <span className="text-danger d-block">{error3}</span>
                   </div>
                 </div>
 
@@ -1205,6 +1259,7 @@ const AddConsultantInformation = () => {
                         src={previewImage4}
                       />
                     </Modal>
+                    <span className="text-danger d-block">{error4}</span>
                   </div>
                 </div>
 
@@ -1271,6 +1326,7 @@ const AddConsultantInformation = () => {
                           src={previewImage5}
                         />
                       </Modal>
+                      <span className="text-danger d-block">{error5}</span>
                     </div>
                   </div>
 
@@ -1291,12 +1347,7 @@ const AddConsultantInformation = () => {
               className="has-icon-left position-relative"
               style={{ display: "flex", justifyContent: "end" }}
             >
-              {/* <Button.Ripple
-                  type="submit"
-                  className="mr-1 mt-3 badge-primary"
-                >
-                  Submit
-                </Button.Ripple> */}
+            
 
               <Col md="5">
                 <ButtonForFunction

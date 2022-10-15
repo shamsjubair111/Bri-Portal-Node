@@ -96,6 +96,7 @@ const StudentPersonalForm = () => {
   const [imgError, setImgError] = useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
   const [text,setText] = useState('');
+  const [error,setError] = useState('');
 
   useEffect(() => {
     get("NameTittleDD/index").then((res) => {
@@ -179,8 +180,17 @@ const StudentPersonalForm = () => {
   };
 
   const handleChange = ({ fileList }) => {
-    setFileList(fileList);
-    setImgError(false);
+   console.log(fileList);
+   
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setError('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setImgError(false);
+      setError('');
+    }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -703,6 +713,7 @@ const StudentPersonalForm = () => {
                           Profile picture is required
                         </span>
                       ) : null}
+                      <span className="text-danger d-block">{error}</span>
                     </Col>
                   </FormGroup>
   

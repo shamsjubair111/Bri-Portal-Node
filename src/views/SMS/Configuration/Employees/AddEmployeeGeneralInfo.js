@@ -48,6 +48,8 @@ const EmployeeGeneralInfo = (props) => {
     const [titleValue, setTitleValue] = useState(0);
     const [titleError, setTitleError] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
+    const[error,setError] = useState('');
+    const [error2,setError2] = useState('');
     
 
     const [emailError, setEmailError] = useState(true);
@@ -95,26 +97,25 @@ const EmployeeGeneralInfo = (props) => {
         setPreviewTitle(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
     
     
-    
-    
-    
       };
     
      const handleChange = ({ fileList }) => {
-         setFileList(fileList);
-         setDropzoneErrorProfile(false);
+        if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+            setFileList([]);
+            setError('Only jpeg, jpg, png image is allowed');
+          }
+          else{
+            
+            setFileList(fileList);
+            setDropzoneErrorProfile(false);
+            setError('');
+          }
+         
         
         
      };
     
-
-
-
     // Image js code end
-
-
-
-
 
 
     // remove file
@@ -165,6 +166,7 @@ const EmployeeGeneralInfo = (props) => {
         setPass(e.target.value);
     }
 
+    console.log(result1);
 
     // submitting form
     const handleSubmit = (event) => {
@@ -205,8 +207,10 @@ const EmployeeGeneralInfo = (props) => {
             setEmailError(emailError);
           }
 
-        else{
+      
 
+        else{
+            setError2('');
             setButtonStatus(true);
             axios.post(`${rootUrl}Employee/Create`,subData, {
                 headers: {
@@ -542,10 +546,12 @@ const EmployeeGeneralInfo = (props) => {
 
                                         {
                                             dropzoneErrorProfile ?
-                                                <span className='text-danger'>Profile image is required</span>
+                                                <span className='text-danger d-block'>Profile image is required</span>
                                                 :
                                                 null
                                         }
+
+                                        <span className='text-danger'>{error}</span>
 
                                     </Col>
                                 </FormGroup>
@@ -555,36 +561,22 @@ const EmployeeGeneralInfo = (props) => {
                                         <span>Cover Image</span>
                                     </Col>
                                     <Col md="6">
-                                        <CoverPicturesWall />
+                                        <CoverPicturesWall
+                                        error2={error2}
+                                        setError2={setError2}
+                                        />
+                                        <span className='text-danger'>{error2}</span>
 
                                     </Col>
                                 </FormGroup>
 
-                                {/* <FormGroup row className="has-icon-left position-relative">
-                                    <Col md="2">
-                                    <span>Profile Image</span>
-                                    </Col>
-                                    <Col md="6">
-                                    <Input
-                                        type="file"
-                                        name="profileImage"
-                                        id="profileImage"
-                                        required
-                                    />
-                                  
-                                    </Col>
-                                </FormGroup> */}
+                               
 
 
 
                                 <FormGroup row className="has-icon-left position-relative" style={{ display: 'flex', justifyContent: 'end' }}>
 
-                                    {/* <Button.Ripple
-                                    type="submit"
-                                    className="mr-1 mt-3 badge-primary"
-                                    >
-                                    Submit
-                                    </Button.Ripple> */}
+                                  
 
                                     <Col md="6">
 

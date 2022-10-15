@@ -58,6 +58,8 @@ const EmployeeGeneralInfo = (props) => {
   const [exactFile, setExactFile] = useState({});
   const [dropzoneError, setDropzoneError] = useState("");
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [error,setError] = useState('');
+  const [error2,setError2] = useState('');
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -136,6 +138,7 @@ const EmployeeGeneralInfo = (props) => {
  
  
   const  handleCancel = () => {
+  
       setPreviewVisible(false);
   };
 
@@ -161,7 +164,16 @@ const EmployeeGeneralInfo = (props) => {
   };
 
  const handleChange = ({ fileList }) => {
-     setFileList(fileList);
+  console.log(fileList);
+  if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    setFileList([]);
+    setError('Only jpeg, jpg, png image is allowed');
+  }
+  else{
+    setFileList(fileList);
+    setError('');
+  }
+     
     
     
  };
@@ -191,6 +203,8 @@ const EmployeeGeneralInfo = (props) => {
     else if (nationalityValue == 0) {
       setNationalityError("Nationality is Required");
     }
+
+   
      
      else {
       setButtonStatus(true);
@@ -274,10 +288,7 @@ const EmployeeGeneralInfo = (props) => {
               </NavLink>
             </NavItem>
             <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
+              
               <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                 Contact Information
               </NavLink>
@@ -313,9 +324,7 @@ const EmployeeGeneralInfo = (props) => {
                    
                       <span className="text-danger">{employeeError}</span>
                     
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -339,9 +348,7 @@ const EmployeeGeneralInfo = (props) => {
                
                       <span className="text-danger">{nationalityError}</span>
               
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -357,9 +364,7 @@ const EmployeeGeneralInfo = (props) => {
                       defaultValue={userInfo?.firstName}
                       required
                     />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 
@@ -375,9 +380,7 @@ const EmployeeGeneralInfo = (props) => {
                       defaultValue={userInfo.lastName}
                       required
                     />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -393,9 +396,7 @@ const EmployeeGeneralInfo = (props) => {
                       defaultValue={userInfo?.email}
                       required
                     />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
                 </FormGroup>
 
@@ -411,9 +412,7 @@ const EmployeeGeneralInfo = (props) => {
                       defaultValue={userInfo?.phoneNumber}
                       required
                     />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                   
                   </Col>
                 </FormGroup>
 
@@ -468,9 +467,11 @@ const EmployeeGeneralInfo = (props) => {
                 >
                   <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
+                <span className="text-danger d-block">{error}</span>
 
 
                  </div>
+                 
                  </div>
                  
                   </Col>
@@ -493,7 +494,11 @@ const EmployeeGeneralInfo = (props) => {
                     }
                    </div>
                   <div className="ms-0">
-                  <CoverPicturesWall />
+                  <CoverPicturesWall
+                  error2={error2}
+                  setError2={setError2}
+                  />
+                  <span className="text-danger">{error2}</span>
                   </div>
                     </div>
                    
@@ -501,31 +506,13 @@ const EmployeeGeneralInfo = (props) => {
                   </Col>
                 </FormGroup>
 
-                {/* <FormGroup row className="has-icon-left position-relative">
-                                    <Col md="2">
-                                    <span>Profile Image</span>
-                                    </Col>
-                                    <Col md="6">
-                                    <Input
-                                        type="file"
-                                        name="profileImage"
-                                        id="profileImage"
-                                        required
-                                    />
-                                  
-                                    </Col>
-                                </FormGroup> */}
+              
 
                 <FormGroup row
                   className="has-icon-left position-relative"
                   style={{ display: "flex", justifyContent: "end" }}
                 >
-                  {/* <Button.Ripple
-                    type="submit"
-                    className="mr-1 mt-3 badge-primary"
-                  >
-                    Submit
-                  </Button.Ripple> */}
+                
                 
                  <Col md="5">
                    {

@@ -123,6 +123,8 @@ const AddProviderUniversity = () => {
   const [previewVisible2, setPreviewVisible2] = useState(false);
   const [previewImage2, setPreviewImage2] = useState("");
   const [previewTitle2, setPreviewTitle2] = useState("");
+  const [error,setError] = useState('');
+  const [error2,setError2] = useState('');
 
 //   const [providerValue, setProviderValue] = useState(0);
 
@@ -130,15 +132,31 @@ const AddProviderUniversity = () => {
   const referenceId = localStorage.getItem("referenceId");
 
   const handleChange1 = ({ fileList }) => {
-    setFileList1(fileList);
-    setLogoDropzoneError(false);
+  
     console.log(fileList);
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList1([]);
+      setError('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList1(fileList);
+      setLogoDropzoneError(false);
+      setError('');
+    }
   };
 
   const handleChange2 = ({ fileList }) => {
-    setFileList2(fileList);
-    setCoverDropzoneError(false);
+   
     console.log(fileList);
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList2([]);
+      setError2('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList2(fileList);
+      setCoverDropzoneError(false);
+      setError2('');
+    }
   };
 
   function getBase64(file) {
@@ -492,21 +510,24 @@ const AddProviderUniversity = () => {
         history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
       }
       if (tab == "3") {
-        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
+        history.push(`/addProviderUniversityTestScore/${providerProfileId}/${univerId}`);
       }
       if (tab == "4") {
-        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
+        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
       }
       if (tab == "5") {
-        history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
+        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
       }
       if (tab == "6") {
-        history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
+        history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
       }
       if (tab == "7") {
-        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+        history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
       }
       if (tab == "8") {
+        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+      }
+      if (tab == "9") {
         history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
       }
     }
@@ -515,21 +536,24 @@ const AddProviderUniversity = () => {
         history.push(`/addProviderUniversityCampus/${providerProfileId}/${universityId}`);
       }
       if (tab == "3") {
-        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${universityId}`);
+        history.push(`/addProviderUniversityTestScore/${providerProfileId}/${univerId}`);
       }
       if (tab == "4") {
-        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${universityId}`);
+        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${universityId}`);
       }
       if (tab == "5") {
-        history.push(`/addProviderUniversityGallery/${providerProfileId}/${universityId}`);
+        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${universityId}`);
       }
       if (tab == "6") {
-        history.push(`/addProviderUniversityApplicationDocument/${universityId}`);
+        history.push(`/addProviderUniversityGallery/${providerProfileId}/${universityId}`);
       }
       if (tab == "7") {
-        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${universityId}`);
+        history.push(`/addProviderUniversityApplicationDocument/${universityId}`);
       }
       if (tab == "8") {
+        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${universityId}`);
+      }
+      if (tab == "9") {
         history.push(`/addProviderUniversityCommission/${providerProfileId}/${universityId}`);
       }
     }
@@ -608,104 +632,70 @@ const AddProviderUniversity = () => {
               )}
             </NavItem>
 
-            {/* {
-                                    submitData ?
-                                    <NavLink
-                                    active={activetab === '3'}
-                                    onClick={() =>toggle('3')}
-                                    >
-    
-                                    Financial Information
-                                    </NavLink> :
-                                     <NavLink disabled
-                                     active={activetab === '3'}
-                                     >
-     
-                                     Financial Information
-                                     </NavLink>
-
-                                } */}
-
-            {/* <NavItem>
-              <NavLink disabled active={activetab === "3"}>
-                Financial Information
-              </NavLink>
-            </NavItem> */}
-
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                  Financial
+                  Test Score
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "3"}>
-                  Financial
+                  Test Score
                 </NavLink>
               )}
             </NavItem>
 
-            {/* <NavItem>
-              <NavLink disabled active={activetab === "4"}>
-                Features
-              </NavLink>
-            </NavItem> */}
+         
 
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
-                  Features
+                  Financial
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "4"}>
-                  Features
+                  Financial
                 </NavLink>
               )}
             </NavItem>
 
-            {/* <NavItem>
-              <NavLink disabled active={activetab === "5"}>
-                University Gallery
-              </NavLink>
-            </NavItem> */}
+            
 
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                  Gallery
+                  Features
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "5"}>
-                  Gallery
+                  Features
                 </NavLink>
               )}
             </NavItem>
 
-            {/* <NavItem>
-              <NavLink disabled active={activetab === "6"}>
-                Application Document
-              </NavLink>
-            </NavItem> */}
+           
 
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
-                  Application Document
+                  Gallery
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "6"}>
-                  Application Document
+                  Gallery
                 </NavLink>
               )}
             </NavItem>
 
+            
+
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
-                  Template Document
+                  Application Document
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "7"}>
-                  Template Document
+                  Application Document
                 </NavLink>
               )}
             </NavItem>
@@ -713,10 +703,22 @@ const AddProviderUniversity = () => {
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
-                  Commission
+                  Template Document
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "8"}>
+                  Template Document
+                </NavLink>
+              )}
+            </NavItem>
+
+            <NavItem>
+              {submitData || univerId ? (
+                <NavLink active={activetab === "9"} onClick={() => toggle("9")}>
+                  Commission
+                </NavLink>
+              ) : (
+                <NavLink disabled active={activetab === "9"}>
                   Commission
                 </NavLink>
               )}
@@ -1123,6 +1125,7 @@ const AddProviderUniversity = () => {
                         Logo is required
                       </span>
                     )}
+                    <span className="text-danger d-block">{error}</span>
                   </Col>
                 </FormGroup>
 
@@ -1193,6 +1196,7 @@ const AddProviderUniversity = () => {
                         Cover photo is required
                       </span>
                     )}
+                    <span className="text-danger">{error2}</span>
                   </Col>
                 </FormGroup>
 

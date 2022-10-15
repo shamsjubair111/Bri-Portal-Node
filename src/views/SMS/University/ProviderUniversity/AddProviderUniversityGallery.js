@@ -31,7 +31,7 @@ import get from "../../../../helpers/get";
 import remove from "../../../../helpers/remove";
 
 const AddProviderUniversityGallery = () => {
-    const [activetab, setActivetab] = useState("5");
+    const [activetab, setActivetab] = useState("6");
   const [gallery, setGallery] = useState([]);
   const [FileList, setFileList] = useState([]);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -128,21 +128,24 @@ const AddProviderUniversityGallery = () => {
       history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
     }
     if (tab == "3") {
-      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityTestScore/${providerProfileId}/${univerId}`);
     }
     if (tab == "4") {
-      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
     }
     if (tab == "5") {
-      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
     }
     if (tab == "6") {
-      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
     }
     if (tab == "7") {
-      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
     }
     if (tab == "8") {
+      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+    }
+    if (tab == "9") {
       history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
     }
   };
@@ -211,67 +214,55 @@ const AddProviderUniversityGallery = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
+             
               <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                 Campus Information
               </NavLink>
             </NavItem>
 
-            <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
+              <NavItem>
               <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
+                Test Score
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              
+              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
                 Financial
               </NavLink>
             </NavItem>
 
             <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
-              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
+              
+              <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
                 Features
               </NavLink>
             </NavItem>
 
             <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
-              <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
+              
+              <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
                 Gallery
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
+              <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
                 Application Document
               </NavLink>
             </NavItem>
 
             <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
-              <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
+             
+              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
                 Template Document
               </NavLink>
             </NavItem>
 
             <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
-              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+              
+              <NavLink active={activetab === "9"} onClick={() => toggle("9")}>
                 Commission
               </NavLink>
             </NavItem>
@@ -285,9 +276,7 @@ const AddProviderUniversityGallery = () => {
 
                         <div className="bg-h"></div>
                       </div>
-                        {/* <div className="text-right edit-style  p-3" >
-                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                        </div> */}
+                       
 
                     </div>
 

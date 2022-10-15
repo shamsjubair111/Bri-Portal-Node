@@ -97,6 +97,7 @@ const PersonalInformation = () => {
 
   const [imgError, setImgError] = useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [error,setError] = useState(false);
 
   // const dispatch = useDispatch();
 
@@ -237,8 +238,17 @@ const PersonalInformation = () => {
   };
 
   const handleChange = ({ fileList }) => {
-    setFileList(fileList);
-    setImgError(false);
+    
+   
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setError('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setError('');
+      setImgError(false);
+    }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -929,6 +939,7 @@ const PersonalInformation = () => {
                               src={previewImage}
                             />
                           </Modal>
+                           <span className="text-danger d-block">{error}</span>
                         </>
                       </div>
                     </div>
@@ -938,6 +949,7 @@ const PersonalInformation = () => {
                         Profile picture is required
                       </span>
                     ) : null}
+                   
                   </Col>
                 </FormGroup>
 

@@ -51,7 +51,7 @@ const AddProviderUniversityApplicationDocument = () => {
     const { addToast } = useToasts();
   const history = useHistory();
   const {providerProfileId, univerId} = useParams();
-  const [activetab, setActivetab] = useState("6");
+  const [activetab, setActivetab] = useState("7");
 
   const [document, setDocument] = useState([]);
   const [documentLabel, setDocumentLabel] = useState("Select Document");
@@ -143,21 +143,24 @@ const AddProviderUniversityApplicationDocument = () => {
       history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
     }
     if (tab == "3") {
-      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityTestScore/${providerProfileId}/${univerId}`);
     }
     if (tab == "4") {
-      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
     }
     if (tab == "5") {
-      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
     }
     if (tab == "6") {
-      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
     }
     if (tab == "7") {
-      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+      history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
     }
     if (tab == "8") {
+      history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+    }
+    if (tab == "9") {
       history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
     }
   };
@@ -337,57 +340,58 @@ const AddProviderUniversityApplicationDocument = () => {
                 University Information
               </NavLink>
             </NavItem>
+
             <NavItem>
-              {/* <NavLink disabled
-                              active={activetab === '2'}
-                              onClick={() =>toggle('2')}
-                              > */}
+              
               <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
                 Campus Information
               </NavLink>
             </NavItem>
 
             <NavItem>
+              
               <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                Financial
+                Test Score
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
-                Features
+                Financial
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                Gallery
+                Features
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
-                Application Document
+                Gallery
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
-                Template Document
+                Application Document
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
+                Template Document
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink active={activetab === "9"} onClick={() => toggle("9")}>
                 Commission
               </NavLink>
             </NavItem>
 
-            {/* <NavItem>
-              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
-                Required Document
-              </NavLink>
-            </NavItem> */}
+         
           </Nav>
 
           <TabContent activeTab={activetab}>
@@ -399,7 +403,7 @@ const AddProviderUniversityApplicationDocument = () => {
               </div>
             ) : null}
 
-            <TabPane tabId="6">
+            <TabPane tabId="7">
               {showForm === false ? (
                 <>
                   <Form onSubmit={handleSubmit} className="mt-5">

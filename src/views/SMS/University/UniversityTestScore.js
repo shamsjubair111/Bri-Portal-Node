@@ -51,6 +51,7 @@ const UniversityTestScore = () => {
             setData(res);
             setRequired(res?.isTestScoreRequired);
             setIelts(res?.isIeltsMandatory);
+            setScore(res?.score);
             
         })
 
@@ -365,7 +366,7 @@ const UniversityTestScore = () => {
                     <Input
 
                     
-                      type="number"
+                      type="text"
                       name='score'
                       id='score'
                       placeholder='Enter Score'

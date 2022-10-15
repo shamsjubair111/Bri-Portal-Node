@@ -6,13 +6,15 @@ import { useDispatch } from 'react-redux';
 import { StoreEmployeeCoverData } from '../../../../redux/actions/SMS/Employees/EmployeeImageCoverActions';
 
 
-const  CoverPicturesWall = () => {
+const  CoverPicturesWall = (props) => {
 
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [FileList, setFileList] = useState([]);
+  const {error2,setError2} = props;
+
 
   const dispatch = useDispatch();
   
@@ -55,7 +57,14 @@ const  CoverPicturesWall = () => {
   };
 
  const handleChange = ({ fileList }) => {
-     setFileList(fileList);
+  if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    setFileList([]);
+    setError2('Only jpeg, jpg, png image is allowed');
+  }
+  else{
+    setFileList(fileList);
+    setError2('');
+  }
     
     
  };

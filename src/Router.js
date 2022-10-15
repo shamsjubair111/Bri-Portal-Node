@@ -108,6 +108,7 @@ const AddProviderUniversityGallery = lazy(() => import("./views/SMS/University/P
 const AddProviderUniversityApplicationDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityApplicationDocument"))
 const AddProviderUniversityTemplateDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTemplateDocument"))
 const AddProviderUniversityCommission = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityCommission"))
+const AddProviderUniversityTestScore = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTestScore"))
 
 const AddUniversityCampus = lazy(() => import("./views/SMS/University/AddUniversityCampus.jsx"))
 const EditDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditDepartment"))
@@ -774,6 +775,7 @@ class AppRouter extends React.Component {
            <AppRoute  path="/addUniversityCommission/:univerId" component={UniversityCommission} />
            <AppRoute  path="/addUniversityTestScore/:univerId" component={UniversityTestScore} />
            <AppRoute  path="/allNotifications" component={ReadAllNotifiation} />
+           <AppRoute  path="/addProviderUniversityTestScore/:providerProfileId/:univerId" component={AddProviderUniversityTestScore} />
 
 
         <AppRoute  path="/search" component={Search} />
