@@ -50,7 +50,7 @@ const MediaPictures = ({FileList, setFileList, setFileError, accept}) => {
   
    const handleChange = ({ fileList }) => {
        setFileList(fileList);
-       setFileError(false)
+       setFileError(false);
       
    };
   

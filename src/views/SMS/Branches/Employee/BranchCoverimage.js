@@ -7,7 +7,7 @@ import { StoreEmployeeCoverImageData } from '../../../../redux/actions/SMS/Branc
 
 
 
-const  BranchCoverImage = () => {
+const  BranchCoverImage = ({setText1}) => {
 
 
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -56,9 +56,16 @@ const  BranchCoverImage = () => {
   };
 
  const handleChange = ({ fileList }) => {
-     setFileList(fileList);
+    //  setFileList(fileList);
   
-    
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setText1('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setText1('');
+    }
     
  };
 

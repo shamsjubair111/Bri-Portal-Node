@@ -118,12 +118,14 @@ const AddUniversity = (props) => {
   const [previewVisible1, setPreviewVisible1] = useState(false);
   const [previewImage1, setPreviewImage1] = useState("");
   const [previewTitle1, setPreviewTitle1] = useState("");
+  const [logoText, setLogoText] = useState('');
 
   // For uploading university cover image
   const [FileList2, setFileList2] = useState([]);
   const [previewVisible2, setPreviewVisible2] = useState(false);
   const [previewImage2, setPreviewImage2] = useState("");
   const [previewTitle2, setPreviewTitle2] = useState("");
+  const [coverText, setCoverText] = useState('');
 
   const [providerValue, setProviderValue] = useState(0);
 
@@ -131,15 +133,38 @@ const AddUniversity = (props) => {
   const referenceId = localStorage.getItem("referenceId");
 
   const handleChange1 = ({ fileList }) => {
-    setFileList1(fileList);
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList1([]);
+      setLogoText('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList1(fileList);
+      setLogoText('');
+    }
+    // else if(fileList.length < 1){
+    //   setFileList1([]);
+    //   setLogoText('');
+    // }
+    // else{
+    //   return
+    // }
+    
     setLogoDropzoneError(false);
-    console.log(fileList);
+    console.log("fileList", fileList);
   };
 
   const handleChange2 = ({ fileList }) => {
-    setFileList2(fileList);
-    setCoverDropzoneError(false);
-    console.log(fileList);
+    // setFileList2(fileList);
+    // setCoverDropzoneError(false);
+    // console.log(fileList);
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList2([]);
+      setCoverText('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList2(fileList);
+      setCoverText('');
+    }
   };
 
   function getBase64(file) {
@@ -401,17 +426,25 @@ const AddUniversity = (props) => {
       else if (FileList1.length < 1 && check) {
         setLogoDropzoneError(true);
       }
+      // else if( FileList1[0]?.type !== 'image/jpeg' && FileList1[0]?.type !== 'image/jpg' && FileList1[0]?.type !== 'image/png'){
+      //   setLogoText('Only jpeg, jpg, png image is allowed');
+      // }
       // if(FileList1.length>=1 && uniId != undefined ){
       //   setLogoDropzoneError(false);
       // }
       else if (FileList2.length < 1 && check) {
         setCoverDropzoneError(true);
       }
+      // else if( FileList2[0]?.type !== 'image/jpeg' && FileList2[0]?.type !== 'image/jpg' && FileList2[0]?.type !== 'image/png'){
+      //   setCoverText('Only jpeg, jpg, png image is allowed');
+      // }
       // if(FileList2.length>=1 && uniId != undefined)
       // {
       //   setCoverDropzoneError(false);
       // }
       else {
+        setLogoText('');
+        setCoverText('');
         if (uniId != undefined) {
           setButtonStatus(true);
           put("University/Update", subdata, config).then((res) => {
@@ -485,17 +518,25 @@ const AddUniversity = (props) => {
       else if (FileList1.length < 1 && check) {
         setLogoDropzoneError(true);
       }
+      // else if( FileList1[0]?.type !== 'image/jpeg' && FileList1[0]?.type !== 'image/jpg' && FileList1[0]?.type !== 'image/png'){
+      //   setLogoText('Only jpeg, jpg, png image is allowed');
+      // }
       // if(FileList1.length>=1 && uniId != undefined ){
       //   setLogoDropzoneError(false);
       // }
       else if (FileList2.length < 1 && check) {
         setCoverDropzoneError(true);
       }
+      // else if( FileList2[0]?.type !== 'image/jpeg' && FileList2[0]?.type !== 'image/jpg' && FileList2[0]?.type !== 'image/png'){
+      //   setCoverText('Only jpeg, jpg, png image is allowed');
+      // }
       // if(FileList2.length>=1 && uniId != undefined)
       // {
       //   setCoverDropzoneError(false);
       // }
       else {
+        setLogoText('');
+        setCoverText('');
         if (uniId != undefined) {
           setButtonStatus(true);
           put("University/Update", subdata, config).then((res) => {
@@ -1285,7 +1326,8 @@ const AddUniversity = (props) => {
                         </AntdModal>
                       </div>
                     </div>
-
+                    
+                    <span className="text-danger d-block">{logoText}</span>
 
                     {logoDropzoneError && (
                       <span className="text-danger">
@@ -1354,7 +1396,8 @@ const AddUniversity = (props) => {
                         </AntdModal>
                       </div>
                     </div>
-
+                    
+                    <span className="text-danger d-block">{coverText}</span>
                     {/* <CoverPicturesWall/> */}
 
                     {coverDropzoneError && (

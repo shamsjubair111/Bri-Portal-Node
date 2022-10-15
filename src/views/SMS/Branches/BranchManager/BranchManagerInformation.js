@@ -37,6 +37,8 @@ const BranchManagerInformation = () => {
   const [titleLabel,setTitleLabel] = useState('Select');
   const [titleValue,setTitleValue] = useState(0);
 
+  const [text, setText] = useState('');
+
   // const managerImageData = useSelector(
   //   (state) => state?.ManagerImageReducer?.managerImage
   // );
@@ -115,8 +117,16 @@ setTitleValue(value);
   };
 
  const handleChange = ({ fileList }) => {
-     setFileList(fileList);
+    //  setFileList(fileList);
     
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setText('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setText('');
+    }
     
  };
 
@@ -319,6 +329,8 @@ setTitleValue(value);
        >
          <img alt="example" style={{ width: '100%' }} src={previewImage} />
        </Modal>
+
+       <span className="text-danger d-block">{text}</span>
                 </div>
 
                 </div>

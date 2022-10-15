@@ -43,6 +43,9 @@ const Branch = () => {
       const permissions = JSON.parse(localStorage.getItem("permissions"));
       const [buttonStatus,setButtonStatus] = useState(false);
 
+      const [text, setText] = useState("");
+      const [text1, setText1] = useState("");
+
       const employeeProfileImage = useSelector((state) => state?.BranchEmployeeProfileImageReducer?.employeeProfileImage);
       
       const employeeCoverImage = useSelector((state)=> state?.BranchEmployeeCoverImageReducer?.employeeCoverImage);
@@ -580,7 +583,14 @@ const Branch = () => {
               }
             
               <div className='ms-2'>
-              <BranchProfileImage imageError={imageError} setImageError={setImageError} />
+              <BranchProfileImage 
+                imageError={imageError} 
+                setImageError={setImageError}
+                setText={setText} 
+              />
+
+              <span className="text-danger d-block">{text}</span>
+
               {
                 imageError ? 
                 <span className='text-danger'>Profile image is required</span>
@@ -614,7 +624,12 @@ const Branch = () => {
               }
 
               <div className='ms-2'>
-              <BranchCoverImage/>
+              <BranchCoverImage
+                setText1={setText1}
+              />
+
+              <span className="text-danger d-block">{text1}</span>
+
               </div>
 
               </div>

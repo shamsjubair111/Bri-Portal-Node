@@ -8,7 +8,7 @@ import { StoreEmployeeProfileImageData } from '../../../../redux/actions/SMS/Bra
 
 
 const  BranchProfileImage = (props) => {
-  const {imageError, setImageError} = props;
+  const {imageError, setImageError, setText} = props;
 
 
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -58,9 +58,16 @@ const  BranchProfileImage = (props) => {
 
  const handleChange = ({ fileList }) => {
       setImageError(false);
-     setFileList(fileList);
+    //  setFileList(fileList);
     
-    
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setText('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setText('');
+    }
     
  };
 

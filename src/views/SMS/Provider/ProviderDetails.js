@@ -88,6 +88,8 @@ const ProviderDetails = () => {
   const [FileList, setFileList] = useState([]);
   const [buttonStatus,setButtonStatus] = useState(false);
 
+  const [text, setText] = useState('');
+
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
   useEffect(() => {
@@ -169,7 +171,17 @@ const ProviderDetails = () => {
   };
 
   const handleChange = ({ fileList }) => {
-    setFileList(fileList);
+    // setFileList(fileList);
+
+    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+      setFileList([]);
+      setText('Only jpeg, jpg, png image is allowed');
+    }
+    else{
+      setFileList(fileList);
+      setText('');
+    }
+
   };
 
   const backToDashboard = () => {
@@ -407,6 +419,9 @@ const ProviderDetails = () => {
                           src={previewImage}
                         />
                       </Modal>
+
+                      <span className="text-danger d-block">{text}</span>
+
                     </>
                   </div>
                 </div>
@@ -724,8 +739,14 @@ const ProviderDetails = () => {
             
 
             <Card className="p-3">
-              <h6> Notice</h6>
-              <span className="bg-wg bg-width"></span>
+              {/* <h6> Notice</h6>
+              <span className="bg-wg bg-width"></span> */}
+
+              <div className="ms-3 mb-1 hedding-titel">
+                <h5> <b>Notice</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
 
               <div className="notice-item card-widget mt-3 ">
                 <div className="notice-titel">

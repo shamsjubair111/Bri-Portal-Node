@@ -389,7 +389,7 @@ const DocumentGroup = () => {
               toggle={closeModal}
               className="uapp-modal2"
             >
-              <ModalHeader>Add Document Group</ModalHeader>
+              <ModalHeader>Document Group</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   {updateDocumentId != undefined ? (
