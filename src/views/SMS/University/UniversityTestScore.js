@@ -118,7 +118,7 @@ const UniversityTestScore = () => {
         const subData  = new FormData(event.target);
 
         subData.append('isTestScoreRequired',required);
-        subData.append('isIeltsMandatory',ielts);
+        subData.append('isIeltsMandatory',data == null ? false : ielts);
 
         if(data?.id){
             put(`TestScoreRequirement/Update`,subData)
