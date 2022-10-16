@@ -475,7 +475,7 @@ const Applications = () => {
     entity,
     serialNumber,
     // loading,
-    callApi
+    // callApi
   ]);
 
   // for all dropdown
