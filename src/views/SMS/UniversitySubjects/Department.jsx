@@ -51,6 +51,8 @@ const Department = (props) => {
   const [depId, setDepId] = useState(0);
   const [depName, setDepName] = useState("");
   const [loading,setLoading] = useState(true);
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [buttonStatus1, setButtonStatus1] = useState(false);
 
   const [id, setId] = useState("");
 
@@ -80,10 +82,12 @@ const Department = (props) => {
       name: department,
       description: description,
     };
+
+    setButtonStatus(true);
     post(`Department/Create`, subdata).then((res) => {
       setSuccess(!success);
       setModalOpen(false);
-       
+      setButtonStatus(false); 
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -109,7 +113,9 @@ const Department = (props) => {
   };
 
   const handleDelete = (id) => {
+    setButtonStatus1(true);
     remove(`Department/Delete/${id}`).then((res) => {
+      setButtonStatus1(false);
       setDeleteModal(false);
       addToast(res, {
         appearance: "error",
@@ -266,6 +272,7 @@ const Department = (props) => {
         localStorage.getItem("updatedep") ?
           <Button color="warning" onClick={handleUpdateSubmit}  className="mr-1 mt-3">Update</Button> : */}
                     <Button.Ripple
+                      disabled={buttonStatus}
                       color="primary"
                       type="submit"
                       className="mr-1 mt-3"
@@ -302,6 +309,14 @@ const Department = (props) => {
                         {/* <Button  color="danger" onClick={()=>handleDelete(dept?.id)}   className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
 
                         {/* <Button className="btn-sm mx-2" onClick={() => toggleDanger(dept.name, dept.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
+                        
+                        <ButtonForFunction
+                          func={() => redirectToEditDepartment(dept?.id)}
+                          className={"btn-sm"}
+                          color={"warning"}
+                          icon={<i className="fas fa-edit"></i>}
+                          permission={6}
+                        />
 
                         <ButtonForFunction
                           func={() => toggleDanger(dept.name, dept.id)}
@@ -323,14 +338,6 @@ const Department = (props) => {
                           permission={6}
                         /> */}
 
-                        <ButtonForFunction
-                          func={() => redirectToEditDepartment(dept?.id)}
-                          className={"btn-sm"}
-                          color={"warning"}
-                          icon={<i className="fas fa-edit"></i>}
-                          permission={6}
-                        />
-
                       </ButtonGroup>
 
                       {/* modal for delete */}
@@ -347,15 +354,19 @@ const Department = (props) => {
                         </ModalBody>
 
                         <ModalFooter>
+                          
+                          <Button onClick={closeDeleteModal}>
+                            NO
+                          </Button>
+                          
                           <Button
                             color="danger"
                             onClick={() => handleDelete(depId)}
+                            disabled={buttonStatus1}
                           >
                             YES
                           </Button>
-                          <Button color="primary" onClick={closeDeleteModal}>
-                            NO
-                          </Button>
+
                         </ModalFooter>
                       </Modal>
                     </td>

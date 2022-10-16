@@ -146,7 +146,7 @@ const AddConsultantType = () => {
             <div>
                <Card className='uapp-card-bg'>
               <CardHeader className="page-header">              
-                <h3 className="text-white">Consultant Type</h3>
+                <h3 className="text-white">Consultant Types</h3>
                   <div className="page-header-back-to-home">
                   <span onClick={backToDashboard} className="text-white">
                     {" "} 
