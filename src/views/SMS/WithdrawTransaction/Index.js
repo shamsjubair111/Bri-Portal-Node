@@ -553,7 +553,7 @@ const toggle1 = () => {
             <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
                  func={()=> setModal2Open(true)} 
-                 name={' Add New Withdatw Transaction'}
+                 name={' Add New Withdraw Transaction'}
                  
                  ></ButtonForFunction>
 
@@ -692,7 +692,7 @@ const toggle1 = () => {
                      
                      
                      
-                      <td style={{ width: "15%" }} className="text-center">
+                      <td className="text-center">
                         <ButtonGroup variant="text">
                        
 
