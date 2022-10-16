@@ -559,8 +559,8 @@ const ApplicationsCommon = () => {
           <h3 className="text-white">Applications</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
-              {" "}
-              "Back to Dashboard"
+            <i className="fas fa-arrow-circle-left"></i>{" "}
+              Back to Dashboard
             </span>
           </div>
         </CardHeader>
