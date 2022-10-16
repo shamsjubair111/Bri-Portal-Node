@@ -51,6 +51,8 @@ const Department = (props) => {
   const [depId, setDepId] = useState(0);
   const [depName, setDepName] = useState("");
   const [loading,setLoading] = useState(true);
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [buttonStatus1, setButtonStatus1] = useState(false);
 
   const [id, setId] = useState("");
 
@@ -80,10 +82,12 @@ const Department = (props) => {
       name: department,
       description: description,
     };
+
+    setButtonStatus(true);
     post(`Department/Create`, subdata).then((res) => {
       setSuccess(!success);
       setModalOpen(false);
-       
+      setButtonStatus(false); 
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -109,7 +113,9 @@ const Department = (props) => {
   };
 
   const handleDelete = (id) => {
+    setButtonStatus1(true);
     remove(`Department/Delete/${id}`).then((res) => {
+      setButtonStatus1(false);
       setDeleteModal(false);
       addToast(res, {
         appearance: "error",
@@ -266,6 +272,7 @@ const Department = (props) => {
         localStorage.getItem("updatedep") ?
           <Button color="warning" onClick={handleUpdateSubmit}  className="mr-1 mt-3">Update</Button> : */}
                     <Button.Ripple
+                      disabled={buttonStatus}
                       color="primary"
                       type="submit"
                       className="mr-1 mt-3"
@@ -355,6 +362,7 @@ const Department = (props) => {
                           <Button
                             color="danger"
                             onClick={() => handleDelete(depId)}
+                            disabled={buttonStatus1}
                           >
                             YES
                           </Button>

@@ -150,7 +150,7 @@ const ConsultantByConsultant = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-white">Consultant list</h3>
+          <h3 className="text-white">Consultants list</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}

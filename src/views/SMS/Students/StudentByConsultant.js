@@ -38,6 +38,7 @@ import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToX
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import put from "../../../helpers/put.js";
+import ToggleSwitch from "../Components/ToggleSwitch.js";
 
 const StudentByConsultant = () => {
   const [serialNum, setSerialNum] = useState(1);
@@ -203,7 +204,7 @@ const StudentByConsultant = () => {
 
     put(`Student/UpdateAccountStatus/${id}`, subData)
     .then(res => {
-      if(res?.status ==200){
+      if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
           appearance:'success',
           autoDismiss: true
@@ -211,6 +212,12 @@ const StudentByConsultant = () => {
         setSuccess(!success);
         // setPassData({});
         // setPassModal(false);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
     })
   }
@@ -298,7 +305,7 @@ const StudentByConsultant = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
+              <i className="fas fa-arrow-circle-left"></i> Back to Consultants List
             </span>
           </div>
         </CardHeader>
@@ -751,7 +758,7 @@ const StudentByConsultant = () => {
 
                       {checkBlackList ? (
                         <td>
-                          <label className="switch">
+                          {/* <label className="switch">
                             <input
                               type="checkbox"
                               defaultChecked={
@@ -766,7 +773,21 @@ const StudentByConsultant = () => {
                               }}
                             />
                             <span className="slider round"></span>
-                          </label>
+                          </label> */}
+
+                          <ToggleSwitch 
+                              defaultChecked={
+                                student?.blacklisted == null
+                                  ? false
+                                  : student?.blacklisted == false
+                                  ? false
+                                  : true
+                              }
+                              onChange={(e) => {
+                                handleBlacklist(e, student?.id);
+                              }}
+                          />
+
                         </td>
                       ) : null}
 

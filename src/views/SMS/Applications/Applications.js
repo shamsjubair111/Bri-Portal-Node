@@ -418,7 +418,7 @@ const Applications = () => {
         var consultant = commonConsultantDD?.find((s) => s.id === parseInt(consId));
 
         if (consultant === undefined) {
-          // setConsultantLabel("Consultant");
+          setConsultantLabel("Consultant");
         } else {
           setConsultantLabel(consultant?.name);
           setConsultantValue(consId);
@@ -475,6 +475,7 @@ const Applications = () => {
     entity,
     serialNumber,
     // loading,
+    callApi
   ]);
 
   // for all dropdown

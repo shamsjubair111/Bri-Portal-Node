@@ -161,7 +161,7 @@ const ConsultantList = () => {
     get(
       `Consultant/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&searchstring=${searchStr}`
     ).then((res) => {
-      console.log("consultant List", res);
+      console.log("consultants List", res);
       setConsultantList(res?.models);
       setSerialNum(res?.firstSerialNumber);
       setEntity(res?.totalEntity);
@@ -340,7 +340,7 @@ const ConsultantList = () => {
         <>
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-white">Consultant List</h3>
+          <h3 className="text-white">Consultants List</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}

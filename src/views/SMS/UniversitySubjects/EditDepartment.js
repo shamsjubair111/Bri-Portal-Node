@@ -24,6 +24,7 @@ const EditDepartment = () => {
   const { addToast } = useToasts();
   const [department, setdepartment] = useState("");
   const [description, setDescription] = useState("");
+  const [buttonStatus, setButtonStatus] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -48,8 +49,9 @@ const EditDepartment = () => {
       name: department,
       description: description,
     };
-   
+    setButtonStatus(true);
     put(`Department/Update`, subData).then((res) => {
+      setButtonStatus(false);
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -130,6 +132,7 @@ const EditDepartment = () => {
                       type={"submit"}
                       className={"mr-0 mt-3"}
                       name={"Submit"}
+                      isDisabled={buttonStatus}
                     />
                   ) : null}
                 </Col>

@@ -58,6 +58,9 @@ const SubDepartment = (props) => {
 
   const [description, setDescription] = useState("");
 
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [buttonStatus1, setButtonStatus1] = useState(false);
+
   useEffect(() => {
     const returnValue = get(`DepartmentDD/Index`).then((action) => {
       setdepartmentList(action);
@@ -103,7 +106,9 @@ const SubDepartment = (props) => {
     if (departmentValue === 0) {
       setDepartmentError(true);
     } else {
+      setButtonStatus(true);
       post(`SubDepartment/Create`, subdata).then((action) => {
+        setButtonStatus(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -137,7 +142,9 @@ const SubDepartment = (props) => {
   };
 
   const handleDeleteSubDep = (id) => {
+    setButtonStatus1(true);
     const returnValue = remove(`SubDepartment/Delete/${id}`).then((action) => {
+      setButtonStatus1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -413,6 +420,7 @@ const SubDepartment = (props) => {
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
+                        disabled={buttonStatus}
                       >
                         Submit
                       </Button.Ripple>
@@ -498,6 +506,7 @@ const SubDepartment = (props) => {
                             <Button
                               color="danger"
                               onClick={() => handleDeleteSubDep(SubdepId)}
+                              disabled={buttonStatus1}
                             >
                               YES
                             </Button>

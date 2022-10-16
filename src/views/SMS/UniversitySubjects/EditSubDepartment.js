@@ -21,7 +21,8 @@ const EditSubDepartment = () => {
     const {addToast} = useToasts();
     const permissions = JSON.parse(localStorage.getItem("permissions"));
    
-    const [uid,setUid] = useState();
+    const [uid, setUid] = useState();
+    const [buttonStatus, setButtonStatus] = useState(false);
 
     useEffect(()=>{
         get(`Department/Index`).then((action)=>{
@@ -69,9 +70,10 @@ const EditSubDepartment = () => {
       const handleSubmit = (e) => {
           e.preventDefault();
           const subData = new FormData(e.target);
-
+          setButtonStatus(true);
           put('SubDepartment/Update',subData)
           .then(res => {
+            setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
                 appearance: 'success',
@@ -188,6 +190,7 @@ const EditSubDepartment = () => {
            className={"mr-1 mt-3"}
            name={"Submit"}
            permission={6}
+           isDisabled={buttonStatus}
          />
          :
          null

@@ -177,6 +177,8 @@ const SubjectIntake = () => {
     setIntakeValue(0);
     setStatusLabel("Select Status");
     setStatusValue(0);
+    setIntakeError(false);
+    setStatusError(false);
   }
 
   return (

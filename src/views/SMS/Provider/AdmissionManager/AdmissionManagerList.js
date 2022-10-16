@@ -1038,7 +1038,7 @@ const AdmissionManagerList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Assign university</p>
+                          <p className="">Assigned university</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -1138,7 +1138,7 @@ const AdmissionManagerList = () => {
                     {/* <th>Duration</th> */}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone No</th> : null}
-                    {checkAssign ? <th>Assign University</th> : null}
+                    {checkAssign ? <th>Assigned University</th> : null}
                     {checkAppli ? <th>Applications</th> : null}
                     {checkSts ? <th>Account Status</th> : null}
                     {/* <th>Intakes</th> */}

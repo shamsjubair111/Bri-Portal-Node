@@ -188,7 +188,7 @@ const ConsultantProfile = () => {
               {
                   !(userTypeId == userTypes?.Consultant)?
                   <div className="page-header-back-to-home" >
-                <span onClick={backToConsultantList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Consultant List</span>
+                <span onClick={backToConsultantList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Consultants List</span>
               </div>
               :
               null
@@ -785,8 +785,12 @@ const ConsultantProfile = () => {
 
             <Card className="p-3">
 
-                <h6> Notice</h6>
-                <span className="bg-wg bg-width"></span>
+                {/* <h6> Notice</h6>
+                <span className="bg-wg bg-width"></span> */}
+                <div className="hedding-titel mb-1">
+                  <h5> <b>Notice</b> </h5>
+                  <div className="bg-h"></div>
+                </div>
            
             
                   <div className="notice-item card-widget mt-3 ">
