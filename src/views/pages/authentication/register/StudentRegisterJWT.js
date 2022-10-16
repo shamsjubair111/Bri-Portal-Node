@@ -21,6 +21,8 @@ const  StudentRegisterJWT = () => {
 
   const [studentLabel, setStudentLabel] = useState('Student Type');
   const [studentValue, setStudentValue] = useState(0);
+  const [type,setType] = useState('');
+  const [title,setTitle] = useState('');
 
 
 
@@ -57,13 +59,23 @@ const   handleRegister = (e) => {
     e.preventDefault()
  
  
-
-
   }
+
+  const handleDisability = (event) => {
+    console.log(event.target.value);
+    setType(event.target.value);
+}
+
+  const handleTitle = (event) => {
+    console.log(event.target.value);
+    setTitle(event.target.value);
+}
   
 
 
     return (
+
+      <>
       <Form  onSubmit={handleRegister}>
 
 
@@ -77,17 +89,93 @@ const   handleRegister = (e) => {
 
 
         <FormGroup className="form-label-group">
-        <Select
+        {/* <Select
         options={studentOptions}
        value={{ label: studentLabel, value: studentValue }}
        onChange={(opt) => selectStudent(opt.label, opt.value)}
          
           name="CampusCountryId"
           id="CampusCountryId"
-        />
+        /> */}
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="3">
+            <span style={{fontWeight: '500'}}>
+              Student Type
+            </span>
+          </Col>
+          <Col md="6">
+
+          
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isHaveDisability" onChange={handleDisability} name="isHaveDisability" value='1' checked={type == '1'} />
+          <Label className="form-check-label" check htmlFor="isHaveDisability" >Home</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isHaveDisability" onChange={handleDisability} name="isHaveDisability" value='2' checked={type == '2'} />
+          <Label className="form-check-label" check htmlFor="isHaveDisability">EU/EEA</Label>
+
+          </FormGroup>
+          
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isHaveDisability" onChange={handleDisability} name="isHaveDisability" value='3' checked={type == '3'} />
+          <Label className="form-check-label" check htmlFor="isHaveDisability">International</Label>
+
+          </FormGroup>
+
+
+
+          
+          </Col>
+        </FormGroup>
+
+          <FormGroup row className="has-icon-left position-relative">
+          <Col md="3">
+            <span style={{fontWeight: '500'}}>
+             Title
+            </span>
+          </Col>
+          <Col md="6">
+
+          
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='1' checked={title == '1'} />
+          <Label className="form-check-label" check htmlFor="title" >Mr.</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='2' checked={title == '2'} />
+          <Label className="form-check-label" check htmlFor="title">Miss</Label>
+
+          </FormGroup>
+          
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='3' checked={title == '3'} />
+          <Label className="form-check-label" check htmlFor="title">Ms.</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='4' checked={title == '4'} />
+          <Label className="form-check-label" check htmlFor="title">Mrs.</Label>
+
+          </FormGroup>
+
+
+
+          
+          </Col>
+        </FormGroup>
         
         </FormGroup>
-        <FormGroup className="form-label-group">
+
+          <div className="row gx-0">
+
+            <div className="col-md-6">
+            <FormGroup className="form-label-group">
           <Input
             type="text"
             placeholder="First Name"
@@ -97,7 +185,11 @@ const   handleRegister = (e) => {
           />
         
         </FormGroup>
-        <FormGroup className="form-label-group">
+
+            </div>
+
+            <div className="col-md-6">
+            <FormGroup className="form-label-group">
           <Input
             type="text"
             placeholder="Last Name"
@@ -107,6 +199,13 @@ const   handleRegister = (e) => {
           />
       
         </FormGroup>
+
+            </div>
+
+
+        </div>
+       
+       
         <FormGroup className="form-label-group">
           <Input
             type="email"
@@ -141,21 +240,25 @@ const   handleRegister = (e) => {
         
         </FormGroup>
         
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-end">
 
 
-        <div>
-        <Link to="/" style={{ textDecoration: 'none'}}>Already Have an Account? Login</Link>
-        </div>
+       
 
        <div>
-       <Button.Ripple className="uapp-submit-btn" color="primary" type="submit">
+       <Button className="" color="primary" type="submit">
        Register
-     </Button.Ripple>
+     </Button>
        </div>
   
         </div>
       </Form>
+
+      <div className="text-center mt-3">
+        <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
+        </div>
+
+      </>
     )
   }
 

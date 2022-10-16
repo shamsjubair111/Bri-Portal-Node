@@ -44,7 +44,7 @@ class ProviderRegister extends React.Component {
         <div className="responsive-top">
         <Row className="m-0">
         <Col lg="6" md="6" className="hide-responsive-left-side px-1 py-0">
-                <div className="flexbox-container" style={{ backgroundColor:"#EAF6F9" }}>
+                <div className="flexbox-container provider-register-img">
                 <div>
                 <img src={UappLogo} className='w-50 mt-5 ms-5' />
                 </div>

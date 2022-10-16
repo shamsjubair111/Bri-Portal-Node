@@ -54,7 +54,7 @@ class StudentLogin extends React.Component {
                 <div className="flexbox-container login-img">
 
                 <div>
-                <img src={UappLogo} className='w-50 mt-5 ms-5' />
+                <img src={UappLogo} className='w-50 mt-5' />
                 </div>
              
                 </div>
@@ -62,7 +62,7 @@ class StudentLogin extends React.Component {
               </Col>
               <Col lg="6" md="6">
 
-              <div  className=" mt-md-5 ms-md-4">
+              <div  className=" mt-md-5 ml-md-4">
 
               <h4 className="" style={{color: '#111111', fontSize: '38px', fontWeight:'500'}}>Login</h4>
               <span style={{color:'#7f7f7f', fontSize: '18px', fontWeight:'500'}}>Log in to continue in our website</span>

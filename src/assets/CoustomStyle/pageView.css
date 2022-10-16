@@ -941,3 +941,35 @@ display: flex;
  
 }
 
+.student-register-img{
+  background-image: url('../img/Studentregister.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: fit-content;
+  height: fit-content;
+ 
+}
+
+.consultant-register-img{
+  background-image: url('../img/Cinsultant.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: fit-content;
+  height: fit-content;
+ 
+}
+
+.provider-register-img{
+  background-image: url('../img/provider.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: fit-content;
+  height: fit-content;
+  
+  
+
+ 
+}
+
+
+

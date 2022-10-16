@@ -319,6 +319,9 @@ const AddEducationLevel = lazy(() => import("./views/SMS/EducationLevel/AddEduca
 const DegreeList = lazy(() => import("./views/SMS/Degree/DegreeList"))
 const AddDegree = lazy(() => import("./views/SMS/Degree/AddDegree"))
 
+// Seed Data
+
+const SeedData = lazy(() => import("./views/SMS/SeedData/Index"));
 
 
 
@@ -780,6 +783,10 @@ class AppRouter extends React.Component {
 
         <AppRoute  path="/search" component={Search} />
 
+        {/* Seed Data path */}
+        <AppRoute  path="/seedData" component={SeedData} />
+
+
          <AppRoute  path="/500" component={InternalServerError} />
 
          <AppRoute  path="/notAuthorized" component={NotAuthorized} />
@@ -831,9 +838,9 @@ class AppRouter extends React.Component {
       
          <AppRoute exact path="/" component={StudentLogin} fullLayout />
 
-         <AppRoute path="/pages/studentRegister" component={StudentRegister} fullLayout />
-         <AppRoute path="/pages/consultantRegister" component={ConsultantRegister} fullLayout />
-         <AppRoute path="/pages/providerRegister" component={ProviderRegister} fullLayout />
+         <AppRoute path="/studentRegister" component={StudentRegister} fullLayout />
+         <AppRoute path="/consultantRegister" component={ConsultantRegister} fullLayout />
+         <AppRoute path="/providerRegister" component={ProviderRegister} fullLayout />
        
 
          <AppRoute

@@ -192,17 +192,17 @@ class Login extends React.Component {
 
 
           <div className="d-flex">
-          <Link to='/pages/studentRegister' style={{color:'#72C1FF', fontSize: '13px', marginRight: '20px', fontWeight: '400'  }}>Student</Link>
+          <Link to='/studentRegister' style={{color:'#72C1FF', fontSize: '13px', marginRight: '20px', fontWeight: '400'  }}>Student</Link>
 
           <br />
 
 
-          <Link to='/pages/consultantRegister' style={{ color:'#7F7F7F', fontSize: '13px', fontWeight: '400', marginRight: '20px', textDecoration: 'none'}}> Consultant</Link>
+          <Link to='/consultantRegister' style={{ color:'#7F7F7F', fontSize: '13px', fontWeight: '400', marginRight: '20px', textDecoration: 'none'}}> Consultant</Link>
 
           <br />
 
 
-          <Link to='/pages/providerRegister' style={{ color:'#7F7F7F', fontSize: '13px', fontWeight: '400', textDecoration: 'none'}}> Provider</Link>
+          <Link to='/providerRegister' style={{ color:'#7F7F7F', fontSize: '13px', fontWeight: '400', textDecoration: 'none'}}> Provider</Link>
           </div>
 
           <br/>

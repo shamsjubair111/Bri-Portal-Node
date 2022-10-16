@@ -44,7 +44,7 @@ class ConsultantRegister extends React.Component {
         <div className="responsive-top">
         <Row className="m-0">
         <Col lg="6" md="6" className="hide-responsive-left-side px-1 py-0">
-                <div className="flexbox-container" style={{ backgroundColor:"#EAF6F9" }}>
+                <div className="flexbox-container consultant-register-img">
                 <div className="">
                 <img src={UappLogo} className='w-50 mt-5 ms-5' />
                 </div>
@@ -62,7 +62,7 @@ class ConsultantRegister extends React.Component {
                 <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>
                   <CardHeader className="pb-1">
                     <CardTitle>
-                      <h4 className="mb-0 login-page-heading-style">Consultant Registration Form</h4>
+                      <h4 className="mb-0 login-page-heading-style" style={{position: 'relative', right :'20px'}}>Consultant Registration Form</h4>
                     </CardTitle>
                   </CardHeader>
                   

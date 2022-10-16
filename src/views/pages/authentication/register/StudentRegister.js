@@ -22,6 +22,7 @@ import LoginNavbar from "../login/LoginNavbar"
 import UappLogo from '../../../../assets/img/UappLogo.png'; 
 import Lgimage from"../../../../assets/img/UappLogo.png"
 import Footer from "../../../../layouts/components/footer/Footer"
+import Studentregister from '../../../../assets/img/Studentregister.png';
 
 class Register extends React.Component {
   state = {
@@ -44,9 +45,9 @@ class Register extends React.Component {
         <div className="responsive-top">
         <Row className="m-0">
         <Col lg="6" md="6" className="hide-responsive-left-side px-1 py-0">
-                <div className="flexbox-container" style={{ backgroundColor:"#EAF6F9" }}>
+                <div className="flexbox-container student-register-img" >
                 <div>
-                <img src={UappLogo} className='w-50 mt-5 ms-5' />
+                <img src={UappLogo} className='w-50 mt-5' />
                 </div>
                 </div>
               
@@ -59,11 +60,17 @@ class Register extends React.Component {
             <div className="flexbox-container2" style={{ backgroundColor: "#fff", height: '100vh'  }} >
               
                 <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>
-                  <CardHeader className="pb-1">
+                  {/* <CardHeader className="pb-1">
                     <CardTitle>
-                      <h4 className="mb-0 login-page-heading-style">Student Registration Form</h4>
+                      <h4 className="mb-0 login-page-heading-style" style={{position: 'relative', right :'20px'}}>Student Registration Form</h4>
                     </CardTitle>
-                  </CardHeader>
+                  </CardHeader> */}
+
+                  <div  className=" mt-md-5">
+
+                  <h4 className="" style={{color: '#111111', fontSize: '38px', fontWeight:'500'}}>Register as Student</h4>
+                  <span style={{color:'#7f7f7f', fontSize: '18px', fontWeight:'500'}}>Create a Student Account to Apply in Universities</span>
+                  </div>
                  
                   <Nav tabs className="px-2">
                     
