@@ -93,7 +93,7 @@ const ConsultantApplication = ({currentUser}) => {
   const [interviewValue, setInterviewValue] = useState(0);
   const [elptLabel, setElptLabel] = useState("ELPT");
   const [elptValue, setElptValue] = useState(0);
-  const [financeLabel, setFinanceLabel] = useState("SLCS");
+  const [financeLabel, setFinanceLabel] = useState("SLCs");
   const [financeValue, setFinanceValue] = useState(0);
 
   // application list
@@ -1051,7 +1051,7 @@ const ConsultantApplication = ({currentUser}) => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">SLCS</p>
+                          <p className="">SLCs</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -1173,7 +1173,7 @@ const ConsultantApplication = ({currentUser}) => {
                       </th>
                     ) : null}
                     {checkSlcs ? (
-                      <th style={{ verticalAlign: "middle" }}>SLCS</th>
+                      <th style={{ verticalAlign: "middle" }}>SLCs</th>
                     ) : null}
                     {checkCons ? (
                       <th style={{ verticalAlign: "middle" }}>Consultant</th>

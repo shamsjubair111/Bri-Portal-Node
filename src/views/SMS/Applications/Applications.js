@@ -48,6 +48,8 @@ import Loader from "../Search/Loader/Loader.js";
 import ApplicationsCommon from "./ApplicationsCommon.js";
 import ConsultantApplication from "./ConsultantApplication.js";
 import StudentApplication from "./StudentApplication.js";
+import ProviderApplication from "./ProviderApplication.js";
+import AdmissionManagerApplication from "./AdmissionManagerApplication.js";
 
 const Applications = () => {
   const [loading, setLoading] = useState(true);
@@ -73,6 +75,12 @@ const Applications = () => {
            parseInt(localStorage.getItem("userType")) === userTypes?.Student ?
            <StudentApplication 
            currentUser={currentUser} />
+           :
+           parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin ?
+           <ProviderApplication currentUser={currentUser} />
+           :
+           parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager ?
+           <AdmissionManagerApplication currentUser={currentUser} />
            :
            <ApplicationsCommon />
          }

@@ -46,7 +46,7 @@ import ProviderAdminFilter from "./ProviderAdminFilter.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import Loader from "../Search/Loader/Loader.js";
 
-const ApplicationsCommon = () => {
+const ProviderApplication = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
@@ -62,24 +62,27 @@ const ApplicationsCommon = () => {
   const [interviewDD, setInterviewDD] = useState([]);
   const [elptDD, setElptDD] = useState([]);
   const [financeDD, setFinanceDD] = useState([]);
-  // for common
-  const [commonUappIdDD, setCommonUappIdDD] = useState([]);
-  const [commonUniDD, setCommonUniDD] = useState([]);
-  const [commonConsultantDD, setCommonConsultantDD] = useState([]);
-  const [commonStdDD, setCommonStdDD] = useState([]);
-  const [commonPhoneDD, setCommonPhoneDD] = useState([]);
 
-  // for common
-  const [commonUappIdLabel, setCommonUappIdLabel] = useState("UAPP Id");
-  const [commonUappIdValue, setCommonUappIdValue] = useState(0);
-  const [commonUniLabel, setCommonUniLabel] = useState("University Name");
-  const [commonUniValue, setCommonUniValue] = useState(0);
-  const [consultantLabel, setConsultantLabel] = useState("Consultant");
-  const [consultantValue, setConsultantValue] = useState(0);
-  const [commonPhoneLabel, setCommonPhoneLabel] = useState("Phone No.");
-  const [commonPhoneValue, setCommonPhoneValue] = useState(0);
-  const [commonStdLabel, setCommonStdLabel] = useState("Name");
-  const [commonStdValue, setCommonStdValue] = useState(0);
+  // for provider admin
+  const [providerUappIdDD, setProviderUappIdDD] = useState([]);
+  const [providerUappIdLabel, setProviderUappIdLabel] = useState("UAPP ID");
+  const [providerUappIdValue, setProviderUappIdValue] = useState(0);
+
+  const [providerStdDD, setProviderStdDD] = useState([]);
+  const [providerStdLabel, setProviderStdLabel] = useState("Name");
+  const [providerStdvalue, setProviderStdValue] = useState(0);
+
+  const [providerConsDD, setProviderConsDD] = useState([]);
+  const [providerConsLabel, setProviderConsLabel] = useState("Consultant");
+  const [providerConsValue, setProviderConsValue] = useState(0);
+
+  const [providerUniDD, setProviderUniDD] = useState([]);
+  const [providerUniLabel, setProviderUniLabel] = useState("University Name");
+  const [providerUniValue, setProviderUniValue] = useState(0);
+
+  const [providerPhoneDD, setProviderPhoneDD] = useState([]);
+  const [providerPhoneLabel, setproviderPhoneLabel] = useState("Phone No.");
+  const [providerPhoneValue, setproviderPhoneValue] = useState(0);
 
   // for all
   const [applicationLabel, setApplicationLabel] = useState("Status");
@@ -94,7 +97,7 @@ const ApplicationsCommon = () => {
   const [interviewValue, setInterviewValue] = useState(0);
   const [elptLabel, setElptLabel] = useState("ELPT");
   const [elptValue, setElptValue] = useState(0);
-  const [financeLabel, setFinanceLabel] = useState("SLCS");
+  const [financeLabel, setFinanceLabel] = useState("SLCs");
   const [financeValue, setFinanceValue] = useState(0);
 
   // application list
@@ -104,8 +107,6 @@ const ApplicationsCommon = () => {
   const [cId, setConsId] = useState(undefined);
   const [uId, setUniId] = useState(undefined);
 
-  // current_user
-  const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
   // for hide/unhide column
@@ -163,27 +164,121 @@ const ApplicationsCommon = () => {
     value: finance?.id,
   }));
 
-  // for common
-  const commonUappIdMenu = commonUappIdDD.map((UappId) => ({
-    label: UappId?.name,
-    value: UappId?.id,
+  // for provide admin dropdown
+  const providerUappIdMenu = providerUappIdDD.map((uappId) => ({
+    label: uappId?.name,
+    value: uappId?.id,
   }));
-  const commonUniMenu = commonUniDD.map((uni) => ({
-    label: uni?.name,
-    value: uni?.id,
+  const providerStdMenu = providerStdDD.map((std) => ({
+    label: std?.name,
+    value: std?.id,
   }));
-  const commonConsultantMenu = commonConsultantDD.map((consultant) => ({
+  const providerConsMenu = providerConsDD.map((consultant) => ({
     label: consultant?.name,
     value: consultant?.id,
   }));
-  const commonStdMenu = commonStdDD.map((student) => ({
-    label: student?.name,
-    value: student?.id,
+  const providerUniMenu = providerUniDD.map((university) => ({
+    label: university?.name,
+    value: university?.id,
   }));
-  const commonPhoneMenu = commonPhoneDD.map((phone) => ({
+  const providerPhoneMenu = providerPhoneDD.map((phone) => ({
     label: phone?.name,
     value: phone?.id,
   }));
+
+  const selectAppliDD = (label, value) => {
+    setApplicationLabel(label);
+    setApplicationValue(value);
+    // handleSearch();
+  };
+  const selectOfferDD = (label, value) => {
+    setOfferLabel(label);
+    setOfferValue(value);
+    // handleSearch();
+  };
+  const selectEnrollDD = (label, value) => {
+    setEnrollLabel(label);
+    setEnrollValue(value);
+    // handleSearch();
+  };
+  const selectIntakeDD = (label, value) => {
+    setIntakeLabel(label);
+    setIntakeValue(value);
+    // handleSearch();
+  };
+  const selectInterviewDD = (label, value) => {
+    setInterviewLabel(label);
+    setInterviewValue(value);
+    // handleSearch();
+  };
+  const selectElptDD = (label, value) => {
+    setElptLabel(label);
+    setElptValue(value);
+    // handleSearch();
+  };
+  const selectFinanceDD = (label, value) => {
+    setFinanceLabel(label);
+    setFinanceValue(value);
+    // handleSearch();
+  };
+
+  const selectUappId = (label, value) => {
+    setProviderUappIdLabel(label);
+    setProviderUappIdValue(value);
+    // handleSearch();
+  };
+
+  const selectProviderStd = (label, value) => {
+    setProviderStdLabel(label);
+    setProviderStdValue(value);
+    // handleSearch();
+  };
+
+  const selectConsultant = (label, value) => {
+    setProviderConsLabel(label);
+    setProviderConsValue(value);
+    // handleSearch();
+  };
+
+  const selectProviderUni = (label, value) => {
+    setProviderUniLabel(label);
+    setProviderUniValue(value);
+    // handleSearch();
+  };
+
+  const selectProviderPhone = (label, value) => {
+    setproviderPhoneLabel(label);
+    setproviderPhoneValue(value);
+    // handleSearch();
+  };
+
+  // on clear
+  const handleClearSearch = () => {
+    setApplicationLabel("Status");
+    setApplicationValue(0);
+    setOfferLabel("Offer");
+    setOfferValue(0);
+    setEnrollLabel("Enrolment Status");
+    setEnrollValue(0);
+    setIntakeLabel("Intake");
+    setIntakeValue(0);
+    setInterviewLabel("Interview");
+    setInterviewValue(0);
+    setElptLabel("ELPT");
+    setElptValue(0);
+    setFinanceLabel("SLCs");
+    setFinanceValue(0);
+    setProviderUappIdLabel("UAPP ID");
+    setProviderUappIdValue(0);
+    setProviderStdLabel("Name");
+    setProviderStdValue(0);
+    setProviderConsLabel("Consultant");
+    setProviderConsValue(0);
+    setProviderUniLabel("University Name");
+    setProviderUniValue(0);
+    setproviderPhoneLabel("Phone No.");
+    setproviderPhoneValue(0);
+  };
 
   // user select order
   const orderArr = [
@@ -219,79 +314,6 @@ const ApplicationsCommon = () => {
     setCallApi((prev) => !prev);
   };
 
-  const selectAppliDD = (label, value) => {
-    // setLoading(true);
-    setApplicationLabel(label);
-    setApplicationValue(value);
-    // handleSearch();
-  };
-  const selectOfferDD = (label, value) => {
-    // setLoading(true);
-    setOfferLabel(label);
-    setOfferValue(value);
-    // handleSearch();
-  };
-  const selectEnrollDD = (label, value) => {
-    // setLoading(true);
-    setEnrollLabel(label);
-    setEnrollValue(value);
-    // handleSearch();
-  };
-  const selectIntakeDD = (label, value) => {
-    // setLoading(true);
-    setIntakeLabel(label);
-    setIntakeValue(value);
-    // handleSearch();
-  };
-  const selectInterviewDD = (label, value) => {
-    // setLoading(true);
-    setInterviewLabel(label);
-    setInterviewValue(value);
-    // handleSearch();
-  };
-  const selectElptDD = (label, value) => {
-    // setLoading(true);
-    setElptLabel(label);
-    setElptValue(value);
-    // handleSearch();
-  };
-  const selectFinanceDD = (label, value) => {
-    // setLoading(true);
-    setFinanceLabel(label);
-    setFinanceValue(value);
-    // handleSearch();
-  };
-  const selectUappIdDD = (label, value) => {
-    // setLoading(true);
-    setCommonUappIdLabel(label);
-    setCommonUappIdValue(value);
-    // handleSearch();
-  };
-  const selectUniDD = (label, value) => {
-    // setLoading(true);
-    setCommonUniLabel(label);
-    setCommonUniValue(value);
-    // handleSearch();
-  };
-  const selectConsultantDD = (label, value) => {
-    // setLoading(true);
-    setConsultantLabel(label);
-    setConsultantValue(value);
-    // handleSearch();
-  };
-  const selectStudentDD = (label, value) => {
-    // setLoading(true);
-    setCommonStdLabel(label);
-    setCommonStdValue(value);
-    // handleSearch();
-  };
-  const selectPhoneDD = (label, value) => {
-    // setLoading(true);
-    setCommonPhoneLabel(label);
-    setCommonPhoneValue(value);
-    // handleSearch();
-  };
-
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
       setApplicationDD(res);
@@ -319,84 +341,99 @@ const ApplicationsCommon = () => {
     get("StudentFinanceStatusDD/Index").then((res) => {
       setFinanceDD(res);
     });
-    // for common
-    get("CommonApplicationFilterDD/UappId").then((res) => {
-      setCommonUappIdDD(res);
-    });
-    get("CommonApplicationFilterDD/University").then((res) => {
-      setCommonUniDD(res);
-    });
-    get("CommonApplicationFilterDD/Consultant").then((res) => {
-      setCommonConsultantDD(res);
-    });
-    get("CommonApplicationFilterDD/Student").then((res) => {
-      setCommonStdDD(res);
-    });
-    get("CommonApplicationFilterDD/PhoneNumber").then((res) => {
-      setCommonPhoneDD(res);
-    });
+
+    // for provider admin
+    if (currentUser != undefined) {
+      get(`ProviderAdminApplicationFilterDD/UappId/${currentUser}`).then(
+        (res) => {
+          setProviderUappIdDD(res);
+        }
+      );
+      get(`ProviderAdminApplicationFilterDD/Student/${currentUser}`).then(
+        (res) => {
+          setProviderStdDD(res);
+        }
+      );
+      get(`ProviderAdminApplicationFilterDD/Consultant/${currentUser}`).then(
+        (res) => {
+          setProviderConsDD(res);
+        }
+      );
+      get(`ProviderAdminApplicationFilterDD/University/${currentUser}`).then(
+        (res) => {
+          setProviderUniDD(res);
+        }
+      );
+      get(`ProviderAdminApplicationFilterDD/PhoneNumber/${currentUser}`).then(
+        (res) => {
+          setProviderPhoneDD(res);
+        }
+      );
+    }
 
     // for list
 
-      const uniId =
-        commonUniValue !== 0
-          ? commonUniValue
-          : typeof location.universityIdFromUniList !== undefined ||
-            location.universityIdFromUniList !== null
-          ? location.universityIdFromUniList
-          : 0;
+    const uniId =
+      providerUniValue !== 0
+        ? providerUniValue
+        : typeof location.universityIdFromUniList !== undefined ||
+          location.universityIdFromUniList !== null
+        ? location.universityIdFromUniList
+        : 0;
 
-      setUniId(parseInt(uniId));
+    setUniId(parseInt(uniId));
 
-      if (uniId !== 0) {
-        var uni = commonUniDD?.find((s) => s.id === uniId);
+    if (uniId !== 0) {
+      var uni = providerUniDD?.find((s) => s.id === uniId);
 
-        if (uni === undefined) {
-          setCommonUniLabel("University Name");
-        } else {
-          setCommonUniLabel(uni?.name);
-          setCommonUniValue(uniId);
-        }
+      if (uni === undefined) {
+        // setProviderUniLabel("University Name");
+      } else {
+        setProviderUniLabel(uni?.name);
+        setProviderUniValue(uniId);
       }
+    }
 
-      const consId =
-        consultantValue !== 0
-          ? consultantValue
-          : typeof location.consultantIdFromConsultantList !== undefined ||
-            location.consultantIdFromConsultantList !== null
-          ? location.consultantIdFromConsultantList
-          : 0;
+    const consId =
+      providerConsValue !== 0
+        ? providerConsValue
+        : typeof location.consultantIdFromConsultantList !== undefined ||
+          location.consultantIdFromConsultantList !== null
+        ? location.consultantIdFromConsultantList
+        : 0;
 
-          setConsId(parseInt(consId));
+    setConsId(parseInt(consId));
 
-      if (parseInt(consId) !== 0) {
-        var consultant = commonConsultantDD?.find((s) => s.id === parseInt(consId));
+    if (parseInt(consId) !== 0) {
+      var consultant = providerConsDD?.find((s) => s.id === parseInt(consId));
 
-        if (consultant === undefined) {
-          // setConsultantLabel("Consultant");
-        } else {
-          setConsultantLabel(consultant?.name);
-          setConsultantValue(consId);
-        }
+      if (consultant === undefined) {
+        // setConsultantLabel("Consultant");
+      } else {
+        setProviderConsLabel(consultant?.name);
+        setProviderConsValue(consId);
       }
+    }
 
     //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
-    get(
-      `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consId ? consId : consultantValue}&universityId=${uniId ? uniId : commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-    ).then((res) => {
-      setLoading(false);
-      setApplicationList(res?.models);
-      setEntity(res?.totalEntity);
-      // setSerialNumber(res?.firstSerialNumber);
-    });
+
+    if (currentUser != undefined) {
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${
+          consId ? consId : providerConsValue
+        }&universityId=${
+          uniId ? uniId : providerUniValue
+        }&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+    }
   }, [
     currentPage,
     dataPerPage,
-    commonPhoneValue,
-    commonStdValue,
-    commonUappIdValue,
-    commonUniValue,
-    consultantValue,
     applicationValue,
     offerValue,
     enrollValue,
@@ -407,9 +444,12 @@ const ApplicationsCommon = () => {
     orderValue,
     entity,
     success,
-    // serialNumber,
-    // loading,
-    // callApi
+    currentUser,
+    providerUappIdValue,
+    providerStdvalue,
+    providerConsValue,
+    providerUniValue,
+    providerPhoneValue,
   ]);
 
   const toggleDanger = (data) => {
@@ -442,6 +482,17 @@ const ApplicationsCommon = () => {
 
   const componentRef = useRef();
 
+  // redirect to dashboard
+  const backToDashboard = () => {
+    if (location.universityIdFromUniList != undefined) {
+      history.push("/universityList");
+    } else if (location.consultantIdFromConsultantList != undefined) {
+      history.push("/consultantList");
+    } else {
+      history.push("/");
+    }
+  };
+
   const handleDate = (e) => {
     var datee = e;
     var utcDate = new Date(datee);
@@ -460,35 +511,6 @@ const ApplicationsCommon = () => {
       setDeleteModal(false);
       setDelData({});
     });
-  };
-
-  // on clear
-  const handleClearSearch = () => {
-    setApplicationLabel("Status");
-    setApplicationValue(0);
-    setOfferLabel("Offer");
-    setOfferValue(0);
-    setEnrollLabel("Enrolment Status");
-    setEnrollValue(0);
-    setIntakeLabel("Intake");
-    setIntakeValue(0);
-    setInterviewLabel("Interview");
-    setInterviewValue(0);
-    setElptLabel("ELPT");
-    setElptValue(0);
-    setFinanceLabel("SLCs");
-    setFinanceValue(0);
-    setCommonUappIdLabel("UAPP Id");
-    setCommonUappIdValue(0);
-    setCommonUniLabel("University Name");
-    setCommonUniValue(0);
-    setConsultantLabel("Consultant");
-    setConsultantValue(0);
-    setCommonStdLabel("Name");
-    setCommonStdValue(0);
-    setCommonPhoneLabel("Phone No.");
-    setCommonPhoneValue(0);
-    // setLoading(true);
   };
 
   // for hide/unhide column
@@ -542,23 +564,13 @@ const ApplicationsCommon = () => {
     setCheckAction(e.target.checked);
   };
 
-  const backToDashboard = () => {
-    if (location.universityIdFromUniList != undefined) {
-      history.push("/universityList");
-    } else if (location.consultantIdFromConsultantList != undefined) {
-      history.push("/consultantList");
-    } else {
-      history.push("/");
-    }
-  };
-
   return (
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Applications</h3>
           <div className="page-header-back-to-home">
-          <span onClick={backToDashboard} className="text-white">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {location.universityIdFromUniList != undefined
@@ -576,9 +588,12 @@ const ApplicationsCommon = () => {
           <Row className="gy-3">
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={commonUappIdMenu}
-                value={{ label: commonUappIdLabel, value: commonUappIdValue }}
-                onChange={(opt) => selectUappIdDD(opt.label, opt.value)}
+                options={providerUappIdMenu}
+                value={{
+                  label: providerUappIdLabel,
+                  value: providerUappIdValue,
+                }}
+                onChange={(opt) => selectUappId(opt.label, opt.value)}
                 placeholder="UAPP ID"
                 name="name"
                 id="id"
@@ -587,9 +602,9 @@ const ApplicationsCommon = () => {
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={commonStdMenu}
-                value={{ label: commonStdLabel, value: commonStdValue }}
-                onChange={(opt) => selectStudentDD(opt.label, opt.value)}
+                options={providerStdMenu}
+                value={{ label: providerStdLabel, value: providerStdvalue }}
+                onChange={(opt) => selectProviderStd(opt.label, opt.value)}
                 placeholder="Name"
                 name="name"
                 id="id"
@@ -598,13 +613,15 @@ const ApplicationsCommon = () => {
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={commonConsultantMenu}
-                value={{ label: consultantLabel, value: consultantValue }}
-                onChange={(opt) => selectConsultantDD(opt.label, opt.value)}
+                options={providerConsMenu}
+                value={{ label: providerConsLabel, value: providerConsValue }}
+                onChange={(opt) => selectConsultant(opt.label, opt.value)}
                 placeholder="Consultant"
                 name="name"
                 id="id"
-                isDisabled={location.consultantIdFromConsultantList ? true : false}
+                isDisabled={
+                  location.consultantIdFromConsultantList ? true : false
+                }
               />
             </Col>
 
@@ -687,9 +704,9 @@ const ApplicationsCommon = () => {
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={commonUniMenu}
-                value={{ label: commonUniLabel, value: commonUniValue }}
-                onChange={(opt) => selectUniDD(opt.label, opt.value)}
+                options={providerUniMenu}
+                value={{ label: providerUniLabel, value: providerUniValue }}
+                onChange={(opt) => selectProviderUni(opt.label, opt.value)}
                 placeholder="University N..."
                 name="name"
                 id="id"
@@ -699,9 +716,9 @@ const ApplicationsCommon = () => {
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={commonPhoneMenu}
-                value={{ label: commonPhoneLabel, value: commonPhoneValue }}
-                onChange={(opt) => selectPhoneDD(opt.label, opt.value)}
+                options={providerPhoneMenu}
+                value={{ label: providerPhoneLabel, value: providerPhoneValue }}
+                onChange={(opt) => selectProviderPhone(opt.label, opt.value)}
                 placeholder="Phone No."
                 name="name"
                 id="id"
@@ -1084,7 +1101,7 @@ const ApplicationsCommon = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">SLCS</p>
+                          <p className="">SLCs</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -1206,7 +1223,7 @@ const ApplicationsCommon = () => {
                       </th>
                     ) : null}
                     {checkSlcs ? (
-                      <th style={{ verticalAlign: "middle" }}>SLCS</th>
+                      <th style={{ verticalAlign: "middle" }}>SLCs</th>
                     ) : null}
                     {checkCons ? (
                       <th style={{ verticalAlign: "middle" }}>Consultant</th>
@@ -1398,4 +1415,4 @@ const ApplicationsCommon = () => {
   );
 };
 
-export default ApplicationsCommon;
+export default ProviderApplication;
