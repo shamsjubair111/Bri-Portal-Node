@@ -152,7 +152,7 @@ const ConsultantApplication = ({currentUser}) => {
   }));
 
   const selectOrder = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
     setCallApi((prev) => !prev);
@@ -163,73 +163,73 @@ const ConsultantApplication = ({currentUser}) => {
   const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
 
   const selectDataSize = (value) => {
-    setLoading(true);
+    // setLoading(true);
     setDataPerPage(value);
     setCallApi((prev) => !prev);
   };
 
   const selectAppliDD = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setApplicationLabel(label);
     setApplicationValue(value);
     // handleSearch();
   };
   const selectOfferDD = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setOfferLabel(label);
     setOfferValue(value);
     // handleSearch();
   };
   const selectEnrollDD = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setEnrollLabel(label);
     setEnrollValue(value);
     // handleSearch();
   };
   const selectIntakeDD = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setIntakeLabel(label);
     setIntakeValue(value);
     // handleSearch();
   };
   const selectInterviewDD = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setInterviewLabel(label);
     setInterviewValue(value);
     // handleSearch();
   };
   const selectElptDD = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setElptLabel(label);
     setElptValue(value);
     // handleSearch();
   };
   const selectFinanceDD = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setFinanceLabel(label);
     setFinanceValue(value);
     // handleSearch();
   };
   const selectConsUappId = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setConsUappIdLabel(label);
     setConsUappIdValue(value);
     // handleSearch();
   };
   const selectConsStd = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setConsStdLabel(label);
     setConsStdValue(value);
     // handleSearch();
   };
   const selectConsUni = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setConsUniLabel(label);
     setConsUniValue(value);
     // handleSearch();
   };
   const selectConsPhn = (label, value) => {
-    setLoading(true);
+    // setLoading(true);
     setConsPhnLabel(label);
     setConsPhnValue(value);
     // handleSearch();
@@ -344,7 +344,6 @@ const ConsultantApplication = ({currentUser}) => {
           ).then((res) => {
             setLoading(false);
             setApplicationList(res?.models);
-            console.log("aplli data", res);
             setEntity(res?.totalEntity);
             setSerialNumber(res?.firstSerialNumber);
           });
@@ -474,7 +473,7 @@ const ConsultantApplication = ({currentUser}) => {
     setConsUniValue(0);
     setConsPhnLabel("Phone No.");
     setConsPhnValue(0);
-    setLoading(true);
+    // setLoading(true);
   };
 
   // for hide/unhide column
@@ -529,7 +528,13 @@ const ConsultantApplication = ({currentUser}) => {
   };
 
   const backToDashboard = () => {
-    history.push("/");
+    if (location.universityIdFromUniList != undefined) {
+      history.push("/universityList");
+    } else if (location.consultantIdFromConsultantList != undefined) {
+      history.push("/consultantList");
+    } else {
+      history.push("/");
+    }
   };
 
   return (

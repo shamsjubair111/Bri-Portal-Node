@@ -47,29 +47,38 @@ import { userTypes } from "../../../constants/userTypeConstant.js";
 import Loader from "../Search/Loader/Loader.js";
 import ApplicationsCommon from "./ApplicationsCommon.js";
 import ConsultantApplication from "./ConsultantApplication.js";
+import StudentApplication from "./StudentApplication.js";
 
 const Applications = () => {
- 
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
     get("Account/GetCurrentUserId").then((res) => {
       setCurrentUser(res);
+      setLoading(false);
     });
   }, []);
 
   return (
     <div>
-      {
-        loading?
-        <Loader/>
-        :
-        <ApplicationsCommon />
-        // <ConsultantApplication 
-        //   currentUser={currentUser}
-        // />
-      }
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+         {
+           parseInt(localStorage.getItem("userType")) === userTypes?.Consultant ?
+           <ConsultantApplication currentUser={currentUser} />
+           :
+           parseInt(localStorage.getItem("userType")) === userTypes?.Student ?
+           <StudentApplication 
+           currentUser={currentUser} />
+           :
+           <ApplicationsCommon />
+         }
+        </>
+        
+      )}
     </div>
   );
 };
