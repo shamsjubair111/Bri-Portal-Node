@@ -268,7 +268,7 @@ const AddCountry = () => {
           className={"btn btn-uapp-add ml-1"}
           func={() => setModalOpen2(true)}
           icon={<i className="fas fa-plus mr-1"></i>}
-          name={"Add New Country From Excel"}
+          name={"Import From Excel"}
           disable={buttonStatus}
           
         />

@@ -43,7 +43,7 @@ const Index = () => {
         <div>
             <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-white">Apply Seed Data</h3>
+          <h3 className="text-white">Apply Fixed Data</h3>
           <div className="page-header-back-to-home">
             <span className="text-white" onClick={backToDashboard}>
               {" "}

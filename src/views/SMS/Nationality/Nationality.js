@@ -69,6 +69,11 @@ const Nationality = () => {
         history.push('/');
     }
 
+    const closeDeleteModal  = () => {
+      setDelData({});
+      setDeleteModal(false);
+    }
+
     useEffect(()=>{
         get('Nationality/Index')
         .then(res => {
@@ -249,7 +254,7 @@ const Nationality = () => {
        
             <div>
               <Button className="btn btn-uapp-add mr-2" onClick={()=>AddModalOpen('add')} > <i className="fas fa-plus"></i>  Add New Nationality</Button>
-              <Button className="btn btn-uapp-add" onClick={()=>AddExelModalOpen()} > <i className="fas fa-plus"></i>  Add New Nationality From Excel</Button>
+              <Button className="btn btn-uapp-add" onClick={()=>AddExelModalOpen()} > <i className="fas fa-plus"></i>  Import From Excel</Button>
             </div>
             
                   <div> <b> Total <span className="badge badge-primary">{countryList.length} </span> Nationalities  Found </b></div>
@@ -471,7 +476,7 @@ const Nationality = () => {
 
                       <ModalFooter>
                         <Button color="danger" onClick={deleteConfirm} disabled={buttonStatus} >YES</Button>
-                        <Button >NO</Button>
+                        <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 
                   </Modal>

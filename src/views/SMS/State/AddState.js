@@ -435,9 +435,7 @@ const AddState = () => {
                         </ModalBody>
 
                         <ModalFooter>
-                          
-                          <Button onClick={closeDeleteModal}>NO</Button>
-                          <Button
+                        <Button
                             color="danger"
                             onClick={() =>
                               handleDeleteUniState(delUniStateId)
@@ -446,6 +444,8 @@ const AddState = () => {
                           >
                             YES
                           </Button>
+                          <Button onClick={closeDeleteModal}>NO</Button>
+                          
                         </ModalFooter>
                       </Modal>
                     </td>

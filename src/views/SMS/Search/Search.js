@@ -297,8 +297,8 @@ const Search = () => {
     }))
 
     const selectIntake = (label,value) =>{
-      setPatternLabel(label);
-      setPatternValue(value);
+      setIntakeLabel(label);
+      setIntakeValue(value);
     }
 
     const addToWishList = (data) => {
