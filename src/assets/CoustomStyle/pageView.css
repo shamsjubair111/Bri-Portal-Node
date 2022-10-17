@@ -965,11 +965,21 @@ display: flex;
   background-repeat: no-repeat;
   width: fit-content;
   height: fit-content;
-  
-  
-
  
 }
+
+.notification-div{
+  
+  cursor: pointer;
+
+}
+
+.notification-div .title {
+  color: #1e98b0;
+  font-size: 20px;
+  display: block;
+}
+
 
 
 

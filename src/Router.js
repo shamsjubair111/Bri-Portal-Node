@@ -426,10 +426,14 @@ const StudentDeclarationForm = lazy(() => import("./views/SMS/Students/CreateFor
 const UniversityCommission = lazy(() => import("./views/SMS/University/UniversityCommission"));
 const UniversityTestScore = lazy(() => import("./views/SMS/University/UniversityTestScore"));
 
-const ReadAllNotifiation = lazy(() => import("./views/SMS/ReadAllNotification/ReadAllNotifiation"));
+
+
+// All Notification Page
+const Notifications = lazy(() => import("./views/SMS/Notifications/Notifications"));
 
 
 const TrialNotification = lazy(() => import("./views/Test/Notification"));
+
 
 
 
@@ -777,7 +781,7 @@ class AppRouter extends React.Component {
 
            <AppRoute  path="/addUniversityCommission/:univerId" component={UniversityCommission} />
            <AppRoute  path="/addUniversityTestScore/:univerId" component={UniversityTestScore} />
-           <AppRoute  path="/allNotifications" component={ReadAllNotifiation} />
+         
            <AppRoute  path="/addProviderUniversityTestScore/:providerProfileId/:univerId" component={AddProviderUniversityTestScore} />
 
 
@@ -786,10 +790,16 @@ class AppRouter extends React.Component {
         {/* Seed Data path */}
         <AppRoute  path="/seedData" component={SeedData} />
 
+        {/* All Notifications Path */}
+         <AppRoute  path="/allNotifications" component={Notifications} />
+
+
 
          <AppRoute  path="/500" component={InternalServerError} />
 
          <AppRoute  path="/notAuthorized" component={NotAuthorized} />
+
+
 
 
          {/* trial notification */}
