@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import {  Card, CardBody, Input, CardHeader,Label, Col,  Row, Table, Form, FormGroup, Button } from 'reactstrap';
+import {  Card, CardBody, Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter, Input, CardHeader,Label, Col,  Row, Table, Form, FormGroup, Button } from 'reactstrap';
 import get from '../../../helpers/get';
 // import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg';
 import coverImage from '../../../assets/img/UappLogo.png';
@@ -13,6 +16,9 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkButton from '../Components/LinkButton';
 import axios from 'axios'
 import { userTypes } from '../../../constants/userTypeConstant';
+import post from '../../../helpers/post';
+import { useToasts } from "react-toast-notifications";
+import remove from '../../../helpers/remove';
 
 const StudentProfile = () => {
 
@@ -27,11 +33,26 @@ const StudentProfile = () => {
     const [studentTestScore, setStudentTestScore] = useState([]);
     const [experience, setExperience] = useState([]);
     const [reference,setReference] = useState([]);
+    const [course, setCourse] = useState("");
+    const [courseList, setCourseList] = useState([]);
+    const [success, setSuccess] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [stdId, setStdId] = useState(0);
+    const [cName, setCName] = useState('');
 
     const history = useHistory();
+    const { addToast } = useToasts();
     const {sId} = useParams();
 
     console.log("userType", parseInt(localStorage.getItem("userType")));
+
+    useEffect(()=>{
+      get(`PreffereCourse/Index/${sId}`).then(res=>{
+        console.log("course list", res);
+        setCourseList(res);
+        // setSuccess(!success);
+      })
+    },[sId, success])
 
     useEffect(()=>{
        get(`StudentProfile/Get/${sId}`).then(res=>{
@@ -212,6 +233,57 @@ const StudentProfile = () => {
       const x = localeDate.split(",")[0];
       return x;
     }
+
+    const handleAddPrefferedCourse = (event) =>{
+      event.preventDefault();
+      const subdata = new FormData(event.target);
+
+      //  watch form data values
+    for (var value of subdata) {
+      console.log("preffered course", value);
+    }
+
+    post(`PreffereCourse/Create`, subdata).then((res) => {
+      // setSuccess(!success);
+      // setModalOpen(false);
+      // setButtonStatus(false);
+      console.log("course response", res); 
+      addToast(res?.data?.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setSuccess(!success);
+      setCourse("");
+    });
+
+    }
+
+    const toggleDanger = (name, id, e) => {
+      e.preventDefault();
+      setCName(name);
+      setStdId(id);
+      setDeleteModal(true);
+    };
+
+    // on Close Delete Modal
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setCName("");
+    setStdId(0);
+  };
+
+  const handleDelete = (id) => {
+    // setButtonStatus1(true);
+    remove(`PreffereCourse/Delete/${id}`).then((res) => {
+      // setButtonStatus1(false);
+      setDeleteModal(false);
+      addToast(res, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setSuccess(!success);
+    });
+  };
 
     return (
         <div ref={componentRef}>
@@ -1202,6 +1274,109 @@ const StudentProfile = () => {
 
               </Card>
               }
+
+              {/* Preffered course */}
+              <Card className='p-3'>
+                          
+              <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Interested courses</b> </h5>
+                          
+                    <div className="bg-h"></div>
+                    </div>
+                          
+                    {/* <EditDivButton
+                      className={"text-right edit-style  p-3"}
+                      func={()=>handleUpdatePersonalStatement(studentDetails)}
+                      permission={6}
+                    /> */}
+              
+                    </div>
+                  
+              <div className=" mt-3 ">
+               <Form onSubmit={handleAddPrefferedCourse}>
+                <FormGroup row className="has-icon-left">
+                   <input
+                      type="hidden"
+                      name="studentId"
+                      id="studentId"
+                      value={sId}
+                    />
+                   <Col md="9">
+                     <Input
+                       type="text"
+                       name="courseName"
+                       id="courseName"
+                       onChange={(e)=>setCourse(e.target.value)}
+                       value={course}
+                       placeholder="Write Course Name"
+                       required
+                     />
+                     {/* <div className="form-control-position">
+                                         <User size={15} />
+                                     </div> */}
+                   </Col>
+
+                   <Col md="3">
+                   <ButtonForFunction
+                       type={"submit"}
+                       className={"badge-primary"}
+                       name={"Add"}
+                       // disable={buttonStatus}
+                     />
+                   </Col>
+                 </FormGroup>
+               </Form>
+              </div>
+
+              <div className="d-flex flex-wrap">
+                  {
+                    courseList.map((course, i) => (
+                      <div key={i} className='mr-1 mb-1'>
+                        <div className='tag-style-search'>
+                    <div>
+                      <span>{course?.courseName}</span>
+                      {" "}{" "}
+                      <span onClick={(e) => toggleDanger(course?.courseName, course?.id, e)} style={{fontSize: "16px", cursor: "pointer"}}>×</span>
+                    </div>
+                  </div>
+                      </div>
+                    ))
+                  }
+
+                  {/* modal for delete */}
+                  <Modal
+                        isOpen={deleteModal}
+                        toggle={closeDeleteModal}
+                        className="uapp-modal"
+                      >
+                        <ModalBody>
+                          <p>
+                            Are You Sure to Delete this <b>{cName}</b> ? Once
+                            Deleted it can't be Undone!
+                          </p>
+                        </ModalBody>
+
+                        <ModalFooter>
+                          
+                          <Button onClick={closeDeleteModal}>
+                            NO
+                          </Button>
+                          
+                          <Button
+                            color="danger"
+                            onClick={() => handleDelete(stdId)}
+                            // disabled={buttonStatus1}
+                          >
+                            YES
+                          </Button>
+
+                        </ModalFooter>
+                      </Modal>
+
+              </div>
+                  
+              </Card>
 
               </Col>
               </Row>
