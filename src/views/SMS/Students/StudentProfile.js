@@ -1280,7 +1280,7 @@ const StudentProfile = () => {
                           
               <div className="hedding-titel d-flex justify-content-between">
                     <div>
-                    <h5> <b>Interested courses</b> </h5>
+                    <h5> <b>Interested Courses</b> </h5>
                           
                     <div className="bg-h"></div>
                     </div>
