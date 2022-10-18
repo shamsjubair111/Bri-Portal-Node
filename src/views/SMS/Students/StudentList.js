@@ -129,6 +129,7 @@ const StudentList = () => {
             userTypeId == userTypes?.Consultant ? referenceId : consultantValue
           }&status=${statusValue}&sortby=${orderValue}`
         ).then((res) => {
+          console.log("first",res);
           setStudentData(res?.models);
           setEntity(res?.totalEntity);
           setSerialNum(res?.firstSerialNumber);
