@@ -3,8 +3,6 @@ import ReactDOM from "react-dom"
 import 'antd/dist/antd.css';
 import "./index.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "jquery/dist/jquery.min.js";
-import "bootstrap/dist/js/bootstrap.min.js";
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import { Provider } from "react-redux"
 import { Auth0Provider } from "./authServices/auth0/auth0Service"

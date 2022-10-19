@@ -211,7 +211,7 @@ const AddUniversityGallery = () => {
           <Nav tabs>
             <NavItem>
               <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
-                University Information
+                Basic Information
               </NavLink>
             </NavItem>
             <NavItem>
@@ -220,7 +220,7 @@ const AddUniversityGallery = () => {
                                 onClick={() =>toggle('2')}
                                 > */}
               <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                Campus Information
+                Campuses
               </NavLink>
             </NavItem>
 

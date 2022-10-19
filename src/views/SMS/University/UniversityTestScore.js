@@ -188,7 +188,7 @@ const UniversityTestScore = () => {
           <Nav tabs>
             <NavItem>
               <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
-                University Information
+                Basic Information
               </NavLink>
             </NavItem>
             <NavItem>
@@ -197,7 +197,7 @@ const UniversityTestScore = () => {
                                 onClick={() =>toggle('2')}
                                 > */}
               <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                Campus Information
+                Campuses
               </NavLink>
             </NavItem>
 
@@ -273,7 +273,11 @@ const UniversityTestScore = () => {
           <TabContent activeTab={activetab}>
             <TabPane tabId="6">
 
-                 <div className="hedding-titel d-flex justify-content-between mb-4">
+                
+
+              <Form onSubmit={submitTestScore}  className="mt-5">
+                
+              <div className="hedding-titel d-flex justify-content-between mb-4">
                   <div>
                     <h5>
                       {" "}
@@ -284,9 +288,7 @@ const UniversityTestScore = () => {
                   </div>
                   
                 </div>
-
-              <Form onSubmit={submitTestScore}  className="mt-5">
-
+                
                 <input
                 type='hidden'
                 name='universityId'

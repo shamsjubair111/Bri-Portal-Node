@@ -98,9 +98,8 @@
   font-weight: 700;
   font-size: 17px;
 }
-.uapp-shadow-color {
-  box-shadow: 0 1px 1px 0 rgb(60 75 100 / 14%), 0 2px 1px -1px rgb(60 75 100 / 12%), 0 1px 3px 0 rgb(60 75 100 / 20%);
-}
+
+
 
 .card-header:first-child {
   border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0 !important;
@@ -136,18 +135,7 @@
   color: #fff;
   font-size: 12px;
 }
-/*.db-app-count {
-  margin-left: 10px;
-  background: #fff;
-  padding-right: .6em;
-  padding-left: .6em;
-  padding-bottom: 1px;
-  border-radius: 10rem;
-  color: #1d94ab;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid #1d94ab;
-}*/
+
 .uapp-sm-btn {
   background: #fff;
   border: 1px solid #fff;
@@ -232,36 +220,7 @@ margin-left: 5px;
 
 
 
-/* Menu Component */
-
-.css-1uccc91-singleValue{
-  font-size: 12px !important;
-  color: #858383 !important;
-}
-
 /* roleMenuItem component */
-.custom-button-primary{
-  width: 150px;
-  color: #fff;
-  background: #1e98b0;
-  border: 1px solid #1e98b0 !important;
-  padding: 8px 20px;
-  font-size: .875rem;
-  font-weight: 600;
-  border-radius: 5px;
-}
-
-.custom-button-success{
-  width: 100px;
-  color: #fff;
-  background: #28a745;
-  border: 1px solid #28a745 !important;
-  padding: 8px 20px;
-  font-size: .875rem;
-  font-weight: 600;
-  border-radius: 5px;
-
-}
 
 .page-header{
   display: flex;
@@ -285,9 +244,7 @@ margin-left: 5px;
 
 
 /* Employee Component */
-.uapp-agent-nav-item {
-  width: 25% !important;
-}
+
 
 .has-icon-left .form-control {
   padding-left: 1rem !important;
@@ -306,43 +263,11 @@ margin-left: 5px;
 
 /*employee list*/
 
-@media (max-width: 992px) {
-  .uapp-Search-div {
-    text-align: center
-  }
 
-    .uapp-Search-div i {
-      padding: 12px 12px;
-      background: #1e98b0;
-      border: 1px solid #eee;
-      border-radius: 5px;
-      margin-left: 0px;
-      color: #fff;
-      cursor: pointer;
-      width: 100%;
-      display: inline-block;
-    }
-}
 
-@media (min-width: 992px) {
-  .uapp-Search-div i {
-    padding: 12px 51px;
-    background: #008b9c;
-    border: 1px solid #008b9c;
-    border-radius: 30px;
-    cursor: pointer;
-    color: #fff;
-    transition: 0.4s ease-in-out;
-  }
-}
 
-.uapp-Search-div i:hover {
-  padding: 12px 51px;
-  background: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  color: #008b9c;
-}
+
+
 
 .uapp-employee-search .dropdown .dropdown-toggle {
   padding: 0.6rem 1.1rem !important;
@@ -403,21 +328,8 @@ margin-left: 5px;
     margin-bottom: 1rem
   }
 
-  .uapp-Search-div {
-    text-align: center;
-  }
+  
 
-    .uapp-Search-div i {
-      padding: 12px 12px;
-      background: #1e98b0;
-      border: 1px solid #eee;
-      border-radius: 5px;
-      margin-left: 0px;
-      color: #fff;
-      cursor: pointer;
-      width: 100%;
-      display: inline-block;
-    }
 
   .uapp-employee-search .dropdown {
     text-align: center !important;

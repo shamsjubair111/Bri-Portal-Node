@@ -740,17 +740,17 @@ const AddUniversity = (props) => {
           <Nav tabs>
             <NavItem>
               <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
-                University Information
+                Basic Information
               </NavLink>
             </NavItem>
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                  Campus Information
+                  Campuses
                 </NavLink>
               ) : (
                 <NavLink disabled active={activetab === "2"}>
-                  Campus Information
+                  Campuses
                 </NavLink>
               )}
             </NavItem>
@@ -1176,6 +1176,26 @@ const AddUniversity = (props) => {
                       defaultValue={universityData?.foundationYear}
                       placeholder="Write University Foundation Year"
                       required
+                    />
+                    {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Required Minimum Result (%) </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      name="FoundationYear"
+                      id="FoundationYear"
+                      defaultValue={universityData?.foundationYear}
+                      placeholder="Write University Foundation Year"
+                      required
+                      max={100}
                     />
                     {/* <div className="form-control-position">
                                         <User size={15} />

@@ -588,7 +588,7 @@ const StudentList = () => {
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
               <ButtonForFunction
-                className={"btn btn-uapp-add "}
+                color='primary'
                 icon={<i className="fas fa-plus"></i>}
                 func={handleAddStudent}
                 name={" Add New Student"}
