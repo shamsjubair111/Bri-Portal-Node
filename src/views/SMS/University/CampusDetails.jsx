@@ -1692,7 +1692,9 @@ const CampusDetails = () => {
                       </Row>
                     </FormGroup>
 
-                    <FormGroup>
+                    {
+                      intakeValue != 0 || statusValue != 0 ?
+                      <FormGroup>
                       <Row>
                         <Col sm="12">
                           {subjectIds.length > 0 && (
@@ -1718,7 +1720,7 @@ const CampusDetails = () => {
                                 type="checkbox"
                                 name=""
                                 id={per?.subjectId}
-                                defaultChecked={per?.isIntakeExists}
+                                // defaultChecked={per?.isIntakeExists}
                               />
                               <label className="form-check-label" htmlFor="">
                                 {per?.subjectName}
@@ -1728,6 +1730,9 @@ const CampusDetails = () => {
                         ))}
                       </Row>
                     </FormGroup>
+                    :
+                    null
+                    }
                   </Form>
                   }
 
