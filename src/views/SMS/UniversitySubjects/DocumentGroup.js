@@ -309,9 +309,10 @@ const DocumentGroup = () => {
     if (documentValue == 0) {
       setDocumentError(true);
     }
-    else if (application === null) {
-      setApplicationError(true);
-    } else {
+    // else if (application === null) {
+    //   setApplicationError(true);
+    // } 
+    else {
       setButtonStatus3(true);
       post("DocumentGroupDocument/Create", subData).then((res) => {
         setButtonStatus3(false);
@@ -553,8 +554,39 @@ const DocumentGroup = () => {
                         />
                       </ButtonGroup>
 
-                      {/* Modal for view */}
+                      
                       <Modal
+                        isOpen={deleteModal}
+                        toggle={closeDeleteModal}
+                        className="uapp-modal"
+                      >
+                        <ModalBody>
+                          <p>
+                            Are You Sure to Delete this{" "}
+                            <b>{delDocuGroupName}</b> ?
+                            Once Deleted it can't be Undone!
+                          </p>
+                        </ModalBody>
+
+                        <ModalFooter>
+                          <Button
+                            disabled={buttonStatus2}
+                            color="danger"
+                            onClick={() =>
+                              handleDeleteDocumentGroup(delDocuGroupId)
+                            }
+                          >
+                            YES
+                          </Button>
+                          <Button onClick={closeDeleteModal}>NO</Button>
+                        </ModalFooter>
+                      </Modal>
+                    </td>
+                  </tr>
+                ))}
+
+                {/* Modal for view */}
+                <Modal
                         size="xl"
                         isOpen={viewModal}
                         toggle={closeViewModal}
@@ -607,8 +639,11 @@ const DocumentGroup = () => {
                                                     }
                                                     permission={6}
                                                   />
-
-                                                  <Modal
+                                                </td>
+                                              </tr>
+                                            )
+                                          )}
+                                          <Modal
                                                     isOpen={deleteViewModal}
                                                     toggle={
                                                       closeDeleteViewModal
@@ -647,10 +682,6 @@ const DocumentGroup = () => {
                                                       </Button>
                                                     </ModalFooter>
                                                   </Modal>
-                                                </td>
-                                              </tr>
-                                            )
-                                          )}
                                         </>
                                       )}
                                     </tbody>
@@ -722,7 +753,6 @@ const DocumentGroup = () => {
                                   <Col md="4">
                                     <span>
                                       Is Mandatory{" "}
-                                      <span className="text-danger">*</span>{" "}
                                     </span>
                                   </Col>
                                   <Col md="8">
@@ -766,11 +796,11 @@ const DocumentGroup = () => {
 
                                     <br />
 
-                                    {applicationError && (
+                                    {/* {applicationError && (
                                       <span className="text-danger">
                                         Is mandatory is required.
                                       </span>
-                                    )}
+                                    )} */}
                                   </Col>
                                 </FormGroup>
 
@@ -817,35 +847,7 @@ const DocumentGroup = () => {
                       </Modal>
 
                       {/* modal for delete */}
-                      <Modal
-                        isOpen={deleteModal}
-                        toggle={closeDeleteModal}
-                        className="uapp-modal"
-                      >
-                        <ModalBody>
-                          <p>
-                            Are You Sure to Delete this{" "}
-                            <b>{delDocuGroupName}</b> ?
-                            Once Deleted it can't be Undone!
-                          </p>
-                        </ModalBody>
 
-                        <ModalFooter>
-                          <Button
-                            disabled={buttonStatus2}
-                            color="danger"
-                            onClick={() =>
-                              handleDeleteDocumentGroup(delDocuGroupId)
-                            }
-                          >
-                            YES
-                          </Button>
-                          <Button onClick={closeDeleteModal}>NO</Button>
-                        </ModalFooter>
-                      </Modal>
-                    </td>
-                  </tr>
-                ))}
               </tbody>
             </Table>
           </div>
