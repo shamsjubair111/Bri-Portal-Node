@@ -329,10 +329,10 @@ update?
 
   
 
-        <div className="container">
+        <div className="container mt-5">
 
 <div>
-<div >
+<div className=''>
   <h5 className="mb-3">
     {" "}
     <b className="bg-u">Student Declaration</b>{" "}
@@ -495,12 +495,14 @@ update?
 
               </div>
         <div>
-          <Link style={{marginLeft: '10px'}} to={`/uploadDocument/${applicationStudentId}/1`}>
-          <Button color='warning'>
+          
+          <Button className='btn-warning' onClick={()=>{
+            history.push(`/uploadDocument/${applicationStudentId}/1`)
+          }}>
           <i className="fas fa-arrow-left-long mr-1"></i>
             Previous
           </Button>
-          </Link>
+       
           
         </div>
 

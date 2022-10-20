@@ -479,7 +479,19 @@ const onShow=()=>{
        {
         (showForm ||   refList?.length < 1) ?  
 
-        <Form onSubmit={handleRegisterReference} className="mt-5">
+        <Form onSubmit={handleRegisterReference} className="mt-4">
+
+<div className="hedding-titel d-flex justify-content-between mb-4">
+                      <div>
+                        <h5> <b>Reference Information</b> </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                        {/* <div className="text-right edit-style  p-3" >
+                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                        </div> */}
+
+                    </div>
 
             
                 

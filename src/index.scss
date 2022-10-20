@@ -1517,9 +1517,9 @@ footer.footer {
 	color: #707070;
 }
 .bankCard-style {
-	height: 40px;
-	width: 40px;
-	border-radius: 50%;
+	height: 40px !important;
+	width: 40px !important;
+	border-radius: 50% !important;
 }
 .consultant-card-shadow-style {
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0,  0.15);

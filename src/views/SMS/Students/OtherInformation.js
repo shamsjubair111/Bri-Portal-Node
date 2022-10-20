@@ -274,6 +274,19 @@ const OtherInformation = () => {
 
           <Form onSubmit={handleOtherInformation} className="mt-5">
 
+          <div className="hedding-titel d-flex justify-content-between mb-4">
+                      <div>
+                        <h5> <b>Other Information</b> </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                        {/* <div className="text-right edit-style  p-3" >
+                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                        </div> */}
+
+                    </div>
+
+
           <input
           type='hidden'
           name='id'

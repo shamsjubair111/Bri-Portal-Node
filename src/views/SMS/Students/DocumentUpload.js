@@ -447,6 +447,19 @@ const DocumentUpload = () => {
 
           <div className="row gy-3">
             <div className="col-md-8 ">
+
+            <div className="hedding-titel d-flex justify-content-between mb-4 mt-4">
+                      <div>
+                        <h5> <b>Document Information</b> </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                        {/* <div className="text-right edit-style  p-3" >
+                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                        </div> */}
+
+                    </div>
+
               {uploadedDocuData.map((docu, i) => (
                 
                   <div key={i}  className="card mb-3 file-upload-border">

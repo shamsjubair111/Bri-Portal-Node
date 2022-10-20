@@ -591,6 +591,19 @@ const PersonalInformation = () => {
           <TabContent activeTab={activetab}>
             <TabPane tabId="2">
               <Form onSubmit={handleSubmit} className="mt-5">
+
+              <div className="hedding-titel d-flex justify-content-between mb-4">
+                      <div>
+                        <h5> <b>Personal Information</b> </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                        {/* <div className="text-right edit-style  p-3" >
+                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                        </div> */}
+
+                    </div>
+
                 <input
                   type="hidden"
                   name="id"

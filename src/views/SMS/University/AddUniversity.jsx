@@ -1185,7 +1185,7 @@ const AddUniversity = (props) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
-                    <span>Required Minimum Result (%) </span>
+                    <span>Required Minimum Result (%) </span><span className="text-danger">*</span>
                   </Col>
                   <Col md="6">
                     <Input
@@ -1193,7 +1193,7 @@ const AddUniversity = (props) => {
                       name="FoundationYear"
                       id="FoundationYear"
                       defaultValue={universityData?.foundationYear}
-                      placeholder="Write University Foundation Year"
+                      placeholder="Write Minimum Result"
                       required
                       max={100}
                     />
