@@ -1,178 +1,249 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip, ButtonGroup, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import Select from 'react-select';
-import { Link, useHistory } from 'react-router-dom';
-import get from '../../../helpers/get';
-import { userTypes } from '../../../constants/userTypeConstant';
-import Pagination from '../Pagination/Pagination';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Col,
+  Row,
+  InputGroup,
+  Table,
+  TabContent,
+  TabPane,
+  Nav,
+  NavLink,
+  NavItem,
+  UncontrolledTooltip,
+  ButtonGroup,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+} from "reactstrap";
+import Select from "react-select";
+import { Link, useHistory } from "react-router-dom";
+import get from "../../../helpers/get";
+import { userTypes } from "../../../constants/userTypeConstant";
+import Pagination from "../Pagination/Pagination";
 import ReactToPrint from "react-to-print";
 import * as XLSX from "xlsx/xlsx.mjs";
 
 const Index = () => {
+  const history = useHistory();
+  const userType = localStorage.getItem("userType");
+  const [success, setSuccess] = useState(false);
 
-    const history = useHistory();
-    const userType = localStorage.getItem("userType");
-    const [success,setSuccess] = useState(false);
+  const [data, setData] = useState([]);
 
-    const [data,setData] = useState([]);
+  const [consultant, setConsultant] = useState([]);
+  const [consultantLabel, setConsultantLabel] = useState("Select Consultant");
+  const [consultantValue, setConsultantValue] = useState(0);
 
-    const [consultant,setConsultant] = useState([]);
-    const [consultantLabel,setConsultantLabel] = useState('Select Consultant');
-    const[consultantValue,setConsultantValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [callApi, setCallApi] = useState(false);
+  const [dataPerPage, setDataPerPage] = useState(15);
+  const [entity, setEntity] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // user select data per page
+  const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
+  const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
+  const [orderLabel, setOrderLabel] = useState("Select order by");
+  const [orderValue, setOrderValue] = useState(0);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
 
+  // for hide/unhide column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkTransCode, setCheckTransCode] = useState(true);
+  const [checkNote, setCheckNote] = useState(true);
+  const [checkCons, setCheckCons] = useState(true);
+  const [checkAmount, setCheckAmount] = useState(true);
+  const [checkTransType, setCheckTransType] = useState(true);
+  const [checkTransDate, setCheckTransDate] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [callApi, setCallApi] = useState(false);
-    const [dataPerPage, setDataPerPage] = useState(15);
-    const [entity, setEntity] = useState(0);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-     // user select data per page
-     const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
-     const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
-     const [orderLabel, setOrderLabel] = useState("Select order by");
-     const [orderValue, setOrderValue] = useState(0);
-     const [dropdownOpen1, setDropdownOpen1] = useState(false);
- 
-     const selectDataSize = (value) => {
-       
-       setDataPerPage(value);
-       setCallApi((prev) => !prev);
-     };
+  const selectDataSize = (value) => {
+    setDataPerPage(value);
+    setCallApi((prev) => !prev);
+  };
 
-       // search handler
-       const handleSearch = () => {
-        setCurrentPage(1);
-        setCallApi((prev) => !prev);
-      };
+  // search handler
+  const handleSearch = () => {
+    setCurrentPage(1);
+    setCallApi((prev) => !prev);
+  };
 
-      const handleClearSearch = () => {
-        setConsultantLabel('Select Consultant');
-        setConsultantValue(0);
-      }
+  const handleClearSearch = () => {
+    setConsultantLabel("Select Consultant");
+    setConsultantValue(0);
+  };
 
-     const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-        setCallApi((prev) => !prev);
-      };
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setCallApi((prev) => !prev);
+  };
 
-      const handleExportXLSX = () => {
-        var wb = XLSX.utils.book_new(),
-          ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
-    
-        XLSX.writeFile(wb, "MyExcel.xlsx");
-      };
+  const handleExportXLSX = () => {
+    var wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
 
-      const handleKeyDown = (event) => {
-        if (event.key === "Enter") {
-          setCurrentPage(1);
-          setCallApi((prev) => !prev);
-        }
-      };
+    XLSX.writeFile(wb, "MyExcel.xlsx");
+  };
 
-      const toggle = () => {
-        setDropdownOpen((prev) => !prev);
-      };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      setCurrentPage(1);
+      setCallApi((prev) => !prev);
+    }
+  };
 
-      // toggle1 dropdown
+  const toggle = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
+  // toggle1 dropdown
   const toggle1 = () => {
     setDropdownOpen1((prev) => !prev);
   };
 
- 
+  const componentRef = useRef();
 
-      const componentRef = useRef();
+  useEffect(() => {
+    get(`ConsultantDD/index`).then((res) => {
+      setConsultant(res);
+    });
 
-    useEffect(()=>{
-        get(`ConsultantDD/index`)
-        .then(res =>{
-        setConsultant(res);
-        })
+    get(
+      `BonusTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${consultantValue}`
+    ).then((res) => {
+      console.log(res);
+      setEntity(res?.totalEntity);
+      setData(res?.models);
+    });
+  }, [success, currentPage, dataPerPage, consultantValue]);
 
-        get(`BonusTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${consultantValue}`)
-        .then(res => {
-            console.log(res);
-            setEntity(res?.totalEntity);
-            setData(res?.models);
-        })
+  const backToDashboard = () => {
+    history.push("/");
+  };
 
-    },[success, currentPage, dataPerPage, consultantValue])
+  const consultantOptions = consultant?.map((con) => ({
+    label: con?.name,
+    value: con?.id,
+  }));
 
+  const selectConsultant = (label, value) => {
+    setConsultantLabel(label);
+    setConsultantValue(value);
+  };
 
-    const backToDashboard = () =>{
-        history.push('/');
+  const redirect = (data) => {
+    window.open(`/inFlow/details/${data?.id}`, "_blank");
+  };
 
-    }
+  const redirectForEdit = (data) => {
+    history.push(`/inFlow/Update/${data?.id}`);
+  };
 
-    const consultantOptions = consultant?.map(con => ({
-        label: con?.name,
-        value: con?.id
-    }))
+  // for hide/unhide column
 
-    const selectConsultant = (label,value) => {
-        setConsultantLabel(label);
-        setConsultantValue(value);
-    }
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedTransDate = (e) => {
+    setCheckTransDate(e.target.checked);
+  };
+  const handleCheckedTransCode = (e) => {
+    setCheckTransCode(e.target.checked);
+  };
+  const handleCheckedNote = (e) => {
+    setCheckNote(e.target.checked);
+  };
+  const handleCheckedCons = (e) => {
+    setCheckCons(e.target.checked);
+  };
+  const handleCheckedAmount = (e) => {
+    setCheckAmount(e.target.checked);
+  };
+  const handleCheckedTransType = (e) => {
+    setCheckTransType(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
 
-    const redirect = (data) => {
-      window.open(`/inFlow/details/${data?.id}`,'_blank')
-    }
+  return (
+    <div>
+      <Card className="uapp-card-bg">
+        <CardHeader className="page-header">
+          <h3 className="text-white">Inflow Transaction List</h3>
+          <div className="page-header-back-to-home">
+            <span className="text-white" onClick={backToDashboard}>
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+            </span>
+          </div>
+        </CardHeader>
+      </Card>
 
-    const redirectForEdit = (data) => {
-      history.push(`/inFlow/Update/${data?.id}`);
-    }
+      <Card className="uapp-employee-search">
+        <CardBody>
+          <div className="row">
+            <div className="col-md-12">
+              {userType !== userTypes?.Consultant ? (
+                <Select
+                  // styles={customStyles2}
+                  options={consultantOptions}
+                  value={{ label: consultantLabel, value: consultantValue }}
+                  onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                />
+              ) : null}
+            </div>
+          </div>
 
+          {/* Clear Button */}
+          <div className="row">
+            <div className="col-12 d-flex justify-content-end">
+              <div
+                className="mt-1 mx-1 d-flex btn-clear"
+                onClick={handleClearSearch}
+              >
+                <span className="text-danger">
+                  <i className="fa fa-times"></i> Clear
+                </span>
+              </div>
+            </div>
+          </div>
 
-    return (
-        <div>
+          {/* Clear Button */}
 
-            <Card className="uapp-card-bg">
-              <CardHeader className="page-header">
-                <h3 className="text-white">Inflow Transaction List</h3>
-                <div className="page-header-back-to-home">
-                  <span className="text-white" onClick={backToDashboard}>
-                    {" "}
-                    <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+          {/* <div
+                  className="mt-1 mx-1 d-flex justify-content-end btn-clear"
+                  onClick={handleClearSearch}
+                >
+                  <span className="text-danger">
+                    <i className="fa fa-times"></i> Clear
                   </span>
-                </div>
-              </CardHeader>
-            </Card>
+                </div> */}
+        </CardBody>
+      </Card>
 
-            <Card className='uapp-employee-search'>
-                <CardBody>
+      <Card className="uapp-employee-search">
+        <CardBody>
+          <div className="row mb-3">
+            <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>
 
-                   
-
-                    <Row className="mb-4">
-            <Col lg="5" md="5" sm="4" xs="4">
-              
-            {
-                                    (userType !== userTypes?.Consultant) ?
-
-                                    
-                                   
-                                    <Select
-                                    // styles={customStyles2}
-                                    options={consultantOptions}
-                                    value={{ label: consultantLabel, value: consultantValue }}
-                                    onChange={(opt) => selectConsultant(opt.label, opt.value)}
-                                    />
-
-
-                                  
-
-                                    :
-
-                                    null
-                                }
-
-            </Col>
-
-            <Col lg="7" md="7" sm="8" xs="8">
+            <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 mb-3">
               <div className="d-flex justify-content-end flex-wrap">
-               
-                
-                <div className="mr-3">
+                <div className="me-3">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Showing :</div>
                     <div>
@@ -185,7 +256,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div className="mr-3">
+                <div className="ml-2">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -215,12 +286,11 @@ const Index = () => {
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-
-                  
-
                 </div>
 
-                <div className="me-3">
+                {/* column hide unhide starts here */}
+
+                <div className="ml-2">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -230,126 +300,230 @@ const Index = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-white cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Transaction Date</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedTransDate(e);
+                              }}
+                              defaultChecked={checkTransDate}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Consultant Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCons(e);
+                              }}
+                              defaultChecked={checkCons}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Transaction Code</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedTransCode(e);
+                              }}
+                              defaultChecked={checkTransCode}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Amount</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAmount(e);
+                              }}
+                              defaultChecked={checkAmount}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Transaction Type</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedTransType(e);
+                              }}
+                              defaultChecked={checkTransType}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Transaction Note</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedNote(e);
+                              }}
+                              defaultChecked={checkNote}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
                 </div>
+
+                {/* column hide unhide ends here */}
               </div>
+            </div>
 
-              {/* Clear Button */}
+            <Table id="table-to-xls" className="table-sm table-bordered">
+              <thead className="thead-uapp-bg">
+                <tr style={{ textAlign: "center" }}>
+                  {checkSlNo ? <th>SL/NO</th> : null}
+                  {checkTransDate ? <th>Transaction Date</th> : null}
+                  {checkCons ? <th>Consultant Name</th> : null}
+                  {checkTransCode ? <th>Transaction Code</th> : null}
+                  {checkAmount ? <th>Amount</th> : null}
+                  {checkTransType ? <th>Transaction Type</th> : null}
+                  {checkNote ? <th>Transaction Note</th> : null}
+                  {checkAction ? <th>Action</th> : null}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((ls, i) => (
+                  <tr key={i} style={{ textAlign: "center" }}>
+                    {checkSlNo ? <td>{i + 1}</td> : null}
+                    {checkTransDate ? <td>{ls?.transactionDate}</td> : null}
+                    {checkCons ? <td>{ls?.consultant}</td> : null}
+                    {checkTransCode ? <td>{ls?.transactionCode}</td> : null}
 
-              <div
-                  className="mt-1 mx-1 d-flex justify-content-end btn-clear"
-                  onClick={handleClearSearch}
-                >
-                  {/* <Icon.X  className='text-danger' />*/}
-                  <span className="text-danger">
-                    <i className="fa fa-times"></i> Clear
-                  </span>
-                </div>
+                    {checkAmount ? <td>{ls?.amount}</td> : null}
+                    {checkTransType ? <td>{ls?.transactionType}</td> : null}
+                    {checkNote ? <td>{ls?.transactionNote}</td> : null}
 
-            </Col>
-          </Row>
-
-                <Table className="table-sm table-bordered">
-                    <thead className="thead-uapp-bg">
-                    <tr style={{ textAlign: "center" }}>
-                    
-                    <th>SL/NO</th>
-                    <th>Transaction Date</th>
-                     <th>Consultant Name</th>
-                     <th>Transaction Code</th>
-                     <th>Amount</th>
-                     <th>Transaction Type</th>
-                     <th>Transaction Note</th>
-                     <th>Action</th>
-                     
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {data.map((ls, i) => (
-                    <tr key={i} style={{ textAlign: "center" }}>
-                    
-                      
-                      <td>
-                        {i+1}
-                      </td>
-                      <td>
-                        {ls?.transactionDate}
-                      </td>
-                      <td>
-                        {ls?.consultant}
-                      </td>
-                      <td>
-                        {ls?.transactionCode}
-                      </td>
-
-                      <td>
-                        {ls?.amount}
-                      </td>
-                      <td>
-                        {ls?.transactionType}
-                      </td>
-                      <td>{ls?.transactionNote}</td>
-                     
-                     
-                     
+                    {checkAction ? (
                       <td className="text-center">
                         <ButtonGroup variant="text">
-                       
-
-                        
-                            <Button className='mr-1 btn-sm' color='primary' onClick={()=>redirect(ls)}>
+                          <Button
+                            className="mr-1 btn-sm"
+                            color="primary"
+                            onClick={() => redirect(ls)}
+                          >
                             <i className="fas fa-eye"></i>
-                            </Button>
-                            
+                          </Button>
 
-                            <Button color='warning' className='ml-1 btn-sm' onClick={()=>redirectForEdit(ls)}>
-                              <i className='fas fa-edit'></i>
-
-                            </Button>
-                          
-
-
+                          <Button
+                            color="warning"
+                            className="ml-1 btn-sm"
+                            onClick={() => redirectForEdit(ls)}
+                          >
+                            <i className="fas fa-edit"></i>
+                          </Button>
                         </ButtonGroup>
-
                       </td>
-                    </tr>
-                  ))}
+                    ) : null}
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
 
-           
-                    
-                    </tbody>
-                    </Table>
-
-                    <Pagination
-                    dataPerPage={dataPerPage}
-                    totalData={entity}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                     />
-                </CardBody>
-            </Card>
-            
-        </div>
-    );
+          <Pagination
+            dataPerPage={dataPerPage}
+            totalData={entity}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        </CardBody>
+      </Card>
+    </div>
+  );
 };
 
 export default Index;
