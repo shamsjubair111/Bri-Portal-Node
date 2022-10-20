@@ -241,7 +241,7 @@ const Index = () => {
           <div className="row mb-3">
             <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>
 
-            <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 mb-3">
+            <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8">
               <div className="d-flex justify-content-end flex-wrap">
                 <div className="me-3">
                   <div className="d-flex align-items-center">
@@ -461,6 +461,8 @@ const Index = () => {
                 {/* column hide unhide ends here */}
               </div>
             </div>
+            
+          </div>
 
             <Table id="table-to-xls" className="table-sm table-bordered">
               <thead className="thead-uapp-bg">
@@ -512,7 +514,6 @@ const Index = () => {
                 ))}
               </tbody>
             </Table>
-          </div>
 
           <Pagination
             dataPerPage={dataPerPage}
