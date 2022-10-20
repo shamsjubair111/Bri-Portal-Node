@@ -242,12 +242,6 @@ const Index = () => {
   const handleCheckedIntake = (e) => {
     setCheckIntake(e.target.checked);
   };
-  const handleCheckedPhn = (e) => {
-    setCheckPhn(e.target.checked);
-  };
-  const handleCheckedPass = (e) => {
-    setCheckPass(e.target.checked);
-  };
   const handleCheckedUni = (e) => {
     setCheckUni(e.target.checked);
   };
