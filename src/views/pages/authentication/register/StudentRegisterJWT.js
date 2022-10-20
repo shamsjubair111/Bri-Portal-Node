@@ -85,15 +85,8 @@ const StudentRegisterJWT = () => {
             value="1"
           />
 
-          <FormGroup className="form-label-group">
-            {/* <Select
-        options={studentOptions}
-       value={{ label: studentLabel, value: studentValue }}
-       onChange={(opt) => selectStudent(opt.label, opt.value)}
          
-          name="CampusCountryId"
-          id="CampusCountryId"
-        /> */}
+          
 
             <FormGroup row className="has-icon-left position-relative">
               <Col md="3">
@@ -225,39 +218,45 @@ const StudentRegisterJWT = () => {
                 </FormGroup>
               </Col>
             </FormGroup>
-          </FormGroup>
+      
 
           <div className="row gx-0">
             <div className="col-md-6">
               <FormGroup className="form-label-group">
-                <Input type="text" placeholder="First Name" required />
+                <Input type="text" placeholder="First Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
               </FormGroup>
             </div>
 
             <div className="col-md-6">
               <FormGroup className="form-label-group">
-                <Input type="text" placeholder="Last Name" required />
+                <Input type="text" placeholder="Last Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
               </FormGroup>
             </div>
           </div>
 
           <FormGroup className="form-label-group">
-            <Input type="email" placeholder="Email" required />
+            <Input type="email" placeholder="Email" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
           </FormGroup>
           <FormGroup className="form-label-group">
-            <Input type="password" placeholder="Password" required />
+            <Input type="password" placeholder="Password" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
           </FormGroup>
 
           <FormGroup className="form-label-group">
-            <Input type="password" placeholder="Confirm Password" required />
+            <Input type="password" placeholder="Confirm Password" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
           </FormGroup>
 
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-between">
             <div>
-              <Button className="" color="primary" type="submit">
+              <button className="login-btn-style"  type="submit">
                 Register
-              </Button>
+              </button>
+
+              
             </div>
+
+            <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
+
+
           </div>
         </Form>
 

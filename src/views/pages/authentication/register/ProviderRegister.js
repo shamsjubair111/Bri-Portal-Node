@@ -53,35 +53,40 @@ class ProviderRegister extends React.Component {
         </Col>
 
         <Col lg="6" md="6" className="p-0">
+
+        <div className=" my-md-5 ml-md-4">
+                  <h4
+                    className=""
+                    style={{
+                      color: "#111111",
+                      fontSize: "38px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Become a Provider
+                  </h4>
+                  <span
+                    style={{
+                      color: "#7f7f7f",
+                      fontSize: "18px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Help Student to Study in University
+                  </span>
+                </div>
+
+                <div className="col-right">
         <div className="text-center hide-responsive-right-side">
         <img src={UappLogo} className='w-50' />
         </div>
-            <div className="flexbox-container2" style={{ backgroundColor: "#fff", height: '100vh'  }} >
+            <div className="flexbox-container2" style={{ backgroundColor: "#fff" }} >
               
-                <Card className="rounded-0 mb-0 px-2 md-p" style={{ boxShadow: "none", width:"100%" }}>
-                  {/* <CardHeader className="pb-1">
-                    <CardTitle>
-                      <h4 className="mb-0 login-page-heading-style">Provider Registration Form</h4>
-                    </CardTitle>
-                  </CardHeader> */}
-
-                  <div  className=" mt-md-5">
-
-                  <h4 className="" style={{color: '#111111', fontSize: '38px', fontWeight:'500'}}>Become a Provider</h4>
-                  <span style={{color:'#7f7f7f', fontSize: '18px', fontWeight:'500'}}>Help Student to study in appropriate Universities</span>
-                  </div>
-                 
-                  <Nav tabs className="px-2">
-                    
-                  </Nav>
+                 <ProviderRegisterJWT />
                   
-                    <TabContent activeTab={this.state.activeTab}>
-                      <TabPane tabId="1">
-                        <ProviderRegisterJWT />
-                      </TabPane>
-                    </TabContent>
                   
-                </Card>
+             
+            </div>
             </div>
         </Col>
        
@@ -89,8 +94,8 @@ class ProviderRegister extends React.Component {
       </div>
       </div>
 
-      <Footer></Footer>
-      
+      {/* <Footer></Footer>
+       */}
       </div>
     )
   }

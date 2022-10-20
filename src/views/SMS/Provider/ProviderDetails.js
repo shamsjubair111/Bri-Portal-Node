@@ -495,8 +495,8 @@ const ProviderDetails = () => {
                   />
                 </div>
 
-                <h5 className="pb-2">{adminData?.nameTittle?.name} {' '} {adminData?.firstName} {' '} {adminData?.lastName}</h5>
-                {/* <p> {providerInfo?.providerType?.name} </p> */}
+                <h5 className="">{adminData?.nameTittle?.name} {' '} {adminData?.firstName} {' '} {adminData?.lastName}</h5>
+                <p> Provider Admin </p>
               </div>
               <CardBody>
                 <div className="d-flex justify-content-center">
@@ -528,7 +528,7 @@ const ProviderDetails = () => {
         </Row>
 
         <Row>
-          <Col md="8">
+          <Col md="12">
             <Card>
               <CardBody>
                 <Row className="mb-3">
@@ -557,6 +557,7 @@ const ProviderDetails = () => {
                         <th>Logo</th>
                         <th>Name</th>
                         <th>Type</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -580,6 +581,9 @@ const ProviderDetails = () => {
                             {university.name} ({university.shortName})
                           </td>
                           <td>{university?.universityType?.name}</td>
+                          <td><Button color="primary" className="btn-sm" onClick={()=>{
+                            history.push(`/universityDetails/${university?.id}`)
+                          }}><i className="fas fa-eye"></i></Button></td>
                         </tr>
                       ))}
                     </tbody>
@@ -735,14 +739,14 @@ const ProviderDetails = () => {
             </Card>
           </Col>
 
-          <Col md="4">
+          {/* <Col md="4">
             
 
             <Card className="p-3">
               {/* <h6> Notice</h6>
               <span className="bg-wg bg-width"></span> */}
 
-              <div className="ms-3 mb-1 hedding-titel">
+              {/* <div className="ms-3 mb-1 hedding-titel">
                 <h5> <b>Notice</b> </h5>
                  
                 <div className="bg-h"></div>
@@ -794,7 +798,7 @@ const ProviderDetails = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
           {/* <Card className="p-3">
 
@@ -865,7 +869,7 @@ const ProviderDetails = () => {
 </Card> */}
 
           
-              <div className="notice-item card-widget mt-3 ">
+              {/* <div className="notice-item card-widget mt-3 ">
                 <div className="notice-titel">
                   <h6> Super Admin</h6>
                   <span> 10/12/2021</span>
@@ -913,7 +917,7 @@ const ProviderDetails = () => {
                 </div>
               </div>
             </Card>
-          </Col>
+          </Col> */} 
         </Row>
       </div>
     </div>

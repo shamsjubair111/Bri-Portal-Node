@@ -983,9 +983,9 @@ const AddProviderUniversity = () => {
                   <Col md="6">
                     <Input
                       type="number"
-                      name="FoundationYear"
-                      id="FoundationYear"
-                      defaultValue={universityData?.foundationYear}
+                      name="RequiredResult"
+                      id="RequiredResult"
+                      defaultValue={universityData?.requiredResult}
                       placeholder="Write Minimum Result"
                       required
                       max={100}

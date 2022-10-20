@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Form, FormGroup, Input, Label, Button,Col } from "reactstrap"
+import { Form, FormGroup, Input, Label, Button,Col, CardBody } from "reactstrap"
 import Checkbox from "../../../../components/core/checkbox/CheckboxesVuexy"
 import { Check } from "react-feather"
 import { connect } from "react-redux"
@@ -17,6 +17,8 @@ const ProviderRegisterJWT = () => {
   // const [title, settitle] = useState([]);
   // const [titleLabel,setTitleLabel] = useState('Select Title');
   // const [titleValue, setTitleValue] = useState(0);
+  const [type, setType] = useState("");
+  
 
   const [title,setTitle] = useState('');
 
@@ -48,6 +50,14 @@ const ProviderRegisterJWT = () => {
     setTitle(event.target.value);
 }
 
+
+const handleDisability = (event) => {
+  console.log(event.target.value);
+  setType(event.target.value);
+};
+
+
+
 const   handleRegister = e => {
     e.preventDefault()
     
@@ -60,149 +70,203 @@ const   handleRegister = e => {
 
     return (
 
-      <>
+      <React.Fragment>
+      <CardBody className="pt-1">
+        <Form onSubmit={handleRegister}>
+          <input
+            type="hidden"
+            name="consultantId"
+            id="consultantId"
+            value="1"
+          />
 
+         
+          
+
+            <FormGroup row className="has-icon-left position-relative">
+              <Col md="3">
+                <span style={{ fontWeight: "500" }}>Student Type</span>
+              </Col>
+              <Col md="6">
+                <FormGroup check inline>
+                  <Input
+                    className="form-check-input"
+                    type="radio"
+                    id="isHaveDisability"
+                    onChange={handleDisability}
+                    name="isHaveDisability"
+                    value="1"
+                    checked={type == "1"}
+                  />
+                  <Label
+                    className="form-check-label"
+                    check
+                    htmlFor="isHaveDisability"
+                  >
+                    Home
+                  </Label>
+                </FormGroup>
+
+                <FormGroup check inline>
+                  <Input
+                    className="form-check-input"
+                    type="radio"
+                    id="isHaveDisability"
+                    onChange={handleDisability}
+                    name="isHaveDisability"
+                    value="2"
+                    checked={type == "2"}
+                  />
+                  <Label
+                    className="form-check-label"
+                    check
+                    htmlFor="isHaveDisability"
+                  >
+                    EU/EEA
+                  </Label>
+                </FormGroup>
+
+                <FormGroup check inline>
+                  <Input
+                    className="form-check-input"
+                    type="radio"
+                    id="isHaveDisability"
+                    onChange={handleDisability}
+                    name="isHaveDisability"
+                    value="3"
+                    checked={type == "3"}
+                  />
+                  <Label
+                    className="form-check-label"
+                    check
+                    htmlFor="isHaveDisability"
+                  >
+                    International
+                  </Label>
+                </FormGroup>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row className="has-icon-left position-relative">
+              <Col md="3">
+                <span style={{ fontWeight: "500" }}>Title</span>
+              </Col>
+              <Col md="6">
+                <FormGroup check inline>
+                  <Input
+                    className="form-check-input"
+                    type="radio"
+                    id="title"
+                    onChange={handleTitle}
+                    name="title"
+                    value="1"
+                    checked={title == "1"}
+                  />
+                  <Label className="form-check-label" check htmlFor="title">
+                    Mr.
+                  </Label>
+                </FormGroup>
+
+                <FormGroup check inline>
+                  <Input
+                    className="form-check-input"
+                    type="radio"
+                    id="title"
+                    onChange={handleTitle}
+                    name="title"
+                    value="2"
+                    checked={title == "2"}
+                  />
+                  <Label className="form-check-label" check htmlFor="title">
+                    Miss
+                  </Label>
+                </FormGroup>
+
+                <FormGroup check inline>
+                  <Input
+                    className="form-check-input"
+                    type="radio"
+                    id="title"
+                    onChange={handleTitle}
+                    name="title"
+                    value="3"
+                    checked={title == "3"}
+                  />
+                  <Label className="form-check-label" check htmlFor="title">
+                    Ms.
+                  </Label>
+                </FormGroup>
+
+                <FormGroup check inline>
+                  <Input
+                    className="form-check-input"
+                    type="radio"
+                    id="title"
+                    onChange={handleTitle}
+                    name="title"
+                    value="4"
+                    checked={title == "4"}
+                  />
+                  <Label className="form-check-label" check htmlFor="title">
+                    Mrs.
+                  </Label>
+                </FormGroup>
+              </Col>
+            </FormGroup>
       
-      <Form  onSubmit={handleRegister}>
 
-
-      {/* <FormGroup className="form-label-group">
-      <Select
-      options={titleOptions}
-     value={{ label: titleLabel, value: titleValue }}
-     onChange={(opt) => selectTitle(opt.label, opt.value)}
-       
-        name="CampusCountryId"
-        id="CampusCountryId"
-      />
-      
-      </FormGroup> */}
-
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="3">
-            <span style={{fontWeight: '500'}}>
-             Title
-            </span>
-          </Col>
-          <Col md="6">
-
-          
-          <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='1' checked={title == '1'} />
-          <Label className="form-check-label" check htmlFor="title" >Mr.</Label>
-
-          </FormGroup>
-
-          <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='2' checked={title == '2'} />
-          <Label className="form-check-label" check htmlFor="title">Miss</Label>
-
-          </FormGroup>
-          
-          <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='3' checked={title == '3'} />
-          <Label className="form-check-label" check htmlFor="title">Ms.</Label>
-
-          </FormGroup>
-
-          <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="title" onChange={handleTitle} name="title" value='4' checked={title == '4'} />
-          <Label className="form-check-label" check htmlFor="title">Mrs.</Label>
-
-          </FormGroup>
-
-
-
-          
-          </Col>
-        </FormGroup>
-
-        <div className="row gx-0">
+          <div className="row gx-0">
+            <div className="col-md-6">
+              <FormGroup className="form-label-group">
+                <Input type="text" placeholder="First Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+              </FormGroup>
+            </div>
 
             <div className="col-md-6">
-            <FormGroup className="form-label-group">
-          <Input
-            type="text"
-            placeholder="First Name"
-            required
-            
-        
-          />
-        
-        </FormGroup>
+              <FormGroup className="form-label-group">
+                <Input type="text" placeholder="Last Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+              </FormGroup>
+            </div>
+          </div>
 
+          <FormGroup className="form-label-group">
+            <Input type="email" placeholder="Email" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+          </FormGroup>
+          <FormGroup className="form-label-group">
+            <Input type="password" placeholder="Password" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+          </FormGroup>
+
+          <FormGroup className="form-label-group">
+            <Input type="number" placeholder="Phone Number" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+          </FormGroup>
+
+          <div className="d-flex justify-content-between">
+            <div>
+              <button className="login-btn-style"  type="submit">
+                Register
+              </button>
+
+              
             </div>
 
-            <div className="col-md-6">
-            <FormGroup className="form-label-group">
-          <Input
-            type="text"
-            placeholder="Last Name"
-            required
-           
-          
-          />
-      
-        </FormGroup>
+            <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
 
+
+          </div>
+        </Form>
+
+         <br/>
+        <div className="row">
+            <div className="col-md-6 float-left" style={{color: '#707070', fontSize: '13px', fontWeight: '400'}}>
+              Privacy policy
             </div>
 
+            <div className="col-md-6 float-right" style={{color: '#1E98B0', fontSize: '13px', fontWeight: '400'}}>
+            UAPP © SMS Higher Education Group.
             </div>
-       
-
-
-        <FormGroup className="form-label-group">
-          <Input
-            type="email"
-            placeholder="Email"
-            required
-            
-          />
-       
-        </FormGroup>
-        <FormGroup className="form-label-group">
-          <Input
-            type="number"
-            placeholder="Phone Number"
-            required
-         
-          />
-      
-        </FormGroup>
-        <FormGroup className="form-label-group">
-          <Input
-            type="password"
-            placeholder="Password"
-            required
-           
-          />
-    
-        </FormGroup>
-     
-        <FormGroup>
-         
-        </FormGroup>
-        <div className="d-flex justify-content-end">
-
-        
-
-       <div>
-       <Button className="" color="primary" type="submit">
-       Register
-     </Button>
-       </div>
-
-       
-        </div>
-      </Form>
-
-
-      <div className="text-center mt-3">
-      <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
-      </div>
-
-
-     </>
+          </div>
+      </CardBody>
+    </React.Fragment>
 
 
     )

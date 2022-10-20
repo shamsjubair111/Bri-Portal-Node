@@ -323,6 +323,9 @@ const AddDegree = lazy(() => import("./views/SMS/Degree/AddDegree"))
 
 const SeedData = lazy(() => import("./views/SMS/SeedData/Index"));
 
+// Guidelines for newcomers to the website
+
+const GuideLine = lazy(() => import("./views/SMS/Guideline/GuideLine"));
 
 
 
@@ -792,6 +795,9 @@ class AppRouter extends React.Component {
 
         {/* All Notifications Path */}
          <AppRoute  path="/allNotifications" component={Notifications} />
+
+         {/* guideline path */}
+        <AppRoute  path="/guideLines" component={GuideLine} />
 
 
 

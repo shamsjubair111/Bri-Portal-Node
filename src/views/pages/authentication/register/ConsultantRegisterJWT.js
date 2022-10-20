@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Form, FormGroup, Input, Label, Button, Col } from "reactstrap"
+import { Form, FormGroup, Input, Label, Button, Col, CardBody } from "reactstrap"
 import Checkbox from "../../../../components/core/checkbox/CheckboxesVuexy"
 import { Check } from "react-feather"
 import { connect } from "react-redux"
@@ -88,30 +88,15 @@ const  ConsultantRegisterJWT = () => {
 
     return (
 
-      <>
-
-      
-      <Form  onSubmit={handleRegister}>
-
-      <input
-      type='hidden'
-      name='parentConsultantId'
-      id='parentConsultantId'
-      value='1'
-      />
-
-      {/* <FormGroup className="form-label-group">
-      <Select
-      options={consultantOptions}
-     value={{ label: consultantLabel, value: consultantValue }}
-     onChange={(opt) => selectConsultant(opt.label, opt.value)}
-       
-        name="CampusCountryId"
-        id="CampusCountryId"
-      />
-      
-      </FormGroup> */}
-
+      <React.Fragment>
+      <CardBody className="pt-1">
+        <Form onSubmit={handleRegister}>
+          <input
+            type="hidden"
+            name="consultantId"
+            id="consultantId"
+            value="1"
+          />
 
 <FormGroup row className="has-icon-left position-relative">
           <Col md="3">
@@ -119,7 +104,7 @@ const  ConsultantRegisterJWT = () => {
               Consultant Type
             </span>
           </Col>
-          <Col md="8">
+          <Col md="9">
 
           
           <FormGroup check inline>
@@ -152,18 +137,7 @@ const  ConsultantRegisterJWT = () => {
           </Col>
         </FormGroup>
 
-      {/* <FormGroup className="form-label-group">
-      <Select
-      options={titleOptions}
-     value={{ label: titleLabel, value: titleValue }}
-     onChange={(opt) => selectTitle(opt.label, opt.value)}
-       
-        name="CampusCountryId"
-        id="CampusCountryId"
-      />
       
-      
-      </FormGroup> */}
 
 
         <FormGroup row className="has-icon-left position-relative">
@@ -205,80 +179,59 @@ const  ConsultantRegisterJWT = () => {
           </Col>
         </FormGroup>
 
-        <div className="row gx-0">
+         
 
+          <div className="row gx-0">
             <div className="col-md-6">
-            <FormGroup className="form-label-group">
-          <Input
-            type="text"
-            placeholder="First Name"
-            required
-            
-        
-          />
-        
-        </FormGroup>
-
+              <FormGroup className="form-label-group">
+                <Input type="text" placeholder="First Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+              </FormGroup>
             </div>
 
             <div className="col-md-6">
-            <FormGroup className="form-label-group">
-          <Input
-            type="text"
-            placeholder="Last Name"
-            required
-           
-          
-          />
-      
-        </FormGroup>
+              <FormGroup className="form-label-group">
+                <Input type="text" placeholder="Last Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+              </FormGroup>
+            </div>
+          </div>
 
+          <FormGroup className="form-label-group">
+            <Input type="email" placeholder="Email" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+          </FormGroup>
+        
+
+          <FormGroup className="form-label-group">
+            <Input type="number" placeholder="Phone Number" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
+          </FormGroup>
+
+          <div className="d-flex justify-content-between">
+            <div>
+              <button className="login-btn-style"  type="submit">
+                Register
+              </button>
+
+              
             </div>
 
+            <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
 
-        </div>
-        
-        <FormGroup className="form-label-group">
-          <Input
-            type="email"
-            placeholder="Email"
-            required
-          
-          />
-        
-        </FormGroup>
-        <FormGroup className="form-label-group">
-          <Input
-            type="number"
-            placeholder="Phone Number"
-            required
-           
-          />
-       
-        </FormGroup>
-        
-      
-        <div className="d-flex justify-content-end">
 
-        
-       
+          </div>
+        </Form>
 
-       <div>
-       <Button className="" color="primary" type="submit">
-       Register
-     </Button>
-       </div>
+         <br/>
+        <div className="row">
+            <div className="col-md-6 float-left" style={{color: '#707070', fontSize: '13px', fontWeight: '400'}}>
+              Privacy policy
+            </div>
 
-          
-        </div>
-      </Form>
-
-      <div className="text-center mt-3">
-      <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
-      </div>
-
+            <div className="col-md-6 float-right" style={{color: '#1E98B0', fontSize: '13px', fontWeight: '400'}}>
+            UAPP © SMS Higher Education Group.
+            </div>
+          </div>
+      </CardBody>
+    </React.Fragment>
      
-      </>
     )
   }
 

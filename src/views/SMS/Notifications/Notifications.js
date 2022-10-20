@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Card, CardHeader, CardBody, Row, Col, Button  } from 'reactstrap';
+import { Card, CardHeader, CardBody, Row, Col, Button, Modal, ModalBody,ModalFooter } from 'reactstrap';
 import get from '../../../helpers/get';
 import Select from "react-select";
 import Pagination from '../Pagination/Pagination';
+import { useToasts } from 'react-toast-notifications';
+import remove from '../../../helpers/remove';
 
 const Notifications = () => {
 
     const history = useHistory();
+    const {addToast} = useToasts();
 
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +19,9 @@ const Notifications = () => {
     const [entity, setEntity] = useState(0);
     const [data,setData] = useState([]);
     const [success,setSuccess] = useState(false);
+    const [deleteModal,setDeleteModal]  = useState(false);
+    const [delDadta,setDelData] = useState({});
+    const [buttonStatus,setButtonStatus] = useState(false);
 
   
     useEffect(()=>{
@@ -62,6 +68,67 @@ const Notifications = () => {
         return x;
       };
 
+      const toggleDanger = (data) => {
+        
+        setDelData(data);
+        setDeleteModal(true);
+      }
+
+      const handleDeleteData = () =>{
+        setButtonStatus(true);
+        get(`Notification/Delete/${delDadta?.id}`)
+        .then(res => {
+          setButtonStatus(false);
+          if(res){
+            addToast('Notification Deleted',{
+              appearance: 'error',
+              autoDismiss: true
+            })
+            setDelData({});
+            setDeleteModal(false);
+            setSuccess(!success);
+          }
+          else{
+            addToast('Something Went Wrong',{
+              appearance: 'error',
+              autoDismiss: true
+            })
+          }
+      
+        })
+       
+      }
+
+      const deletAllNotification = () => {
+        setButtonStatus(true);
+         remove(`Notification/DeleteAll`)
+         .then(res => {
+          setButtonStatus(false);
+          addToast(res,{
+            appearance:'error',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+
+
+         })
+      }
+
+      const deletAllSeen = () => {
+        setButtonStatus(true);
+         remove(`Notification/DeleteAllOnlySeens`)
+         .then(res => {
+          setButtonStatus(false);
+          addToast(res,{
+            appearance:'error',
+            autoDismiss: true
+          })
+          setSuccess(!success);
+
+
+         })
+      }
+
       const markAsReadNotification = (data) => {
 
         
@@ -78,6 +145,28 @@ const Notifications = () => {
     return (
         <div>
 
+                            <Modal
+                            isOpen={deleteModal}
+                            toggle={() => setDeleteModal(!deleteModal)}
+                            className="uapp-modal2"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this ? Once Deleted it
+                                can't be Undone!
+                              </p>
+                            </ModalBody>
+
+                            <ModalFooter>
+                              <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
+                                YES
+                              </Button>
+                              <Button onClick={() => setDeleteModal(false)}>
+                                NO
+                              </Button>
+                            </ModalFooter>
+                          </Modal>
+
     <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">All Notifications</h3>
@@ -91,18 +180,39 @@ const Notifications = () => {
       </Card>
 
   
-          {/* new */}
-          <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
-              
-            </Col>
+        {/* <Card>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
-                
-              </div>
-            </Col>
-          </Row>
+          <CardBody>
+
+            {
+              data?.length > 0 ? 
+              <div className='d-flex justify-content-end'>
+
+              <Button color='danger mr-1 btn-sm' onClick={deletAllNotification} disabled={buttonStatus}>
+                Delete All
+
+              </Button>
+
+              <Button color='danger ml-1 btn-sm' onClick={deletAllSeen}>
+                Delete Only Seen
+
+              </Button>
+
+            </div>
+
+            :
+
+            <div className='text-center'>
+
+              <span style={{fontWeight: '500'}}>No Notification Found</span>
+
+            </div>
+            }
+
+          </CardBody>
+
+
+        </Card> */}
 
           {/* map data from array and show */}
 
@@ -126,10 +236,12 @@ const Notifications = () => {
                          null
                        }
 
-                        <Button color='danger' className='ml-1 btn-sm'>
+                        <Button color='danger' className='ml-1 btn-sm' onClick={()=> toggleDanger(list)}>
                             Delete
 
                         </Button>
+
+                     
 
                     </div>
                    
