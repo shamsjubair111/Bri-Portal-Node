@@ -137,6 +137,8 @@ const Search = () => {
     const [primaryCampus,setPrimaryCampus] = useState({});
     const [primaryintake, setPrimaryIntake] = useState({});
     const [buttonStatus,setButtonStatus] = useState(false);
+
+    const [applicationCount,setApplicationCount] = useState(0);
    
 
    
@@ -279,6 +281,10 @@ const Search = () => {
     const selectStudent = (label,value)=>{
       setStudentDataLabel(label);
       setStudentDataValue(value);
+      get(`Eligibility/StudentApplicationCount/${value}`)
+      .then(res =>{
+        setApplicationCount(res);
+      })
     }
 
     const patternOptions = pattern?.map(ptn => ({
@@ -1018,7 +1024,7 @@ Additional Message <span className="text-danger">*</span>{" "}
 <div>
 
 <Button color='danger' className='mr-1' onClick={closeModal}>
-Cancel
+Close
 </Button>
 
 </div>
@@ -1026,7 +1032,7 @@ Cancel
 <div>
 
 {
-(studentDataValue !==0) ?
+(studentDataValue !==0 && applicationCount < 3) ?
 
 <div className=''>
 <Button color='primary' className='ml-1' type='submit'>Submit</Button> 
