@@ -305,7 +305,7 @@ const StudentByConsultant = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Consultants List
+              <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
           </div>
         </CardHeader>

@@ -182,8 +182,8 @@ const CampusDetails = () => {
         for (let i = 0; i < res.length; i++) {
           const per = res[i];
           if (per?.isIntakeExists == true) {
-            const id = per.subjectId.toString();
-            defaultChecked.push(id);
+            const ids = per.subjectId.toString();
+            defaultChecked.push(ids);
             setChecked1([...defaultChecked]);
           }
         }
@@ -542,9 +542,9 @@ const CampusDetails = () => {
     setViewModalOpen(false);
   };
 
-  const handleDeleteItem = (id) => {
+  const handleDeleteItem = (ids) => {
     setButtonStatus1(true);
-    const returnValue = remove(`CampusGallery/Delete/${id}`).then((action) => {
+    const returnValue = remove(`CampusGallery/Delete/${ids}`).then((action) => {
       setButtonStatus1(false);
       setDeleteModal(false);
       setSuccess(!success);
@@ -606,13 +606,13 @@ const CampusDetails = () => {
 
   // onChange checkbox
   const handleCheck = (e) => {
-    let id = e.target.id;
+    let ids = e.target.id;
     let val = e.target.checked;
 
     if (val == true) {
-      setChecked1([...checked1, id]);
+      setChecked1([...checked1, ids]);
     } else {
-      const index = checked1.indexOf(id);
+      const index = checked1.indexOf(ids);
       if (index > -1) {
         checked1.splice(index, 1);
       }
@@ -641,6 +641,8 @@ const CampusDetails = () => {
       }
     }
   };
+
+  console.log("checked1", checked1);
 
   const handleMultipleSubjects = () => {
     history.push(`/assignMultipleSubject/${id}`);
@@ -1692,8 +1694,8 @@ const CampusDetails = () => {
                       </Row>
                     </FormGroup>
 
-                    {
-                      intakeValue != 0 || statusValue != 0 ?
+                    {/* {
+                      intakeValue != 0 || statusValue != 0 ? */}
                       <FormGroup>
                       <Row>
                         <Col sm="12">
@@ -1720,7 +1722,7 @@ const CampusDetails = () => {
                                 type="checkbox"
                                 name=""
                                 id={per?.subjectId}
-                                // defaultChecked={per?.isIntakeExists}
+                                defaultChecked={per?.isIntakeExists}
                               />
                               <label className="form-check-label" htmlFor="">
                                 {per?.subjectName}
@@ -1730,9 +1732,9 @@ const CampusDetails = () => {
                         ))}
                       </Row>
                     </FormGroup>
-                    :
+                    {/* :
                     null
-                    }
+                    } */}
                   </Form>
                   }
 

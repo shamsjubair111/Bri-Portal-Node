@@ -150,7 +150,7 @@ const ConsultantByConsultant = () => {
     <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-white">Consultants list</h3>
+          <h3 className="text-white">Consultant list</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
@@ -198,7 +198,7 @@ const ConsultantByConsultant = () => {
                 </Col> */}
                 
 
-                <div className="mr-3">
+                <div className="mr-2">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Showing :</div>
                     <div>
@@ -211,7 +211,7 @@ const ConsultantByConsultant = () => {
                   </div>
                 </div>
 
-                <div className="mr-3">
+                <div className="mr-2">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
