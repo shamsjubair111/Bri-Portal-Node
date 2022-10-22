@@ -60,7 +60,8 @@ const RoleMenu = (props) => {
         setRoleValue(value);
 
 
-        const returnValue = get(`RoleMenuItem/GetCheckBoxes/${value}`).then((action)=> {
+      get(`RoleMenuItem/GetCheckBoxes/${value}`).then((action)=> {
+          
        
             setMenus(action);
         
@@ -86,9 +87,13 @@ const RoleMenu = (props) => {
         let id = e.target.id;
         let val = e.target.checked;
 
-
+    // Code Modified Here at 22/10/22 
         if(val == true){
-        setChecked([...checked, id]);
+        {
+            if(!checked?.includes(id)){
+                setChecked([...checked, id]);
+            }
+        }
         }else{
         const index = checked.indexOf(id);
         if (index > -1) {
@@ -102,11 +107,13 @@ const RoleMenu = (props) => {
   const handleSelectAll = e => {
     let newChecked = [];
     const val = e.target.checked;
+    
     if(val == true){
       menus.map(menu => {
         const menuId = menu.id.toString();
         newChecked.push(menuId);
-        document.getElementById(menu.id).checked = true;  
+        document.getElementById(menu?.id).checked = true;  
+        console.log(menu?.id);
       })
       setChecked([...newChecked]);
     }
@@ -121,6 +128,8 @@ const RoleMenu = (props) => {
     }
    
   }
+
+  console.log(checked);
 
 
   const handleConfirm = () => {

@@ -32,6 +32,7 @@ const RolePermission = (props) => {
     .then(res => {
       
         setRoles(res);
+      
     })
 
 
@@ -81,7 +82,7 @@ const RolePermission = (props) => {
     setRoleValue(value);
 
     const returnValue = get(`RolePermission/GetCheckBoxes/${value}`).then((action)=>{
-
+     
       setPermissionName(action);
       let defaultChecked = checked
       if(action.length > 0){
@@ -106,6 +107,7 @@ const RolePermission = (props) => {
  
   // onChange checkbox
   const handleCheck = (e) => {
+  
 
     let id = e.target.id;
     let val = e.target.checked;
@@ -133,6 +135,7 @@ const RolePermission = (props) => {
         document.getElementById(per.id).checked = true;  
       })
       setChecked([...newChecked]);
+      
     }
 
     if(val == false){
@@ -145,6 +148,10 @@ const RolePermission = (props) => {
     }
    
   }
+
+  console.log('Checked',checked);
+ 
+
 
   // redirect to dashboard
   const backToDashboard = () => {
