@@ -1722,7 +1722,7 @@ const CampusDetails = () => {
                                 type="checkbox"
                                 name=""
                                 id={per?.subjectId}
-                                defaultChecked={per?.isIntakeExists}
+                                defaultChecked={per.isIntakeExists}
                               />
                               <label className="form-check-label" htmlFor="">
                                 {per?.subjectName}
