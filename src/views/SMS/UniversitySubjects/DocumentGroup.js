@@ -364,7 +364,7 @@ const DocumentGroup = () => {
                 className={"btn btn-uapp-add"}
                 func={() => setModalOpen(true)}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New Document Group"}
+                name={" Add Document Group"}
                 permission={6}
               />
 
@@ -537,7 +537,7 @@ const DocumentGroup = () => {
                         </td>
                         <td>
                           <ButtonForFunction
-                            name={"View"}
+                            name={"Add / View"}
                             color={"success"}
                             func={() => handleViewDocument(document)}
                             className={"mx-1 btn-sm"}

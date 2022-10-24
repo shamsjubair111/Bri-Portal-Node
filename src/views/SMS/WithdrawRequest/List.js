@@ -511,7 +511,7 @@ const List = () => {
                 <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4">
                   <Button color="primary" onClick={handleAddWithdrawRequest}>
                     <i className="fas fa-plus"></i>
-                    <span> Add New Withdraw Request</span>
+                    <span> Add Withdraw Request</span>
                   </Button>
                 </div>
 

@@ -197,7 +197,7 @@ const ProviderAdminList = () => {
     { 
         permissions?.includes(permissionList?.Add_Provider_Admin) ?
        <Link to ='/adminProviderForm'>
-       <Button  className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add New Provider Admin </Button>
+       <Button  className="btn btn-uapp-add "> <i className="fas fa-plus"></i>  Add Provider Admin </Button>
        </Link>
        :
        null

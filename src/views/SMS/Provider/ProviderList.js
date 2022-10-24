@@ -322,7 +322,7 @@ const ProviderList = () => {
                   url={"/providerForm"}
                   className={"btn btn-uapp-add "}
                   icon={<i className="fas fa-plus"></i>}
-                  name={" Add New Provider"}
+                  name={" Add Provider"}
                   permission={6}
                 />
               ) : null}

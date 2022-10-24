@@ -415,7 +415,7 @@ const ConsultantList = () => {
                 <LinkButton
                   url={"/addConsultant"}
                   className={"btn btn-uapp-add "}
-                  name={"Add New Consultant"}
+                  name={"Add Consultant"}
                   icon={<i className="fas fa-plus"></i>}
                   // permission={6}
                 />

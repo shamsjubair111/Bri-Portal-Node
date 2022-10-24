@@ -561,7 +561,7 @@ const Index = () => {
                     className={"btn btn-uapp-add "}
                     icon={<i className="fas fa-plus"></i>}
                     func={() => setModal2Open(true)}
-                    name={" Add New Withdraw Transaction"}
+                    name={" Add Withdraw Transaction"}
                   ></ButtonForFunction>
                 </div>
 

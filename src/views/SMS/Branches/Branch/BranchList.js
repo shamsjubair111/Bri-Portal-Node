@@ -168,7 +168,7 @@ const BranchList = () => {
                   //  func={handleLocalStorage}
                   className={"btn btn-uapp-add "}
                   icon={<i className="fas fa-plus"></i>}
-                  name={"Add New Branch"}
+                  name={"Add Branch"}
                 />
               ) : null}
             </Col>

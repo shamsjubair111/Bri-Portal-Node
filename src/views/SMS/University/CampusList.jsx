@@ -422,7 +422,7 @@ const CampusList = (props) => {
                 func={() => setModalOpen(true)}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New Campus"}
+                name={" Add Campus"}
                 permission={6}
               />
             </Col>

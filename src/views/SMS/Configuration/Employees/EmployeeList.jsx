@@ -366,7 +366,7 @@ const EmployeeList = (props) => {
                   func={handleAddStaff}
                   className={"btn btn-uapp-add "}
                   icon={<i className="fas fa-plus"></i>}
-                  name={" Add New Staff"}
+                  name={" Add Staff"}
                 />
               ) : null}
             </Col>

@@ -512,7 +512,7 @@ const SubjectList = (props) => {
                   func={handleAddSubject}
                   className={"btn btn-uapp-add "}
                   icon={<i className="fas fa-plus"></i>}
-                  name={" Add New Subject"}
+                  name={" Add Subject"}
                   permission={6}
                 />
               ) : null}

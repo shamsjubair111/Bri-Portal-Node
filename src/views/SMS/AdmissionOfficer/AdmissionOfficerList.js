@@ -655,7 +655,7 @@ const AdmissionOfficerList = () => {
                 func={handleAddNew}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New Admission Officer"}
+                name={" Add Admission Officer"}
                 permission={6}
               />
             </Col>

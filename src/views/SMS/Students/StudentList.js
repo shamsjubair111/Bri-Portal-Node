@@ -591,7 +591,7 @@ const StudentList = () => {
                 color='primary'
                 icon={<i className="fas fa-plus"></i>}
                 func={handleAddStudent}
-                name={" Add New Student"}
+                name={" Add Student"}
               ></ButtonForFunction>
             </Col>
 

@@ -445,7 +445,7 @@ const Intake = () => {
                   func={handleAddNewButton}
                   className={"btn btn-uapp-add mr-1"}
                   icon={<i className="fas fa-plus"></i>}
-                  name={" Add New Intake"}
+                  name={" Add Intake"}
                 />
               ) : null}
 

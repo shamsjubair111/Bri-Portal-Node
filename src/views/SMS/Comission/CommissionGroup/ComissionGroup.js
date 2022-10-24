@@ -215,7 +215,7 @@ const ComissionGroup = () => {
               <Button className ="btn btn-uapp-add" onClick={()=> setOpenModal(true)}>
                  <i className="fas fa-plus"></i>
                {' '}
-                Add New Commission Group
+                Add Commission Group
                            
                    </Button>
               </div>
@@ -241,7 +241,7 @@ const ComissionGroup = () => {
                         </td>
                         <td>
                           <Link to={`/commissionPriceList/${comm?.id}`}>
-                            <Button color='primary'>View</Button>
+                            <Button color='primary'>Edit / View</Button>
                           </Link>
                         </td>
                        

@@ -331,7 +331,7 @@ const AccountIntake = () => {
                     <ButtonForFunction className ={"btn btn-uapp-add "}
                         icon ={<i className="fas fa-plus"></i>}
                         func={openModal} 
-                        name={' Add New Intake'}
+                        name={' Add Intake'}
                                 
                         ></ButtonForFunction>
                     </div>

@@ -542,7 +542,7 @@ const ProviderDetails = () => {
                       func={handleAddUniversity}
                       className={"ml-3 btn btn-uapp-add "}
                       icon={<i className="fas fa-plus"></i>}
-                      name={" Add New University"}
+                      name={" Add University"}
                       permission={6}
                     />
                   </Col>
@@ -655,7 +655,7 @@ const ProviderDetails = () => {
                                 data={"View"}
                                 permission={6}
                               /> */}
-                              <span onClick={()=>redirectToAssignPage(manager?.id)} className="text-decoration-none">View</span>
+                              <span onClick={()=>redirectToAssignPage(manager?.id)} className="text-decoration-none">Edit / View</span>
                             </span>{" "}
                           </td>
                           <td>
