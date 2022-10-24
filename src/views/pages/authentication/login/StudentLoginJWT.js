@@ -146,7 +146,7 @@ class Login extends React.Component {
               
 
               <div className="mt-3 float-right">
-                <Link to="/pages/forgot-password" style={{ textDecoration: 'none', color: '#72C1FF', fontSize: '18px', fontWeight: '500' }}>Forgot Password?</Link>
+                <Link to="/pages/forgot-password" style={{ textDecoration: 'none', color: '#db2c2a', fontSize: '18px', fontWeight: '500' }}>Forgot Password?</Link>
               </div>
 
              
@@ -208,12 +208,12 @@ class Login extends React.Component {
           <br/>
           
           
-          <div className="row">
-            <div className="col-md-6 float-left" style={{color: '#707070', fontSize: '13px', fontWeight: '400'}}>
+          <div className="d-flex justify-content-between">
+            <div className="" style={{color: '#707070', fontSize: '13px', fontWeight: '400'}}>
               Privacy policy
             </div>
 
-            <div className="col-md-6 float-right" style={{color: '#1E98B0', fontSize: '13px', fontWeight: '400'}}>
+            <div className="" style={{color: '#1E98B0', fontSize: '13px', fontWeight: '400'}}>
             UAPP © SMS Higher Education Group.
             </div>
           </div>

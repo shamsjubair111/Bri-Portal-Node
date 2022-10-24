@@ -312,12 +312,12 @@ const StudentByConsultant = lazy(() => import("./views/SMS/Students/StudentByCon
 // Education Level
 
 const EducationLevelList = lazy(() => import("./views/SMS/EducationLevel/EducationLevelList"))
-const AddEducationLevel = lazy(() => import("./views/SMS/EducationLevel/AddEducationLevel"))
+// const AddEducationLevel = lazy(() => import("./views/SMS/EducationLevel/AddEducationLevel"))
 
 // Degree
 
 const DegreeList = lazy(() => import("./views/SMS/Degree/DegreeList"))
-const AddDegree = lazy(() => import("./views/SMS/Degree/AddDegree"))
+// const AddDegree = lazy(() => import("./views/SMS/Degree/AddDegree"))
 
 // Seed Data
 
@@ -703,12 +703,12 @@ class AppRouter extends React.Component {
          {/* Education Level paths */}
 
          <AppRoute  path="/educationalLevelList" component={permissions?.includes(permissionList?.Education_Level_List)? EducationLevelList : NotAuthorized} />
-         <AppRoute  path="/addEducationLevel/:name?/:description?/:levelValue?/:id?" component={permissions?.includes(permissionList?.Add_Education_Level)? AddEducationLevel : NotAuthorized} />
+         {/* <AppRoute  path="/addEducationLevel/:name?/:description?/:levelValue?/:id?" component={permissions?.includes(permissionList?.Add_Education_Level)? AddEducationLevel : NotAuthorized} /> */}
 
          {/* Degree Paths */}
 
          <AppRoute  path="/degreeList" component={permissions?.includes(permissionList?.degree_List)? DegreeList : NotAuthorized} />
-         <AppRoute  path="/addDegree/:degreeName?/:eduLabel?/:educationId?/:id?" component={permissions?.includes(permissionList?.Add_degree)? AddDegree : NotAuthorized} />
+         {/* <AppRoute  path="/addDegree/:degreeName?/:eduLabel?/:educationId?/:id?" component={permissions?.includes(permissionList?.Add_degree)? AddDegree : NotAuthorized} /> */}
 
 
          <AppRoute  path="/examTestType" component={permissions?.includes(permissionList?.Exam_test_type_List)? ExamTestType : NotAuthorized} />

@@ -222,28 +222,98 @@ const StudentRegisterJWT = () => {
 
           <div className="row gx-0">
             <div className="col-md-6">
-              <FormGroup className="form-label-group">
-                <Input type="text" placeholder="First Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-              </FormGroup>
+            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="text"
+                placeholder="First Name"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >First Name</Label>
+              
+            </FormGroup>
             </div>
 
             <div className="col-md-6">
-              <FormGroup className="form-label-group">
-                <Input type="text" placeholder="Last Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-              </FormGroup>
+            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="text"
+                placeholder="Last Name"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Last Name</Label>
+              
+            </FormGroup>
             </div>
           </div>
 
-          <FormGroup className="form-label-group">
-            <Input type="email" placeholder="Email" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-          </FormGroup>
-          <FormGroup className="form-label-group">
-            <Input type="password" placeholder="Password" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-          </FormGroup>
+          <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="email"
+                placeholder="Email"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
 
-          <FormGroup className="form-label-group">
-            <Input type="password" placeholder="Confirm Password" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-          </FormGroup>
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Email</Label>
+
+           
+              
+            </FormGroup>
+
+            <div className="row gx-0">
+            <div className="col-md-6">
+            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="password"
+                placeholder="Password"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Password</Label>
+              
+            </FormGroup>
+            </div>
+
+            <div className="col-md-6">
+            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Confirm Password</Label>
+              
+            </FormGroup>
+            </div>
+          </div>
+       
 
           <div className="d-flex justify-content-between">
             <div>
@@ -254,19 +324,19 @@ const StudentRegisterJWT = () => {
               
             </div>
 
-            <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
+            <Link to="/" style={{ textDecoration: 'none', color: 'rgb(30, 152, 176)', fontSize: '18px', fontWeight: '500' }}>I am already registered</Link>
 
 
           </div>
         </Form>
 
          <br/>
-        <div className="row">
-            <div className="col-md-6 float-left" style={{color: '#707070', fontSize: '13px', fontWeight: '400'}}>
+        <div className="d-flex justify-content-between">
+            <div className="" style={{color: '#707070', fontSize: '13px', fontWeight: '400'}}>
               Privacy policy
             </div>
 
-            <div className="col-md-6 float-right" style={{color: '#1E98B0', fontSize: '13px', fontWeight: '400'}}>
+            <div className="" style={{color: '#1E98B0', fontSize: '13px', fontWeight: '400'}}>
             UAPP © SMS Higher Education Group.
             </div>
           </div>

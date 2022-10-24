@@ -263,7 +263,7 @@ const DocumentList = () => {
               toggle={closeModal}
               className="uapp-modal2"
             >
-              <ModalHeader>Document</ModalHeader>
+              <ModalHeader>Document Details</ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
                   {updateDocument != undefined ? (

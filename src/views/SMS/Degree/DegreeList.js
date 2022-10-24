@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import get from '../../../helpers/get';
-import { Button, Card, CardBody, CardHeader, Col, Table, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalBody, ModalFooter, ButtonGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Table, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalBody, ModalFooter, ButtonGroup, ModalHeader } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import remove from '../../../helpers/remove';
 import { useToasts } from "react-toast-notifications";
 import LinkButton from '../Components/LinkButton';
 import Loader from '../Search/Loader/Loader';
+import CustomButtonRipple from '../Components/CustomButtonRipple';
+import Select from "react-select";
+import post from '../../../helpers/post';
+import put from '../../../helpers/put';
 
 const DegreeList = () => {
 
@@ -22,6 +26,16 @@ const DegreeList = () => {
     const [success, setSuccess] = useState(false);
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [modalOpen,setModalOpen] = useState(false);
+
+    const [data,setData] = useState({});
+
+    const [education, setEducation] = useState([]);
+    const [educationLabel, setEducationLabel] = useState('Select Education Level');
+    const [educationValue, setEducationValue] = useState(0);
+    const [educationError, setEducationError] = useState(false);
+    const [errorMessage,setErrorMessage] = useState('Education level is required');
+    
 
     useEffect(()=>{
 
@@ -31,6 +45,14 @@ const DegreeList = () => {
             setDegreeList(res);
             setLoading(false);
         })
+
+        get('EducationLevelDD/Index')
+        .then(res => {
+            console.log('Cehecking Education Data from get method', res);
+            setEducation(res);
+        })
+
+       
 
     },[success])
 
@@ -65,11 +87,36 @@ const DegreeList = () => {
             }
 
 
-             // Go To Degree Form Page
+            const educationName = education?.map((edu) => ({
+                label: edu.name,
+                value: edu.id,
+              }));
+        
+        
+                     // select  Education Level
+          const selectEducationLevel = (label, value) => {
+        
+            setEducationError(false);
+            setEducationLabel(label);
+            setEducationValue(value);
+           
+          }
+
+
+            
 
       const handleAddDegree = () => {
+        setModalOpen(true);
+        
+      }
 
-        history.push('/addDegree');
+      const closeModal = () => {
+        setData({});
+    
+        setEducationLabel(`Select Education Level`);
+        setEducationValue(0);
+  
+        setModalOpen(false);
       }
 
 
@@ -80,8 +127,90 @@ const DegreeList = () => {
         history.push('/');
     }
 
-    const redirectToUpdate = (degreeName, degreeEducationLevelName, degreeEducationLevelId, degreeId) =>{
-        history.push(`/addDegree/${degreeName}/${degreeEducationLevelName}/${degreeEducationLevelId}/${degreeId}`);
+    
+    const handleSubmit = (event) => {
+
+        event.preventDefault();
+        const subData = new FormData(event.target);
+
+        if(educationValue == 0){
+            setEducationError(true);
+        }
+
+        else{
+
+            // if(degreeName !== undefined && eduLabel !== undefined && educationId !== undefined && id !== undefined){
+            //   setButtonStatus(true);
+            //     put(`Degree/Update`,subData)
+            //     .then( res => {
+            //       setButtonStatus(false);
+            //         if(res?.status ==200 && res?.data?.isSuccess == true){
+            //             addToast(res?.data?.message,{
+            //                 appearance: 'success',
+            //                 autoDismiss: true
+            //             })
+            //             history.push('/degreeList');
+    
+            //         }
+    
+            //     })
+
+            // }
+
+            if(data?.id){
+              setButtonStatus(true);
+                put(`Degree/Update`,subData)
+                .then( res => {
+                  setButtonStatus(false);
+                    if(res?.status ==200 && res?.data?.isSuccess == true){
+                        addToast(res?.data?.message,{
+                            appearance: 'success',
+                            autoDismiss: true
+                        })
+                        setData({});
+                        setSuccess(!success);
+                        setEducationLabel(`Select Education Level`);
+                        setEducationValue(0);
+                        setModalOpen(false);
+    
+                    }
+    
+                })
+
+            }
+
+            else{
+                setButtonStatus(true);
+                post('Degree/Create',subData)
+                .then( res => {
+                    setButtonStatus(false);
+                    if(res?.status ==200 && res?.data?.isSuccess == true){
+                        addToast(res?.data?.message,{
+                            appearance: 'success',
+                            autoDismiss: true
+                        })
+                        setSuccess(!success);
+                        setEducationLabel(`Select Education Level`);
+                        setEducationValue(0);
+                        setModalOpen(false);
+    
+                    }
+    
+                })
+
+            }
+           
+
+        }
+
+    }
+
+
+    const redirectToUpdate = (data) =>{
+       setData(data);
+       setEducationLabel(data?.educationLevel?.name);
+       setEducationValue(data?.educationLevel?.levelValue);
+       setModalOpen(true);
     }
 
     return (
@@ -92,6 +221,132 @@ const DegreeList = () => {
             <Loader/>
             :
             <div>
+
+            <Modal
+              isOpen={modalOpen}
+              toggle={closeModal}
+              className="uapp-modal2"
+            >
+              <ModalHeader>Degree Details</ModalHeader>
+              <ModalBody>
+              <Form onSubmit={handleSubmit}>
+
+                    {
+                        (data?.id) ?
+
+                        <input
+                        type='hidden'
+                        name='id'
+                        id='id'
+                        value={data?.id}
+                        />
+
+                        :
+
+                        null
+                    }
+
+
+                    <FormGroup row className="has-icon-left position-relative">
+                    <Col md="4">
+                        <span>
+                        Name <span className="text-danger">*</span>{" "}
+                        </span>
+                    </Col>
+                    <Col md="8">
+                    <Input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder='Enter Name'
+                        required
+                        defaultValue={data?.name}
+                        
+                        
+                        />
+
+                    </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="has-icon-left position-relative">
+                    <Col md="4">
+                    <span>
+                    Education Level <span className="text-danger">*</span>{" "}
+                    </span>
+                    </Col>
+                    <Col md="8">
+
+
+                    <Select
+                        options={educationName}
+                        defaultValue={{label: educationLabel, value : educationValue}}
+                        onChange={(opt) => selectEducationLevel(opt.label, opt.value)}
+                        name="educationLevelId"
+                        id="educationLevelId"
+                        required
+
+                        />
+                        {
+                        educationError ? 
+                        <span className='text-danger'>{errorMessage}</span>
+
+                        : 
+                        null
+                    }
+                        
+                    
+
+                    </Col>
+
+
+
+                    </FormGroup> 
+
+
+
+
+                    <FormGroup row
+                    className="has-icon-left position-relative"
+                    style={{ display: "flex", justifyContent: "end" }}
+                    >
+
+                    <Col md="12">
+
+                    <div className='d-flex justify-content-between'>
+
+                    <Button color='danger' className='mt-3' onClick={closeModal}>
+                        Close
+
+                    </Button>
+
+
+                    <ButtonForFunction
+                    type={'submit'}
+                    name={"Submit"}
+                    className={"mr-1 mt-3 badge-primary"}
+                    disable={buttonStatus}
+
+                    />
+
+                   
+
+                    </div>
+
+
+                   
+
+
+                    </Col>
+
+
+                    </FormGroup>
+
+
+                    </Form>
+                                </ModalBody>
+                                </Modal>
+
+
                    <Card className="uapp-card-bg">
                     <CardHeader className="page-header">
                     <h3 className="text-white">Degree List</h3>
@@ -114,7 +369,7 @@ const DegreeList = () => {
             <ButtonForFunction className ={"btn btn-uapp-add "}
                     icon ={<i className="fas fa-plus"></i>}
                     func={handleAddDegree} 
-                    name={' Add New Degree'}
+                    name={' Add Degree'}
                                 
             />
 
@@ -163,7 +418,7 @@ const DegreeList = () => {
                                   icon={<i className="fas fa-edit"></i>}
                                   color={'warning'}
                                   className={"mx-1 btn-sm"}
-                                  func={()=>redirectToUpdate(degree?.name, degree?.educationLevel?.name, degree?.educationLevel?.id, degree?.id)}
+                                  func={()=>redirectToUpdate(degree)}
                                 />
 
                                 {/* <LinkButton

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import get from '../../../helpers/get';
-import { Button, Card, CardBody, CardHeader, Col, Table, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalBody, ModalFooter, ButtonGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Table, Form, FormGroup, Input, Nav, NavItem, NavLink, TabContent, TabPane, Label, Row, Modal, ModalBody, ModalFooter, ButtonGroup, ModalHeader } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import remove from '../../../helpers/remove';
 import { useToasts } from "react-toast-notifications";
 import LinkButton from '../Components/LinkButton';
 import Loader from '../Search/Loader/Loader';
+import put from '../../../helpers/put';
+import post from '../../../helpers/post';
 
 const EducationLevelList = () => {
 
@@ -21,6 +23,10 @@ const EducationLevelList = () => {
     const [success, setSuccess] = useState(false);
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+
+    const [modalOpen,setModalOpen] = useState(false);
+    const [data,setData] = useState({});
+
 
 
     
@@ -54,12 +60,56 @@ const EducationLevelList = () => {
 
       }
 
+      const closeModal = () => {
+        setData({});
+        setModalOpen(false);
+      }
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        const subData = new FormData(event.target);
+    
+        if (
+         data?.id
+        ) {
+          setButtonStatus(true);
+          put(`EducationLevel/Update`, subData).then((res) => {
+            setButtonStatus(false);
+            if (res?.status == 200 && res?.data?.isSuccess == true) {
+              addToast(res?.data?.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              setSuccess(!success);
+              setData({});
+        setModalOpen(false);
+              
+            }
+          });
+        } else {
+          setButtonStatus(true);
+          post(`EducationLevel/Create`, subData).then((res) => {
+            setButtonStatus(false);
+            if (res?.status == 200 && res?.data?.isSuccess == true) {
+              addToast(res?.data?.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              setSuccess(!success);
+              setData({});
+        setModalOpen(false);
+            }
+          });
+        }
+      };
+
 
       // Go To Education Level Form Page
 
       const handleAddEducationLevel = () => {
 
-        history.push('/addEducationLevel');
+        setModalOpen(true);
+
       }
 
 
@@ -83,8 +133,9 @@ const EducationLevelList = () => {
         history.push('/');
     }
 
-    const redirectToUpdate = (educationInfoName, educationInfoDescription, educationInfoLevelValue, educationInfoId) =>{
-      history.push(`/addEducationLevel/${educationInfoName}/${educationInfoDescription}/${educationInfoLevelValue}/${educationInfoId}`);
+    const redirectToUpdate = (data) =>{
+      setData(data);
+      setModalOpen(true);
     }
 
 
@@ -96,6 +147,117 @@ const EducationLevelList = () => {
       <Loader/>
       :
       <div>
+
+          <Modal
+              isOpen={modalOpen}
+              toggle={closeModal}
+              className="uapp-modal2"
+            >
+              <ModalHeader>Education Level Details</ModalHeader>
+              <ModalBody>
+              <Form onSubmit={handleSubmit} className="mt-5">
+
+                {
+                  (data?.id) ?
+
+                  <input
+                  type='hidden'
+                  name='id'
+                  id='id'
+                  value={data?.id}
+                  />
+                  :
+                  null
+                }
+           
+
+            <FormGroup row className="has-icon-left position-relative">
+              <Col md="4">
+                <span>
+                  Name <span className="text-danger">*</span>{" "}
+                </span>
+              </Col>
+              <Col md="8">
+                <Input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Enter Name"
+                  required
+                  defaultValue={data?.name}
+                  
+                />
+              </Col>
+            </FormGroup>
+
+            <FormGroup row className="has-icon-left position-relative">
+              <Col md="4">
+                <span>
+                  Description <span className="text-danger">*</span>{" "}
+                </span>
+              </Col>
+              <Col md="8">
+                <Input
+                  type="textarea"
+                  name="description"
+                  id="description"
+                  rows={8}
+                  placeholder="Enter Description"
+                  defaultValue={data?.description}
+                 
+                  required
+                />
+              </Col>
+            </FormGroup>
+
+            <FormGroup row className="has-icon-left position-relative">
+              <Col md="4">
+                <span>
+                  Level value <span className="text-danger">*</span>{" "}
+                </span>
+              </Col>
+              <Col md="8">
+                <Input
+                  type="number"
+                  name="levelValue"
+                  id="levelValue"
+                  placeholder="Enter Level Value"
+                  required
+                  defaultValue={data?.levelValue}
+                 
+                />
+              </Col>
+            </FormGroup>
+
+            <FormGroup
+              row
+              className="has-icon-left position-relative"
+              style={{ display: "flex", justifyContent: "end" }}
+            >
+              <Col md="12">
+
+                <div className='d-flex justify-content-between'>
+
+                    <Button color="danger" className="mt-3 mr-1" onClick={closeModal}>
+                  Cancel
+                </Button>
+
+
+                <ButtonForFunction
+                  type={"submit"}
+                  name={"Submit"}
+                  className={"ml-1 mt-3 badge-primary"}
+                  disable={buttonStatus}
+                />
+
+                </div>
+              
+              </Col>
+            </FormGroup>
+          </Form>
+                                </ModalBody>
+                                </Modal>
+
         <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Education Level List</h3>
@@ -117,7 +279,7 @@ const EducationLevelList = () => {
       <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
                  func={handleAddEducationLevel} 
-                 name={' Add New Educational Level'}
+                 name={' Add Educational Level'}
                             
       />
 
@@ -162,7 +324,7 @@ const EducationLevelList = () => {
                           icon={<i className="fas fa-edit"></i>}
                           color={'warning'}
                           className={"mx-1 btn-sm"}
-                          func={()=>redirectToUpdate(educationInfo?.name,educationInfo?.description,educationInfo?.levelValue,educationInfo?.id)}
+                          func={()=>redirectToUpdate(educationInfo)}
                           />
 
 

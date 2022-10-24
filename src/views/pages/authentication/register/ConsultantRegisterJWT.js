@@ -183,26 +183,75 @@ const  ConsultantRegisterJWT = () => {
 
           <div className="row gx-0">
             <div className="col-md-6">
-              <FormGroup className="form-label-group">
-                <Input type="text" placeholder="First Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-              </FormGroup>
+            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="text"
+                placeholder="First Name"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >First Name</Label>
+              
+            </FormGroup>
             </div>
 
             <div className="col-md-6">
-              <FormGroup className="form-label-group">
-                <Input type="text" placeholder="Last Name" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-              </FormGroup>
+            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="text"
+                placeholder="Last Name"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Last Name</Label>
+              
+            </FormGroup>
             </div>
           </div>
 
-          <FormGroup className="form-label-group">
-            <Input type="email" placeholder="Email" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-          </FormGroup>
+          <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="email"
+                placeholder="Email"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Email</Label>
+              
+            </FormGroup>
+
+          <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "35px" }}>
+              <Input
+                type="text"
+                placeholder="Phone Number"
+                // value={this.state.email}
+                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Phone Number</Label>
+              
+            </FormGroup>
         
 
-          <FormGroup className="form-label-group">
-            <Input type="number" placeholder="Phone Number" required style={{ height: "calc(1.5em + 1.3rem + 2px)" }} />
-          </FormGroup>
 
           <div className="d-flex justify-content-between">
             <div>
@@ -213,7 +262,7 @@ const  ConsultantRegisterJWT = () => {
               
             </div>
 
-            <Link to="/" style={{ textDecoration: 'none'}}>I am Already Registered</Link>
+            <Link to="/" style={{ textDecoration: 'none', color: 'rgb(30, 152, 176)', fontSize: '18px', fontWeight: '500' }}>I am already registered</Link>
 
 
           </div>
