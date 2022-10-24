@@ -113,7 +113,7 @@ const ConsultantByConsultant = () => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/");
+    history.push("/consultantList");
   };
 
   const handleDate = (e) => {
@@ -154,7 +154,7 @@ const ConsultantByConsultant = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Consultant List
             </span>
           </div>
         </CardHeader>
@@ -221,9 +221,9 @@ const ConsultantByConsultant = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -246,7 +246,7 @@ const ConsultantByConsultant = () => {
                             />
 
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -306,13 +306,13 @@ const ConsultantByConsultant = () => {
                     <th>SL/NO</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Phone No</th>
+                    <th>Phone</th>
                     <th>Password</th>
                     <th>Branch</th>
-                    <th>Parent Consultant</th>
-                    <th>Consultant Type</th>
-                    <th>Joining Date</th>
-                    <th>Account status</th>
+                    <th>Parent</th>
+                    <th>Type</th>
+                    <th>Started</th>
+                    <th>Status</th>
                     <th>Student</th>
                     <th>Application</th>
                     <th>Associates</th>

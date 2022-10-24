@@ -448,9 +448,9 @@ const ConsultantList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -462,7 +462,7 @@ const ConsultantList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -551,7 +551,7 @@ const ConsultantList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Phone No</p>
+                          <p className="">Phone</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -608,7 +608,7 @@ const ConsultantList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Parent Consultant</p>
+                          <p className="">Parent</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -627,7 +627,7 @@ const ConsultantList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Consultant Type</p>
+                          <p className="">Type</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -646,7 +646,7 @@ const ConsultantList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Joining date</p>
+                          <p className="">Started</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -665,7 +665,7 @@ const ConsultantList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Account Status</p>
+                          <p className="">Status</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -777,13 +777,13 @@ const ConsultantList = () => {
                     {checkSlNo ? <th>SL/NO</th> : null}
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
-                    {checkPhn ? <th>Phone No</th> : null}
+                    {checkPhn ? <th>Phone</th> : null}
                     {checkPass ? <th>Password</th> : null}
                     {checkBranch ? <th>Branch</th> : null}
-                    {checkCons ? <th>Parent Consultant</th> : null}
-                    {checkConsType ? <th>Consultant Type</th> : null}
-                    {checkDate ? <th>Joining Date</th> : null}
-                    {checkSts ? <th>Account status</th> : null}
+                    {checkCons ? <th>Parent</th> : null}
+                    {checkConsType ? <th>Type</th> : null}
+                    {checkDate ? <th>Started</th> : null}
+                    {checkSts ? <th>Status</th> : null}
                     {checkStd ? <th>Student</th> : null}
                     {checkAppli ? <th>Applications</th> : null}
                     {checkAsso ? <th>Associates</th> : null}

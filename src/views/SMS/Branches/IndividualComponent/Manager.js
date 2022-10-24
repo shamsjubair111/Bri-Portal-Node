@@ -26,7 +26,16 @@ const Manager = (props) => {
         <div>
                 {branchManager?.nameTittleId && (
               <Card>
-                <div className=' pl-3 mt-2'> <span className='branch-title-style'>Branch Manager</span></div>
+
+                {/* <div className=' pl-3 mt-2'> <span className='branch-title-style'>Branch Manager</span></div> */}
+
+                <div className="pl-3 mt-3 hedding-titel">
+                <h5> <b>Branch Manager</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
+
+
                 <div className="uapp-circle-image margin-top-minus mt-3">
                   <img className="p-1" src={rootUrl+branchManager?.managerImageMedia?.thumbnailUrl} alt="provider_image" />
                 </div>

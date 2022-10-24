@@ -294,7 +294,7 @@ const AssignUniversity = () => {
                 func={() => setModalOpen(true)}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Assign New University"}
+                name={" Assign University"}
                 permission={6}
               />
             </Col>
@@ -311,9 +311,9 @@ const AssignUniversity = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                               <i className="fas fa-file-excel"></i>
                             </p> */}
@@ -325,7 +325,7 @@ const AssignUniversity = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

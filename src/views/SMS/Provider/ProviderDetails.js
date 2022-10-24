@@ -655,7 +655,7 @@ const ProviderDetails = () => {
                                 data={"View"}
                                 permission={6}
                               /> */}
-                              <span onClick={()=>redirectToAssignPage(manager?.id)} className="text-decoration-none">Edit / View</span>
+                              <span onClick={()=>redirectToAssignPage(manager?.id)} className="text-decoration-none">View</span>
                             </span>{" "}
                           </td>
                           <td>
