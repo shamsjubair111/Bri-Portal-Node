@@ -327,7 +327,7 @@ const UniversityList = (props) => {
     // localStorage.removeItem('editUniId');
     // localStorage.removeItem('editMethod');
     // localStorage.removeItem("id");
-    history.push("/addUniversity");
+    history.push("/createUniversity");
   };
 
   // toggle1 dropdown
