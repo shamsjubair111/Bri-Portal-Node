@@ -932,7 +932,7 @@ const UniversityDetails = () => {
                                 <div className="col-md-3">
                                   <Upload
                                     // accept={"image/png, image/gif, image/jpeg"}
-                                    accept={"image/png, image/jpeg"}
+                                    accept={"image/png, image/jpeg, video/mp4"}
                                     listType="picture-card"
                                     multiple={true}
                                     fileList={FileList1}

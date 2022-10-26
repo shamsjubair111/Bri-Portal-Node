@@ -681,7 +681,7 @@ const SubjectProfile = () => {
 
                         <tr>
                           <td width="40%">
-                            <b>Result Percentage:</b>
+                            <b>Result in Percentage:</b>
                           </td>
                           <td width="60%">
                             {subjectData?.subjectRequirementProfile?.requiredResultInPercent}%
