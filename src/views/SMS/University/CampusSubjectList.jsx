@@ -508,11 +508,10 @@ const CampusSubjectList = () => {
             <div className="container test-score-div-1-style mt-1 mb-4">
               <span className="test-score-span-1-style">
                 Showing{" "}
+                subject list of{" "}
                 <b>
                   {campus?.name}
-                  {"'"}s
                 </b>{" "}
-                subject list
               </span>
             </div>
           ) : null}

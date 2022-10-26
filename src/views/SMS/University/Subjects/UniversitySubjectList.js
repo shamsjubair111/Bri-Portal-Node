@@ -82,6 +82,8 @@ const UniversitySubjectList = (props) => {
     const [submitData, setSubmitData] = useState(false);
     const [providerValue, setProviderValue] = useState(0);
 
+    const [uniName, setUniName] = useState(undefined);
+
     const [orderLabel, setOrderLabel] = useState("Select order by");
     const [orderValue, setOrderValue] = useState(0);
 
@@ -175,6 +177,8 @@ const UniversitySubjectList = (props) => {
         get(`UniversityCampus/GetbyUniversity/${id}`).then(res =>{
         // get(`UniversityCampus/GetbyUniversity/${localStorage.getItem("uniIdForSubList")}`).then(res =>{
           setCam(res);
+          console.log("camuni", res[0]?.university?.name);
+          setUniName(res[0]?.university?.name);
           dispatch(StoreUniversityCampusListData(res));
         });
       }
@@ -401,7 +405,14 @@ const UniversitySubjectList = (props) => {
         <div>
             <Card className="uapp-card-bg">
                 <CardHeader className="page-header">
-                  <h3 className="text-white">University Subject List</h3>
+                  <h3 className="text-white">
+                    {
+                      uniName !== undefined ?
+                      `Subject List of ${uniName}`
+                      :
+                      'Subject List'
+                    }
+                  </h3>
                   <div className="page-header-back-to-home">
                     <span onClick={backToUniversityList} className="text-white">
                       {" "}
@@ -643,7 +654,7 @@ const UniversitySubjectList = (props) => {
                         </Col>
                       </div>
 
-                      <div className="d-flex justify-content-between">
+                      {/* <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">University</p>
                         </Col>
@@ -660,7 +671,7 @@ const UniversitySubjectList = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                      </div>
+                      </div> */}
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
@@ -761,7 +772,7 @@ const UniversitySubjectList = (props) => {
                     {checkName ? <th>Name</th> : null}
                     {/* <th>Description</th>
                     <th>Duration</th> */}
-                    {checkUni ? <th>University</th> : null}
+                    {/* {checkUni ? <th>University</th> : null} */}
                     {checkProg ? <th>Program Level</th> : null}
                     {checkDep ? <th>Department</th> : null}
                     {checkSubDep ? <th>Sub Department</th> : null}
@@ -784,7 +795,7 @@ const UniversitySubjectList = (props) => {
                         {sub?.duration}
                       </td> */}
 
-                      {checkUni ? <td>{sub?.universityName}</td> : null}
+                      {/* {checkUni ? <td>{sub?.universityName}</td> : null} */}
 
                       {checkProg ? <td>{sub?.programLevelName}</td> : null}
 

@@ -411,7 +411,7 @@ const CampusList = (props) => {
           {uniNameFromObj ? (
             <div className="container test-score-div-1-style mt-1 mb-4">
               <span className="test-score-span-1-style">
-                <b>{uniNameFromObj}</b> university's campus list is shown here.
+                Showing campus list of <b>{uniNameFromObj}</b>
               </span>
             </div>
           ) : null}
