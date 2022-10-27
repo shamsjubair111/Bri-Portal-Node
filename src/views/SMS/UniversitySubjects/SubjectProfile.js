@@ -600,7 +600,7 @@ const SubjectProfile = () => {
                  </div>
 
                 <div className='mt-2'>
-                  <Table className="table-sm striped">
+                  <Table className="table-sm striped" style={{overflowX: 'scroll'}}>
                       <thead className="">
                         <tr style={{ textAlign: "center" }}>
                           <th scope='row'>#</th>
