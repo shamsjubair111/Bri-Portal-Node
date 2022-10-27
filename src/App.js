@@ -19,7 +19,7 @@ import { StoreUniversityStateData } from "./redux/actions/SMS/UniversityAction/U
 import get from "./helpers/get";
 
 const App = (props) => {
-  const dispatch = useDispatch();
+  
 
   // useEffect(()=>{
   //    get(`UserRole/Index`).then((action)=>{

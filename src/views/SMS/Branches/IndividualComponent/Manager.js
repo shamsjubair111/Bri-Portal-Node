@@ -46,7 +46,9 @@ const Manager = (props) => {
                   <span className=" pl-1">{branchManager?.lastName}</span>
                 </h5>
 
-                <div className="container text-center mb-4">
+                {
+                  !(branchManager?.id == 1 ) ? 
+                  <div className="container text-center mb-4">
               
                   <LinkButton
                   name={'Edit'}
@@ -55,6 +57,10 @@ const Manager = (props) => {
                   
                   />
                 </div>
+                :
+                null
+
+                }
 
                 <div>
                   <ul className="uapp-ul text-center pb-3">

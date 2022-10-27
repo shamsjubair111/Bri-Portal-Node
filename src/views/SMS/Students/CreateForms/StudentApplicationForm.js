@@ -262,7 +262,7 @@ const handleSubmit = (event) => {
             <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Applied Student Finance? <span className="text-danger">*</span>{" "}
+                Applied Student Finance?
               </span>
             </Col>
             <Col md="6">
@@ -289,7 +289,7 @@ const handleSubmit = (event) => {
         <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Finance Application Details <span className="text-danger">*</span>{" "}
+                Finance Application Details
               </span>
             </Col>
             <Col md="6">
@@ -298,7 +298,7 @@ const handleSubmit = (event) => {
                 name="financeApplicationDetails"
                 id="financeApplicationDetails"
                placeholder='Enter Finance Application Details'
-                required
+              
              
               />
 
@@ -309,7 +309,7 @@ const handleSubmit = (event) => {
         <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Code <span className="text-danger">*</span>{" "}
+                Code
               </span>
             </Col>
             <Col md="6">
@@ -318,7 +318,7 @@ const handleSubmit = (event) => {
                 name="code"
                 id="code"
                placeholder='Enter Code'
-                required
+                
                
               />
 
@@ -344,7 +344,7 @@ const handleSubmit = (event) => {
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Applying From Inside? <span className="text-danger">*</span>{" "}
+                  Applying From Inside?
                 </span>
               </Col>
               <Col md="6">
@@ -399,7 +399,7 @@ const handleSubmit = (event) => {
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Source Of Tution Fee  <span className="text-danger">*</span>{" "}
+                Source Of Tution Fee
               </span>
             </Col>
             <Col md="6">
@@ -409,7 +409,7 @@ const handleSubmit = (event) => {
               name='tutionFeeSource'
               id='tutionFeeSource'
               placeholder='Enter Source Of Tution Free'
-              required
+              
             
               />
 
@@ -420,7 +420,7 @@ const handleSubmit = (event) => {
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Source Of Fund  <span className="text-danger">*</span>{" "}
+                Source Of Fund
               </span>
             </Col>
             <Col md="6">
@@ -441,7 +441,7 @@ const handleSubmit = (event) => {
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Source Of Sponsor  <span className="text-danger">*</span>{" "}
+                Source Of Sponsor
               </span>
             </Col>
             <Col md="6">
@@ -482,7 +482,7 @@ const handleSubmit = (event) => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Date Of Move To UK <span className="text-danger">*</span>{" "}
+                      Date Of Move To UK
                     </span>
                   </Col>
                   <Col md="6">
@@ -504,7 +504,7 @@ const handleSubmit = (event) => {
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Stayed Outside EU/UK In Last 3 Years?  <span className="text-danger">*</span>{" "}
+                  Stayed Outside EU/UK In Last 3 Years? 
                 </span>
               </Col>
               <Col md="6">
@@ -531,7 +531,7 @@ const handleSubmit = (event) => {
             <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Have Pre-Settlement Status?  <span className="text-danger">*</span>{" "}
+                Have Pre-Settlement Status? 
               </span>
             </Col>
             <Col md="6">

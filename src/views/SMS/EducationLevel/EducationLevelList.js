@@ -213,7 +213,7 @@ const EducationLevelList = () => {
             <FormGroup row className="has-icon-left position-relative">
               <Col md="4">
                 <span>
-                  Level value <span className="text-danger">*</span>{" "}
+                  Level Value <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="8">

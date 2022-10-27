@@ -9,8 +9,8 @@ import { ContextLayout } from "./utility/context/Layout"
 
 
 import { ToastProvider } from "react-toast-notifications";
-// import './assets/CoustomStyle/style.css'
-// import './assets/CoustomStyle/pageView.css'
+import './assets/CoustomStyle/style.css'
+import './assets/CoustomStyle/pageView.css'
 import AdmissionGetData from "./views/Test/AdmissionGetData"
 
 

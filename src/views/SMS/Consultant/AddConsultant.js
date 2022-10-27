@@ -262,7 +262,7 @@ const AddConsultant = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      First Name <span className="text-danger">*</span>{" "}
+                      First Name
                     </span>
                   </Col>
                   <Col md="6">
@@ -271,7 +271,7 @@ const AddConsultant = () => {
                       name="firstName"
                       id="firstName"
                       placeholder="Enter First Name"
-                      required
+                      
                     />
 
                     
@@ -283,7 +283,7 @@ const AddConsultant = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Last Name <span className="text-danger">*</span>{" "}
+                      Last Name
                     </span>
                   </Col>
                   <Col md="6">
@@ -292,7 +292,7 @@ const AddConsultant = () => {
                       name="lastName"
                       id="lastName"
                       placeholder="Enter Last Name"
-                      required
+                      
                     />
 
                   
@@ -329,7 +329,7 @@ const AddConsultant = () => {
               <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Phone Number  <span className="text-danger">*</span>{" "}
+                      Phone Number
                     </span>
                   </Col>
                   <Col md="6">
@@ -338,7 +338,7 @@ const AddConsultant = () => {
                       name="phoneNumber"
                       id="phoneNumber"
                       placeholder="Enter Phone Number"
-                      required
+                      
                     />
 
                    
