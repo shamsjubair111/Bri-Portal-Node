@@ -133,6 +133,13 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
   margin-right: 10px; */
 }
 
+ .bg-dd-4 {
+   	background-color: #ffffff !important;
+  	font-size: 25px !important;
+   	height: 60px !important;
+   	color: #1d94ab !important;
+   }
+
 /* Show form input in vertical center start */
 
 /* .flexbox-container2{

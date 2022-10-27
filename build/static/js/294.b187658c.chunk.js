@@ -1,0 +1,2 @@
+(this.webpackJsonpdesk_client=this.webpackJsonpdesk_client||[]).push([[294],{905:function(e,t,n){"use strict";n.r(t);var c=n(0),a=n.n(c),s=n(37);t.default=function(){var e=Object(s.i)().id;return a.a.createElement("div",{className:"mt-5 text-center"},a.a.createElement("h1",null,e))}}}]);
+//# sourceMappingURL=294.b187658c.chunk.js.map
