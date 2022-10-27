@@ -90,7 +90,7 @@ const Manager = (props) => {
                     // onClick={localStorage.removeItem('branchManagerId')}
                     >
                       {" "}
-                      <i class="fas fa-plus"></i> Add Branch Manager{" "}
+                      <i className="fas fa-plus"></i> Add Branch Manager{" "}
                     </Button>
                   </Link>
                 </div>

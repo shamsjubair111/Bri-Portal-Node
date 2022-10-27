@@ -2454,7 +2454,7 @@ const ApplicationDetails = () => {
                                   >
                                     <i
                                       style={{ fontSize: "50px" }}
-                                      class="fas fa-arrow-alt-circle-down text-success"
+                                      className="fas fa-arrow-alt-circle-down text-success"
                                     ></i>
                                   </a>
                                 </div>
@@ -2499,7 +2499,7 @@ const ApplicationDetails = () => {
                               </Modal>
                             </div>
                           </div>
-                          <div class="card-footer uapp-card-bg text-white d-flex justify-content-between">
+                          <div className="card-footer uapp-card-bg text-white d-flex justify-content-between">
                             {docu?.studentDocumentFile != null ? (
                               <>
                                 <div>

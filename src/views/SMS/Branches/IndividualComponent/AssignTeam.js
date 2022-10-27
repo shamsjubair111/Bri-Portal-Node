@@ -260,7 +260,7 @@ const AssignTeam = (props) => {
                   className="btn btn-uapp-add "
                 >
                   {" "}
-                  <i class="fas fa-plus"></i> Add Employee{" "}
+                  <i className="fas fa-plus"></i> Add Employee{" "}
                 </Button>
                </div>
 
@@ -305,7 +305,7 @@ const AssignTeam = (props) => {
                                 }
                                 className="mx-1 btn-sm"
                               >
-                                <i class="fas fa-edit"></i>
+                                <i className="fas fa-edit"></i>
                               </Button>
                               
                               {/* <LinkButton
@@ -322,7 +322,7 @@ const AssignTeam = (props) => {
                                 }
                                 className="mx-1 btn-sm"
                               >
-                                <i class="fas fa-trash-alt"></i>
+                                <i className="fas fa-trash-alt"></i>
                               </Button>
                             </ButtonGroup>
                             <Modal
