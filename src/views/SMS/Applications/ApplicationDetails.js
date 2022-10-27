@@ -2423,7 +2423,7 @@ const ApplicationDetails = () => {
                                     style={{ cursor: "pointer" }}
                                     className="image-upload"
                                   >
-                                    <label for={i}>
+                                    <label htmlFor={`hp+${i}`}>
                                       <i
                                         style={{
                                           fontSize: "50px",
@@ -2435,7 +2435,7 @@ const ApplicationDetails = () => {
 
                                     <input
                                       name={i}
-                                      id={i}
+                                      id={`hp+${i}`}
                                       type="file"
                                       onChange={(e) => changeHandler(e, docu)}
                                     />
