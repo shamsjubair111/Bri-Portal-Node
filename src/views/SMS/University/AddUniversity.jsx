@@ -1250,13 +1250,15 @@ const AddUniversity = (props) => {
                   </Col>
                   <Col md="6">
                     <Input
-                      type="textarea"
+                      // type="textarea"
+                      type="url"
                       name="locationOnGoogleMap"
                       id="locationOnGoogleMap"
                       rows="3"
                       // value={description}
                       defaultValue={universityData?.locationOnGoogleMap}
-                      placeholder="Location on Google Map"
+                      // placeholder="Location on Google Map"
+                      placeholder="https://example.com"
                       onChange={(e) => setDescription(e.target.value)}
                     />
                     <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
