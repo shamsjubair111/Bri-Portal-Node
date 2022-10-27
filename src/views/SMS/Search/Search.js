@@ -1425,7 +1425,7 @@ University
 
 
 <div className='row'>
-<div className='col-md-6 d-flex align-items-center justify-content-space-evenly'>
+<div className='col-md-6 d-flex align-items-center justify-content-end'>
 
 
 <div className='mr-2'>
@@ -1443,7 +1443,7 @@ className='ms-1'
 
 </div>
 
-<div className='col-md-6 d-flex align-items-center justify-content-space-evenly'>
+<div className='col-md-6 d-flex align-items-center justify-content-end'>
 
 <div className='mr-2'>
 Showing :
