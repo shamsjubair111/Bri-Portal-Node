@@ -260,7 +260,7 @@ const AddCountry = () => {
             className={"btn btn-uapp-add mr-1"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New Country"}
+            name={" Add Country"}
             
           />
 

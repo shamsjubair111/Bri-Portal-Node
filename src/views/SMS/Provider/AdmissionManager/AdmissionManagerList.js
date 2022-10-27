@@ -74,7 +74,7 @@ const AdmissionManagerList = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [providerLabel, setProviderLabel] = useState("Select Provider");
+  const [providerLabel, setProviderLabel] = useState("Provider");
   const [providerValue, setProviderValue] = useState(0);
 
   const [providerLabel2, setProviderLabel2] = useState("Select Provider");
@@ -232,7 +232,7 @@ const AdmissionManagerList = () => {
 
   // on clear
   const handleClearSearch = () => {
-    setProviderLabel("Select Provider");
+    setProviderLabel("Provider");
     setProviderValue(0);
     setCallApi((prev) => !prev);
     setSearchStr("");
@@ -342,7 +342,7 @@ const AdmissionManagerList = () => {
     setUniCountryValue(0);
     setUniStateLabel("Select State");
     setUniStateValue(0);
-    setProviderLabel("Select Provider");
+    setProviderLabel("Provider");
     setProviderValue(0);
     setProviderLabel2("Select Provider");
     setProviderValue2(0);
@@ -556,7 +556,7 @@ const AdmissionManagerList = () => {
                 func={handleAddNew}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New Admission Manager"}
+                name={" Add Admission Manager"}
                 permission={6}
               />
 
@@ -878,9 +878,9 @@ const AdmissionManagerList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -892,7 +892,7 @@ const AdmissionManagerList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

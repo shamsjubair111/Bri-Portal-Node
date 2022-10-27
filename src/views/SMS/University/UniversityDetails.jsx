@@ -932,7 +932,7 @@ const UniversityDetails = () => {
                                 <div className="col-md-3">
                                   <Upload
                                     // accept={"image/png, image/gif, image/jpeg"}
-                                    accept={"image/png, image/jpeg"}
+                                    accept={"image/png, image/jpeg, video/mp4"}
                                     listType="picture-card"
                                     multiple={true}
                                     fileList={FileList1}
@@ -1126,7 +1126,7 @@ const UniversityDetails = () => {
                       func={() => setModalOpen(true)}
                       className={"btn btn-uapp-add "}
                       icon={<i className="fas fa-plus"></i>}
-                      name={" Add New Campus"}
+                      name={" Add Campus"}
                       permission={6}
                     />
 
@@ -1611,7 +1611,7 @@ const UniversityDetails = () => {
                       func={handleAddUniversitySubject}
                       className={"btn btn-uapp-add "}
                       icon={<i className="fas fa-plus"></i>}
-                      name={" Add New Subject"}
+                      name={" Add Subject"}
                       permission={6}
                     />
                     {/* </div> */}

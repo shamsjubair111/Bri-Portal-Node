@@ -542,7 +542,7 @@ const ProviderDetails = () => {
                       func={handleAddUniversity}
                       className={"ml-3 btn btn-uapp-add "}
                       icon={<i className="fas fa-plus"></i>}
-                      name={" Add New University"}
+                      name={" Add University"}
                       permission={6}
                     />
                   </Col>

@@ -46,6 +46,7 @@ const AddProviderUniversityGallery = () => {
   const [loading, setLoading] = useState(false);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus1,setButtonStatus1] = useState(false);
 
   const { addToast } = useToasts();
   const history = useHistory();
@@ -170,10 +171,10 @@ const AddProviderUniversityGallery = () => {
   };
 
   const handleDeleteItem = (id) => {
-    setButtonStatus(true);
+    setButtonStatus1(true);
     const returnValue = remove(`UniversityGallery/Delete/${id}`).then(
       (action) => {
-        setButtonStatus(false);
+        setButtonStatus1(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -404,7 +405,7 @@ const AddProviderUniversityGallery = () => {
                               onClick={() =>
                                 handleDeleteItem(delGalId)
                               }
-                              disabled={buttonStatus}
+                              disabled={buttonStatus1}
                             >
                               YES
                             </Button>
@@ -439,6 +440,7 @@ const AddProviderUniversityGallery = () => {
                       <Col md="7">
                         {
                           <MediaPictures
+                            accept={"image/png, image/jpeg, image/jpg, video/mp4"}
                             FileList={FileList}
                             setFileList={setFileList}
                             setFileError={setFileError}

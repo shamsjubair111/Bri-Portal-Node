@@ -30,17 +30,16 @@ import {
 } from "reactstrap";
 
 import { useToasts } from "react-toast-notifications";
-import get from "../../../helpers/get";
-import { rootUrl } from "../../../constants/constants";
-import put from "../../../helpers/put";
-import remove from "../../../helpers/remove";
-import ButtonForFunction from "../Components/ButtonForFunction";
-const AddUniversityCampus = (props) => {
-  const [universityCampusList, setuniversityCampusList] = useState([]);
+import get from "../../../../helpers/get";
+import { rootUrl } from "../../../../constants/constants";
+import ButtonForFunction from "../../Components/ButtonForFunction";
+
+const UniversityCampusForm = () => {
+
+    const [universityCampusList, setuniversityCampusList] = useState([]);
   const [universityCampusObject, setuniversityCampusObject] = useState({});
   // const univerSityCountries = props.univerSityCountryList[0];
   const [univerSityCountries, setUniverSityCountries] = useState([]);
-  const universityTypes = props.univerSityTypeList[0];
   // const universityStates = props.univerSityStateList[0];
   const [universityStates, setUniversityStates] = useState([]);
 
@@ -118,37 +117,6 @@ const AddUniversityCampus = (props) => {
     );
   }, [success, uniId, universityId, univerId]);
 
-  // tab toggle
-  const toggle = (tab) => {
-    setActivetab(tab);
-    if (tab === "1") {
-      history.push(`/addUniversity/${univerId}`);
-    }
-    if (tab === "2") {
-      history.push(`/addUniversityCampus/${univerId}`);
-    }
-    if (tab === "3") {
-      history.push(`/addUniversityFinancial/${univerId}`);
-    }
-    if (tab === "4") {
-      history.push(`/addUniversityFeatures/${univerId}`);
-    }
-    if (tab === "5") {
-      history.push(`/addUniversityGallery/${univerId}`);
-    }
-    if (tab === "6") {
-      history.push(`/addUniversityTestScore/${univerId}`);
-    }
-    if (tab === "7") {
-      history.push(`/addUniversityApplicationDocument/${univerId}`);
-    }
-    if (tab === "8") {
-      history.push(`/addUniversityTemplateDocument/${univerId}`);
-    }
-    if (tab === "9") {
-      history.push(`/addUniversityCommission/${univerId}`);
-    }
-  };
 
   // select University Country
   const selectUniCountry = (label, value) => {
@@ -188,7 +156,7 @@ const AddUniversityCampus = (props) => {
       setUniStateError(true);
     }
     else{
-      if (selectedId === 0) {
+      
         setButtonStatus(true);
         Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
           headers: {
@@ -210,46 +178,16 @@ const AddUniversityCampus = (props) => {
             setUniStateLabel("Select Campus State");
             setUniStateValue(0);
             setSuccess(!success);
+            history.push({
+                pathname: `/createUniversityFinancial/${univerId}`,
+                id: univerId,
+              });
           }
         });
-      } else {
-        setButtonStatus(true);
-        put(`UniversityCampus/Update`, subdata).then((res) => {
-          // setuniversityId(res.data.result.universityId)
-          setButtonStatus(false);
-          if (res.status === 200 && res.data.isSuccess === true) {
-            setSubmitData(false);
-            addToast(res?.data?.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-            setShowForm(true);
-            setSelectedId(0);
-            setuniversityCampusObject({});
-            setUniCountryLabel("Select Campus Country");
-            setUniCountryValue(0);
-            setUniStateLabel("Select Campus State");
-            setUniStateValue(0);
-            setSuccess(!success);
-          }
-        });
-      }
     }
 
   };
 
-  // onValueChangeHome
-  const onValueChangeHome = (event) => {
-    setRadioHomeVal(event.target.value);
-  };
-  // onValueChangeEuUk
-  const onValueChangeEuUk = (event) => {
-    setRadioEuUkVal(event.target.value);
-  };
-  // onValueChangeInternational
-  const onValueChangeInternational = (event) => {
-    setRadioInternationalVal(event.target.value);
-  };
 
   const universityCountryName = univerSityCountries?.map((uniCountry) => ({
     label: uniCountry.name,
@@ -260,104 +198,22 @@ const AddUniversityCampus = (props) => {
     value: uniState.id,
   }));
 
-  const styleLabelBold = {
-    // fontWeight: "bold"
-  };
-  // redirect to dashboard
-  const backToUniList = () => {
-    if(location.uniCampId != undefined){
-      history.push(`/campusDetails/${location.uniCampId}`)
-    }
-    else{
-      history.push("/universityList");
-    }
-  };
+//   const cancel = () => {
+//     setShowForm(true);
+//     setSelectedId(0);
+//     setuniversityCampusObject({});
+//     setUniCountryLabel("Select Campus Country");
+//     setUniCountryValue(0);
+//     setUniStateLabel("Select Campus State");
+//     setUniStateValue(0);
+//   };
 
-  // redirect to Next Page
-  const onNextPage = () => {
-    const uniID = universityId;
-    history.push({
-      pathname: `/addUniversityFinancial/${univerId}`,
-      id: uniID,
-    });
-  };
-
-  const onPreviousPage = () => {
-    const uniID = universityId;
-    history.push({
-      pathname: `/addUniversity/${univerId}`,
-      id: uniID,
-    });
-  }
-
-  const toggleDanger = (p) => {
-    setUniversityCampusId(p?.id);
-    setUniversityCampusName(p?.name);
-    setDeleteModal(true);
-  };
-
-  const handleDeletePermission = (id) => {
-    setButtonStatus(true);
-    const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
-      (action) => {
-        setButtonStatus(false);
-        setDeleteModal(false);
-        setSuccess(!success);
-        addToast(action, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        setUniversityCampusId(0);
-        setUniversityCampusName('');
-      }
-    );
-  };
-
-  const handleUpdate = (id) => {
-    setCampusId(id);
-    setShowForm(false);
-
-    get(`UniversityCampus/Get/${id}`).then((action) => {
-      console.log(
-        "asjskdjskdskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjs",
-        action
-      );
-      setuniversityCampusObject(action);
-      setUniCountryLabel(action?.universityCountry?.name);
-      setUniCountryValue(action?.universityCountry?.id);
-      setUniStateLabel(action?.universityState?.name);
-      setUniStateValue(action?.campusStateId);
-      setSelectedId(action?.id);
-      console.log(id);
-    });
-  };
-
-  // const handleChange=(event) => {
-  //   event.preventDefault();
-  //   universityCampusObject[event.target.name] = event.target.value;
-  //   setuniversityCampusObject({universityCampusObject})
-
-  // }
-
-  const onShow = () => {
-    setShowForm(false);
-  };
-
-  const cancel = () => {
-    setShowForm(true);
-    setSelectedId(0);
-    setuniversityCampusObject({});
-    setUniCountryLabel("Select Campus Country");
-    setUniCountryValue(0);
-    setUniStateLabel("Select Campus State");
-    setUniStateValue(0);
-  };
-  return (
-    <div>
-      <Card className="uapp-card-bg">
+    return (
+        <div>
+            <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">University Campus Information</h3>
-          <div className="page-header-back-to-home">
+          {/* <div className="page-header-back-to-home">
             <span onClick={backToUniList} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
@@ -368,102 +224,23 @@ const AddUniversityCampus = (props) => {
                 "Back to University List"
               }
             </span>
-          </div>
+          </div> */}
         </CardHeader>
       </Card>
 
       <Card>
         <CardBody>
-          <Nav tabs>
-            <NavItem>
-              <NavLink active={activetab === "1"} onClick={() => toggle("1")}>
-                Basic Information
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              {/* <NavLink disabled
-                                active={activetab === '2'}
-                                onClick={() =>toggle('2')}
-                                > */}
-              <NavLink active={activetab === "2"} onClick={() => toggle("2")}>
-                Campuses
-              </NavLink>
-            </NavItem>
 
-            <NavItem>
-              <NavLink active={activetab === "3"} onClick={() => toggle("3")}>
-                Financial 
-              </NavLink>
-            </NavItem>
+                  <Form onSubmit={handleSubmit} className="mt-4">
 
-            <NavItem>
-              <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
-                Features
-              </NavLink>
-            </NavItem>
-
-            <NavItem>
-              <NavLink active={activetab === "5"} onClick={() => toggle("5")}>
-                 Gallery
-              </NavLink>
-            </NavItem>
-
-
-            <NavItem>
-              <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
-                 Test Score
-              </NavLink>
-            </NavItem>
-
-            <NavItem>
-              <NavLink active={activetab === "7"} onClick={() => toggle("7")}>
-                 Application Document
-              </NavLink>
-            </NavItem>
-
-            <NavItem>
-              <NavLink active={activetab === "8"} onClick={() => toggle("8")}>
-                Template Document
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink active={activetab === "9"} onClick={() => toggle("9")}>
-                Commission
-              </NavLink>
-            </NavItem>
-          </Nav>
-
-          <TabContent activeTab={activetab}>
-
-            {universityCampusList.length > 0 ? (
-
-              <div className="container test-score-div-1-style mt-4 mb-4">
-                <span className="test-score-span-1-style">
-                  University campus information is shown here.
-                </span>
-              </div>
-
-            ) : null}
-
-            <TabPane tabId="2">
-              {showForm === false ? (
-                <>
-
-                  
-
-                  <Form onSubmit={handleSubmit} className="mt-5">
-
-                    <div className="hedding-titel d-flex justify-content-between mb-3">
+                    {/* <div className="hedding-titel d-flex justify-content-between mb-3">
                       <div>
                         <h5> <b>Campus Information</b> </h5>
 
                         <div className="bg-h"></div>
                       </div>
-                        {/* <div className="text-right edit-style  p-3" >
-                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-                        </div> */}
 
-                    </div>
+                    </div> */}
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Input
@@ -479,22 +256,6 @@ const AddUniversityCampus = (props) => {
                         value={selectedId}
                       />
                     </FormGroup>
-
-                    {/* <FormGroup row className="has-icon-left position-relative">
-        <Col md="2">
-          <span>University Id </span>
-        </Col>
-        <Col md="6">
-          <Input
-            type="number"
-            name="universityId"
-            id="universityId"
-            defaultValue={localStorage.getItem("id")}
-            // placeholder="Enter Total Student"
-            required
-          />
-        </Col>
-      </FormGroup> */}
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
@@ -754,12 +515,12 @@ const AddUniversityCampus = (props) => {
                       </Col>
                       <Col md="6">
                         <Input
-                          type="url"
+                          type="textarea"
                           rows="4"
                           name="EmbededMap"
                           id="EmbededMap"
                           defaultValue={universityCampusObject?.embededMap}
-                          placeholder="https://example.com"
+                          placeholder="Embeded A Map"
                         />
                         <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
                         {/* <div className="form-control-position">
@@ -768,244 +529,36 @@ const AddUniversityCampus = (props) => {
                       </Col>
                     </FormGroup>
 
-                    <FormGroup className="has-icon-left position-relative">
-                      {selectedId !== 0 ? (
-                        <>
-                          <FormGroup row
-                            className="has-icon-left position-relative"
-                            style={{
-                              display: "flex",
-                              justifyContent: "end",
-                            }}
-                          >
-                            
-                          <Col md="5">
-                          <ButtonForFunction
-                              color={"primary"}
-                              type={"submit"}
-                              className={"ml-lg-3 ml-sm-1 mt-3"}
-                              name={"Save"}
-                              disable={buttonStatus}
-                              permission={6}
-                            />
-
-                            <div>
-
-                              <ButtonForFunction
-                                func={cancel}
-                                color={"danger uapp-form-button float-right"}
-                                name={"Cancel"}
-                                permission={6}
-                              />
-
-                            </div>
-                          </Col>
-                            
-                          </FormGroup>
-                        </>
-                      ) : (
-                        <>
-                          <FormGroup
-                            row
-                            className="has-icon-left position-relative"
-                            style={{ display: "flex", justifyContent: "end" }}
-                          >
-                            <Col md="5">
+                    <div className='row mt-5'>
+                        <div className='col-md-8 d-flex justify-content-end'>
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save"}
+                                name={"Save & Next"}
                                 disable={buttonStatus}
                                 permission={6}
                               />
 
 
-                             <div>
-                              {selectedId !== 0 ||
-                              universityCampusList.length > 0 ? (
-
+                             {/* <div>
                                 <ButtonForFunction
                                   func={cancel}
                                   color={"danger uapp-form-button float-right"}
                                   name={"Cancel"}
                                   permission={6}
                                 />
-                              ) : (
-                                <></>
-                              )}
-                            </div>
-
-                            </Col>
-
+                            </div> */}
+                        </div>
+                        </div>
                             
-                          </FormGroup>
-                        </>
-                      )}
-                    </FormGroup>
                   </Form>
-                </>
-              ) : (
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "end",
-                  }}
-                >
-                  <ButtonForFunction
-                    func={onShow}
-                    className={"ml-lg-3 ml-sm-1 mt-3"}
-                    color={"primary uapp-form-button"}
-                    name={"Add another"}
-                    permission={6}
-                  />
-                </FormGroup>
-              )}
 
-              {universityCampusList?.map((uniCampus, i) => (
-                <div key={uniCampus.id} style={{ textAlign: "left" }}>
-                  <Card className="CampusCard">
-                    <CardBody className="shadow">
-                      <div className="CampusCardAction">
-                        <div className="">
-                          <ButtonForFunction
-                            type={"button"}
-                            color={"primary"}
-                            func={() => handleUpdate(uniCampus?.id)}
-                            icon={<i className="fas fa-edit"></i>}
-                            permission={6}
-                          />
-                        </div>
-
-                        <div className="">
-                          <ButtonForFunction
-                            type={"button"}
-                            color={"danger"}
-                            func={() => toggleDanger(uniCampus)}
-                            icon={<i className="fas fa-trash-alt"></i>}
-                            permission={6}
-                          />
-                        </div>
-                      </div>
-
-                      <Row>
-                        <Col md="6">
-                          <h5> {uniCampus?.name} </h5>
-                          <h6>
-                            {" "}
-                            {uniCampus?.university?.name} (
-                            {uniCampus?.university?.shortName}){" "}
-                          </h6>
-                          <p>
-                            {" "}
-                            {uniCampus?.campusCity},{" "}
-                            {uniCampus?.universityState?.name},{" "}
-                            {uniCampus?.universityCountry?.name}{" "}
-                          </p>
-                          <p> {uniCampus?.addressLine}</p>
-                          <p> {uniCampus?.addressLine}</p>
-                        </Col>
-
-                        <Col md="6">
-                          <p>Total Student : {uniCampus?.totalStudent}</p>
-                          <p>
-                            International Student :{" "}
-                            {uniCampus?.internationalStudent}
-                          </p>
-                          <p>
-                            Avarage Tution Fee : {uniCampus?.avarageTutionFee}
-                          </p>
-                          <p>
-                            Avarage Living Cost : {uniCampus?.avarageLivingCost}
-                          </p>
-                          <p>
-                            Avarage Application Fee :{" "}
-                            {uniCampus?.avarageApplicationFee}
-                          </p>
-                          <p>
-                            Estimated TotalCost :{" "}
-                            {uniCampus?.estimatedTotalCost}
-                          </p>
-                        </Col>
-                      </Row>
-                    </CardBody>
-
-                    <Modal
-                      isOpen={deleteModal}
-                      toggle={() => {
-                        setDeleteModal(!deleteModal);
-                        setUniversityCampusId(0);
-                        setUniversityCampusName('');
-                      }}
-                      className="uapp-modal"
-                    >
-                      <ModalBody>
-                        <p>
-                          Are You Sure to Delete this{" "}
-                          <b>{UniversityCampusName}</b> ? Once
-                          Deleted it can't be Undone!
-                        </p>
-                      </ModalBody>
-
-                      <ModalFooter>
-                        <Button
-                          onClick={() =>
-                            handleDeletePermission(UniversityCampusId)
-                          }
-                          color="danger"
-                          disabled={buttonStatus}
-                        >
-                          YES
-                        </Button>
-                        <Button onClick={() => {
-                          setDeleteModal(false);
-                          setUniversityCampusId(0);
-                          setUniversityCampusName('');
-                        }}>
-                          NO
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-                  </Card>
-                </div>
-              ))}
-
-              
-                <FormGroup
-                className="has-icon-left position-relative"
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
-                }}
-              >
-                <ButtonForFunction
-                  func={onPreviousPage}
-                  color={"warning uapp-form-button float-right"}
-                  name={"Previous Page"}
-                  permission={6}
-                />
-                <ButtonForFunction
-                  func={onNextPage}
-                  color={"warning uapp-form-button float-right"}
-                  name={"Next Page"}
-                  permission={6}
-                />
-              </FormGroup>
-              
-
-            </TabPane>
-          </TabContent>
         </CardBody>
       </Card>
-    </div>
-  );
+
+        </div>
+    );
 };
-const mapStateToProps = (state) => ({
-  univerSityTypeList: state.universityTypeDataReducer.universityTypes,
-  univerSityCountryList: state.universityCountryDataReducer.universityCountries,
-  univerSityStateList: state.universityStateDataReducer.universityStates,
-});
-export default connect(mapStateToProps)(AddUniversityCampus);
+
+export default UniversityCampusForm;

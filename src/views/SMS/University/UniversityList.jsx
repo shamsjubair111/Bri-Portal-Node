@@ -75,11 +75,11 @@ const UniversityList = (props) => {
 
   const [stateByCountry, setStateByCountry] = useState(0);
 
-  const [uniTypeLabel, setUniTypeLabel] = useState("University Type");
+  const [uniTypeLabel, setUniTypeLabel] = useState("Type");
   const [uniTypeValue, setUniTypeValue] = useState(0);
-  const [uniCountryLabel, setUniCountryLabel] = useState("University Country");
+  const [uniCountryLabel, setUniCountryLabel] = useState("Country");
   const [uniCountryValue, setUniCountryValue] = useState(0);
-  const [uniStateLabel, setUniStateLabel] = useState("University State");
+  const [uniStateLabel, setUniStateLabel] = useState("State");
   const [unistateValue, setUniStateValue] = useState(0);
   const [providerLabel, setProviderLabel] = useState("Provider");
   const [providerValue, setProviderValue] = useState(0);
@@ -165,7 +165,7 @@ const UniversityList = (props) => {
       var unitype = universityTypes?.find((s) => s.id === uTypeId);
 
       if (unitype === undefined) {
-        setUniTypeLabel("University Type");
+        setUniTypeLabel("Type");
       } else {
         setUniTypeLabel(unitype?.name);
         setUniTypeValue(uTypeId);
@@ -176,7 +176,7 @@ const UniversityList = (props) => {
       var country = univerSityCountries?.find((s) => s.id === countryId);
 
       if (country === undefined) {
-        setUniCountryLabel("University Country");
+        setUniCountryLabel("Country");
       } else {
         setUniCountryLabel(country?.name);
         setUniCountryValue(countryId);
@@ -327,7 +327,7 @@ const UniversityList = (props) => {
     // localStorage.removeItem('editUniId');
     // localStorage.removeItem('editMethod');
     // localStorage.removeItem("id");
-    history.push("/addUniversity");
+    history.push("/createUniversity");
   };
 
   // toggle1 dropdown
@@ -383,7 +383,7 @@ const UniversityList = (props) => {
   const selectUniCountry = (label, value) => {
     setUniCountryLabel(label);
     setUniCountryValue(value);
-    setUniStateLabel("University State");
+    setUniStateLabel("State");
     setUniStateValue(0);
     searchStateByCountry(value);
 
@@ -425,12 +425,12 @@ const UniversityList = (props) => {
 
   // on clear
   const handleClearSearch = () => {
-    setUniStateLabel("University State");
+    setUniStateLabel("State");
     setUniStateValue(0);
     setUniversityStates([]);
-    setUniTypeLabel("University Type");
+    setUniTypeLabel("Type");
     setUniTypeValue(0);
-    setUniCountryLabel("University Country");
+    setUniCountryLabel("Country");
     setUniCountryValue(0);
     setSearchStr("");
     setProviderLabel("Provider");
@@ -680,7 +680,7 @@ const UniversityList = (props) => {
                 func={handleAddUniversity}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Add New University"}
+                name={" Add University"}
                 permission={6}
               />
             </Col>
@@ -736,9 +736,9 @@ const UniversityList = (props) => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -750,7 +750,7 @@ const UniversityList = (props) => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

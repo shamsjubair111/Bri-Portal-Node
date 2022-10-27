@@ -193,7 +193,7 @@ const Department = (props) => {
             func={AddModalOpen}
             className={"btn btn-uapp-add"}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New Department"}
+            name={" Add Department"}
             permission={6}
           />
 

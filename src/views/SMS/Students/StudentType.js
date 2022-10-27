@@ -229,7 +229,7 @@ const closeDeleteModal = () => {
             /> */}
 
 
-                  <div className='ms-auto'> <b> Total <span className="badge badge-primary"> {studentTypeInfo.length}</span> Student Type  Found </b></div>
+                  <div className='ml-auto'> <b> Total <span className="badge badge-primary"> {studentTypeInfo.length}</span> Student Type  Found </b></div>
             </CardHeader>
              <CardBody>
 

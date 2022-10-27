@@ -214,7 +214,7 @@ const closeModal = () => {
             <CardHeader>
            
               {/* <Button className="btn btn-uapp-add" onClick={() => setModalOpen(true)}> <i className="fas fa-plus"></i>  Add New</Button> */}
-              <div className="ms-auto">
+              <div className="ml-auto">
                 <div>
                  <b> Total <span className="badge badge-primary">{examTestType?.length}</span> Exam Test Type Found   </b>
                  </div>

@@ -648,7 +648,7 @@ const selectNameTitle = (label, value) => {
                 func={handleAddNew}
                 className={"btn btn-uapp-add mr-1"}
                 // icon={<i className="fas fa-plus"></i>}
-                name={"Add New Admission Officer"}
+                name={"Add Admission Officer"}
                 permission={6}
               />
                 {/* <Button color="primary" className="ms-1">Assign Admission Officer</Button> */}

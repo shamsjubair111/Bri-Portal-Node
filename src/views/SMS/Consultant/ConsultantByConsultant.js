@@ -10,6 +10,7 @@ import {
   Row,
   Table,
   Dropdown,
+  FormGroup,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -27,7 +28,7 @@ import get from "../../../helpers/get.js";
 import { rootUrl } from "../../../constants/constants.js";
 import { useState } from "react";
 
-import ReactTableConvertToXl from '../ReactTableConvertToXl/ReactTableConvertToXl';
+import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
 import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import remove from "../../../helpers/remove.js";
@@ -47,11 +48,29 @@ const ConsultantByConsultant = () => {
   const [dataPerPage, setDataPerPage] = useState(15);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
   const { addToast } = useToasts();
   const history = useHistory();
-  const [delData,setDelData] = useState({});
+  const [delData, setDelData] = useState({});
+
+  // for hide/unhide column
+  const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkName, setCheckName] = useState(true);
+  const [checkEmail, setCheckEmail] = useState(true);
+  const [checkPhn, setCheckPhn] = useState(true);
+  const [checkPass, setCheckPass] = useState(true);
+  const [checkBranch, setCheckBranch] = useState(true);
+  const [checkCons, setCheckCons] = useState(true);
+  const [checkConsType, setCheckConsType] = useState(true);
+  const [checkDate, setCheckDate] = useState(true);
+  const [checkSts, setCheckSts] = useState(true);
+  const [checkStd, setCheckStd] = useState(true);
+  const [checkAppli, setCheckAppli] = useState(true);
+  const [checkAsso, setCheckAsso] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus, setButtonStatus] = useState(false);
 
   useEffect(() => {
     get(
@@ -64,7 +83,7 @@ const ConsultantByConsultant = () => {
       console.log(res?.models);
       setLoading(false);
     });
-  }, [id,currentPage,dataPerPage,callApi,entity,loading, success]);
+  }, [id, currentPage, dataPerPage, callApi, entity, loading, success]);
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
@@ -81,6 +100,11 @@ const ConsultantByConsultant = () => {
     setDropdownOpen((prev) => !prev);
   };
 
+  // toggle1 dropdown
+  const toggle1 = () => {
+    setDropdownOpen1((prev) => !prev);
+  };
+
   //  change page
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -88,32 +112,26 @@ const ConsultantByConsultant = () => {
   };
 
   const toggleDanger = (p) => {
-
     setDelData(p);
 
-    setDeleteModal(true)
-  }
+    setDeleteModal(true);
+  };
 
   const handleDeleteData = () => {
-
-     
-
-    remove(`Consultant/Delete/${delData?.id}`)
-    .then(res => {
+    remove(`Consultant/Delete/${delData?.id}`).then((res) => {
       // console.log(res);
-      addToast(res,{
-        appearance: 'error',
-        autoDismiss: true
-      })
+      addToast(res, {
+        appearance: "error",
+        autoDismiss: true,
+      });
       setDeleteModal(false);
       setSuccess(!success);
-    })
-    
-  }
+    });
+  };
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/");
+    history.push("/consultantList");
   };
 
   const handleDate = (e) => {
@@ -132,19 +150,62 @@ const ConsultantByConsultant = () => {
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
 
-  const handleEdit = (data) =>{
-
+  const handleEdit = (data) => {
     console.log(data);
-    
-    history.push(`/consultantInformation/${data?.id}`);
 
-  }
+    history.push(`/consultantInformation/${data?.id}`);
+  };
 
   const componentRef = useRef();
 
   const handleView = (consultantId) => {
-    history.push(`/consultantProfile/${consultantId}`)
-  }
+    history.push(`/consultantProfile/${consultantId}`);
+  };
+
+  // for hide/unhide column
+
+  const handleCheckedSLNO = (e) => {
+    setCheckSlNo(e.target.checked);
+  };
+  const handleCheckedName = (e) => {
+    setCheckName(e.target.checked);
+  };
+  const handleCheckedEmail = (e) => {
+    setCheckEmail(e.target.checked);
+  };
+  const handleCheckedPhn = (e) => {
+    setCheckPhn(e.target.checked);
+  };
+  const handleCheckedPass = (e) => {
+    setCheckPass(e.target.checked);
+  };
+  const handleCheckedBranch = (e) => {
+    setCheckBranch(e.target.checked);
+  };
+  const handleCheckedCons = (e) => {
+    setCheckCons(e.target.checked);
+  };
+  const handleCheckedConsType = (e) => {
+    setCheckConsType(e.target.checked);
+  };
+  const handleCheckedDate = (e) => {
+    setCheckDate(e.target.checked);
+  };
+  const handleCheckedSts = (e) => {
+    setCheckSts(e.target.checked);
+  };
+  const handleCheckedStd = (e) => {
+    setCheckStd(e.target.checked);
+  };
+  const handleCheckedAppli = (e) => {
+    setCheckAppli(e.target.checked);
+  };
+  const handleCheckedAsso = (e) => {
+    setCheckAsso(e.target.checked);
+  };
+  const handleCheckedAction = (e) => {
+    setCheckAction(e.target.checked);
+  };
 
   return (
     <div>
@@ -154,7 +215,8 @@ const ConsultantByConsultant = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Consultant
+              List
             </span>
           </div>
         </CardHeader>
@@ -162,12 +224,10 @@ const ConsultantByConsultant = () => {
 
       <Card className="uapp-employee-search">
         <CardBody>
-          
-
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
-            {/* {
+              {/* {
                     permissions?.includes(permissionList?.Add_subject) ?
               <ButtonForFunction
                 func={handleAddSubject}
@@ -196,7 +256,6 @@ const ConsultantByConsultant = () => {
                       />
                     </div>
                 </Col> */}
-                
 
                 <div className="mr-2">
                   <div className="d-flex align-items-center">
@@ -221,9 +280,9 @@ const ConsultantByConsultant = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -237,16 +296,15 @@ const ConsultantByConsultant = () => {
                             buttonText="Download as XLS"
                             /> */}
 
-                            <ReactTableConvertToXl
-                              id="test-table-xls-button"
-                              table="table-to-xls"
-                              filename="tablexls"
-                              sheet="tablexls"
-                              icon={<i className="fas fa-file-excel"></i>}
-                            />
-
+                          <ReactTableConvertToXl
+                            id="test-table-xls-button"
+                            table="table-to-xls"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            icon={<i className="fas fa-file-excel"></i>}
+                          />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>
@@ -260,6 +318,292 @@ const ConsultantByConsultant = () => {
                     </DropdownMenu>
                   </Dropdown>
                 </div>
+
+                {/* column hide unhide starts here */}
+
+                <div className="">
+                  <Dropdown
+                    className="uapp-dropdown"
+                    style={{ float: "right" }}
+                    isOpen={dropdownOpen1}
+                    toggle={toggle1}
+                  >
+                    <DropdownToggle caret>
+                      <i className="fas fa-bars"></i>
+                    </DropdownToggle>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedSLNO(e);
+                              }}
+                              defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Name</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedName(e);
+                              }}
+                              defaultChecked={checkName}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Email</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedEmail(e);
+                              }}
+                              defaultChecked={checkEmail}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Phone</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPhn(e);
+                              }}
+                              defaultChecked={checkPhn}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Password</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPass(e);
+                              }}
+                              defaultChecked={checkPass}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Branch</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedBranch(e);
+                              }}
+                              defaultChecked={checkBranch}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Parent</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedCons(e);
+                              }}
+                              defaultChecked={checkCons}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Type</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedConsType(e);
+                              }}
+                              defaultChecked={checkConsType}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Started</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedDate(e);
+                              }}
+                              defaultChecked={checkDate}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSts(e);
+                              }}
+                              defaultChecked={checkSts}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Student</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedStd(e);
+                              }}
+                              defaultChecked={checkStd}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Applications</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAppli(e);
+                              }}
+                              defaultChecked={checkAppli}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Associates</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAsso(e);
+                              }}
+                              defaultChecked={checkAsso}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAction(e);
+                              }}
+                              defaultChecked={checkAction}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+
+                {/* column hide unhide ends here */}
 
                 {/* <div className="me-3">
                   <Dropdown
@@ -303,130 +647,178 @@ const ConsultantByConsultant = () => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    <th>SL/NO</th>
+                    {/* <th>SL/NO</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Phone No</th>
+                    <th>Phone</th>
                     <th>Password</th>
                     <th>Branch</th>
-                    <th>Parent Consultant</th>
-                    <th>Consultant Type</th>
-                    <th>Joining Date</th>
-                    <th>Account status</th>
+                    <th>Parent</th>
+                    <th>Type</th>
+                    <th>Started</th>
+                    <th>Status</th>
                     <th>Student</th>
                     <th>Application</th>
                     <th>Associates</th>
                     <th style={{ width: "8%" }} className="text-center">
                       Action
-                    </th>
+                    </th> */}
+
+                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkName ? <th>Name</th> : null}
+                    {checkEmail ? <th>Email</th> : null}
+                    {checkPhn ? <th>Phone</th> : null}
+                    {checkPass ? <th>Password</th> : null}
+                    {checkBranch ? <th>Branch</th> : null}
+                    {checkCons ? <th>Parent</th> : null}
+                    {checkConsType ? <th>Type</th> : null}
+                    {checkDate ? <th>Started</th> : null}
+                    {checkSts ? <th>Status</th> : null}
+                    {checkStd ? <th>Student</th> : null}
+                    {checkAppli ? <th>Applications</th> : null}
+                    {checkAsso ? <th>Associates</th> : null}
+                    {checkAction ? (
+                      <th style={{ width: "8%" }} className="text-center">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
                   {consultantList?.map((consultant, i) => (
                     <tr key={consultant?.id} style={{ textAlign: "center" }}>
-                      <th scope="row">{serialNum + i}</th>
-
-                      <td style={{ width: "10px" }}>
-                        {consultant?.firstName} {consultant?.lastName}
-                      </td>
-                      <td>{consultant?.email}</td>
-                      <td>{consultant?.phoneNumber}</td>
-
-                      <td>
-                        <Link to="/">Change</Link>
-                      </td>
-                      <td>{consultant?.branch?.name}</td>
-                      <td>{consultant?.parentConsultantName}</td>
-                      <td>{consultant?.consultantType?.name}</td>
-                      <td>{handleDate(consultant?.createdOn)}</td>
-                      <td>{consultant?.accountStatus?.statusName}</td>
-
-                      <td>
-                        <span
-                          className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          <Link
-                            style={{ textDecoration: "none" }}
-                            to={`/studentByConsultant/${consultant?.id}`}
+                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkName ? (
+                        <td style={{ width: "10px" }}>
+                          {consultant?.firstName} {consultant?.lastName}
+                        </td>
+                      ) : null}
+                      {checkEmail ? <td>{consultant?.email}</td> : null}
+                      {checkPhn ? <td>{consultant?.phoneNumber}</td> : null}
+                      {checkPass ? (
+                        <td>
+                          <Link to="/">Change</Link>
+                        </td>
+                      ) : null}
+                      {checkBranch ? <td>{consultant?.branch?.name}</td> : null}
+                      {checkCons ? (
+                        <td>{consultant?.parentConsultantName}</td>
+                      ) : null}
+                      {checkConsType ? (
+                        <td>{consultant?.consultantType?.name}</td>
+                      ) : null}
+                      {checkDate ? (
+                        <td>{handleDate(consultant?.createdOn)}</td>
+                      ) : null}
+                      {checkSts ? (
+                        <td>{consultant?.accountStatus?.statusName}</td>
+                      ) : null}
+                      {checkStd ? (
+                        <td>
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
                           >
-                            {consultant?.studentCount}
-                          </Link>
-                        </span>
-                      </td>
-
-                      <td>
-                        {" "}
-                        <span
-                          className="badge badge-primary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {0}
-                        </span>{" "}
-                      </td>
-                      <td>
-                        {" "}
-                        <span
-                          className="badge badge-warning"
-                          style={{ cursor: "pointer", textDecoration: "none" }}
-                        >
-                          <Link
-                            style={{ textDecoration: "none" }}
-                            to={`/associates/${consultant?.id}`}
+                            <Link
+                              style={{ textDecoration: "none" }}
+                              to={`/studentByConsultant/${consultant?.id}`}
+                            >
+                              {consultant?.studentCount}
+                            </Link>
+                          </span>
+                        </td>
+                      ) : null}
+                      {checkAppli ? (
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-primary"
+                            style={{ cursor: "pointer" }}
                           >
-                            {consultant?.childConsultantCount}
-                          </Link>
-                        </span>{" "}
-                      </td>
+                            {0}
+                          </span>{" "}
+                        </td>
+                      ) : null}
+                      {checkAsso ? (
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-warning"
+                            style={{
+                              cursor: "pointer",
+                              textDecoration: "none",
+                            }}
+                          >
+                            <Link
+                              style={{ textDecoration: "none" }}
+                              to={`/associates/${consultant?.id}`}
+                            >
+                              {consultant?.childConsultantCount}
+                            </Link>
+                          </span>{" "}
+                        </td>
+                      ) : null}
+                      {checkAction ? (
+                        <td style={{ width: "8%" }} className="text-center">
+                          <ButtonGroup variant="text">
+                            {/* <LinkButton
+                          url={`/consultantProfile/${consultant?.id}`}
+                          color={"primary"}
+                          className={"mx-1 btn-sm"}
+                          icon={<i className="fas fa-eye"></i>}
+                          permission={6}
+                        /> */}
 
-                      <td style={{ width: "8%" }} className="text-center">
-                        <ButtonGroup variant="text">
-                          {/* <LinkButton
-                            url={`/consultantProfile/${consultant?.id}`}
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                            permission={6}
-                          /> */}
-
-                          <ButtonForFunction
-                            func={()=>handleView(consultant?.id)}
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                            permission={6}
-                          />
-
-                          <ButtonForFunction
-                            func={()=>handleEdit(consultant)}
-                            color={"warning"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-edit"></i>}
-                            permission={6}
-                          />
-
-                          {consultant?.id !== 1 ? (
                             <ButtonForFunction
-                              color={"danger"}
+                              func={() => handleView(consultant?.id)}
+                              color={"primary"}
                               className={"mx-1 btn-sm"}
-                              func={()=> toggleDanger(consultant)}
-                              icon={<i className="fas fa-trash-alt"></i>}
+                              icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
-                          ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
-                          null}
-                        </ButtonGroup>
-                        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
-                        <ModalBody>
-                          <p>Are You Sure to Delete this ? Once Deleted it can't be Undone!</p>
-                        </ModalBody>
-        
-                        <ModalFooter>
-                          <Button  color="danger" onClick={handleDeleteData}>YES</Button>
-                          <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                        </ModalFooter>
-                     </Modal>
-                      </td>
+
+                            <ButtonForFunction
+                              func={() => handleEdit(consultant)}
+                              color={"warning"}
+                              className={"mx-1 btn-sm"}
+                              icon={<i className="fas fa-edit"></i>}
+                              permission={6}
+                            />
+
+                            {consultant?.id !== 1 ? (
+                              <ButtonForFunction
+                                color={"danger"}
+                                className={"mx-1 btn-sm"}
+                                func={() => toggleDanger(consultant)}
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                permission={6}
+                              />
+                            ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
+                            null}
+                          </ButtonGroup>
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={() => setDeleteModal(!deleteModal)}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this ? Once Deleted it
+                                can't be Undone!
+                              </p>
+                            </ModalBody>
+
+                            <ModalFooter>
+                              <Button color="danger" onClick={handleDeleteData}>
+                                YES
+                              </Button>
+                              <Button onClick={() => setDeleteModal(false)}>
+                                NO
+                              </Button>
+                            </ModalFooter>
+                          </Modal>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

@@ -508,11 +508,10 @@ const CampusSubjectList = () => {
             <div className="container test-score-div-1-style mt-1 mb-4">
               <span className="test-score-span-1-style">
                 Showing{" "}
+                subject list of{" "}
                 <b>
                   {campus?.name}
-                  {"'"}s
                 </b>{" "}
-                subject list
               </span>
             </div>
           ) : null}
@@ -524,7 +523,7 @@ const CampusSubjectList = () => {
                 func={handleAddSubject}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
-                name={" Assign New Subject"}
+                name={" Assign Subject"}
                 permission={6}
               />
             </Col>
@@ -580,9 +579,9 @@ const CampusSubjectList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -594,7 +593,7 @@ const CampusSubjectList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

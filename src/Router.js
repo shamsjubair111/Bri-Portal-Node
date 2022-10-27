@@ -110,6 +110,23 @@ const AddProviderUniversityTemplateDocument = lazy(() => import("./views/SMS/Uni
 const AddProviderUniversityCommission = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityCommission"))
 const AddProviderUniversityTestScore = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTestScore"))
 
+// university create form
+const UniversityForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityForm"))
+
+const UniversityCampusForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityCampusForm"))
+
+const UniversityFinancialForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityFinancialForm"))
+
+const UniversityFeaturesForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityFeaturesForm"))
+
+const UniversityTestScoreForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityTestScoreForm"))
+
+const UniversityApplicationDocumentForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityApplicationDocumentForm"))
+
+const UniversityTemplateDocumentForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityTemplateDocumentForm"))
+
+const UniversityCommissionForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityCommissionForm"))
+
 const AddUniversityCampus = lazy(() => import("./views/SMS/University/AddUniversityCampus.jsx"))
 const EditDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditDepartment"))
 const EditSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditSubDepartment"))
@@ -540,6 +557,23 @@ class AppRouter extends React.Component {
           <AppRoute  path="/intake" component={permissions?.includes(permissionList?.subject_intake_List)? Intake : NotAuthorized} />
           <AppRoute  path="/addNewIntakes" component={permissions?.includes(permissionList?.Add_subject_intake)? AddNewIntakes: NotAuthorized} />
           <AppRoute  path="/updateIntake/:id" component={permissions?.includes(permissionList?.Update_subject_intake)? UpdateIntake : NotAuthorized} />
+
+          {/* university create form */}
+          <AppRoute  path="/createUniversity" component={permissions?.includes(permissionList?.Add_University)? UniversityForm : NotAuthorized} />
+
+          <AppRoute  path="/createUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_UniversityCampus)? UniversityCampusForm : NotAuthorized} />
+
+          <AppRoute  path="/createUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_Financialinfo)? UniversityFinancialForm : NotAuthorized }/>
+
+          <AppRoute  path="/createUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? UniversityFeaturesForm : NotAuthorized} />
+
+          <AppRoute  path="/createUniversityTestScore/:univerId" component={UniversityTestScoreForm} />
+
+          <AppRoute  path="/createUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? UniversityApplicationDocumentForm: NotAuthorized} />
+
+          <AppRoute  path="/createUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? UniversityTemplateDocumentForm : NotAuthorized} />
+
+          <AppRoute  path="/createUniversityCommission/:univerId" component={UniversityCommissionForm} />
 
           {/* Country */}
           <AppRoute  path="/country" component={permissions?.includes(permissionList?.Country_List)? AddCountry: NotAuthorized} />

@@ -445,7 +445,7 @@ const Intake = () => {
                   func={handleAddNewButton}
                   className={"btn btn-uapp-add mr-1"}
                   icon={<i className="fas fa-plus"></i>}
-                  name={" Add New Intake"}
+                  name={" Add Intake"}
                 />
               ) : null}
 
@@ -470,9 +470,9 @@ const Intake = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -484,7 +484,7 @@ const Intake = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

@@ -57,7 +57,7 @@ const StudentList = () => {
   const [studentList, setStudentList] = useState([]);
   const [studentData, setStudentData] = useState([]);
   const [studentTypeLabel, setStudentTypeLabel] = useState(
-    "Select Student Type"
+    "Type"
   );
   const [studentTypeValue, setStudentTypeValue] = useState(0);
   const [searchStr, setSearchStr] = useState("");
@@ -73,7 +73,7 @@ const StudentList = () => {
   const [consultantValue, setConsultantValue] = useState(0);
 
   const [accountStatus, setAccountStatus] = useState([]);
-  const [statusLabel, setStatusLabel] = useState("Select Account Status");
+  const [statusLabel, setStatusLabel] = useState("Accounts Status");
   const [statusValue, setStatusValue] = useState(0);
 
   const [loading, setLoading] = useState(true);
@@ -305,10 +305,10 @@ const StudentList = () => {
 
   // on clear
   const handleClearSearch = () => {
-    setStudentTypeLabel("Select Student Type");
+    setStudentTypeLabel("Type");
     setStudentTypeValue(0);
     setStatusValue(0);
-    setStatusLabel("Select Account Status");
+    setStatusLabel("Accounts Status");
     setConsultantValue(0);
     setConsultantLabel("Select Consultant");
     setSearchStr("");
@@ -591,7 +591,7 @@ const StudentList = () => {
                 color='primary'
                 icon={<i className="fas fa-plus"></i>}
                 func={handleAddStudent}
-                name={" Add New Student"}
+                name={" Add Student"}
               ></ButtonForFunction>
             </Col>
 
@@ -647,9 +647,9 @@ const StudentList = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-print fs-7"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
+                    <DropdownMenu className="bg-dd-4">
                       <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
@@ -661,7 +661,7 @@ const StudentList = () => {
                             icon={<i className="fas fa-file-excel"></i>}
                           />
                         </div>
-                        <div className="text-white cursor-pointer">
+                        <div className="cursor-pointer">
                           <ReactToPrint
                             trigger={() => (
                               <p>

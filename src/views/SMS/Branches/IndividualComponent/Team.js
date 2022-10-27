@@ -200,10 +200,16 @@ const Team = (props) => {
             <Card>
               <div className="container mt-3 d-flex justify-content-between">
 
-              <div>
+              {/* <div>
                 <span className='branch-title-style'>
                   Branch Team
                 </span>
+                </div> */}
+
+                <div className="ms-3 mb-4 hedding-titel">
+                <h5> <b>Branch Team</b> </h5>
+                 
+                <div className="bg-h"></div>
                 </div>
                 
                 <div>

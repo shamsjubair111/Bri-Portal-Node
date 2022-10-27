@@ -206,7 +206,7 @@ return (
             className={"btn btn-uapp-add"}
             func={AddModalOpen}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New Program Level"}
+            name={" Add Program Level"}
             permission={6}
           />
 

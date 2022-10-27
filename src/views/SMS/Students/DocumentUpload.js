@@ -297,7 +297,8 @@ const DocumentUpload = () => {
   };
 
 
-  const changeHandler = (e,doc) => {         
+  const changeHandler = (e, doc) => {   
+      console.log("document", doc);      
       setFileList2(e.target.files[0]);
       setIsSelected(true);
       setStudentDocuId(doc?.studentDocumentLevelId);

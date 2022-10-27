@@ -531,7 +531,7 @@ const Details = () => {
                     <>
                     
                     <Button color='primary' onClick={()=>setOpenModal5(true)}>
-                <i className="fas fa-plus"></i> <span className='ml-1'>Add New Note</span>
+                <i className="fas fa-plus"></i> <span className='ml-1'>Add Note</span>
                 </Button>
                 
 

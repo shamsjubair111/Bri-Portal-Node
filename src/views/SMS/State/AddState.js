@@ -237,7 +237,7 @@ const AddState = () => {
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
-            name={" Add New State"}
+            name={" Add State"}
             
           />
           :
