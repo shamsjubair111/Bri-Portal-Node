@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, createRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router";
+import { Redirect, useHistory, useLocation, useParams } from "react-router";
 // import MediaPictures from "./UniversityMedia";
 import Select from "react-select";
 import {
@@ -202,6 +202,11 @@ const UniversityTemplateDocumentForm = () => {
   // };
 
 
+  const redirectToNext = () => {
+    history.push(`/createUniversityCommission/${univerId}`);
+  }
+
+
     return (
         <div>
       <Card className="uapp-card-bg">
@@ -380,10 +385,20 @@ const UniversityTemplateDocumentForm = () => {
 
                     <div className='row'>
                     <div className='col-md-8 d-flex justify-content-end'>
+
+                             <ButtonForFunction
+                                color={"primary"}
+                                func={redirectToNext}
+                                className={"mt-3"}
+                                name={"Skip & Next"}
+                                disable={buttonStatus}
+                                permission={6}
+                              />
+
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
-                                className={"ml-lg-3 ml-sm-1 mt-3"}
+                                className={"ml-lg-2 ml-sm-1 mt-3"}
                                 name={"Save & Next"}
                                 disable={buttonStatus}
                                 permission={6}

@@ -388,7 +388,7 @@ const UniversityCommissionForm = () => {
                         color={"primary"}
                         type={"submit"}
                         className={"ml-lg-3 ml-sm-1 mt-3"}
-                        name={"Save & Next"}
+                        name={"Save & Finish"}
                         disable={buttonStatus}
                         permission={6}
                       />

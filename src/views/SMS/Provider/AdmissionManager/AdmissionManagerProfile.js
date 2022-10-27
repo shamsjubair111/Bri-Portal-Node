@@ -497,7 +497,7 @@ const selectNameTitle = (label, value) => {
                       <th>Name</th>
                       <th>Short Name</th>
                       <th>City</th>
-                      <th>Description</th>
+                      {/* <th>Description</th> */}
                       <th>Founded</th>
                       <th>Global Ranking</th>
                       <th>Part Time Work Information</th>
@@ -538,7 +538,7 @@ const selectNameTitle = (label, value) => {
 
                           <td>{uni?.university?.universityCity}</td>
 
-                          <td>{uni?.university?.description}</td>
+                          {/* <td>{uni?.university?.description}</td> */}
 
                           <td>{uni?.university?.foundationYear}</td>
 
@@ -743,7 +743,7 @@ const selectNameTitle = (label, value) => {
             </Modal>
 
               {/* add new admission officer */}
-              <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal4" style={{height: '5px'}} size='lg'>
+              <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal4" size='lg'>
               <ModalHeader style={{backgroundColor: '#1d94ab'}}><span className='text-white'>Admission Officer</span></ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit} >

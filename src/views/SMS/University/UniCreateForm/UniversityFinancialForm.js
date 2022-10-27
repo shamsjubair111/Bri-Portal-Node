@@ -71,6 +71,10 @@ const UniversityFinancialForm = () => {
       });
     
   };
+
+  const redirectToNext = () => {
+    history.push(`/createUniversityFeatures/${univerId}`);
+  }
   
 
     return (
@@ -199,6 +203,15 @@ const UniversityFinancialForm = () => {
 
                 <div className='row mt-5'>
                         <div className='col-md-8 d-flex justify-content-end'>
+
+                    <ButtonForFunction
+                      func={redirectToNext}
+                      className={"mt-3 badge-primary"}
+                      name={"Skip & Next"}
+                      disable={buttonStatus}
+                      permission={6}
+                    />
+
                     <ButtonForFunction
                       type={"submit"}
                       className={"ml-lg-2 ml-sm-1 mt-3 badge-primary"}
