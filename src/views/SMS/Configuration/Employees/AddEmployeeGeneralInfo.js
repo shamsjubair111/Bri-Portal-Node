@@ -497,7 +497,7 @@ const EmployeeGeneralInfo = (props) => {
                                 </FormGroup>
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                        <span>Phone Number <span className="text-danger">*</span>{" "}</span>
+                                        <span>Phone Number</span>
                                     </Col>
                                     <Col md="6">
                                         <Input
@@ -505,7 +505,7 @@ const EmployeeGeneralInfo = (props) => {
                                             name="phoneNumber"
                                             id="phoneNumber"
                                             placeholder='Enter Phone Number'
-                                            required
+                                            
                                         />
                                         {/* <div className="form-control-position">
                                         <User size={15} />

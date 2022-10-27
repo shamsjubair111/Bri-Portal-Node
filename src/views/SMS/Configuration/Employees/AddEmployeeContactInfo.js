@@ -190,7 +190,7 @@ const EmployeeContactInfo = () => {
 
                             <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Phone Number <span className="text-danger">*</span>{" "}</span>
+                                    <span>Phone Number</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -198,7 +198,7 @@ const EmployeeContactInfo = () => {
                                         name="phoneNumber"
                                         id="phoneNumber"
                                         placeholder="Enter Phone Number"
-                                        required
+                                        
                                        />
                                     </Col>
                                 </FormGroup>
@@ -219,7 +219,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>Address Line <span className="text-danger">*</span>{" "}</span>
+                                    <span>Address Line</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -269,7 +269,7 @@ const EmployeeContactInfo = () => {
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>City <span className="text-danger">*</span>{" "}</span>
+                                    <span>City</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -277,14 +277,14 @@ const EmployeeContactInfo = () => {
                                         name="city"
                                         id="city"
                                         placeholder="Enter City"
-                                        required
+                                     
                                        />
                                     </Col>
                                 </FormGroup>
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
-                                    <span>State <span className="text-danger">*</span>{" "}</span>
+                                    <span>State</span>
                                     </Col>
                                     <Col md="6">
                                     <Input
@@ -306,6 +306,7 @@ const EmployeeContactInfo = () => {
                                         name="zipCode"
                                         id="zipCode"
                                         placeholder="Enter Zip Code"
+                                        required
                                        />
                                     </Col>
                                 </FormGroup>

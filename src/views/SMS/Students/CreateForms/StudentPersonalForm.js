@@ -138,12 +138,15 @@ const StudentPersonalForm = () => {
 
       get(`Student/Get/${id}`).then(
         (res) => {
+          console.log('data data data',res);
           
           setConsultantLabel(
             res?.consultant?.firstName + " " + res?.consultant?.lastName
           );
         
           setConsultantValue(res?.consultantId);
+          setFirstName(res?.firstName);
+          setLastName(res?.lastName);
          
           setEmail(res?.email);
         
@@ -449,6 +452,7 @@ const StudentPersonalForm = () => {
                         placeholder="Enter First Name"
                         required
                         onChange={(e) => setFirstName(e.target.value)}
+                        defaultValue={FirstName}
                      
                       />
   
@@ -470,6 +474,7 @@ const StudentPersonalForm = () => {
                         placeholder="Enter Last Name"
                         onChange={(e) => setLastName(e.target.value)}
                         required
+                        defaultValue={LastName}
                         
                       />
   

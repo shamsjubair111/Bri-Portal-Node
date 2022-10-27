@@ -585,8 +585,7 @@ color: #1d94ab;
 
 }
 .margin-top-minus{
-  margin-top: -40px;
-  z-index: 200;
+  
   display: flex;
   justify-content: center;
   width: 100%;
