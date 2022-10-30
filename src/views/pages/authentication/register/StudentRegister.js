@@ -19,8 +19,8 @@ import StudentRegisterJWT from "./StudentRegisterJWT";
 import registerImg from "../../../../assets/img/pages/register.jpg";
 import "../../../../assets/scss/pages/authentication.scss";
 import LoginNavbar from "../login/LoginNavbar";
-import UappLogo from "../../../../assets/img/UappLogo.png";
-import Lgimage from "../../../../assets/img/UappLogo.png";
+import UappLogo from "../../../../assets/img/Asset 12Icon.svg";
+import Lgimage from "../../../../assets/img/Asset 12Icon.svg";
 import Footer from "../../../../layouts/components/footer/Footer";
 import Studentregister from "../../../../assets/img/Studentregister.png";
 

@@ -21,8 +21,8 @@ import ThemeNavbar from '../../../../layouts/components/navbar/Navbar'
 import NavbarUser from '../../../../layouts/components/navbar/NavbarUser'
 import LoginNavbar from "./LoginNavbar"
 import { Height } from "@material-ui/icons"
-import UappLogo from '../../../../assets/img/UappLogo.png'; 
-import Lgimage from"../../../../assets/img/UappLogo.png"
+import UappLogo from '../../../../assets/img/Asset 12Icon.svg'; 
+import Lgimage from"../../../../assets/img/Asset 12Icon.svg"
 import Footer from "../../../../layouts/components/footer/Footer"
 
 class StudentLogin extends React.Component {
@@ -54,7 +54,7 @@ class StudentLogin extends React.Component {
                 <div className="flexbox-container login-img">
 
                 <div>
-                <img src={UappLogo} className='w-50 mt-5' />
+                <img src={UappLogo}  className=' w-50 mt-5' />
                 </div>
              
                 </div>

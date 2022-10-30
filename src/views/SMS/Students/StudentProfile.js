@@ -6,7 +6,7 @@ import {  Card, CardBody, Modal,
   ModalFooter, Input, CardHeader,Label, Col,  Row, Table, Form, FormGroup, Button } from 'reactstrap';
 import get from '../../../helpers/get';
 // import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg';
-import coverImage from '../../../assets/img/UappLogo.png';
+import coverImage from '../../../assets/img/Asset 12Icon.svg';
 // import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
 import ReactToPrint from 'react-to-print';

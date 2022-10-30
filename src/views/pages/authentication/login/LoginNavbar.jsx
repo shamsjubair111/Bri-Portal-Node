@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router';
 import { Col, Row, Nav, Navbar, NavItem, NavLink, NavbarBrand, NavbarToggler, UncontrolledDropdown, DropdownToggle, DropdownItem, NavbarText, Collapse, DropdownMenu, Button} from 'reactstrap';
-import Uapp from '../../../../assets/img/UappLogo.png'
+import Uapp from '../../../../assets/img/Asset 12Icon.svg'
 const LoginNavbar = () => {
 
   const history = useHistory();

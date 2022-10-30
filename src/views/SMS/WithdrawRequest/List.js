@@ -41,7 +41,7 @@ import { userTypes } from "../../../constants/userTypeConstant";
 import post from "../../../helpers/post";
 import { AddPhotoAlternateSharp } from "@material-ui/icons";
 import { useToasts } from "react-toast-notifications";
-import Assets from "../../../assets/img/UappLogo.png";
+import Assets from "../../../assets/img/Asset 12Icon.svg";
 import Loader from "../Search/Loader/Loader";
 
 const List = () => {

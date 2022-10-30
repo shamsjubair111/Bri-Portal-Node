@@ -3,7 +3,7 @@ import ScrollToTop from "react-scroll-up"
 import { Button } from "reactstrap"
 import { ArrowUp } from "react-feather"
 import classnames from "classnames"
-import Lgimage from"../../../assets/img/UappLogo.png"
+import Lgimage from"../../../assets/img/Asset 12Icon.svg"
 const Footer = () => {
   return (
     <footer className={classnames("footer footer-light uapp-footer-main", "static" ,"footer-custom-style")}>

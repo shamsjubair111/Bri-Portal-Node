@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import UappImage from '../../../../assets/img/UappLogo.png'
+import UappImage from '../../../../assets/img/Asset 12Icon.svg'
 
 const SessionExpired = () => {
 
