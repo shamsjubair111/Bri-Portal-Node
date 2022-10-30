@@ -391,7 +391,7 @@ const UniversityTemplateDocumentForm = () => {
                                 func={redirectToNext}
                                 className={"mt-3"}
                                 name={"Skip & Next"}
-                                disable={buttonStatus}
+                                // disable={buttonStatus}
                                 permission={6}
                               />
 

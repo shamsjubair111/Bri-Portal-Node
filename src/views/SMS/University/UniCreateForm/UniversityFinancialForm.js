@@ -208,7 +208,7 @@ const UniversityFinancialForm = () => {
                       func={redirectToNext}
                       className={"mt-3 badge-primary"}
                       name={"Skip & Next"}
-                      disable={buttonStatus}
+                      // disable={buttonStatus}
                       permission={6}
                     />
 

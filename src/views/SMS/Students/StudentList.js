@@ -255,7 +255,7 @@ const StudentList = () => {
 
     {
       id: 2,
-      name: "Incative",
+      name: "Inactive",
     },
   ];
 

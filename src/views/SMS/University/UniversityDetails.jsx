@@ -113,6 +113,9 @@ const UniversityDetails = () => {
   const [buttonStatus1,setButtonStatus1] = useState(false);
   const [buttonStatus2,setButtonStatus2] = useState(false);
 
+  const [data, setData] = useState({});
+  const [score, setScore] = useState({});
+
   const userType = localStorage.getItem('userType');
 
 
@@ -193,6 +196,21 @@ const UniversityDetails = () => {
     get("UniversityCountryDD/Index").then((res) => {
       setCountryList(res);
     });
+
+    get(`UniversityComission/GetByUniversity/${id}`).then((res) => {
+      console.log(res, "112222");
+      setData(res);
+    });
+
+    get(`TestScoreRequirement/Index/${id}`)
+        .then(res => {
+            console.log(res, "Score");
+            setScore(res);
+            // setRequired(res?.isTestScoreRequired);
+            // setIelts(res?.isIeltsMandatory);
+            // setScore(res?.score);
+            
+        })
 
     // for fake data
     // setUsers(userData);
@@ -1886,6 +1904,116 @@ const UniversityDetails = () => {
                     <div>
                       <h5>
                         {" "}
+                        <b>Commission</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                  </div>
+
+                  {
+                    JSON.stringify(data) === '{}' || data === null ?
+                    <p>There is no commission added here.</p>
+                    :
+                  //   <Card className="CampusCard">
+                  // <CardBody className="shaodw">
+                  <div className="customCard rounded">
+                    <div className="row">
+                      <div className="col-md-11">
+                        <div className="row">
+                          <div className="col-md-4">
+                            <h5> Home </h5>
+                            <span>
+                              Commission Type:{" "}
+                              {data?.homeStudentComissionType == 1
+                                ? "Amount"
+                                : "Percentage"}
+                            </span>
+                            <br />
+
+                            <span>
+                              Installment:{" "}
+                              {data?.homeStudentComissionInstallment}
+                            </span>
+                            <br />
+                            <span>
+                              Value: {data?.homeStudentComissionValue}
+                            </span>
+                          </div>
+
+                          <div className="col-md-4">
+                            <h5> International </h5>
+                            <span>
+                              Commission Type:{" "}
+                              {data?.internationalStudentComissionType == 1
+                                ? "Amount"
+                                : "Percentage"}
+                            </span>
+                            <br />
+
+                            <span>
+                              Installment:{" "}
+                              {data?.internationalStudentComissionInstallment}
+                            </span>
+                            <br />
+                            <span>
+                              Value: {data?.internationalStudentComissionValue}
+                            </span>
+                          </div>
+
+                          <div className="col-md-4">
+                            <h5> EU/UK </h5>
+                            <span>
+                              Commission Type:{" "}
+                              {data?.eU_UKStudentComissionType == 1
+                                ? "Amount"
+                                : "Percentage"}
+                            </span>
+                            <br />
+
+                            <span>
+                              Installment:{" "}
+                              {data?.eU_UKStudentComissionInstallment}
+                            </span>
+                            <br />
+                            <span>
+                              Value: {data?.eU_UKStudentComissionValue}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-1">
+                        {/* <div className="CampusCardAction">
+                          <ButtonForFunction
+                            type={"button"}
+                            color={"primary"}
+                            className={"mr-2"}
+                            func={() => toggleDanger(data)}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+                        </div> */}
+                      </div>
+                    </div>
+                    </div>
+                //   </CardBody>
+                // </Card>
+                  }
+                  
+                </CardBody>
+              </Card>
+            </div>
+
+            <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
                         <b>Application Documents</b>{" "}
                       </h5>
 
@@ -2225,6 +2353,60 @@ const UniversityDetails = () => {
                         ) : (
                           <i className="success fas fa-check-circle"></i>
                         )}
+                      </p>
+                    </div>
+                  </>
+                )}
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardBody>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Test Score</b>{" "}
+                    </h5>
+
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                </div>
+
+                {JSON.stringify(score) === '{}' || score === null ? (
+                  <p>There is no test score added here.</p>
+                ) : (
+                  <>
+                    <div className="d-flex justify-content-between">
+                      <span>Test Score Required</span>
+                      <p>
+                        {score?.isTestScoreRequired === false ? (
+                          <i className=" danger fas fa-times-circle"></i>
+                        ) : (
+                          <i className="success fas fa-check-circle"></i>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="d-flex justify-content-between">
+                      <span>IELTS Mandatory</span>
+                      <p>
+                        {score?.isIeltsMandatory ===
+                        false ? (
+                          <i className=" danger fas fa-times-circle"></i>
+                        ) : (
+                          <i className="success fas fa-check-circle"></i>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="d-flex justify-content-between">
+                      <span>IELTS Equivalent Score</span>
+                      <p>
+                        {score?.score}
                       </p>
                     </div>
                   </>
