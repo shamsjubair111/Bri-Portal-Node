@@ -793,31 +793,36 @@ const UniversityDetails = () => {
                   <div className="row mt-5">
                     <div className="col-md-8">
                       <div className="row row-cols-md-3 row-cols-sm-2 container-fluid">
-                        {gallery.map((gall, i) => (
-                          <div key={i} className="containerCustom pl-2 pb-2">
-                            <img
-                              src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
-                              alt="Avatar"
-                              className="image"
-                              style={{ width: "100%" }}
-                            />
-                            <div className="middle d-flex">
-                              <Button
-                                onClick={() => handleView(gall)}
-                                className="bg-success"
-                              >
-                                View
-                              </Button>
-                              <Button
-                                onClick={() => handleDelete(gall)}
-                                className="bg-danger ml-1"
-                              >
-                                Delete
-                              </Button>
-
+                        {
+                          gallery.length === 0 ?
+                          <p>There is no item added here.</p>
+                          :
+                          gallery.map((gall, i) => (
+                            <div key={i} className="containerCustom pl-2 pb-2">
+                              <img
+                                src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
+                                alt="Avatar"
+                                className="image"
+                                style={{ width: "100%" }}
+                              />
+                              <div className="middle d-flex">
+                                <Button
+                                  onClick={() => handleView(gall)}
+                                  className="bg-success"
+                                >
+                                  View
+                                </Button>
+                                <Button
+                                  onClick={() => handleDelete(gall)}
+                                  className="bg-danger ml-1"
+                                >
+                                  Delete
+                                </Button>
+  
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))
+                        }
 
                             {/* Gallery view modal starts here */}
 
@@ -2028,10 +2033,10 @@ const UniversityDetails = () => {
                     appDocument.length < 1 ?
                     <p>There are no application documents added here.</p>
                     :
-                    <Table className="table-sm table-bordered">
-                    <thead className="thead-uapp-bg">
+                    <Table className="table-sm striped">
+                    <thead className="">
                       <tr style={{ textAlign: "center" }}>
-                        <th>SL/NO</th>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Type</th>
                       </tr>
@@ -2092,10 +2097,10 @@ const UniversityDetails = () => {
                     tempDocument.length < 1 ?
                     <p>There are no template documents added here.</p>
                     :
-                    <Table className="table-sm table-bordered">
-                    <thead className="thead-uapp-bg">
+                    <Table className="table-sm striped">
+                    <thead className="">
                       <tr style={{ textAlign: "center" }}>
-                        <th>SL/NO</th>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Type</th>
@@ -2248,7 +2253,7 @@ const UniversityDetails = () => {
                </div> */}
                 </div>
 
-                {financialInfo === null ? (
+                {JSON.stringify(financialInfo) === '{}' || financialInfo === null ? (
                   <p>There is no financial information added here.</p>
                 ) : (
                   <>
@@ -2295,7 +2300,7 @@ const UniversityDetails = () => {
                </div> */}
                 </div>
 
-                {universityFeatures === null ? (
+                {JSON.stringify(universityFeatures) === '{}' || universityFeatures === null ? (
                   <p>There is no feature added here.</p>
                 ) : (
                   <>
