@@ -2760,7 +2760,7 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {studentProInfo?.applicationInfos?.dateOfMoveToUk}
+                            {handleDate(studentProInfo?.applicationInfos?.dateOfMoveToUk)}
                           </td>
                         </tr>
 
