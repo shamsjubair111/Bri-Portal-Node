@@ -1722,10 +1722,10 @@ const CampusDetails = () => {
                                 type="checkbox"
                                 name=""
                                 id={per?.subjectId}
-                                defaultChecked={per.isIntakeExists}
+                                checked={checked1.includes(`${per?.subjectId}`)? true : false}
                               />
                               <label className="form-check-label" htmlFor="">
-                                {per?.subjectName}
+                                {per?.subjectName}  {per?.subjectId}
                               </label>
                             </div>
                           </Col>

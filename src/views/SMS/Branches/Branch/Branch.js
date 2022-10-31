@@ -375,7 +375,8 @@ const Branch = () => {
                 
                   </Col>
                 </FormGroup>
-                {/* <FormGroup row className="has-icon-left position-relative">
+                
+                <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
                       Branch Code <span className="text-danger">*</span>{" "}
@@ -392,7 +393,7 @@ const Branch = () => {
                     />
                 
                   </Col>
-                </FormGroup> */}
+                </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

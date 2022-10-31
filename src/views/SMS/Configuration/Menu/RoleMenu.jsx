@@ -225,7 +225,7 @@ const RoleMenu = (props) => {
                                     
                                     <Col xs="6" sm="4" md="3" key={menu.id}>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" onChange={(e)=>handleCheck(e)} name="" id={menu.id} defaultChecked={menu.isChecked}  />
+                                        <input className="form-check-input" type="checkbox" onChange={(e)=>handleCheck(e)} name="" id={menu.id} checked={checked.includes(`${menu?.id}`)}  />
                                         <label className="form-check-label" htmlFor="">{menu.menuItem}</label>
                                     </div>
                                     </Col>
@@ -262,7 +262,7 @@ const RoleMenu = (props) => {
                             <p>Are You Sure to Assign Selected Menus?</p>
                             <Row className="mt-3">
                             <Col md="6" className="text-left">
-                            <Button color="success" onClick={handleConfirm}>Yes</Button>
+                            <Button color="primary" onClick={handleConfirm}>Yes</Button>
                             </Col>
                             <Col md="6" className="text-right">
                             <Button color="danger" onClick={()=> setModalOpen(false)}>Cancel</Button>

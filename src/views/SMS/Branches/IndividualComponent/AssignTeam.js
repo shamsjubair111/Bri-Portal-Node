@@ -138,14 +138,14 @@ const AssignTeam = (props) => {
 
        // on Select Role
   const selectBranchTeamName = (label, value) => {
-    setMenus([]);
-    checked = [];
+    
     setBranchTeamLabel(label);
     setBranchTeamValue(value);
     
 
     get(`BranchTeamEmployee/GetUnassigned/${value}`).then((action) => {
-     
+      console.log(action,'action');
+      
       setMenus(action);
       setSuccess(!success);
       let defaultChecked = checked;
@@ -216,9 +216,10 @@ const AssignTeam = (props) => {
     const val = e.target.checked;
     if (val === true) {
       menus.map((menu) => {
+        console.log(menu);
         const menuId = menu.id.toString();
         newChecked.push(menuId);
-        document.getElementById(menu.id).checked = true;
+        document.getElementById(menu?.id).checked = true;
       });
       setChecked([...newChecked]);
     }
@@ -226,12 +227,15 @@ const AssignTeam = (props) => {
     if (val === false) {
       {
         menus.map((menu) => {
-          document.getElementById(menu.id).checked = false;
+          console.log(menu);
+          document.getElementById(menu?.id).checked = false;
         });
         setChecked([]);
       }
     }
   };
+
+  console.log('Ale ALe', checked);
 
   const redirectToUpdateBranchEmployee = (branchId, employeeId) => {
     history.push(`/branchEmployeeInformation/${branchId}/${employeeId}`);
@@ -399,12 +403,13 @@ const AssignTeam = (props) => {
                                 </Col>
                                 {
                                     branchTeamValue &&
-                                    menus?.map(menu =>
-                                    
-                                    <Col xs="6" sm="4" md="3" key={menu.id}>
+                                    menus?.map((menu,i) =>
+                                   
+                                    <Col xs="6" sm="4" md="3" key={menu?.id}>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" onChange={(e)=>handleCheck(e)} name="" id={menu.id} defaultChecked={menu.isChecked}  />
-                                        <label className="form-check-label" htmlFor="">{menu.firstName}{' '}{menu.lastName}</label>
+                                      
+                                        <input className="form-check-input" type="checkbox" onChange={(e)=>handleCheck(e)} name="" id={menu?.id} checked ={checked.includes(`${menu?.id}`) ? true : false}   />
+                                        <label className="form-check-label" htmlFor=''>{menu?.firstName}{' '}{menu?.lastName}</label>
                                     </div>
                                     </Col>
                                     )

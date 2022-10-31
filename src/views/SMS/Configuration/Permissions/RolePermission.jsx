@@ -30,7 +30,7 @@ const RolePermission = (props) => {
   useEffect(()=>{
     get(`UserRole/Index`)
     .then(res => {
-      
+        
         setRoles(res);
       
     })
@@ -52,6 +52,7 @@ const RolePermission = (props) => {
     }
     // setModalOpen(true);
 
+    console.log('subData',subData);
     
 
       setPermissionName([]);
@@ -83,6 +84,7 @@ const RolePermission = (props) => {
 
     const returnValue = get(`RolePermission/GetCheckBoxes/${value}`).then((action)=>{
      
+     console.log('res',action)
       setPermissionName(action);
       let defaultChecked = checked
       if(action.length > 0){
@@ -102,6 +104,7 @@ const RolePermission = (props) => {
 
   }
 
+  console.log('checkboxes value from api',checked);
 
 
  
@@ -149,7 +152,7 @@ const RolePermission = (props) => {
    
   }
 
-  console.log('Checked',checked);
+
  
 
 
@@ -217,8 +220,8 @@ const RolePermission = (props) => {
                 
                   <Col xs="6" sm="4" md="3" key={per.id}>
                   <div className="form-check">
-                    <input className="form-check-input" onChange={(e)=>handleCheck(e)} type="checkbox" name="" id={per.id} defaultChecked={per.isChecked} />
-                    <label className="form-check-label" htmlFor="">{per.permissionName}</label>
+                    <input className="form-check-input" onChange={(e)=>handleCheck(e)} type="checkbox" name="" id={per.id} checked={checked?.includes(`${per?.id}`) ? true : false} />
+                    <label className="form-check-label" htmlFor="">{per.permissionName} {per?.id}</label>
                   </div>
                   </Col>
                   )
