@@ -736,12 +736,14 @@ const AddProviderUniversityCampus = (props) => {
                       </Col>
                       <Col md="6">
                         <Input
-                          type="textarea"
+                          // type="textarea"
+                          type="url"
                           rows="4"
                           name="EmbededMap"
                           id="EmbededMap"
                           defaultValue={universityCampusObject?.embededMap}
-                          placeholder="Location on Google Map"
+                          // placeholder="Location on Google Map"
+                          placeholder="https://example.com"
                         />
                         <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
                         {/* <div className="form-control-position">

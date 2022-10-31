@@ -277,7 +277,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                     </Col>
                   </FormGroup>
 
-                  <FormGroup row>
+                  {/* <FormGroup row>
                     <Col md="2">
                    <i id="usernameTooltip" className="fas fa-info-circle menuIcon"></i>
                       <span className="pl-2">Username</span>
@@ -304,7 +304,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                       />
 
                     </Col>
-                  </FormGroup>
+                  </FormGroup> */}
 
                   <FormGroup row>
                   <Col md="2">

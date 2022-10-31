@@ -279,7 +279,7 @@ const ProviderForm = (props) => {
                     </Col>
                   </FormGroup>
 
-                  <FormGroup row>
+                  {/* <FormGroup row>
                     <Col md="2">
                    
                    <span className="pl-2">User Name {' '}<span className='text-danger'>*</span></span>
@@ -299,7 +299,7 @@ const ProviderForm = (props) => {
                       />
 
                     </Col>
-                  </FormGroup>
+                  </FormGroup> */}
 
                   <FormGroup row>
                     <Col md="2">
