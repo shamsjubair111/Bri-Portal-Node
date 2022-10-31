@@ -29,7 +29,7 @@ import get from "../../../helpers/get";
 import Select from "react-select";
 import { rootUrl } from "../../../constants/constants";
 import profileImage from "../../../assets/img/profile/user-uploads/user-07.jpg";
-import { userTypes } from "../../../constants/userTypeConstant" 
+import { userTypes } from "../../../constants/userTypeConstant";
 import { Image } from "antd";
 import { useToasts } from "react-toast-notifications";
 
@@ -108,14 +108,14 @@ const UniversityDetails = () => {
   const [delGalName, setDelGalName] = useState("");
   const [delGalId, setDelGalId] = useState(0);
 
-  
-  const [buttonStatus,setButtonStatus] = useState(false);
-  const [buttonStatus1,setButtonStatus1] = useState(false);
-  const [buttonStatus2,setButtonStatus2] = useState(false);
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [buttonStatus1, setButtonStatus1] = useState(false);
+  const [buttonStatus2, setButtonStatus2] = useState(false);
 
-  const userType = localStorage.getItem('userType');
+  const [data, setData] = useState({});
+  const [score, setScore] = useState({});
 
-
+  const userType = localStorage.getItem("userType");
 
   const history = useHistory();
 
@@ -194,6 +194,19 @@ const UniversityDetails = () => {
       setCountryList(res);
     });
 
+    get(`UniversityComission/GetByUniversity/${id}`).then((res) => {
+      console.log(res, "112222");
+      setData(res);
+    });
+
+    get(`TestScoreRequirement/Index/${id}`).then((res) => {
+      console.log(res, "Score");
+      setScore(res);
+      // setRequired(res?.isTestScoreRequired);
+      // setIelts(res?.isIeltsMandatory);
+      // setScore(res?.score);
+    });
+
     // for fake data
     // setUsers(userData);
   }, [id, callApi, currentPage, dataPerPage, searchStr, success]);
@@ -234,33 +247,31 @@ const UniversityDetails = () => {
     event.preventDefault();
     const subdata = new FormData(event.target);
 
-    
-      if (uniCountryValue === 0) {
-        setCountryError(true);
-      } else if (unistateValue === 0) {
-        setStateError(true);
-      } else {
-        setButtonStatus2(true);
-        post(`UniversityCampus/Create`, subdata).then((res) => {
-          setButtonStatus2(false);
-          setSuccess(!success);
-          setModalOpen(false);
-          console.log("ressss", res);
-          // setuniversityId(res?.data?.result?.universityId);
-          if (res.status === 200 && res.data.isSuccess === true) {
-            // setSubmitData(false);
-            addToast(res.data.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-            setUniCountryLabel("Select Country");
-            setUniCountryValue(0);
-            setUniStateLabel("Select State");
-            setUniStateValue(0);
-          }
-        });
-      }
-    
+    if (uniCountryValue === 0) {
+      setCountryError(true);
+    } else if (unistateValue === 0) {
+      setStateError(true);
+    } else {
+      setButtonStatus2(true);
+      post(`UniversityCampus/Create`, subdata).then((res) => {
+        setButtonStatus2(false);
+        setSuccess(!success);
+        setModalOpen(false);
+        console.log("ressss", res);
+        // setuniversityId(res?.data?.result?.universityId);
+        if (res.status === 200 && res.data.isSuccess === true) {
+          // setSubmitData(false);
+          addToast(res.data.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setUniCountryLabel("Select Country");
+          setUniCountryValue(0);
+          setUniStateLabel("Select State");
+          setUniStateValue(0);
+        }
+      });
+    }
   };
 
   const backToDashboard = () => {
@@ -695,14 +706,13 @@ const UniversityDetails = () => {
                         <li>
                           <h4>
                             {universityInfo?.name} ({universityInfo?.shortName})
-                            
                           </h4>
-                          {
-                            (userType == userTypes?.SystemAdmin)?
-                            <h6 className='mt-2'>Contract Type: {universityInfo?.contractType?.name}</h6>
-                            :
-                            null
-                          }
+                          {userType == userTypes?.SystemAdmin ? (
+                            <h6 className="mt-2">
+                              Contract Type:{" "}
+                              {universityInfo?.contractType?.name}
+                            </h6>
+                          ) : null}
                         </li>
 
                         <li>{/* <h6>{employeeType.name}</h6> */}</li>
@@ -775,119 +785,118 @@ const UniversityDetails = () => {
                   <div className="row mt-5">
                     <div className="col-md-8">
                       <div className="row row-cols-md-3 row-cols-sm-2 container-fluid">
-                        {gallery.map((gall, i) => (
-                          <div key={i} className="containerCustom pl-2 pb-2">
-                            <img
-                              src={rootUrl + gall?.mediaFileMedia?.thumbnailUrl}
-                              alt="Avatar"
-                              className="image"
-                              style={{ width: "100%" }}
-                            />
-                            <div className="middle d-flex">
-                              <Button
-                                onClick={() => handleView(gall)}
-                                className="bg-success"
-                              >
-                                View
-                              </Button>
-                              <Button
-                                onClick={() => handleDelete(gall)}
-                                className="bg-danger ml-1"
-                              >
-                                Delete
-                              </Button>
-
+                        {gallery.length === 0 ? (
+                          <p>There is no item added here.</p>
+                        ) : (
+                          gallery.map((gall, i) => (
+                            <div key={i} className="containerCustom pl-2 pb-2">
+                              <img
+                                src={
+                                  rootUrl + gall?.mediaFileMedia?.thumbnailUrl
+                                }
+                                alt="Avatar"
+                                className="image"
+                                style={{ width: "100%" }}
+                              />
+                              <div className="middle d-flex">
+                                <Button
+                                  onClick={() => handleView(gall)}
+                                  className="bg-success"
+                                >
+                                  View
+                                </Button>
+                                <Button
+                                  onClick={() => handleDelete(gall)}
+                                  className="bg-danger ml-1"
+                                >
+                                  Delete
+                                </Button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))
+                        )}
 
-                            {/* Gallery view modal starts here */}
+                        {/* Gallery view modal starts here */}
 
-                              <Modal
-                                size="50%"
-                                isOpen={viewModalOpen}
-                                toggle={closeViewModal}
-                                className="uapp-modal2"
-                              >
-                                <ModalBody>
-                                  {/* <img
+                        <Modal
+                          size="50%"
+                          isOpen={viewModalOpen}
+                          toggle={closeViewModal}
+                          className="uapp-modal2"
+                        >
+                          <ModalBody>
+                            {/* <img
                               className="w-100 mx-auto"
                               src={
                                 rootUrl + galleryObj?.mediaFileMedia?.fileUrl
                               }
                               alt=""
                             /> */}
-                                  {galleryObj?.mediaFileMedia?.mediaType ===
-                                  1 ? (
-                                    <img
-                                      src={
-                                        rootUrl +
-                                        galleryObj?.mediaFileMedia?.fileUrl
-                                      }
-                                      alt="gallery_image"
-                                      className="image"
-                                      style={{ width: "100%" }}
-                                    />
-                                  ) : galleryObj?.mediaFileMedia?.mediaType ===
-                                    3 ? (
-                                    <video
-                                      src={
-                                        rootUrl +
-                                        galleryObj?.mediaFileMedia?.fileUrl
-                                      }
-                                      width="100%"
-                                      height="100%"
-                                      controls
-                                    >
-                                      The browser does not support videos.
-                                    </video>
-                                  ) : (
-                                    <span>This format cannot be opened.</span>
-                                  )}
-                                </ModalBody>
-
-                                <ModalFooter>
-                                  <Button
-                                    className=""
-                                    color="danger"
-                                    onClick={closeViewModal}
-                                  >
-                                    Close
-                                  </Button>
-                                </ModalFooter>
-                              </Modal>
-
-                              {/* Gallery view modal ends here */}
-
-                              {/* Gallery delete modal starts here */}
-
-                              <Modal
-                                isOpen={deleteModal}
-                                toggle={closeDeleteModal}
-                                className="uapp-modal"
+                            {galleryObj?.mediaFileMedia?.mediaType === 1 ? (
+                              <img
+                                src={
+                                  rootUrl + galleryObj?.mediaFileMedia?.fileUrl
+                                }
+                                alt="gallery_image"
+                                className="image"
+                                style={{ width: "100%" }}
+                              />
+                            ) : galleryObj?.mediaFileMedia?.mediaType === 3 ? (
+                              <video
+                                src={
+                                  rootUrl + galleryObj?.mediaFileMedia?.fileUrl
+                                }
+                                width="100%"
+                                height="100%"
+                                controls
                               >
-                                <ModalBody>
-                                  <p>
-                                    Are You Sure to Delete this{" "}
-                                    <b>{delGalName}</b>? Once Deleted it can't
-                                    be Undone!
-                                  </p>
-                                </ModalBody>
+                                The browser does not support videos.
+                              </video>
+                            ) : (
+                              <span>This format cannot be opened.</span>
+                            )}
+                          </ModalBody>
 
-                                <ModalFooter>
-                                  <Button
-                                    disabled={buttonStatus1}
-                                    color="danger"
-                                    onClick={() => handleDeleteItem(delGalId)}
-                                  >
-                                    YES
-                                  </Button>
-                                  <Button onClick={closeDeleteModal}>NO</Button>
-                                </ModalFooter>
-                              </Modal>
+                          <ModalFooter>
+                            <Button
+                              className=""
+                              color="danger"
+                              onClick={closeViewModal}
+                            >
+                              Close
+                            </Button>
+                          </ModalFooter>
+                        </Modal>
 
-                              {/* Gallery delete modal ends here */}
+                        {/* Gallery view modal ends here */}
 
+                        {/* Gallery delete modal starts here */}
+
+                        <Modal
+                          isOpen={deleteModal}
+                          toggle={closeDeleteModal}
+                          className="uapp-modal"
+                        >
+                          <ModalBody>
+                            <p>
+                              Are You Sure to Delete this <b>{delGalName}</b>?
+                              Once Deleted it can't be Undone!
+                            </p>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            <Button
+                              disabled={buttonStatus1}
+                              color="danger"
+                              onClick={() => handleDeleteItem(delGalId)}
+                            >
+                              YES
+                            </Button>
+                            <Button onClick={closeDeleteModal}>NO</Button>
+                          </ModalFooter>
+                        </Modal>
+
+                        {/* Gallery delete modal ends here */}
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -988,7 +997,7 @@ const UniversityDetails = () => {
                                 className={"mr-1 mt-3 badge-primary"}
                                 name={"Save"}
                                 permission={6}
-                                isDisabled = {buttonStatus}
+                                isDisabled={buttonStatus}
                               />
                             </Col>
                           </FormGroup>
@@ -1100,7 +1109,6 @@ const UniversityDetails = () => {
                           {universityInfo?.partTimeWorkInformation}
                         </td>
                       </tr>
-                      
                     </tbody>
                   </Table>
                 </CardBody>
@@ -1439,7 +1447,10 @@ const UniversityDetails = () => {
                                 placeholder="Location on Google Map"
                                 // placeholder="Please type the src link only from the embed map"
                               />
-                              <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
+                              <span className="text-danger">
+                                Note: Please type the "src" link only from the
+                                embed map
+                              </span>
                               {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -1886,6 +1897,99 @@ const UniversityDetails = () => {
                     <div>
                       <h5>
                         {" "}
+                        <b>Commission</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                    {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                  </div>
+
+                  {JSON.stringify(data) === "{}" || data === null ? (
+                    <p>There is no commission added here.</p>
+                  ) : (
+                    <div className="customCard rounded">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="row">
+                            <div className="col-md-4">
+                              <h5> Home </h5>
+                              <span>
+                                Commission Type:{" "}
+                                {data?.homeStudentComissionType == 1
+                                  ? "Amount"
+                                  : "Percentage"}
+                              </span>
+                              <br />
+
+                              <span>
+                                Installment:{" "}
+                                {data?.homeStudentComissionInstallment}
+                              </span>
+                              <br />
+                              <span>
+                                Value: {data?.homeStudentComissionValue}
+                              </span>
+                            </div>
+
+                            <div className="col-md-4">
+                              <h5> International </h5>
+                              <span>
+                                Commission Type:{" "}
+                                {data?.internationalStudentComissionType == 1
+                                  ? "Amount"
+                                  : "Percentage"}
+                              </span>
+                              <br />
+
+                              <span>
+                                Installment:{" "}
+                                {data?.internationalStudentComissionInstallment}
+                              </span>
+                              <br />
+                              <span>
+                                Value:{" "}
+                                {data?.internationalStudentComissionValue}
+                              </span>
+                            </div>
+
+                            <div className="col-md-4">
+                              <h5> EU/UK </h5>
+                              <span>
+                                Commission Type:{" "}
+                                {data?.eU_UKStudentComissionType == 1
+                                  ? "Amount"
+                                  : "Percentage"}
+                              </span>
+                              <br />
+
+                              <span>
+                                Installment:{" "}
+                                {data?.eU_UKStudentComissionInstallment}
+                              </span>
+                              <br />
+                              <span>
+                                Value: {data?.eU_UKStudentComissionValue}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </CardBody>
+              </Card>
+            </div>
+
+            <div className=" info-item mt-4">
+              <Card>
+                <CardBody>
+                  <div className="hedding-titel d-flex justify-content-between mb-4">
+                    <div>
+                      <h5>
+                        {" "}
                         <b>Application Documents</b>{" "}
                       </h5>
 
@@ -1896,35 +2000,34 @@ const UniversityDetails = () => {
                </div> */}
                   </div>
 
-                  {
-                    appDocument.length < 1 ?
+                  {appDocument.length < 1 ? (
                     <p>There are no application documents added here.</p>
-                    :
-                    <Table className="table-sm table-bordered">
-                    <thead className="thead-uapp-bg">
-                      <tr style={{ textAlign: "center" }}>
-                        <th>SL/NO</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {appDocument?.map((application, i) => (
-                        <tr
-                          key={application?.id}
-                          style={{ textAlign: "center" }}
-                        >
-                          <th scope="row">{i + 1}</th>
-                          <td>{application?.document?.name}</td>
-                          <td>
-                            {application?.applicationTypeId === 1
-                              ? "Home"
-                              : application?.applicationTypeId === 2
-                              ? "EU/UK"
-                              : "International"}
-                          </td>
+                  ) : (
+                    <Table className="table-sm striped">
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Type</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {appDocument?.map((application, i) => (
+                          <tr
+                            key={application?.id}
+                            style={{ textAlign: "center" }}
+                          >
+                            <th scope="row">{i + 1}</th>
+                            <td>{application?.document?.name}</td>
+                            <td>
+                              {application?.applicationTypeId === 1
+                                ? "Home"
+                                : application?.applicationTypeId === 2
+                                ? "EU/UK"
+                                : "International"}
+                            </td>
 
-                          {/* <td>
+                            {/* <td>
                             <a
                               href={rootUrl + application?.document?.fileUrl}
                               target="_blank"
@@ -1933,12 +2036,11 @@ const UniversityDetails = () => {
                               Download
                             </a>
                           </td> */}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                  }
-                  
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  )}
                 </CardBody>
               </Card>
             </div>
@@ -1960,48 +2062,46 @@ const UniversityDetails = () => {
                </div> */}
                   </div>
 
-                  {
-                    tempDocument.length < 1 ?
+                  {tempDocument.length < 1 ? (
                     <p>There are no template documents added here.</p>
-                    :
-                    <Table className="table-sm table-bordered">
-                    <thead className="thead-uapp-bg">
-                      <tr style={{ textAlign: "center" }}>
-                        <th>SL/NO</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Type</th>
-                        <th>File</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tempDocument?.map((temp, i) => (
-                        <tr key={temp?.id} style={{ textAlign: "center" }}>
-                          <th scope="row">{i + 1}</th>
-                          <td>{temp?.name}</td>
-                          <td>{temp?.description}</td>
-                          <td>
-                            {temp?.applicationTypeId === 1
-                              ? "Home"
-                              : temp?.applicationTypeId === 2
-                              ? "EU/UK"
-                              : "International"}
-                          </td>
-                          <td>
-                            <a
-                              href={rootUrl + temp?.templateFile?.fileUrl}
-                              target="_blank"
-                              // download
-                            >
-                              Download
-                            </a>
-                          </td>
+                  ) : (
+                    <Table className="table-sm striped">
+                      <thead className="">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Description</th>
+                          <th>Type</th>
+                          <th>File</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                  }
-
+                      </thead>
+                      <tbody>
+                        {tempDocument?.map((temp, i) => (
+                          <tr key={temp?.id} style={{ textAlign: "center" }}>
+                            <th scope="row">{i + 1}</th>
+                            <td>{temp?.name}</td>
+                            <td>{temp?.description}</td>
+                            <td>
+                              {temp?.applicationTypeId === 1
+                                ? "Home"
+                                : temp?.applicationTypeId === 2
+                                ? "EU/UK"
+                                : "International"}
+                            </td>
+                            <td>
+                              <a
+                                href={rootUrl + temp?.templateFile?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                Download
+                              </a>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  )}
                 </CardBody>
               </Card>
             </div>
@@ -2015,91 +2115,82 @@ const UniversityDetails = () => {
           </Col>
 
           <Col md="4">
-          {
-            (universityInfo?.contractTypeId !== 1) ?
-            <>
-           
-            {
-            
+            {universityInfo?.contractTypeId !== 1 ? (
+              <>
+                {userType == userTypes?.SystemAdmin ? (
+                  <Card className="uapp-employee-profile-right">
+                    <div className="uapp-profile-CardHeader">
+                      <div className="uapp-circle-image margin-top-minus">
+                        {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
+                        null ? (
+                          <img src={profileImage} alt="provider_img" />
+                        ) : (
+                          <img
+                            src={
+                              rootUrl +
+                              universityInfo?.provider?.providerLogoMedia
+                                ?.fileUrl
+                            }
+                            alt="provider_img"
+                          />
+                        )}
+                      </div>
 
-              (userType == userTypes?.SystemAdmin)?
+                      <h5>
+                        {universityInfo?.provider?.name} (
+                        {universityInfo?.provider?.providerViewId})
+                      </h5>
+                      <p> {universityInfo?.provider?.providerType?.name} </p>
+                    </div>
+                    <CardBody>
+                      <div>
+                        <ul className="uapp-ul text-center">
+                          <li> {universityInfo?.provider?.addressLine} </li>
+                          <li> {universityInfo?.provider?.email} </li>
+                          <li> {universityInfo?.provider?.phoneNumber} </li>
+                        </ul>
+                      </div>
+                    </CardBody>
+                  </Card>
+                ) : null}
+              </>
+            ) : (
+              <>
+                <Card className="uapp-employee-profile-right">
+                  <div className="uapp-profile-CardHeader">
+                    <div className="uapp-circle-image margin-top-minus">
+                      {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
+                      null ? (
+                        <img src={profileImage} alt="provider_img" />
+                      ) : (
+                        <img
+                          src={
+                            rootUrl +
+                            universityInfo?.provider?.providerLogoMedia?.fileUrl
+                          }
+                          alt="provider_img"
+                        />
+                      )}
+                    </div>
 
-              <Card className="uapp-employee-profile-right">
-              <div className="uapp-profile-CardHeader">
-                <div className="uapp-circle-image margin-top-minus">
-                  {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
-                  null ? (
-                    <img src={profileImage} alt="provider_img" />
-                  ) : (
-                    <img
-                      src={
-                        rootUrl +
-                        universityInfo?.provider?.providerLogoMedia?.fileUrl
-                      }
-                      alt="provider_img"
-                    />
-                  )}
-                </div>
-
-                <h5>
-                  {universityInfo?.provider?.name} (
-                  {universityInfo?.provider?.providerViewId})
-                </h5>
-                <p> {universityInfo?.provider?.providerType?.name} </p>
-              </div>
-              <CardBody>
-                <div>
-                  <ul className="uapp-ul text-center">
-                    <li> {universityInfo?.provider?.addressLine} </li>
-                    <li> {universityInfo?.provider?.email} </li>
-                    <li> {universityInfo?.provider?.phoneNumber} </li>
-                  </ul>
-                </div>
-              </CardBody>
-            </Card>
-
-            :
-
-            null
-            }
-            </>
-            :
-            <>
-            <Card className="uapp-employee-profile-right">
-              <div className="uapp-profile-CardHeader">
-                <div className="uapp-circle-image margin-top-minus">
-                  {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
-                  null ? (
-                    <img src={profileImage} alt="provider_img" />
-                  ) : (
-                    <img
-                      src={
-                        rootUrl +
-                        universityInfo?.provider?.providerLogoMedia?.fileUrl
-                      }
-                      alt="provider_img"
-                    />
-                  )}
-                </div>
-
-                <h5>
-                  {universityInfo?.provider?.name} (
-                  {universityInfo?.provider?.providerViewId})
-                </h5>
-                <p> {universityInfo?.provider?.providerType?.name} </p>
-              </div>
-              <CardBody>
-                <div>
-                  <ul className="uapp-ul text-center">
-                    <li> {universityInfo?.provider?.addressLine} </li>
-                    <li> {universityInfo?.provider?.email} </li>
-                    <li> {universityInfo?.provider?.phoneNumber} </li>
-                  </ul>
-                </div>
-              </CardBody>
-            </Card>
-            </>
-          }
+                    <h5>
+                      {universityInfo?.provider?.name} (
+                      {universityInfo?.provider?.providerViewId})
+                    </h5>
+                    <p> {universityInfo?.provider?.providerType?.name} </p>
+                  </div>
+                  <CardBody>
+                    <div>
+                      <ul className="uapp-ul text-center">
+                        <li> {universityInfo?.provider?.addressLine} </li>
+                        <li> {universityInfo?.provider?.email} </li>
+                        <li> {universityInfo?.provider?.phoneNumber} </li>
+                      </ul>
+                    </div>
+                  </CardBody>
+                </Card>
+              </>
+            )}
             {/* for showing provider information ends here */}
 
             {/* For showing financial cost */}
@@ -2120,7 +2211,8 @@ const UniversityDetails = () => {
                </div> */}
                 </div>
 
-                {financialInfo === null ? (
+                {JSON.stringify(financialInfo) === "{}" ||
+                financialInfo === null ? (
                   <p>There is no financial information added here.</p>
                 ) : (
                   <>
@@ -2167,7 +2259,8 @@ const UniversityDetails = () => {
                </div> */}
                 </div>
 
-                {universityFeatures === null ? (
+                {JSON.stringify(universityFeatures) === "{}" ||
+                universityFeatures === null ? (
                   <p>There is no feature added here.</p>
                 ) : (
                   <>
@@ -2226,6 +2319,57 @@ const UniversityDetails = () => {
                           <i className="success fas fa-check-circle"></i>
                         )}
                       </p>
+                    </div>
+                  </>
+                )}
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardBody>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Test Score</b>{" "}
+                    </h5>
+
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                </div>
+
+                {JSON.stringify(score) === "{}" || score === null ? (
+                  <p>There is no test score added here.</p>
+                ) : (
+                  <>
+                    <div className="d-flex justify-content-between">
+                      <span>Test Score Required</span>
+                      <p>
+                        {score?.isTestScoreRequired === false ? (
+                          <i className=" danger fas fa-times-circle"></i>
+                        ) : (
+                          <i className="success fas fa-check-circle"></i>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="d-flex justify-content-between">
+                      <span>IELTS Mandatory</span>
+                      <p>
+                        {score?.isIeltsMandatory === false ? (
+                          <i className=" danger fas fa-times-circle"></i>
+                        ) : (
+                          <i className="success fas fa-check-circle"></i>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="d-flex justify-content-between">
+                      <span>IELTS Equivalent Score</span>
+                      <p>{score?.score}</p>
                     </div>
                   </>
                 )}

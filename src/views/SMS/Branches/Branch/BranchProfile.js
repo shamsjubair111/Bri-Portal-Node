@@ -80,7 +80,7 @@ const BranchProfile = (props) => {
 
   useEffect(() => {
     get(`Branch/Get/${id}`).then((res) => {
-     
+      console.log("branch", res);
       setBranchInfo(res);
     });
 
@@ -200,7 +200,7 @@ const BranchProfile = (props) => {
                 <div className="py-3">
                   <h5 className="py-1">
                     Branch Name:{" "}
-                    <span className="text-primary">{branchInfo?.name}</span>{" "}
+                    <span className="text-primary">{branchInfo?.name}{" "}{`(${branchInfo?.branchCode})`}</span>{" "}
                   </h5>
                   <h5 className="py-1">
                     Branch Address:{" "}

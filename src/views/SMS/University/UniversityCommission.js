@@ -95,7 +95,7 @@ const UniversityCommission = () => {
       setCommissionValueInternational(res?.internationalStudentComissionValue);
       setCommissionValueEU_UK(res?.eU_UKStudentComissionValue);
     });
-  }, [success]);
+  }, [success, univerId]);
 
   // redirect to
   const backToUniList = () => {

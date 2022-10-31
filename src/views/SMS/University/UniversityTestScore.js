@@ -55,7 +55,7 @@ const UniversityTestScore = () => {
             
         })
 
-    },[])
+    },[univerId])
 
     const backToUniList = () => {
         history.push("/universityList");
