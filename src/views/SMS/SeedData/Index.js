@@ -67,7 +67,7 @@ const Index = () => {
 
             <div className='text-center mt-4'>
             <Button color='primary' onClick={applySeedData} disabled={buttonStatus}>
-                <i className='fas fa-plus'></i>  Add Fixed Data
+                <i className='fas fa-plus'></i>  Apply Fixed Data
 
             </Button>
             </div>

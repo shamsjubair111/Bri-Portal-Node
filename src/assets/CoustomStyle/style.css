@@ -999,10 +999,17 @@ color: #1E98B0;
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 
   
   
+
+}
+
+.search-img-style:hover {
+  
+  transition: 0.2s;
+  transform: scale(1.8);
 
 }
 
@@ -1053,7 +1060,7 @@ color: #1E98B0;
 
 .btn-customStyle-1{
 
-  color: #1e98b0;
+  color: #2154ac;
   padding: 3px 11px;
   border: none;
   
@@ -1114,6 +1121,7 @@ color: #1E98B0;
 .course-name-style{
   font-size: 17px;
   color: #1e98b0;
+  font-weight: 700;
 }
 
 .span-style-search{

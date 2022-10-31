@@ -1515,10 +1515,10 @@ alt='logo-img'
 </div>
 
 <div className='col-md-8'>
-<div className='text-center'>
+<div className=''>
 <span className='university-title-style'>{info?.name}</span>
 <br/>
-<span className='span-style-search'><i className="fas fa-location-dot"></i>{info?.address}</span>
+<span className='span-style-search'><i className="fas fa-location-dot"></i>{' '}{info?.address}</span>
 </div>
 
 </div>
@@ -1539,7 +1539,7 @@ alt='logo-img'
 info?.subjects?.length <1 ?
 
 <div className='text-center mb-2'>
-<span className='nodata-found-style'>No Data Found</span>
+<span className='nodata-found-style'>No programs found</span>
  </div>
 
  :
