@@ -3458,7 +3458,7 @@ const ApplicationDetails = () => {
         <Col md="5">
           <Card>
             <CardBody>
-              <div className="hedding-titel d-flex justify-content-between mb-4">
+              <div className="hedding-titel d-flex justify-content-between">
                 <div>
                   <h5>
                     {" "}
@@ -3473,7 +3473,7 @@ const ApplicationDetails = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-                <div>
+                <div className="my-auto">
                   <span>
                     <b>Name:</b> {applicationInfo?.admissionManager?.firstName}{" "}
                     {applicationInfo?.admissionManager?.lastName}
@@ -3513,7 +3513,7 @@ const ApplicationDetails = () => {
 
           <Card>
             <CardBody>
-              <div className="hedding-titel d-flex justify-content-between mb-4">
+              <div className="hedding-titel d-flex justify-content-between">
                 <div>
                   <h5>
                     {" "}
@@ -3528,7 +3528,7 @@ const ApplicationDetails = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-                <div>
+                <div className="my-auto">
                   <span>
                     <b>Name:</b> {applicationInfo?.consultant?.firstName}{" "}
                     {applicationInfo?.consultant?.lastName}
