@@ -463,7 +463,45 @@ margin-left: 5px;
   width: 100%;
 }
 
+.profile-pic {
+	position: relative;
+	display: inline-block;
+}
 
+.profile-pic:hover .edit {
+	display: block;
+}
+
+.edit {
+	padding-top: 7px;	
+	padding-right: 7px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	/* display: none; */
+}
+
+.edit span {
+	color: #364649;
+}
+
+.edit span{
+  position: absolute;
+  /* top: 20px; */
+  right: 2px;
+  bottom: -140px;
+  width: 40px;
+  height: 40px;
+  background-color: #1d94ab;
+  text-align: center;
+  border-radius: 45px;
+}
+
+.edit span i{
+  line-height: 40px;
+  font-size:18px;
+  color: #ffffff;
+  }
 
 .uapp-employee-cover-image {
   min-height: 195.5px;
