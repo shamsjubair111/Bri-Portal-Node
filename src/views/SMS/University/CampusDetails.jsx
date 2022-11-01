@@ -610,14 +610,18 @@ const CampusDetails = () => {
     let val = e.target.checked;
 
     if (val == true) {
-      setChecked1([...checked1, ids]);
+      
+      if(!checked1?.includes(ids)){
+        setChecked1([...checked1, ids]);
+    }
     } else {
-      const index = checked1.indexOf(ids);
-      if (index > -1) {
-        checked1.splice(index, 1);
-      }
+      const newD = ids;
+            const res = checked1.filter(c => c != newD);
+            setChecked1(res);
     }
   };
+
+  console.log('checked1', checked1);
 
   // on Select All Checkbox
   const handleSelectAll = (e) => {

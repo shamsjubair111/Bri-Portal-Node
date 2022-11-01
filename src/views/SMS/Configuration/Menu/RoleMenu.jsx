@@ -10,6 +10,7 @@ import { permissionList } from '../../../../constants/AuthorizationConstant';
 import { useEffect } from 'react';
 
 
+
 const RoleMenu = (props) => {
 
     const myForm = createRef();
@@ -86,6 +87,7 @@ const RoleMenu = (props) => {
     const handleCheck = (e) => {
         let id = e.target.id;
         let val = e.target.checked;
+        
 
     // Code Modified Here at 22/10/22 
         if(val == true){
@@ -94,14 +96,17 @@ const RoleMenu = (props) => {
                 setChecked([...checked, id]);
             }
         }
-        }else{
-        const index = checked.indexOf(id);
-        if (index > -1) {
-            checked.splice(index, 1);
         }
+        else{
+            
+            const newD = id;
+            const res = checked.filter(c => c != newD);
+            setChecked(res);
+          
         }
   }
 
+  console.log('checked',checked);
 
   // on Select All Checkbox
   const handleSelectAll = e => {
@@ -113,7 +118,7 @@ const RoleMenu = (props) => {
         const menuId = menu.id.toString();
         newChecked.push(menuId);
         document.getElementById(menu?.id).checked = true;  
-        console.log(menu?.id);
+
       })
       setChecked([...newChecked]);
     }
@@ -129,7 +134,7 @@ const RoleMenu = (props) => {
    
   }
 
-  console.log(checked);
+
 
 
   const handleConfirm = () => {
@@ -140,7 +145,7 @@ const RoleMenu = (props) => {
       subData.append('CheckedArr',checked);
       // posting form Data
       post(`RoleMenuItem/Assign`,subData).then((action)=> {
-        console.log('checking role menu action',action)
+       
    
         setChecked([]);
             addToast(action?.data?.message, {
@@ -225,7 +230,7 @@ const RoleMenu = (props) => {
                                     
                                     <Col xs="6" sm="4" md="3" key={menu.id}>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" onChange={(e)=>handleCheck(e)} name="" id={menu.id} checked={checked.includes(`${menu?.id}`)}  />
+                                        <input className="form-check-input" type="checkbox" onChange={(e)=>handleCheck(e)} name="" id={menu.id} checked={checked.includes(`${menu?.id}`) ? true : false}  />
                                         <label className="form-check-label" htmlFor="">{menu.menuItem}</label>
                                     </div>
                                     </Col>

@@ -196,14 +196,17 @@ const AssignTeam = (props) => {
         let val = e.target.checked;
     
         if (val === true) {
-          setChecked([...checked, id]);
+          if(!checked?.includes(id)){
+            setChecked([...checked, id]);
+        }
         } else {
-          const index = checked.indexOf(id);
-          if (index > -1) {
-            checked.splice(index, 1);
-          }
+          const newD = id;
+            const res = checked.filter(c => c != newD);
+            setChecked(res);
         }
       };
+
+      console.log('checked',checked);
 
       const branchTeamName = branchTeam?.map((branch) => ({
         label: branch.name,
