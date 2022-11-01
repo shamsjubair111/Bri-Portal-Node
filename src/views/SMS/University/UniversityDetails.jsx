@@ -802,24 +802,26 @@ const UniversityDetails = () => {
                                 className="image"
                                 style={{ width: "100%" }}
                               />
-                             {
+                         
+                               <div className="middle d-flex">
+                                <Button
+                                  onClick={() => handleView(gall)}
+                                  className="bg-success"
+                                >
+                                  View
+                                </Button>
+                                {
                               (userType == userTypes?.Student)? 
                               null:
-                              <div className="middle d-flex">
-                              <Button
-                                onClick={() => handleView(gall)}
-                                className="bg-success"
-                              >
-                                View
-                              </Button>
-                              <Button
-                                onClick={() => handleDelete(gall)}
-                                className="bg-danger ml-1"
-                              >
-                                Delete
-                              </Button>
-                            </div>
-                             }
+                                <Button
+                                  onClick={() => handleDelete(gall)}
+                                  className="bg-danger ml-1"
+                                >
+                                  Delete
+                                </Button>
+                              }
+                              </div>
+                            
                             </div>
                           ))
                         )}

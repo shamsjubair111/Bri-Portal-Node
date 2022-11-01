@@ -13,6 +13,8 @@ import { useToasts } from 'react-toast-notifications';
 import post from '../../../helpers/post';
 import { userTypes } from '../../../constants/userTypeConstant';
 import loader from '../../../assets/img/load.gif';
+import axios from 'axios';
+
 
 
 
@@ -264,7 +266,7 @@ const Search = () => {
         
       get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programLevelName}`)
       .then(res => {
-        console.log('Large Api Checking Response',res);
+       
         setData(res?.models);
         setEntity(res?.totalEntity);
         setLoading(false);
@@ -348,6 +350,7 @@ const Search = () => {
     // setCallApi((prev) => !prev);
   };
 
+  
   
 
     const sortingOrder = [
@@ -435,6 +438,11 @@ const Search = () => {
 
     setModalCampusLabel(label);
     setModalCampusValue(value);
+
+    axios.get(`${rootUrl}SubjectIntake/CampusSubjectIntakes/${currentData?.subjectId}/${value}`)
+    .then(res => {
+      setModalIntake(res?.data?.result);
+    })
 
   }
 
@@ -635,7 +643,7 @@ const Search = () => {
 
     const toggleModal = (data) => {
 
-      
+   
       setModalCampus(data?.campuses);
       setModalIntake(data?.intakes);
       setModalDeliveryPattern(data?.deliveryPatterns);
@@ -840,8 +848,8 @@ const Search = () => {
 
           <Modal size='lg' isOpen={modal} toggle={closeModal} className="uapp-modal2">
 
-<ModalHeader>
-  <div className='px-3 text-center'>
+<ModalHeader style={{backgroundColor : '#1e98b0'}}>
+  <div className='px-3 text-center text-white'>
   Are You Sure You Want to Apply for This Program? 
   </div> 
 </ModalHeader>
@@ -850,24 +858,19 @@ const Search = () => {
 
 <div className='row'>
 
-<div className='col-md-5'>
+<div className='col-md-6'>
 
   <h4 className='mb-3'>{currentData?.title}</h4>
   <h6>EU Fee: {currentData?.eu_Fee}</h6>
   <h6>Home Fee: {currentData?.home_Fee}</h6>
 
-  <div className='mt-4'>
-    <span>Note: Please Provide Correct Information. </span>
-    <br/>
-    <span>You Can Have Only One Application at a Time.</span>
 
-  </div>
 
  
 
 </div>
 
-<div className='col-md-7'>
+<div className='col-md-6'>
 
 <Form className='px-3' onSubmit={submitModalForm}>
 
@@ -878,7 +881,7 @@ Campus <span className="text-danger">*</span>{" "}
 </span>
 </Col>
 
-<Col md="6">
+<Col md="9">
 
 {/* {
 (campus?.length == 1)? 
@@ -936,7 +939,7 @@ null
 Intake <span className="text-danger">*</span>{" "}
 </span>
 </Col>
-<Col md="6">
+<Col md="9">
 
 
   <Select
@@ -972,7 +975,7 @@ Intake <span className="text-danger">*</span>{" "}
 Delivery Pattern <span className="text-danger">*</span>{" "}
 </span>
 </Col>
-<Col md="6">
+<Col md="9">
 
 <Select
 
@@ -1009,7 +1012,7 @@ Additional Message
    
    </Col>
 
-   <Col md="6">
+   <Col md="9">
    <Input type="textarea" name="statement" id="statement" rows={4} onChange={(e)=> setMessage(e.target.value)} />
    
    </Col>
@@ -1018,7 +1021,7 @@ Additional Message
 
   <FormGroup row className='has-icon-left position-relative'>
 
-   <Col md="9">
+   <Col md="12">
     
    <div className='d-flex justify-content-end'>
 
@@ -1072,6 +1075,13 @@ null
   
 
 </div>
+
+  <div style={{color: '#bb4509', fontWeight: '500'}}>
+    <span>Note: Please Provide Correct Information. </span>
+    <br/>
+    <span>You Can Have Only One Application at a Time.</span>
+
+  </div>
 
 
 </ModalBody>

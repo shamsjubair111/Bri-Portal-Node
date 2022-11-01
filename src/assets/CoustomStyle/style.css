@@ -1372,3 +1372,8 @@ color: #fff!important;
   /* cursor: pointer; */
 }
 
+.search-modal-header-style{
+  background-color: #1E98B0;
+  color: white;
+}
+
