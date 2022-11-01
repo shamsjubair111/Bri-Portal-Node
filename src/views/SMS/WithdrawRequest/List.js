@@ -456,13 +456,19 @@ const List = () => {
           <Card>
             <CardBody>
               <div className="row">
-                <div className="col-md-3">
+                
+                {
+                   parseInt(localStorage.getItem("userType")) !== userTypes?.Consultant ?
+                   <div className="col-md-3">
                   <Select
                     options={consultantOptions}
                     value={{ label: consultantLabel, value: consultantValue }}
                     onChange={(opt) => selectConsultant(opt.label, opt.value)}
                   />
                 </div>
+                :
+                null
+                }
 
                 <div className="col-md-3">
                   <Select

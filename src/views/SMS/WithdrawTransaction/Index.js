@@ -42,6 +42,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import { useToasts } from "react-toast-notifications";
 import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
+import { userTypes } from "../../../constants/userTypeConstant";
 
 const Index = () => {
   const [listData, setListData] = useState([]);
@@ -518,7 +519,10 @@ const Index = () => {
           <Card>
             <CardBody>
               <div className="row">
-                <div className="col-md-6">
+                
+                {
+                   parseInt(localStorage.getItem("userType")) !== userTypes?.Consultant ?
+                   <div className="col-md-6">
                   <Select
                     styles={customStyles}
                     options={consultantOptions}
@@ -526,6 +530,8 @@ const Index = () => {
                     onChange={(opt) => selectConsultant1(opt.label, opt.value)}
                   />
                 </div>
+                : null
+                }
 
                 <div className="col-md-6">
                   <Input

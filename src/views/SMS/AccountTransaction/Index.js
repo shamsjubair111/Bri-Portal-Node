@@ -794,7 +794,7 @@ const Index = () => {
                 <div className="col-md-10">
                   <div className="row">
                     <div className="col-md-3">
-                      {userType !== userTypes?.Consultant ? (
+                      {parseInt(userType) !== userTypes?.Consultant ? (
                         <>
                           <h6 className="mb-2">Consultant</h6>
 
