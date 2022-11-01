@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip } from 'reactstrap';
 import Select from 'react-select';
 import ButtonForFunction from '../Components/ButtonForFunction';
-import {  useHistory, useLocation } from 'react-router-dom';
+import {  Link, useHistory, useLocation } from 'react-router-dom';
 import get from '../../../helpers/get';
 import { rootUrl } from '../../../constants/constants';
 import Pagination from "../../SMS/Pagination/Pagination";
@@ -281,6 +281,7 @@ const Search = () => {
     const selectStudent = (label,value)=>{
       setStudentDataLabel(label);
       setStudentDataValue(value);
+    
       get(`Eligibility/StudentApplicationCount/${value}`)
       .then(res =>{
         setApplicationCount(res);
@@ -309,7 +310,7 @@ const Search = () => {
 
     const addToWishList = (data) => {
      
-       get(`wishlist/add/${studentDataValue}/${data?.subjectId}`)
+       get(`wishlist/add/${(userType == userTypes?.Student)? localStorage.getItem('referenceId'): studentDataValue}/${data?.subjectId}`)
        .then(res => {
         
         if(res == null){
@@ -642,7 +643,7 @@ const Search = () => {
       setPrimaryCampus(data?.campuses.find(s=> s.campusId == campusValue));
    
       setModal(true);
-      console.log(data);
+    
   
      }
 
@@ -733,7 +734,7 @@ const Search = () => {
           else{
     
             const subData = {
-              studentId: studentDataValue,
+              studentId: (userType == userTypes?.Student) ? localStorage.getItem('referenceId') : studentDataValue,
               universitySubjectId: currentData?.subjectId,
               inakeId: modalIntakeValue,
               deliveryPatternId: modalDeliveryPatternValue,
@@ -743,7 +744,7 @@ const Search = () => {
             setButtonStatus(true);
             post(`Apply/Submit`,subData)
             .then(res => {
-              console.log(res);
+             
               setButtonStatus(false);
               if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
@@ -788,7 +789,7 @@ const Search = () => {
         else{
   
           const subData = {
-            studentId: studentDataValue,
+            studentId: (userType == userTypes?.Student) ? localStorage.getItem('referenceId') : studentDataValue,
             universitySubjectId: currentData?.subjectId,
             inakeId: modalIntakeValue,
             deliveryPatternId: modalDeliveryPatternValue,
@@ -798,7 +799,7 @@ const Search = () => {
            setButtonStatus(true);
           post(`Apply/Submit`,subData)
           .then(res => {
-            console.log(res);
+          
             setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
@@ -1003,7 +1004,7 @@ null
 
    <Col md="3">
    <span>
-Additional Message <span className="text-danger">*</span>{" "}
+Additional Message
 </span>
    
    </Col>
@@ -1032,7 +1033,7 @@ Close
 <div>
 
 {
-(studentDataValue !==0 && applicationCount < 3) ?
+((studentDataValue !==0 || userType == userTypes?.Student) && applicationCount < 3) ?
 
 <div className=''>
 <Button color='primary' className='ml-1' type='submit'>Submit</Button> 
@@ -1085,15 +1086,22 @@ null
 <div className='row'>
 
 <div className='col-md-3 mb-5'>
-<Card className='pb-2'>
+
+
+
+{
+  (userType == userTypes?.Student) ?
+
+  null
+  :
+
+  <Card className='pb-2'>
 <CardBody>
 
 <div className='mb-2'>
 <span className="search-card-title-1" >Applying For:</span>
 </div>
-
-
-
+  
 <Select 
 styles={customStyles2}
 options={studentOptions}
@@ -1108,6 +1116,12 @@ id="providerTypeId"
 </CardBody>
 
 </Card>
+
+}
+
+
+
+
 
 <Card className='pb-2'>
 <CardBody>
@@ -1516,7 +1530,7 @@ alt='logo-img'
 
 <div className='col-md-8'>
 <div className=''>
-<span className='university-title-style'>{info?.name}</span>
+<Link to={`/universityDetails/${info?.universityId}`}><span className='university-title-style'>{info?.name}</span></Link>
 <br/>
 <span className='span-style-search'><i className="fas fa-location-dot"></i>{' '}{info?.address}</span>
 </div>
@@ -1560,7 +1574,7 @@ info?.subjects?.length <1 ?
 
 <div className='col-md-12 border-left-style-searchPage'>
 
-<span className='course-name-style'>{subjectInfo?.title}</span>
+<Link to={`/subjectProfile/${subjectInfo?.subjectId}`}><span className='course-name-style'>{subjectInfo?.title}</span></Link>
 <br/>
 
 
@@ -1577,16 +1591,35 @@ info?.subjects?.length <1 ?
 </div>
 
 <div className='col-md-2'>
+{
+  (userType == userTypes?.Student) ?
+
+
+  <CustomLinkButton
+ url={`/subjectProfile/${subjectInfo?.subjectId}`}
+ target={'_blank'}
+
+
+className='button2-style-search mr-2  '
+icon={<i className="fas fa-eye"></i>}
+
+
+/>
+
+:
+
 <CustomLinkButton
  url={`/subjectProfile/${subjectInfo?.subjectId}`}
  target={'_blank'}
 
 
-className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
+className='button2-style-search me-1 w-75  '
 icon={<i className="fas fa-eye"></i>}
 
-permission={6}
+
 />
+
+}
 
 {
   (userType == userTypes?.Student) ?
@@ -1596,7 +1629,7 @@ permission={6}
   func={()=>addToWishList(subjectInfo)}
  
   icon={<i class="fas fa-heart-circle-check"></i>}
-  className={'button2-style-search ms-1'}
+  className='button2-style-search ml-2'
   permission={6}
   />
   :
@@ -1715,7 +1748,7 @@ permission={6}
 
 <div className='col-md-12 border-left-style-searchPage'>
 
-<span className='course-name-style'>{subjectInfo?.title}</span>
+<Link to={`/subjectProfile/${subjectInfo?.subjectId}`}><span className='course-name-style'>{subjectInfo?.title}</span></Link>
 <br/>
 
 
