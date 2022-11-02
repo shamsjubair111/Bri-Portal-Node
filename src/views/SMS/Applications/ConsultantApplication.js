@@ -46,7 +46,7 @@ import ProviderAdminFilter from "./ProviderAdminFilter.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import Loader from "../Search/Loader/Loader.js";
 
-const ConsultantApplication = ({currentUser}) => {
+const ConsultantApplication = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
@@ -104,13 +104,14 @@ const ConsultantApplication = ({currentUser}) => {
   const [uId, setUniId] = useState(undefined);
 
   // current_user
-//   const [currentUser, setCurrentUser] = useState(undefined);
+  //   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
-//   console.log("currentuser", currentUser);
+  //   console.log("currentuser", currentUser);
 
   // for hide/unhide column
   const [checkId, setCheckId] = useState(true);
+  const [checkAppId, setCheckAppId] = useState(true);
   const [checkApplic, setCheckApplic] = useState(true);
   const [checkContact, setCheckContact] = useState(true);
   const [checkUni, setCheckUni] = useState(true);
@@ -235,11 +236,11 @@ const ConsultantApplication = ({currentUser}) => {
     // handleSearch();
   };
 
-//   useEffect(() => {
-//     get("Account/GetCurrentUserId").then((res) => {
-//       setCurrentUser(res);
-//     });
-//   }, []);
+  //   useEffect(() => {
+  //     get("Account/GetCurrentUserId").then((res) => {
+  //       setCurrentUser(res);
+  //     });
+  //   }, []);
 
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
@@ -270,31 +271,33 @@ const ConsultantApplication = ({currentUser}) => {
     });
 
     // for consultant
-    if(currentUser != undefined){
-        get(`ConsultantApplicationFilterDD/UappId/${currentUser}`).then((res) => {
-            setConsultantUappIdDD(res);
-            console.log("uappId", res);
-          });
-          get(`ConsultantApplicationFilterDD/Student/${currentUser}`).then((res) => {
-            setConsultantStdDD(res);
-            console.log("Student", res);
-          });
-          get(`ConsultantApplicationFilterDD/University/${currentUser}`).then(
-            (res) => {
-              setConsultantUniDD(res);
-              console.log("University", res);
-            }
-          );
-          get(`ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`).then(
-            (res) => {
-              setConsultantPhnDD(res);
-              console.log("PhoneNumber", res);
-            }
-          );
+    if (currentUser != undefined) {
+      get(`ConsultantApplicationFilterDD/UappId/${currentUser}`).then((res) => {
+        setConsultantUappIdDD(res);
+        console.log("uappId", res);
+      });
+      get(`ConsultantApplicationFilterDD/Student/${currentUser}`).then(
+        (res) => {
+          setConsultantStdDD(res);
+          console.log("Student", res);
+        }
+      );
+      get(`ConsultantApplicationFilterDD/University/${currentUser}`).then(
+        (res) => {
+          setConsultantUniDD(res);
+          console.log("University", res);
+        }
+      );
+      get(`ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`).then(
+        (res) => {
+          setConsultantPhnDD(res);
+          console.log("PhoneNumber", res);
+        }
+      );
     }
 
     // for list
-    
+
     //   const uniId =
     //     commonUniValue !== 0
     //       ? commonUniValue
@@ -338,18 +341,37 @@ const ConsultantApplication = ({currentUser}) => {
     //   }
 
     //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
-    if(currentUser != undefined){
-        get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser != undefined ? currentUser : null}`
-          ).then((res) => {
-            setLoading(false);
-            setApplicationList(res?.models);
-            setEntity(res?.totalEntity);
-            setSerialNumber(res?.firstSerialNumber);
-          });
+    if (currentUser != undefined) {
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${
+          currentUser != undefined ? currentUser : null
+        }`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
     }
-    
-  }, [currentPage, dataPerPage, applicationValue, offerValue, enrollValue, intakeValue, interviewValue, elptValue, financeValue, orderValue, entity, success, consUappIdValue, consStdValue, consUniValue, consPhnValue, currentUser]);
+  }, [
+    currentPage,
+    dataPerPage,
+    applicationValue,
+    offerValue,
+    enrollValue,
+    intakeValue,
+    interviewValue,
+    elptValue,
+    financeValue,
+    orderValue,
+    entity,
+    success,
+    consUappIdValue,
+    consStdValue,
+    consUniValue,
+    consPhnValue,
+    currentUser,
+  ]);
 
   // for all dropdown
   const applicationMenu = applicationDD.map((application) => ({
@@ -481,6 +503,9 @@ const ConsultantApplication = ({currentUser}) => {
   const handleCheckedId = (e) => {
     setCheckId(e.target.checked);
   };
+  const handleCheckedAppId = (e) => {
+    setCheckAppId(e.target.checked);
+  };
   const handleCheckedApplic = (e) => {
     setCheckApplic(e.target.checked);
   };
@@ -539,160 +564,159 @@ const ConsultantApplication = ({currentUser}) => {
 
   return (
     <div>
-        <Card className="uapp-card-bg">
+      <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Applications</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
-            <i className="fas fa-arrow-circle-left"></i>{" "}
-              Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
             </span>
           </div>
         </CardHeader>
       </Card>
 
       <Card className="uapp-employee-search">
-      <CardBody className="search-card-body">
-        <Row className="gy-3">
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={consUappIdMenu}
-              value={{ label: consUappIdLabel, value: consUappIdValue }}
-              onChange={(opt) => selectConsUappId(opt.label, opt.value)}
-              placeholder="UAPP ID"
-              name="name"
-              id="id"
-            />
-          </Col>
+        <CardBody className="search-card-body">
+          <Row className="gy-3">
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={consUappIdMenu}
+                value={{ label: consUappIdLabel, value: consUappIdValue }}
+                onChange={(opt) => selectConsUappId(opt.label, opt.value)}
+                placeholder="UAPP ID"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={consStdMenu}
-              value={{ label: consStdLabel, value: consStdValue }}
-              onChange={(opt) => selectConsStd(opt.label, opt.value)}
-              placeholder="Name"
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={consStdMenu}
+                value={{ label: consStdLabel, value: consStdValue }}
+                onChange={(opt) => selectConsStd(opt.label, opt.value)}
+                placeholder="Name"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={applicationMenu}
-              value={{ label: applicationLabel, value: applicationValue }}
-              onChange={(opt) => selectAppliDD(opt.label, opt.value)}
-              placeholder="Status"
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={applicationMenu}
+                value={{ label: applicationLabel, value: applicationValue }}
+                onChange={(opt) => selectAppliDD(opt.label, opt.value)}
+                placeholder="Status"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={offerMenu}
-              value={{ label: offerLabel, value: offerValue }}
-              onChange={(opt) => selectOfferDD(opt.label, opt.value)}
-              placeholder="Offer"
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={offerMenu}
+                value={{ label: offerLabel, value: offerValue }}
+                onChange={(opt) => selectOfferDD(opt.label, opt.value)}
+                placeholder="Offer"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={enrollMenu}
-              value={{ label: enrollLabel, value: enrollValue }}
-              onChange={(opt) => selectEnrollDD(opt.label, opt.value)}
-              placeholder="Enrolment st..."
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={enrollMenu}
+                value={{ label: enrollLabel, value: enrollValue }}
+                onChange={(opt) => selectEnrollDD(opt.label, opt.value)}
+                placeholder="Enrolment st..."
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={intakeMenu}
-              value={{ label: intakeLabel, value: intakeValue }}
-              onChange={(opt) => selectIntakeDD(opt.label, opt.value)}
-              placeholder="Intake"
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={intakeMenu}
+                value={{ label: intakeLabel, value: intakeValue }}
+                onChange={(opt) => selectIntakeDD(opt.label, opt.value)}
+                placeholder="Intake"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={interviewMenu}
-              value={{ label: interviewLabel, value: interviewValue }}
-              onChange={(opt) => selectInterviewDD(opt.label, opt.value)}
-              placeholder="Interview"
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={interviewMenu}
+                value={{ label: interviewLabel, value: interviewValue }}
+                onChange={(opt) => selectInterviewDD(opt.label, opt.value)}
+                placeholder="Interview"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={elptMenu}
-              value={{ label: elptLabel, value: elptValue }}
-              onChange={(opt) => selectElptDD(opt.label, opt.value)}
-              placeholder="ELPT"
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={elptMenu}
+                value={{ label: elptLabel, value: elptValue }}
+                onChange={(opt) => selectElptDD(opt.label, opt.value)}
+                placeholder="ELPT"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={financeMenu}
-              value={{ label: financeLabel, value: financeValue }}
-              onChange={(opt) => selectFinanceDD(opt.label, opt.value)}
-              placeholder="SLCs"
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={financeMenu}
+                value={{ label: financeLabel, value: financeValue }}
+                onChange={(opt) => selectFinanceDD(opt.label, opt.value)}
+                placeholder="SLCs"
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={consUniMenu}
-              value={{ label: consUniLabel, value: consUniValue }}
-              onChange={(opt) => selectConsUni(opt.label, opt.value)}
-              placeholder="University N..."
-              name="name"
-              id="id"
-            />
-          </Col>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={consUniMenu}
+                value={{ label: consUniLabel, value: consUniValue }}
+                onChange={(opt) => selectConsUni(opt.label, opt.value)}
+                placeholder="University N..."
+                name="name"
+                id="id"
+              />
+            </Col>
 
-          <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-            <Select
-              options={consPhnMenu}
-              value={{ label: consPhnLabel, value: consPhnValue }}
-              onChange={(opt) => selectConsPhn(opt.label, opt.value)}
-              placeholder="Phone No."
-              name="name"
-              id="id"
-            />
-          </Col>
-        </Row>
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={consPhnMenu}
+                value={{ label: consPhnLabel, value: consPhnValue }}
+                onChange={(opt) => selectConsPhn(opt.label, opt.value)}
+                placeholder="Phone No."
+                name="name"
+                id="id"
+              />
+            </Col>
+          </Row>
 
-        <Row className="">
-          <Col lg="12" md="12" sm="12" xs="12">
-            <div style={{ display: "flex", justifyContent: "end" }}>
-              <div
-                className="mt-1 mx-1 d-flex btn-clear"
-                onClick={handleClearSearch}
-              >
-                {/* <Icon.X  className='text-danger' />*/}
-                <span className="text-danger">
-                  <i className="fa fa-times"></i> Clear
-                </span>
+          <Row className="">
+            <Col lg="12" md="12" sm="12" xs="12">
+              <div style={{ display: "flex", justifyContent: "end" }}>
+                <div
+                  className="mt-1 mx-1 d-flex btn-clear"
+                  onClick={handleClearSearch}
+                >
+                  {/* <Icon.X  className='text-danger' />*/}
+                  <span className="text-danger">
+                    <i className="fa fa-times"></i> Clear
+                  </span>
+                </div>
               </div>
-            </div>
-          </Col>
-        </Row>
-      </CardBody>
-    </Card>
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
 
       <Card className="uapp-employee-search">
         <CardBody>
@@ -816,6 +840,27 @@ const ConsultantApplication = ({currentUser}) => {
                                 handleCheckedId(e);
                               }}
                               defaultChecked={checkId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">App Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedAppId(e);
+                              }}
+                              defaultChecked={checkAppId}
                             />
                           </FormGroup>
                         </Col>
@@ -1116,10 +1161,10 @@ const ConsultantApplication = ({currentUser}) => {
 
           {loading ? (
             <div className="d-flex justify-content-center mb-5">
-            <div className="spinner-border" role="status">
-              <span className="sr-only">Loading...</span>
+              <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
             </div>
-          </div>
           ) : (
             <div className="table-responsive mb-3" ref={componentRef}>
               <Table
@@ -1131,6 +1176,9 @@ const ConsultantApplication = ({currentUser}) => {
                   <tr style={{ textAlign: "center" }}>
                     {checkId ? (
                       <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
+                    ) : null}
+                    {checkAppId ? (
+                      <th style={{ verticalAlign: "middle" }}>App Id</th>
                     ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>
@@ -1195,6 +1243,10 @@ const ConsultantApplication = ({currentUser}) => {
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.uappId}
                         </td>
+                      ) : null}
+
+                      {checkAppId ? (
+                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
                       ) : null}
 
                       {checkApplic ? (
@@ -1354,10 +1406,10 @@ const ConsultantApplication = ({currentUser}) => {
           )}
 
           <Pagination
-          dataPerPage={dataPerPage}
-          totalData={entity}
-          paginate={paginate}
-          currentPage={currentPage}
+            dataPerPage={dataPerPage}
+            totalData={entity}
+            paginate={paginate}
+            currentPage={currentPage}
           />
         </CardBody>
       </Card>

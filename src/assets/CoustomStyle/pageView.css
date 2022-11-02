@@ -503,6 +503,48 @@ margin-left: 5px;
   color: #ffffff;
   }
 
+/* profile pic version 2 */
+.profile-pic1 {
+	position: relative;
+	display: inline-block;
+}
+
+.profile-pic1:hover .edit {
+	display: block;
+}
+
+.edit1 {
+	padding-top: 7px;	
+	padding-right: 7px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	/* display: none; */
+}
+
+.edit1 span {
+	color: #364649;
+}
+
+.edit1 span{
+  position: absolute;
+  /* top: 20px; */
+  right: 2px;
+  bottom: -95px;
+  width: 30px;
+  height: 30px;
+  background-color: #1d94ab;
+  text-align: center;
+  border-radius: 35px;
+}
+
+.edit1 span i{
+  line-height: 30px;
+  font-size:15px;
+  color: #ffffff;
+  }
+/* profile pic version 2 ends here */
+
 .uapp-employee-cover-image {
   min-height: 195.5px;
   max-height: 195.5px;

@@ -2396,7 +2396,11 @@ const UniversityDetails = () => {
                     </div>
 
                     <div className="d-flex justify-content-between">
-                      <span>IELTS Equivalent Score</span>
+                      {
+                        score?.isIeltsMandatory === false ?
+                        <span>IELTS Equivalent Score</span> :
+                        <span>IELTS Score</span>
+                      }
                       <p>{score?.score}</p>
                     </div>
                   </>
