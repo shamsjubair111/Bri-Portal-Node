@@ -35,19 +35,15 @@ const StudentDeclaration = () => {
             setConscentData(res);
         })
 
-        fetch(`http://gd.geobytes.com/GetCityDetails?callback=${'dhaka'}`)
+        fetch(`https://geolocation-db.com/json/`)
         .then(res => res?.json())
         .then(data => {
           console.log('exmp1',data);
+          setAPiInfo(data?.IPv4);
           
         });
 
-        fetch(`https://json.geoiplookup.io/?callback=${'dhaka'}`)
-        .then(res => res?.json())
-        .then(data => {
-          console.log('exmp2',data);
-          
-        });
+       
 
     },[success])
 
@@ -105,7 +101,7 @@ const StudentDeclaration = () => {
         const subData = new FormData();
   
         subData.append('StudentId', applicationStudentId);
-        subData.append('IpAddress',apiInfo?.IPv4);
+        subData.append('IpAddress',apiInfo);
         post('StudentConsent/Sign',subData)
         .then(res => {
           if(res?.status == 200 && res?.data?.isSuccess == true){

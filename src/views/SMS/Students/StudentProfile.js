@@ -39,6 +39,7 @@ const StudentProfile = () => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [stdId, setStdId] = useState(0);
     const [cName, setCName] = useState('');
+    const [conscentData,setConscentData] = useState({});
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -52,6 +53,12 @@ const StudentProfile = () => {
         setCourseList(res);
         // setSuccess(!success);
       })
+
+      get(`StudentConsent/Get/${sId}`)
+        .then(res =>{ 
+            console.log(res,'resStudentData');
+            setConscentData(res);
+        })
     },[sId, success])
 
     useEffect(()=>{
