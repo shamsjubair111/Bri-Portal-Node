@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import {  Card, CardBody, Modal,
   ModalHeader,
   ModalBody,
@@ -27,6 +27,7 @@ import * as Icon from "react-feather";
 
 const StudentProfile = () => {
 
+    const userType = localStorage.getItem('userType');
     const [studentDetails, setStudentDetails] = useState({});
     const [date, setDate] = useState("");
     const [isHaveDisability, setIsHaveDisability] = useState(false);
@@ -58,6 +59,7 @@ const StudentProfile = () => {
     const history = useHistory();
     const { addToast } = useToasts();
     const {sId} = useParams();
+    const [apiInfo,setAPiInfo] = useState('');
 
     console.log("userType", parseInt(localStorage.getItem("userType")));
 
@@ -73,6 +75,15 @@ const StudentProfile = () => {
             console.log(res,'resStudentData');
             setConscentData(res);
         })
+
+
+        fetch(`https://geolocation-db.com/json/`)
+        .then(res => res?.json())
+        .then(data => {
+          console.log('exmp1',data);
+          setAPiInfo(data?.IPv4);
+          
+        });
     },[sId, success])
 
     useEffect(()=>{
@@ -102,29 +113,10 @@ const StudentProfile = () => {
     }
 
 
-    // get User Ip address
-
-    const getData = async () => {
-      const res1 = await axios.get('https://api.ipify.org?format=json')
-      console.log(res1?.data,'data1');
-
-      const res2 = await axios.get('https://api.ipify.org?format=json')
-      console.log(res2?.data,'data2');
-
-      const res3 = await axios.get('https://api.ipdata.co')
-      console.log(res3,'data3');
-
-      
-      // https://api.ipdata.co
-
-
-    
-    }
+ 
     
 
-    const getIp = () => {
-       getData();
-    }
+  
 
     const tableStyle = {
       overflowX: 'scroll',
@@ -394,6 +386,34 @@ const StudentProfile = () => {
     }
   }
 
+
+  const handleTerms = (event) => {
+
+    const subData = new FormData();
+
+    subData.append('StudentId', sId);
+    subData.append('IpAddress',apiInfo);
+    post('StudentConsent/Sign',subData)
+    .then(res => {
+      if(res?.status == 200 && res?.data?.isSuccess == true){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    })
+  }
+
+  
+
+
     return (
         <div ref={componentRef}>
         <Card className="uapp-card-bg">
@@ -411,9 +431,14 @@ const StudentProfile = () => {
               </div>
             </div>
             
+          {
+            (userType == userTypes?.Student) ?
+            null
+            :
             <div className="page-header-back-to-home" >
-              <span onClick={backToStudentList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Student List</span>
-            </div>
+            <span onClick={backToStudentList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Student List</span>
+          </div>
+          }
 
           </CardHeader>
         </Card>
@@ -1413,9 +1438,9 @@ const StudentProfile = () => {
                 parseInt(localStorage.getItem("userType")) === userTypes?.Student ?
                 <Card className='p-3'>
 
-              <div className="hedding-titel d-flex justify-content-between">
+              <div className="hedding-titel d-flex justify-content-between mb-2">
                     <div>
-                    <h5> <b>Concent</b> </h5>
+                    <h5> <b>Consent</b> </h5>
                      
                     <div className="bg-h"></div>
                     </div>
@@ -1428,15 +1453,18 @@ const StudentProfile = () => {
 
                     </div>
 
-              <div className="notice-item card-widget mt-3 ">
+                    {
+                      (conscentData == null || conscentData?.isDeclared == false) ?
+
+                      <div className="notice-item card-widget mt-3 ">
                       
                          <div className="text-center"> 
-                             <span>Consent Is Not Signed Yet. </span>
+                             <span>Consent is not signed yet. <Link to={`/studentDeclaration/${sId}`}>View terms and conditions.</Link> </span>
                              
                              <div>
 
                              <ButtonForFunction
-                             func={getIp}
+                             func={handleTerms}
                               name={'Sign Consent'}
                               className={'badge-primary mt-2'}
                               />
@@ -1445,15 +1473,32 @@ const StudentProfile = () => {
                               
                             </div>
                         </div>
-              </div>
+                      </div>
+
+                      :
+
+                      <div className="mb-1 text-left ms-md-4  ">
+                  
+                 
+                  <span>Conscent Signed on: <span className=""> {handleDate(conscentData?.consentSignTime)}</span></span>
+                    <br/>
+                  <span>Conscent Signed From Ip:<span className=""> {conscentData?.consentFromIp}</span></span>
+           
+                </div>
+                    }
+
+
+              
 
               </Card>
               :
+
+              
               <Card className='p-3'>
 
               <div className="hedding-titel d-flex justify-content-between">
                     <div>
-                    <h5> <b>Concent</b> </h5>
+                    <h5> <b>Consent</b> </h5>
                      
                     <div className="bg-h"></div>
                     </div>
@@ -1466,20 +1511,38 @@ const StudentProfile = () => {
 
                     </div>
 
+                    {
+               !(conscentData == null || conscentData?.isDeclared == false) ?
+
+               <div className="notice-item card-widget mt-3 ">
+                      
+               <div className="notice-description"> 
+                   <span>Consent Signed On, </span>
+                   <br/>
+                   <span>Date: {handleDate(conscentData?.consentSignTime)} </span>
+                   <br/>
+                   <span>From Ip: {conscentData?.consentFromIp}</span>
+                   <div className="text-center mt-2">
+                    <Button className='badge-primary'>Download</Button>
+                  
+                  </div>
+              </div>
+              </div>
+
+              :
+
               <div className="notice-item card-widget mt-3 ">
                       
-                         <div className="notice-description"> 
-                             <span>Consent Signed On, </span>
-                             <br/>
-                             <span>Date: </span>
-                             <br/>
-                             <span>From: IP</span>
-                             <div className="text-center mt-2">
-                              <Button className='badge-primary'>Download</Button>
-                            
-                            </div>
+                         <div className="text-center"> 
+                             <span>Student has not signed is not signed yet. </span>
+                             
                         </div>
-              </div>
+                      </div>
+
+
+              }
+
+             
 
               </Card>
               }
