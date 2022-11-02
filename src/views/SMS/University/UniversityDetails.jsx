@@ -38,6 +38,7 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import post from "../../../helpers/post";
+import put from "../../../helpers/put";
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 // const userData = [{name: "Jubair", id:6, isChecked:false}, {name: "Rahul", id:2, isChecked:true}, {name: "Abir", id:3, isChecked:false}, {name: "Nahid", id:4, isChecked:true}];
@@ -114,6 +115,24 @@ const UniversityDetails = () => {
 
   const [data, setData] = useState({});
   const [score, setScore] = useState({});
+
+  const [modalOpen3, setModalOpen3] = useState(false);
+  const [modalOpen2, setModalOpen2] = useState(false);
+  const [buttonStatus3,setButtonStatus3] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [FileList, setFileList] = useState([]);
+  const [error, setError] = useState(false);
+  const [text, setText] = useState('');
+
+  const [buttonStatus4, setButtonStatus4] = useState(false);
+  const [previewVisible2, setPreviewVisible2] = useState(false);
+  const [previewImage2, setPreviewImage2] = useState("");
+  const [previewTitle2, setPreviewTitle2] = useState("");
+  const [FileList2, setFileList2] = useState([]);
+  const [error1, setError1] = useState(false);
+  const [text1, setText1] = useState('');
 
   const userType = localStorage.getItem("userType");
 
@@ -408,28 +427,28 @@ const UniversityDetails = () => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, checked } = e.target;
-    if (name === "allSelect") {
-      let tmpUsers = subList.map((sub) => {
-        return { ...sub, isChecked: checked };
-      });
-      setSubList(tmpUsers);
-      console.log("selectAll", tmpUsers);
-    } else if (name === "allDeselect") {
-      let tmpUsers = subList.map((sub) => {
-        return { ...sub, isChecked: !checked };
-      });
-      setSubList(tmpUsers);
-      console.log("dselectAll", tmpUsers);
-    } else {
-      let tmpUsers = subList.map((sub) =>
-        sub.name === name ? { ...sub, isChecked: checked } : sub
-      );
-      setSubList(tmpUsers);
-      console.log("singleSelect", tmpUsers);
-    }
-  };
+  // const handleChange = (e) => {
+  //   const { name, checked } = e.target;
+  //   if (name === "allSelect") {
+  //     let tmpUsers = subList.map((sub) => {
+  //       return { ...sub, isChecked: checked };
+  //     });
+  //     setSubList(tmpUsers);
+  //     console.log("selectAll", tmpUsers);
+  //   } else if (name === "allDeselect") {
+  //     let tmpUsers = subList.map((sub) => {
+  //       return { ...sub, isChecked: !checked };
+  //     });
+  //     setSubList(tmpUsers);
+  //     console.log("dselectAll", tmpUsers);
+  //   } else {
+  //     let tmpUsers = subList.map((sub) =>
+  //       sub.name === name ? { ...sub, isChecked: checked } : sub
+  //     );
+  //     setSubList(tmpUsers);
+  //     console.log("singleSelect", tmpUsers);
+  //   }
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -606,6 +625,165 @@ const UniversityDetails = () => {
     setModalOpen(false);
   };
 
+  const updateCoverPhoto = () => {
+      setModalOpen3(true);
+    }
+
+    // on Close Modal
+    const closeModal2 = () => {
+      setModalOpen3(false);
+      setFileList([]);
+    };
+  
+    const closeModal1 = () => {
+      setModalOpen2(false);
+      setFileList1([]);
+    };
+  
+    const handleCancel = () => {
+      setPreviewVisible(false);
+    };
+  
+    const handlePreview = async (file) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+  
+      setPreviewImage(file.url || file.preview);
+      setPreviewVisible(true);
+      setPreviewTitle(
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+      );
+    };
+  
+    const handleChange = ({ fileList }) => {
+      // setFileList(fileList);
+  
+      if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+        setFileList([]);
+        setText('Only jpeg, jpg, png image is allowed');
+      }
+      else{
+        setFileList(fileList);
+        setText('');
+        setError(false);
+        setButtonStatus(false);
+      }
+  
+    };
+  
+    const handleSubmitCoverPhoto = event =>{
+      event.preventDefault();
+  
+      const subData = new FormData(event.target);
+  
+      subData.append("coverImageFile", FileList[0]?.originFileObj);
+  
+      // for(var x of subData.values()){
+      //     console.log(x);
+      // }
+      setButtonStatus3(true);
+  
+      if (FileList.length < 1) {
+        setError(true);
+      }
+      else{
+        put(`University/UpdateCoverPhoto`, subData).then((res) => {
+          setButtonStatus3(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setFileList([]);
+            setModalOpen3(false);
+            setSuccess(!success);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+        });
+      }
+  
+    }
+
+    const handleCancel2 = () => {
+      setPreviewVisible2(false);
+    };
+  
+    const handlePreview2 = async (file) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+  
+      setPreviewImage2(file.url || file.preview);
+      setPreviewVisible2(true);
+      setPreviewTitle2(
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+      );
+    };
+  
+    const handleChange2 = ({ fileList }) => {
+      // setFileList(fileList);
+  
+      if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+        setFileList2([]);
+        setText1('Only jpeg, jpg, png image is allowed');
+      }
+      else{
+        setFileList2(fileList);
+        setText1('');
+        setError1(false);
+        setButtonStatus4(false);
+      }
+  
+    };
+  
+    const updateProfilePic = () => {
+      setModalOpen2(true);
+      setFileList2([]);
+    }
+  
+    const handleSubmitProfilePhoto = event => {
+      event.preventDefault();
+  
+      const subData = new FormData(event.target);
+  
+      subData.append("universityLogoFile", FileList2[0]?.originFileObj);
+  
+      // for(var x of subData.values()){
+      //     console.log(x);
+      // }
+      setButtonStatus4(true);
+  
+      if (FileList2.length < 1) {
+        setError1(true);
+      }
+      else{
+        put(`University/Updatelogo`, subData).then((res) => {
+          setButtonStatus4(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setFileList2([]);
+            setModalOpen2(false);
+            setSuccess(!success);
+          }
+          else{
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+        });
+      }
+    }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -658,27 +836,225 @@ const UniversityDetails = () => {
               <CardBody>
                 <div className="uapp-employee-cover-image">
                   <div className="bg-image">
-                    <div className="uplode-cover-image">
+                    {/* <div className="uplode-cover-image"> */}
                       <img
                         src={rootUrl + universityInfo?.coverPhoto?.fileUrl}
                         alt="cover_img"
                       />
-                    </div>
+                      <div className="uplode-cover-image">
+                      <span onClick={updateCoverPhoto}> <i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span>
+                      </div>
+                    {/* </div> */}
                   </div>
                 </div>
+
+                {/* cover photo edit modal starts here */}
+                <Modal isOpen={modalOpen3} toggle={closeModal2} className="uapp-modal">
+                  <ModalHeader>Update Cover Photo</ModalHeader>
+                      
+                  <ModalBody>
+                    <form onSubmit={handleSubmitCoverPhoto}>
+                      <input type="hidden" name="id" id="id" value={id} />
+                      
+                      {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+                      
+                      <FormGroup row className="has-icon-left position-relative">
+                        <Col className='ml-5' md="4">
+                          <span>
+                            Cover Photo <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <div className="row d-flex">
+                            {/* {consultantData?.consultantCoverImageMedia !== null ? (
+                              <div className="col-md-6">
+                                <Image
+                                  width={104}
+                                  height={104}
+                                  src={
+                                    rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
+                                  }
+                                />
+                              </div>
+                            ) : null} */}
+          
+                            <div className="col-md-6">
+                              <>
+                                <Upload
+                                  listType="picture-card"
+                                  multiple={false}
+                                  fileList={FileList}
+                                  onPreview={handlePreview}
+                                  onChange={handleChange}
+                                  beforeUpload={(file) => {
+                                    return false;
+                                  }}
+                                >
+                                  {FileList.length < 1 ? (
+                                    <div className="text-danger" style={{ marginTop: 8 }}>
+                                      <Icon.Upload />
+                                      <br />
+                                      <span>Upload Image Here</span>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </Upload>
+                                <Modal
+                                  visible={previewVisible}
+                                  title={previewTitle}
+                                  footer={null}
+                                  onCancel={handleCancel}
+                                >
+                                  <img
+                                    alt="example"
+                                    style={{ width: "100%" }}
+                                    src={previewImage}
+                                  />
+                                </Modal>
+                                  
+                                <span className="text-danger d-block">{text}</span>
+
+                                {error && (
+                                  <span className="text-danger">
+                                    Cover photo is required
+                                  </span>
+                                )}
+                                  
+                              </>
+                            </div>
+                          </div>
+                        </Col>
+                      </FormGroup>
+                                  
+                      <FormGroup row>
+                        <Col md="12">
+                          <div className="d-flex justify-content-end">
+                            <Button color='danger' onClick={closeModal2} className='mr-1 mt-3'>
+                                  Cancel
+                            </Button>
+                            <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus3}>
+                              Update
+                            </Button>
+                          </div>
+                        </Col>
+                      </FormGroup>
+                    </form>
+                  </ModalBody>
+                </Modal>
+                {/* cover photo edit modal ends here */}
 
                 <div className="uapp-employee-profile-image-edit">
                   <Row>
                     <Col>
                       <div className="uapp-employee-profile-image">
                         <div className="text-left">
-                          <img
-                            className="empProfileImg"
-                            src={
-                              rootUrl + universityInfo?.universityLogo?.fileUrl
-                            }
-                            alt="profile_img"
-                          />
+
+                          <div className='profile-pic'>
+                            <img className="empProfileImg"  src={
+                                   rootUrl + universityInfo?.universityLogo?.fileUrl
+                                 }
+                                 alt="profile_img"/>
+
+                            <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                          </div>
+
+                          {/* profile photo edit modal starts here */}
+                     <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
+                       <ModalHeader>Update Profile Photo</ModalHeader>
+
+                       <ModalBody>
+                         <form onSubmit={handleSubmitProfilePhoto}>
+                           <input type="hidden" name="id" id="id" value={id} />
+
+                           {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+
+                           <FormGroup row className="has-icon-left position-relative">
+                             <Col className='ml-5' md="4">
+                               <span>
+                                 Profile Photo <span className="text-danger">*</span>{" "}
+                               </span>
+                             </Col>
+                             <Col md="6">
+                               <div className="row d-flex">
+                                 {/* {consultantData?.consultantCoverImageMedia !== null ? (
+                                   <div className="col-md-6">
+                                     <Image
+                                       width={104}
+                                       height={104}
+                                       src={
+                                         rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
+                                       }
+                                     />
+                                   </div>
+                                 ) : null} */}
+
+                                 <div className="col-md-6">
+                                   <>
+                                     <Upload
+                                       listType="picture-card"
+                                       multiple={false}
+                                       fileList={FileList2}
+                                       onPreview={handlePreview2}
+                                       onChange={handleChange2}
+                                       beforeUpload={(file) => {
+                                         return false;
+                                       }}
+                                     >
+                                       {FileList2.length < 1 ? (
+                                         <div className="text-danger" style={{ marginTop: 8 }}>
+                                           <Icon.Upload />
+                                           <br />
+                                           <span>Upload Image Here</span>
+                                         </div>
+                                       ) : (
+                                         ""
+                                       )}
+                                     </Upload>
+                                     <Modal
+                                       visible={previewVisible2}
+                                       title={previewTitle2}
+                                       footer={null}
+                                       onCancel={handleCancel2}
+                                     >
+                                       <img
+                                         alt="example"
+                                         style={{ width: "100%" }}
+                                         src={previewImage2}
+                                       />
+                                     </Modal>
+
+                                     <span className="text-danger d-block">{text1}</span>
+
+                                     {error1 && (
+                                       <span className="text-danger">
+                                         Profile photo is required
+                                       </span>
+                                     )}
+
+                                   </>
+                                 </div>
+                               </div>
+                             </Col>
+                           </FormGroup>
+
+                           <FormGroup row>
+                             <Col md="12">
+                               <div className="d-flex justify-content-end">
+                                 <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
+                                       Cancel
+                                 </Button>
+                                 <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus4}>
+                                   Update
+                                 </Button>
+                               </div>
+                             </Col>
+                           </FormGroup>
+                         </form>
+                       </ModalBody>
+                     </Modal>
+                 {/* profile photo edit modal ends here */} 
+                               
                         </div>
                       </div>
                     </Col>
