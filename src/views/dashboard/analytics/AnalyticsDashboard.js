@@ -59,8 +59,8 @@ const AnalyticsDashboard = () => {
 
     {
       currentUser.userTypeId == userTypes?.Student && 
-      <Student/>
-      // <NewDashboard />
+      // <Student/>
+      <NewDashboard />
       }
 
     {

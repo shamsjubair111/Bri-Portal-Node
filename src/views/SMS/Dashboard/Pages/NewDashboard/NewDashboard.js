@@ -23,6 +23,9 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from "reactstrap";
+import LinkButton from "../../../Components/LinkButton";
+
+import video from "../../../../../assets/video/video.mp4";
 
 const NewDashboard = () => {
   const currentUser = JSON?.parse(localStorage.getItem("current_user"));
@@ -43,154 +46,152 @@ const NewDashboard = () => {
 
       <Row>
         <Col md="12">
-          <Card>
-            <CardBody>
-              <div className="table-responsive mb-3">
-                <Table
-                  id="table-to-xls"
-                  style={{ verticalAlign: "middle" }}
-                  className="table-sm table-bordered"
-                >
-                  <thead className="thead-uapp-bg">
-                    <tr style={{ textAlign: "center" }}>
-                      <th style={{ verticalAlign: "middle" }}>App Id</th>
-                      <th style={{ verticalAlign: "middle" }}>Subject</th>
-                      <th style={{ verticalAlign: "middle" }}>University</th>
-                      <th style={{ verticalAlign: "middle" }}>Intake</th>
-                      <th style={{ verticalAlign: "middle" }}>Status</th>
-                      <th
-                        style={{ verticalAlign: "middle" }}
-                        className="text-center"
-                      >
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* {applicationList?.map((app, i) => (
-                    <tr key={i}>
-                      {checkId ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.uappId}
-                        </td>
-                      ) : null}
-
-                      {checkAppId ? (
-                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
-                      ) : null}
-
-                      {checkApplic ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.studentName}
-                        </td>
-                      ) : null}
-
-                      {checkContact ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.studentPhone} <br />
-                          {app?.studentEmail}
-                        </td>
-                      ) : null}
-
-                      {checkUni ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.universityName}
-                        </td>
-                      ) : null}
-
-                      {checkCamp ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.campusName}
-                        </td>
-                      ) : null}
-
-                      {checkCourse ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.subjectName}
-                        </td>
-                      ) : null}
-
-                      {checkIntake ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.intakeName}
-                        </td>
-                      ) : null}
-
-                      {checkDate ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.applicationDate ? (
-                            <>{handleDate(app?.applicationDate)}</>
-                          ) : null}
-                        </td>
-                      ) : null}
-
-                      {checkSts ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.applicationStatusName}
-                        </td>
-                      ) : null}
-
-                      {checkOfr ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.offerStatusName}
-                        </td>
-                      ) : null}
-
-                      {checkIntrv ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.interviewStatusName}
-                        </td>
-                      ) : null}
-
-                      {checkElpt ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.elptStatusName}
-                        </td>
-                      ) : null}
-
-                      {checkEnSts ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.enrollmentStatusName}
-                        </td>
-                      ) : null}
-
-                      {checkSlcs ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.studentFinanceName}
-                        </td>
-                      ) : null}
-
-                      {checkCons ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          {app?.consultantName}
-                        </td>
-                      ) : null}
-
-                      
-                    </tr>
-                  ))} */}
-                  </tbody>
-                </Table>
+          <Card style={{ borderLeft: "6px solid #1e98b0" }} className="p-2">
+            <div className="row">
+              <div className="col-md-2 my-auto">
+                <div className="text-center">
+                  {/* <span className="university-title-style">Subject</span> */}
+                  <span className="span-style-search">
+                    {/* <i className="fas fa-location-dot"></i> */}
+                    App Id
+                  </span>
+                  <br />
+                  <span className="">
+                    {/* <i className="fas fa-location-dot"></i> */}1
+                  </span>
+                </div>
               </div>
-            </CardBody>
+
+              <div className="col-md-2 my-auto">
+                <div className="text-center">
+                  {/* <span className="university-title-style">Subject</span> */}
+                  <span className="span-style-search">
+                    {/* <i className="fas fa-location-dot"></i> */}
+                    Subject
+                  </span>
+                  <br />
+                  <span className="">
+                    {/* <i className="fas fa-location-dot"></i> */}
+                    Computer Fundamentals
+                  </span>
+                </div>
+              </div>
+
+              <div className="col-md-2 my-auto">
+                <div className="text-center">
+                  {/* <span className="university-title-style">University</span> */}
+                  <span className="span-style-search">University</span>
+                  <br />
+                  <span className="">
+                    {/* <i className="fas fa-location-dot"></i>
+                    address */}
+                    Dhaka University
+                  </span>
+                </div>
+              </div>
+
+              <div className="col-md-2 my-auto">
+                <div className="text-center">
+                  {/* <span className="university-title-style">Intake</span> */}
+                  <span className="span-style-search">Intake</span>
+                  <br />
+                  <span className="">
+                    {/* <i className="fas fa-location-dot"></i>
+                    address */}
+                    January 2023
+                  </span>
+                </div>
+              </div>
+
+              <div className="col-md-2 my-auto">
+                <div className="text-center">
+                  {/* <span className="university-title-style">Status</span> */}
+                  <span className="span-style-search">Status</span>
+                  <br />
+                  <span className="">
+                    {/* <i className="fas fa-location-dot"></i>
+                    address */}
+                    Open
+                  </span>
+                </div>
+              </div>
+
+              <div className="col-md-2 my-auto text-center">
+                {/* <div className="d-flex justify-content-end"> */}
+                {/* <LinkButton
+                    // url={`/universityDetails/${info?.universityId}`}
+                    target={"_blank"}
+                    color={"primary"}
+                    className={"mx-1 btn-sm"}
+                    icon={<i className="fas fa-eye"></i>}
+                    permission={6}
+                  /> */}
+                <span
+                  style={{ color: "#1e98b0", cursor: "pointer" }}
+                  className="font-weight-bold"
+                >
+                  View
+                </span>
+                {/* </div> */}
+              </div>
+            </div>
           </Card>
         </Col>
       </Row>
 
+      <h5>
+        <b>Need help before applying</b>
+      </h5>
       <div className="row">
         <div className="col-md-8 col-sm-12">
-            <h5><b>Need help before applying</b></h5>
-            <Card>
-              <CardBody>
-                  
-              </CardBody>
-            </Card>
+          <Card>
+            <CardBody>
+              <div className="row">
+                <div className="col-md-4">
+                  <video
+                    width="100%"
+                    height="100%"
+                    src={video}
+                    controls
+                    autoPlay
+                    loop
+                  />
+                </div>
 
-            <Card className="mt-2">
-              <CardBody>
-                  <p>Become Consultant Part</p>
-              </CardBody>
-            </Card>
+                <div className="col-md-8 ">
+                  <div className="row mb-2">
+                    <div className="col-md-12 col-sm-12">
+                      <span>
+                        <i className="fas fa-chevron-circle-right"></i> FAQ
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="row my-2">
+                    <div className="col-md-12 col-sm-12">
+                      <span>
+                        <i className="fas fa-chevron-circle-right"></i> BLOG
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="row mt-2">
+                    <div className="col-md-12 col-sm-12">
+                      <span>
+                        <i className="fas fa-chevron-circle-right"></i> CONTACT
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card className="mt-2">
+            <CardBody>
+              <p>Become Consultant Part</p>
+            </CardBody>
+          </Card>
         </div>
 
         <div className="col-md-4 col-sm-12">
@@ -208,12 +209,9 @@ const NewDashboard = () => {
                         <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                         </div> */}
             </div>
-
-            
           </Card>
         </div>
       </div>
-
     </div>
   );
 };
