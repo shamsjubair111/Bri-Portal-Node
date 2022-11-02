@@ -541,7 +541,10 @@ const StudentList = () => {
           </Row>
 
           <Row className="mt-3">
-            <Col lg="6" md="6" sm="12" xs="12">
+
+            {
+              parseInt(localStorage.getItem("userType")) !== userTypes?.Consultant ?
+              <Col lg="6" md="6" sm="12" xs="12">
                     <Select
                     options={consultantOption}
                     value={{ label: consultantLabel, value: consultantValue }}
@@ -552,6 +555,10 @@ const StudentList = () => {
                       
                     />
                   </Col>
+                  :
+                  null
+            }
+
 
             <Col lg="6" md="6" sm="12" xs="12">
               <Select

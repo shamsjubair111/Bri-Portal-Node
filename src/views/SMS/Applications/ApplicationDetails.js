@@ -136,7 +136,6 @@ const ApplicationDetails = () => {
   const handleChange1 = ({ fileList }) => {
     setUploadError(false);
     setFileList1(fileList);
-    
   };
 
   const handleCancel1 = () => {
@@ -162,7 +161,7 @@ const ApplicationDetails = () => {
     });
 
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
-     
+      console.log("appliInfoStd", res);
       setStudentProInfo(res);
     });
     get("DeliveryPatternDD/index").then((res) => {
@@ -282,7 +281,6 @@ const ApplicationDetails = () => {
   };
 
   const toggleDanger = (docu) => {
-    
     setdelDocData(docu);
     // localStorage.setItem("delDocNam", docu?.documentLevelName);
     // localStorage.setItem("delDocId", docu?.studentDocumentLevelId);
@@ -297,7 +295,6 @@ const ApplicationDetails = () => {
   };
 
   const handleDeleteDocument = () => {
-  
     const returnValue = remove(
       `StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`
     ).then((action) => {
@@ -313,7 +310,6 @@ const ApplicationDetails = () => {
   };
 
   const toggleDangerFile = (docFile) => {
-    
     localStorage.setItem("delFileName", docFile?.studentDocumentFile?.fileName);
     localStorage.setItem("delFileId", docFile?.studentDocumentLevelId);
     setDeleteModal2(true);
@@ -349,12 +345,11 @@ const ApplicationDetails = () => {
     subData.append("studentDocumentLevelId", parseInt(studentDocuId));
 
     // for (var i of subData) {
-    
+
     // }
 
     if (studentDocuId !== 0) {
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
-        
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -364,15 +359,14 @@ const ApplicationDetails = () => {
           setFileList2(undefined);
           setIsSelected(false);
           setStudentDocuId(0);
-        }
-        else{
+        } else {
           addToast(res?.data?.message, {
             appearance: "error",
             autoDismiss: true,
           });
         }
       });
-    }  
+    }
   };
 
   if (
@@ -397,7 +391,6 @@ const ApplicationDetails = () => {
     );
 
     for (var i of subData) {
-     
     }
 
     if (docuTypeValue == 0) {
@@ -408,7 +401,6 @@ const ApplicationDetails = () => {
     // }
     else {
       post("StudentUploadDocument/Create", subData).then((res) => {
-        
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -420,8 +412,7 @@ const ApplicationDetails = () => {
           setDocLevel("");
           setDocuTypeLabel("Select Document Type");
           setDocuTypeValue(0);
-        }
-        else{
+        } else {
           addToast(res?.data?.message, {
             appearance: "error",
             autoDismiss: true,
@@ -432,17 +423,16 @@ const ApplicationDetails = () => {
   };
 
   const handleRedirectToAppliPage = () => {
-    if(location.providerId != undefined && location.managerId != undefined){
-      history.push(`/providerAdmissionManager/${location.managerId}/${location.providerId}`)
-    }
-    else{
+    if (location.providerId != undefined && location.managerId != undefined) {
+      history.push(
+        `/providerAdmissionManager/${location.managerId}/${location.providerId}`
+      );
+    } else {
       history.push("/applications");
     }
-    
   };
 
   const handleUpdateTestScores = (data) => {
-   
     console.log("datas", data);
 
     localStorage.setItem("applictionStudentId", data?.id);
@@ -453,7 +443,6 @@ const ApplicationDetails = () => {
   };
 
   const handleEdit = (data) => {
-   
     localStorage.setItem("applictionStudentId", data?.id);
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
     localStorage.setItem("method", "put");
@@ -497,7 +486,7 @@ const ApplicationDetails = () => {
     const subData = new FormData(e.target);
 
     // for (var i of subData.values()) {
-    
+
     // }
 
     // const subData = {
@@ -684,7 +673,6 @@ const ApplicationDetails = () => {
   };
 
   const handleElptupdate = (e) => {
-  
     setElptStatusLabel(applicationInfo?.elpt?.elptStatus?.name);
     setElptStatusValue(applicationInfo?.elpt?.elptStatus?.id);
     setElptModalOpen1(true);
@@ -714,12 +702,10 @@ const ApplicationDetails = () => {
             <span onClick={handleRedirectToAppliPage} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {
-                location.providerId != undefined && location.managerId != undefined ?
-                "Back to Admission Manager Details"
-                :
-                "Back to Application List"
-              }
+              {location.providerId != undefined &&
+              location.managerId != undefined
+                ? "Back to Admission Manager Details"
+                : "Back to Application List"}
             </span>
           </div>
         </CardHeader>
@@ -1065,7 +1051,9 @@ const ApplicationDetails = () => {
                                         {applicationInfo?.enrollmentStatus
                                           ?.name === "Registered" ? (
                                           <div className="text-danger">
-                                            Once the enrolment status is changed to "Registered" it can't be changed again.
+                                            Once the enrolment status is changed
+                                            to "Registered" it can't be changed
+                                            again.
                                           </div>
                                         ) : null}
                                       </Col>
@@ -1598,9 +1586,7 @@ const ApplicationDetails = () => {
                             <b>Campus Name:</b>
                           </td>
 
-                          <td width="60%">
-                            {applicationInfo?.campus?.name}
-                          </td>
+                          <td width="60%">{applicationInfo?.campus?.name}</td>
                         </tr>
 
                         <tr>
@@ -1680,21 +1666,18 @@ const ApplicationDetails = () => {
                       </div>
                       <div className="text-right">
                         {/* <span> <i className="fas fa-pencil-alt pencil-style"></i> </span> */}
-                        {
-                          applicationInfo?.elpt !== null ?
+                        {applicationInfo?.elpt !== null ? (
                           <SpanButton
-                          icon={
-                            <i
-                              style={{ cursor: "pointer" }}
-                              className="fas fa-pencil-alt pencil-style"
-                            ></i>
-                          }
-                          func={handleElptupdate}
-                          permission={6}
-                        />
-                        :
-                        null
-                        }
+                            icon={
+                              <i
+                                style={{ cursor: "pointer" }}
+                                className="fas fa-pencil-alt pencil-style"
+                              ></i>
+                            }
+                            func={handleElptupdate}
+                            permission={6}
+                          />
+                        ) : null}
 
                         <Modal
                           size="lg"
@@ -2414,7 +2397,7 @@ const ApplicationDetails = () => {
                             <div
                               className="row"
                               // onClick={() =>
-                                
+
                               // }
                             >
                               {docu?.studentDocumentFile === null ? (
@@ -2626,9 +2609,9 @@ const ApplicationDetails = () => {
                       </Col> */}
                         <Col md="8">
                           {/* <div className="row"> */}
-                            <div className="mb-2">Upload Document</div>
+                          <div className="mb-2">Upload Document</div>
 
-                            {/* {applicationObject?.document ? (
+                          {/* {applicationObject?.document ? (
                             <div className="col-md-3">
                               <Image
                                 width={104}
@@ -2640,43 +2623,43 @@ const ApplicationDetails = () => {
                             </div>
                           ) : null} */}
 
-                            <div className="col-md-3">
-                              <Upload
-                                listType="picture-card"
-                                multiple={false}
-                                fileList={FileList1}
-                                onPreview={handlePreview1}
-                                onChange={handleChange1}
-                                beforeUpload={(file) => {
-                                  return false;
-                                }}
-                              >
-                                {FileList1.length < 1 ? (
-                                  <div
-                                    className="text-danger"
-                                    style={{ marginTop: 8 }}
-                                  >
-                                    <Icon.Upload />
-                                    <br />
-                                    <span>Upload Here</span>
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </Upload>
-                              <AntdModal
-                                visible={previewVisible1}
-                                title={previewTitle1}
-                                footer={null}
-                                onCancel={handleCancel1}
-                              >
-                                <img
-                                  alt="example"
-                                  style={{ width: "100%" }}
-                                  src={previewImage1}
-                                />
-                              </AntdModal>
-                            </div>
+                          <div className="col-md-3">
+                            <Upload
+                              listType="picture-card"
+                              multiple={false}
+                              fileList={FileList1}
+                              onPreview={handlePreview1}
+                              onChange={handleChange1}
+                              beforeUpload={(file) => {
+                                return false;
+                              }}
+                            >
+                              {FileList1.length < 1 ? (
+                                <div
+                                  className="text-danger"
+                                  style={{ marginTop: 8 }}
+                                >
+                                  <Icon.Upload />
+                                  <br />
+                                  <span>Upload Here</span>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </Upload>
+                            <AntdModal
+                              open={previewVisible1}
+                              title={previewTitle1}
+                              footer={null}
+                              onCancel={handleCancel1}
+                            >
+                              <img
+                                alt="example"
+                                style={{ width: "100%" }}
+                                src={previewImage1}
+                              />
+                            </AntdModal>
+                          </div>
                           {/* </div> */}
 
                           {/* {uploadError && (
@@ -2760,7 +2743,9 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {studentProInfo?.applicationInfos?.dateOfMoveToUk}
+                            {handleDate(
+                              studentProInfo?.applicationInfos?.dateOfMoveToUk
+                            )}
                           </td>
                         </tr>
 
@@ -2772,10 +2757,10 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {
-                              studentProInfo?.applicationInfos
-                                ?.isStayedOutsideEU_UkinLast3Years
-                            }
+                            {studentProInfo?.applicationInfos
+                              ?.isStayedOutsideEU_UkinLast3Years === false
+                              ? "No"
+                              : "Yes"}
                           </td>
                         </tr>
 
@@ -2785,10 +2770,10 @@ const ApplicationDetails = () => {
                           </td>
 
                           <td width="60%">
-                            {
-                              studentProInfo?.applicationInfos
-                                ?.isHavePre_Settlementstatus
-                            }
+                            {studentProInfo?.applicationInfos
+                              ?.isHavePre_Settlementstatus === true
+                              ? "Yes"
+                              : "No"}
                           </td>
                         </tr>
 
@@ -3074,10 +3059,13 @@ const ApplicationDetails = () => {
                               </td>
 
                               <td width="60%">
-                                {handleDate(
-                                  studentProInfo?.educationInfos
-                                    ?.attendedInstitutionTo
-                                )}
+                                {studentProInfo?.educationInfos
+                                  ?.attendedInstitutionTo !== null
+                                  ? handleDate(
+                                      studentProInfo?.educationInfos
+                                        ?.attendedInstitutionTo
+                                    )
+                                  : null}
                               </td>
                             </tr>
                           )}
@@ -3470,7 +3458,7 @@ const ApplicationDetails = () => {
         <Col md="5">
           <Card>
             <CardBody>
-              <div className="hedding-titel d-flex justify-content-between mb-4">
+              <div className="hedding-titel d-flex justify-content-between">
                 <div>
                   <h5>
                     {" "}
@@ -3485,7 +3473,7 @@ const ApplicationDetails = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-                <div>
+                <div className="my-auto">
                   <span>
                     <b>Name:</b> {applicationInfo?.admissionManager?.firstName}{" "}
                     {applicationInfo?.admissionManager?.lastName}
@@ -3507,7 +3495,6 @@ const ApplicationDetails = () => {
                     <img src={profileImage} alt="provider_img" />
                   ) : ( */}
 
-
                     {/* <img
                       src={
                         rootUrl +
@@ -3516,7 +3503,6 @@ const ApplicationDetails = () => {
                       }
                       alt="admission_manager_img"
                     /> */}
-
 
                     {/* )} */}
                   </div>
@@ -3527,7 +3513,7 @@ const ApplicationDetails = () => {
 
           <Card>
             <CardBody>
-              <div className="hedding-titel d-flex justify-content-between mb-4">
+              <div className="hedding-titel d-flex justify-content-between">
                 <div>
                   <h5>
                     {" "}
@@ -3542,7 +3528,7 @@ const ApplicationDetails = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-                <div>
+                <div className="my-auto">
                   <span>
                     <b>Name:</b> {applicationInfo?.consultant?.firstName}{" "}
                     {applicationInfo?.consultant?.lastName}

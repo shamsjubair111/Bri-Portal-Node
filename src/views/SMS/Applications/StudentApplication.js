@@ -524,7 +524,7 @@ const StudentApplication = ({currentUser}) => {
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
           <Row className="gy-3">
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+            {/* <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
                 options={studentConsMenu}
                 value={{ label: studentConsLabel, value: studentConsValue }}
@@ -533,7 +533,7 @@ const StudentApplication = ({currentUser}) => {
                 name="name"
                 id="id"
               />
-            </Col>
+            </Col> */}
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select

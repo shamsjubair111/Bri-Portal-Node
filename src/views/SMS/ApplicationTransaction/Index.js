@@ -314,7 +314,7 @@ const Index = () => {
                     onChange={(opt) => selectStudent(opt.label, opt.value)}
                   />
                 </div>
-                {userType !== userTypes?.Consultant ? (
+                {parseInt(userType) !== userTypes?.Consultant ? (
                   <div className="col-md-3">
                     <Select
                       // styles={customStyles2}
