@@ -35,11 +35,18 @@ const StudentDeclaration = () => {
             setConscentData(res);
         })
 
-        fetch(`https://geolocation-db.com/json/`)
+        fetch(`http://gd.geobytes.com/GetCityDetails?callback=${'dhaka'}`)
         .then(res => res?.json())
         .then(data => {
-          console.log(data);
-          setAPiInfo(data)
+          console.log('exmp1',data);
+          
+        });
+
+        fetch(`https://json.geoiplookup.io/?callback=${'dhaka'}`)
+        .then(res => res?.json())
+        .then(data => {
+          console.log('exmp2',data);
+          
         });
 
     },[success])

@@ -31,9 +31,12 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
+import { userTypes } from "../../../constants/userTypeConstant";
 
 const CampusDetails = () => {
   const { id } = useParams();
+  const userType = localStorage.getItem('userType');
+
   const { addToast } = useToasts();
   const location = useLocation();
   const [campusInfo, setCampusInfo] = useState({});
@@ -610,14 +613,18 @@ const CampusDetails = () => {
     let val = e.target.checked;
 
     if (val == true) {
-      setChecked1([...checked1, ids]);
+      
+      if(!checked1?.includes(ids)){
+        setChecked1([...checked1, ids]);
+    }
     } else {
-      const index = checked1.indexOf(ids);
-      if (index > -1) {
-        checked1.splice(index, 1);
-      }
+      const newD = ids;
+            const res = checked1.filter(c => c != newD);
+            setChecked1(res);
     }
   };
+
+  console.log('checked1', checked1);
 
   // on Select All Checkbox
   const handleSelectAll = (e) => {
@@ -706,7 +713,11 @@ const CampusDetails = () => {
                     </Col>
 
                     <Col>
-                      <div className="uapp-employee-profile-Edit">
+                      {
+                        (userType == userTypes?.Student) ?
+                        null
+                        :
+                        <div className="uapp-employee-profile-Edit">
                         <div className="text-right">
                           <span onClick={redirectToCampusEdit} >
                             {" "}
@@ -714,6 +725,7 @@ const CampusDetails = () => {
                           </span>
                         </div>
                       </div>
+                      }
                     </Col>
                   </Row>
                 </div>
@@ -784,7 +796,10 @@ const CampusDetails = () => {
                               className="image"
                               style={{ width: "100%" }}
                             />
-                            <div className="middle d-flex">
+                            {
+                              (userType == userTypes?.Student) ?
+                              null:
+                              <div className="middle d-flex">
                               <Button
                                 onClick={() => handleView(gall)}
                                 className="bg-success"
@@ -799,6 +814,7 @@ const CampusDetails = () => {
                               </Button>
 
                             </div>
+                            }
                           </div>
                         ))}
 
@@ -891,7 +907,11 @@ const CampusDetails = () => {
 
                       </div>
                     </div>
-                    <div className="col-md-4">
+                    {
+                      (userType == userTypes?.Student)?
+                      null
+                      :
+                      <div className="col-md-4">
                       <div className="customCard rounded">
                         <Form className="ml-2" onSubmit={handleGalleryPost}>
                           <FormGroup
@@ -995,6 +1015,7 @@ const CampusDetails = () => {
                         </Form>
                       </div>
                     </div>
+                    }
                   </div>
                 </CardBody>
               </Card>
@@ -1032,9 +1053,14 @@ const CampusDetails = () => {
                             <th>Accept EU/UK</th>
                             <th>Accept Home</th>
                             <th>Accept International</th>
-                            <th style={{ width: "8%" }} className="text-center">
+                            {
+                              (userType == userTypes?.Student) ?
+                              null
+                              :
+                              <th style={{ width: "8%" }} className="text-center">
                               Action
                             </th>
+                            }
                           </tr>
                         </thead>
                         <tbody>
@@ -1065,7 +1091,11 @@ const CampusDetails = () => {
                                 )}
                               </td>
 
-                              <td
+                              {
+                                (userType == userTypes?.Student)?
+                                null
+                                :
+                                <td
                                 style={{ width: "8%" }}
                                 className="text-center"
                               >
@@ -1325,6 +1355,7 @@ const CampusDetails = () => {
                                   </ModalBody>
                                 </Modal>
                               </td>
+                              }
                             </tr>
                           ))}
                         </tbody>
@@ -1337,7 +1368,11 @@ const CampusDetails = () => {
             {/* subject list table  end  */}
 
             {/* Assign single subject */}
-            <div className=" info-item mt-4">
+            {
+              (userType == userTypes?.Student)? 
+              null
+              :
+              <div className=" info-item mt-4">
               <Card className="uapp-employee-search">
                 <CardBody className="search-card-body">
                   <div className="hedding-titel d-flex justify-content-between mb-4">
@@ -1562,9 +1597,13 @@ const CampusDetails = () => {
                 </CardBody>
               </Card>
             </div>
+            }
 
             {/* assign multiple subjects starts here */}
-            <div className=" info-item mt-4">
+            {
+              (userType == userTypes?.Student) ?
+              null:
+              <div className=" info-item mt-4">
               <Card className="uapp-employee-search">
                 <CardBody className="search-card-body">
                   <div className="d-flex justify-content-between">
@@ -1588,10 +1627,15 @@ const CampusDetails = () => {
                 </CardBody>
               </Card>
             </div>
+            }
             {/* assign multiple subjects ends here */}
 
             {/* subject intake starts here */}
-            <div className=" info-item mt-4">
+            {
+              (userType == userTypes?.Student) ?
+              null
+              :
+              <div className=" info-item mt-4">
               <Card className="uapp-employee-search">
                 <CardBody className="search-card-body">
                   <div className="hedding-titel d-flex justify-content-between mb-4">
@@ -1742,6 +1786,7 @@ const CampusDetails = () => {
                 </CardBody>
               </Card>
             </div>
+            }
             {/* subject intake test ends here */}
 
             <br />

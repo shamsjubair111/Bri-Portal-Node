@@ -683,19 +683,23 @@ const UniversityDetails = () => {
                       </div>
                     </Col>
 
+                   {
+                    (userType == userTypes?.Student) ? 
+                    null:
                     <Col>
-                      {/* <div className="uapp-employee-profile-Edit">
-                        <div className="text-right">
-                          <span> <i className="fas fa-pencil-alt"></i> </span>
-                        </div>
-                       </div> */}
+                    {/* <div className="uapp-employee-profile-Edit">
+                      <div className="text-right">
+                        <span> <i className="fas fa-pencil-alt"></i> </span>
+                      </div>
+                     </div> */}
 
-                      <EditDivButton
-                        className={"uapp-employee-profile-Edit"}
-                        func={() => handleProfileEdit(id)}
-                        permission={6}
-                      />
-                    </Col>
+                    <EditDivButton
+                      className={"uapp-employee-profile-Edit"}
+                      func={() => handleProfileEdit(id)}
+                      permission={6}
+                    />
+                  </Col>
+                   }
                   </Row>
                 </div>
 
@@ -798,20 +802,26 @@ const UniversityDetails = () => {
                                 className="image"
                                 style={{ width: "100%" }}
                               />
-                              <div className="middle d-flex">
+                         
+                               <div className="middle d-flex">
                                 <Button
                                   onClick={() => handleView(gall)}
                                   className="bg-success"
                                 >
                                   View
                                 </Button>
+                                {
+                              (userType == userTypes?.Student)? 
+                              null:
                                 <Button
                                   onClick={() => handleDelete(gall)}
                                   className="bg-danger ml-1"
                                 >
                                   Delete
                                 </Button>
+                              }
                               </div>
+                            
                             </div>
                           ))
                         )}
@@ -899,7 +909,11 @@ const UniversityDetails = () => {
                         {/* Gallery delete modal ends here */}
                       </div>
                     </div>
-                    <div className="col-md-4">
+                    {
+                      (userType == userTypes?.Student) ? 
+                      null
+                      :
+                      <div className="col-md-4">
                       <div className="customCard rounded">
                         <Form className="ml-2" onSubmit={handleGalleryPost}>
                           <FormGroup
@@ -1004,6 +1018,7 @@ const UniversityDetails = () => {
                         </Form>
                       </div>
                     </div>
+                    }
                   </div>
                 </CardBody>
               </Card>
@@ -1024,7 +1039,10 @@ const UniversityDetails = () => {
 
                       <div className="bg-h"></div>
                     </div>
-                    <div
+                    {
+                      (userType == userTypes?.Student) ?
+                      null:
+                      <div
                       className="text-right edit-style  p-3"
                       onClick={() => handleProfileEdit(id)}
                     >
@@ -1033,6 +1051,7 @@ const UniversityDetails = () => {
                         <i className="fas fa-pencil-alt pencil-style"></i>{" "}
                       </span>
                     </div>
+                    }
                   </div>
                   <Table className="table-bordered mt-4">
                     <tbody>
@@ -1130,13 +1149,17 @@ const UniversityDetails = () => {
                       <div className="bg-h"></div>
                     </div>
 
+                   {
+                    (userType == userTypes?.Student) ?
+                    null:
                     <ButtonForFunction
-                      func={() => setModalOpen(true)}
-                      className={"btn btn-uapp-add "}
-                      icon={<i className="fas fa-plus"></i>}
-                      name={" Add Campus"}
-                      permission={6}
-                    />
+                    func={() => setModalOpen(true)}
+                    className={"btn btn-uapp-add "}
+                    icon={<i className="fas fa-plus"></i>}
+                    name={" Add Campus"}
+                    permission={6}
+                  />
+                   }
 
                     {/* campus adding modal starts here */}
 
@@ -1618,13 +1641,18 @@ const UniversityDetails = () => {
                       <div className="bg-h"></div>
                     </div>
                     {/* <div className="text-right edit-style  p-3"> */}
+                   {
+                    (userType == userTypes?.Student) ?
+                    null
+                    :
                     <ButtonForFunction
-                      func={handleAddUniversitySubject}
-                      className={"btn btn-uapp-add "}
-                      icon={<i className="fas fa-plus"></i>}
-                      name={" Add Subject"}
-                      permission={6}
-                    />
+                    func={handleAddUniversitySubject}
+                    className={"btn btn-uapp-add "}
+                    icon={<i className="fas fa-plus"></i>}
+                    name={" Add Subject"}
+                    permission={6}
+                  />
+                   }
                     {/* </div> */}
                   </div>
                   {subList.length < 1 ? (

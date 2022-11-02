@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip } from 'reactstrap';
 import Select from 'react-select';
 import ButtonForFunction from '../Components/ButtonForFunction';
-import {  useHistory, useLocation } from 'react-router-dom';
+import {  Link, useHistory, useLocation } from 'react-router-dom';
 import get from '../../../helpers/get';
 import { rootUrl } from '../../../constants/constants';
 import Pagination from "../../SMS/Pagination/Pagination";
@@ -13,6 +13,8 @@ import { useToasts } from 'react-toast-notifications';
 import post from '../../../helpers/post';
 import { userTypes } from '../../../constants/userTypeConstant';
 import loader from '../../../assets/img/load.gif';
+import axios from 'axios';
+
 
 
 
@@ -264,7 +266,7 @@ const Search = () => {
         
       get(`ApplyFilter/Index/${page}/${dataSizeValue}/${sortValue}/${studentId}/${universityTypeValue}/${universityValue}/${campusValue}/${universityCountryValue}/${cityValue}/${studentTypeValue}/${departmentValue}/${subValue}/${programValue}/${intakeValue}/${patternValue}/${programLevelName}`)
       .then(res => {
-        console.log('Large Api Checking Response',res);
+       
         setData(res?.models);
         setEntity(res?.totalEntity);
         setLoading(false);
@@ -281,6 +283,7 @@ const Search = () => {
     const selectStudent = (label,value)=>{
       setStudentDataLabel(label);
       setStudentDataValue(value);
+    
       get(`Eligibility/StudentApplicationCount/${value}`)
       .then(res =>{
         setApplicationCount(res);
@@ -309,7 +312,7 @@ const Search = () => {
 
     const addToWishList = (data) => {
      
-       get(`wishlist/add/${studentDataValue}/${data?.subjectId}`)
+       get(`wishlist/add/${(userType == userTypes?.Student)? localStorage.getItem('referenceId'): studentDataValue}/${data?.subjectId}`)
        .then(res => {
         
         if(res == null){
@@ -347,6 +350,7 @@ const Search = () => {
     // setCallApi((prev) => !prev);
   };
 
+  
   
 
     const sortingOrder = [
@@ -434,6 +438,11 @@ const Search = () => {
 
     setModalCampusLabel(label);
     setModalCampusValue(value);
+
+    axios.get(`${rootUrl}SubjectIntake/CampusSubjectIntakes/${currentData?.subjectId}/${value}`)
+    .then(res => {
+      setModalIntake(res?.data?.result);
+    })
 
   }
 
@@ -634,7 +643,7 @@ const Search = () => {
 
     const toggleModal = (data) => {
 
-      
+   
       setModalCampus(data?.campuses);
       setModalIntake(data?.intakes);
       setModalDeliveryPattern(data?.deliveryPatterns);
@@ -642,7 +651,7 @@ const Search = () => {
       setPrimaryCampus(data?.campuses.find(s=> s.campusId == campusValue));
    
       setModal(true);
-      console.log(data);
+    
   
      }
 
@@ -733,7 +742,7 @@ const Search = () => {
           else{
     
             const subData = {
-              studentId: studentDataValue,
+              studentId: (userType == userTypes?.Student) ? localStorage.getItem('referenceId') : studentDataValue,
               universitySubjectId: currentData?.subjectId,
               inakeId: modalIntakeValue,
               deliveryPatternId: modalDeliveryPatternValue,
@@ -743,7 +752,7 @@ const Search = () => {
             setButtonStatus(true);
             post(`Apply/Submit`,subData)
             .then(res => {
-              console.log(res);
+             
               setButtonStatus(false);
               if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
@@ -788,7 +797,7 @@ const Search = () => {
         else{
   
           const subData = {
-            studentId: studentDataValue,
+            studentId: (userType == userTypes?.Student) ? localStorage.getItem('referenceId') : studentDataValue,
             universitySubjectId: currentData?.subjectId,
             inakeId: modalIntakeValue,
             deliveryPatternId: modalDeliveryPatternValue,
@@ -798,7 +807,7 @@ const Search = () => {
            setButtonStatus(true);
           post(`Apply/Submit`,subData)
           .then(res => {
-            console.log(res);
+          
             setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
@@ -839,8 +848,8 @@ const Search = () => {
 
           <Modal size='lg' isOpen={modal} toggle={closeModal} className="uapp-modal2">
 
-<ModalHeader>
-  <div className='px-3 text-center'>
+<ModalHeader style={{backgroundColor : '#1e98b0'}}>
+  <div className='px-3 text-center text-white'>
   Are You Sure You Want to Apply for This Program? 
   </div> 
 </ModalHeader>
@@ -849,24 +858,19 @@ const Search = () => {
 
 <div className='row'>
 
-<div className='col-md-5'>
+<div className='col-md-6'>
 
   <h4 className='mb-3'>{currentData?.title}</h4>
   <h6>EU Fee: {currentData?.eu_Fee}</h6>
   <h6>Home Fee: {currentData?.home_Fee}</h6>
 
-  <div className='mt-4'>
-    <span>Note: Please Provide Correct Information. </span>
-    <br/>
-    <span>You Can Have Only One Application at a Time.</span>
 
-  </div>
 
  
 
 </div>
 
-<div className='col-md-7'>
+<div className='col-md-6'>
 
 <Form className='px-3' onSubmit={submitModalForm}>
 
@@ -877,7 +881,7 @@ Campus <span className="text-danger">*</span>{" "}
 </span>
 </Col>
 
-<Col md="6">
+<Col md="9">
 
 {/* {
 (campus?.length == 1)? 
@@ -935,7 +939,7 @@ null
 Intake <span className="text-danger">*</span>{" "}
 </span>
 </Col>
-<Col md="6">
+<Col md="9">
 
 
   <Select
@@ -971,7 +975,7 @@ Intake <span className="text-danger">*</span>{" "}
 Delivery Pattern <span className="text-danger">*</span>{" "}
 </span>
 </Col>
-<Col md="6">
+<Col md="9">
 
 <Select
 
@@ -1003,12 +1007,12 @@ null
 
    <Col md="3">
    <span>
-Additional Message <span className="text-danger">*</span>{" "}
+Additional Message
 </span>
    
    </Col>
 
-   <Col md="6">
+   <Col md="9">
    <Input type="textarea" name="statement" id="statement" rows={4} onChange={(e)=> setMessage(e.target.value)} />
    
    </Col>
@@ -1017,7 +1021,7 @@ Additional Message <span className="text-danger">*</span>{" "}
 
   <FormGroup row className='has-icon-left position-relative'>
 
-   <Col md="9">
+   <Col md="12">
     
    <div className='d-flex justify-content-end'>
 
@@ -1032,7 +1036,7 @@ Close
 <div>
 
 {
-(studentDataValue !==0 && applicationCount < 3) ?
+((studentDataValue !==0 || userType == userTypes?.Student) && applicationCount < 3) ?
 
 <div className=''>
 <Button color='primary' className='ml-1' type='submit'>Submit</Button> 
@@ -1072,6 +1076,13 @@ null
 
 </div>
 
+  <div style={{color: '#bb4509', fontWeight: '500'}}>
+    <span>Note: Please Provide Correct Information. </span>
+    <br/>
+    <span>You Can Have Only One Application at a Time.</span>
+
+  </div>
+
 
 </ModalBody>
 
@@ -1085,15 +1096,22 @@ null
 <div className='row'>
 
 <div className='col-md-3 mb-5'>
-<Card className='pb-2'>
+
+
+
+{
+  (userType == userTypes?.Student) ?
+
+  null
+  :
+
+  <Card className='pb-2'>
 <CardBody>
 
 <div className='mb-2'>
 <span className="search-card-title-1" >Applying For:</span>
 </div>
-
-
-
+  
 <Select 
 styles={customStyles2}
 options={studentOptions}
@@ -1108,6 +1126,12 @@ id="providerTypeId"
 </CardBody>
 
 </Card>
+
+}
+
+
+
+
 
 <Card className='pb-2'>
 <CardBody>
@@ -1516,7 +1540,7 @@ alt='logo-img'
 
 <div className='col-md-8'>
 <div className=''>
-<span className='university-title-style'>{info?.name}</span>
+<Link to={`/universityDetails/${info?.universityId}`}><span className='university-title-style'>{info?.name}</span></Link>
 <br/>
 <span className='span-style-search'><i className="fas fa-location-dot"></i>{' '}{info?.address}</span>
 </div>
@@ -1560,7 +1584,7 @@ info?.subjects?.length <1 ?
 
 <div className='col-md-12 border-left-style-searchPage'>
 
-<span className='course-name-style'>{subjectInfo?.title}</span>
+<Link to={`/subjectProfile/${subjectInfo?.subjectId}`}><span className='course-name-style'>{subjectInfo?.title}</span></Link>
 <br/>
 
 
@@ -1577,16 +1601,35 @@ info?.subjects?.length <1 ?
 </div>
 
 <div className='col-md-2'>
+{
+  (userType == userTypes?.Student) ?
+
+
+  <CustomLinkButton
+ url={`/subjectProfile/${subjectInfo?.subjectId}`}
+ target={'_blank'}
+
+
+className='button2-style-search mr-2  '
+icon={<i className="fas fa-eye"></i>}
+
+
+/>
+
+:
+
 <CustomLinkButton
  url={`/subjectProfile/${subjectInfo?.subjectId}`}
  target={'_blank'}
 
 
-className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
+className='button2-style-search me-1 w-75  '
 icon={<i className="fas fa-eye"></i>}
 
-permission={6}
+
 />
+
+}
 
 {
   (userType == userTypes?.Student) ?
@@ -1596,7 +1639,7 @@ permission={6}
   func={()=>addToWishList(subjectInfo)}
  
   icon={<i class="fas fa-heart-circle-check"></i>}
-  className={'button2-style-search ms-1'}
+  className='button2-style-search ml-2'
   permission={6}
   />
   :
@@ -1715,7 +1758,7 @@ permission={6}
 
 <div className='col-md-12 border-left-style-searchPage'>
 
-<span className='course-name-style'>{subjectInfo?.title}</span>
+<Link to={`/subjectProfile/${subjectInfo?.subjectId}`}><span className='course-name-style'>{subjectInfo?.title}</span></Link>
 <br/>
 
 

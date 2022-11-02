@@ -7,6 +7,7 @@ import { rootUrl } from '../../../constants/constants';
 import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
 import EditDivButton from '../Components/EditDivButton';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import { userTypes } from '../../../constants/userTypeConstant';
 
 const SubjectProfile = () => {
 
@@ -21,6 +22,7 @@ const SubjectProfile = () => {
     const location = useLocation();
     const history = useHistory();
     const {subjId} = useParams();
+    const userType = localStorage.getItem('userType');
 
    
 
@@ -157,13 +159,19 @@ const SubjectProfile = () => {
                         </div>  
                       </Col>
 
-                     <Col> 
+                    {
+                      (userType == userTypes?.Student) ?
+                      null
+                      :
+                      <Col> 
                       <EditDivButton
                         func={handleProfileEdit}
                         className={"uapp-employee-profile-Edit"}
                         permission={6}
                       />
                       </Col> 
+
+                    }
                     </Row>            
                    </div>     
 
