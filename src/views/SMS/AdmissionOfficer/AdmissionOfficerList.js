@@ -158,6 +158,7 @@ const AdmissionOfficerList = () => {
     get(
       `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&admissionmanagerId=${managerValue}&search=${searchStr}`
     ).then((res) => {
+      // console.log('Response', res);
       setOfficerList(res?.models);
       setEntity(res?.totalEntity);
       setSerialNum(res?.firstSerialNumber);
@@ -392,6 +393,14 @@ const AdmissionOfficerList = () => {
         }
       }
     );
+  };
+
+
+  const redirectToAssignPage = (providerId, managerId) => {
+    history.push({
+      pathname: `/assignOfficerUniversity/${providerId}/${managerId}`,
+      managerList: "managerList",
+    });
   };
 
   // on Close Modal
@@ -1285,6 +1294,7 @@ const AdmissionOfficerList = () => {
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone No</th> : null}
                     {checkCountry ? <th>Country</th> : null}
+                    <th>Assigned University</th>
                     {checkSts ? <th>Account Status</th> : null}
                     {/* <th>Assigned Admission Officer</th> */}
                     {checkAction ? (
@@ -1318,6 +1328,25 @@ const AdmissionOfficerList = () => {
                           {officer?.country?.name} ({officer?.state?.name})
                         </td>
                       ) : null}
+                       <td>
+                          {" "}
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span
+                              onClick={() =>
+                                redirectToAssignPage(
+                                  officer?.provider?.id,
+                                  officer?.id
+                                )
+                              }
+                              className="text-decoration-none"
+                            >
+                              View
+                            </span>
+                          </span>{" "}
+                        </td>
 
                       {checkSts ? (
                         <td>

@@ -397,6 +397,11 @@ const selectNameTitle = (label, value) => {
     });
   }
 
+  const gotoAssignUniversity = (data) => {
+    
+    history.push(`/assignOfficerUniversity/${data?.providerId}/${data?.id}`)
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -1035,6 +1040,7 @@ const selectNameTitle = (label, value) => {
                          <th>Founded</th>
                          <th>Global Ranking</th>
                          <th>Part Time Work Information</th> */}
+                      <th>Assign University</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -1055,6 +1061,14 @@ const selectNameTitle = (label, value) => {
                         <td>{officer?.phoneNumber}</td>
 
                         <td>{officer?.countryName} ({officer?.stateName})</td>
+
+                   
+
+                        <td>
+                          <Button color="primary" onClick={()=>gotoAssignUniversity(officer)}>
+                               View
+                          </Button>
+                        </td>
 
                         <td>
                           <ButtonGroup variant="text">

@@ -735,6 +735,17 @@ const AssignUniversity = () => {
                               </ModalBody>
 
                               <ModalFooter>
+
+                              <Button
+                                  disabled={buttonStatus1}
+                                  color="danger"
+                                  onClick={() =>
+                                    handleDeletePermission(managerUniId)
+                                  }
+                                >
+                                  YES
+                                </Button>
+                                
                                 <Button
                                   // color="primary"
                                   onClick={() => {
@@ -746,15 +757,7 @@ const AssignUniversity = () => {
                                   NO
                                 </Button>
 
-                                <Button
-                                  disabled={buttonStatus1}
-                                  color="danger"
-                                  onClick={() =>
-                                    handleDeletePermission(managerUniId)
-                                  }
-                                >
-                                  YES
-                                </Button>
+                                
                               </ModalFooter>
                             </Modal>
                           </ButtonGroup>
