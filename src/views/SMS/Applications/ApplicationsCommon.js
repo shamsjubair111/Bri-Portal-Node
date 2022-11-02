@@ -110,6 +110,7 @@ const ApplicationsCommon = () => {
 
   // for hide/unhide column
   const [checkId, setCheckId] = useState(true);
+  const [checkAppId, setCheckAppId] = useState(true);
   const [checkApplic, setCheckApplic] = useState(true);
   const [checkContact, setCheckContact] = useState(true);
   const [checkUni, setCheckUni] = useState(true);
@@ -338,54 +339,61 @@ const ApplicationsCommon = () => {
 
     // for list
 
-      const uniId =
-        commonUniValue !== 0
-          ? commonUniValue
-          : typeof location.universityIdFromUniList !== undefined ||
-            location.universityIdFromUniList !== null
-          ? location.universityIdFromUniList
-          : 0;
+    const uniId =
+      commonUniValue !== 0
+        ? commonUniValue
+        : typeof location.universityIdFromUniList !== undefined ||
+          location.universityIdFromUniList !== null
+        ? location.universityIdFromUniList
+        : 0;
 
-      setUniId(parseInt(uniId));
+    setUniId(parseInt(uniId));
 
-      if (uniId !== 0) {
-        var uni = commonUniDD?.find((s) => s.id === uniId);
+    if (uniId !== 0) {
+      var uni = commonUniDD?.find((s) => s.id === uniId);
 
-        if (uni === undefined) {
-          setCommonUniLabel("University Name");
-        } else {
-          setCommonUniLabel(uni?.name);
-          setCommonUniValue(uniId);
-        }
+      if (uni === undefined) {
+        setCommonUniLabel("University Name");
+      } else {
+        setCommonUniLabel(uni?.name);
+        setCommonUniValue(uniId);
       }
+    }
 
-      const consId =
-        consultantValue !== 0
-          ? consultantValue
-          : typeof location.consultantIdFromConsultantList !== undefined ||
-            location.consultantIdFromConsultantList !== null
-          ? location.consultantIdFromConsultantList
-          : 0;
+    const consId =
+      consultantValue !== 0
+        ? consultantValue
+        : typeof location.consultantIdFromConsultantList !== undefined ||
+          location.consultantIdFromConsultantList !== null
+        ? location.consultantIdFromConsultantList
+        : 0;
 
-          setConsId(parseInt(consId));
+    setConsId(parseInt(consId));
 
-      if (parseInt(consId) !== 0) {
-        var consultant = commonConsultantDD?.find((s) => s.id === parseInt(consId));
+    if (parseInt(consId) !== 0) {
+      var consultant = commonConsultantDD?.find(
+        (s) => s.id === parseInt(consId)
+      );
 
-        if (consultant === undefined) {
-          // setConsultantLabel("Consultant");
-        } else {
-          setConsultantLabel(consultant?.name);
-          setConsultantValue(consId);
-        }
+      if (consultant === undefined) {
+        // setConsultantLabel("Consultant");
+      } else {
+        setConsultantLabel(consultant?.name);
+        setConsultantValue(consId);
       }
+    }
 
     //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
     get(
-      `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consId ? consId : consultantValue}&universityId=${uniId ? uniId : commonUniValue}&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
+        consId ? consId : consultantValue
+      }&universityId=${
+        uniId ? uniId : commonUniValue
+      }&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
     ).then((res) => {
       setLoading(false);
       setApplicationList(res?.models);
+      console.log("commonApp", res?.models);
       setEntity(res?.totalEntity);
       // setSerialNumber(res?.firstSerialNumber);
     });
@@ -496,6 +504,9 @@ const ApplicationsCommon = () => {
   const handleCheckedId = (e) => {
     setCheckId(e.target.checked);
   };
+  const handleCheckedAppId = (e) => {
+    setCheckAppId(e.target.checked);
+  };
   const handleCheckedApplic = (e) => {
     setCheckApplic(e.target.checked);
   };
@@ -558,7 +569,7 @@ const ApplicationsCommon = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Applications</h3>
           <div className="page-header-back-to-home">
-          <span onClick={backToDashboard} className="text-white">
+            <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {location.universityIdFromUniList != undefined
@@ -604,7 +615,9 @@ const ApplicationsCommon = () => {
                 placeholder="Consultant"
                 name="name"
                 id="id"
-                isDisabled={location.consultantIdFromConsultantList ? true : false}
+                isDisabled={
+                  location.consultantIdFromConsultantList ? true : false
+                }
               />
             </Col>
 
@@ -849,6 +862,27 @@ const ApplicationsCommon = () => {
                                 handleCheckedId(e);
                               }}
                               defaultChecked={checkId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">App Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedAppId(e);
+                              }}
+                              defaultChecked={checkAppId}
                             />
                           </FormGroup>
                         </Col>
@@ -1165,6 +1199,9 @@ const ApplicationsCommon = () => {
                     {checkId ? (
                       <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
                     ) : null}
+                    {checkAppId ? (
+                      <th style={{ verticalAlign: "middle" }}>App Id</th>
+                    ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>
                     ) : null}
@@ -1228,6 +1265,10 @@ const ApplicationsCommon = () => {
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.uappId}
                         </td>
+                      ) : null}
+
+                      {checkAppId ? (
+                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
                       ) : null}
 
                       {checkApplic ? (

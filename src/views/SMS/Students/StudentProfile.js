@@ -88,7 +88,7 @@ const StudentProfile = () => {
         var bDate = localeDte?.split(",");
         setDate(bDate[0]);
        })
-    },[])
+    },[sId, success])
 
     const backToStudentList = () =>{
         history.push('/studentList');

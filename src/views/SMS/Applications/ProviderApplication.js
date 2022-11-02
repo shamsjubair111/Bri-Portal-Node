@@ -111,6 +111,7 @@ const ProviderApplication = ({ currentUser }) => {
 
   // for hide/unhide column
   const [checkId, setCheckId] = useState(true);
+  const [checkAppId, setCheckAppId] = useState(true);
   const [checkApplic, setCheckApplic] = useState(true);
   const [checkContact, setCheckContact] = useState(true);
   const [checkUni, setCheckUni] = useState(true);
@@ -518,6 +519,9 @@ const ProviderApplication = ({ currentUser }) => {
   const handleCheckedId = (e) => {
     setCheckId(e.target.checked);
   };
+  const handleCheckedAppId = (e) => {
+    setCheckAppId(e.target.checked);
+  };
   const handleCheckedApplic = (e) => {
     setCheckApplic(e.target.checked);
   };
@@ -873,6 +877,27 @@ const ProviderApplication = ({ currentUser }) => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
+                          <p className="">App Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedAppId(e);
+                              }}
+                              defaultChecked={checkAppId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
                           <p className="">Applicant</p>
                         </Col>
 
@@ -1182,6 +1207,9 @@ const ProviderApplication = ({ currentUser }) => {
                     {checkId ? (
                       <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
                     ) : null}
+                    {checkAppId ? (
+                      <th style={{ verticalAlign: "middle" }}>App Id</th>
+                    ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>
                     ) : null}
@@ -1245,6 +1273,10 @@ const ProviderApplication = ({ currentUser }) => {
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.uappId}
                         </td>
+                      ) : null}
+
+                      {checkAppId ? (
+                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
                       ) : null}
 
                       {checkApplic ? (
