@@ -16,6 +16,7 @@ import ComplianceManager from "../../SMS/Dashboard/Pages/ComplianceManager/Index
 import ProviderAdmin from "../../SMS/Dashboard/Pages/ProviderAdmin/Index";
 import AdmissionOfficer from "../../SMS/Dashboard/Pages/AdmissionOfficer/Index";
 import NewDashboard from "../../SMS/Dashboard/Pages/NewDashboard/NewDashboard";
+import StudentDashboard from "../../SMS/Dashboard/Pages/StudentNew/StudentDashboard";
 
 
 const AnalyticsDashboard = () => {
@@ -59,7 +60,8 @@ const AnalyticsDashboard = () => {
 
     {
       currentUser.userTypeId == userTypes?.Student && 
-      <Student/>
+      // <Student/>
+      <StudentDashboard />
       // <NewDashboard />
       }
 
