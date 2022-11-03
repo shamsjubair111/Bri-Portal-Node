@@ -361,9 +361,10 @@ const StudentDashboard = () => {
                   <br />
                 </div>
 
-                <div className="ml-2 mt-2 d-sm-flex justify-content-between">
+                <div className="ml-2 mt-2 d-sm-flex">
                   
                     <div
+                      className="mr-3"
                       style={{
                         fontSize: "12px",
                         marginTop: "20px",
@@ -376,7 +377,7 @@ const StudentDashboard = () => {
                       <span style={{color: "rgb(30, 152, 176)"}}><span><i class="fas fa-envelope-open-text"></i>{" "}</span>consultant@uapp.uk</span>
                     </div>
 
-                    <div
+                    {/* <div
                       style={{
                         fontSize: "14px",
                         textAlign: "center",
@@ -388,7 +389,20 @@ const StudentDashboard = () => {
                       }}
                     >
                         <span><b>Become Consultant</b></span>
-                    </div>
+                    </div> */}
+
+                    <Button
+                      color="rgb(30, 152, 176)" 
+                      style={{
+                        fontSize: "14px",
+                        textAlign: "center",
+                        marginTop: "20px",
+                        backgroundColor: "rgb(30, 152, 176)",
+                        // border: "1px solid rgb(30, 152, 176)",
+                        borderRadius: "47px",
+                        padding: "5px"
+                      }}
+                    ><b>Become Consultant</b></Button>
                   
                 </div>
               </div>
