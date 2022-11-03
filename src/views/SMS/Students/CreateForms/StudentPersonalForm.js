@@ -31,6 +31,7 @@ import { rootUrl } from "../../../../constants/constants";
 
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import { SelectUnstyledContext } from "@mui/base";
+import { userTypes } from "../../../../constants/userTypeConstant";
 
 const StudentPersonalForm = () => {
 
@@ -52,17 +53,16 @@ const StudentPersonalForm = () => {
   const [activetab, setActivetab] = useState("2");
 
   const [title, setTitle] = useState([]);
-  const [titleLabel, setTitleLabel] = useState("Select Title");
+  
   const [titleValue, setTitleValue] = useState(0);
   const [country, setCountry] = useState([]);
   const [countryLabel, setCountryLabel] = useState("Select Country");
   const [countryValue, setCountryValue] = useState(0);
   const [gender, setGender] = useState([]);
-  const [genderLabel, setGenderLabel] = useState("Select Gender");
+  
   const [genderValue, setGenderValue] = useState(0);
   const [maritalStatus, setMaritalStatus] = useState([]);
-  const [maritalStatusLabel, setMaritalStatusLabel] =
-    useState("Select Marital status");
+  
   const [maritalStatusValue, setMaritalStatusValue] = useState(0);
   const [nationality, setNationality] = useState([]);
   const [nationalityLabel, setNationalityLabel] = useState("Select Nationality");
@@ -97,6 +97,11 @@ const StudentPersonalForm = () => {
   const [buttonStatus,setButtonStatus] = useState(false);
   const [text,setText] = useState('');
   const [error,setError] = useState('');
+
+  // fetching userType from localStorage
+
+   const userType = localStorage.getItem('userType');
+  // 
 
   useEffect(() => {
     get("NameTittleDD/index").then((res) => {
@@ -203,17 +208,9 @@ const StudentPersonalForm = () => {
   // Trial End
 
   
-  const nameTitle = title?.map((singleTitle) => ({
-    label: singleTitle.name,
-    value: singleTitle.id,
-  }));
+  
 
-  // select  Title
-  const selectTitle = (label, value) => {
-    setTitleError(false);
-    setTitleLabel(label);
-    setTitleValue(value);
-  };
+ 
 
   const countryName = country?.map((branchCountry) => ({
     label: branchCountry.name,
@@ -227,29 +224,12 @@ const StudentPersonalForm = () => {
     setCountryValue(value);
   };
 
-  const genderName = gender?.map((branchCountry) => ({
-    label: branchCountry.name,
-    value: branchCountry.id,
-  }));
+  
 
-  // select  Gender
-  const selectGender = (label, value) => {
-    setGenderError(false);
-    setGenderLabel(label);
-    setGenderValue(value);
-  };
 
-  const maritalStatusName = maritalStatus?.map((branchCountry) => ({
-    label: branchCountry.name,
-    value: branchCountry.id,
-  }));
 
-  // select  Marital Status
-  const selectMaritalStatus = (label, value) => {
-    setMaritalStatusError(false);
-    setMaritalStatusLabel(label);
-    setMaritalStatusValue(value);
-  };
+
+
 
   const nationalityName = nationality?.map((cons) => ({
     label: cons.name,
@@ -395,7 +375,10 @@ const StudentPersonalForm = () => {
                     value={localStorage.getItem("registerUserId")}
                   /> */}
   
-                  <FormGroup row className="has-icon-left position-relative">
+                  {
+                    (userType == userTypes?.SystemAdmin || userType == userTypes?.Admin || userType == userTypes?.ComplianceManager) ?
+
+                    <FormGroup row className="has-icon-left position-relative">
                     <Col md="2">
                       <span>
                         Consultant <span className="text-danger">*</span>{" "}
@@ -414,6 +397,18 @@ const StudentPersonalForm = () => {
                     
                     </Col>
                   </FormGroup>
+
+                  :
+
+                  <input
+                  type='hidden'
+                  name='consultantId'
+                  id='consultantId'
+                  value={consultantValue}
+                  />
+                  
+                    
+                  }
   
                   <FormGroup row className="has-icon-left position-relative">
                     <Col md="2">
@@ -422,14 +417,35 @@ const StudentPersonalForm = () => {
                       </span>
                     </Col>
                     <Col md="6">
-                      <Select
+                      {/* <Select
                         options={nameTitle}
                         value={{ label: titleLabel, value: titleValue }}
                         onChange={(opt) => selectTitle(opt.label, opt.value)}
                         name="nameTittleId"
                         id="nameTittleId"
                         required
-                      />
+                      /> */}
+
+                      {
+                        title?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="nameTittleId"
+                          id='nameTittleId'
+                          value={tt?.id}
+                          onClick={()=>setTitleValue(tt?.id)}
+                          
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
+
                       {titleError && (
                         <span className="text-danger">Title is required</span>
                       )}
@@ -508,7 +524,7 @@ const StudentPersonalForm = () => {
                     </Col>
                     <Col md="6">
                       <Input
-                        type="number"
+                        type="text"
                         name="phoneNumber"
                         id="phoneNumber"
                         placeholder="Enter Phone Number"
@@ -574,14 +590,33 @@ const StudentPersonalForm = () => {
                       </span>
                     </Col>
                     <Col md="6">
-                      <Select
+                      {/* <Select
                         options={genderName}
                         value={{ label: genderLabel, value: genderValue }}
                         onChange={(opt) => selectGender(opt.label, opt.value)}
                         name="genderId"
                         id="genderId"
                         required
-                      />
+                      /> */}
+                       {
+                        gender?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="genderId"
+                          id='genderId'
+                          value={tt?.id}
+                          onClick={()=>setGenderValue(tt?.id)}
+                          
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
   
                       {genderError && (
                         <span className="text-danger">Gender is required</span>
@@ -598,7 +633,7 @@ const StudentPersonalForm = () => {
                       </span>
                     </Col>
                     <Col md="6">
-                      <Select
+                      {/* <Select
                         options={maritalStatusName}
                         value={{
                           label: maritalStatusLabel,
@@ -610,7 +645,26 @@ const StudentPersonalForm = () => {
                         name="maritalStatusId"
                         id="maritalStatusId"
                         required
-                      />
+                      /> */}
+
+{
+                        maritalStatus?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="maritalStatusId"
+                          id='maritalStatusId'
+                          value={tt?.id}
+                          onClick={()=>setMaritalStatusValue(tt?.id)}
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
   
                       {maritalStatusError && (
                         <span className="text-danger">Marital status is required</span>

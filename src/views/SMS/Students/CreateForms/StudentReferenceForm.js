@@ -23,7 +23,7 @@ const StudentReferenceForm = () => {
       const [countryValue, setCountryValue] = useState(0);
 
     const [reference,setReference] = useState([]);
-    const [referenceLabel, setReferenceLabel] = useState("Select Reference type");
+  
       const [referenceValue, setReferenceValue] = useState(0);
       const [refList, setRefList] = useState([]);
       const [showForm, setShowForm] = useState(false);
@@ -73,22 +73,7 @@ const StudentReferenceForm = () => {
   }
 
 
-      const referenceName = reference?.map((ref) => ({
-        label: ref.name,
-        value: ref.id,
-      }));
-
-
-           // select  reference
-  const selectReference = (label, value) => {
-
-    setReferenceError(false);
-    setReferenceLabel(label);
-    setReferenceValue(value);
     
-   
-   
-  }
 
 
 
@@ -170,7 +155,7 @@ const StudentReferenceForm = () => {
           </span>
         </Col>
         <Col md="6">
-          <Select
+          {/* <Select
             options={referenceName}
             value={{ label: referenceLabel, value: referenceValue }}
             onChange={(opt) => selectReference(opt.label, opt.value)}
@@ -179,7 +164,28 @@ const StudentReferenceForm = () => {
 
 
 
-          />
+          /> */}
+
+{
+                        reference?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="referenceTypeId"
+                          id='referenceTypeId'
+                          value={tt?.id}
+                          onClick={()=>setReferenceValue(tt?.id)}
+                          
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
+
           {
             referenceError && 
             <span className='text-danger'>Reference type is required</span>

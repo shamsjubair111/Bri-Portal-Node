@@ -99,6 +99,26 @@ const StudentExperience = () => {
             value={id}
             />
 
+        <FormGroup row className="has-icon-left position-relative">
+          <Col md="2">
+            <span>
+              Company Name <span className="text-danger">*</span>{" "}
+            </span>
+          </Col>
+          <Col md="6">
+           <Input
+              type="text"
+              name="companyName"
+              id="companyName"
+              placeholder="Enter Company Name"
+              required
+            
+            />
+
+       
+          </Col>
+        </FormGroup>
+
          
           <FormGroup row className="has-icon-left position-relative">
           <Col md="2">
@@ -128,11 +148,12 @@ const StudentExperience = () => {
           </Col>
           <Col md="6">
            <Input
-              type="text"
+              type="textarea"
               name="employeementDetails"
               id="employeementDetails"
               placeholder="Enter Employment Details"
               required
+              row={4}
              
             />
 
@@ -140,25 +161,7 @@ const StudentExperience = () => {
           </Col>
         </FormGroup>
 
-          <FormGroup row className="has-icon-left position-relative">
-          <Col md="2">
-            <span>
-              Company Name <span className="text-danger">*</span>{" "}
-            </span>
-          </Col>
-          <Col md="6">
-           <Input
-              type="text"
-              name="companyName"
-              id="companyName"
-              placeholder="Enter Company Name"
-              required
-            
-            />
-
-       
-          </Col>
-        </FormGroup>
+        
 
           <FormGroup row className="has-icon-left position-relative">
           <Col md="2">

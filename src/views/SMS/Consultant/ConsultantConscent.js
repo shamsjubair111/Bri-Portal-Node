@@ -333,7 +333,7 @@ const Conscent = () => {
                 <div className="mb-1 ms-3 right">
                   
                  
-                       <span className="text-info"> Email is sent with credentails </span>
+                       <span className="text-info"> Email is sent with credentials </span>
                        <Button color="primary"
                    onClick={sendEmail}
                    disabled={buttonStatus}

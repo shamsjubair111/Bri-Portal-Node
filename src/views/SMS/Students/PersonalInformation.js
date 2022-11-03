@@ -30,6 +30,7 @@ import { rootUrl } from "../../../constants/constants";
 import { useDispatch } from "react-redux";
 import { StoreStudentProfileImageData } from "../../../redux/actions/SMS/Students/StudentProfileImageAction";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import { userTypes } from "../../../constants/userTypeConstant";
 
 const PersonalInformation = () => {
   
@@ -54,17 +55,15 @@ const PersonalInformation = () => {
   const [activetab, setActivetab] = useState("2");
 
   const [title, setTitle] = useState([]);
-  const [titleLabel, setTitleLabel] = useState("Select Title");
   const [titleValue, setTitleValue] = useState(0);
   const [country, setCountry] = useState([]);
   const [countryLabel, setCountryLabel] = useState("Select Country");
   const [countryValue, setCountryValue] = useState(0);
   const [gender, setGender] = useState([]);
-  const [genderLabel, setGenderLabel] = useState("Select Gender");
+  
   const [genderValue, setGenderValue] = useState(0);
   const [maritalStatus, setMaritalStatus] = useState([]);
-  const [maritalStatusLabel, setMaritalStatusLabel] =
-    useState("Select Marital status");
+
   const [maritalStatusValue, setMaritalStatusValue] = useState(0);
   const [nationality, setNationality] = useState([]);
   const [nationalityLabel, setNationalityLabel] = useState("Select Nationality");
@@ -98,6 +97,8 @@ const PersonalInformation = () => {
   const [imgError, setImgError] = useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
   const [error,setError] = useState(false);
+
+  const userType = localStorage.getItem('userType');
 
   // const dispatch = useDispatch();
 
@@ -158,24 +159,14 @@ const PersonalInformation = () => {
           setFirstName(res?.firstName);
           setLastName(res?.lastName);
           setEmail(res?.email);
-          setTitleLabel(
-            res?.nameTittle?.name == null
-              ? "Select Title"
-              : res?.nameTittle?.name
-          );
+         
           setTitleValue(res?.nameTittle?.id == null ? 0 : res?.nameTittle?.id);
 
           setNumber(res?.phoneNumber);
           setPassport(res?.passportNumber);
-          setGenderLabel(
-            res?.gender?.name == null ? "Select Gender" : res?.gender?.name
-          );
+       
           setGenderValue(res?.gender?.id == null ? 0 : res?.gender?.id);
-          setMaritalStatusLabel(
-            res?.maritalStatus?.name == null
-              ? "Select Marital Status"
-              : res?.maritalStatus?.name
-          );
+         
           setMaritalStatusValue(
             res?.maritalStatus?.id == null ? 0 : res?.maritalStatus?.id
           );
@@ -316,12 +307,7 @@ const PersonalInformation = () => {
     value: singleTitle.id,
   }));
 
-  // select  Title
-  const selectTitle = (label, value) => {
-    setTitleError(false);
-    setTitleLabel(label);
-    setTitleValue(value);
-  };
+
 
   const countryName = country?.map((branchCountry) => ({
     label: branchCountry.name,
@@ -340,24 +326,8 @@ const PersonalInformation = () => {
     value: branchCountry.id,
   }));
 
-  // select  Gender
-  const selectGender = (label, value) => {
-    setGenderError(false);
-    setGenderLabel(label);
-    setGenderValue(value);
-  };
+ 
 
-  const maritalStatusName = maritalStatus?.map((branchCountry) => ({
-    label: branchCountry.name,
-    value: branchCountry.id,
-  }));
-
-  // select  Marital Status
-  const selectMaritalStatus = (label, value) => {
-    setMaritalStatusError(false);
-    setMaritalStatusLabel(label);
-    setMaritalStatusValue(value);
-  };
 
   const nationalityName = nationality?.map((cons) => ({
     label: cons.name,
@@ -632,25 +602,40 @@ const PersonalInformation = () => {
                   value={localStorage.getItem("registerUserId")}
                 /> */}
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Consultant <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={consultantName}
-                      value={{ label: consultantLabel, value: consultantValue }}
-                      onChange={(opt) => selectConsultant(opt.label, opt.value)}
-                      name="consultantId"
-                      id="consultantId"
-                      required
-                    />
+{
+                    (userType == userTypes?.SystemAdmin || userType == userTypes?.Admin || userType == userTypes?.ComplianceManager) ?
 
+                    <FormGroup row className="has-icon-left position-relative">
+                    <Col md="2">
+                      <span>
+                        Consultant <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="6">
+                      <Select
+                        options={consultantName}
+                        value={{ label: consultantLabel, value: consultantValue }}
+                        onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                        name="consultantId"
+                        id="consultantId"
+                        required
+                      />
+  
+                    
+                    </Col>
+                  </FormGroup>
+
+                  :
+
+                  <input
+                  type='hidden'
+                  name='consultantId'
+                  id='consultantId'
+                  value={consultantValue}
+                  />
                   
-                  </Col>
-                </FormGroup>
+                    
+                  }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -659,14 +644,35 @@ const PersonalInformation = () => {
                     </span>
                   </Col>
                   <Col md="6">
-                    <Select
+                    {/* <Select
                       options={nameTitle}
                       value={{ label: titleLabel, value: titleValue }}
                       onChange={(opt) => selectTitle(opt.label, opt.value)}
                       name="nameTittleId"
                       id="nameTittleId"
                       required
-                    />
+                    /> */}
+
+{
+                        title?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="nameTittleId"
+                          id='nameTittleId'
+                          value={tt?.id}
+                          onClick={()=>setTitleValue(tt?.id)}
+                          checked={(titleValue == tt?.id) ? true : false }
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
+                      
                     {titleError && (
                       <span className="text-danger">Title is required</span>
                     )}
@@ -809,15 +815,33 @@ const PersonalInformation = () => {
                     </span>
                   </Col>
                   <Col md="6">
-                    <Select
+                    {/* <Select
                       options={genderName}
                       value={{ label: genderLabel, value: genderValue }}
                       onChange={(opt) => selectGender(opt.label, opt.value)}
                       name="genderId"
                       id="genderId"
                       required
-                    />
+                    /> */}
+                    {
+                        gender?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="genderId"
+                          id='genderId'
+                          value={tt?.id}
+                          onClick={()=>setGenderValue(tt?.id)}
+                          checked={(genderValue == tt?.id) ? true  : false}
+                          />
 
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
                     {genderError && (
                       <span className="text-danger">Gender is required</span>
                     )}
@@ -833,7 +857,7 @@ const PersonalInformation = () => {
                     </span>
                   </Col>
                   <Col md="6">
-                    <Select
+                    {/* <Select
                       options={maritalStatusName}
                       value={{
                         label: maritalStatusLabel,
@@ -845,7 +869,27 @@ const PersonalInformation = () => {
                       name="maritalStatusId"
                       id="maritalStatusId"
                       required
-                    />
+                    /> */}
+
+                      {
+                        maritalStatus?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="maritalStatusId"
+                          id='maritalStatusId'
+                          value={tt?.id}
+                          onClick={()=>setMaritalStatusValue(tt?.id)}
+                          checked={(maritalStatusValue == tt?.id)? true : false}
+                          />
+                            
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
 
                     {maritalStatusError && (
                       <span className="text-danger">Marital status is required</span>

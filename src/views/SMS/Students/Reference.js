@@ -24,7 +24,7 @@ const Reference = () => {
       const [countryValue, setCountryValue] = useState(0);
 
     const [reference,setReference] = useState([]);
-    const [referenceLabel, setReferenceLabel] = useState("Select Reference type");
+    
       const [referenceValue, setReferenceValue] = useState(0);
       const [refList, setRefList] = useState([]);
       const [showForm, setShowForm] = useState(false);
@@ -133,24 +133,7 @@ const Reference = () => {
   }
 
 
-      const referenceName = reference?.map((ref) => ({
-        label: ref.name,
-        value: ref.id,
-      }));
-
-
-           // select  reference
-  const selectReference = (label, value) => {
-
-    setReferenceError(false);
-    setReferenceLabel(label);
-    setReferenceValue(value);
-    
-   
-   
-  }
-
-      
+  
   const toggleDanger = (id) => {
     setDelData(id);
     
@@ -193,7 +176,7 @@ const Reference = () => {
     setOneData(res);
     setCountryLabel(res?.country?.name);
     setCountryValue(res?.country?.id);
-    setReferenceLabel(res?.referenceType?.name);
+  
     setReferenceValue(res?.referenceType?.id);
    })
  
@@ -258,7 +241,7 @@ const onShow=()=>{
           .then(res => {
               console.log(res);
               setRefList(res);
-              setReferenceLabel('Select Reference Type');
+             
               setReferenceValue(0);
               setCountryLabel('Select Country');
               setCountryValue(0);
@@ -284,7 +267,7 @@ const onShow=()=>{
           .then(res => {
               console.log(res);
               setRefList(res);
-              setReferenceLabel('Select Reference Type');
+          
               setReferenceValue(0);
               setCountryLabel('Select Country');
               setCountryValue(0);
@@ -526,7 +509,7 @@ const onShow=()=>{
           </span>
         </Col>
         <Col md="6">
-          <Select
+          {/* <Select
             options={referenceName}
             value={{ label: referenceLabel, value: referenceValue }}
             onChange={(opt) => selectReference(opt.label, opt.value)}
@@ -535,7 +518,28 @@ const onShow=()=>{
 
 
 
-          />
+          /> */}
+
+              {
+                        reference?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="referenceTypeId"
+                          id='referenceTypeId'
+                          value={tt?.id}
+                          onClick={()=>setReferenceValue(tt?.id)}
+                          checked={(referenceValue == tt?.id)? true : false}
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
+
           {
             referenceError && 
             <span className='text-danger'>Reference type is required</span>

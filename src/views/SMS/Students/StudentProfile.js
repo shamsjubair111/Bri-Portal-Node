@@ -25,6 +25,7 @@ import { Image } from 'antd';
 import { Upload } from "antd";
 import * as Icon from "react-feather";
 
+
 const StudentProfile = () => {
 
     const userType = localStorage.getItem('userType');
@@ -61,18 +62,31 @@ const StudentProfile = () => {
     const {sId} = useParams();
     const [apiInfo,setAPiInfo] = useState('');
 
-    console.log("userType", parseInt(localStorage.getItem("userType")));
+    // English Course Names
+
+    const [ielts, setIelts] = useState({});
+    const [duolingo, setDuolingo] = useState({});
+    const [toefl, setToefl] = useState({});
+    const [functions, setFunctions] = useState({});
+    const [gcse, setGcse] = useState({});
+    const [pearson, setPearson] = useState({});
+    const [others, setOthers] = useState({});
+    const [pte, setPte] = useState({});
+
+    const [application,setApplication] = useState([]);
+
+  
 
     useEffect(()=>{
-      get(`PreffereCourse/Index/${sId}`).then(res=>{
-        console.log("course list", res);
+      get(`PrefferedCourse/Index/${sId}`).then(res=>{
+       
         setCourseList(res);
         // setSuccess(!success);
       })
 
       get(`StudentConsent/Get/${sId}`)
         .then(res =>{ 
-            console.log(res,'resStudentData');
+            
             setConscentData(res);
         })
 
@@ -80,20 +94,84 @@ const StudentProfile = () => {
         fetch(`https://geolocation-db.com/json/`)
         .then(res => res?.json())
         .then(data => {
-          console.log('exmp1',data);
+          
           setAPiInfo(data?.IPv4);
           
         });
+
+        get(`Ielts/Index/${sId}`).then(
+          (res) => {
+            setIelts(res);
+            
+          }
+        );
+    
+        get(`Duolingo/Index/${sId}`).then(
+          (res) => {
+            
+            setDuolingo(res);
+         
+          }
+        );
+    
+        get(`Toefl/Index/${sId}`).then(
+          (res) => {
+            setToefl(res);
+            
+          }
+        );
+    
+        get(
+          `FunctionalSkill/Index/${sId}`
+        ).then((res) => {
+          setFunctions(res);
+          
+        });
+    
+        get(`Gcse/Index/${sId}`).then(
+          (res) => {
+            setGcse(res);
+            
+          }
+        );
+    
+        get(`Pearson/Index/${sId}`).then(
+          (res) => {
+            setPearson(res);
+            
+          }
+        );
+    
+        get(`Other/Index/${sId}`).then(
+          (res) => {
+            setOthers(res);
+            
+          }
+        );
+    
+        get(`Pte/Index/${sId}`).then(
+          (res) => {
+            
+            setPte(res);
+            
+          }
+        );
+
+        get(`StudentApplication/Index/${sId}`)
+        .then(res => {
+          console.log(res);
+          setApplication(res);
+        })
     },[sId, success])
 
     useEffect(()=>{
        get(`StudentProfile/Get/${sId}`).then(res=>{
-        console.log("profileData",res);
+       console.log('student Data',res);
         setStudentDetails(res);
         setIsHaveDisability(res?.profileOtherInfo?.isHaveDisability);
         setIsHaveCriminalConvictions(res?.profileOtherInfo?.isHaveCriminalConvictions);
         setEducationInfos(res?.educationInfos);
-        console.log("eduInfo", res?.educationInfos)
+        
         setGMatResult(res?.gmatScoreInfo);
         setGreResult(res?.greScoreInfo);
         setStudentTestScore(res?.studentTestScoreInfo);
@@ -130,10 +208,14 @@ const StudentProfile = () => {
       history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
     }
 
+    const gotoFromProfilePage = (data) => {
+      history.push(`/applicationDetails/${data?.id}/${sId}`);
+    }
+
 
     const handleUpdatePersonalStatement = (data) => {
 
-      console.log('Checking Personal Statement Data',data);
+     
      
   
 
@@ -143,7 +225,7 @@ const StudentProfile = () => {
 
     const handleUpdatePersonalInformation = (data) => {
 
-      console.log('Updating Personal Information',data);
+      
 
      
   
@@ -153,7 +235,7 @@ const StudentProfile = () => {
     }
 
     const handleUpdateTestScores = (data) => {
-      console.log('Test Score Update', data);
+      
 
       
   
@@ -164,7 +246,7 @@ const StudentProfile = () => {
 
     const handleUpdateContactInformation = (data) => {
 
-      console.log('Updating Contact Information',data);
+      
 
       
   
@@ -176,7 +258,7 @@ const StudentProfile = () => {
 
     const handleUpdateOtherInformation = (data) => {
 
-      console.log('Updating Other Information', data);
+      
 
       
   
@@ -189,7 +271,7 @@ const StudentProfile = () => {
     const handleUpdateEducationalInformation = (data) => {
 
 
-      console.log('Updating Educational Information', data);
+     
 
       
   
@@ -201,7 +283,7 @@ const StudentProfile = () => {
     }
 
     const handleUpdateGREAndGMATScores = (data) => {
-      console.log('Test Score Update', data);
+      
 
       
 
@@ -214,7 +296,7 @@ const StudentProfile = () => {
 
     const handleUpdateExperience = (data) => {
 
-      console.log('Experience Update', data);
+    
 
       
   
@@ -226,7 +308,7 @@ const StudentProfile = () => {
 
     const handleUpdateReference = (data) => {
 
-      console.log('Reference Update', data);
+      
 
      
   
@@ -251,16 +333,13 @@ const StudentProfile = () => {
       event.preventDefault();
       const subdata = new FormData(event.target);
 
-      //  watch form data values
-    for (var value of subdata) {
-      console.log("preffered course", value);
-    }
+   
 
-    post(`PreffereCourse/Create`, subdata).then((res) => {
+    post(`PrefferedCourse/Create`, subdata).then((res) => {
       // setSuccess(!success);
       // setModalOpen(false);
       // setButtonStatus(false);
-      console.log("course response", res); 
+      
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -356,9 +435,7 @@ const StudentProfile = () => {
   
     subData.append("profileImageFile", FileList1[0]?.originFileObj);
   
-    // for(var x of subData.values()){
-    //     console.log(x);
-    // }
+  
     setButtonStatus1(true);
   
     if (FileList1.length < 1) {
@@ -1140,17 +1217,333 @@ const StudentProfile = () => {
                  <div className="bg-h"></div>
                  </div>
                  
-                  <ButtonForFunction
+                  {/* <ButtonForFunction
                      className={"p-3"}
                      func={()=>handleUpdateTestScores(studentDetails)}
                      name={'View Test Scores'}
                      color={'primary'}
                      permission={6}
-                  />
+                  /> */}
                  
                   
 
                  </div>
+
+
+                 <div className="row mt-3">
+
+{ielts?.id ? (
+  
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">IELTS Score</h5>
+          
+        
+                  <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+       
+        </div>
+
+   <div className="d-flex justify-content-between">
+
+    <div>
+    <span className='bank-account-info-text'>Overall: {ielts?.overall}</span>
+        <br/>
+        <span className='bank-account-info-text'>Speaking: {ielts?.speaking}</span>
+        <br/>
+        <span className='bank-account-info-text'>reading: {ielts?.reading}</span>
+        <br/>
+        <span className='bank-account-info-text'>Writing: {ielts?.writing}</span>
+        <br/>
+        <span className='bank-account-info-text'>Listening: {ielts?.listening}</span>
+        <br/>
+        <span className='bank-account-info-text'>Exam Date: {handleDate(ielts?.examDate)}</span>
+
+        
+
+    </div>
+
+  
+
+   </div>
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+
+{duolingo?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">DUOLINGO Score</h5>
+          <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+        </div>
+
+        <div className="d-flex justify-content-between">
+          <div>
+          <span  className='bank-account-info-text'>Literacy: {duolingo?.leteracy}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Comprehension: {duolingo?.comprehension}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Conversation: {duolingo?.conversation}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Production: {duolingo?.production}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Exam Date: {handleDate(duolingo?.examDate)}</span>
+        <br/>
+        <span  className='bank-account-info-text'>IELTS Equivalent Score: {duolingo?.ieltsEquivalent}</span>
+          </div>
+
+         
+
+        </div>
+      </CardBody>
+
+    </Card>
+  </div>
+) : null}
+
+{toefl?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">TOEFL Score</h5>
+          <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+        </div>
+
+        <div className="d-flex justify-content-between">
+
+          <div>
+
+          <span className="bank-account-info-text">Overall: {toefl?.overall}</span>
+        <br/>
+        <span  className="bank-account-info-text">Speaking: {toefl?.speaking}</span>
+        <br/>
+        <span  className="bank-account-info-text">reading: {toefl?.reading}</span>
+        <br/>
+        <span  className="bank-account-info-text">Writing: {toefl?.writing}</span>
+        <br/>
+        <span  className="bank-account-info-text">Listening: {toefl?.listening}</span>
+        <br/>
+        <span  className="bank-account-info-text">Exam Date: {handleDate(toefl?.examDate)}</span>
+        <br/>
+        <span  className="bank-account-info-text">IELTS Equivalent Score: {toefl?.ieltsEquivalent}</span>
+
+          </div>
+
+         
+
+        </div>
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+{functions?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">Functional Skill Score</h5>
+          <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+        </div>
+
+       <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Overall: {functions?.overall}</span>
+        <br/>
+        <span className="bank-account-info-text">Speaking: {functions?.speaking}</span>
+        <br/>
+        <span className="bank-account-info-text">reading: {functions?.reading}</span>
+        <br/>
+        <span className="bank-account-info-text">Writing: {functions?.writing}</span>
+        <br/>
+        <span className="bank-account-info-text">Listening: {functions?.listening}</span>
+        <br/>
+        <span className="bank-account-info-text">Exam Date: {handleDate(functions?.examDate)}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {functions?.ieltsEquivalent}</span>
+        </div>
+
+        
+
+
+
+       </div>
+
+      </CardBody>
+
+    </Card>
+  </div>
+) : null}
+
+{gcse?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">GCSE Score</h5>
+          <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+        </div>
+
+       <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Result: {gcse?.result}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {gcse?.ieltsEquivalent}</span>
+        </div>
+       
+
+       </div>
+
+      </CardBody>
+
+    </Card>
+  </div>
+) : null}
+
+{pearson?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">PEARSON Score</h5>
+          <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+        </div>
+
+       <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Result: {pearson?.result}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {pearson?.ieltsEquivalent}</span>
+        </div>
+
+
+       </div>
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+
+{others?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">Other Score</h5>
+          <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+        </div>
+
+      <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Test Name: {others?.testName}</span>
+        <br/>
+        <span className="bank-account-info-text">Overall Score: {others?.scoreOverall}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {others?.ieltsEquivalent}</span>
+        </div>
+
+
+
+      </div>
+      
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+{pte?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className=" test-score-card-style">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">PTE Score</h5>
+          <ButtonForFunction
+                     className={"my-3"}
+                     func={()=>handleUpdateTestScores(studentDetails)}
+                     name={'View'}
+                     color={'primary'}
+                     permission={6}
+                  />
+        </div>
+
+        <div className="d-flex justify-content-between">
+
+          <div>
+          <span className="bank-account-info-text">Overall: {pte?.overall}</span>
+        <br/>
+        <span className="bank-account-info-text">Speaking: {pte?.speaking}</span>
+        <br/>
+        <span className="bank-account-info-text">Reading: {pte?.reading}</span>
+        <br/>
+        <span className="bank-account-info-text">Writing: {pte?.writing}</span>
+        <br/>
+        <span className="bank-account-info-text">Listening: {pte?.listening}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {pte?.ieltsEquivalent}</span>
+          </div>
+
+
+        </div>
+        
+      </CardBody>
+
+     
+    </Card>
+  </div>
+) : null}
+</div>
 
                 
 
@@ -1356,83 +1749,209 @@ const StudentProfile = () => {
               </CardBody>
           </Card>
 
-              <Card className="p-3">
+              
 
-                  <div className="hedding-titel d-flex justify-content-between">
-                    <div>
-                    <h5> <b>Notice</b> </h5>
+
+                   {
+                    (userType == userTypes?.Student) ?
+
+                    <>
+                    <Card className="p-3">
+
+                    <div className="hedding-titel d-flex justify-content-between">
+                      <div>
+                      <h5> <b>Application</b> </h5>
+                      
+                      <div className="bg-h"></div>
+                      </div>
+
+
+
+                      </div>
+                    
+                   {
+                      (application.length > 0) ?
+                      
                      
+                      <>
+
+                     {
+                      application?.map((app,i) => 
+                      (<div key={i}>
+                        <div className="notice-item card-widget mt-3 ">
+                        <div className="notice-titel-student-profile">
+                        
+                        <Button color='primary' onClick={()=>gotoFromProfilePage(app)} >
+                          View
+                        </Button>
+                        </div>
+                        <span className='std-uni-stl'>{app?.subject?.name}</span>
+                        <br/>
+                        <span className='std-sub-stl'>{app?.university?.name}</span>
+                        <br/>
+                        <span>{app?.intake?.name}</span>
+                        <br/>
+                        <span>{app?.applicationStatus?.name}</span>
+
+                      </div>
+                         </div>
+                         )
+                      )
+                     }
+                      
+                      </>
+
+                    :
+
+                    null
+                    // <div className="notice-item card-widget mt-3 ">
+                    //   <div className="notice-titel">
+                    //     <span>Courses you may like</span>
+                        
+                    //     </div>
+                    //     {
+                    //   application?.map((app,i) => 
+                    //   (<div key={i}>
+                    //     <span>{app?.subject?.name}</span>
+                    //     <br/>
+                    //     <span>{app?.university?.name}</span>
+                    //     <br/>
+                    //     <span>{app?.intake?.name}</span>
+                       
+
+                    //   </div>)
+                    //   )
+                    //  }
+                      
+                    // </div>
+
+                   }
+
+                    
+
+                    </Card>
+
+                    </>
+
+                    :
+
+                    null
+                   }
+
+        
+            
+
+
+              {
+                (userType == userTypes?.Student) ?
+
+           
+              <Card className='p-3'>
+                          
+              <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Interested Courses</b> </h5>
+                          
                     <div className="bg-h"></div>
                     </div>
-
+                          
                     {/* <EditDivButton
                       className={"text-right edit-style  p-3"}
                       func={()=>handleUpdatePersonalStatement(studentDetails)}
                       permission={6}
                     /> */}
-
+              
                     </div>
+                  
+              <div className=" mt-3 ">
+               <Form onSubmit={handleAddPrefferedCourse}>
+                <FormGroup row className="has-icon-left">
+                   <input
+                      type="hidden"
+                      name="studentId"
+                      id="studentId"
+                      value={sId}
+                    />
+                   <Col md="9">
+                     <Input
+                       type="text"
+                       name="courseName"
+                       id="courseName"
+                       onChange={(e)=>setCourse(e.target.value)}
+                       value={course}
+                       placeholder="Enter Course Name"
+                       required
+                     />
+                     {/* <div className="form-control-position">
+                                         <User size={15} />
+                                     </div> */}
+                   </Col>
 
+                   <Col md="3">
+                   <ButtonForFunction
+                       type={"submit"}
+                       className={"badge-primary"}
+                       name={"Add"}
+                       // disable={buttonStatus}
+                     />
+                   </Col>
+                 </FormGroup>
+               </Form>
+              </div>
 
-                    <div className="notice-item card-widget mt-3 ">
-                      <div className="notice-titel">
-                        <h6> Super Admin</h6>
-                        <span> 10/12/2021</span>
-                        </div>
-                         <div className="notice-description"> 
-                             <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                             <div className="uapp-read-more-btn">
-                              <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                            </div>
-                        </div>
+              <div className="d-flex flex-wrap">
+                  {
+                    courseList.map((course, i) => (
+                      <div key={i} className='mr-1 mb-1'>
+                        <div className='tag-style-search'>
+                    <div>
+                      <span>{course?.courseName}</span>
+                      {" "}{" "}
+                      <span onClick={(e) => toggleDanger(course?.courseName, course?.id, e)} style={{fontSize: "16px", cursor: "pointer"}}>×</span>
                     </div>
+                  </div>
+                      </div>
+                    ))
+                  }
 
+                  {/* modal for delete */}
+                  <Modal
+                        isOpen={deleteModal}
+                        toggle={closeDeleteModal}
+                        className="uapp-modal"
+                      >
+                        <ModalBody>
+                          <p>
+                            Are You Sure to Delete this <b>{cName}</b> ? Once
+                            Deleted it can't be Undone!
+                          </p>
+                        </ModalBody>
 
-                    <div className="notice-item card-widget mt-3 ">
-                      <div className="notice-titel">
-                        <h6> Super Admin</h6>
-                        <span> 10/12/2021</span>
-                        </div>
-                         <div className="notice-description"> 
-                             <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                             <div className="uapp-read-more-btn">
-                              <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                            </div>
-                        </div>
-                    </div>
+                        <ModalFooter>
+                          
+                          <Button onClick={closeDeleteModal}>
+                            NO
+                          </Button>
+                          
+                          <Button
+                            color="danger"
+                            onClick={() => handleDelete(stdId)}
+                            // disabled={buttonStatus1}
+                          >
+                            YES
+                          </Button>
 
+                        </ModalFooter>
+                      </Modal>
 
-
-                    <div className="notice-item card-widget mt-3 ">
-                      <div className="notice-titel">
-                        <h6> Super Admin</h6>
-                        <span> 10/12/2021</span>
-                        </div>
-                         <div className="notice-description"> 
-
-                             <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                             <div className="uapp-read-more-btn">
-                              <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div className="notice-item card-widget mt-3 ">
-                      <div className="notice-titel">
-                        <h6> Super Admin</h6>
-                        <span> 10/12/2021</span>
-                        </div>
-                         <div className="notice-description"> 
-                             <span> No Qualifications required !! University of Suffolk London & Manchester Campus, Oct 2021 Intake. </span>
-                            <div className="uapp-read-more-btn">
-                              <a className="" href="javascript:void(0)"> Read More <span> <i className="fas fa-long-arrow-alt-right"></i> </span> </a>
-                            </div>
-
-                        </div>
-                    </div>
-        
+              </div>
+                  
               </Card>
+
+              :
+
+              null
+              }
 
               {
                 parseInt(localStorage.getItem("userType")) === userTypes?.Student ?
@@ -1534,7 +2053,7 @@ const StudentProfile = () => {
               <div className="notice-item card-widget mt-3 ">
                       
                          <div className="text-center"> 
-                             <span>Student has not signed is not signed yet. </span>
+                             <span>Student has not signed consent yet. </span>
                              
                         </div>
                       </div>
@@ -1547,108 +2066,7 @@ const StudentProfile = () => {
               </Card>
               }
 
-              {/* Preffered course */}
-              <Card className='p-3'>
-                          
-              <div className="hedding-titel d-flex justify-content-between">
-                    <div>
-                    <h5> <b>Interested Courses</b> </h5>
-                          
-                    <div className="bg-h"></div>
-                    </div>
-                          
-                    {/* <EditDivButton
-                      className={"text-right edit-style  p-3"}
-                      func={()=>handleUpdatePersonalStatement(studentDetails)}
-                      permission={6}
-                    /> */}
-              
-                    </div>
-                  
-              <div className=" mt-3 ">
-               <Form onSubmit={handleAddPrefferedCourse}>
-                <FormGroup row className="has-icon-left">
-                   <input
-                      type="hidden"
-                      name="studentId"
-                      id="studentId"
-                      value={sId}
-                    />
-                   <Col md="9">
-                     <Input
-                       type="text"
-                       name="courseName"
-                       id="courseName"
-                       onChange={(e)=>setCourse(e.target.value)}
-                       value={course}
-                       placeholder="Write Course Name"
-                       required
-                     />
-                     {/* <div className="form-control-position">
-                                         <User size={15} />
-                                     </div> */}
-                   </Col>
-
-                   <Col md="3">
-                   <ButtonForFunction
-                       type={"submit"}
-                       className={"badge-primary"}
-                       name={"Add"}
-                       // disable={buttonStatus}
-                     />
-                   </Col>
-                 </FormGroup>
-               </Form>
-              </div>
-
-              <div className="d-flex flex-wrap">
-                  {
-                    courseList.map((course, i) => (
-                      <div key={i} className='mr-1 mb-1'>
-                        <div className='tag-style-search'>
-                    <div>
-                      <span>{course?.courseName}</span>
-                      {" "}{" "}
-                      <span onClick={(e) => toggleDanger(course?.courseName, course?.id, e)} style={{fontSize: "16px", cursor: "pointer"}}>×</span>
-                    </div>
-                  </div>
-                      </div>
-                    ))
-                  }
-
-                  {/* modal for delete */}
-                  <Modal
-                        isOpen={deleteModal}
-                        toggle={closeDeleteModal}
-                        className="uapp-modal"
-                      >
-                        <ModalBody>
-                          <p>
-                            Are You Sure to Delete this <b>{cName}</b> ? Once
-                            Deleted it can't be Undone!
-                          </p>
-                        </ModalBody>
-
-                        <ModalFooter>
-                          
-                          <Button onClick={closeDeleteModal}>
-                            NO
-                          </Button>
-                          
-                          <Button
-                            color="danger"
-                            onClick={() => handleDelete(stdId)}
-                            // disabled={buttonStatus1}
-                          >
-                            YES
-                          </Button>
-
-                        </ModalFooter>
-                      </Modal>
-
-              </div>
-                  
-              </Card>
+           
 
               </Col>
               </Row>

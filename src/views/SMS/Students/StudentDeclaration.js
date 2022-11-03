@@ -423,12 +423,14 @@ update?
           <div className=" mt-1">
      
               {
-                (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin || userTypeId == userTypes?.ComplianceManager) ?
+                (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin || userTypeId == userTypes?.ComplianceManager || userTypeId == userTypes?.Consultant) ?
                 <>
                 
                 {
                   (conscentData == null || conscentData?.consentSignStatusId == 1) ?
+                  
                    <div className="mb-1 text-right">
+                    <p style={{fontWight: '500'}}>Send consent sign request email to student.</p>
                    <Button color="primary"
                    onClick={sendEmail}
                    disabled={buttonStatus}
@@ -441,7 +443,7 @@ update?
                 <div className="mb-1 text-right">
                   
                  
-                       <span className="text-info"> Email is sent with credentails </span>
+                       <span className="text-info"> Email is sent with credentials </span>
                        <Button color="primary"
                    onClick={sendEmail}
                    disabled={buttonStatus}
@@ -457,7 +459,7 @@ update?
                  
                   <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
                     <br/>
-                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.consentFromIp}</span></span>
+                  <span>Conscent Signed From Ip:<span className="fw-style"> {conscentData?.consentFromIp}</span></span>
                 
                </div>
                :

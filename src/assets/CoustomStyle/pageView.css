@@ -706,10 +706,17 @@ color: #1d94ab;
     justify-content: space-between;
     margin-bottom:4px;
   }
-  .notice-titel span{
+
+  .notice-titel-student-profile{
+    display: flex;
+    justify-content: end;
+    margin-bottom:4px;
+  }
+
+  /* .notice-titel span{
     font-size: 12px;
     color:#a5afb1;
-  }
+  } */
   .notice-titel h6{
     color:#1e98b0;
   }   
@@ -970,6 +977,14 @@ display: flex;
   font-size: 20px;
   display: block;
 }
+
+.std-uni-stl{
+  color: #1e98b0;
+
+}
+/* .std-sub-stl{
+  color: ;
+} */
 
 
 

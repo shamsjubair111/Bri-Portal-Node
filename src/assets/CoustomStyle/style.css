@@ -735,6 +735,15 @@ th {
 
 }
 
+.test-score-title-style2{
+
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 53px;
+  text-transform: uppercase;
+  color: #1E98B0;
+}
+
 .test-score-title-styles{
 
   font-weight: 700;
@@ -831,6 +840,15 @@ color: #1E98B0;
 
   font-weight: 400;
   font-size: 15px;
+  color: #707070;
+
+}
+
+.bank-account-info-text2{
+
+
+  font-weight: 400;
+  font-size: 10px;
   color: #707070;
 
 }

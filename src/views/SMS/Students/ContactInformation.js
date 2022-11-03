@@ -34,7 +34,7 @@ const ContactInformation = () => {
   const [countryValue, setCountryValue] = useState(0);
 
   const [addressType, setAddressType] = useState([]);
-  const [addressTypeLabel, setAddressTypeLabel] = useState("Address type");
+  
   const [addressTypeValue, setAddressTypeValue] = useState(0);
   const [oneData, setOneData] = useState({});
 
@@ -46,12 +46,12 @@ const ContactInformation = () => {
 
   useEffect(() => {
     get("CountryDD/index").then((res) => {
-      console.log(res);
+     
       setCountry(res);
     });
 
     get("AddressTypeDD/Index").then((res) => {
-      console.log(res);
+    
       setAddressType(res);
     });
 
@@ -64,11 +64,7 @@ const ContactInformation = () => {
         res?.country?.name == null ? "Select Country" : res?.country?.name
       );
       setCountryValue(res?.country?.id == null ? 0 : res?.country?.id);
-      setAddressTypeLabel(
-        res?.addressType?.name == null
-          ? "Select Address Type"
-          : res?.addressType?.name
-      );
+      
       setAddressTypeValue(
         res?.addressType?.id == null ? 0 : res?.addressType?.id
       );
@@ -145,17 +141,7 @@ const ContactInformation = () => {
     setCountryValue(value);
   };
 
-  const addressTypeName = addressType?.map((branchCountry) => ({
-    label: branchCountry.name,
-    value: branchCountry.id,
-  }));
-
-  // select  Address Type
-  const selectAddressType = (label, value) => {
-    setAddressError(false);
-    setAddressTypeLabel(label);
-    setAddressTypeValue(value);
-  };
+ 
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -368,10 +354,60 @@ const ContactInformation = () => {
                   <input type="hidden" name="id" id="id" value={oneData?.id} />
                 ) : null}
 
+
+              <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Address Type <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    {/* <Select
+                      options={addressTypeName}
+                      value={{
+                        label: addressTypeLabel,
+                        value: addressTypeValue,
+                      }}
+                      onChange={(opt) =>
+                        selectAddressType(opt.label, opt.value)
+                      }
+                      name="addressTypeId"
+                      id="addressTypeId"
+                      required
+                    /> */}
+
+                    {
+                        addressType?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="addressTypeId"
+                          id='addressTypeId'
+                          value={tt?.id}
+                          onClick={()=>setAddressTypeValue(tt?.id)}
+                          checked={(addressTypeValue == tt?.id)? true : false}
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
+
+                    {addressError && (
+                      <span className="text-danger">Address type is required</span>
+                    )}
+
+                   
+                  </Col>
+                </FormGroup>
+
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Cell Phone Number <span className="text-danger">*</span>{" "}
+                      Phone Number <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -379,7 +415,7 @@ const ContactInformation = () => {
                       type="text"
                       name="cellPhoneNumber"
                       id="cellPhoneNumber"
-                      placeholder="Enter Cell Phone Number"
+                      placeholder="Enter Phone Number"
                       required
                       defaultValue={oneData?.cellPhoneNumber}
                     />
@@ -483,34 +519,7 @@ const ContactInformation = () => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Address Type <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={addressTypeName}
-                      value={{
-                        label: addressTypeLabel,
-                        value: addressTypeValue,
-                      }}
-                      onChange={(opt) =>
-                        selectAddressType(opt.label, opt.value)
-                      }
-                      name="addressTypeId"
-                      id="addressTypeId"
-                      required
-                    />
-
-                    {addressError && (
-                      <span className="text-danger">Address type is required</span>
-                    )}
-
-                   
-                  </Col>
-                </FormGroup>
+                
 
                 <FormGroup
                   row

@@ -238,12 +238,13 @@ const StudentDocumentForm = () => {
           <div className=" mt-1">
      
               {
-                (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin || userTypeId == userTypes?.ComplianceManager) ?
+                (userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin || userTypeId == userTypes?.ComplianceManager || userTypeId == userTypes?.Consultant) ?
                 <>
                 
                 {
                   (conscentData == null || conscentData?.consentSignStatusId == 1) ?
                    <div className="mb-1 text-right">
+                    <p style={{fontWight: '500'}}>Send consent sign request email to student.</p>
                    <Button color="primary"
                    onClick={finish}
                    disabled={buttonStatus}
@@ -256,7 +257,7 @@ const StudentDocumentForm = () => {
                 <div className="mb-1 text-right">
                   
                  
-                       <span className="text-info"> Email is sent with credentails </span>
+                       <span className="text-info"> Email is sent with credentials </span>
                        <Button color="primary"
                    onClick={sendEmail}
                    disabled={buttonStatus}
