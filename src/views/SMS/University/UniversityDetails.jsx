@@ -900,7 +900,7 @@ const UniversityDetails = () => {
                                     ""
                                   )}
                                 </Upload>
-                                <Modal
+                                <AntdModal
                                   visible={previewVisible}
                                   title={previewTitle}
                                   footer={null}
@@ -911,7 +911,7 @@ const UniversityDetails = () => {
                                     style={{ width: "100%" }}
                                     src={previewImage}
                                   />
-                                </Modal>
+                                </AntdModal>
                                   
                                 <span className="text-danger d-block">{text}</span>
 

@@ -427,7 +427,11 @@ const ApplicationDetails = () => {
       history.push(
         `/providerAdmissionManager/${location.managerId}/${location.providerId}`
       );
-    } else {
+    }
+    else if(location.appId != undefined){
+      history.push("/");
+    }
+    else {
       history.push("/applications");
     }
   };
@@ -705,7 +709,8 @@ const ApplicationDetails = () => {
               {location.providerId != undefined &&
               location.managerId != undefined
                 ? "Back to Admission Manager Details"
-                : "Back to Application List"}
+                : location.appId ? "Back to Student Dashboard" :
+                 "Back to Application List"}
             </span>
           </div>
         </CardHeader>

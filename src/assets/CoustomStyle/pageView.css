@@ -657,12 +657,48 @@ color: #1d94ab;
   margin-top: 40px;
   border-radius: 0 !important;
 }
+
+.uapp-employee-profile-right1{
+  /* margin-top: 40px; */
+  border-radius: 2 !important;
+}
+
 .uapp-profile-CardHeader{
   padding: 0!important;
   background-color: #e5e6e6 !important;
   box-shadow: none !important;
   text-align: center;
+  
+}
 
+.join-consultant-banner{
+  background-image: url('../../assets/img/joinconsultasnt.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 236px;
+  width: 100%;
+  border: 1px solid rgb(30, 152, 176);
+}
+.join-consultant-container{
+  background: none;
+  padding: 3rem;
+}
+@media screen and (max-width: 767.98px) {
+  .join-consultant-banner{
+    background-image: url('../../assets/img/joinconsultasnt.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right;
+    min-height: 525px;
+    width: 100%;
+    border: 1px solid rgb(30, 152, 176);
+  }
+  .join-consultant-container{
+    background: #fdfdfdd9;
+    margin: 2rem;
+    padding: 1rem;
+    height: 89%;
+  }
 }
 .margin-top-minus{
   
