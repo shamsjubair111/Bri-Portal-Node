@@ -552,6 +552,8 @@ const AdmissionManagerList = () => {
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
+              {
+              permissions?.includes(permissionList.Add_New_Admission_manager) ? 
               <ButtonForFunction
                 func={handleAddNew}
                 className={"btn btn-uapp-add "}
@@ -559,6 +561,9 @@ const AdmissionManagerList = () => {
                 name={" Add Admission Manager"}
                 permission={6}
               />
+              :
+              null
+              }
 
               <Modal
                 isOpen={modalOpen}
@@ -1138,9 +1143,23 @@ const AdmissionManagerList = () => {
                     {/* <th>Duration</th> */}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone No</th> : null}
-                    {checkAssign ? <th>Assigned University</th> : null}
+                    {
+                      permissions?.includes(permissionList?.View_Admission_manager_university_List) ?
+                      <>
+                      {checkAssign ? <th>Assigned University</th> : null}
+                      </>
+                      :
+                      null
+                    }
                     {checkAppli ? <th>Applications</th> : null}
-                    {checkSts ? <th>Account Status</th> : null}
+                    {
+                      permissions?.includes(permissionList?.Change_Status_Admissionmanager)?
+                      <>
+                      {checkSts ? <th>Account Status</th> : null}
+                      </>
+                      :
+                      null
+                    }
                     {/* <th>Intakes</th> */}
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
@@ -1167,7 +1186,9 @@ const AdmissionManagerList = () => {
                       {checkEmail ? <td>{manager?.email}</td> : null}
 
                       {checkPhn ? <td>{manager?.phoneNumber}</td> : null}
-
+                      {
+                      permissions?.includes(permissionList?.View_Admission_manager_university_List) ?
+                      <>
                       {checkAssign ? (
                         <td>
                           {" "}
@@ -1189,6 +1210,11 @@ const AdmissionManagerList = () => {
                           </span>{" "}
                         </td>
                       ) : null}
+                      </>
+                      :
+                      null
+                      }
+
 
                       {/* Applications starts here */}
                       {checkAppli ? (
@@ -1202,7 +1228,11 @@ const AdmissionManagerList = () => {
                         </td>
                       ) : null}
                       {/* Applications ends here */}
+                     
+                      {
+                      permissions?.includes(permissionList?.Change_Status_Admissionmanager)?
 
+                      <>
                       {checkSts ? (
                         <td>
                           {
@@ -1230,6 +1260,10 @@ const AdmissionManagerList = () => {
                           }
                         </td>
                       ) : null}
+                      </>
+                      :
+                      null
+                        }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
@@ -1242,7 +1276,9 @@ const AdmissionManagerList = () => {
                            </Button>
                            </Link> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Update_Admission_manager_info) ? 
+                              <ButtonForFunction
                               func={() =>
                                 handleViewAdmissionManager(
                                   manager?.id,
@@ -1254,9 +1290,12 @@ const AdmissionManagerList = () => {
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
                             {permissions?.includes(
-                              permissionList?.Update_Admission_manager
+                              permissionList?.Update_Admission_manager_info
                             ) ? (
                               //   <LinkButton
                               //     url={`/updateAdmissionManager/${manager?.id}/${manager?.provider?.id}`}
@@ -1280,7 +1319,7 @@ const AdmissionManagerList = () => {
                             ) : null}
 
                             {permissions?.includes(
-                              permissionList?.Delete_subject
+                              permissionList?.Delete_Admission_manager
                             ) ? (
                               <ButtonForFunction
                                 func={() => toggleDelete(manager)}

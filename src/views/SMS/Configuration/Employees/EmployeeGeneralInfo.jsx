@@ -516,7 +516,7 @@ const EmployeeGeneralInfo = (props) => {
                 
                  <Col md="5">
                    {
-                    permissions?.includes(permissionList?.Update_Staff) ? 
+                    permissions?.includes(permissionList?.Update_Staff_info) ? 
 
                     <ButtonForFunction
                     type={"submit"}

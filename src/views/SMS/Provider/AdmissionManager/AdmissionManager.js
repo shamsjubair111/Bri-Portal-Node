@@ -483,7 +483,7 @@ const goBack = () => {
                       Cancel
                     </Button>
                    {
-                    permissions?.includes(permissionList?.Add_Admission_manager) ?
+                    permissions?.includes(permissionList?.Add_New_Admission_manager) ?
                     <Button
                         type="submit"
                         className="ml-1 mt-3 badge-primary"

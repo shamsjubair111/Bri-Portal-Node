@@ -33,11 +33,12 @@ import ReactToPrint from "react-to-print";
 import Select from "react-select";
 import CustomButtonRipple from '../Components/CustomButtonRipple';
 import get from '../../../helpers/get';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const AssignOfficerUniversity = () => {
 
     const history = useHistory();
-
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
     const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -300,13 +301,18 @@ const AssignOfficerUniversity = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <ButtonForFunction
+              {
+                permissions?.includes(permissionList.Add_New_Admission_Officer_university) ? 
+                <ButtonForFunction
                 func={() => setModalOpen(true)}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
                 name={" Assign University"}
                 permission={6}
               />
+              :
+              null
+              }
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -715,21 +721,31 @@ const AssignOfficerUniversity = () => {
                             permission={6}
                           /> */}
 
+                           {
+                            permissions?.includes(permissionList.Update_Admission_Officer_university_info) ?
                             <ButtonForFunction
-                              func={() => handleUpdate(uni)}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
+                            func={() => handleUpdate(uni)}
+                            color={"warning"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+                          :
+                          null
+                           }
 
+                           {
+                            permissions?.includes(permissionList?.Delete_Admission_Officer_university)?
                             <ButtonForFunction
-                              color={"danger"}
-                              func={() => toggleDanger(uni)}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
+                            color={"danger"}
+                            func={() => toggleDanger(uni)}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+                          :
+                          null
+                           }
 
                             <Modal
                               isOpen={deleteModal}

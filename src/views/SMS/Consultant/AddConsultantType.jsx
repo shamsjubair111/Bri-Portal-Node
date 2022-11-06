@@ -280,7 +280,7 @@ const AddConsultantType = () => {
 
 
                    {
-                      permissions?.includes(permissionList?.Edit_Consultant_type) ?
+                      permissions?.includes(permissionList?.Update_Consultant_type_info) ?
                      <ButtonForFunction 
                      func={()=> handleUpdate(consultant?.id)}
                      className={"mx-1 btn-sm"}

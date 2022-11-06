@@ -361,7 +361,7 @@ const EmployeeList = (props) => {
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
-              {permissions?.includes(permissionList?.Add_Staff) ? (
+              {permissions?.includes(permissionList?.Add_New_Staff) ? (
                 <ButtonForFunction
                   func={handleAddStaff}
                   className={"btn btn-uapp-add "}
@@ -670,12 +670,18 @@ const EmployeeList = (props) => {
                             icon={<i className="fas fa-eye"></i>}
                           /> */}
 
+                           {
+                            permissions?.includes(permissionList.View_Staff_info) ? 
                             <ButtonForFunction
-                              func={() => redirectToStaffProfile(emp?.id)}
-                              color={"primary"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-eye"></i>}
-                            />
+                            func={() => redirectToStaffProfile(emp?.id)}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                          />
+                          :
+                          null
+
+                           }
 
                             {/* </Link>  */}
                             {/* <Link to={`/employeeGeneralInfo/${emp?.id}`}>
@@ -692,24 +698,35 @@ const EmployeeList = (props) => {
                             icon={<i className="fas fa-edit"></i>}
                           /> */}
 
+                          {
+                            permissions.includes(permissionList?.Update_Staff_info) ? 
                             <ButtonForFunction
-                              func={() => redirecttoStaffGeneralInfo(emp?.id)}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                            />
+                            func={() => redirecttoStaffGeneralInfo(emp?.id)}
+                            color={"warning"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                          />
+                          :
+                          null
+
+                          }
 
                             {/* <Button onClick={toggleDanger} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Delete_Staff) ? 
+                              <ButtonForFunction
                               func={() => toggleDanger(emp)}
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
                               disable={buttonStatus}
                             />
+                            :
+                            null
+                            }
                           </ButtonGroup>
 
                           <Modal

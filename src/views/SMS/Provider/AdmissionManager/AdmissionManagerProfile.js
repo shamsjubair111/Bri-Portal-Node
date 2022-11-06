@@ -25,6 +25,7 @@ import CustomButtonRipple from "../../Components/CustomButtonRipple";
 import post from "../../../../helpers/post";
 import put from "../../../../helpers/put";
 import remove from "../../../../helpers/remove";
+import { permissionList } from "../../../../constants/AuthorizationConstant";
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -41,7 +42,7 @@ const AdmissionManagerProfile = () => {
 
   const [universityStates, setUniversityStates] = useState([]);
 
-  
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   const [deleteModal, setDeleteModal] = useState(false);
 
   const [officerLabel, setOfficerLabel] = useState("Select Admission Officer");
@@ -649,6 +650,8 @@ const selectNameTitle = (label, value) => {
 
               <div>
                 {/* <Button color="primary" className="me-1">Add New Admission Officer</Button> */}
+              {
+                permissions?.includes(permissionList?.Add_New_Admissionofficer) ?
                 <ButtonForFunction
                 func={handleAddNew}
                 className={"btn btn-uapp-add mr-1"}
@@ -656,14 +659,22 @@ const selectNameTitle = (label, value) => {
                 name={"Add Admission Officer"}
                 permission={6}
               />
+              :
+              null
+              }
                 {/* <Button color="primary" className="ms-1">Assign Admission Officer</Button> */}
-                <ButtonForFunction
+                {
+                  permissions?.includes(permissionList.Add_New_AdmissionofficerOfManager) ? 
+                  <ButtonForFunction
                 func={() => setAssignModalOpen(true)}
                 className={"btn btn-uapp-add ml-1"}
                 // icon={<i className="fas fa-plus"></i>}
                 name={"Assign Admission Officer"}
                 permission={6}
               />
+              :
+              null
+                }
 
               {/* assign admission officer */}
               <Modal
@@ -1040,7 +1051,12 @@ const selectNameTitle = (label, value) => {
                          <th>Founded</th>
                          <th>Global Ranking</th>
                          <th>Part Time Work Information</th> */}
+                            {
+                            permissions?.includes(permissionList?.View_Admission_manager_university_List) ?
                       <th>Assign University</th>
+                      :
+                      null
+                            }
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -1065,9 +1081,13 @@ const selectNameTitle = (label, value) => {
                    
 
                         <td>
-                          <Button color="primary" onClick={()=>gotoAssignUniversity(officer)}>
+                          {
+                            permissions?.includes(permissionList?.View_Admission_manager_university_List) ? 
+                            <Button color="primary" onClick={()=>gotoAssignUniversity(officer)}>
                                View
-                          </Button>
+                          </Button>:
+                          null
+                          }
                         </td>
 
                         <td>

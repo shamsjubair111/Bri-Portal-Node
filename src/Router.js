@@ -511,17 +511,21 @@ class AppRouter extends React.Component {
         <Switch>
          <AppRoute exact path="/" component={analyticsDashboard} />
         
-         <AppRoute  path="/AdmissionManager" component={permissions?.includes(602)? AdmissionManager  : NotAuthorized } />
-         <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} />
-         <AppRoute  path="/updateUser/:id" component={UpdateUser} />
-         <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_Admission_manager)? AdmissionManager : NotAuthorized} />
-         <AppRoute exact path="/admissionManagerList" component={AdmissionManagerList} />
-         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager) ? UpdateAdmissionManager : NotAuthorized } />
+         {/* <AppRoute  path="/AdmissionManager" component={permissions?.includes(602)? AdmissionManager  : NotAuthorized } /> */}
+
+         {/* <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} /> */}
+
+         {/* <AppRoute  path="/updateUser/:id" component={UpdateUser} /> */}
+
+         <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_New_Admission_manager)? AdmissionManager : NotAuthorized} />
+         <AppRoute exact path="/admissionManagerList" component={permissions?.includes(permissionList.View_Admission_manager_List) ? AdmissionManagerList : NotAuthorized} />
+         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager_info) ? UpdateAdmissionManager : NotAuthorized } />
 
          {/* admission officer */}
-         <AppRoute  path="/admissionOfficerList" component={AdmissionOfficerList} />
-         <AppRoute  path="/admissionOfficerDetails/:officerId" component={AdmissionOfficerDetails} />
-         <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} />
+         <AppRoute  path="/admissionOfficerList" component={permissions?.includes(permissionList?. View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />
+         <AppRoute  path="/admissionOfficerDetails/:officerId" component={permissions?.includes(permissionList.View_Admissionofficer_info) ? AdmissionOfficerDetails : NotAuthorized} />
+
+         {/* <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} /> */}
 {/*   
          <AppRoute  path="/demo" component={demo} /> */}
          {/* <AppRoute  path="/uni1" component={demo} /> */}
@@ -530,150 +534,150 @@ class AppRouter extends React.Component {
          {/* <AppRoute  path="/addMenu" component={Menu} /> */}
          {/* <AppRoute  path="/menu" component={MenuInfo} /> */}
    
-         <AppRoute  path="/rolePermission" component={permissions?.includes(permissionList?.Permission_List)? RolePermission : NotAuthorized} />
-         <AppRoute  path="/roleMenu" component={permissions?.includes(permissionList?.View_Menulist) ? RoleMenu : NotAuthorized} />
+         <AppRoute  path="/rolePermission" component={permissions?.includes(permissionList?.View_Permission)? RolePermission : NotAuthorized} />
+         <AppRoute  path="/roleMenu" component={permissions?.includes(permissionList?.View_Menu) ? RoleMenu : NotAuthorized} />
 
   
          <AppRoute  path="/staffType" component={permissions.includes(permissionList?.EmployeeTypeList)? EmployeeType : NotAuthorized} />
          {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
          {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
-         <AppRoute  path="/staffListByType/:type" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute exact path="/staffList" component={permissions?.includes(permissionList?.Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute  path="/staffProfile/:id" component={permissions?.includes(permissionList?.View_Staff)? EmployeeProfile : NotAuthorized} />
-         <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.Add_Universitytype)? AddUniversityType : NotAuthorized} />
-         <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.Add_UniversityCountry)? AddUniversityCountry : NotAuthorized} />
-         <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.Universitystate_List) ? AddUniversityState : NotAuthorized} />
-         <AppRoute  path="/addUniversity/:univerId?" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddUniversity : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversity/:providerProfileId/:univerId?" component={permissions?.includes(permissionList?.Add_University  || permissionList?.Update_University)? AddProviderUniversity : NotAuthorized} />
-         <AppRoute  path="/addUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddUniversityApplicationDocument: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityApplicationDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? AddProviderUniversityApplicationDocument: NotAuthorized} />
-         <AppRoute  path="/addUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddUniversityTemplateDocument : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityTemplateDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? AddProviderUniversityTemplateDocument : NotAuthorized} />
+         <AppRoute  path="/staffListByType/:type" component={permissions?.includes(permissionList?.View_Staff_List) ? EmployeeList : NotAuthorized} />
+         <AppRoute exact path="/staffList" component={permissions?.includes(permissionList?.View_Staff_List) ? EmployeeList : NotAuthorized} />
+         <AppRoute  path="/staffProfile/:id" component={permissions?.includes(permissionList?.View_Staff_info)? EmployeeProfile : NotAuthorized} />
+         <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.View_Universitytype_List)? AddUniversityType : NotAuthorized} />
+         <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.View_UniversityCountry_List)? AddUniversityCountry : NotAuthorized} />
+         <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.View_Universitystate_List) ? AddUniversityState : NotAuthorized} />
+         <AppRoute  path="/addUniversity/:univerId?" component={permissions?.includes(permissionList?.Add_New_University  || permissionList?.Update_University_info)? AddUniversity : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversity/:providerProfileId/:univerId?" component={permissions?.includes(permissionList?.Add_New_University  || permissionList?.Update_University_info)? AddProviderUniversity : NotAuthorized} />
+         <AppRoute  path="/addUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info)? AddUniversityApplicationDocument: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityApplicationDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info)? AddProviderUniversityApplicationDocument: NotAuthorized} />
+         <AppRoute  path="/addUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info)? AddUniversityTemplateDocument : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityTemplateDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info)? AddProviderUniversityTemplateDocument : NotAuthorized} />
          
-         <AppRoute  path="/addProviderUniversityCommission/:providerProfileId/:univerId" component={AddProviderUniversityCommission} />
+         <AppRoute  path="/addProviderUniversityCommission/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Commission || permissionList?.Update_University_Commission_info) ? AddProviderUniversityCommission : NotAuthorized} />
 
          {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
           {/* intake */}
-          <AppRoute  path="/intake" component={permissions?.includes(permissionList?.subject_intake_List)? Intake : NotAuthorized} />
-          <AppRoute  path="/addNewIntakes" component={permissions?.includes(permissionList?.Add_subject_intake)? AddNewIntakes: NotAuthorized} />
-          <AppRoute  path="/updateIntake/:id" component={permissions?.includes(permissionList?.Update_subject_intake)? UpdateIntake : NotAuthorized} />
+          <AppRoute  path="/intake" component={permissions?.includes(permissionList?.View_subject_intake_List)? Intake : NotAuthorized} />
+          <AppRoute  path="/addNewIntakes" component={permissions?.includes(permissionList?.Add_New_subject_intake)? AddNewIntakes: NotAuthorized} />
+          <AppRoute  path="/updateIntake/:id" component={permissions?.includes(permissionList?.Update_subject_intake_info)? UpdateIntake : NotAuthorized} />
 
           {/* university create form */}
-          <AppRoute  path="/createUniversity" component={permissions?.includes(permissionList?.Add_University)? UniversityForm : NotAuthorized} />
+          <AppRoute  path="/createUniversity" component={permissions?.includes(permissionList?.Add_New_University)? UniversityForm : NotAuthorized} />
 
-          <AppRoute  path="/createUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_UniversityCampus)? UniversityCampusForm : NotAuthorized} />
+          <AppRoute  path="/createUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityCampus)? UniversityCampusForm : NotAuthorized} />
 
-          <AppRoute  path="/createUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_Financialinfo)? UniversityFinancialForm : NotAuthorized }/>
+          <AppRoute  path="/createUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_New_Financialinfo)? UniversityFinancialForm : NotAuthorized }/>
 
-          <AppRoute  path="/createUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? UniversityFeaturesForm : NotAuthorized} />
+          <AppRoute  path="/createUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityFeatures)? UniversityFeaturesForm : NotAuthorized} />
 
-          <AppRoute  path="/createUniversityTestScore/:univerId" component={UniversityTestScoreForm} />
+          <AppRoute  path="/createUniversityTestScore/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Test_Requirement) ? UniversityTestScoreForm : NotAuthorized} />
 
-          <AppRoute  path="/createUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument)? UniversityApplicationDocumentForm: NotAuthorized} />
+          <AppRoute  path="/createUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info)? UniversityApplicationDocumentForm: NotAuthorized} />
 
-          <AppRoute  path="/createUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document)? UniversityTemplateDocumentForm : NotAuthorized} />
+          <AppRoute  path="/createUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info)? UniversityTemplateDocumentForm : NotAuthorized} />
 
-          <AppRoute  path="/createUniversityCommission/:univerId" component={UniversityCommissionForm} />
+          <AppRoute  path="/createUniversityCommission/:univerId" component={permissions?.includes(permissionList.Add_New_University_Commission) ? UniversityCommissionForm : NotAuthorized} />
 
           {/* Country */}
-          <AppRoute  path="/country" component={permissions?.includes(permissionList?.Country_List)? AddCountry: NotAuthorized} />
+          <AppRoute  path="/country" component={permissions?.includes(permissionList?.View_Country_List)? AddCountry: NotAuthorized} />
 
           {/* State */}
-          <AppRoute  path="/state" component={permissions?.includes(permissionList?.State_List)? AddState: NotAuthorized} />
+          <AppRoute  path="/state" component={permissions?.includes(permissionList?.View_State_List)? AddState: NotAuthorized} />
 
 
           {/* consultant */}
-          <AppRoute  path="/consultantList" component={permissions?.includes(permissionList?.Counsultant_List) ? ConsultantList : NotAuthorized} />
-          <AppRoute  path="/consultantProfile/:id" component={permissions?.includes(permissionList?.View_Consultant)? ConsultantProfile : NotAuthorized} />
-          <AppRoute  path="/addConsultant" component={permissions?.includes(permissionList?.Add_Consultant) ? AddConsultant : NotAuthorized} />
+          <AppRoute  path="/consultantList" component={permissions?.includes(permissionList?.View_Counsultant_List) ? ConsultantList : NotAuthorized} />
+          <AppRoute  path="/consultantProfile/:id" component={permissions?.includes(permissionList?.View_Consultant_info)? ConsultantProfile : NotAuthorized} />
+          <AppRoute  path="/addConsultant" component={permissions?.includes(permissionList?.Add_New_Consultant) ? AddConsultant : NotAuthorized} />
 
           {/* permission not added */}
-          <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.Consultant_type_List) ? AddConsultantType : NotAuthorized} />
+          <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.View_Consultant_type_List) ? AddConsultantType : NotAuthorized} />
           
-          <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_Consultant)? BankDetails : NotAuthorized } />
-          <AppRoute  path="/consultantCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.ConsultantCommissionGroup_List)? ConsultantCommission : NotAuthorized} />
-          <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_Consultant)? AddConsultantInformation : NotAuthorized } />
-          <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.Associate_List)? AssociateList : NotAuthorized} />
+          <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? BankDetails : NotAuthorized } />
+          <AppRoute  path="/consultantCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.View_ConsultantCommissionGroup_List)? ConsultantCommission : NotAuthorized} />
+          <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? AddConsultantInformation : NotAuthorized } />
+          <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
           
           
 
-         <AppRoute  path="/addUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_UniversityCampus)? AddUniversityCampus: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityCampus/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_UniversityCampus)? AddProviderUniversityCampus: NotAuthorized} />
-         <AppRoute  path="/addUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_Financialinfo)? AddUniversityFinancial : NotAuthorized }/>
-         <AppRoute  path="/addProviderUniversityFinancial/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_Financialinfo)? AddProviderUniversityFinancial : NotAuthorized }/>
-         <AppRoute  path="/addUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? AddUniversityFeatures : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityFeatures/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_UniversityFeatures)? AddProviderUniversityFeatures : NotAuthorized} />
-         <AppRoute  path="/addUniversityGallery/:univerId" component={permissions?.includes(permissionList?.Add_Universitygallery)? AddUniversityGallery: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityGallery/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_Universitygallery)? AddProviderUniversityGallery: NotAuthorized} />
-         <AppRoute  path="/universityList" component={permissions?.includes(permissionList?.University_List)? UniversityList : NotAuthorized} />
-         <AppRoute  path="/universityDetails/:id" component={permissions?.includes(permissionList?.View_University)? UniversityDetails : NotAuthorized} />
-         <AppRoute  path="/campusList/:uniId?" component={permissions?.includes(permissionList?.UniversityCampus_List)? CampusList : NotAuthorized } />
-         <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
-         <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? CampusDetails : NotAuthorized } />
-         <AppRoute  path="/assignMultipleSubject/:id" component={permissions?.includes(permissionList?.View_UniversityCampus)? AssignMultipleSubject : NotAuthorized } />
+         <AppRoute  path="/addUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_New_University)? AddUniversityCampus: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityCampus/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityCampus)? AddProviderUniversityCampus: NotAuthorized} />
+         <AppRoute  path="/addUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_New_Financialinfo)? AddUniversityFinancial : NotAuthorized }/>
+         <AppRoute  path="/addProviderUniversityFinancial/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_Financialinfo)? AddProviderUniversityFinancial : NotAuthorized }/>
+         <AppRoute  path="/addUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityFeatures)? AddUniversityFeatures : NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityFeatures/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityFeatures)? AddProviderUniversityFeatures : NotAuthorized} />
+         <AppRoute  path="/addUniversityGallery/:univerId" component={permissions?.includes(permissionList?.Add_New_Universitygallery)? AddUniversityGallery: NotAuthorized} />
+         <AppRoute  path="/addProviderUniversityGallery/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_Universitygallery)? AddProviderUniversityGallery: NotAuthorized} />
+         <AppRoute  path="/universityList" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
+         <AppRoute  path="/universityDetails/:id" component={permissions?.includes(permissionList?.View_University_info)? UniversityDetails : NotAuthorized} />
+         <AppRoute  path="/campusList/:uniId?" component={permissions?.includes(permissionList?.View_UniversityCampus_List)? CampusList : NotAuthorized } />
+         <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.View_university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
+         <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus_List)? CampusDetails : NotAuthorized } />
+         <AppRoute  path="/assignMultipleSubject/:id" component={permissions?.includes(permissionList?.Add_New_university_campus_subject)? AssignMultipleSubject : NotAuthorized } />
 
          {/* University Subject starts here */}
-         <AppRoute  path="/universitySubjectList/:id" component={permissions?.includes(permissionList?.subject_List)? UniversitySubjectList : NotAuthorized } />
-         <AppRoute  path="/addUniversitySubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_subject)? AddUniversitySubject : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_fee_structure)? AddUniversitySubjectFee : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_Subject_Delivery_Pattern)? AddUniversitySubjectDeliveryPattern : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement)? AddUniversitySubjectRequirements : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement_document)? AddUniversitySubjectDocumentRequirement : NotAuthorized} />
+         <AppRoute  path="/universitySubjectList/:id" component={permissions?.includes(permissionList?.View_university_campus_subject_List)? UniversitySubjectList : NotAuthorized } />
+         <AppRoute  path="/addUniversitySubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_New_university_campus_subject)? AddUniversitySubject : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? AddUniversitySubjectFee : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? AddUniversitySubjectDeliveryPattern : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddUniversitySubjectRequirements : NotAuthorized} />
+         <AppRoute  path="/addUniversitySubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement_document)? AddUniversitySubjectDocumentRequirement : NotAuthorized} />
 
          {/* University Subject ends here */}
 
          {/* university profile subject add starts here */}
-         <AppRoute  path="/addUniProfileSubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_subject)? AddUniProfileSubject : NotAuthorized} />
+         <AppRoute  path="/addUniProfileSubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_New_subject)? AddUniProfileSubject : NotAuthorized} />
 
-         <AppRoute  path="/addUniProfileSubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_fee_structure)? AddUniProfileSubjectFee : NotAuthorized} />
+         <AppRoute  path="/addUniProfileSubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? AddUniProfileSubjectFee : NotAuthorized} />
 
-         <AppRoute  path="/addUniProfileSubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_Subject_Delivery_Pattern)? AddUniProfileSubjectDeliveryPattern : NotAuthorized} />
+         <AppRoute  path="/addUniProfileSubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? AddUniProfileSubjectDeliveryPattern : NotAuthorized} />
 
-         <AppRoute  path="/addUniProfileSubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement)? AddUniProfileSubjectRequirements : NotAuthorized} />
+         <AppRoute  path="/addUniProfileSubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddUniProfileSubjectRequirements : NotAuthorized} />
 
-         <AppRoute  path="/addUniProfileSubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_subject_requirement_document)? AddUniProfileSubjectDocumentRequirement : NotAuthorized} />
+         <AppRoute  path="/addUniProfileSubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement_document)? AddUniProfileSubjectDocumentRequirement : NotAuthorized} />
          {/* university profile subject add ends here */}
 
-         <AppRoute  path="/documentlist" component={permissions?.includes(permissionList?.Document_List)? DocumentList : NotAuthorized} />
-         <AppRoute  path="/documentCategoryList" component={permissions?.includes(permissionList?.Document_Category_List)? DocumentCategoryList : NotAuthorized} />
-         <AppRoute  path="/subjectDocumentGroup" component={permissions?.includes(permissionList?.Add_Document_Group)? DocumentGroup : NotAuthorized} />
+         <AppRoute  path="/documentlist" component={permissions?.includes(permissionList?.View_Document_List)? DocumentList : NotAuthorized} />
+         <AppRoute  path="/documentCategoryList" component={permissions?.includes(permissionList?.View_Document_Category_List)? DocumentCategoryList : NotAuthorized} />
+         <AppRoute  path="/subjectDocumentGroup" component={permissions?.includes(permissionList?.Add_New_Document_Group)? DocumentGroup : NotAuthorized} />
 
 
-         <AppRoute  path="/department" component={permissions?.includes(permissionList?.Add_department)? AddDepartment : NotAuthorized} />
-         <AppRoute  path="/subDepartment" component={permissions?.includes(permissionList?.sub_department_List)? AddSubDepartment : NotAuthorized} />
-         <AppRoute  path="/programLevel" component={permissions?.includes(permissionList?.program_level_List)? AddProgramLevel : NotAuthorized} />
+         <AppRoute  path="/department" component={permissions?.includes(permissionList?.Add_new_department)? AddDepartment : NotAuthorized} />
+         <AppRoute  path="/subDepartment" component={permissions?.includes(permissionList?.View_sub_department_List)? AddSubDepartment : NotAuthorized} />
+         <AppRoute  path="/programLevel" component={permissions?.includes(permissionList?.View_program_level_List)? AddProgramLevel : NotAuthorized} />
          {/* <AppRoute  path="/addSubject" component={permissions?.includes(permissionList?.Add_subject)? Subject : NotAuthorized} /> */}
 
          {/* <AppRoute  path="/addDepartment" component={permissions?.includes(permissionList?.Add_department)? AddDepartment : NotAuthorized} /> */}
-         <AppRoute  path="/addSubDepartment" component={permissions?.includes(permissionList?.sub_department_List)? AddSubDepartment : NotAuthorized} />
-         <AppRoute  path="/programLevel" component={permissions?.includes(permissionList?.program_level_List)? AddProgramLevel : NotAuthorized} />
-         <AppRoute  path="/addSubject/:id?" component={permissions?.includes(permissionList?.Add_subject)? Subject : NotAuthorized} />
+         <AppRoute  path="/addSubDepartment" component={permissions?.includes(permissionList?.View_sub_department_List)? AddSubDepartment : NotAuthorized} />
+         <AppRoute  path="/programLevel" component={permissions?.includes(permissionList?.View_program_level_List)? AddProgramLevel : NotAuthorized} />
+         <AppRoute  path="/addSubject/:id?" component={permissions?.includes(permissionList?.Add_New_subject)? Subject : NotAuthorized} />
 
-         <AppRoute  path="/subjectList" component={permissions?.includes(permissionList?.subject_List)? SubjectList: NotAuthorized} />
-         <AppRoute  path="/editSubject/:id" component={permissions?.includes(permissionList?.Update_subject)? EditSubject : NotAuthorized} />
-         <AppRoute  path="/addSubjectFee/:id" component={permissions?.includes(permissionList?.Add_subject_fee_structure)? AddSubjectFee : NotAuthorized} />
-         <AppRoute  path="/addSubjectDeliveryPattern/:id" component={permissions?.includes(permissionList?.Add_Subject_Delivery_Pattern)? AddSubjectDeliveryPattern : NotAuthorized} />
-         <AppRoute  path="/addSubjectDocumentRequirement/:id" component={permissions?.includes(permissionList?.Add_subject_requirement_document)? AddSubjectDocumentRequirement : NotAuthorized} />
-         <AppRoute  path="/editSubjectDocumentRequirement/:id" component={permissions?.includes(permissionList?.Update_subject_requirement_document)? EditSubjectDocumentRequirement : NotAuthorized} />
-         <AppRoute  path="/addSubjectRequirements/:id" component={permissions?.includes(permissionList?.Add_subject_requirement)? AddSubjectRequirements : NotAuthorized} />
-         <AppRoute  path="/EditSubjectRequirements/:id" component={permissions?.includes(permissionList?.Update_subject_requirement)? EditSubjectRequirements : NotAuthorized} />
-         <AppRoute  path="/EditSubjectFee/:subId" component={permissions?.includes(permissionList?.Update_subject_fee_structure)? EditSubjectFee : NotAuthorized} />
+         <AppRoute  path="/subjectList" component={permissions?.includes(permissionList?.View_subject_List)? SubjectList: NotAuthorized} />
+         <AppRoute  path="/editSubject/:id" component={permissions?.includes(permissionList?.Update_subject_info)? EditSubject : NotAuthorized} />
+         <AppRoute  path="/addSubjectFee/:id" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? AddSubjectFee : NotAuthorized} />
+         <AppRoute  path="/Add_New_Subject_Delivery_Pattern/:id" component={permissions?.includes(permissionList?.Add_Subject_Delivery_Pattern)? AddSubjectDeliveryPattern : NotAuthorized} />
+         <AppRoute  path="/addSubjectDocumentRequirement/:id" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddSubjectDocumentRequirement : NotAuthorized} />
+         <AppRoute  path="/editSubjectDocumentRequirement/:id" component={permissions?.includes(permissionList?.Update_subject_requirement_info)? EditSubjectDocumentRequirement : NotAuthorized} />
+         <AppRoute  path="/addSubjectRequirements/:id" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddSubjectRequirements : NotAuthorized} />
+         <AppRoute  path="/EditSubjectRequirements/:id" component={permissions?.includes(permissionList?.Update_subject_requirement_info)? EditSubjectRequirements : NotAuthorized} />
+         <AppRoute  path="/EditSubjectFee/:subId" component={permissions?.includes(permissionList?.Update_subject_fee_structure_info)? EditSubjectFee : NotAuthorized} />
          <AppRoute  path="/editDeliveryPattern/:id" component={permissions?.includes(permissionList?.Update_Subject_Delivery_Pattern)? EditDeliveryPattern : NotAuthorized} />
-         <AppRoute  path="/subjectFeeInfo" component={permissions?.includes(permissionList?.subject_fee_structure_List)? SubjectFeeInformation : NotAuthorized} />
-         <AppRoute  path="/subjectIntake/:camId/:subbId" component={permissions?.includes(permissionList?.subject_intake_List)? SubjectIntake : NotAuthorized} />
-         <AppRoute  path="/subjectProfile/:subjId" component={permissions?.includes(permissionList?.View_subject)? SubjectProfile : NotAuthorized} />
+         <AppRoute  path="/subjectFeeInfo" component={permissions?.includes(permissionList?.View_subject_fee_structure_List)? SubjectFeeInformation : NotAuthorized} />
+         <AppRoute  path="/subjectIntake/:camId/:subbId" component={permissions?.includes(permissionList?.View_subject_intake_List)? SubjectIntake : NotAuthorized} />
+         <AppRoute  path="/subjectProfile/:subjId" component={permissions?.includes(permissionList?.View_subject_info)? SubjectProfile : NotAuthorized} />
 
          {/* <AppRoute  path="/fileUpload" component={FileUpload} /> */}
          
          {/* <AppRoute path="/subjectIntake" component={SubjectIntake} /> */}
 
          {/* Applications */}
-         <AppRoute  path="/applications" component={permissions?.includes(permissionList?.Application_List)? Applications : NotAuthorized} />
+         <AppRoute  path="/applications" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
 
-         <AppRoute  path="/applicationsByConsultant/:cId" component={permissions?.includes(permissionList?.Application_List)? Applications : NotAuthorized} />
+         <AppRoute  path="/applicationsByConsultant/:cId" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
 
-         <AppRoute  path="/applicationDetails/:id/:stdId" component={permissions?.includes(permissionList?.View_Application)? ApplicationDetails : NotAuthorized} />
+         <AppRoute  path="/applicationDetails/:id/:stdId" component={permissions?.includes(permissionList?.View_Application_List)? ApplicationDetails : NotAuthorized} />
 
         
          {/* <AppRoute  path="/newform" component={Post} /> */}
@@ -681,149 +685,153 @@ class AppRouter extends React.Component {
          {/* <AppRoute  path="/update/:id" component={Put} /> */}
          {/* <AppRoute  path="/delete/:id" component={Delete} /> */}
 
-         <AppRoute  path="/providerForm" component={permissions?.includes(permissionList?.Add_Provider)? ProviderForm : NotAuthorized} />
-         <AppRoute  path="/adminProviderForm/:adminProviderHiddenId" component={permissions?.includes(permissionList?.Add_Provider_Admin)? AdminProviderForm : NotAuthorized} />
-         <AppRoute  path="/addStaffGeneralInfo" component={permissions?.includes(permissionList?.Add_Staff)? AddEmployeeGeneralInfo : NotAuthorized} />
-         <AppRoute  path="/addStaffContactInfo/:employeeId?" component={permissions?.includes(permissionList?.Add_Staff)? AddEmployeeContactInfo : NotAuthorized} />
-         <AppRoute  path="/staffGeneralInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeGeneralInfo : NotAuthorized} />
-         <AppRoute  path="/staffContactInfo/:id" component={permissions?.includes(permissionList?.Update_Staff)? EmployeeContactInfo : NotAuthorized} />
+         <AppRoute  path="/providerForm" component={permissions?.includes(permissionList?.Add_New_Provider)? ProviderForm : NotAuthorized} />
+         <AppRoute  path="/adminProviderForm/:adminProviderHiddenId" component={permissions?.includes(permissionList?.Add_New_Provider_Admin)? AdminProviderForm : NotAuthorized} />
+         <AppRoute  path="/addStaffGeneralInfo" component={permissions?.includes(permissionList?.Add_New_Staff)? AddEmployeeGeneralInfo : NotAuthorized} />
+         <AppRoute  path="/addStaffContactInfo/:employeeId?" component={permissions?.includes(permissionList?.Add_New_Staff)? AddEmployeeContactInfo : NotAuthorized} />
+         <AppRoute  path="/staffGeneralInfo/:id" component={permissions?.includes(permissionList?.Update_Staff_info)? EmployeeGeneralInfo : NotAuthorized} />
+         <AppRoute  path="/staffContactInfo/:id" component={permissions?.includes(permissionList?.Update_Staff_info)? EmployeeContactInfo : NotAuthorized} />
          {/* <AppRoute  path="/employeeInformatio" component={EmployeeInformation} /> */}
          {/* <AppRoute  path="/siteSetting" component={SiteSetting} />
          <AppRoute  path="/addSiteSetting" component={AddSiteSetting} />
          <AppRoute  path="/updateSiteSetting" component={UpdateSiteSetting} /> */}
          {/* <AppRoute  path="/country" component={Country} /> */}
-         <AppRoute  path="/editDepartment/:id" component={permissions?.includes(permissionList?.Update_department)? EditDepartment : NotAuthorized} />
-         <AppRoute  path="/editSubDepartment/:id" component={permissions?.includes(permissionList?.Update_sub_department)? EditSubDepartment : NotAuthorized} />
+         <AppRoute  path="/editDepartment/:id" component={permissions?.includes(permissionList?.Update_department_info)? EditDepartment : NotAuthorized} />
+         <AppRoute  path="/editSubDepartment/:id" component={permissions?.includes(permissionList?.Update_sub_department_info)? EditSubDepartment : NotAuthorized} />
 
-         <AppRoute  path="/providerList" component={permissions?.includes(permissionList?.Provider_List)? ProviderList : NotAuthorized} />
-         <AppRoute  path="/providerAdminList" component={permissions?.includes(permissionList?.Provider_Admin_List)? ProviderAdminList : NotAuthorized} />
+         <AppRoute  path="/providerList" component={permissions?.includes(permissionList?.View_Provider_List)? ProviderList : NotAuthorized} />
+         <AppRoute  path="/providerAdminList" component={permissions?.includes(permissionList?.View_Provider_Admin_List)? ProviderAdminList : NotAuthorized} />
 
 
-         <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider)? ProviderDetails : NotAuthorized} />
+         <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider_info)? ProviderDetails : NotAuthorized} />
+
          <AppRoute  path="/providerDashboard/:id" component={ProviderDashboard} />
-         <AppRoute  path="/assignUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Add_Admission_manager_university)? AssignUniversity : NotAuthorized} />
 
-         <AppRoute  path="/assignOfficerUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Add_Admission_manager_university)? AssignOfficerUniversity : NotAuthorized} />
+         <AppRoute  path="/assignUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Add_New_Admission_manager_university)? AssignUniversity : NotAuthorized} />
 
-         <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider)? UpdateProvider : NotAuthorized} />
-         <AppRoute  path="/branchInformation/:branchId?" component={permissions?.includes(permissionList?.Add_Branch)? Branch : NotAuthorized} />
-         <AppRoute  path="/addBranchManager/:branchId" component={permissions?.includes(permissionList?.Add_Branch_Manager)? BranchManager : NotAuthorized} />
-         <AppRoute  path="/branchEmployeeInformation/:branchId/:employeeId?" component={permissions?.includes(permissionList?.Add_Branch_Employee)? BranchEmployee : NotAuthorized} />
+         <AppRoute  path="/assignOfficerUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Add_New_Admission_Officer_university)? AssignOfficerUniversity : NotAuthorized} />
+
+         <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider_info)? UpdateProvider : NotAuthorized} />
+         <AppRoute  path="/branchInformation/:branchId?" component={permissions?.includes(permissionList?.Add_New_Branch)? Branch : NotAuthorized} />
+         <AppRoute  path="/addBranchManager/:branchId" component={permissions?.includes(permissionList?.Add_New_Branch_Manager)? BranchManager : NotAuthorized} />
+         <AppRoute  path="/branchEmployeeInformation/:branchId/:employeeId?" component={permissions?.includes(permissionList?.Add_New_Branch_Employee)? BranchEmployee : NotAuthorized} />
          {/* <AppRoute path="/updateBranch/:id" component={UpdateBranch} /> */}
-         <AppRoute  path="/branchList" component={permissions?.includes(permissionList?.Branch_List)? BranchList : NotAuthorized} />
+         <AppRoute  path="/branchList" component={permissions?.includes(permissionList?.View_Branch_List)? BranchList : NotAuthorized} />
          {/* <AppRoute path="/updateBranchManager/:id" component={UpdateBranchManager} /> */}
-         <AppRoute  path="/branchProfile/:id" component={permissions?.includes(permissionList?.View_Branch)? BranchProfile : NotAuthorized} />
-         <AppRoute  path="/updateBranchManagerInformation/:branchId/:managerId" component={permissions?.includes(permissionList?.Update_Branch_Manager)? BranchManagerInformation : NotAuthorized} />
-         <AppRoute  path="/teamEmployee/:branchId/:teamId" component={permissions?.includes(permissionList?.Branch_Team_Employee_List)? BranchTeamEmployeeInformation : NotAuthorized} />
+         <AppRoute  path="/branchProfile/:id" component={permissions?.includes(permissionList?.View_Branch_Manager_info)? BranchProfile : NotAuthorized} />
+         <AppRoute  path="/updateBranchManagerInformation/:branchId/:managerId" component={permissions?.includes(permissionList?.Update_Branch_Manager_info)? BranchManagerInformation : NotAuthorized} />
+         <AppRoute  path="/teamEmployee/:branchId/:teamId" component={permissions?.includes(permissionList?.View_Branch_Team_Employee_List)? BranchTeamEmployeeInformation : NotAuthorized} />
 
-         <AppRoute  path="/studentList" component={permissions?.includes(permissionList?.Student_List)? StudentList : NotAuthorized} />
-         <AppRoute  path="/studentListByType/:type" component={permissions?.includes(permissionList?.Student_List)? StudentList : NotAuthorized} />
-         <AppRoute  path="/studentListByConsultant/:cId" component={permissions?.includes(permissionList?.Student_List)? StudentList : NotAuthorized} />
-         <AppRoute  path="/studentProfile/:sId" component={permissions?.includes(permissionList?.View_Student)? StudentProfile : NotAuthorized} />
-         <AppRoute  path="/addStudentInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? PersonalInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentContactInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? ContactInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentApplicationInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Applicationinfo)? ApplicationInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentEducationalInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? EducationalInformation : NotAuthorized} />
+         <AppRoute  path="/studentList" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
+         <AppRoute  path="/studentListByType/:type" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
+         <AppRoute  path="/studentListByConsultant/:cId" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
+         <AppRoute  path="/studentProfile/:sId" component={permissions?.includes(permissionList?.View_Student_info)? StudentProfile : NotAuthorized} />
+         <AppRoute  path="/addStudentInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? PersonalInformation : NotAuthorized} />
+         <AppRoute  path="/addStudentContactInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? ContactInformation : NotAuthorized} />
+         <AppRoute  path="/addStudentApplicationInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Applicationinfo_info)? ApplicationInformation : NotAuthorized} />
+         <AppRoute  path="/addStudentEducationalInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? EducationalInformation : NotAuthorized} />
         
-         <AppRoute  path="/addStudentRegister" component={permissions?.includes(permissionList?.Add_Student)? AddStudentRegister : NotAuthorized} />
+         <AppRoute  path="/addStudentRegister" component={permissions?.includes(permissionList?.Add_New_Student)? AddStudentRegister : NotAuthorized} />
 
-         <AppRoute  path="/addExperience/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? AddExperience : NotAuthorized} />
-         <AppRoute  path="/addReference/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? AddReference : NotAuthorized} />
-         <AppRoute  path="/addPersonalStatement/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? AddPersonalStatement : NotAuthorized} />
-         <AppRoute  path="/addOtherInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)? AddOtherInformation : NotAuthorized} />
-         <AppRoute  path="/addTestScore/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_Student)?AddTestScore : NotAuthorized} />
+         <AppRoute  path="/addExperience/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddExperience : NotAuthorized} />
+         <AppRoute  path="/addReference/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddReference : NotAuthorized} />
+         <AppRoute  path="/addPersonalStatement/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddPersonalStatement : NotAuthorized} />
+         <AppRoute  path="/addOtherInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddOtherInformation : NotAuthorized} />
+         <AppRoute  path="/addTestScore/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)?AddTestScore : NotAuthorized} />
 
          
-         <AppRoute  path="/studentByConsultant/:id" component={permissions?.includes(permissionList?.Student_Consultant_List)? StudentByConsultant : NotAuthorized} />
+         <AppRoute  path="/studentByConsultant/:id" component={permissions?.includes(permissionList?.View_Student_consultant_List)? StudentByConsultant : NotAuthorized} />
        
-         <AppRoute  path="/uploadDocument/:applicationStudentId?/:update?" component={permissions?.includes(permissionList?.Add_Student)? UploadDocument : NotAuthorized} />
+         <AppRoute  path="/uploadDocument/:applicationStudentId?/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? UploadDocument : NotAuthorized} />
 
          {/* Education Level paths */}
 
-         <AppRoute  path="/educationalLevelList" component={permissions?.includes(permissionList?.Education_Level_List)? EducationLevelList : NotAuthorized} />
+         <AppRoute  path="/educationalLevelList" component={permissions?.includes(permissionList?.View_Education_Level_List)? EducationLevelList : NotAuthorized} />
          {/* <AppRoute  path="/addEducationLevel/:name?/:description?/:levelValue?/:id?" component={permissions?.includes(permissionList?.Add_Education_Level)? AddEducationLevel : NotAuthorized} /> */}
 
          {/* Degree Paths */}
 
-         <AppRoute  path="/degreeList" component={permissions?.includes(permissionList?.degree_List)? DegreeList : NotAuthorized} />
+         <AppRoute  path="/degreeList" component={permissions?.includes(permissionList?.View_degree_List)? DegreeList : NotAuthorized} />
          {/* <AppRoute  path="/addDegree/:degreeName?/:eduLabel?/:educationId?/:id?" component={permissions?.includes(permissionList?.Add_degree)? AddDegree : NotAuthorized} /> */}
 
 
-         <AppRoute  path="/examTestType" component={permissions?.includes(permissionList?.Exam_test_type_List)? ExamTestType : NotAuthorized} />
+         <AppRoute  path="/examTestType" component={permissions?.includes(permissionList?.View_Exam_test_type_List)? ExamTestType : NotAuthorized} />
 
          {/* <AppRoute  path="/examTestTypeAttribute" component={ExamTestTypeAttribute} /> */}
 
 
 
 
-         <AppRoute  path="/updateUniversityInformation/:id" component={permissions?.includes(permissionList?.Update_University)? UpdateUniversityInformation : NotAuthorized} />
+         <AppRoute  path="/updateUniversityInformation/:id" component={permissions?.includes(permissionList?.Update_University_info)? UpdateUniversityInformation : NotAuthorized} />
 
-         <AppRoute  path="/studentTypeList" component={permissions?.includes(permissionList?.Student_type_List)? StudentType : NotAuthorized} />
+         <AppRoute  path="/studentTypeList" component={permissions?.includes(permissionList?.View_Student_type_List)? StudentType : NotAuthorized} />
 
 
-         <AppRoute  path="/countryList" component={permissions?.includes(permissionList?.Country_List)? CountryList : NotAuthorized} />
+         <AppRoute  path="/countryList" component={permissions?.includes(permissionList?.View_Country_List)? CountryList : NotAuthorized} />
 
          {/* Comission paths */}
 
-        <AppRoute  path="/accountIntakeList" component={permissions?.includes(permissionList?.AccountIntake_List)? AccountIntake : NotAuthorized} />
-        <AppRoute  path="/commissionGroupList" component={permissions?.includes(permissionList?.CommissionGroup_List)? ComissionGroup : NotAuthorized} />
+        <AppRoute  path="/accountIntakeList" component={permissions?.includes(permissionList?.View_AccountIntake_List)? AccountIntake : NotAuthorized} />
+        <AppRoute  path="/commissionGroupList" component={permissions?.includes(permissionList?.View_CommissionGroup_List)? ComissionGroup : NotAuthorized} />
         
-        <AppRoute  path="/commissionPriceList/:id" component={permissions?.includes(permissionList?.GroupPriceRange_List)? CommissionPriceList : NotAuthorized} />
+        <AppRoute  path="/commissionPriceList/:id" component={permissions?.includes(permissionList?.View_GroupPriceRange_List)? CommissionPriceList : NotAuthorized} />
 
         {/* Consultant Conscent Path */}
 
-          <AppRoute  path="/consultantConscent/:consultantRegisterId" component={ConsultantConscent} />
+          <AppRoute  path="/consultantConscent/:consultantRegisterId" component={permissions?.includes(permissionList.Add_New_consultant_consent) ? ConsultantConscent : NotAuthorized} />
 
           {/* Student Declaration Path */}
-          <AppRoute  path="/studentDeclaration/:applicationStudentId/:update?" component={StudentDeclaration} />
+          <AppRoute  path="/studentDeclaration/:applicationStudentId/:update?" component={permissions?.includes(permissionList.Add_New_student_consent) ? StudentDeclaration : NotAuthorized} />
 
           {/* Branch Employee Profile path */}
-          <AppRoute  path="/branchEmployeeProfile/:branchId/:employeeId" component={BranchEmployeeProfile} />
+          <AppRoute  path="/branchEmployeeProfile/:branchId/:employeeId" component={permissions?.includes(permissionList.View_Branch_Employee_info) ? BranchEmployeeProfile : NotAuthorized} />
 
           {/* nationality path */}
-           <AppRoute  path="/nationality" component={Nationality} />
+           <AppRoute  path="/nationality" component={permissions?.includes(permissionList.View_Nationality_List) ? Nationality : NotAuthorized} />
 
 
-           <AppRoute  path="/providerAdmissionManager/:managerId/:providerId" component={AdmissionManagerProfile} />
+           <AppRoute  path="/providerAdmissionManager/:managerId/:providerId" component={permissions?.includes(permissionList.View_Admission_manager_info) ? AdmissionManagerProfile : NotAuthorized} />
 
 
-           <AppRoute  path="/promotionalCommissionList" component={PromotionalCommissionList} />
+           <AppRoute  path="/promotionalCommissionList" component={permissions?.includes(permissionList.View_promotional_commission_List) ? PromotionalCommissionList : NotAuthorized} />
 
-           <AppRoute  path="/distributionLevelSetting" component={DistributionLevelSetting} />
+           <AppRoute  path="/distributionLevelSetting" component={permissions?.includes(permissionList.View_Distribution_Level_Setting_List) ? DistributionLevelSetting : NotAuthorized} />
 
-           <AppRoute  path="/applicationTransaction" component={ApplicationTransaction} />
-           <AppRoute  path="/applicationTransactionDetails/:id" component={ApplicationTransactionDetails} />
+           <AppRoute  path="/applicationTransaction" component={permissions?.includes(permissionList.View_Application_transaction_List) ? ApplicationTransaction : NotAuthorized} />
+           <AppRoute  path="/applicationTransactionDetails/:id" component={permissions?.includes(permissionList.View_Application_transaction_info) ? ApplicationTransactionDetails : NotAuthorized} />
 
-           <AppRoute  path="/inFlowTransaction" component={InFlow} />
-           <AppRoute  path="/inFlow/details/:id" component={InFlowDetails} />
-           <AppRoute  path="/inFlow/Update/:id" component={InFlowUpdate} />
+           <AppRoute  path="/inFlowTransaction" component={permissions?.includes(permissionList.View_Account_transaction_List) ? InFlow : NotAuthorized} />
+           <AppRoute  path="/inFlow/details/:id" component={permissions?.includes(permissionList.View_Account_transaction_info) ? InFlowDetails : NotAuthorized} />
+           <AppRoute  path="/inFlow/Update/:id" component={permissions?.includes(permissionList.Update_Account_transaction_info) ? InFlowUpdate : NotAuthorized} />
 
-           <AppRoute  path="/accountTransaction" component={AccountTransactionList} />
+           <AppRoute  path="/accountTransaction" component={permissions?.includes(permissionList.View_Account_transaction_List) ? AccountTransactionList : NotAuthorized} />
 
-           <AppRoute  path="/createWithdrawRequest" component={CreateWithdrawRequest} />
-           <AppRoute  path="/withdrawRequestList" component={WithdrawRequestList} />
+           <AppRoute  path="/createWithdrawRequest" component={permissions?.includes(permissionList.Add_New_withdraw_request) ? CreateWithdrawRequest : NotAuthorized} />
+           <AppRoute  path="/withdrawRequestList" component={permissions?.includes(permissionList.View_withdraw_request_List) ? WithdrawRequestList : NotAuthorized} />
 
-           <AppRoute  path="/withdrawTransaction" component={WithdrawTransaction} />
+           <AppRoute  path="/withdrawTransaction" component={permissions?.includes(permissionList.View_withdraw_transaction_List) ? WithdrawTransaction : NotAuthorized} />
+
+
            <AppRoute  path="/exportPDF" component={ExportWithdrawRequestPdf} />
 
 
 
            {/* Student Create Form Paths */}
-           <AppRoute  path="/studentApplication/:id" component={StudentApplicationForm} />
-           <AppRoute  path="/studentPersonal/:id" component={StudentPersonalForm} />
-           <AppRoute  path="/studentContact/:id" component={StudentContactForm} />
-           <AppRoute  path="/studentEducation/:id" component={StudentEducationForm} />
-           <AppRoute  path="/studentTestScore/:id" component={StudentTestScoreForm} />
-           <AppRoute  path="/studentExperience/:id" component={StudentExperienceForm} />
-           <AppRoute  path="/studentReference/:id" component={StudentReferenceForm} />
-           <AppRoute  path="/studentPersonalStatement/:idVal" component={StudentPersonalStatementForm} />
-           <AppRoute  path="/studentOtherInformation/:idVal" component={StudentOtherInformationForm} />
-           <AppRoute  path="/studentDeclarations/:idVal" component={StudentDeclarationForm} />
+           <AppRoute  path="/studentApplication/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentApplicationForm : NotAuthorized} />
+           <AppRoute  path="/studentPersonal/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentPersonalForm : NotAuthorized} />
+           <AppRoute  path="/studentContact/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentContactForm : NotAuthorized} />
+           <AppRoute  path="/studentEducation/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentEducationForm : NotAuthorized} />
+           <AppRoute  path="/studentTestScore/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentTestScoreForm : NotAuthorized} />
+           <AppRoute  path="/studentExperience/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentExperienceForm : NotAuthorized} />
+           <AppRoute  path="/studentReference/:id" component={permissions?.includes(permissions.Add_New_Student) ? StudentReferenceForm : NotAuthorized} />
+           <AppRoute  path="/studentPersonalStatement/:idVal" component={permissions?.includes(permissionList.Add_New_Student) ? StudentPersonalStatementForm : NotAuthorized} />
+           <AppRoute  path="/studentOtherInformation/:idVal" component={permissions?.includes(permissionList.Add_New_Student) ? StudentOtherInformationForm : NotAuthorized} />
+           <AppRoute  path="/studentDeclarations/:idVal" component={permissions?.includes(permissionList.Add_New_student_consent) ? StudentDeclarationForm : NotAuthorized} />
 
-           <AppRoute  path="/addUniversityCommission/:univerId" component={UniversityCommission} />
-           <AppRoute  path="/addUniversityTestScore/:univerId" component={UniversityTestScore} />
+           <AppRoute  path="/addUniversityCommission/:univerId" component={permissions?.includes(permissionList.Add_New_University_Commission) ? UniversityCommission : NotAuthorized} />
+           <AppRoute  path="/addUniversityTestScore/:univerId" component={permissions?.includes(permissionList.Add_New_University_Test_Requirement) ? UniversityTestScore : NotAuthorized} />
          
-           <AppRoute  path="/addProviderUniversityTestScore/:providerProfileId/:univerId" component={AddProviderUniversityTestScore} />
+           <AppRoute  path="/addProviderUniversityTestScore/:providerProfileId/:univerId" component={permissions?.includes(permissionList.Add_New_University_Test_Requirement) ? AddProviderUniversityTestScore : NotAuthorized} />
 
 
         <AppRoute  path="/search" component={Search} />

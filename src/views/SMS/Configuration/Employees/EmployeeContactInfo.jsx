@@ -369,7 +369,7 @@ const EmployeeContactInfo = () => {
 
                   <Col md="5">
                   {
-                    permissions?.includes(permissionList?.Update_Staff) ?
+                    permissions?.includes(permissionList?.Update_Staff_info) ?
                     <ButtonForFunction
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}

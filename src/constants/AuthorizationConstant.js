@@ -1,532 +1,666 @@
 export const  permissionList = {
-      Recycle_bin : 1,
-
-      Create_Role : 2,
-      View_Rolelist : 3,
-      View_Role : 4,
-      Delete_Role : 5,
-      Change_User_Role : 6,
-
-      Create_Menu : 7,
-      View_Menulist : 8,
-      View_Menu : 9,
-      Edit_Menu : 10,
-      Delete_Menu : 11,
-      Asign_Menu : 12,
-
-      Staff_List : 13,
-      Add_Staff : 14,
-      Update_Staff : 15,
-      View_Staff : 16,
-      Delete_Staff : 17,
-      Staff_Activate_Deactivate : 18,
-
-      Assign_University : 20,
-
-      EmployeeTypeList : 21,
-
-      Counsultant_List : 101,
-      Add_Consultant : 102,
-      Update_Consultant : 103,
-      View_Consultant : 104,
-      Delete_Consultant : 105,
-      Consultant_Activate_Deactivate : 106,
-
-      Associate_List : 107,
-      Add_Associate : 108,
-      Edit_Associate : 109,
-      View_Associate : 110,
-      Delete_Associate : 111,
-
-      Add_Student_Consultant : 112,
-      Update_Student_Consultant : 113,
-      Student_Consultant_List : 114,
-      Delete_Student_Consultant : 115,
-      View_Student_Consultant : 116,
-   //student
-      Student_List : 201,
-      Add_Student : 202,
-      Update_Student : 203,
-      View_Student : 204,
-      Delete_Student : 205,
-   //student type
-      Student_type_List : 211,
-      Add_Student_type : 212,
-      Update_Student_type : 213,
-      View_Student_type : 214,
-      Delete_Student_type : 215,
-   //student contact info
-      student_contact_List : 221,
-      Add_student_contact : 222,
-      Update_student_contact : 223,
-      View_student_contact : 224,
-      Delete_student_contact : 225,
-   //student consent controller
-      student_consent_List : 231,
-      Add_student_consent : 232,
-      Update_student_consent : 233,
-      View_student_consent : 234,
-      Delete_student_consent : 235,
-   //reference type
-      referencetype_List : 236,
-      View_referencetype : 237,
-   //reference
-      reference_List : 241,
-      Add_reference : 242,
-      Update_reference : 243,
-      View_reference : 244,
-      Delete_reference : 245,
-   //personalstatement
-      personalstatement_List : 251,
-      Add_personalstatement : 252,
-      Update_personalstatement : 253,
-      View_personalstatement : 254,
-      Delete_personalstatement : 255,
-   //otherinfo
-      otherinfo_List : 261,
-      Add_otherinfo : 262,
-      Update_otherinfo : 263,
-      View_otherinfo : 264,
-      Delete_otherinfo : 265,
-   //grescore
-      grescore_List : 271,
-      Add_grescore : 272,
-      Update_grescore : 273,
-      View_grescore : 274,
-      Delete_grescore : 275,
-   //gmatscore
-      gmatscore_List : 281,
-      Add_gmatscore : 282,
-      Update_gmatscore : 283,
-      View_gmatscore : 284,
-      Delete_gmatscore : 285,
-   //experience
-      experience_List : 291,
-      Add_experience : 292,
-      Update_experience : 293,
-      View_experience : 294,
-      Delete_experience : 295,
-   //Educationinfo
-      Educationinfo_List : 301,
-      Add_Educationinfo : 302,
-      Update_Educationinfo : 303,
-      View_Educationinfo : 304,
-      Delete_Educationinfo : 305,
-   //Applicationinfo
-      Applicationinfo_List : 311,
-      Add_Applicationinfo : 312,
-      Update_Applicationinfo : 313,
-      View_Applicationinfo : 314,
-      Delete_Applicationinfo : 315,
-   //Student Documents
-      Student_Documents_List : 316,
-      Add_Student_Documents : 317,
-      Update_Student_Documents : 318,
-      View_Student_Documents : 319,
-      Delete_Student_Documents : 320,
-   //Student Type Documents
-      Student_Type_Documents_List : 321,
-      Add_Student_Type_Documents : 322,
-      Update_Student_Type_Documents : 323,
-      View_Student_Type_Documents : 324,
-      Delete_Student_Type_Documents : 325,
-   //Wish List
-      Wish_List_List : 326,
-      Add_Wish_List : 327,
-      Update_Wish_List : 328,
-      View_Wish_List : 329,
-      Delete_Wish_List : 330,
-   //Student Upload document
-      Student_Upload_Document_List : 331,
-      Add_Student_Upload_Document : 332,
-      Update_Student_Upload_Document : 333,
-      View_Student_Upload_Document : 334,
-      Delete_Student_Upload_Document : 335,
-   //Student document level
-      Student_Document_Level_List : 336,
-      Add_Student_Document_Level : 337,
-      Update_Student_Document_Level : 338,
-      View_Student_Document_Level : 339,
-      Delete_Student_Document_Level : 340,
+   Recycle_bin : 0,
+   //Application 
+    View_Application_List : 1,
+    Add_Application : 2,
+    Update_Application_Delivery_Pattern : 3,
+    Update_Application_Status : 4,
+    Update_Application_OfferStatus : 5,
+    Update_Application_EnrollmentStatus : 6,
+    Update_Application_Student_Finance : 7,
+    Update_Appliation_University_StudentId : 8,
+    Update_University_ApplicationDate : 9,
+    View_Application : 10,
+    Delete_Application : 11,
+   //ELPT 
+    ELPT_List : 12,
+    Add_ELPT : 13,
+    Update_ELPT : 14,
+    View_ELPT : 15,
+    Delete_ELPT : 16,
+   //menu
+    Create_Menu : 17,
+    View_Menulist : 18,
+    View_Menu : 19,
+    Edit_Menu : 20,
+    Delete_Menu : 21,
+    Asign_Menu : 22,
+   //Permission 
+    Permission_List : 23,
+    Add_Permission : 24,
+    Update_Permission : 25,
+    View_Permission : 26,
+    Delete_Permission : 27,
 
    //branch
-      Branch_List : 401,
-      Add_Branch : 402,
-      Update_Branch : 403,
-      View_Branch : 404,
-      Delete_Branch : 405,
-   //branchEmployee
-      Branch_Employee_List : 411,
-      Add_Branch_Employee : 412,
-      Update_Branch_Employee : 413,
-      View_Branch_Employee : 414,
-      Delete_Branch_Employee : 415,
-   //branchmanager
-      Branch_Manager_List : 421,
-      Add_Branch_Manager : 422,
-      Update_Branch_Manager : 423,
-      View_Branch_Manager : 424,
-      Delete_Branch_Manager : 425,
-   //branchteam
-      Branch_Team_List : 431,
-      Add_Branch_Team : 432,
-      Update_Branch_Team : 433,
-      View_Branch_Team : 434,
-      Delete_Branch_Team : 435,
-   //branch Team Employee
-      Branch_Team_Employee_List : 441,
-      Add_Branch_Team_Employee : 442,
-      Update_Branch_Team_Employee : 443,
-      View_Branch_Team_Employee : 444,
-      Delete_Branch_Team_Employee : 445,
+    View_Branch_List : 28,
+    Add_New_Branch : 29,
+    Update_Branch_info : 30,
+    View_Branch_info : 31,
+    Delete_Branch : 32,
 
-   //Provider
-      Provider_List : 501,
-      Add_Provider : 502,
-      Update_Provider : 503,
-      View_Provider : 504,
-      Delete_Provider : 505,
-   //Provider admin
-      Provider_Admin_List : 551,
-      Add_Provider_Admin : 552,
-      Update_Provider_Admin : 553,
-      View_Provider_Admin : 554,
-      Delete_Provider_Admin : 555,
-   //Admission manager
-      Admission_manager_List : 601,
-      Add_Admission_manager : 602,
-      Update_Admission_manager : 603,
-      View_Admission_manager : 604,
-      Delete_Admission_manager : 605,
-   //Admission manager university
-      Admission_manager_university_List : 651,
-      Add_Admission_manager_university : 652,
-      Update_Admission_manager_university : 653,
-      View_Admission_manager_university : 654,
-      Delete_Admission_manager_university : 655,
-   //admission manager Student
-      admission_manager_Student_List : 701,
-      Add_admission_manager_Student : 702,
-      Update_admission_manager_Student : 703,
-      View_admission_manager_Student : 704,
-      Delete_admission_manager_Student : 705,
-   //admission manager Consultant
-      admission_manager_Consultant_List : 751,
-      Add_admission_manager_Consultant : 752,
-      Update_admission_manager_Consultant : 753,
-      View_admission_manager_Consultant : 754,
-      Delete_admission_manager_Consultant : 755, 
-   //admission manager Application
-      admission_manager_Application_List : 801,
-      Add_admission_manager_Application : 802,
-      Update_admission_manager_Application : 803,
-      View_admission_manager_Application : 804,
-      Delete_admission_manager_Application : 805,
-   
-   //ake
-      ake_List : 891,
-      Add_ake : 892,
-      Update_ake : 893,
-      View_ake : 894,
-      Delete_ake : 895,
+   //branchEmployee
+    View_Branch_Employee_List : 33,
+    Add_New_Branch_Employee : 34,
+    Update_Branch_Employee_info : 35,
+    View_Branch_Employee_info : 36,
+    Delete_Branch_Employee : 37,
+
+   //branchmanager
+    View_Branch_Manager_List : 38,
+    Add_New_Branch_Manager : 39,
+    Update_Branch_Manager_info : 40,
+    View_Branch_Manager_info : 41,
+    Delete_Branch_Manager : 42,
+
+   //branchteam
+    View_Branch_Team_List : 43,
+    Add_New_Branch_Team : 44,
+    Update_Branch_Team_info : 45,
+    View_Branch_Team_info : 46,
+    Delete_Branch_Team : 47,
+
+   //branch Team Employee
+    View_Branch_Team_Employee_List : 48,
+    Add_new_Branch_Team_Employee : 49,
+    Update_Branch_Team_Employee_info : 50,
+    View_Branch_Team_Employee_info : 51,
+    Delete_Branch_Team_Employee : 52,
+
+   //AccountIntake 
+    View_AccountIntake_List : 53,
+    Add_New_AccountIntake : 54,
+    Update_AccountIntake_info : 55,
+    View_AccountIntake_info : 56,
+    Delete_AccountIntake : 57,
+
+   //Account transaction
+    View_Account_transaction_List : 58,
+    Add_New_Account_transaction : 59,
+    Update_Account_transaction_info : 60,
+    View_Account_transaction_info : 61,
+    Delete_Account_transaction : 62,
+
+   //Application transaction
+    View_Application_transaction_List : 63,
+    Add_new_Application_transaction : 64,
+    Update_Application_transaction_info : 65,
+    View_Application_transaction_info : 66,
+    Delete_Application_transaction : 67,
+
+   //Application transaction installment
+    View_Application_transaction_installment_List : 68,
+    Add_New_Application_transaction_installment : 69,
+    Update_Application_transaction_installment_info : 70,
+    View_Application_transaction_installment_info : 71,
+    Delete_Application_transaction_installment : 72,
+
+    Consultant_Balance : 73,
+
+   //Bonus transaction
+    View_Bonus_transaction_List : 74,
+    Add_New_Bonus_transaction : 75,
+    Update_Bonus_transaction_info : 76,
+    View_Bonus_transaction_info : 77,
+    Delete_Bonus_transaction : 78,
+
+   //CommissionGroup 
+    View_CommissionGroup_List : 79,
+    Add_New_CommissionGroup : 80,
+    Update_CommissionGroup_info : 81,
+    View_CommissionGroup_info : 82,
+    Delete_CommissionGroup : 83,
+
+   //ConsultantCommissionGroup 
+    View_ConsultantCommissionGroup_List : 84,
+    Add_New_ConsultantCommissionGroup : 85,
+    Update_ConsultantCommissionGroup_info : 86,
+    View_ConsultantCommissionGroup_info : 87,
+    Delete_ConsultantCommissionGroup : 88,
+
+   //Distribution Level Setting
+    View_Distribution_Level_Setting_List : 89,
+    Add_New_Distribution_Level_Setting : 90,
+    Update_Distribution_Level_Setting_info : 91,
+    View_Distribution_Level_Setting_info : 92,
+    Delete_Distribution_Level_Setting : 93,
+
+   //GroupPriceRange 
+    View_GroupPriceRange_List : 94,
+    Add_New_GroupPriceRange : 95,
+    Update_GroupPriceRange_info : 96,
+    View_GroupPriceRange_info : 97,
+    Delete_GroupPriceRange : 98,
+
+   //promotional commission
+    View_promotional_commission_List : 99,
+    Add_New_promotional_commission : 100,
+    Update_promotional_commission_info : 101,
+    View_promotional_commission_info : 102,
+    Delete_promotional_commission : 103,
+
+   //withdraw request
+    View_withdraw_request_List : 104,
+    Add_New_withdraw_request : 105,
+    Update_withdraw_request_info : 106,
+    View_withdraw_request_info : 107,
+    Delete_withdraw_request : 108,
+
+   //withdraw transaction
+    View_withdraw_transaction_List : 109,
+    Add_New_withdraw_transaction : 110,
+    Update_withdraw_transaction_info : 111,
+    View_withdraw_transaction_info : 112,
+    Delete_withdraw_transaction : 113,
+
    //Address
-      Address_List : 901,
-      Add_Address : 902,
-      Update_Address : 903,
-      View_Address : 904,
-      Delete_Address : 905,
-   //University
-      University_List : 1001,
-      Add_University : 1002,
-      Update_University : 1003,
-      View_University : 1004,
-      Delete_University : 1005,
-   //University type
-      Universitytype_List : 1011,
-      Add_Universitytype : 1012,
-      Update_Universitytype : 1013,
-      View_Universitytype : 1014,
-      Delete_Universitytype : 1015,
-   //University state
-      Universitystate_List : 1021,
-      Add_Universitystate : 1022,
-      Update_Universitystate : 1023,
-      View_Universitystate : 1024,
-      Delete_Universitystate : 1025,
-   //University Country
-      UniversityCountry_List : 1031,
-      Add_UniversityCountry : 1032,
-      Update_UniversityCountry : 1033,
-      View_UniversityCountry : 1034,
-      Delete_UniversityCountry : 1035,
-   //University Features
-      UniversityFeatures_List : 1041,
-      Add_UniversityFeatures : 1042,
-      Update_UniversityFeatures : 1043,
-      View_UniversityFeatures : 1044,
-      Delete_UniversityFeatures : 1045,
-   //University gallery
-      Universitygallery_List : 1051,
-      Add_Universitygallery : 1052,
-      Update_Universitygallery : 1053,
-      View_Universitygallery : 1054,
-      Delete_Universitygallery : 1055,
-   //University Campus
-      UniversityCampus_List : 1061,
-      Add_UniversityCampus : 1062,
-      Update_UniversityCampus : 1063,
-      View_UniversityCampus : 1064,
-      Delete_UniversityCampus : 1065,
-   //universityApplicationdocument
-      universityApplicationdocument_List : 1071,
-      Add_universityApplicationdocument : 1072,
-      Update_universityApplicationdocument : 1073,
-      View_universityApplicationdocument : 1074,
-      Delete_universityApplicationdocument : 1075,
-   //Financialinfo
-      Financialinfo_List : 1081,
-      Add_Financialinfo : 1082,
-      Update_Financialinfo : 1083,
-      View_Financialinfo : 1084,
-      Delete_Financialinfo : 1085,
-   //campusgallery
-      campusgallery_List : 1091,
-      Add_campusgallery : 1092,
-      Update_campusgallery : 1093,
-      View_campusgallery : 1094,
-      Delete_campusgallery : 1095,
-   //University Template Document
-      University_Template_Document_List : 1101,
-      Add_University_Template_Document : 1102,
-      Update_University_Template_Document : 1103,
-      View_University_Template_Document : 1104,
-      Delete_University_Template_Document : 1105,
-   //university campus subject
-      university_campus_subject_List : 1201,
-      Add_university_campus_subject : 1202,
-      Update_university_campus_subject : 1203,
-      View_university_campus_subject : 1204,
-      Delete_university_campus_subject : 1205,
-   //subject requirement
-      subject_requirement_List : 1211,
-      Add_subject_requirement : 1212,
-      Update_subject_requirement : 1213,
-      View_subject_requirement : 1214,
-      Delete_subject_requirement : 1215,
-   //subject requirement document
-      subject_requirement_document_List : 1221,
-      Add_subject_requirement_document : 1222,
-      Update_subject_requirement_document : 1223,
-      View_subject_requirement_document : 1224,
-      Delete_subject_requirement_document : 1225,
-   //subject intake
-      subject_intake_List : 1231,
-      Add_subject_intake : 1232,
-      Update_subject_intake : 1233,
-      View_subject_intake : 1234,
-      Delete_subject_intake : 1235,
-   //subject fee structure
-      subject_fee_structure_List : 1241,
-      Add_subject_fee_structure : 1242,
-      Update_subject_fee_structure : 1243,
-      View_subject_fee_structure : 1244,
-      Delete_subject_fee_structure : 1245,
-   //subject  
-      subject_List : 1251,
-      Add_subject : 1252,
-      Update_subject : 1253,
-      View_subject : 1254,
-      Delete_subject : 1255,
-   //sub department  
-      sub_department_List : 1261,
-      Add_sub_department : 1262,
-      Update_sub_department : 1263,
-      View_sub_department : 1264,
-      Delete_sub_department : 1265,
-   //program level 
-      program_level_List : 1271,
-      Add_program_level : 1272,
-      Update_program_level : 1273,
-      View_program_level : 1274,
-      Delete_program_level : 1275,
-   //department 
-      department_List : 1281,
-      Add_department : 1282,
-      Update_department : 1283,
-      View_department : 1284,
-      Delete_department : 1285,
-   //degree 
-      degree_List : 1291,
-      Add_degree : 1292,
-      Update_degree : 1293,
-      View_degree : 1294,
-      Delete_degree : 1295,
-   //Education Level 
-      Education_Level_List : 1296,
-      Add_Education_Level : 1297,
-      Update_Education_Level : 1298,
-      View_Education_Level : 1299,
-      Delete_Education_Level : 1300,
-   //DocumentGroup 
-      Document_Group_List : 1301,
-      Add_Document_Group : 1302,
-      Update_Document_Group : 1303,
-      View_Document_Group : 1304,
-      Delete_Document_Group : 1305,
-   //DocumentGroupDocument 
-      Document_Group_Document_List : 1311,
-      Add_Document_Group_Document : 1312,
-      Update_Document_Group_Document : 1313,
-      View_Document_Group_Document : 1314,
-      Delete_Document_Group_Document : 1315,
-   //SubjectDeliveryPattern 
-      Subject_Delivery_Pattern_List : 1321,
-      Add_Subject_Delivery_Pattern : 1322,
-      Update_Subject_Delivery_Pattern : 1323,
-      View_Subject_Delivery_Pattern : 1324,
-      Delete_Subject_Delivery_Pattern : 1325,
-   //Exam test type 
-      Exam_test_type_List : 1401,
-      Add_Exam_test_type : 1402,
-      Update_Exam_test_type : 1403,
-      View_Exam_test_type : 1404,
-      Delete_Exam_test_type : 1405,
-   //Duolingo 
-      Duolingo_List : 1406,
-      Add_Duolingo : 1407,
-      Update_Duolingo : 1408,
-      View_Duolingo : 1409,
-      Delete_Duolingo : 1410,
-   //FunctionalSkill 
-      FunctionalSkill_List : 1411,
-      Add_FunctionalSkill : 1412,
-      Update_FunctionalSkill : 1413,
-      View_FunctionalSkill : 1414,
-      Delete_FunctionalSkill : 1415,
-   //GCSE 
-      GCSE_List : 1416,
-      Add_GCSE : 1417,
-      Update_GCSE : 1418,
-      View_GCSE : 1419,
-      Delete_GCSE : 1420,
-   //IELTS 
-      IELTS_List : 1421,
-      Add_IELTS : 1422,
-      Update_IELTS : 1423,
-      View_IELTS : 1424,
-      Delete_IELTS : 1425,
-   //OTHERS 
-      OTHERS_List : 1426,
-      Add_OTHERS : 1427,
-      Update_OTHERS : 1428,
-      View_OTHERS : 1429,
-      Delete_OTHERS : 1430,
-   //PEARSON 
-      PEARSON_List : 1431,
-      Add_PEARSON : 1432,
-      Update_PEARSON : 1433,
-      View_PEARSON : 1434,
-      Delete_PEARSON : 1435,
-   //PTE 
-      PTE_List : 1436,
-      Add_PTE : 1437,
-      Update_PTE : 1438,
-      View_PTE : 1439,
-      Delete_PTE : 1440,
-   //TOFEL 
-      TOFEL_List : 1441,
-      Add_TOFEL : 1442,
-      Update_TOFEL : 1443,
-      View_TOFEL : 1444,
-      Delete_TOFEL : 1445,
+    View_Address_List : 114,
+    Add_New_Address : 115,
+    Update_Address_info : 116,
+    View_Address_info : 117,
+    Delete_Address : 118,
 
    //Document Category 
-      Document_Category_List : 1501,
-      Add_Document_Category : 1502,
-      Update_Document_Category : 1503,
-      View_Document_Category : 1504,
-      Delete_Document_Category : 1505,
+    View_Document_Category_List : 119,
+    Add_New_Document_Category : 120,
+    Update_Document_Category_info : 121,
+    View_Document_Category_info : 122,
+    Delete_Document_Category : 123,
+
    //Document 
-      Document_List : 1506,
-      Add_Document : 1507,
-      Update_Document : 1508,
-      View_Document : 1509,
-      Delete_Document : 1510,
+    View_Document_List : 124,
+    Add_New_Document : 125,
+    Update_Document_info : 126,
+    View_Document_info : 127,
+    Delete_Document : 128,
+
+   //intake
+    View_intake_List : 129,
+    Add_New_intake : 130,
+    Update_intake_info : 131,
+    View_intake_info : 132,
+    Delete_intake : 133,
+
+   //password
+    ChangePassword : 134,
+
+   //consultant type
+    View_Consultant_type_List : 135,
+    View_Consultant_type_info : 136,
+    Update_Consultant_type_info : 137,
+    Delete_Consultant_type : 138,
+   //consultant
+    View_Counsultant_List : 139,
+    Add_New_Consultant : 140,
+    Update_Consultant_info : 141,
+    View_Consultant_info : 142,
+    Delete_Consultant : 143,
+    Consultant_Activate_Deactivate : 144,
+   //associates
+    View_Associate_List : 145,
+    Add_New_Associate : 146,
+    Update_Associate_info : 147,
+    View_Associate_info : 148,
+    Delete_Associate : 149,
+
+   //consultant consent 
+    View_consultant_consent_List : 150,
+    Add_New_consultant_consent : 151,
+    Update_consultant_consent_info : 152,
+    View_consultant_consent_info : 153,
+    Delete_consultant_consent : 154,
+   //consultant email send
+    Consultant_Email_Send : 155,
+
    //Country 
-      Country_List : 1531,
-      Add_Country : 1532,
-      Update_Country : 1533,
-      View_Country : 1534,
-      Delete_Country : 1535,
-   //State 
-      State_List : 1536,
-      Add_State : 1537,
-      Update_State : 1538,
-      View_State : 1539,
-      Delete_State : 1540,
-   //Site Settings 
-      Site_Settings_List : 1541,
-      Add_Site_Settings : 1542,
-      Update_Site_Settings : 1543,
-      View_Site_Settings : 1544,
-      Delete_Site_Settings : 1545,
-   //Application 
-      Application_List : 1551,
-      Add_Application : 1552,
-      Update_Application : 1553,
-      View_Application : 1554,
-      Delete_Application : 1555,
-   //ELPT 
-      ELPT_List : 1556,
-      Add_ELPT : 1557,
-      Update_ELPT : 1558,
-      View_ELPT : 1559,
-      Delete_ELPT : 1560,
-   //Permission 
-      Permission_List : 1571,
-      Add_Permission : 1572,
-      Update_Permission : 1573,
-      View_Permission : 1574,
-      Delete_Permission : 1575,
+    View_Country_List : 156,
+    Add_New_Country : 157,
+    Update_Country_info : 158,
+    View_Country_info : 159,
+    Delete_Country : 160,
    //Nationality 
-      Nationality_List : 1581,
-      Add_Nationality : 1582,
-      Update_Nationality : 1583,
-      View_Nationality : 1584,
-      Delete_Nationality : 1585,
+    View_Nationality_List : 161,
+    Add_New_Nationality : 162,
+    Update_Nationality_info : 163,
+    View_Nationality_info : 164,
+    Delete_Nationality : 165,
+   //State 
+    View_State_List : 166,
+    Add_New_State : 167,
+    Update_State_info : 168,
+    View_State_info : 169,
+    Delete_State : 170,
 
-      //CommissionGroup 
-      CommissionGroup_List : 1591,
-      Add_CommissionGroup : 1592,
-      Update_CommissionGroup : 1593,
-      View_CommissionGroup : 1594,
-      Delete_CommissionGroup : 1595,
-      
-      //GroupPriceRange 
-      GroupPriceRange_List : 1596,
-      Add_GroupPriceRange : 1597,
-      Update_GroupPriceRange : 1598,
-      View_GroupPriceRange : 1599,
-      Delete_GroupPriceRange : 1600,
-      
-      //ConsultantCommissionGroup 
-      ConsultantCommissionGroup_List : 1601,
-      Add_ConsultantCommissionGroup : 1602,
-      Update_ConsultantCommissionGroup : 1603,
-      View_ConsultantCommissionGroup : 1604,
-      Delete_ConsultantCommissionGroup : 1605,
+    EmployeeTypeList : 171,
+   //staff
+    View_Staff_List : 172,
+    Add_New_Staff : 173,
+    Update_Staff_info : 174,
+    View_Staff_info : 175,
+    Delete_Staff : 176,
+    Staff_Activate_Deactivate : 177,
 
-      Consultant_type_List : 117,
-      View_Consultant_type : 118,
-      Edit_Consultant_type: 119,
-      Delete_Consultant_type: 120,
+   //Staff contact info
+    View_Staff_contact_List : 178,
+    Add_New_Staff_contact : 179,
+    Update_Staff_contact_info : 180,
+    View_Staff_contact_info : 181,
+    Delete_Staff_contact : 182,
 
-      AccountIntake_List :1611,
-      Add_AccountIntake: 1612,
-      Update_AccountIntake: 1613,
-      View_AccountIntake: 1614,
-      Delete_AccountIntake: 1615,
+   //admission manager Application
+    View_admission_manager_Application_List : 183,
+    Add_New_admission_manager_Application : 184,
+    Update_admission_manager_Application_info : 185,
+    View_admission_manager_Application_info : 186,
+    Delete_admission_manager_Application : 187,
+   //admission manager Consultant
+    View_admission_manager_Consultant_List : 188,
+    Add_New_admission_manager_Consultant : 189,
+    Update_admission_manager_Consultant_info : 190,
+    View_admission_manager_Consultant_info : 191,
+    Delete_admission_manager_Consultant : 192,
+   //admission manager Student
+    View_admission_manager_Student_List : 193,
+    Add_New_admission_manager_Student : 194,
+    Update_admission_manager_Student_info : 195,
+    View_admission_manager_Student_info : 196,
+    Delete_admission_manager_Student : 197,
+   //Admission manager university
+    View_Admission_manager_university_List : 198,
+    Add_New_Admission_manager_university : 199,
+    Update_Admission_manager_university_info : 200,
+    View_Admission_manager_university_info : 201,
+    Delete_Admission_manager_university : 202,
+   //Admission manager
+    View_Admission_manager_List : 203,
+    Add_New_Admission_manager : 204,
+    Update_Admission_manager_info : 205,
+    View_Admission_manager_info : 206,
+    Delete_Admission_manager : 207,
+
+   //Provider
+    View_Provider_List : 208,
+    Add_New_Provider : 209,
+    Update_Provider_info : 210,
+    View_Provider_info : 211,
+    Delete_Provider : 212,
+   //Provider admin
+    View_Provider_Admin_List : 213,
+    Add_New_Provider_Admin : 214,
+    Update_Provider_Admin_info : 215,
+    View_Provider_Admin_info : 216,
+    Delete_Provider_Admin : 217,
+
+   //Admissionofficer 
+    View_Admissionofficer_List : 218,
+    Add_New_Admissionofficer : 219,
+    Update_Admissionofficer_info : 220,
+    View_Admissionofficer_info : 221,
+    Delete_Admissionofficer : 222,
+   //AdmissionofficerApplication 
+    View_AdmissionofficerApplication_List : 223,
+    Add_New_AdmissionofficerApplication : 224,
+    Update_AdmissionofficerApplication_info : 225,
+    View_AdmissionofficerApplication_info : 226,
+    Delete_AdmissionofficerApplication : 227,
+   //AdmissionofficerOfManager
+    View_AdmissionofficerOfManager_List : 228,
+    Add_New_AdmissionofficerOfManager : 229,
+    Update_AdmissionofficerOfManager_info : 230,
+    View_AdmissionofficerOfManager_info : 231,
+    Delete_AdmissionofficerOfManager : 232,
+   //Admission officer university
+    View_Admission_Officer_university_List : 233,
+    Add_New_Admission_Officer_university : 234,
+    Update_Admission_Officer_university_info : 235,
+    View_Admission_Officer_university_info : 236,
+    Delete_Admission_Officer_university : 237,
+
+   //Exam test type 
+    View_Exam_test_type_List : 238,
+    Add_New_Exam_test_type : 239,
+    Update_Exam_test_type_info : 240,
+    View_Exam_test_type_info : 241,
+    Delete_Exam_test_type : 242,
+   //Duolingo 
+    View_Duolingo_List : 243,
+    Add_New_Duolingo : 244,
+    Update_Duolingo_info : 245,
+    View_Duolingo_info : 246,
+    Delete_Duolingo : 247,
+   //FunctionalSkill 
+    View_FunctionalSkill_List : 248,
+    Add_new_FunctionalSkill : 249,
+    Update_FunctionalSkill_info : 250,
+    View_FunctionalSkill_info : 251,
+    Delete_FunctionalSkill : 252,
+   //GCSE 
+    View_GCSE_List : 253,
+    Add_New_GCSE : 254,
+    Update_GCSE_info : 255,
+    View_GCSE_info : 256,
+    Delete_GCSE : 257,
+   //IELTS 
+    View_IELTS_List : 258,
+    Add_New_IELTS : 259,
+    Update_IELTS_info : 260,
+    View_IELTS_info : 261,
+    Delete_IELTS : 262,
+   //OTHERS 
+    View_OTHERS_List : 263,
+    Add_New_OTHERS : 264,
+    Update_OTHERS_info : 265,
+    View_OTHERS_info : 266,
+    Delete_OTHERS : 267,
+   //PEARSON 
+    View_PEARSON_List : 268,
+    Add_New_PEARSON : 269,
+    Update_PEARSON_info : 270,
+    View_PEARSON_info : 271,
+    Delete_PEARSON : 272,
+   //PTE 
+    View_PTE_List : 273,
+    Add_New_PTE : 274,
+    Update_PTE_info : 275,
+    View_PTE_info : 276,
+    Delete_PTE : 277,
+   //TOFEL 
+    View_TOFEL_List : 278,
+    Add_New_TOFEL : 279,
+    Update_TOFEL_info : 280,
+    View_TOFEL_info : 281,
+    Delete_TOFEL : 282,
+
+   //University
+    View_University_List : 283,
+    Add_New_University : 284,
+    Update_University_info : 285,
+    View_University_info : 286,
+    Delete_University : 287,
+   //University type
+    View_Universitytype_List : 288,
+    Add_New_Universitytype : 289,
+    Update_Universitytype_info : 290,
+    View_Universitytype_info : 291,
+    Delete_Universitytype : 292,
+   //University state
+    View_Universitystate_List : 293,
+    Add_New_Universitystate : 294,
+    Update_Universitystate_info : 295,
+    View_Universitystate_info : 296,
+    Delete_Universitystate : 297,
+   //University Country
+    View_UniversityCountry_List : 298,
+    Add_New_UniversityCountry : 299,
+    Update_UniversityCountry_info : 300,
+    View_UniversityCountry_info : 301,
+    Delete_UniversityCountry : 302,
+   //University Features
+    View_UniversityFeatures_List : 303,
+    Add_New_UniversityFeatures : 304,
+    Update_UniversityFeatures_info : 305,
+    View_UniversityFeatures_info : 306,
+    Delete_UniversityFeatures : 307,
+   //University gallery
+    View_Universitygallery_List : 308,
+    Add_New_Universitygallery : 309,
+    Update_Universitygallery_info : 310,
+    View_Universitygallery_info : 311,
+    Delete_Universitygallery : 312,
+   //University Campus
+    View_UniversityCampus_List : 313,
+    Add_New_UniversityCampus : 314,
+    Update_UniversityCampus_info : 315,
+    View_UniversityCampus_info : 316,
+    Delete_UniversityCampus : 317,
+   //universityApplicationdocument
+    View_universityApplicationdocument_List : 318,
+    Add_New_universityApplicationdocument : 319,
+    Update_universityApplicationdocument_info : 320,
+    View_universityApplicationdocument_info : 321,
+    Delete_universityApplicationdocument : 322,
+   //Financialinfo
+    View_Financialinfo_List : 323,
+    Add_New_Financialinfo : 324,
+    Update_Financialinfo_info : 325,
+    View_Financialinfo_info : 326,
+    Delete_Financialinfo : 327,
+   //campusgallery
+    View_campusgallery_List : 328,
+    Add_New_campusgallery : 329,
+    Update_campusgallery_info : 330,
+    View_campusgallery_info : 331,
+    Delete_campusgallery : 332,
+   //University Template Document
+    View_University_Template_Document_List : 333,
+    Add_New_University_Template_Document : 334,
+    Update_University_Template_Document_info : 335,
+    View_University_Template_Document_info : 336,
+    Delete_University_Template_Document : 337,
+   //University Commission
+    View_University_Commission_List : 338,
+    Add_New_University_Commission : 339,
+    Update_University_Commission_info : 340,
+    View_University_Commission_info : 341,
+    Delete_University_Commission : 342,
+   //University test requirement
+    View_University_Test_Requirement_List : 343,
+    Add_New_University_Test_Requirement : 344,
+    Update_University_Test_Requirement_info : 345,
+    View_University_Test_Requirement_info : 346,
+    Delete_University_Test_Requirement : 347,
+
+
+   //university campus subject
+    View_university_campus_subject_List : 348,
+    Add_New_university_campus_subject : 349,
+    Update_university_campus_subject_info : 350,
+    View_university_campus_subject_info : 351,
+    Delete_university_campus_subject : 352,
+   //subject requirement
+    View_subject_requirement_List : 353,
+    Add_New_subject_requirement : 354,
+    Update_subject_requirement_info : 355,
+    View_subject_requirement_info : 356,
+    Delete_subject_requirement : 357,
+   //subject requirement document
+    View_subject_requirement_document_List : 358,
+    Add_New_subject_requirement_document : 359,
+    Update_subject_requirement_document_info : 360,
+    View_subject_requirement_document_info : 361,
+    Delete_subject_requirement_document : 362,
+   //subject intake
+    View_subject_intake_List : 363,
+    Add_New_subject_intake : 364,
+    Update_subject_intake_info : 365,
+    View_subject_intake_info : 366,
+    Delete_subject_intake : 367,
+   //subject fee structure
+    View_subject_fee_structure_List : 368,
+    Add_New_subject_fee_structure : 369,
+    Update_subject_fee_structure_info : 370,
+    View_subject_fee_structure_info : 371,
+    Delete_subject_fee_structure : 372,
+   //subject  
+    View_subject_List : 373,
+    Add_New_subject : 374,
+    Update_subject_info : 375,
+    View_subject_info : 376,
+    Delete_subject : 377,
+   //sub department  
+    View_sub_department_List : 378,
+    Add_New_sub_department : 379,
+    Update_sub_department_info : 380,
+    View_sub_department_info : 381,
+    Delete_sub_department : 382,
+   //program level 
+    View_program_level_List : 383,
+    Add_New_program_level : 384,
+    Update_program_level_info : 385,
+    View_program_level_info : 386,
+    Delete_program_level : 387,
+   //department 
+    View_department_List : 388,
+    Add_new_department : 389,
+    Update_department_info : 390,
+    View_department_info : 391,
+    Delete_department : 392,
+   //degree 
+    View_degree_List : 393,
+    Add_New_degree : 394,
+    Update_degree_info : 395,
+    View_degree_info : 396,
+    Delete_degree : 397,
+   //Education Level 
+    View_Education_Level_List : 398,
+    Add_New_Education_Level : 399,
+    Update_Education_Level_info : 400,
+    View_Education_Level_info : 401,
+    Delete_Education_Level : 402,
+   //DocumentGroup 
+    View_Document_Group_List : 403,
+    Add_New_Document_Group : 404,
+    Update_Document_Group_info : 405,
+    View_Document_Group_info : 406,
+    Delete_Document_Group : 407,
+   //DocumentGroupDocument 
+    View_Document_Group_Document_List : 408,
+    Add_new_Document_Group_Document : 409,
+    Update_Document_Group_Document_info : 410,
+    View_Document_Group_Document_info : 411,
+    Delete_Document_Group_Document : 412,
+   //SubjectDeliveryPattern 
+    View_Subject_Delivery_Pattern_List : 413,
+    Add_New_Subject_Delivery_Pattern : 414,
+    Update_Subject_Delivery_Pattern_info : 415,
+    View_Subject_Delivery_Pattern_info : 416,
+    Delete_Subject_Delivery_Pattern : 417,
+
+   //Applicationinfo
+    View_Applicationinfo_List : 418,
+    Add_New_Applicationinfo : 419,
+    Update_Applicationinfo_info : 420,
+    View_Applicationinfo_info : 421,
+    Delete_Applicationinfo : 422,
+
+   //Educationinfo
+    View_Educationinfo_List : 423,
+    Add_New_Educationinfo : 424,
+    Update_Educationinfo_info : 425,
+    View_Educationinfo_info : 426,
+    Delete_Educationinfo : 427,
+   //experience
+    View_experience_List : 428,
+    Add_New_experience : 429,
+    Update_experience_info : 430,
+    View_experience_info : 431,
+    Delete_experience : 432,
+   //gmatscore
+    View_gmatscore_List : 433,
+    Add_New_gmatscore : 434,
+    Update_gmatscore_info : 435,
+    View_gmatscore_info : 436,
+    Delete_gmatscore : 437,
+
+   //grescore
+    View_grescore_List : 438,
+    Add_New_grescore : 439,
+    Update_grescore_info : 440,
+    View_grescore_info : 441,
+    Delete_grescore : 442,
+   //otherinfo
+    View_otherinfo_List : 443,
+    Add_New_otherinfo : 444,
+    Update_otherinfo_info : 445,
+    View_otherinfo_info : 446,
+    Delete_otherinfo : 447,
+   //personalstatement
+    View_personalstatement_List : 448,
+    Add_New_personalstatement : 449,
+    Update_personalstatement_info : 450,
+    View_personalstatement_info : 451,
+    Delete_personalstatement : 452,
+   //reference
+    View_reference_List : 453,
+    Add_New_reference : 454,
+    Update_reference_info : 455,
+    View_reference_info : 456,
+    Delete_reference : 457,
+   //reference type
+    View_referencetype_List : 458,
+    View_referencetype_info : 459,
+   //student consent 
+    View_student_consent_List : 460,
+    Add_New_student_consent : 461,
+    Update_student_consent_info : 462,
+    View_student_consent_info : 463,
+    Delete_student_consent : 464,
+   //student contact info
+    View_student_contact_List : 465,
+    Add_new_student_contact : 466,
+    Update_student_contact_info : 467,
+    View_student_contact_info : 468,
+    Delete_student_contact : 469,
+   //student type
+    View_Student_type_List : 470,
+    Add_New_Student_type : 471,
+    Update_Student_type_info : 472,
+    View_Student_type_info : 473,
+    Delete_Student_type : 474,
+   //student
+    View_Student_List : 475,
+    Add_New_Student : 476,
+    Update_Student_info : 477,
+    View_Student_info : 478,
+    Delete_Student : 479,
+   //Student Documents
+    View_Student_Documents_List : 480,
+    Add_New_Student_Documents : 481,
+    Update_Student_Documents_info : 482,
+    View_Student_Documents_info : 483,
+    Delete_Student_Documents : 484,
+   //Student Type Documents
+    View_Student_Type_Documents_List : 485,
+    Add_New_Student_Type_Documents : 486,
+    Update_Student_Type_Documents_info : 487,
+    View_Student_Type_Documents_info : 488,
+    Delete_Student_Type_Documents : 489,
+   //Wish List
+    View_Wish_List_List : 490,
+    Add_New_Wish_List : 491,
+    Update_Wish_List_info : 492,
+    View_Wish_List_info : 493,
+    Delete_Wish_List : 494,
+
+   //Student Upload document
+    View_Student_Upload_Document_List : 495,
+    Add_new_Student_Upload_Document : 496,
+    Update_Student_Upload_Document_info : 497,
+    View_Student_Upload_Document_info : 498,
+    Delete_Student_Upload_Document : 499,
+   //Student document level
+    View_Student_Document_Level_List : 500,
+    Add_New_Student_Document_Level : 501,
+    Update_Student_Document_Level_info : 502,
+    View_Student_Document_Level_info : 503,
+    Delete_Student_Document_Level : 504,
+   //student email send
+    Student_Email_Send : 505,
+   //student email send
+    View_Student_application_info : 506,
+
+    //student consultant
+     View_Student_consultant_List : 507,
+     Add_New_Student_consultant : 508,
+     Update_Student_consultant_info : 509,
+     View_Student_consultant_info : 510,
+     Delete_Student_consultant : 511,
+
+     //status update
+       Change_Status_Admissionmanager : 512,
+       Change_Status_AdmissionOfficer : 513,
+       Change_Status_Student : 514
 
 
 
-};
+}

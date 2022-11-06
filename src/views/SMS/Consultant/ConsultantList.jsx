@@ -411,7 +411,7 @@ const ConsultantList = () => {
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
-              {permissions?.includes(permissionList?.Add_Consultant) ? (
+              {permissions?.includes(permissionList?.Add_New_Consultant) ? (
                 <LinkButton
                   url={"/addConsultant"}
                   className={"btn btn-uapp-add "}
@@ -810,7 +810,10 @@ const ConsultantList = () => {
 
                       {checkPhn ? <td>{consultant?.phoneNumber}</td> : null}
 
-                      {checkPass ? (
+                      {
+                        permissions?.includes(permissionList.ChangePassword) ?
+                        <>
+                        {checkPass ? (
                         <td>
                           <span
                             className="passwordChangeStyle"
@@ -903,6 +906,10 @@ const ConsultantList = () => {
                           </Modal>
                         </td>
                       ) : null}
+                        </>
+                        :
+                        null
+                      }
                       {checkBranch ? <td>{consultant?.branch?.name}</td> : null}
                       {checkCons ? (
                         <td>{consultant?.parentConsultantName}</td>
@@ -976,7 +983,9 @@ const ConsultantList = () => {
                          
                           /> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.View_Consultant_info) ? 
+                              <ButtonForFunction
                               func={() =>
                                 redirectToConsultantProfile(consultant?.id)
                               }
@@ -984,6 +993,9 @@ const ConsultantList = () => {
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-eye"></i>}
                             />
+                            :
+                            null
+                            }
 
                             {consultant?.id !== 1 ? (
 

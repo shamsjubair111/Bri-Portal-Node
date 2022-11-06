@@ -660,13 +660,18 @@ const AdmissionOfficerList = () => {
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
+             {
+              permissions?.includes(permissionList.Add_New_Admissionofficer) ?
               <ButtonForFunction
-                func={handleAddNew}
-                className={"btn btn-uapp-add "}
-                icon={<i className="fas fa-plus"></i>}
-                name={" Add Admission Officer"}
-                permission={6}
-              />
+              func={handleAddNew}
+              className={"btn btn-uapp-add "}
+              icon={<i className="fas fa-plus"></i>}
+              name={" Add Admission Officer"}
+              permission={6}
+            />
+            :
+            null
+             }
             </Col>
 
             <Col lg="7" md="7" sm="8" xs="8">
@@ -1295,7 +1300,14 @@ const AdmissionOfficerList = () => {
                     {checkPhn ? <th>Phone No</th> : null}
                     {checkCountry ? <th>Country</th> : null}
                     <th>Assigned University</th>
-                    {checkSts ? <th>Account Status</th> : null}
+                   {
+                    permissions?.includes(permissionList.Change_Status_AdmissionOfficer) ?
+                    <>
+                     {checkSts ? <th>Account Status</th> : null}
+                    </>
+                    :
+                    null
+                   }
                     {/* <th>Assigned Admission Officer</th> */}
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
@@ -1328,27 +1340,35 @@ const AdmissionOfficerList = () => {
                           {officer?.country?.name} ({officer?.state?.name})
                         </td>
                       ) : null}
-                       <td>
-                          {" "}
+                      {
+                        permissions?.includes(permissionList.View_Admission_Officer_university_List ) ? 
+                        <td>
+                        {" "}
+                        <span
+                          className="badge badge-secondary"
+                          style={{ cursor: "pointer" }}
+                        >
                           <span
-                            className="badge badge-secondary"
-                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              redirectToAssignPage(
+                                officer?.provider?.id,
+                                officer?.id
+                              )
+                            }
+                            className="text-decoration-none"
                           >
-                            <span
-                              onClick={() =>
-                                redirectToAssignPage(
-                                  officer?.provider?.id,
-                                  officer?.id
-                                )
-                              }
-                              className="text-decoration-none"
-                            >
-                              View
-                            </span>
-                          </span>{" "}
-                        </td>
+                            View
+                          </span>
+                        </span>{" "}
+                      </td>
+                      :
+                      null
+                      }
 
-                      {checkSts ? (
+                     {
+                      permissions?.includes(permissionList.Change_Status_AdmissionOfficer) ?
+                      <>
+                       {checkSts ? (
                         <td>
                           {
                             // <label className="switch">
@@ -1375,6 +1395,10 @@ const AdmissionOfficerList = () => {
                           }
                         </td>
                       ) : null}
+                      </>  
+                      :
+                      null
+                     }
 
                       {/* <td>
                       {" "}
@@ -1390,33 +1414,51 @@ const AdmissionOfficerList = () => {
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
+                          {
+                            permissions?.includes(permissionList?.View_Admissionofficer_info) ?
                             <ButtonForFunction
-                              func={() =>
-                                handlRedirectToAdmissionofficerDetails(
-                                  officer?.id
-                                )
-                              }
-                              color={"primary"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-eye"></i>}
-                              permission={6}
-                            />
+                            func={() =>
+                              handlRedirectToAdmissionofficerDetails(
+                                officer?.id
+                              )
+                            }
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+                          :
+                          null
+                          }
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Update_Admissionofficer_info) ?
+
+                              <ButtonForFunction
                               func={() => handleUpdate(officer)}
                               color={"warning"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
-                            <ButtonForFunction
+                            {
+
+                              permissions?.includes(permissionList.Delete_Admissionofficer) ?
+                              <ButtonForFunction
                               color={"danger"}
                               func={() => toggleDanger(officer)}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
+                            
                           </ButtonGroup>
 
                           <Modal

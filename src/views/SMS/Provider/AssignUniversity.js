@@ -33,6 +33,7 @@ import get from "../../../helpers/get";
 import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AssignUniversity = () => {
   const [loading, setLoading] = useState(false);
@@ -71,6 +72,7 @@ const AssignUniversity = () => {
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const componentRef = useRef();
 
@@ -290,13 +292,18 @@ const AssignUniversity = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              <ButtonForFunction
+              {
+                permissions?.includes(permissionList.Add_New_Admission_manager_university) ?
+                <ButtonForFunction
                 func={() => setModalOpen(true)}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
                 name={" Assign University"}
                 permission={6}
               />
+              :
+              null 
+              }
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -705,7 +712,9 @@ const AssignUniversity = () => {
                             permission={6}
                           /> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Update_Admission_manager_university_info) ? 
+                              <ButtonForFunction
                               func={() => handleUpdate(uni)}
                               color={"warning"}
                               className={"mx-1 btn-sm"}
@@ -713,13 +722,22 @@ const AssignUniversity = () => {
                               permission={6}
                             />
 
-                            <ButtonForFunction
+                            :
+                            null
+                            }
+                            
+                            {
+                              permissions?.includes(permissionList.Delete_Admission_manager_university) ? 
+                              <ButtonForFunction
                               color={"danger"}
                               func={() => toggleDanger(uni)}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
                             <Modal
                               isOpen={deleteModal}

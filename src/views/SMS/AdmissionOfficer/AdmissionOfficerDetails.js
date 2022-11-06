@@ -25,11 +25,12 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const AdmissionOfficerDetails = () => {
   const [officerObj, setOfficerObj] = useState({});
   const [admissionManagerList, setAdmissionManagerList] = useState([]);
-
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   const { officerId } = useParams();
   const history = useHistory();
   const location = useLocation();
@@ -181,7 +182,9 @@ const AdmissionOfficerDetails = () => {
                   </div>
 
                   <div>
-                  <ButtonForFunction
+                  {
+                    permissions?.includes(permissionList.View_Admission_manager_info)? 
+                    <ButtonForFunction
                       func={() =>
                         handlRedirectToAdmissionManagerDetails(manager)
                       }
@@ -190,6 +193,9 @@ const AdmissionOfficerDetails = () => {
                       icon={<i className="fas fa-eye"></i>}
                       permission={6}
                     />
+                    :
+                    null
+                  }
                   </div>
                 </div>
               </div>
