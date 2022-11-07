@@ -36,6 +36,7 @@ import CustomButtonRipple from '../Components/CustomButtonRipple';
 import SpanButton from '../Components/SpanButton';
 import put from '../../../helpers/put';
 import { useToasts } from 'react-toast-notifications';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const Details = () => {
 
@@ -59,6 +60,7 @@ const Details = () => {
     const [openModal4,setOpenModal4] = useState(false);
     const [openModal5,setOpenModal5] = useState(false);
     const [installment,setInstallment] = useState({});
+    const permissions  = JSON.parse(localStorage.getItem('permissions'));
 
 
     const history = useHistory();
@@ -530,9 +532,14 @@ const Details = () => {
 
                     <>
                     
+                  {
+                    permissions?.includes(permissionList.Update_Application_transaction_info) ?
                     <Button color='primary' onClick={()=>setOpenModal5(true)}>
-                <i className="fas fa-plus"></i> <span className='ml-1'>Add Note</span>
-                </Button>
+                    <i className="fas fa-plus"></i> <span className='ml-1'>Add Note</span>
+                    </Button>
+                    :
+                    null
+                  }
                 
 
                     </>
@@ -623,6 +630,8 @@ const Details = () => {
 
                              {
                               (data?.transactionStatusId !== 2) &&
+                             <>{
+                              permissions?.includes(permissionList.Update_Applicationtransaction_TransactionStatus_info) ? 
                               <SpanButton
                               icon={
                                 <i
@@ -635,6 +644,9 @@ const Details = () => {
                               permission={6}
                               
                             />
+                            :
+                            null 
+                             }</>
                              }
 
                              {
@@ -785,7 +797,9 @@ const Details = () => {
                     <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                   </div> */}
 
-                        {
+                       {
+                        permissions?.includes(permissionList?.Update_Application_transaction_installment_info) ?
+                        <> {
                           installment?.firstInstallmentStatus == 1 ?
                           <SpanButton
                               icon={
@@ -800,7 +814,10 @@ const Details = () => {
                               
                             />
                             : null 
-                        }
+                        }</>
+                        :
+                        null
+                       }
                     </div>
 
                     <div className='mt-3'>
@@ -933,22 +950,27 @@ const Details = () => {
                       {/* <div className="text-right edit-style  p-3" >
                     <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                   </div> */}
-                   {
-                          installment?.secondInstallmentStatus == 1 ?
-                          <SpanButton
-                              icon={
-                                <i
-                                  style={{ cursor: "pointer" }}
-                                  className="fas fa-pencil-alt pencil-style"
-                                ></i>
-                              }
-                              func={()=> setOpenModal3(true)}
-                              
-                              permission={6}
-                              
-                            />
-                            : null 
-                        }
+                  {
+                    permissions?.includes(permissionList?.Update_Application_transaction_installment_info) ?
+                    <> {
+                      installment?.secondInstallmentStatus == 1 ?
+                      <SpanButton
+                          icon={
+                            <i
+                              style={{ cursor: "pointer" }}
+                              className="fas fa-pencil-alt pencil-style"
+                            ></i>
+                          }
+                          func={()=> setOpenModal3(true)}
+                          
+                          permission={6}
+                          
+                        />
+                        : null 
+                    }</>
+                    :
+                    null
+                  }
                     </div>
 
                     <div className='mt-3'>
@@ -1089,21 +1111,26 @@ const Details = () => {
                     <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                   </div> */}
                    {
-                          installment?.thirdInstallmentStatus == 1 ?
-                          <SpanButton
-                              icon={
-                                <i
-                                  style={{ cursor: "pointer" }}
-                                  className="fas fa-pencil-alt pencil-style"
-                                ></i>
-                              }
-                              func={()=> setOpenModal4(true)}
-                              
-                              permission={6}
-                              
-                            />
-                            : null 
-                        }
+                    permissions?.includes(permissionList.Update_Application_transaction_installment_info) ?
+                    <>{
+                      installment?.thirdInstallmentStatus == 1 ?
+                      <SpanButton
+                          icon={
+                            <i
+                              style={{ cursor: "pointer" }}
+                              className="fas fa-pencil-alt pencil-style"
+                            ></i>
+                          }
+                          func={()=> setOpenModal4(true)}
+                          
+                          permission={6}
+                          
+                        />
+                        : null 
+                    }</>
+                    :
+                    null
+                   }
                     </div>
 
                     <div className='mt-3'>

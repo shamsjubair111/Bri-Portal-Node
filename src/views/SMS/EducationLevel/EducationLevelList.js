@@ -9,10 +9,12 @@ import LinkButton from '../Components/LinkButton';
 import Loader from '../Search/Loader/Loader';
 import put from '../../../helpers/put';
 import post from '../../../helpers/post';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const EducationLevelList = () => {
 
     const history = useHistory();
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     const [educationLevelData, setEducationLevelData] = useState([]);
     const [deleteData, setDeleteData] = useState({});
@@ -276,12 +278,17 @@ const EducationLevelList = () => {
 
       <div className='mb-3'>
 
-      <ButtonForFunction className ={"btn btn-uapp-add "}
+      {
+        permissions?.includes(permissionList.Add_New_Education_Level) ?
+        <ButtonForFunction className ={"btn btn-uapp-add "}
                  icon ={<i className="fas fa-plus"></i>}
                  func={handleAddEducationLevel} 
                  name={' Add Educational Level'}
                             
       />
+      :
+      null
+      }
 
       </div>
 
@@ -320,13 +327,18 @@ const EducationLevelList = () => {
                         <ButtonGroup variant="text">
                        
 
-                        <ButtonForFunction
+                        {
+                          permissions?.includes(permissionList.Update_Education_Level_info)?
+                          <ButtonForFunction
                           icon={<i className="fas fa-edit"></i>}
                           color={'warning'}
                           className={"mx-1 btn-sm"}
                           func={()=>redirectToUpdate(educationInfo)}
                           />
 
+                          :
+                          null
+                        }
 
                             {/* <LinkButton
                              icon={<i className="fas fa-edit"></i>}
@@ -335,12 +347,17 @@ const EducationLevelList = () => {
                              url={`/addEducationLevel/${educationInfo?.name}/${educationInfo?.description}/${educationInfo?.levelValue}/${educationInfo?.id}`}
                             /> */}
                       
-                          <ButtonForFunction
+                          {
+                            permissions?.includes(permissionList.Delete_Education_Level) ?
+                            <ButtonForFunction
                           icon={<i className="fas fa-trash-alt"></i>}
                           color={'danger'}
                           className={"mx-1 btn-sm"}
                           func={()=>toggleDanger(educationInfo)}
                           />
+                          :
+                          null
+                          }
 
                         </ButtonGroup>
 

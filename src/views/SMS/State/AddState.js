@@ -232,7 +232,7 @@ const AddState = () => {
       <Card>
         <CardHeader>
           {
-            permissions?.includes(permissionList?.Add_State) ?
+            permissions?.includes(permissionList?.Add_New_State) ?
             <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
@@ -399,15 +399,20 @@ const AddState = () => {
                       <ButtonGroup>
                  
 
-                      <ButtonForFunction
+                      {
+                        permissions?.includes(permissionList.Update_State_info) ?
+                        <ButtonForFunction
                         func={() => handleUpdate(state)}
                         className={"mx-1 btn-sm"}
                         color={"warning"}
                         icon={<i className="fas fa-edit"></i>}
                         permission={6}
                       />
+                      :
+                      null
+                      }
 
-{
+                  {
                       permissions?.includes(permissionList?.Delete_State)?
                       <ButtonForFunction
                       func={() => toggleDanger(state)}

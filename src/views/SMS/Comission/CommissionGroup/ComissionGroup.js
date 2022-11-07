@@ -7,6 +7,7 @@ import get from '../../../../helpers/get';
 import put from '../../../../helpers/put';
 import remove from '../../../../helpers/remove';
 import Loader from '../../Search/Loader/Loader';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 
 const ComissionGroup = () => {
 
@@ -22,6 +23,7 @@ const ComissionGroup = () => {
     const [delData,setDelData] = useState({});
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     useEffect(()=>{
 
@@ -211,7 +213,9 @@ const ComissionGroup = () => {
        
           <CardHeader>
   
-          <div className=''>
+          {
+            permissions?.includes(permissionList.Add_New_CommissionGroup) ?
+            <div className=''>
               <Button className ="btn btn-uapp-add" onClick={()=> setOpenModal(true)}>
                  <i className="fas fa-plus"></i>
                {' '}
@@ -219,6 +223,9 @@ const ComissionGroup = () => {
                            
                    </Button>
               </div>
+              :
+              null
+          }
           </CardHeader>
   
           <CardBody className="search-card-body">
@@ -228,7 +235,12 @@ const ComissionGroup = () => {
                       
                       <th>SL/NO</th>
                        <th>Name</th>
+                       {
+                          permissions?.includes(permissionList.View_CommissionGroup_info)?
                        <th>Price Settings</th>
+                       :
+                       null
+                        }
                        <th>Action</th>
                    </tr>
                   </thead>
@@ -239,11 +251,16 @@ const ComissionGroup = () => {
                         <td>
                           {comm?.name}
                         </td>
-                        <td>
+                        {
+                          permissions?.includes(permissionList.View_CommissionGroup_info)?
+                          <td>
                           <Link to={`/commissionPriceList/${comm?.id}`}>
                             <Button color='primary'>Edit / View</Button>
                           </Link>
                         </td>
+                        :
+                        null
+                        }
                        
                         <td style={{ width: "15%" }} className="text-center">
                           <ButtonGroup variant="text">
@@ -256,17 +273,28 @@ const ComissionGroup = () => {
                               func={()=>handleEdit(student)}
                               /> */}
   
+                             {
+                              permissions?.includes(permissionList.Update_CommissionGroup_info) ?
                               <Button className='mr-1 btn-sm' color='warning' onClick={()=>handleupdate(comm)}>
                               <i className="fas fa-edit"></i>
-  
-  
                               </Button>
+                              :
+                              null
+                             }
   
-                              <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(comm)}>
-                              <i className="fas fa-trash-alt"></i>
   
+                             
   
-                              </Button>
+                           {
+                            permissions?.includes(permissionList?.Delete_CommissionGroup) ?
+                            <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(comm)}>
+                            <i className="fas fa-trash-alt"></i>
+
+
+                            </Button>
+                            :
+                            null
+                           }
   
   
                         

@@ -19,6 +19,7 @@ import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import LinkSpanButton from '../Components/LinkSpanButton';
 import Loader from '../Search/Loader/Loader';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 
 const AddUniversityType = (props) => {
@@ -38,7 +39,7 @@ const AddUniversityType = (props) => {
   // const [postId, setPostId] = useState(0);
   const [updateState, setUpdateState] = useState({});
   const [loading,setLoading] = useState(true);
-
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   // const [uName,setUName] = useState('');
 
 
@@ -367,7 +368,12 @@ const closeDeleteModal = () => {
               <tr style={{ textAlign: "center" }}>
                 <th>SL/NO</th>
                 <th>Name</th>
-                <th className="text-center" >Universities</th>
+                {
+                  permissions?.includes(permissionList?.View_University_List) ?
+                  <th className="text-center" >Universities</th>
+                  :
+                  null
+                }
                 {/* <th>Action</th> */}
               </tr>
             </thead>
@@ -377,6 +383,8 @@ const closeDeleteModal = () => {
                 universityTypes?.map((uniType, i) => <tr key={uniType.id} style={{ textAlign: "center" }}>
                   <th scope="row">{i + 1}</th>
                   <td>{uniType?.name}</td>
+                  {
+                  permissions?.includes(permissionList?.View_University_List) ?
                   <td className="text-center" >               
                    {/* <Link to ={{
                      pathname: '/universityList',
@@ -401,6 +409,9 @@ const closeDeleteModal = () => {
                     />
 
                   </td>
+                  :
+                  null
+                  }
                   {/* <td> */}
                   
                      {/* <ButtonForFunction

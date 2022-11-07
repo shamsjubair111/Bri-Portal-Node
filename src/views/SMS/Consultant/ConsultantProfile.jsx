@@ -36,12 +36,14 @@ import EditDivButton from '../Components/EditDivButton';
 import LinkButton from '../Components/LinkButton';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { userTypes } from '../../../constants/userTypeConstant';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 
 const ConsultantProfile = () => {
     const location = useLocation();
     const history = useHistory();
     const {id} = useParams();
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     const userTypeId = localStorage.getItem('userType');
 
@@ -518,13 +520,18 @@ const ConsultantProfile = () => {
                   </div>  
                   </Col>
 
+                   {
+                    permissions?.includes(permissionList.Update_Consultant_info) ? 
                     <Col> 
-                      <EditDivButton
-                        className={"uapp-employee-profile-Edit"}
-                        func={handleUpdateConsultantProfile}
-                        permission={6}
-                      />
-                    </Col> 
+                    <EditDivButton
+                      className={"uapp-employee-profile-Edit"}
+                      func={handleUpdateConsultantProfile}
+                      permission={6}
+                    />
+                  </Col> 
+                  :
+                  null
+                   }
                   </Row>            
                  </div>
 
@@ -647,6 +654,7 @@ const ConsultantProfile = () => {
                     <Col md="6"> 
                    <ul className="uapp-ul text-right">
                    <div className='d-flex justify-content-end mb-2'>
+            
                    <Select className=' w-50'
                   options={statusTypeMenu}
                   value={{ label: statusLabel, value: statusValue }}
@@ -853,10 +861,15 @@ const ConsultantProfile = () => {
                    <br/>
                    <b>Swift:</b> <span>{data?.swift}</span>
                    </div>
-
-                   <div className='edit-style mt-md-3'>
-               <span> <i className="fas fa-pencil-alt pencil-style" onClick={handleUpdateBankDetailsFromProfile}></i> </span>
-             </div>
+                    {
+                      permissions?.includes(permissionList.Update_bank_details_info) ?
+                      <div className='edit-style mt-md-3'> 
+                      <span> <i className="fas fa-pencil-alt pencil-style" onClick={handleUpdateBankDetailsFromProfile}></i> </span>
+                    </div>
+                    :
+                    null
+                    }
+                  
                    </CardBody>
                    </Card>
                    
@@ -1134,12 +1147,18 @@ const ConsultantProfile = () => {
 
                 <div className='d-flex justify-content-between'>
 
-                  <LinkButton
+                    {
+                      permissions?.includes(permissionList.View_Student_consultant_List) ?
+                      <LinkButton
                    url={`/studentListByConsultant/${id}`}
                    className={"btn btn-uapp-add "}
                    name={"Student"}
                    permission={6}
                   />
+                  :
+                  null
+                    }
+                  
 
 
                   {/* <LinkButton
@@ -1149,13 +1168,18 @@ const ConsultantProfile = () => {
                     permission={6}
                   /> */}
 
-                  <ButtonForFunction
+                    {
+                      permissions?.includes(permissionList.View_Application_List)?
+                      <ButtonForFunction
                     func={() => redirectToApplications(id)}
                     className={"btn btn-uapp-add "}
                     name={"Application"}
                     permission={6}
                   />
-
+                      :
+                      null
+                    }
+                  
 
                   <ButtonForFunction
                     className={"btn btn-uapp-add "}

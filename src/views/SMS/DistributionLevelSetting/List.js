@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import remove from '../../../helpers/remove';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
 import { useToasts } from 'react-toast-notifications';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 
 const DistributionLevelSettingList = (props) => {
@@ -11,6 +12,7 @@ const DistributionLevelSettingList = (props) => {
     const [delData,setDelData] = useState({});
     const {addToast} = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     console.log(distributionData);
 
@@ -74,17 +76,27 @@ const DistributionLevelSettingList = (props) => {
                        
 
 
+                          {
+                            permissions?.includes(permissionList.Update_Distribution_Level_Setting_info) ?
                             <Button className='mr-1 btn-sm' color='warning' onClick={()=>toggleUpdate(ls)}>
                             <i className="fas fa-edit"></i>
 
 
                             </Button>
+                            :
+                            null
+                          }
 
-                            <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(ls)}>
+                            {
+                              permissions?.includes(permissionList.Delete_Distribution_Level_Setting) ?
+                              <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(ls)}>
                             <i className="fas fa-trash-alt"></i>
 
 
                             </Button>
+                            :
+                            null
+                            }
 
 
                         </ButtonGroup>

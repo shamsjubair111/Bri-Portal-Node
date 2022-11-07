@@ -36,6 +36,7 @@ import { userTypes } from "../../../constants/userTypeConstant";
 import Pagination from "../Pagination/Pagination";
 import ReactToPrint from "react-to-print";
 import * as XLSX from "xlsx/xlsx.mjs";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const Index = () => {
   const history = useHistory();
@@ -47,6 +48,7 @@ const Index = () => {
   const [consultant, setConsultant] = useState([]);
   const [consultantLabel, setConsultantLabel] = useState("Select Consultant");
   const [consultantValue, setConsultantValue] = useState(0);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [currentPage, setCurrentPage] = useState(1);
   const [callApi, setCallApi] = useState(false);
@@ -492,6 +494,9 @@ const Index = () => {
                     {checkAction ? (
                       <td className="text-center">
                         <ButtonGroup variant="text">
+                        {
+                          permissions?.includes(permissionList.View_Bonus_transaction_info) ?
+                          
                           <Button
                             className="mr-1 btn-sm"
                             color="primary"
@@ -499,7 +504,12 @@ const Index = () => {
                           >
                             <i className="fas fa-eye"></i>
                           </Button>
+                          :
+                          null
+                            }
 
+                          {
+                          permissions?.includes(permissionList.Update_Bonus_transaction_info) ?
                           <Button
                             color="warning"
                             className="ml-1 btn-sm"
@@ -507,6 +517,9 @@ const Index = () => {
                           >
                             <i className="fas fa-edit"></i>
                           </Button>
+                          :
+                          null
+                            }
                         </ButtonGroup>
                       </td>
                     ) : null}

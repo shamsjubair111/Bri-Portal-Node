@@ -28,10 +28,12 @@ import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import Loader from "../Search/Loader/Loader";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const DocumentGroup = () => {
   const [title, setTitle] = useState("");
   const [detail, setDetail] = useState("");
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -360,13 +362,18 @@ const DocumentGroup = () => {
 
           <Card>
             <CardHeader>
+             {
+              permissions?.includes(permissionList.Add_New_Document_Group) ?
               <ButtonForFunction
-                className={"btn btn-uapp-add"}
-                func={() => setModalOpen(true)}
-                icon={<i className="fas fa-plus"></i>}
-                name={" Add Document Group"}
-                permission={6}
-              />
+              className={"btn btn-uapp-add"}
+              func={() => setModalOpen(true)}
+              icon={<i className="fas fa-plus"></i>}
+              name={" Add Document Group"}
+              permission={6}
+            />
+            :
+            null
+             }
 
               <div>
                 {" "}
@@ -516,7 +523,12 @@ const DocumentGroup = () => {
                       <th>Title</th>
                       <th>Details</th>
                       <th>Application type</th>
+                      {
+                          permissions?.includes(permissionList.View_Document_Group_info) ?
                       <th>Documents</th>
+                      :
+                      null
+                      }
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -535,33 +547,50 @@ const DocumentGroup = () => {
                             <span>International</span>
                           )}
                         </td>
-                        <td>
+                        {
+                          permissions?.includes(permissionList.View_Document_Group_info) ?
+                          <td>
                           <ButtonForFunction
                             name={"Add / View"}
-                            color={"success"}
+                            color={"primary"}
                             func={() => handleViewDocument(document)}
                             className={"mx-1 btn-sm"}
                           />
                         </td>
+                        :
+                        null
+                        }
                         <td>
                           <ButtonGroup>
+                           {
+                            permissions?.includes(permissionList.Update_Document_Group_info) ?
                             <ButtonForFunction
-                              func={() => handleUpdate(document)}
-                              className={"mx-1 btn-sm"}
-                              color={"warning"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
+                            func={() => handleUpdate(document)}
+                            className={"mx-1 btn-sm"}
+                            color={"warning"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
 
+                          :
+                          null
+
+                           }
+
+                           {
+                            permissions?.includes(permissionList.Delete_Document_Group) ?
                             <ButtonForFunction
-                              className={"mx-1 btn-sm"}
-                              func={() =>
-                                toggleDanger(document?.title, document?.id)
-                              }
-                              color={"danger"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
+                            className={"mx-1 btn-sm"}
+                            func={() =>
+                              toggleDanger(document?.title, document?.id)
+                            }
+                            color={"danger"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+                          :
+                          null
+                           }
                           </ButtonGroup>
 
                           <Modal

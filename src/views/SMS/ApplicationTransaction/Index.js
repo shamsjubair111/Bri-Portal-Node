@@ -39,6 +39,7 @@ import ReactToPrint from "react-to-print";
 import * as XLSX from "xlsx/xlsx.mjs";
 import { userTypes } from '../../../constants/userTypeConstant';
 import Loader from '../Search/Loader/Loader';
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const Index = () => {
   const userType = localStorage.getItem("userType");
@@ -51,6 +52,7 @@ const Index = () => {
   const [student, setStudent] = useState([]);
   const [studentLabel, setStudentLabel] = useState("Select Student");
   const [studentValue, setStudentValue] = useState(0);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     const [consultant,setConsultant] = useState([]);
     const [consultantLabel,setConsultantLabel] = useState('Select Consultant');
@@ -719,7 +721,9 @@ const Index = () => {
                   {checkTransDate ? <td>{ls?.transactionDate}</td> : null}
                   {checkStatus ? <td>{ls?.transactionStatus}</td> : null}
 
-                  {checkAction ? 
+                 {
+                  permissions?.includes(permissionList?.View_Application_transaction_info) ?
+                  <> {checkAction ? 
                     <td className="text-center">
                     <ButtonGroup variant="text">
                       <Button className="me-1 btn-sm" color="primary" onClick={()=>viewDetails(ls)}>
@@ -731,7 +735,10 @@ const Index = () => {
                   </td>
                   :
                   null
-                  }
+                  }</>
+                  :
+                  null
+                 }
                 </tr>
               ))}
             </tbody>

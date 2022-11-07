@@ -6,10 +6,12 @@ import get from '../../../../helpers/get';
 import { Image } from 'antd';
 
 import LinkButton from '../../Components/LinkButton';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 const Manager = (props) => {
 
     const [branchManager, setBranchManager] = useState({});
     const {id, success,setSuccess} = props;
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
    
 
     useEffect(()=>{
@@ -46,7 +48,10 @@ const Manager = (props) => {
                   <span className=" pl-1">{branchManager?.lastName}</span>
                 </h5>
 
-                {
+               {
+                permissions?.includes(permissionList.Update_Branch_Manager_info) ?
+                <>
+                 {
                   !(branchManager?.id == 1 ) ? 
                   <div className="container text-center mb-4">
               
@@ -61,6 +66,10 @@ const Manager = (props) => {
                 null
 
                 }
+                </>
+                :
+                null
+               }
 
                 <div>
                   <ul className="uapp-ul text-center pb-3">
@@ -83,7 +92,9 @@ const Manager = (props) => {
 
             {!branchManager.nameTittleId && (
               <Card>
-                <div className="container py-3">
+                {
+                  permissions?.includes(permissionList.Add_New_Branch_Manager) ?
+                  <div className="container py-3">
                   <Link to={`/addBranchManager/${id}`}>
                     
                     <Button className="btn btn-uapp-add "
@@ -94,6 +105,9 @@ const Manager = (props) => {
                     </Button>
                   </Link>
                 </div>
+                :
+                null
+                }
               </Card>
             )}
             

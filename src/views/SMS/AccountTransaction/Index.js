@@ -42,6 +42,7 @@ import post from "../../../helpers/post";
 import { useToasts } from "react-toast-notifications";
 import { transactionTypes } from "../../../constants/TransactionConstant";
 import Loader from "../Search/Loader/Loader";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const Index = () => {
   const history = useHistory();
@@ -55,6 +56,7 @@ const Index = () => {
   const [transactionLabel, setTransactionLabel] = useState(
     "Select Transaction Type"
   );
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   const [transactionValue, setTransactionValue] = useState(0);
   const [status, setStatus] = useState([]);
   const [statusLabel, setStatusLabel] = useState("Select Status");
@@ -847,18 +849,28 @@ const Index = () => {
 
                 <div className="col-md-2">
                   <div className="d-flex flex-column">
+                  {
+                    permissions?.includes(permissionList.Add_New_Bonus_transaction) ?
                     <button
                       className="mb-1 acc-tran-btn-style"
                       onClick={() => setModalOpen(true)}
                     >
                       Inflow
                     </button>
+                    :
+                    null
+                    }
+                    {
+                    permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
                     <button
                       className="mt-1 acc-tran-btn-style"
                       onClick={() => setModal2Open(true)}
                     >
                       Outflow
                     </button>
+                    :
+                    null
+                  }
                   </div>
                 </div>
               </div>

@@ -34,6 +34,7 @@ import ReactToPrint from "react-to-print";
 import remove from "../../../helpers/remove.js";
 import LinkButton from "../Components/LinkButton.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
+import { permissionList } from "../../../constants/AuthorizationConstant.js";
 
 const ConsultantByConsultant = () => {
   const { id } = useParams();
@@ -71,6 +72,7 @@ const ConsultantByConsultant = () => {
   const [checkAsso, setCheckAsso] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus, setButtonStatus] = useState(false);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   useEffect(() => {
     get(
@@ -668,12 +670,25 @@ const ConsultantByConsultant = () => {
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone</th> : null}
-                    {checkPass ? <th>Password</th> : null}
+                   {
+                    permissions?.includes(permissionList.ChangePassword) ?
+                    <>
+                     {checkPass ? <th>Password</th> : null}
+                    </>
+                    : null
+                   }
                     {checkBranch ? <th>Branch</th> : null}
                     {checkCons ? <th>Parent</th> : null}
                     {checkConsType ? <th>Type</th> : null}
                     {checkDate ? <th>Started</th> : null}
-                    {checkSts ? <th>Status</th> : null}
+                    {
+                      permissions?.includes(permissionList.Change_Status_Student) ?
+                      <>
+                      {checkSts ? <th>Status</th> : null}
+                      </>
+                      :
+                      null
+                    }
                     {checkStd ? <th>Student</th> : null}
                     {checkAppli ? <th>Applications</th> : null}
                     {checkAsso ? <th>Associates</th> : null}
@@ -695,11 +710,18 @@ const ConsultantByConsultant = () => {
                       ) : null}
                       {checkEmail ? <td>{consultant?.email}</td> : null}
                       {checkPhn ? <td>{consultant?.phoneNumber}</td> : null}
-                      {checkPass ? (
+                      {
+                        permissions?.includes(permissionList.ChangePassword) ? 
+                        <>
+                        {checkPass ? (
                         <td>
                           <Link to="/">Change</Link>
                         </td>
                       ) : null}
+                        </>
+                        :
+                        null
+                      }
                       {checkBranch ? <td>{consultant?.branch?.name}</td> : null}
                       {checkCons ? (
                         <td>{consultant?.parentConsultantName}</td>
@@ -710,9 +732,17 @@ const ConsultantByConsultant = () => {
                       {checkDate ? (
                         <td>{handleDate(consultant?.createdOn)}</td>
                       ) : null}
+                      {
+                      permissions?.includes(permissionList.Change_Status_Student) ?
+                      <>
                       {checkSts ? (
                         <td>{consultant?.accountStatus?.statusName}</td>
                       ) : null}
+                      </>
+                      :
+                      null
+                      }
+
                       {checkStd ? (
                         <td>
                           <span
@@ -768,7 +798,8 @@ const ConsultantByConsultant = () => {
                           icon={<i className="fas fa-eye"></i>}
                           permission={6}
                         /> */}
-
+                          {
+                          permissions?.includes(permissionList?.View_Associate_info) ?
                             <ButtonForFunction
                               func={() => handleView(consultant?.id)}
                               color={"primary"}
@@ -776,16 +807,27 @@ const ConsultantByConsultant = () => {
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                          }
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Update_Associate_info) ?
+                              <ButtonForFunction
                               func={() => handleEdit(consultant)}
                               color={"warning"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
-                            {consultant?.id !== 1 ? (
+                           {
+                            permissions?.includes(permissionList.Delete_Associate) ? 
+                            <>
+                             {consultant?.id !== 1 ? (
                               <ButtonForFunction
                                 color={"danger"}
                                 className={"mx-1 btn-sm"}
@@ -795,6 +837,10 @@ const ConsultantByConsultant = () => {
                               />
                             ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
                             null}
+                            </>
+                            :
+                            null
+                           }
                           </ButtonGroup>
                           <Modal
                             isOpen={deleteModal}

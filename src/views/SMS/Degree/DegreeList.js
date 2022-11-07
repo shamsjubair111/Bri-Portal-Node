@@ -11,6 +11,7 @@ import CustomButtonRipple from '../Components/CustomButtonRipple';
 import Select from "react-select";
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const DegreeList = () => {
 
@@ -35,6 +36,7 @@ const DegreeList = () => {
     const [educationValue, setEducationValue] = useState(0);
     const [educationError, setEducationError] = useState(false);
     const [errorMessage,setErrorMessage] = useState('Education level is required');
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
     
 
     useEffect(()=>{
@@ -209,7 +211,7 @@ const DegreeList = () => {
     const redirectToUpdate = (data) =>{
        setData(data);
        setEducationLabel(data?.educationLevel?.name);
-       setEducationValue(data?.educationLevel?.levelValue);
+       setEducationValue(data?.educationLevel?.id);
        setModalOpen(true);
     }
 
@@ -366,12 +368,17 @@ const DegreeList = () => {
 
             <div className='mb-3'>
 
-            <ButtonForFunction className ={"btn btn-uapp-add "}
+            {
+                permissions?.includes(permissionList.Add_New_degree) ? 
+                <ButtonForFunction className ={"btn btn-uapp-add "}
                     icon ={<i className="fas fa-plus"></i>}
                     func={handleAddDegree} 
                     name={' Add Degree'}
                                 
             />
+            :
+            null
+            }
 
             </div>
 
@@ -414,12 +421,17 @@ const DegreeList = () => {
                             <td style={{ width: "8%" }} className="text-center">
                             <ButtonGroup variant="text">
                             
-                                <ButtonForFunction
+                                {
+                                    permissions?.includes(permissionList.Update_degree_info) ? 
+                                    <ButtonForFunction
                                   icon={<i className="fas fa-edit"></i>}
                                   color={'warning'}
                                   className={"mx-1 btn-sm"}
                                   func={()=>redirectToUpdate(degree)}
                                 />
+                                :
+                                null
+                                }
 
                                 {/* <LinkButton
                                 icon={<i className="fas fa-edit"></i>}
@@ -428,12 +440,17 @@ const DegreeList = () => {
                                 url={`/addDegree/${degree?.name}/${degree?.educationLevel?.name}/${degree?.educationLevel?.id}/${degree?.id}`}
                                 /> */}
                             
+                               {
+                                permissions?.includes(permissionList.Delete_degree) ?
                                 <ButtonForFunction
-                                  icon={<i className="fas fa-trash-alt"></i>}
-                                  color={'danger'}
-                                  className={"mx-1 btn-sm"}
-                                  func={()=>toggleDanger(degree)}
-                                />
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                color={'danger'}
+                                className={"mx-1 btn-sm"}
+                                func={()=>toggleDanger(degree)}
+                              />
+                              :
+                              null
+                               }
 
                             </ButtonGroup>
 

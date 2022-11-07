@@ -39,6 +39,7 @@ import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 import put from "../../../helpers/put.js";
 import ToggleSwitch from "../Components/ToggleSwitch.js";
+import { permissionList } from "../../../constants/AuthorizationConstant.js";
 
 const StudentByConsultant = () => {
   const [serialNum, setSerialNum] = useState(1);
@@ -73,6 +74,7 @@ const StudentByConsultant = () => {
   const [checkBlackList, setCheckBlacklist] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   
 
   const history = useHistory();
@@ -614,10 +616,24 @@ const StudentByConsultant = () => {
                     {checkPhn ? <th>Phone No</th> : null}
                     {checkCons ? <th>Consultant</th> : null}
                     {checkDate ? <th>UAPP Reg Date</th> : null}
-                    {
+                  {
+                    permissions?.includes(permissionList.ChangePassword) ?
+                    <>
+                      {
                       checkPass ? <th>Password</th> : null
                     }
-                    {checkBlackList ? <th>Black List</th> : null}
+                    </>
+                    :
+                    null
+                  }
+                    {
+                      permissions?.includes(permissionList?.Change_Status_Student) ?
+                      <>
+                      {checkBlackList ? <th>Black List</th> : null}
+                      </>
+                      :
+                      null
+                    }
 
                     {/* <th>Intakes</th> */}
                     {checkAction ? (
@@ -655,7 +671,9 @@ const StudentByConsultant = () => {
                         <td>{handleDate(student?.createdOn)}</td>
                       ) : null}
 
-                      
+                    {
+                    permissions?.includes(permissionList.ChangePassword) ?
+                         <>
                           {checkPass ? (
                             <td>
                               <Link
@@ -754,9 +772,17 @@ const StudentByConsultant = () => {
                               </Modal>
                             </td>
                           ) : null}
+                         </>
+                         :
+                         null
+                                      }
+
                         
 
-                      {checkBlackList ? (
+                     {
+                      permissions?.includes(permissionList.Change_Status_Student) ? 
+                      <>
+                       {checkBlackList ? (
                         <td>
                           {/* <label className="switch">
                             <input
@@ -790,16 +816,25 @@ const StudentByConsultant = () => {
 
                         </td>
                       ) : null}
+                      </>
+                      :
+                      null
+                     }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
+                           {
+                            permissions?.includes(permissionList.View_Student_info) ?
                             <ButtonForFunction
-                              icon={<i className="fas fa-eye"></i>}
-                              color={"primary"}
-                              className={"mx-1 btn-sm"}
-                              func={() => redirectToStudentProfile(student?.id)}
-                            />
+                            icon={<i className="fas fa-eye"></i>}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            func={() => redirectToStudentProfile(student?.id)}
+                          />
+                          :
+                          null
+                           }
 
                             {/* <LinkButton
                         url={`/studentProfile/${student?.id}`}
@@ -809,23 +844,33 @@ const StudentByConsultant = () => {
 
                         /> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Update_Student_info) ?
+                              <ButtonForFunction
                               icon={<i className="fas fa-edit"></i>}
                               color={"warning"}
                               className={"mx-1 btn-sm"}
                               func={() => handleEdit(student)}
                             />
+                            :
+                            null
+                            }
 
                             {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Delete_Student) ?
+                              <ButtonForFunction
                               icon={<i className="fas fa-trash-alt"></i>}
                               color={"danger"}
                               className={"mx-1 btn-sm"}
                               func={() => toggleDanger(student)}
                             />
+                            :
+                            null
+                            }
                           </ButtonGroup>
 
                           <Modal

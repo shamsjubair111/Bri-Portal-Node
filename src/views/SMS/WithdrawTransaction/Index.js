@@ -43,6 +43,7 @@ import { useToasts } from "react-toast-notifications";
 import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import { userTypes } from "../../../constants/userTypeConstant";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const Index = () => {
   const [listData, setListData] = useState([]);
@@ -63,6 +64,7 @@ const Index = () => {
 
     // }),
   };
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [label1, setLabel1] = useState("Select Consultant");
   const [label2, setLabel2] = useState("Select Consultant");
@@ -563,12 +565,17 @@ const Index = () => {
             <CardBody>
               <div className=" row mb-3">
                 <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4">
+                 {
+                  permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
                   <ButtonForFunction
-                    className={"btn btn-uapp-add "}
-                    icon={<i className="fas fa-plus"></i>}
-                    func={() => setModal2Open(true)}
-                    name={" Add Withdraw Transaction"}
-                  ></ButtonForFunction>
+                  className={"btn btn-uapp-add "}
+                  icon={<i className="fas fa-plus"></i>}
+                  func={() => setModal2Open(true)}
+                  name={" Add Withdraw Transaction"}
+                ></ButtonForFunction>
+                :
+                null
+                 }
                 </div>
 
                 <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8">
@@ -811,7 +818,7 @@ const Index = () => {
                     {checkAmount ? <th>Amount</th> : null}
                     {checkRef ? <th>Reference/Invoice No.</th> : null}
                     {checkType ? <th>Payment Type</th> : null}
-                    {checkAction ? <th>Action</th> : null}
+                    {/* {checkAction ? <th>Action</th> : null} */}
                   </tr>
                 </thead>
                 <tbody>
@@ -825,10 +832,12 @@ const Index = () => {
                       {checkRef ? <td>{ls?.reference}</td> : null}
                       {checkType ? <td>{ls?.paymentType}</td> : null}
 
-                      {checkAction ? (
+                      {/* {checkAction ? (
                         <td className="text-center">
                           <ButtonGroup variant="text">
-                            {ls?.canDelete && (
+                           {
+                            permissions?.includes(permissionList.Delete_withdraw_transaction) ?
+                            <> {ls?.canDelete && (
                               <Button
                                 className="ml-1"
                                 color="danger"
@@ -837,7 +846,10 @@ const Index = () => {
                                 <i className="fas fa-trash-alt"></i>
                               </Button>
                             )}
-
+                            </>
+                            :
+                            null
+                           }
                             <Modal
                               isOpen={deleteModal}
                               toggle={() => setDeleteModal(!deleteModal)}
@@ -865,7 +877,7 @@ const Index = () => {
                             </Modal>
                           </ButtonGroup>
                         </td>
-                      ) : null}
+                      ) : null} */}
                     </tr>
                   ))}
                 </tbody>

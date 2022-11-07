@@ -43,6 +43,7 @@ import { AddPhotoAlternateSharp } from "@material-ui/icons";
 import { useToasts } from "react-toast-notifications";
 import Assets from "../../../assets/img/Asset 12Icon.svg";
 import Loader from "../Search/Loader/Loader";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const List = () => {
   const current_user = JSON.parse(localStorage.getItem("current_user"));
@@ -63,6 +64,7 @@ const List = () => {
   const [transactionLabel, setTransactionLabel] = useState(
     "Select Transaction Status"
   );
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   const [transactionValue, setTransactionValue] = useState(0);
   const [payment, setPayment] = useState([]);
   const [paymentLabel, setPaymentLabel] = useState("Select Payment Status");
@@ -515,10 +517,15 @@ const List = () => {
             <CardBody>
               <div className=" row mb-3">
                 <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4">
-                  <Button color="primary" onClick={handleAddWithdrawRequest}>
+                  {
+                    permissions?.includes(permissionList.Add_New_withdraw_request) ?
+                    <Button color="primary" onClick={handleAddWithdrawRequest}>
                     <i className="fas fa-plus"></i>
                     <span> Add Withdraw Request</span>
                   </Button>
+                  :
+                  null
+                  }
                 </div>
 
                 <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8">
@@ -800,8 +807,18 @@ const List = () => {
                       {checkAmount ? <th>Amount</th> : null}
                       {checkPayType ? <th>Payment Type</th> : null}
                       {checkPayDate ? <th>Payment Date</th> : null}
-                      {checkStatus ? <th>Status</th> : null}
-                      {checkPaySts ? <th>Payment Status</th> : null}
+                      {
+                        permissions?.includes(permissionList.Update_WithdrawRequest_TransactionStatus_info) ?
+                        <>{checkStatus ? <th>Status</th> : null}</>
+                        :
+                        null
+                      }
+                     {
+                      permissions?.includes(permissionList.Update_WithdrawRequest_PaymentStatus_info) ?
+                      <> {checkPaySts ? <th>Payment Status</th> : null}</>
+                      :
+                      null
+                     }
                       {checkInvoice ? <th>Invoice</th> : null}
                     </tr>
                   </thead>
@@ -815,41 +832,51 @@ const List = () => {
                         {checkAmount ? <td>{ls?.amount}</td> : null}
                         {checkPayType ? <td>{ls?.paymentType}</td> : null}
                         {checkPayDate ? <td></td> : null}
-                        {checkStatus ? (
-                          <td>
-                            {ls?.transactionStatus}
-                            {!(ls?.paymentStatusId == 2) &&
-                              current_user?.userTypeId ==
-                                userTypes?.SystemAdmin && (
-                                <Button
-                                  color="warning"
-                                  className="ml-2 btn-sm"
-                                  onClick={() => handleUpdate(ls)}
-                                  disabled={buttonStatus}
-                                >
-                                  <i className="fas fa-edit"></i>
-                                </Button>
-                              )}
-                          </td>
-                        ) : null}
-                        {checkPaySts ? (
-                          <td>
-                            {ls?.paymentStatus}
-                            {ls?.transactionStatusId == 2 &&
-                              !(ls?.paymentStatusId == 2) &&
-                              current_user?.userTypeId ==
-                                userTypes?.SystemAdmin && (
-                                <Button
-                                  color="warning"
-                                  className="ml-2 btn-sm"
-                                  onClick={() => handleUpdate2(ls)}
-                                  disabled={buttonStatus}
-                                >
-                                  <i className="fas fa-edit"></i>
-                                </Button>
-                              )}
-                          </td>
-                        ) : null}
+                        {
+                          permissions?.includes(permissionList.Update_WithdrawRequest_TransactionStatus_info) ?
+                          <>{checkStatus ? (
+                            <td>
+                              {ls?.transactionStatus}
+                              {!(ls?.paymentStatusId == 2) &&
+                                current_user?.userTypeId ==
+                                  userTypes?.SystemAdmin && (
+                                  <Button
+                                    color="warning"
+                                    className="ml-2 btn-sm"
+                                    onClick={() => handleUpdate(ls)}
+                                    disabled={buttonStatus}
+                                  >
+                                    <i className="fas fa-edit"></i>
+                                  </Button>
+                                )}
+                            </td>
+                          ) : null}</>
+                          :
+                          null
+                        }
+                         {
+                      permissions?.includes(permissionList.Update_WithdrawRequest_PaymentStatus_info) ?
+                          <>     {checkPaySts ? (
+                            <td>
+                              {ls?.paymentStatus}
+                              {ls?.transactionStatusId == 2 &&
+                                !(ls?.paymentStatusId == 2) &&
+                                current_user?.userTypeId ==
+                                  userTypes?.SystemAdmin && (
+                                  <Button
+                                    color="warning"
+                                    className="ml-2 btn-sm"
+                                    onClick={() => handleUpdate2(ls)}
+                                    disabled={buttonStatus}
+                                  >
+                                    <i className="fas fa-edit"></i>
+                                  </Button>
+                                )}
+                            </td>
+                          ) : null}</>
+                          :
+                          null
+                                  }
 
                         {checkInvoice ? (
                           <td className="text-center">

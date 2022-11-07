@@ -11,6 +11,7 @@ import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import Loader from '../Search/Loader/Loader';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const ProgramLevel=(props)=>{
     const programLevelList = props.allprogramLevelList[0];
@@ -31,7 +32,7 @@ const ProgramLevel=(props)=>{
 
     const [programLvlId, setProgramLvlId] = useState(undefined);
     const [buttonStatus,setButtonStatus] = useState(false);
-
+    const permissions = JSON.parse(localStorage.getItem('permissions')); 
     
      // redirect to dashboard
      const backToDashboard = () => {
@@ -202,13 +203,17 @@ return (
     <Card>
         <CardHeader>
 
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList?.Add_New_program_level) ?
+            <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={AddModalOpen}
             icon={<i className="fas fa-plus"></i>}
             name={" Add Program Level"}
             permission={6}
           />
+          :null
+          }
 
               <div> <b> Total <span className="badge badge-primary"> {programLevelList?.length}</span> Program Level  Found </b></div>
         </CardHeader>
@@ -357,6 +362,8 @@ return (
 
                 {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger( program.name,  program.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
+                {
+            permissions?.includes(permissionList?.Update_program_level_info) ?
                 <ButtonForFunction
                   func={()=> handleUpdate( program)}
                   className={"mx-1 btn-sm"}
@@ -364,7 +371,11 @@ return (
                   icon={<i className="fas fa-edit"></i>}
                   permission={6}
                 />
+                :
+                null}
                 
+                {
+            permissions?.includes(permissionList?.Delete_program_level) ?
                 <ButtonForFunction
                   className={"mx-1 btn-sm"}
                   func={() => toggleDanger( program?.name,  program?.id)}
@@ -372,6 +383,8 @@ return (
                   icon={<i className="fas fa-trash-alt"></i>}
                   permission={6}
                 />
+                :
+                null}
 
                 {/* <Button onClick={()=> handleUpdate( program)} className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button> */}
 

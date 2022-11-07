@@ -3,12 +3,14 @@ import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, Mod
 import { useToasts } from 'react-toast-notifications';
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 const DistributionLevelSettingForm = (props) => {
 
     const {success, setSuccess, name, setName, value, setValue, percent, setPercent, update, setUpdate, data, setData} = props;
 
     const {addToast} = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   
     
@@ -148,10 +150,15 @@ const DistributionLevelSettingForm = (props) => {
                 
                     
                 <div>
+              {
+                permissions?.includes(permissionList.Add_New_Distribution_Level_Setting) ?
                 <Button color='primary' type='submit' disabled={buttonStatus}>
-                    Submit
+                Submit
 
-                    </Button>
+                </Button>
+                :
+                null
+              }
                 </div>
 
                 </div>

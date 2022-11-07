@@ -24,11 +24,13 @@ import put from '../../../helpers/put';
 import { Image } from 'antd';
 import { Upload } from "antd";
 import * as Icon from "react-feather";
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 
 const StudentProfile = () => {
 
     const userType = localStorage.getItem('userType');
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
     const [studentDetails, setStudentDetails] = useState({});
     const [date, setDate] = useState("");
     const [isHaveDisability, setIsHaveDisability] = useState(false);
@@ -86,7 +88,7 @@ const StudentProfile = () => {
 
       get(`StudentConsent/Get/${sId}`)
         .then(res =>{ 
-            
+            console.log('res res res', res);
             setConscentData(res);
         })
 
@@ -646,11 +648,16 @@ const StudentProfile = () => {
                     </Col>
 
                      <Col> 
-                      <EditDivButton
+                      {
+                        permissions?.includes(permissionList.Update_Student_info) ? 
+                        <EditDivButton
                         className={"uapp-employee-profile-Edit"}
                         func={()=>handleEditFromProfilePage(studentDetails)}
                         permission={6}
                       />
+                      :
+                      null
+                      }
                      </Col> 
                     </Row>            
                    </div>     
@@ -702,11 +709,16 @@ const StudentProfile = () => {
                     <div className="bg-h"></div>
                     </div>
 
+                   {
+                    permissions?.includes(permissionList.Update_personalstatement_info) ?
                     <EditDivButton
-                      className={"text-right edit-style  p-3"}
-                      func={()=>handleUpdatePersonalStatement(studentDetails)}
-                      permission={6}
-                    />
+                    className={"text-right edit-style  p-3"}
+                    func={()=>handleUpdatePersonalStatement(studentDetails)}
+                    permission={6}
+                  />
+                  :
+                  null
+                   }
 
                     </div>
                     <div>
@@ -727,11 +739,16 @@ const StudentProfile = () => {
                  <div className="bg-h"></div>
                  </div>
 
-                 <EditDivButton
+                 {
+                  permissions?.includes(permissionList.Update_Student_info) ?
+                  <EditDivButton
                     className={"text-right edit-style  p-3"}
                     func={()=>handleUpdatePersonalInformation(studentDetails)}
                     permission={6}
                  />
+                 :
+                 null
+                 }
 
                  </div>
                       <Table className="table-bordered mt-4" >
@@ -836,11 +853,16 @@ const StudentProfile = () => {
                  <div className="bg-h"></div>
                  </div>
 
-                 <EditDivButton
+                 {
+                  permissions?.includes(permissionList.Update_student_contact_info) ?
+                  <EditDivButton
                   className={"text-right edit-style  p-3"}
                   func={()=>handleUpdateContactInformation(studentDetails)}
                   permission={6}
                  />
+                 :
+                 null
+                 }
 
 
                  </div>
@@ -955,11 +977,16 @@ const StudentProfile = () => {
                  </div>
                  
 
+                 {
+                  permissions?.includes(permissionList.Update_otherinfo_info)?
                   <EditDivButton
-                     className={"text-right edit-style  p-3"}
-                     func={()=>handleUpdateOtherInformation(studentDetails)}
-                     permission={6}
-                  />
+                  className={"text-right edit-style  p-3"}
+                  func={()=>handleUpdateOtherInformation(studentDetails)}
+                  permission={6}
+               />
+               :
+               null
+                 }
 
                  </div>
 
@@ -1037,11 +1064,16 @@ const StudentProfile = () => {
                  <div className="bg-h"></div>
                  </div>
                  
-                  <EditDivButton
+                  {
+                    permissions?.includes(permissionList.Update_Educationinfo_info) ?
+                    <EditDivButton
                     className={"text-right edit-style  p-3"}
                     func={()=>handleUpdateEducationalInformation(studentDetails)}
                     permission={6}
                   />
+                  :
+                  null
+                  }
 
                  </div>
 
@@ -1129,11 +1161,16 @@ const StudentProfile = () => {
             <div className="bg-h"></div>
             </div>
             
+               {
+                permissions?.includes(permissionList?.Update_grescore_info) ?
                 <EditDivButton
-                  className={"text-right edit-style  p-3"}
-                  func={()=>handleUpdateGREAndGMATScores(studentDetails)}
-                  permission={6}
-                />
+                className={"text-right edit-style  p-3"}
+                func={()=>handleUpdateGREAndGMATScores(studentDetails)}
+                permission={6}
+              />
+              :
+              null
+               }
 
             </div>
 
@@ -1170,11 +1207,16 @@ const StudentProfile = () => {
           <div className="bg-h"></div>
           </div>
 
-           <EditDivButton
+           {
+            permissions?.includes(permissionList.Update_gmatscore_info) ?
+            <EditDivButton
               className={"text-right edit-style  p-3"}
               func={()=>handleUpdateGREAndGMATScores(studentDetails)}
               permission={6}
             />
+            :
+            null
+           }
 
           </div>
 
@@ -1241,13 +1283,18 @@ const StudentProfile = () => {
           <h5 className="test-score-title-style2">IELTS Score</h5>
           
         
-                  <ButtonForFunction
+                 {
+                  permissions?.includes(permissionList.View_IELTS_info) ?
+                   <ButtonForFunction
                      className={"my-3"}
                      func={()=>handleUpdateTestScores(studentDetails)}
                      name={'View'}
                      color={'primary'}
                      permission={6}
                   />
+                  :
+                  null
+                 }
        
         </div>
 
@@ -1286,13 +1333,18 @@ const StudentProfile = () => {
       <CardBody className="">
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">DUOLINGO Score</h5>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList.View_Duolingo_info) ?
+            <ButtonForFunction
                      className={"my-3"}
                      func={()=>handleUpdateTestScores(studentDetails)}
                      name={'View'}
                      color={'primary'}
                      permission={6}
                   />
+                  :
+                  null
+          }
         </div>
 
         <div className="d-flex justify-content-between">
@@ -1325,13 +1377,18 @@ const StudentProfile = () => {
       <CardBody className="">
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">TOEFL Score</h5>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList.View_TOFEL_info)?
+            <ButtonForFunction
                      className={"my-3"}
                      func={()=>handleUpdateTestScores(studentDetails)}
                      name={'View'}
                      color={'primary'}
                      permission={6}
                   />
+                  :
+                  null
+          }
         </div>
 
         <div className="d-flex justify-content-between">
@@ -1369,13 +1426,18 @@ const StudentProfile = () => {
       <CardBody className="">
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">Functional Skill Score</h5>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList.View_FunctionalSkill_info) ?
+            <ButtonForFunction
                      className={"my-3"}
                      func={()=>handleUpdateTestScores(studentDetails)}
                      name={'View'}
                      color={'primary'}
                      permission={6}
                   />
+                  :
+                  null
+          }
         </div>
 
        <div className="d-flex justify-content-between">
@@ -1413,13 +1475,18 @@ const StudentProfile = () => {
       <CardBody className="">
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">GCSE Score</h5>
+         {
+          permissions?.includes(permissionList.View_GCSE_info) ?
           <ButtonForFunction
-                     className={"my-3"}
-                     func={()=>handleUpdateTestScores(studentDetails)}
-                     name={'View'}
-                     color={'primary'}
-                     permission={6}
-                  />
+          className={"my-3"}
+          func={()=>handleUpdateTestScores(studentDetails)}
+          name={'View'}
+          color={'primary'}
+          permission={6}
+       />
+       :
+       null
+         }
         </div>
 
        <div className="d-flex justify-content-between">
@@ -1444,13 +1511,18 @@ const StudentProfile = () => {
       <CardBody className="">
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">PEARSON Score</h5>
+         {
+          permissions?.includes(permissionList.View_PEARSON_info) ?
           <ButtonForFunction
-                     className={"my-3"}
-                     func={()=>handleUpdateTestScores(studentDetails)}
-                     name={'View'}
-                     color={'primary'}
-                     permission={6}
-                  />
+          className={"my-3"}
+          func={()=>handleUpdateTestScores(studentDetails)}
+          name={'View'}
+          color={'primary'}
+          permission={6}
+       />
+       :
+       null
+         }
         </div>
 
        <div className="d-flex justify-content-between">
@@ -1475,13 +1547,18 @@ const StudentProfile = () => {
       <CardBody className="">
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">Other Score</h5>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList.View_OTHERS_info) ?
+            <ButtonForFunction
                      className={"my-3"}
                      func={()=>handleUpdateTestScores(studentDetails)}
                      name={'View'}
                      color={'primary'}
                      permission={6}
                   />
+                  :
+                  null
+          }
         </div>
 
       <div className="d-flex justify-content-between">
@@ -1509,13 +1586,18 @@ const StudentProfile = () => {
       <CardBody className="">
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">PTE Score</h5>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList.View_PTE_info) ?
+            <ButtonForFunction
                      className={"my-3"}
                      func={()=>handleUpdateTestScores(studentDetails)}
                      name={'View'}
                      color={'primary'}
                      permission={6}
                   />
+                  :
+                  null
+          }
         </div>
 
         <div className="d-flex justify-content-between">
@@ -1566,11 +1648,16 @@ const StudentProfile = () => {
                 <div className="bg-h"></div>
                 </div>
 
-                 <EditDivButton
-                    className={"text-right edit-style  p-3"}
-                    func={()=>handleUpdateExperience(studentDetails)}
-                    permission={6}
-                  />
+                {
+                  permissions?.includes(permissionList.Update_experience_info) ? 
+                  <EditDivButton
+                  className={"text-right edit-style  p-3"}
+                  func={()=>handleUpdateExperience(studentDetails)}
+                  permission={6}
+                />
+                :
+                null
+                }
 
                 </div>
 
@@ -1638,11 +1725,16 @@ const StudentProfile = () => {
                 <div className="bg-h"></div>
                 </div>
 
-                  <EditDivButton
+                  {
+                    permissions?.includes(permissionList.Update_reference_info) ?
+                    <EditDivButton
                     className={"text-right edit-style  p-3"}
                     func={()=>handleUpdateReference(studentDetails)}
                     permission={6}
                   />
+                  :
+                  null
+                  }
 
                 </div>
 
@@ -1781,9 +1873,14 @@ const StudentProfile = () => {
                         <div className="notice-item card-widget mt-3 ">
                         <div className="notice-titel-student-profile">
                         
+                      {
+                        permissions?.includes(permissionList.View_Application) ?
                         <Button color='primary' onClick={()=>gotoFromProfilePage(app)} >
-                          View
-                        </Button>
+                        View
+                      </Button>
+                      :
+                      null
+                      }
                         </div>
                         <span className='std-uni-stl'>{app?.subject?.name}</span>
                         <br/>
@@ -1982,12 +2079,17 @@ const StudentProfile = () => {
                              
                              <div>
 
-                             <ButtonForFunction
-                             func={handleTerms}
-                              name={'Sign Consent'}
-                              className={'badge-primary mt-2'}
-                              />
+                            {
+                              permissions?.includes(permissionList.Add_New_student_consent) ?
+                              <ButtonForFunction
+                              func={handleTerms}
+                               name={'Sign Consent'}
+                               className={'badge-primary mt-2'}
+                               />
                               
+                               :
+                               null
+                            }
                               
                               
                             </div>

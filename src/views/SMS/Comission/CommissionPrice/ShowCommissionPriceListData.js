@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
+import { permissionList } from '../../../../constants/AuthorizationConstant';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
@@ -10,6 +11,7 @@ import remove from '../../../../helpers/remove';
 const ShowCommissionPriceListData = (props) => {
 
     const {list, toggleUpdate, toggleDanger, deleteModal, setDeleteModal, confirmDelete} = props 
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
 
     return (
@@ -59,17 +61,27 @@ const ShowCommissionPriceListData = (props) => {
                             func={()=>handleEdit(student)}
                             /> */}
 
-                            <Button className='mr-1 btn-sm' color='warning' onClick={()=>toggleUpdate(ls)}>
+                            {
+                              permissions?.includes(permissionList.Update_GroupPriceRange_info) ?
+                              <Button className='mr-1 btn-sm' color='warning' onClick={()=>toggleUpdate(ls)}>
                             <i className="fas fa-edit"></i>
 
 
                             </Button>
+                            :
+                            null
+                            }
 
-                            <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(ls)}>
+                            {
+                              permissions?.includes(permissionList.Delete_GroupPriceRange) ?
+                              <Button className='ml-1 btn-sm' color='danger' onClick={()=>toggleDanger(ls)}>
                             <i className="fas fa-trash-alt"></i>
 
 
                             </Button>
+                            :
+                            null
+                            }
 
 
                       

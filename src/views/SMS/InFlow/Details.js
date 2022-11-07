@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import get from '../../../helpers/get';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav,NavLink, NavItem, UncontrolledTooltip, ButtonGroup, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const Details = () => {
 
     const {id} = useParams();
     const history = useHistory();
     const [info,setInfo] = useState({});
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     useEffect(()=>{
 
@@ -113,9 +115,14 @@ const Details = () => {
                     </div>
 
                     <div>
-                        <Button color='warning' onClick={editInfo}>
+                        {
+                          permissions?.includes(permissionList.Update_Bonus_transaction_info) ?
+                          <Button color='warning' onClick={editInfo}>
                             Edit
                         </Button>
+                        :
+                        null
+                        }
                     </div>
 
                     </div>

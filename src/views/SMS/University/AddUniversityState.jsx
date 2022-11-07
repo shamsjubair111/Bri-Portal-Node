@@ -223,7 +223,7 @@ const AddUniversityState = () => {
       <Card>
         <CardHeader>
           {
-            permissions?.includes(permissionList?.Add_Universitystate) ?
+            permissions?.includes(permissionList?.Add_New_Universitystate) ?
             <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
@@ -369,7 +369,7 @@ const AddUniversityState = () => {
                       {/* <Button onClick={() => toggleDanger(uniDetails)} className="mx-1 btn-sm" color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
                       {
-                        permissions?.includes(permissionList?.Update_Universitystate) ?
+                        permissions?.includes(permissionList?.Update_Universitystate_info) ?
                         <ButtonForFunction
                         func={() => handleUpdate(uniDetails)}
                         className={"mx-1 btn-sm"}

@@ -640,8 +640,7 @@ if(titleValue == 0 ){
                     }}>
                         Cancel
                     </Button>
-                  {
-                    permissions?.includes(permissionList?.Add_Branch_Manager)?
+                  
                     <Button
                     type="submit"
                     className="ml-1 mt-3 badge-primary"
@@ -649,9 +648,7 @@ if(titleValue == 0 ){
                   >
                     Submit
                   </Button>
-                  :
-                  null
-                  }
+                 
                   </div>
                  </Col>
                   <ToastContainer />

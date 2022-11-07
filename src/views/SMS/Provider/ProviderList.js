@@ -317,7 +317,7 @@ const ProviderList = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              {permissions?.includes(permissionList?.Provider_List) ? (
+              {permissions?.includes(permissionList?.Add_New_Provider) ? (
                 <LinkButton
                   url={"/providerForm"}
                   className={"btn btn-uapp-add "}
@@ -532,7 +532,12 @@ const ProviderList = () => {
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone No</th> : null}
-                    {checkUniCount ? <th>University Count</th> : null}
+                  {
+                    permissions?.includes(permissionList.View_University_List) ?
+                    <>  {checkUniCount ? <th>University Count</th> : null}</>
+                    :
+                    null
+                  }
 
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
@@ -554,6 +559,9 @@ const ProviderList = () => {
                       {checkEmail ? <td>{prov?.email}</td> : null}
                       {checkPhn ? <td>{prov?.phoneNumber}</td> : null}
 
+                      {
+                    permissions?.includes(permissionList.View_University_List) ?
+                     <>
                       {checkUniCount ? (
                         <td>
                           <Link
@@ -572,6 +580,10 @@ const ProviderList = () => {
                           </Link>
                         </td>
                       ) : null}
+                     </>
+                     :
+                     null
+                          }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
@@ -584,14 +596,21 @@ const ProviderList = () => {
                               permission={6}
                             /> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList?.View_Provider_info) ?
+                              <ButtonForFunction
                               color={"primary"}
                               func={() => redirectToProviderDetails(prov?.id)}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
+                              {
+                              permissions?.includes(permissionList?.View_Provider_info) ?
                             <ButtonForFunction
                               color={"primary"}
                               func={() => redirectToProviderDashboard(prov?.id)}
@@ -601,8 +620,14 @@ const ProviderList = () => {
                               }
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
-                            {prov?.id !== 1 ? (
+                            {
+                              permissions?.includes(permissionList.Update_Provider_info) ?
+                              <>
+                              {prov?.id !== 1 ? (
                               // <LinkButton
                               //   url={`/updateProvider/${prov?.id}`}
                               //   color={"warning"}
@@ -619,8 +644,15 @@ const ProviderList = () => {
                                 permission={6}
                               />
                             ) : null}
+                              </>
+                              :
+                              null
+                            }
 
-                            {prov?.id !== 1 ? (
+                            {
+                              permissions?.includes(permissionList?.Delete_Provider) ?
+                              <>
+                              {prov?.id !== 1 ? (
                               // <Button color="danger" onClick={toggleDeleteProvider} className="mx-1 btn-sm"><i class="fas fa-trash-alt"></i></Button>
 
                               <ButtonForFunction
@@ -631,6 +663,10 @@ const ProviderList = () => {
                                 permission={6}
                               />
                             ) : null}
+                              </>
+                              :
+                              null
+                            }
                           </ButtonGroup>
                           <Modal
                             isOpen={deleteModal}

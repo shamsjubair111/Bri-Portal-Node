@@ -326,7 +326,7 @@ const AccountIntake = () => {
 
                 <CardHeader>
                 {
-                    permissions?.includes(permissionList?.Add_AccountIntake) ?
+                    permissions?.includes(permissionList?.Add_New_AccountIntake) ?
                     <div className='d-flex jusity-content-end'>
                     <ButtonForFunction className ={"btn btn-uapp-add "}
                         icon ={<i className="fas fa-plus"></i>}
@@ -577,7 +577,7 @@ const AccountIntake = () => {
                         <ButtonGroup variant="text">
                        
                             {
-                                permissions?.includes(permissionList?.Update_AccountIntake) ?
+                                permissions?.includes(permissionList?.Update_AccountIntake_info) ?
                                 <ButtonForFunction
                                 icon={<i className="fas fa-edit"></i>}
                                 color={"warning"}

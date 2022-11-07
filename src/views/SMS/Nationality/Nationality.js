@@ -11,6 +11,7 @@ import { Upload, Modal as AntdModal } from "antd";
 
 import * as Icon from "react-feather";
 import { Image } from "antd";
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const Nationality = () => {
 
@@ -25,6 +26,7 @@ const Nationality = () => {
     const [delData, setDelData] = useState({});
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     // file upload
     const [FileList1, setFileList1] = useState([]);
@@ -253,8 +255,18 @@ const Nationality = () => {
             <CardHeader>
        
             <div>
-              <Button className="btn btn-uapp-add mr-2" onClick={()=>AddModalOpen('add')} > <i className="fas fa-plus"></i>  Add Nationality</Button>
-              <Button className="btn btn-uapp-add" onClick={()=>AddExelModalOpen()} > <i className="fas fa-plus"></i>  Import From Excel</Button>
+       {
+         permissions?.includes(permissionList.Add_New_Nationality) ?
+         <Button className="btn btn-uapp-add mr-2" onClick={()=>AddModalOpen('add')} > <i className="fas fa-plus"></i>  Add Nationality</Button>
+         :
+         null
+       }
+              {
+                permissions?.includes(permissionList.Add_New_Nationality) ?
+                <Button className="btn btn-uapp-add" onClick={()=>AddExelModalOpen()} > <i className="fas fa-plus"></i>  Import From Excel</Button>
+                :
+                null
+              }
             </div>
             
                   <div> <b> Total <span className="badge badge-primary">{countryList.length} </span> Nationalities  Found </b></div>
@@ -460,10 +472,20 @@ const Nationality = () => {
                       
                        
                       
-                         <Button color="warning" onClick={()=> handleUpdateCountry(list)}    className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
+                         {
+                          permissions?.includes(permissionList.Update_Nationality_info) ?
+                          <Button color="warning" onClick={()=> handleUpdateCountry(list)}    className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
+                          :
+                          null
+                         }
 
+                          {
+                          permissions?.includes(permissionList.Delete_Nationality) ?
                          <Button className="btn-sm mx-2" onClick={()=>toggleDeleteModal(list)}  color="danger"><i className="fas fa-trash-alt"></i></Button>
-                       
+                         
+                         :
+                         null
+                        }
                           
                           </ButtonGroup>
 

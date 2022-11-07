@@ -28,7 +28,7 @@ const Team = (props) => {
 
     useEffect(()=>{
         get(`BranchTeamEmployee/Count/${id}`).then((res) => {
-           
+           console.log('testing',res);
             setBranchTeamEmployee(res);
           });
     },[ success, id])

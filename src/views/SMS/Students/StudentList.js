@@ -41,11 +41,13 @@ import put from '../../../helpers/put.js';
 import Loader from '../Search/Loader/Loader.js';
 import { Switch } from "antd";
 import ToggleSwitch from "../Components/ToggleSwitch.js";
+import { permissionList } from "../../../constants/AuthorizationConstant.js";
 
 
 const StudentList = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const { cId, type } = useParams();
 
@@ -111,14 +113,22 @@ const StudentList = () => {
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
 
+ 
+
+  
   useEffect(() => {
     get("StudentTypeDD/Index").then((res) => {
-      console.log("res", res);
+      
       setStudentList(res);
     });
 
     get("ConsultantDD/index").then((res) => {
       setConsultant(res);
+      console.log('res', res);
+      if(cId){
+        const result  = res.find(r => r?.id == cId);
+        setConsultantLabel(result?.name);
+      }
     });
   }, []);
 
@@ -145,12 +155,13 @@ const StudentList = () => {
             userTypeId == userTypes?.Consultant ? referenceId : cId
           }&status=${statusValue}&sortby=${orderValue}`
         ).then((res) => {
-          console.log(res);
+          
           setStudentData(res?.models);
           setEntity(res?.totalEntity);
           setSerialNum(res?.firstSerialNumber);
           setLoading(false);
-          setConsultantLabel(res?.models[0]?.consultant?.firstName + ' ' +  res?.models[0]?.consultant?.lastName)
+         
+         
         })
         :
         get(
@@ -175,6 +186,7 @@ const StudentList = () => {
     studentTypeValue,
     success,
     orderValue,
+    
   ]);
 
   // student dropdown options
@@ -594,12 +606,17 @@ const StudentList = () => {
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
-              <ButtonForFunction
+              {
+                permissions?.includes(permissionList?.Add_New_Student) ?
+                <ButtonForFunction
                 color='primary'
                 icon={<i className="fas fa-plus"></i>}
                 func={handleAddStudent}
                 name={" Add Student"}
               ></ButtonForFunction>
+              :
+              null
+              }
             </Col>
 
             <Col lg="7" md="7" sm="8" xs="8">
@@ -912,11 +929,20 @@ const StudentList = () => {
                     {checkPhn ? <th>Phone No</th> : null}
                     {checkCons ? <th>Consultant</th> : null}
                     {checkDate ? <th>UAPP Reg Date</th> : null}
-                    {userTypeId == userTypes?.SystemAdmin ||
-                    userTypeId == userTypes?.Admin ? (
-                      <>{checkPass ? <th>Password</th> : null}</>
-                    ) : null}
-                    {checkBlackList ? <th>Black List</th> : null}
+                  { permissions?.includes(permissionList.ChangePassword) ?
+                    <>  {userTypeId == userTypes?.SystemAdmin ||
+                      userTypeId == userTypes?.Admin ? (
+                        <>{checkPass ? <th>Password</th> : null}</>
+                      ) : null}</>
+                      :
+                      null
+                  }
+                    {
+                      permissions?.includes(permissionList.Change_Status_Student) ?
+                      <>{checkBlackList ? <th>Black List</th> : null}</>
+                      :
+                      null
+                    }
 
                     {/* <th>Intakes</th> */}
                     {checkAction ? (
@@ -954,111 +980,116 @@ const StudentList = () => {
                         <td>{handleDate(student?.createdOn)}</td>
                       ) : null}
 
-                      {userTypeId == userTypes?.SystemAdmin ||
-                      userTypeId == userTypes?.Admin ? (
-                        <>
-                          {checkPass ? (
-                            <td>
-                              <Link
-                                to="/studentList"
-                                onClick={() => handlePass(student)}
-                              >
-                                Change
-                              </Link>
-                              <Modal
-                                isOpen={passModal}
-                                toggle={() => handleToggle}
-                                className="uapp-modal2"
-                              >
-                                <ModalHeader>
-                                  <div className="text-center mt-3">
-                                    <span>
-                                      Change password for {passData?.firstName}{" "}
-                                      {passData?.lastName} (
-                                      {passData?.studentViewId}){" "}
-                                    </span>
-                                  </div>
-                                </ModalHeader>
-                                <ModalBody>
-                                  <form
-                                    onSubmit={submitModalForm}
-                                    className="mt-3"
-                                  >
-                                    <FormGroup
-                                      row
-                                      className="has-icon-left position-relative"
+                    {permissions?.includes(permissionList.ChangePassword) ?
+                      <>  {userTypeId == userTypes?.SystemAdmin ||
+                        userTypeId == userTypes?.Admin ? (
+                          <>
+                            {checkPass ? (
+                              <td>
+                                <Link
+                                  to="/studentList"
+                                  onClick={() => handlePass(student)}
+                                >
+                                  Change
+                                </Link>
+                                <Modal
+                                  isOpen={passModal}
+                                  toggle={() => handleToggle}
+                                  className="uapp-modal2"
+                                >
+                                  <ModalHeader>
+                                    <div className="text-center mt-3">
+                                      <span>
+                                        Change password for {passData?.firstName}{" "}
+                                        {passData?.lastName} (
+                                        {passData?.studentViewId}){" "}
+                                      </span>
+                                    </div>
+                                  </ModalHeader>
+                                  <ModalBody>
+                                    <form
+                                      onSubmit={submitModalForm}
+                                      className="mt-3"
                                     >
-                                      <Col md="4">
-                                        <span>
-                                          Password{" "}
-                                          <span className="text-danger">*</span>{" "}
-                                        </span>
-                                      </Col>
-                                      <Col md="8">
-                                        <Input
-                                          type="password"
-                                          onBlur={passValidate}
-                                          onChange={() => setError("")}
-                                        />
-                                        <span className="text-danger">
-                                          {error}
-                                        </span>
-                                      </Col>
-                                    </FormGroup>
-
-                                    <FormGroup
-                                      row
-                                      className="has-icon-left position-relative"
-                                    >
-                                      <Col md="4">
-                                        <span>
-                                          Confirm Password{" "}
-                                          <span className="text-danger">*</span>{" "}
-                                        </span>
-                                      </Col>
-                                      <Col md="8">
-                                        <Input
-                                          type="password"
-                                          onChange={verifyPass}
-                                          onBlur={confirmPassword}
-                                        />
-
-                                        <br />
-                                        {
-                                          <span className="text-danger">
-                                            {passError}
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="4">
+                                          <span>
+                                            Password{" "}
+                                            <span className="text-danger">*</span>{" "}
                                           </span>
-                                        }
-                                      </Col>
-                                    </FormGroup>
-
-                                    <FormGroup
-                                      row
-                                      className="has-icon-left position-relative"
-                                    >
-                                      <Col md="12">
-                                        <div className="d-flex justify-content-between">
-                                          <Button
-                                            color="danger"
-                                            onClick={() => setPassModal(false)}
-                                          >
-                                            Cancel
-                                          </Button>
-                                          <Button color="primary" type="submit" disabled={buttonStatus}>
-                                            Submit
-                                          </Button>
-                                        </div>
-                                      </Col>
-                                    </FormGroup>
-                                  </form>
-                                </ModalBody>
-                              </Modal>
-                            </td>
-                          ) : null}
-                        </>
-                      ) : null}
-
-                      {checkBlackList ? (
+                                        </Col>
+                                        <Col md="8">
+                                          <Input
+                                            type="password"
+                                            onBlur={passValidate}
+                                            onChange={() => setError("")}
+                                          />
+                                          <span className="text-danger">
+                                            {error}
+                                          </span>
+                                        </Col>
+                                      </FormGroup>
+  
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="4">
+                                          <span>
+                                            Confirm Password{" "}
+                                            <span className="text-danger">*</span>{" "}
+                                          </span>
+                                        </Col>
+                                        <Col md="8">
+                                          <Input
+                                            type="password"
+                                            onChange={verifyPass}
+                                            onBlur={confirmPassword}
+                                          />
+  
+                                          <br />
+                                          {
+                                            <span className="text-danger">
+                                              {passError}
+                                            </span>
+                                          }
+                                        </Col>
+                                      </FormGroup>
+  
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="12">
+                                          <div className="d-flex justify-content-between">
+                                            <Button
+                                              color="danger"
+                                              onClick={() => setPassModal(false)}
+                                            >
+                                              Cancel
+                                            </Button>
+                                            <Button color="primary" type="submit" disabled={buttonStatus}>
+                                              Submit
+                                            </Button>
+                                          </div>
+                                        </Col>
+                                      </FormGroup>
+                                    </form>
+                                  </ModalBody>
+                                </Modal>
+                              </td>
+                            ) : null}
+                          </>
+                        ) : null}</>
+                        :
+                        null
+                    }
+                    {
+                      permissions?.includes(permissionList.Change_Status_Student) ?
+                      <>{checkBlackList ? (
                         <td>
                           {/* <label className="switch">
                             <input
@@ -1091,17 +1122,25 @@ const StudentList = () => {
                           />
 
                         </td>
-                      ) : null}
+                      ) : null}</>
+                      :
+                      null
+                    }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
+                          {
+                            permissions?.includes(permissionList.View_Student_info) ?
                             <ButtonForFunction
-                              icon={<i className="fas fa-eye"></i>}
-                              color={"primary"}
-                              className={"mx-1 btn-sm"}
-                              func={() => redirectToStudentProfile(student?.id)}
-                            />
+                            icon={<i className="fas fa-eye"></i>}
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            func={() => redirectToStudentProfile(student?.id)}
+                          />
+                          :
+                          null
+                          }
 
                             {/* <LinkButton
                         url={`/studentProfile/${student?.id}`}
@@ -1110,26 +1149,37 @@ const StudentList = () => {
                         icon={<i className="fas fa-eye"></i>}
 
                         /> */}
-
+                            {
+                              permissions?.includes(permissionList.Update_Student_info) ?
+                              
                             <ButtonForFunction
-                              icon={<i className="fas fa-edit"></i>}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              func={() => handleEdit(student)}
-                            />
+                            icon={<i className="fas fa-edit"></i>}
+                            color={"warning"}
+                            className={"mx-1 btn-sm"}
+                            func={() => handleEdit(student)}
+                          />
+                          :
+                          null
+                            }
 
                             {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
+                           {
+                            permissions?.includes(permissionList.Delete_Student) ?
                             <ButtonForFunction
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              color={"danger"}
-                              className={"mx-1 btn-sm"}
-                              func={() => toggleDanger(student)}
-                              
-                            />
-                          </ButtonGroup>
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            color={"danger"}
+                            className={"mx-1 btn-sm"}
+                            func={() => toggleDanger(student)}
+                            
+                          />
+                      
+                        :
+                        null
+                           }
+                             </ButtonGroup>
 
                           <Modal
                             isOpen={deleteModal}

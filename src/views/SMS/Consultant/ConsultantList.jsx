@@ -784,8 +784,21 @@ const ConsultantList = () => {
                     {checkConsType ? <th>Type</th> : null}
                     {checkDate ? <th>Started</th> : null}
                     {checkSts ? <th>Status</th> : null}
-                    {checkStd ? <th>Student</th> : null}
-                    {checkAppli ? <th>Applications</th> : null}
+                    {
+                      permissions?.includes(permissionList.View_Student_consultant_List) ? 
+                      <>{checkStd ? <th>Student</th> : null}</>
+                      :
+                      null
+                
+                    }
+                    {
+                      permissions?.includes(permissionList.View_Application_List) ?
+                      <>
+                      {checkAppli ? <th>Applications</th> : null}
+                      </>
+                      :
+                      null
+                    }
                     {checkAsso ? <th>Associates</th> : null}
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
@@ -924,6 +937,10 @@ const ConsultantList = () => {
                         <td>{consultant?.accountStatus?.statusName}</td>
                       ) : null}
 
+                    {
+                      permissions?.includes(permissionList.View_Student_List) ? 
+
+                     <>
                       {checkStd ? (
                         <td>
                           <span
@@ -939,7 +956,15 @@ const ConsultantList = () => {
                           </span>
                         </td>
                       ) : null}
+                     </>
+                     :
+                     null
+                     }
 
+                    {
+                      permissions?.includes(permissionList.View_Application_List) ?
+                      
+                      <>
                       {checkAppli ? (
                         <td>
                           <SpanButton
@@ -951,7 +976,15 @@ const ConsultantList = () => {
                           />
                         </td>
                       ) : null}
+                      </>
+                      :
+                      null}
 
+
+                      {
+                      permissions?.includes(permissionList.View_Student_consultant_List) ?
+                        
+                      <>
                       {checkAsso ? (
                         <td>
                           {" "}
@@ -971,6 +1004,10 @@ const ConsultantList = () => {
                           </span>{" "}
                         </td>
                       ) : null}
+                      </>
+                      :
+                      null
+                      }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">

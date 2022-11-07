@@ -35,6 +35,7 @@ import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkSpanButton from "../Components/LinkSpanButton";
 import Loader from "../Search/Loader/Loader";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const DocumentcategoryList = () => {
   const [uniTypeId, setUniTypeId] = useState(0);
@@ -42,6 +43,7 @@ const DocumentcategoryList = () => {
   const [categoryDescription, setCategoryDescription] = useState("");
 
   const history = useHistory();
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -184,13 +186,18 @@ const DocumentcategoryList = () => {
 
       <Card>
         <CardHeader>
-          <ButtonForFunction
+          {
+            permissions?.includes(permissionList.Add_New_Document_Category) ?
+            <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
             icon={<i className="fas fa-plus"></i>}
             name={" Add Category"}
             permission={6}
           />
+          :
+          null
+          }
 
           <br />
 
@@ -330,8 +337,10 @@ const DocumentcategoryList = () => {
 
                   </td> */}
                     <td>
-
-                      <ButtonGroup>
+                    <ButtonGroup>
+                    {
+            permissions?.includes(permissionList.Update_Document_Category_info) ?
+                     
                       <ButtonForFunction
                         func={() => handleUpdate(docu)}
                         className={"mx-1 btn-sm"}
@@ -339,7 +348,12 @@ const DocumentcategoryList = () => {
                         icon={<i className="fas fa-edit"></i>}
                         permission={6}
                       />
+                      :
+                      null
+                      }
 
+              {
+            permissions?.includes(permissionList.Delete_Document_Category) ?
                       <ButtonForFunction
                         className={"mx-1 btn-sm"}
                         func={() => toggleDanger(docu?.name, docu?.id)}
@@ -347,6 +361,9 @@ const DocumentcategoryList = () => {
                         icon={<i className="fas fa-trash-alt"></i>}
                         permission={6}
                       />
+                      :
+                      null
+                      }
                       </ButtonGroup>
 
                       <Modal

@@ -659,7 +659,44 @@ export const  permissionList = {
      //status update
        Change_Status_Admissionmanager : 512,
        Change_Status_AdmissionOfficer : 513,
-       Change_Status_Student : 514
+       Change_Status_Student : 514,
+
+       //employee photo change
+        Change_Employee_profileImage : 515,
+        Change_Employee_CoverImage : 516,
+
+       //Consultant photo change
+        Change_Consultant_profileImage : 517,
+        Change_Consultant_CoverImage : 518,
+       //Student photo change
+        Change_Student_profileImage : 519,
+       //University photo change
+        Change_University_LogoImage : 520,
+        Change_University_CoverImage : 521,
+       //Provider photo change
+        Change_Provider_LogoImage : 522,
+       //Branch employee photo change
+        Change_branch_employee_LogoImage : 523,
+        Change_branch_employee_CoverImage : 524,
+       //Admission manager photo change
+        Change_Admission_Manager_profileImage : 525,
+       //Admission officer photo change
+        Change_Admission_Officer_profileImage : 526,
+
+        //bank details
+        View_bank_details_List : 527,
+        Add_new_bank_details : 528,
+        Update_bank_details_info : 529,
+        View_bank_details_info : 530,
+        Delete_bank_details : 531,
+         WithdrawRequest_StatusCheck : 532,
+         Update_WithdrawRequest_TransactionStatus_info : 533,
+         Update_WithdrawRequest_PaymentStatus_info : 534,
+
+         Update_Applicationtransaction_TransactionStatus_info : 535,
+
+
+     
 
 
 

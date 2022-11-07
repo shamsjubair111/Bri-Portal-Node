@@ -236,7 +236,7 @@ const AddUniversityCountry = (props) => {
       <Card>
         <CardHeader>
           {
-            permissions?.includes(permissionList?.Add_UniversityCountry) ?
+            permissions?.includes(permissionList?.Add_New_UniversityCountry) ?
             <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
@@ -336,7 +336,11 @@ const AddUniversityCountry = (props) => {
                 <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
                   <th>Name</th>
+                  {
+                      permissions?.includes(permissionList.View_University_List) ?
                   <th className="text-center">Count</th>
+                  :
+                  null}
                   <th>Action</th>
                 </tr>
               </thead>
@@ -345,7 +349,9 @@ const AddUniversityCountry = (props) => {
                   <tr key={uniCountry.id} style={{ textAlign: "center" }}>
                     <th scope="row">{i + 1}</th>
                     <td>{uniCountry.name}</td>
-                    <td className="text-center">
+                    {
+                      permissions?.includes(permissionList.View_University_List) ?
+                      <td className="text-center">
                     <LinkSpanButton
                       url={
                         {
@@ -361,12 +367,15 @@ const AddUniversityCountry = (props) => {
                     
                     />
                     </td>
+                    :
+                    null
+                    }
                     <td>
                       <ButtonGroup>
                      
 
                       {
-                        permissions?.includes(permissionList?.Update_UniversityCountry) ?
+                        permissions?.includes(permissionList?.Update_UniversityCountry_info) ?
                         <ButtonForFunction
                         func={() => handleUpdate(uniCountry)}
                         className={"mx-1 btn-sm"}

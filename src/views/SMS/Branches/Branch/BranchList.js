@@ -162,7 +162,7 @@ const BranchList = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              {permissions?.includes(permissionList?.Add_Branch) ? (
+              {permissions?.includes(permissionList?.Add_New_Branch) ? (
                 <LinkButton
                   url={"/branchInformation"}
                   //  func={handleLocalStorage}
@@ -379,7 +379,9 @@ const BranchList = () => {
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList?.View_Branch_info) ?
+                              <ButtonForFunction
                               color={"primary"}
                               className={"mx-1 btn-sm"}
                               func={() =>
@@ -388,6 +390,9 @@ const BranchList = () => {
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
                             {/* <LinkButton 
                             url={`/branchProfile/${singleBranch?.id}`}
@@ -396,7 +401,10 @@ const BranchList = () => {
                             icon={<i className="fas fa-eye"></i>}
                             permission={6}
                           /> */}
-                            {
+                           {
+                            (permissions?.includes(permissionList.Update_Branch_info)) ?
+                            <>
+                             {
                               singleBranch?.email  !== 'info@smsheg.co.uk' ?
                             <ButtonForFunction
                               color={"warning"}
@@ -408,8 +416,15 @@ const BranchList = () => {
                             : 
                             null
                             }
+                            </>
+                            :
+                            null
+                           }
 
                             {
+                              permissions?.includes(permissionList?.Delete_Branch) ?
+                              <>
+                              {
                               singleBranch?.email !== 'info@smsheg.co.uk'?
                             <ButtonForFunction
                               color={"danger"}
@@ -421,6 +436,10 @@ const BranchList = () => {
                               
                             />
                             :
+                              null
+                            }
+                              </>
+                              :
                               null
                             }
 

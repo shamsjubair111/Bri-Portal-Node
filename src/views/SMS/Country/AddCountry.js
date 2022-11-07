@@ -252,7 +252,7 @@ const AddCountry = () => {
       <Card>
         <CardHeader>
           {
-            permissions?.includes(permissionList?.Add_Country) ?
+            permissions?.includes(permissionList?.Add_New_Country) ?
            <>
            
           <div>
@@ -508,7 +508,7 @@ const AddCountry = () => {
                     <td>
                       <ButtonGroup>
                       {
-                        permissions?.includes(permissionList?.Update_Country)?
+                        permissions?.includes(permissionList?.Update_Country_info)?
                         <ButtonForFunction
                         func={() => handleUpdate(country)}
                         className={"mx-1 btn-sm"}

@@ -700,7 +700,7 @@ const ProviderDetails = () => {
 
                   <div style={{position: 'relative', left: '55px'}}>
                 {permissions?.includes(
-                  permissionList?.Update_Provider_Admin
+                  permissionList?.Update_Provider_Admin_info
                 ) ? (
                   <LinkButton
                     // name={"Edit"}
@@ -731,13 +731,18 @@ const ProviderDetails = () => {
                  
                 <div className="bg-h"></div>
                 </div>
+                   {
+                    permissions?.includes(permissionList.Add_New_University) ?
                     <ButtonForFunction
-                      func={handleAddUniversity}
-                      className={"ml-3 btn btn-uapp-add "}
-                      icon={<i className="fas fa-plus"></i>}
-                      name={" Add University"}
-                      permission={6}
-                    />
+                    func={handleAddUniversity}
+                    className={"ml-3 btn btn-uapp-add "}
+                    icon={<i className="fas fa-plus"></i>}
+                    name={" Add University"}
+                    permission={6}
+                  />
+                  :
+                  null
+                   }
                   </Col>
 
                   <Col lg="7" md="7" sm="8" xs="8"></Col>
@@ -774,9 +779,16 @@ const ProviderDetails = () => {
                             {university.name} ({university.shortName})
                           </td>
                           <td>{university?.universityType?.name}</td>
-                          <td><Button color="primary" className="btn-sm" onClick={()=>{
-                            history.push(`/universityDetails/${university?.id}`)
-                          }}><i className="fas fa-eye"></i></Button></td>
+                          <td>
+                            {
+                              permissions?.includes(permissionList.View_University_info) ?
+                              <Button color="primary" className="btn-sm" onClick={()=>{
+                                history.push(`/universityDetails/${university?.id}`)
+                              }}><i className="fas fa-eye"></i></Button>
+                              :
+                              null
+                            }
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -799,7 +811,7 @@ const ProviderDetails = () => {
                 <div className="bg-h"></div>
                 </div>
 
-              {permissions?.includes(permissionList?.Add_Admission_manager) ? (
+              {permissions?.includes(permissionList?.Add_New_Admission_manager) ? (
                 <Link to={`/addAdmissionManager/${id}`}>
                   <Button className="btn btn-uapp-add mt-2 ml-3">
                     {" "}
@@ -820,7 +832,11 @@ const ProviderDetails = () => {
                       <tr style={{ textAlign: "center" }}>
                         <th>Name</th>
                         <th>Email</th>
+                        {
+                              permissions?.includes(permissionList.View_Admission_manager_university_List) ?
                         <th>Assigned University</th>
+                        :
+                        null}
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -848,7 +864,12 @@ const ProviderDetails = () => {
                                 data={"View"}
                                 permission={6}
                               /> */}
+                             {
+                              permissions?.includes(permissionList.View_Admission_manager_university_List) ?
                               <span onClick={()=>redirectToAssignPage(manager?.id)} className="text-decoration-none">View</span>
+                              :
+                              null
+                             }
                             </span>{" "}
                           </td>
                           <td>
@@ -861,16 +882,10 @@ const ProviderDetails = () => {
                            </Button>
                            </Link> */}
 
-                           <ButtonForFunction
-                            func={()=>redirectToProviderAdmissionManager(manager?.id, id)}
-                            className={"mx-1 btn-sm"}
-                            color = {"primary"}
-                            icon={<i className="fas fa-eye"></i>} 
-                           />
                             
                           
                             {permissions?.includes(
-                              permissionList?.Update_Admission_manager
+                              permissionList?.Update_Admission_manager_info
                             ) ? (
                               // <Button color="warning">
                               // <i

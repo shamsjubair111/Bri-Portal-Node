@@ -14,6 +14,7 @@ import post from '../../../helpers/post';
 import { userTypes } from '../../../constants/userTypeConstant';
 import loader from '../../../assets/img/load.gif';
 import axios from 'axios';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 
 
@@ -23,6 +24,7 @@ const Search = () => {
 
    const  [studentInfo, setStudentInfo] = useState({});
    const userType = localStorage.getItem('userType');
+   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
@@ -1605,19 +1607,28 @@ info?.subjects?.length <1 ?
   (userType == userTypes?.Student) ?
 
 
+<>
+{
+  permissions?.includes(permissionList.View_subject_info) ?
   <CustomLinkButton
- url={`/subjectProfile/${subjectInfo?.subjectId}`}
- target={'_blank'}
-
-
-className='button2-style-search mr-2  '
-icon={<i className="fas fa-eye"></i>}
-
-
-/>
+  url={`/subjectProfile/${subjectInfo?.subjectId}`}
+  target={'_blank'}
+ 
+ 
+ className='button2-style-search mr-2  '
+ icon={<i className="fas fa-eye"></i>}
+ 
+ 
+ />
+ :
+ null
+}
+</>
 
 :
-
+<>
+{
+  permissions?.includes(permissionList.View_subject_info) ?
 <CustomLinkButton
  url={`/subjectProfile/${subjectInfo?.subjectId}`}
  target={'_blank'}
@@ -1628,11 +1639,18 @@ icon={<i className="fas fa-eye"></i>}
 
 
 />
+:
+null
+}
+</>
 
 }
 
 {
   (userType == userTypes?.Student) ?
+<>
+{
+  permissions?.includes(permissionList.Add_New_Wish_List) ?
   <ComponentButton
 
 
@@ -1642,6 +1660,10 @@ icon={<i className="fas fa-eye"></i>}
   className='button2-style-search ml-2'
   permission={6}
   />
+  :
+  null
+}
+</>
   :
   null
 
@@ -1716,7 +1738,12 @@ icon={<i className="fas fa-eye"></i>}
 
     subjectInfo?.canApply? 
     <div className='col-md-2'>
+      {
+    permissions?.includes(permissionList.Add_Application) ?
     <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
+    :
+    null
+      }
     
   </div>
   :
@@ -1779,16 +1806,21 @@ icon={<i className="fas fa-eye"></i>}
 
   <div className='col-md-2'>
 
+ {
+  permissions?.includes(permissionList.View_subject_info) ?
   <CustomLinkButton
- url={`/subjectProfile/${subjectInfo?.subjectId}`}
- target={'_blank'}
-
-
-className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
-icon={<i className="fas fa-eye"></i>}
-
-permission={6}
-/>
+  url={`/subjectProfile/${subjectInfo?.subjectId}`}
+  target={'_blank'}
+ 
+ 
+ className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
+ icon={<i className="fas fa-eye"></i>}
+ 
+ permission={6}
+ />
+ :
+ null
+ }
 
   </div>
 
@@ -1864,7 +1896,11 @@ permission={6}
 
 subjectInfo?.canApply? 
 <div className='col-md-2'>
+  {
+    permissions?.includes(permissionList.Add_Application) ?
     <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
+    : null
+  }
     
   </div>
 :
@@ -2025,7 +2061,8 @@ alt='logo-img'
 <div className='col-md-2'>
 
 <div className='d-flex justify-content-end'>
-
+{
+  permissions?.includes(permissionList.View_University_info) ?
 <LinkButton
 url={`/universityDetails/${info?.universityId}`}
 target={'_blank'}
@@ -2034,6 +2071,8 @@ className={"mx-1 btn-sm mt-2"}
 icon={<i className="fas fa-eye"></i>}
 permission={6}
 />
+:
+null}
 
 </div>
 
