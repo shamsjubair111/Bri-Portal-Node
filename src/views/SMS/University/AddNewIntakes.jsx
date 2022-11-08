@@ -186,18 +186,14 @@ const AddNewIntakes = () => {
                      >
                        {/* <Link to="/intake"> */}
 
-                         {
-                            permissions?.includes(permissionList?.Add_subject_intake)?
+                        
                            <CustomButtonRipple
                            type={"submit"}
                            className={"mr-1 mt-3 badge-primary mx-auto"}
                            name={"Submit"}
                            isDisabled={buttonStatus}
                          />
-                         :
-                         null
-
-                         }
+                        
 
                        {/* </Link> */}
 

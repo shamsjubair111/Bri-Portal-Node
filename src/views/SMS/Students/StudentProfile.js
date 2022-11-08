@@ -88,7 +88,7 @@ const StudentProfile = () => {
 
       get(`StudentConsent/Get/${sId}`)
         .then(res =>{ 
-            console.log('res res res', res);
+           
             setConscentData(res);
         })
 
@@ -544,103 +544,114 @@ const StudentProfile = () => {
                     <div className="text-left">
                     <div className='profile-pic'>
                         <img className="empProfileImg"  src={rootUrl+studentDetails?.profileImage?.fileUrl} alt='profile_img'/>
+                       {
+                        permissions?.includes(permissionList.Change_Student_profileImage) ?
                         <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                        :
+                        null
+                       }
                      </div>
 
                       {/* profile photo edit modal starts here */}
-                     <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
-                       <ModalHeader>Update Profile Photo</ModalHeader>
+                 {
+                  permissions?.includes(permissionList.Change_Student_profileImage) ?
 
-                       <ModalBody>
-                         <form onSubmit={handleSubmitProfilePhoto}>
-                           <input type="hidden" name="id" id="id" value={sId} />
+                  <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
+                  <ModalHeader>Update Profile Photo</ModalHeader>
 
-                           {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+                  <ModalBody>
+                    <form onSubmit={handleSubmitProfilePhoto}>
+                      <input type="hidden" name="id" id="id" value={sId} />
 
-                           <FormGroup row className="has-icon-left position-relative">
-                             <Col className='ml-5' md="4">
-                               <span>
-                                 Profile Photo <span className="text-danger">*</span>{" "}
-                               </span>
-                             </Col>
-                             <Col md="6">
-                               <div className="row d-flex">
-                                 {/* {consultantData?.consultantCoverImageMedia !== null ? (
-                                   <div className="col-md-6">
-                                     <Image
-                                       width={104}
-                                       height={104}
-                                       src={
-                                         rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
-                                       }
-                                     />
-                                   </div>
-                                 ) : null} */}
+                      {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
 
-                                 <div className="col-md-6">
-                                   <>
-                                     <Upload
-                                       listType="picture-card"
-                                       multiple={false}
-                                       fileList={FileList1}
-                                       onPreview={handlePreview1}
-                                       onChange={handleChange1}
-                                       beforeUpload={(file) => {
-                                         return false;
-                                       }}
-                                     >
-                                       {FileList1.length < 1 ? (
-                                         <div className="text-danger" style={{ marginTop: 8 }}>
-                                           <Icon.Upload />
-                                           <br />
-                                           <span>Upload Image Here</span>
-                                         </div>
-                                       ) : (
-                                         ""
-                                       )}
-                                     </Upload>
-                                     <Modal
-                                       visible={previewVisible1}
-                                       title={previewTitle1}
-                                       footer={null}
-                                       onCancel={handleCancel1}
-                                     >
-                                       <img
-                                         alt="example"
-                                         style={{ width: "100%" }}
-                                         src={previewImage1}
-                                       />
-                                     </Modal>
+                      <FormGroup row className="has-icon-left position-relative">
+                        <Col className='ml-5' md="4">
+                          <span>
+                            Profile Photo <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <div className="row d-flex">
+                            {/* {consultantData?.consultantCoverImageMedia !== null ? (
+                              <div className="col-md-6">
+                                <Image
+                                  width={104}
+                                  height={104}
+                                  src={
+                                    rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
+                                  }
+                                />
+                              </div>
+                            ) : null} */}
 
-                                     <span className="text-danger d-block">{text1}</span>
+                            <div className="col-md-6">
+                              <>
+                                <Upload
+                                  listType="picture-card"
+                                  multiple={false}
+                                  fileList={FileList1}
+                                  onPreview={handlePreview1}
+                                  onChange={handleChange1}
+                                  beforeUpload={(file) => {
+                                    return false;
+                                  }}
+                                >
+                                  {FileList1.length < 1 ? (
+                                    <div className="text-danger" style={{ marginTop: 8 }}>
+                                      <Icon.Upload />
+                                      <br />
+                                      <span>Upload Image Here</span>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </Upload>
+                                <Modal
+                                  visible={previewVisible1}
+                                  title={previewTitle1}
+                                  footer={null}
+                                  onCancel={handleCancel1}
+                                >
+                                  <img
+                                    alt="example"
+                                    style={{ width: "100%" }}
+                                    src={previewImage1}
+                                  />
+                                </Modal>
 
-                                     {error1 && (
-                                       <span className="text-danger">
-                                         Profile photo is required
-                                       </span>
-                                     )}
+                                <span className="text-danger d-block">{text1}</span>
 
-                                   </>
-                                 </div>
-                               </div>
-                             </Col>
-                           </FormGroup>
+                                {error1 && (
+                                  <span className="text-danger">
+                                    Profile photo is required
+                                  </span>
+                                )}
 
-                           <FormGroup row>
-                             <Col md="12">
-                               <div className="d-flex justify-content-end">
-                                 <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
-                                       Cancel
-                                 </Button>
-                                 <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   Update
-                                 </Button>
-                               </div>
-                             </Col>
-                           </FormGroup>
-                         </form>
-                       </ModalBody>
-                     </Modal>
+                              </>
+                            </div>
+                          </div>
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup row>
+                        <Col md="12">
+                          <div className="d-flex justify-content-end">
+                            <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
+                                  Cancel
+                            </Button>
+                            <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
+                              Update
+                            </Button>
+                          </div>
+                        </Col>
+                      </FormGroup>
+                    </form>
+                  </ModalBody>
+                </Modal>
+                :
+                null
+                 }
                      {/* profile photo edit modal ends here */} 
 
                     </div>

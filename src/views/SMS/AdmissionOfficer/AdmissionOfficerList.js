@@ -26,6 +26,8 @@ import {
   NavLink,
 } from "reactstrap";
 import loader from '../../../assets/img/load.gif';
+import { Image, Upload } from "antd";
+import * as Icon from "react-feather";
 
 // import { permissionList } from '../../../../constants/AuthorizationConstant';
 import { permissionList } from "../../../constants/AuthorizationConstant";
@@ -51,6 +53,7 @@ import put from "../../../helpers/put";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import post from "../../../helpers/post";
 import ToggleSwitch from "../Components/ToggleSwitch";
+import { rootUrl } from "../../../constants/constants";
 
 const AdmissionOfficerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -134,6 +137,15 @@ const AdmissionOfficerList = () => {
   const [passError, setPassError] = useState("");
   const [buttonStatus,setButtonStatus] = useState(false);
 
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [FileList, setFileList] = useState([]);
+
+  const [imgError, setImgError] = useState(false);
+
+  const [error,setError] = useState(false);
+
   useEffect(() => {
     get("AdmissionManagerDD/Index").then((res) => {
       setManagerDD(res);
@@ -158,7 +170,7 @@ const AdmissionOfficerList = () => {
     get(
       `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&admissionmanagerId=${managerValue}&search=${searchStr}`
     ).then((res) => {
-      // console.log('Response', res);
+      console.log('Response', res);
       setOfficerList(res?.models);
       setEntity(res?.totalEntity);
       setSerialNum(res?.firstSerialNumber);
@@ -196,6 +208,49 @@ const AdmissionOfficerList = () => {
     label: countryOptions?.name,
     value: countryOptions?.id,
   }));
+
+
+  // Trial start
+
+ function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
+const handleCancel = () => {
+  setPreviewVisible(false);
+};
+
+const handlePreview = async (file) => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
+  }
+
+  setPreviewImage(file.url || file.preview);
+  setPreviewVisible(true);
+  setPreviewTitle(
+    file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+  );
+};
+
+const handleChange = ({ fileList }) => {
+  
+ 
+  if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    setFileList([]);
+    setError('Only jpeg, jpg, png image is allowed');
+  }
+  else{
+    setFileList(fileList);
+    setError('');
+  
+  }
+};
+
 
   // select University Country
   const selectUniCountry = (label, value) => {
@@ -434,6 +489,7 @@ const AdmissionOfficerList = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
+    subdata.append('admissionOfficerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
     for (var i of subdata) {
     }
@@ -479,6 +535,7 @@ const AdmissionOfficerList = () => {
             setManagerFormLabel("Select Admission Manager");
             setManagerFormValue(0);
             setModalOpen(false);
+            setFileList([]);
           } else {
             // setSubmitData(false);
             addToast(res.data.message, {
@@ -515,6 +572,7 @@ const AdmissionOfficerList = () => {
             setSelectedId(undefined);
             setSuccess(!success);
             setModalOpen(false);
+            setFileList([]);
           }
         });
       }
@@ -1246,6 +1304,69 @@ const AdmissionOfficerList = () => {
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>
+                      Image <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                  <div className="row">
+                  {officerObj?.admissionOfficerMedia?.fileUrl !== null ? (
+                        <div className="col-md-3 mr-3">
+                          <Image
+                          
+                            width={104}
+                            height={104}
+                            src={rootUrl + officerObj?.admissionOfficerMedia?.fileUrl}
+                          />
+                        </div>
+                      ) : null}
+                    
+                    <div className="col-md-3">
+                      <>
+                        <Upload
+                          listType="picture-card"
+                          multiple={false}
+                          fileList={FileList}
+                          onPreview={handlePreview}
+                          onChange={handleChange}
+                          beforeUpload={(file) => {
+                            return false;
+                          }}
+                        >
+                          {FileList.length < 1 ? (
+                            <div
+                              className="text-danger"
+                              style={{ marginTop: 8 }}
+                            >
+                              <Icon.Upload />
+                              <br />
+                              <span>Upload Image Here</span>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Upload>
+                        <Modal
+                          visible={previewVisible}
+                          title={previewTitle}
+                          footer={null}
+                          onCancel={handleCancel}
+                        >
+                          <img
+                            alt="example"
+                            style={{ width: "100%" }}
+                            src={previewImage}
+                          />
+                        </Modal>
+                         <span className="text-danger d-block">{error}</span>
+                      </>
+                    </div>
+                  </div>
                   </Col>
                 </FormGroup>
 

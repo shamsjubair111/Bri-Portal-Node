@@ -39,6 +39,7 @@ import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 // const userData = [{name: "Jubair", id:6, isChecked:false}, {name: "Rahul", id:2, isChecked:true}, {name: "Abir", id:3, isChecked:false}, {name: "Nahid", id:4, isChecked:true}];
@@ -53,6 +54,7 @@ const UniversityDetails = () => {
   const [galleryData, setGalleryData] = useState([]);
   const [appDocument, setAppDocument] = useState([]);
   const [tempDocument, setTempDocument] = useState([]);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   // const [notAvl, setNotAvl] = useState('n/a');
 
   // for fake data
@@ -842,106 +844,116 @@ const UniversityDetails = () => {
                         alt="cover_img"
                       />
                       <div className="uplode-cover-image">
-                      <span onClick={updateCoverPhoto}> <i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span>
+                      {
+                        permissions?.includes(permissionList.Change_University_CoverImage) ?
+                        <span onClick={updateCoverPhoto}> <i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span>
+                        :
+                        null
+                      }
                       </div>
                     {/* </div> */}
                   </div>
                 </div>
 
                 {/* cover photo edit modal starts here */}
-                <Modal isOpen={modalOpen3} toggle={closeModal2} className="uapp-modal">
-                  <ModalHeader>Update Cover Photo</ModalHeader>
-                      
-                  <ModalBody>
-                    <form onSubmit={handleSubmitCoverPhoto}>
-                      <input type="hidden" name="id" id="id" value={id} />
-                      
-                      {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
-                      
-                      <FormGroup row className="has-icon-left position-relative">
-                        <Col className='ml-5' md="4">
-                          <span>
-                            Cover Photo <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <div className="row d-flex">
-                            {/* {consultantData?.consultantCoverImageMedia !== null ? (
-                              <div className="col-md-6">
-                                <Image
-                                  width={104}
-                                  height={104}
-                                  src={
-                                    rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
-                                  }
-                                />
-                              </div>
-                            ) : null} */}
-          
-                            <div className="col-md-6">
-                              <>
-                                <Upload
-                                  listType="picture-card"
-                                  multiple={false}
-                                  fileList={FileList}
-                                  onPreview={handlePreview}
-                                  onChange={handleChange}
-                                  beforeUpload={(file) => {
-                                    return false;
-                                  }}
-                                >
-                                  {FileList.length < 1 ? (
-                                    <div className="text-danger" style={{ marginTop: 8 }}>
-                                      <Icon.Upload />
-                                      <br />
-                                      <span>Upload Image Here</span>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </Upload>
-                                <AntdModal
-                                  visible={previewVisible}
-                                  title={previewTitle}
-                                  footer={null}
-                                  onCancel={handleCancel}
-                                >
-                                  <img
-                                    alt="example"
-                                    style={{ width: "100%" }}
-                                    src={previewImage}
-                                  />
-                                </AntdModal>
-                                  
-                                <span className="text-danger d-block">{text}</span>
+             {
+              permissions?.includes(permissionList.Change_University_CoverImage) ?
+              <Modal isOpen={modalOpen3} toggle={closeModal2} className="uapp-modal">
+              <ModalHeader>Update Cover Photo</ModalHeader>
+                  
+              <ModalBody>
+                <form onSubmit={handleSubmitCoverPhoto}>
+                  <input type="hidden" name="id" id="id" value={id} />
+                  
+                  {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+                  
+                  <FormGroup row className="has-icon-left position-relative">
+                    <Col className='ml-5' md="4">
+                      <span>
+                        Cover Photo <span className="text-danger">*</span>{" "}
+                      </span>
+                    </Col>
+                    <Col md="6">
+                      <div className="row d-flex">
+                        {/* {consultantData?.consultantCoverImageMedia !== null ? (
+                          <div className="col-md-6">
+                            <Image
+                              width={104}
+                              height={104}
+                              src={
+                                rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
+                              }
+                            />
+                          </div>
+                        ) : null} */}
+      
+                        <div className="col-md-6">
+                          <>
+                            <Upload
+                              listType="picture-card"
+                              multiple={false}
+                              fileList={FileList}
+                              onPreview={handlePreview}
+                              onChange={handleChange}
+                              beforeUpload={(file) => {
+                                return false;
+                              }}
+                            >
+                              {FileList.length < 1 ? (
+                                <div className="text-danger" style={{ marginTop: 8 }}>
+                                  <Icon.Upload />
+                                  <br />
+                                  <span>Upload Image Here</span>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </Upload>
+                            <AntdModal
+                              visible={previewVisible}
+                              title={previewTitle}
+                              footer={null}
+                              onCancel={handleCancel}
+                            >
+                              <img
+                                alt="example"
+                                style={{ width: "100%" }}
+                                src={previewImage}
+                              />
+                            </AntdModal>
+                              
+                            <span className="text-danger d-block">{text}</span>
 
-                                {error && (
-                                  <span className="text-danger">
-                                    Cover photo is required
-                                  </span>
-                                )}
-                                  
-                              </>
-                            </div>
-                          </div>
-                        </Col>
-                      </FormGroup>
-                                  
-                      <FormGroup row>
-                        <Col md="12">
-                          <div className="d-flex justify-content-end">
-                            <Button color='danger' onClick={closeModal2} className='mr-1 mt-3'>
-                                  Cancel
-                            </Button>
-                            <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus3}>
-                              Update
-                            </Button>
-                          </div>
-                        </Col>
-                      </FormGroup>
-                    </form>
-                  </ModalBody>
-                </Modal>
+                            {error && (
+                              <span className="text-danger">
+                                Cover photo is required
+                              </span>
+                            )}
+                              
+                          </>
+                        </div>
+                      </div>
+                    </Col>
+                  </FormGroup>
+                              
+                  <FormGroup row>
+                    <Col md="12">
+                      <div className="d-flex justify-content-end">
+                        <Button color='danger' onClick={closeModal2} className='mr-1 mt-3'>
+                              Cancel
+                        </Button>
+                        <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus3}>
+                          Update
+                        </Button>
+                      </div>
+                    </Col>
+                  </FormGroup>
+                </form>
+              </ModalBody>
+            </Modal>
+            :
+            null
+             }
                 {/* cover photo edit modal ends here */}
 
                 <div className="uapp-employee-profile-image-edit">
@@ -956,11 +968,19 @@ const UniversityDetails = () => {
                                  }
                                  alt="profile_img"/>
 
+                           {
+                            permissions?.includes(permissionList.Change_University_LogoImage) ?
                             <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
-                          </div>
+                            :
+                            null
+                           }
+                            </div>
+                           
 
                           {/* profile photo edit modal starts here */}
-                     <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
+                     {
+                      permissions?.includes(permissionList.Change_University_LogoImage) ?
+                      <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
                        <ModalHeader>Update Profile Photo</ModalHeader>
 
                        <ModalBody>
@@ -1053,6 +1073,9 @@ const UniversityDetails = () => {
                          </form>
                        </ModalBody>
                      </Modal>
+                     :
+                     null
+                     }
                  {/* profile photo edit modal ends here */} 
                                
                         </div>
@@ -1060,21 +1083,27 @@ const UniversityDetails = () => {
                     </Col>
 
                    {
-                    (userType == userTypes?.Student) ? 
-                    null:
-                    <Col>
-                    {/* <div className="uapp-employee-profile-Edit">
-                      <div className="text-right">
-                        <span> <i className="fas fa-pencil-alt"></i> </span>
-                      </div>
-                     </div> */}
-
-                    <EditDivButton
-                      className={"uapp-employee-profile-Edit"}
-                      func={() => handleProfileEdit(id)}
-                      permission={6}
-                    />
-                  </Col>
+                    permissions?.includes(permissionList.Update_University_info) ? 
+                    <>{
+                      (userType == userTypes?.Student) ? 
+                      null
+                      :
+                      <Col>
+                      {/* <div className="uapp-employee-profile-Edit">
+                        <div className="text-right">
+                          <span> <i className="fas fa-pencil-alt"></i> </span>
+                        </div>
+                       </div> */}
+  
+                      <EditDivButton
+                        className={"uapp-employee-profile-Edit"}
+                        func={() => handleProfileEdit(id)}
+                        permission={6}
+                      />
+                    </Col>
+                     }</>
+                     :
+                     null
                    }
                   </Row>
                 </div>
@@ -1382,13 +1411,18 @@ const UniversityDetails = () => {
                             style={{ display: "flex", justifyContent: "end" }}
                           >
                             <Col md="5">
-                              <CustomButtonRipple
+                              {
+                                permissions?.includes(permissionList.Add_New_Universitygallery) ?
+                                <CustomButtonRipple
                                 type={"submit"}
                                 className={"mr-1 mt-3 badge-primary"}
                                 name={"Save"}
                                 permission={6}
                                 isDisabled={buttonStatus}
                               />
+                              :
+                              null
+                              }
                             </Col>
                           </FormGroup>
                         </Form>
@@ -1416,17 +1450,22 @@ const UniversityDetails = () => {
                       <div className="bg-h"></div>
                     </div>
                     {
-                      (userType == userTypes?.Student) ?
-                      null:
-                      <div
-                      className="text-right edit-style  p-3"
-                      onClick={() => handleProfileEdit(id)}
-                    >
-                      <span>
-                        {" "}
-                        <i className="fas fa-pencil-alt pencil-style"></i>{" "}
-                      </span>
-                    </div>
+                      permissions?.includes(permissionList.Update_University_info) ?
+                      <>{
+                        (userType == userTypes?.Student) ?
+                        null:
+                        <div
+                        className="text-right edit-style  p-3"
+                        onClick={() => handleProfileEdit(id)}
+                      >
+                        <span>
+                          {" "}
+                          <i className="fas fa-pencil-alt pencil-style"></i>{" "}
+                        </span>
+                      </div>
+                      }</>
+                      :
+                      null
                     }
                   </div>
                   <Table className="table-bordered mt-4">
@@ -1525,7 +1564,9 @@ const UniversityDetails = () => {
                       <div className="bg-h"></div>
                     </div>
 
-                   {
+                {
+                  permissions?.includes(permissionList.Add_New_UniversityCampus) ?
+                  <>   {
                     (userType == userTypes?.Student) ?
                     null:
                     <ButtonForFunction
@@ -1535,7 +1576,10 @@ const UniversityDetails = () => {
                     name={" Add Campus"}
                     permission={6}
                   />
-                   }
+                   }</>
+                   :
+                   null
+                }
 
                     {/* campus adding modal starts here */}
 
@@ -1927,12 +1971,17 @@ const UniversityDetails = () => {
                                 <th>City</th>
                                 <th>Student</th>
                                 {/* <th>Cost</th> */}
-                                <th
+                                {
+                                  permissions?.includes(permissionList.View_UniversityCampus_info) ?
+                                  <th
                                   style={{ width: "8%" }}
                                   className="text-center"
                                 >
                                   Action
                                 </th>
+                                :
+                                null
+                                }
                               </tr>
                             </thead>
                             <tbody>
@@ -1972,14 +2021,19 @@ const UniversityDetails = () => {
                                         </Button>
                                       </Link> */}
 
-                                      <ButtonForFunction
-                                        func={() =>
-                                          redirecttoCampDetails(campus?.id)
-                                        }
-                                        className={"mx-1 btn-sm"}
-                                        color={"primary"}
-                                        icon={<i className="fas fa-eye"></i>}
-                                      />
+                                    {
+                                  permissions?.includes(permissionList.View_UniversityCampus_info) ?
+                                  <ButtonForFunction
+                                  func={() =>
+                                    redirecttoCampDetails(campus?.id)
+                                  }
+                                  className={"mx-1 btn-sm"}
+                                  color={"primary"}
+                                  icon={<i className="fas fa-eye"></i>}
+                                />
+                                :
+                                null
+                                }
 
                                       {/* <Button color="dark" className="mx-1 btn-sm">
                                   {" "}
@@ -2017,7 +2071,9 @@ const UniversityDetails = () => {
                       <div className="bg-h"></div>
                     </div>
                     {/* <div className="text-right edit-style  p-3"> */}
-                   {
+                 {
+                  permissions?.includes(permissionList.Update_subject_info) ?
+                  <>  {
                     (userType == userTypes?.Student) ?
                     null
                     :
@@ -2028,7 +2084,9 @@ const UniversityDetails = () => {
                     name={" Add Subject"}
                     permission={6}
                   />
-                   }
+                   }</>
+                   :null
+                 }
                     {/* </div> */}
                   </div>
                   {subList.length < 1 ? (

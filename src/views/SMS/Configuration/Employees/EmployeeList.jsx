@@ -17,6 +17,7 @@ import {
   DropdownMenu,
   DropdownToggle,
   Modal,
+  ModalHeader,
   ModalFooter,
   ModalBody,
 } from "reactstrap";
@@ -36,6 +37,8 @@ import ButtonForFunction from "../../Components/ButtonForFunction.js";
 import LinkButton from "../../Components/LinkButton.js";
 import { permissionList } from "../../../../constants/AuthorizationConstant.js";
 import loader from '../../../../assets/img/load.gif';
+import { userTypes } from "../../../../constants/userTypeConstant.js";
+import put from "../../../../helpers/put.js";
 
 const EmployeeList = (props) => {
   const { type } = useParams();
@@ -49,6 +52,7 @@ const EmployeeList = (props) => {
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
+  const userTypeId = localStorage.getItem("userType");
  
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
@@ -75,6 +79,15 @@ const EmployeeList = (props) => {
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [checkPass, setCheckPass] = useState(true);
+  const [passModal, setPassModal] = useState(false);
+  const [passData, setPassData] = useState({});
+  const [passError, setPassError] = useState("");
+  const [error, setError] = useState("");
+  const [cPass, setCPass] = useState("");
+  const [pass, setPass] = useState("");
+
+
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -162,6 +175,12 @@ const EmployeeList = (props) => {
     
   };
 
+  const handlePass = (data) => {
+    setPassData(data);
+    console.log(data);
+    setPassModal(true);
+  };
+
   const handleDeleteStaff = () => {
     setButtonStatus(true);
     remove(`Employee/Delete/${data?.id}`).then((res) => {
@@ -194,6 +213,19 @@ const EmployeeList = (props) => {
     }
   };
 
+  const confirmPassword = (e) => {
+    setCPass(e.target.value);
+  };
+
+
+  const verifyPass = (e) => {
+    setPassError("");
+  };
+
+  const passValidate = (e) => {
+    setPass(e.target.value);
+  };
+
   //  on reset
   const handleReset = () => {
     setEmpLabel("Select Staff Type");
@@ -218,6 +250,13 @@ const EmployeeList = (props) => {
   const toggle = () => {
     setDropdownOpen((prev) => !prev);
   };
+
+  const handleToggle = () => {
+    setPassError("");
+    setError("");
+    setPassModal(!passModal);
+  };
+
 
   // toggle1 dropdown
   const toggle1 = () => {
@@ -284,6 +323,44 @@ const EmployeeList = (props) => {
   };
   const handleCheckedAction = (e) => {
     setCheckAction(e.target.checked);
+  };
+  const handleCheckedPass = (e) => {
+    setCheckPass(e.target.checked);
+  };
+
+
+  const submitModalForm = (event) => {
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+
+    subData.append("id", passData?.id);
+    subData.append("password", pass);
+    if (pass.length < 6) {
+      setError("Password length can not be less than six digits");
+    } else if (pass !== cPass) {
+      setPassError("Passwords do not match");
+    } else {
+      setButtonStatus(true);
+      put(`Password/ChangePasswordForEmployee`, subData).then((res) => {
+        setButtonStatus(false);
+        if (res?.status == 200 && res.data?.isSuccess == true) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+          setPassData({});
+          setPassModal(false);
+        } else {
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+        }
+      });
+    }
   };
 
   return (
@@ -511,6 +588,26 @@ const EmployeeList = (props) => {
                         </Col>
                       </div>
 
+                      
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Password</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedPass(e);
+                              }}
+                              defaultChecked={checkPass}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">Nationality</p>
@@ -624,6 +721,14 @@ const EmployeeList = (props) => {
                     {checkSlNo ? <th>SL/NO</th> : null}
                     {checkId ? <th>UAPP Id</th> : null}
                     {checkSType ? <th>Staff Type</th> : null}
+                    { permissions?.includes(permissionList.ChangePassword) ?
+                    <>  {userTypeId == userTypes?.SystemAdmin ||
+                      userTypeId == userTypes?.Admin ? (
+                        <>{checkPass ? <th>Password</th> : null}</>
+                      ) : null}</>
+                      :
+                      null
+                  }
                     {checkNtn ? <th>Nationality</th> : null}
                     {checkName ? <th>Full Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
@@ -639,6 +744,112 @@ const EmployeeList = (props) => {
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
                       {checkId ? <td>{emp?.employeeViewId}</td> : null}
                       {checkSType ? <td>{emp?.employeeType?.name}</td> : null}
+                      {permissions?.includes(permissionList.ChangePassword) ?
+                      <>  {userTypeId == userTypes?.SystemAdmin ||
+                        userTypeId == userTypes?.Admin ? (
+                          <>
+                            {checkPass ? (
+                              <td>
+                                <Link
+                                  to="/staffList"
+                                  onClick={() => handlePass(emp)}
+                                >
+                                  Change
+                                </Link>
+                                <Modal
+                                  isOpen={passModal}
+                                  toggle={() => handleToggle}
+                                  className="uapp-modal2"
+                                >
+                                  <ModalHeader>
+                                    <div className="text-center mt-3">
+                                      <span>
+                                        Change password for {passData?.firstName}{" "}
+                                        {passData?.lastName}{" "}
+                                      </span>
+                                    </div>
+                                  </ModalHeader>
+                                  <ModalBody>
+                                    <form
+                                      onSubmit={submitModalForm}
+                                      className="mt-3"
+                                    >
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="4">
+                                          <span>
+                                            Password{" "}
+                                            <span className="text-danger">*</span>{" "}
+                                          </span>
+                                        </Col>
+                                        <Col md="8">
+                                          <Input
+                                            type="password"
+                                            onBlur={passValidate}
+                                            onChange={() => setError("")}
+                                          />
+                                          <span className="text-danger">
+                                            {error}
+                                          </span>
+                                        </Col>
+                                      </FormGroup>
+  
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="4">
+                                          <span>
+                                            Confirm Password{" "}
+                                            <span className="text-danger">*</span>{" "}
+                                          </span>
+                                        </Col>
+                                        <Col md="8">
+                                          <Input
+                                            type="password"
+                                            onChange={verifyPass}
+                                            onBlur={confirmPassword}
+                                          />
+  
+                                          <br />
+                                          {
+                                            <span className="text-danger">
+                                              {passError}
+                                            </span>
+                                          }
+                                        </Col>
+                                      </FormGroup>
+  
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="12">
+                                          <div className="d-flex justify-content-between">
+                                            <Button
+                                              color="danger"
+                                              onClick={() => setPassModal(false)}
+                                            >
+                                              Cancel
+                                            </Button>
+                                            <Button color="primary" type="submit" disabled={buttonStatus}>
+                                              Submit
+                                            </Button>
+                                          </div>
+                                        </Col>
+                                      </FormGroup>
+                                    </form>
+                                  </ModalBody>
+                                </Modal>
+                              </td>
+                            ) : null}
+                          </>
+                        ) : null}</>
+                        :
+                        null
+                    }
                       {checkNtn ? <td>{emp?.nationality?.name}</td> : null}
                       {checkName ? (
                         <td

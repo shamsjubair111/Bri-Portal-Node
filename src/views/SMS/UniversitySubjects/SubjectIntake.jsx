@@ -26,6 +26,7 @@ import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const SubjectIntake = () => {
   const { camId } = useParams();
@@ -45,6 +46,7 @@ const SubjectIntake = () => {
   const [success, setSuccess] = useState(false);
   const [serialNum, setSerialNum] = useState(1);
   const [deleteModal, setDeleteModal] = useState(false);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [intId, setIntId] = useState(0);
   const [intName, setIntName] = useState('');
@@ -287,13 +289,18 @@ const SubjectIntake = () => {
                     >Reset
                   </Button>
 
-                  <CustomButtonRipple
+                  {
+                    permissions?.includes(permissionList.Add_New_subject_intake) ? 
+                    <CustomButtonRipple
                     type={"submit"}
                     className={"mr-0 mt-3 ml-1 badge-primary"}
                     name={"Submit"}
                     permission={6}
                     isDisabled={buttonStatus}
                   />
+                  :
+                  null
+                  }
                 </FormGroup>
               </Form>
             </Col>
@@ -351,7 +358,9 @@ const SubjectIntake = () => {
 
                           {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger(int?.intake?.name, int?.intake?.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
 
-                          <ButtonForFunction
+                          {
+                            permissions?.includes(permissionList.Delete_subject_intake) ?
+                            <ButtonForFunction
                             className={"mx-1 btn-sm"}
                             func={() =>
                               toggleDanger(int?.intake?.name, int?.intake?.id)
@@ -360,6 +369,9 @@ const SubjectIntake = () => {
                             icon={<i className="fas fa-trash-alt"></i>}
                             permission={6}
                           />
+                          :
+                          null
+                          }
 
                           <Modal
                             isOpen={deleteModal}

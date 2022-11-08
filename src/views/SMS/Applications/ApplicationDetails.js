@@ -39,12 +39,13 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import SpanButton from "../Components/SpanButton";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import put from "../../../helpers/put";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
   const [applicationInfo, setApplicationInfo] = useState({});
   const [studentProInfo, setStudentProInfo] = useState({});
-
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   const [uploadedDocuData, setUploadedDocuData] = useState([]);
   const [success, setSuccess] = useState(false);
 
@@ -111,6 +112,17 @@ const ApplicationDetails = () => {
   const history = useHistory();
   const { id, stdId } = useParams();
   const location = useLocation();
+
+  const [ielts, setIelts] = useState({});
+    const [duolingo, setDuolingo] = useState({});
+    const [toefl, setToefl] = useState({});
+    const [functions, setFunctions] = useState({});
+    const [gcse, setGcse] = useState({});
+    const [pearson, setPearson] = useState({});
+    const [others, setOthers] = useState({});
+    const [pte, setPte] = useState({});
+    const [gMatResult, setGMatResult]  =useState({});
+    const [greResult,setGreResult] = useState({});
 
   function getBase641(file) {
     return new Promise((resolve, reject) => {
@@ -182,6 +194,71 @@ const ApplicationDetails = () => {
     get("ElptStatusDD/Index").then((res) => {
       setElptStatusDD(res);
     });
+
+    get(`StudentProfile/Get/${stdId}`)
+    .then(res => {
+      setGMatResult(res?.gmatScoreInfo);
+      setGreResult(res?.greScoreInfo);
+    })
+
+    get(`Ielts/Index/${stdId}`).then(
+      (res) => {
+        setIelts(res);
+        
+      }
+    );
+
+    get(`Duolingo/Index/${stdId}`).then(
+      (res) => {
+        
+        setDuolingo(res);
+     
+      }
+    );
+
+    get(`Toefl/Index/${stdId}`).then(
+      (res) => {
+        setToefl(res);
+        
+      }
+    );
+
+    get(
+      `FunctionalSkill/Index/${stdId}`
+    ).then((res) => {
+      setFunctions(res);
+      
+    });
+
+    get(`Gcse/Index/${stdId}`).then(
+      (res) => {
+        setGcse(res);
+        
+      }
+    );
+
+    get(`Pearson/Index/${stdId}`).then(
+      (res) => {
+        setPearson(res);
+        
+      }
+    );
+
+    get(`Other/Index/${stdId}`).then(
+      (res) => {
+        setOthers(res);
+        
+      }
+    );
+
+    get(`Pte/Index/${stdId}`).then(
+      (res) => {
+        
+        setPte(res);
+        
+      }
+    );
+
   }, [id, stdId, success]);
 
   const docuTypeDD = docuType.map((docu) => ({
@@ -781,7 +858,9 @@ const ApplicationDetails = () => {
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.applicationStatus?.name}
 
-                              <SpanButton
+                              {
+                                permissions?.includes(permissionList.Update_Application_Status) ?
+                                <SpanButton
                                 icon={
                                   <i
                                     style={{ cursor: "pointer" }}
@@ -796,6 +875,9 @@ const ApplicationDetails = () => {
                                 }
                                 permission={6}
                               />
+                              :
+                              null
+                              }
 
                               <Modal
                                 isOpen={statusModalOpen}
@@ -882,6 +964,8 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.offerStatus?.name}
+                              {
+                                permissions?.includes(permissionList.Update_Application_OfferStatus) ?
                               <SpanButton
                                 icon={
                                   <i
@@ -897,6 +981,9 @@ const ApplicationDetails = () => {
                                 }
                                 permission={6}
                               />
+                              :
+                              null
+                              }
                               <Modal
                                 isOpen={offerModalOpen}
                                 toggle={closeModal}
@@ -991,7 +1078,9 @@ const ApplicationDetails = () => {
                                 <>{applicationInfo?.enrollmentStatus?.name}</>
                               )}
 
-                              <SpanButton
+                              {
+                                permissions?.includes(permissionList.Update_Application_EnrollmentStatus) ?
+                                <SpanButton
                                 icon={
                                   <i
                                     style={{ cursor: "pointer" }}
@@ -1006,6 +1095,9 @@ const ApplicationDetails = () => {
                                 }
                                 permission={6}
                               />
+                              :
+                              null
+                              }
 
                               <Modal
                                 isOpen={enrollModalOpen}
@@ -1155,6 +1247,9 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.studentFinanceStatus?.name}
+                              {
+
+                              permissions?.includes(permissionList.Update_Application_Student_Finance) ?
                               <SpanButton
                                 icon={
                                   <i
@@ -1170,6 +1265,9 @@ const ApplicationDetails = () => {
                                 }
                                 permission={6}
                               />
+                              :
+                              null
+                              }
 
                               <Modal
                                 isOpen={financeModalOpen}
@@ -1272,21 +1370,26 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.deliveryPattern?.name}
+                             {
+                              permissions?.includes(permissionList.Update_Application_Delivery_Pattern) ?
                               <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={() =>
-                                  handleEditDeliveryPattern(
-                                    applicationInfo?.deliveryPattern?.name,
-                                    applicationInfo?.deliveryPattern?.id
-                                  )
-                                }
-                                permission={6}
-                              />
+                              icon={
+                                <i
+                                  style={{ cursor: "pointer" }}
+                                  className="fas fa-pencil-alt pencil-style"
+                                ></i>
+                              }
+                              func={() =>
+                                handleEditDeliveryPattern(
+                                  applicationInfo?.deliveryPattern?.name,
+                                  applicationInfo?.deliveryPattern?.id
+                                )
+                              }
+                              permission={6}
+                            />
+                            :
+                            null
+                             }
 
                               <Modal
                                 isOpen={deliveryModalOpen}
@@ -1394,20 +1497,25 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.universityStudentId}
+                             {
+                              permissions?.includes(permissionList.Update_Appliation_University_StudentId) ?
                               <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={() =>
-                                  handleEditUniStdId(
-                                    applicationInfo?.universityStudentId
-                                  )
-                                }
-                                permission={6}
-                              />
+                              icon={
+                                <i
+                                  style={{ cursor: "pointer" }}
+                                  className="fas fa-pencil-alt pencil-style"
+                                ></i>
+                              }
+                              func={() =>
+                                handleEditUniStdId(
+                                  applicationInfo?.universityStudentId
+                                )
+                              }
+                              permission={6}
+                            />
+                            :
+                            null
+                             }
 
                               <Modal
                                 isOpen={uniStdIdModalOpen}
@@ -1491,7 +1599,9 @@ const ApplicationDetails = () => {
                                   )}
                                 </>
                               ) : null}
-                              <SpanButton
+                              {
+                                permissions?.includes(permissionList.Update_University_ApplicationDate) ?
+                                <SpanButton
                                 icon={
                                   <i
                                     style={{ cursor: "pointer" }}
@@ -1505,6 +1615,9 @@ const ApplicationDetails = () => {
                                 }
                                 permission={6}
                               />
+                              :
+                              null
+                              }
 
                               <Modal
                                 isOpen={uniAppDateModalOpen}
@@ -1671,18 +1784,23 @@ const ApplicationDetails = () => {
                       </div>
                       <div className="text-right">
                         {/* <span> <i className="fas fa-pencil-alt pencil-style"></i> </span> */}
-                        {applicationInfo?.elpt !== null ? (
-                          <SpanButton
-                            icon={
-                              <i
-                                style={{ cursor: "pointer" }}
-                                className="fas fa-pencil-alt pencil-style"
-                              ></i>
-                            }
-                            func={handleElptupdate}
-                            permission={6}
-                          />
-                        ) : null}
+                        {
+                          permissions?.includes(permissionList.Update_ELPT) ?
+                          <>{applicationInfo?.elpt !== null ? (
+                            <SpanButton
+                              icon={
+                                <i
+                                  style={{ cursor: "pointer" }}
+                                  className="fas fa-pencil-alt pencil-style"
+                                ></i>
+                              }
+                              func={handleElptupdate}
+                              permission={6}
+                            />
+                          ) : null}</>
+                          :
+                          null
+                        }
 
                         <Modal
                           size="lg"
@@ -1982,12 +2100,17 @@ const ApplicationDetails = () => {
 
                     {applicationInfo?.elpt === null ? (
                       <>
+                       {
+                        permissions?.includes(permissionList.Add_ELPT) ?
                         <ButtonForFunction
-                          func={handleOpenELPTModal}
-                          className={"badge-primary"}
-                          name={<b>Add ELPT</b>}
-                          permission={6}
-                        />
+                        func={handleOpenELPTModal}
+                        className={"badge-primary"}
+                        name={<b>Add ELPT</b>}
+                        permission={6}
+                      />
+                      :
+                      null
+                       }
 
                         <Modal
                           size="lg"
@@ -2679,12 +2802,17 @@ const ApplicationDetails = () => {
                         className="has-icon-left position-relative"
                         style={{ display: "flex" }}
                       >
-                        <ButtonForFunction
+                        {
+                          permissions?.includes(permissionList.Add_New_Student_Documents) ?
+                          <ButtonForFunction
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary"}
                           name={"Upload"}
                           permission={6}
                         />
+                        :
+                        null
+                        }
                       </FormGroup>
                     </Form>
                   </TabPane>
@@ -2700,13 +2828,18 @@ const ApplicationDetails = () => {
                         </h2>
                       </div>
                       <div className="text-right edit-style  p-3">
-                        <SpanButton
+                        {
+                          permissions?.includes(permissionList.Update_Student_info) ? 
+                          <SpanButton
                           icon={
                             <i className="fas fa-pencil-alt pencil-style"></i>
                           }
                           func={() => handleEdit(studentProInfo)}
                           permission={6}
                         />
+                        :
+                        null
+                        }
                       </div>
                     </div>
                     <div className="hedding-titel d-flex justify-content-between my-4">
@@ -3109,13 +3242,346 @@ const ApplicationDetails = () => {
                         <div className="bg-h"></div>
                       </div>
                     </div>
-                    <ButtonForFunction
-                      className={"p-2"}
-                      func={() => handleUpdateTestScores(studentProInfo)}
-                      name={"View Test Scores"}
-                      color={"primary"}
-                      permission={6}
-                    />
+
+                    {/* Test Score Data */}
+                    <div className=" row info-item">
+
+<div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
+
+
+  <div className="hedding-titel d-flex justify-content-between mb-1">
+  <div>
+  <h5> <b>GRE Information</b> </h5>
+   
+  <div className="bg-h"></div>
+  </div>
+  
+   
+
+  </div>
+
+  <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
+  <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
+  <h6>Verbal Score: {greResult?.verbalScore}</h6>
+  <h6>Verbal Rank: {greResult?.verbalRank}</h6>
+  <h6>Writing Score: {greResult?.writingScore}</h6>
+  <h6>Writing Rank: {greResult?.writingRank}</h6>
+
+     
+
+
+
+
+</div>
+
+<div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
+
+
+<div className="hedding-titel d-flex justify-content-between mb-1">
+<div>
+<h5> <b>GMAT Information</b> </h5>
+ 
+<div className="bg-h"></div>
+</div>
+
+
+
+</div>
+
+
+
+<h6>Quantitative Score: {gMatResult?.quantitativeScore}</h6>
+<h6>Quantitative Rank: {gMatResult?.quantitativeRank}</h6>
+<h6>Verbal Score: {gMatResult?.verbalScore}</h6>
+<h6>Verbal Rank: {gMatResult?.verbalRank}</h6>
+<h6>Total Score: {gMatResult?.totalScore}</h6>
+<h6>Total Rank: {gMatResult?.totalRank}</h6>
+<h6>Writing Score: {gMatResult?.writingScore}</h6>
+<h6>Writing Rank: {gMatResult?.writingRank}</h6>
+
+   
+
+
+
+
+</div>
+
+
+
+              {/* English Test Scores */}
+
+              
+              <div className="row mt-3">
+
+{ielts?.id ? (
+  
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">IELTS Score</h5>
+          
+        
+                
+       
+        </div>
+
+   <div className="d-flex justify-content-between">
+
+    <div>
+    <span className='bank-account-info-text'>Overall: {ielts?.overall}</span>
+        <br/>
+        <span className='bank-account-info-text'>Speaking: {ielts?.speaking}</span>
+        <br/>
+        <span className='bank-account-info-text'>reading: {ielts?.reading}</span>
+        <br/>
+        <span className='bank-account-info-text'>Writing: {ielts?.writing}</span>
+        <br/>
+        <span className='bank-account-info-text'>Listening: {ielts?.listening}</span>
+        <br/>
+        <span className='bank-account-info-text'>Exam Date: {handleDate(ielts?.examDate)}</span>
+
+        
+
+    </div>
+
+  
+
+   </div>
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+
+{duolingo?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">DUOLINGO Score</h5>
+         
+        </div>
+
+        <div className="d-flex justify-content-between">
+          <div>
+          <span  className='bank-account-info-text'>Literacy: {duolingo?.leteracy}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Comprehension: {duolingo?.comprehension}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Conversation: {duolingo?.conversation}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Production: {duolingo?.production}</span>
+        <br/>
+        <span  className='bank-account-info-text'>Exam Date: {handleDate(duolingo?.examDate)}</span>
+        <br/>
+        <span  className='bank-account-info-text'>IELTS Equivalent Score: {duolingo?.ieltsEquivalent}</span>
+          </div>
+
+         
+
+        </div>
+      </CardBody>
+
+    </Card>
+  </div>
+) : null}
+
+{toefl?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">TOEFL Score</h5>
+          
+        </div>
+
+        <div className="d-flex justify-content-between">
+
+          <div>
+
+          <span className="bank-account-info-text">Overall: {toefl?.overall}</span>
+        <br/>
+        <span  className="bank-account-info-text">Speaking: {toefl?.speaking}</span>
+        <br/>
+        <span  className="bank-account-info-text">reading: {toefl?.reading}</span>
+        <br/>
+        <span  className="bank-account-info-text">Writing: {toefl?.writing}</span>
+        <br/>
+        <span  className="bank-account-info-text">Listening: {toefl?.listening}</span>
+        <br/>
+        <span  className="bank-account-info-text">Exam Date: {handleDate(toefl?.examDate)}</span>
+        <br/>
+        <span  className="bank-account-info-text">IELTS Equivalent Score: {toefl?.ieltsEquivalent}</span>
+
+          </div>
+
+         
+
+        </div>
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+{functions?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">Functional Skill Score</h5>
+          
+        </div>
+
+       <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Overall: {functions?.overall}</span>
+        <br/>
+        <span className="bank-account-info-text">Speaking: {functions?.speaking}</span>
+        <br/>
+        <span className="bank-account-info-text">reading: {functions?.reading}</span>
+        <br/>
+        <span className="bank-account-info-text">Writing: {functions?.writing}</span>
+        <br/>
+        <span className="bank-account-info-text">Listening: {functions?.listening}</span>
+        <br/>
+        <span className="bank-account-info-text">Exam Date: {handleDate(functions?.examDate)}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {functions?.ieltsEquivalent}</span>
+        </div>
+
+        
+
+
+
+       </div>
+
+      </CardBody>
+
+    </Card>
+  </div>
+) : null}
+
+{gcse?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">GCSE Score</h5>
+       
+        </div>
+
+       <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Result: {gcse?.result}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {gcse?.ieltsEquivalent}</span>
+        </div>
+       
+
+       </div>
+
+      </CardBody>
+
+    </Card>
+  </div>
+) : null}
+
+{pearson?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">PEARSON Score</h5>
+         
+        </div>
+
+       <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Result: {pearson?.result}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {pearson?.ieltsEquivalent}</span>
+        </div>
+
+
+       </div>
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+
+{others?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">Other Score</h5>
+          
+        </div>
+
+      <div className="d-flex justify-content-between">
+        <div>
+        <span className="bank-account-info-text">Test Name: {others?.testName}</span>
+        <br/>
+        <span className="bank-account-info-text">Overall Score: {others?.scoreOverall}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {others?.ieltsEquivalent}</span>
+        </div>
+
+
+
+      </div>
+      
+      </CardBody>
+
+      
+    </Card>
+  </div>
+) : null}
+{pte?.id ? (
+  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+    <Card className="">
+      <CardBody className="">
+        <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">PTE Score</h5>
+          
+        </div>
+
+        <div className="d-flex justify-content-between">
+
+          <div>
+          <span className="bank-account-info-text">Overall: {pte?.overall}</span>
+        <br/>
+        <span className="bank-account-info-text">Speaking: {pte?.speaking}</span>
+        <br/>
+        <span className="bank-account-info-text">Reading: {pte?.reading}</span>
+        <br/>
+        <span className="bank-account-info-text">Writing: {pte?.writing}</span>
+        <br/>
+        <span className="bank-account-info-text">Listening: {pte?.listening}</span>
+        <br/>
+        <span className="bank-account-info-text">IELTS Equivalent Score: {pte?.ieltsEquivalent}</span>
+          </div>
+
+
+        </div>
+        
+      </CardBody>
+
+     
+    </Card>
+  </div>
+) : null}
+</div>
+
+              
+
+</div>
+                   
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>

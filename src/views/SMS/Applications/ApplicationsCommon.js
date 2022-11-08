@@ -45,6 +45,7 @@ import AdmissionManagerFilter from "./AdmissionManagerFilter.js";
 import ProviderAdminFilter from "./ProviderAdminFilter.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import Loader from "../Search/Loader/Loader.js";
+import { permissionList } from "../../../constants/AuthorizationConstant.js";
 
 const ApplicationsCommon = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -133,6 +134,7 @@ const ApplicationsCommon = () => {
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
+  const permissions = JSON?.parse(localStorage.getItem('permissions'));
 
   // for all dropdown
   const applicationMenu = applicationDD.map((application) => ({
@@ -1378,23 +1380,33 @@ const ApplicationsCommon = () => {
                               permission={6}
                             />
 
-                            <LinkButton
+                            {
+                              permissions?.includes(permissionList.View_Application) ? 
+                              <LinkButton
                               url={`/applicationDetails/${app?.id}/${app?.studentId}`}
                               color="primary"
                               className={"mx-1 btn-sm mt-2"}
                               icon={<i className="fas fa-eye"></i>}
                             />
+                            :
+                            null
+                            }
 
                             {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions.includes(permissionList.Delete_Application) ?
+                              <ButtonForFunction
                               icon={<i className="fas fa-trash-alt"></i>}
                               color={"danger"}
                               className={"mx-1 btn-sm mt-2"}
                               func={() => toggleDanger(app)}
                             />
+                            :
+                            null
+                            }
                           </ButtonGroup>
 
                           <Modal

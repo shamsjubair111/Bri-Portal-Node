@@ -1451,8 +1451,7 @@ const AddUniversity = (props) => {
                   </Col>
 
                   <Col md="4">
-                    {
-                      permissions?.includes(permissionList?.Add_University || permissionList?.Update_University) ?
+              
                       <ButtonForFunction
                       type={"submit"}
                       className={"mr-0 mt-3 badge-primary"}
@@ -1460,9 +1459,7 @@ const AddUniversity = (props) => {
                       disable={buttonStatus}
                     
                     />
-                    :
-                    null
-                    }
+                 
                   </Col>
                 </FormGroup>
               </Form>

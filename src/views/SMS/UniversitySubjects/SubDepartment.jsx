@@ -32,8 +32,10 @@ import put from "../../../helpers/put";
 import { Link } from "react-router-dom";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkButton from "../Components/LinkButton";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const SubDepartment = (props) => {
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   const history = useHistory();
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
@@ -303,13 +305,18 @@ const SubDepartment = (props) => {
       <div>
         <Card>
           <CardHeader>
-            <ButtonForFunction
+            {
+              permissions?.includes(permissionList.Add_New_sub_department) ? 
+              <ButtonForFunction
               className={"btn btn-uapp-add"}
               func={AddModalOpen}
               icon={<i className="fas fa-plus"></i>}
               name={" Add Sub Department"}
               permission={6}
             />
+            :
+            null
+            }
 
             <div>
               {" "}
@@ -451,7 +458,9 @@ const SubDepartment = (props) => {
                         {/* <Button className="mx-1 btn-sm" onClick={() => toggleDanger(subDeplist.name, subDeplist.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
                        <ButtonGroup variant="text">
 
-                       <ButtonForFunction
+                       {
+                        permissions.includes(permissionList.Update_sub_department_info) ?
+                        <ButtonForFunction
                           func={() =>
                             redirectToEditSubDepartment(subDeplist?.id)
                           }
@@ -460,7 +469,12 @@ const SubDepartment = (props) => {
                           icon={<i className="fas fa-edit"></i>}
                           permission={6}
                         />
+                        :
+                        null
+                       }
 
+                        {
+                        permissions.includes(permissionList.Delete_sub_department) ?
                         <ButtonForFunction
                           func={() =>
                             toggleDanger(subDeplist.name, subDeplist.id)
@@ -470,6 +484,9 @@ const SubDepartment = (props) => {
                           icon={<i className="fas fa-trash-alt"></i>}
                           permission={6}
                         />
+                        :
+                        null
+                        }
 
                         {/* <Link to={`editSubDepartment/${subDeplist?.id}`}>
                       <Button className="mx-1 btn-sm" color="warning"><i className="fas fa-edit"></i></Button>

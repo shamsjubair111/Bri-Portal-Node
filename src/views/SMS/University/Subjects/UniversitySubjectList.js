@@ -497,7 +497,7 @@ const UniversitySubjectList = (props) => {
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
             {
-                    permissions?.includes(permissionList?.Add_subject) ?
+                    permissions?.includes(permissionList?.Add_New_subject) ?
               <ButtonForFunction
                 func={handleAddSubject}
                 className={"btn btn-uapp-add "}

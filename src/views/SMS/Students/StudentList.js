@@ -388,7 +388,7 @@ const StudentList = () => {
 
     const subData = new FormData(event.target);
 
-    subData.append("studentId", passData?.id);
+    subData.append("id", passData?.id);
     subData.append("password", pass);
     if (pass.length < 6) {
       setError("Password length can not be less than six digits");
@@ -396,7 +396,7 @@ const StudentList = () => {
       setPassError("Passwords do not match");
     } else {
       setButtonStatus(true);
-      put(`Password/Change`, subData).then((res) => {
+      put(`Password/ChangePasswordForStudent`, subData).then((res) => {
         setButtonStatus(false);
         if (res?.status == 200 && res.data?.isSuccess == true) {
           addToast(res?.data?.message, {

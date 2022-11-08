@@ -42,6 +42,7 @@ import { userTypes } from "../../../constants/userTypeConstant.js";
 import { Axios } from "axios";
 import Loader from "../Search/Loader/Loader.js";
 import { useToasts } from "react-toast-notifications";
+import { permissionList } from "../../../constants/AuthorizationConstant.js";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const UniversityList = (props) => {
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
@@ -676,6 +678,8 @@ const UniversityList = (props) => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
+             {
+              permissions?.includes(permissionList.Add_New_University) ? 
               <ButtonForFunction
                 func={handleAddUniversity}
                 className={"btn btn-uapp-add "}
@@ -683,6 +687,9 @@ const UniversityList = (props) => {
                 name={" Add University"}
                 permission={6}
               />
+              :
+              null
+             }
             </Col>
 
             <Col lg="7" md="7" sm="8" xs="8">
@@ -977,11 +984,26 @@ const UniversityList = (props) => {
 
                     {checkCountry ? <th>Country</th> : null}
 
-                    {checkCampus ? <th>Campus</th> : null}
+                   {
+                    permissions?.includes(permissionList.View_UniversityCampus_List) ? 
+                    <> {checkCampus ? <th>Campus</th> : null}</>
+                    :
+                    null
+                   }
 
-                    {checkAppli ? <th>Applications</th> : null}
+                    {
+                      permissions?.includes(permissionList.View_Applicationinfo_List) ?
+                      <>{checkAppli ? <th>Applications</th> : null}</>
+                      :
+                      null
+                    }
 
-                    {checkProg ? <th>Programs</th> : null}
+                   {
+                    permissions?.includes(permissionList.View_subject_List) ?
+                    <> {checkProg ? <th>Programs</th> : null}</>
+                    :
+                    null
+                   }
 
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
@@ -1023,7 +1045,9 @@ const UniversityList = (props) => {
                         </td>
                       ) : null}
 
-                      {checkCampus ? (
+                     {
+                      permissions?.includes(permissionList.View_UniversityCampus_List) ?
+                      <> {checkCampus ? (
                         <td>
                           {/* <span onClick={()=>redirectToCampusList(university?.id)}
                           className="badge badge-secondary"
@@ -1040,62 +1064,75 @@ const UniversityList = (props) => {
                             permission={6}
                           />
                         </td>
-                      ) : null}
+                      ) : null}</>
+                      :
+                      null
+                     }
 
-                      {checkAppli ? (
-                        <td>
-                          {/* <span
-                          className="badge badge-primary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          {university?.totalApplication}
-                        </span> */}
-
-                          <SpanButton
-                            func={() =>
-                              redirectToApplications(
-                                university?.id,
-                                university?.name
-                              )
-                            }
-                            className={"badge badge-primary"}
+                      {
+                        permissions?.includes(permissionList.View_Applicationinfo_List) ? 
+                        <>{checkAppli ? (
+                          <td>
+                            {/* <span
+                            className="badge badge-primary"
                             style={{ cursor: "pointer" }}
-                            data={university?.totalApplication}
-                            permission={6}
-                          />
-                        </td>
-                      ) : null}
+                          >
+                            {university?.totalApplication}
+                          </span> */}
+  
+                            <SpanButton
+                              func={() =>
+                                redirectToApplications(
+                                  university?.id,
+                                  university?.name
+                                )
+                              }
+                              className={"badge badge-primary"}
+                              style={{ cursor: "pointer" }}
+                              data={university?.totalApplication}
+                              permission={6}
+                            />
+                          </td>
+                        ) : null}</>
+                        :
+                        null
+                      }
 
                       {/* <td onClick={()=>handleRedirectToSubList(university?.id)}> */}
 
-                      {checkProg ? (
-                        <td>
-                          {" "}
-                          <span
-                            className="badge badge-secondary"
-                            style={{ cursor: "pointer" }}
-                          >
-                            {/* <Link className="text-decoration-none" to ={{
-                             pathname: '/subjectList',
-                             universityId: university?.id,
-                             universityName: university?.name,
-                           }}> 
-                          <span> {university?.totalSubject} </span>
-                          </Link> */}
+                      {
+                    permissions?.includes(permissionList.View_subject_List) ?
+                     <> {checkProg ? (
+                      <td>
+                        {" "}
+                        <span
+                          className="badge badge-secondary"
+                          style={{ cursor: "pointer" }}
+                        >
+                          {/* <Link className="text-decoration-none" to ={{
+                           pathname: '/subjectList',
+                           universityId: university?.id,
+                           universityName: university?.name,
+                         }}> 
+                        <span> {university?.totalSubject} </span>
+                        </Link> */}
 
-                            <LinkSpanButton
-                              className={"text-decoration-none"}
-                              url={{
-                                pathname: `/universitySubjectList/${university?.id}`,
-                                universityId: university?.id,
-                                universityName: university?.name,
-                              }}
-                              data={university?.totalSubject}
-                              permission={6}
-                            />
-                          </span>{" "}
-                        </td>
-                      ) : null}
+                          <LinkSpanButton
+                            className={"text-decoration-none"}
+                            url={{
+                              pathname: `/universitySubjectList/${university?.id}`,
+                              universityId: university?.id,
+                              universityName: university?.name,
+                            }}
+                            data={university?.totalSubject}
+                            permission={6}
+                          />
+                        </span>{" "}
+                      </td>
+                    ) : null}</>
+                    :
+                    null
+                          }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
@@ -1108,6 +1145,8 @@ const UniversityList = (props) => {
                             permission={6}
                           /> */}
 
+                          {
+                           permissions?.includes(permissionList.View_University_info) ?
                             <ButtonForFunction
                               func={() => redirectToUniprofile(university?.id)}
                               color={"primary"}
@@ -1115,26 +1154,40 @@ const UniversityList = (props) => {
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                          }
 
                             {/* <Link to= {`/updateUniversityInformation/${university?.id}`}> */}
 
-                            <ButtonForFunction
-                              func={() => handleEdit(university)}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
+                           {
+                             permissions?.includes(permissionList.Update_University_info) ?
+                             <ButtonForFunction
+                             func={() => handleEdit(university)}
+                             color={"warning"}
+                             className={"mx-1 btn-sm"}
+                             icon={<i className="fas fa-edit"></i>}
+                             permission={6}
+                           />
+                           :
+                           null
+                           }
 
                             {/* </Link> */}
 
+                           {
+                            permissions?.includes(permissionList.Delete_University) ?
                             <ButtonForFunction
-                              func={() => toggleDanger(university)}
-                              color={"danger"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
+                            func={() => toggleDanger(university)}
+                            color={"danger"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+                          :
+                          null
+
+                           }
                           </ButtonGroup>
 
                           {/* modal for delete */}

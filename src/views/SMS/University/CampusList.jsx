@@ -39,6 +39,7 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 import LinkButton from "../Components/LinkButton";
 import LinkSpanButton from "../Components/LinkSpanButton";
 import remove from "../../../helpers/remove";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const CampusList = (props) => {
   const [campusList, setCampusList] = useState([]);
@@ -66,6 +67,7 @@ const CampusList = (props) => {
   const [selectedId, setSelectedId] = useState(0);
   const [deleteModal, setDeleteModal] = useState(false);
   const [uniNameFromObj, setUniNameFromObj] = useState("");
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   const [camppName, setCamppName] = useState("");
   const [camppId, setCamppId] = useState(0);
@@ -418,13 +420,18 @@ const CampusList = (props) => {
 
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
+             {
+              permissions?.includes(permissionList.Add_New_UniversityCampus) ?
               <ButtonForFunction
-                func={() => setModalOpen(true)}
-                className={"btn btn-uapp-add "}
-                icon={<i className="fas fa-plus"></i>}
-                name={" Add Campus"}
-                permission={6}
-              />
+              func={() => setModalOpen(true)}
+              className={"btn btn-uapp-add "}
+              icon={<i className="fas fa-plus"></i>}
+              name={" Add Campus"}
+              permission={6}
+            />
+            :
+            null
+             }
             </Col>
 
             <Col lg="6" md="7" sm="6" xs="8">
@@ -928,7 +935,12 @@ const CampusList = (props) => {
                     {checkCity ? <th>Campus City</th> : null}
                     {checkStd ? <th>Student</th> : null}
                     {/* <th>Cost</th> */}
-                    {checkProg ? <th>Programs</th> : null}
+                  {
+                    permissions?.includes(permissionList.View_university_campus_subject_List) ?
+                    <>  {checkProg ? <th>Programs</th> : null}</>
+                    :
+                    null
+                  }
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
                         Action
@@ -957,26 +969,31 @@ const CampusList = (props) => {
                               Avg. Application Fee - {campus?.avarageApplicationFee} {<br />}
                               Est. Total Cost - {campus?.estimatedTotalCost}
                             </td> */}
-                      {checkProg ? (
-                        <td>
-                          {" "}
-                          <span
-                            className="badge badge-secondary"
-                            style={{ cursor: "pointer" }}
-                          >
-                            {/* <Link className="text-decoration-none" to = {`campusSubjectList/${campus?.id}`}> 
-                                 <span> View </span>
-                                 </Link> */}
+                               {
+                    permissions?.includes(permissionList.View_university_campus_subject_List) ?
+                     <> {checkProg ? (
+                      <td>
+                        {" "}
+                        <span
+                          className="badge badge-secondary"
+                          style={{ cursor: "pointer" }}
+                        >
+                          {/* <Link className="text-decoration-none" to = {`campusSubjectList/${campus?.id}`}> 
+                               <span> View </span>
+                               </Link> */}
 
-                            <LinkSpanButton
-                              url={`/campusSubjectList/${campus?.id}`}
-                              className={"text-decoration-none"}
-                              data={"View"}
-                              permission={6}
-                            />
-                          </span>{" "}
-                        </td>
-                      ) : null}
+                          <LinkSpanButton
+                            url={`/campusSubjectList/${campus?.id}`}
+                            className={"text-decoration-none"}
+                            data={"View"}
+                            permission={6}
+                          />
+                        </span>{" "}
+                      </td>
+                    ) : null}</>
+                    :
+                    null
+                              }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
@@ -996,40 +1013,55 @@ const CampusList = (props) => {
                                   permission={6}
                                 /> */}
 
+                           {
+                            permissions?.includes(permissionList.View_UniversityCampus_info) ? 
                             <ButtonForFunction
-                              func={() =>
-                                handlRedirectToCampusDetails(campus?.id)
-                              }
-                              color={"primary"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-eye"></i>}
-                              permission={6}
-                            />
+                            func={() =>
+                              handlRedirectToCampusDetails(campus?.id)
+                            }
+                            color={"primary"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-eye"></i>}
+                            permission={6}
+                          />
+                          :
+                          null
+                           }
 
                             {/* <Button onClick={()=> handleUpdate(campus?.id)} color="dark" className="mx-1 btn-sm">
                                   {" "}
                                   <i className="fas fa-edit"></i>{" "}
                                 </Button> */}
 
+                          {
+                            permissions?.includes(permissionList.Update_UniversityCampus_info) ?
                             <ButtonForFunction
-                              func={() => handleUpdate(campus?.id)}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
+                            func={() => handleUpdate(campus?.id)}
+                            color={"warning"}
+                            className={"mx-1 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
+                          :
+                          null
+                          }
 
                             {/* <Button color="danger" className="mx-1 btn-sm">
                                   <i className="fas fa-trash-alt"></i>
                                 </Button> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Delete_UniversityCampus) ?
+                              <ButtonForFunction
                               color={"danger"}
                               func={() => toggleDanger(campus)}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
                             <Modal
                               isOpen={deleteModal}

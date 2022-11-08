@@ -126,7 +126,7 @@ const EditDepartment = () => {
                 style={{ display: "flex", justifyContent: "end" }}
               >
                 <Col md="5">
-                  {permissions?.includes(permissionList?.Update_department) ? (
+              
                     <CustomButtonRipple
                       color={"primary"}
                       type={"submit"}
@@ -134,7 +134,7 @@ const EditDepartment = () => {
                       name={"Submit"}
                       isDisabled={buttonStatus}
                     />
-                  ) : null}
+                
                 </Col>
               </FormGroup>
             </Form>

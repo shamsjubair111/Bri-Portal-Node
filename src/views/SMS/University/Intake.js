@@ -440,7 +440,7 @@ const Intake = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
-              {permissions?.includes(permissionList?.Add_subject_intake) ? (
+              {permissions?.includes(permissionList?.Add_New_intake) ? (
                 <ButtonForFunction
                   func={handleAddNewButton}
                   className={"btn btn-uapp-add mr-1"}
@@ -448,13 +448,16 @@ const Intake = () => {
                   name={" Add Intake"}
                 />
               ) : null}
-
+                {permissions?.includes(permissionList?.Add_New_intake) ? 
                   <ButtonForFunction
                   func={handleGenerateIntake}
                   className={"btn btn-uapp-add ml-1"}
                   icon={<i className="fas fa-plus"></i>}
                   name={" Generate Intake"}
                 />
+                :
+                null
+              }
 
             </Col>
 
@@ -605,13 +608,18 @@ const Intake = () => {
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Update_intake_info) ?
+                              <ButtonForFunction
                               func={() => redirecttoUpdateIntake(intake?.id)}
                               color={"warning"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
                             {/* <LinkButton
                               url={`/updateIntake/${intake?.id}`}
@@ -621,7 +629,9 @@ const Intake = () => {
                               permission={6}
                             /> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Delete_intake) ?
+                              <ButtonForFunction
                               func={() =>
                                 toggleDanger(intake?.name, intake?.id)
                               }
@@ -630,6 +640,9 @@ const Intake = () => {
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
                           </ButtonGroup>
 
                           {/* modal for delete */}

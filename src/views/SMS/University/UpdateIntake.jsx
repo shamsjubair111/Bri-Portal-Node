@@ -187,18 +187,14 @@ const UpdateIntake = () => {
                             style={{ display: "flex", justifyContent: "space-between" }}
                      >
                        
-                        {
-                          permissions?.includes(permissionList?.Update_subject_intake) ?
+                    
                           <CustomButtonRipple
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary mx-auto"}
                           name={"Update"}
                           isDisabled={buttonStatus}
                         />
-                        :
-                        null
-                        }
-
+                       
                      </FormGroup>
 
                         </Col>

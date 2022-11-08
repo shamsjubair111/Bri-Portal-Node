@@ -45,6 +45,7 @@ import AdmissionManagerFilter from "./AdmissionManagerFilter.js";
 import ProviderAdminFilter from "./ProviderAdminFilter.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import Loader from "../Search/Loader/Loader.js";
+import { permissionList } from "../../../constants/AuthorizationConstant.js";
 
 const StudentApplication = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -71,6 +72,7 @@ const StudentApplication = ({ currentUser }) => {
   const [studentConsDD, setStudentConsDD] = useState([]);
   const [studentConsLabel, setStudentConsLabel] = useState("Consultant");
   const [studentConsValue, setStudentConsValue] = useState(0);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   // for all
   const [applicationLabel, setApplicationLabel] = useState("Status");
@@ -1284,24 +1286,35 @@ const StudentApplication = ({ currentUser }) => {
                               permission={6}
                             />
 
+                           {
+                            permissions?.includes(permissionList.View_Application) ?
                             <LinkButton
-                              url={`/applicationDetails/${app?.id}/${app?.studentId}`}
-                              color="primary"
-                              className={"mx-1 btn-sm mt-2"}
-                              icon={<i className="fas fa-eye"></i>}
-                            />
+                            url={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                            color="primary"
+                            className={"mx-1 btn-sm mt-2"}
+                            icon={<i className="fas fa-eye"></i>}
+                          />
+                          :
+                          null
+                           }
 
                             {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.Delete_Application) ?
+                              <ButtonForFunction
                               icon={<i className="fas fa-trash-alt"></i>}
                               color={"danger"}
                               className={"mx-1 btn-sm mt-2"}
                               func={() => toggleDanger(app)}
                             />
-                          </ButtonGroup>
+                         
+                          :
+                          null
+                            }
+                             </ButtonGroup>
 
                           <Modal
                             isOpen={deleteModal}

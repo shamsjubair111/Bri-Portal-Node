@@ -1067,8 +1067,7 @@ const UniversityForm = () => {
                       color={"danger"}
                     />
                   
-                    {
-                      permissions?.includes(permissionList?.Add_University || permissionList?.Update_University) ?
+                
                       <ButtonForFunction
                       type={"submit"}
                       className={'mr-1 mt-3 badge-primary'}
@@ -1076,9 +1075,7 @@ const UniversityForm = () => {
                       disable={buttonStatus}
                     
                     />
-                    :
-                    null
-                    }
+                   
                     </div>
                   </Col>
                 </FormGroup>

@@ -283,7 +283,12 @@ const handleSubmitProfilePhoto = event => {
                     <div className="uplode-cover-image">
                       <img src={rootUrl+employeeDetails?.coverImageMedia?.fileUrl} alt='cover_img'/>
                       <div className="uplode-cover-image">
+                    {
+                      permissions?.includes(permissionList.Change_Employee_CoverImage) ?
                       <span onClick={updateCoverPhoto}> <i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span>
+                      :
+                      null
+                    }
                       </div>
                     </div>
 
@@ -395,7 +400,12 @@ const handleSubmitProfilePhoto = event => {
                   <div className="text-left">
                      <div className='profile-pic'>
                         <img className="empProfileImg"  src={rootUrl+employeeDetails?.profileImageMedia?.fileUrl} alt='profile_img'/>
-                        <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                        {
+                          permissions?.includes(permissionList.Change_Employee_profileImage) ?
+                          <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                          :
+                          null
+                        }
                      </div>
 
                      {/* profile photo edit modal starts here */}

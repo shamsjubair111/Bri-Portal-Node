@@ -42,11 +42,13 @@ import LinkSpanButton from "../Components/LinkSpanButton";
 import LinkButton from "../Components/LinkButton";
 import put from "../../../helpers/put";
 import post from "../../../helpers/post";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const CampusSubjectList = () => {
   const { camId } = useParams();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [subList, setSubList] = useState([]);
   const [entity, setEntity] = useState(0);
@@ -519,13 +521,18 @@ const CampusSubjectList = () => {
           {/* new */}
           <Row className="mb-3">
             <Col lg="5" md="5" sm="4" xs="4">
-              <ButtonForFunction
+              {
+                permissions?.includes(permissionList.Add_New_university_campus_subject) ?
+                <ButtonForFunction
                 func={handleAddSubject}
                 className={"btn btn-uapp-add "}
                 icon={<i className="fas fa-plus"></i>}
                 name={" Assign Subject"}
                 permission={6}
               />
+              :
+              null
+              }
             </Col>
 
             <Col lg="7" md="7" sm="8" xs="8">
@@ -820,7 +827,12 @@ const CampusSubjectList = () => {
                     {checkProg ? <th>Program Level</th> : null}
                     {checkDep ? <th>Department</th> : null}
                     {/* <th>Sub Department</th> */}
-                    {checkIntake ? <th>Intake</th> : null}
+                    {
+                      permissions?.includes(permissionList.View_subject_intake_List) ?
+                      <>{checkIntake ? <th>Intake</th> : null}</>
+                      :
+                      null
+                    }
                     {/* <th>Intakes</th> */}
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
@@ -868,8 +880,9 @@ const CampusSubjectList = () => {
                       {/* <td>
                         {sub?.subDepartment?.name}
                       </td> */}
-
-                      {checkIntake ? (
+                         {
+                      permissions?.includes(permissionList.View_subject_intake_List) ?
+                      <>{checkIntake ? (
                         <td>
                           {" "}
                           <span
@@ -888,7 +901,10 @@ const CampusSubjectList = () => {
                             />
                           </span>{" "}
                         </td>
-                      ) : null}
+                      ) : null}</>
+                      :
+                      null
+                        }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
@@ -899,13 +915,18 @@ const CampusSubjectList = () => {
                             <i className="fas fa-eye"></i>{" "}
                           </Button> */}
 
-                            <ButtonForFunction
+                            {
+                              permissions?.includes(permissionList.View_university_campus_subject_info) ?
+                              <ButtonForFunction
                               func={() => handleRedirectSubProfile(sub?.id)}
                               color={"primary"}
                               className={"mx-1 btn-sm"}
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
 
                             {/* </Link> */}
 
@@ -923,7 +944,8 @@ const CampusSubjectList = () => {
                             icon={<i className="fas fa-edit"></i>}
                             permission={6}
                           /> */}
-
+                              {
+                              permissions?.includes(permissionList.Update_university_campus_subject_info) ?
                             <ButtonForFunction
                               func={() => toggleEdit(sub)}
                               color={"warning"}
@@ -931,11 +953,16 @@ const CampusSubjectList = () => {
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                              }
 
                             {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
+                            {
+                              permissions?.includes(permissionList.Delete_university_campus_subject) ?
                             <ButtonForFunction
                               func={() =>
                                 toggleDanger(sub?.name, sub?.campusSubjectId)
@@ -945,6 +972,9 @@ const CampusSubjectList = () => {
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
                           </ButtonGroup>
 
                           <Modal

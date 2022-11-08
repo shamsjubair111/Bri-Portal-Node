@@ -655,9 +655,7 @@ const Branch = () => {
                   Cancel
                 </Button>
 
-             {
-
-              permissions?.includes(permissionList?.Add_Branch_Employee) ?
+           
                <Button
                type="submit"
                className="ml-1 mt-3 badge-primary"
@@ -665,9 +663,7 @@ const Branch = () => {
              >
                Submit
              </Button>
-             :
-             null
-             }
+          
 
               </div>
             

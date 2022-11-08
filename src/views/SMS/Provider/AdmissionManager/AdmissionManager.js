@@ -6,6 +6,8 @@ import Select from "react-select";
 import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
+import { Image, Modal, Upload } from "antd";
+import * as Icon from "react-feather";
 
 const AdmissionManager = () => {
     const {id} = useParams();
@@ -31,6 +33,15 @@ const AdmissionManager = () => {
     const [titleError,setTitleError] = useState(false);
     const [emailError, setEmailError] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewImage, setPreviewImage] = useState("");
+    const [previewTitle, setPreviewTitle] = useState("");
+    const [FileList, setFileList] = useState([]);
+  
+    const [imgError, setImgError] = useState(false);
+  
+    const [error,setError] = useState(false);
 
     useEffect(()=>{
         get(`CountryDD/index`)
@@ -83,6 +94,47 @@ const AdmissionManager = () => {
    
   }
 
+  // Trial start
+
+ function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
+const handleCancel = () => {
+  setPreviewVisible(false);
+};
+
+const handlePreview = async (file) => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
+  }
+
+  setPreviewImage(file.url || file.preview);
+  setPreviewVisible(true);
+  setPreviewTitle(
+    file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+  );
+};
+
+const handleChange = ({ fileList }) => {
+  
+ 
+  if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    setFileList([]);
+    setError('Only jpeg, jpg, png image is allowed');
+  }
+  else{
+    setFileList(fileList);
+    setError('');
+  
+  }
+};
+
   const handlePass = (e) => {
     setPassError('')
     setPass(e.target.value);
@@ -118,6 +170,7 @@ const goBack = () => {
         e.preventDefault();
 
         const subData = new FormData(e.target);
+        subData.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
          if(titleValue == 0 ){
           setTitleError(true);
@@ -460,6 +513,60 @@ const goBack = () => {
                         :
                         null
                       }
+                 
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span className='pl-2'>
+                       Image {' '}<span className='text-danger'>*</span>
+                    </span>
+                  </Col>
+                  <Col md="4">
+                  <div className="row">
+                    
+                      <div className="col-md-3">
+                        <>
+                          <Upload
+                            listType="picture-card"
+                            multiple={false}
+                            fileList={FileList}
+                            onPreview={handlePreview}
+                            onChange={handleChange}
+                            beforeUpload={(file) => {
+                              return false;
+                            }}
+                          >
+                            {FileList.length < 1 ? (
+                              <div
+                                className="text-danger"
+                                style={{ marginTop: 8 }}
+                              >
+                                <Icon.Upload />
+                                <br />
+                                <span>Upload Image Here</span>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </Upload>
+                          <Modal
+                            visible={previewVisible}
+                            title={previewTitle}
+                            footer={null}
+                            onCancel={handleCancel}
+                          >
+                            <img
+                              alt="example"
+                              style={{ width: "100%" }}
+                              src={previewImage}
+                            />
+                          </Modal>
+                           <span className="text-danger d-block">{error}</span>
+                        </>
+                      </div>
+                    </div>
                  
                   </Col>
                 </FormGroup>

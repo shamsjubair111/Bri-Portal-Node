@@ -441,7 +441,11 @@ const Search = () => {
     setModalCampusLabel(label);
     setModalCampusValue(value);
 
-    axios.get(`${rootUrl}SubjectIntake/CampusSubjectIntakes/${currentData?.subjectId}/${value}`)
+    axios.get(`${rootUrl}SubjectIntake/CampusSubjectIntakes/${currentData?.subjectId}/${value}`,{
+      headers: {
+        'authorization': localStorage.getItem('token')
+      }
+    })
     .then(res => {
       setModalIntake(res?.data?.result);
     })

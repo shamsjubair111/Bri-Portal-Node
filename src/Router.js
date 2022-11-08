@@ -726,23 +726,23 @@ class AppRouter extends React.Component {
          <AppRoute  path="/studentListByType/:type" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
          <AppRoute  path="/studentListByConsultant/:cId" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
          <AppRoute  path="/studentProfile/:sId" component={permissions?.includes(permissionList?.View_Student_info)? StudentProfile : NotAuthorized} />
-         <AppRoute  path="/addStudentInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? PersonalInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentContactInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? ContactInformation : NotAuthorized} />
+         <AppRoute  path="/addStudentInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? PersonalInformation : NotAuthorized} />
+         <AppRoute  path="/addStudentContactInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? ContactInformation : NotAuthorized} />
          <AppRoute  path="/addStudentApplicationInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Applicationinfo_info)? ApplicationInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentEducationalInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? EducationalInformation : NotAuthorized} />
+         <AppRoute  path="/addStudentEducationalInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? EducationalInformation : NotAuthorized} />
         
          <AppRoute  path="/addStudentRegister" component={permissions?.includes(permissionList?.Add_New_Student)? AddStudentRegister : NotAuthorized} />
 
-         <AppRoute  path="/addExperience/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddExperience : NotAuthorized} />
-         <AppRoute  path="/addReference/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddReference : NotAuthorized} />
-         <AppRoute  path="/addPersonalStatement/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddPersonalStatement : NotAuthorized} />
-         <AppRoute  path="/addOtherInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? AddOtherInformation : NotAuthorized} />
-         <AppRoute  path="/addTestScore/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Add_New_Student)?AddTestScore : NotAuthorized} />
+         <AppRoute  path="/addExperience/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddExperience : NotAuthorized} />
+         <AppRoute  path="/addReference/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddReference : NotAuthorized} />
+         <AppRoute  path="/addPersonalStatement/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddPersonalStatement : NotAuthorized} />
+         <AppRoute  path="/addOtherInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddOtherInformation : NotAuthorized} />
+         <AppRoute  path="/addTestScore/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)?AddTestScore : NotAuthorized} />
 
          
          <AppRoute  path="/studentByConsultant/:id" component={permissions?.includes(permissionList?.View_Student_consultant_List)? StudentByConsultant : NotAuthorized} />
        
-         <AppRoute  path="/uploadDocument/:applicationStudentId?/:update?" component={permissions?.includes(permissionList?.Add_New_Student)? UploadDocument : NotAuthorized} />
+         <AppRoute  path="/uploadDocument/:applicationStudentId?/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? UploadDocument : NotAuthorized} />
 
          {/* Education Level paths */}
 
@@ -781,7 +781,7 @@ class AppRouter extends React.Component {
           <AppRoute  path="/consultantConscent/:consultantRegisterId" component={permissions?.includes(permissionList.Add_New_consultant_consent) ? ConsultantConscent : NotAuthorized} />
 
           {/* Student Declaration Path */}
-          <AppRoute  path="/studentDeclaration/:applicationStudentId/:update?" component={permissions?.includes(permissionList.Add_New_student_consent) ? StudentDeclaration : NotAuthorized} />
+          <AppRoute  path="/studentDeclaration/:applicationStudentId/:update?" component={permissions?.includes(permissionList.Update_student_consent_info) ? StudentDeclaration : NotAuthorized} />
 
           {/* Branch Employee Profile path */}
           <AppRoute  path="/branchEmployeeProfile/:branchId/:employeeId" component={permissions?.includes(permissionList.View_Branch_Employee_info) ? BranchEmployeeProfile : NotAuthorized} />

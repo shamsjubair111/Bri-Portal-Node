@@ -563,11 +563,18 @@ const ProviderDetails = () => {
                         <img className="empProfileImg"  src={
                       rootUrl + providerInfo?.providerLogoMedia?.thumbnailUrl
                     } alt="provider_profile"/>
+                       {
+                        permissions?.includes(permissionList.Change_Provider_LogoImage) ?
                         <div class="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                        :
+                        null
+                       }
                      </div>
                 </div>
 
                 {/* profile photo edit modal starts here */}
+                {
+                        permissions?.includes(permissionList.Change_Provider_LogoImage) ?
                 <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
                        <ModalHeader>Update Profile Photo</ModalHeader>
 
@@ -631,6 +638,7 @@ const ProviderDetails = () => {
                                          src={previewImage1}
                                        />
                                      </Modal>
+                      
 
                                      <span className="text-danger d-block">{text1}</span>
 
@@ -661,6 +669,9 @@ const ProviderDetails = () => {
                          </form>
                        </ModalBody>
                      </Modal>
+                                    :
+                                    null
+               }
                      {/* profile photo edit modal ends here */} 
 
                 <h5> {providerInfo?.name}</h5>

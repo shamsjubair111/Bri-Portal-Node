@@ -64,6 +64,10 @@ const EmployeeGeneralInfo = (props) => {
     const [previewTitle, setPreviewTitle] = useState('');
     const [FileList, setFileList] = useState([]);
 
+    const [branch, setBranch] = useState([]);
+    const [branchLabel, setBranchLabel] = useState("Select Branch");
+    const [branchValue, setBranchValue] = useState(0);
+
 
 
     function getBase64(file) {
@@ -145,19 +149,35 @@ const EmployeeGeneralInfo = (props) => {
           
             setTitle(res);
           });
+
+          
     }, [])
 
     useEffect(() => {
         const returnValue = get(`NationalityDD/Index`).then((action) => {
             setNationality(action)
         })
+
+        get("BranchDD/index").then((res) => {
+            // console.log(res);
+            setBranch(res);
+          });
     }, [])
 
 
     const employeeTypeName = employeeList?.map(emp => ({ label: emp.name, value: emp.id }))
     const nationalityName = nationality?.map(nation => ({ label: nation.name, value: nation.id }))
 
+    const branchOptions = branch?.map((b) => ({
+        label: b.name,
+        value: b.id,
+      }));
 
+      const selectBranch = (label, value) => {
+  
+        setBranchLabel(label);
+        setBranchValue(value);
+      };
 
     const AuthStr = localStorage.getItem("token");
 
@@ -393,6 +413,23 @@ const EmployeeGeneralInfo = (props) => {
                                         {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
+                                    </Col>
+                                </FormGroup>
+
+                                <FormGroup row className="has-icon-left position-relative">
+                                    <Col md="2">
+                                        <span>Branch <span className="text-danger">*</span>{" "}</span>
+                                    </Col>
+                                    <Col md="6">
+                                    <Select
+                                    options={branchOptions}
+                                    value={{ label: branchLabel, value: branchValue }}
+                                    onChange={(opt) => selectBranch(opt.label, opt.value)}
+                                    name="BranchId"
+                                    id="BranchId"
+                                    />
+                                        
+                                        
                                     </Col>
                                 </FormGroup>
 

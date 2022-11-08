@@ -401,7 +401,12 @@ const ConsultantProfile = () => {
                     <div className="bg-image" >  
                     <img src = {rootUrl+consultantData?.consultantCoverImageMedia?.fileUrl} alt='cover_img'/> 
                     <div className="uplode-cover-image">
+                     {
+                      permissions?.includes(permissionList.Change_Consultant_CoverImage)?
                       <span onClick={updateCoverPhoto}> <i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span>
+                      :
+                      null
+                     }
                       </div>               
                   </div>
                 </div>
@@ -513,7 +518,12 @@ const ConsultantProfile = () => {
                      <div className='profile-pic'>
                        <img className="empProfileImg"  src={rootUrl+consultantData?.consultantProfileImageMedia?.fileUrl} alt='img-desc'/>
 
-                       <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                      {
+                        permissions?.includes(permissionList.Change_Consultant_profileImage) ?
+                        <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                        :
+                        null
+                      }
                      </div>
 
                   </div>

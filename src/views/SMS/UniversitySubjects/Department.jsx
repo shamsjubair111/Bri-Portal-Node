@@ -37,6 +37,7 @@ import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkButton from "../Components/LinkButton";
 import Loader from "../Search/Loader/Loader";
+import { permissionList } from "../../../constants/AuthorizationConstant";
 
 const Department = (props) => {
   const history = useHistory();
@@ -55,6 +56,7 @@ const Department = (props) => {
   const [buttonStatus1, setButtonStatus1] = useState(false);
 
   const [id, setId] = useState("");
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   // redirect to dashboard
   const backToDashboard = () => {
@@ -189,13 +191,18 @@ const Department = (props) => {
 
       <Card>
         <CardHeader>
+         {
+          permissions?.includes(permissionList.Add_new_department) ?
           <ButtonForFunction
-            func={AddModalOpen}
-            className={"btn btn-uapp-add"}
-            icon={<i className="fas fa-plus"></i>}
-            name={" Add Department"}
-            permission={6}
-          />
+          func={AddModalOpen}
+          className={"btn btn-uapp-add"}
+          icon={<i className="fas fa-plus"></i>}
+          name={" Add Department"}
+          permission={6}
+        />
+        :
+        null
+         }
 
           <div>
             {" "}
@@ -310,21 +317,31 @@ const Department = (props) => {
 
                         {/* <Button className="btn-sm mx-2" onClick={() => toggleDanger(dept.name, dept.id)} color="danger"><i className="fas fa-trash-alt"></i></Button> */}
                         
-                        <ButtonForFunction
+                        {
+                          permissions?.includes(permissionList.Update_department_info) ?
+                          <ButtonForFunction
                           func={() => redirectToEditDepartment(dept?.id)}
                           className={"btn-sm"}
                           color={"warning"}
                           icon={<i className="fas fa-edit"></i>}
                           permission={6}
                         />
+                        :
+                        null
+                        }
 
-                        <ButtonForFunction
+                        {
+                          permissions?.includes(permissionList.Delete_department) ?
+                          <ButtonForFunction
                           func={() => toggleDanger(dept.name, dept.id)}
                           className={"btn-sm mx-2"}
                           color={"danger"}
                           icon={<i className="fas fa-trash-alt"></i>}
                           permission={6}
                         />
+                        :
+                        null
+                        }
 
                         {/* <Link to={`editDepartment/${dept?.id}`}>
                          <Button color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button>
@@ -354,18 +371,20 @@ const Department = (props) => {
                         </ModalBody>
 
                         <ModalFooter>
-                          
-                          <Button onClick={closeDeleteModal}>
-                            NO
-                          </Button>
-                          
-                          <Button
+
+                        <Button
                             color="danger"
                             onClick={() => handleDelete(depId)}
                             disabled={buttonStatus1}
                           >
                             YES
                           </Button>
+                          
+                          <Button onClick={closeDeleteModal}>
+                            NO
+                          </Button>
+                          
+                          
 
                         </ModalFooter>
                       </Modal>

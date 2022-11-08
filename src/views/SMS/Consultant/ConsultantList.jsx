@@ -222,14 +222,14 @@ const ConsultantList = () => {
 
     const subData = new FormData(event.target);
 
-    subData.append("studentId", passData?.id);
+    subData.append("id", passData?.id);
     subData.append("password", pass);
     if (pass.length < 6) {
       setError("Password length can not be less than six digits");
     } else if (pass !== cPass) {
       setPassError("Passwords do not match");
     } else {
-      put(`Password/Change`, subData).then((res) => {
+      put(`Password/ChangePasswordForConsultant`, subData).then((res) => {
         if (res?.status == 200 && res.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -843,8 +843,8 @@ const ConsultantList = () => {
                               <div className="text-center mt-3">
                                 <span>
                                   Change password for {passData?.firstName}{" "}
-                                  {passData?.lastName} (
-                                  {passData?.studentViewId}){" "}
+                                  {passData?.lastName} 
+                                {" "}
                                 </span>
                               </div>
                             </ModalHeader>
