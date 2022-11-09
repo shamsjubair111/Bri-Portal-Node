@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
+<<<<<<< HEAD
 import { useParams, useHistory, Link } from 'react-router-dom';
+=======
+import { useParams, useHistory } from 'react-router-dom';
+>>>>>>> uapp_front_pranto_new
 import {  Card, CardBody, Modal,
   ModalHeader,
   ModalBody,
@@ -19,12 +23,15 @@ import { userTypes } from '../../../constants/userTypeConstant';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
+<<<<<<< HEAD
 import put from '../../../helpers/put';
 
 import { Image } from 'antd';
 import { Upload } from "antd";
 import * as Icon from "react-feather";
 
+=======
+>>>>>>> uapp_front_pranto_new
 
 const StudentProfile = () => {
 
@@ -46,6 +53,7 @@ const StudentProfile = () => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [stdId, setStdId] = useState(0);
     const [cName, setCName] = useState('');
+<<<<<<< HEAD
     const [conscentData,setConscentData] = useState({});
 
     const [modalOpen2, setModalOpen2] = useState(false);
@@ -56,6 +64,8 @@ const StudentProfile = () => {
     const [FileList1, setFileList1] = useState([]);
     const [error1, setError1] = useState(false);
     const [text1, setText1] = useState('');
+=======
+>>>>>>> uapp_front_pranto_new
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -162,6 +172,14 @@ const StudentProfile = () => {
           console.log(res);
           setApplication(res);
         })
+    },[sId, success])
+
+    useEffect(()=>{
+      get(`PreffereCourse/Index/${sId}`).then(res=>{
+        console.log("course list", res);
+        setCourseList(res);
+        // setSuccess(!success);
+      })
     },[sId, success])
 
     useEffect(()=>{
@@ -333,6 +351,7 @@ const StudentProfile = () => {
       event.preventDefault();
       const subdata = new FormData(event.target);
 
+<<<<<<< HEAD
    
 
     post(`PrefferedCourse/Create`, subdata).then((res) => {
@@ -340,6 +359,18 @@ const StudentProfile = () => {
       // setModalOpen(false);
       // setButtonStatus(false);
       
+=======
+      //  watch form data values
+    for (var value of subdata) {
+      console.log("preffered course", value);
+    }
+
+    post(`PreffereCourse/Create`, subdata).then((res) => {
+      // setSuccess(!success);
+      // setModalOpen(false);
+      // setButtonStatus(false);
+      console.log("course response", res); 
+>>>>>>> uapp_front_pranto_new
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -377,6 +408,7 @@ const StudentProfile = () => {
     });
   };
 
+<<<<<<< HEAD
   const updateProfilePic = () => {
     setModalOpen2(true);
     setFileList1([]);
@@ -491,6 +523,8 @@ const StudentProfile = () => {
   
 
 
+=======
+>>>>>>> uapp_front_pranto_new
     return (
         <div ref={componentRef}>
         <Card className="uapp-card-bg">
@@ -2066,7 +2100,112 @@ const StudentProfile = () => {
               </Card>
               }
 
+<<<<<<< HEAD
            
+=======
+              {/* Preffered course */}
+              <Card className='p-3'>
+                          
+              <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Interested courses</b> </h5>
+                          
+                    <div className="bg-h"></div>
+                    </div>
+                          
+                    {/* <EditDivButton
+                      className={"text-right edit-style  p-3"}
+                      func={()=>handleUpdatePersonalStatement(studentDetails)}
+                      permission={6}
+                    /> */}
+              
+                    </div>
+                  
+              <div className=" mt-3 ">
+               <Form onSubmit={handleAddPrefferedCourse}>
+                <FormGroup row className="has-icon-left">
+                   <input
+                      type="hidden"
+                      name="studentId"
+                      id="studentId"
+                      value={sId}
+                    />
+                   <Col md="9">
+                     <Input
+                       type="text"
+                       name="courseName"
+                       id="courseName"
+                       onChange={(e)=>setCourse(e.target.value)}
+                       value={course}
+                       placeholder="Write Course Name"
+                       required
+                     />
+                     {/* <div className="form-control-position">
+                                         <User size={15} />
+                                     </div> */}
+                   </Col>
+
+                   <Col md="3">
+                   <ButtonForFunction
+                       type={"submit"}
+                       className={"badge-primary"}
+                       name={"Add"}
+                       // disable={buttonStatus}
+                     />
+                   </Col>
+                 </FormGroup>
+               </Form>
+              </div>
+
+              <div className="d-flex flex-wrap">
+                  {
+                    courseList.map((course, i) => (
+                      <div key={i} className='mr-1 mb-1'>
+                        <div className='tag-style-search'>
+                    <div>
+                      <span>{course?.courseName}</span>
+                      {" "}{" "}
+                      <span onClick={(e) => toggleDanger(course?.courseName, course?.id, e)} style={{fontSize: "16px", cursor: "pointer"}}>×</span>
+                    </div>
+                  </div>
+                      </div>
+                    ))
+                  }
+
+                  {/* modal for delete */}
+                  <Modal
+                        isOpen={deleteModal}
+                        toggle={closeDeleteModal}
+                        className="uapp-modal"
+                      >
+                        <ModalBody>
+                          <p>
+                            Are You Sure to Delete this <b>{cName}</b> ? Once
+                            Deleted it can't be Undone!
+                          </p>
+                        </ModalBody>
+
+                        <ModalFooter>
+                          
+                          <Button onClick={closeDeleteModal}>
+                            NO
+                          </Button>
+                          
+                          <Button
+                            color="danger"
+                            onClick={() => handleDelete(stdId)}
+                            // disabled={buttonStatus1}
+                          >
+                            YES
+                          </Button>
+
+                        </ModalFooter>
+                      </Modal>
+
+              </div>
+                  
+              </Card>
+>>>>>>> uapp_front_pranto_new
 
               </Col>
               </Row>

@@ -1084,6 +1084,18 @@ color: #1E98B0;
   
 }
 
+.tag-style-search{
+  border-radius: 15px;
+  font-size: 12px;
+  border: 2px solid #1e98b0;
+  color: #1e98b0 ;
+  padding-top: 1px ;
+  padding-bottom: 4px ;
+  padding-left: 12px ;
+  padding-right: 12px ;
+  /* cursor: pointer; */
+}
+
 /* .btn-customStyle-2{
 
   background: #1e98b0;
