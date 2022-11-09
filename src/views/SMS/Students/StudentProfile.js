@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useHistory, Link } from 'react-router-dom';
+
 import {  Card, CardBody, Modal,
   ModalHeader,
   ModalBody,
@@ -164,6 +165,14 @@ const StudentProfile = () => {
           console.log(res);
           setApplication(res);
         })
+    },[sId, success])
+
+    useEffect(()=>{
+      get(`PreffereCourse/Index/${sId}`).then(res=>{
+        console.log("course list", res);
+        setCourseList(res);
+        // setSuccess(!success);
+      })
     },[sId, success])
 
     useEffect(()=>{
@@ -337,11 +346,12 @@ const StudentProfile = () => {
 
    
 
-    post(`PrefferedCourse/Create`, subdata).then((res) => {
+ 
+    post(`PreffereCourse/Create`, subdata).then((res) => {
       // setSuccess(!success);
       // setModalOpen(false);
       // setButtonStatus(false);
-      
+      console.log("course response", res); 
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -351,6 +361,7 @@ const StudentProfile = () => {
     });
 
     }
+    
 
     const toggleDanger = (name, id, e) => {
       e.preventDefault();
@@ -2180,6 +2191,108 @@ const StudentProfile = () => {
               }
 
            
+              {/* Preffered course */}
+              <Card className='p-3'>
+                          
+              <div className="hedding-titel d-flex justify-content-between">
+                    <div>
+                    <h5> <b>Interested courses</b> </h5>
+                          
+                    <div className="bg-h"></div>
+                    </div>
+                          
+                    {/* <EditDivButton
+                      className={"text-right edit-style  p-3"}
+                      func={()=>handleUpdatePersonalStatement(studentDetails)}
+                      permission={6}
+                    /> */}
+              
+                    </div>
+                  
+              <div className=" mt-3 ">
+               <Form onSubmit={handleAddPrefferedCourse}>
+                <FormGroup row className="has-icon-left">
+                   <input
+                      type="hidden"
+                      name="studentId"
+                      id="studentId"
+                      value={sId}
+                    />
+                   <Col md="9">
+                     <Input
+                       type="text"
+                       name="courseName"
+                       id="courseName"
+                       onChange={(e)=>setCourse(e.target.value)}
+                       value={course}
+                       placeholder="Write Course Name"
+                       required
+                     />
+                     {/* <div className="form-control-position">
+                                         <User size={15} />
+                                     </div> */}
+                   </Col>
+
+                   <Col md="3">
+                   <ButtonForFunction
+                       type={"submit"}
+                       className={"badge-primary"}
+                       name={"Add"}
+                       // disable={buttonStatus}
+                     />
+                   </Col>
+                 </FormGroup>
+               </Form>
+              </div>
+
+              <div className="d-flex flex-wrap">
+                  {
+                    courseList.map((course, i) => (
+                      <div key={i} className='mr-1 mb-1'>
+                        <div className='tag-style-search'>
+                    <div>
+                      <span>{course?.courseName}</span>
+                      {" "}{" "}
+                      <span onClick={(e) => toggleDanger(course?.courseName, course?.id, e)} style={{fontSize: "16px", cursor: "pointer"}}>×</span>
+                    </div>
+                  </div>
+                      </div>
+                    ))
+                  }
+
+                  {/* modal for delete */}
+                  <Modal
+                        isOpen={deleteModal}
+                        toggle={closeDeleteModal}
+                        className="uapp-modal"
+                      >
+                        <ModalBody>
+                          <p>
+                            Are You Sure to Delete this <b>{cName}</b> ? Once
+                            Deleted it can't be Undone!
+                          </p>
+                        </ModalBody>
+
+                        <ModalFooter>
+                          
+                          <Button onClick={closeDeleteModal}>
+                            NO
+                          </Button>
+                          
+                          <Button
+                            color="danger"
+                            onClick={() => handleDelete(stdId)}
+                            // disabled={buttonStatus1}
+                          >
+                            YES
+                          </Button>
+
+                        </ModalFooter>
+                      </Modal>
+
+              </div>
+                  
+              </Card>
 
               </Col>
               </Row>
@@ -2209,5 +2322,6 @@ const StudentProfile = () => {
  </div>
  );
 };
+
 
 export default StudentProfile;
