@@ -311,6 +311,14 @@ const AdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManage
 const AdmissionManagerList = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerList"))
 const UpdateAdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/UpdateAdmissionManager"))
 
+const UniversityWiseAdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/UniversityWiseAdmissionManager"))
+
+const UniversityWiseAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/UniversityWiseAdmissionOfficer"))
+
+const AdmissionManagerSubjects = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerSubjects"))
+
+const AdmissionOfficerSubjects = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerWiseSubject"))
+
 // Student
 
 const StudentList = lazy(() => import("./views/SMS/Students/StudentList"))
@@ -520,6 +528,14 @@ class AppRouter extends React.Component {
          <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_New_Admission_manager)? AdmissionManager : NotAuthorized} />
          <AppRoute exact path="/admissionManagerList" component={permissions?.includes(permissionList.View_Admission_manager_List) ? AdmissionManagerList : NotAuthorized} />
          <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager_info) ? UpdateAdmissionManager : NotAuthorized } />
+
+         <AppRoute  path="/universityAdmissionManagers/:universityId" component={permissions?.includes(permissionList.View_Admission_manager_university_List) ? UniversityWiseAdmissionManager : NotAuthorized } />
+
+         <AppRoute  path="/universityAdmissionOfficers/:universityId" component={permissions?.includes(permissionList.View_Admission_Officer_university_List) ? UniversityWiseAdmissionOfficer : NotAuthorized } />
+
+         <AppRoute  path="/admissionManagerSubjects/:managerId/:universityId" component={permissions?.includes(permissionList.View_Admissionmanager_Subject_list) ? AdmissionManagerSubjects : NotAuthorized } />
+
+         <AppRoute  path="/admissionOfficerSubjects/:managerId/:universityId" component={permissions?.includes(permissionList.View_Admissionofficer_Subject_list) ? AdmissionOfficerSubjects : NotAuthorized } />
 
          {/* admission officer */}
          <AppRoute  path="/admissionOfficerList" component={permissions?.includes(permissionList?. View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />

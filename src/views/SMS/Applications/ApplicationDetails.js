@@ -3244,21 +3244,20 @@ const ApplicationDetails = () => {
                     </div>
 
                     {/* Test Score Data */}
-                    <div className=" row info-item">
+                    <div className=" row">
 
 <div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
 
 
-  <div className="hedding-titel d-flex justify-content-between mb-1">
-  <div>
-  <h5> <b>GRE Information</b> </h5>
-   
-  <div className="bg-h"></div>
-  </div>
-  
-   
-
-  </div>
+<Card>
+  <CardBody>
+  <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">GRE Score</h5>
+          
+        
+                
+       
+        </div>
 
   <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
   <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
@@ -3267,28 +3266,24 @@ const ApplicationDetails = () => {
   <h6>Writing Score: {greResult?.writingScore}</h6>
   <h6>Writing Rank: {greResult?.writingRank}</h6>
 
-     
-
-
-
-
+  </CardBody>
+</Card>
+ 
 </div>
 
 <div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
 
 
-<div className="hedding-titel d-flex justify-content-between mb-1">
-<div>
-<h5> <b>GMAT Information</b> </h5>
+<Card>
+  <CardBody>
+  <div className="d-flex justify-content-between">
+          <h5 className="test-score-title-style2">GMAT Score</h5>
+          
+        
+                
+       
+        </div>
  
-<div className="bg-h"></div>
-</div>
-
-
-
-</div>
-
-
 
 <h6>Quantitative Score: {gMatResult?.quantitativeScore}</h6>
 <h6>Quantitative Rank: {gMatResult?.quantitativeRank}</h6>
@@ -3299,23 +3294,22 @@ const ApplicationDetails = () => {
 <h6>Writing Score: {gMatResult?.writingScore}</h6>
 <h6>Writing Rank: {gMatResult?.writingRank}</h6>
 
+  </CardBody>
+</Card>
    
-
-
-
 
 </div>
 
-
-
               {/* English Test Scores */}
 
-              
-              <div className="row mt-3">
+  
+</div>
+
+<div className="row mt-3">
 
 {ielts?.id ? (
   
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+  <div className="col-6 mt-2">
     <Card className="">
       <CardBody className="">
         <div className="d-flex justify-content-between">
@@ -3356,7 +3350,7 @@ const ApplicationDetails = () => {
 ) : null}
 
 {duolingo?.id ? (
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+  <div className="col-6 mt-2">
     <Card className="">
       <CardBody className="">
         <div className="d-flex justify-content-between">
@@ -3389,7 +3383,7 @@ const ApplicationDetails = () => {
 ) : null}
 
 {toefl?.id ? (
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+  <div className="col-6 mt-2">
     <Card className="">
       <CardBody className="">
         <div className="d-flex justify-content-between">
@@ -3427,7 +3421,7 @@ const ApplicationDetails = () => {
   </div>
 ) : null}
 {functions?.id ? (
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+  <div className="col-6 mt-2">
     <Card className="">
       <CardBody className="">
         <div className="d-flex justify-content-between">
@@ -3465,7 +3459,7 @@ const ApplicationDetails = () => {
 ) : null}
 
 {gcse?.id ? (
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+  <div className="col-6 mt-2">
     <Card className="">
       <CardBody className="">
         <div className="d-flex justify-content-between">
@@ -3490,7 +3484,7 @@ const ApplicationDetails = () => {
 ) : null}
 
 {pearson?.id ? (
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+  <div className="col-6 mt-2">
     <Card className="">
       <CardBody className="">
         <div className="d-flex justify-content-between">
@@ -3515,7 +3509,7 @@ const ApplicationDetails = () => {
 ) : null}
 
 {others?.id ? (
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
+  <div className="col-6 mt-2">
     <Card className="">
       <CardBody className="">
         <div className="d-flex justify-content-between">
@@ -3543,9 +3537,11 @@ const ApplicationDetails = () => {
   </div>
 ) : null}
 {pte?.id ? (
-  <div className="col-md-6 mt-2" style={{ textAlign: "left" }}>
-    <Card className="">
-      <CardBody className="">
+  <div className="col-6 mt-2">
+  <Card>
+
+    <CardBody>
+     
         <div className="d-flex justify-content-between">
           <h5 className="test-score-title-style2">PTE Score</h5>
           
@@ -3570,17 +3566,15 @@ const ApplicationDetails = () => {
 
         </div>
         
-      </CardBody>
+ 
+  </CardBody>
 
-     
-    </Card>
+</Card>     
+  
   </div>
 ) : null}
 </div>
 
-              
-
-</div>
                    
 
                     <div className="hedding-titel d-flex justify-content-between my-4">

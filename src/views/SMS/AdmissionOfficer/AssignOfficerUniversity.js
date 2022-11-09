@@ -70,8 +70,12 @@ const AssignOfficerUniversity = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [admissionManager, setAdmissionManager] = useState([]);
+  const [managerLabel, setManagerLabel] = useState('Select Admission Manager');
+  const [managerValue, setManagerValue] = useState(0);
+  const [managerError,setManagerError] = useState('');
 
-  const { providerId, managerId } = useParams();
+  const { providerId, managerId} = useParams();
 
   useEffect(() => {
     
@@ -81,11 +85,15 @@ const AssignOfficerUniversity = () => {
         setUniList(res);
     })
 
-    get(`AdmissionManagerUniversityDD/AdmissionOfficer/${managerId}`).then((res) => {
-        console.log('first',res);
-        setProviderUniList(res);
     
-    });
+
+    get(`AdmissionManagerDD/AdmissionOfficer/${managerId}`)
+    .then(res => {
+      
+      setAdmissionManager(res);
+    })
+
+
 
   }, [providerId, managerId, success]);
 
@@ -103,11 +111,27 @@ const AssignOfficerUniversity = () => {
         label: uni?.name,
         value: uni?.id,
       }));
+
+    const admissionmanagerOptions = admissionManager.map((uni) => ({
+        label: uni?.name,
+        value: uni?.id,
+      }));
     
       const selectUniversity = (label, value) => {
         setUniLabel(label);
         setUniValue(value);
         setUniError(false);
+      };
+
+      const selectAdmissionManager = (label, value) => {
+        setManagerLabel(label);
+        setManagerValue(value);
+        setManagerError('');
+        get(`AdmissionManagerUniversityDD/systemAdmin/${managerId}/${value}`).then((res) => {
+     
+        setProviderUniList(res);
+    
+    });
       };
     
       const backToProviderDetails = () => {
@@ -127,6 +151,9 @@ const AssignOfficerUniversity = () => {
         setRadioIsAcceptHome("false");
         setRadioIsAcceptUk("true");
         setRadioIsAcceptInt("false");
+        setManagerLabel('Select Admission Manager');
+        setManagerValue(0);
+        setManagerError('');
       };
     
       // toggle dropdown
@@ -200,9 +227,14 @@ const AssignOfficerUniversity = () => {
             }
           });
         } else {
-          if (uniValue === 0) {
+          
+          if(managerValue === 0){
+            setManagerError('Admission manager is required ')
+          }
+         else if (uniValue === 0) {
             setUniError(true);
-          } else {
+          }
+           else {
             setButtonStatus(true);
             setSelectedId(undefined);
             post(`AdmissionOfficerUniversity/Create`, subData).then((res) => {
@@ -465,6 +497,32 @@ const AssignOfficerUniversity = () => {
               </ModalHeader>
               <ModalBody>
                 <Form onSubmit={handleSubmit}>
+                  <FormGroup row className="has-icon-left position-relative">
+                    {selectedId === undefined ? (
+                      <>
+                        <Col md="5">
+                          <span>
+                            Admission Manager{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+
+                        <Col md="7">
+                          <Select
+                            options={admissionmanagerOptions}
+                            value={{ label: managerLabel, value: managerValue }}
+                            onChange={(opt) =>
+                              selectAdmissionManager(opt.label, opt.value)
+                            }
+                           
+                          />
+
+                          <span className='text-danger'>{managerError}</span>
+                        </Col>
+                      </>
+                    ) : null}
+                  </FormGroup>
+
                   <FormGroup row className="has-icon-left position-relative">
                     {selectedId === undefined ? (
                       <>

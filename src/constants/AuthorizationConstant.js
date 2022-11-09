@@ -695,6 +695,22 @@ export const  permissionList = {
 
          Update_Applicationtransaction_TransactionStatus_info : 535,
 
+          View_branch_consultant_List : 536,
+
+         Assign_AdmissionManager_Subject : 537,
+         View_AssignedAdmissionManagers_list : 538,
+         Delete_AdmissionManager_Subject : 539,
+         AsignTo_AllUniversitySubjects_toManagers : 540,
+
+         Assign_AdmissionOfficer_Subject : 541,
+         View_AssignedAdmissionOfficers_list : 542,
+         Delete_AdmissionOfficer_Subject : 543,
+         AsignTo_AllUniversitySubjects_toOfficers : 544,
+
+         View_Admissionmanager_Subject_list : 545,
+         View_Admissionofficer_Subject_list : 546,
+         
+
 
      
 

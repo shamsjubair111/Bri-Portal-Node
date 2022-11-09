@@ -93,6 +93,8 @@ const UniversityList = (props) => {
   const [checkName, setCheckName] = useState(true);
   const [checkType, setCheckType] = useState(true);
   const [checkCountry, setCheckCountry] = useState(true);
+  const [adManager,setAdmanager] = useState(true);
+  const [adOfficer,setAdOfficer] = useState(true);
   const [checkCampus, setCheckCampus] = useState(true);
   const [checkAppli, setCheckAppli] = useState(true);
   const [checkProg, setCheckProg] = useState(true);
@@ -414,6 +416,17 @@ const UniversityList = (props) => {
     handleSearch();
   };
 
+  const redirectToAdManagerList = (data) => {
+
+    history.push(`/universityAdmissionManagers/${data}`);
+
+  }
+
+  const redirectToAdOfficerList  = (data) => {
+
+    history.push(`/universityAdmissionOfficers/${data}`);
+  }
+
   const selectProviderState = (label, value) => {
     setProviderLabel(label);
     setProviderValue(value);
@@ -540,6 +553,13 @@ const UniversityList = (props) => {
 
   const handleCheckedCountry = (e) => {
     setCheckCountry(e.target.checked);
+  };
+
+  const handleAdManager = (e) => {
+    setAdmanager(e.target.checked);
+  };
+  const handleAdOfficer = (e) => {
+    setAdOfficer(e.target.checked);
   };
 
   const handleCheckedCampus = (e) => {
@@ -881,6 +901,43 @@ const UniversityList = (props) => {
                           </FormGroup>
                         </Col>
                       </div>
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Admission Manager</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleAdManager(e);
+                              }}
+                              defaultChecked={adManager}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Admission Officer</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleAdOfficer(e);
+                              }}
+                              defaultChecked={adOfficer}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
@@ -984,6 +1041,10 @@ const UniversityList = (props) => {
 
                     {checkCountry ? <th>Country</th> : null}
 
+                    {adManager ? <th>Admission Manager</th> : null}
+
+                    {adOfficer ? <th>Admission Officer</th> : null}
+
                    {
                     permissions?.includes(permissionList.View_UniversityCampus_List) ? 
                     <> {checkCampus ? <th>Campus</th> : null}</>
@@ -1044,6 +1105,30 @@ const UniversityList = (props) => {
                           {university?.universityState?.name})
                         </td>
                       ) : null}
+
+                   
+                          {adManager ? (
+                        <td>
+                       
+
+                          <Button color="primary"  onClick={() => redirectToAdManagerList(university?.id)}  style={{ cursor: "pointer" }} className='btn-sm'>
+                              View
+                          
+                            </Button>
+                        </td>
+                      ) : null}
+
+                          {adOfficer ? (
+                        <td>
+                       
+
+                          <Button color="primary"  onClick={() => redirectToAdOfficerList(university?.id)}  style={{ cursor: "pointer" }} className='btn-sm'>
+                              View
+                          
+                            </Button>
+                        </td>
+                      ) : null}
+                 
 
                      {
                       permissions?.includes(permissionList.View_UniversityCampus_List) ?

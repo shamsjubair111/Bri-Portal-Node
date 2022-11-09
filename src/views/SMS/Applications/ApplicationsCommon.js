@@ -24,6 +24,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+
 } from "reactstrap";
 import Select from "react-select";
 import { useHistory, useLocation, useParams } from "react-router";
@@ -68,7 +69,8 @@ const ApplicationsCommon = () => {
   const [commonUniDD, setCommonUniDD] = useState([]);
   const [commonConsultantDD, setCommonConsultantDD] = useState([]);
   const [commonStdDD, setCommonStdDD] = useState([]);
-  const [commonPhoneDD, setCommonPhoneDD] = useState([]);
+
+  const [applicationId, setApplicationId] = useState(0);
 
   // for common
   const [commonUappIdLabel, setCommonUappIdLabel] = useState("UAPP Id");
@@ -77,8 +79,7 @@ const ApplicationsCommon = () => {
   const [commonUniValue, setCommonUniValue] = useState(0);
   const [consultantLabel, setConsultantLabel] = useState("Consultant");
   const [consultantValue, setConsultantValue] = useState(0);
-  const [commonPhoneLabel, setCommonPhoneLabel] = useState("Phone No.");
-  const [commonPhoneValue, setCommonPhoneValue] = useState(0);
+  
   const [commonStdLabel, setCommonStdLabel] = useState("Name");
   const [commonStdValue, setCommonStdValue] = useState(0);
 
@@ -183,10 +184,7 @@ const ApplicationsCommon = () => {
     label: student?.name,
     value: student?.id,
   }));
-  const commonPhoneMenu = commonPhoneDD.map((phone) => ({
-    label: phone?.name,
-    value: phone?.id,
-  }));
+
 
   // user select order
   const orderArr = [
@@ -288,12 +286,8 @@ const ApplicationsCommon = () => {
     setCommonStdValue(value);
     // handleSearch();
   };
-  const selectPhoneDD = (label, value) => {
-    // setLoading(true);
-    setCommonPhoneLabel(label);
-    setCommonPhoneValue(value);
-    // handleSearch();
-  };
+
+
 
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
@@ -335,9 +329,7 @@ const ApplicationsCommon = () => {
     get("CommonApplicationFilterDD/Student").then((res) => {
       setCommonStdDD(res);
     });
-    get("CommonApplicationFilterDD/PhoneNumber").then((res) => {
-      setCommonPhoneDD(res);
-    });
+    
 
     // for list
 
@@ -391,7 +383,7 @@ const ApplicationsCommon = () => {
         consId ? consId : consultantValue
       }&universityId=${
         uniId ? uniId : commonUniValue
-      }&uappPhoneId=${commonPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
     ).then((res) => {
       setLoading(false);
       setApplicationList(res?.models);
@@ -402,7 +394,7 @@ const ApplicationsCommon = () => {
   }, [
     currentPage,
     dataPerPage,
-    commonPhoneValue,
+    applicationId,
     commonStdValue,
     commonUappIdValue,
     commonUniValue,
@@ -496,8 +488,7 @@ const ApplicationsCommon = () => {
     setConsultantValue(0);
     setCommonStdLabel("Name");
     setCommonStdValue(0);
-    setCommonPhoneLabel("Phone No.");
-    setCommonPhoneValue(0);
+    setApplicationId(0);
     // setLoading(true);
   };
 
@@ -713,14 +704,13 @@ const ApplicationsCommon = () => {
             </Col>
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={commonPhoneMenu}
-                value={{ label: commonPhoneLabel, value: commonPhoneValue }}
-                onChange={(opt) => selectPhoneDD(opt.label, opt.value)}
-                placeholder="Phone No."
-                name="name"
-                id="id"
+              <Input
+              style={{height: '38px'}}
+              placeholder='Application Id'
+              type='text'
+              onChange={(e)=>setApplicationId(e.target.value)}
               />
+              
             </Col>
           </Row>
 
