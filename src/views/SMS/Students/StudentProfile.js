@@ -511,7 +511,7 @@ const StudentProfile = () => {
 
             <div className='d-flex align-items-center'>
               <div className='mt-1'>
-                <h3 className="text-white">Student Profile</h3>
+                <h3 className="text-white">Student Profile After Merging</h3>
               </div>
               <div className='ml-2'>
               <ReactToPrint
