@@ -75,6 +75,23 @@ const Index = () => {
      const [orderValue, setOrderValue] = useState(0);
      const [dropdownOpen1, setDropdownOpen1] = useState(false);
      const [loading,setLoading] = useState(true);
+
+     const [checkSlNo, setCheckSlNo] = useState(true);
+  const [checkId, setCheckId] = useState(true);
+  const [checkIntake, setCheckIntake] = useState(true);
+  const [checkPhn, setCheckPhn] = useState(true);
+  const [checkPass, setCheckPass] = useState(true);
+  const [checkUni, setCheckUni] = useState(true);
+  const [checkCons, setCheckCons] = useState(true);
+  const [checkSub, setCheckSub] = useState(true);
+  const [checkIntakeRange, setCheckIntakeRange] = useState(true);
+  const [checkAmount, setCheckAmount] = useState(true);
+  const [checkStd, setCheckStd] = useState(true);
+  const [checkSts, setCheckSts] = useState(true);
+  const [checkTransDate, setCheckTransDate] = useState(true);
+  const [checkStatus, setCheckStatus] = useState(true);
+  const [checkAction, setCheckAction] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false);
  
      const selectDataSize = (value) => {
        

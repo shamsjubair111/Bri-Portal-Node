@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-<<<<<<< HEAD
 import { useParams, useHistory, Link } from 'react-router-dom';
-=======
-import { useParams, useHistory } from 'react-router-dom';
->>>>>>> uapp_front_pranto_new
+
 import {  Card, CardBody, Modal,
   ModalHeader,
   ModalBody,
@@ -23,15 +20,12 @@ import { userTypes } from '../../../constants/userTypeConstant';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
-<<<<<<< HEAD
 import put from '../../../helpers/put';
 
 import { Image } from 'antd';
 import { Upload } from "antd";
 import * as Icon from "react-feather";
 
-=======
->>>>>>> uapp_front_pranto_new
 
 const StudentProfile = () => {
 
@@ -53,7 +47,6 @@ const StudentProfile = () => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [stdId, setStdId] = useState(0);
     const [cName, setCName] = useState('');
-<<<<<<< HEAD
     const [conscentData,setConscentData] = useState({});
 
     const [modalOpen2, setModalOpen2] = useState(false);
@@ -64,8 +57,6 @@ const StudentProfile = () => {
     const [FileList1, setFileList1] = useState([]);
     const [error1, setError1] = useState(false);
     const [text1, setText1] = useState('');
-=======
->>>>>>> uapp_front_pranto_new
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -351,26 +342,14 @@ const StudentProfile = () => {
       event.preventDefault();
       const subdata = new FormData(event.target);
 
-<<<<<<< HEAD
    
 
-    post(`PrefferedCourse/Create`, subdata).then((res) => {
-      // setSuccess(!success);
-      // setModalOpen(false);
-      // setButtonStatus(false);
-      
-=======
-      //  watch form data values
-    for (var value of subdata) {
-      console.log("preffered course", value);
-    }
-
+ 
     post(`PreffereCourse/Create`, subdata).then((res) => {
       // setSuccess(!success);
       // setModalOpen(false);
       // setButtonStatus(false);
       console.log("course response", res); 
->>>>>>> uapp_front_pranto_new
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -380,6 +359,7 @@ const StudentProfile = () => {
     });
 
     }
+    
 
     const toggleDanger = (name, id, e) => {
       e.preventDefault();
@@ -408,7 +388,6 @@ const StudentProfile = () => {
     });
   };
 
-<<<<<<< HEAD
   const updateProfilePic = () => {
     setModalOpen2(true);
     setFileList1([]);
@@ -523,8 +502,6 @@ const StudentProfile = () => {
   
 
 
-=======
->>>>>>> uapp_front_pranto_new
     return (
         <div ref={componentRef}>
         <Card className="uapp-card-bg">
@@ -2100,9 +2077,7 @@ const StudentProfile = () => {
               </Card>
               }
 
-<<<<<<< HEAD
            
-=======
               {/* Preffered course */}
               <Card className='p-3'>
                           
@@ -2205,7 +2180,6 @@ const StudentProfile = () => {
               </div>
                   
               </Card>
->>>>>>> uapp_front_pranto_new
 
               </Col>
               </Row>
@@ -2235,5 +2209,6 @@ const StudentProfile = () => {
  </div>
  );
 };
+
 
 export default StudentProfile;
