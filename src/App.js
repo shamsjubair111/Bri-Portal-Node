@@ -21,41 +21,7 @@ import get from "./helpers/get";
 const App = (props) => {
   
 
-  // useEffect(()=>{
-  //    get(`UserRole/Index`).then((action)=>{
-  //     dispatch(StoreRoleData(action))
-  //   });
-  // },[dispatch]);
-
-  // useEffect(()=>{
-  //    get(`EmployeTypeDD/Index`).then((action)=>{
-  //     // dispatch(StoreRoleData(action))
-  //     dispatch(StoreEmployeeTypeData(action))
-  //   });
-  // })
-
-  // useEffect(()=> {
-  //    get(`UniversityType/Index`).then((action)=>{
-     
-  //       dispatch(StoreUniversitytypeData(action))
-  //     });
-  // },[dispatch])
-
-  // useEffect(()=> {
-  //   get(`UniversityCountry/Index`).then((action)=>{
-   
-  //       dispatch(StoreUniversityCountryData(action))
-  //     });
-  // },[dispatch])
-
-  // useEffect(()=>{
-  //    get(`UniversityState/Index`).then((action)=> {
-  //     dispatch(StoreUniversityStateData(action));
-  //   })
-  // },[dispatch])
-
-  // EmployeType/Index
-  // return <Router />
+  
  return (
   
   <Router />

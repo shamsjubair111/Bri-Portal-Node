@@ -515,18 +515,20 @@ const SubDepartment = (props) => {
                           </ModalBody>
 
                           <ModalFooter>
-                            
-                            <Button onClick={closeDeleteModal}>
-                              NO
-                            </Button>
 
-                            <Button
+                          <Button
                               color="danger"
                               onClick={() => handleDeleteSubDep(SubdepId)}
                               disabled={buttonStatus1}
                             >
                               YES
                             </Button>
+                            
+                            <Button onClick={closeDeleteModal}>
+                              NO
+                            </Button>
+
+                           
 
                           </ModalFooter>
                         </Modal>
