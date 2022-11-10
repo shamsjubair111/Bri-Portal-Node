@@ -141,16 +141,16 @@ const AdmissionOfficerList = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [FileList, setFileList] = useState([]);
+  const [proLabel,setProLabel] = useState('Select Provider');
+  const [proValue,setProValue] = useState(0);
+
 
   const [imgError, setImgError] = useState(false);
 
   const [error,setError] = useState(false);
 
   useEffect(() => {
-    get("AdmissionManagerDD/Index").then((res) => {
-      setManagerDD(res);
-      // setManagerDDForm(res);
-    });
+   
 
     get("CountryDD/index").then((res) => {
       setCountryList(res);
@@ -168,7 +168,7 @@ const AdmissionOfficerList = () => {
     // setLoading(false);
 
     get(
-      `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&admissionmanagerId=${managerValue}&search=${searchStr}`
+      `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${proValue}&admissionmanagerId=${managerValue}&search=${searchStr}`
     ).then((res) => {
       console.log('Response', res);
       setOfficerList(res?.models);
@@ -176,7 +176,7 @@ const AdmissionOfficerList = () => {
       setSerialNum(res?.firstSerialNumber);
       setLoading(false);
     });
-  }, [currentPage, dataPerPage, managerValue, searchStr, success, loading]);
+  }, [currentPage, dataPerPage, managerValue, searchStr, success, loading, proValue]);
 
   const managerMenu = managerDD.map((manager) => ({
     label: manager?.name,
@@ -310,6 +310,17 @@ const handleChange = ({ fileList }) => {
     });
   };
 
+  const selectProviders = (label,value) => {
+    setProLabel(label);
+    setProValue(value);
+    get(`AdmissionManagerDD/Index/${value}`).then((res) => {
+      setManagerDD(res);
+      // setUniStateLabel(res.name)
+      // setUniStateValue(res.id)
+      // setUniversityStates(res);
+    });
+  }
+
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
   const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
@@ -368,6 +379,8 @@ const handleChange = ({ fileList }) => {
   const handleClearSearch = () => {
     setManagerLabel("Select Admission Manager");
     setManagerValue(0);
+    setProLabel('Select Provider');
+    setProValue(0);
     setCallApi((prev) => !prev);
     setSearchStr("");
     history.replace({
@@ -457,6 +470,10 @@ const handleChange = ({ fileList }) => {
       managerList: "managerList",
     });
   };
+
+  const redirectToSubjectPage = (data) => {
+    history.push(`/admissionOfficerAssignedSubjects/${data}`);
+  }
 
   // on Close Modal
   const closeModal = () => {
@@ -668,17 +685,32 @@ const handleChange = ({ fileList }) => {
         <CardBody className="search-card-body">
           <Row>
             <Col lg="6" md="6" sm="6" xs="12">
-              <Select
-                options={managerMenu}
-                value={{ label: managerLabel, value: managerValue }}
-                onChange={(opt) => selectManager(opt.label, opt.value)}
+            <Select
+                options={providerMenu}
+                value={{ label: proLabel, value: proValue }}
+                onChange={(opt) => selectProviders(opt.label, opt.value)}
                 name="admissionmanagerId"
                 id="admissionmanagerId"
               />
             </Col>
 
             <Col lg="6" md="6" sm="6" xs="12">
-              <Input
+            <Select
+                options={managerMenu}
+                value={{ label: managerLabel, value: managerValue }}
+                onChange={(opt) => selectManager(opt.label, opt.value)}
+                name="admissionmanagerId"
+                id="admissionmanagerId"
+              />
+              
+            </Col>
+
+            
+          </Row>
+
+          <Row className="mt-3">
+          <Col lg="6" md="6" sm="6" xs="12">
+          <Input
                 style={{ height: "2.7rem" }}
                 type="text"
                 name="search"
@@ -688,6 +720,7 @@ const handleChange = ({ fileList }) => {
                 onChange={searchValue}
                 onKeyDown={handleKeyDown}
               />
+             
             </Col>
           </Row>
 
@@ -1420,7 +1453,18 @@ const handleChange = ({ fileList }) => {
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone No</th> : null}
                     {checkCountry ? <th>Country</th> : null}
+                   {
+                    permissions?.includes(permissionList.View_Admission_Officer_university_List) ?
                     <th>Assigned University</th>
+                    :
+                    null
+                   }
+                    {
+                      permissions?.includes(permissionList?.View_Admissionofficer_Subject_list) ?
+                      <th>Assigned Subject</th>
+                      :
+                      null
+                    }
                    {
                     permissions?.includes(permissionList.Change_Status_AdmissionOfficer) ?
                     <>
@@ -1473,6 +1517,30 @@ const handleChange = ({ fileList }) => {
                             onClick={() =>
                               redirectToAssignPage(
                                 officer?.provider?.id,
+                                officer?.id
+                              )
+                            }
+                            className="text-decoration-none"
+                          >
+                            View
+                          </span>
+                        </span>{" "}
+                      </td>
+                      :
+                      null
+                      }
+                      {
+                        permissions?.includes(permissionList.View_Admissionofficer_Subject_list ) ? 
+                        <td>
+                        {" "}
+                        <span
+                          className="badge badge-secondary"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <span
+                            onClick={() =>
+                              redirectToSubjectPage(
+                                
                                 officer?.id
                               )
                             }

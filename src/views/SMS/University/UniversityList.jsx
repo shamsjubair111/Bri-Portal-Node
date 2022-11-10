@@ -1041,9 +1041,9 @@ const UniversityList = (props) => {
 
                     {checkCountry ? <th>Country</th> : null}
 
-                    {adManager ? <th>Admission Manager</th> : null}
+                    {adManager ? <th>ADM</th> : null}
 
-                    {adOfficer ? <th>Admission Officer</th> : null}
+                    {adOfficer ? <th>ADU</th> : null}
 
                    {
                     permissions?.includes(permissionList.View_UniversityCampus_List) ? 
@@ -1111,10 +1111,10 @@ const UniversityList = (props) => {
                         <td>
                        
 
-                          <Button color="primary"  onClick={() => redirectToAdManagerList(university?.id)}  style={{ cursor: "pointer" }} className='btn-sm'>
+                          <span className='badge badge-secondary'  onClick={() => redirectToAdManagerList(university?.id)}  style={{ cursor: "pointer" }}>
                               View
                           
-                            </Button>
+                            </span>
                         </td>
                       ) : null}
 
@@ -1122,10 +1122,10 @@ const UniversityList = (props) => {
                         <td>
                        
 
-                          <Button color="primary"  onClick={() => redirectToAdOfficerList(university?.id)}  style={{ cursor: "pointer" }} className='btn-sm'>
+                          <span className='badge badge-secondary'   onClick={() => redirectToAdOfficerList(university?.id)}  style={{ cursor: "pointer" }}>
                               View
                           
-                            </Button>
+                            </span>
                         </td>
                       ) : null}
                  

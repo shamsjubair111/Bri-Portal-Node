@@ -93,10 +93,10 @@ const UniversityWiseAdmissionManager = () => {
                     permissions?.includes(permissionList.View_Admissionmanager_Subject_list) ?
                     
                     <td>
-                    <Button color='primary' className='btn-sm' onClick={()=> goToSubjectsList(ad)}>
+                    <span className='badge badge-secondary' style={{cursor: 'pointer'}} onClick={()=> goToSubjectsList(ad)}>
                         View
 
-                    </Button>
+                    </span>
                 
                 </td>
                 :

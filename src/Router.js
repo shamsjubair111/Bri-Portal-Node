@@ -319,6 +319,10 @@ const AdmissionManagerSubjects = lazy(() => import("./views/SMS/Provider/Admissi
 
 const AdmissionOfficerSubjects = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerWiseSubject"))
 
+const AdmissionOfficerAssignedSubjects = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerWiseAssignedSubject"))
+
+const AdmissionManagerAssignedSubjects = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerWiseAssignedSubject"))
+
 // Student
 
 const StudentList = lazy(() => import("./views/SMS/Students/StudentList"))
@@ -536,6 +540,10 @@ class AppRouter extends React.Component {
          <AppRoute  path="/admissionManagerSubjects/:managerId/:universityId" component={permissions?.includes(permissionList.View_Admissionmanager_Subject_list) ? AdmissionManagerSubjects : NotAuthorized } />
 
          <AppRoute  path="/admissionOfficerSubjects/:managerId/:universityId" component={permissions?.includes(permissionList.View_Admissionofficer_Subject_list) ? AdmissionOfficerSubjects : NotAuthorized } />
+
+         <AppRoute  path="/admissionOfficerAssignedSubjects/:officerId" component={permissions?.includes(permissionList.View_Admissionofficer_Subject_list) ? AdmissionOfficerAssignedSubjects : NotAuthorized } />
+
+         <AppRoute  path="/admissionManagerAssignedSubjects/:managerId" component={permissions?.includes(permissionList.View_Admissionmanager_Subject_list) ? AdmissionManagerAssignedSubjects : NotAuthorized } />
 
          {/* admission officer */}
          <AppRoute  path="/admissionOfficerList" component={permissions?.includes(permissionList?. View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />

@@ -567,6 +567,57 @@ const selectNameTitle = (label, value) => {
                 <div>
                   <h5>
                     {" "}
+                    <b>Assigned Subjects</b>{" "}
+                  </h5>
+
+                  <div className="bg-h"></div>
+                </div>
+              </div>
+
+              <div className="table-responsive pt-3">
+                <Table className="table-sm striped" style={tableStyle}>
+                  <thead className="">
+                    <tr style={{ textAlign: "center" }}>
+                      <th>#</th>
+                      <th>Subject</th>
+                      <th>University</th>
+                 
+                     
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {managerData?.assignedSubjects?.map(
+                      (sub, i) => (
+                        <tr key={i} style={{ textAlign: "center" }}>
+                          <th scope="row">{1 + i}</th>
+                          <td>
+                            {sub?.subjectName}
+                          </td>
+
+                          <td>
+                           {sub?.universityShortName} - {sub?.universityFullName}
+                            
+                           
+                          </td>
+
+                      
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+
+        <div className=" info-item mt-4">
+          <Card>
+            <CardBody>
+              <div className="hedding-titel d-flex justify-content-between">
+                <div>
+                  <h5>
+                    {" "}
                     <b>Applications</b>{" "}
                   </h5>
 

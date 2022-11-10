@@ -112,6 +112,7 @@ const AdmissionManagerList = () => {
   const [checkAppli, setCheckAppli] = useState(true);
   const [checkSts, setCheckSts] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [sub,setSub] = useState(true);
 
   const location = useLocation();
   const history = useHistory();
@@ -310,6 +311,10 @@ const AdmissionManagerList = () => {
       managerList: "managerList",
     });
   };
+
+  const redirectToSub = (data) => {
+    history.push(`/admissionManagerAssignedSubjects/${data}`);
+  }
 
   const handleViewAdmissionManager = (managerId, providerId) => {
     history.push({
@@ -522,6 +527,9 @@ const AdmissionManagerList = () => {
   };
   const handleCheckedAssign = (e) => {
     setCheckAssign(e.target.checked);
+  };
+  const handleCheckedSub = (e) => {
+    setSub(e.target.checked);
   };
   const handleCheckedAppli = (e) => {
     setCheckAppli(e.target.checked);
@@ -1163,7 +1171,7 @@ const AdmissionManagerList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Assigned university</p>
+                          <p className="">Assigned University</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -1175,6 +1183,25 @@ const AdmissionManagerList = () => {
                                 handleCheckedAssign(e);
                               }}
                               defaultChecked={checkAssign}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Assigned Subject</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSub(e);
+                              }}
+                              defaultChecked={sub}
                             />
                           </FormGroup>
                         </Col>
@@ -1271,6 +1298,14 @@ const AdmissionManagerList = () => {
                       :
                       null
                     }
+                    {
+                      permissions?.includes(permissionList?.View_Admissionmanager_Subject_list) ?
+                      <>
+                      {sub ? <th>Assigned Subject</th> : null}
+                      </>
+                      :
+                      null
+                    }
                     {checkAppli ? <th>Applications</th> : null}
                     {
                       permissions?.includes(permissionList?.Change_Status_Admissionmanager)?
@@ -1320,6 +1355,34 @@ const AdmissionManagerList = () => {
                               onClick={() =>
                                 redirectToAssignPage(
                                   manager?.provider?.id,
+                                  manager?.id
+                                )
+                              }
+                              className="text-decoration-none"
+                            >
+                              View
+                            </span>
+                          </span>{" "}
+                        </td>
+                      ) : null}
+                      </>
+                      :
+                      null
+                      }
+                      {
+                      permissions?.includes(permissionList?.View_Admissionmanager_Subject_list) ?
+                      <>
+                      {sub ? (
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span
+                              onClick={() =>
+                                redirectToSub(
+                                  
                                   manager?.id
                                 )
                               }

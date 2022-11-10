@@ -489,6 +489,8 @@ const ApplicationsCommon = () => {
     setCommonStdLabel("Name");
     setCommonStdValue(0);
     setApplicationId(0);
+    document.getElementById('app').placeholder ='Application Id';
+    document.getElementById('app').value = null;
     // setLoading(true);
   };
 
@@ -708,6 +710,7 @@ const ApplicationsCommon = () => {
               style={{height: '38px'}}
               placeholder='Application Id'
               type='text'
+              id='app'
               onChange={(e)=>setApplicationId(e.target.value)}
               />
               
