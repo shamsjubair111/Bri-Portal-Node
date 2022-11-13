@@ -296,7 +296,8 @@ const AssignUniversity = lazy(() => import("./views/SMS/Provider/AssignUniversit
 const AssignOfficerUniversity = lazy(() => import("./views/SMS/AdmissionOfficer/AssignOfficerUniversity"))
 const UpdateProvider = lazy(() => import("./views/SMS/Provider/UpdateProvider"))
 const Branch = lazy(() => import("./views/SMS/Branches/Branch/Branch"))
-const BranchManager = lazy(() => import("./views/SMS/Branches//Manager/BranchManager"))
+const BranchManager = lazy(() => import("./views/SMS/Branches/Manager/BranchManager"))
+const AddBranchManager = lazy(() => import("./views/SMS/Branches/Manager/AddBranchManager"))
 const UpdateBranch = lazy(() => import("./views/SMS/Branches/Branch/UpdateBranch"))
 const BranchList = lazy(() => import("./views/SMS/Branches/Branch/BranchList"))
 const UpdateBranchManager = lazy(() => import("./views/SMS/Branches/Manager/UpdateBranchManager"))
@@ -304,6 +305,8 @@ const BranchProfile = lazy(() => import("./views/SMS/Branches/Branch/BranchProfi
 const BranchEmployee = lazy(() => import("./views/SMS/Branches/Employee/BranchEmployee"))
 const BranchManagerInformation = lazy(() => import("./views/SMS/Branches/BranchManager/BranchManagerInformation"))
 const BranchTeamEmployeeInformation = lazy(() => import("./views/SMS/Branches/BranchManager/BranchTeamEmployeeInformation"))
+
+const BranchConsultantRegistration = lazy(() => import("./views/SMS/Branches/BranchConsultant/BranchConsultantRegistration"))
 
 // Admission Manager
 
@@ -616,9 +619,15 @@ class AppRouter extends React.Component {
           <AppRoute  path="/consultantProfile/:id" component={permissions?.includes(permissionList?.View_Consultant_info)? ConsultantProfile : NotAuthorized} />
           <AppRoute  path="/addConsultant" component={permissions?.includes(permissionList?.Add_New_Consultant) ? AddConsultant : NotAuthorized} />
 
+          {/* Branch consultant */}
+          <AppRoute  path="/addBranchConsultant/:branchId" component={permissions?.includes(permissionList?.Add_New_Consultant) ? BranchConsultantRegistration : NotAuthorized} />
+          
+          
+          
+          
+
           {/* permission not added */}
           <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.View_Consultant_type_List) ? AddConsultantType : NotAuthorized} />
-          
           <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? BankDetails : NotAuthorized } />
           <AppRoute  path="/consultantCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.View_ConsultantCommissionGroup_List)? ConsultantCommission : NotAuthorized} />
           <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? AddConsultantInformation : NotAuthorized } />
@@ -738,6 +747,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider_info)? UpdateProvider : NotAuthorized} />
          <AppRoute  path="/branchInformation/:branchId?" component={permissions?.includes(permissionList?.Add_New_Branch)? Branch : NotAuthorized} />
          <AppRoute  path="/addBranchManager/:branchId" component={permissions?.includes(permissionList?.Add_New_Branch_Manager)? BranchManager : NotAuthorized} />
+         <AppRoute  path="/branchManager/:branchId" component={permissions?.includes(permissionList?.Add_New_Branch_Manager)? AddBranchManager : NotAuthorized} />
          <AppRoute  path="/branchEmployeeInformation/:branchId/:employeeId?" component={permissions?.includes(permissionList?.Add_New_Branch_Employee)? BranchEmployee : NotAuthorized} />
          {/* <AppRoute path="/updateBranch/:id" component={UpdateBranch} /> */}
          <AppRoute  path="/branchList" component={permissions?.includes(permissionList?.View_Branch_List)? BranchList : NotAuthorized} />
@@ -847,7 +857,7 @@ class AppRouter extends React.Component {
            <AppRoute  path="/studentEducation/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentEducationForm : NotAuthorized} />
            <AppRoute  path="/studentTestScore/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentTestScoreForm : NotAuthorized} />
            <AppRoute  path="/studentExperience/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentExperienceForm : NotAuthorized} />
-           <AppRoute  path="/studentReference/:id" component={permissions?.includes(permissions.Add_New_Student) ? StudentReferenceForm : NotAuthorized} />
+           <AppRoute  path="/studentReference/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentReferenceForm : NotAuthorized} />
            <AppRoute  path="/studentPersonalStatement/:idVal" component={permissions?.includes(permissionList.Add_New_Student) ? StudentPersonalStatementForm : NotAuthorized} />
            <AppRoute  path="/studentOtherInformation/:idVal" component={permissions?.includes(permissionList.Add_New_Student) ? StudentOtherInformationForm : NotAuthorized} />
            <AppRoute  path="/studentDeclarations/:idVal" component={permissions?.includes(permissionList.Add_New_student_consent) ? StudentDeclarationForm : NotAuthorized} />

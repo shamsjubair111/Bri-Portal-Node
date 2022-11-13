@@ -1043,7 +1043,7 @@ const UniversityList = (props) => {
 
                     {adManager ? <th>ADM</th> : null}
 
-                    {adOfficer ? <th>ADU</th> : null}
+                    {adOfficer ? <th>ADO</th> : null}
 
                    {
                     permissions?.includes(permissionList.View_UniversityCampus_List) ? 

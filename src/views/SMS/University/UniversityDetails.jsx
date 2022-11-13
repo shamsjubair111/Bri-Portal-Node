@@ -2580,8 +2580,13 @@ const UniversityDetails = () => {
             {universityInfo?.contractTypeId !== 1 ? (
               <>
                 {userType == userTypes?.SystemAdmin ? (
-                  <Card className="uapp-employee-profile-right">
-                    <div className="uapp-profile-CardHeader">
+                  <Card className="uapp-employee-profile-right1">
+                    <div 
+                    style={{
+                      borderTopLeftRadius: "7px",
+                      borderTopRightRadius: "7px",
+                    }}
+                    className="uapp-profile-CardHeader">
                       <div className="uapp-circle-image margin-top-minus">
                         {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
                         null ? (
@@ -2618,8 +2623,13 @@ const UniversityDetails = () => {
               </>
             ) : (
               <>
-                <Card className="uapp-employee-profile-right">
-                  <div className="uapp-profile-CardHeader">
+                <Card className="uapp-employee-profile-right1">
+                  <div 
+                    style={{
+                      borderTopLeftRadius: "7px",
+                      borderTopRightRadius: "7px",
+                    }} 
+                  className="uapp-profile-CardHeader">
                     <div className="uapp-circle-image margin-top-minus">
                       {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
                       null ? (

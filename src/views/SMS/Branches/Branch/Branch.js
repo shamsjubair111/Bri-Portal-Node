@@ -192,7 +192,7 @@ const Branch = () => {
           },
         }).then((res) => {
         
-          
+          console.log("branchInfo", res);
           setButtoStatus(false);
           if (res?.status === 200 && res?.data?.isSuccess === true) {
             setSubmitData(true);
@@ -201,7 +201,9 @@ const Branch = () => {
                 autoDismiss: true,
               })
           
-            history.push("/branchList");
+            // history.push("/branchList");
+            // history.push(`/addBranchConsultant/${res?.data?.result?.id}`);
+            history.push(`/branchManager/${res?.data?.result?.id}`);
           }
         });
       }

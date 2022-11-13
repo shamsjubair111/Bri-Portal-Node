@@ -311,6 +311,8 @@ const handleChange = ({ fileList }) => {
   };
 
   const selectProviders = (label,value) => {
+    setManagerLabel("Select Admission Manager");
+    setManagerValue(0);
     setProLabel(label);
     setProValue(value);
     get(`AdmissionManagerDD/Index/${value}`).then((res) => {

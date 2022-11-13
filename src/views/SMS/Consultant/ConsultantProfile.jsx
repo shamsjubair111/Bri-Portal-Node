@@ -1116,8 +1116,12 @@ const ConsultantProfile = () => {
 
 
           <Col md="4"> 
-           <Card className="uapp-employee-profile-right">
-             <div className="uapp-profile-CardHeader">
+           <Card className="uapp-employee-profile-right1">
+             <div style={{
+                borderTopLeftRadius: "7px",
+                borderTopRightRadius: "7px",
+              }}
+               className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
                      
                       {

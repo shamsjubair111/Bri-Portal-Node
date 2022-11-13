@@ -511,7 +511,7 @@ const StudentProfile = () => {
 
             <div className='d-flex align-items-center'>
               <div className='mt-1'>
-                <h3 className="text-white">Student Profile After Merging</h3>
+                <h3 className="text-white">Student Profile</h3>
               </div>
               <div className='ml-2'>
               <ReactToPrint
@@ -1841,8 +1841,13 @@ const StudentProfile = () => {
 
 
             <Col md="4"> 
-             <Card className="uapp-employee-profile-right">
-               <div className="uapp-profile-CardHeader">
+             <Card className="uapp-employee-profile-right1">
+               <div 
+               style={{
+                borderTopLeftRadius: "7px",
+                borderTopRightRadius: "7px",
+              }}
+               className="uapp-profile-CardHeader">
                   <div className="uapp-circle-image margin-top-minus">
                     <img src={rootUrl+studentDetails?.consultant?.consultantProfileImageMedia?.thumbnailUrl} alt="consultant_photo"/>
                   </div>    

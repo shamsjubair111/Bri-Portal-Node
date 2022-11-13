@@ -26,6 +26,7 @@ import post from "../../../../helpers/post";
 import put from "../../../../helpers/put";
 import remove from "../../../../helpers/remove";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
+import { rootUrl } from "../../../../constants/constants";
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -427,9 +428,11 @@ const selectNameTitle = (label, value) => {
       <div className="uapp-employee-profile">
         <Card className="uapp-employee-profile-right">
           <div className="uapp-profile-CardHeader">
-            {/* <div className="uapp-circle-image margin-top-minus">
-                  <img  alt='provider_image' />
-                </div>     */}
+            <div className="uapp-circle-image margin-top-minus">
+            <img className="empProfileImg"  src={
+                      rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl
+                    } alt="admissionManager"/>
+                </div>    
             <div className="py-3">
               <h5 className="py-1">
                 Name:{" "}
