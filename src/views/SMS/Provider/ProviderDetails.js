@@ -565,7 +565,7 @@ const ProviderDetails = () => {
                     } alt="provider_profile"/>
                        {
                         permissions?.includes(permissionList.Change_Provider_LogoImage) ?
-                        <div class="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                        <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
                         :
                         null
                        }
@@ -826,7 +826,7 @@ const ProviderDetails = () => {
                 <Link to={`/addAdmissionManager/${id}`}>
                   <Button className="btn btn-uapp-add mt-2 ml-3">
                     {" "}
-                    <i class="fas fa-plus"></i> Add Admission Manager{" "}
+                    <i className="fas fa-plus"></i> Add Admission Manager{" "}
                   </Button>
                 </Link>
               ) : null}
