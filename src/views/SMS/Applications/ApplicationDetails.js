@@ -199,12 +199,13 @@ const ApplicationDetails = () => {
     .then(res => {
       setGMatResult(res?.gmatScoreInfo);
       setGreResult(res?.greScoreInfo);
+      console.log("gre&gmat", res);
     })
 
     get(`Ielts/Index/${stdId}`).then(
       (res) => {
         setIelts(res);
-        
+        console.log("ielts", res);
       }
     );
 
@@ -3021,7 +3022,9 @@ const ApplicationDetails = () => {
                   </div> */}
                     </div>
 
-                    <Table className="table-bordered mt-4">
+                    {
+                      studentProInfo?.studentContactInfos?.addressLine ?
+                      <Table className="table-bordered mt-4">
                       <tbody>
                         <tr>
                           <td width="40%">
@@ -3074,6 +3077,11 @@ const ApplicationDetails = () => {
                         </tr>
                       </tbody>
                     </Table>
+                    :
+                    <span>Correspondence address is not added.</span>
+                    }
+
+                    
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
@@ -3135,8 +3143,12 @@ const ApplicationDetails = () => {
                         </tbody>
                       </Table>
                     ) : (
-                      <Table className="table-bordered mt-4">
-                        <tbody>
+                      <>
+                        {
+                          studentProInfo?.educationInfos
+                          ?.educationLevelName ?
+                          <Table className="table-bordered mt-4">
+                          <tbody>
                           <tr>
                             <td width="40%">
                               <b>Qualification Level:</b>
@@ -3229,7 +3241,13 @@ const ApplicationDetails = () => {
                             </td>
                           </tr>
                         </tbody>
-                      </Table>
+                        </Table>
+                        :
+                        <div>
+                        Education/Qualification is not added.
+                      </div>
+                        }
+                      </>
                     )}
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
@@ -3244,66 +3262,81 @@ const ApplicationDetails = () => {
                     </div>
 
                     {/* Test Score Data */}
-                    <div className=" row">
+                    {
+                      greResult || greResult || ielts?.id || duolingo?.id || toefl?.id || functions?.id || gcse?.id || pearson?.id || others?.id || pte?.id ?
+                      <div className=" row">
 
-<div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
+{
+  greResult ?
+  <div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
 
 
-<Card>
-  <CardBody>
-  <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">GRE Score</h5>
+  <Card>
+    <CardBody>
+    <div className="d-flex justify-content-between">
+            <h5 className="test-score-title-style2">GRE Score</h5>
+            
           
-        
-                
-       
-        </div>
-
-  <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
-  <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
-  <h6>Verbal Score: {greResult?.verbalScore}</h6>
-  <h6>Verbal Rank: {greResult?.verbalRank}</h6>
-  <h6>Writing Score: {greResult?.writingScore}</h6>
-  <h6>Writing Rank: {greResult?.writingRank}</h6>
-
-  </CardBody>
-</Card>
- 
-</div>
-
-<div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
-
-
-<Card>
-  <CardBody>
-  <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">GMAT Score</h5>
-          
-        
-                
-       
-        </div>
- 
-
-<h6>Quantitative Score: {gMatResult?.quantitativeScore}</h6>
-<h6>Quantitative Rank: {gMatResult?.quantitativeRank}</h6>
-<h6>Verbal Score: {gMatResult?.verbalScore}</h6>
-<h6>Verbal Rank: {gMatResult?.verbalRank}</h6>
-<h6>Total Score: {gMatResult?.totalScore}</h6>
-<h6>Total Rank: {gMatResult?.totalRank}</h6>
-<h6>Writing Score: {gMatResult?.writingScore}</h6>
-<h6>Writing Rank: {gMatResult?.writingRank}</h6>
-
-  </CardBody>
-</Card>
+                  
+         
+          </div>
+  
+    <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
+    <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
+    <h6>Verbal Score: {greResult?.verbalScore}</h6>
+    <h6>Verbal Rank: {greResult?.verbalRank}</h6>
+    <h6>Writing Score: {greResult?.writingScore}</h6>
+    <h6>Writing Rank: {greResult?.writingRank}</h6>
+  
+    </CardBody>
+  </Card>
    
+  </div>
+  :
+  null
+}
 
-</div>
+{
+  gMatResult ?
+  <div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
+
+
+  <Card>
+    <CardBody>
+    <div className="d-flex justify-content-between">
+            <h5 className="test-score-title-style2">GMAT Score</h5>
+            
+          
+                  
+         
+          </div>
+   
+  
+  <h6>Quantitative Score: {gMatResult?.quantitativeScore}</h6>
+  <h6>Quantitative Rank: {gMatResult?.quantitativeRank}</h6>
+  <h6>Verbal Score: {gMatResult?.verbalScore}</h6>
+  <h6>Verbal Rank: {gMatResult?.verbalRank}</h6>
+  <h6>Total Score: {gMatResult?.totalScore}</h6>
+  <h6>Total Rank: {gMatResult?.totalRank}</h6>
+  <h6>Writing Score: {gMatResult?.writingScore}</h6>
+  <h6>Writing Rank: {gMatResult?.writingRank}</h6>
+  
+    </CardBody>
+  </Card>
+     
+  
+  </div>
+  :
+  null
+}
 
               {/* English Test Scores */}
 
   
 </div>
+:
+<span>Test score is not added.</span>
+                    }
 
 <div className="row mt-3">
 
@@ -3591,7 +3624,9 @@ const ApplicationDetails = () => {
                   </div> */}
                     </div>
 
-                    <Table className="table-bordered mt-4">
+                    {
+                      studentProInfo?.experienceinfo?.companyName ?
+                      <Table className="table-bordered mt-4">
                       <tbody>
                         <tr>
                           <td width="40%">
@@ -3649,14 +3684,25 @@ const ApplicationDetails = () => {
                             </td>
 
                             <td width="60%">
-                              {handleDate(
+                              {
+                                studentProInfo?.experienceinfo?.endDate !== null ?
+                                handleDate(
+                                  studentProInfo?.experienceinfo?.endDate
+                                )
+                                :
+                                null
+                              }
+                              {/* {handleDate(
                                 studentProInfo?.experienceinfo?.endDate
-                              )}
+                              )} */}
                             </td>
                           </tr>
                         )}
                       </tbody>
                     </Table>
+                    :
+                    <span>Employment history is not added.</span>
+                    }
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
@@ -3672,8 +3718,11 @@ const ApplicationDetails = () => {
                   </div> */}
                     </div>
 
-                    <Table className="table-bordered mt-4">
-                      <tbody>
+                    
+                      {
+                        studentProInfo?.referenceInfo?.referenceName ?
+                        <Table className="table-bordered mt-4">
+                        <tbody>
                         <tr>
                           <td width="40%">
                             <b>Reference Name:</b>
@@ -3756,7 +3805,15 @@ const ApplicationDetails = () => {
                           </td>
                         </tr>
                       </tbody>
-                    </Table>
+                      </Table>
+                      :
+                      <span
+                      >
+                        Reference information is not added.
+                      </span>
+                      }
+                      
+                    
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
@@ -3771,7 +3828,7 @@ const ApplicationDetails = () => {
                     <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                   </div> */}
                     </div>
-                    {studentProInfo?.profilePersonalStatement ? (
+                    {studentProInfo?.profilePersonalStatement?.statement ? (
                       <div
                         className="container py-3"
                         style={{ border: "1px solid rgb(222, 226, 230)" }}
@@ -3780,10 +3837,10 @@ const ApplicationDetails = () => {
                       </div>
                     ) : (
                       <div
-                        className="container"
-                        style={{ border: "1px solid rgb(222, 226, 230)" }}
+                        className=""
+                        // style={{ border: "1px solid rgb(222, 226, 230)" }}
                       >
-                        Statement is not available.
+                        Personal statement is not added.
                       </div>
                     )}
 
@@ -3955,21 +4012,21 @@ const ApplicationDetails = () => {
                 </div>
                 <div>
                   <div className="uapp-circle-image margin-top-minus">
-                    {/* {universityInfo?.provider?.providerLogoMedia?.fileUrl ==
+                    {/* {applicationInfo?.admissionManager?.admissionManagerMedia?.fileUrl ==
                   null ? (
                     <img src={profileImage} alt="provider_img" />
                   ) : ( */}
 
-                    {/* <img
+                     <img
                       src={
                         rootUrl +
-                        applicationInfo?.admissionManager?.providerLogoMedia
-                          ?.fileUrl
+                        applicationInfo?.admissionManager?.admissionManagerMedia
+                          ?.thumbnailUrl
                       }
                       alt="admission_manager_img"
-                    /> */}
+                    /> 
 
-                    {/* )} */}
+                     {/* )} */}
                   </div>
                 </div>
               </div>
