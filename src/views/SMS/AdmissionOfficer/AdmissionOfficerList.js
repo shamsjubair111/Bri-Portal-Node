@@ -1345,12 +1345,12 @@ const handleChange = ({ fileList }) => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="3">
                     <span>
-                      Image <span className="text-danger">*</span>{" "}
+                      Image
                     </span>
                   </Col>
                   <Col md="6">
                   <div className="row">
-                  {officerObj?.admissionOfficerMedia?.fileUrl !== null ? (
+                  {(officerObj?.id) ? (
                         <div className="col-md-3 mr-3">
                           <Image
                           

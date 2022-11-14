@@ -27,6 +27,8 @@ import put from "../../../../helpers/put";
 import remove from "../../../../helpers/remove";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
 import { rootUrl } from "../../../../constants/constants";
+import { Image, Upload } from "antd";
+import * as Icon from "react-feather";
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -83,6 +85,14 @@ const AdmissionManagerProfile = () => {
   const { addToast } = useToasts();
   const [buttonStatus,setButtonStatus] = useState(false);
 
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [FileList, setFileList] = useState([]);
+  const [proLabel,setProLabel] = useState('Select Provider');
+  const [proValue,setProValue] = useState(0);
+  const [error,setError] = useState(false);
+
   const tableStyle = {
     overflowX: "scroll",
   };
@@ -127,6 +137,47 @@ const AdmissionManagerProfile = () => {
     });
   }, [managerId, success, providerId]);
 
+  // Trial start
+
+ function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
+const handleCancel = () => {
+  setPreviewVisible(false);
+};
+
+const handlePreview = async (file) => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
+  }
+
+  setPreviewImage(file.url || file.preview);
+  setPreviewVisible(true);
+  setPreviewTitle(
+    file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+  );
+};
+
+const handleChange = ({ fileList }) => {
+  
+ 
+  if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    setFileList([]);
+    setError('Only jpeg, jpg, png image is allowed');
+  }
+  else{
+    setFileList(fileList);
+    setError('');
+  
+  }
+};
+
   const handlRedirectToApplicationDetails = (applicationId, studentId) => {
     history.push({
       pathname: `/applicationDetails/${applicationId}/${studentId}`,
@@ -169,10 +220,9 @@ const AdmissionManagerProfile = () => {
   const handleSubmit = event =>{
     event.preventDefault();
     const subdata = new FormData(event.target);
+    subdata.append('admissionOfficerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
-    for(var i of subdata){
-        console.log(i);
-    }
+  
 
     if(nameTitleValue === 0){
       setNameTitleError(true);
@@ -1049,6 +1099,72 @@ const selectNameTitle = (label, value) => {
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>
+                      Image 
+                    </span>
+                  </Col>
+                  <Col md="6">
+                  <div className="row">
+                  {(officerObj?.id)  ? 
+                        <div className="col-md-3 mr-3">
+                       
+                          <Image
+                          
+                            width={104}
+                            height={104}
+                            src={rootUrl + officerObj?.admissionOfficerMedia?.fileUrl}
+                          />
+                         
+                        </div>
+                           : null}
+                     
+                    
+                    <div className="col-md-3">
+                      <>
+                        <Upload
+                          listType="picture-card"
+                          multiple={false}
+                          fileList={FileList}
+                          onPreview={handlePreview}
+                          onChange={handleChange}
+                          beforeUpload={(file) => {
+                            return false;
+                          }}
+                        >
+                          {FileList.length < 1 ? (
+                            <div
+                              className="text-danger"
+                              style={{ marginTop: 8 }}
+                            >
+                              <Icon.Upload />
+                              <br />
+                              <span>Upload Image Here</span>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </Upload>
+                        <Modal
+                          visible={previewVisible}
+                          title={previewTitle}
+                          footer={null}
+                          onCancel={handleCancel}
+                        >
+                          <img
+                            alt="example"
+                            style={{ width: "100%" }}
+                            src={previewImage}
+                          />
+                        </Modal>
+                         <span className="text-danger d-block">{error}</span>
+                      </>
+                    </div>
+                  </div>
                   </Col>
                 </FormGroup>
 

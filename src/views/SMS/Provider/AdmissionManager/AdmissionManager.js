@@ -520,7 +520,7 @@ const goBack = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span className='pl-2'>
-                       Image {' '}<span className='text-danger'>*</span>
+                       Image
                     </span>
                   </Col>
                   <Col md="4">
