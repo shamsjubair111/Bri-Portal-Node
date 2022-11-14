@@ -41,6 +41,7 @@ const ProviderDetails = () => {
   const [providerId, setProviderId] = useState(0);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal2, setDeleteModal2] = useState(false);
   const [success, setSuccess] = useState(false);
   const { addToast } = useToasts();
   const [deleteData, setDeleteData] = useState({});
@@ -98,6 +99,9 @@ const ProviderDetails = () => {
   const [FileList1, setFileList1] = useState([]);
   const [error1, setError1] = useState(false);
   const [text1, setText1] = useState('');
+  const [delData2,setDelData2] = useState(false);
+
+  const [officer,setOfficer] = useState({});
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -119,7 +123,7 @@ const ProviderDetails = () => {
         uTypeId ? uTypeId : uniTypeValue
       }&search=${searchStr}`
     ).then((action) => {
-      console.log("unilist", action?.models);
+     
       setUniversityList(action?.models);
       setLoading(false);
       setEntity(action?.totalEntity);
@@ -131,7 +135,7 @@ const ProviderDetails = () => {
     });
 
     get(`ProviderAdmin/GetbyProvider/${id}`).then((res) => {
-      console.log('providerAdminInfo',res);
+      
       
       setAdminData(res);
       setTitleLabel(res?.nameTittle?.name);
@@ -141,6 +145,12 @@ const ProviderDetails = () => {
     get("NameTittle/GetAll").then((res) => {
       setTitle(res);
     });
+
+    get(`AdmissionOfficer/GetByProvider/${id}`)
+    .then(res => {
+      
+      setOfficer(res);
+    })
   }, [
     currentPage,
     dataPerPage,
@@ -216,6 +226,18 @@ const ProviderDetails = () => {
     setDeleteData(manager);
     setDeleteModal(true);
   };
+  const closeDeleteModal2 = () => {
+    setDeleteModal2(false);
+  
+    setDeleteData({});
+  };
+
+  const toggleDelete2 = (data) => {
+    
+    
+    setDelData2(data);
+    setDeleteModal2(true);
+  };
 
   const handleDelete = () => {
     remove(`AdmissionManager/Delete/${deleteData?.id}`).then((res) => {
@@ -228,6 +250,22 @@ const ProviderDetails = () => {
       setManagerId(0);
       setManagerName('');
       setSuccess(!success);
+    });
+  };
+
+  const handleDelete2 = () => {
+    setButtonStatus(true);
+    remove(`AdmissionOfficer/Delete/${delData2?.id}`).then((res) => {
+      addToast(res, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setDelData2({});
+      setDeleteModal2(false);
+     
+     
+      setSuccess(!success);
+      setButtonStatus(false);
     });
   };
 
@@ -247,6 +285,11 @@ const ProviderDetails = () => {
     history.push(`/updateAdmissionManager/${ids}/${id}`);
   };
 
+  const updateAdmissionOfficer = (data) => {
+    
+    history.push(`/updateAdmissionOfficer/${data?.id}/${id}`);
+  };
+
   // on Close Modal
   const closeModal = () => {
     setModalOpen(false);
@@ -263,9 +306,7 @@ const ProviderDetails = () => {
 
     subData.append("providerAdmin", FileList[0]?.originFileObj);
 
-    // for(var x of subData.values()){
-    //     console.log(x);
-    // }
+    
     setButtonStatus(true);
 
     put(`ProviderAdmin/Update`, subData).then((res) => {
@@ -365,9 +406,7 @@ const ProviderDetails = () => {
   
     subData.append("providerLogo", FileList1[0]?.originFileObj);
   
-    // for(var x of subData.values()){
-    //     console.log(x);
-    // }
+    
     setButtonStatus1(true);
   
     if (FileList1.length < 1) {
@@ -855,7 +894,7 @@ const ProviderDetails = () => {
                       {admissionManager?.map((manager, i) => (
                         <tr key={manager.id} style={{ textAlign: "center" }}>
                           <td>
-                            <span className="me-1">{manager?.firstName}</span>
+                            <span className="me-1">{manager?.firstName}{' '}</span>
                             {manager?.lastName}
                           </td>
                           <td>{manager?.email}</td>
@@ -945,7 +984,109 @@ const ProviderDetails = () => {
                                 <Button color="danger" onClick={handleDelete}>
                                   YES
                                 </Button>
-                                <Button color="primary" onClick={closeDeleteModal}>NO</Button>
+                                <Button color="secondary" onClick={closeDeleteModal}>NO</Button>
+                              </ModalFooter>
+                            </Modal>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
+              )}
+            </Card>
+
+            <Card className="p-3">
+            <div className="ms-3 mb-4 hedding-titel">
+                <h5> <b>Admission Officer</b> </h5>
+                 
+                <div className="bg-h"></div>
+                </div>
+
+              {/* {permissions?.includes(permissionList?.Add_New_Admissionofficer) ? (
+                <Link to={`/addAdmissionManager/${id}`}>
+                  <Button className="btn btn-uapp-add mt-2 ml-3">
+                    {" "}
+                    <i class="fas fa-plus"></i> Add Admission Officer{" "}
+                  </Button>
+                 </Link>
+              ) : null} */}
+
+              {officer.length < 1 && (
+                <h5 className="text-center mt-3 mb-4">
+                  Admission Officer Not Found.
+                </h5>
+              )}
+              {officer.length > 0 && (
+                <div className="table-responsive container mt-3">
+                  <Table className="table-sm table-bordered">
+                    <thead className="thead-uapp-bg">
+                      <tr style={{ textAlign: "center" }}>
+                        <th>Name</th>
+                        <th>Email</th>
+                      
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {officer?.map((off, i) => (
+                        <tr key={i} style={{ textAlign: "center" }}>
+                          <td>
+                            <span className="me-1">{off?.firstName}{' '}</span>
+                            {off?.lastName}
+                          </td>
+                          <td>{off?.email}</td>
+                         
+                          <td>
+                            <ButtonGroup>
+                          
+
+                            
+                          
+                            {permissions?.includes(
+                              permissionList?.Update_Admissionofficer_info
+                            ) ? (
+                             
+
+                            <ButtonForFunction
+                              func={()=>updateAdmissionOfficer(off)}
+                              className={"mx-1 btn-sm"}
+                              color = {"warning"}
+                              icon={<i className="fas fa-edit"></i>} 
+                            />
+
+                            ) : null}
+
+                            {permissions?.includes(
+                              permissionList?.Delete_Admissionofficer
+                            ) ? (
+                              <Button color="danger" className="mx-1 btn-sm">
+                              <i
+                                className="fas fa-trash-alt"
+                                onClick={() => toggleDelete2(off)}
+                              ></i>
+                              </Button>
+                            ) : null}
+
+                            </ButtonGroup>
+
+                            <Modal
+                              isOpen={deleteModal2}
+                              toggle={closeDeleteModal2}
+                              className="uapp-modal2"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are You Sure to Delete this <b>{delData2?.firstName} {' '} {delData2?.lastName}</b> ? Once Deleted it
+                                  can't be Undone!
+                                </p>
+                              </ModalBody>
+
+                              <ModalFooter>
+                                <Button color="danger" onClick={handleDelete2} disabled={buttonStatus}>
+                                  YES
+                                </Button>
+                                <Button color="secondary" onClick={closeDeleteModal2}>NO</Button>
                               </ModalFooter>
                             </Modal>
                           </td>

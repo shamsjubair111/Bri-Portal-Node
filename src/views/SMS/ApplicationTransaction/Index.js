@@ -64,6 +64,19 @@ const Index = () => {
 
     const [data, setData] = useState([]);
    
+    const [serials,setSerials] = useState(true);
+    const [ids,setIds] = useState(true);
+    const [intakes,setIntakes] = useState(true);
+    const [consultants,setConsultants] = useState(true);
+    const [students,setStudents] = useState(true);
+    const [universities,setUniversities] = useState(true);
+    const [subjects,setSubjects] = useState(true);
+    const [ranges,setRanges] = useState(true);
+    const [amounts,setAmounts] = useState(true);
+    const [statuses,setStatuses] = useState(true);
+    const [dates,setDates] = useState(true);
+    const [statuses2,setStatuses2] = useState(true);
+    const [actions,setActions] = useState(true);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [callApi, setCallApi] = useState(false);
@@ -173,19 +186,77 @@ const Index = () => {
     consultantValue,
   ]);
 
+  const handleSerials = (e) => {
+    setSerials(e.target.checked);
+  }
+
+  const handleIds = (e) => {
+    setIds(e.target.checked);
+  }
+
   const backToDashboard = () => {
     history.push("/");
   };
+
+  const handleIntakes = (e) => {
+    setIntakes(e.target.checked);
+  }
+
+  const handleConsultants = (e) => {
+    setConsultants(e.target.checked);
+  }
+
+  const handleStudents = (e) => {
+    setStudents(e.target.checked);
+  }
+
+  const handleUniversities = (e) => {
+    
+    setUniversities(e.target.checked);
+  }
+
+  const handleSubjects = (e) => {
+    setSubjects(e.target.checked);
+  }
+
+  const handleRanges = (e) => {
+    setRanges(e.target.checked);
+  }
+
+  const handleAmounts = (e) =>{
+    setAmounts(e.target.checked);
+  }
+
+  const handleStatuses  = (e) => {
+    setStatuses(e.target.checked);
+  }
+
+  const handleDates = (e) => {
+    setDates(e.target.checked);
+  }
+
+  const handleStatuses2 = (e) => {
+    setStatuses2(e.target.checked);
+  }
+
+  const handleActions = (e) => {
+    setActions(e.target.checked);
+  }
+
 
   const studentOptions = student?.map((std) => ({
     label: std?.name,
     value: std?.id,
   }));
 
+
+ 
+
   const selectStudent = (label, value) => {
     setStudentLabel(label);
     setStudentValue(value);
   };
+  
 
   const consultantOptions = consultant?.map((con) => ({
     label: con?.name,
@@ -372,7 +443,7 @@ const Index = () => {
                   </Dropdown>
                 </div>
 
-                {/* <div className="mr-3">
+                <div className="">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -382,27 +453,264 @@ const Index = () => {
                     <DropdownToggle caret>
                       <i className="fas fa-bars"></i>
                     </DropdownToggle>
-                    <DropdownMenu className="bg-dd">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="text-white cursor-pointer">
-                          <p onClick={handleExportXLSX}>
-                            <i className="fas fa-file-excel"></i>
-                          </p>
-                        </div>
-                        <div className="text-white cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
+                    <DropdownMenu className="bg-dd-1">
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">SL/NO</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleSerials(e);
+                              }}
+                              checked={serials}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleIds(e);
+                              }}
+                              checked={ids}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Intake</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleIntakes(e);
+                              }}
+                              checked={intakes}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Consultant</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleConsultants(e);
+                              }}
+                              checked={consultants}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Student</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleStudents(e);
+                              }}
+                              checked={students}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">University</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleUniversities(e);
+                              }}
+                              checked={universities}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Subject</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleSubjects(e);
+                              }}
+                              checked={subjects}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Intake Range</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleRanges(e);
+                              }}
+                              checked={ranges}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Amount</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleAmounts(e);
+                              }}
+                              checked={amounts}
+                              disabled={buttonStatus}
+                            />
+
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Registation Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleStatuses(e);
+                              }}
+                              checked={statuses}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Transaction Date</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleDates(e);
+                              }}
+                              checked={dates}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleStatuses2(e);
+                              }}
+                              checked={statuses2}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Action</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleActions(e);
+                              }}
+                              checked={actions}
+                            />
+                          </FormGroup>
+                        </Col>
                       </div>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
+
+
+
+               
               </div>
             </Col>
           </Row>
@@ -410,40 +718,41 @@ const Index = () => {
           <Table id="table-to-xls" className="table-sm table-bordered">
             <thead className="thead-uapp-bg">
               <tr style={{ textAlign: "center" }}>
-                <th>SL/NO</th>
-                <th>Id</th>
-                <th>Intake</th>
-                <th>Consultant</th>
-                <th>Student</th>
-                <th>University</th>
-                <th>Subject</th>
-                <th>Intake Range</th>
-                <th>Amount</th>
-                <th>Reg. Status</th>
+                {serials ? <th>SL/NO</th> : null}
+                {ids ? <th>Id</th> : null}
+                {intakes ? <th>Intake</th>: null}
+                {consultants ? <th>Consultant</th> : null}
+                {students ? <th>Student</th> : null}
+                {universities ? <th>University</th> : null}
+                {subjects ? <th>Subject</th>: null}
+               {ranges ?  <th>Intake Range</th> : null}
+                {amounts ? <th>Amount</th> : null}
+                {statuses ? <th>Reg. Status</th> : null}
                 
-                {checkTransDate ? <th>Transaction Date</th> : null}
-                {checkStatus ? <th>Status</th> : null}
-                {checkAction ? <th>Action</th> : null}
+                {dates ? <th>Transaction Date</th> : null}
+                {statuses2 ? <th>Status</th> : null}
+                {actions ? <th>Action</th> : null}
               </tr>
             </thead>
             <tbody>
               {data?.map((ls, i) => (
                 <tr key={i} style={{ textAlign: "center" }}>
-                  <td>{i + 1}</td>
-                  <td>{ls?.id}</td>
-                  <td>{ls?.intake}</td>
-                  <td>{ls?.consultant}</td>
-                  <td>{ls?.student}</td>
-                  <td>{ls?.unviersity}</td>
-                  <td>{ls?.subject}</td>
-                  <td>{ls?.accountIntake}</td>
-                  <td>{ls?.amount}</td>
-                  <td> {ls?.registrationStatus}</td>
+                  {serials ? <td>{i + 1}</td> : null}
+                  {ids? <td>{ls?.id}</td> : null}
+                  {intakes? <td>{ls?.intake}</td> : null}
+                  {consultants ? <td>{ls?.consultant}</td> : null}
+                  {students? <td>{ls?.student}</td> : null}
+                  {universities ? <td>{ls?.unviersity}</td> : null}
+                  {subjects ? <td>{ls?.subject}</td> : null}
+                  {ranges? <td>{ls?.accountIntake}</td> : null}
+                  {amounts ? <td>{ls?.amount}</td>: null}
+                  {statuses ? <td> {ls?.registrationStatus}</td> : null}
                 
-                  {checkTransDate ? <td>{ls?.transactionDate}</td> : null}
-                  {checkStatus ? <td>{ls?.transactionStatus}</td> : null}
+                  {dates ? <td>{ls?.transactionDate}</td> : null}
+                  {statuses2 ? <td>{ls?.transactionStatus}</td> : null}
 
-                 {
+                {actions ? <>
+                  {
                   permissions?.includes(permissionList?.View_Application_transaction_info) ?
                   <> {checkAction ? 
                     <td className="text-center">
@@ -460,7 +769,10 @@ const Index = () => {
                   }</>
                   :
                   null
-                 }
+                 }</>
+                :
+                null
+                }
                 </tr>
               ))}
             </tbody>

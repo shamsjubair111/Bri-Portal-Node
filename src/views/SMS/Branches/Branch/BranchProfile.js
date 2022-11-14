@@ -27,6 +27,7 @@ import put from "../../../../helpers/put";
 import Manager from "../IndividualComponent/Manager";
 import Team from "../IndividualComponent/Team";
 import AssignTeam from "../IndividualComponent/AssignTeam";
+import PaginatedTables from "../IndividualComponent/PaginatedTables";
 
 const BranchProfile = (props) => {
   const history = useHistory();
@@ -80,7 +81,7 @@ const BranchProfile = (props) => {
 
   useEffect(() => {
     get(`Branch/Get/${id}`).then((res) => {
-      console.log("branch", res);
+      
       setBranchInfo(res);
     });
 
@@ -257,6 +258,12 @@ const BranchProfile = (props) => {
             >
 
             </AssignTeam> */}
+
+            <PaginatedTables
+            id={id}
+            />
+
+
           
           </Col>
 

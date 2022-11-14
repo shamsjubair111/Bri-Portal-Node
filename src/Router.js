@@ -437,6 +437,7 @@ const WithdrawTransaction = lazy(() => import("./views/SMS/WithdrawTransaction/I
 const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerList.js"));
 const AdmissionOfficerDetails = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerDetails.js"));
 const AssignAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/AssignAdmissionOfficer.js"));
+const UpdateAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/UpdateAdmissionOfficer.js"));
 
 // Student Create Forms
 const StudentApplicationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentApplicationForm"));
@@ -539,6 +540,8 @@ class AppRouter extends React.Component {
          <AppRoute  path="/universityAdmissionManagers/:universityId" component={permissions?.includes(permissionList.View_Admission_manager_university_List) ? UniversityWiseAdmissionManager : NotAuthorized } />
 
          <AppRoute  path="/universityAdmissionOfficers/:universityId" component={permissions?.includes(permissionList.View_Admission_Officer_university_List) ? UniversityWiseAdmissionOfficer : NotAuthorized } />
+
+         <AppRoute  path="/updateAdmissionOfficer/:officerId/:id" component={permissions?.includes(permissionList.Update_Admissionofficer_info) ? UpdateAdmissionOfficer : NotAuthorized } />
 
          <AppRoute  path="/admissionManagerSubjects/:managerId/:universityId" component={permissions?.includes(permissionList.View_Admissionmanager_Subject_list) ? AdmissionManagerSubjects : NotAuthorized } />
 
