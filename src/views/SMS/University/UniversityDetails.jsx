@@ -298,7 +298,11 @@ const UniversityDetails = () => {
   const backToDashboard = () => {
     if (location.subjectDataUniversityId != undefined) {
       history.push(`/subjectProfile/${location.subjectDataUniversityId}`);
-    } else {
+    } 
+    else if(location.providerId != undefined){
+      history.push(`/providerDetails/${location.providerId}`);
+    }
+    else {
       history.push("/universityList");
     }
   };
@@ -797,7 +801,8 @@ const UniversityDetails = () => {
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {location.subjectDataUniversityId != undefined
                 ? "Back to Subject Details"
-                : " Back to University List"}
+                : location.providerId != undefined ? "Back to Provider Details" 
+                : "Back to University List"}
             </span>
           </div>
         </CardHeader>
@@ -1193,10 +1198,13 @@ const UniversityDetails = () => {
                   </div>
                   <div className="row mt-5">
                     <div className="col-md-8">
-                      <div className="row row-cols-md-3 row-cols-sm-2 container-fluid">
-                        {gallery.length === 0 ? (
-                          <p>There is no item added here.</p>
-                        ) : (
+                      {
+                        gallery.length > 0 ?
+                        <div className="row row-cols-md-3 row-cols-sm-2 container-fluid">
+                        {
+                        // gallery.length === 0 ? (
+                        //   <p>There is no gallery item added here.</p>
+                        // ) : (
                           gallery.map((gall, i) => (
                             <div key={i} className="containerCustom pl-2 pb-2">
                               <img
@@ -1229,7 +1237,8 @@ const UniversityDetails = () => {
                             
                             </div>
                           ))
-                        )}
+                        // )
+                        }
 
                         {/* Gallery view modal starts here */}
 
@@ -1313,6 +1322,9 @@ const UniversityDetails = () => {
 
                         {/* Gallery delete modal ends here */}
                       </div>
+                      :
+                      <p>There is no gallery item added here.</p>
+                      }
                     </div>
                     {
                       (userType == userTypes?.Student) ? 
@@ -1616,7 +1628,7 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
+                            <Col md="3">
                               <span>
                                 Campus Name{" "}
                                 <span className="text-danger">*</span>{" "}
@@ -1640,7 +1652,7 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
+                            <Col md="3">
                               <span>
                                 Campus Country{" "}
                                 <span className="text-danger">*</span>{" "}
@@ -1672,7 +1684,7 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
+                            <Col md="3">
                               <span>
                                 Campus State{" "}
                                 <span className="text-danger">*</span>{" "}
@@ -1704,7 +1716,7 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
+                            <Col md="3">
                               <span>
                                 Campus City{" "}
                                 <span className="text-danger">*</span>{" "}
@@ -1728,7 +1740,7 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
+                            <Col md="3">
                               <span>
                                 Address Line
                                 <span className="text-danger">*</span>{" "}
@@ -1752,8 +1764,10 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
-                              <span>Total Student </span>
+                            <Col md="3">
+                              <span>Total Student
+                                <span className="text-danger">*</span>{" "}
+                                </span>
                             </Col>
                             <Col md="6">
                               <Input
@@ -1773,8 +1787,10 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
-                              <span>International Student </span>
+                            <Col md="3">
+                              <span>International Student
+                                <span className="text-danger">*</span>{" "}
+                                </span>
                             </Col>
                             <Col md="6">
                               <Input
@@ -1794,8 +1810,10 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
-                              <span>Average Tution Fee </span>
+                            <Col md="3">
+                              <span>Average Tution Fee
+                                <span className="text-danger">*</span>{" "}
+                                </span>
                             </Col>
                             <Col md="6">
                               <Input
@@ -1815,8 +1833,9 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
-                              <span>Average Living Cost </span>
+                            <Col md="3">
+                              <span>Average Living Cost
+                                <span className="text-danger">*</span>{" "}</span>
                             </Col>
                             <Col md="6">
                               <Input
@@ -1836,8 +1855,10 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
-                              <span>Average Application Fee </span>
+                            <Col md="3">
+                              <span>Average Application Fee
+                                <span className="text-danger">*</span>{" "}
+                                </span>
                             </Col>
                             <Col md="6">
                               <Input
@@ -1857,8 +1878,10 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
-                              <span>Estimated Total Cost </span>
+                            <Col md="3">
+                              <span>Estimated Total Cost
+                                <span className="text-danger">*</span>{" "}
+                                </span>
                             </Col>
                             <Col md="6">
                               <Input
@@ -1878,7 +1901,7 @@ const UniversityDetails = () => {
                             row
                             className="has-icon-left position-relative"
                           >
-                            <Col md="2">
+                            <Col md="3">
                               <span>Campus on Map </span>
                             </Col>
                             <Col md="6">
@@ -1904,7 +1927,7 @@ const UniversityDetails = () => {
                             className="has-icon-left position-relative"
                             style={{
                               display: "flex",
-                              justifyContent: "space-between",
+                              justifyContent: "end",
                             }}
                           >
                             <Button
@@ -1930,7 +1953,7 @@ const UniversityDetails = () => {
                             <CustomButtonRipple
                               color={"primary"}
                               type={"submit"}
-                              className={"mr-1 mt-3"}
+                              className={"ml-1 mt-3"}
                               name={"Submit"}
                               permission={6}
                               isDisabled={buttonStatus2}

@@ -136,7 +136,7 @@ const ProviderDetails = () => {
 
     get(`ProviderAdmin/GetbyProvider/${id}`).then((res) => {
       
-      
+      console.log("providerAdmin", res);
       setAdminData(res);
       setTitleLabel(res?.nameTittle?.name);
       setTitleValue(res?.nameTittle?.id);
@@ -434,6 +434,13 @@ const ProviderDetails = () => {
     }
   }
 
+  const handleRedirectToAddProviderAdmin = () => {
+    history.push({
+      pathname: `/adminProviderForm/${id}`,
+      providerId: id
+    })
+  }
+
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={closeModal} className="uapp-modal">
@@ -726,8 +733,11 @@ const ProviderDetails = () => {
               </CardBody>
             </Card>
           </Col>
+
            <Col md='4'>
-           <Card className="uapp-employee-profile-right">
+           {
+            adminData ? 
+            <Card className="uapp-employee-profile-right">
               <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
                   <img
@@ -767,6 +777,28 @@ const ProviderDetails = () => {
 
               </CardBody>
             </Card>
+            :
+            <Card style={{marginTop: "40px"}}>
+                {
+                  permissions?.includes(permissionList.Add_New_Provider_Admin) ?
+                  <div className="container py-3">
+                  {/* <Link to={`/adminProviderForm/${id}`}> */}
+                    
+                    <center>
+                    <Button onClick={handleRedirectToAddProviderAdmin} className="btn btn-uapp-add "
+                    // onClick={localStorage.removeItem('branchManagerId')}
+                    >
+                      {" "}
+                      <i className="fas fa-plus"></i> Add Provider Admin{" "}
+                    </Button>
+                    </center>
+                  {/* </Link> */}
+                </div>
+                :
+                null
+                }
+              </Card>
+           }
             </Col>
         </Row>
 
@@ -833,7 +865,10 @@ const ProviderDetails = () => {
                             {
                               permissions?.includes(permissionList.View_University_info) ?
                               <Button color="primary" className="btn-sm" onClick={()=>{
-                                history.push(`/universityDetails/${university?.id}`)
+                                history.push({
+                                  pathname: `/universityDetails/${university?.id}`,
+                                  providerId: id 
+                                })
                               }}><i className="fas fa-eye"></i></Button>
                               :
                               null

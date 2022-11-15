@@ -284,7 +284,9 @@ const AddProviderUniversityGallery = () => {
             <div className="row pt-2 mb-5">
             
               <div className="col-md-8">
-                <div className="container row row-cols-md-3 row-cols-sm-2 g-4">
+                {
+                  gallery.length > 0 ?
+                  <div className="container row row-cols-md-3 row-cols-sm-2 g-4">
                   {gallery.map((gall, i) => (
                     <div key={i} className="containerCustom p-2">
                       <img
@@ -414,6 +416,9 @@ const AddProviderUniversityGallery = () => {
                         </Modal>
                   
                 </div>
+                :
+                <p className="ml-1">There is no gallery item added here.</p>
+                }
               </div>
               <div className="col-md-4">
                 <div className="customCard rounded">

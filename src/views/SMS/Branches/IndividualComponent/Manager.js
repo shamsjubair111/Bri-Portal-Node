@@ -94,7 +94,8 @@ const Manager = (props) => {
               <Card>
                 {
                   permissions?.includes(permissionList.Add_New_Branch_Manager) ?
-                  <div className="container py-3">
+                  <center>
+                    <div className="container py-3">
                   <Link to={`/addBranchManager/${id}`}>
                     
                     <Button className="btn btn-uapp-add "
@@ -105,6 +106,7 @@ const Manager = (props) => {
                     </Button>
                   </Link>
                 </div>
+                  </center>
                 :
                 null
                 }

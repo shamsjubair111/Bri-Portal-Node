@@ -600,7 +600,7 @@ const AddUniversityCampus = (props) => {
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
                         <span>
-                          Address Line<span className="text-danger">*</span>{" "}
+                          Address Line <span className="text-danger">*</span>{" "}
                         </span>
                       </Col>
                       <Col md="6">
@@ -620,7 +620,7 @@ const AddUniversityCampus = (props) => {
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
-                        <span>Total Student </span>
+                        <span>Total Student <span className="text-danger">*</span>{" "}</span>
                       </Col>
                       <Col md="6">
                         <Input
@@ -640,7 +640,7 @@ const AddUniversityCampus = (props) => {
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
-                        <span>International Student </span>
+                        <span>International Student <span className="text-danger">*</span>{" "}</span>
                       </Col>
                       <Col md="6">
                         <Input
@@ -662,7 +662,7 @@ const AddUniversityCampus = (props) => {
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
-                        <span>Average Tution Fee </span>
+                        <span>Average Tution Fee <span className="text-danger">*</span>{" "}</span>
                       </Col>
                       <Col md="6">
                         <Input
@@ -684,7 +684,7 @@ const AddUniversityCampus = (props) => {
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
-                        <span>Average Living Cost </span>
+                        <span>Average Living Cost <span className="text-danger">*</span>{" "}</span>
                       </Col>
                       <Col md="6">
                         <Input
@@ -706,7 +706,7 @@ const AddUniversityCampus = (props) => {
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
-                        <span>Average Application Fee </span>
+                        <span>Average Application Fee <span className="text-danger">*</span>{" "}</span>
                       </Col>
                       <Col md="6">
                         <Input
@@ -728,7 +728,7 @@ const AddUniversityCampus = (props) => {
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="2">
-                        <span>Estimated Total Cost </span>
+                        <span>Estimated Total Cost <span className="text-danger">*</span>{" "}</span>
                       </Col>
                       <Col md="6">
                         <Input

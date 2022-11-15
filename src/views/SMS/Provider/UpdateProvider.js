@@ -438,7 +438,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                   
                   <Col md="5">
                    {
-                    permissions?.includes(permissionList?.Update_Provider) ?
+                    permissions?.includes(permissionList?.Update_Provider_info) ?
                      <ButtonForFunction 
                      type={"submit"}
                      className={"ms-lg-3 ms-sm-1 badge-primary"}

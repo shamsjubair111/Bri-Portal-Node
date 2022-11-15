@@ -787,7 +787,9 @@ const CampusDetails = () => {
 
                   <div className="row mt-5">
                     <div className="col-md-8">
-                      <div className="row row-cols-md-3 row-cols-sm-2 container-fluid g-4">
+                      {
+                        gallery.length > 0 ?
+                        <div className="row row-cols-md-3 row-cols-sm-2 container-fluid g-4">
                         {gallery.map((gall, i) => (
                           <div key={i} className="containerCustom pl-2 pb-2">
                             <img
@@ -906,6 +908,9 @@ const CampusDetails = () => {
                               {/* view modal ends here */}
 
                       </div>
+                      :
+                      <p>There is no gallery item added here.</p>
+                      }
                     </div>
                     {
                       (userType == userTypes?.Student)?
@@ -1769,7 +1774,7 @@ const CampusDetails = () => {
                                 checked={checked1.includes(`${per?.subjectId}`)? true : false}
                               />
                               <label className="form-check-label" htmlFor="">
-                                {per?.subjectName}  {per?.subjectId}
+                                {per?.subjectName}
                               </label>
                             </div>
                           </Col>
