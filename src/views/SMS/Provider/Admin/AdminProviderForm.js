@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Card, CardBody, CardHeader, CardTitle,  Button, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
 import Select from 'react-select';
 import AdminLogo from './AdminLogo';
@@ -15,6 +15,7 @@ const AdminProviderForm = () => {
     const {adminProviderHiddenId} = useParams();
     
     const history = useHistory();
+    const location = useLocation();
     const {addToast} = useToasts(); 
 
     const [title,setTitle] = useState([]);
@@ -47,7 +48,12 @@ const AdminProviderForm = () => {
 
 
     const backToDashboard = () => {
-        history.push("/providerList")
+      if(location.providerId !== undefined){
+        history.push(`/providerDetails/${location.providerId}`);
+      }
+      else{
+        history.push("/providerList");
+      }
     }
 
 
@@ -188,7 +194,13 @@ const handlePass = (e) => {
           <div className="page-header-back-to-home">
             <span className="text-white" onClick={backToDashboard}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Provider List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.providerId !== undefined ?
+                "Back to Provider Details"
+                :
+                "Back to Provider List"
+              }
             </span>
           </div>
         </CardHeader>
