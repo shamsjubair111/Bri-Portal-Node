@@ -1,277 +1,365 @@
-import React from 'react';
-
-
-
+import React, { useEffect, useState } from 'react';
+import plusicon from '../../../../../assets/img/plusicon.svg';
+import Vectorbeat from '../../../../../assets/img/Vectorbeat.svg';
+import banner from '../../../../../assets/img/banner.svg';
+import arrowright from '../../../../../assets/img/arrowright.svg';
+import tick from '../../../../../assets/img/tick.svg';
 import {
+  Button,
+  Card,
+  CardBody,
   Col,
   Row
 } from 'reactstrap';
+import { Link, useHistory } from 'react-router-dom';
+import post from '../../../../../helpers/post';
+import { useToasts } from 'react-toast-notifications';
+import get from '../../../../../helpers/get';
 
 const Student = () => {
 
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
+  const referenceId  = localStorage.getItem('referenceId');
+  const {addToast} = useToasts();
+  const history = useHistory();
+  const [info,setInfo] = useState(false);
+  const [applicationinfo, setApplicationInfo] = useState([]);
+
+  useEffect(()=>{
+      get(`Student/CheckIfStudentIsConsultant/${referenceId}`)
+      .then(res => {
+        setInfo(res);
+      })
+
+      get(`StudentApplication/Index/${referenceId}`).then((res) => {
+        console.log("response app", res);
+        setApplicationInfo(res);
+      });
+  },[])
+
+
+
+  const makeStudentConsultant  = () => {
+    post(`Student/StudentToConsultant`,{
+        studentId: referenceId
+    })
+    .then(res => {
+      if(res?.status == 200 && res?.data?.isSuccess  == true){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        
+        history.push(`/consultantInformation/${res?.data?.result?.consultantId}`);
+      }
+      else{
+        addToast(res?.data?.message,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+      }
+    })
+  }
+
+  const goToStudentProfile = () => {
+    history.push(`/studentProfile/${referenceId}`);
+  }
 
     return (
         <React.Fragment>
-        {/* <div className="animated fadeIn">
-          <div className="uapp-dashboard">
-  
-            <div className="uapp-user-name">
-              <Row>
-                <Col sm='9' xs="12">
-                  <h2>Welcome, {currentUser?.displayName}.</h2>
-                </Col>
-  
-                <Col sm="3" xs="12 text-sm-right">
-                  <button className="uapp-btn btn">Add New Action</button>
-                </Col>
-              </Row>
-            </div>
-  
-  
-  
-            <div className="uapp-user-card mt-4">
-              <div className="row">
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-primary-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-info-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-purple-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-warning-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-danger-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-secondary-card uapp-card">
-                    <div className="card-body">
-                      <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-              </div>
-  
-             
-            </div>
-  
-            <div className="uapp-dashboard-activity">
-              <div className="row">
-                <div className="col-lg-8 col-md-8 col-12">
-  
-                  <div className="card">
-                    <div class="db-card-header no-border-bottom card-header">
-                      <span>
-                        <h5 class="uapp-dachboard-head">New Application</h5>
-                      </span>
-                      <span class="db-app-count">70</span>
-                    </div>
-  
-                    <div className="card-body">
-  
-  
-                      <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Student ID</th>
-                              <th>University</th>
-                              <th>Status</th>
-                              <th>Date</th>
-                              <th>Consultant</th>
-                              <th>Admission Officer</th>
-                              <th>Actions</th>
-                            </tr></thead>
-                          <tbody>
-                            <tr class="borderBottom">
-                              <td>Claudia Iuliana Ivan</td>
-                              <td>STD00880</td>
-                              <td>Canterbury Christ Church University London- LSC</td>
-                              <td>New application</td>
-                              <td>20/09/21</td>
-                              <td>D Andreescu</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                            <tr class="borderBottom">
-                              <td>Carmen Simeanu</td>
-                              <td>STD00949</td>
-                              <td>New College Durham – LSC</td>
-                              <td>New application</td>
-                              <td>19/09/21</td>
-                              <td>BEATRICE</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class="btn uapp-actions-icon" href="#"><span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                            <tr class="borderBottom">
-                              <td>Carmen Simeanu</td>
-                              <td>STD00949</td>
-                              <td>New College Durham – LSC</td>
-                              <td>New application</td>
-                              <td>19/09/21</td>
-                              <td>BEATRICE</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class=" uapp-actions-icon" href="#"><span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-                            <tr class="borderBottom">
-                              <td>Tanya  Lazarova</td>
-                              <td>STD00574</td>
-                              <td>London Metropolitan University - Main Campus</td>
-                              <td>New application</td>
-                              <td>18/09/21</td>
-                              <td>Daniela</td>
-                              <td>Afsana</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-                            <tr class="borderBottom">
-                              <td>MIHAIL IORDACHI</td>
-                              <td>STD00156</td>
-                              <td>London Metropolitan University - Main Campus</td>
-                              <td>New application</td>
-                              <td>17/09/21</td>
-                              <td>Mihaiela-Florita </td>
-                              <td>Afsana</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span> <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                          </tbody>
-                        </table>
-                      </div>
-  
-                    </div>
-                  </div>
-  
-  
-                </div>
-                <div className="col-lg-4 col-md-4 col-12">
-  
-                  <div className="card">
-                    <div class="db-card-header include-btn  no-border-bottom card-header">
-                      <h5 class="uapp-dachboard-head">Notice</h5>
-                      <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View All</button>
-                      </span>
-                    </div>
-  
-                    <div className="card-body">
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View </button>
-                      </span>
-                      </div>
-                    </div>
-  
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View </button>
-                      </span>
-                      </div>
-                    </div>
-  
-  
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View</button>
-                      </span>
-                      </div>
-                    </div>
-  
-  
-  
-  
-                    </div>
-                  </div>
-  
-                </div>
-              </div>
-  
-            </div>
-  
-          </div>
-        </div> */}
 
-<div className='mt-5 text-center'>
-          <h3>Dashboard Is Under Maintenance. Stay Tuned for Further Notification</h3>
+        
+         
+           <div className='d-flex justify-content-between flex-wrap'>
+            <div>
+              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <br/>
+              <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
+            </div>
 
+            <div style={{cursor: 'pointer'}} className='d-flex flex-wrap'>
+
+             <div>
+
+              <div className='std-dashboard-style4'>
+
+
+              </div>
+
+               <div className='std-dashboard-style5'>
+               <img src={plusicon} className='img-fluid dashbard-img-style1' />
+               <span className='std-dashboard-style3'>Add New Student</span>
+               </div>
+             </div>
+
+             <div style={{cursor: 'pointer'}}>
+
+              <div className='std-dashboard-style6'>
+
+              </div>
+
+              <div>
+                <img src={Vectorbeat} className='img-fluid dashbard-img-style2' />
+
+              </div>
+
+             </div>
+
+            </div>
+
+           </div>
+
+
+           {/* Student Profile Redirect Section Start*/}
+
+           <div style={{position:'relative', top: '-20px'}}>
+
+            <div className='px-4 progress-card-style-std-dashboard'>
+            <div class="stepper-wrapper">
+        <div class="stepper-item completed">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Application
+          Information</div>
         </div>
+        <div class="stepper-item completed">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Student Profile</div>
+        </div>
+        <div class="stepper-item completed">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Education and 
+          Qualifications</div>
+        </div>
+        <div class="stepper-item completed">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>English Language</div>
+        </div>
+        <div class="stepper-item completed">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Employeement History</div>
+        </div>
+        <div class="stepper-item completed">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Reference</div>
+        </div>
+        <div class="stepper-item completed">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Personal Statement</div>
+        </div>
+        <div class="stepper-item">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Other Information</div>
+        </div>
+        <div class="stepper-item">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Upload Document</div>
+        </div>
+        <div class="stepper-item">
+          <div class="step-counter"><img src={tick} className='img-fluid' /></div>
+          <div className='text-center'>Declaration</div>
+        </div>
+      </div>
+
+            </div>
+
+            <Card >
+              <CardBody>
+
+                <div className='row' style={{height: '105px', marginTop: '30px'}} >
+
+
+                 
+         
+
+                  <div className='col-md-2'>
+                    <span className='std-dashboard-style7'>App Id</span>
+
+                  
+                   
+
+                  <div className='mt-2'>
+                  <span className='std-dashboard-style8' onClick={goToStudentProfile} style={{cursor: 'pointer'}}>#{currentUser?.userViewId}</span>
+
+                  </div>
+
+                  </div>
+
+                  <div className='col-md-2'>
+                    <span className='std-dashboard-style7'>Subject</span>
+
+                  
+                    
+
+                   <div className='mt-2'>
+                   <span className='std-dashboard-style9'>Business Management (including foundation year) BA (Hons)</span>
+                   </div>
+
+                  </div>
+
+                  <div className='col-md-2'>
+                    <span className='std-dashboard-style7'>University</span>
+
+                    
+                    
+                  <div className='mt-2'>
+                    
+                  <span className='std-dashboard-style9'>London Metropolitan University</span>
+                  </div>
+
+                  </div>
+
+                  <div className='col-md-2'>
+                    <span className='std-dashboard-style7'>Intake</span>
+
+                    
+
+                  <div className='mt-2'>
+                  <span className='std-dashboard-style9'>January 2023</span>
+                  </div>
+
+                  </div>
+
+                  <div className='col-md-2'>
+                    <span className='std-dashboard-style7'>Status</span>
+
+               
+                    
+
+                 <div className='mt-2'></div>
+                 <span className='std-dashboard-style9'>Application In Process</span>
+
+                  </div>
+
+                
+
+             
+
+                  <div className='col-md-2'>
+                    <div className='d-flex justify-content-end'>
+
+                      <Button color='primary' style={{position: 'relative', top: '21px'}}>Check and Submit</Button>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </CardBody>
+
+            </Card>
+           </div>
+
+            {/* Student Profile Redirect Section End*/}
+
+            {/* Banner Image and Consultant Section Start */}
+
+            <div className='row'>
+
+              <div className='col-md-8'>
+                <img src={banner} className='w-100' />
+
+                <Card style={{marginTop: '24px'}}>
+                  <CardBody>
+                     <div style={{height: '60px'}} className='d-flex flex-wrap align-items-center justify-content-between px-4'>
+
+                      <span className='std-dashboard-style8'>Why you waiting for?</span>
+                      {
+                        info? 
+                        null
+                        :
+                        <Button color='primary' onClick={makeStudentConsultant}>Become Consultant</Button>
+                      }
+                     </div>
+                  </CardBody>
+                </Card>
+
+
+
+              </div>
+
+              <div className='col-md-4'>
+                
+                <Card>
+
+                  <CardBody>
+                    <div className='d-flex flex-wrap'>
+
+                    <div className='cosultant-image-style-std-dashboard'>
+
+                    </div>
+
+                    <div>
+                      <div className='consultant-info-style-std-dashboard'>
+                      <span className='consultant-name-style-student-dashboard'>Roxana-Andreea Beleag</span>
+                      <br/>
+                      <span className='consultant-role-student-dashboard'>Consultant</span>
+                      </div>
+
+                      <div className='necessary-link-student-dashboard'>
+                        <Link style={{textDecorationColor: '#1E98B0'}}><span className='consultant-role-student-dashboard2'>beleagroxana@yahoo.com</span></Link>
+                        <br/>
+                        <Link style={{textDecorationColor: '#1E98B0'}}><span className='consultant-role-student-dashboard2'>07340 543526</span></Link>
+                      </div>
+
+                    </div>
+
+                    </div>
+
+                  </CardBody>
+                </Card>
+
+                <Card>
+                  <CardBody>
+                  <iframe
+                    className='w-100'
+                    height='177'
+                    src="https://www.youtube.com/embed/V685_4XUz2Q"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    style={{marginBottom: '19px'}}
+                  ></iframe>
+
+                  <div>
+                    <li style={{listStyleType: 'none'}}>
+                        <img src={arrowright} className='img-fluid' />
+                        <Link style={{textDecorationColor: '#1E98B0'}}> <span className='video-info-style-student-dashboard'>
+                          FAQ
+                        </span></Link>
+                    </li>
+
+                    <li style={{listStyleType: 'none'}}>
+                        <img src={arrowright} className='img-fluid' />
+                        <Link style={{textDecorationColor: '#1E98B0'}}> <span className='video-info-style-student-dashboard'>
+                          BLOG
+                        </span></Link>
+                    </li>
+
+                    <li style={{listStyleType: 'none'}}>
+                        <img src={arrowright} className='img-fluid' />
+                        <Link style={{textDecorationColor: '#1E98B0'}}> <span className='video-info-style-student-dashboard'>
+                          CONTACT
+                        </span></Link>
+                    </li>
+                  </div>
+                  </CardBody>
+                </Card>
+
+              </div>
+              
+
+            </div>
+
+            {/* Banner Image and Consultant Section End */}
+
+
+
+          
+        
+
+
   
       </React.Fragment>
     );

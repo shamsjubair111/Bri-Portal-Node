@@ -79,6 +79,7 @@ const AddConsultantInformation = () => {
 
   const [activetab, setActivetab] = useState("1");
   const [buttonStatus,setButtonStatus] = useState(false);
+  const userType = localStorage.getItem('userType'); 
 
   // Profile Image States
 
