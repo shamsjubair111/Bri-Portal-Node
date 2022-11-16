@@ -82,7 +82,7 @@ const RolePermission = (props) => {
     setRoleValue(value);
 
     const returnValue = get(`RolePermission/GetCheckBoxes/${value}`).then((action)=>{
-   
+      console.log("permissions", action);
       setPermissionName(action);
       let defaultChecked = checked
       if(action.length > 0){

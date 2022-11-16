@@ -969,7 +969,7 @@ const UniversityDetails = () => {
 
                           <div className='profile-pic'>
                             <img className="empProfileImg"  src={
-                                   rootUrl + universityInfo?.universityLogo?.fileUrl
+                                   rootUrl + universityInfo?.universityLogo?.thumbnailUrl
                                  }
                                  alt="profile_img"/>
 
@@ -1259,7 +1259,7 @@ const UniversityDetails = () => {
                             {galleryObj?.mediaFileMedia?.mediaType === 1 ? (
                               <img
                                 src={
-                                  rootUrl + galleryObj?.mediaFileMedia?.fileUrl
+                                  rootUrl + galleryObj?.mediaFileMedia?.thumbnailUrl
                                 }
                                 alt="gallery_image"
                                 className="image"
@@ -2619,7 +2619,7 @@ const UniversityDetails = () => {
                             src={
                               rootUrl +
                               universityInfo?.provider?.providerLogoMedia
-                                ?.fileUrl
+                                ?.thumbnailUrl
                             }
                             alt="provider_img"
                           />
@@ -2661,7 +2661,7 @@ const UniversityDetails = () => {
                         <img
                           src={
                             rootUrl +
-                            universityInfo?.provider?.providerLogoMedia?.fileUrl
+                            universityInfo?.provider?.providerLogoMedia?.thumbnailUrl
                           }
                           alt="provider_img"
                         />

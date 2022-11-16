@@ -830,6 +830,12 @@ const ProviderDetails = () => {
                   <Col lg="7" md="7" sm="8" xs="8"></Col>
                 </Row>
 
+                {
+                  universityList.length < 1 ?
+                  <h5 className="text-center mt-3 mb-4">
+                  University Not Found.
+                </h5>
+                :
                 <div className="table-responsive container mt-3">
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
@@ -886,6 +892,7 @@ const ProviderDetails = () => {
                     currentPage={currentPage}
                   />
                 </div>
+                }
               </CardBody>
             </Card>
 
