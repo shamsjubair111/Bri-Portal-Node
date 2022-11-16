@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Table } from 'reactstrap';
 import get from '../../../../helpers/get';
 import Select from "react-select";
+import Pagination from '../../Pagination/Pagination';
 
 const PaginatedTables = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +25,11 @@ const PaginatedTables = (props) => {
     const [accountsOfficer, setAccountsOfficer] = useState([]);
     const [financeManager, setFinanceManager] = useState([]);
     const [complianceManager, setComplianceManager] = useState([]);
+    const [entity,setEntity] = useState(0)
+    const [entity2,setEntity2] = useState(0)
+    const [entity3,setEntity3] = useState(0)
+    const [entity4,setEntity4] = useState(0)
+    const [entity5,setEntity5] = useState(0)
 
 
     const [callApi, setCallApi] = useState(false);
@@ -37,29 +43,34 @@ const PaginatedTables = (props) => {
         get(`BranchEmployee/AccountsManager?page=${currentPage}&pageSize=${dataPerPage}&branchId=${props?.id}`)
         .then(res => {
             setAccountsManager(res?.models);
+            setEntity(res?.totalEntity);
         });
 
         get(`BranchEmployee/Editor?page=${currentPage2}&pageSize=${dataPerPage2}&branchId=${props?.id}`)
         .then(res => {
             setEditor(res?.models);
+            setEntity2(res?.totalEntity);
         })
 
         get(`BranchEmployee/AccountsOfficer?page=${currentPage3}&pageSize=${dataPerPage3}&branchId=${props?.id}`)
         .then(res => {
             setAccountsOfficer(res?.models);
+            setEntity3(res?.totalEntity);
         })
 
         get(`BranchEmployee/FinanceManager?page=${currentPage4}&pageSize=${dataPerPage4}&branchId=${props?.id}`)
         .then(res => {
             setFinanceManager(res?.models);
+            setEntity4(res?.totalEntity);
         })
 
         get(`BranchEmployee/ComplianceManager?page=${currentPage5}&pageSize=${dataPerPage5}&branchId=${props?.id}`)
         .then(res => {
             setComplianceManager(res?.models);
+            setEntity5(res?.totalEntity);
         })
 
-    },[dataPerPage, dataPerPage2, dataPerPage3, dataPerPage4, dataPerPage5, callApi])
+    },[dataPerPage, dataPerPage2, dataPerPage3, dataPerPage4, dataPerPage5, callApi, entity, entity2, entity3, entity4,entity5])
 
 
     const selectDataSize = (value) => {
@@ -79,6 +90,32 @@ const PaginatedTables = (props) => {
         setDataPerPage3(value);
         setCallApi((prev) => !prev);
       };
+
+       //  change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setCallApi((prev) => !prev);
+  };
+
+  const paginate2 = (pageNumber) => {
+    setCurrentPage2(pageNumber);
+    setCallApi((prev) => !prev);
+  };
+
+  const paginate3 = (pageNumber) => {
+    setCurrentPage3(pageNumber);
+    setCallApi((prev) => !prev);
+  };
+
+  const paginate4 = (pageNumber) => {
+    setCurrentPage4(pageNumber);
+    setCallApi((prev) => !prev);
+  };
+
+  const paginate5 = (pageNumber) => {
+    setCurrentPage5(pageNumber);
+    setCallApi((prev) => !prev);
+  };
 
     const selectDataSize4 = (value) => {
     
@@ -146,6 +183,13 @@ const PaginatedTables = (props) => {
                 </tbody>
               </Table>
             </div>
+
+            <Pagination
+            dataPerPage={dataPerPage}
+            totalData={entity}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
                 </CardBody>
             </Card>
 
@@ -196,6 +240,12 @@ const PaginatedTables = (props) => {
                 </tbody>
               </Table>
             </div>
+            <Pagination
+            dataPerPage={dataPerPage2}
+            totalData={entity2}
+            paginate={paginate2}
+            currentPage={currentPage2}
+          />
                 </CardBody>
             </Card>
 
@@ -246,6 +296,12 @@ const PaginatedTables = (props) => {
                 </tbody>
               </Table>
             </div>
+            <Pagination
+            dataPerPage={dataPerPage3}
+            totalData={entity3}
+            paginate={paginate3}
+            currentPage={currentPage3}
+          />
                 </CardBody>
             </Card>
 
@@ -296,6 +352,12 @@ const PaginatedTables = (props) => {
                 </tbody>
               </Table>
             </div>
+            <Pagination
+            dataPerPage={dataPerPage4}
+            totalData={entity4}
+            paginate={paginate4}
+            currentPage={currentPage4}
+          />
                 </CardBody>
             </Card>
 
@@ -346,6 +408,12 @@ const PaginatedTables = (props) => {
                 </tbody>
               </Table>
             </div>
+            <Pagination
+            dataPerPage={dataPerPage5}
+            totalData={entity5}
+            paginate={paginate5}
+            currentPage={currentPage5}
+          />
                 </CardBody>
             </Card>
 
