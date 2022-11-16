@@ -183,7 +183,7 @@ const StudentProfile = () => {
         setIsHaveDisability(res?.profileOtherInfo?.isHaveDisability);
         setIsHaveCriminalConvictions(res?.profileOtherInfo?.isHaveCriminalConvictions);
         setEducationInfos(res?.educationInfos);
-        
+
         setGMatResult(res?.gmatScoreInfo);
         setGreResult(res?.greScoreInfo);
         setStudentTestScore(res?.studentTestScoreInfo);
@@ -1100,7 +1100,11 @@ const StudentProfile = () => {
 
                  </div>
 
-                    <div className="table-responsive pt-3">
+                    {
+                      educationInfos.length < 1 ?
+                      <span>There is no educational information added here.</span>
+                      :
+                      <div className="table-responsive pt-3">
                     <Table className="table-sm striped" style={tableStyle}>
                       <thead className="">
                         <tr style={{ textAlign: "center" }}>
@@ -1166,6 +1170,7 @@ const StudentProfile = () => {
               
 
                     </div>
+                    }
                  </CardBody>
               </Card>
           </div>
@@ -1197,12 +1202,19 @@ const StudentProfile = () => {
 
             </div>
 
-            <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
-            <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
-            <h6>Verbal Score: {greResult?.verbalScore}</h6>
-            <h6>Verbal Rank: {greResult?.verbalRank}</h6>
-            <h6>Writing Score: {greResult?.writingScore}</h6>
-            <h6>Writing Rank: {greResult?.writingRank}</h6>
+            {
+              greResult !== null ?
+              <>
+                <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
+                <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
+                <h6>Verbal Score: {greResult?.verbalScore}</h6>
+                <h6>Verbal Rank: {greResult?.verbalRank}</h6>
+                <h6>Writing Score: {greResult?.writingScore}</h6>
+                <h6>Writing Rank: {greResult?.writingRank}</h6>
+              </>
+              :
+              <span>GRE information is not added.</span>
+            }
 
                
         
@@ -1243,17 +1255,21 @@ const StudentProfile = () => {
 
           </div>
 
-          
-
-          <h6>Quantitative Score: {gMatResult?.quantitativeScore}</h6>
-          <h6>Quantitative Rank: {gMatResult?.quantitativeRank}</h6>
-          <h6>Verbal Score: {gMatResult?.verbalScore}</h6>
-          <h6>Verbal Rank: {gMatResult?.verbalRank}</h6>
-          <h6>Total Score: {gMatResult?.totalScore}</h6>
-          <h6>Total Rank: {gMatResult?.totalRank}</h6>
-          <h6>Writing Score: {gMatResult?.writingScore}</h6>
-          <h6>Writing Rank: {gMatResult?.writingRank}</h6>
-
+          {
+            gMatResult !== null ? 
+            <>
+              <h6>Quantitative Score: {gMatResult?.quantitativeScore}</h6>
+              <h6>Quantitative Rank: {gMatResult?.quantitativeRank}</h6>
+              <h6>Verbal Score: {gMatResult?.verbalScore}</h6>
+              <h6>Verbal Rank: {gMatResult?.verbalRank}</h6>
+              <h6>Total Score: {gMatResult?.totalScore}</h6>
+              <h6>Total Rank: {gMatResult?.totalRank}</h6>
+              <h6>Writing Score: {gMatResult?.writingScore}</h6>
+              <h6>Writing Rank: {gMatResult?.writingRank}</h6>
+            </>
+            :
+            <span>GMAT information is not added.</span>
+          }
              
       
           </CardBody>
@@ -1295,7 +1311,9 @@ const StudentProfile = () => {
                  </div>
 
 
-                 <div className="row mt-3">
+                 {
+                  ielts?.id || duolingo?.id || toefl?.id || functions?.id || gcse?.id || pearson?.id || others?.id || pte?.id ?
+                  <div className="row mt-3">
 
 {ielts?.id ? (
   
@@ -1649,6 +1667,9 @@ const StudentProfile = () => {
   </div>
 ) : null}
 </div>
+:
+<div className="mt-3">Test score is not added.</div>
+                 }
 
                 
 
@@ -1684,7 +1705,11 @@ const StudentProfile = () => {
 
                 </div>
 
-                   <div className="table-responsive pt-3">
+                   {
+                    experience.length < 1 ?
+                    <span>There is no experience added here.</span>
+                    :
+                    <div className="table-responsive pt-3">
                    <Table className="table-sm striped" style={tableStyle}>
                      <thead className="">
                        <tr style={{ textAlign: "center" }}>
@@ -1733,6 +1758,7 @@ const StudentProfile = () => {
              
 
                    </div>
+                   }
                 </CardBody>
              </Card>
          </div>
@@ -1761,7 +1787,11 @@ const StudentProfile = () => {
 
                 </div>
 
-                   <div className="table-responsive pt-3">
+                   {
+                    reference.length < 1 ?
+                    <span>There is no reference added here.</span>
+                    :
+                    <div className="table-responsive pt-3">
                    <Table className="table-sm striped" style={tableStyle}>
                      <thead className="">
                        <tr style={{ textAlign: "center" }}>
@@ -1829,6 +1859,7 @@ const StudentProfile = () => {
              
 
                    </div>
+                   }
                 </CardBody>
              </Card>
          </div>

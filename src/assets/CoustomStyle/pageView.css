@@ -100,6 +100,34 @@
 }
 
 
+.cardHeader1{
+  background-color: #cbd4dd;
+  padding: 5px 10px;
+}
+
+.progress-chart {
+  margin-bottom: 10px;
+}
+
+.posign-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.target-dot {
+  height: 200px;
+  width: 200px;
+  color: #fff;
+  font-weight: 600;
+  background-color: #1E98B0;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .card-header:first-child {
   border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0 !important;

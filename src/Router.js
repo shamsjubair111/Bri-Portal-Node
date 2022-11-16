@@ -163,6 +163,9 @@ const AssociateList = lazy(() => import("./views/SMS/Consultant/ConsultantByCons
 const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
 const DocumentCategoryList = lazy(() => import("./views/SMS/Document/DocumentcategoryList.js"))
 
+// Report
+const AgentReport = lazy(() => import("./views/SMS/Report/AgentReport"))
+
 //Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
 const AddSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/SubDepartment.jsx"))
@@ -627,7 +630,8 @@ class AppRouter extends React.Component {
           {/* Branch consultant */}
           <AppRoute  path="/addBranchConsultant/:branchId" component={permissions?.includes(permissionList?.Add_New_Consultant) ? BranchConsultantRegistration : NotAuthorized} />
           
-          
+          {/* Report */}
+          <AppRoute  path="/agentReport" component={AgentReport} />
           
           
 
