@@ -15,6 +15,8 @@ import { Link, useHistory } from 'react-router-dom';
 import post from '../../../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
 import get from '../../../../../helpers/get';
+import axios from 'axios';
+import { rootUrl } from '../../../../../constants/constants';
 
 const Student = () => {
 
@@ -26,39 +28,24 @@ const Student = () => {
   const [applicationinfo, setApplicationInfo] = useState([]);
 
   useEffect(()=>{
-      get(`Student/CheckIfStudentIsConsultant/${referenceId}`)
+    
+      get(`Student/CheckIfStudentIsConsultant/${currentUser?.displayEmail}`)
       .then(res => {
+        console.log('checkEmail',res);
         setInfo(res);
       })
 
       get(`StudentApplication/Index/${referenceId}`).then((res) => {
-        console.log("response app", res);
+       
         setApplicationInfo(res);
       });
   },[])
 
 
+ 
 
   const makeStudentConsultant  = () => {
-    post(`Student/StudentToConsultant`,{
-        studentId: referenceId
-    })
-    .then(res => {
-      if(res?.status == 200 && res?.data?.isSuccess  == true){
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        
-        history.push(`/consultantInformation/${res?.data?.result?.consultantId}`);
-      }
-      else{
-        addToast(res?.data?.message,{
-          appearance: 'error',
-          autoDismiss: true
-        })
-      }
-    })
+     history.push(`/becomeConsultant/${referenceId}`);
   }
 
   const goToStudentProfile = () => {
@@ -69,7 +56,7 @@ const Student = () => {
         <React.Fragment>
 
           <div>
-            
+
           </div>
 
         
@@ -81,9 +68,12 @@ const Student = () => {
               <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
 
-            <div style={{cursor: 'pointer'}} className='d-flex flex-wrap'>
+            <div  className='d-flex flex-wrap'>
 
-             <div>
+          
+
+
+             <div style={{cursor: 'pointer'}}>
 
               <div className='std-dashboard-style4'>
 
@@ -259,29 +249,34 @@ const Student = () => {
             {/* Banner Image and Consultant Section Start */}
 
             <div className='row'>
+            <div className='col-md-8'>
+             {
+              (info) ?
+              null
+              :
+              
+              <>
+              <img src={banner} className='w-100' />
 
-              <div className='col-md-8'>
-                <img src={banner} className='w-100' />
+              <Card style={{marginTop: '24px'}}>
+                <CardBody>
+                  <div style={{height: '60px'}} className='d-flex flex-wrap align-items-center justify-content-between px-4'>
 
-                <Card style={{marginTop: '24px'}}>
-                  <CardBody>
-                     <div style={{height: '60px'}} className='d-flex flex-wrap align-items-center justify-content-between px-4'>
+                    <span className='std-dashboard-style8'>Why you waiting for?</span>
+                    
+                    
+                      <Button color='primary' onClick={makeStudentConsultant}>Become Consultant</Button>
+                    
+                  </div>
+                </CardBody>
+              </Card>
 
-                      <span className='std-dashboard-style8'>Why you waiting for?</span>
-                      {
-                        info? 
-                        null
-                        :
-                        <Button color='primary' onClick={makeStudentConsultant}>Become Consultant</Button>
-                      }
-                     </div>
-                  </CardBody>
-                </Card>
+              </>
 
 
-
-              </div>
-
+           
+             }
+             </div>
               <div className='col-md-4'>
                 
                 <Card>

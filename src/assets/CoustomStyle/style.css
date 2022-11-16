@@ -1407,6 +1407,9 @@ color: #fff!important;
   color: white;
 }
 
+
+/* student dashboard style start */
+
 .std-dashboard-style1{
   font-size: 16px;
   font-weight: 500;
@@ -1458,11 +1461,19 @@ color: #fff!important;
   
 
 }
+
 .std-dashboard-style5{
   
   position: relative;
   top: -30px;
   left: -1px;
+}
+
+.std-dashboard-style99{
+  
+  position: relative;
+  top: -30px;
+  right: 10px;
 }
 
 .dashbard-img-style2{
@@ -1635,4 +1646,12 @@ top: 25px;
 
 }
 
+.studentSwitchToConsultant{
+  position: relative;
+  right: 20px;
+  top: 10px
+}
+
+
+/* student dashboard style end  */
 

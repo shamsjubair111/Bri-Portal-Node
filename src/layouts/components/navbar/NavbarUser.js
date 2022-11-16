@@ -11,15 +11,14 @@ import {
 import PerfectScrollbar from "react-perfect-scrollbar"
 import axios from "axios"
 import * as Icon from "react-feather"
-
 import { useAuth0 } from "../../../authServices/auth0/auth0Service"
 import { history } from "../../../history"
 import { studentLogOutJwtAction } from "../../../redux/actions/SMS/AuthAction/AuthAction"
-import { useDispatch } from "react-redux"
 import { rootUrl } from "../../../constants/constants"
 import { userTypes } from "../../../constants/userTypeConstant"
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { Link } from "react-router-dom"
+import get from "../../../helpers/get"
 
 const handleNavigation = (e, path) => {
   e.preventDefault()
@@ -29,75 +28,127 @@ const handleNavigation = (e, path) => {
 const userInfo = JSON.parse(localStorage.getItem('current_user'));
 const AuthStr = localStorage.getItem("token");
 
+const redirectToProfile = () => {
 
-
-const UserDropdown = props => {
-  const dispatch = useDispatch();
-  const { logout, isAuthenticated } = useAuth0()
-
-
-  const redirectToProfile = () => {
-
-    if (userInfo?.userTypeId == userTypes?.Admin ||
-      userInfo?.userTypeId == userTypes?.AccountManager ||
-      userInfo?.userTypeId == userTypes?.Editor ||
-      userInfo?.userTypeId == userTypes?.AccountOfficer ||
-      userInfo?.userTypeId == userTypes?.ComplianceManager ||
-      userInfo?.userTypeId == userTypes?.FinanceManager) {
-      history.push(`/employeeProfile/${userInfo?.referenceId}`);
-    }
-    else if (userInfo?.userTypeId == userTypes?.AdmissionManager) {
-      history.push(`/admissionManagerProfile/${userInfo?.referenceId}`);
-    }
-    else if (userInfo?.userTypeId == userTypes?.ProviderAdmin) {
-      history.push(`/providerAdminProfile/${userInfo?.referenceId}`);
-    }
-    else if (userInfo?.userTypeId == userTypes?.BranchManager) {
-      history.push(`/providerAdminProfile/${userInfo?.referenceId}`);//TODO
-    }
-    else if (userInfo?.userTypeId == userTypes?.Consultant) {
-      history.push(`/consultantProfile/${userInfo?.referenceId}`);
-    }
-    else if (userInfo?.userTypeId == userTypes?.Student) {
-      history.push(`/studentProfile/${userInfo?.referenceId}`);//TODO
-    }
-    else {
-      history.push('/');
-    }
+  if (userInfo?.userTypeId == userTypes?.Admin ||
+    userInfo?.userTypeId == userTypes?.AccountManager ||
+    userInfo?.userTypeId == userTypes?.Editor ||
+    userInfo?.userTypeId == userTypes?.AccountOfficer ||
+    userInfo?.userTypeId == userTypes?.ComplianceManager ||
+    userInfo?.userTypeId == userTypes?.FinanceManager) {
+    history.push(`/employeeProfile/${userInfo?.referenceId}`);
   }
+  else if (userInfo?.userTypeId == userTypes?.AdmissionManager) {
+    history.push(`/admissionManagerProfile/${userInfo?.referenceId}`);
+  }
+  else if (userInfo?.userTypeId == userTypes?.ProviderAdmin) {
+    history.push(`/providerAdminProfile/${userInfo?.referenceId}`);
+  }
+  else if (userInfo?.userTypeId == userTypes?.BranchManager) {
+    history.push(`/providerAdminProfile/${userInfo?.referenceId}`);//TODO
+  }
+  else if (userInfo?.userTypeId == userTypes?.Consultant) {
+    history.push(`/consultantProfile/${userInfo?.referenceId}`);
+  }
+  else if (userInfo?.userTypeId == userTypes?.Student) {
+    history.push(`/studentProfile/${userInfo?.referenceId}`);//TODO
+  }
+  else {
+    history.push('/');
+  }
+}
 
-  const handleDate = (e) => {
-    var datee = e;
-    var utcDate = new Date(datee);
-    var localeDate = utcDate.toLocaleString("en-CA");
-    const x = localeDate.split(",")[0];
-    return x;
-  };
- 
+const handleDate = (e) => {
+  var datee = e;
+  var utcDate = new Date(datee);
+  var localeDate = utcDate.toLocaleString("en-CA");
+  const x = localeDate.split(",")[0];
+  return x;
+};
 
-  const handleLogOut = (e) => {
-    e.preventDefault();
+const handleLogOut = (e) => {
+  e.preventDefault();
 
-    // return dispatch => {
-    //   dispatch({ type: "LOGOUT_WITH_JWT", payload: {} })
-    // }
-    const AuthStr = localStorage.getItem('token');
-    axios.get(`${rootUrl}Account/LogOut`, {
-      method: 'GET',
+  
+  const AuthStr = localStorage.getItem('token');
+  axios.get(`${rootUrl}Account/LogOut`, {
+    method: 'GET',
+    headers: {
+      'authorization': AuthStr
+    }
+  })
+    .then(res => {
+      
+      // localStorage.removeItem('token');
+      history.push("/");
+      window.localStorage.clear();
+      window.location.reload();
+
+    })
+  
+}
+
+
+ const convertAccount = e => {
+    
+   
+  axios
+    .get(`${rootUrl}AccountSwitch/SwitchToConsultant`,{
       headers: {
-        'authorization': AuthStr
+        'authorization': localStorage
+        .getItem('token')
       }
     })
-      .then(res => {
-        
-        // localStorage.removeItem('token');
-        history.push("/");
-        window.localStorage.clear();
-        window.location.reload();
+    .then(response => {
+   
+      if (response?.status == 200) {
+        if (response?.data?.isSuccess == true) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('permissions');
+          
+          localStorage.setItem('token', 'Bearer ' + response?.data?.message);
+          localStorage.setItem('permissions', JSON.stringify(response?.data?.permissions));
+          const AuthStr = 'Bearer ' + response?.data?.message;
+          axios.get(`${rootUrl}Account/GetCurrentUser`, {
 
-      })
-    dispatch(studentLogOutJwtAction({}))
-  }
+            headers: {
+              'authorization': AuthStr
+            }
+          })
+            .then(res => {
+              console.log(res);
+              
+              if (res?.status == 200) {
+                if(res?.data?.isActive == true){
+                  localStorage.setItem('current_user', JSON.stringify(res?.data))
+                localStorage.setItem('userType', res?.data?.userTypeId);
+                localStorage.setItem('referenceId', res?.data?.referenceId);
+                window.location.reload();
+                }
+                
+              }
+
+            })
+
+
+          history.push("/")
+
+
+
+
+
+        }
+      
+
+      }
+    })
+    .catch()
+}
+
+const UserDropdown = props => {
+  console.log('result = ', props?.switch)  ;
+
+
   return (
     <DropdownMenu right>
       {/* <DropdownItem
@@ -171,28 +222,58 @@ const UserDropdown = props => {
       </DropdownItem>
 
       <DropdownItem divider />
+
+      {
+        (userInfo?.userTypeId == userTypes?.Student) ?
+        <>
+        {
+          (props?.switch) ?
+          <DropdownItem tag="a"
+
+        onClick={e => {
+          convertAccount(e)
+        
+
+        }}
+      >
+        <Icon.Repeat size={14} className="mr-50" />
+        <span className="align-middle">Switch To Consultant</span>
+      </DropdownItem>
+      :
+      null
+
+        }
+        </>
+        :
+        (userInfo?.userTypeId == userTypes?.Consultant) ?
+        <>
+        {
+          (props?.switch) ?
+          <DropdownItem tag="a"
+
+        // onClick={e => {
+        //   convertAccount(e)
+        
+
+        // }}
+      >
+        <Icon.Repeat size={14} className="mr-50" />
+        <span className="align-middle">Switch To Student</span>
+      </DropdownItem>
+      :
+      null
+
+        }
+        </>
+        :
+        null
+      }
+
       <DropdownItem tag="a"
 
         onClick={e => {
           handleLogOut(e)
-          // return props.logoutWithJWT()
-          // if (isAuthenticated) {
-          //   return logout({
-          //     returnTo: window.location.origin + process.env.REACT_APP_PUBLIC_PATH
-          //   })
-          // } else {
-          //   const provider = props.loggedInWith
-          //   if (provider !== null) {
-          //     if (provider === "jwt") {
-          //       return props.logoutWithJWT()
-          //     }
-          //     if (provider === "firebase") {
-          //       return props.logoutWithFirebase()
-          //     }
-          //   } else {
-          //     history.push("/pages/login")
-          //   }
-          // }
+        
 
         }}
       >
@@ -206,21 +287,91 @@ const UserDropdown = props => {
 }
 
 class NavbarUser extends React.PureComponent {
-  state = {
-    navbarSearch: false,
-    langDropdown: false,
-    suggestions: [],
-    connection: [],
-    chat: '',
-    notificationCount: 0,
-    notificationData: []
-  }
 
-  // componentDidMount() {
-  //   axios.get("/api/main-search/data").then(({ data }) => {
-  //     this.setState({ suggestions: data.searchResult })
-  //   })
-  // }
+  constructor(props){  
+    super(props);  
+    this.state = {
+      navbarSearch: false,
+      langDropdown: false,
+      suggestions: [],
+      connection: [],
+      chat: '',
+      notificationCount: 0,
+      notificationData: [],
+      canSwitch: false
+    }
+}  
+
+
+  componentDidMount() { 
+
+  
+    if(userInfo?.userTypeId == userTypes?.Student){
+      axios.get(`${rootUrl}Student/CheckIfStudentIsConsultant/${userInfo?.displayEmail}`,{
+        headers:{
+          'authorization': localStorage.getItem('token')
+        }
+      })
+      .then(res => {
+       
+        this.setState({canSwitch: res?.data?.result});
+      })
+    }
+  
+
+  axios.get(`${rootUrl}Notification/UserNotificationCount`,{
+    headers: {
+      authorization: AuthStr
+    }
+  })
+  .then(res => {
+    
+    this.setState({notificationCount : res?.data})
+  })
+
+  axios.get(`${rootUrl}Notification/GetInitial`,{
+    headers: {
+      authorization: AuthStr
+    }
+  })
+  .then(res => {
+    console.log(res,'111');
+    this.setState({notificationData: res?.data?.result});
+    
+  })
+
+  const newConnection = new HubConnectionBuilder()
+         .withUrl(`${rootUrl}notificationHub`)
+         .withAutomaticReconnect()
+         .build();
+ 
+    //  this.setState = {connection : newConnection};
+
+     if (newConnection) {
+      newConnection.start()
+          .then(result => {
+              console.log('Connected!');
+
+              newConnection.on('notificationHub', message => {
+                  //  const updatedChat = [...latestChat.current];
+                  // updatedChat.push(message);
+              if(message){
+               this.countFunction();
+
+               this.initialFunction();
+              
+               
+              }
+                  // this.setState = {chat: message}
+                  //  console.log(message)
+              });
+          })
+          .catch(e => console.log('Connection failed: ', e));
+  }
+ }
+
+
+  
 
 
   //  Code testing start
@@ -279,61 +430,6 @@ class NavbarUser extends React.PureComponent {
      history.push(data?.targetUrl);
   }
 
- 
-componentDidMount() { 
-
-  axios.get(`${rootUrl}Notification/UserNotificationCount`,{
-    headers: {
-      authorization: AuthStr
-    }
-  })
-  .then(res => {
-    
-    this.setState({notificationCount : res?.data})
-  })
-
-  axios.get(`${rootUrl}Notification/GetInitial`,{
-    headers: {
-      authorization: AuthStr
-    }
-  })
-  .then(res => {
-    console.log(res,'111');
-    this.setState({notificationData: res?.data?.result});
-    
-  })
-
-  const newConnection = new HubConnectionBuilder()
-         .withUrl(`${rootUrl}notificationHub`)
-         .withAutomaticReconnect()
-         .build();
- 
-    //  this.setState = {connection : newConnection};
-
-     if (newConnection) {
-      newConnection.start()
-          .then(result => {
-              console.log('Connected!');
-
-              newConnection.on('notificationHub', message => {
-                  //  const updatedChat = [...latestChat.current];
-                  // updatedChat.push(message);
-              if(message){
-               this.countFunction();
-
-               this.initialFunction();
-              
-               
-              }
-                  // this.setState = {chat: message}
-                  //  console.log(message)
-              });
-          })
-          .catch(e => console.log('Connection failed: ', e));
-  }
- }
-
- 
  
 
  // Code testing end
@@ -731,7 +827,7 @@ componentDidMount() {
                   </Media>
                   <small>
                    
-                      {/* {handleDate(data?.createdOn)} */}
+                      {/* {this.handleDate(data?.createdOn)} */}
                  
                   </small>
                  
@@ -770,7 +866,7 @@ componentDidMount() {
               />
             </span>
           </DropdownToggle>
-          <UserDropdown {...this.props} />
+          <UserDropdown switch={this?.state?.canSwitch} />
         </UncontrolledDropdown>
       </ul>
     )

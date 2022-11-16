@@ -471,6 +471,8 @@ const Notifications = lazy(() => import("./views/SMS/Notifications/Notifications
 
 const TrialNotification = lazy(() => import("./views/Test/Notification"));
 
+// MAke Student a Consultant
+const ConvertStudentIntoConsultantForm = lazy(() => import("./views/SMS/ConvertStudentIntoConsultant/ConvertStudentIntoConsultantForm"));
 
 
 
@@ -887,6 +889,10 @@ class AppRouter extends React.Component {
          <AppRoute  path="/500" component={InternalServerError} />
 
          <AppRoute  path="/notAuthorized" component={NotAuthorized} />
+        
+
+         {/* make student a consultant path */}
+         <AppRoute  path="/becomeConsultant/:studentId" component={ConvertStudentIntoConsultantForm} />
 
 
 
