@@ -83,6 +83,7 @@ const AccountIntake = () => {
 
     const handleDate = e =>{
         var datee = e;
+        console.log("dateeeeeee", datee);
         var utcDate = new Date(datee);
         var localeDate = utcDate.toLocaleString("en-CA");
         const x = localeDate.split(",")[0];
