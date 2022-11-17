@@ -92,7 +92,10 @@ const SubjectProfile = () => {
             <CardHeader className="page-header">
 
               <h3 className="text-white">Subject Details</h3>
-              <div className="page-header-back-to-home" >
+              {
+                (userType == userTypes?.Student) ?
+                null:
+                <div className="page-header-back-to-home" >
                 <span onClick={backToSubjectList} className="text-white"> <i className="fas fa-arrow-circle-left"></i>{" "}
                 {
                   location?.campId != undefined ? "Back to Campus Subject List"
@@ -105,6 +108,7 @@ const SubjectProfile = () => {
                 }
                 </span>
               </div>
+              }
 
             </CardHeader>
           </Card>

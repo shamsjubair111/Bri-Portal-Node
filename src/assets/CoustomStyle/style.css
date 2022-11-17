@@ -1655,3 +1655,6 @@ top: 25px;
 
 /* student dashboard style end  */
 
+.align-middle:hover{
+  color: #fff !important;
+}

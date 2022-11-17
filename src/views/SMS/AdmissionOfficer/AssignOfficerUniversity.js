@@ -34,6 +34,7 @@ import Select from "react-select";
 import CustomButtonRipple from '../Components/CustomButtonRipple';
 import get from '../../../helpers/get';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import { userTypes } from '../../../constants/userTypeConstant';
 
 const AssignOfficerUniversity = () => {
 
@@ -74,6 +75,7 @@ const AssignOfficerUniversity = () => {
   const [managerLabel, setManagerLabel] = useState('Select Admission Manager');
   const [managerValue, setManagerValue] = useState(0);
   const [managerError,setManagerError] = useState('');
+  const userType = localStorage.getItem('userType');
 
   const { providerId, managerId} = useParams();
 
@@ -84,6 +86,14 @@ const AssignOfficerUniversity = () => {
         console.log('second',res);
         setUniList(res);
     })
+
+    if(userType == userTypes?.AdmissionManager){
+      get(`AdmissionManagerUniversityDD/AdmissionManager/${managerId}`)
+      .then(res => {
+        console.log('Hello University List', res);
+        setProviderUniList(res);
+      })
+    }
 
     
 
@@ -228,38 +238,73 @@ const AssignOfficerUniversity = () => {
           });
         } else {
           
-          if(managerValue === 0){
-            setManagerError('Admission manager is required ')
+          if(userType == userTypes?.AdmissionManager){
+           
+            if (uniValue === 0) {
+              setUniError(true);
+            }
+             else {
+              setButtonStatus(true);
+              setSelectedId(undefined);
+              post(`AdmissionOfficerUniversity/Create`, subData).then((res) => {
+                setButtonStatus(false);
+                if (res?.status == 200 && res?.data?.isSuccess == true) {
+                  addToast(res?.data?.message, {
+                    appearance: "success",
+                    autoDismiss: true,
+                  });
+                  setSuccess(!success);
+                  setModalOpen(false);
+                  setUniLabel("Select University");
+                  setUniValue(0);
+                  setRadioIsAcceptHome("false");
+                  setRadioIsAcceptUk("true");
+                  setRadioIsAcceptInt("false");
+                }
+                else{
+                  addToast(res?.data?.message, {
+                    appearance: "error",
+                    autoDismiss: true,
+                  });
+                }
+              });
+            }
           }
-         else if (uniValue === 0) {
-            setUniError(true);
+          else{
+            if(managerValue === 0){
+              setManagerError('Admission manager is required ')
+            }
+           else if (uniValue === 0) {
+              setUniError(true);
+            }
+             else {
+              setButtonStatus(true);
+              setSelectedId(undefined);
+              post(`AdmissionOfficerUniversity/Create`, subData).then((res) => {
+                setButtonStatus(false);
+                if (res?.status == 200 && res?.data?.isSuccess == true) {
+                  addToast(res?.data?.message, {
+                    appearance: "success",
+                    autoDismiss: true,
+                  });
+                  setSuccess(!success);
+                  setModalOpen(false);
+                  setUniLabel("Select University");
+                  setUniValue(0);
+                  setRadioIsAcceptHome("false");
+                  setRadioIsAcceptUk("true");
+                  setRadioIsAcceptInt("false");
+                }
+                else{
+                  addToast(res?.data?.message, {
+                    appearance: "error",
+                    autoDismiss: true,
+                  });
+                }
+              });
+            }
           }
-           else {
-            setButtonStatus(true);
-            setSelectedId(undefined);
-            post(`AdmissionOfficerUniversity/Create`, subData).then((res) => {
-              setButtonStatus(false);
-              if (res?.status == 200 && res?.data?.isSuccess == true) {
-                addToast(res?.data?.message, {
-                  appearance: "success",
-                  autoDismiss: true,
-                });
-                setSuccess(!success);
-                setModalOpen(false);
-                setUniLabel("Select University");
-                setUniValue(0);
-                setRadioIsAcceptHome("false");
-                setRadioIsAcceptUk("true");
-                setRadioIsAcceptInt("false");
-              }
-              else{
-                addToast(res?.data?.message, {
-                  appearance: "error",
-                  autoDismiss: true,
-                });
-              }
-            });
-          }
+         
         }
       };
     
@@ -331,6 +376,12 @@ const AssignOfficerUniversity = () => {
 
       <Card className="uapp-employee-search">
         <CardBody>
+
+          <div className='d-flex justify-content-end mb-3'>
+            <span style={{fontWeight: 'bold'}}>Admission Officer: {uniList[0]?.admissionOfficer?.firstName}{' '}{uniList[0]?.admissionOfficer?.lastName}</span>
+
+          </div>
+
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
               {
@@ -500,7 +551,11 @@ const AssignOfficerUniversity = () => {
                   <FormGroup row className="has-icon-left position-relative">
                     {selectedId === undefined ? (
                       <>
-                        <Col md="5">
+                       {
+                        (userType == userTypes?.AdmissionManager) ?
+                        null:
+                        <>
+                         <Col md="5">
                           <span>
                             Admission Manager{" "}
                             <span className="text-danger">*</span>{" "}
@@ -519,6 +574,8 @@ const AssignOfficerUniversity = () => {
 
                           <span className='text-danger'>{managerError}</span>
                         </Col>
+                        </>
+                       }
                       </>
                     ) : null}
                   </FormGroup>

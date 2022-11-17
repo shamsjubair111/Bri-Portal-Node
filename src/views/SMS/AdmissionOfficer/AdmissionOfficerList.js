@@ -178,6 +178,34 @@ const AdmissionOfficerList = () => {
     });
   }, [currentPage, dataPerPage, managerValue, searchStr, success, loading, proValue]);
 
+  useEffect(()=>{
+
+    if(userType == userTypes?.AdmissionManager){
+      get(`AdmissionManager/Profile/${referenceId}`)
+     .then(res =>{
+      
+      setManagerValue(res?.id);
+      setProValue(res?.providerId);
+     })
+    }
+
+    if(userType == userTypes?.ProviderAdmin){
+      get(`ProviderAdmin/Get/${referenceId}`)
+      .then(res => {
+        console.log('provider Admin Info', res);
+        setProValue(res?.providerId);
+        get(`AdmissionManagerDD/Index/${res?.providerId}`)
+        .then(res => {
+          setManagerDD(res);
+        })
+      })
+    }
+
+  
+     
+    
+  },[])
+
   const managerMenu = managerDD.map((manager) => ({
     label: manager?.name,
     value: manager?.id,
@@ -686,7 +714,10 @@ const handleChange = ({ fileList }) => {
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
           <Row>
-            <Col lg="6" md="6" sm="6" xs="12">
+            {
+              (userType == userTypes?.AdmissionManager || userType == userTypes?.ProviderAdmin) ?
+              null:
+              <Col lg="6" md="6" sm="6" xs="12">
             <Select
                 options={providerMenu}
                 value={{ label: proLabel, value: proValue }}
@@ -695,7 +726,12 @@ const handleChange = ({ fileList }) => {
                 id="admissionmanagerId"
               />
             </Col>
+            }
 
+          {
+            (userType == userTypes?.AdmissionManager) ? 
+            null
+            :
             <Col lg="6" md="6" sm="6" xs="12">
             <Select
                 options={managerMenu}
@@ -706,6 +742,7 @@ const handleChange = ({ fileList }) => {
               />
               
             </Col>
+          }
 
             
           </Row>

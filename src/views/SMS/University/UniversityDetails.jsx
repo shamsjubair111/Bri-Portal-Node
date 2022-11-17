@@ -795,7 +795,11 @@ const UniversityDetails = () => {
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">University Details</h3>
-          <div className="page-header-back-to-home">
+          {
+            (userType == userTypes?.Student) ?
+            null
+            :
+            <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
@@ -805,6 +809,7 @@ const UniversityDetails = () => {
                 : "Back to University List"}
             </span>
           </div>
+          }
         </CardHeader>
       </Card>
 

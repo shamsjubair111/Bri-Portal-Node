@@ -44,6 +44,7 @@ import { Upload, Modal as AntdModal } from "antd";
 
 import { Image } from "antd";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
+import { userTypes } from "../../../../constants/userTypeConstant";
 // import { userTypes } from "../../../constants/userTypeConstant";
 
 const UniversityForm = () => {
@@ -403,55 +404,107 @@ const UniversityForm = () => {
     };
 
     
-      if(providerTypeValue == 0){
-        setProviderTypeError(true);
-      }
-      else if (uniTypeValue === 0) {
-        setUniTypeError(true);
-      }
-      else if(contractTypeValue === 0){
-        setContractTypeError(true);
-      }
-      else if (uniCountryValue === 0) {
-        setUniCountryError(true);
-      }
-      else if (unistateValue === 0) {
-        setUniStateError(true);
-      }
-      else if (FileList1.length < 1 && check) {
-        setLogoDropzoneError(true);
-      }
-      else if (FileList2.length < 1 && check) {
-        setCoverDropzoneError(true);
-      }
-      else {
-        setLogoText('');
-        setCoverText('');
-          setButtonStatus(true);
-          Axios.post(`${rootUrl}University/Create`, subdata, config).then(
-            (res) => {
-              console.log("unipostData", res);
-              setButtonStatus(false);
-  
-              // localStorage.setItem("id", res.data.result.id);
-              const uniID = res?.data?.result?.id;
-              setUniversityId(uniID);
-  
-              if (res.status === 200 && res.data.isSuccess === true) {
-                setSubmitData(true);
-                addToast(res?.data?.message, {
-                  appearance: "success",
-                  autoDismiss: true,
-                });
-                history.push({
-                  pathname: `/createUniversityCampus/${uniID}`,
-                  id: uniID,
-                });
+      if(userType == userTypes?.ProviderAdmin){
+       
+       if (uniTypeValue === 0) {
+          setUniTypeError(true);
+        }
+        else if(contractTypeValue === 0){
+          setContractTypeError(true);
+        }
+        else if (uniCountryValue === 0) {
+          setUniCountryError(true);
+        }
+        else if (unistateValue === 0) {
+          setUniStateError(true);
+        }
+        else if (FileList1.length < 1 && check) {
+          setLogoDropzoneError(true);
+        }
+        else if (FileList2.length < 1 && check) {
+          setCoverDropzoneError(true);
+        }
+        else {
+          setLogoText('');
+          setCoverText('');
+            setButtonStatus(true);
+            Axios.post(`${rootUrl}University/Create`, subdata, config).then(
+              (res) => {
+                console.log("unipostData", res);
+                setButtonStatus(false);
+    
+                // localStorage.setItem("id", res.data.result.id);
+                const uniID = res?.data?.result?.id;
+                setUniversityId(uniID);
+    
+                if (res.status === 200 && res.data.isSuccess === true) {
+                  setSubmitData(true);
+                  addToast(res?.data?.message, {
+                    appearance: "success",
+                    autoDismiss: true,
+                  });
+                  history.push({
+                    pathname: `/createUniversityCampus/${uniID}`,
+                    id: uniID,
+                  });
+                }
               }
-            }
-          );
-        
-    }
+            );
+          
+      }
+      }
+
+      else{
+        if(providerTypeValue == 0){
+          setProviderTypeError(true);
+        }
+        else if (uniTypeValue === 0) {
+          setUniTypeError(true);
+        }
+        else if(contractTypeValue === 0){
+          setContractTypeError(true);
+        }
+        else if (uniCountryValue === 0) {
+          setUniCountryError(true);
+        }
+        else if (unistateValue === 0) {
+          setUniStateError(true);
+        }
+        else if (FileList1.length < 1 && check) {
+          setLogoDropzoneError(true);
+        }
+        else if (FileList2.length < 1 && check) {
+          setCoverDropzoneError(true);
+        }
+        else {
+          setLogoText('');
+          setCoverText('');
+            setButtonStatus(true);
+            Axios.post(`${rootUrl}University/Create`, subdata, config).then(
+              (res) => {
+                console.log("unipostData", res);
+                setButtonStatus(false);
+    
+                // localStorage.setItem("id", res.data.result.id);
+                const uniID = res?.data?.result?.id;
+                setUniversityId(uniID);
+    
+                if (res.status === 200 && res.data.isSuccess === true) {
+                  setSubmitData(true);
+                  addToast(res?.data?.message, {
+                    appearance: "success",
+                    autoDismiss: true,
+                  });
+                  history.push({
+                    pathname: `/createUniversityCampus/${uniID}`,
+                    id: uniID,
+                  });
+                }
+              }
+            );
+          
+      }
+      }
   };
 
   // select University Type
@@ -561,6 +614,15 @@ const UniversityForm = () => {
 
                     </div> */}
 
+                 {
+                  (userType == userTypes?.ProviderAdmin) ?
+                  <input
+                  type='hidden'
+                  name='providerId'
+                  id="providerId"
+                  value={referenceId}
+                  />
+                  :
                   <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
@@ -588,6 +650,7 @@ const UniversityForm = () => {
                     )}
                   </Col>
                 </FormGroup>
+                 }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

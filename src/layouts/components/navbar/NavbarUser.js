@@ -30,8 +30,7 @@ const AuthStr = localStorage.getItem("token");
 
 const redirectToProfile = () => {
 
-  if (userInfo?.userTypeId == userTypes?.Admin ||
-    userInfo?.userTypeId == userTypes?.AccountManager ||
+  if ( userInfo?.userTypeId == userTypes?.AccountManager ||
     userInfo?.userTypeId == userTypes?.Editor ||
     userInfo?.userTypeId == userTypes?.AccountOfficer ||
     userInfo?.userTypeId == userTypes?.ComplianceManager ||
@@ -52,6 +51,9 @@ const redirectToProfile = () => {
   }
   else if (userInfo?.userTypeId == userTypes?.Student) {
     history.push(`/studentProfile/${userInfo?.referenceId}`);//TODO
+  }
+  else if (userInfo?.userTypeId == userTypes?.Provider) {
+    history.push(`/providerDetails/${userInfo?.referenceId}`);//TODO
   }
   else {
     history.push('/');
@@ -145,6 +147,63 @@ const handleLogOut = (e) => {
     .catch()
 }
 
+const convertToConsultantAccount = e => {
+    
+   
+  axios
+    .get(`${rootUrl}AccountSwitch/SwitchToConsultant`,{
+      headers: {
+        'authorization': localStorage
+        .getItem('token')
+      }
+    })
+    .then(response => {
+   
+      if (response?.status == 200) {
+        if (response?.data?.isSuccess == true) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('permissions');
+          
+          localStorage.setItem('token', 'Bearer ' + response?.data?.message);
+          localStorage.setItem('permissions', JSON.stringify(response?.data?.permissions));
+          const AuthStr = 'Bearer ' + response?.data?.message;
+          axios.get(`${rootUrl}Account/GetCurrentUser`, {
+
+            headers: {
+              'authorization': AuthStr
+            }
+          })
+            .then(res => {
+              console.log(res);
+              
+              if (res?.status == 200) {
+                if(res?.data?.isActive == true){
+                  localStorage.setItem('current_user', JSON.stringify(res?.data))
+                localStorage.setItem('userType', res?.data?.userTypeId);
+                localStorage.setItem('referenceId', res?.data?.referenceId);
+                window.location.reload();
+                }
+                
+              }
+
+            })
+
+
+          history.push("/")
+
+
+
+
+
+        }
+      
+
+      }
+    })
+    .catch()
+}
+
+
 const UserDropdown = props => {
   console.log('result = ', props?.switch)  ;
 
@@ -197,7 +256,7 @@ const UserDropdown = props => {
 
       >
 
-        <Icon.User size={14} className="mr-50" />
+        <Icon.User size={14} className="mr-1 align-middle" />
         <span className="align-middle"  >Profile</span>
       </DropdownItem>
 
@@ -207,7 +266,7 @@ const UserDropdown = props => {
 
       >
 
-        <Icon.Settings size={14} className="mr-50" />
+        <Icon.Settings size={14} className="mr-1 align-middle" />
         <span className="align-middle">Settings</span>
       </DropdownItem>
 
@@ -217,7 +276,7 @@ const UserDropdown = props => {
 
       >
 
-        <Icon.LogIn size={14} className="mr-50" />
+        <Icon.LogIn size={14} className="mr-1 align-middle" />
         <span className="align-middle">Login History</span>
       </DropdownItem>
 
@@ -236,7 +295,7 @@ const UserDropdown = props => {
 
         }}
       >
-        <Icon.Repeat size={14} className="mr-50" />
+        <Icon.Repeat size={14} className="mr-1 align-middle" />
         <span className="align-middle">Switch To Consultant</span>
       </DropdownItem>
       :
@@ -251,13 +310,13 @@ const UserDropdown = props => {
           (props?.switch) ?
           <DropdownItem tag="a"
 
-        // onClick={e => {
-        //   convertAccount(e)
+        onClick={e => {
+          convertToConsultantAccount(e)
         
 
-        // }}
+        }}
       >
-        <Icon.Repeat size={14} className="mr-50" />
+        <Icon.Repeat size={14} className="mr-1 align-middle" />
         <span className="align-middle">Switch To Student</span>
       </DropdownItem>
       :
@@ -277,7 +336,7 @@ const UserDropdown = props => {
 
         }}
       >
-        <Icon.Power size={14} className="mr-50" />
+        <Icon.Power size={14} className="mr-1 align-middle" />
         <span className="align-middle">Log Out</span>
       </DropdownItem>
 
@@ -317,6 +376,20 @@ class NavbarUser extends React.PureComponent {
         this.setState({canSwitch: res?.data?.result});
       })
     }
+
+    if(userInfo?.userTypeId == userTypes?.Consultant){
+      axios.get(`${rootUrl}Consultant/CheckIfConsultantIsStudent/${userInfo?.displayEmail}`,{
+        headers:{
+          'authorization': localStorage.getItem('token')
+        }
+      })
+      .then(res => {
+       
+        this.setState({canSwitch: res?.data?.result});
+      })
+    }
+
+
   
 
   axios.get(`${rootUrl}Notification/UserNotificationCount`,{

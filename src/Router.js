@@ -417,6 +417,8 @@ const Nationality = lazy(() => import("./views/SMS/Nationality/Nationality"));
 
 const AdmissionManagerProfile = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerProfile"));
 
+const AdmissionManagerConditionalProfile = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerConditionalProfile"));
+
 const PromotionalCommissionList = lazy(() => import("./views/SMS/PromotionalCommission/CommissionList/PromotionalCommissionList"));
 
 const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/Index"));
@@ -834,6 +836,8 @@ class AppRouter extends React.Component {
 
 
            <AppRoute  path="/providerAdmissionManager/:managerId/:providerId" component={permissions?.includes(permissionList.View_Admission_manager_info) ? AdmissionManagerProfile : NotAuthorized} />
+
+           <AppRoute  path="/admissionManagerProfile/:managerId" component={permissions?.includes(permissionList.View_Admission_manager_info) ? AdmissionManagerConditionalProfile : NotAuthorized} />
 
 
            <AppRoute  path="/promotionalCommissionList" component={permissions?.includes(permissionList.View_promotional_commission_List) ? PromotionalCommissionList : NotAuthorized} />
