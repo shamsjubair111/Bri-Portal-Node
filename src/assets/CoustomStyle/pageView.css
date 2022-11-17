@@ -129,6 +129,79 @@
   align-items: center;
 }
 
+.calenderProperty .calenderactive{
+  display:block;
+}
+.calenderProperty .calenderdeactive {
+display: none;
+}
+@media (max-width:768px) {
+.calender.calender-pop-up {
+  position: absolute;
+  z-index: 100;
+  top: -22%;
+  left: 27%;
+  transition: 0.3s ease-in-out;
+  transform: translate(-32%, -63%) !important;
+}
+
+.calender.calender-repot-pop-up {
+  position: absolute;
+  z-index: 10000;
+  top: 3%;
+  left: 27%;
+  transition: 0.3s ease-in-out;
+  transform: translate(-32%, -0%) !important;
+}
+}
+
+@media (min-width:768px) {
+.calender.calender-pop-up {
+  position: absolute;
+  z-index: 100;
+  top: -30%;
+  left: 27%;
+  transition: 0.3s ease-in-out;
+  transform: translate(-32%, -70%) !important;
+}
+.calender.calender-repot-pop-up {
+  position: absolute;
+  z-index: 100;
+  top:4%;
+  left: 27%;
+  transition: 0.3s ease-in-out;
+  transform: translate(-32%, -0%) !important;
+}
+
+}
+
+.monthly-card {
+  position: absolute;
+  width: 255px;
+  margin-left: 118px;
+  margin-right: 0;
+  top: -3%;
+  border: 1px solid dark;
+}
+
+.progress-month .nav .nav-item {
+  width: 8%;
+  text-align: center;
+}
+
+.progress-month .nav .nav-item .nav-link {
+  color: #BBE0E7;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .3px;
+}
+
+.progress-month .nav .nav-item .nav-link:hover,
+.progress-month .nav .nav-item .nav-link.active {
+  color: #1E98B0;
+}
+
 .card-header:first-child {
   border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0 !important;
 }
