@@ -543,7 +543,12 @@ const PaginatedTables = (props) => {
                   <th>Total Students</th> 
                   <th>Total Applications</th> 
                   <th>Registered Students</th> 
-                  <th>Status</th> 
+                  {
+                    permissions?.includes(permissionList?.Change_Status_Consultant) ?
+                    <th>Status</th> 
+                    :
+                    null
+                  }
                   <th>Action</th> 
                    
                   </tr>
@@ -558,13 +563,18 @@ const PaginatedTables = (props) => {
                       <td>{con?.totalStudent}</td>
                       <td>{con?.totalApplication}</td>
                       <td>{con?.registeredStudent}</td>
-                      <td>
+                      {
+                        permissions?.includes(permissionList?.Change_Status_Consultant) ?
+                        <td>
 
                         <ToggleSwitch
                         defaultChecked={con?.isActive}
                         onChange={()=>handleUpdate(con)}
                         />
                       </td>
+                      :
+                      null
+                      }
                       <td>
 
                       <ButtonGroup variant="text">

@@ -861,7 +861,10 @@ const ProviderDetails = () => {
                         <th>Total Applications</th>
                         <th>Total Registered</th>
                         <th>Total Subjects</th>
+                        {permissions?.includes(permissionList?.Change_Status_University) ?
                         <th>Status</th>
+                      :
+                      null}
                      
                         <th>Action</th>
                       </tr>
@@ -892,12 +895,15 @@ const ProviderDetails = () => {
                           </td>
                           <td>{university?.totalRegistered}</td>
                           <td>{university?.totalSubjects}</td>
+                          {permissions?.includes(permissionList?.Change_Status_University) ?
                           <td>
                             <ToggleSwitch
                             defaultChecked={university?.isActive}
                             onChange={()=> handleUpdateStatus(university)}
                             />
                           </td>
+                          :
+                          null}
                           <td>
 
                           {
@@ -1077,14 +1083,14 @@ const ProviderDetails = () => {
                 <div className="bg-h"></div>
                 </div>
 
-              {permissions?.includes(permissionList?.Add_New_Admissionofficer) ? (
+              {/* {permissions?.includes(permissionList?.Add_New_Admissionofficer) ? (
                 <Link to={`/addAdmissionManager/${id}`}>
                   <Button className="btn btn-uapp-add mt-2 ml-3">
                     {" "}
                     <i class="fas fa-plus"></i> Add Admission Officer{" "}
                   </Button>
                  </Link>
-              ) : null}
+              ) : null} */}
 
               {officer.length < 1 && (
                 <h5 className="text-center mt-3 mb-4">
