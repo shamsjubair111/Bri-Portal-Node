@@ -76,6 +76,7 @@ const AssignOfficerUniversity = () => {
   const [managerValue, setManagerValue] = useState(0);
   const [managerError,setManagerError] = useState('');
   const userType = localStorage.getItem('userType');
+  const [officerData, setOfficerData] = useState({});
 
   const { providerId, managerId} = useParams();
 
@@ -83,14 +84,14 @@ const AssignOfficerUniversity = () => {
     
     get(`AdmissionOfficerUniversity/Index/${managerId}`)
     .then(res => {
-        console.log('second',res);
+       
         setUniList(res);
     })
 
     if(userType == userTypes?.AdmissionManager){
       get(`AdmissionManagerUniversityDD/AdmissionManager/${managerId}`)
       .then(res => {
-        console.log('Hello University List', res);
+        
         setProviderUniList(res);
       })
     }
@@ -101,6 +102,12 @@ const AssignOfficerUniversity = () => {
     .then(res => {
       
       setAdmissionManager(res);
+    })
+
+    get(`AdmissionOfficer/Get/${managerId}`)
+    .then(res => {
+        console.log('Admission officer Info', res);
+        setOfficerData(res);
     })
 
 
@@ -378,7 +385,7 @@ const AssignOfficerUniversity = () => {
         <CardBody>
 
           <div className='d-flex justify-content-end mb-3'>
-            <span style={{fontWeight: 'bold'}}>Admission Officer: {uniList[0]?.admissionOfficer?.firstName}{' '}{uniList[0]?.admissionOfficer?.lastName}</span>
+            <span style={{fontWeight: 'bold'}}>Admission Officer: {officerData?.nameTittle?.name}{' '}{officerData?.firstName}{' '}{officerData?.lastName}</span>
 
           </div>
 

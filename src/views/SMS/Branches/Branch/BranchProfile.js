@@ -262,7 +262,7 @@ const BranchProfile = (props) => {
             <PaginatedTables
             id={id}
             />
-
+      
 
           
           </Col>

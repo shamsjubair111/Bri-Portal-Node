@@ -26,7 +26,7 @@ const Manager = (props) => {
 
     return (
         <div>
-                {branchManager?.nameTittleId && (
+                {branchManager?.id  && (
               <Card>
 
                 {/* <div className=' pl-3 mt-2'> <span className='branch-title-style'>Branch Manager</span></div> */}
@@ -90,7 +90,7 @@ const Manager = (props) => {
               </Card>
             )}
 
-            {!branchManager.nameTittleId && (
+            {!branchManager?.id && (
               <Card>
                 {
                   permissions?.includes(permissionList.Add_New_Branch_Manager) ?
