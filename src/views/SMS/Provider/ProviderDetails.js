@@ -126,6 +126,7 @@ const ProviderDetails = () => {
     });
 
     get(`AdmissionManager/GetbyProvider/${id}`).then((res) => {
+      console.log('Admission Manager', res);
       setAdmissionManager(res);
     });
 
@@ -141,9 +142,15 @@ const ProviderDetails = () => {
       setTitle(res);
     });
 
-    get(`AdmissionOfficer/GetByProvider/${id}`)
-    .then(res => {
+    // get(`AdmissionOfficer/GetByProvider/${id}`)
+    // .then(res => {
       
+    //   setOfficer(res);
+    // })
+
+    get(`AdmissionOfficer/OfficerForProvider/${id}`)
+    .then(res => {
+      console.log('first',res);
       setOfficer(res);
     })
   }, [
@@ -315,6 +322,10 @@ const ProviderDetails = () => {
     setModalOpen(true);
   };
 
+  const viewProviderAdminInfo = () => {
+    history.push(`/providerAdminProfile/${adminData?.id}`);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -358,6 +369,9 @@ const ProviderDetails = () => {
 
   const redirectToAssignPage = (managerId) =>{
     history.push(`/assignUniversity/${id}/${managerId}`);
+  }
+  const redirectToAssignSubjectPage = (officer) =>{
+    history.push(`/admissionOfficerAssignedSubjects/${officer?.id}`);
   }
 
   const redirectToProviderAdmissionManager = (managerId, id) => {
@@ -775,15 +789,28 @@ const ProviderDetails = () => {
                   </ul>
 
                   <div style={{position: 'relative', left: '55px'}}>
+                    {
+                    permissions?.includes(permissionList?.View_Provider_Admin_info) ? 
+                    <LinkButton
+                    // name={"Edit"}
+                    func={viewProviderAdminInfo}
+                    color={'primary'}
+                    icon={<i className="fas fa-eye"></i>}
+                    className={'btn-sm mr-1'}
+                  />
+                  :
+                  null
+                    }
+
                 {permissions?.includes(
                   permissionList?.Update_Provider_Admin_info
                 ) ? (
                   <LinkButton
                     // name={"Edit"}
                     func={updateProviderAdmin}
-                    color={'primary'}
+                    color={'warning'}
                     icon={<i className="fas fa-edit"></i>}
-                    className={'btn-sm'}
+                    className={'btn-sm ml-1'}
                   />
                 ) : null}
               </div>
@@ -960,24 +987,30 @@ const ProviderDetails = () => {
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>
+                        <th>Uapp Id</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone Number</th>
                         {
                               permissions?.includes(permissionList.View_Admission_manager_university_List) ?
                         <th>Assigned University</th>
                         :
                         null}
+                        <th>Applications</th>
+                        <th>Registered Applications</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {admissionManager?.map((manager, i) => (
                         <tr key={manager.id} style={{ textAlign: "center" }}>
+                          <td>{manager?.sequenceId}</td>
                           <td>
                             <span className="me-1">{manager?.firstName}{' '}</span>
                             {manager?.lastName}
                           </td>
                           <td>{manager?.email}</td>
+                          <td>{manager?.phoneNumber}</td>
                           <td>
                             {" "}
                             <span
@@ -1002,6 +1035,8 @@ const ProviderDetails = () => {
                              }
                             </span>{" "}
                           </td>
+                          <td>{manager?.totalApplication}</td>
+                          <td>{manager?.registeredApplication}</td>
                           <td>
                             <ButtonGroup>
                           {/* <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
@@ -1102,8 +1137,19 @@ const ProviderDetails = () => {
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>
+                        <th>Uapp Id</th>
                         <th>Name</th>
+                        
                         <th>Email</th>
+                        <th>Phone Number</th>
+                        {
+                            permissions?.includes(permissionList?.View_Admissionofficer_Subject_list) ?
+                        <th>Assigned Subject</th>
+                        :
+                        null
+                        }
+                        <th>Applications</th>
+                        <th>Registered Applications</th>
                       
                         <th>Action</th>
                       </tr>
@@ -1111,11 +1157,26 @@ const ProviderDetails = () => {
                     <tbody>
                       {officer?.map((off, i) => (
                         <tr key={i} style={{ textAlign: "center" }}>
+                          <td>{off?.viewId}</td>
                           <td>
+                            
                             <span className="me-1">{off?.firstName}{' '}</span>
                             {off?.lastName}
                           </td>
                           <td>{off?.email}</td>
+                          <td>{off?.phoneNumber}</td>
+                          {
+                            permissions?.includes(permissionList?.View_Admissionofficer_Subject_list) ?
+                          
+                              
+                          
+                          <td> <span onClick={()=>redirectToAssignSubjectPage(off)} className="badge badge-secondary"
+                              style={{ cursor: "pointer" }}>View</span></td>
+                        
+                          :null
+                          }
+                          <td>{off?.applications}</td>
+                          <td>{off?.registeredApplications}</td>
                          
                           <td>
                             <ButtonGroup>

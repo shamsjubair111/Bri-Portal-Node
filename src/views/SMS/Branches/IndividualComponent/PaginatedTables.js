@@ -531,7 +531,7 @@ const PaginatedTables = (props) => {
                     </div>
 
                  
-                <div className="table-responsive mt-3">
+                <div className="table-responsive my-3">
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
@@ -650,6 +650,7 @@ const PaginatedTables = (props) => {
                 </tbody>
               </Table>
             </div>
+
             <Pagination
             dataPerPage={dataPerPage6}
             totalData={entity6}

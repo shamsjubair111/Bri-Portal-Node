@@ -535,17 +535,17 @@ const SubjectProfile = () => {
                     <>
                      <div className='d-flex justify-content-between'>
                        <span>EU Tution Fee</span>
-                       <p>€{subjectData?.subjectFee?.eU_TutionFee}</p>
+                       <p>{subjectData?.university?.universityCountry?.id == 1 ?  '£' : subjectData?.university?.universityCountry?.id == 3 ? 'CA$' : subjectData?.university?.universityCountry?.id == 2 ? '$' : subjectData?.university?.universityCountry?.id == 4 ? '€' : null}{subjectData?.subjectFee?.eU_TutionFee}</p>
                      </div>
                      
                      <div className='d-flex justify-content-between'>
                         <span>International Tution Fee</span>
-                        <p>€{subjectData?.subjectFee?.internationalTutionFee}</p>
+                        <p>{subjectData?.university?.universityCountry?.id == 1 ?  '£' : subjectData?.university?.universityCountry?.id == 3 ? 'CA$' : subjectData?.university?.universityCountry?.id == 2 ? '$' : subjectData?.university?.universityCountry?.id == 4 ? '€' : null}{subjectData?.subjectFee?.internationalTutionFee}</p>
                      </div>
                      
                      <div className='d-flex justify-content-between'>
                         <span>Local Tution Fee</span>
-                        <p>€{subjectData?.subjectFee?.localTutionFee}</p>
+                        <p>{subjectData?.university?.universityCountry?.id == 1 ?  '£' : subjectData?.university?.universityCountry?.id == 3 ? 'CA$' : subjectData?.university?.universityCountry?.id == 2 ? '$' : subjectData?.university?.universityCountry?.id == 4 ? '€' : null}{subjectData?.subjectFee?.localTutionFee}</p>
                      </div>
                     </>
                     :

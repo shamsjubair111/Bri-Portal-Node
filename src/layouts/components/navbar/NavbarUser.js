@@ -40,11 +40,14 @@ const redirectToProfile = () => {
   else if (userInfo?.userTypeId == userTypes?.AdmissionManager) {
     history.push(`/admissionManagerProfile/${userInfo?.referenceId}`);
   }
+  else if (userInfo?.userTypeId == userTypes?.AdmissionOfficer) {
+    history.push(`/admissionOfficerDetails/${userInfo?.referenceId}`);
+  }
   else if (userInfo?.userTypeId == userTypes?.ProviderAdmin) {
     history.push(`/providerAdminProfile/${userInfo?.referenceId}`);
   }
   else if (userInfo?.userTypeId == userTypes?.BranchManager) {
-    history.push(`/providerAdminProfile/${userInfo?.referenceId}`);//TODO
+    history.push(`/branchManagerProfile/${userInfo?.referenceId}`);//TODO
   }
   else if (userInfo?.userTypeId == userTypes?.Consultant) {
     history.push(`/consultantProfile/${userInfo?.referenceId}`);
