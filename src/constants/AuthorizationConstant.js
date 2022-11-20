@@ -712,7 +712,9 @@ export const  permissionList = {
          Change_Status_Consultant: 548,
          Change_Status_University:549,
          View_Report: 547,
-         Change_Status_Provider:550
+         Change_Status_Provider:550,
+
+         GetAdmissionOfficerForManager: 553
 
          
 

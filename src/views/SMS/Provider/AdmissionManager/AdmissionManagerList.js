@@ -1455,6 +1455,11 @@ const AdmissionManagerList = () => {
                       null
                       }
 
+                   {
+                      permissions?.includes(permissionList?.GetAdmissionOfficerForManager)?
+
+                      <>
+
                       {
                         checkAdmissionOfficers ?
                         <td>
@@ -1469,6 +1474,10 @@ const AdmissionManagerList = () => {
                       :
                       null
                       }
+                      </>
+                      :
+                      null
+                        }
 
                       {
                         checkRegStd ?
