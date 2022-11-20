@@ -40,6 +40,7 @@ import SpanButton from "../Components/SpanButton";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ToggleSwitch from "../Components/ToggleSwitch";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
@@ -123,6 +124,7 @@ const ApplicationDetails = () => {
     const [pte, setPte] = useState({});
     const [gMatResult, setGMatResult]  =useState({});
     const [greResult,setGreResult] = useState({});
+ 
 
   function getBase641(file) {
     return new Promise((resolve, reject) => {
@@ -343,6 +345,9 @@ const ApplicationDetails = () => {
     const x = localeDate.split(",")[0];
     return x;
   };
+
+ 
+
 
   const handleDate2 = (e) => {
     var datee = e;
@@ -719,6 +724,9 @@ const ApplicationDetails = () => {
       }
     );
   };
+
+
+
 
   const handleOpenELPTModal = () => {
     setElptModalOpen(true);
@@ -4063,6 +4071,26 @@ const ApplicationDetails = () => {
                   <span>
                     <b>Phone:</b> {applicationInfo?.consultant?.phoneNumber}
                   </span>
+                  <br/>
+                
+                  <span>
+                    <b>Account Status: </b> {applicationInfo?.consultant?.accountStatus?.statusName}
+                   
+                    <br/>
+                  {
+                    (applicationInfo?.consultant?.accountStatusId == 4) ?
+                    <span className="text-danger">  The consultant of this student is blocked due to compliance issue. Please contact admin before you do any further update on his applications.</span>
+                    :
+                    null
+                  }
+
+                 
+                  </span>
+                  <br/>
+                  
+                 
+                  
+                  
                 </div>
                 <div>
                   <div className="uapp-circle-image margin-top-minus">

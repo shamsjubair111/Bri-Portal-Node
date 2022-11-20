@@ -2718,22 +2718,22 @@ const UniversityDetails = () => {
                   <>
                     <div className="d-flex justify-content-between">
                       <span>Avarage Tution Fee</span>
-                      <p>€{financialInfo?.avarageTutionFee}</p>
+                      <p>{universityInfo?.universityCountry?.id == 1 ?  '£' : universityInfo?.universityCountry?.id == 3 ? 'CA$' : universityInfo?.universityCountry?.id == 2 ? '$' : universityInfo?.universityCountry?.id == 4 ? '€' : null}{financialInfo?.avarageTutionFee}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
                       <span>Avarage Application Fee</span>
-                      <p>€{financialInfo?.avarageApplicationFee}</p>
+                      <p>{universityInfo?.universityCountry?.id == 1 ?  '£' : universityInfo?.universityCountry?.id == 3 ? 'CA$' : universityInfo?.universityCountry?.id == 2 ? '$' : universityInfo?.universityCountry?.id == 4 ? '€' : null}{financialInfo?.avarageApplicationFee}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
                       <span>Avarage Living Cost</span>
-                      <p>€{financialInfo?.avarageLivingCost}</p>
+                      <p>{universityInfo?.universityCountry?.id == 1 ?  '£' : universityInfo?.universityCountry?.id == 3 ? 'CA$' : universityInfo?.universityCountry?.id == 2 ? '$' : universityInfo?.universityCountry?.id == 4 ? '€' : null}{financialInfo?.avarageLivingCost}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
                       <span>Estimated Total Cost</span>
-                      <p>€{financialInfo?.estimatedTotalCost}</p>
+                      <p>{universityInfo?.universityCountry?.id == 1 ?  '£' : universityInfo?.universityCountry?.id == 3 ? 'CA$' : universityInfo?.universityCountry?.id == 2 ? '$' : universityInfo?.universityCountry?.id == 4 ? '€' : null}{financialInfo?.estimatedTotalCost}</p>
                     </div>
                   </>
                 )}

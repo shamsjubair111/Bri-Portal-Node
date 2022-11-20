@@ -83,6 +83,7 @@ const BranchProfile = (props) => {
     get(`Branch/Get/${id}`).then((res) => {
       
       setBranchInfo(res);
+      console.log('info', res);
     });
 
     
