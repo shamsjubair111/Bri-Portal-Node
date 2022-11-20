@@ -709,6 +709,9 @@ export const  permissionList = {
 
          View_Admissionmanager_Subject_list : 545,
          View_Admissionofficer_Subject_list : 546,
+         Change_Status_Consultant: 548,
+         Change_Status_University:549
+
          
 
 

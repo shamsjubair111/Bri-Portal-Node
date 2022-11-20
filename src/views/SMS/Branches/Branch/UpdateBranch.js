@@ -261,7 +261,7 @@ const Branch = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Telephone Number <span className="text-danger">*</span>{" "}
+                      Mobile Number <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="4">
@@ -271,7 +271,7 @@ const Branch = () => {
                       id="telePhoneNumber"
                       defaultValue={branchInfo?.telePhoneNumber}
                      
-                      required
+                     
                     />
                 
                   </Col>

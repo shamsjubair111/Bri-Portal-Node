@@ -344,7 +344,7 @@ const Branch = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Phone Number <span className="text-danger">*</span>{" "}
+                      Phone Number
                     </span>
                   </Col>
                   <Col md="4">
@@ -362,7 +362,7 @@ const Branch = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Telephone Number <span className="text-danger">*</span>{" "}
+                      Mobile Number
                     </span>
                   </Col>
                   <Col md="4">
@@ -371,7 +371,7 @@ const Branch = () => {
                       name="telePhoneNumber"
                       id="telePhoneNumber"
                       placeholder="Enter Telephone Number"
-                      required
+                      
                       defaultValue={branchInfo?.telePhoneNumber}
                     />
                 

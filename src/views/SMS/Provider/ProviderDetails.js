@@ -32,6 +32,7 @@ import put from "../../../helpers/put.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import LinkSpanButton from "../Components/LinkSpanButton.js";
+import ToggleSwitch from "../Components/ToggleSwitch.js";
 
 const ProviderDetails = () => {
   const { id } = useParams();
@@ -115,15 +116,9 @@ const ProviderDetails = () => {
       setProId(res?.providertype?.id);
     });
     get(
-      `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${id}&universityCountryId=${
-        uCountryId ? uCountryId : uniCountryValue
-      }&universityStateId=${
-        uStateId ? uStateId : unistateValue
-      }&universityTypeId=${
-        uTypeId ? uTypeId : uniTypeValue
-      }&search=${searchStr}`
+      `University/IndexForProvider?page=${currentPage}&pagesize=${dataPerPage}&providerId=${id}`
     ).then((action) => {
-     
+     console.log('University List', action);
       setUniversityList(action?.models);
       setLoading(false);
       setEntity(action?.totalEntity);
@@ -231,6 +226,27 @@ const ProviderDetails = () => {
   
     setDeleteData({});
   };
+
+  const handleUpdateStatus = (data) => {
+    console.log(data);
+    put(`University/UpdateStatus/${data?.id}`)
+    .then(res => {
+      if(res?.status == 200 && res?.data?.isSuccess == true){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        })
+        setSuccess(!success);
+      }
+      else{
+        addToast(res?.data?.message,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+      }
+    })
+
+  }
 
   const toggleDelete2 = (data) => {
     
@@ -842,7 +858,14 @@ const ProviderDetails = () => {
                       <tr style={{ textAlign: "center" }}>
                         <th>Logo</th>
                         <th>Name</th>
-                        <th>Type</th>
+                        <th>Total Applications</th>
+                        <th>Total Registered</th>
+                        <th>Total Subjects</th>
+                        {permissions?.includes(permissionList?.Change_Status_University) ?
+                        <th>Status</th>
+                      :
+                      null}
+                     
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -864,11 +887,26 @@ const ProviderDetails = () => {
                             />{" "}
                           </td>
                           <td>
-                            {university.name} ({university.shortName})
+                            {university?.universityName} ({university?.universityShortName})
                           </td>
-                          <td>{university?.universityType?.name}</td>
+                     
                           <td>
-                            {
+                           {university?.totalApplication}
+                          </td>
+                          <td>{university?.totalRegistered}</td>
+                          <td>{university?.totalSubjects}</td>
+                          {permissions?.includes(permissionList?.Change_Status_University) ?
+                          <td>
+                            <ToggleSwitch
+                            defaultChecked={university?.isActive}
+                            onChange={()=> handleUpdateStatus(university)}
+                            />
+                          </td>
+                          :
+                          null}
+                          <td>
+
+                          {
                               permissions?.includes(permissionList.View_University_info) ?
                               <Button color="primary" className="btn-sm" onClick={()=>{
                                 history.push({

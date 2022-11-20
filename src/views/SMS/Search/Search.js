@@ -765,7 +765,8 @@ const Search = () => {
                   appearance: 'success',
                   autoDismiss: true
                 })
-                history.push(`/applicationDetails/${res?.data?.result?.applicationId}/${studentDataValue}`);
+          
+                history.push(`/applicationDetails/${res?.data?.result?.applicationId}/${(userType ==userTypes?.Student) ? localStorage.getItem('referenceId'): studentDataValue}`);
               }
               else{
                 addToast(res?.data?.message,{
@@ -820,7 +821,7 @@ const Search = () => {
                 appearance: 'success',
                 autoDismiss: true
               })
-              history.push(`/applicationDetails/${res?.data?.result?.applicationId}/${studentDataValue}`);
+              history.push(`/applicationDetails/${res?.data?.result?.applicationId}/${(userType ==userTypes?.Student) ? localStorage.getItem('referenceId'): studentDataValue}`);
             }
             else{
               addToast(res?.data?.message,{

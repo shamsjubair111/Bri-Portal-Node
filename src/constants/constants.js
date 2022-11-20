@@ -4,9 +4,17 @@
 // export const rootUrl = `http://192.168.0.15:45456/`
 
 // export const rootUrl = `http://api.uapp.uk/`
+<<<<<<< HEAD
 
 
 export const rootUrl = `http://192.168.0.119:45456/`
+=======
+
+
+
+export const rootUrl = `http://192.168.0.119:45456/`
+
+>>>>>>> marged
 
 
 // export const rootUrl = `http://192.168.0.6:45455/`
