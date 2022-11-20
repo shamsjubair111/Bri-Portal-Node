@@ -3,14 +3,10 @@
 // export const rootUrl = `http://192.168.0.115:45456/`
 // export const rootUrl = `http://192.168.0.15:45456/`
 
-export const rootUrl = `http://api.uapp.uk/`
+// export const rootUrl = `http://api.uapp.uk/`
 
 
-<<<<<<< HEAD
-// export const rootUrl = `http://192.168.0.9:45457/`
-=======
 export const rootUrl = `http://192.168.0.119:45456/`
->>>>>>> Merged-pranto
 
 
 // export const rootUrl = `http://192.168.0.6:45455/`
