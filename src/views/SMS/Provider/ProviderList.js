@@ -40,14 +40,19 @@ import LinkButton from "../Components/LinkButton.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import Loader from "../Search/Loader/Loader.js";
+import ToggleSwitch from "../../SMS/Components/ToggleSwitch";
+import put from "../../../helpers/put.js";
 
 const ProviderList = () => {
   const history = useHistory();
   const [providerList, setProviderList] = useState([]);
   const [searchStr, setSearchStr] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [providerLabel, setProviderLabel] = useState("Select Provider Type ");
+  const [providerLabel, setProviderLabel] = useState("Select Provider Type");
   const [providerValue, setProviderValue] = useState(0);
+  const [uappIdLabel, setUappIdLabel] = useState("Select Uapp Id");
+  const [uappIdValue, setUappIdValue] = useState(0);
+
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
   const [entity, setEntity] = useState(0);
@@ -63,9 +68,11 @@ const ProviderList = () => {
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkUniCount, setCheckuniCount] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [checkAppli, setCheckAppli] = useState(true);
 
   const { addToast } = useToasts();
   const [providerType, setProviderType] = useState([]);
+  const [uappIdDD, setUappIdDD] = useState([]);
   const [delData, setDelData] = useState({});
   const [success, setSuccess] = useState(false);
 
@@ -76,6 +83,8 @@ const ProviderList = () => {
   const [provider,setProvider] = useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
 
+  const [checkSts, setCheckSts] = useState(true);
+
   useEffect(() => {
     const providerTypeId = 0;
     const pageSize = 15;
@@ -84,7 +93,7 @@ const ProviderList = () => {
     get(
       `Provider/Index?providerTypeId=${
         providerTypeId ? providerTypeId : providerValue
-      }&searchstring=${searchStr}`
+      }&uappId=${uappIdValue}&searchstring=${searchStr}`
     ).then((action) => {
       setProviderList(action?.models);
       console.log("aaaaaa", action);
@@ -101,7 +110,11 @@ const ProviderList = () => {
       // console.log('provider',res);
       setProviderType(res);
     });
-  }, [providerValue, searchStr, currentPage, success]);
+
+    get(`ProviderDD/UappId`).then((res) => {
+      setUappIdDD(res);
+    });
+  }, [providerValue, uappIdValue, searchStr, currentPage, success]);
 
   // console.log(providerValue);
   // console.log(searchStr);
@@ -163,6 +176,18 @@ const ProviderList = () => {
     handleSearch();
   };
 
+  const uappIdOptions = uappIdDD.map((list) => ({
+    label: list.name,
+    value: list.id,
+  }));
+
+  const selectUappIdDD = (label, value) => {
+    setUappIdLabel(label);
+    setUappIdValue(value);
+
+    handleSearch();
+  };
+
   const searchValue = (e) => {
     setSearchStr(e.target.value);
     handleSearch();
@@ -173,6 +198,8 @@ const ProviderList = () => {
     setSearchStr("");
     setProviderLabel("Select Provider Type");
     setProviderValue(0);
+    setUappIdLabel("Select UappId");
+    setUappIdValue(0);
     setCallApi((prev) => !prev);
   };
 
@@ -216,6 +243,36 @@ const ProviderList = () => {
     history.push(`/updateProvider/${providerId}`);
   };
 
+  const handleAccountStatus = (e, providerId) => {
+    console.log(e.target.checked, providerId);
+    // setChecked(e.target.checked);
+    // console.log(check);
+
+    const subData = {
+      id: providerId,
+    };
+
+    console.log("SubDataaa", subData);
+
+    put(`Provider/UpdateStatus/${providerId}`, subData).then(
+      (res) => {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+        }
+        else{
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      }
+    );
+  };
+
   // for hide/unhide column
 
   const handleCheckedSLNO = (e) => {
@@ -230,8 +287,14 @@ const ProviderList = () => {
   const handleCheckedPhn = (e) => {
     setCheckPhn(e.target.checked);
   };
+  const handleCheckedAppli = (e) => {
+    setCheckAppli(e.target.checked);
+  };
   const handleCheckedUniCount = (e) => {
     setCheckuniCount(e.target.checked);
+  };
+  const handleCheckedSts = (e) => {
+    setCheckSts(e.target.checked);
   };
   const handleCheckedAction = (e) => {
     setCheckAction(e.target.checked);
@@ -259,7 +322,7 @@ const ProviderList = () => {
       <Card className="uapp-employee-search">
         <CardBody>
           <Row>
-            <Col lg="6" md="6" sm="12" xs="12">
+            <Col lg="4" md="4" sm="6" xs="6">
               <Select
                 options={providertype}
                 value={{ label: providerLabel, value: providerValue }}
@@ -270,7 +333,20 @@ const ProviderList = () => {
                 id="providerTypeId"
               />
             </Col>
-            <Col lg="6" md="6" sm="12" xs="12">
+
+            <Col lg="4" md="4" sm="6" xs="6">
+              <Select
+                options={uappIdOptions}
+                value={{ label: uappIdLabel, value: uappIdValue }}
+                onChange={(opt) =>
+                  selectUappIdDD(opt.label, opt.value)
+                }
+                name="uappId"
+                id="uappId"
+              />
+            </Col>
+
+            <Col lg="4" md="4" sm="6" xs="6">
               <Input
                 style={{ height: "2.7rem" }}
                 type="text"
@@ -399,7 +475,7 @@ const ProviderList = () => {
                     <DropdownMenu className="bg-dd-1">
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">SL/NO</p>
+                          <p className="">Uapp Id</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -477,6 +553,25 @@ const ProviderList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
+                          <p className="">Applications</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAppli(e);
+                              }}
+                              defaultChecked={checkAppli}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
                           <p className="">University Count</p>
                         </Col>
 
@@ -489,6 +584,25 @@ const ProviderList = () => {
                                 handleCheckedUniCount(e);
                               }}
                               defaultChecked={checkUniCount}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Account Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSts(e);
+                              }}
+                              defaultChecked={checkSts}
                             />
                           </FormGroup>
                         </Col>
@@ -528,16 +642,25 @@ const ProviderList = () => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    {checkSlNo ? <th>SL/NO</th> : null}
+                    {checkSlNo ? <th>Uapp Id</th> : null}
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone No</th> : null}
+                    {checkAppli ? <th>Applications</th> : null}
                   {
                     permissions?.includes(permissionList.View_University_List) ?
                     <>  {checkUniCount ? <th>University Count</th> : null}</>
                     :
                     null
                   }
+                  
+                  {
+                      permissions?.includes(permissionList?.Change_Status_Provider)?
+                 <>
+                   {checkSts ? <th>Account Status</th> : null}
+                 </>
+                  :
+                  null}
 
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
@@ -549,7 +672,7 @@ const ProviderList = () => {
                 <tbody>
                   {providerList?.map((prov, i) => (
                     <tr key={prov.id} style={{ textAlign: "center" }}>
-                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {checkSlNo ? <td>{prov?.providerViewId}</td> : null}
 
                       {checkName ? (
                         <td>
@@ -558,6 +681,17 @@ const ProviderList = () => {
                       ) : null}
                       {checkEmail ? <td>{prov?.email}</td> : null}
                       {checkPhn ? <td>{prov?.phoneNumber}</td> : null}
+
+                      {checkAppli ? (
+                        <td>
+                          <span
+                            className="badge badge-primary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {prov?.applicationCount}
+                          </span>
+                        </td>
+                      ) : null}
 
                       {
                     permissions?.includes(permissionList.View_University_List) ?
@@ -584,6 +718,30 @@ const ProviderList = () => {
                      :
                      null
                           }
+
+                    {
+                      permissions?.includes(permissionList?.Change_Status_Provider)?
+
+                          <>
+                            {
+                            checkSts ?
+                            <td>
+                          <ToggleSwitch 
+                                defaultChecked={
+                                  prov?.isActive == false ? false : true
+                                }
+                                onChange={(e) => {
+                                  handleAccountStatus(e, prov?.id);
+                                }}
+                            />
+                          </td>
+                          :
+                          null
+                          }
+                          </>
+                          :
+                          null
+                     }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
@@ -659,7 +817,7 @@ const ProviderList = () => {
                                 color={"danger"}
                                 func={() => toggleDeleteProvider(prov)}
                                 className={"mx-1 btn-sm"}
-                                icon={<i class="fas fa-trash-alt"></i>}
+                                icon={<i className="fas fa-trash-alt"></i>}
                                 permission={6}
                               />
                             ) : null}
@@ -695,6 +853,9 @@ const ProviderList = () => {
               </Table>
             </div>
           )}
+          <div className="d-flex justify-content-end mt-3 mb-2">
+          <h5>Total Results Found: {providerList.length}</h5>
+          </div>
         </CardBody>
       </Card>
         </>

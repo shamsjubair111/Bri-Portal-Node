@@ -513,7 +513,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
                       <DropdownToggle caret>
                         <i className="fas fa-bars"></i>
                       </DropdownToggle>
-                      <DropdownMenu className="bg-dd-3-1">
+                      <DropdownMenu className="bg-dd-2">
                         <div className="d-flex justify-content-between">
                           <Col md="8" className="">
                             <p className="">SL/NO</p>

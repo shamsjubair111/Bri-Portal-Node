@@ -39,7 +39,7 @@ import * as XLSX from "xlsx/xlsx.mjs";
 import ReactToPrint from "react-to-print";
 
 import Select from "react-select";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import get from "../../../helpers/get";
 import { useToasts } from "react-toast-notifications";
@@ -128,6 +128,7 @@ const AdmissionOfficerList = () => {
   const location = useLocation();
   const history = useHistory();
   const { addToast } = useToasts();
+  const {providerId, managerId} = useParams();
 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
@@ -167,16 +168,35 @@ const AdmissionOfficerList = () => {
     // setLoading(true);
     // setLoading(false);
 
-    get(
-      `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${proValue}&admissionmanagerId=${managerValue}&search=${searchStr}`
-    ).then((res) => {
-      console.log('Response', res);
-      setOfficerList(res?.models);
-      setEntity(res?.totalEntity);
-      setSerialNum(res?.firstSerialNumber);
-      setLoading(false);
-    });
-  }, [currentPage, dataPerPage, managerValue, searchStr, success, loading, proValue]);
+    if(providerId !== undefined && managerId !== undefined){
+      get(
+        `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${providerId}&admissionmanagerId=${managerId}&search=${searchStr}`
+      ).then((res) => {
+        console.log('Response', res);
+        setOfficerList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNum(res?.firstSerialNumber);
+        setProLabel(res?.models.length !== 0 ? res?.models[0]?.provider?.name : "");
+        setProValue(providerId);
+        setManagerLabel(res?.models.length !== 0 ? res?.models[0]?.admissionManagerName : "");
+        setManagerValue(managerId);
+        // setManagerValue(managerId);
+
+        setLoading(false);
+      });
+    }
+    else{
+      get(
+        `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${proValue}&admissionmanagerId=${managerValue}&search=${searchStr}`
+      ).then((res) => {
+        console.log('Response', res);
+        setOfficerList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNum(res?.firstSerialNumber);
+        setLoading(false);
+      });
+    }
+  }, [currentPage, dataPerPage, managerValue, searchStr, success, loading, proValue, managerId, providerId]);
 
   useEffect(()=>{
 
@@ -420,7 +440,12 @@ const handleChange = ({ fileList }) => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/");
+    if(providerId !== undefined && managerId !== undefined){
+      history.push("/admissionManagerList");
+    }
+    else{
+      history.push("/");
+    }
   };
 
   const redirectToOfficerAssignPage = (officerId) => {
@@ -705,7 +730,13 @@ const handleChange = ({ fileList }) => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              <i className="fas fa-arrow-circle-left"></i>{" "} 
+              {
+                providerId !== undefined && managerId !== undefined ?
+                "Back to Admission Manager List"
+                :
+                "Back to Dashboard"
+              }
             </span>
           </div>
         </CardHeader>
@@ -724,6 +755,7 @@ const handleChange = ({ fileList }) => {
                 onChange={(opt) => selectProviders(opt.label, opt.value)}
                 name="admissionmanagerId"
                 id="admissionmanagerId"
+                isDisabled={providerId !== undefined ? true : false}
               />
             </Col>
             }
@@ -739,6 +771,7 @@ const handleChange = ({ fileList }) => {
                 onChange={(opt) => selectManager(opt.label, opt.value)}
                 name="admissionmanagerId"
                 id="admissionmanagerId"
+                isDisabled={managerId !== undefined ? true : false}
               />
               
             </Col>

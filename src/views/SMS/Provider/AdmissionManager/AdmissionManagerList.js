@@ -109,9 +109,12 @@ const AdmissionManagerList = () => {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkAssign, setCheckAssign] = useState(true);
+  const [checkAdmissionOfficers, setCheckedAdmissionOfficers] = useState(true);
+  const [checkRegStd, setCheckRegStd] = useState(true);
   const [checkAppli, setCheckAppli] = useState(true);
   const [checkSts, setCheckSts] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  
   const [sub,setSub] = useState(true);
 
   const location = useLocation();
@@ -505,6 +508,11 @@ const AdmissionManagerList = () => {
     setUniStateValue(value);
   };
 
+  const redirectToAdmissionOfficerList = (providerId, managerId) => {
+    console.log("ids", providerId, managerId);
+    history.push(`/admissionOfficerListt/${providerId}/${managerId}`);
+  }
+
   // for hide/unhide column
 
   const handleCheckedSLNO = (e) => {
@@ -530,6 +538,12 @@ const AdmissionManagerList = () => {
   };
   const handleCheckedSub = (e) => {
     setSub(e.target.checked);
+  };
+  const handleCheckedAdmissionofficers = (e) => {
+    setCheckedAdmissionOfficers(e.target.checked);
+  };
+  const handleCheckedRegStd = (e) => {
+    setCheckRegStd(e.target.checked);
   };
   const handleCheckedAppli = (e) => {
     setCheckAppli(e.target.checked);
@@ -619,7 +633,7 @@ const AdmissionManagerList = () => {
         <CardBody>
           {/* new */}
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+            <Col lg="5" md="5" sm="12" xs="12">
               {
               permissions?.includes(permissionList.Add_New_Admission_manager) ? 
               <ButtonForFunction
@@ -972,8 +986,8 @@ const AdmissionManagerList = () => {
               </Modal>
             </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="7" md="7" sm="12" xs="12" className="mt-md-0 mt-sm-3">
+              <div className="d-flex justify-content-md-end justify-content-sm-start">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>
@@ -1209,6 +1223,44 @@ const AdmissionManagerList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
+                          <p className="">Admission Officers</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedAdmissionofficers(e);
+                              }}
+                              defaultChecked={checkAdmissionOfficers}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Registered Student</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedRegStd(e);
+                              }}
+                              defaultChecked={checkRegStd}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
                           <p className="">Applications</p>
                         </Col>
 
@@ -1306,6 +1358,11 @@ const AdmissionManagerList = () => {
                       :
                       null
                     }
+
+                    {checkAdmissionOfficers ? <th>Admission Officers</th> : null}
+
+                    {checkRegStd ? <th>Registered Student</th> : null}
+
                     {checkAppli ? <th>Applications</th> : null}
                     {
                       permissions?.includes(permissionList?.Change_Status_Admissionmanager)?
@@ -1398,6 +1455,34 @@ const AdmissionManagerList = () => {
                       null
                       }
 
+                      {
+                        checkAdmissionOfficers ?
+                        <td>
+                      <span
+                        onClick={() => redirectToAdmissionOfficerList(manager?.providerId, manager?.id)}
+                        className="badge badge-primary"
+                        style={{ cursor: "pointer" }}
+                      >
+                            {manager?.totalOfficers}
+                          </span>
+                      </td>
+                      :
+                      null
+                      }
+
+                      {
+                        checkRegStd ?
+                        <td>
+                        <span
+                            className="badge badge-primary"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {manager?.registeredApplication}
+                          </span>
+                      </td>
+                      :
+                      null
+                      }
 
                       {/* Applications starts here */}
                       {checkAppli ? (

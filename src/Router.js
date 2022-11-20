@@ -559,7 +559,8 @@ class AppRouter extends React.Component {
          <AppRoute  path="/admissionManagerAssignedSubjects/:managerId" component={permissions?.includes(permissionList.View_Admissionofficer_Subject_list) ? AdmissionManagerAssignedSubjects : NotAuthorized } />
 
          {/* admission officer */}
-         <AppRoute  path="/admissionOfficerList" component={permissions?.includes(permissionList?. View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />
+         <AppRoute  path="/admissionOfficerList" component={permissions?.includes(permissionList?.View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />
+         <AppRoute  path="/admissionOfficerListt/:providerId/:managerId" component={permissions?.includes(permissionList?.View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />
          <AppRoute  path="/admissionOfficerDetails/:officerId" component={permissions?.includes(permissionList.View_Admissionofficer_info) ? AdmissionOfficerDetails : NotAuthorized} />
 
          {/* <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} /> */}
