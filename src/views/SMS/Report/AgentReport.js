@@ -76,6 +76,11 @@ const AgentReport = () => {
     "Select Year"
   );
   const [yearValue, setYearValue] = useState(0);
+  const [activeMonth, setActiveMonth] = useState(0);
+
+  const [chartColorDemo, setChartColorDemo] = useState('');
+  const [rangeItems, setRangeItems] = useState([]);
+  const [nextStepCounter, setNextStepCounter] = useState("");
 
   const history = useHistory();
 
@@ -101,6 +106,8 @@ const AgentReport = () => {
       get(`Report/ProgressReport?consultantId=${consultantValue}&accountIntakeId=${intakeId}&day=${date}&MonthId=${0}&YearId=${0}`).then((res) => {
         // setCurrentIntake(res);
         setReportData(res);
+        setRangeItems(res?.rangeItems);
+        setNextStepCounter(res?.remainingFromTarget);
         console.log("reportttt", res);
       });
     }
@@ -119,12 +126,15 @@ const AgentReport = () => {
   const selectConsultant = (label, value) => {
     setConsultantLabel(label);
     setConsultantValue(value);
+    setRangeItems([]);
   };
 
   // on clear
   const handleClearSearch = () => {
     setConsultantValue(0);
     setConsultantLabel("Select Consultant");
+    setRangeItems([]);
+    setNextStepCounter("");
     setReportData({});
   };
 
@@ -167,12 +177,23 @@ const AgentReport = () => {
     setYearValue(value);
   };
 
+  const toggleMonth = (month) => {
+    setMonthlyCardShow(false);
+    setActiveMonth(month);
+    console.log("month", month);
+  }
+
   const redirectToAddCommission = () => {
     history.push(`/consultantCommission/${consultantValue}`);
   }
 
   const backToDashboard = () => {
     history.push("/");
+  };
+
+  const backgroundStyle = {
+    background: chartColorDemo,
+
   };
 
   return (
@@ -410,8 +431,8 @@ const AgentReport = () => {
                                           <Nav className="row">
                                             <NavItem className="col-6">
                                               <NavLink
-                                                // active={this.state.activeMonth == 1}
-                                                // onClick={() => { this.toggleMonth(1); }}
+                                                active={activeMonth == 1}
+                                                onClick={() => { toggleMonth(1); }}
                                               >
                                                 Jan
                                               </NavLink>
@@ -701,6 +722,62 @@ const AgentReport = () => {
                               className="uapp-dachboard-head">Target Report</h5>
                         </center>
                             </div>
+
+                            {
+                              consultantValue !== 0 ?
+                              <CardBody>
+                            {/*<div className="chart-wrapper">*/}
+                            {/*  <Pie data={pie} />*/}
+                            {/*</div>*/}
+
+                            <div className="main-chart">
+
+                              <div className="text-center  mb-3">
+                                <h5 style={{ color: "#1E98B0" }}>
+                                {
+                                 consultantValue != 0 ?
+                                   currentIntake?.intakeName
+                                   :
+                                   null
+                                }
+                                  </h5>
+                                <span>Total unconditional : 
+                                  {" "}{reportData.totalApplication == null ? 0 : reportData.totalApplication}
+                                  </span>
+                              </div>
+
+                              <div className="center-div">
+                                <div className="Pie-chart" style={backgroundStyle}>  <div className="inner-round"></div>  </div>
+                              </div>
+
+                              {
+                                rangeItems.length > 0 ?
+                                  <>
+                                    <div className="mt-3 d-flex justify-content-between">
+                                      {
+                                        rangeItems.map((std, i) =>
+
+                                          <div className="color-item d-flex justify-content-between">
+                                            <div className="mr-2">{std?.rangeName} </div>
+                                            <div style={{ background: "" + std?.color + "", height: "12px", width: "25px", marginTop: "5px" }}> </div>
+                                          </div>
+                                        )}
+                                    </div>
+                                    <div className="Unconditionals-text mt-3">
+                                      <span> {nextStepCounter} more unconditionals needed to reach your target</span>
+                                    </div>
+                                  </>
+                                  : null
+                              }
+
+
+
+                            </div>
+
+                          </CardBody>
+                          : null
+                            }
+
                       </div>
                       <div className="col-lg-4">
                        <div className="cardHeader1">

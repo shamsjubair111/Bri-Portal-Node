@@ -202,6 +202,44 @@ display: none;
   color: #1E98B0;
 }
 
+.main-chart{
+      /* width: 100%;
+      height: 50vh;
+      justify-content: center;
+      display: flex;
+      align-items: center; */
+  
+  }
+  
+  .Pie-chart {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .inner-round {
+    height: 115px;
+    width: 115px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: relative
+  }
+
+  .center-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Unconditionals-text span {
+    color:#1E98B0;
+   font-size:13px
+  }
+
 .card-header:first-child {
   border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0 !important;
 }
