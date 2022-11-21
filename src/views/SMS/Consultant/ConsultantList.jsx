@@ -277,7 +277,8 @@ const ConsultantList = () => {
 
   const redirectToApplications = (consultantId) => {
     history.push({
-      pathname: "/applications",
+      // pathname: "/applications",
+      pathname: `/applicationsFromConsultant/${consultantId}`,
       consultantIdFromConsultantList: consultantId,
     });
   };
