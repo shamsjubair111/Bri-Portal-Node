@@ -523,7 +523,7 @@ const UniversityList = (props) => {
 
   const redirectToApplications = (universityId, universityName) => {
     history.push({
-      pathname: "/applications",
+      pathname: `/applicationsFromUniversity/${universityId}`,
       universityIdFromUniList: universityId,
       universityName: universityName,
     });

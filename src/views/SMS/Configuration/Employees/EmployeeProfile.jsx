@@ -58,6 +58,7 @@ const EmployeeProfile = () => {
 
      get(`Employee/Profile/${id}`).then((action) => {
       setemployeeDetails(action);
+      console.log("datas", action);
       setemployeeImgDetails(action.profileImageMedia);
       setemployeeType(action.employeeType);
     })

@@ -105,6 +105,7 @@ const ApplicationsCommon = () => {
 
   const [cId, setConsId] = useState(undefined);
   const [uId, setUniId] = useState(undefined);
+  const [consultantName, setConsultantName] = useState("");
 
   // current_user
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -135,6 +136,8 @@ const ApplicationsCommon = () => {
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
+  const {consultantId, universityId} = useParams();
+  console.log("consId and uniId", consultantId, universityId);
   const permissions = JSON?.parse(localStorage.getItem('permissions'));
 
   // for all dropdown
@@ -333,64 +336,112 @@ const ApplicationsCommon = () => {
 
     // for list
 
-    const uniId =
-      commonUniValue !== 0
-        ? commonUniValue
-        : typeof location.universityIdFromUniList !== undefined ||
-          location.universityIdFromUniList !== null
-        ? location.universityIdFromUniList
-        : 0;
+    // const uniId =
+    //   commonUniValue !== 0
+    //     ? commonUniValue
+    //     : typeof location.universityIdFromUniList !== undefined ||
+    //       location.universityIdFromUniList !== null
+    //     ? location.universityIdFromUniList
+    //     : 0;
 
-    setUniId(parseInt(uniId));
+    // setUniId(parseInt(uniId));
 
-    if (uniId !== 0) {
-      var uni = commonUniDD?.find((s) => s.id === uniId);
+    // if (uniId !== 0) {
+    //   var uni = commonUniDD?.find((s) => s.id === uniId);
 
-      if (uni === undefined) {
-        setCommonUniLabel("University Name");
-      } else {
-        setCommonUniLabel(uni?.name);
-        setCommonUniValue(uniId);
-      }
-    }
+    //   if (uni === undefined) {
+    //     setCommonUniLabel("University Name");
+    //   } else {
+    //     setCommonUniLabel(uni?.name);
+    //     setCommonUniValue(uniId);
+    //   }
+    // }
 
-    const consId =
-      consultantValue !== 0
-        ? consultantValue
-        : typeof location.consultantIdFromConsultantList !== undefined ||
-          location.consultantIdFromConsultantList !== null
-        ? location.consultantIdFromConsultantList
-        : 0;
+    // const consId =
+    //   consultantValue !== 0
+    //     ? consultantValue
+    //     : typeof location.consultantIdFromConsultantList !== undefined ||
+    //       location.consultantIdFromConsultantList !== null
+    //     ? location.consultantIdFromConsultantList
+    //     : 0;
 
-    setConsId(parseInt(consId));
+    // setConsId(parseInt(consId));
 
-    if (parseInt(consId) !== 0) {
-      var consultant = commonConsultantDD?.find(
-        (s) => s.id === parseInt(consId)
-      );
+    // if (parseInt(consId) !== 0) {
+    //   var consultant = commonConsultantDD?.find(
+    //     (s) => s.id === parseInt(consId)
+    //   );
 
-      if (consultant === undefined) {
-        // setConsultantLabel("Consultant");
-      } else {
-        setConsultantLabel(consultant?.name);
-        setConsultantValue(consId);
-      }
-    }
+    //   if (consultant === undefined) {
+    //     // setConsultantLabel("Consultant");
+    //   } else {
+    //     setConsultantLabel(consultant?.name);
+    //     setConsultantValue(consId);
+    //   }
+    // }
 
     //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
-    get(
-      `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
-        consId ? consId : consultantValue
-      }&universityId=${
-        uniId ? uniId : commonUniValue
-      }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-    ).then((res) => {
-      setLoading(false);
-      setApplicationList(res?.models);
-      console.log("commonApp", res?.models);
-      setEntity(res?.totalEntity);
-      // setSerialNumber(res?.firstSerialNumber);
-    });
+    // get(
+    //   `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
+    //     consId ? consId : consultantValue
+    //   }&universityId=${
+    //     uniId ? uniId : commonUniValue
+    //   }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+    // ).then((res) => {
+    //   setLoading(false);
+    //   setApplicationList(res?.models);
+    //   console.log("commonApp", res?.models);
+    //   setEntity(res?.totalEntity);
+    //   // setSerialNumber(res?.firstSerialNumber);
+    // });
+
+    if(consultantId !== undefined){
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
+          consultantId
+        }&universityId=${
+          commonUniValue
+        }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        setConsultantLabel(res.models[0]?.consultantName);
+        setConsultantValue(consultantId);
+        setEntity(res?.totalEntity);
+        // setSerialNumber(res?.firstSerialNumber);
+      });
+    }
+    else if(universityId !== undefined){
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
+          consultantValue
+        }&universityId=${
+          universityId
+        }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        setCommonUniLabel(res.models[0]?.universityName);
+        setCommonUniValue(universityId);
+        console.log("commonApp", res?.models);
+        setEntity(res?.totalEntity);
+        // setSerialNumber(res?.firstSerialNumber);
+      });
+    }
+    else{
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${
+          commonUniValue
+        }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        console.log("commonApp", res?.models);
+        setEntity(res?.totalEntity);
+        // setSerialNumber(res?.firstSerialNumber);
+      });
+    }
+
   }, [
     currentPage,
     dataPerPage,
@@ -412,6 +463,8 @@ const ApplicationsCommon = () => {
     // serialNumber,
     // loading,
     // callApi
+    consultantId,
+    universityId
   ]);
 
   const toggleDanger = (data) => {
@@ -610,8 +663,11 @@ const ApplicationsCommon = () => {
                 placeholder="Consultant"
                 name="name"
                 id="id"
+                // isDisabled={
+                //   location.consultantIdFromConsultantList ? true : false
+                // }
                 isDisabled={
-                  location.consultantIdFromConsultantList ? true : false
+                  consultantId !== undefined ? true : false
                 }
               />
             </Col>
@@ -701,7 +757,8 @@ const ApplicationsCommon = () => {
                 placeholder="University N..."
                 name="name"
                 id="id"
-                isDisabled={location.universityIdFromUniList ? true : false}
+                // isDisabled={location.universityIdFromUniList ? true : false}
+                isDisabled={universityId !== undefined ? true : false}
               />
             </Col>
 

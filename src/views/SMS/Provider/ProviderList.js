@@ -48,9 +48,9 @@ const ProviderList = () => {
   const [providerList, setProviderList] = useState([]);
   const [searchStr, setSearchStr] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [providerLabel, setProviderLabel] = useState("Select Provider Type");
+  const [providerLabel, setProviderLabel] = useState("Provider Type");
   const [providerValue, setProviderValue] = useState(0);
-  const [uappIdLabel, setUappIdLabel] = useState("Select Uapp Id");
+  const [uappIdLabel, setUappIdLabel] = useState("UAPP Id");
   const [uappIdValue, setUappIdValue] = useState(0);
 
   const [callApi, setCallApi] = useState(false);
@@ -196,9 +196,9 @@ const ProviderList = () => {
   // on clear
   const handleClearSearch = () => {
     setSearchStr("");
-    setProviderLabel("Select Provider Type");
+    setProviderLabel("Provider Type");
     setProviderValue(0);
-    setUappIdLabel("Select UappId");
+    setUappIdLabel("UAPP Id");
     setUappIdValue(0);
     setCallApi((prev) => !prev);
   };

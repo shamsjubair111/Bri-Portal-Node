@@ -416,7 +416,7 @@ const EmployeeGeneralInfo = (props) => {
                                     </Col>
                                 </FormGroup>
 
-                                <FormGroup row className="has-icon-left position-relative">
+                                {/* <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">
                                         <span>Branch <span className="text-danger">*</span>{" "}</span>
                                     </Col>
@@ -431,7 +431,7 @@ const EmployeeGeneralInfo = (props) => {
                                         
                                         
                                     </Col>
-                                </FormGroup>
+                                </FormGroup> */}
 
                                 <FormGroup row className="has-icon-left position-relative">
                                     <Col md="2">

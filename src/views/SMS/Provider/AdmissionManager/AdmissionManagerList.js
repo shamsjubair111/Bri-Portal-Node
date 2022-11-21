@@ -510,7 +510,7 @@ const AdmissionManagerList = () => {
 
   const redirectToAdmissionOfficerList = (providerId, managerId) => {
     console.log("ids", providerId, managerId);
-    history.push(`/admissionOfficerListt/${providerId}/${managerId}`);
+    history.push(`/admissionOfficerListFromAdmissionManagerList/${providerId}/${managerId}`);
   }
 
   // for hide/unhide column
@@ -1455,6 +1455,11 @@ const AdmissionManagerList = () => {
                       null
                       }
 
+                   {
+                      permissions?.includes(permissionList?.GetAdmissionOfficerForManager)?
+
+                      <>
+
                       {
                         checkAdmissionOfficers ?
                         <td>
@@ -1469,6 +1474,10 @@ const AdmissionManagerList = () => {
                       :
                       null
                       }
+                      </>
+                      :
+                      null
+                        }
 
                       {
                         checkRegStd ?
