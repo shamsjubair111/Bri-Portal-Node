@@ -1,5 +1,5 @@
 export const  permissionList = {
-  Recycle_bin : 100000,
+  Recycle_bin : 0,
   //Application 
     View_Application_List : 1,
     Add_Application : 2,
