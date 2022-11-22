@@ -912,7 +912,7 @@ const StudentApplication = ({ currentUser }) => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Uni Application Date</p>
+                          <p className="">Application Date</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -1130,7 +1130,7 @@ const StudentApplication = ({ currentUser }) => {
                     ) : null}
                     {checkDate ? (
                       <th style={{ verticalAlign: "middle" }}>
-                        Uni Application Date
+                        Application Date
                       </th>
                     ) : null}
                     {checkSts ? (

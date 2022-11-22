@@ -854,6 +854,8 @@ class AppRouter extends React.Component {
            <AppRoute  path="/distributionLevelSetting" component={permissions?.includes(permissionList.View_Distribution_Level_Setting_List) ? DistributionLevelSetting : NotAuthorized} />
 
            <AppRoute  path="/applicationTransaction" component={permissions?.includes(permissionList.View_Application_transaction_List) ? ApplicationTransaction : NotAuthorized} />
+           <AppRoute  path="/applicationTransactionFromConsultant/:consultantId" component={permissions?.includes(permissionList.View_Application_transaction_List) ? ApplicationTransaction : NotAuthorized} />
+
            <AppRoute  path="/applicationTransactionDetails/:id" component={permissions?.includes(permissionList.View_Application_transaction_info) ? ApplicationTransactionDetails : NotAuthorized} />
 
            <AppRoute  path="/inFlowTransaction" component={permissions?.includes(permissionList.View_Account_transaction_List) ? InFlow : NotAuthorized} />
