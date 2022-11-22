@@ -30,6 +30,7 @@ import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AddProviderUniversityTestScore = () => {
 
@@ -40,6 +41,7 @@ const AddProviderUniversityTestScore = () => {
     const [activetab, setActivetab] = useState("3");
     const [required,setRequired] = useState(false);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
     const [score,setScore] = useState(null);
    
     const [data,setData] = useState({});
@@ -107,7 +109,7 @@ const AddProviderUniversityTestScore = () => {
 
   const  submitTestScore = (event) => {
     event.preventDefault();
-
+    setProgress(true);
     const subData  = new FormData(event.target);
 
     subData.append('isTestScoreRequired',required);
@@ -116,6 +118,7 @@ const AddProviderUniversityTestScore = () => {
     if(data?.id){
         put(`TestScoreRequirement/Update`,subData)
     .then(res => {
+      setProgress(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
                 appearance: 'success',
@@ -138,6 +141,7 @@ const AddProviderUniversityTestScore = () => {
     else{
         post(`TestScoreRequirement/Create`,subData)
     .then(res => {
+      setProgress(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
                 appearance: 'success',
@@ -361,7 +365,7 @@ const AddProviderUniversityTestScore = () => {
                 <ButtonForFunction
                 type={"submit"}
                 className={"ml-lg-2 ml-sm-1 mt-3 badge-primary"}
-                name={"Save"}
+                name={progress? <ButtonLoader/> : "Save"}
                 disable={!(required && score> '1')}
                 permission={6}
                 />

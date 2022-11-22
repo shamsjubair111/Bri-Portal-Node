@@ -42,6 +42,7 @@ import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import Loader from "../Search/Loader/Loader.js";
 import ToggleSwitch from "../../SMS/Components/ToggleSwitch";
 import put from "../../../helpers/put.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const ProviderList = () => {
   const history = useHistory();
@@ -82,6 +83,7 @@ const ProviderList = () => {
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [provider,setProvider] = useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   const [checkSts, setCheckSts] = useState(true);
 
@@ -138,8 +140,10 @@ const ProviderList = () => {
 
   const deleteProvider = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`Provider/Delete/${delData?.id}`).then((res) => {
       setButtonStatus(false);
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -840,7 +844,7 @@ const ProviderList = () => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={deleteProvider} disabled={buttonStatus}>
-                                YES
+                                {progress? <ButtonLoader/> : 'YES'}
                               </Button>
                               <Button onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>

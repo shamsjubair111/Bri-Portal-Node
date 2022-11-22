@@ -30,6 +30,7 @@ import LinkButton from "../../Components/LinkButton";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
 import Loader from "../../Search/Loader/Loader";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const BranchList = () => {
   const { addToast } = useToasts();
@@ -49,6 +50,7 @@ const BranchList = () => {
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const history = useHistory();
   const backToDashboard = () => {
@@ -75,7 +77,9 @@ const BranchList = () => {
 
   const handleDeletebranch = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`Branch/Delete/${delData}`).then((res) => {
+      setProgress(false);
       setButtonStatus(false);
       addToast(res, {
         appearance: "error",
@@ -461,7 +465,7 @@ const BranchList = () => {
                                   onClick={handleDeletebranch}
                                   disabled={buttonStatus}
                                 >
-                                  YES
+                                  {progress? <ButtonLoader/> : "YES"}
                                 </Button>
                                 <Button onClick={closeDeleteModal} >NO</Button>
                               </ModalFooter>

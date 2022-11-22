@@ -44,6 +44,7 @@ import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import { userTypes } from "../../../constants/userTypeConstant";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const Index = () => {
   const [listData, setListData] = useState([]);
@@ -183,6 +184,7 @@ const Index = () => {
   const [orderValue, setOrderValue] = useState(0);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(false);
   const { addToast } = useToasts();
   const [note, setNote] = useState("");
   const [cError, setCError] = useState("");
@@ -260,6 +262,7 @@ const Index = () => {
   };
 
   const submitWithdrawRequest = (event) => {
+    setProgress(true);
     event.preventDefault();
 
     const subData = {
@@ -277,6 +280,7 @@ const Index = () => {
     } else {
       setButtonStatus(true);
       post(`WithdrawTransaction/Create`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -498,7 +502,9 @@ const Index = () => {
                           : false
                       }
                     >
-                      Submit
+                      {
+                        progress? <ButtonLoader/> : 'Submit'
+                      }
                     </Button>
                   </FormGroup>
                 </div>

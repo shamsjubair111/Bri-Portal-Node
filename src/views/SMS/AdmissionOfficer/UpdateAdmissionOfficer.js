@@ -36,6 +36,7 @@ import * as Icon from "react-feather";
 import ProviderDetails from '../Provider/ProviderDetails';
 import { useToasts } from 'react-toast-notifications';
 import put from '../../../helpers/put';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const UpdateAdmissionOfficer = () => {
 
@@ -60,6 +61,7 @@ const UpdateAdmissionOfficer = () => {
   const [uniCountryLabel, setUniCountryLabel] = useState("Select Country");
   const [uniCountryValue, setUniCountryValue] = useState(0);
   const [buttonStatus,setButtonStatus]= useState(false);
+  const [progress, setProgress] = useState(false);
   const {addToast} = useToasts();
 
 
@@ -181,6 +183,7 @@ const UpdateAdmissionOfficer = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setProgress(true);
     const subdata = new FormData(event.target);
     subdata.append('admissionOfficerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
@@ -188,6 +191,7 @@ const UpdateAdmissionOfficer = () => {
         setButtonStatus(true);
         put(`AdmissionOfficer/Update`, subdata).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res.data.message, {
               appearance: "success",
@@ -455,7 +459,7 @@ const UpdateAdmissionOfficer = () => {
                     color={"primary"}
                     type={"submit"}
                     className={"mr-1 mt-3"}
-                    name={"Submit"}
+                    name={progress? <ButtonLoader/> : "Submit"}
                     permission={6}
                     isDisabled={buttonStatus}
                   />

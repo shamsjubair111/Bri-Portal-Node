@@ -32,6 +32,7 @@ import Pagination from "../Pagination/Pagination";
 import ReactTableConvertToXl from "../ReactTableConvertToXl/ReactTableConvertToXl";
 import ReactToPrint from "react-to-print";
 import post from "../../../helpers/post";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AdmissionOfficerWiseAssignedSubject = () => {
   const history = useHistory();
@@ -66,6 +67,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
   const [checkName, setCheckName] = useState(true);
   const [checkType, setCheckType] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [progress, setProgress] = useState(false);
 
   const { addToast } = useToasts();
 
@@ -206,10 +208,12 @@ const AdmissionOfficerWiseAssignedSubject = () => {
   };
 
   const assignSubject = (data) => {
+    setProgress(true);
     post(`AdmissionOfficerSubject/Create`, {
       admissionOfficerId: officerId,
       subjectId: data?.subjectId,
     }).then((res) => {
+      setProgress(false);
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
@@ -226,9 +230,11 @@ const AdmissionOfficerWiseAssignedSubject = () => {
   };
 
   const removeSubject = (data) => {
+    setProgress(true);
     remove(
       `AdmissionOfficerSubject/Remove/${data?.subjectId}/${officerId}`
     ).then((res) => {
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -653,7 +659,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
                                   color="danger"
                                   onClick={() => removeSubject(list)}
                                 >
-                                  Remove
+                                  {progress? <ButtonLoader/> : "Remove"}
                                 </Button>
                               ) : null}
                             </>
@@ -666,7 +672,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
                                   color="primary"
                                   onClick={() => assignSubject(list)}
                                 >
-                                  Assign
+                                  {progress? <ButtonLoader/> : "Assign"}
                                 </Button>
                               ) : null}
                             </>

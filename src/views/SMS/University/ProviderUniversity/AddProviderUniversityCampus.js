@@ -35,6 +35,7 @@ import { rootUrl } from "../../../../constants/constants";
 import put from "../../../../helpers/put";
 import remove from "../../../../helpers/remove";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddProviderUniversityCampus = (props) => {
     const [universityCampusList, setuniversityCampusList] = useState([]);
@@ -80,6 +81,8 @@ const AddProviderUniversityCampus = (props) => {
     const [UniversityCampusId, setUniversityCampusId] = useState(0);
 
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
+    const [progress1,setProgress1] = useState(false);
   
     let uniId;
     // let uniId = "10019";
@@ -171,7 +174,7 @@ const AddProviderUniversityCampus = (props) => {
     //   on submit form
     const handleSubmit = (event) => {
       event.preventDefault();
-  
+      setProgress(true);
       const subdata = new FormData(event.target);
       //  for (var value of subdata.values()) {
       //   console.log(value);
@@ -193,6 +196,7 @@ const AddProviderUniversityCampus = (props) => {
             },
           }).then((res) => {
             setButtonStatus(false);
+            setProgress(false);
             console.log(res);
             setuniversityId(res.data.result.universityId);
             if (res.status === 200 && res.data.isSuccess === true) {
@@ -213,6 +217,7 @@ const AddProviderUniversityCampus = (props) => {
           put(`UniversityCampus/Update`, subdata).then((res) => {
             // setuniversityId(res.data.result.universityId)
             setButtonStatus(false);
+            setProgress(false);
             if (res.status === 200 && res.data.isSuccess === true) {
               setSubmitData(false);
               addToast(res?.data?.message, {
@@ -289,8 +294,10 @@ const AddProviderUniversityCampus = (props) => {
   
     const handleDeletePermission = (id) => {
       setButtonStatus(true);
+      setProgress1(true);
       const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
         (action) => {
+          setProgress1(false);
           setButtonStatus(false);
           setDeleteModal(false);
           setSuccess(!success);
@@ -774,7 +781,7 @@ const AddProviderUniversityCampus = (props) => {
                               color={"primary"}
                               type={"submit"}
                               className={"ml-lg-3 ml-sm-1 mt-3"}
-                              name={"Save"}
+                              name={progress? <ButtonLoader/> : "Save"}
                               disable={buttonStatus}
                               permission={6}
                             />
@@ -805,7 +812,7 @@ const AddProviderUniversityCampus = (props) => {
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save"}
+                                name={progress? <ButtonLoader/> : "Save"}
                                 disable={buttonStatus}
                                 permission={6}
                               />
@@ -944,7 +951,7 @@ const AddProviderUniversityCampus = (props) => {
                           color="danger"
                           disabled={buttonStatus}
                         >
-                          YES
+                          {progress1? <ButtonLoader/> : 'YES'}
                         </Button>
                         <Button onClick={() => {
                           setDeleteModal(false);

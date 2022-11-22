@@ -8,6 +8,7 @@ import { Image, Upload } from "antd";
 import * as Icon from "react-feather";
 import { useToasts } from 'react-toast-notifications';
 import put from '../../../helpers/put';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const ProviderAdminProfile = () => {
     
@@ -18,6 +19,7 @@ const ProviderAdminProfile = () => {
     const permissions = JSON.parse(localStorage.getItem("permissions"));
     const [modalOpen2, setModalOpen2] = useState(false);
     const [buttonStatus1,setButtonStatus1] = useState(false);
+    const [progress,setProgress] = useState(false);
     const [previewVisible1, setPreviewVisible1] = useState(false);
     const [previewImage1, setPreviewImage1] = useState("");
     const [previewTitle1, setPreviewTitle1] = useState("");
@@ -52,7 +54,7 @@ const ProviderAdminProfile = () => {
 
       const handleSubmitProfilePhoto = event => {
         event.preventDefault();
-      
+        setProgress(true);
         const subData = new FormData(event.target);
       
         subData.append("providerAdmin", FileList1[0]?.originFileObj);
@@ -66,6 +68,7 @@ const ProviderAdminProfile = () => {
         else{
           put(`ProviderAdmin/UpdateProfilePhoto`, subData).then((res) => {
             setButtonStatus1(false);
+            setProgress(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -246,7 +249,7 @@ const ProviderAdminProfile = () => {
                                        Cancel
                                  </Button>
                                  <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   Update
+                                   {progress? <ButtonLoader/> : 'Update'}
                                  </Button>
                                </div>
                              </Col>

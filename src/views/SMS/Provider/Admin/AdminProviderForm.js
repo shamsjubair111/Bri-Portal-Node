@@ -9,6 +9,7 @@ import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
 import post from '../../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AdminProviderForm = () => {
 
@@ -35,6 +36,7 @@ const AdminProviderForm = () => {
     const [pass,setPass] = useState('');
     const [passError,setPassError] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
     useEffect(()=>{
 
@@ -129,6 +131,7 @@ console.log('hello', FileList);
 
 const handleSubmit  = (event) => {
   event.preventDefault();
+  setProgress(true);
    const subData = new FormData(event.target);
 
    subData.append('providerAdmin',FileList[0]?.originFileObj);
@@ -150,6 +153,7 @@ const handleSubmit  = (event) => {
     setButtonStatus(true);
     post(`ProviderAdmin/Create`,subData)
     .then(res =>{
+      setProgress(false);
       setButtonStatus(false);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
@@ -428,7 +432,7 @@ const handlePass = (e) => {
                     // onClick={(e)=>handleSubmit(e)}
                     disabled={buttonStatus}
                   >
-                    Submit
+                    {progress? <ButtonLoader/> : 'Submit'}
                   </Button>
                   </div>
                 

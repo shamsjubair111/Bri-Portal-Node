@@ -45,6 +45,7 @@ import { Upload, Modal as AntdModal } from "antd";
 import { Image } from "antd";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
 import { userTypes } from "../../../../constants/userTypeConstant";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddProviderUniversity = () => {
      // const univerSityCountries = props.univerSityCountryList[0];
@@ -95,6 +96,7 @@ const AddProviderUniversity = () => {
   const [universityId, setUniversityId] = useState(undefined);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   const { addToast } = useToasts();
   const location = useLocation();
@@ -363,6 +365,7 @@ const AddProviderUniversity = () => {
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
+    setProgress(true);
     const subdata = new FormData(event.target);
 
     // subdata.append("UniversityLogoFile", logoResult[0]?.originFileObj);
@@ -426,8 +429,8 @@ const AddProviderUniversity = () => {
         if (uniId != undefined) {
           setButtonStatus(true);
           put("University/Update", subdata, config).then((res) => {
-            console.log("1st put response", res);
             setButtonStatus(false);
+            setProgress(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -449,7 +452,7 @@ const AddProviderUniversity = () => {
             (res) => {
               console.log("unipostData", res);
               setButtonStatus(false);
-  
+              setProgress(false);
               //  .setItem("id", res.data.result.id);
               const uniID = res.data.result.id;
               setUniversityId(uniID);
@@ -1253,7 +1256,7 @@ const AddProviderUniversity = () => {
                       <ButtonForFunction
                       type={"submit"}
                       className={"mr-0 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> : 'Save'}
                       disable={buttonStatus}
                     />
                     :

@@ -32,6 +32,8 @@ import get from "../../../../helpers/get";
 import { useToasts } from "react-toast-notifications";
 import post from "../../../../helpers/post";
 import put from "../../../../helpers/put";
+import ButtonLoader from "../../Components/ButtonLoader";
+import { permissionList } from "../../../../constants/AuthorizationConstant";
 
 const AddProviderUniversityCommission = () => {
   const history = useHistory();
@@ -61,6 +63,9 @@ const AddProviderUniversityCommission = () => {
   const [val, setVal] = useState({});
 
   const [buttonStatus, setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+
+  const permissions = JSON.parse(localStorage.getItem('permissions'));
 
   useEffect(() => {
     get(`StudentComissionTypeDD/Index`).then((res) => {
@@ -155,6 +160,7 @@ const AddProviderUniversityCommission = () => {
 
   const submitFormData = (event) => {
     event.preventDefault();
+    setProgress(true);
     const subData = new FormData(event.target);
     if (commissionValueHome == 0) {
       setHomeError("Select commission type for home students");
@@ -167,6 +173,7 @@ const AddProviderUniversityCommission = () => {
         setButtonStatus(true);
         put(`UniversityComission/Update`, subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -192,6 +199,7 @@ const AddProviderUniversityCommission = () => {
         setButtonStatus(true);
         post(`UniversityComission/Create`, subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -512,14 +520,20 @@ const AddProviderUniversityCommission = () => {
                     style={{ display: "flex", justifyContent: "end" }}
                   >
                     <Col md="5">
+                    {
+                      permissions?.includes(permissionList?.Add_New_University_Commission || permissionList?.Update_University_Commission_info) ?
+
                       <ButtonForFunction
                         color={"primary"}
                         type={"submit"}
                         className={"ml-lg-3 ml-sm-1 mt-3"}
-                        name={"Save"}
+                        name={progress? <ButtonLoader/> : "Save"}
                         disable={buttonStatus}
                         permission={6}
                       />
+                      :
+                      null
+                    }
                     </Col>
                   </FormGroup>
                 </Form>

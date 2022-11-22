@@ -35,6 +35,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import Loader from "../Search/Loader/Loader";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const DocumentList = () => {
   const [documentName, setDocumentName] = useState("");
@@ -59,6 +60,8 @@ const DocumentList = () => {
   const { addToast } = useToasts();
   const [loading,setLoading] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   useEffect(() => {
     get("Document/Index").then((res) => {
@@ -119,8 +122,10 @@ const DocumentList = () => {
       if (updateDocument != undefined) {
         console.log(localStorage.getItem("updateDocument"));
         setButtonStatus(true);
+        setProgress1(true);
         const returnvalue = put(`Document/Update`, subData).then((action) => {
           setButtonStatus(false);
+          setProgress1(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -137,8 +142,10 @@ const DocumentList = () => {
       } else {
         setUpdateDocument(undefined);
           setButtonStatus(true);
+          setProgress1(true);
         const returnValue = post(`Document/Create`, subData).then((action) => {
           setButtonStatus(false);
+          setProgress1(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -179,8 +186,10 @@ const DocumentList = () => {
 
   const handleDeleteDocument = (id) => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`Document/Delete/${id}`).then((action) => {
       setButtonStatus(false);
+      setProgress(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -416,7 +425,7 @@ const DocumentList = () => {
                       color={"primary"}
                       type={"submit"}
                       className={"mr-1 mt-3"}
-                      name={"Submit"}
+                      name={progress1? <ButtonLoader/> : "Submit"}
                       permission={6}
                       isDisabled={buttonStatus}
                     />
@@ -501,7 +510,7 @@ const DocumentList = () => {
                             }
                             disabled={buttonStatus}
                           >
-                            YES
+                            {progress? <ButtonLoader/> : "YES"}
                           </Button>
                           <Button onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>

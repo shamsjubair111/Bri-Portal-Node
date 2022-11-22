@@ -12,6 +12,7 @@ import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import Loader from '../Search/Loader/Loader';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const ProgramLevel=(props)=>{
     const programLevelList = props.allprogramLevelList[0];
@@ -32,6 +33,9 @@ const ProgramLevel=(props)=>{
 
     const [programLvlId, setProgramLvlId] = useState(undefined);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
+    const [progress1, setProgress1] = useState(false);
+
     const permissions = JSON.parse(localStorage.getItem('permissions')); 
     
      // redirect to dashboard
@@ -65,8 +69,10 @@ const closeModal = () => {
       
         if(programLvlId != undefined){
           setButtonStatus(true);
+          setProgress1(true);
           const returnvalue = put(`ProgramLevel/Update`,subData).then((action)=> {
             setButtonStatus(false);
+            setProgress1(false);
             setSuccess(!success);
             setModalOpen(false)
             addToast(action?.data?.message, {
@@ -84,8 +90,10 @@ const closeModal = () => {
         }
         else{
           setButtonStatus(true);
+          setProgress1(true);
           const returnValue = post(`ProgramLevel/Create`,subData).then((action)=>{
             setButtonStatus(false);
+            setProgress1(false);
             setSuccess(!success)
             setModalOpen(false)
             addToast(action?.data?.message, {
@@ -133,8 +141,10 @@ const closeDeleteModal = () => {
 
   const handleDeleteProgram = (id) => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`ProgramLevel/Delete/${id}`).then((action)=> {
       setButtonStatus(false);
+      setProgress(false);
       setDeleteModal(false);
       setSuccess(!success);
       
@@ -318,7 +328,7 @@ return (
         color={"primary"}
         type={"submit"}
         className={"mr-1 mt-3"}
-        name={"Submit"}
+        name={progress1? <ButtonLoader/> : "Submit"}
         permission={6}
         disable={buttonStatus}
       />
@@ -400,7 +410,7 @@ return (
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button color="danger" onClick={() => handleDeleteProgram(ProgramId)} disabled={buttonStatus}>YES</Button>
+                    <Button color="danger" onClick={() => handleDeleteProgram(ProgramId)} disabled={buttonStatus}>{progress? <ButtonLoader/> : "YES"}</Button>
                     <Button onClick={closeDeleteModal}>NO</Button>
                   </ModalFooter>
 

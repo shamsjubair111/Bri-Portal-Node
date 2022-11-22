@@ -43,6 +43,7 @@ import { useToasts } from "react-toast-notifications";
 import { transactionTypes } from "../../../constants/TransactionConstant";
 import Loader from "../Search/Loader/Loader";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const Index = () => {
   const history = useHistory();
@@ -165,6 +166,8 @@ const Index = () => {
   const [orderLabel, setOrderLabel] = useState("Select order by");
   const [orderValue, setOrderValue] = useState(0);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const selectDataSize = (value) => {
     setDataPerPage(value);
@@ -384,6 +387,7 @@ const Index = () => {
   };
 
   const handleInflowSubmit = (event) => {
+    setProgress(true);
     event.preventDefault();
     const subData = new FormData(event.target);
     if (consultantValue == 0) {
@@ -393,6 +397,7 @@ const Index = () => {
     } else {
       setButtonStatus(true);
       post(`BonusTransaction/Create`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -413,7 +418,7 @@ const Index = () => {
 
   const submitWithdrawRequest = (event) => {
     event.preventDefault();
-
+    setProgress1(true);
     const subData = {
       consultantId: value2,
       amount: amountInput,
@@ -429,6 +434,7 @@ const Index = () => {
     } else {
       setButtonStatus(true);
       post(`WithdrawTransaction/Create`, subData).then((res) => {
+        setProgress1(false);
         setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -630,7 +636,10 @@ const Index = () => {
                           : false
                       }
                     >
-                      Submit
+                      {
+                        progress1? <ButtonLoader/> : 'Submit'
+                      }
+                      
                     </Button>
                   </FormGroup>
                 </div>
@@ -770,7 +779,9 @@ const Index = () => {
                       className="mr-1 mt-3"
                       disabled={!agree || buttonStatus}
                     >
-                      Submit
+                      {
+                        progress? <ButtonLoader/> : 'Submit'
+                      }
                     </Button.Ripple>
                   </FormGroup>
                 </div>

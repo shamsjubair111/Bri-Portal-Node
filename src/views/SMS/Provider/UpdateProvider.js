@@ -13,6 +13,7 @@ import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
 import { rootUrl } from '../../../constants/constants';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const UpdateProvider = () => {
@@ -26,6 +27,7 @@ const UpdateProvider = () => {
     const { addToast } = useToasts();
     const permissions = JSON.parse(localStorage.getItem("permissions"));
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
     const [text, setText] = useState('');
 
@@ -129,6 +131,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
 
   const handleSubmit = (e) =>{
       e.preventDefault();
+      setProgress(true);
       const subData = new FormData(e.target);
 
       subData.append('providerLogo',FileList[0]?.originFileObj);
@@ -145,6 +148,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
       setButtonStatus(true);
       put(`Provider/Update`,subData,config)
       .then(res => {
+        setProgress(false);
         setButtonStatus(false);
         // for (const val of subData.value()){
         //   console.log(val);
@@ -442,7 +446,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
                      <ButtonForFunction 
                      type={"submit"}
                      className={"ms-lg-3 ms-sm-1 badge-primary"}
-                     name={"Submit"}
+                     name={progress? <ButtonLoader/> : 'Update'}
                      disable={buttonStatus}
                      
                    />

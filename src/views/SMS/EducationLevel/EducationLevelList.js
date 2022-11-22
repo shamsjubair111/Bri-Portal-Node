@@ -10,6 +10,7 @@ import Loader from '../Search/Loader/Loader';
 import put from '../../../helpers/put';
 import post from '../../../helpers/post';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const EducationLevelList = () => {
 
@@ -25,6 +26,8 @@ const EducationLevelList = () => {
     const [success, setSuccess] = useState(false);
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
+    const [progress1, setProgress1] = useState(false);
 
     const [modalOpen,setModalOpen] = useState(false);
     const [data,setData] = useState({});
@@ -47,9 +50,11 @@ const EducationLevelList = () => {
 
       const handleDeleteData = (data) => {
         setButtonStatus(true);
+        setProgress(true);
       remove(`EducationLevel/Delete/${data?.id}`)
       .then(res => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res,{
           appearance: 'error',
           autoDismiss: true
@@ -75,8 +80,10 @@ const EducationLevelList = () => {
          data?.id
         ) {
           setButtonStatus(true);
+          setProgress1(true);
           put(`EducationLevel/Update`, subData).then((res) => {
             setButtonStatus(false);
+            setProgress1(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -90,8 +97,10 @@ const EducationLevelList = () => {
           });
         } else {
           setButtonStatus(true);
+          setProgress1(true);
           post(`EducationLevel/Create`, subData).then((res) => {
             setButtonStatus(false);
+            setProgress1(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -247,7 +256,7 @@ const EducationLevelList = () => {
 
                 <ButtonForFunction
                   type={"submit"}
-                  name={"Submit"}
+                  name={progress1? <ButtonLoader/> : "Submit"}
                   className={"ml-1 mt-3 badge-primary"}
                   disable={buttonStatus}
                 />
@@ -368,7 +377,7 @@ const EducationLevelList = () => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={()=>handleDeleteData(deleteData)} disabled={buttonStatus}>YES</Button>
+                          <Button  color="danger" onClick={()=>handleDeleteData(deleteData)} disabled={buttonStatus}>{progress? <ButtonLoader/> : "YES"}</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

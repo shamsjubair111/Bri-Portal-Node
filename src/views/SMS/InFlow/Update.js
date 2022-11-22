@@ -6,6 +6,7 @@ import Select from 'react-select';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import put from '../../../helpers/put';
 import { useToasts } from 'react-toast-notifications';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const Update = () => {
 
@@ -21,6 +22,7 @@ const Update = () => {
     const [tLabel,setTLabel] = useState('Select Transaction Type');
     const [tValue,setTValue] = useState(0);
     const [success,setSuccess] = useState(false);
+    const [progress, setProgress] = useState(false);
     const [buttonStatus,setButtonStatus] = useState(false);
 
     useEffect(()=>{
@@ -59,13 +61,14 @@ const Update = () => {
     }
 
     const submitUpdateForm  = (event) => {
-
+      setProgress(true);
       event.preventDefault();
 
       const subData = new FormData(event.target);
       setButtonStatus(true);
       put(`BonusTransaction/UPdate`,subData)
       .then(res => {
+        setProgress(false);
         setButtonStatus(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
           addToast(res?.data?.message,{
@@ -219,7 +222,7 @@ const Update = () => {
 
                 className={''}
                 color={'primary'}
-                name={'Submit'}
+                name={progress? <ButtonLoader/> : 'Submit'}
                 type={'submit'}
                 disable={buttonStatus}
                 

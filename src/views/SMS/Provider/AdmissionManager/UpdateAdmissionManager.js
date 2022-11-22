@@ -10,6 +10,7 @@ import { permissionList } from '../../../../constants/AuthorizationConstant';
 import { Image, Modal, Upload } from "antd";
 import * as Icon from "react-feather";
 import { rootUrl } from '../../../../constants/constants';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const UpdateAdmissionManager = () => {
 
@@ -37,6 +38,7 @@ const UpdateAdmissionManager = () => {
     const [titleValue,setTitleValue] = useState(0);
     const [titleError,setTitleError] = useState(false);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress]= useState(false);
 
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState("");
@@ -188,6 +190,7 @@ const handleChange = ({ fileList }) => {
 
       const handleSubmit  = (event) => {
         event.preventDefault();
+        setProgress(true);
         const subData = new FormData(event.target);
         subData.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
@@ -200,6 +203,7 @@ const handleChange = ({ fileList }) => {
           put(`AdmissionManager/Update`,subData)
           .then(res =>{
             setButtonStatus(false);
+            setProgress(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -573,7 +577,7 @@ const handleChange = ({ fileList }) => {
                         className="mr-1 mt-3 badge-primary"
                         disabled={buttonStatus}
                       >
-                        Submit
+                        {progress? <ButtonLoader/> : "Submit"}
                       </Button>
                 
                    </div>

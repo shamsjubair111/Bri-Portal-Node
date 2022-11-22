@@ -21,6 +21,7 @@ import { rootUrl } from "../../../../constants/constants";
 import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
 import Select from "react-select";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const BranchManagerInformation = () => {
   const { branchId, managerId } = useParams();
@@ -36,6 +37,7 @@ const BranchManagerInformation = () => {
   const [title,setTitle] = useState([]);
   const [titleLabel,setTitleLabel] = useState('Select');
   const [titleValue,setTitleValue] = useState(0);
+  const [progress, setProgress] = useState(false);
 
   const [text, setText] = useState('');
 
@@ -142,6 +144,7 @@ setTitleValue(value);
 
   const handleUpdateManagerInformation = (e) => {
     e.preventDefault();
+    setProgress(true);
     const subData = new FormData(e.target);
     subData.append("managerImage", FileList[0]?.originFileObj);
     const config = {
@@ -154,7 +157,7 @@ setTitleValue(value);
    
     }
     put(`BranchManager/Update`, subData, config).then((res) => {
-    
+      setProgress(false);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message, {
           appearance: "success",
@@ -352,7 +355,7 @@ setTitleValue(value);
 
                   </Button>
                 <Button.Ripple type="submit" className="ml-1 mt-3 badge-primary">
-                Submit
+                {progress? <ButtonLoader/> : "Submit"}
               </Button.Ripple>
                 </div>
               </Col>

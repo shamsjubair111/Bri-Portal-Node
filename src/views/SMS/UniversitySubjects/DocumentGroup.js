@@ -29,6 +29,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import Loader from "../Search/Loader/Loader";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const DocumentGroup = () => {
   const [title, setTitle] = useState("");
@@ -75,6 +76,10 @@ const DocumentGroup = () => {
   const [buttonStatus1, setButtonStatus1] = useState(false);
   const [buttonStatus2, setButtonStatus2] = useState(false);
   const [buttonStatus3, setButtonStatus3] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
+  const [progress4, setProgress4] = useState(false);
 
   const [loading1, setLoading1] = useState(true);
 
@@ -152,7 +157,6 @@ const DocumentGroup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const subData = new FormData(event.target);
 
     //   for(var i of subData){
@@ -168,9 +172,11 @@ const DocumentGroup = () => {
     } else {
       if (updateDocumentId != undefined) {
         setButtonStatus(true);
+        setProgress(true);
         const returnvalue = put(`DocumentGroup/Update`, subData).then(
           (action) => {
             setButtonStatus(false);
+            setProgress(false);
             setSuccess(!success);
             setModalOpen(false);
             addToast(action?.data?.message, {
@@ -188,9 +194,11 @@ const DocumentGroup = () => {
       } else {
         // localStorage.removeItem("updateDocument");
         setButtonStatus(true);
+        setProgress(true);
         const returnValue = post(`DocumentGroup/Create`, subData).then(
           (action) => {
             setButtonStatus(false);
+            setProgress(false);
             setSuccess(!success);
             setModalOpen(false);
             addToast(action?.data?.message, {
@@ -210,8 +218,10 @@ const DocumentGroup = () => {
 
   const handleDeleteDocumentGroup = (id) => {
     setButtonStatus2(true);
+    setProgress1(true);
     const returnValue = remove(`DocumentGroup/Delete/${id}`).then((action) => {
       setButtonStatus2(false);
+      setProgress1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -225,9 +235,11 @@ const DocumentGroup = () => {
 
   const handleDeleteViewDocu = (id) => {
     setButtonStatus1(true);
+    setProgress4(true);
     const returnValue = remove(`DocumentGroupDocument/Delete/${id}`).then(
       (action) => {
         setButtonStatus1(false);
+        setProgress4(false);
         setDeleteViewModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -301,6 +313,7 @@ const DocumentGroup = () => {
 
   const handleViewSubmit = (e) => {
     e.preventDefault();
+    
     const subData = new FormData(e.target);
 
     // for(var i of subData){
@@ -315,8 +328,10 @@ const DocumentGroup = () => {
     // }
     else {
       setButtonStatus3(true);
+      setProgress2(true);
       post("DocumentGroupDocument/Create", subData).then((res) => {
         setButtonStatus3(false);
+        setProgress2(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -506,7 +521,7 @@ const DocumentGroup = () => {
                           color={"primary"}
                           type={"submit"}
                           className={"mr-0 mt-3"}
-                          name={"Submit"}
+                          name={progress? <ButtonLoader/> : "Submit"}
                           permission={6}
                           isDisabled={buttonStatus}
                         />
@@ -614,7 +629,7 @@ const DocumentGroup = () => {
                                   handleDeleteDocumentGroup(delDocuGroupId)
                                 }
                               >
-                                YES
+                                {progress1? <ButtonLoader/> : "YES"}
                               </Button>
                               <Button onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>
@@ -708,7 +723,7 @@ const DocumentGroup = () => {
                                                 )
                                               }
                                             >
-                                              YES
+                                              {progress4? <ButtonLoader/> : "YES"}
                                             </Button>
                                             <Button
                                               // color="primary"
@@ -851,7 +866,7 @@ const DocumentGroup = () => {
                                       color={"primary"}
                                       type={"submit"}
                                       className={"ms-lg-3 ms-sm-1 mt-3"}
-                                      name={"Submit"}
+                                      name={progress2? <ButtonLoader/> : "Submit"}
                                       permission={6}
                                       disable={buttonStatus3}
                                     />

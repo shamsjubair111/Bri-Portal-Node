@@ -33,6 +33,7 @@ import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import Loader from "../Search/Loader/Loader";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddCountry = () => {
   const [country, setCountry] = useState("");
@@ -57,6 +58,7 @@ const AddCountry = () => {
   const [previewTitle, setPreviewTitle] = useState("");
   const [FileList, setFileList] = useState([]);
   const [imgError, setImgError] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -157,8 +159,10 @@ const AddCountry = () => {
 
   const handleDeletecountry = (id) => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`Country/Delete/${id}`).then((action) => {
       setButtonStatus(false);
+      setProgress(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -557,7 +561,7 @@ const AddCountry = () => {
                             }
                             disabled={buttonStatus}
                           >
-                            YES
+                            {progress? <ButtonLoader/> : "YES"}
                           </Button>
                           <Button onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>

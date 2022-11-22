@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const Create = () => {
 
@@ -18,6 +19,7 @@ const Create = () => {
     const [amountInput, setAmountInput] = useState('');
     const {addToast} = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
     useEffect(()=>{
 
@@ -59,6 +61,7 @@ const Create = () => {
     
 
     const handleSubmit = (event) => {
+            setProgress(true);
             event.preventDefault();
             const subData = new FormData(event.target);
             if(consultantValue ==0) {
@@ -68,6 +71,7 @@ const Create = () => {
                 setButtonStatus(true);
                 post(`WithdrawRequest/Create`,subData)
                 .then(res => {
+                    setProgress(false);
                     setButtonStatus(false);
                     if(res?.status == 200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
@@ -157,7 +161,9 @@ const Create = () => {
                                 <Button color='primary' type='submit'
                                 disabled={(amountInput <50 || amountInput>amount || amountInput == isNaN(amountInput) || buttonStatus )? true : false}
                                 >
-                                    Submit
+                                    {
+                                        progress? <ButtonLoader/> : 'Submit'
+                                    }
                                 </Button>
 
                             </div>

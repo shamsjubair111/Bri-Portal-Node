@@ -33,6 +33,7 @@ import { useToasts } from "react-toast-notifications";
 import get from "../../../../helpers/get";
 import put from "../../../../helpers/put";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddProviderUniversityFeatures = () => {
     const history = useHistory();
@@ -49,6 +50,7 @@ const AddProviderUniversityFeatures = () => {
   const [featureId, setFeatureId] = useState(undefined);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
 
   const myForm = createRef();
@@ -85,7 +87,7 @@ const AddProviderUniversityFeatures = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
-
+    setProgress(true);
     //  watch form data values
     for (var value of subdata.values()) {
     }
@@ -101,6 +103,7 @@ const AddProviderUniversityFeatures = () => {
       put("UniversityFeatures/Update", subdata).then((res) => {
         console.log("1st put response", res);
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -126,6 +129,7 @@ const AddProviderUniversityFeatures = () => {
         },
       }).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         const uniID = res.data.result.universityId;
 
         if (res.status === 200 && res.data.isSuccess === true) {
@@ -581,7 +585,7 @@ const AddProviderUniversityFeatures = () => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> : "Save"}
                       disable={buttonStatus}
                       permission={6}
                     />
