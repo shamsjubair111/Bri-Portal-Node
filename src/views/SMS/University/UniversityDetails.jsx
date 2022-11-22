@@ -2156,7 +2156,7 @@ const UniversityDetails = () => {
                                   <td>{sub?.department?.name}</td>
 
                                   <td>
-                                    {sub?.subDepartment?.departmentinfo?.name}
+                                    {sub?.subDepartment?.name}
                                   </td>
 
                                   <td

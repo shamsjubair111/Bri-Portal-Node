@@ -3,6 +3,7 @@ import {
     Col,
     Row
   } from 'reactstrap';
+  import img from '../../.././../../assets/img/oval.svg';
 
 const SuperAdmin = () => {
 
@@ -266,8 +267,9 @@ const SuperAdmin = () => {
           </div>
         </div> */}
 
-        <div className='mt-5 text-center'>
-          <h3>Dashboard Is Under Maintenance. Stay Tuned for Further Notification</h3>
+        <div className='mt-5 text-center bg-dark'>
+          <h3 className='text-white'>Dashboard Is Under Maintenance. Stay Tuned for Further Notification</h3>
+
 
         </div>
   

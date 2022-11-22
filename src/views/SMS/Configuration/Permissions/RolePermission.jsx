@@ -9,6 +9,7 @@ import { useHistory } from 'react-router';
 import post from '../../../../helpers/post';
 import get from '../../../../helpers/get';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const RolePermission = (props) => {
 
@@ -24,6 +25,7 @@ const RolePermission = (props) => {
   const { addToast } = useToasts();
   const history = useHistory();
   const [roles,setRoles] = useState([]);
+  const [progress,setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -43,6 +45,7 @@ const RolePermission = (props) => {
   // submitting form
   const handleSubmit = (event) => {
     event.preventDefault(); 
+    setProgress(true);
     const subData = new FormData();
     subData.append('RoleId',  roleValue);
     subData.append('CheckedArr',checked);
@@ -59,6 +62,7 @@ const RolePermission = (props) => {
     
       // posting form Data
        post(`RolePermission/Assign`,subData).then((action)=> {
+        setProgress(false);
         
         setChecked([]);
             addToast(action?.data?.message, {
@@ -239,7 +243,7 @@ const RolePermission = (props) => {
                         type="submit"
                         className="mr-1 mt-3 badge-primary"
                       >
-                        Submit
+                        {progress? <ButtonLoader/> : 'Submit'}
                       </Button>
                       :
                       null

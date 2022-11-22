@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { Button, Card, CardBody, CardHeader } from 'reactstrap';
 import post from '../../../helpers/post';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const Index = () => {
 
@@ -10,6 +11,7 @@ const Index = () => {
 
     const history = useHistory();
     const {addToast} = useToasts();
+    const [progress,setProgress] = useState(false);
 
     const backToDashboard = () => {
         history.push('/');
@@ -18,9 +20,11 @@ const Index = () => {
     // Apply Seed Data
 
     const applySeedData = () =>{
+        setProgress(true);
         setButtonStatus(true);
         post(`SeedData/Apply`)
         .then(res =>{
+            setProgress(false);
             setButtonStatus(false);
             if(res?.status == 200){
             
@@ -67,7 +71,14 @@ const Index = () => {
 
             <div className='text-center mt-4'>
             <Button color='primary' onClick={applySeedData} disabled={buttonStatus}>
-                <i className='fas fa-plus'></i>  Apply Fixed Data
+                {
+                    progress? 
+                    <ButtonLoader/>
+                    :
+                    <>
+                    <i className='fas fa-plus'></i>  Apply Fixed Data
+                    </>
+                }
 
             </Button>
             </div>

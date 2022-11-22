@@ -7,7 +7,8 @@ import { Mail, Lock, Check } from "react-feather"
 import { connect } from "react-redux"
 import { history } from "../../../../history"
 import axios from "axios"
-
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 import { rootUrl } from "../../../../constants/constants"
 import get from "../../../../helpers/get"
 import { fontSize } from "@mui/system"
@@ -20,11 +21,15 @@ class Login extends React.Component {
     error: "",
     emailerror: "",
     passwordError: "",
-    canNavigate: true
+    canNavigate: true,
+    progress: false
   }
+
+   antIcon = <LoadingOutlined style={{ fontSize: 35, color:'white', fontWeight: 'bold' }} spin />
 
   handleLogin = e => {
     e.preventDefault()
+    this.setState({progress: true})
     var loggedInUser = { id: 0, email: '', name: '', image: 'gbhgyhgv', loggedInWith: 'jwt' }
     axios
       .post(`${rootUrl}Account/Login`, {
@@ -32,7 +37,7 @@ class Login extends React.Component {
         password: this.state.password
       })
       .then(response => {
-     
+          this.setState({progress: false})
         if (response?.status == 200) {
           if (response?.data?.isSuccess == true) {
             this.setState({ error: '' });
@@ -135,7 +140,7 @@ class Login extends React.Component {
 
              <div >
              <button className="login-btn-style"  type="submit">
-                 Login
+                 {(this?.state?.progress)? <Spin indicator={this.antIcon} /> : 'Login'}
                 </button>
              </div>
 

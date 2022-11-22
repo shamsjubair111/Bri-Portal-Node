@@ -8,6 +8,7 @@ import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
 import { useEffect } from 'react';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 
 
@@ -25,6 +26,7 @@ const RoleMenu = (props) => {
     const history = useHistory();
     const permissions = JSON.parse(localStorage.getItem('permissions'));
     const [roles,setRoles] = useState([]);
+    const [progress, setProgress] = useState(false);
 
 
   // submitting form
@@ -138,6 +140,7 @@ const RoleMenu = (props) => {
 
 
   const handleConfirm = () => {
+    setProgress(true);
  
     setMenus([]);
       const subData = new FormData();
@@ -146,7 +149,7 @@ const RoleMenu = (props) => {
       // posting form Data
       post(`RoleMenuItem/Assign`,subData).then((action)=> {
        
-   
+        setProgress(false);
         setChecked([]);
             addToast(action?.data?.message, {
               appearance: 'success',
@@ -250,7 +253,7 @@ const RoleMenu = (props) => {
                                 type="submit"
                                 className="mr-1 mt-3 badge-primary"
                             >
-                                Submit
+                              Submit
                             </Button.Ripple>
                             :
                             null
@@ -267,7 +270,7 @@ const RoleMenu = (props) => {
                             <p>Are You Sure to Assign Selected Menus?</p>
                             <Row className="mt-3">
                             <Col md="6" className="text-left">
-                            <Button color="primary" onClick={handleConfirm}>Yes</Button>
+                            <Button color="primary" onClick={handleConfirm}>{progress ? <ButtonLoader/> : 'Yes'}</Button>
                             </Col>
                             <Col md="6" className="text-right">
                             <Button color="danger" onClick={()=> setModalOpen(false)}>Cancel</Button>
