@@ -347,6 +347,10 @@ const ConsultantProfile = () => {
     }
   };
 
+  const redirectToApplicationTransaction = () => {
+    history.push(`/applicationTransactionFromConsultant/${id}`);
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -1182,7 +1186,7 @@ const ConsultantProfile = () => {
                 <div className="hedding-titel mb-3">
                   <h5>
                     {" "}
-                    <b>Important Notice</b>{" "}
+                    <b>Important Links</b>{" "}
                   </h5>
                   <div className="bg-h"></div>
                 </div>
@@ -1218,6 +1222,7 @@ const ConsultantProfile = () => {
                   ) : null}
 
                   <ButtonForFunction
+                    func={redirectToApplicationTransaction}
                     className={"btn btn-uapp-add "}
                     name={"Transaction"}
                     permission={6}

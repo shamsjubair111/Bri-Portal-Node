@@ -30,7 +30,7 @@ import {
   DropdownMenu,
 } from "reactstrap";
 import Select from "react-select";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import get from "../../../helpers/get";
 import Pagination from "../Pagination/Pagination";
 import ButtonForFunction from "../Components/ButtonForFunction";
@@ -44,6 +44,7 @@ import { permissionList } from "../../../constants/AuthorizationConstant";
 const Index = () => {
   const userType = localStorage.getItem("userType");
   const history = useHistory();
+  const {consultantId} = useParams();
 
   const [uapp, setUapp] = useState([]);
   const [uappLabel, setUappLabel] = useState("UAPP Id");
@@ -168,14 +169,29 @@ const Index = () => {
       setUapp(res);
     });
 
-    get(
-      `ApplicationTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&uappid=${uappValue}&studentid=${studentValue}&consultantid=${consultantValue}&intakeid=${intakeValue}`
-    ).then((res) => {
+    if(consultantId !== undefined){
       
-      setData(res?.models);
-      setEntity(res?.totalEntity);
-      setLoading(false);
-    });
+      get(
+        `ApplicationTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&uappid=${uappValue}&studentid=${studentValue}&consultantid=${consultantId}&intakeid=${intakeValue}`
+      ).then((res) => {
+        console.log("trans data", res?.models);
+        setData(res?.models);
+        setConsultantValue(consultantId);
+        setConsultantLabel(res?.models[0]?.consultant.split("-")[1]);
+        setEntity(res?.totalEntity);
+        setLoading(false);
+      });
+    }
+    else{
+      get(
+        `ApplicationTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&uappid=${uappValue}&studentid=${studentValue}&consultantid=${consultantValue}&intakeid=${intakeValue}`
+      ).then((res) => {
+        
+        setData(res?.models);
+        setEntity(res?.totalEntity);
+        setLoading(false);
+      });
+    }
   }, [
     currentPage,
     dataPerPage,
@@ -351,6 +367,7 @@ const Index = () => {
                       options={consultantOptions}
                       value={{ label: consultantLabel, value: consultantValue }}
                       onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                      isDisabled={consultantId !== undefined ? true : false}
                     />
                   </div>
                 ) : null}
