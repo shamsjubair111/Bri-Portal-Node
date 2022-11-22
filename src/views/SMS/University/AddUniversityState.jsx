@@ -33,6 +33,7 @@ import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import Loader from "../Search/Loader/Loader";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddUniversityState = () => {
   const [universityDetailsList, setUniversityDetailsList] = useState([]);
@@ -51,6 +52,8 @@ const AddUniversityState = () => {
 
   const [updateUniState, setUpdateUniState] = useState(undefined);
   const [loading,setLoading] = useState(true);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const { addToast } = useToasts();
 
@@ -95,9 +98,11 @@ const AddUniversityState = () => {
       setCountryNameError(true);
     } else {
       setButtonStatus(true);
+      setProgress1(true);
       const returnValue = post(`UniversityState/Create`, subdata).then(
         (action) => {
           setButtonStatus(false);
+          setProgress1(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -140,9 +145,11 @@ const AddUniversityState = () => {
   // confirm delete
   const handleDeleteUniState = (id) => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`UniversityState/Delete/${id}`).then(
       (action) => {
         setButtonStatus(false);
+        setProgress(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -174,9 +181,11 @@ const AddUniversityState = () => {
       universityCountryId: countryValue,
     };
     setButtonStatus(true);
+    setProgress1(true);
     const returnvalue = put(`UniversityState/Update`, subData).then(
       (action) => {
         setButtonStatus(false);
+        setProgress1(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -329,7 +338,7 @@ const AddUniversityState = () => {
                         onClick={handleUpdateSubmit}
                         disabled={buttonStatus}
                       >
-                        Submit
+                        {progress1? <ButtonLoader/> : "Submit"}
                       </Button>
                     ) : (
                       <Button
@@ -339,7 +348,7 @@ const AddUniversityState = () => {
                         onClick={(e) => handleSubmit(e)}
                         disabled={buttonStatus}
                       >
-                        Submit
+                        {progress1? <ButtonLoader/> : "Submit"}
                       </Button>
                     )}
                   </FormGroup>
@@ -421,7 +430,7 @@ const AddUniversityState = () => {
                             }
                             disabled={buttonStatus}
                           >
-                            YES
+                            {progress? <ButtonLoader/> : "YES"}
                           </Button>
                           <Button  onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>

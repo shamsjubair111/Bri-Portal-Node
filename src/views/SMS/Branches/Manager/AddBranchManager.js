@@ -12,6 +12,7 @@ import { useToasts } from 'react-toast-notifications';
 import { Upload, Modal } from 'antd';
 import * as Icon from 'react-feather';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AddBranchManager = () => {
 
@@ -43,6 +44,7 @@ const AddBranchManager = () => {
     const [pass,setPass] = useState('');
     const [passError, setPassError] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     const [text, setText] = useState("");
 
@@ -207,6 +209,7 @@ const selectTitle = (label, value) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     const subdata = new FormData(event.target);
     subdata.append('managerImage',FileList.length > 0 ? FileList[0].originFileObj : null);
     const config = {
@@ -276,6 +279,7 @@ if(titleValue == 0 ){
 
     else{
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}BranchManager/Create`, subdata, config).then((res) => {
        
         // (res.status === 200 && res.data.isSuccess === true) ?
@@ -289,6 +293,7 @@ if(titleValue == 0 ){
         //   })
   
         setButtonStatus(false);
+        setProgress(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
 
           addToast(res?.data?.message,{
@@ -644,7 +649,7 @@ if(titleValue == 0 ){
                     className="ml-1 mt-3 badge-primary"
                     disabled={buttonStatus}
                   >
-                    Submit
+                    {progress? <ButtonLoader/> : "Submit"}
                   </Button>
                  
                   </div>

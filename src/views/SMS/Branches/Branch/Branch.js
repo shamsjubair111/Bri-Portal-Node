@@ -9,6 +9,7 @@ import get from '../../../../helpers/get';
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 
 const Branch = () => {
@@ -32,6 +33,7 @@ const Branch = () => {
       const [emailError, setEmailError] = useState(true);
       const permissions = JSON.parse(localStorage.getItem("permissions"));
       const [buttonStatus,setButtoStatus] = useState(false);
+      const [progress, setProgress] = useState(false);
 
       
       
@@ -142,6 +144,7 @@ const Branch = () => {
 
    const handleSubmit = (event) => {
     event.preventDefault();
+    
     const subdata = new FormData(event.target);
 
 
@@ -167,9 +170,11 @@ const Branch = () => {
 
       if(branchId){
         setButtoStatus(true);
+        setProgress(true);
         put('Branch/Update', subdata).then((res) => {
           
           setButtoStatus(false);
+          setProgress(false);
           if (res?.status === 200 && res?.data?.isSuccess === true) {
             setSubmitData(true);
             addToast(res.data.message, {
@@ -186,6 +191,7 @@ const Branch = () => {
 
        else{
         setButtoStatus(true);
+        setProgress(true);
         Axios.post(`${rootUrl}Branch/Create`, subdata, {
           headers: {
             'authorization': AuthStr,
@@ -194,6 +200,7 @@ const Branch = () => {
         
           console.log("branchInfo", res);
           setButtoStatus(false);
+          setProgress(false);
           if (res?.status === 200 && res?.data?.isSuccess === true) {
             setSubmitData(true);
                  addToast(res.data.message, {
@@ -469,7 +476,7 @@ const Branch = () => {
                     <ButtonForFunction 
                     type={"submit"}
                     className={"ml-1 mt-3 badge-primary"}
-                    name={"Submit"}
+                    name={progress? <ButtonLoader/> : "Submit"}
                     permission={6}
                     disable={buttonStatus}
                   />

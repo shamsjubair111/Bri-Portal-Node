@@ -10,6 +10,7 @@ import { rootUrl } from '../../../../constants/constants';
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const BranchConsultantRegistration = () => {
 
@@ -30,6 +31,7 @@ const BranchConsultantRegistration = () => {
     const [pass,setPass] = useState('');
     const [passError,setPassError] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
     const history = useHistory();
     const { addToast } = useToasts();
     const {branchId} = useParams();
@@ -98,6 +100,7 @@ const BranchConsultantRegistration = () => {
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     const subdata = new FormData(event.target);
 
      if(typeValue == 0){
@@ -128,7 +131,9 @@ const BranchConsultantRegistration = () => {
 
      else{
       setButtonStatus(true);
+      setProgress(true);
       post("Consultant/RegisterToBranch", subdata).then(res=>{
+        setProgress(false);
         console.log("consultant",res);
         addToast(res?.data?.message, {
           appearance: res?.data?.isSuccess == true ? 'success': 'error',
@@ -393,7 +398,7 @@ const BranchConsultantRegistration = () => {
                       type={"submit"}
                       className={'mt-3 ml-1'}
                       color={'primary'}
-                      name={"Submit"}
+                      name={progress? <ButtonLoader/> : "Submit"}
                       disable={buttonStatus}
                     />
 

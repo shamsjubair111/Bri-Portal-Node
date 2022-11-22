@@ -10,6 +10,7 @@ import remove from '../../../../helpers/remove';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
 import ButtonForFunction from '../../Components/ButtonForFunction';
 import put from '../../../../helpers/put';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const PaginatedTables = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +49,7 @@ const PaginatedTables = (props) => {
     const history = useHistory();
     const permissions = localStorage.getItem('permissions');
     const [deleteModal,setDeleteModal] = useState(false);
+    const [progress, setProgress] = useState(false);
     const {addToast} = useToasts();
 
 
@@ -175,7 +177,9 @@ const PaginatedTables = (props) => {
 
       const handleDeleteData = () => {
         setButtonStatus(true);
+        setProgress(true);
         remove(`Consultant/Delete/${delData?.id}`).then((res) => {
+          setProgress(false);
           setButtonStatus(false);
           // console.log(res);
           addToast(res, {
@@ -636,7 +640,7 @@ const PaginatedTables = (props) => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
-                                YES
+                              {progress? <ButtonLoader/> : "YES"}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

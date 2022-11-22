@@ -31,6 +31,7 @@ import { useToasts } from "react-toast-notifications";
 import get from "../../../../helpers/get";
 import put from "../../../../helpers/put";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddProviderUniversityFinancial = (props) => {
   const [activetab, setActivetab] = useState("4");
@@ -39,6 +40,7 @@ const AddProviderUniversityFinancial = (props) => {
   const [financialId, setFinancialId] = useState(undefined);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
 
   const { addToast } = useToasts();
@@ -80,6 +82,7 @@ const AddProviderUniversityFinancial = (props) => {
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
+    setProgress(true);
     const subdata = new FormData(event.target);
     // subdata.append('UniversityLogoFile',exactLogoFile);
     // subdata.append('CoverImageFile',exactCoverFile);
@@ -102,6 +105,7 @@ const AddProviderUniversityFinancial = (props) => {
           'authorization': AuthStr,
         },
       }).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         const uniID = res.data.result.universityId;
 
@@ -128,7 +132,7 @@ const AddProviderUniversityFinancial = (props) => {
       put("FinancialInformation/Update", subdata).then((res) => {
         console.log("1st put response", res);
         setButtonStatus(false);
-
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -398,7 +402,7 @@ const AddProviderUniversityFinancial = (props) => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"ml-lg-3 ml-sm-1 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> : "Save"}
                       disable={buttonStatus}
                       permission={6}
                     />

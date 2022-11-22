@@ -8,6 +8,7 @@ import { useToasts } from 'react-toast-notifications';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
 import { Image, Modal, Upload } from "antd";
 import * as Icon from "react-feather";
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AdmissionManager = () => {
     const {id} = useParams();
@@ -33,6 +34,7 @@ const AdmissionManager = () => {
     const [titleError,setTitleError] = useState(false);
     const [emailError, setEmailError] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState("");
@@ -168,7 +170,7 @@ const goBack = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setProgress(true);
         const subData = new FormData(e.target);
         subData.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
@@ -196,6 +198,7 @@ const goBack = () => {
           post(`AdmissionManager/Create`,subData)
           .then(res => {
             setButtonStatus(false);
+            setProgress(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -597,7 +600,7 @@ const goBack = () => {
                         // onClick={(e)=>handleSubmit(e)}
                         disabled={buttonStatus}
                       >
-                        Submit
+                        {progress? <ButtonLoader/> : "Submit"}
                       </Button>
                       : null
                    }

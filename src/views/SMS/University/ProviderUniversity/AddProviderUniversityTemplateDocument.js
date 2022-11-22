@@ -46,6 +46,7 @@ import { rootUrl } from "../../../../constants/constants";
 import remove from "../../../../helpers/remove";
 import put from "../../../../helpers/put";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddProviderUniversityTemplateDocument = () => {
     const { addToast } = useToasts();
@@ -78,6 +79,8 @@ const AddProviderUniversityTemplateDocument = () => {
   const [templateId, setTemplateId] = useState(0);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   // image upload starts here
   const [previewVisible1, setPreviewVisible1] = useState(false);
@@ -202,7 +205,7 @@ const AddProviderUniversityTemplateDocument = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setProgress(true);
     const subData = new FormData(e.target);
 
     subData.append(
@@ -227,6 +230,7 @@ const AddProviderUniversityTemplateDocument = () => {
         post("UniversityTemplateDocument/Create", subData).then((res) => {
           console.log("document data", res);
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -251,6 +255,7 @@ const AddProviderUniversityTemplateDocument = () => {
         put(`UniversityTemplateDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             // setSubmitData(false);
             addToast(res?.data?.message, {
@@ -296,9 +301,11 @@ const AddProviderUniversityTemplateDocument = () => {
 
   const handleDeletePermission = (id) => {
     setButtonStatus(true);
+    setProgress1(true);
     const returnValue = remove(
       `UniversityTemplateDocument/Delete/${id}`
     ).then((action) => {
+      setProgress1(false);
       setButtonStatus(false);
       setDeleteModal(false);
       setSuccess(!success);
@@ -610,12 +617,12 @@ const AddProviderUniversityTemplateDocument = () => {
 
                             <Col md="5">
                              {
-                                permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document) ?
+                                permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info) ?
                                <ButtonForFunction
                                color={"primary"}
                                type={"submit"}
                                className={"ml-lg-3 ml-sm-1 mt-3"}
-                               name={"Save"}
+                               name={progress? <ButtonLoader/> : "Save"}
                                disable={buttonStatus}
                               />
                               :
@@ -645,14 +652,19 @@ const AddProviderUniversityTemplateDocument = () => {
                             style={{ display: "flex", justifyContent: "end" }}
                           >
                             <Col md="5">
+                            {
+                                permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info) ?
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save"}
+                                name={progress? <ButtonLoader/> : "Save"}
                                 disable={buttonStatus}
                                 permission={6}
                               />
+                              :
+                              null
+                              }
 
                             <div>
                               {selectedId !== 0 ||
@@ -777,7 +789,7 @@ const AddProviderUniversityTemplateDocument = () => {
                                   }
                                   disabled={buttonStatus}
                                 >
-                                  YES
+                                  {progress1? <ButtonLoader/> : "YES"}
                                 </Button>
                                 <Button onClick={() => {
                                   setDeleteModal(false);

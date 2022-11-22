@@ -29,6 +29,7 @@ import ButtonForFunction from "../../Components/ButtonForFunction";
 import CustomButtonRipple from "../../Components/CustomButtonRipple";
 import get from "../../../../helpers/get";
 import remove from "../../../../helpers/remove";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddProviderUniversityGallery = () => {
     const [activetab, setActivetab] = useState("6");
@@ -47,6 +48,9 @@ const AddProviderUniversityGallery = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress,setProgress] = useState(false);
+  const [progress1,setProgress1] = useState(false);
+
 
   const { addToast } = useToasts();
   const history = useHistory();
@@ -60,6 +64,7 @@ const AddProviderUniversityGallery = () => {
 
   const handleUpload = (event) => {
     event.preventDefault();
+    setProgress(true);
     const subdata = new FormData(event.target);
 
     for (let i = 0; i < galleryResult.length; i++) {
@@ -81,6 +86,7 @@ const AddProviderUniversityGallery = () => {
       setButtonStatus(true);
       Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
         (res) => {
+          setProgress(false);
           setButtonStatus(false);
           setSuccess(!success);
           setFileList([]);
@@ -172,8 +178,10 @@ const AddProviderUniversityGallery = () => {
 
   const handleDeleteItem = (id) => {
     setButtonStatus1(true);
+    setProgress1(true);
     const returnValue = remove(`UniversityGallery/Delete/${id}`).then(
       (action) => {
+        setProgress1(false);
         setButtonStatus1(false);
         setDeleteModal(false);
         setSuccess(!success);
@@ -409,7 +417,7 @@ const AddProviderUniversityGallery = () => {
                               }
                               disabled={buttonStatus1}
                             >
-                              YES
+                              {progress1? <ButtonLoader/> : "YES"}
                             </Button>
                             <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
@@ -470,7 +478,7 @@ const AddProviderUniversityGallery = () => {
                         <CustomButtonRipple
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary"}
-                          name={"Save"}
+                          name={progress? <ButtonLoader/> : "Save"}
                           isDisabled={buttonStatus}
                           permission={6}
                         />

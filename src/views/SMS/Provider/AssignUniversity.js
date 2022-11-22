@@ -34,6 +34,7 @@ import post from "../../../helpers/post";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AssignUniversity = () => {
   const [loading, setLoading] = useState(false);
@@ -67,6 +68,8 @@ const AssignUniversity = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const { providerId, managerId } = useParams();
   const history = useHistory();
@@ -148,7 +151,7 @@ const AssignUniversity = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setProgress(true);
     const subData = {
       admissionManagerId: managerId,
       universityId: uniValue,
@@ -170,6 +173,7 @@ const AssignUniversity = () => {
       setButtonStatus(true);
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -199,6 +203,7 @@ const AssignUniversity = () => {
         setSelectedId(undefined);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -231,10 +236,12 @@ const AssignUniversity = () => {
 
   const handleDeletePermission = (managerUniId) => {
     setButtonStatus1(true);
+    setProgress1(true);
     const returnValue = remove(
       `AdmissionManagerUniversity/Delete/${managerUniId}`
     ).then((action) => {
       setButtonStatus1(false);
+      setProgress1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -652,7 +659,7 @@ const AssignUniversity = () => {
                       color={"primary"}
                       type={"submit"}
                       className={"mr-1 mt-3"}
-                      name={"Submit"}
+                      name={progress? <ButtonLoader/> : "Submit"}
                       permission={6}
                       isDisabled={buttonStatus}
                     />
@@ -761,7 +768,7 @@ const AssignUniversity = () => {
                                     handleDeletePermission(managerUniId)
                                   }
                                 >
-                                  YES
+                                 {progress1? <ButtonLoader/> : "YES"}
                                 </Button>
                                 
                                 <Button

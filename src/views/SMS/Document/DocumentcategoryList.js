@@ -36,6 +36,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkSpanButton from "../Components/LinkSpanButton";
 import Loader from "../Search/Loader/Loader";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const DocumentcategoryList = () => {
   const [uniTypeId, setUniTypeId] = useState(0);
@@ -57,6 +58,8 @@ const DocumentcategoryList = () => {
   const [docuId, setDocuId] = useState(0);
   const [loading,setLoading] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   // const [uName,setUName] = useState('');
 
@@ -89,8 +92,10 @@ const DocumentcategoryList = () => {
     if (!updateState?.id) {
       setUpdateState({});
       setButtonStatus(true);
+      setProgress(true);
       post(`DocumentCategory/Create`, subdata).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         setSuccess(!success);
         addToast(res?.data?.message, {
           appearance: "success",
@@ -103,8 +108,10 @@ const DocumentcategoryList = () => {
       });
     } else {
       setButtonStatus(true);
+      setProgress(true);
       put(`DocumentCategory/Update`, subdata).then((action) => {
         setButtonStatus(false);
+        setProgress(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -125,9 +132,11 @@ const DocumentcategoryList = () => {
 
   const handleDeleteCategory = (id) => {
     setButtonStatus(true);
+    setProgress1(true);
     const returnValue = remove(`Documentcategory/Delete/${id}`).then(
       (action) => {
         setButtonStatus(false);
+        setProgress1(false);
         setDeleteModal(false);
         setSuccess(!success);
         // console.log(action);
@@ -294,7 +303,7 @@ const DocumentcategoryList = () => {
                       className="mr-1 mt-3"
                       disabled={buttonStatus}
                     >
-                      Submit
+                      {progress? <ButtonLoader/> : "Submit"}
                     </Button>
                   </FormGroup>
                 </Form>
@@ -387,7 +396,7 @@ const DocumentcategoryList = () => {
                             }
                             disabled={buttonStatus}
                           >
-                            YES
+                            {progress1? <ButtonLoader/> : "YES"}
                           </Button>
                           
                           <Button onClick={closeDeleteModal}>NO</Button>

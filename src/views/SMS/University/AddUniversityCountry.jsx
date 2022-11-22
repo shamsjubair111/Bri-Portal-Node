@@ -39,6 +39,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import LinkSpanButton from "../Components/LinkSpanButton";
 import Loader from "../Search/Loader/Loader";
+import ButtonLoader from "../Components/ButtonLoader";
 const AddUniversityCountry = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
 
@@ -58,6 +59,8 @@ const AddUniversityCountry = (props) => {
   const { addToast } = useToasts();
   const [loading,setLoading] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -97,9 +100,11 @@ const AddUniversityCountry = (props) => {
     if (!updateState?.id) {
       setUpdateState({});
       setButtonStatus(true);
+      setProgress1(true);
       const returnValue = post(`UniversityCountry/Create`, subdata).then(
         (action) => {
           setButtonStatus(false);
+          setProgress1(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -111,9 +116,11 @@ const AddUniversityCountry = (props) => {
       );
     } else {
       setButtonStatus(true);
+      setProgress1(true);
       const returnvalue = put(`UniversityCountry/Update`, subdata).then(
         (action) => {
           setButtonStatus(false);
+          setProgress1(false);
           setSuccess(!success);
           setModalOpen(false);
           addToast(action?.data?.message, {
@@ -135,9 +142,11 @@ const AddUniversityCountry = (props) => {
 
   const handleDeleteUniCountry = (id) => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`UniversityCountry/Delete/${id}`).then(
       (action) => {
         setButtonStatus(false);
+        setProgress(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -321,7 +330,7 @@ const AddUniversityCountry = (props) => {
                       // onClick={(e) => handleSubmit(e)}
                       disabled={buttonStatus}
                     >
-                      Submit
+                      {progress1? <ButtonLoader/> : "Submit"}
                     </Button>
 
                     {/* } */}
@@ -423,7 +432,7 @@ const AddUniversityCountry = (props) => {
                               }
                               disabled={buttonStatus}
                           >
-                            YES
+                            {progress? <ButtonLoader/> : "YES"}
                           </Button>
                           <Button onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>

@@ -37,6 +37,7 @@ import SpanButton from '../Components/SpanButton';
 import put from '../../../helpers/put';
 import { useToasts } from 'react-toast-notifications';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const Details = () => {
 
@@ -60,6 +61,13 @@ const Details = () => {
     const [openModal4,setOpenModal4] = useState(false);
     const [openModal5,setOpenModal5] = useState(false);
     const [installment,setInstallment] = useState({});
+
+    const [progress, setProgress] = useState(false);
+    const [progress1,setProgress1] = useState(false);
+    const [progress2,setProgress2] = useState(false);
+    const [progress3,setProgress3] = useState(false);
+    const [progress4,setProgress4] = useState(false);
+
     const permissions  = JSON.parse(localStorage.getItem('permissions'));
 
 
@@ -84,7 +92,7 @@ const Details = () => {
 
         get(`ApplicationTransactionInstallment/Get/${id}`)
         .then(res => {
-          // console.log('first', res);
+          console.log('dfgdfgdgfdg', res, "afsdfsdfdsf");
           setInstallment(res);
           setFirstLabel(res?.firstInstallmentStatus == 1 ? 'Pending' : res?.firstInstallmentStatus == 2 ? 'Received' : 'Rejected');
           setFirstValue(res?.firstInstallmentStatus);
@@ -167,11 +175,12 @@ const Details = () => {
 
   const submit1 = (event) => {
     event.preventDefault();
-
+    setProgress2(true);
     const subData = new FormData(event.target);
 
     put(`ApplicationTransactionInstallment/UpdateFirst`,subData)
     .then(res =>{
+      setProgress2(false);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -191,11 +200,12 @@ const Details = () => {
 
   const submit2 = (event) => {
     event.preventDefault();
-
+    setProgress3(true);
     const subData = new FormData(event.target);
 
     put(`ApplicationTransactionInstallment/UpdateSecond`,subData)
     .then(res =>{
+      setProgress3(false);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -215,11 +225,12 @@ const Details = () => {
 
   const submit3 = (event) => {
     event.preventDefault();
-
+    setProgress4(true);
     const subData = new FormData(event.target);
 
     put(`ApplicationTransactionInstallment/UpdateThird`,subData)
     .then(res =>{
+      setProgress4(false);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -238,31 +249,32 @@ const Details = () => {
   }
 
   const submit4 = (event) => {
-
+    setProgress(true);
     event.preventDefault();
 
     const subData = new FormData(event.target);
 
     put(`ApplicationTransaction/TransactionNote`,subData)
     .then(res => {
+      setProgress(false);
       if(res?.status == 200 && res?.data?.isSuccess  == true){
-        {
+        
           addToast(res?.data?.message,{
             appearance:'success',
             autoDismiss: true
           })
           setSuccess(!success);
           setOpenModal5(false);
-        }
+        
 
       }
       else{
-        {
+        
           addToast(res?.data?.message,{
             appearance:'error',
             autoDismiss: true
           })
-        }
+        
       }
     })
 
@@ -272,13 +284,14 @@ const Details = () => {
   }
 
     const updateTransactionStatus = (event) => {
-
+        setProgress1(true);
         event.preventDefault();
 
         const subData = new FormData(event.target);
         setButtonStatus(true);
         put(`ApplicationTransaction/UpdateStatus`,subData)
         .then(res => {
+                setProgress1(false);
                 setButtonStatus(false);
                 if(res?.status ==200){
                     if(res?.data?.isSuccess == true){
@@ -477,7 +490,7 @@ const Details = () => {
                                     type="hidden"
                                     name="id"
                                     id="id"
-                                    value={installment?.id}
+                                    value={installment?.applicationTransactionId}
                                     
                                   />
 
@@ -515,7 +528,7 @@ const Details = () => {
                                 </Button>
 
                                 <Button color='primary' type='submit'>
-                                  Submit
+                                  {progress? <ButtonLoader/> : 'Submit'}
                                 </Button>
                                 </div>
 
@@ -719,7 +732,7 @@ const Details = () => {
                                       color={"primary"}
                                       type={"submit"}
                                       className={"mr-1 mt-3"}
-                                      name={"Submit"}
+                                      name={progress1 ? <ButtonLoader/> : 'Submit'}
                                       permission={6}
                                       isDisabled={buttonStatus}
                                     />
@@ -921,7 +934,7 @@ const Details = () => {
                                       color={"primary"}
                                       type={"submit"}
                                       className={"mr-1 mt-3"}
-                                      name={"Submit"}
+                                      name={progress2? <ButtonLoader/> : 'Submit'}
                                       permission={6}
                                       isDisabled={buttonStatus}
                                     />
@@ -1075,7 +1088,7 @@ const Details = () => {
                                       color={"primary"}
                                       type={"submit"}
                                       className={"mr-1 mt-3"}
-                                      name={"Submit"}
+                                      name={progress3 ? <ButtonLoader/> : 'Submit'}
                                       permission={6}
                                       isDisabled={buttonStatus}
                                     />
@@ -1235,7 +1248,7 @@ const Details = () => {
                                       color={"primary"}
                                       type={"submit"}
                                       className={"mr-1 mt-3"}
-                                      name={"Submit"}
+                                      name={progress4? <ButtonLoader/> : 'Submit'}
                                       permission={6}
                                       isDisabled={buttonStatus}
                                     />

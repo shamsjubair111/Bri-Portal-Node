@@ -33,6 +33,7 @@ import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import LinkSpanButton from "../Components/LinkSpanButton.js";
 import ToggleSwitch from "../Components/ToggleSwitch.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const ProviderDetails = () => {
   const { id } = useParams();
@@ -89,6 +90,10 @@ const ProviderDetails = () => {
   const [previewTitle, setPreviewTitle] = useState("");
   const [FileList, setFileList] = useState([]);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
+  const [progress1,setProgress1] = useState(false);
+  const [progress2,setProgress2] = useState(false);
+  const [progress3,setProgress3] = useState(false);
 
   const [text, setText] = useState('');
 
@@ -263,7 +268,9 @@ const ProviderDetails = () => {
   };
 
   const handleDelete = () => {
+    setProgress2(true);
     remove(`AdmissionManager/Delete/${deleteData?.id}`).then((res) => {
+      setProgress2(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -278,7 +285,9 @@ const ProviderDetails = () => {
 
   const handleDelete2 = () => {
     setButtonStatus(true);
+    setProgress3(true);
     remove(`AdmissionOfficer/Delete/${delData2?.id}`).then((res) => {
+      setProgress3(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -328,7 +337,7 @@ const ProviderDetails = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setProgress1(true);
     const subData = new FormData(event.target);
 
     subData.append("providerAdmin", FileList[0]?.originFileObj);
@@ -338,6 +347,7 @@ const ProviderDetails = () => {
 
     put(`ProviderAdmin/Update`, subData).then((res) => {
       setButtonStatus(false);
+      setProgress1(false);
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
@@ -431,7 +441,7 @@ const ProviderDetails = () => {
   
   const handleSubmitProfilePhoto = event => {
     event.preventDefault();
-  
+    setProgress(true);
     const subData = new FormData(event.target);
   
     subData.append("providerLogo", FileList1[0]?.originFileObj);
@@ -445,6 +455,7 @@ const ProviderDetails = () => {
     else{
       put(`Provider/UpdateLogo`, subData).then((res) => {
         setButtonStatus1(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -608,7 +619,7 @@ const ProviderDetails = () => {
                         Cancel
                   </Button>
                   <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus}>
-                    Update
+                    {progress1? <ButtonLoader/> : 'Update'}
                   </Button>
                 </div>
               </Col>
@@ -737,7 +748,7 @@ const ProviderDetails = () => {
                                        Cancel
                                  </Button>
                                  <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   Update
+                                   {progress? <ButtonLoader/> : 'Update'}
                                  </Button>
                                </div>
                              </Col>
@@ -1097,7 +1108,7 @@ const ProviderDetails = () => {
 
                               <ModalFooter>
                                 <Button color="danger" onClick={handleDelete}>
-                                  YES
+                                  {progress2? <ButtonLoader/> : "YES"}
                                 </Button>
                                 <Button color="secondary" onClick={closeDeleteModal}>NO</Button>
                               </ModalFooter>
@@ -1225,7 +1236,7 @@ const ProviderDetails = () => {
 
                               <ModalFooter>
                                 <Button color="danger" onClick={handleDelete2} disabled={buttonStatus}>
-                                  YES
+                               { progress3? <ButtonLoader/> : "YES"}
                                 </Button>
                                 <Button color="secondary" onClick={closeDeleteModal2}>NO</Button>
                               </ModalFooter>

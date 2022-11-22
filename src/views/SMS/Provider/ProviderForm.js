@@ -11,6 +11,7 @@ import post from '../../../helpers/post';
 import ProviderLogo from './ProviderLogo';
 import { useSelector } from 'react-redux';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const ProviderForm = (props) => {
@@ -37,6 +38,7 @@ const ProviderForm = (props) => {
     const [titleValue, setTitleValue] = useState(0);
     const [titleError, setTitleError] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
     const [text, setText] = useState('');
 
@@ -87,7 +89,7 @@ const ProviderForm = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-       
+        setProgress(true);
    
         const subData = new FormData(event.target);
         subData.append('providerLogo',providerLogo[0]?.originFileObj);
@@ -115,7 +117,7 @@ const ProviderForm = (props) => {
         setButtonStatus(true);
         post(`Provider/Create`,subData,config).then((action)=> {
           setButtonStatus(false);
-                
+          setProgress(false);
           if(action?.status ==200 && action?.data?.isSuccess == true){
 
 
@@ -399,7 +401,7 @@ const ProviderForm = (props) => {
                         type={"submit"}
                         color={'primary'}
                         className={"mt-3 ml-1"}
-                        name={"Submit"}
+                        name={progress? <ButtonLoader/> : 'Submit'}
                         permission={6}
                         disable={buttonStatus}
                       />

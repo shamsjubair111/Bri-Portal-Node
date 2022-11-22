@@ -44,6 +44,7 @@ import { useToasts } from "react-toast-notifications";
 import Assets from "../../../assets/img/Asset 12Icon.svg";
 import Loader from "../Search/Loader/Loader";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const List = () => {
   const current_user = JSON.parse(localStorage.getItem("current_user"));
@@ -84,6 +85,7 @@ const List = () => {
   const [modalPLabel, setModalPLabel] = useState("Select Payment Status");
   const [modalPValue, setModalPValue] = useState(0);
   const [buttonStatus, setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   // for hide/unhide column
   const [checkSlNo, setCheckSlNo] = useState(true);
@@ -255,7 +257,7 @@ const List = () => {
 
   const handleTransactionStatusChange = (event) => {
     event.preventDefault();
-
+    setProgress(true);
     if (modalTValue == 0) {
       setMTerror("Transaction status is required");
     } else {
@@ -263,6 +265,7 @@ const List = () => {
       get(
         `WithdrawRequest/TransactionStatus/${currData?.id}/${modalTValue}`
       ).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         if (res == true) {
           addToast("Status changed successfully", {
@@ -389,7 +392,7 @@ const List = () => {
                     Cancel
                   </Button>
 
-                  <Button color="primary">Update</Button>
+                  <Button color="primary">{progress? <ButtonLoader/> : 'Update'}</Button>
                 </div>
               </Form>
             </ModalBody>

@@ -12,6 +12,7 @@ import Select from "react-select";
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const DegreeList = () => {
 
@@ -27,6 +28,8 @@ const DegreeList = () => {
     const [success, setSuccess] = useState(false);
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
+    const [progress1, setProgress1] = useState(false);
     const [modalOpen,setModalOpen] = useState(false);
 
     const [data,setData] = useState({});
@@ -73,9 +76,11 @@ const DegreeList = () => {
 
          const handleDeleteData = (data) => {
             setButtonStatus(true);
+            setProgress(true);
             remove(`Degree/Delete/${data?.id}`)
             .then(res => {
                 setButtonStatus(false);
+                setProgress(false);
               addToast(res,{
                 appearance: 'error',
                 autoDismiss: true
@@ -161,9 +166,11 @@ const DegreeList = () => {
 
             if(data?.id){
               setButtonStatus(true);
+              setProgress1(true);
                 put(`Degree/Update`,subData)
                 .then( res => {
                   setButtonStatus(false);
+                  setProgress1(false);
                     if(res?.status ==200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
@@ -183,9 +190,11 @@ const DegreeList = () => {
 
             else{
                 setButtonStatus(true);
+                setProgress1(true);
                 post('Degree/Create',subData)
                 .then( res => {
                     setButtonStatus(false);
+                    setProgress1(false);
                     if(res?.status ==200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
@@ -324,7 +333,7 @@ const DegreeList = () => {
 
                     <ButtonForFunction
                     type={'submit'}
-                    name={"Submit"}
+                    name={progress1? <ButtonLoader/> : "Submit"}
                     className={"mr-1 mt-3 badge-primary"}
                     disable={buttonStatus}
 
@@ -462,7 +471,7 @@ const DegreeList = () => {
             
                             <ModalFooter>
                                 <Button  color="danger" onClick={()=>handleDeleteData(deleteData)}
-                                disabled={buttonStatus}>YES</Button>
+                                disabled={buttonStatus}>{progress? <ButtonLoader/> : "YES"}</Button>
                                 <Button onClick={() => setDeleteModal(false)}>NO</Button>
                             </ModalFooter>
                         </Modal>
