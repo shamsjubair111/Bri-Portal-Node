@@ -33,6 +33,7 @@ import ProfilePicturesWall from "./EmployeeProfileImage";
 import CoverPicturesWall from "./EmployeeCoverImage";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const EmployeeGeneralInfo = (props) => {
   const { id } = useParams();
@@ -64,6 +65,7 @@ const EmployeeGeneralInfo = (props) => {
   const [branch, setBranch] = useState([]);
   const [branchLabel, setBranchLabel] = useState("Select Branch");
   const [branchValue, setBranchValue] = useState(0);
+  const [progress,setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -209,6 +211,7 @@ const EmployeeGeneralInfo = (props) => {
   // submitting form
   const handleSubmit = (event) => {
     event.preventDefault();
+    setProgress(true);
     const subData = new FormData(event.target);
     subData.append("profileImage", FileList[0]?.originFileObj);
     subData.append("coverImage", result1[0]?.originFileObj);
@@ -235,6 +238,7 @@ const EmployeeGeneralInfo = (props) => {
           'authorization': AuthStr,
         },
       }).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
 
         // (res.status === 200 && res.data.isSuccess === true) ?
@@ -560,7 +564,7 @@ const EmployeeGeneralInfo = (props) => {
                     <ButtonForFunction
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
-                    name={"Submit"}
+                    name={progress? <ButtonLoader/> : 'Submit'}
                     disable={buttonStatus}
                    />
                    :

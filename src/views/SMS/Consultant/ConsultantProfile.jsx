@@ -701,18 +701,30 @@ const ConsultantProfile = () => {
 
                       <Col md="6">
                         <ul className="uapp-ul text-right">
-                          <div className="d-flex justify-content-end mb-2">
-                            <Select
-                              className=" w-50"
-                              options={statusTypeMenu}
-                              value={{ label: statusLabel, value: statusValue }}
-                              onChange={(opt) =>
-                                selectStatusType(opt.label, opt.value)
-                              }
-                              name="consultantTypeId"
-                              id="consultantTypeId"
-                            />
-                          </div>
+                        {
+                          permissions?.includes(permissionList?.Change_Status_Consultant) ?
+                          <>
+                          {
+                            !(userTypeId == userTypes?.Consultant) ? 
+                            <div className="d-flex justify-content-end mb-2">
+                          <Select
+                            className=" w-50"
+                            options={statusTypeMenu}
+                            value={{ label: statusLabel, value: statusValue }}
+                            onChange={(opt) =>
+                              selectStatusType(opt.label, opt.value)
+                            }
+                            name="consultantTypeId"
+                            id="consultantTypeId"
+                          />
+                        </div>
+                        :
+                        null
+                          }
+                          </>
+                        :
+                        null
+                        }
                           <li>
                             <span> Email : {consultantData?.email}</span>
                           </li>

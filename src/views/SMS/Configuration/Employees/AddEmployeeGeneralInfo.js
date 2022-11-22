@@ -18,6 +18,7 @@ import CoverPicturesWall from './EmployeeCoverImage';
 
 import ButtonForFunction from '../../Components/ButtonForFunction';
 import post from '../../../../helpers/post';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 
 const EmployeeGeneralInfo = (props) => {
@@ -50,6 +51,7 @@ const EmployeeGeneralInfo = (props) => {
     const [buttonStatus,setButtonStatus] = useState(false);
     const[error,setError] = useState('');
     const [error2,setError2] = useState('');
+    const [progress,setProgress] = useState(false);
     
 
     const [emailError, setEmailError] = useState(true);
@@ -192,6 +194,7 @@ const EmployeeGeneralInfo = (props) => {
     const handleSubmit = (event) => {
 
         event.preventDefault();
+        setProgress(true);
         
         const subData = new FormData(event.target);
         subData.append('profileImage', FileList[0]?.originFileObj);
@@ -241,7 +244,7 @@ const EmployeeGeneralInfo = (props) => {
               })
 
                 .then(res => {
-
+                    setProgress(false);
                     // (res.status === 200 && res.data.isSuccess === true) ?
                     // status = 'success' : status = res.data.message;
                     // status = res.data.message;
@@ -625,7 +628,7 @@ const EmployeeGeneralInfo = (props) => {
                                             type={"submit"}
                                             color={'primary'}
                                             className={"mr-1 mt-3"}
-                                            name={"Submit"}
+                                            name= {progress ? <ButtonLoader/> : 'Submit'}
                                             permission={6}
                                             disable={buttonStatus}
                                         />

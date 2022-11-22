@@ -25,6 +25,7 @@ import post from "../../../../helpers/post";
 
 import put from "../../../../helpers/put";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const EmployeeContactInfo = () => {
   const { id } = useParams();
@@ -45,6 +46,7 @@ const EmployeeContactInfo = () => {
   const [countryError, setCountryError] = useState("");
   const { addToast } = useToasts();
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -95,6 +97,7 @@ const EmployeeContactInfo = () => {
   // submitting form
   const handleSubmit = (event) => {
     event.preventDefault();
+    setProgress(true);
 
     const subData = new FormData(event.target);
     for (var value of subData.values()) {
@@ -110,6 +113,7 @@ const EmployeeContactInfo = () => {
         setButtonStatus(true);
         post(`EmployeeContactInformation/Create`,subData).then((action)=> {
           setButtonStatus(false);
+          setProgress(false);
               
           if(action?.status == 200 && action?.data?.isSuccess == true){
            addToast(action?.data?.message, {
@@ -135,6 +139,7 @@ const EmployeeContactInfo = () => {
           subData
         ).then((action) => {
           setButtonStatus(false);
+          setProgress(false);
         
   
           addToast(action?.data?.message, {
@@ -373,7 +378,7 @@ const EmployeeContactInfo = () => {
                     <ButtonForFunction
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
-                    name={"Submit"}
+                    name={progress ? <ButtonLoader/> : 'Submit'}
                     disable={buttonStatus}
                  
                   />

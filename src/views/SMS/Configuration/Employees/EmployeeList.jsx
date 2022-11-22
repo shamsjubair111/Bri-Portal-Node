@@ -39,6 +39,7 @@ import { permissionList } from "../../../../constants/AuthorizationConstant.js";
 import loader from '../../../../assets/img/load.gif';
 import { userTypes } from "../../../../constants/userTypeConstant.js";
 import put from "../../../../helpers/put.js";
+import ButtonLoader from "../../Components/ButtonLoader.js";
 
 const EmployeeList = (props) => {
   const { type } = useParams();
@@ -86,6 +87,7 @@ const EmployeeList = (props) => {
   const [error, setError] = useState("");
   const [cPass, setCPass] = useState("");
   const [pass, setPass] = useState("");
+  const [progress,setProgress] = useState(false);
 
 
 
@@ -183,7 +185,9 @@ const EmployeeList = (props) => {
 
   const handleDeleteStaff = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`Employee/Delete/${data?.id}`).then((res) => {
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         // autoDismiss: true,
@@ -957,7 +961,7 @@ const EmployeeList = (props) => {
                                 color="danger"
                                 onClick={() => handleDeleteStaff(emp?.id)}
                               >
-                                YES
+                                {progress? <ButtonLoader/> : 'Yes'}
                               </Button>
                               <Button onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>

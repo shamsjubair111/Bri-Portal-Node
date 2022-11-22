@@ -9,6 +9,7 @@ import { Button, Form, FormGroup,  Input,  Col,  Card, CardHeader, CardBody, Tab
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 
 
@@ -31,6 +32,7 @@ const EmployeeContactInfo = () => {
     const [countryError, setCountryError] = useState('');
     const { addToast } = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
     
 
 
@@ -71,7 +73,7 @@ const EmployeeContactInfo = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-
+        setProgress(true);
         const subData = new FormData(event.target);
         for (var value of subData.values()) {
        
@@ -87,7 +89,7 @@ const EmployeeContactInfo = () => {
 
             setButtonStatus(true);
              post(`EmployeeContactInformation/Create`,subData).then((action)=> {
-              
+              setProgress(false);
                if(action?.status == 200 && action?.data?.isSuccess == true){
                 setButtonStatus(false);
                 addToast(action?.data?.message, {
@@ -328,7 +330,7 @@ const EmployeeContactInfo = () => {
                                     <ButtonForFunction
                                       type={"submit"}
                                       className={"mr-1 mt-3 badge-primary"}
-                                      name={"Submit"}
+                                      name={progress ? <ButtonLoader/> : 'Submit'}
                                       permission={6}
                                       disable={buttonStatus}
                                     />

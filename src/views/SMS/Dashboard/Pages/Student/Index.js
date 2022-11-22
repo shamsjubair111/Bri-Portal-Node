@@ -71,7 +71,7 @@ const Student = () => {
             <div  className='d-flex flex-wrap'>
 
           
-
+{/* 
 
              <div style={{cursor: 'pointer'}}>
 
@@ -84,7 +84,7 @@ const Student = () => {
                <img src={plusicon} className='img-fluid dashbard-img-style1' />
                <span className='std-dashboard-style3'>Add New Student</span>
                </div>
-             </div>
+             </div> */}
 
              <div style={{cursor: 'pointer'}}>
 

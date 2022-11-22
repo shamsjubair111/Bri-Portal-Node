@@ -1671,3 +1671,192 @@ top: 25px;
 .align-middle:hover{
   color: #fff !important;
 }
+
+/* consultant dashboard style start */
+
+.consultant-custom-card-style{
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 3%;
+}
+
+.consultant-custom-card-style2{
+  background-color: #fff;
+
+  box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.1);
+}
+
+.consultant-news-feed-style{
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  line-height: 19.5px;
+}
+
+.notice-user-name{
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 19px;
+  color: #495057;
+}
+
+.notice-user-desc{
+  font-size: 13px;
+  font-weight: 400;
+ color: #878A99;
+}
+
+.notice-image-style img{
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+}
+
+.notice-time-style{
+  font-size: 11px;
+  font-weight: 400;
+  color: #878A99;
+}
+
+.application-count-style{
+  font-size: 13px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.application-count-style2{
+  font-size: 22px;
+  font-weight: 700;
+  color: #495057;
+}
+
+.consultant-balance-button{
+  width: auto;
+  height: 56px;
+  border-radius: 39px;
+  border: 1px solid #1E98B0;
+  background-color: #fff;
+}
+
+.consultant-bg-img{
+  background-image: url('../img/bg.svg');
+  height: 35px;
+  width: 35px;
+  background-repeat: no-repeat;
+}
+
+.app-style-const{
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.const-target-style{
+  font-weight: 500;
+  font-size: 16px;
+  color: #495057;
+}
+
+.target-app-style{
+ font-weight: 700;
+ font-size: 22px;
+}
+
+target-app-styless{
+  font-weight: 500;
+ font-size: 13px;
+}
+
+.custom-border-style{
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.amoung-us-style{
+  height: 178px;
+  width: 100px;
+  background-color: #1E98B0;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.amoung-us-style2{
+  height: 178px;
+  width: 100px;
+  background-color: #23CCB5;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.amoung-us-style3{
+  height: 178px;
+  width: 100px;
+  background-color: #AE75F8;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.amoung-us-style4{
+  height: 178px;
+  width: 100px;
+  background-color: #F7BD12;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.amoung-us-style5{
+  height: 178px;
+  width: 100px;
+  background-color: #F87675;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.among-inner-div{
+  height: 60px;
+  width: 60px;
+  background-color: #FFFFFF;
+  opacity: 0.9;
+  font-size: 22px;
+  font-weight: 700;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.title-among-style{
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.report-status-styles-cons{
+
+background: #FFFFFF;
+border: 0.5px solid rgba(37, 37, 37, 0.12);
+border-radius: 12px;
+position: relative;
+top: -20px;
+
+}
+
+
+
+/* consultant dashboard style end */

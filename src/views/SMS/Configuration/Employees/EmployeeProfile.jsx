@@ -18,6 +18,7 @@ import put from '../../../../helpers/put';
 import { Image } from 'antd';
 import { Upload } from "antd";
 import * as Icon from "react-feather";
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const EmployeeProfile = () => {
 
@@ -48,6 +49,7 @@ const EmployeeProfile = () => {
   const [FileList1, setFileList1] = useState([]);
   const [error1, setError1] = useState(false);
   const [text1, setText1] = useState('');
+  const [progress,setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -78,6 +80,7 @@ const EmployeeProfile = () => {
   const componentRef = useRef();
 
   const updateCoverPhoto = () => {
+
     setModalOpen(true);
   }
 
@@ -130,7 +133,7 @@ const handleChange = ({ fileList }) => {
 
 const handleSubmitCoverPhoto = event =>{
   event.preventDefault();
-
+  setProgress(true);
   const subData = new FormData(event.target);
 
   subData.append("coverImage", FileList[0]?.originFileObj);
@@ -145,6 +148,7 @@ const handleSubmitCoverPhoto = event =>{
   }
   else{
     put(`Employee/UpdateCoverPhoto`, subData).then((res) => {
+      setProgress(false);
       setButtonStatus(false);
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
@@ -210,6 +214,7 @@ const handleChange1 = ({ fileList }) => {
 
 const handleSubmitProfilePhoto = event => {
   event.preventDefault();
+  setProgress(true);
 
   const subData = new FormData(event.target);
 
@@ -226,6 +231,7 @@ const handleSubmitProfilePhoto = event => {
   else{
     put(`Employee/UpdateProfilePhoto`, subData).then((res) => {
       setButtonStatus1(false);
+      setProgress(false);
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
@@ -379,7 +385,7 @@ const handleSubmitProfilePhoto = event => {
                                   Cancel
                             </Button>
                             <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus}>
-                              Update
+                              {progress ? <ButtonLoader/> : 'Update'}
                             </Button>
                           </div>
                         </Col>
@@ -495,7 +501,7 @@ const handleSubmitProfilePhoto = event => {
                                        Cancel
                                  </Button>
                                  <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   Update
+                                   {progress ? <ButtonLoader/> : 'Update'}
                                  </Button>
                                </div>
                              </Col>
