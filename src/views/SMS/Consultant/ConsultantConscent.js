@@ -21,6 +21,7 @@ import { useToasts } from "react-toast-notifications";
 import get from "../../../helpers/get";
 import { userTypes } from "../../../constants/userTypeConstant";
 import put from "../../../helpers/put";
+import ButtonLoader from "../Components/ButtonLoader";
 
 
 
@@ -43,6 +44,7 @@ const Conscent = () => {
     const [apiInfo,setAPiInfo] = useState('');
     const [singTime,setSignTime] = useState([]);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
 
 
@@ -71,8 +73,10 @@ const Conscent = () => {
 
       subData.append('ConsultantId', consultantRegisterId);
       subData.append('IpAddress',apiInfo?.IPv4);
+      setProgress(true);
       post('ConsultantConscent/Sign',subData)
       .then(res => {
+        setProgress(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
           addToast(res?.data?.message,{
             appearance: 'success',
@@ -96,8 +100,10 @@ const Conscent = () => {
 
       const sendEmail = () => {
         setButtonStatus(true);
+        setProgress(true);
         put(`ConsultantConscent/SendEmail/${consultantRegisterId}`)
         .then(res => {
+          setProgress(false);
           setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast("Email Sending is in Process",{
@@ -325,7 +331,7 @@ const Conscent = () => {
                    onClick={sendEmail}
                    disabled={buttonStatus}
                    >
-                       Send Email
+                       {progress? <ButtonLoader/> : 'Send Email'}
                    </Button>
                </div>
                :
@@ -338,7 +344,7 @@ const Conscent = () => {
                    onClick={sendEmail}
                    disabled={buttonStatus}
                    >
-                       Send Email Again
+                      {progress? <ButtonLoader/> : 'Send Email Again'}
                    </Button>
                </div>
                :
@@ -366,7 +372,7 @@ const Conscent = () => {
                  (conscentData == null || conscentData?.isSigned == false) ?
                    <div className="mt-1">
                     <Button color="primary" onClick={handleTerms}>
-                        Accept Terms and Conditions
+                    {progress? <ButtonLoader/> : 'Accept Terms & Conditions'}
                     </Button>
                 </div>
 

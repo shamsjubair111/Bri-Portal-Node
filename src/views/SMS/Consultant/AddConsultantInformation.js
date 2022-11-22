@@ -27,6 +27,7 @@ import put from "../../../helpers/put";
 import { rootUrl } from "../../../constants/constants";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { userTypes } from "../../../constants/userTypeConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddConsultantInformation = () => {
   const { addToast } = useToasts();
@@ -127,6 +128,7 @@ const AddConsultantInformation = () => {
   const [error3,setError3] = useState('');
   const [error4,setError4] = useState('');
   const [error5,setError5] = useState('');
+  const [progress,setProgress] = useState(false);
 
 
 
@@ -620,7 +622,9 @@ const AddConsultantInformation = () => {
     }
     else {
       setButtonStatus(true);
+      setProgress(true);
       put(`Consultant/Update`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         addToast(res?.data?.message, {
           appearance: "success",
@@ -1354,7 +1358,7 @@ const AddConsultantInformation = () => {
                 <ButtonForFunction
                   type={"submit"}
                   className={"mr-1 mt-3 badge-primary"}
-                  name={"Submit"}
+                  name={progress ? <ButtonLoader/> : 'Submit'}
                   permission={6}
                   disable={buttonStatus}
                 />

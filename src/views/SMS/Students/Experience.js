@@ -7,6 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const Experience = () => {
 
@@ -26,7 +27,7 @@ const Experience = () => {
     const [working, setWorking] = useState(false);
     const [endDate, setEndDate] = useState('');
     const [delData, setDelData] = useState({});
-
+    const [progress, setProgress] = useState(false);
   
      const [info, setInfo] = useState([]);
 
@@ -146,9 +147,11 @@ const Experience = () => {
 
        if(value.id){
          setButtonStatus(true);
+         setProgress(true);
         put('Experience/Update',subData)
         .then(res => {
           setButtonStatus(false);
+          setProgress(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -169,9 +172,11 @@ const Experience = () => {
 
        else{
         setButtonStatus(true);
+        setProgress(true);
         post('Experience/Create',subData)
         .then(res => {
           setButtonStatus(false);
+          setProgress(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -203,9 +208,11 @@ const toggleDanger = (id) => {
 
 const handleDeletePermission = () => {
   setButtonStatus(true);
+  setProgress(true);
   remove(`Experience/Delete/${delData?.id}`)
   .then(res => {
     setButtonStatus(false);
+    setProgress(false);
     addToast(res,{
       appearance:'error',
       autoDismiss: true
@@ -451,7 +458,7 @@ console.log('trying', sDate?.split(",")[0]);
                   </ModalBody>
 
                   <ModalFooter>
-                    <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>YES</Button>
+                    <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>{progress? <ButtonLoader/> : 'YES'}</Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
                </Modal>
@@ -657,7 +664,7 @@ console.log('trying', sDate?.split(",")[0]);
     <ButtonForFunction
     type={'submit'}
     className={"mr-1 mt-3 badge-primary"}
-    name={'Update'}
+    name={progress  ? <ButtonLoader/> : 'Update'}
     disable={buttonStatus}
     />
    
@@ -680,7 +687,7 @@ console.log('trying', sDate?.split(",")[0]);
   <ButtonForFunction
     type={'submit'}
     className={"mr-1 mt-3 badge-primary"}
-    name={'Submit'}
+    name={progress?  <ButtonLoader/> : 'Submit'}
     disable={buttonStatus}
     />
  

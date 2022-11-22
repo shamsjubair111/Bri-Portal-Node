@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const Reference = () => {
@@ -32,6 +33,7 @@ const Reference = () => {
 
       const {addToast} = useToasts();
       const [delData,setDelData] = useState({});
+      const [progress, setProgress] = useState(false);
   
     const [referenceError, setReferenceError] = useState(false);
     const [countryError, setCountryError] = useState(false);
@@ -144,8 +146,10 @@ const Reference = () => {
  const handleDeletePermission = () => {
  
   setButtonStatus(true);
+  setProgress(true);
  remove(`Reference/Delete/${delData?.id}`)
  .then(res => {
+  setProgress(false);
   setButtonStatus(false);
   addToast(res,{
     appearance: 'error',
@@ -228,9 +232,11 @@ const onShow=()=>{
 
       if(oneData?.id){
         setButtonStatus(true);
+        setProgress(true);
         put('Reference/Update',subData)
         .then(res => {
           setButtonStatus(false);
+          setProgress(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -253,9 +259,11 @@ const onShow=()=>{
   
       else{
         setButtonStatus(true);
+        setProgress(true);
         post('Reference/Create',subData)
       .then(res => {
         setButtonStatus(false);
+        setProgress(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
   
           setShowForm(false);
@@ -445,7 +453,7 @@ const onShow=()=>{
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>YES</Button>
+            <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>{progress? <ButtonLoader/>: 'YES'}</Button>
             <Button onClick={() => setDeleteModal(false)}>NO</Button>
           </ModalFooter>
        </Modal>
@@ -727,7 +735,7 @@ const onShow=()=>{
 
 
 <ButtonForFunction
-name={'Submit'}
+name={progress ? <ButtonLoader/> : 'Submit'}
 type={'submit'}
 className={"mr-1 mt-3 badge-primary"}
 disable={buttonStatus}

@@ -11,6 +11,7 @@ import put from '../../../../helpers/put';
 import remove from '../../../../helpers/remove';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
 import Loader from '../../Search/Loader/Loader';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AccountIntake = () => {
 
@@ -50,6 +51,7 @@ const AccountIntake = () => {
 
     const permissions = JSON.parse(localStorage.getItem('permissions'));
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
 
 
@@ -218,8 +220,10 @@ const AccountIntake = () => {
         else{
             if(!currUpdateData?.id){
                 setButtonStatus(true);
+                setProgress(true);
                 post(`AccountIntake/Create`,subData)
                 .then(res => {
+                    setProgress(false);
                     setButtonStatus(false);
                     if(res?.status ==200){
                         addToast(res?.data?.message,{
@@ -242,8 +246,10 @@ const AccountIntake = () => {
 
             else{
                 setButtonStatus(true);
+                setProgress(true);
                 put(`AccountIntake/Update`,subData)
                 .then(res => {
+                    setProgress(false);
                     setButtonStatus(false);
                     if(res?.status == 200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
@@ -288,8 +294,10 @@ const AccountIntake = () => {
 
     const handleDeleteData = () => {
         setButtonStatus(true);
+        setProgress(true);
         remove(`AccountIntake/Delete/${currDeleteData?.id}`)
         .then(res => {
+            setProgress(false);
             setButtonStatus(false);
             addToast(res,{
                 appearance: 'error',
@@ -528,7 +536,7 @@ const AccountIntake = () => {
                             className="mr-1 mt-3"
                             disabled={buttonStatus}
                             >
-                            Submit
+                           {progress? <ButtonLoader/> : ' Submit'}
 
                             </Button>
                 
@@ -614,7 +622,7 @@ const AccountIntake = () => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={handleDeleteData} disabled={buttonStatus}>YES</Button>
+                          <Button  color="danger" onClick={handleDeleteData} disabled={buttonStatus}>{progress ? <ButtonLoader/> : 'YES'}</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

@@ -21,6 +21,7 @@ import post from "../../../helpers/post";
 import { useToasts } from "react-toast-notifications";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const ContactInformation = () => {
   const { addToast } = useToasts();
@@ -41,6 +42,7 @@ const ContactInformation = () => {
   const [countryError, setCountryError] = useState(false);
   const [addressError, setAddressError] = useState(false);
   const  [buttonStatus, setButtonStatus] =useState(false);
+  const [progress,setProgress] = useState(false);
 
   
 
@@ -156,8 +158,10 @@ const ContactInformation = () => {
     } else {
       if (oneData?.id) {
         setButtonStatus(true);
+        setProgress(true);
         put("StudentContactInformation/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -175,8 +179,10 @@ const ContactInformation = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         post("StudentContactInformation/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -529,7 +535,7 @@ const ContactInformation = () => {
                   <Col md="5">
                     <ButtonForFunction
                       type={"submit"}
-                      name={"Submit"}
+                      name={progress ? <ButtonLoader/> : 'Submit'}
                       className={"mr-1 mt-3 badge-primary"}
                       disable={buttonStatus}
                     />

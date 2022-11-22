@@ -35,6 +35,7 @@ import { useToasts } from 'react-toast-notifications';
 import remove from '../../../helpers/remove';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { userTypes } from '../../../constants/userTypeConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const BankDetails = () => {
  
@@ -56,6 +57,7 @@ const BankDetails = () => {
 
   const [activetab, setActivetab] = useState("2");
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
   
   useEffect(()=>{
 
@@ -153,8 +155,10 @@ const handleEdit = (data) => {
 
     const subData = new FormData(event.target);
     setButtonStatus(true);
+    setProgress(true);
     put('BankDetails/Update',subData)
     .then( res => {
+      setProgress(false);
       setButtonStatus(false);
       addToast(res?.data?.message, {
         appearance: 'success',
@@ -174,8 +178,10 @@ const handleEdit = (data) => {
   const handleDeletePermission = () => {
 
     setButtonStatus(true);
+    setProgress(true);
     remove(`BankDetails/Delete/${deleteData?.id}`)
     .then(res => {
+      setProgress(false);
       setButtonStatus(false);
       
       addToast(res, {
@@ -204,8 +210,10 @@ const handleEdit = (data) => {
 
     const subData = new FormData(event.target);
       setButtonStatus(true);
+      setProgress(true);
       post('BankDetails/Create',subData)
     .then(res => {
+      setProgress(false);
       setButtonStatus(false);
       console.log('Bank Data Post Resonse', res);
       if(res?.status ==200){
@@ -417,7 +425,7 @@ const handleEdit = (data) => {
                     className="mr-1 mt-3"
                     disable={buttonStatus}
                   >
-                    Submit
+                    {progress ? <ButtonLoader/> : 'Submit'}
                   </Button.Ripple>
     
               
@@ -595,7 +603,7 @@ const handleEdit = (data) => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>YES</Button>
+                  <Button onClick={handleDeletePermission} color="danger" disabled={buttonStatus}>{progress ? <ButtonLoader/> : 'Yes'}</Button>
                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                 </ModalFooter>
              </Modal>
@@ -789,7 +797,7 @@ const handleEdit = (data) => {
                   <ButtonForFunction 
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
-                    name={"Submit"}
+                    name={progress ? <ButtonLoader/> : 'Submit'}
                     permission={6}
                     disable={buttonStatus}
                   />

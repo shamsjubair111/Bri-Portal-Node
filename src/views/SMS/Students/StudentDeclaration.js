@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { userTypes } from '../../../constants/userTypeConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const StudentDeclaration = () => {
@@ -20,6 +21,7 @@ const StudentDeclaration = () => {
     const [conscentData,setConscentData] = useState({});
    
     const {addToast} = useToasts();
+    const [progress,setProgress] = useState(false);
 
     const [apiInfo,setAPiInfo] = useState('');
     const [singTime,setSignTime] = useState([]);
@@ -102,8 +104,10 @@ const StudentDeclaration = () => {
   
         subData.append('StudentId', applicationStudentId);
         subData.append('IpAddress',apiInfo);
+        setProgress(true);
         post('StudentConsent/Sign',subData)
         .then(res => {
+          setProgress(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -123,8 +127,10 @@ const StudentDeclaration = () => {
 
       const sendEmail = () => {
         setButtonStatus(true);
+        setProgress(true);
         put(`StudentConsent/SendEmail/${applicationStudentId}`)
         .then(res => {
+          setProgress(false);
           setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast("Email Sending is in Process",{
@@ -435,7 +441,7 @@ update?
                    onClick={sendEmail}
                    disabled={buttonStatus}
                    >
-                       Send Email
+                    {progress ? <ButtonLoader/> :    'Send Email'}
                    </Button>
                </div>
                :
@@ -448,7 +454,7 @@ update?
                    onClick={sendEmail}
                    disabled={buttonStatus}
                    >
-                       Send Email Again
+                      {progress ? <ButtonLoader/> :    'Send Email Again'}
                    </Button>
                </div>
                :
@@ -476,7 +482,7 @@ update?
                  (conscentData == null || conscentData?.isDeclared == false) ?
                    <div className="mt-1 text-right">
                     <Button color="primary" onClick={handleTerms}>
-                        Accept Terms and Conditions
+                    {progress ? <ButtonLoader/> :    'Accept Terms & Conditions'}
                     </Button>
                 </div>
 

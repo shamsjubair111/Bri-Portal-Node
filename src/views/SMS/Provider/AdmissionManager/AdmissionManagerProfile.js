@@ -29,6 +29,7 @@ import { permissionList } from "../../../../constants/AuthorizationConstant";
 import { rootUrl } from "../../../../constants/constants";
 import { Image, Upload } from "antd";
 import * as Icon from "react-feather";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -101,6 +102,7 @@ const AdmissionManagerProfile = () => {
   const [FileList1, setFileList1] = useState([]);
   const [error1, setError1] = useState(false);
   const [text1, setText1] = useState('');
+  const [progress,setProgress]= useState(false);
 
   const tableStyle = {
     overflowX: "scroll",
@@ -249,9 +251,11 @@ const handleChange = ({ fileList }) => {
       if(selectedId === undefined){
         setOfficerObj({});
         setButtonStatus(true);
+        setProgress(true);
         post(`AdmissionOfficer/Create`, subdata)
         .then(res => {
           setSuccess(!success);
+          setProgress(false);
           setModalOpen(false);
           console.log("ressss", res);
           setNameTitleLabel("Select Title");
@@ -273,9 +277,10 @@ const handleChange = ({ fileList }) => {
         })
         }
         else{
+          setProgress(true);
           put(`AdmissionOfficer/Update`, subdata)
           .then(res => {
-            
+            setProgress(false);
             if (res.status === 200 && res.data.isSuccess === true) {
               addToast(res.data.message, {
                 appearance: 'success',
@@ -310,7 +315,9 @@ const handleChange = ({ fileList }) => {
     }
     else{
       setButtonStatus(true);
+      setProgress(true);
       post("AdmissionOfficerOfManager/Create", subdata).then(res => {
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -437,7 +444,9 @@ const selectNameTitle = (label, value) => {
 
   const handleDeleteAdmissionOfficer = (id) =>{
     setButtonStatus(true);
+    setProgress(true);
     remove(`AdmissionOfficerOfManager/Delete/${id}`).then((res) => {
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -521,7 +530,9 @@ const selectNameTitle = (label, value) => {
       setError1(true);
     }
     else{
+      setProgress(true);
       put(`AdmissionManager/UpdateProfilePhoto`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus1(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -672,7 +683,7 @@ const selectNameTitle = (label, value) => {
                                        Cancel
                                  </Button>
                                  <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   Update
+                                   {progress ? <ButtonLoader/> : 'Update'}
                                  </Button>
                                </div>
                              </Col>
@@ -1055,7 +1066,7 @@ const selectNameTitle = (label, value) => {
                       color={"primary"}
                       type={"submit"}
                       className={"mr-1 mt-3"}
-                      name={"Submit"}
+                      name={progress ? <ButtonLoader/> : 'Submit'}
                       permission={6}
                       isDisabled={buttonStatus}
                     />
@@ -1391,7 +1402,7 @@ const selectNameTitle = (label, value) => {
                         color={"primary"}
                         type={"submit"}
                         className={"mr-1 mt-3"}
-                        name={"Submit"}
+                        name= {progress ? <ButtonLoader/> : 'Submit'}
                         permission={6}
                         isDisabled={buttonStatus}
                       />
@@ -1510,7 +1521,7 @@ const selectNameTitle = (label, value) => {
                               onClick={() => handleDeleteAdmissionOfficer(deleteId)}
                               disabled={buttonStatus}
                             >
-                              YES
+                              {progress ? <ButtonLoader/> : 'Yes'}
                             </Button>
                             <Button color="primary" onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>

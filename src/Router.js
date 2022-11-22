@@ -482,6 +482,10 @@ const TrialNotification = lazy(() => import("./views/Test/Notification"));
 const ConvertStudentIntoConsultantForm = lazy(() => import("./views/SMS/ConvertStudentIntoConsultant/ConvertStudentIntoConsultantForm"));
 
 
+// Login History 
+const LoginHistory = lazy(() => import("./views/SMS/LoginHistory/Index"));
+
+
 
 
 const demo = lazy(() => import("./views/SMS/Demo/Demo"))
@@ -890,6 +894,11 @@ class AppRouter extends React.Component {
            <AppRoute  path="/addUniversityTestScore/:univerId" component={permissions?.includes(permissionList.Add_New_University_Test_Requirement) ? UniversityTestScore : NotAuthorized} />
          
            <AppRoute  path="/addProviderUniversityTestScore/:providerProfileId/:univerId" component={permissions?.includes(permissionList.Add_New_University_Test_Requirement) ? AddProviderUniversityTestScore : NotAuthorized} />
+
+           {/* login history path */}
+  
+           <AppRoute  path="/loginhistory" component={LoginHistory} />
+           
 
 
         <AppRoute  path="/search" component={Search} />

@@ -211,7 +211,7 @@ const EmployeeGeneralInfo = (props) => {
   // submitting form
   const handleSubmit = (event) => {
     event.preventDefault();
-    setProgress(true);
+ 
     const subData = new FormData(event.target);
     subData.append("profileImage", FileList[0]?.originFileObj);
     subData.append("coverImage", result1[0]?.originFileObj);
@@ -232,6 +232,7 @@ const EmployeeGeneralInfo = (props) => {
    
      
      else {
+      setProgress(true);
       setButtonStatus(true);
       Axios.put(`${rootUrl}Employee/Update`, subData, {
         headers: {

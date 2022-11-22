@@ -6,6 +6,7 @@ import post from '../../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const StudentPersonalStatementForm = () => {
 
@@ -21,6 +22,7 @@ const StudentPersonalStatementForm = () => {
     const [stringData,setStringData] = useState(0);
     const {idVal} = useParams();
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState( false);
 
     function countWords(str) {
         const arr = str.split(' ');
@@ -41,8 +43,10 @@ const StudentPersonalStatementForm = () => {
   
           const subData = new FormData(event.target);
               setButtonStatus(true);
+              setProgress(true);
              post('PersonalStatement/Create',subData)
             .then(res => {
+              setProgress(false);
               setButtonStatus(false);
               console.log(res);
               if(res?.status == 200 && res?.data?.isSuccess == true){
@@ -126,7 +130,7 @@ const StudentPersonalStatementForm = () => {
                 className="mr-1 mt-3 badge-primary"
                 disabled ={(stringData < 300 || buttonStatus)}
                 >
-                Save & Next
+               {progress ? <ButtonLoader/> :  'Save & Next'}
                </Button>
 
             </div>

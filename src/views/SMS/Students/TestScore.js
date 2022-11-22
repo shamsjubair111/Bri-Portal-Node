@@ -31,6 +31,7 @@ import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import loadingImages from '../../../assets/img/data.svg'
 import cardImage from '../../../assets/img/Group.png';
+import ButtonLoader from "../Components/ButtonLoader";
 
 const TestScore = () => {
   const [activetab, setActivetab] = useState("5");
@@ -45,6 +46,7 @@ const TestScore = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteModal2, setDeleteModal2] = useState(false);
   const [deleteModal3, setDeleteModal3] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   // English Course Names
 
@@ -239,8 +241,10 @@ const TestScore = () => {
   const deleteEnglishTestScore = () => {
     if (value == 1) {
       setButtonStatus(true);
+      setProgress(true);
       remove(`Ielts/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -252,8 +256,10 @@ const TestScore = () => {
       });
     } else if (value == 2) {
       setButtonStatus(true);
+      setProgress(true);
       remove(`Duolingo/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -264,9 +270,11 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 3) {
+      setProgress(true);
       setButtonStatus(true);
       remove(`Toefl/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -278,8 +286,10 @@ const TestScore = () => {
       });
     } else if (value == 4) {
       setButtonStatus(true);
+      setProgress(true);
       remove(`FunctionalSkill/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -290,9 +300,11 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 5) {
+      setProgress(true);
       setButtonStatus(true);
       remove(`Gcse/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -303,9 +315,11 @@ const TestScore = () => {
         setSuccess(!success);
       });
     } else if (value == 6) {
+      setProgress(true);
       setButtonStatus(true);
       remove(`Pearson/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -317,8 +331,10 @@ const TestScore = () => {
       });
     } else if (value == 7) {
       setButtonStatus(true);
+      setProgress(true);
       remove(`Other/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res, {
           appearance: "error",
           autoDismiss: true,
@@ -330,8 +346,10 @@ const TestScore = () => {
       });
     } else if (value == 8) {
       setButtonStatus(true);
+      setProgress(true);
       remove(`Pte/Delete/${data?.id}`).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
 
         addToast(res, {
           appearance: "error",
@@ -347,9 +365,10 @@ const TestScore = () => {
 
   const handleDeleteGreData = (data) => {
     setButtonStatus(true);
-
+    setProgress(true);
     remove(`GreScore/Delete/${data?.id}`).then((res) => {
       setButtonStatus(false);
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -367,9 +386,11 @@ const TestScore = () => {
 
   const handleDeleteGmatData = (data) => {
     setButtonStatus(true);
+    setProgress(true);
 
     remove(`GmatScore/Delete/${data?.id}`).then((res) => {
       setButtonStatus(false);
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -519,8 +540,10 @@ const TestScore = () => {
     if (ELqualificationLabel == "IELTS") {
       if (!updateIelts) {
         setButtonStatus(true);
+        setProgress(true);
         post("Ielts/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
@@ -544,8 +567,10 @@ const TestScore = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put("Ielts/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -571,8 +596,10 @@ const TestScore = () => {
     } else if (ELqualificationLabel == "DUOLINGO") {
       if (!updateDuolingo) {
         setButtonStatus(true);
+        setProgress(true);
         post("Duolingo/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -595,8 +622,10 @@ const TestScore = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put("Duolingo/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -622,8 +651,10 @@ const TestScore = () => {
     } else if (ELqualificationLabel == "TOEFL") {
       if (!updateToefl) {
         setButtonStatus(true);
+        setProgress(true);
         post("Toefl/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -648,8 +679,10 @@ const TestScore = () => {
 
       else{
         setButtonStatus(true);
+        setProgress(true);
         put("Toefl/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -675,8 +708,10 @@ const TestScore = () => {
     } else if (ELqualificationLabel == "FUNCTION SKILLS") {
       if (!updateFunctions) {
         setButtonStatus(true);
+        setProgress(true);
         post("FunctionalSkill/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -699,8 +734,10 @@ const TestScore = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put("FunctionalSkill/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -726,8 +763,10 @@ const TestScore = () => {
     } else if (ELqualificationLabel == "GCSE") {
       if (!updateGcse) {
         setButtonStatus(true);
+        setProgress(true);
         post("Gcse/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -750,8 +789,10 @@ const TestScore = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put("Gcse/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -777,8 +818,10 @@ const TestScore = () => {
     } else if (ELqualificationLabel == "PEARSON") {
       if (!updatePearson) {
         setButtonStatus(true);
+        setProgress(true);
         post("Pearson/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -801,8 +844,10 @@ const TestScore = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put("Pearson/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -828,8 +873,10 @@ const TestScore = () => {
     } else if (ELqualificationLabel == "OTHER SCORE") {
       if (!updateOther) {
         setButtonStatus(true);
+        setProgress(true);
         post("Other/Create", subData).then((res) => {
-          setButtonStatus(false);
+            setButtonStatus(false);
+            setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -852,8 +899,10 @@ const TestScore = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put("Other/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -879,8 +928,10 @@ const TestScore = () => {
     } else {
       if (!updatePte) {
         setButtonStatus(true);
+        setProgress(true);
         post("PTE/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -903,8 +954,10 @@ const TestScore = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put("PTE/Update", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -1006,8 +1059,10 @@ const TestScore = () => {
 
     if (greData?.id) {
       setButtonStatus(true);
+      setProgress(true);
       put(`GreScore/Update`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -1025,8 +1080,10 @@ const TestScore = () => {
       });
     } else {
       setButtonStatus(true);
+      setProgress(true);
       post(`GreScore/Create`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -1058,8 +1115,10 @@ const TestScore = () => {
 
     if (gmatData?.id) {
       setButtonStatus(true);
+      setProgress(true);
       put(`GmatScore/Update`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -1077,8 +1136,10 @@ const TestScore = () => {
       });
     } else {
       setButtonStatus(true);
+      setProgress(true);
       post(`GmatScore/Create`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -1500,7 +1561,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                            name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -1699,7 +1760,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                             name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -1934,7 +1995,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                             name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -2020,7 +2081,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                             name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -2110,7 +2171,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                             name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -2321,7 +2382,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                             name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -2433,7 +2494,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                             name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -2609,7 +2670,7 @@ const TestScore = () => {
                             </Button>
 
                             <ButtonForFunction
-                            name={"Save"}
+                             name={progress ? <ButtonLoader/> : "Save"}
                             className={" mt-3 badge-primary ml-1"}
                             type={"submit"}
                             disable={buttonStatus}
@@ -2735,7 +2796,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -2812,7 +2873,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -2895,7 +2956,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -2977,7 +3038,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -3046,7 +3107,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -3116,7 +3177,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -3189,7 +3250,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -3267,7 +3328,7 @@ const TestScore = () => {
 
                   <ModalFooter>
                     <Button color="danger" onClick={deleteEnglishTestScore} disabled={buttonStatus}>
-                      YES
+                    {progress ? <ButtonLoader/> : '  YES'}
                     </Button>
                     <Button onClick={() => setDeleteModal(false)}>NO</Button>
                   </ModalFooter>
@@ -3368,7 +3429,7 @@ const TestScore = () => {
                         color="danger"
                         onClick={() => handleDeleteGreData(greData)}
                         disabled={buttonStatus}                       >
-                        YES
+                       {progress ? <ButtonLoader/> : '  YES'}
                       </Button>
                       <Button onClick={() => setDeleteModal2(false)}>
                         NO
@@ -3460,7 +3521,7 @@ const TestScore = () => {
                         color="danger"
                         onClick={() => handleDeleteGmatData(gmatData)}
                         disabled={buttonStatus} >
-                        YES
+                      {progress ? <ButtonLoader/> : '  YES'}
                       </Button>
                       <Button onClick={() => setDeleteModal3(false)}>
                         NO
@@ -3721,7 +3782,7 @@ const TestScore = () => {
                         className="mr-1 mt-3"
                         disabled={buttonStatus}
                       >
-                        Submit
+                       {progress ? <ButtonLoader/> :  'Submit'}
                       </Button>
                     </FormGroup>
                   </Form>
@@ -3974,7 +4035,7 @@ const TestScore = () => {
                         className="mr-1 mt-3"
                         disabled={buttonStatus}
                       >
-                        Submit
+                       {progress ? <ButtonLoader/> : ' Submit'}
                       </Button>
                     </FormGroup>
                   </Form>

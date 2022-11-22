@@ -25,6 +25,7 @@ const CommissionPriceList = () => {
     const [delData,setDelData] = useState({});
     const [deleteModal,setDeleteModal] = useState(false);
     const [loading,setLoading] = useState(true);
+    const [progress,setProgress] = useState(false);
 
     const {addToast} = useToasts();
 
@@ -62,8 +63,10 @@ const CommissionPriceList = () => {
     }
 
     const confirmDelete = () => {
+        setProgress(true);
         remove(`GroupPriceRange/Delete/${delData?.id}`)
         .then(res =>{
+            setProgress(false);
             addToast(res,{
                 appearance:'error',
                 autoDismiss: true
@@ -101,9 +104,10 @@ const CommissionPriceList = () => {
         const subData = new FormData(event.target);
 
         if(data.id){
-
+            setProgress(true);
             put(`GroupPriceRange/Update`,subData)
             .then(res=> {
+                setProgress(false);
                 if(res?.status ==200){
                     addToast(res?.data?.message,{
                         appearance:'success',
@@ -121,9 +125,10 @@ const CommissionPriceList = () => {
         }
 
         else{
-
+            setProgress(true);
             post(`GroupPriceRange/Create`,subData)
         .then(res => {
+            setProgress(false);
             if(res?.status ==200){
                 addToast(res?.data?.message,{
                     appearance: 'success',
@@ -184,6 +189,7 @@ const CommissionPriceList = () => {
                             commission={commission}
                             setCommission={setCommission}
                             data={data}
+                            progress={progress}
                            
 
                             />
@@ -202,6 +208,7 @@ const CommissionPriceList = () => {
                          deleteModal={deleteModal}
                          setDeleteModal={setDeleteModal}
                          confirmDelete={confirmDelete}
+                         progress={progress}
 
                          />
 

@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
 import { userTypes } from '../../../../constants/userTypeConstant';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const StudentDocumentForm = () => {
 
@@ -25,6 +26,7 @@ const StudentDocumentForm = () => {
     const userTypeId = localStorage.getItem('userType');
     const [success,setSuccess] = useState(false);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
     useEffect(()=>{
 
@@ -53,8 +55,10 @@ const StudentDocumentForm = () => {
   
         subData.append('StudentId', idVal);
         subData.append('IpAddress',apiInfo?.IPv4);
+        setProgress(true);
         post('StudentConsent/Sign',subData)
         .then(res => {
+          setProgress(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -72,8 +76,10 @@ const StudentDocumentForm = () => {
       }
      const finish = () => {
       setButtonStatus(true);
+      setProgress(true);
         put(`StudentConsent/SendEmail/${idVal}`)
         .then(res => {
+          setProgress(false);
           setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast("Email Sending is in Process",{
@@ -96,8 +102,10 @@ const StudentDocumentForm = () => {
 
       const sendEmail = () => {
         setButtonStatus(true);
+        setProgress(true);
         put(`StudentConsent/SendEmail/${idVal}`)
         .then(res => {
+          setProgress(false);
           setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast("Email Sending is in Process",{
@@ -249,7 +257,7 @@ const StudentDocumentForm = () => {
                    onClick={finish}
                    disabled={buttonStatus}
                    >
-                       Send Email & Finish
+                      {progress? <ButtonLoader/> :  'Send Email & Finish'}
                    </Button>
                </div>
                :
@@ -262,7 +270,7 @@ const StudentDocumentForm = () => {
                    onClick={sendEmail}
                    disabled={buttonStatus}
                    >
-                       Send Email Again
+                       {progress? <ButtonLoader/> : 'Send Email Again'}
                    </Button>
                </div>
                :
@@ -290,7 +298,7 @@ const StudentDocumentForm = () => {
                  (conscentData == null || conscentData?.isDeclared == false) ?
                    <div className="mt-1 text-right">
                     <Button color="primary" onClick={handleTerms}>
-                        Accept Terms and Conditions
+                        {progress ? <ButtonLoader/> : 'Accept Terms and Conditions'}
                     </Button>
                 </div>
 

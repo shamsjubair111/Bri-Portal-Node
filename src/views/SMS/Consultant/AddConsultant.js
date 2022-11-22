@@ -11,6 +11,7 @@ import { rootUrl } from '../../../constants/constants';
 import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 
@@ -40,6 +41,7 @@ const AddConsultant = () => {
     const [buttonStatus,setButtonStatus] = useState(false);
     const history = useHistory();
     const { addToast } = useToasts();
+    const [progress,setProgress] = useState(false);
       
 
     useEffect(()=>{
@@ -135,7 +137,9 @@ const AddConsultant = () => {
 
      else{
       setButtonStatus(true);
+      setProgress(true);
       post("Consultant/Register", subdata).then(res=>{
+        setProgress(false);
         console.log("consultant",res);
         addToast(res?.data?.message, {
           appearance: res?.data?.isSuccess == true ? 'success': 'error',
@@ -393,7 +397,7 @@ const AddConsultant = () => {
                       type={"submit"}
                       className={'mt-3 ml-1'}
                       color={'primary'}
-                      name={"Submit"}
+                      name={progress ? <ButtonLoader/> : 'Submit'}
                       disable={buttonStatus}
                     />
 

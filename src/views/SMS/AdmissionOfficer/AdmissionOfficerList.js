@@ -54,6 +54,7 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 import post from "../../../helpers/post";
 import ToggleSwitch from "../Components/ToggleSwitch";
 import { rootUrl } from "../../../constants/constants";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AdmissionOfficerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -144,6 +145,7 @@ const AdmissionOfficerList = () => {
   const [FileList, setFileList] = useState([]);
   const [proLabel,setProLabel] = useState('Select Provider');
   const [proValue,setProValue] = useState(0);
+  const [progress,setProgress] = useState(false);
 
 
   const [imgError, setImgError] = useState(false);
@@ -478,7 +480,9 @@ const handleChange = ({ fileList }) => {
 
   const handleDelete = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`AdmissionOfficer/Delete/${deleteData?.id}`).then((res) => {
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -584,7 +588,9 @@ const handleChange = ({ fileList }) => {
       } else {
         setOfficerObj({});
         setButtonStatus(true);
+        setProgress(true);
         post(`AdmissionOfficer/Create`, subdata).then((res) => {
+          setProgress(false);
           setSuccess(!success);
           setButtonStatus(false);
 
@@ -623,7 +629,9 @@ const handleChange = ({ fileList }) => {
         setUniStateError(true);
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put(`AdmissionOfficer/Update`, subdata).then((res) => {
+          setProgress(false);
           setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res.data.message, {
@@ -1503,7 +1511,7 @@ const handleChange = ({ fileList }) => {
                     color={"primary"}
                     type={"submit"}
                     className={"mr-1 mt-3"}
-                    name={"Submit"}
+                    name={progress? <ButtonLoader/> : 'Submit'}
                     permission={6}
                     isDisabled={buttonStatus}
                   />
@@ -1737,7 +1745,7 @@ const handleChange = ({ fileList }) => {
                             <ModalFooter>
                             
                               <Button color="danger" onClick={handleDelete} disabled={buttonStatus}>
-                                YES
+                                {progress? <ButtonLoader/> : 'YES'}
                               </Button>
                               <Button
                                 

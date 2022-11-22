@@ -52,6 +52,7 @@ import CustomButtonRipple from "../../Components/CustomButtonRipple";
 import post from "../../../../helpers/post";
 import loader from '../../../../assets/img/load.gif';
 import ToggleSwitch from "../../Components/ToggleSwitch";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AdmissionManagerList = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -135,6 +136,7 @@ const AdmissionManagerList = () => {
   const [previewTitle, setPreviewTitle] = useState("");
   const [FileList, setFileList] = useState([]);
   const [error,setError] = useState(false);
+  const [progress,setProgress] = useState(false);
  
 
   const [imgError, setImgError] = useState(false);
@@ -350,12 +352,14 @@ const AdmissionManagerList = () => {
 
   const handleDelete = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`AdmissionManager/Delete/${deleteData?.id}`).then((res) => {
       
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
       });
+      setProgress(false);
       setDeleteData({});
       setDeleteModal(false);
       setManagerId(0);
@@ -422,6 +426,7 @@ const AdmissionManagerList = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     const subdata = new FormData(event.target);
     subdata.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
@@ -442,8 +447,10 @@ const AdmissionManagerList = () => {
     }
      else {
       setButtonStatus1(true);
+      setProgress(true);
       post(`AdmissionManager/Create`, subdata).then((res) => {
         setButtonStatus1(false);
+        setProgress(false);
         setSuccess(!success);
 
         if (res?.status === 200 && res?.data?.isSuccess == true) {
@@ -976,7 +983,7 @@ const AdmissionManagerList = () => {
                         color={"primary"}
                         type={"submit"}
                         className={"mr-1 mt-3"}
-                        name={"Submit"}
+                        name={progress ? <ButtonLoader/> : 'Submit'}
                         permission={6}
                         isDisabled={buttonStatus1}
                       />
@@ -1625,7 +1632,7 @@ const AdmissionManagerList = () => {
                             
                               <Button 
                                 disabled={buttonStatus} color="danger" onClick={handleDelete}>
-                                YES
+                                {progress ? <ButtonLoader/> : 'Yes'}
                               </Button>
                               <Button
                                 

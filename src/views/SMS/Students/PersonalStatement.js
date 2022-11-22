@@ -6,6 +6,7 @@ import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const PersonalStatement = () => {
 
@@ -22,6 +23,7 @@ const PersonalStatement = () => {
     const [stringData,setStringData] = useState(0);
     const {applicationStudentId, update} = useParams();
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
     
 
@@ -117,9 +119,11 @@ const PersonalStatement = () => {
 
         if(statement == null || statement == 'undefined'){
           setButtonStatus(true);
+          setProgress(true);
           post('PersonalStatement/Create',subData)
           .then(res => {
             setButtonStatus(false);
+            setProgress(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
                 appearance: 'success',
@@ -142,9 +146,11 @@ const PersonalStatement = () => {
 
        else if(update || id){
         setButtonStatus(true);
+        setProgress(true);
         put('PersonalStatement/Update',subData)
         .then(res => {
           setButtonStatus(false);
+          setProgress(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -165,9 +171,11 @@ const PersonalStatement = () => {
     
        else{
         setButtonStatus(true);
+        setProgress(true);
         post('PersonalStatement/Create',subData)
         .then(res => {
           setButtonStatus(true);
+          setProgress(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
               appearance: 'success',
@@ -366,7 +374,7 @@ const PersonalStatement = () => {
     className="mr-1 mt-3 badge-primary"
     disabled ={(stringData < 300 || buttonStatus) }
   >
-    Submit
+    {progress ? <ButtonLoader/> : 'Submit'}
   </Button.Ripple>
  
     </Col>

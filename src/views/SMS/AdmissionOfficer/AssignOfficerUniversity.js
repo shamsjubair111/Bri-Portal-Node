@@ -35,6 +35,7 @@ import CustomButtonRipple from '../Components/CustomButtonRipple';
 import get from '../../../helpers/get';
 import { permissionList } from '../../../constants/AuthorizationConstant';
 import { userTypes } from '../../../constants/userTypeConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const AssignOfficerUniversity = () => {
 
@@ -77,6 +78,7 @@ const AssignOfficerUniversity = () => {
   const [managerError,setManagerError] = useState('');
   const userType = localStorage.getItem('userType');
   const [officerData, setOfficerData] = useState({});
+  const [progress,setProgress] = useState(false);
 
   const { providerId, managerId} = useParams();
 
@@ -220,7 +222,9 @@ const AssignOfficerUniversity = () => {
     
         if (selectedId !== undefined) {
           setButtonStatus(true);
+          setProgress(true);
           put(`AdmissionOfficerUniversity/Update`, subData1).then((res) => {
+            setProgress(false);
             setButtonStatus(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
@@ -253,8 +257,10 @@ const AssignOfficerUniversity = () => {
              else {
               setButtonStatus(true);
               setSelectedId(undefined);
+              setProgress(true);
               post(`AdmissionOfficerUniversity/Create`, subData).then((res) => {
                 setButtonStatus(false);
+                setProgress(false);
                 if (res?.status == 200 && res?.data?.isSuccess == true) {
                   addToast(res?.data?.message, {
                     appearance: "success",
@@ -287,8 +293,10 @@ const AssignOfficerUniversity = () => {
              else {
               setButtonStatus(true);
               setSelectedId(undefined);
+              setProgress(true);
               post(`AdmissionOfficerUniversity/Create`, subData).then((res) => {
                 setButtonStatus(false);
+                setProgress(false);
                 if (res?.status == 200 && res?.data?.isSuccess == true) {
                   addToast(res?.data?.message, {
                     appearance: "success",
@@ -323,9 +331,11 @@ const AssignOfficerUniversity = () => {
     
       const handleDeletePermission = (managerUniId) => {
         setButtonStatus1(true);
+        setProgress(true);
         const returnValue = remove(
           `AdmissionOfficerUniversity/Delete/${managerUniId}`
         ).then((action) => {
+          setProgress(false);
           setButtonStatus1(false);
           setDeleteModal(false);
           setSuccess(!success);
@@ -783,7 +793,7 @@ const AssignOfficerUniversity = () => {
                       color={"primary"}
                       type={"submit"}
                       className={"mr-1 mt-3"}
-                      name={"Submit"}
+                      name={progress? <ButtonLoader/> : 'Submit'}
                       permission={6}
                       isDisabled={buttonStatus}
                     />
@@ -891,7 +901,7 @@ const AssignOfficerUniversity = () => {
                                     handleDeletePermission(managerUniId)
                                   }
                                 >
-                                  YES
+                                  {progress? <ButtonLoader/> : 'YES'}
                                 </Button>
 
                                 <Button

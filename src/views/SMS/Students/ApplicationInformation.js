@@ -7,6 +7,7 @@ import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 
@@ -47,6 +48,7 @@ const ApplicationInformation = () => {
 
   const {addToast} = useToasts();
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
  
 
   
@@ -249,9 +251,11 @@ const handleSubmit = (event) => {
     if(update){
 
       setButtonStatus(true);
+      setProgress(true);
     put(`ApplicationInfo/Update`,subData)
     .then(res => {
       setButtonStatus(false);
+      setProgress(false);
       console.log('2nd put response',res);
       if(res?.status == 200 && res?.data?.isSuccess == true){
        
@@ -277,9 +281,11 @@ const handleSubmit = (event) => {
    else{
 
     setButtonStatus(true);
+    setProgress(true);
     post('ApplicationInfo/Create',subData)
     .then(res => {
       setButtonStatus(false);
+      setProgress(false);
       console.log('application response',res);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res.data.message,{
@@ -796,7 +802,7 @@ const cancelForm = () => {
 
 
     <ButtonForFunction
-    name={'Submit'}
+    name={progress ? <ButtonLoader/> : 'Submit'}
     type={'submit'}
     className="mr-1 mt-3 badge-primary"
     disable={buttonStatus}

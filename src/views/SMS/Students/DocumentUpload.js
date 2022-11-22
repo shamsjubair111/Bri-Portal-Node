@@ -26,12 +26,15 @@ import * as Icon from "react-feather";
 import get from "../../../helpers/get";
 import { useToasts } from "react-toast-notifications";
 import { Upload, Modal as AntdModal } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 import { Image } from "antd";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import post from "../../../helpers/post";
 import { rootUrl } from "../../../constants/constants";
 import remove from "../../../helpers/remove";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const DocumentUpload = () => {
   const {applicationStudentId} = useParams();
@@ -40,6 +43,10 @@ const DocumentUpload = () => {
   const { addToast } = useToasts();
 
   const [activetab, setActivetab] = useState("10");
+  const [progress,setProgress] = useState(false);
+  const [progress2,setProgress2] = useState(false);
+  const [progress3,setProgress3] = useState(false);
+  const [progress4,setProgress4] = useState(false);
   const [docuType, setDocuType] = useState([]);
   const [docLevel, setDocLevel] = useState("");
   const [docuTypeLabel, setDocuTypeLabel] = useState("Select Document Type");
@@ -206,8 +213,10 @@ const DocumentUpload = () => {
     // }
     else {
       setButtonStatus(true);
+      setProgress(true);
       post("StudentUploadDocument/Create", subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -263,8 +272,10 @@ const DocumentUpload = () => {
   const handleDeleteDocument = () => {
     console.log("delData", delDocData?.studentDocumentLevelId);
     setButtonStatus(true);
+    setProgress2(true);
     const returnValue = remove(`StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`).then(
       (action) => {
+        setProgress2(false);
         setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
@@ -281,8 +292,10 @@ const DocumentUpload = () => {
 
   const handleDeleteFile = (id) => {
     setButtonStatus(true);
+    setProgress3(true);
     const returnValue = remove(`StudentUploadDocument/FileDelete/${id}`).then(
       (action) => {
+        setProgress3(false);
         setButtonStatus(false);
         setDeleteModal2(false);
         setSuccess(!success);
@@ -319,8 +332,10 @@ const DocumentUpload = () => {
 
     if(studentDocuId !== 0){
       setButtonStatus(true);
+      setProgress4(true);
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
         setButtonStatus(false);
+        setProgress4(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -480,12 +495,22 @@ const DocumentUpload = () => {
                           <div className="col-4">
 
                               <div style={{cursor: "pointer"}} className="image-upload">
-                                <label htmlFor={`hp+${i}`}>
+                                {
+                                  progress4 ? 
+                                  <LoadingOutlined
+                                            style={{
+                                              fontSize: 30, color: 'black', fontWeight: 'bold'
+                                            }}
+                                            spin
+                                          />
+                                  :
+                                  <label htmlFor={`hp+${i}`}>
                                 <i
                                   style={{ fontSize: "50px", cursor: "pointer" }}
                                   className="fas fa-arrow-alt-circle-up text-danger"
                                 ></i>
                                 </label>
+                                }
 
                                 <input 
                                   name={i} 
@@ -543,7 +568,7 @@ const DocumentUpload = () => {
                               color="danger"
                               onClick={handleDeleteDocument}
                             >
-                              YES
+                              {progress2 ? <ButtonLoader/> : 'YES'}
                             </Button>
                             <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
@@ -588,7 +613,7 @@ const DocumentUpload = () => {
                                 handleDeleteFile(delFileId)
                               }
                             >
-                              YES
+                              {progress3 ? <ButtonLoader/> : 'YES'}
                             </Button>
                             <Button onClick={closeDeleteModalFile}>NO</Button>
                           </ModalFooter>
@@ -732,7 +757,7 @@ const DocumentUpload = () => {
                   <ButtonForFunction
                     type={"submit"}
                     className={"mr-1 mt-3 badge-primary"}
-                    name={"Upload"}
+                    name={progress ? <ButtonLoader/> : "Upload"}
                     permission={6}
                     disable={buttonStatus}
                   />

@@ -3,6 +3,7 @@ import remove from '../../../helpers/remove';
 import { Card, CardBody, CardHeader, CardTitle,  Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, InputGroup, Table, TabContent, TabPane, Nav, NavItem, NavLink, UncontrolledTooltip, ButtonGroup } from 'reactstrap';
 import { useToasts } from 'react-toast-notifications';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const DistributionLevelSettingList = (props) => {
@@ -13,6 +14,8 @@ const DistributionLevelSettingList = (props) => {
     const {addToast} = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
     const permissions = JSON.parse(localStorage.getItem('permissions'));
+    const [progress,setProgress] = useState(false);
+   
 
     console.log(distributionData);
 
@@ -24,8 +27,10 @@ const DistributionLevelSettingList = (props) => {
 
     const confirmDelete = () => {
       setButtonStatus(true);
+      setProgress(true);
         remove(`DistributionLevelSetting/Delete/${delData?.id}`)
         .then(res => {
+          setProgress(false);
           setButtonStatus(false);
             addToast(res,{
                 appearance:'error',
@@ -108,7 +113,7 @@ const DistributionLevelSettingList = (props) => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={confirmDelete} disabled={buttonStatus}>YES</Button>
+                          <Button  color="danger" onClick={confirmDelete} disabled={buttonStatus}>{progress ? <ButtonLoader/> : 'YES' }</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

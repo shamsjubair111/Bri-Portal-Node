@@ -8,6 +8,7 @@ import put from '../../../../helpers/put';
 import remove from '../../../../helpers/remove';
 import Loader from '../../Search/Loader/Loader';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const ComissionGroup = () => {
 
@@ -24,6 +25,7 @@ const ComissionGroup = () => {
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
     const permissions = JSON.parse(localStorage.getItem('permissions'));
+    const [progress,setProgress] = useState(false);
 
     useEffect(()=>{
 
@@ -56,8 +58,10 @@ const ComissionGroup = () => {
 
     const confirmDelete = () => {
       setButtonStatus(true);
+      setProgress(true);
       remove(`CommissionGroup/Delete/${delData?.id}`)
       .then(res => {
+        setProgress(false);
         setButtonStatus(false);
         addToast(res,{
           appearance:'error',
@@ -76,8 +80,10 @@ const ComissionGroup = () => {
       const subData = new FormData(event.target);
         if(edit){
           setButtonStatus(true);
+          setProgress(true);
           put(`CommissionGroup/Update`,subData)
           .then(res => {
+            setProgress(false);
             setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
@@ -100,8 +106,10 @@ const ComissionGroup = () => {
         }
         else{
           setButtonStatus(true);
+          setProgress(true);
           post(`CommissionGroup/Create`,subData)
           .then(res => {
+            setProgress(false);
             setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
@@ -182,7 +190,7 @@ const ComissionGroup = () => {
                                 Cancel
                               </Button>
                               <Button color='primary' type='submit' disabled={buttonStatus}>
-                                Submit
+                                {progress ? <ButtonLoader/> : 'Submit'}
   
                               </Button>
                             </div>
@@ -322,7 +330,7 @@ const ComissionGroup = () => {
                           </ModalBody>
           
                           <ModalFooter>
-                            <Button  color="danger" onClick={confirmDelete} disabled={buttonStatus}>YES</Button>
+                            <Button  color="danger" onClick={confirmDelete} disabled={buttonStatus}>{progress? <ButtonLoader/> : 'YES'}</Button>
                             <Button onClick={() => setDeleteModal(false)}>NO</Button>
                           </ModalFooter>
                        </Modal>

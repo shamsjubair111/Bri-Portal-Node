@@ -4,6 +4,7 @@ import { useToasts } from 'react-toast-notifications';
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 const DistributionLevelSettingForm = (props) => {
 
     const {success, setSuccess, name, setName, value, setValue, percent, setPercent, update, setUpdate, data, setData} = props;
@@ -11,6 +12,7 @@ const DistributionLevelSettingForm = (props) => {
     const {addToast} = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
     const permissions = JSON.parse(localStorage.getItem('permissions'));
+    const [progress,setProgress] = useState(false);
 
   
     
@@ -21,8 +23,10 @@ const DistributionLevelSettingForm = (props) => {
 
         if(update){
             setButtonStatus(true);
+            setProgress(true);
             put(`DistributionLevelSetting/Update`,subData)
             .then(res => {
+                setProgress(false);
                 setButtonStatus(false);
                     if(res?.status == 200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
@@ -41,8 +45,10 @@ const DistributionLevelSettingForm = (props) => {
         }
         else{
             setButtonStatus(true);
+            setProgress(true);
             post(`DistributionLevelSetting/Create`,subData)
         .then(res => {
+            setProgress(false);
             setButtonStatus(false);
                 if(res?.status == 200 && res?.data?.isSuccess == true){
                     addToast(res?.data?.message,{
@@ -153,7 +159,7 @@ const DistributionLevelSettingForm = (props) => {
               {
                 permissions?.includes(permissionList.Add_New_Distribution_Level_Setting) ?
                 <Button color='primary' type='submit' disabled={buttonStatus}>
-                Submit
+                {progress? <ButtonLoader/> : 'Submit'}
 
                 </Button>
                 :

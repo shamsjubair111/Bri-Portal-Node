@@ -206,6 +206,10 @@ const convertToConsultantAccount = e => {
     .catch()
 }
 
+const goToLoginHistory = () => {
+  history.push('/loginHistory');
+}
+
 
 const UserDropdown = props => {
   console.log('result = ', props?.switch)  ;
@@ -275,8 +279,8 @@ const UserDropdown = props => {
 
       <DropdownItem
         tag="a"
-        href="#"
-
+        
+        onClick={goToLoginHistory}
       >
 
         <Icon.LogIn size={14} className="mr-1 align-middle" />

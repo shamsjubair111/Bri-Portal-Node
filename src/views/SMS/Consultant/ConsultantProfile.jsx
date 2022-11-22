@@ -44,6 +44,7 @@ import LinkButton from "../Components/LinkButton";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { userTypes } from "../../../constants/userTypeConstant";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const ConsultantProfile = () => {
   const location = useLocation();
@@ -88,6 +89,7 @@ const ConsultantProfile = () => {
   const [text1, setText1] = useState("");
 
   const { addToast } = useToasts();
+  const [progress,setProgress] = useState(false);
 
   useEffect(() => {
     get(`Consultant/Profile/${id}`).then((res) => {
@@ -252,7 +254,9 @@ const ConsultantProfile = () => {
     if (FileList.length < 1) {
       setError(true);
     } else {
+      setProgress(true);
       put(`Consultant/UpdateCoverPhoto`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -327,7 +331,9 @@ const ConsultantProfile = () => {
     if (FileList1.length < 1) {
       setError1(true);
     } else {
+      setProgress(true);
       put(`Consultant/UpdateProfilePhoto`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -506,7 +512,7 @@ const ConsultantProfile = () => {
                                 color="primary"
                                 disabled={buttonStatus}
                               >
-                                Update
+                                {progress ? <ButtonLoader/> : 'Update'}
                               </Button>
                             </div>
                           </Col>
@@ -672,7 +678,7 @@ const ConsultantProfile = () => {
                                 color="primary"
                                 disabled={buttonStatus1}
                               >
-                                Update
+                                {progress? <ButtonLoader/> : 'Update'}
                               </Button>
                             </div>
                           </Col>

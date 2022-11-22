@@ -40,6 +40,7 @@ import ReactToPrint from "react-to-print";
 import put from "../../../helpers/put.js";
 import ToggleSwitch from "../Components/ToggleSwitch.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const StudentByConsultant = () => {
   const [serialNum, setSerialNum] = useState(1);
@@ -75,6 +76,7 @@ const StudentByConsultant = () => {
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
   const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const [progress,setProgress] = useState(false);
   
 
   const history = useHistory();
@@ -159,7 +161,7 @@ const StudentByConsultant = () => {
 
     const subData = new FormData(event.target);
 
-    subData.append('studentId', passData?.id);
+    subData.append('id', passData?.id);
     subData.append('password', pass);
     if(pass.length < 6){
       setError('Password length can not be less than six digits');
@@ -168,8 +170,10 @@ const StudentByConsultant = () => {
       setPassError('Passwords do not match');
     }
     else{
-      put(`Password/Change`,subData)
+      setProgress(true);
+      put(`Password/ChangePasswordForStudent`,subData)
       .then(res => {
+        setProgress(false);
         if(res?.status ==200 && res.data?.isSuccess == true){
           addToast(res?.data?.message,{
             appearance:'success',
@@ -226,8 +230,10 @@ const StudentByConsultant = () => {
 
   const handleDeleteData = (data) => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`Student/Delete/${delData?.id}`)
     .then(res => {
+      setProgress(false);
       setButtonStatus(false);
       console.log(res);
       addToast(res,{
@@ -675,13 +681,12 @@ const StudentByConsultant = () => {
                     permissions?.includes(permissionList.ChangePassword) ?
                          <>
                           {checkPass ? (
-                            <td>
-                              <Link
-                                to="/studentList"
-                                onClick={() => handlePass(student)}
-                              >
+                            <td     onClick={() => handlePass(student)} style={{cursor: 'pointer', textDecoration: 'underLine', textDecorationColor: '#1E98B0', color:'#1E98B0'}}>
+                             
+                            
+                              
                                 Change
-                              </Link>
+                              
                               <Modal
                                 isOpen={passModal}
                                 toggle={() => handleToggle}
@@ -762,7 +767,7 @@ const StudentByConsultant = () => {
                                             Cancel
                                           </Button>
                                           <Button color="primary" type="submit">
-                                            Submit
+                                            {progress ? <ButtonLoader/> : 'Submit'}
                                           </Button>
                                         </div>
                                       </Col>
@@ -887,7 +892,7 @@ const StudentByConsultant = () => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
-                                YES
+                                {progress ? <ButtonLoader/> : 'YES'}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

@@ -194,7 +194,7 @@ const EmployeeGeneralInfo = (props) => {
     const handleSubmit = (event) => {
 
         event.preventDefault();
-        setProgress(true);
+        
         
         const subData = new FormData(event.target);
         subData.append('profileImage', FileList[0]?.originFileObj);
@@ -235,6 +235,7 @@ const EmployeeGeneralInfo = (props) => {
         else{
             setError2('');
             setButtonStatus(true);
+            setProgress(true);
             axios.post(`${rootUrl}Employee/Create`,subData, {
                 headers: {
                     'content-type': 'multipart/form-data',

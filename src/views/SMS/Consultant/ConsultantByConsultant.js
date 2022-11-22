@@ -35,6 +35,7 @@ import remove from "../../../helpers/remove.js";
 import LinkButton from "../Components/LinkButton.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const ConsultantByConsultant = () => {
   const { id } = useParams();
@@ -73,6 +74,7 @@ const ConsultantByConsultant = () => {
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus, setButtonStatus] = useState(false);
   const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const [progress,setProgress] = useState(false);
 
   useEffect(() => {
     get(
@@ -120,7 +122,9 @@ const ConsultantByConsultant = () => {
   };
 
   const handleDeleteData = () => {
+    setProgress(true);
     remove(`Consultant/Delete/${delData?.id}`).then((res) => {
+      setProgress(false);
       // console.log(res);
       addToast(res, {
         appearance: "error",
@@ -412,7 +416,7 @@ const ConsultantByConsultant = () => {
                         </Col>
                       </div>
 
-                      <div className="d-flex justify-content-between">
+                      {/* <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">Password</p>
                         </Col>
@@ -429,7 +433,7 @@ const ConsultantByConsultant = () => {
                             />
                           </FormGroup>
                         </Col>
-                      </div>
+                      </div> */}
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
@@ -670,13 +674,13 @@ const ConsultantByConsultant = () => {
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone</th> : null}
-                   {
+                   {/* {
                     permissions?.includes(permissionList.ChangePassword) ?
                     <>
                      {checkPass ? <th>Password</th> : null}
                     </>
                     : null
-                   }
+                   } */}
                     {checkBranch ? <th>Branch</th> : null}
                     {checkCons ? <th>Parent</th> : null}
                     {checkConsType ? <th>Type</th> : null}
@@ -710,18 +714,18 @@ const ConsultantByConsultant = () => {
                       ) : null}
                       {checkEmail ? <td>{consultant?.email}</td> : null}
                       {checkPhn ? <td>{consultant?.phoneNumber}</td> : null}
-                      {
+                      {/* {
                         permissions?.includes(permissionList.ChangePassword) ? 
                         <>
                         {checkPass ? (
                         <td>
-                          <Link to="/">Change</Link>
+                          <Link to={`/associates/${id}`}>Change</Link>
                         </td>
                       ) : null}
                         </>
                         :
                         null
-                      }
+                      } */}
                       {checkBranch ? <td>{consultant?.branch?.name}</td> : null}
                       {checkCons ? (
                         <td>{consultant?.parentConsultantName}</td>
@@ -856,7 +860,7 @@ const ConsultantByConsultant = () => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData}>
-                                YES
+                                {progress ? <ButtonLoader/> : 'YES'}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

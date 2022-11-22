@@ -40,6 +40,7 @@ import SpanButton from "../Components/SpanButton.js";
 import put from "../../../helpers/put.js";
 import load from '../../../assets/img/uappLoader.gif';
 import Loader from "../Search/Loader/Loader.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const ConsultantList = () => {
   const permissions = JSON.parse(localStorage.getItem("permissions"));
@@ -92,6 +93,7 @@ const ConsultantList = () => {
   const [checkAsso, setCheckAsso] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   const history = useHistory();
 
@@ -229,7 +231,9 @@ const ConsultantList = () => {
     } else if (pass !== cPass) {
       setPassError("Passwords do not match");
     } else {
+      setProgress(true);
       put(`Password/ChangePasswordForConsultant`, subData).then((res) => {
+        setProgress(false);
         if (res?.status == 200 && res.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -253,7 +257,9 @@ const ConsultantList = () => {
 
   const handleDeleteData = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`Consultant/Delete/${delData?.id}`).then((res) => {
+      setProgress(false);
       setButtonStatus(false);
       // console.log(res);
       addToast(res, {
@@ -779,7 +785,13 @@ const ConsultantList = () => {
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone</th> : null}
-                    {checkPass ? <th>Password</th> : null}
+                    
+                    {
+                        permissions?.includes(permissionList.ChangePassword) ?
+                   <> {checkPass ? <th>Password</th> : null}</>
+                   :
+                   null
+                   }
                     {checkBranch ? <th>Branch</th> : null}
                     {checkCons ? <th>Parent</th> : null}
                     {checkConsType ? <th>Type</th> : null}
@@ -910,7 +922,7 @@ const ConsultantList = () => {
                                         Cancel
                                       </Button>
                                       <Button color="primary" type="submit">
-                                        Submit
+                                        {progress ? <ButtonLoader/> : 'Submit'}
                                       </Button>
                                     </div>
                                   </Col>
@@ -1071,7 +1083,7 @@ const ConsultantList = () => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
-                                YES
+                                {progress ? <ButtonLoader/> : 'YES'}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

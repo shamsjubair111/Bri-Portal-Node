@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const EducationalInformation = () => {
@@ -19,6 +20,7 @@ const EducationalInformation = () => {
   const [educationLevelLabel, setEducationLevelLabel] = useState('Select Education Level');
   const [educationLevelValue, setEducationLevelValue] = useState(0);
   const [ielts,setIelts] = useState(false);
+  const [progress, setProgress] = useState(false);
  
   const [deleteData, setDeleteData]  = useState({});
 
@@ -214,9 +216,11 @@ const handleSubmit = (event) => {
 
     if(oneData?.id){
       setButtonStatus(true);
+      setProgress(true);
       put(`EducationInformation/Update`,subData)
       .then(res => {
         setButtonStatus(false);
+        setProgress(false);
         addToast(res?.data?.message,{
           appearance: 'success',
           autoDismiss: true
@@ -232,8 +236,10 @@ const handleSubmit = (event) => {
      else{
 
       setButtonStatus(true);
+      setProgress(true);
       post('EducationInformation/Create',subData)
       .then(res => {
+        setProgress(false);
         setButtonStatus(false);
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -266,9 +272,10 @@ const toggleDanger = (p) => {
 const handleDeletePermission = () => {
 
 
-
+  setProgress(true);
   remove(`EducationInformation/Delete/${deleteData?.id}`)
   .then(res => {
+    setProgress(false);
     console.log(res);
     addToast(res, {
       appearance: 'error',
@@ -504,7 +511,7 @@ const handleUpdate = (id) => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button onClick={handleDeletePermission} color="danger">YES</Button>
+                  <Button onClick={handleDeletePermission} color="danger">{progress ? <ButtonLoader/> : 'YES'}</Button>
                   <Button onClick={() => setDeleteModal(false)}>NO</Button>
                 </ModalFooter>
              </Modal>
@@ -811,7 +818,7 @@ const handleUpdate = (id) => {
        
 
         <ButtonForFunction
-        name={'Submit'}
+        name={progress ? <ButtonLoader/> : 'Submit'}
         type={'submit'}
         className={'mr-1 mt-3 badge-primary'}
         disable={buttonStatus}
@@ -1096,7 +1103,7 @@ const handleUpdate = (id) => {
           <ButtonForFunction
           type={'submit'}
           className={'mr-1 mt-3 badge-primary'}
-          name={'Submit'}
+          name={progress ? <ButtonLoader/> : 'Submit'}
           disable={buttonStatus}
           />
          

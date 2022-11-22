@@ -42,6 +42,7 @@ import Loader from '../Search/Loader/Loader.js';
 import { Switch } from "antd";
 import ToggleSwitch from "../Components/ToggleSwitch.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 
 const StudentList = () => {
@@ -112,6 +113,7 @@ const StudentList = () => {
   const [checkBlackList, setCheckBlacklist] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
  
 
@@ -396,8 +398,10 @@ const StudentList = () => {
       setPassError("Passwords do not match");
     } else {
       setButtonStatus(true);
+      setProgress(true);
       put(`Password/ChangePasswordForStudent`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -419,8 +423,10 @@ const StudentList = () => {
 
   const handleDeleteData = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`Student/Delete/${delData?.id}`).then((res) => {
       setButtonStatus(false);
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -1072,7 +1078,7 @@ const StudentList = () => {
                                               Cancel
                                             </Button>
                                             <Button color="primary" type="submit" disabled={buttonStatus}>
-                                              Submit
+                                              {progress ? <ButtonLoader/> : 'Submit'}
                                             </Button>
                                           </div>
                                         </Col>
@@ -1195,7 +1201,7 @@ const StudentList = () => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData} disabled={buttonStatus}>
-                                YES
+                                {progress ? <ButtonLoader/> : 'YES'}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

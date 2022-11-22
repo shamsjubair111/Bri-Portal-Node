@@ -15,6 +15,7 @@ import { userTypes } from '../../../constants/userTypeConstant';
 import loader from '../../../assets/img/load.gif';
 import axios from 'axios';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 
@@ -152,6 +153,8 @@ const Search = () => {
     const [message, setMessage] = useState('');
 
     const {addToast} = useToasts()
+
+    const [progress,setProgress] = useState(false);
 
    
 
@@ -756,9 +759,10 @@ const Search = () => {
               additionalMessage: message
             }
             setButtonStatus(true);
+            setProgress(true);
             post(`Apply/Submit`,subData)
             .then(res => {
-             
+             setProgress(false);
               setButtonStatus(false);
               if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
@@ -812,9 +816,10 @@ const Search = () => {
             additionalMessage: message
           }
            setButtonStatus(true);
+           setProgress(true);
           post(`Apply/Submit`,subData)
           .then(res => {
-          
+          setProgress(false);
             setButtonStatus(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
               addToast(res?.data?.message,{
@@ -1046,7 +1051,7 @@ Close
 ((studentDataValue !==0 || userType == userTypes?.Student) && applicationCount < 3) ?
 
 <div className=''>
-<Button color='primary' className='ml-1' type='submit'>Submit</Button> 
+<Button color='primary' className='ml-1' type='submit'>{progress ? <ButtonLoader/> : 'Submit'}</Button> 
 </div>
 
 :

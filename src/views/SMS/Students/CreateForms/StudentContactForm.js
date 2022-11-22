@@ -21,6 +21,7 @@ import post from "../../../../helpers/post";
 import { useToasts } from "react-toast-notifications";
 import put from "../../../../helpers/put";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const StudentContactForm = () => {
 
@@ -42,6 +43,7 @@ const StudentContactForm = () => {
     const [countryError, setCountryError] = useState(false);
     const [addressError, setAddressError] = useState(false);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     useEffect(() => {
         get("CountryDD/index").then((res) => {
@@ -90,8 +92,9 @@ const StudentContactForm = () => {
           setAddressError(true);
         } else {
           setButtonStatus(true);
-          
+          setProgress(true);
             post("StudentContactInformation/Create", subData).then((res) => {
+              setProgress(false);
               setButtonStatus(false);
               if (res?.status == 200 && res?.data?.isSuccess == true) {
                 
@@ -306,7 +309,7 @@ const StudentContactForm = () => {
                     <div className='col-md-8 d-flex justify-content-end'>
                     <ButtonForFunction
                       type={"submit"}
-                      name={"Save & Next"}
+                      name={progress ? <ButtonLoader/> : "Save & Next"}
                       className={"mr-1 mt-3 badge-primary"}
                       disable={buttonStatus}
                     />

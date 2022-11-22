@@ -6,6 +6,7 @@ import { useToasts } from "react-toast-notifications";
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const StudentOtherInformationForm = () => {
 
@@ -27,6 +28,7 @@ const StudentOtherInformationForm = () => {
 
     const [data, setData] = useState({});
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress,setProgress] = useState(false);
 
     const handleOtherInformation = (event) => {
 
@@ -34,8 +36,10 @@ const StudentOtherInformationForm = () => {
 
         const subData = new FormData(event.target);
           setButtonStatus(true);
+          setProgress(true);
         post('OtherInformation/Create', subData)
         .then(res => {
+          setProgress(false);
           setButtonStatus(false);
           if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
@@ -214,7 +218,7 @@ const StudentOtherInformationForm = () => {
 
         <div className='col-md-8 d-flex justify-content-end'>
         <ButtonForFunction
-        name={'Save & Next'}
+        name={progress ? <ButtonLoader/> : 'Save & Next'}
         className={"mt-3 badge-primary"}
         type={'submit'}
         disable={buttonStatus}

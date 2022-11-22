@@ -39,6 +39,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import { userTypes } from "../../../constants/userTypeConstant";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import PromotionalCommission from "./PromotionalCommission";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const ConsultantCommission = () => {
   const history = useHistory();
@@ -68,6 +69,7 @@ const ConsultantCommission = () => {
   const [success, setSuccess] = useState(false);
   const { consultantRegisterId } = useParams();
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   const userTypeId = localStorage.getItem("userType");
 
@@ -149,7 +151,9 @@ const ConsultantCommission = () => {
       setCommissionError(true);
     } else {
       setButtonStatus(true);
+      setProgress(true);
       post("ConsultantCommissionGroup/Create", subdata).then((res) => {
+        setProgress(false);
         setButtonStatus(false);
         if (res?.status === 200 && res?.data?.isSuccess == true) {
           addToast(res.data.message, {
@@ -199,7 +203,9 @@ const ConsultantCommission = () => {
 
   const handleDeleteCommission = id => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`ConsultantCommissionGroup/Delete/${id}`).then((action)=> {
+      setProgress(false);
       setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
@@ -232,9 +238,10 @@ const ConsultantCommission = () => {
     const subdata = {
       id: id
     }
-
+    setProgress(true);
     setButtonStatus(true);
     put(`ConsultantCommissionGroup/ReAssign/${id}`, subdata).then((res) => {
+      setProgress(false);
       setButtonStatus(false);
       if (res?.status === 200 && res?.data?.isSuccess == true) {
         addToast(res.data.message, {
@@ -456,7 +463,7 @@ const ConsultantCommission = () => {
                   color={"primary"}
                   type={"submit"}
                   className={"mx-1 mt-3"}
-                  name={"Submit"}
+                  name={progress ? <ButtonLoader/> : 'Submit'}
                   permission={6}
                   isDisabled={buttonStatus}
                 />
@@ -596,7 +603,7 @@ const ConsultantCommission = () => {
                                   }
                                   disabled={buttonStatus}
                                 >
-                                  YES
+                                  {progress ? <ButtonLoader/> : 'Yes'}
                                 </Button>
 
                               </ModalFooter>

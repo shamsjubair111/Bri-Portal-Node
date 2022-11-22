@@ -18,6 +18,7 @@ import ReactToPrint from "react-to-print";
 import Select from "react-select";
 import Pagination from '../../Pagination/Pagination';
 import post from '../../../../helpers/post';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AdmissionManagerWiseAssignedSubject = () => {
 
@@ -55,6 +56,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
     const [serialNum, setSerialNum] = useState(0);
     const [callApi, setCallApi] = useState(false);
     const [subData, setSubData] = useState([]);
+    const [progress,setProgress] = useState(false);
 
     const {addToast} = useToasts();
     
@@ -212,11 +214,13 @@ const AdmissionManagerWiseAssignedSubject = () => {
 
   const assignSubject = (data) => {
 
+    setProgress(true);
     post(`AdmissionManagerSubject/Create`,{
         admissionManagerId: managerId,
         subjectId: data?.subjectId
     })
     .then(res => {
+      setProgress(false);
         if(res?.status == 200 && res?.data?.isSuccess == true){
             addToast(res?.data?.message,{
                 appearance: 'success',
@@ -237,8 +241,10 @@ const AdmissionManagerWiseAssignedSubject = () => {
  }
 
  const removeSubject = (data) => {
+  setProgress(true);
   remove(`AdmissionManagerSubject/Remove/${data?.subjectId}/${managerId}`)
   .then(res => {
+    setProgress(false);
       addToast(res,{
           appearance: 'error',
           autoDismiss: true
@@ -669,7 +675,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
                             <Button color='danger' 
                             onClick={()=> removeSubject(list)}
                             >
-                            Remove
+                             {progress ? <ButtonLoader/> : 'Remove'}
         
                           </Button>
                           :
@@ -684,7 +690,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
                    <Button color='primary' 
                    onClick={()=> assignSubject(list)}
                    >
-                    Assign
+                    {progress ? <ButtonLoader/> : 'Assign'}
   
                    </Button>
                    :

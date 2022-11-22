@@ -22,8 +22,22 @@ class Login extends React.Component {
     emailerror: "",
     passwordError: "",
     canNavigate: true,
-    progress: false
+    progress: false,
+    IpAddress: '',
+    GeoLocationInfo: ''
+
   }
+
+  componentDidMount() { 
+
+      fetch(`https://geolocation-db.com/json/`)
+        .then(res => res?.json())
+        .then(data => {
+          console.log('exmp1',data);
+          this.setState({IpAddress: data?.IPv4, GeoLocationInfo: `latitude ${data?.latitude}, longitude ${data?.longitude} `})
+          
+        });
+   }
 
    antIcon = <LoadingOutlined style={{ fontSize: 35, color:'white', fontWeight: 'bold' }} spin />
 
@@ -34,7 +48,10 @@ class Login extends React.Component {
     axios
       .post(`${rootUrl}Account/Login`, {
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        IpAddress: this.state.IpAddress,
+        GeoLocationInfo: this.state.GeoLocationInfo
+
       })
       .then(response => {
           this.setState({progress: false})
@@ -102,6 +119,9 @@ class Login extends React.Component {
         <CardBody className="pt-1">
           <Form action="/" onSubmit={this.handleLogin} className='' style={{ marginTop: '30px' }}>
             <FormGroup className="form-label-group position-relative has-icon-left" >
+
+           
+
               <Input
                 type="email"
                 placeholder="Email"

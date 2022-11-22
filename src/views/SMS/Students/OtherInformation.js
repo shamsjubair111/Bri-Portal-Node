@@ -6,6 +6,7 @@ import { useToasts } from "react-toast-notifications";
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const OtherInformation = () => {
 
@@ -18,7 +19,7 @@ const OtherInformation = () => {
       const {applicationStudentId, update} = useParams();
 
    
-      
+      const [progress,setProgress] = useState(false);
 
     const history = useHistory();
 
@@ -105,9 +106,11 @@ const OtherInformation = () => {
 
         if(update){
           setButtonStatus(true);
+          setProgress(true);
           put('OtherInformation/Update',subData)
           .then(res => {
             setButtonStatus(false);
+            setProgress(false);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',
@@ -121,9 +124,11 @@ const OtherInformation = () => {
 
         else if(id){
           setButtonStatus(true);
+          setProgress(true);
           put('OtherInformation/Update',subData)
           .then(res => {
             setButtonStatus(false);
+            setProgress(false);
             if(res?.status ==200 ){
               addToast(res?.data?.message,{
                 appearance:'success',
@@ -433,7 +438,7 @@ const OtherInformation = () => {
  
 
       <ButtonForFunction
-      name={'Submit'}
+      name={progress ? <ButtonLoader/> : 'Submit'}
       className={"mr-1 mt-3 badge-primary"}
       type={'submit'}
       disable={buttonStatus}

@@ -9,6 +9,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import { userTypes } from '../../../constants/userTypeConstant';
 import axios from 'axios';
 import { rootUrl } from '../../../constants/constants';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 
@@ -42,6 +43,7 @@ const StudentRegister = () => {
    const [pass,setPass] = useState('');
    const [passError,setPassError] = useState('');
    const [buttonStatus,setButtonStatus] = useState(false);
+   const [progress,setProgress] = useState(false);
 
 
   useEffect(() => {
@@ -144,8 +146,10 @@ const StudentRegister = () => {
       else {
         const subdata = new FormData(event.target);
         setButtonStatus(true);
+        setProgress(true);
         post('Student/Register', subdata)
           .then(res => {
+            setProgress(false);
             setButtonStatus(false);
            
             if(res?.status === 200 && res?.data?.isSuccess === true){
@@ -175,8 +179,10 @@ const StudentRegister = () => {
       else {
         setButtonStatus(true);
         const subdata = new FormData(event.target);
+        setProgress(true);
         post('Student/Register', subdata)
           .then(res => {
+            setProgress(false);
             setButtonStatus(false);
             console.log('hello', res);
          
@@ -410,7 +416,7 @@ const StudentRegister = () => {
               <ButtonForFunction
 
                 className={'mr-1 mt-3 badge-primary'}
-                name={'Submit'}
+                name={progress ? <ButtonLoader/> : 'Submit'}
                 type={'submit'}
                 disable={canSubmit || buttonStatus}
 

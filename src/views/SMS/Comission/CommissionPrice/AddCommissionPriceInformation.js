@@ -7,10 +7,11 @@ import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
 import remove from '../../../../helpers/remove';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AddCommissionPriceInformation = (props) => {
 
-    const {id, handleRange, handleFrom, handleTo, handleCommission, rangeName, setRangeName, from, setFrom, to, setTo,handleSubmit, commission, setCommission, data} = props;
+    const {id, handleRange, handleFrom, handleTo, handleCommission, rangeName, setRangeName, from, setFrom, to, setTo,handleSubmit, commission, setCommission, data, progress} = props;
 
    const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -141,7 +142,7 @@ const AddCommissionPriceInformation = (props) => {
                           {
                             permissions?.includes(permissionList?.Add_New_GroupPriceRange) ?
                             <Button color='primary' type='submit'>
-                              Submit
+                              {progress ? <ButtonLoader/> : 'Submit'}
 
                             </Button>
                             :

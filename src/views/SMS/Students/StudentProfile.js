@@ -26,6 +26,7 @@ import { Image } from 'antd';
 import { Upload } from "antd";
 import * as Icon from "react-feather";
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const StudentProfile = () => {
@@ -77,6 +78,7 @@ const StudentProfile = () => {
     const [pte, setPte] = useState({});
 
     const [application,setApplication] = useState([]);
+    const [progress,setProgress] = useState(false);
 
   
 
@@ -456,7 +458,9 @@ const StudentProfile = () => {
       setError1(true);
     }
     else{
+      setProgress(true);
       put(`Student/UpdateProfilePhoto`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus1(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -484,8 +488,10 @@ const StudentProfile = () => {
 
     subData.append('StudentId', sId);
     subData.append('IpAddress',apiInfo);
+    setProgress(true);
     post('StudentConsent/Sign',subData)
     .then(res => {
+      setProgress(false);
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res?.data?.message,{
           appearance: 'success',
@@ -653,7 +659,7 @@ const StudentProfile = () => {
                                   Cancel
                             </Button>
                             <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                              Update
+                              {progress? <ButtonLoader/> : 'Update'}
                             </Button>
                           </div>
                         </Col>
@@ -2142,7 +2148,7 @@ const StudentProfile = () => {
                               permissions?.includes(permissionList.Add_New_student_consent) ?
                               <ButtonForFunction
                               func={handleTerms}
-                               name={'Sign Consent'}
+                               name={progress ? <ButtonLoader/> : 'Sign Consent'}
                                className={'badge-primary mt-2'}
                                />
                               

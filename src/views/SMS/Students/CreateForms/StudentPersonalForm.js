@@ -32,6 +32,7 @@ import { rootUrl } from "../../../../constants/constants";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import { SelectUnstyledContext } from "@mui/base";
 import { userTypes } from "../../../../constants/userTypeConstant";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const StudentPersonalForm = () => {
 
@@ -97,6 +98,7 @@ const StudentPersonalForm = () => {
   const [buttonStatus,setButtonStatus] = useState(false);
   const [text,setText] = useState('');
   const [error,setError] = useState('');
+  const [progress,setProgress] = useState(false);
 
   // fetching userType from localStorage
 
@@ -300,8 +302,9 @@ const StudentPersonalForm = () => {
     else {
       setText('');
       setButtonStatus(true);
+      setProgress(true);
       put("Student/Update", subData).then((res) => {
-       
+       setProgress(false);
         setButtonStatus(false);
      
         if (res?.status == 200 && res?.data?.isSuccess == true) {
@@ -783,7 +786,7 @@ const StudentPersonalForm = () => {
                         <ButtonForFunction
                         className={"badge-primary"}
                         type={"submit"}
-                        name={"Save & Next"}
+                        name={progress ? <ButtonLoader/> : "Save & Next"}
                         disable={buttonStatus}
                       />
                 

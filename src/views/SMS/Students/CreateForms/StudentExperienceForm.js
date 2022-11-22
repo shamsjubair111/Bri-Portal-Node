@@ -7,6 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import remove from '../../../../helpers/remove';
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const StudentExperience = () => {
 
@@ -27,6 +28,7 @@ const StudentExperience = () => {
     const [sDate, setSDate] = useState('');
     const [eDate, setEDate] = useState('');
     const [buttonStatus,setButtonStatus] = useState(false);
+    const[progress,setProgress] = useState(false); 
 
     const handleChange = (e) => {
       
@@ -53,9 +55,11 @@ const StudentExperience = () => {
           console.log(a);
         }
          setButtonStatus(true);
+         setProgress(true);
         post('Experience/Create',subData)
         .then(res => {
           setButtonStatus(false);
+          setProgress(false);
           addToast(res?.data?.message,{
             appearance: 'success',
             autoDismiss: true
@@ -244,7 +248,7 @@ const StudentExperience = () => {
             <ButtonForFunction
             type={'submit'}
             className={"mr-1 mt-3 badge-primary"}
-            name={'Save & Next'}
+            name={progress ? <ButtonLoader/> : 'Save & Next'}
             disable={buttonStatus}
     />
 

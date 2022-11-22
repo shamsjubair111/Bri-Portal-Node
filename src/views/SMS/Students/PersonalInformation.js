@@ -31,6 +31,7 @@ import { useDispatch } from "react-redux";
 import { StoreStudentProfileImageData } from "../../../redux/actions/SMS/Students/StudentProfileImageAction";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { userTypes } from "../../../constants/userTypeConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const PersonalInformation = () => {
   
@@ -97,6 +98,7 @@ const PersonalInformation = () => {
   const [imgError, setImgError] = useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
   const [error,setError] = useState(false);
+  const [progress,setProgress] = useState(false);
 
   const userType = localStorage.getItem('userType');
 
@@ -404,8 +406,10 @@ const PersonalInformation = () => {
     } 
     else {
       setButtonStatus(true);
+      setProgress(true);
       put("Student/Update", subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         console.log("posted data", res);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -1019,7 +1023,7 @@ const PersonalInformation = () => {
                     <ButtonForFunction
                       className={"mr-1 mt-3 badge-primary"}
                       type={"submit"}
-                      name={"Submit"}
+                      name={progress? <ButtonLoader/> : "Submit"}
                       disable={buttonStatus}
                     />
                   </Col>

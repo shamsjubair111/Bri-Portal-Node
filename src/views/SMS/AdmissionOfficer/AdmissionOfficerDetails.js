@@ -30,6 +30,7 @@ import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import { rootUrl } from "../../../constants/constants";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AdmissionOfficerDetails = () => {
   const [officerObj, setOfficerObj] = useState({});
@@ -50,6 +51,7 @@ const AdmissionOfficerDetails = () => {
   const history = useHistory();
   const location = useLocation();
   const { addToast } = useToasts();
+  const [progress,setProgress] = useState(false);
 
   useEffect(() => {
     get(`AdmissionOfficer/Profile/${officerId}`).then((res) => {
@@ -148,7 +150,9 @@ const AdmissionOfficerDetails = () => {
       setError1(true);
     }
     else{
+      setProgress(true);
       put(`AdmissionOfficer/UpdateProfilePhoto`, subData).then((res) => {
+        setProgress(false);
         setButtonStatus1(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
@@ -300,7 +304,7 @@ const AdmissionOfficerDetails = () => {
                                        Cancel
                                  </Button>
                                  <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   Update
+                                 {progress ? <ButtonLoader/> : '  Update'}
                                  </Button>
                                </div>
                              </Col>

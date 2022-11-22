@@ -73,7 +73,7 @@ const EmployeeContactInfo = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        setProgress(true);
+      
         const subData = new FormData(event.target);
         for (var value of subData.values()) {
        
@@ -88,6 +88,7 @@ const EmployeeContactInfo = () => {
         else{
 
             setButtonStatus(true);
+            setProgress(true);
              post(`EmployeeContactInformation/Create`,subData).then((action)=> {
               setProgress(false);
                if(action?.status == 200 && action?.data?.isSuccess == true){

@@ -31,6 +31,7 @@ import put from "../../../../helpers/put";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import loadingImages from '../../../../assets/img/data.svg'
 import cardImage from '../../../../assets/img/Group.png';
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const StudentTestScoreForm = () => {
 
@@ -88,6 +89,7 @@ const StudentTestScoreForm = () => {
   const [testError, setTestError] = useState(false);
   const [loading, setLoading] =useState(false);
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
 // Test Options
 
@@ -200,7 +202,9 @@ const StudentTestScoreForm = () => {
     const subData = new FormData(event.target);
     if (ELqualificationLabel == "IELTS") {
         setButtonStatus(true);
+        setProgress(true);
         post("Ielts/Create", subData).then((res) => {
+          setProgress(false);
           setButtonStatus(false);
           
           if (res?.status == 200 && res?.data?.isSuccess == true) {
@@ -227,8 +231,10 @@ const StudentTestScoreForm = () => {
      
     } else if (ELqualificationLabel == "DUOLINGO") {
          setButtonStatus(true);
+         setProgress(true);
         post("Duolingo/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
@@ -254,7 +260,9 @@ const StudentTestScoreForm = () => {
 
     } else if (ELqualificationLabel == "TOEFL") {
         setButtonStatus(true);
+        setProgress(true);
         post("Toefl/Create", subData).then((res) => {
+          setProgress(false);
           setButtonStatus(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
@@ -280,8 +288,10 @@ const StudentTestScoreForm = () => {
  
     } else if (ELqualificationLabel == "FUNCTION SKILLS") {
          setButtonStatus(true);
+         setProgress(true);
         post("FunctionalSkill/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -305,8 +315,10 @@ const StudentTestScoreForm = () => {
         });
    
     } else if (ELqualificationLabel == "GCSE") {
+      setProgress(true);
         setButtonStatus(true);
         post("Gcse/Create", subData).then((res) => {
+          setProgress(false);
           setButtonStatus(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
@@ -332,8 +344,10 @@ const StudentTestScoreForm = () => {
      
     } else if (ELqualificationLabel == "PEARSON") {
         setButtonStatus(true);
+        setProgress(true);
         post("Pearson/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -358,8 +372,10 @@ const StudentTestScoreForm = () => {
    
     } else if (ELqualificationLabel == "OTHER SCORE") {
         setButtonStatus(true);
+        setProgress(true);
         post("Other/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -384,8 +400,10 @@ const StudentTestScoreForm = () => {
      
     } else {
         setButtonStatus(true);
+        setProgress(true);
         post("PTE/Create", subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -445,8 +463,10 @@ const StudentTestScoreForm = () => {
     }
 
        setButtonStatus(true);
+       setProgress(true);
       post(`GreScore/Create`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -477,8 +497,10 @@ const StudentTestScoreForm = () => {
       console.log(x);
     }
         setButtonStatus(true);
+        setProgress(true);
       post(`GmatScore/Create`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -768,7 +790,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -950,7 +972,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -1131,7 +1153,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -1201,7 +1223,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -1271,7 +1293,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -1448,7 +1470,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-9 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -1539,7 +1561,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -1698,7 +1720,7 @@ const StudentTestScoreForm = () => {
                         <div className="row">
                             <div className="col-md-8 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -1937,7 +1959,7 @@ const StudentTestScoreForm = () => {
                       <div className="row">
                             <div className="col-md-11 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}
@@ -2169,7 +2191,7 @@ const StudentTestScoreForm = () => {
                       <div className="row">
                             <div className="col-md-11 d-flex justify-content-end">
                             <ButtonForFunction
-                              name={"Save"}
+                              name={progress ? <ButtonLoader/> : "Save"}
                               className={" mt-3 badge-primary"}
                               type={"Save & Next"}
                               disable={buttonStatus}

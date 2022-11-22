@@ -7,10 +7,11 @@ import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
 import remove from '../../../../helpers/remove';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const ShowCommissionPriceListData = (props) => {
 
-    const {list, toggleUpdate, toggleDanger, deleteModal, setDeleteModal, confirmDelete} = props 
+    const {list, toggleUpdate, toggleDanger, deleteModal, setDeleteModal, confirmDelete, progress} = props 
     const permissions = JSON.parse(localStorage.getItem('permissions'));
 
 
@@ -109,7 +110,7 @@ const ShowCommissionPriceListData = (props) => {
                         </ModalBody>
         
                         <ModalFooter>
-                          <Button  color="danger" onClick={confirmDelete}>YES</Button>
+                          <Button  color="danger" onClick={confirmDelete}>{progress ? <ButtonLoader/> : 'YES'}</Button>
                           <Button onClick={() => setDeleteModal(false)}>NO</Button>
                         </ModalFooter>
                      </Modal>

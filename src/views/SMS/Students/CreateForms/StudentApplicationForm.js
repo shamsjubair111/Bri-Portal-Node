@@ -8,12 +8,13 @@ import post from '../../../../helpers/post';
 
 import get from '../../../../helpers/get';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const StudentApplicationForm = () => {
 
     const history = useHistory();
     const {id} = useParams();
-  
+  const [progress,setProgress] = useState(false);
     
   
     const [applicationInformation, setApplicationInformation] = useState({});
@@ -165,8 +166,10 @@ const handleSubmit = (event) => {
      else{
   
       setButtonStatus(true);
+      setProgress(true);
       post('ApplicationInfo/Create',subData)
       .then(res => {
+        setProgress(false);
         setButtonStatus(false);
         console.log('application response',res);
         if(res?.status == 200){
@@ -579,7 +582,7 @@ const handleSubmit = (event) => {
     <div className='col-md-8 d-flex justify-content-end'>
 
     <ButtonForFunction
-    name={'Save & Next'}
+    name={progress ? <ButtonLoader/> : 'Save & Next'}
     type={'submit'}
     className=" mt-3 badge-primary"
     disable={buttonStatus}
