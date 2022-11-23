@@ -190,7 +190,7 @@ const handleChange = ({ fileList }) => {
 
       const handleSubmit  = (event) => {
         event.preventDefault();
-        setProgress(true);
+        
         const subData = new FormData(event.target);
         subData.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
@@ -200,6 +200,7 @@ const handleChange = ({ fileList }) => {
         }
         else{
           setButtonStatus(true);
+          setProgress(true);
           put(`AdmissionManager/Update`,subData)
           .then(res =>{
             setButtonStatus(false);

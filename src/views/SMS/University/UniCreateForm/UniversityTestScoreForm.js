@@ -29,6 +29,7 @@ import {
 import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const UniversityTestScoreForm = () => {
 
@@ -39,6 +40,7 @@ const UniversityTestScoreForm = () => {
     const [ielts,setIelts] = useState(false);
     const [required,setRequired] = useState(false);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
     const [score,setScore] = useState(null);
     const {addToast} = useToasts();
     const [data,setData] = useState({});
@@ -69,9 +71,10 @@ const UniversityTestScoreForm = () => {
         subData.append('isIeltsMandatory',data == null ? false : ielts);
 
 
-        
+        setProgress(true); 
       post(`TestScoreRequirement/Create`,subData)
         .then(res => {
+          setProgress(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
                     appearance: 'success',
@@ -212,7 +215,7 @@ const UniversityTestScoreForm = () => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"ml-lg-2 ml-sm-1 mt-3 badge-primary"}
-                      name={"Save & Next"}
+                      name={progress? <ButtonLoader/> :"Save & Next"}
                       disable={!(required && score> '1')}
                       permission={6}
                     />

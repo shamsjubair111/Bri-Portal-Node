@@ -82,7 +82,7 @@ const AddProviderUniversityFinancial = (props) => {
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
-    setProgress(true);
+    
     const subdata = new FormData(event.target);
     // subdata.append('UniversityLogoFile',exactLogoFile);
     // subdata.append('CoverImageFile',exactCoverFile);
@@ -100,6 +100,7 @@ const AddProviderUniversityFinancial = (props) => {
     if (financialId == undefined) {
       console.log("fin Id", financialId);
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}FinancialInformation/Create`, subdata, {
         headers: {
           'authorization': AuthStr,
@@ -129,6 +130,7 @@ const AddProviderUniversityFinancial = (props) => {
     } else {
       console.log("financial id", financialId);
       setButtonStatus(true);
+      setProgress(true);
       put("FinancialInformation/Update", subdata).then((res) => {
         console.log("1st put response", res);
         setButtonStatus(false);

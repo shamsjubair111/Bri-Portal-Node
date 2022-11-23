@@ -109,13 +109,14 @@ const AddProviderUniversityTestScore = () => {
 
   const  submitTestScore = (event) => {
     event.preventDefault();
-    setProgress(true);
+    
     const subData  = new FormData(event.target);
 
     subData.append('isTestScoreRequired',required);
     subData.append('isIeltsMandatory',data == null ? false : ielts);
 
     if(data?.id){
+      setProgress(true);
         put(`TestScoreRequirement/Update`,subData)
     .then(res => {
       setProgress(false);
@@ -139,6 +140,7 @@ const AddProviderUniversityTestScore = () => {
     }
 
     else{
+      setProgress(true);
         post(`TestScoreRequirement/Create`,subData)
     .then(res => {
       setProgress(false);

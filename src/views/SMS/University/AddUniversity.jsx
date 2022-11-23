@@ -45,6 +45,7 @@ import { Upload, Modal as AntdModal } from "antd";
 import { Image } from "antd";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import { userTypes } from "../../../constants/userTypeConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddUniversity = (props) => {
   // const univerSityCountries = props.univerSityCountryList[0];
@@ -102,6 +103,7 @@ const AddUniversity = (props) => {
   const [check, setCheck] = useState(true);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const [universityId, setUniversityId] = useState(undefined);
 
@@ -447,9 +449,11 @@ const AddUniversity = (props) => {
         setCoverText('');
         if (uniId != undefined) {
           setButtonStatus(true);
+          setProgress(true);
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
             setButtonStatus(false);
+            setProgress(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -467,11 +471,12 @@ const AddUniversity = (props) => {
           });
         } else {
           setButtonStatus(true);
+          setProgress(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
               console.log("unipostData", res);
               setButtonStatus(false);
-  
+              setProgress(false);
               // localStorage.setItem("id", res.data.result.id);
               const uniID = res?.data?.result?.id;
               setUniversityId(uniID);
@@ -539,9 +544,11 @@ const AddUniversity = (props) => {
         setCoverText('');
         if (uniId != undefined) {
           setButtonStatus(true);
+          setProgress(true);
           put("University/Update", subdata, config).then((res) => {
             console.log("1st put response", res);
             setButtonStatus(false);
+            setProgress(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -559,11 +566,12 @@ const AddUniversity = (props) => {
           });
         } else {
           setButtonStatus(true);
+          setProgress(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
               console.log("unipostData", res);
               setButtonStatus(false);
-  
+              setProgress(false);
               // localStorage.setItem("id", res.data.result.id);
               const uniID = res?.data?.result?.id;
   
@@ -1455,7 +1463,7 @@ const AddUniversity = (props) => {
                       <ButtonForFunction
                       type={"submit"}
                       className={"mr-0 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> : "Save"}
                       disable={buttonStatus}
                     
                     />

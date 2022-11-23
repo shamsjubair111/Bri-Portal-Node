@@ -46,6 +46,7 @@ import { rootUrl } from "../../../constants/constants";
 import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddUniversityApplicationDocument = () => {
   const { addToast } = useToasts();
@@ -76,6 +77,8 @@ const AddUniversityApplicationDocument = () => {
   const [applicationId, setApplicationId] = useState(0);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -191,9 +194,11 @@ const AddUniversityApplicationDocument = () => {
     } else {
       if (selectedId === 0) {
         setButtonStatus(true);
+        setProgress(true);
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -214,9 +219,11 @@ const AddUniversityApplicationDocument = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put(`UniversityApplicationDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200) {
             // setSubmitData(false);
             addToast(res?.data?.message, {
@@ -274,10 +281,12 @@ const AddUniversityApplicationDocument = () => {
 
   const handleDeletePermission = (id) => {
     setButtonStatus(true);
+    setProgress1(true);
     const returnValue = remove(
       `UniversityApplicationDocument/Delete/${id}`
     ).then((action) => {
       setButtonStatus(false);
+      setProgress1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -562,12 +571,12 @@ const AddUniversityApplicationDocument = () => {
                           >
                             <Col md="5">
                               {
-                                permissions?.includes(permissionList?.Add_universityApplicationdocument || permissionList?.Update_universityApplicationdocument) ?
+                                permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info) ?
                                 <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save"}
+                                name={progress? <ButtonLoader/> : "Save"}
                                 disable={buttonStatus}
                                
                               />
@@ -598,14 +607,19 @@ const AddUniversityApplicationDocument = () => {
                             style={{ display: "flex", justifyContent: "end" }}
                           >
                             <Col md="5">
+                            {
+                                permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info) ?
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save"}
+                                name={progress? <ButtonLoader/> : "Save"}
                                 disable={buttonStatus}
                                 permission={6}
                               />
+                              :
+                              null
+                              }
 
                              <div>
                               {selectedId !== 0 ||
@@ -687,14 +701,15 @@ const AddUniversityApplicationDocument = () => {
 
                           <td>
                             <ButtonGroup>
-                            <ButtonForFunction
+                            {/* <ButtonForFunction
                               func={() => handleUpdate(application?.id)}
                               className={"mx-1 btn-sm"}
                               color={"warning"}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
-                            />
-
+                            /> */}
+                            {
+                                permissions?.includes(permissionList?.Delete_universityApplicationdocument) ?
                             <ButtonForFunction
                               className={"mx-1 btn-sm"}
                               func={() => toggleDanger(application)}
@@ -702,6 +717,9 @@ const AddUniversityApplicationDocument = () => {
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                            }
                             </ButtonGroup>
 
                             <Modal
@@ -731,7 +749,7 @@ const AddUniversityApplicationDocument = () => {
                                   }
                                   disabled={buttonStatus}
                                 >
-                                  YES
+                                  {progress1? <ButtonLoader/> : "YES"}
                                 </Button>
                                 <Button onClick={() => {
                                   setDeleteModal(false);

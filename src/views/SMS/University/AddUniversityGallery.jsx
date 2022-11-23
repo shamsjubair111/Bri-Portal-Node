@@ -29,6 +29,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import get from "../../../helpers/get";
 import remove from "../../../helpers/remove";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddUniversityGallery = () => {
   const [activetab, setActivetab] = useState("5");
@@ -46,6 +47,8 @@ const AddUniversityGallery = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const { addToast } = useToasts();
   const history = useHistory();
@@ -77,9 +80,11 @@ const AddUniversityGallery = () => {
     } else {
       setLoading(true);
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
         (res) => {
           setButtonStatus(false);
+          setProgress(false);
           setSuccess(!success);
           setFileList([]);
           setFileError(false);
@@ -163,9 +168,11 @@ const AddUniversityGallery = () => {
 
   const handleDeleteItem = (id) => {
     setButtonStatus1(true);
+    setProgress1(true);
     const returnValue = remove(`UniversityGallery/Delete/${id}`).then(
       (action) => {
         setButtonStatus1(false);
+        setProgress1(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -438,7 +445,7 @@ const AddUniversityGallery = () => {
                               }
                               disabled={buttonStatus1}
                             >
-                              YES
+                              {progress1? <ButtonLoader/> : "YES"}
                             </Button>
                           </ModalFooter>
                         </Modal>
@@ -500,7 +507,7 @@ const AddUniversityGallery = () => {
                         <CustomButtonRipple
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary"}
-                          name={"Save"}
+                          name={progress? <ButtonLoader/> : "Save"}
                           isDisabled={buttonStatus}
                           permission={6}
                         />

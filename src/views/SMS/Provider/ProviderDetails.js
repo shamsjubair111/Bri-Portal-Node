@@ -441,7 +441,7 @@ const ProviderDetails = () => {
   
   const handleSubmitProfilePhoto = event => {
     event.preventDefault();
-    setProgress(true);
+    
     const subData = new FormData(event.target);
   
     subData.append("providerLogo", FileList1[0]?.originFileObj);
@@ -453,6 +453,7 @@ const ProviderDetails = () => {
       setError1(true);
     }
     else{
+      setProgress(true);
       put(`Provider/UpdateLogo`, subData).then((res) => {
         setButtonStatus1(false);
         setProgress(false);

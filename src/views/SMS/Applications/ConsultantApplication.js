@@ -46,6 +46,7 @@ import ProviderAdminFilter from "./ProviderAdminFilter.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import Loader from "../Search/Loader/Loader.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const ConsultantApplication = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -107,6 +108,7 @@ const ConsultantApplication = ({ currentUser }) => {
   // current_user
   //   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(false);
 
   //   console.log("currentuser", currentUser);
 
@@ -462,7 +464,9 @@ const ConsultantApplication = ({ currentUser }) => {
   };
 
   const handleDeleteData = () => {
+    setProgress(true);
     remove(`Application/Delete/${delData?.id}`).then((res) => {
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -1402,7 +1406,7 @@ const ConsultantApplication = ({ currentUser }) => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData}>
-                                YES
+                              {progress? <ButtonLoader/> :"YES"}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

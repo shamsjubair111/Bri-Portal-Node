@@ -365,7 +365,7 @@ const AddProviderUniversity = () => {
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
-    setProgress(true);
+    
     const subdata = new FormData(event.target);
 
     // subdata.append("UniversityLogoFile", logoResult[0]?.originFileObj);
@@ -428,6 +428,7 @@ const AddProviderUniversity = () => {
       else {
         if (uniId != undefined) {
           setButtonStatus(true);
+          setProgress(true);
           put("University/Update", subdata, config).then((res) => {
             setButtonStatus(false);
             setProgress(false);
@@ -448,6 +449,7 @@ const AddProviderUniversity = () => {
           });
         } else {
           setButtonStatus(true);
+          setProgress(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
               console.log("unipostData", res);

@@ -43,6 +43,7 @@ import { Axios } from "axios";
 import Loader from "../Search/Loader/Loader.js";
 import { useToasts } from "react-toast-notifications";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
@@ -104,6 +105,7 @@ const UniversityList = (props) => {
   const [success,setSuccess] = useState(false);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const providerData = useSelector(
     (state) => state?.universityProviderDataReducer?.universityProviders
@@ -474,14 +476,28 @@ const UniversityList = (props) => {
 
   const handleDeleteUniversity = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`University/Delete/${delData?.id}`).then((res) => {
-      setButtonStatus(false);
-      addToast(res,{
-        appearance: 'error',
-        autoDismiss: true
-      })
-      setSuccess(!success);
-      setDeleteModal(false);
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
+        addToast(res,{
+          appearance: 'error',
+          autoDismiss: true
+        })
+        setButtonStatus(false);
+        setSuccess(!success);
+        setDeleteModal(false);
+        setProgress(false);
+      }
+      else{
+        addToast(res, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        setButtonStatus(false);
+        setDeleteModal(false);
+        setSuccess(!success);
+        setProgress(false);
+      }
     });
   };
 
@@ -604,6 +620,18 @@ const UniversityList = (props) => {
 
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
+
+          <div className="container test-score-div-1-style mt-1 mb-4">
+            {/* <span className="test-score-span-1-style">
+              <b>Assign or Revoke Menu for User Types.</b>
+            </span>
+
+            <br /> */}
+            <div>
+            This page contains the list of all universities, you can view and edit any information of each university from here. 
+            </div>
+          </div>
+
           <Row>
             <Col lg="2" md="3" sm="6" xs="6">
               <Select
@@ -1295,7 +1323,7 @@ const UniversityList = (props) => {
                                 onClick={handleDeleteUniversity}
                                 disabled={buttonStatus}
                               >
-                                YES
+                                {progress? <ButtonLoader/> :"YES"}
                               </Button>
                               <Button onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>

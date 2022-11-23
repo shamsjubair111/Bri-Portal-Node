@@ -31,6 +31,7 @@ import { useToasts } from "react-toast-notifications";
 import get from "../../../helpers/get";
 import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddUniversityFinancial = (props) => {
   const [activetab, setActivetab] = useState("3");
@@ -39,6 +40,7 @@ const AddUniversityFinancial = (props) => {
   const [financialId, setFinancialId] = useState(undefined);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   // const method = localStorage.getItem('editMethod');
 
@@ -88,12 +90,14 @@ const AddUniversityFinancial = (props) => {
     if (financialId == undefined) {
       console.log("fin Id", financialId);
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}FinancialInformation/Create`, subdata, {
         headers: {
           "authorization": AuthStr,
         },
       }).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         const uniID = res.data.result.universityId;
 
         if (res.status === 200 && res.data.isSuccess === true) {
@@ -116,9 +120,11 @@ const AddUniversityFinancial = (props) => {
     } else {
       console.log("financial id", financialId);
       setButtonStatus(true);
+      setProgress(true);
       put("FinancialInformation/Update", subdata).then((res) => {
         console.log("1st put response", res);
         setButtonStatus(false);
+        setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -424,7 +430,7 @@ const AddUniversityFinancial = (props) => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"ml-lg-2 ml-sm-1 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> : "Save"}
                       disable={buttonStatus}
                       permission={6}
                     />

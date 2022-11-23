@@ -34,6 +34,7 @@ import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import get from "../../../../helpers/get";
 import remove from "../../../../helpers/remove";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddUniversitySubjectDocumentRequirement = () => {
   const [activetab, setActivetab] = useState("5");
@@ -54,6 +55,8 @@ const AddUniversitySubjectDocumentRequirement = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const { id, subjId } = useParams();
 
@@ -143,6 +146,7 @@ const AddUniversitySubjectDocumentRequirement = () => {
     } else {
       if (update != 0) {
         setButtonStatus(true);
+        setProgress1(true);
         Axios.put(`${rootUrl}SubjectDocumentRequirement/Update`, subdata, {
           headers: {
             "Content-Type": "application/json",
@@ -150,6 +154,7 @@ const AddUniversitySubjectDocumentRequirement = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress1(false);
           console.log(res);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
@@ -181,6 +186,7 @@ const AddUniversitySubjectDocumentRequirement = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress1(true);
         Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
           headers: {
             "Content-Type": "application/json",
@@ -188,6 +194,7 @@ const AddUniversitySubjectDocumentRequirement = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress1(false);
           console.log(res);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
@@ -250,8 +257,10 @@ const closeDeleteModal = () => {
 
 const handleDeleteDocuRequired = (id) => {
   setButtonStatus1(true);
+  setProgress(true);
   const returnValue = remove(`SubjectDocumentRequirement/Delete/${id}`).then((action)=> {
     setButtonStatus1(false);
+    setProgress(false);
     setDeleteModal(false);
     setSuccess(!success);
     // console.log(action);
@@ -437,7 +446,7 @@ const redirectToSubjectProfile = () => {
                       <ButtonForFunction
                         type={"submit"}
                         className={"mt-3 badge-primary"}
-                        name={"Save"}
+                        name={progress1? <ButtonLoader/> :"Save"}
                         permission={6}
                         disable={buttonStatus}
                       />
@@ -507,7 +516,7 @@ const redirectToSubjectProfile = () => {
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDocuRequired(delRequiredDocuId)}>YES</Button>
+                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDocuRequired(delRequiredDocuId)}>{progress? <ButtonLoader/> :"YES"}</Button>
                         <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 

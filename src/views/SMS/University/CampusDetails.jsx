@@ -32,6 +32,7 @@ import remove from "../../../helpers/remove";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
 import { userTypes } from "../../../constants/userTypeConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const CampusDetails = () => {
   const { id } = useParams();
@@ -95,6 +96,12 @@ const CampusDetails = () => {
   const [buttonStatus3,setButtonStatus3] = useState(false);
   const [buttonStatus4,setButtonStatus4] = useState(false);
   const [buttonStatus5,setButtonStatus5] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
+  const [progress3, setProgress3] = useState(false);
+  const [progress4, setProgress4] = useState(false);
+  const [progress5, setProgress5] = useState(false);
 
   const [uniId, setUniId] = useState(undefined);
 
@@ -128,8 +135,10 @@ const CampusDetails = () => {
 
   const handleDeleteData = () => {
     setButtonStatus2(true);
+    setProgress2(true);
     remove(`UniversityCampusSubject/Delete/${data?.id}`).then((res) => {
       setButtonStatus2(false);
+      setProgress2(false);
       console.log(res);
       addToast(res, {
         appearance: "error",
@@ -350,8 +359,10 @@ const CampusDetails = () => {
     };
 
     setButtonStatus4(true);
+    setProgress3(true);
     put(`UniversityCampusSubject/Update`, subData).then((res) => {
       setButtonStatus4(false);
+      setProgress3(false);
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",
@@ -389,8 +400,10 @@ const CampusDetails = () => {
       setSubError(true);
     } else {
       setButtonStatus3(true);
+      setProgress4(true);
       post(`UniversityCampusSubject/Create`, subData).then((res) => {
         setButtonStatus3(false);
+        setProgress4(false);
         console.log(res);
         if (res?.data?.isSuccess == true && res?.status == 200) {
           addToast(res?.data?.message, {
@@ -502,9 +515,11 @@ const CampusDetails = () => {
     } else {
       setLoading(true);
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}CampusGallery/Create`, subdata, config).then(
         (res) => {
           setButtonStatus(false);
+          setProgress(false);
           setSuccess(!success);
           setFileList1([]);
           setFileError(false);
@@ -547,8 +562,10 @@ const CampusDetails = () => {
 
   const handleDeleteItem = (ids) => {
     setButtonStatus1(true);
+    setProgress1(true);
     const returnValue = remove(`CampusGallery/Delete/${ids}`).then((action) => {
       setButtonStatus1(false);
+      setProgress1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -586,12 +603,14 @@ const CampusDetails = () => {
       setStatusError(true);
     } else {
       setButtonStatus5(true);
+      setProgress5(true);
       Axios.post(
         `${rootUrl}SubjectIntake/AssignToSubjectRange`,
         subdata,
         config
       ).then((res) => {
         setButtonStatus5(false);
+        setProgress5(false);
         // setSubjectIds([]);
         setIntakeLabel("Select Intake");
         setIntakeValue(0);
@@ -899,7 +918,7 @@ const CampusDetails = () => {
                                     color="danger"
                                     onClick={() => handleDeleteItem(delGalId)}
                                   >
-                                    YES
+                                    {progress1? <ButtonLoader/> :"YES"}
                                   </Button>
                                   <Button onClick={closeDeleteModal}>NO</Button>
                                 </ModalFooter>
@@ -1011,7 +1030,7 @@ const CampusDetails = () => {
                               <CustomButtonRipple
                                 type={"submit"}
                                 className={"mr-1 mt-3 badge-primary"}
-                                name={"Save"}
+                                name={progress? <ButtonLoader/> :"Save"}
                                 permission={6}
                                 isDisabled={buttonStatus}
                               />
@@ -1141,7 +1160,7 @@ const CampusDetails = () => {
                                       color="danger"
                                       onClick={handleDeleteData}
                                     >
-                                      YES
+                                      {progress2? <ButtonLoader/> :"YES"}
                                     </Button>
                                     <Button
                                       onClick={() => setDeleteModal1(false)}
@@ -1353,7 +1372,7 @@ const CampusDetails = () => {
                                           type="submit"
                                           className="mr-1 mt-3 badge-primary"
                                         >
-                                          Submit
+                                          {progress3? <ButtonLoader/> :"Submit"}
                                         </Button.Ripple>
                                       </FormGroup>
                                     </Form>
@@ -1593,7 +1612,7 @@ const CampusDetails = () => {
                           type="submit"
                           className="ml-md-2 mt-3 badge-primary"
                         >
-                          Submit
+                          {progress4? <ButtonLoader/> :"Submit"}
                         </Button.Ripple>
                         </div>
                       </Col>
@@ -1712,7 +1731,7 @@ const CampusDetails = () => {
                             type="submit"
                             className="btn btn-uapp-add btn btn-secondary"
                           >
-                            Assign
+                            {progress5? <ButtonLoader/> :"Assign"}
                           </Button>
                           {/* </div> */}
                         </Col>

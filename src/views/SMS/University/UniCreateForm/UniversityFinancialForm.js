@@ -13,10 +13,12 @@ import {
 import { rootUrl } from "../../../../constants/constants";
 import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const UniversityFinancialForm = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const { addToast } = useToasts();
   const { univerId } = useParams();
@@ -45,12 +47,14 @@ const UniversityFinancialForm = () => {
     }
 
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}FinancialInformation/Create`, subdata, {
         headers: {
           "authorization": AuthStr,
         },
       }).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         const uniID = res.data.result.universityId;
 
         if (res.status === 200 && res.data.isSuccess === true) {
@@ -215,7 +219,7 @@ const UniversityFinancialForm = () => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"ml-lg-2 ml-sm-1 mt-3 badge-primary"}
-                      name={"Save & Next"}
+                      name={progress? <ButtonLoader/> :"Save & Next"}
                       disable={buttonStatus}
                       permission={6}
                     />

@@ -174,7 +174,7 @@ const AddProviderUniversityCampus = (props) => {
     //   on submit form
     const handleSubmit = (event) => {
       event.preventDefault();
-      setProgress(true);
+      
       const subdata = new FormData(event.target);
       //  for (var value of subdata.values()) {
       //   console.log(value);
@@ -189,6 +189,7 @@ const AddProviderUniversityCampus = (props) => {
       else{
         if (selectedId === 0) {
           setButtonStatus(true);
+          setProgress(true);
           Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
             headers: {
               'Content-Type': 'application/json',
@@ -214,6 +215,7 @@ const AddProviderUniversityCampus = (props) => {
           });
         } else {
           setButtonStatus(true);
+          setProgress(true);
           put(`UniversityCampus/Update`, subdata).then((res) => {
             // setuniversityId(res.data.result.universityId)
             setButtonStatus(false);

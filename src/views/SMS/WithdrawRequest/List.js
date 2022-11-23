@@ -86,6 +86,7 @@ const List = () => {
   const [modalPValue, setModalPValue] = useState(0);
   const [buttonStatus, setButtonStatus] = useState(false);
   const [progress,setProgress] = useState(false);
+  const [progress1,setProgress1] = useState(false);
 
   // for hide/unhide column
   const [checkSlNo, setCheckSlNo] = useState(true);
@@ -257,11 +258,12 @@ const List = () => {
 
   const handleTransactionStatusChange = (event) => {
     event.preventDefault();
-    setProgress(true);
+    
     if (modalTValue == 0) {
       setMTerror("Transaction status is required");
     } else {
       setButtonStatus(true);
+      setProgress(true);
       get(
         `WithdrawRequest/TransactionStatus/${currData?.id}/${modalTValue}`
       ).then((res) => {
@@ -292,9 +294,11 @@ const List = () => {
       setMPerror("Transaction status is required");
     } else {
       setButtonStatus(true);
+      setProgress1(true);
       get(`WithdrawRequest/PaymentStatus/${currData2?.id}/${modalPValue}`).then(
         (res) => {
           setButtonStatus(false);
+          setProgress1(false);
           if (res == true) {
             addToast("Status changed successfully", {
               appearance: "success",
@@ -439,7 +443,7 @@ const List = () => {
                   </Button>
 
                   <Button color="primary" type="submit">
-                    Update
+                  {progress1? <ButtonLoader/> : "Update"}
                   </Button>
                 </div>
               </Form>

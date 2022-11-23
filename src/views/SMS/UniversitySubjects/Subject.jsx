@@ -34,6 +34,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../helpers/put';
 import { userTypes } from '../../../constants/userTypeConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const Subject = () => {
 
@@ -67,6 +68,7 @@ const Subject = () => {
     const [subDeptDropError, setSubDeptDropError] = useState(false);
 
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     const {addToast} = useToasts();
     const {id} = useParams();
@@ -293,8 +295,9 @@ const Subject = () => {
     else{
       if(subId != 0){
         setButtonStatus(true);
+        setProgress(true);
         put('Subject/Update', subdata).then((res) => {
-          
+          setProgress(false);
           setButtonStatus(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
@@ -310,6 +313,7 @@ const Subject = () => {
       }
       else{
         setButtonStatus(true);
+        setProgress(true);
         Axios.post(`${rootUrl}Subject/Create`, subdata,{
           headers: {
             'Content-Type': 'application/json',
@@ -317,6 +321,7 @@ const Subject = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           // localStorage.setItem("subjectId",res?.data?.result?.id);
           const subjId = res?.data?.result?.id;
           setSubjectId(subjId);
@@ -677,7 +682,7 @@ const Subject = () => {
                     <ButtonForFunction 
                       type={"submit"}
                       className={"ml-3 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> :"Save"}
                       permission={6}
                       disable={buttonStatus}
                     />

@@ -40,6 +40,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 // import Pagination from "../../SMS/Pagination/Pagination.jsx";
 
 // const userData = [{name: "Jubair", id:6, isChecked:false}, {name: "Rahul", id:2, isChecked:true}, {name: "Abir", id:3, isChecked:false}, {name: "Nahid", id:4, isChecked:true}];
@@ -114,6 +115,11 @@ const UniversityDetails = () => {
   const [buttonStatus, setButtonStatus] = useState(false);
   const [buttonStatus1, setButtonStatus1] = useState(false);
   const [buttonStatus2, setButtonStatus2] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
+  const [progress3, setProgress3] = useState(false);
+  const [progress4, setProgress4] = useState(false);
 
   const [data, setData] = useState({});
   const [score, setScore] = useState({});
@@ -274,8 +280,10 @@ const UniversityDetails = () => {
       setStateError(true);
     } else {
       setButtonStatus2(true);
+      setProgress4(true);
       post(`UniversityCampus/Create`, subdata).then((res) => {
         setButtonStatus2(false);
+        setProgress4(false);
         setSuccess(!success);
         setModalOpen(false);
         console.log("ressss", res);
@@ -541,9 +549,11 @@ const UniversityDetails = () => {
 
   const handleDeleteItem = (id) => {
     setButtonStatus1(true);
+    setProgress3(true);
     const returnValue = remove(`UniversityGallery/Delete/${id}`).then(
       (action) => {
         setButtonStatus1(false);
+        setProgress3(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -583,9 +593,11 @@ const UniversityDetails = () => {
     } else {
       setLoading(true);
       setButtonStatus(true);
+      setProgress2(true);
       Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
         (res) => {
           setButtonStatus(false);
+          setProgress2(false);
           setSuccess(!success);
           setFileList1([]);
           setFileError(false);
@@ -688,14 +700,17 @@ const UniversityDetails = () => {
       // for(var x of subData.values()){
       //     console.log(x);
       // }
-      setButtonStatus3(true);
+      
   
       if (FileList.length < 1) {
         setError(true);
       }
       else{
+        setProgress(true);
+        setButtonStatus3(true);
         put(`University/UpdateCoverPhoto`, subData).then((res) => {
           setButtonStatus3(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -763,14 +778,17 @@ const UniversityDetails = () => {
       // for(var x of subData.values()){
       //     console.log(x);
       // }
-      setButtonStatus4(true);
+      
   
       if (FileList2.length < 1) {
         setError1(true);
       }
       else{
+        setButtonStatus4(true);
+        setProgress1(true);
         put(`University/Updatelogo`, subData).then((res) => {
           setButtonStatus4(false);
+          setProgress1(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -953,7 +971,7 @@ const UniversityDetails = () => {
                               Cancel
                         </Button>
                         <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus3}>
-                          Update
+                        {progress? <ButtonLoader/> : "Update"}
                         </Button>
                       </div>
                     </Col>
@@ -1075,7 +1093,7 @@ const UniversityDetails = () => {
                                        Cancel
                                  </Button>
                                  <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus4}>
-                                   Update
+                                 {progress1? <ButtonLoader/> :"Update"}
                                  </Button>
                                </div>
                              </Col>
@@ -1319,7 +1337,7 @@ const UniversityDetails = () => {
                               color="danger"
                               onClick={() => handleDeleteItem(delGalId)}
                             >
-                              YES
+                              {progress3? <ButtonLoader/> :"YES"}
                             </Button>
                             <Button onClick={closeDeleteModal}>NO</Button>
                           </ModalFooter>
@@ -1433,7 +1451,7 @@ const UniversityDetails = () => {
                                 <CustomButtonRipple
                                 type={"submit"}
                                 className={"mr-1 mt-3 badge-primary"}
-                                name={"Save"}
+                                name={progress2? <ButtonLoader/> :"Save"}
                                 permission={6}
                                 isDisabled={buttonStatus}
                               />
@@ -1911,11 +1929,12 @@ const UniversityDetails = () => {
                             </Col>
                             <Col md="6">
                               <Input
-                                type="textarea"
+                                // type="textarea"
+                                type="url"
                                 rows="3"
                                 name="EmbededMap"
                                 id="EmbededMap"
-                                placeholder="Location on Google Map"
+                                placeholder="https://example.com"
                                 // placeholder="Please type the src link only from the embed map"
                               />
                               <span className="text-danger">
@@ -1959,7 +1978,7 @@ const UniversityDetails = () => {
                               color={"primary"}
                               type={"submit"}
                               className={"ml-1 mt-3"}
-                              name={"Submit"}
+                              name={progress4? <ButtonLoader/> :"Submit"}
                               permission={6}
                               isDisabled={buttonStatus2}
                             />

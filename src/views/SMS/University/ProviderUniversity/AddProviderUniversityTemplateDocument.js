@@ -205,7 +205,7 @@ const AddProviderUniversityTemplateDocument = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setProgress(true);
+    
     const subData = new FormData(e.target);
 
     subData.append(
@@ -227,6 +227,7 @@ const AddProviderUniversityTemplateDocument = () => {
     else {
       if (selectedId === 0) {
         setButtonStatus(true);
+        setProgress(true);
         post("UniversityTemplateDocument/Create", subData).then((res) => {
           console.log("document data", res);
           setButtonStatus(false);
@@ -252,6 +253,7 @@ const AddProviderUniversityTemplateDocument = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put(`UniversityTemplateDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
           setButtonStatus(false);

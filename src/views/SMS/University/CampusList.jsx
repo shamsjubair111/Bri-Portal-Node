@@ -40,6 +40,7 @@ import LinkButton from "../Components/LinkButton";
 import LinkSpanButton from "../Components/LinkSpanButton";
 import remove from "../../../helpers/remove";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const CampusList = (props) => {
   const [campusList, setCampusList] = useState([]);
@@ -85,6 +86,8 @@ const CampusList = (props) => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const { addToast } = useToasts();
   const { uniId } = useParams();
@@ -227,8 +230,10 @@ const CampusList = (props) => {
         setStateError(true);
       } else {
         setButtonStatus(true);
+        setProgress1(true);
         post(`UniversityCampus/Create`, subdata).then((res) => {
           setButtonStatus(false);
+          setProgress1(false);
           setSuccess(!success);
           setModalOpen(false);
           console.log("ressss", res);
@@ -248,8 +253,10 @@ const CampusList = (props) => {
       }
     } else {
       setButtonStatus(true);
+      setProgress1(true);
       put(`UniversityCampus/Update`, subdata).then((res) => {
         setButtonStatus(false);
+        setProgress1(false);
         if (res.status === 200 && res.data.isSuccess === true) {
           setSubmitData(false);
           addToast(res.data.message, {
@@ -316,9 +323,11 @@ const CampusList = (props) => {
 
   const handleDeletePermission = (id) => {
     setButtonStatus1(true);
+    setProgress(true);
     const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
       (action) => {
         setButtonStatus1(false);
+        setProgress(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -918,7 +927,7 @@ const CampusList = (props) => {
                       color={"primary"}
                       type={"submit"}
                       className={"ml-1 mt-3"}
-                      name={"Submit"}
+                      name={progress1? <ButtonLoader/> :"Submit"}
                       permission={6}
                       isDisabled={buttonStatus}
                     />
@@ -1093,7 +1102,7 @@ const CampusList = (props) => {
                                     handleDeletePermission(camppId)
                                   }
                                 >
-                                  YES
+                                  {progress? <ButtonLoader/> :"YES"}
                                 </Button>
                                 <Button
                                   onClick={() => {

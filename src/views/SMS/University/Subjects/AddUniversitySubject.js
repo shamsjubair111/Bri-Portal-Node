@@ -34,6 +34,7 @@ import ButtonForFunction from '../../Components/ButtonForFunction';
 import { useToasts } from "react-toast-notifications";
 import put from '../../../../helpers/put';
 import { userTypes } from '../../../../constants/userTypeConstant';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 
 const AddUniversitySubject = () => {
@@ -67,6 +68,7 @@ const AddUniversitySubject = () => {
     const [subjectId, setSubjectId] = useState(undefined);
 
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     const {addToast} = useToasts();
     const {id, subjId} = useParams();
@@ -263,9 +265,11 @@ const AddUniversitySubject = () => {
     else{
       if(subId != 0){
         setButtonStatus(true);
+        setProgress(true);
         put('Subject/Update', subdata).then((res) => {
           console.log(res);
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
                 appearance:'success',
@@ -279,6 +283,7 @@ const AddUniversitySubject = () => {
       }
       else{
         setButtonStatus(true);
+        setProgress(true);
         Axios.post(`${rootUrl}Subject/Create`, subdata,{
           headers: {
             'Content-Type': 'application/json',
@@ -286,6 +291,7 @@ const AddUniversitySubject = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           // localStorage.setItem("subjectId",res?.data?.result?.id);
           const subjeId = res?.data?.result?.id;
           setSubjectId(subjeId);
@@ -634,7 +640,7 @@ const AddUniversitySubject = () => {
                     <ButtonForFunction 
                       type={"submit"}
                       className={"ml-3 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> :"Save"}
                       permission={6}
                       disable={buttonStatus}
                     />

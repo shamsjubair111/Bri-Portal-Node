@@ -87,7 +87,7 @@ const AddProviderUniversityFeatures = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
-    setProgress(true);
+    
     //  watch form data values
     for (var value of subdata.values()) {
     }
@@ -100,6 +100,7 @@ const AddProviderUniversityFeatures = () => {
 
     if (featureId !== undefined) {
       setButtonStatus(true);
+      setProgress(true);
       put("UniversityFeatures/Update", subdata).then((res) => {
         console.log("1st put response", res);
         setButtonStatus(false);
@@ -123,6 +124,7 @@ const AddProviderUniversityFeatures = () => {
       });
     } else {
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata, {
         headers: {
           'authorization': AuthStr,

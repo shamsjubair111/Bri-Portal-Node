@@ -30,6 +30,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import put from '../../../helpers/put';
 import ButtonForFunction from '../Components/ButtonForFunction';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const UniversityTestScore = () => {
 
@@ -40,6 +41,7 @@ const UniversityTestScore = () => {
     const [ielts,setIelts] = useState(false);
     const [required,setRequired] = useState(false);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
     const [score,setScore] = useState(null);
     const {addToast} = useToasts();
     const [data,setData] = useState({});
@@ -121,8 +123,10 @@ const UniversityTestScore = () => {
         subData.append('isIeltsMandatory',data == null ? false : ielts);
 
         if(data?.id){
+          setProgress(true);
             put(`TestScoreRequirement/Update`,subData)
         .then(res => {
+          setProgress(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
                     appearance: 'success',
@@ -143,8 +147,10 @@ const UniversityTestScore = () => {
         }
 
         else{
+          setProgress(true);
             post(`TestScoreRequirement/Create`,subData)
         .then(res => {
+          setProgress(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
                     appearance: 'success',
@@ -392,7 +398,7 @@ const UniversityTestScore = () => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"ml-lg-2 ml-sm-1 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> : "Save"}
                       disable={!(required && score> '1')}
                       permission={6}
                     />

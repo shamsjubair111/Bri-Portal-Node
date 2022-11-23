@@ -151,7 +151,7 @@ const AssignUniversity = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setProgress(true);
+    
     const subData = {
       admissionManagerId: managerId,
       universityId: uniValue,
@@ -171,6 +171,7 @@ const AssignUniversity = () => {
 
     if (selectedId !== undefined) {
       setButtonStatus(true);
+      setProgress(true);
       put(`AdmissionManagerUniversity/Update`, subData1).then((res) => {
         setButtonStatus(false);
         setProgress(false);
@@ -200,6 +201,7 @@ const AssignUniversity = () => {
         setUniError(true);
       } else {
         setButtonStatus(true);
+        setProgress(true);
         setSelectedId(undefined);
         post(`AdmissionManagerUniversity/Create`, subData).then((res) => {
           setButtonStatus(false);

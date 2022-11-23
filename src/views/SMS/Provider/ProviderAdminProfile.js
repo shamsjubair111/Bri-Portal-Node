@@ -54,18 +54,19 @@ const ProviderAdminProfile = () => {
 
       const handleSubmitProfilePhoto = event => {
         event.preventDefault();
-        setProgress(true);
+        
         const subData = new FormData(event.target);
       
         subData.append("providerAdmin", FileList1[0]?.originFileObj);
       
         
-        setButtonStatus1(true);
       
         if (FileList1.length < 1) {
           setError1(true);
         }
         else{
+          setProgress(true);
+          setButtonStatus1(true);
           put(`ProviderAdmin/UpdateProfilePhoto`, subData).then((res) => {
             setButtonStatus1(false);
             setProgress(false);
