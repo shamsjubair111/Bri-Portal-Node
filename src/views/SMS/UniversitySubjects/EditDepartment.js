@@ -16,6 +16,7 @@ import put from "../../../helpers/put";
 import { useToasts } from "react-toast-notifications";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const EditDepartment = () => {
   const history = useHistory();
@@ -25,6 +26,7 @@ const EditDepartment = () => {
   const [department, setdepartment] = useState("");
   const [description, setDescription] = useState("");
   const [buttonStatus, setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -50,8 +52,10 @@ const EditDepartment = () => {
       description: description,
     };
     setButtonStatus(true);
+    setProgress(true);
     put(`Department/Update`, subData).then((res) => {
       setButtonStatus(false);
+      setProgress(false);
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,
@@ -131,7 +135,7 @@ const EditDepartment = () => {
                       color={"primary"}
                       type={"submit"}
                       className={"mr-0 mt-3"}
-                      name={"Submit"}
+                      name={progress? <ButtonLoader/> :"Submit"}
                       isDisabled={buttonStatus}
                     />
                 

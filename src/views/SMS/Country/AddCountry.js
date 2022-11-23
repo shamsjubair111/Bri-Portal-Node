@@ -59,6 +59,8 @@ const AddCountry = () => {
   const [FileList, setFileList] = useState([]);
   const [imgError, setImgError] = useState(false);
   const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -82,8 +84,10 @@ const AddCountry = () => {
     if (!updateState?.id) {
       setUpdateState({});
       setButtonStatus(true);
+      setProgress1(true);
       const returnValue = post(`Country/Create`, subdata).then((action) => {
         setButtonStatus(false);
+        setProgress1(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -95,8 +99,10 @@ const AddCountry = () => {
       });
     } else {
       setButtonStatus(true);
+      setProgress1(true);
       const returnvalue = put(`Country/Update`, subdata).then((action) => {
         setButtonStatus(false);
+        setProgress1(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -200,9 +206,11 @@ const AddCountry = () => {
     }
     else{
       setButtonStatus(true);
+      setProgress2(true);
     post(`Country/CreateFromExcel`,subData)
     .then(res => {
       setButtonStatus(false);
+      setProgress2(false);
       if(res?.status == 200 && res?.data?.isSuccess ==true){
         addToast(res?.data?.message,{
           appearance:'success',
@@ -378,7 +386,7 @@ const AddCountry = () => {
                       // onClick={(e) => handleSubmit(e)}
                       disabled={buttonStatus}
                     >
-                      Submit
+                      {progress1? <ButtonLoader/> : "Submit"}
                     </Button>
 
                     {/* } */}
@@ -479,7 +487,7 @@ const AddCountry = () => {
                   
                       disabled={buttonStatus}
                     >
-                      Submit
+                      {progress2? <ButtonLoader/> : "Submit"}
                     </Button>
 
                  

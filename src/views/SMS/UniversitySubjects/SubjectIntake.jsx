@@ -27,6 +27,7 @@ import remove from "../../../helpers/remove";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const SubjectIntake = () => {
   const { camId } = useParams();
@@ -55,6 +56,8 @@ const SubjectIntake = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const history = useHistory();
   const location = useLocation();
@@ -119,8 +122,10 @@ const SubjectIntake = () => {
       setStatusError(true);
     } else {
       setButtonStatus(true);
+      setProgress1(true);
       post(`SubjectIntake/AssignToSubject`, subData).then((res) => {
         setButtonStatus(false);
+        setProgress1(false);
         if (res.status === 200 && res.data.isSuccess === true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -155,9 +160,11 @@ const SubjectIntake = () => {
 
   const handleDelete = (id) => {
     setButtonStatus1(true);
+    setProgress(true);
     const returnValue = remove(`SubjectIntake/DeleteById/${id}`).then(
       (action) => {
         setButtonStatus1(false);
+        setProgress(false);
         setSuccess(!success);
         setDeleteModal(false);
         addToast(action, {
@@ -294,7 +301,7 @@ const SubjectIntake = () => {
                     <CustomButtonRipple
                     type={"submit"}
                     className={"mr-0 mt-3 ml-1 badge-primary"}
-                    name={"Submit"}
+                    name={progress1? <ButtonLoader/> :"Submit"}
                     permission={6}
                     isDisabled={buttonStatus}
                   />
@@ -394,7 +401,7 @@ const SubjectIntake = () => {
                                 color="danger"
                                 onClick={() => handleDelete(int?.id)}
                               >
-                                YES
+                                {progress? <ButtonLoader/> :"YES"}
                               </Button>
                               <Button onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>

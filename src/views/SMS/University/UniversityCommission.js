@@ -32,6 +32,7 @@ import get from "../../../helpers/get";
 import { useToasts } from "react-toast-notifications";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const UniversityCommission = () => {
   const history = useHistory();
@@ -61,6 +62,7 @@ const UniversityCommission = () => {
   const [val, setVal] = useState({});
 
   const [buttonStatus, setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   useEffect(() => {
     get(`StudentComissionTypeDD/Index`).then((res) => {
@@ -182,8 +184,10 @@ const UniversityCommission = () => {
     } else {
       if (data?.id) {
         setButtonStatus(true);
+        setProgress(true);
         put(`UniversityComission/Update`, subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -207,8 +211,10 @@ const UniversityCommission = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         post(`UniversityComission/Create`, subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -533,7 +539,7 @@ const UniversityCommission = () => {
                         color={"primary"}
                         type={"submit"}
                         className={"ml-lg-3 ml-sm-1 mt-3"}
-                        name={"Save"}
+                        name={progress? <ButtonLoader/> : "Save"}
                         disable={buttonStatus}
                         permission={6}
                       />

@@ -46,6 +46,7 @@ import { rootUrl } from "../../../../constants/constants";
 import remove from "../../../../helpers/remove";
 import put from "../../../../helpers/put";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const UniversityApplicationDocumentForm = () => {
 
@@ -77,6 +78,7 @@ const UniversityApplicationDocumentForm = () => {
   const [applicationId, setApplicationId] = useState(0);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -137,10 +139,12 @@ const UniversityApplicationDocumentForm = () => {
     else if (isMandatory === null) {
       setApplicationError(true);
     } else {
+      setProgress(true);
         setButtonStatus(true);
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -330,7 +334,7 @@ const UniversityApplicationDocumentForm = () => {
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save & Next"}
+                                name={progress? <ButtonLoader/> :"Save & Next"}
                                 disable={buttonStatus}
                                 permission={6}
                               />

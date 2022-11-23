@@ -26,6 +26,8 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
 
@@ -41,6 +43,7 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import ToggleSwitch from "../Components/ToggleSwitch";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
@@ -124,6 +127,20 @@ const ApplicationDetails = () => {
     const [pte, setPte] = useState({});
     const [gMatResult, setGMatResult]  =useState({});
     const [greResult,setGreResult] = useState({});
+
+    const [progress, setProgress] = useState(false);
+    const [progress1, setProgress1] = useState(false);
+    const [progress2, setProgress2] = useState(false);
+    const [progress3, setProgress3] = useState(false);
+    const [progress4, setProgress4] = useState(false);
+    const [progress5, setProgress5] = useState(false);
+    const [progress6, setProgress6] = useState(false);
+    const [progress7, setProgress7] = useState(false);
+    const [progress8, setProgress8] = useState(false);
+    const [progress9, setProgress9] = useState(false);
+    const [progress10, setProgress10] = useState(false);
+    const [progress11, setProgress11] = useState(false);
+    const [progress12, setProgress12] = useState(false);
  
 
   function getBase641(file) {
@@ -378,9 +395,11 @@ const ApplicationDetails = () => {
   };
 
   const handleDeleteDocument = () => {
+    setProgress11(true);
     const returnValue = remove(
       `StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`
     ).then((action) => {
+      setProgress11(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -406,8 +425,10 @@ const ApplicationDetails = () => {
   };
 
   const handleDeleteFile = (id) => {
+    setProgress10(true);
     const returnValue = remove(`StudentUploadDocument/FileDelete/${id}`).then(
       (action) => {
+        setProgress10(false);
         setDeleteModal2(false);
         setSuccess(!success);
         addToast(action, {
@@ -432,7 +453,9 @@ const ApplicationDetails = () => {
     // }
 
     if (studentDocuId !== 0) {
+      setProgress12(true);
       post("StudentUploadDocument/FileCreate", subData).then((res) => {
+        setProgress12(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -483,7 +506,9 @@ const ApplicationDetails = () => {
     //   setUploadError(true);
     // }
     else {
+      setProgress9(true);
       post("StudentUploadDocument/Create", subData).then((res) => {
+        setProgress9(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -580,9 +605,10 @@ const ApplicationDetails = () => {
     //   id: applicationInfo?.id,
     //   statusId: deliveryValue,
     // };
-
+    setProgress4(true);
     const returnvalue = put(`Application/UpdateDeliveryPattern`, subData).then(
       (action) => {
+        setProgress4(false);
         setSuccess(!success);
         setDeliveryModalOpen(false);
         addToast(action?.data?.message, {
@@ -598,10 +624,12 @@ const ApplicationDetails = () => {
   const handleUniStdIdSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
+    setProgress5(true);
     const returnvalue = put(
       `Application/UpdateUniversityStudentId`,
       subData
     ).then((action) => {
+      setProgress5(false);
       setSuccess(!success);
       setUniStdIdModalOpen(false);
       addToast(action?.data?.message, {
@@ -614,10 +642,12 @@ const ApplicationDetails = () => {
   const handleUniAppDateSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
+    setProgress6(true);
     const returnvalue = put(
       `Application/UpdateUniversityApplicationDate`,
       subData
     ).then((action) => {
+      setProgress6(false);
       setSuccess(!success);
       setUniAppDateModalOpen(false);
       addToast(action?.data?.message, {
@@ -636,8 +666,10 @@ const ApplicationDetails = () => {
   const handleFinanceUpdateSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
+    setProgress3(true);
     const returnvalue = put(`Application/UpdateStudentFinance`, subData).then(
       (action) => {
+        setProgress3(false);
         setSuccess(!success);
         setFinanceModalOpen(false);
         addToast(action?.data?.message, {
@@ -663,10 +695,12 @@ const ApplicationDetails = () => {
   const handleApplicationUpdateSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
+    setProgress(true);
     const returnvalue = put(
       `Application/UpdateApplicationStatus`,
       subData
     ).then((action) => {
+      setProgress(false);
       setSuccess(!success);
       setStatusModalOpen(false);
       addToast(action?.data?.message, {
@@ -687,9 +721,10 @@ const ApplicationDetails = () => {
   const handleEnrollUpdateSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
-
+    setProgress2(true);
     const returnvalue = put(`Application/UpdateEnrollmentStatus`, subData).then(
       (action) => {
+        setProgress2(false);
         setSuccess(!success);
         setEnrollModalOpen(false);
         addToast(action?.data?.message, {
@@ -711,8 +746,10 @@ const ApplicationDetails = () => {
   const handleOfferUpdateSubmit = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
+    setProgress1(true);
     const returnvalue = put(`Application/UpdateOfferStatus`, subData).then(
       (action) => {
+        setProgress1(false);
         setSuccess(!success);
         setOfferModalOpen(false);
         addToast(action?.data?.message, {
@@ -749,7 +786,9 @@ const ApplicationDetails = () => {
     if (elptStatusValue === 0) {
       setElptStatusError(true);
     } else {
+      setProgress7(true);
       const returnvalue = post(`ELPT/Create`, subData).then((action) => {
+        setProgress7(false);
         setSuccess(!success);
         setOfferModalOpen(false);
         addToast(action?.data?.message, {
@@ -771,7 +810,9 @@ const ApplicationDetails = () => {
   const handleSubmitElptupdate = (e) => {
     e.preventDefault();
     const subData = new FormData(e.target);
+    setProgress8(true);
     const returnvalue = put(`ELPT/Update`, subData).then((action) => {
+      setProgress8(false);
       setSuccess(!success);
       setElptModalOpen1(false);
       addToast(action?.data?.message, {
@@ -952,7 +993,7 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={"Submit"}
+                                        name={progress? <ButtonLoader/> :"Submit"}
                                         permission={6}
                                       />
 
@@ -1053,7 +1094,7 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={"Submit"}
+                                        name={progress1? <ButtonLoader/> :"Submit"}
                                         permission={6}
                                       />
 
@@ -1217,7 +1258,7 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={"Submit"}
+                                        name={progress2? <ButtonLoader/> :"Submit"}
                                         permission={6}
                                       />
 
@@ -1340,7 +1381,7 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={"Submit"}
+                                        name={progress3? <ButtonLoader/> :"Submit"}
                                         permission={6}
                                       />
 
@@ -1462,7 +1503,7 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={"Submit"}
+                                        name={progress4? <ButtonLoader/> :"Submit"}
                                         permission={6}
                                       />
 
@@ -1581,7 +1622,7 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={"Submit"}
+                                        name={progress5? <ButtonLoader/> :"Submit"}
                                         permission={6}
                                       />
 
@@ -1685,7 +1726,7 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={"Submit"}
+                                        name={progress6? <ButtonLoader/> :"Submit"}
                                         permission={6}
                                       />
 
@@ -2080,7 +2121,7 @@ const ApplicationDetails = () => {
                                     color={"primary"}
                                     type={"submit"}
                                     className={"ml-5 mt-3"}
-                                    name={"Submit"}
+                                    name={progress8? <ButtonLoader/> :"Submit"}
                                     permission={6}
                                   />
                                 </Col>
@@ -2379,7 +2420,7 @@ const ApplicationDetails = () => {
                                     color={"primary"}
                                     type={"submit"}
                                     className={"ml-5 mt-3"}
-                                    name={"Submit"}
+                                    name={progress7? <ButtonLoader/> :"Submit"}
                                     permission={6}
                                   />
                                 </Col>
@@ -2543,15 +2584,25 @@ const ApplicationDetails = () => {
                                     style={{ cursor: "pointer" }}
                                     className="image-upload"
                                   >
-                                    <label htmlFor={`hp+${i}`}>
-                                      <i
-                                        style={{
-                                          fontSize: "50px",
-                                          cursor: "pointer",
-                                        }}
-                                        className="fas fa-arrow-alt-circle-up text-danger"
-                                      ></i>
-                                    </label>
+                                    {
+                                      progress12 ? 
+                                      <LoadingOutlined
+                                      style={{
+                                        fontSize: 30, color: 'black', fontWeight: 'bold'
+                                      }}
+                                      spin
+                                    />
+                                        :
+                                        <label htmlFor={`hp+${i}`}>
+                                          <i
+                                            style={{
+                                              fontSize: "50px",
+                                              cursor: "pointer",
+                                            }}
+                                            className="fas fa-arrow-alt-circle-up text-danger"
+                                          ></i>
+                                        </label>
+                                    }
 
                                     <input
                                       name={i}
@@ -2612,7 +2663,7 @@ const ApplicationDetails = () => {
                                     // }
                                     onClick={handleDeleteDocument}
                                   >
-                                    YES
+                                    {progress11? <ButtonLoader/> :"YES"}
                                   </Button>
                                   <Button onClick={closeDeleteModal}>NO</Button>
                                 </ModalFooter>
@@ -2666,7 +2717,7 @@ const ApplicationDetails = () => {
                                     )
                                   }
                                 >
-                                  YES
+                                  {progress10? <ButtonLoader/> :"YES"}
                                 </Button>
                                 <Button onClick={closeDeleteModalFile}>
                                   NO
@@ -2816,7 +2867,7 @@ const ApplicationDetails = () => {
                           <ButtonForFunction
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary"}
-                          name={"Upload"}
+                          name={progress9? <ButtonLoader/> :"Upload"}
                           permission={6}
                         />
                         :

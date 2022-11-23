@@ -33,6 +33,7 @@ import ButtonForFunction from '../Components/ButtonForFunction';
 import { useEffect } from 'react';
 import get from '../../../helpers/get';
 import put from '../../../helpers/put';
+import ButtonLoader from '../Components/ButtonLoader';
 
 
 const AddSubjectFee = () => {
@@ -45,6 +46,7 @@ const AddSubjectFee = () => {
     const [id1, setId] = useState(undefined);
 
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     console.log("id1",id1);
 
@@ -129,9 +131,11 @@ const AddSubjectFee = () => {
 
      if(id1 != undefined){
       setButtonStatus(true);
+      setProgress(true);
       put("SubjectFeeStructure/Update", subdata)
       .then(res=>{
         setButtonStatus(false);
+        setProgress(true);
        if (res.status === 200 && res.data.isSuccess === true) {
            addToast(res?.data?.message, {
              appearance:'success',
@@ -146,6 +150,7 @@ const AddSubjectFee = () => {
      }
      else{
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
         headers: {
           'Content-Type': 'application/json',
@@ -153,6 +158,7 @@ const AddSubjectFee = () => {
         },
       }).then((res) => {
         setButtonStatus(false);
+        setProgress(false);
         console.log("post response", res);
         if (res.status === 200 && res.data.isSuccess === true) {
           addToast(res?.data?.message, {
@@ -341,7 +347,7 @@ const AddSubjectFee = () => {
                   <ButtonForFunction
                     type={"submit"}
                     className={"ml-3 mt-3 badge-primary"}    
-                    name={"Save"}
+                    name={progress? <ButtonLoader/> :"Save"}
                     permission={6}
                     disable={buttonStatus}
                   />

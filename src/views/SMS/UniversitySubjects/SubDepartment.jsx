@@ -33,6 +33,7 @@ import { Link } from "react-router-dom";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import LinkButton from "../Components/LinkButton";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const SubDepartment = (props) => {
   const permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -62,6 +63,8 @@ const SubDepartment = (props) => {
 
   const [buttonStatus, setButtonStatus] = useState(false);
   const [buttonStatus1, setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   useEffect(() => {
     const returnValue = get(`DepartmentDD/Index`).then((action) => {
@@ -109,8 +112,10 @@ const SubDepartment = (props) => {
       setDepartmentError(true);
     } else {
       setButtonStatus(true);
+      setProgress(true);
       post(`SubDepartment/Create`, subdata).then((action) => {
         setButtonStatus(false);
+        setProgress(false);
         setSuccess(!success);
         setModalOpen(false);
         addToast(action?.data?.message, {
@@ -145,8 +150,10 @@ const SubDepartment = (props) => {
 
   const handleDeleteSubDep = (id) => {
     setButtonStatus1(true);
+    setProgress1(true);
     const returnValue = remove(`SubDepartment/Delete/${id}`).then((action) => {
       setButtonStatus1(false);
+      setProgress1(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -429,7 +436,7 @@ const SubDepartment = (props) => {
                         className="mr-1 mt-3"
                         disabled={buttonStatus}
                       >
-                        Submit
+                        {progress? <ButtonLoader/> :"Submit"}
                       </Button.Ripple>
                       {/* } */}
                     </FormGroup>
@@ -521,7 +528,7 @@ const SubDepartment = (props) => {
                               onClick={() => handleDeleteSubDep(SubdepId)}
                               disabled={buttonStatus1}
                             >
-                              YES
+                              {progress1? <ButtonLoader/> :"YES"}
                             </Button>
                             
                             <Button onClick={closeDeleteModal}>

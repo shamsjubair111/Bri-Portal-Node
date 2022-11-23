@@ -33,6 +33,7 @@ import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import get from "../../../../helpers/get";
 import remove from "../../../../helpers/remove";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddUniProfileSubjectDeliveryPattern = () => {
   const [activetab, setActivetab] = useState("3");
@@ -49,6 +50,8 @@ const AddUniProfileSubjectDeliveryPattern = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const { id, subjId} = useParams();
 
@@ -121,6 +124,7 @@ const AddUniProfileSubjectDeliveryPattern = () => {
     } else {
       if (update != 0) {
         setButtonStatus(true);
+        setProgress(true);
         Axios.put(`${rootUrl}SubjectDeliveryPattern/Update`, subdata, {
           headers: {
             "Content-Type": "application/json",
@@ -128,6 +132,7 @@ const AddUniProfileSubjectDeliveryPattern = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -152,6 +157,7 @@ const AddUniProfileSubjectDeliveryPattern = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         Axios.post(`${rootUrl}SubjectDeliveryPattern/Create`, subdata, {
           headers: {
             "Content-Type": "application/json",
@@ -159,6 +165,7 @@ const AddUniProfileSubjectDeliveryPattern = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -212,8 +219,10 @@ const closeDeleteModal = () => {
 
 const handleDeleteDeliveryPattern = (id) => {
   setButtonStatus1(true);
+  setProgress1(true);
   const returnValue = remove(`SubjectDeliveryPattern/Delete/${id}`).then((action)=> {
     setButtonStatus1(false);
+    setProgress1(false);
     setDeleteModal(false);
     setSuccess(!success);
     // console.log(action);
@@ -358,7 +367,7 @@ const onPreviousPage = () => {
                       <ButtonForFunction
                         type={"submit"}
                         className={"mr-0 mt-3 badge-primary"}
-                        name={"Save"}
+                        name={progress? <ButtonLoader/> :"Save"}
                         permission={6}
                         disable={buttonStatus}
                       />
@@ -418,7 +427,7 @@ const onPreviousPage = () => {
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDeliveryPattern(delPatternId)}>YES</Button>
+                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDeliveryPattern(delPatternId)}>{progress1? <ButtonLoader/> :"YES"}</Button>
                         <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 

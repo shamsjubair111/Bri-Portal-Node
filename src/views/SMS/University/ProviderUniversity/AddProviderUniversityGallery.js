@@ -64,7 +64,7 @@ const AddProviderUniversityGallery = () => {
 
   const handleUpload = (event) => {
     event.preventDefault();
-    setProgress(true);
+    
     const subdata = new FormData(event.target);
 
     for (let i = 0; i < galleryResult.length; i++) {
@@ -84,6 +84,7 @@ const AddProviderUniversityGallery = () => {
     } else {
       setLoading(true);
       setButtonStatus(true);
+      setProgress(true);
       Axios.post(`${rootUrl}UniversityGallery/Create`, subdata, config).then(
         (res) => {
           setProgress(false);

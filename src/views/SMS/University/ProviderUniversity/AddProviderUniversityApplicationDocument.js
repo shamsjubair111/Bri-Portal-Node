@@ -177,7 +177,7 @@ const AddProviderUniversityApplicationDocument = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setProgress(true);
+    
     const subData = new FormData(e.target);
 
     for (var i of subData) {
@@ -195,6 +195,7 @@ const AddProviderUniversityApplicationDocument = () => {
     } else {
       if (selectedId === 0) {
         setButtonStatus(true);
+        setProgress(true);
         post("UniversityApplicationDocument/Create", subData).then((res) => {
           console.log("document data", res);
           setProgress(false);
@@ -219,6 +220,7 @@ const AddProviderUniversityApplicationDocument = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put(`UniversityApplicationDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
           setButtonStatus(false);
@@ -691,13 +693,13 @@ const AddProviderUniversityApplicationDocument = () => {
 
                           <td>
                             <ButtonGroup>
-                              <ButtonForFunction
+                              {/* <ButtonForFunction
                                 func={() => handleUpdate(application?.id)}
                                 className={"mx-1 btn-sm"}
                                 color={"warning"}
                                 icon={<i className="fas fa-edit"></i>}
                                 permission={6}
-                              />
+                              /> */}
 
                               <ButtonForFunction
                                 className={"mx-1 btn-sm"}

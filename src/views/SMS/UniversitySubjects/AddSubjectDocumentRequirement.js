@@ -34,6 +34,7 @@ import ButtonForFunction from "../Components/ButtonForFunction";
 import get from "../../../helpers/get";
 import remove from "../../../helpers/remove";
 import { Link } from "react-router-dom";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddSubjectDocumentRequirement = () => {
   const [activetab, setActivetab] = useState("5");
@@ -55,6 +56,8 @@ const AddSubjectDocumentRequirement = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const { id } = useParams();
   const location = useLocation();
@@ -165,6 +168,7 @@ const AddSubjectDocumentRequirement = () => {
     } else {
       if (update != 0) {
         setButtonStatus(true);
+        setProgress(true);
         Axios.put(`${rootUrl}SubjectDocumentRequirement/Update`, subdata, {
           headers: {
             "Content-Type": "application/json",
@@ -172,6 +176,7 @@ const AddSubjectDocumentRequirement = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -202,6 +207,7 @@ const AddSubjectDocumentRequirement = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         Axios.post(`${rootUrl}SubjectDocumentRequirement/Create`, subdata, {
           headers: {
             "Content-Type": "application/json",
@@ -209,6 +215,7 @@ const AddSubjectDocumentRequirement = () => {
           },
         }).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -269,8 +276,10 @@ const closeDeleteModal = () => {
 
 const handleDeleteDocuRequired = (id) => {
   setButtonStatus1(true);
+  setProgress1(true);
   const returnValue = remove(`SubjectDocumentRequirement/Delete/${id}`).then((action)=> {
-    setButtonStatus(false);
+    setButtonStatus1(false);
+    setProgress1(false);
     setDeleteModal(false);
     setSuccess(!success);
     // console.log(action);
@@ -458,7 +467,7 @@ const onPreviousPage = () => {
                       <ButtonForFunction
                         type={"submit"}
                         className={"mt-3 badge-primary"}
-                        name={"Save"}
+                        name={progress? <ButtonLoader/> :"Save"}
                         permission={6}
                         disable={buttonStatus}
                       />
@@ -528,7 +537,7 @@ const onPreviousPage = () => {
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDocuRequired(delRequiredDocuId)}>YES</Button>
+                        <Button disabled={buttonStatus1} color="danger" onClick={() => handleDeleteDocuRequired(delRequiredDocuId)}>{progress1? <ButtonLoader/> :"YES"}</Button>
                         <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 

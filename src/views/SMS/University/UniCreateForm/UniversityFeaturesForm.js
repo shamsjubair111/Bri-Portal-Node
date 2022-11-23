@@ -33,6 +33,7 @@ import { useToasts } from "react-toast-notifications";
 import get from "../../../../helpers/get";
 import put from "../../../../helpers/put";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const UniversityFeaturesForm = () => {
 
@@ -50,6 +51,7 @@ const UniversityFeaturesForm = () => {
   const [featureId, setFeatureId] = useState(undefined);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const myForm = createRef();
   const location = useLocation();
@@ -76,6 +78,7 @@ const UniversityFeaturesForm = () => {
     }
 
       setButtonStatus(true);
+      setProgress(false);
       Axios.post(`${rootUrl}UniversityFeatures/Create`, subdata, {
         headers: {
           "authorization": AuthStr,
@@ -83,7 +86,7 @@ const UniversityFeaturesForm = () => {
       }).then((res) => {
         const uniID = res.data.result.universityId;
         setButtonStatus(false);
-
+        setProgress(false);
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(true);
           history.push({
@@ -408,7 +411,7 @@ const UniversityFeaturesForm = () => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"mr-1 mt-3 badge-primary"}
-                      name={"Save & Next"}
+                      name={progress? <ButtonLoader/> :"Save & Next"}
                       disable={buttonStatus}
                       permission={6}
                     />

@@ -50,6 +50,7 @@ import { StoreUniversityListData } from '../../../../redux/actions/SMS/Universit
 import ButtonForFunction from '../../Components/ButtonForFunction';
 import LinkButton from '../../Components/LinkButton';
 import { userTypes } from '../../../../constants/userTypeConstant';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 
 const UniversitySubjectList = (props) => {
@@ -66,6 +67,7 @@ const UniversitySubjectList = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [dataPerPage, setDataPerPage] = useState(15);
     const [callApi, setCallApi] = useState(false);
+    const [progress, setProgress] = useState(false);
     
     const univerSList = props.univerSityDropDownList[0];
     const camppus = props.campusDropDownList[0];
@@ -304,8 +306,10 @@ const UniversitySubjectList = (props) => {
 
     const handleDelete = (id) => {
       setButtonStatus(true);
+      setProgress(true);
       const returnValue = remove(`Subject/Delete/${id}`).then((action)=> {
         setButtonStatus(false);
+        setProgress(false);
         // console.log(action);
         setSuccess(!success);
         setDeleteModal(false);
@@ -883,7 +887,7 @@ const UniversitySubjectList = (props) => {
                                 color="danger"
                                 onClick={() => handleDelete(subId)}
                               >
-                                YES
+                                {progress? <ButtonLoader/> :"YES"}
                               </Button>
                               <Button
                                 

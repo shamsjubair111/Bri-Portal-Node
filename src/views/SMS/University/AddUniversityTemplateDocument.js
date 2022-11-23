@@ -47,6 +47,7 @@ import remove from "../../../helpers/remove";
 import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import { Link } from "react-router-dom";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddUniversityTemplateDocument = () => {
   const { addToast } = useToasts();
@@ -55,6 +56,8 @@ const AddUniversityTemplateDocument = () => {
   const [activetab, setActivetab] = useState("8");
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -220,10 +223,12 @@ const AddUniversityTemplateDocument = () => {
    
     else {
       if (selectedId === 0) {
+        setProgress(true);
         setButtonStatus(true);
         post("UniversityTemplateDocument/Create", subData).then((res) => {
           console.log("document data", res);
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -245,9 +250,11 @@ const AddUniversityTemplateDocument = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put(`UniversityTemplateDocument/Update`, subData).then((res) => {
           // setuniversityId(res.data.result.universityId)
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             // setSubmitData(false);
             addToast(res?.data?.message, {
@@ -293,18 +300,45 @@ const AddUniversityTemplateDocument = () => {
 
   const handleDeletePermission = (id) => {
     setButtonStatus(true);
+    setProgress1(true);
     const returnValue = remove(
       `UniversityTemplateDocument/Delete/${id}`
     ).then((action) => {
-      setButtonStatus(false);
-      setDeleteModal(false);
-      setSuccess(!success);
-      addToast(action, {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setTemplateId(0);
-      setTemplateName('');
+      if (action?.status == 200 && action?.data?.isSuccess == true) {
+        addToast(action, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        // history.push('/addUniversityRequiredDocument');
+        setButtonStatus(false);
+        setProgress1(false);
+        setDeleteModal(false);
+        setSuccess(!success);
+        setTemplateId(0);
+        setTemplateName('');
+      }
+      else{
+        addToast(action, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        setProgress1(false);
+        setButtonStatus(false);
+        setDeleteModal(false);
+        setTemplateId(0);
+        setSuccess(!success);
+        setTemplateName('');
+      }
+      // setButtonStatus(false);
+      // setProgress1(false);
+      // setDeleteModal(false);
+      // setSuccess(!success);
+      // addToast(action, {
+      //   appearance: "error",
+      //   autoDismiss: true,
+      // });
+      // setTemplateId(0);
+      // setTemplateName('');
     });
   };
 
@@ -596,12 +630,12 @@ const AddUniversityTemplateDocument = () => {
 
                             <Col md="5">
                              {
-                                permissions?.includes(permissionList?.Add_University_Template_Document || permissionList?.Update_University_Template_Document) ?
+                                permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info) ?
                                <ButtonForFunction
                                color={"primary"}
                                type={"submit"}
                                className={"ml-lg-3 ml-sm-1 mt-3"}
-                               name={"Save"}
+                               name={progress? <ButtonLoader/> : "Save"}
                                disable={buttonStatus}
                                
                               />
@@ -632,14 +666,18 @@ const AddUniversityTemplateDocument = () => {
                             style={{ display: "flex", justifyContent: "end" }}
                           >
                             <Col md="5">
+                            {
+                                permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info) ?
                               <ButtonForFunction
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save"}
+                                name={progress? <ButtonLoader/> : "Save"}
                                 disable={buttonStatus}
                                 permission={6}
                               />
+                              :
+                              null}
 
                             <div>
                               {selectedId !== 0 ||
@@ -729,7 +767,8 @@ const AddUniversityTemplateDocument = () => {
                               permission={6}
                             />
 
-
+                             {
+                                permissions?.includes(permissionList?.Delete_University_Template_Document) ?
                             <ButtonForFunction
                               func={() => toggleDanger(temp)}
                               className={"mx-1 btn-sm"}
@@ -737,6 +776,9 @@ const AddUniversityTemplateDocument = () => {
                               icon={<i className="fas fa-trash-alt"></i>}
                               permission={6}
                             />
+                            :
+                            null
+                             }
                           </ButtonGroup>
 
                             <Modal
@@ -766,7 +808,7 @@ const AddUniversityTemplateDocument = () => {
                                   }
                                   disabled={buttonStatus}
                                 >
-                                  YES
+                                  {progress1? <ButtonLoader/> :"YES"}
                                 </Button>
                                 <Button onClick={() => {
                                   setDeleteModal(false);

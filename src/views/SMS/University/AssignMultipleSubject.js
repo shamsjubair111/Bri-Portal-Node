@@ -31,6 +31,7 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 import remove from "../../../helpers/remove";
 import post from "../../../helpers/post";
 import put from "../../../helpers/put";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AssignMultipleSubject = () => {
   const [multipleSubAssign, setMultipleSubAssign] = useState([]);
@@ -47,6 +48,9 @@ const AssignMultipleSubject = () => {
   const [disable, setDisable] = useState(true);
   const [checkboxData, setCheckboxData] = useState([]);
   const [sub, setSub] = useState(0);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
 
   // console.log("datas", checkboxData)
 
@@ -100,7 +104,9 @@ const AssignMultipleSubject = () => {
     // }
 
     // if(sub?.subjectId === subId){
+      setProgress2(true);
       post("UniversityCampusSubject/Create", subData).then((res) => {
+        setProgress2(false);
         if (res?.data?.isSuccess == true && res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -138,9 +144,10 @@ const AssignMultipleSubject = () => {
   };
 
   const handleDeletePermission = (campusSubjectId) => {
+    setProgress1(true);
     const returnValue = remove(`UniversityCampusSubject/Delete/${campusSubjectId}`).then(
       (action) => {
-        
+        setProgress1(false);
         // setHomeAccept(homeAccept === true ? !homeAccept : homeAccept);
         // setUkAccept(ukAccept === true ? !ukAccept : ukAccept);
         // setIntAccept(intAccept === true ? !intAccept : intAccept);
@@ -173,8 +180,10 @@ const AssignMultipleSubject = () => {
   // console.log("successBefore post", success);
 
   const handleAssignAll = () =>{
+    setProgress(true);
     put(`UniversityCampusSubject/AssignAllSubject/${id}`)
     .then(res => {
+      setProgress(false);
       if (res.status === 200 && res.data.isSuccess === true) {
         addToast(res.data.message, {
           appearance: 'success',
@@ -293,7 +302,7 @@ console.log("data", checkboxData)
               Assign all subjects on this campus with all application types. [Is not recommended]
             </span>
               <Button onClick={()=>setOpenModal(true)} color="primary">
-                  Assign All
+              Assign All
               </Button>
             </div>
           </div>
@@ -314,7 +323,7 @@ console.log("data", checkboxData)
                           onClick={handleAssignAll}
                           color="danger"
                         >
-                          YES
+                          {progress? <ButtonLoader/> :"YES"}
                         </Button>
                         <Button color="primary" onClick={() => setOpenModal(false)}>
                           NO
@@ -455,7 +464,7 @@ console.log("data", checkboxData)
                       ) : (
                           
                           <Button id={sub?.subjectId} onClick={(e)=>handleAssignSubjects(e, sub)} color="primary">
-                          Add
+                          {progress2? <ButtonLoader/> :"Add"}
                         </Button> 
                       )}
                     </FormGroup>
@@ -485,7 +494,7 @@ console.log("data", checkboxData)
                           }
                           color="danger"
                         >
-                          YES
+                          {progress1? <ButtonLoader/> :"YES"}
                         </Button>
                         <Button onClick={() => setDeleteModal(false)}>
                           NO

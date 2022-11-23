@@ -28,6 +28,7 @@ import {
   import CustomButtonRipple from '../Components/CustomButtonRipple';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const AddNewIntakes = () => {
     const [month, setMonth] = useState([]);
@@ -46,6 +47,7 @@ const AddNewIntakes = () => {
 
     
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
     const permissions = JSON.parse(localStorage.getItem('permissions')); 
 
@@ -102,7 +104,9 @@ const AddNewIntakes = () => {
 
         else{
           setButtonStatus(true);
+          setProgress(true);
           post(`Intake/Create`, subData).then(action => {
+            setProgress(false);
             setButtonStatus(false);
             addToast(action?.data?.message, {
                 appearance: 'success',
@@ -190,7 +194,7 @@ const AddNewIntakes = () => {
                            <CustomButtonRipple
                            type={"submit"}
                            className={"mr-1 mt-3 badge-primary mx-auto"}
-                           name={"Submit"}
+                           name={progress? <ButtonLoader/> :"Submit"}
                            isDisabled={buttonStatus}
                          />
                         

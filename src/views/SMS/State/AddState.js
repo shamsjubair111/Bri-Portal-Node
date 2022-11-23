@@ -32,6 +32,7 @@ import put from "../../../helpers/put";
 import ButtonForFunction from "../Components/ButtonForFunction";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import Loader from "../Search/Loader/Loader";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const AddState = () => {
   const [stateList, setStateList] = useState([]);
@@ -55,6 +56,8 @@ const AddState = () => {
 
   const { addToast } = useToasts();
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
@@ -101,8 +104,10 @@ const AddState = () => {
     }
     else{
       setButtonStatus(true);
+      setProgress1(true);
         const returnValue = post(`State/Create`, subdata).then((action) => {
           setButtonStatus(false);
+          setProgress1(false);
             setSuccess(!success);
             setModalOpen(false);
             addToast(action?.data?.message, {
@@ -149,8 +154,10 @@ const AddState = () => {
   // confirm delete
   const handleDeleteUniState = (id) => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`State/Delete/${id}`).then((action) => {
       setButtonStatus(false);
+      setProgress(false);
       setDeleteModal(false);
       setSuccess(!success);
       addToast(action, {
@@ -184,8 +191,10 @@ const AddState = () => {
       code: codeValue,
     };
      setButtonStatus(true);
+     setProgress1(true);
     const returnvalue = put(`State/Update`, subData).then((action) => {
       setButtonStatus(false);
+      setProgress1(false);
       setSuccess(!success);
       setModalOpen(false);
       addToast(action?.data?.message, {
@@ -360,7 +369,7 @@ const AddState = () => {
                         onClick={handleUpdateSubmit}
                         disabled={buttonStatus}
                       >
-                        Submit
+                        {progress1? <ButtonLoader/> : "Submit"}
                       </Button>
                     ) : (
                       <Button
@@ -370,7 +379,7 @@ const AddState = () => {
                         onClick={(e) => handleSubmit(e)}
                         disabled={buttonStatus}
                       >
-                        Submit
+                        {progress1? <ButtonLoader/> : "Submit"}
                       </Button>
                     )}
                   </FormGroup>
@@ -447,7 +456,7 @@ const AddState = () => {
                               }
                               disabled={buttonStatus}
                           >
-                            YES
+                           {progress? <ButtonLoader/> : "YES"}
                           </Button>
                           <Button onClick={closeDeleteModal}>NO</Button>
                           

@@ -35,6 +35,7 @@ import { rootUrl } from "../../../constants/constants";
 import put from "../../../helpers/put";
 import remove from "../../../helpers/remove";
 import ButtonForFunction from "../Components/ButtonForFunction";
+import ButtonLoader from "../Components/ButtonLoader";
 const AddUniversityCampus = (props) => {
   const [universityCampusList, setuniversityCampusList] = useState([]);
   const [universityCampusObject, setuniversityCampusObject] = useState({});
@@ -79,6 +80,8 @@ const AddUniversityCampus = (props) => {
   const [UniversityCampusId, setUniversityCampusId] = useState(0);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   console.log("univerId", univerId);
 
@@ -190,6 +193,7 @@ const AddUniversityCampus = (props) => {
     else{
       if (selectedId === 0) {
         setButtonStatus(true);
+        setProgress(true);
         Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
           headers: {
             'Content-Type': 'application/json',
@@ -198,6 +202,7 @@ const AddUniversityCampus = (props) => {
         }).then((res) => {
           console.log(res);
           setButtonStatus(false);
+          setProgress(false);
           setuniversityId(res.data.result.universityId);
           if (res.status === 200 && res.data.isSuccess === true) {
             setSubmitData(false);
@@ -214,9 +219,11 @@ const AddUniversityCampus = (props) => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         put(`UniversityCampus/Update`, subdata).then((res) => {
           // setuniversityId(res.data.result.universityId)
           setButtonStatus(false);
+          setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {
             setSubmitData(false);
             addToast(res?.data?.message, {
@@ -298,9 +305,11 @@ const AddUniversityCampus = (props) => {
 
   const handleDeletePermission = (id) => {
     setButtonStatus(true);
+    setProgress1(true);
     const returnValue = remove(`UniversityCampus/Delete/${id}`).then(
       (action) => {
         setButtonStatus(false);
+        setProgress1(false);
         setDeleteModal(false);
         setSuccess(!success);
         addToast(action, {
@@ -784,7 +793,7 @@ const AddUniversityCampus = (props) => {
                               color={"primary"}
                               type={"submit"}
                               className={"ml-lg-3 ml-sm-1 mt-3"}
-                              name={"Save"}
+                              name={progress? <ButtonLoader/> : "Save"}
                               disable={buttonStatus}
                               permission={6}
                             />
@@ -815,7 +824,7 @@ const AddUniversityCampus = (props) => {
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save"}
+                                name={progress? <ButtonLoader/> : "Save"}
                                 disable={buttonStatus}
                                 permission={6}
                               />
@@ -957,7 +966,7 @@ const AddUniversityCampus = (props) => {
                           color="danger"
                           disabled={buttonStatus}
                         >
-                          YES
+                          {progress1? <ButtonLoader/> : "YES"}
                         </Button>
                         <Button onClick={() => {
                           setDeleteModal(false);

@@ -37,6 +37,7 @@ import { permissionList } from "../../../constants/AuthorizationConstant";
 import Loader from "../Search/Loader/Loader";
 import CustomButtonRipple from "../Components/CustomButtonRipple";
 import post from "../../../helpers/post";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const Intake = () => {
   const [intakeList, setIntakeList] = useState([]);
@@ -74,6 +75,8 @@ const Intake = () => {
   const [checkAction, setCheckAction] = useState(true);
 
   const [buttonStatus, setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -190,9 +193,10 @@ const Intake = () => {
 
   const handleDelete = (id) => {
     setButtonStatus(true);
+    setProgress(true);
     const returnValue = remove(`Intake/Delete/${id}`).then((action) => {
       setButtonStatus(false);
-      console.log(action, "kdkfjdfhdhdjhfd");
+      setProgress(false);
       setSuccess(!success);
       setDeleteModal(false);
       addToast(action, {
@@ -247,7 +251,9 @@ const Intake = () => {
     } else if (eyValue == 0) {
       seteyError("Year is required");
     } else {
+      setProgress1(true);
       post(`Intake/Generate`, subData).then((res) => {
+        setProgress1(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -385,7 +391,7 @@ const Intake = () => {
                         type={"submit"}
                         className={"mt-md-3 ml-1"}
                         color={"primary"}
-                        name={"Submit"}
+                        name={progress1? <ButtonLoader/> :"Submit"}
                         permission={6}
                       />
                     </div>
@@ -639,7 +645,7 @@ const Intake = () => {
                             color="danger"
                             onClick={() => handleDelete(intakeId)}
                           >
-                            YES
+                           { progress? <ButtonLoader/> :"YES"}
                           </Button>
                           <Button onClick={closeDeleteModal}>NO</Button>
                         </ModalFooter>

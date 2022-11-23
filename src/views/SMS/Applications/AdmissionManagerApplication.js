@@ -46,6 +46,7 @@ import ProviderAdminFilter from "./ProviderAdminFilter.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
 import Loader from "../Search/Loader/Loader.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
+import ButtonLoader from "../Components/ButtonLoader.js";
 
 const AdmissionManagerApplication = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -110,6 +111,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
   const [uId, setUniId] = useState(undefined);
 
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(false);
 
   // for hide/unhide column
   const [checkId, setCheckId] = useState(true);
@@ -497,7 +499,9 @@ const AdmissionManagerApplication = ({ currentUser }) => {
   };
 
   const handleDeleteData = () => {
+    setProgress(true);
     remove(`Application/Delete/${delData?.id}`).then((res) => {
+      setProgress(false);
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -1416,7 +1420,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData}>
-                                YES
+                              {progress? <ButtonLoader/> :"YES"}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

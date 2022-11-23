@@ -89,7 +89,7 @@ const ProviderForm = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setProgress(true);
+        
    
         const subData = new FormData(event.target);
         subData.append('providerLogo',providerLogo[0]?.originFileObj);
@@ -115,6 +115,7 @@ const ProviderForm = (props) => {
         else{
         //  post form data and notify the response to user
         setButtonStatus(true);
+        setProgress(true);
         post(`Provider/Create`,subData,config).then((action)=> {
           setButtonStatus(false);
           setProgress(false);

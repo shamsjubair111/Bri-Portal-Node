@@ -160,7 +160,7 @@ const AddProviderUniversityCommission = () => {
 
   const submitFormData = (event) => {
     event.preventDefault();
-    setProgress(true);
+    
     const subData = new FormData(event.target);
     if (commissionValueHome == 0) {
       setHomeError("Select commission type for home students");
@@ -171,6 +171,7 @@ const AddProviderUniversityCommission = () => {
     } else {
       if (data?.id) {
         setButtonStatus(true);
+        setProgress(true);
         put(`UniversityComission/Update`, subData).then((res) => {
           setButtonStatus(false);
           setProgress(false);
@@ -197,6 +198,7 @@ const AddProviderUniversityCommission = () => {
         });
       } else {
         setButtonStatus(true);
+        setProgress(true);
         post(`UniversityComission/Create`, subData).then((res) => {
           setButtonStatus(false);
           setProgress(false);

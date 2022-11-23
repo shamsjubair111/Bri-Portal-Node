@@ -33,6 +33,7 @@ import { useToasts } from "react-toast-notifications";
 import get from "../../../../helpers/get";
 import { rootUrl } from "../../../../constants/constants";
 import ButtonForFunction from "../../Components/ButtonForFunction";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const UniversityCampusForm = () => {
 
@@ -78,6 +79,7 @@ const UniversityCampusForm = () => {
   const [UniversityCampusId, setUniversityCampusId] = useState(0);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   console.log("univerId", univerId);
 
@@ -158,6 +160,7 @@ const UniversityCampusForm = () => {
     else{
       
         setButtonStatus(true);
+        setProgress(true);
         Axios.post(`${rootUrl}UniversityCampus/Create`, subdata, {
           headers: {
             'Content-Type': 'application/json',
@@ -166,6 +169,7 @@ const UniversityCampusForm = () => {
         }).then((res) => {
           console.log(res);
           setButtonStatus(false);
+          setProgress(false);
           setuniversityId(res.data.result.universityId);
           if (res.status === 200 && res.data.isSuccess === true) {
             setSubmitData(false);
@@ -543,7 +547,7 @@ const UniversityCampusForm = () => {
                                 color={"primary"}
                                 type={"submit"}
                                 className={"ml-lg-3 ml-sm-1 mt-3"}
-                                name={"Save & Next"}
+                                name={progress? <ButtonLoader/> :"Save & Next"}
                                 disable={buttonStatus}
                                 permission={6}
                               />

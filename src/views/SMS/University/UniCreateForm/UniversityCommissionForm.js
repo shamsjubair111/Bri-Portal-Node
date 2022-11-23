@@ -32,6 +32,7 @@ import get from '../../../../helpers/get';
 import { useToasts } from 'react-toast-notifications';
 import post from '../../../../helpers/post';
 import put from '../../../../helpers/put';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const UniversityCommissionForm = () => {
 
@@ -56,6 +57,7 @@ const UniversityCommissionForm = () => {
     const [val,setVal] = useState({});
 
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     useEffect(()=>{
         get(`StudentComissionTypeDD/Index`)
@@ -121,10 +123,11 @@ const UniversityCommissionForm = () => {
     }
 
     else{
-       
+        setProgress(true);
         setButtonStatus(true);
         post(`UniversityComission/Create`, subData).then((res) => {
           setButtonStatus(false);
+          setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -388,7 +391,7 @@ const UniversityCommissionForm = () => {
                         color={"primary"}
                         type={"submit"}
                         className={"ml-lg-3 ml-sm-1 mt-3"}
-                        name={"Save & Finish"}
+                        name={progress? <ButtonLoader/> :"Save & Finish"}
                         disable={buttonStatus}
                         permission={6}
                       />

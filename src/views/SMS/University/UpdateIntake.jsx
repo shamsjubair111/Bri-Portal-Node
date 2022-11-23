@@ -29,6 +29,7 @@ import put from '../../../helpers/put';
 import CustomButtonRipple from '../Components/CustomButtonRipple';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const UpdateIntake = () => {
 
@@ -41,6 +42,7 @@ const UpdateIntake = () => {
     const [year, setYear] = useState([]);
 
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     const history = useHistory();
 
@@ -105,8 +107,10 @@ const UpdateIntake = () => {
         
         // }
         setButtonStatus(true);
+        setProgress(true);
         put(`Intake/Update`, subData).then(action => {
           setButtonStatus(true);
+          setProgress(false);
           // console.log(action);
           addToast(action?.data?.message, {
             appearance: 'success',
@@ -191,7 +195,7 @@ const UpdateIntake = () => {
                           <CustomButtonRipple
                           type={"submit"}
                           className={"mr-1 mt-3 badge-primary mx-auto"}
-                          name={"Update"}
+                          name={progress? <ButtonLoader/> :"Update"}
                           isDisabled={buttonStatus}
                         />
                        

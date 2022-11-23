@@ -12,6 +12,7 @@ import { Upload, Modal as AntdModal } from "antd";
 import * as Icon from "react-feather";
 import { Image } from "antd";
 import { permissionList } from '../../../constants/AuthorizationConstant';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const Nationality = () => {
 
@@ -26,6 +27,9 @@ const Nationality = () => {
     const [delData, setDelData] = useState({});
     const [loading,setLoading] = useState(true);
     const [buttonStatus,setButtonStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
+    const [progress1, setProgress1] = useState(false);
+    const [progress2, setProgress2] = useState(false);
     const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     // file upload
@@ -108,9 +112,11 @@ const Nationality = () => {
 
   const deleteConfirm = () => {
     setButtonStatus(true);
+    setProgress(true);
     remove(`Nationality/Delete/${delData?.id}`)
     .then(res => {
       setButtonStatus(false);
+      setProgress(false);
         addToast(res,{
             appearance: 'error',
             autoDismiss: true
@@ -142,9 +148,11 @@ const Nationality = () => {
 
         if(data?.id){
           setButtonStatus(true);
+          setProgress1(true);
             put('Nationality/Update',subdata)
             .then(res => {
               setButtonStatus(false);
+              setProgress1(false);
                if(res?.status ==200){
                 console.log(res?.data?.message);
                 addToast(res?.data?.message,{
@@ -160,9 +168,11 @@ const Nationality = () => {
         }
         else{
           setButtonStatus(true);
+          setProgress1(true);
             post('Nationality/Create',subdata)
         .then(res => {
           setButtonStatus(false);
+          setProgress1(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 console.log(res?.data?.message);
             addToast(res?.data?.message,{
@@ -209,8 +219,10 @@ const Nationality = () => {
       }
       else {
         setButtonStatus(true);
+        setProgress2(true);
         post("Nationality/CreateFromExcel", subData).then((res) => {
           setButtonStatus(false);
+          setProgress2(false);
           if (res?.status == 200 && res?.data?.isSuccess) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -364,7 +376,7 @@ const Nationality = () => {
                                 className="mr-1 mt-3"
                                disabled={buttonStatus}
                               >
-                                Submit
+                                {progress2? <ButtonLoader/> : "Submit"}
                               </Button>
                               
                               
@@ -428,7 +440,7 @@ const Nationality = () => {
             className="mr-1 mt-3"
            disabled={buttonStatus}
           >
-            Submit
+            {progress1? <ButtonLoader/> : "Submit"}
           </Button>
 
       
@@ -497,7 +509,7 @@ const Nationality = () => {
                       </ModalBody>
 
                       <ModalFooter>
-                        <Button color="danger" onClick={deleteConfirm} disabled={buttonStatus} >YES</Button>
+                        <Button color="danger" onClick={deleteConfirm} disabled={buttonStatus} >{progress? <ButtonLoader/> : "YES"}</Button>
                         <Button onClick={closeDeleteModal}>NO</Button>
                       </ModalFooter>
 

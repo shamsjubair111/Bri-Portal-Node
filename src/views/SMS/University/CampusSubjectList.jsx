@@ -43,6 +43,7 @@ import LinkButton from "../Components/LinkButton";
 import put from "../../../helpers/put";
 import post from "../../../helpers/post";
 import { permissionList } from "../../../constants/AuthorizationConstant";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const CampusSubjectList = () => {
   const { camId } = useParams();
@@ -109,6 +110,8 @@ const CampusSubjectList = () => {
 
   const [buttonStatus,setButtonStatus] = useState(false);
   const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
 
   const location = useLocation();
   const history = useHistory();
@@ -222,9 +225,11 @@ const CampusSubjectList = () => {
 
   const handleDelete = (id) => {
     setButtonStatus1(true);
+    setProgress(true);
     const returnValue = remove(`UniversityCampusSubject/Delete/${id}`).then(
       (action) => {
         setButtonStatus1(false);
+        setProgress(false);
         // console.log(action);
         
         setDeleteModal(false);
@@ -351,8 +356,10 @@ const CampusSubjectList = () => {
 
     if (data?.id != undefined) {
       setButtonStatus(true);
+      setProgress1(true);
       put(`UniversityCampusSubject/Update`, subData1).then((res) => {
         setButtonStatus(false);
+        setProgress1(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -379,8 +386,10 @@ const CampusSubjectList = () => {
         setSubError(true);
       } else {
         setButtonStatus(true);
+        setProgress1(true);
         post(`UniversityCampusSubject/Create`, subData).then((res) => {
           setButtonStatus(false);
+          setProgress1(false);
           console.log(res);
           if (res?.data?.isSuccess == true && res?.status == 200) {
             addToast(res?.data?.message, {
@@ -995,7 +1004,7 @@ const CampusSubjectList = () => {
                                 color="danger"
                                 onClick={() => handleDelete(subId)}
                               >
-                                YES
+                                {progress? <ButtonLoader/> :"YES"}
                               </Button>
                               <Button onClick={closeDeleteModal}>NO</Button>
                             </ModalFooter>
@@ -1222,7 +1231,7 @@ const CampusSubjectList = () => {
                   </Button>
 
                   <Button.Ripple disabled={buttonStatus} type="submit" color="primary" className="mt-3">
-                    Submit
+                  {progress1? <ButtonLoader/> :"Submit"}
                   </Button.Ripple>
                 </FormGroup>
               </Form>

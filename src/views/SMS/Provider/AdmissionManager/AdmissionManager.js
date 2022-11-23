@@ -170,7 +170,7 @@ const goBack = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setProgress(true);
+        
         const subData = new FormData(e.target);
         subData.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
@@ -193,7 +193,7 @@ const goBack = () => {
 
        
         else{
-
+          setProgress(true);
           setButtonStatus(true);
           post(`AdmissionManager/Create`,subData)
           .then(res => {

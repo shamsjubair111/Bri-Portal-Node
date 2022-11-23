@@ -131,7 +131,7 @@ console.log('hello', FileList);
 
 const handleSubmit  = (event) => {
   event.preventDefault();
-  setProgress(true);
+  
    const subData = new FormData(event.target);
 
    subData.append('providerAdmin',FileList[0]?.originFileObj);
@@ -151,6 +151,7 @@ const handleSubmit  = (event) => {
   }
   else{
     setButtonStatus(true);
+    setProgress(true);
     post(`ProviderAdmin/Create`,subData)
     .then(res =>{
       setProgress(false);

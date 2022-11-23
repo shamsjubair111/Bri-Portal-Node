@@ -31,6 +31,7 @@ import { useHistory, useParams } from "react-router";
 import { useToasts } from "react-toast-notifications";
 import ButtonForFunction from "../../Components/ButtonForFunction";
 import get from "../../../../helpers/get";
+import ButtonLoader from "../../Components/ButtonLoader";
 
 
 const AddUniversitySubjectRequirements = () => {
@@ -43,6 +44,7 @@ const AddUniversitySubjectRequirements = () => {
   const [requiredId, setRequiredId] = useState(0);
 
   const [buttonStatus,setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const { id, subjId } = useParams();
 
@@ -123,6 +125,7 @@ const AddUniversitySubjectRequirements = () => {
     else{
         if(requiredId != undefined){
           setButtonStatus(true);
+          setProgress(true);
           Axios.put(`${rootUrl}SubjectRequirement/Update`, subdata, {
             headers: {
               "Content-Type": "application/json",
@@ -130,6 +133,7 @@ const AddUniversitySubjectRequirements = () => {
             },
           }).then((res) => {
             setButtonStatus(false);
+            setProgress(false);
             if (res.status === 200 && res.data.isSuccess === true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -143,6 +147,7 @@ const AddUniversitySubjectRequirements = () => {
         }
         else{
           setButtonStatus(true);
+          setProgress(true);
           Axios.post(`${rootUrl}SubjectRequirement/Create`, subdata, {
             headers: {
               "Content-Type": "application/json",
@@ -150,6 +155,7 @@ const AddUniversitySubjectRequirements = () => {
             },
           }).then((res) => {
             setButtonStatus(false);
+            setProgress(false);
             if (res.status === 200 && res.data.isSuccess === true) {
               addToast(res?.data?.message, {
                 appearance: "success",
@@ -313,7 +319,7 @@ const AddUniversitySubjectRequirements = () => {
                     <ButtonForFunction
                       type={"submit"}
                       className={"ml-3 mt-3 badge-primary"}
-                      name={"Save"}
+                      name={progress? <ButtonLoader/> :"Save"}
                       permission={6}
                       disable={buttonStatus}
                     />
