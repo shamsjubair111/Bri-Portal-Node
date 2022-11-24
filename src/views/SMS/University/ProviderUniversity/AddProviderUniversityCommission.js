@@ -79,9 +79,9 @@ const AddProviderUniversityCommission = () => {
           setCommissionTitleHome(res?.homeStudentComissionType ==1 ? 'Amount' : res?.homeStudentComissionType ==2 ? 'Percentage' : 'Select Commission Type');
           setCommissionTitleinternational(res?.internationalStudentComissionType ==1 ? 'Amount' : res?.internationalStudentComissionType ==2 ?'Percentage' : 'Select Commission Type');
           setCommissionTitleEU_UK(res?.eU_UKStudentComissionType ==1 ? 'Amount' : res?.eU_UKStudentComissionType ==2 ? 'Percentage': 'Select Commission Type');
-          setCommissionValueHome(res?.homeStudentComissionValue);
-          setCommissionValueInternational(res?.internationalStudentComissionValue);
-          setCommissionValueEU_UK(res?.eU_UKStudentComissionValue);
+          setCommissionValueHome(res?.homeStudentComissionType);
+          setCommissionValueInternational(res?.internationalStudentComissionType);
+          setCommissionValueEU_UK(res?.eU_UKStudentComissionType);
         })
   }, [success, univerId]);
 
@@ -162,11 +162,11 @@ const AddProviderUniversityCommission = () => {
     event.preventDefault();
     
     const subData = new FormData(event.target);
-    if (commissionValueHome == 0) {
+    if (commissionValueHome == 0 || commissionValueHome == undefined) {
       setHomeError("Select commission type for home students");
-    } else if (commissionValueInternational == 0) {
+    } else if (commissionValueInternational == 0 ||  commissionValueInternational == undefined) {
       setIntError("Select commission type for international students");
-    } else if (commissionValueEU_UK == 0) {
+    } else if (commissionValueEU_UK == 0 || commissionValueEU_UK == undefined) {
       setEUUKError("Select commission type for eu_uk students");
     } else {
       if (data?.id) {
