@@ -355,7 +355,7 @@ const Conscent = () => {
                  
                        <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
                        <br/>
-                       <span>Conscent Signed on FromIp: <span className="fw-style"> {conscentData?.deviceIp}</span></span>
+                       <span>Conscent Signed on From Ip: <span className="fw-style"> {conscentData?.deviceIp}</span></span>
                 
                </div>
                :
@@ -383,7 +383,7 @@ const Conscent = () => {
                  
                   <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
                     <br/>
-                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.deviceIp}</span></span>
+                  <span>Conscent Signed From Ip:<span className="fw-style"> {conscentData?.deviceIp}</span></span>
            
                 </div>
                  

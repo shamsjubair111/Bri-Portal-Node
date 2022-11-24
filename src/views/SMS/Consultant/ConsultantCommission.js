@@ -265,13 +265,18 @@ const ConsultantCommission = () => {
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white"> Consultant Commission</h3>
+         {
+          (userTypeId == userTypes?.Consultant) ? 
+          null
+          :
           <div className="page-header-back-to-home">
-            <span className="text-white" onClick={backToConsultantList}>
-              {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Consultant
-              List
-            </span>
-          </div>
+          <span className="text-white" onClick={backToConsultantList}>
+            {" "}
+            <i className="fas fa-arrow-circle-left"></i> Back to Consultant
+            List
+          </span>
+        </div>
+         }
         </CardHeader>
       </Card>
 

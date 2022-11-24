@@ -493,7 +493,7 @@ update?
                  
                   <span>Conscent Signed on: <span className="fw-style">{formatDate(conscentData?.consentSignTime)}</span></span>
                     <br/>
-                  <span>Conscent Signed FromIp:<span className="fw-style"> {conscentData?.consentFromIp}</span></span>
+                  <span>Conscent Signed From Ip:<span className="fw-style"> {conscentData?.consentFromIp}</span></span>
            
                 </div>
                  
