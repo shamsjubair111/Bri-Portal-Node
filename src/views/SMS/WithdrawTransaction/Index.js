@@ -86,6 +86,8 @@ const Index = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [delData, setDelData] = useState({});
   const [buttonStatus, setButtonStatus] = useState(false);
+  const userType = localStorage.getItem('userType');
+ 
 
   // for hide/unhide column
   const [checkSlNo, setCheckSlNo] = useState(true);
@@ -114,6 +116,13 @@ const Index = () => {
     get(`TransactionTypeDD/Index`).then((res) => {
       setTransaction(res);
     });
+
+    if(userType == userTypes?.Consultant){
+      get(`Balance/ConsultantBalance/${localStorage.getItem('referenceId')}`).then((res) => {
+        setAmount(res);
+      });
+    }
+
   }, [value1, success, transactionCode]);
 
   const closeModal = () => {
@@ -262,47 +271,82 @@ const Index = () => {
   };
 
   const submitWithdrawRequest = (event) => {
-    setProgress(true);
+   
     event.preventDefault();
 
     const subData = {
-      consultantId: value2,
+      consultantId: (userType == userTypes?.Consultant) ? localStorage.getItem('referenceId') : value2,
       amount: amountInput,
       transactionNote: note,
       paymentTypeId: tValue,
       reference: reference,
     };
 
-    if (value2 == 0) {
-      setCError("Consultant is required");
-    } else if (tValue == 0) {
-      setTError("Transaction type is required");
-    } else {
-      setButtonStatus(true);
-      post(`WithdrawTransaction/Create`, subData).then((res) => {
-        setProgress(false);
-        setButtonStatus(false);
-        if (res?.status == 200 && res?.data?.isSuccess == true) {
-          addToast(res?.data?.message, {
-            appearance: "success",
-            autoDismiss: true,
-          });
-          setModal2Open(false);
-          setLabel2("Select Consultant");
-          setValue2(0);
-          setTLabel("Select Transaction Type");
-          setTValue(0);
-          setAmount(0);
-          setAmountInput(0);
-          setSuccess(!success);
-          setModal2Open(false);
-        } else {
-          addToast(res?.data?.message, {
-            appearance: "error",
-            autoDismiss: true,
-          });
-        }
-      });
+    if((!userType == userTypes?.Consultant)){
+      if (value2 == 0) {
+        setCError("Consultant is required");
+      } else if (tValue == 0) {
+        setTError("Transaction type is required");
+      } else {
+        setButtonStatus(true);
+        setProgress(true);
+        post(`WithdrawTransaction/Create`, subData).then((res) => {
+          setProgress(false);
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setModal2Open(false);
+            setLabel2("Select Consultant");
+            setValue2(0);
+            setTLabel("Select Transaction Type");
+            setTValue(0);
+            setAmount(0);
+            setAmountInput(0);
+            setSuccess(!success);
+            setModal2Open(false);
+          } else {
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+        });
+      }
+    }
+    else{
+        if (tValue == 0) {
+        setTError("Transaction type is required");
+      } else {
+        setButtonStatus(true);
+        setProgress(true);
+        post(`WithdrawTransaction/Create`, subData).then((res) => {
+          setProgress(false);
+          setButtonStatus(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setModal2Open(false);
+            setLabel2("Select Consultant");
+            setValue2(0);
+            setTLabel("Select Transaction Type");
+            setTValue(0);
+            setAmount(0);
+            setAmountInput(0);
+            setSuccess(!success);
+            setModal2Open(false);
+          } else {
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+        });
+      }
     }
   };
 
@@ -391,25 +435,36 @@ const Index = () => {
             <ModalHeader>Create Withdraw Request</ModalHeader>
             <ModalBody>
               <Form onSubmit={submitWithdrawRequest}>
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="4">
-                    <span>
-                      Select Consultant <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="8">
-                    <Select
-                      styles={customStyles}
-                      options={consultantOptions}
-                      value={{ label: label2, value: value2 }}
-                      onChange={(opt) =>
-                        selectConsultant2(opt.label, opt.value)
-                      }
-                      name="consultantId"
-                      id="consultantId"
-                    />
-                  </Col>
-                </FormGroup>
+               {
+                 (userType == userTypes?.Consultant) ?
+
+                null
+
+               :
+
+               <FormGroup row className="has-icon-left position-relative">
+               <Col md="4">
+                 <span>
+                   Select Consultant <span className="text-danger">*</span>{" "}
+                 </span>
+               </Col>
+               <Col md="8">
+                 <Select
+                   styles={customStyles}
+                   options={consultantOptions}
+                   value={{ label: label2, value: value2 }}
+                   onChange={(opt) =>
+                     selectConsultant2(opt.label, opt.value)
+                   }
+                   name="consultantId"
+                   id="consultantId"
+                 />
+               </Col>
+             </FormGroup>
+             
+
+
+               }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="4">
