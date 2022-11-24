@@ -841,7 +841,7 @@ const UniversitySubjectList = (props) => {
                             </Button>
                           </Link> */}
                             {permissions?.includes(
-                              permissionList?.Update_subject
+                              permissionList?.Update_subject_info
                             ) ? (
                               <LinkButton
                                 url={`/addUniversitySubject/${id}/${sub.id}`}

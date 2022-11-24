@@ -951,7 +951,7 @@ const ConsultantList = () => {
                       ) : null}
 
                     {
-                      permissions?.includes(permissionList.View_Student_List) ? 
+                      permissions?.includes(permissionList.View_Student_consultant_List) ? 
 
                      <>
                       {checkStd ? (
@@ -995,7 +995,7 @@ const ConsultantList = () => {
 
 
                       {
-                      permissions?.includes(permissionList.View_Student_consultant_List) ?
+                      permissions?.includes(permissionList.View_Associate_List) ?
                         
                       <>
                       {checkAsso ? (

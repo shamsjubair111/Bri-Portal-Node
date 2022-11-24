@@ -144,12 +144,13 @@ const AdmissionOfficerDetails = () => {
     // for(var x of subData.values()){
     //     console.log(x);
     // }
-    setButtonStatus1(true);
+    
   
     if (FileList1.length < 1) {
       setError1(true);
     }
     else{
+      setButtonStatus1(true);
       setProgress(true);
       put(`AdmissionOfficer/UpdateProfilePhoto`, subData).then((res) => {
         setProgress(false);
