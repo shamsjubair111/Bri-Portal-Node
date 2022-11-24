@@ -297,7 +297,8 @@ const handleSubmit = (event) => {
             </Col>
             <Col md="6">
              <Input
-                type="text"
+                type="textarea"
+                
                 name="financeApplicationDetails"
                 id="financeApplicationDetails"
                placeholder='Enter Finance Application Details'

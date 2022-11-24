@@ -458,20 +458,20 @@ const StudentPersonalForm = () => {
                   </FormGroup>
   
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
+                    {/* <Col md="2">
                       <span>
                         First Name <span className="text-danger">*</span>{" "}
                       </span>
-                    </Col>
+                    </Col> */}
                     <Col md="6">
                       <Input
-                        type="text"
+                        type="hidden"
                         name="firstName"
                         id="firstName"
                         placeholder="Enter First Name"
                         required
                         onChange={(e) => setFirstName(e.target.value)}
-                        defaultValue={FirstName}
+                        value={FirstName}
                      
                       />
   
@@ -480,20 +480,20 @@ const StudentPersonalForm = () => {
                   </FormGroup>
   
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
+                    {/* <Col md="2">
                       <span>
                         Last Name <span className="text-danger">*</span>{" "}
                       </span>
-                    </Col>
+                    </Col> */}
                     <Col md="6">
                       <Input
-                        type="text"
+                        type="hidden"
                         name="lastName"
                         id="lastName"
                         placeholder="Enter Last Name"
                         onChange={(e) => setLastName(e.target.value)}
                         required
-                        defaultValue={LastName}
+                        value={LastName}
                         
                       />
   
@@ -707,13 +707,13 @@ const StudentPersonalForm = () => {
                   </FormGroup>
   
                   <FormGroup row className="has-icon-left position-relative">
-                    <Col md="2">
+                    {/* <Col md="2">
                       <span>
                         Email <span className="text-danger">*</span>{" "}
                       </span>
-                    </Col>
+                    </Col> */}
                     <Col md="6">
-                      <Input type="email" name="email" id="email" value={Email} />
+                      <Input type="hidden" name="email" id="email" value={Email} />
   
                       
                     </Col>

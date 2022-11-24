@@ -7,6 +7,7 @@ import get from '../../../../helpers/get';
 import post from '../../../../helpers/post';
 import remove from '../../../../helpers/remove';
 import ButtonForFunction from '../../Components/ButtonForFunction';
+import ButtonLoader from '../../Components/ButtonLoader';
 
 const AdmissionManagerSubjects = () => {
 
@@ -17,6 +18,7 @@ const AdmissionManagerSubjects = () => {
     const permissions = JSON.parse(localStorage.getItem('permissions'));
     const {addToast} = useToasts();
     const [success,setSuccess] = useState(false);
+    const [progress,setProgress] = useState(false);
  
 
     useEffect(()=> {
@@ -34,11 +36,13 @@ const AdmissionManagerSubjects = () => {
 
      const assignSubject = (data) => {
 
+      setProgress(true);
         post(`AdmissionManagerSubject/Create`,{
             admissionManagerId: managerId,
             subjectId: data?.subjectId
         })
         .then(res => {
+          setProgress(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
                     appearance: 'success',
@@ -59,8 +63,10 @@ const AdmissionManagerSubjects = () => {
      }
 
      const removeSubject = (data) => {
+      setProgress(true);
         remove(`AdmissionManagerSubject/Remove/${data?.subjectId}/${managerId}`)
         .then(res => {
+          setProgress(false);
             addToast(res,{
                 appearance: 'success',
                 autoDismiss: true
@@ -119,7 +125,7 @@ const AdmissionManagerSubjects = () => {
                         {
                             permissions?.includes(permissionList.Assign_AdmissionManager_Subject) ?
                             <Button color='danger' onClick={()=> removeSubject(sub)}>
-                            Remove
+                           {progress ? <ButtonLoader/> : ' Remove'}
         
                           </Button>
                           :
@@ -132,7 +138,7 @@ const AdmissionManagerSubjects = () => {
                    {
                    permissions?.includes(permissionList.Delete_AdmissionManager_Subject) ?
                    <Button color='primary' onClick={()=> assignSubject(sub)}>
-                    Assign
+                    {progress? <ButtonLoader/> : 'Assign'}
   
                    </Button>
                    :
