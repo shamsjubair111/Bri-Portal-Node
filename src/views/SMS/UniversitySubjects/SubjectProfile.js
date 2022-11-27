@@ -8,6 +8,7 @@ import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg'
 import EditDivButton from '../Components/EditDivButton';
 import ButtonForFunction from '../Components/ButtonForFunction';
 import { userTypes } from '../../../constants/userTypeConstant';
+import { permissionList } from '../../../constants/AuthorizationConstant';
 
 const SubjectProfile = () => {
 
@@ -23,8 +24,8 @@ const SubjectProfile = () => {
     const history = useHistory();
     const {subjId} = useParams();
     const userType = localStorage.getItem('userType');
+    const permissions = JSON.parse(localStorage.getItem("permissions"));
 
-   
 
     // handle back to subject list and campus subject list from subject profile
     const backToSubjectList = () =>{
@@ -167,12 +168,18 @@ const SubjectProfile = () => {
                       (userType == userTypes?.Student) ?
                       null
                       :
-                      <Col> 
-                      <EditDivButton
+                      <Col>
+                      {
+                        permissions?.includes(permissionList?.Add_New_subject) || permissions?.includes(permissionList?.Update_subject_info) ?
+                        <EditDivButton
                         func={handleProfileEdit}
                         className={"uapp-employee-profile-Edit"}
                         permission={6}
                       />
+                      :
+                      null
+                      } 
+                      
                       </Col> 
 
                     }

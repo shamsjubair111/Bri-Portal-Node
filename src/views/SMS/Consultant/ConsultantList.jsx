@@ -1050,13 +1050,20 @@ const ConsultantList = () => {
                             {consultant?.id !== 1 ? (
 
                                <>
+                               {
+                                 permissions?.includes(permissionList.Update_Consultant_info) ?
                                    <ButtonForFunction
                                    func={() => handleEdit(consultant)}
                                    color={"warning"}
                                    className={"mx-1 btn-sm"}
                                    icon={<i className="fas fa-edit"></i>}
                                    />
+                                   :
+                                   null
+                               }
 
+                             {
+                              permissions?.includes(permissionList.Delete_Consultant) ?
                                   <ButtonForFunction
                                     color={"danger"}
                                     className={"mx-1 btn-sm"}
@@ -1064,6 +1071,8 @@ const ConsultantList = () => {
                                     icon={<i className="fas fa-trash-alt"></i>}
                                     
                                   />
+                                  :
+                                  null}
                                </>
 
                             ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>

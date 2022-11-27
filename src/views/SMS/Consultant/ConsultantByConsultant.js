@@ -693,7 +693,12 @@ const ConsultantByConsultant = () => {
                       :
                       null
                     }
-                    {checkStd ? <th>Student</th> : null}
+                    {
+                      permissions?.includes(permissionList.View_Student_consultant_List) ? 
+                      <>{checkStd ? <th>Student</th> : null}</>
+                      :
+                      null
+                    }
                     {checkAppli ? <th>Applications</th> : null}
                     {checkAsso ? <th>Associates</th> : null}
                     {checkAction ? (
@@ -747,6 +752,10 @@ const ConsultantByConsultant = () => {
                       null
                       }
 
+                    {
+                      permissions?.includes(permissionList.View_Student_consultant_List) ? 
+
+                     <>
                       {checkStd ? (
                         <td>
                           <span
@@ -762,6 +771,16 @@ const ConsultantByConsultant = () => {
                           </span>
                         </td>
                       ) : null}
+                      </>
+                     :
+                     null
+                     }
+
+
+                     {
+                      permissions?.includes(permissionList.View_Application_List) ?
+                      
+                      <>
                       {checkAppli ? (
                         <td>
                           {" "}
@@ -773,6 +792,15 @@ const ConsultantByConsultant = () => {
                           </span>{" "}
                         </td>
                       ) : null}
+                      </>
+                     :
+                     null
+                     }
+
+                    {
+                      permissions?.includes(permissionList.View_Associate_List) ?
+                        
+                      <>
                       {checkAsso ? (
                         <td>
                           {" "}
@@ -792,6 +820,11 @@ const ConsultantByConsultant = () => {
                           </span>{" "}
                         </td>
                       ) : null}
+                      </>
+                      :
+                      null
+                      }
+                      
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
