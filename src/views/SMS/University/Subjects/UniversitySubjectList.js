@@ -823,7 +823,7 @@ const UniversitySubjectList = (props) => {
                           </Button>
                         </Link> */}
                             {permissions?.includes(
-                              permissionList?.View_subject
+                              permissionList?.View_subject_info
                             ) ? (
                               <ButtonForFunction
                                 func={() => handleView(sub?.id)}

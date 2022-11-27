@@ -9,6 +9,7 @@ import * as Icon from "react-feather";
 import { useToasts } from 'react-toast-notifications';
 import put from '../../../helpers/put';
 import ButtonLoader from '../Components/ButtonLoader';
+import { userTypes } from '../../../constants/userTypeConstant';
 
 const ProviderAdminProfile = () => {
     
@@ -17,6 +18,7 @@ const ProviderAdminProfile = () => {
     const history = useHistory();
     const [data,setData] = useState({});
     const permissions = JSON.parse(localStorage.getItem("permissions"));
+    const userType = localStorage.getItem("userType");
     const [modalOpen2, setModalOpen2] = useState(false);
     const [buttonStatus1,setButtonStatus1] = useState(false);
     const [progress,setProgress] = useState(false);
@@ -141,10 +143,14 @@ const ProviderAdminProfile = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Provider Admin Profile</h3>
           <div className="page-header-back-to-home">
-            <span onClick={backToProviderDetails} className="text-white">
+            {
+              userType == userTypes.ProviderAdmin ?
+              null :
+              <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
             </span>
+            }
           </div>
         </CardHeader>
       </Card>
