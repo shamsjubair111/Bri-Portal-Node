@@ -441,11 +441,7 @@ const ProviderApplication = ({ currentUser }) => {
     if (currentUser != undefined) {
       if(consultantId !== undefined){
         get(
-          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${
-            consultantId
-          }&universityId=${
-            providerUniValue
-          }&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${consultantId}universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
@@ -456,7 +452,7 @@ const ProviderApplication = ({ currentUser }) => {
           setSerialNumber(res?.firstSerialNumber);
         });
       }
-      else if(universityId !== null){
+      else if(universityId !== undefined){
         get(
           `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${
             providerConsValue

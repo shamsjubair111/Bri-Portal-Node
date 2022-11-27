@@ -15,6 +15,7 @@ import AdmissionGetData from "./views/Test/AdmissionGetData"
 
 
 import {permissionList} from './constants/AuthorizationConstant'
+import { userTypes } from "./constants/userTypeConstant"
 
 
 
@@ -28,6 +29,7 @@ const permissions= JSON.parse(localStorage.getItem('permissions'));
 
 const isAuth = token != null ? true : false;
 const permission = JSON.parse(localStorage.getItem("current_user"));
+const userTypeId = localStorage.getItem("userType");
 
 
 // Route-based code splitting
@@ -648,7 +650,18 @@ class AppRouter extends React.Component {
           <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.View_Consultant_type_List) ? AddConsultantType : NotAuthorized} />
           <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? BankDetails : NotAuthorized } />
           <AppRoute  path="/consultantCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.View_ConsultantCommissionGroup_List)? ConsultantCommission : NotAuthorized} />
-          <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? AddConsultantInformation : NotAuthorized } />
+
+          {
+
+          (userTypeId == userTypes.ComplianceManager) ?
+          <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Update_Consultant_info)? AddConsultantInformation : NotAuthorized } />
+
+          :
+
+          <AppRoute  path="/consultantInformation/:consultantRegisterId" component={(permissions?.includes(permissionList?.Add_New_Consultant) || permissions?.includes(permissionList?.Update_Consultant_info))? AddConsultantInformation : NotAuthorized } />
+
+          }
+
           <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
           
           
@@ -665,7 +678,7 @@ class AppRouter extends React.Component {
          <AppRoute  path="/universityDetails/:id" component={permissions?.includes(permissionList?.View_University_info)? UniversityDetails : NotAuthorized} />
          <AppRoute  path="/campusList/:uniId?" component={permissions?.includes(permissionList?.View_UniversityCampus_List)? CampusList : NotAuthorized } />
          <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.View_university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
-         <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus_List)? CampusDetails : NotAuthorized } />
+         <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus_info)? CampusDetails : NotAuthorized } />
          <AppRoute  path="/assignMultipleSubject/:id" component={permissions?.includes(permissionList?.Add_New_university_campus_subject)? AssignMultipleSubject : NotAuthorized } />
 
          {/* University Subject starts here */}

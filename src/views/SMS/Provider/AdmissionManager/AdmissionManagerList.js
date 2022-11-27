@@ -590,7 +590,11 @@ const AdmissionManagerList = () => {
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
           <Row>
+          
             <Col lg="6" md="6" sm="6" xs="12">
+            {
+              (userType == userTypes?.ProviderAdmin) ?
+              null:
               <Select
                 options={providerMenu}
                 value={{ label: providerLabel, value: providerValue }}
@@ -598,8 +602,9 @@ const AdmissionManagerList = () => {
                 name="providerId"
                 id="providerId"
               />
+            }
             </Col>
-
+            
             <Col lg="6" md="6" sm="6" xs="12">
               <Input
                 style={{ height: "2.7rem" }}
