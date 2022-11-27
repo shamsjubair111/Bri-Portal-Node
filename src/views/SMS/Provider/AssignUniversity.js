@@ -76,6 +76,7 @@ const AssignUniversity = () => {
   const { addToast } = useToasts();
   const location = useLocation();
   const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const [data,setData] = useState({});
 
   const componentRef = useRef();
 
@@ -87,6 +88,12 @@ const AssignUniversity = () => {
     get(`AdmissionManagerUniversity/Index/${managerId}`).then((res) => {
       setUniList(res);
     });
+
+    get(`AdmissionManager/Get/${managerId}`)
+    .then(res => {
+      
+      setData(res);
+    })
   }, [providerId, managerId, success]);
 
   const universityMenu = providerUniList.map((uni) => ({
@@ -299,6 +306,12 @@ const AssignUniversity = () => {
 
       <Card className="uapp-employee-search">
         <CardBody>
+
+        <div className='d-flex justify-content-end mb-3'>
+            <span style={{fontWeight: 'bold'}}>Admission Manager: {data?.nameTittle?.name}{' '}{data?.firstName}{' '}{data?.lastName}</span>
+
+          </div>
+
           <Row className="mb-3">
             <Col lg="6" md="5" sm="6" xs="4">
               {

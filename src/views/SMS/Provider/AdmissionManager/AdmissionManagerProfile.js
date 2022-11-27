@@ -29,6 +29,7 @@ import { permissionList } from "../../../../constants/AuthorizationConstant";
 import { rootUrl } from "../../../../constants/constants";
 import { Image, Upload } from "antd";
 import * as Icon from "react-feather";
+import uapploader from '../../../../assets/img/Uapp_fav.png';
 import ButtonLoader from "../../Components/ButtonLoader";
 
 const AdmissionManagerProfile = () => {
@@ -583,9 +584,14 @@ const selectNameTitle = (label, value) => {
                       rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl
                     } alt="admissionManager"/> */}
             <div className='profile-pic1'>
-            <img className="empProfileImg"  src={
-                      rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl
-                    } alt="admissionManager"/>
+            {
+              !(managerData?.admissionManagerMedia == null) ?
+              <img className="empProfileImg"  src={
+                rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl
+              } alt="admissionManager"/>
+              :
+              <img className="empProfileImg bg-white"   src={uapploader} alt="admissionManager"/>
+            }
                {
                 permissions?.includes(permissionList.Change_Admission_Manager_profileImage) ?
                 <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>

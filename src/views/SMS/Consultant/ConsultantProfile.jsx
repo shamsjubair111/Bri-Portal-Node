@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { Image } from "antd";
 import { Upload } from "antd";
 import * as Icon from "react-feather";
-
+import uapploader from '../../../assets/img/Uapp_fav.png';
+import uapploader2 from '../../../assets/img/Asset 12Icon.svg';
 import Select from "react-select";
 import { useToasts } from "react-toast-notifications";
 import {
@@ -382,13 +383,21 @@ const ConsultantProfile = () => {
                 <CardBody>
                   <div className="uapp-employee-cover-image">
                     <div className="bg-image">
+                     {
+                      (consultantData?.consultantCoverImageMedia == null) ?
                       <img
-                        src={
-                          rootUrl +
-                          consultantData?.consultantCoverImageMedia?.fileUrl
-                        }
-                        alt="cover_img"
-                      />
+                      src={uapploader2}
+                      alt="cover_img"
+                    />
+                    :
+                    <img
+                    src={
+                      rootUrl +
+                      consultantData?.consultantCoverImageMedia?.fileUrl
+                    }
+                    alt="cover_img"
+                  />
+                     }
                       <div className="uplode-cover-image">
                         {permissions?.includes(
                           permissionList.Change_Consultant_CoverImage
@@ -528,15 +537,24 @@ const ConsultantProfile = () => {
                         <div className="uapp-employee-profile-image">
                           <div className="text-left">
                             <div className="profile-pic">
+                             {
+                              (consultantData?.consultantProfileImageMedia == null) ?
                               <img
-                                className="empProfileImg"
-                                src={
-                                  rootUrl +
-                                  consultantData?.consultantProfileImageMedia
-                                    ?.fileUrl
-                                }
-                                alt="img-desc"
-                              />
+                              className="empProfileImg bg-white"
+                              src={uapploader}
+                              alt="img-desc"
+                            />
+                            :
+                            <img
+                            className="empProfileImg"
+                            src={
+                              rootUrl +
+                              consultantData?.consultantProfileImageMedia
+                                ?.fileUrl
+                            }
+                            alt="img-desc"
+                          />
+                             }
 
                               {permissions?.includes(
                                 permissionList.Change_Consultant_profileImage

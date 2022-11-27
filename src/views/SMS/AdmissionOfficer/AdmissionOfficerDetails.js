@@ -17,6 +17,7 @@ import {
   Row,
   Table,
 } from "reactstrap";
+import uapploader from '../../../assets/img/Uapp_fav.png';
 import Select from "react-select";
 import { Image } from "antd";
 import { Upload } from "antd";
@@ -204,9 +205,18 @@ const AdmissionOfficerDetails = () => {
                       rootUrl + officerObj?.admissionOfficerMedia?.thumbnailUrl
                     } alt="admissionOfficer"/> */}
                     <div className='profile-pic1'>
-                    <img className="empProfileImg"  src={
-                      rootUrl + officerObj?.admissionOfficerMedia?.thumbnailUrl
-                    } alt="admissionOfficer"/>
+                    {
+
+                        (officerObj?.admissionOfficerMedia == null) ?
+                      <img className="empProfileImg bg-white"  src={uapploader} alt="admissionOfficer"/>
+
+                      :
+
+                      <img className="empProfileImg"  src={
+                        rootUrl + officerObj?.admissionOfficerMedia?.thumbnailUrl
+                      } alt="admissionOfficer"/>
+                      
+                    }
                        {
                         permissions?.includes(permissionList.Change_Admission_Officer_profileImage) ?
                         <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>

@@ -6,17 +6,15 @@ import { Card, CardBody, CardHeader, ButtonGroup, CardTitle, Button, Modal, Moda
 
 import { useToasts } from 'react-toast-notifications';
 
-import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg'
-import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg'
 import get from '../../../../helpers/get';
 import ReactToPrint from 'react-to-print';
 import { rootUrl } from '../../../../constants/constants';
 import EditDivButton from '../../Components/EditDivButton';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
 import put from '../../../../helpers/put';
-
-import { Image } from 'antd';
-import { Upload } from "antd";
+import uapploader from '../../../../assets/img/Uapp_fav.png'
+import uapploader2 from '../../../../assets/img/Asset 12Icon.svg'
+import { Upload, Image } from "antd";
 import * as Icon from "react-feather";
 import ButtonLoader from '../../Components/ButtonLoader';
 
@@ -288,7 +286,12 @@ const handleSubmitProfilePhoto = event => {
                   <div className="uapp-employee-cover-image">
                     <div className="bg-image">   
                     <div className="uplode-cover-image">
-                      <img src={rootUrl+employeeDetails?.coverImageMedia?.fileUrl} alt='cover_img'/>
+                      {
+                        (employeeDetails?.coverImageMedia == null) ?
+                        <img src={uapploader2} alt='cover_img'/> 
+                        :
+                        <img src={rootUrl+employeeDetails?.coverImageMedia?.fileUrl} alt='cover_img'/>
+                      }
                       <div className="uplode-cover-image">
                     {
                       permissions?.includes(permissionList.Change_Employee_CoverImage) ?
@@ -406,7 +409,12 @@ const handleSubmitProfilePhoto = event => {
                   <div className="uapp-employee-profile-image">
                   <div className="text-left">
                      <div className='profile-pic'>
-                        <img className="empProfileImg"  src={rootUrl+employeeDetails?.profileImageMedia?.fileUrl} alt='profile_img'/>
+                        {
+                          (employeeDetails?.profileImageMedia == null) ?
+                          <img className="empProfileImg"  src={uapploader} alt='profile_img'/>
+                          :
+                          <img className="empProfileImg"  src={rootUrl+employeeDetails?.profileImageMedia?.fileUrl} alt='profile_img'/>
+                        }
                         {
                           permissions?.includes(permissionList.Change_Employee_profileImage) ?
                           <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
