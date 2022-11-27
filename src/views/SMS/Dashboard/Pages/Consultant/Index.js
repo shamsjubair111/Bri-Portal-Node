@@ -621,10 +621,10 @@ const Consultant = () => {
 
                 <div className='col-md-6 text-center'>
 
-        <div className='d-flex flex-wrap'> 
+        <div className='d-flex flex-wrap justify-content-between'> 
 
            
-        <div className='amoung-us-style mr-3'> 
+        <div className='amoung-us-style'> 
 
           <div className='among-inner-div'>
               <span>105</span>
@@ -644,7 +644,7 @@ const Consultant = () => {
 
 
 
-          <div className='amoung-us-style2 mr-3'> 
+          <div className='amoung-us-style2'> 
           <div className='among-inner-div'>
           <span>12</span>
 
@@ -663,7 +663,7 @@ const Consultant = () => {
 
 
 
-          <div className='amoung-us-style3 mr-3'> 
+          <div className='amoung-us-style3'> 
           <div className='among-inner-div'>
           <span>12</span>
 
@@ -681,7 +681,7 @@ const Consultant = () => {
 
 
 
-          <div className='amoung-us-style4 mr-3'> 
+          <div className='amoung-us-style4'> 
           <div className='among-inner-div'>
           <span>12</span>
 
