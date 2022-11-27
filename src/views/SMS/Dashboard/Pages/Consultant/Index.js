@@ -13,12 +13,18 @@ import camera from '../../../../../assets/img/camera.svg';
 import cuser1 from '../../../../../assets/img/cuser1.svg';
 import speed from '../../../../../assets/img/speed.PNG';
 import down from '../../../../../assets/img/down.svg';
+import camera2 from '../../../../../assets/img/camera2.svg';
+import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
 import {
   Card,
   CardBody,
   Col,
   Row, Table
 } from 'reactstrap';
+import { Drawer } from 'antd';
+import GaugeChart from 'react-gauge-chart';
+
+
 
 const Consultant = () => {
 
@@ -27,15 +33,83 @@ const Consultant = () => {
   const {addToast} = useToasts();
   const history = useHistory();
   const [info,setInfo] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [activeIndex,setActiveindex] = useState(0);
+
+  const data = [
+    { name: 'Group A', value: 400 },
+    { name: 'Group B', value: 300 },
+    { name: 'Group C', value: 300 },
+    { name: 'Group D', value: 200 },
+  ];
+
+  const renderActiveShape = (props) => {
+    const RADIAN = Math.PI / 180;
+    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
+    const sin = Math.sin(-RADIAN * midAngle);
+    const cos = Math.cos(-RADIAN * midAngle);
+    const sx = cx + (outerRadius + 10) * cos;
+    const sy = cy + (outerRadius + 10) * sin;
+    const mx = cx + (outerRadius + 30) * cos;
+    const my = cy + (outerRadius + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ey = my;
+    const textAnchor = cos >= 0 ? 'start' : 'end';
+  
+    return (
+      <g>
+        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+          {payload.name}
+        </text>
+        <Sector
+          cx={cx}
+          cy={cy}
+          innerRadius={innerRadius}
+          outerRadius={outerRadius}
+          startAngle={startAngle}
+          endAngle={endAngle}
+          fill={fill}
+        />
+        <Sector
+          cx={cx}
+          cy={cy}
+          startAngle={startAngle}
+          endAngle={endAngle}
+          innerRadius={outerRadius + 6}
+          outerRadius={outerRadius + 10}
+          fill={fill}
+        />
+        <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
+        <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`PV ${value}`}</text>
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
+          {`(Rate ${(percent * 100).toFixed(2)}%)`}
+        </text>
+      </g>
+    );
+  };
+
+  const  onPieEnter = (_, index) => {
+    setActiveindex(index);
+  };
+ 
+
+
+
+
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
 
     return (
         <React.Fragment>
 
-        <div className='row'>
-
-          <div className='col-md-9'>
-          <div className='d-flex justify-content-between flex-wrap'>
+        <div className='d-flex justify-content-between flex-wrap'>
             <div>
               <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
               <br/>
@@ -66,8 +140,187 @@ const Consultant = () => {
 
               </div>
 
+              <div  onClick={function noRefCheck(){}}>
+                <img src={Vectorbeat} className='img-fluid dashbard-img-style2' onClick={showDrawer} />
+
+                <Drawer placement="right" onClose={onClose} open={open}>
+                <div className=''>
+             
+             <Card>
+              <CardBody>
+              <span className='consultant-news-feed-style'>NEWS FEED</span>
+              </CardBody>
+             </Card>
+
+             <Card>
+              <CardBody>
               <div>
-                <img src={Vectorbeat} className='img-fluid dashbard-img-style2' />
+               <div className='d-flex'>
+                 <div className='notice-image-style'> 
+                 <img src={user1}  />
+                 </div>
+                 <div className='ml-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>We're delighted to introduce you to our new "Become an Education Consultant...
+                   <br/>
+                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>read more</span></span>
+
+                   <br/>
+                   <span className='notice-time-style'>02:14 PM Today</span>
+                 </div>
+
+
+               </div>
+
+             </div>
+              </CardBody>
+             </Card>
+             
+           
+           <Card>
+            <CardBody>
+            <div>
+               <div className='d-flex'>
+                 <div className='notice-image-style'> 
+                 <img src={user2}  />
+                 </div>
+                 <div className='ml-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>We're delighted to introduce you
+                    </span>
+                    <br/>
+                    <img src={capture} className='img-fluid' />
+                   <br/>
+                   <span className='notice-time-style'>02:14 PM Today</span>
+                 </div>
+
+
+               </div>
+
+             </div>
+            </CardBody>
+           </Card>
+
+            <Card>
+              <CardBody>
+              <div>
+               <div className='d-flex'>
+                 <div className='notice-image-style'> 
+                 <img src={user2}  />
+                 </div>
+                 <div className='ml-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>We're delighted to introduce you
+                    </span>
+                    <br/>
+                    <div className='d-flex justify-content-around my-2'>
+                    <img src={images1} className='img-fluid' />
+                    <img src={images1} className='img-fluid' />
+                    <img src={images1} className='img-fluid' />
+                    </div>
+                   
+                   <span className='notice-time-style'>02:14 PM Today</span>
+                 </div>
+
+
+               </div>
+
+             </div>
+              </CardBody>
+            </Card>
+
+
+             <div>
+
+             <Card>
+              <CardBody>
+              <span className='consultant-news-feed-style'>NOTICE</span>
+              </CardBody>
+             </Card>
+
+             <Card>
+              <CardBody>
+              <div className=''>
+                 <div className='notice-image-stylemb-2'> 
+                 <span className='notice-user-name'>Super Admin</span>
+                 </div>
+                 <div className='mt-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
+
+                   <br/>
+                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
+
+              
+               
+               
+
+                 </div>
+
+
+                 <div className='mt-2'> 
+                 <span className='notice-time-style'>02:14 PM 19/07/22</span>
+                 </div>
+
+
+               </div>
+              </CardBody>
+             </Card>
+
+           <Card>
+            <CardBody>
+     
+               
+
+               <div>
+                 <div className='notice-image-stylemb-2'> 
+                 <span className='notice-user-name'>Super Admin</span>
+                 </div>
+                 <div className='mt-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
+
+                   <br/>
+                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
+
+              
+               
+               
+
+                 </div>
+
+
+                 <div className='mt-2'> 
+                 <span className='notice-time-style'>02:14 PM 19/07/22</span>
+                 </div>
+
+
+               </div>
+
+            </CardBody>
+           </Card>
+
+
+
+             </div>
+
+         <Card>
+          <CardBody>
+          <div>
+           <img src={gift} className='img-fluid' />
+         </div>
+          </CardBody>
+         </Card>
+        
+         </div>
+                </Drawer>
+
+                
 
               </div>
 
@@ -76,6 +329,11 @@ const Consultant = () => {
             </div>
 
            </div>
+
+        <div className='row'>
+
+          <div className='col-md-12'>
+          
 
            {/* Cards */}
 
@@ -91,7 +349,7 @@ const Consultant = () => {
                       
                       <span className='application-count-style2'>500</span>
                       <br/>
-                      <br/>
+                   
                     </CardBody>
                   </Card>
 
@@ -133,7 +391,7 @@ const Consultant = () => {
                       
                       <span className='application-count-style2'>500</span>
                       <br/>
-                      <br/>
+                   
                     </CardBody>
                   </Card>
 
@@ -147,7 +405,7 @@ const Consultant = () => {
                       
                       <span className='application-count-style2'>500</span>
                       <br/>
-                      <br/>
+                   
                     </CardBody>
                   </Card>
 
@@ -161,7 +419,7 @@ const Consultant = () => {
                       
                       <span className='application-count-style2'>500</span>
                       <br/>
-                      <br/>
+                
                     </CardBody>
                   </Card>
 
@@ -177,7 +435,7 @@ const Consultant = () => {
                 <span className='application-count-style'>MY BALANCE</span>
         
 
-                <div className='my-5 text-center' style={{position: 'relative', top: '15px'}}>
+                <div className='my-4 text-center' style={{position: 'relative', top:'15px'}}>
                   <button className='consultant-balance-button pr-3'>
                         <img src={poundicon} className='img-fluid mr-4'/>
 
@@ -213,7 +471,6 @@ const Consultant = () => {
               <Card>
                 <CardBody>
 
-                 <div className=''>
                   <span className='app-style-const'>New Applications</span>
 
                   <Table borderless responsive className='mt-3'>
@@ -274,7 +531,7 @@ const Consultant = () => {
          
         </tbody>
       </Table>
-                 </div>
+               
                
 
                 </CardBody>
@@ -284,15 +541,25 @@ const Consultant = () => {
 
             <div className='col-md-3'>
 
-              <div className='consultant-custom-card-style'>
-                <div className='mb-3'>
+           <Card>
+            <CardBody>
+            <div className='consultant-custom-card-style mb-3'>
+                <div className='mb-4'>
                   <span className='const-target-style'>Target Applications</span>
                   <hr/>
             
                 </div>
 
-               <div className='container text-center my-4'>
-               <img src={speed} className='img-fluid' />
+               <div className='container text-center mt-5' style={{height: '96px'}}>
+               <GaugeChart id="gauge-chart2" 
+                nrOfLevels={30} 
+                percent={150/500} 
+                hideText = {true}
+                colors={["#1E98B0", "#1E98B0"]} 
+                textColor={'#1E98B0'}
+                arcWidth={0.3} 
+               
+              />
 
                </div>
 
@@ -300,7 +567,7 @@ const Consultant = () => {
 
               </div>
 
-              <div className='text-center py-3 custom-border-style' style={{backgroundColor: '#1E98B0', color: '#fff'}}>
+              <div className='text-center py-4 mt-3 custom-border-style' style={{backgroundColor: '#1E98B0', color: '#fff'}}>
 
               <div>
                 <span className='target-app-style'>
@@ -316,6 +583,8 @@ const Consultant = () => {
 
 
               </div>
+            </CardBody>
+           </Card>
 
             </div>
 
@@ -350,258 +619,178 @@ const Consultant = () => {
 
               <div className='row my-4'>
 
-                <div className='col-md-9 text-center'>
+                <div className='col-md-6 text-center'>
 
-                <div className='d-flex flex-wrap'>
+        <div className='d-flex flex-wrap'> 
 
-                <div className='amoung-us-style mr-3 container'> 
+           
+        <div className='amoung-us-style mr-3'> 
 
-               <div className='among-inner-div'>
-                   <span>105</span>
+          <div className='among-inner-div'>
+              <span>105</span>
 
-                 
-               </div>
+            
+          </div>
 
-               <div className='text-white title-among-style'>
+          <div className='text-white title-among-style'>
+
+          <br/>
+              <span>Total Application</span>
+          </div>
+
+          </div>
+
+
+
+
+
+          <div className='amoung-us-style2 mr-3'> 
+          <div className='among-inner-div'>
+          <span>12</span>
+
+
+          </div>
+
+          <div className='text-white title-among-style '>
+
+          <br/>
+          <span>Submitted 
+          to University</span>
+          </div>
+
+          </div>
+
+
+
+
+          <div className='amoung-us-style3 mr-3'> 
+          <div className='among-inner-div'>
+          <span>12</span>
+
+
+          </div>
+
+          <div className='text-white title-among-style'>
+
+          <br/>
+          <span>Unconditional
+            Offer</span>
+          </div>
+          </div>
+
+
+
+
+          <div className='amoung-us-style4 mr-3'> 
+          <div className='among-inner-div'>
+          <span>12</span>
+
+
+          </div>
+
+          <div className='text-white title-among-style'>
+
+          <br/>
+          <span>Total
+          Registered</span>
+          </div>
+          </div>
+
+
+
+
+
+          <div className='amoung-us-style5'> 
+          <div className='among-inner-div'>
+          <span>12</span>
+
+
+          </div>
+
+          <div className='text-white title-among-style'>
+
+          <br/>
+          <span>Total
+            Rejected</span>
+          </div>
+          </div>
+
+
+        </div>
+
+                
+
+ 
+                </div>
+
+            
+
+             <div className='col-md-3'>
+
+              <PieChart width={200} height={200}>
+              <Pie
+              activeIndex={activeIndex}
+              activeShape={renderActiveShape}
+              data={data}
+              cx="50%"
+              cy="50%"
+              innerRadius={60}
+              outerRadius={80}
+              fill="#1e98b0"
+              dataKey="value"
+              onMouseEnter={onPieEnter}
+              />
+              </PieChart>
+
+
+              </div>
+
+            
+
+
                
-               <br/>
-                   <span>Total Application</span>
-               </div>
-
-                </div>
-
-                <div className='amoung-us-style2 mr-3 container'> 
-                <div className='among-inner-div'>
-                   <span>12</span>
-
-                 
-               </div>
-
-               <div className='text-white title-among-style '>
-               
-                   <br/>
-                   <span>Submitted 
-                  to University</span>
-               </div>
-
-                </div>
-
-                <div className='amoung-us-style3 mr-3 container'> 
-                <div className='among-inner-div'>
-                   <span>12</span>
-
-                 
-               </div>
-
-               <div className='text-white title-among-style'>
-               
-               <br/>
-                   <span>Unconditional
-                    Offer</span>
-               </div>
-                </div>
-
-                <div className='amoung-us-style4 mr-3 container'> 
-                <div className='among-inner-div'>
-                   <span>12</span>
-
-                 
-               </div>
-
-               <div className='text-white title-among-style'>
-               
-               <br/>
-                   <span>Total
-                  Registered</span>
-               </div>
-                </div>
-
-                <div className='amoung-us-style5 container'> 
-                <div className='among-inner-div'>
-                   <span>12</span>
-
-                 
-               </div>
-
-               <div className='text-white title-among-style'>
-               
-               <br/>
-                   <span>Total
-                    Rejected</span>
-               </div>
-                </div>
-
-
-                </div>
                   
 
-                </div>
+                
 
               {/* dropdown section */}
 
                 <div className='col-md-3'>
 
-                <div className='report-status-styles-cons'>
+                <div className='text-center report-status-styles-cons p-3 text-center-report-status-styles-cons'>
+
+                    <span className='app-style-const'>Estimated Income</span>
+
+                    <br/>
+                    <br/>
+
+                    <img src={camera2} className='img-fluid' />
+
+                    <br/>
+                    <br/>
+                  
+
+                      <span className='consultant-name-style-student-dashboard2 amount-div-style'>£ 125</span>
+
+                      <br/>
+                      <br/>
+
+                      <span style={{textDecoration: 'underline' ,textDecorationColor: '#495057', color: '#495057', cursor: 'pointer'}}>July 2022-October 2022</span>
+               
+
 
                 </div>
 
                 </div>
 
               </div>
+
             </CardBody>
            </Card>
 
           </div>
 
-          <div className='col-md-3'>
-            <div className='consultant-custom-card-style'>
-             
-                <span className='consultant-news-feed-style'>NEWS FEED</span>
-
-                <div className='mt-3'>
-                  <div className='d-flex'>
-                    <div className='notice-image-style'> 
-                    <img src={user1}  />
-                    </div>
-                    <div className='ml-2'>
-                      <span className='notice-user-name'>MD Shamim (Admin)</span>
-                      <br/>
-                      <span className='notice-user-desc'>We're delighted to introduce you to our new "Become an Education Consultant...
-                      <br/>
-                      <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>read more</span></span>
-
-                      <br/>
-                      <span className='notice-time-style'>02:14 PM Today</span>
-                    </div>
-
-
-                  </div>
-
-                </div>
-                
-              
-                <div className='mt-3'>
-                  <div className='d-flex'>
-                    <div className='notice-image-style'> 
-                    <img src={user2}  />
-                    </div>
-                    <div className='ml-2'>
-                      <span className='notice-user-name'>MD Shamim (Admin)</span>
-                      <br/>
-                      <span className='notice-user-desc'>We're delighted to introduce you
-                       </span>
-                       <br/>
-                       <img src={capture} className='img-fluid' />
-                      <br/>
-                      <span className='notice-time-style'>02:14 PM Today</span>
-                    </div>
-
-
-                  </div>
-
-                </div>
-
-                <div className='mt-3'>
-                  <div className='d-flex'>
-                    <div className='notice-image-style'> 
-                    <img src={user2}  />
-                    </div>
-                    <div className='ml-2'>
-                      <span className='notice-user-name'>MD Shamim (Admin)</span>
-                      <br/>
-                      <span className='notice-user-desc'>We're delighted to introduce you
-                       </span>
-                       <br/>
-                       <div className='d-flex justify-content-around my-2'>
-                       <img src={images1} className='img-fluid' />
-                       <img src={images1} className='img-fluid' />
-                       <img src={images1} className='img-fluid' />
-                       </div>
-                      
-                      <span className='notice-time-style'>02:14 PM Today</span>
-                    </div>
-
-
-                  </div>
-
-                </div>
-
-
-                <div className='mt-4'>
-
-                <span className='consultant-news-feed-style'>NOTICE</span>
-
-                <div className='mt-3'>
-                  <div className=''>
-                    <div className='notice-image-stylemb-2'> 
-                    <span className='notice-user-name'>Super Admin</span>
-                    </div>
-                    <div className='mt-2'>
-                      <span className='notice-user-name'>MD Shamim (Admin)</span>
-                      <br/>
-                      <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
-
-                      <br/>
-                      <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
-
-                 
-                  
-                  
-
-                    </div>
-
-
-                    <div className='mt-2'> 
-                    <span className='notice-time-style'>02:14 PM 19/07/22</span>
-                    </div>
-
-
-                  </div>
-
-                  <div className='mt-3'>
-                    <div className='notice-image-stylemb-2'> 
-                    <span className='notice-user-name'>Super Admin</span>
-                    </div>
-                    <div className='mt-2'>
-                      <span className='notice-user-name'>MD Shamim (Admin)</span>
-                      <br/>
-                      <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
-
-                      <br/>
-                      <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
-
-                 
-                  
-                  
-
-                    </div>
-
-
-                    <div className='mt-2'> 
-                    <span className='notice-time-style'>02:14 PM 19/07/22</span>
-                    </div>
-
-
-                  </div>
-
-                </div>
-
-
-
-                </div>
-
-                <div className='my-5'>
-              <img src={gift} className='img-fluid' />
-            </div>
-           
-            </div>
-
-           
-
-
-            
-
-          </div>
+          
 
         </div>
         
