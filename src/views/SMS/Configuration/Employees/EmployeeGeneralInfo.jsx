@@ -462,7 +462,7 @@ const EmployeeGeneralInfo = (props) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
-                    <span>Profile Image <span className="text-danger">*</span>{" "}</span>
+                    <span>Profile Image</span>
                   </Col>
                   <Col md="6">
                    <div className="d-flex">

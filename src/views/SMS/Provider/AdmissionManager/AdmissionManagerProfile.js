@@ -31,6 +31,7 @@ import { Image, Upload } from "antd";
 import * as Icon from "react-feather";
 import uapploader from '../../../../assets/img/Uapp_fav.png';
 import ButtonLoader from "../../Components/ButtonLoader";
+import Loader from "../../Search/Loader/Loader";
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -104,6 +105,7 @@ const AdmissionManagerProfile = () => {
   const [error1, setError1] = useState(false);
   const [text1, setText1] = useState('');
   const [progress,setProgress]= useState(false);
+  const [loading,setLoading] = useState(true);
 
   const tableStyle = {
     overflowX: "scroll",
@@ -127,18 +129,22 @@ const AdmissionManagerProfile = () => {
       console.log("rsdsd", res);
       setOfficerDD(res);
       // setManagerDDForm(res);
+      setLoading(false);
     });
 
     get("CountryDD/index").then(res =>{
         setCountryList(res);
+        setLoading(false);
       });
 
     get("NameTittleDD/index").then(res =>{
         setNameTitleDD(res);
+        setLoading(false);
       });
 
     get("ProviderDD/Index").then(res =>{
         setProviderDD(res);
+        setLoading(false);
       });
 
     get(`AdmissionManager/Profile/${managerId}`).then((res) => {
@@ -146,8 +152,9 @@ const AdmissionManagerProfile = () => {
       setApplicationData(res?.admissionManagerApplications);
       setAdmissionOfficer(res?.admissionOfficers);
       console.log("admission mnager", res);
+      setLoading(false);
     });
-  }, [managerId, success, providerId]);
+  }, [managerId, success, providerId, loading]);
 
   // Trial start
 
@@ -556,7 +563,12 @@ const selectNameTitle = (label, value) => {
   }
 
   return (
-    <div>
+    <>
+    {
+      loading ? 
+      <Loader/>
+      :
+      <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Admission Manager Details</h3>
@@ -1546,6 +1558,8 @@ const selectNameTitle = (label, value) => {
         </div>
       </div>
     </div>
+    }
+    </>
   );
 };
 

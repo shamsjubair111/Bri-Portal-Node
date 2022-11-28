@@ -154,7 +154,7 @@ const convertToConsultantAccount = e => {
     
    
   axios
-    .get(`${rootUrl}AccountSwitch/SwitchToConsultant`,{
+    .get(`${rootUrl}AccountSwitch/SwitchToStudent`,{
       headers: {
         'authorization': localStorage
         .getItem('token')
@@ -216,7 +216,7 @@ const UserDropdown = props => {
 
 
   return (
-    <DropdownMenu right>
+    <DropdownMenu left>
       {/* <DropdownItem
         tag="a"
         href="#"
@@ -295,6 +295,7 @@ const UserDropdown = props => {
         {
           (props?.switch) ?
           <DropdownItem tag="a"
+          
 
         onClick={e => {
           convertAccount(e)

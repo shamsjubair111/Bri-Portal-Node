@@ -32,6 +32,7 @@ import remove from "../../../helpers/remove";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import { rootUrl } from "../../../constants/constants";
 import ButtonLoader from "../Components/ButtonLoader";
+import Loader from "../Search/Loader/Loader";
 
 const AdmissionOfficerDetails = () => {
   const [officerObj, setOfficerObj] = useState({});
@@ -53,6 +54,7 @@ const AdmissionOfficerDetails = () => {
   const location = useLocation();
   const { addToast } = useToasts();
   const [progress,setProgress] = useState(false);
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     get(`AdmissionOfficer/Profile/${officerId}`).then((res) => {
@@ -60,6 +62,7 @@ const AdmissionOfficerDetails = () => {
       setOfficerObj(res);
       setAdmissionManagerList(res?.admissionManager);
       console.log('Admission Officer', res)
+      setLoading(false);
     });
   }, [officerId, success]);
 
@@ -176,7 +179,12 @@ const AdmissionOfficerDetails = () => {
   }
 
   return (
-    <div>
+    <>
+    {
+      loading ?
+      <Loader/>
+      :
+      <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Admission Officer Details</h3>
@@ -578,6 +586,8 @@ const AdmissionOfficerDetails = () => {
           </Card>
         </div>
     </div>
+    }
+    </>
   );
 };
 

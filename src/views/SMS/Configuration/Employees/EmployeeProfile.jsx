@@ -17,6 +17,7 @@ import uapploader2 from '../../../../assets/img/Asset 12Icon.svg'
 import { Upload, Image } from "antd";
 import * as Icon from "react-feather";
 import ButtonLoader from '../../Components/ButtonLoader';
+import Loader from '../../Search/Loader/Loader';
 
 const EmployeeProfile = () => {
 
@@ -50,6 +51,7 @@ const EmployeeProfile = () => {
   const [progress,setProgress] = useState(false);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const [loading,setLoading] = useState(true);
 
 
  
@@ -61,8 +63,9 @@ const EmployeeProfile = () => {
       console.log("datas", action);
       setemployeeImgDetails(action.profileImageMedia);
       setemployeeType(action.employeeType);
+      setLoading(false);
     })
-  }, [id, success])
+  }, [id, success, loading])
 
 
   const redirect = () => {
@@ -251,7 +254,12 @@ const handleSubmitProfilePhoto = event => {
 
   return (
 
-    <div ref={componentRef}>
+    <>
+    {
+      loading ?
+      <Loader/>
+      :
+      <div ref={componentRef}>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
 
@@ -735,6 +743,8 @@ const handleSubmitProfilePhoto = event => {
       </div>
 
     </div>
+    }
+    </>
   )
 }
 const mapStateToProps = state => ({

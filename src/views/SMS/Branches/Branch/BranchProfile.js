@@ -28,6 +28,7 @@ import Manager from "../IndividualComponent/Manager";
 import Team from "../IndividualComponent/Team";
 import AssignTeam from "../IndividualComponent/AssignTeam";
 import PaginatedTables from "../IndividualComponent/PaginatedTables";
+import Loader from "../../Search/Loader/Loader";
 
 const BranchProfile = (props) => {
   const history = useHistory();
@@ -49,6 +50,7 @@ const BranchProfile = (props) => {
   const [teamInfo, setTeamInfo] = useState({});
 
   const [success, setSuccess] = useState(false);
+  const [loading,setLoading] = useState(true);
 
 
 
@@ -83,7 +85,8 @@ const BranchProfile = (props) => {
     get(`Branch/Get/${id}`).then((res) => {
       
       setBranchInfo(res);
-      console.log('info', res);
+      setLoading(false);
+      
     });
 
     
@@ -176,116 +179,127 @@ const BranchProfile = (props) => {
  
 
   return (
-    <div>
-      <Card className="uapp-card-bg">
-        <CardHeader className="page-header">
-          <h3 className="text-white">Branch Details</h3>
-          <div className="page-header-back-to-home">
-            <span onClick={backToBranchList} className="text-white">
-              {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Branch List
-            </span>
-          </div>
-        </CardHeader>
-      </Card>
+   <>
+   {
+    loading ? 
 
+    <Loader/>
+
+    :
+
+    <div>
+    <Card className="uapp-card-bg">
+      <CardHeader className="page-header">
+        <h3 className="text-white">Branch Details</h3>
+        <div className="page-header-back-to-home">
+          <span onClick={backToBranchList} className="text-white">
+            {" "}
+            <i className="fas fa-arrow-circle-left"></i> Back to Branch List
+          </span>
+        </div>
+      </CardHeader>
+    </Card>
+
+  
+
+    <div className="uapp-employee-profile">
+      <Row>
+        <Col md="12">
+          <Card className="uapp-employee-profile-right">
+            <div className="uapp-profile-CardHeader">
+              {/* <div className="uapp-circle-image margin-top-minus">
+                <img  alt='provider_image' />
+              </div>     */}
+              <div className="py-3">
+                <h5 className="py-1">
+                  Branch Name:{" "}
+                  <span className="text-primary">{branchInfo?.name}{" "}{`(${branchInfo?.branchCode})`}</span>{" "}
+                </h5>
+                <h5 className="py-1">
+                  Branch Address:{" "}
+                  <span className="text-primary">
+                    {branchInfo?.addressLine}
+                  </span>{" "}
+                </h5>
+                <h5 className="py-1">
+                  {" "}
+                  Email:{" "}
+                  <span className="text-primary">
+                    {branchInfo?.email}
+                  </span>{" "}
+                </h5>
+                <h5 className="py-1">
+                  {" "}
+                  Phone Number:{" "}
+                  <span className="text-primary">
+                    {branchInfo?.phoneNumber}
+                  </span>{" "}
+                </h5>
+              </div>
+            </div>
+            <CardBody>
+              <div>
+                <ul className="uapp-ul text-center">
+                  <h5>
+                    {" "}
+                    Country:{" "}
+                    <span className="text-primary">
+                      {branchInfo?.country?.name}
+                    </span>{" "}
+                  </h5>
+                  <h5>
+                    {" "}
+                    State:{" "}
+                    <span className="text-primary">
+                      {branchInfo?.state?.name}
+                    </span>{" "}
+                  </h5>
+                </ul>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col md="8">
+
+          {/* <AssignTeam
+          id ={id}
+          success={success}
+          setSuccess={setSuccess}
+          >
+
+          </AssignTeam> */}
+
+          <PaginatedTables
+          id={id}
+          />
     
 
-      <div className="uapp-employee-profile">
-        <Row>
-          <Col md="12">
-            <Card className="uapp-employee-profile-right">
-              <div className="uapp-profile-CardHeader">
-                {/* <div className="uapp-circle-image margin-top-minus">
-                  <img  alt='provider_image' />
-                </div>     */}
-                <div className="py-3">
-                  <h5 className="py-1">
-                    Branch Name:{" "}
-                    <span className="text-primary">{branchInfo?.name}{" "}{`(${branchInfo?.branchCode})`}</span>{" "}
-                  </h5>
-                  <h5 className="py-1">
-                    Branch Address:{" "}
-                    <span className="text-primary">
-                      {branchInfo?.addressLine}
-                    </span>{" "}
-                  </h5>
-                  <h5 className="py-1">
-                    {" "}
-                    Email:{" "}
-                    <span className="text-primary">
-                      {branchInfo?.email}
-                    </span>{" "}
-                  </h5>
-                  <h5 className="py-1">
-                    {" "}
-                    Phone Number:{" "}
-                    <span className="text-primary">
-                      {branchInfo?.phoneNumber}
-                    </span>{" "}
-                  </h5>
-                </div>
-              </div>
-              <CardBody>
-                <div>
-                  <ul className="uapp-ul text-center">
-                    <h5>
-                      {" "}
-                      Country:{" "}
-                      <span className="text-primary">
-                        {branchInfo?.country?.name}
-                      </span>{" "}
-                    </h5>
-                    <h5>
-                      {" "}
-                      State:{" "}
-                      <span className="text-primary">
-                        {branchInfo?.state?.name}
-                      </span>{" "}
-                    </h5>
-                  </ul>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col md="8">
-
-            {/* <AssignTeam
-            id ={id}
-            success={success}
-            setSuccess={setSuccess}
-            >
-
-            </AssignTeam> */}
-
-            <PaginatedTables
-            id={id}
-            />
-      
-
-          
-          </Col>
-
-          <Col md="4">
-            <Manager 
-            id={id}
-            success={success}
-            setSuccess={setSuccess}
-            ></Manager>
         
-            {/* <Team
-            id={id}
-            success={success}
-            setSuccess={setSuccess}
-            
-            /> */}
-           
-          </Col>
-        </Row>
-      </div>
+        </Col>
+
+        <Col md="4">
+          <Manager 
+          id={id}
+          success={success}
+          setSuccess={setSuccess}
+          ></Manager>
+      
+          {/* <Team
+          id={id}
+          success={success}
+          setSuccess={setSuccess}
+          
+          /> */}
+         
+        </Col>
+      </Row>
     </div>
+  </div>
+  
+   }
+   </>
   );
 };
 

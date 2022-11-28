@@ -22,11 +22,12 @@ import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import uapploader from '../../../assets/img/Uapp_fav.png';
-import { Image } from 'antd';
-import { Upload } from "antd";
+import loaderImage from '../../../assets/img/uappLoader.gif';
+import { Upload, Image } from "antd";
 import * as Icon from "react-feather";
 import { permissionList } from '../../../constants/AuthorizationConstant';
 import ButtonLoader from '../Components/ButtonLoader';
+import Loader from '../Search/Loader/Loader';
 
 
 const StudentProfile = () => {
@@ -79,6 +80,8 @@ const StudentProfile = () => {
 
     const [application,setApplication] = useState([]);
     const [progress,setProgress] = useState(false);
+    const [loading,setLoading] = useState(true);  
+
 
   
 
@@ -94,6 +97,7 @@ const StudentProfile = () => {
           console.log('Consent Information',res);
            
             setConscentData(res);
+            setLoading(false);
         })
 
 
@@ -102,12 +106,14 @@ const StudentProfile = () => {
         .then(data => {
           
           setAPiInfo(data?.IPv4);
+          setLoading(false);
           
         });
 
         get(`Ielts/Index/${sId}`).then(
           (res) => {
             setIelts(res);
+            setLoading(false);
             
           }
         );
@@ -116,6 +122,7 @@ const StudentProfile = () => {
           (res) => {
             
             setDuolingo(res);
+            setLoading(false);
          
           }
         );
@@ -123,6 +130,7 @@ const StudentProfile = () => {
         get(`Toefl/Index/${sId}`).then(
           (res) => {
             setToefl(res);
+            setLoading(false);
             
           }
         );
@@ -131,12 +139,14 @@ const StudentProfile = () => {
           `FunctionalSkill/Index/${sId}`
         ).then((res) => {
           setFunctions(res);
+          setLoading(false);
           
         });
     
         get(`Gcse/Index/${sId}`).then(
           (res) => {
             setGcse(res);
+            setLoading(false);
             
           }
         );
@@ -144,6 +154,7 @@ const StudentProfile = () => {
         get(`Pearson/Index/${sId}`).then(
           (res) => {
             setPearson(res);
+            setLoading(false);
             
           }
         );
@@ -151,7 +162,7 @@ const StudentProfile = () => {
         get(`Other/Index/${sId}`).then(
           (res) => {
             setOthers(res);
-            
+            setLoading(false);
           }
         );
     
@@ -159,14 +170,15 @@ const StudentProfile = () => {
           (res) => {
             
             setPte(res);
-            
+            setLoading(false);
           }
         );
 
         get(`StudentApplication/Index/${sId}`)
         .then(res => {
-          console.log(res);
+         
           setApplication(res);
+          setLoading(false);
         })
     },[sId, success])
 
@@ -198,7 +210,7 @@ const StudentProfile = () => {
         var bDate = localeDte?.split(",");
         setDate(bDate[0]);
        })
-    },[sId, success])
+    },[sId, success, loading])
 
     const backToStudentList = () =>{
         history.push('/studentList');
@@ -512,6 +524,13 @@ const StudentProfile = () => {
 
 
     return (
+       <>
+       {
+        loading ? 
+        <Loader/>
+
+        :
+
         <div ref={componentRef}>
         <Card className="uapp-card-bg">
           <CardHeader className="page-header">
@@ -2372,7 +2391,9 @@ const StudentProfile = () => {
       {/*    </CardBody>*/}
 
       {/*</Card>*/}
- </div>
+      </div>
+       }
+       </>
  );
 };
 

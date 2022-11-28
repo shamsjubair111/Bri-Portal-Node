@@ -108,6 +108,7 @@ const Index = () => {
   const [checkTransDate, setCheckTransDate] = useState(true);
   const [checkStatus, setCheckStatus] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
+  const [ser,setSer] = useState(1);
 
   const customStyles2 = {
     control: (provided, state) => ({
@@ -265,10 +266,11 @@ const Index = () => {
         transactionCode == "" ? "emptystring" : transactionCode
       }`
     ).then((res) => {
-      console.log(res);
+     
       setEntity(res?.totalEntity);
       setData(res?.models);
       setLoading(false);
+      setSer(res?.firstSerialNumber);
     });
 
     get(`BonusTransactionTypeDD/Index`).then((res) => {
@@ -281,6 +283,7 @@ const Index = () => {
     statusValue,
     transactionCode,
     bonusTransactionValue,
+    dataPerPage,callApi,currentPage
   ]);
 
   const gotoDetailsPage = (data) => {
@@ -295,14 +298,14 @@ const Index = () => {
       data?.transactionTypeId == transactionTypes?.WithDrawnTransaction
     ) {
       window.open(
-        `/withdrawTransactiondetails/${data?.baseTransactionId}`,
+        `/withdrawTransactionDetails/${data?.baseTransactionId}`,
         "_blank"
       );
     } else if (
       data?.transactionTypeId == transactionTypes?.CommissionTransaction
     ) {
       window.open(
-        `/commissionTransactiondetails/${data?.baseTransactionId}`,
+        `/commissionTransactionDetails/${data?.baseTransactionId}`,
         "_blank"
       );
     }
@@ -1222,7 +1225,7 @@ const Index = () => {
                 <tbody>
                   {data?.map((ls, i) => (
                     <tr key={i} style={{ textAlign: "center" }}>
-                      {checkSlNo ? <td>{i + 1}</td> : null}
+                      {checkSlNo ? <td>{i + ser}</td> : null}
                       {checkDate ? <td>{ls?.transactionDate}</td> : null}
                       {checkCons ? <td>{ls?.consultantName}</td> : null}
                       {checkCode ? (

@@ -441,6 +441,11 @@ const WithdrawRequestList = lazy(() => import("./views/SMS/WithdrawRequest/List"
 const ExportWithdrawRequestPdf =  lazy(() => import("./views/SMS/WithdrawRequest/ExportWithdrawRequestPdf"));
 
 const WithdrawTransaction = lazy(() => import("./views/SMS/WithdrawTransaction/Index"));
+const WithdrawTransactionDetails = lazy(() => import("./views/SMS/WithdrawTransaction/Details"));
+
+// Comission Transaction Details
+const ComissionTransactionDetails = lazy(() => import("./views/SMS/Comission/ComissionTransactionDetails"));
+
 
 // admission officer
 const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerList.js"));
@@ -885,6 +890,10 @@ class AppRouter extends React.Component {
            <AppRoute  path="/withdrawRequestList" component={permissions?.includes(permissionList.View_withdraw_request_List) ? WithdrawRequestList : NotAuthorized} />
 
            <AppRoute  path="/withdrawTransaction" component={permissions?.includes(permissionList.View_withdraw_transaction_List) ? WithdrawTransaction : NotAuthorized} />
+           <AppRoute  path="/withdrawTransactionDetails/:id" component={permissions?.includes(permissionList.View_withdraw_transaction_info) ? WithdrawTransactionDetails : NotAuthorized} />
+
+           {/* commission transaction details  */}
+           <AppRoute  path="/commissionTransactionDetails/:id" component={permissions?.includes(permissionList.View_Account_transaction_info) ? ComissionTransactionDetails : NotAuthorized} />
 
 
            <AppRoute  path="/exportPDF" component={ExportWithdrawRequestPdf} />
