@@ -35,7 +35,7 @@ const redirectToProfile = () => {
     userInfo?.userTypeId == userTypes?.AccountOfficer ||
     userInfo?.userTypeId == userTypes?.ComplianceManager ||
     userInfo?.userTypeId == userTypes?.FinanceManager) {
-    history.push(`/employeeProfile/${userInfo?.referenceId}`);
+    history.push(`/staffProfile/${userInfo?.referenceId}`);
   }
   else if (userInfo?.userTypeId == userTypes?.AdmissionManager) {
     history.push(`/admissionManagerProfile/${userInfo?.referenceId}`);

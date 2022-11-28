@@ -2658,7 +2658,7 @@ const UniversityDetails = () => {
                             src={
                               rootUrl +
                               universityInfo?.provider?.providerLogoMedia
-                                ?.thumbnailUrl
+                                ?.fileUrl
                             }
                             alt="provider_img"
                           />

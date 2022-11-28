@@ -4,7 +4,7 @@ import { Button, Card } from 'reactstrap';
 import { rootUrl } from '../../../../constants/constants';
 import get from '../../../../helpers/get';
 import { Image } from 'antd';
-
+import uapploader from '../../../../assets/img/Uapp_fav.png';
 import LinkButton from '../../Components/LinkButton';
 import { permissionList } from '../../../../constants/AuthorizationConstant';
 const Manager = (props) => {
@@ -39,7 +39,12 @@ const Manager = (props) => {
 
 
                 <div className="uapp-circle-image margin-top-minus mt-3">
-                  <img className="p-1" src={rootUrl+branchManager?.managerImageMedia?.thumbnailUrl} alt="provider_image" />
+                {
+                   (branchManager?.managerImageMedia == null) ?
+                    <img className="p-1" src={uapploader} alt="provider_image" />
+                    :
+                    <img className="p-1" src={rootUrl+branchManager?.managerImageMedia?.thumbnailUrl} alt="provider_image" />
+                }
                 </div>
                 <h5 className="pt-2 h3 text-center mb-4">
                   {" "}

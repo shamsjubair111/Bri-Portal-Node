@@ -23,7 +23,7 @@ import {
 import Select from "react-select";
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
 import { useHistory, useLocation } from "react-router";
-
+import uapploader from '../../../assets/img/Uapp_fav.png';
 import get from "../../../helpers/get.js";
 import { rootUrl } from "../../../constants/constants.js";
 import { StoreUniversityStateData } from "../../../redux/actions/SMS/UniversityAction/UniversityStateAction.js";
@@ -1108,12 +1108,28 @@ const UniversityList = (props) => {
 
                       {checkLogo ? (
                         <td>
-                          {" "}
+                          {
+                            ( university?.universityLogo == null) ?
+                            <>
+                            {" "}
+                          <img
+                            className="Uapp-c-image bg-white"
+                            src={uapploader}
+                            alt="university_logo"
+                          />{" "}
+                            </>
+
+                            :
+
+                            <>
+                            {" "}
                           <img
                             className="Uapp-c-image"
                             src={rootUrl + university?.universityLogo?.thumbnailUrl}
                             alt="university_logo"
                           />{" "}
+                            </>
+                          }
                         </td>
                       ) : null}
 

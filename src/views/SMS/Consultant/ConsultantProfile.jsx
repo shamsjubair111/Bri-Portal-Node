@@ -553,7 +553,10 @@ const ConsultantProfile = () => {
                                 ?.fileUrl
                             }
                             alt="img-desc"
+                            
                           />
+
+                          
                              }
 
                               {permissions?.includes(

@@ -9,6 +9,7 @@ import { Image, Upload } from "antd";
 import * as Icon from "react-feather";
 import { permissionList } from '../../../../constants/AuthorizationConstant';
 import ButtonLoader from '../../Components/ButtonLoader';
+import uapploader from '../../../../assets/img/Uapp_fav.png';
 
 const BranchManagerProfile = () => {
     
@@ -157,7 +158,12 @@ const handleChange1 = ({ fileList }) => {
                <div className="uapp-circle-image margin-top-minus">
                
                   <div className='profile-pic1'>
-                         <img src={rootUrl+manager?.managerImageMedia?.fileUrl} className='img-fluid'  alt='provider_image' />
+                         {
+                          (manager?.managerImageMedia == null) ?
+                          <img src={uapploader} className='img-fluid bg-white'  alt='provider_image' />
+                          :
+                          <img src={rootUrl+manager?.managerImageMedia?.fileUrl} className='img-fluid'  alt='provider_image' />
+                         }
                      
                         <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
                       

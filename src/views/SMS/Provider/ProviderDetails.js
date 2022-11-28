@@ -27,7 +27,7 @@ import * as Icon from "react-feather";
 import LinkButton from "../Components/LinkButton.js";
 import Form from "../../core/country/pages/form.js";
 import Select from "react-select";
-
+import uapploader from '../../../assets/img/Uapp_fav.png';
 import put from "../../../helpers/put.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
@@ -648,9 +648,16 @@ const ProviderDetails = () => {
               <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
                 <div className='profile-pic1'>
-                        <img className="empProfileImg"  src={
-                      rootUrl + providerInfo?.providerLogoMedia?.thumbnailUrl
-                    } alt="provider_profile"/>
+                      {
+                        (providerInfo?.providerLogoMedia == null) ?
+                          <img className="empProfileImg"  src={uapploader} alt="provider_profile"/>
+
+                          :
+
+                          <img className="empProfileImg"  src={
+                            rootUrl + providerInfo?.providerLogoMedia?.thumbnailUrl
+                          } alt="provider_profile"/>
+                      }
                        {
                         permissions?.includes(permissionList.Change_Provider_LogoImage) ?
                         <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
@@ -782,12 +789,20 @@ const ProviderDetails = () => {
             <Card className="uapp-employee-profile-right">
               <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
+                  {
+                    (adminData?.providerAdminMedia == null) ?
+                    <img
+                    src={uapploader}
+                    alt="provider_profile"
+                  />
+                  :
                   <img
                     src={
                       rootUrl + adminData?.providerAdminMedia?.thumbnailUrl
                     }
                     alt="provider_profile"
                   />
+                  }
                 </div>
 
                 <h5 className="">{adminData?.nameTittle?.name} {' '} {adminData?.firstName} {' '} {adminData?.lastName}</h5>
@@ -915,7 +930,19 @@ const ProviderDetails = () => {
                           style={{ textAlign: "center" }}
                         >
                           <td>
-                            {" "}
+                            {
+                              (university?.universityLogo == null) ?
+                              <>
+                              {" "}
+                              <img
+                                className="Uapp-c-image"
+                                src={uapploader}
+                                alt="logo"
+                              />{" "}
+                              </>
+                              :
+                            <>
+                              {" "}
                             <img
                               className="Uapp-c-image"
                               src={`${
@@ -924,6 +951,8 @@ const ProviderDetails = () => {
                               }`}
                               alt="logo"
                             />{" "}
+                            </>
+                            }
                           </td>
                           <td>
                             {university?.universityName} ({university?.universityShortName})

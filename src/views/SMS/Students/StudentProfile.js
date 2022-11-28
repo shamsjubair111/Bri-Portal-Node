@@ -1892,7 +1892,12 @@ const StudentProfile = () => {
               }}
                className="uapp-profile-CardHeader">
                   <div className="uapp-circle-image margin-top-minus">
-                    <img src={rootUrl+studentDetails?.consultant?.consultantProfileImageMedia?.thumbnailUrl} alt="consultant_photo"/>
+                   {
+                    (studentDetails?.consultant?.consultantProfileImageMedia ==null) ?
+                     <img src={uapploader} alt="consultant_photo"/>
+                     :
+                     <img src={rootUrl+studentDetails?.consultant?.consultantProfileImageMedia?.thumbnailUrl} alt="consultant_photo"/>
+                   }
                   </div>    
 
                   <h5>{studentDetails?.consultant?.firstName} {studentDetails?.consultant?.lastName}</h5>
