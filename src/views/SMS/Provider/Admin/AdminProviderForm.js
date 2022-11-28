@@ -199,12 +199,18 @@ const handlePass = (e) => {
           <div className="page-header-back-to-home">
             <span className="text-white" onClick={backToDashboard}>
               {" "}
-              <i className="fas fa-arrow-circle-left"></i>{" "}
+              
               {
                 location.providerId !== undefined ?
-                "Back to Provider Details"
+                <>
+                  <i className="fas fa-arrow-circle-left"></i>{" "}Back to Provider Details
+                </>
                 :
-                "Back to Provider List"
+                // "Back to Provider List"
+                // <>
+                //   <i className="fas fa-arrow-circle-left"></i>{" "}"Back to Provider List"
+                // </>
+                null
               }
             </span>
           </div>

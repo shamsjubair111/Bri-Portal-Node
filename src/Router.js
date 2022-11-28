@@ -486,6 +486,7 @@ const ConvertStudentIntoConsultantForm = lazy(() => import("./views/SMS/ConvertS
 
 // Login History 
 const LoginHistory = lazy(() => import("./views/SMS/LoginHistory/Index"));
+const AllLoginHistory = lazy(() => import("./views/SMS/LoginHistory/AllLoginHistory"));
 
 
 
@@ -663,6 +664,8 @@ class AppRouter extends React.Component {
           }
 
           <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
+
+          <AppRoute  path="/associateList" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
           
           
 
@@ -911,6 +914,7 @@ class AppRouter extends React.Component {
            {/* login history path */}
   
            <AppRoute  path="/loginhistory" component={LoginHistory} />
+           <AppRoute  path="/allUsersLoginHistory" component={permissions?.includes(permissionList.View_LoginHistory_list) ? AllLoginHistory : NotAuthorized} />
            
 
 

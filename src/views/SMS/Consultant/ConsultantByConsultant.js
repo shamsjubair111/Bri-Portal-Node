@@ -36,6 +36,7 @@ import LinkButton from "../Components/LinkButton.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
+import Loader from "../Search/Loader/Loader.js";
 
 const ConsultantByConsultant = () => {
   const { id } = useParams();
@@ -46,6 +47,7 @@ const ConsultantByConsultant = () => {
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [pageLoad, setPageLoad] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
 
@@ -73,20 +75,37 @@ const ConsultantByConsultant = () => {
   const [checkAsso, setCheckAsso] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus, setButtonStatus] = useState(false);
-  const permissions = JSON.parse(localStorage.getItem('permissions'));
-  const [progress,setProgress] = useState(false);
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
+  const [progress, setProgress] = useState(false);
+
+  const referenceId = localStorage.getItem("referenceId");
 
   useEffect(() => {
-    get(
-      `Consultant/GetAssociate?page=${currentPage}&pageSize=${dataPerPage}&id=${id}`
-    ).then((res) => {
-      console.log("wdwdwdwd", res);
-      setConsultantList(res?.models);
-      setEntity(res?.totalEntity);
-      setSerialNum(res?.firstSerialNumber);
-      console.log(res?.models);
-      setLoading(false);
-    });
+    if (id == undefined) {
+      get(
+        `Consultant/GetAssociate?page=${currentPage}&pageSize=${dataPerPage}&id=${referenceId}`
+      ).then((res) => {
+        console.log("wdwdwdwd", res);
+        setConsultantList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNum(res?.firstSerialNumber);
+        console.log(res?.models);
+        setLoading(false);
+        setPageLoad(false);
+      });
+    } else {
+      get(
+        `Consultant/GetAssociate?page=${currentPage}&pageSize=${dataPerPage}&id=${id}`
+      ).then((res) => {
+        console.log("wdwdwdwd", res);
+        setConsultantList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNum(res?.firstSerialNumber);
+        console.log(res?.models);
+        setLoading(false);
+        setPageLoad(false);
+      });
+    }
   }, [id, currentPage, dataPerPage, callApi, entity, loading, success]);
 
   // user select data per page
@@ -137,7 +156,11 @@ const ConsultantByConsultant = () => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    history.push("/consultantList");
+    if (id == undefined) {
+      history.push("/");
+    } else {
+      history.push("/consultantList");
+    }
   };
 
   const handleDate = (e) => {
@@ -215,25 +238,37 @@ const ConsultantByConsultant = () => {
 
   return (
     <div>
-      <Card className="uapp-card-bg">
-        <CardHeader className="page-header">
-          <h3 className="text-white">Consultant list</h3>
-          <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-white">
-              {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Consultant
-              List
-            </span>
-          </div>
-        </CardHeader>
-      </Card>
+      {pageLoad ? (
+        <Loader />
+      ) : (
+        <>
+          <Card className="uapp-card-bg">
+            <CardHeader className="page-header">
+              <h3 className="text-white">Associates</h3>
+              <div className="page-header-back-to-home">
+                {id == undefined ? (
+                  <span onClick={backToDashboard} className="text-white">
+                    {" "}
+                    <i className="fas fa-arrow-circle-left"></i> Back to
+                    Dashboard
+                  </span>
+                ) : (
+                  <span onClick={backToDashboard} className="text-white">
+                    {" "}
+                    <i className="fas fa-arrow-circle-left"></i> Back to
+                    Consultant List
+                  </span>
+                )}
+              </div>
+            </CardHeader>
+          </Card>
 
-      <Card className="uapp-employee-search">
-        <CardBody>
-          {/* new */}
-          <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
-              {/* {
+          <Card className="uapp-employee-search">
+            <CardBody>
+              {/* new */}
+              <Row className="mb-3">
+                <Col lg="5" md="5" sm="4" xs="4">
+                  {/* {
                     permissions?.includes(permissionList?.Add_subject) ?
               <ButtonForFunction
                 func={handleAddSubject}
@@ -245,11 +280,11 @@ const ConsultantByConsultant = () => {
               :
               null
               } */}
-            </Col>
+                </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
-                {/* <Col lg="2">
+                <Col lg="7" md="7" sm="8" xs="8">
+                  <div className="d-md-flex justify-content-end">
+                    {/* <Col lg="2">
                     
                     <div className='ms-2'>
                       <ReactToPrint
@@ -263,37 +298,37 @@ const ConsultantByConsultant = () => {
                     </div>
                 </Col> */}
 
-                <div className="mr-2">
-                  <div className="d-flex align-items-center">
-                    <div className="mr-2">Showing :</div>
-                    <div>
-                      <Select
-                        options={dataSizeName}
-                        value={{ label: dataPerPage, value: dataPerPage }}
-                        onChange={(opt) => selectDataSize(opt.value)}
-                      />
+                    <div className="mr-2">
+                      <div className="d-flex align-items-center">
+                        <div className="mr-2">Showing :</div>
+                        <div>
+                          <Select
+                            options={dataSizeName}
+                            value={{ label: dataPerPage, value: dataPerPage }}
+                            onChange={(opt) => selectDataSize(opt.value)}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
-                <div className="mr-2">
-                  <Dropdown
-                    className="uapp-dropdown"
-                    style={{ float: "right" }}
-                    isOpen={dropdownOpen}
-                    toggle={toggle}
-                  >
-                    <DropdownToggle caret>
-                      <i className="fas fa-print fs-7"></i>
-                    </DropdownToggle>
-                    <DropdownMenu className="bg-dd-4">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="cursor-pointer">
-                          {/* <p onClick={handleExportXLSX}>
+                    <div className="mr-2">
+                      <Dropdown
+                        className="uapp-dropdown"
+                        style={{ float: "right" }}
+                        isOpen={dropdownOpen}
+                        toggle={toggle}
+                      >
+                        <DropdownToggle caret>
+                          <i className="fas fa-print fs-7"></i>
+                        </DropdownToggle>
+                        <DropdownMenu className="bg-dd-4">
+                          <div className="d-flex justify-content-around align-items-center mt-2">
+                            <div className="cursor-pointer">
+                              {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
 
-                          {/* <ReactHTMLTableToExcel
+                              {/* <ReactHTMLTableToExcel
                             id="test-table-xls-button"
                             className="download-table-xls-button"
                             table="table-to-xls"
@@ -302,121 +337,121 @@ const ConsultantByConsultant = () => {
                             buttonText="Download as XLS"
                             /> */}
 
-                          <ReactTableConvertToXl
-                            id="test-table-xls-button"
-                            table="table-to-xls"
-                            filename="tablexls"
-                            sheet="tablexls"
-                            icon={<i className="fas fa-file-excel"></i>}
-                          />
-                        </div>
-                        <div className="cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
-                      </div>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
+                              <ReactTableConvertToXl
+                                id="test-table-xls-button"
+                                table="table-to-xls"
+                                filename="tablexls"
+                                sheet="tablexls"
+                                icon={<i className="fas fa-file-excel"></i>}
+                              />
+                            </div>
+                            <div className="cursor-pointer">
+                              <ReactToPrint
+                                trigger={() => (
+                                  <p>
+                                    <i className="fas fa-file-pdf"></i>
+                                  </p>
+                                )}
+                                content={() => componentRef.current}
+                              />
+                            </div>
+                          </div>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
 
-                {/* column hide unhide starts here */}
+                    {/* column hide unhide starts here */}
 
-                <div className="">
-                  <Dropdown
-                    className="uapp-dropdown"
-                    style={{ float: "right" }}
-                    isOpen={dropdownOpen1}
-                    toggle={toggle1}
-                  >
-                    <DropdownToggle caret>
-                      <i className="fas fa-bars"></i>
-                    </DropdownToggle>
-                    <DropdownMenu className="bg-dd-1">
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">SL/NO</p>
-                        </Col>
+                    <div className="">
+                      <Dropdown
+                        className="uapp-dropdown"
+                        style={{ float: "right" }}
+                        isOpen={dropdownOpen1}
+                        toggle={toggle1}
+                      >
+                        <DropdownToggle caret>
+                          <i className="fas fa-bars"></i>
+                        </DropdownToggle>
+                        <DropdownMenu className="bg-dd-1">
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">SL/NO</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              id=""
-                              name="isAcceptHome"
-                              onChange={(e) => {
-                                handleCheckedSLNO(e);
-                              }}
-                              defaultChecked={checkSlNo}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id=""
+                                  name="isAcceptHome"
+                                  onChange={(e) => {
+                                    handleCheckedSLNO(e);
+                                  }}
+                                  defaultChecked={checkSlNo}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Name</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Name</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedName(e);
-                              }}
-                              defaultChecked={checkName}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedName(e);
+                                  }}
+                                  defaultChecked={checkName}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Email</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Email</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedEmail(e);
-                              }}
-                              defaultChecked={checkEmail}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedEmail(e);
+                                  }}
+                                  defaultChecked={checkEmail}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Phone</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Phone</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedPhn(e);
-                              }}
-                              defaultChecked={checkPhn}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedPhn(e);
+                                  }}
+                                  defaultChecked={checkPhn}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      {/* <div className="d-flex justify-content-between">
+                          {/* <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">Password</p>
                         </Col>
@@ -435,183 +470,183 @@ const ConsultantByConsultant = () => {
                         </Col>
                       </div> */}
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Branch</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Branch</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedBranch(e);
-                              }}
-                              defaultChecked={checkBranch}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedBranch(e);
+                                  }}
+                                  defaultChecked={checkBranch}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Parent</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Parent</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedCons(e);
-                              }}
-                              defaultChecked={checkCons}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedCons(e);
+                                  }}
+                                  defaultChecked={checkCons}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Type</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Type</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedConsType(e);
-                              }}
-                              defaultChecked={checkConsType}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedConsType(e);
+                                  }}
+                                  defaultChecked={checkConsType}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Started</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Started</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedDate(e);
-                              }}
-                              defaultChecked={checkDate}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedDate(e);
+                                  }}
+                                  defaultChecked={checkDate}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Status</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Status</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedSts(e);
-                              }}
-                              defaultChecked={checkSts}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedSts(e);
+                                  }}
+                                  defaultChecked={checkSts}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Student</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Student</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedStd(e);
-                              }}
-                              defaultChecked={checkStd}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedStd(e);
+                                  }}
+                                  defaultChecked={checkStd}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Applications</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Applications</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedAppli(e);
-                              }}
-                              defaultChecked={checkAppli}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedAppli(e);
+                                  }}
+                                  defaultChecked={checkAppli}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Associates</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Associates</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedAsso(e);
-                              }}
-                              defaultChecked={checkAsso}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedAsso(e);
+                                  }}
+                                  defaultChecked={checkAsso}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
 
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Action</p>
-                        </Col>
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Action</p>
+                            </Col>
 
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedAction(e);
-                              }}
-                              defaultChecked={checkAction}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedAction(e);
+                                  }}
+                                  defaultChecked={checkAction}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
 
-                {/* column hide unhide ends here */}
+                    {/* column hide unhide ends here */}
 
-                {/* <div className="me-3">
+                    {/* <div className="me-3">
                   <Dropdown
                     className="uapp-dropdown"
                     style={{ float: "right" }}
@@ -642,18 +677,18 @@ const ConsultantByConsultant = () => {
                     </DropdownMenu>
                   </Dropdown>
                 </div> */}
-              </div>
-            </Col>
-          </Row>
+                  </div>
+                </Col>
+              </Row>
 
-          {loading ? (
-            <h2 className="text-center">Loading...</h2>
-          ) : (
-            <div className="table-responsive mb-2" ref={componentRef}>
-              <Table id="table-to-xls" className="table-sm table-bordered">
-                <thead className="thead-uapp-bg">
-                  <tr style={{ textAlign: "center" }}>
-                    {/* <th>SL/NO</th>
+              {loading ? (
+                <h2 className="text-center">Loading...</h2>
+              ) : (
+                <div className="table-responsive mb-2" ref={componentRef}>
+                  <Table id="table-to-xls" className="table-sm table-bordered">
+                    <thead className="thead-uapp-bg">
+                      <tr style={{ textAlign: "center" }}>
+                        {/* <th>SL/NO</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
@@ -670,56 +705,59 @@ const ConsultantByConsultant = () => {
                       Action
                     </th> */}
 
-                    {checkSlNo ? <th>SL/NO</th> : null}
-                    {checkName ? <th>Name</th> : null}
-                    {checkEmail ? <th>Email</th> : null}
-                    {checkPhn ? <th>Phone</th> : null}
-                   {/* {
+                        {checkSlNo ? <th>SL/NO</th> : null}
+                        {checkName ? <th>Name</th> : null}
+                        {checkEmail ? <th>Email</th> : null}
+                        {checkPhn ? <th>Phone</th> : null}
+                        {/* {
                     permissions?.includes(permissionList.ChangePassword) ?
                     <>
                      {checkPass ? <th>Password</th> : null}
                     </>
                     : null
                    } */}
-                    {checkBranch ? <th>Branch</th> : null}
-                    {checkCons ? <th>Parent</th> : null}
-                    {checkConsType ? <th>Type</th> : null}
-                    {checkDate ? <th>Started</th> : null}
-                    {
-                      permissions?.includes(permissionList.Change_Status_Student) ?
-                      <>
-                      {checkSts ? <th>Status</th> : null}
-                      </>
-                      :
-                      null
-                    }
-                    {
-                      permissions?.includes(permissionList.View_Student_consultant_List) ? 
-                      <>{checkStd ? <th>Student</th> : null}</>
-                      :
-                      null
-                    }
-                    {checkAppli ? <th>Applications</th> : null}
-                    {checkAsso ? <th>Associates</th> : null}
-                    {checkAction ? (
-                      <th style={{ width: "8%" }} className="text-center">
-                        Action
-                      </th>
-                    ) : null}
-                  </tr>
-                </thead>
-                <tbody>
-                  {consultantList?.map((consultant, i) => (
-                    <tr key={consultant?.id} style={{ textAlign: "center" }}>
-                      {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
-                      {checkName ? (
-                        <td style={{ width: "10px" }}>
-                          {consultant?.firstName} {consultant?.lastName}
-                        </td>
-                      ) : null}
-                      {checkEmail ? <td>{consultant?.email}</td> : null}
-                      {checkPhn ? <td>{consultant?.phoneNumber}</td> : null}
-                      {/* {
+                        {checkBranch ? <th>Branch</th> : null}
+                        {checkCons ? <th>Parent</th> : null}
+                        {checkConsType ? <th>Type</th> : null}
+                        {checkDate ? <th>Started</th> : null}
+                        {permissions?.includes(
+                          permissionList.Change_Status_Student
+                        ) ? (
+                          <>{checkSts ? <th>Status</th> : null}</>
+                        ) : null}
+                        {permissions?.includes(
+                          permissionList.View_Student_consultant_List
+                        ) ? (
+                          <>{checkStd ? <th>Student</th> : null}</>
+                        ) : null}
+                        {checkAppli ? <th>Applications</th> : null}
+                        {id == undefined ? null : (
+                          <>{checkAsso ? <th>Associates</th> : null}</>
+                        )}
+                        {checkAction ? (
+                          <th style={{ width: "8%" }} className="text-center">
+                            Action
+                          </th>
+                        ) : null}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {consultantList?.map((consultant, i) => (
+                        <tr
+                          key={consultant?.id}
+                          style={{ textAlign: "center" }}
+                        >
+                          {checkSlNo ? (
+                            <th scope="row">{serialNum + i}</th>
+                          ) : null}
+                          {checkName ? (
+                            <td style={{ width: "10px" }}>
+                              {consultant?.firstName} {consultant?.lastName}
+                            </td>
+                          ) : null}
+                          {checkEmail ? <td>{consultant?.email}</td> : null}
+                          {checkPhn ? <td>{consultant?.phoneNumber}</td> : null}
+                          {/* {
                         permissions?.includes(permissionList.ChangePassword) ? 
                         <>
                         {checkPass ? (
@@ -731,192 +769,194 @@ const ConsultantByConsultant = () => {
                         :
                         null
                       } */}
-                      {checkBranch ? <td>{consultant?.branch?.name}</td> : null}
-                      {checkCons ? (
-                        <td>{consultant?.parentConsultantName}</td>
-                      ) : null}
-                      {checkConsType ? (
-                        <td>{consultant?.consultantType?.name}</td>
-                      ) : null}
-                      {checkDate ? (
-                        <td>{handleDate(consultant?.createdOn)}</td>
-                      ) : null}
-                      {
-                      permissions?.includes(permissionList.Change_Status_Student) ?
-                      <>
-                      {checkSts ? (
-                        <td>{consultant?.accountStatus?.statusName}</td>
-                      ) : null}
-                      </>
-                      :
-                      null
-                      }
+                          {checkBranch ? (
+                            <td>{consultant?.branch?.name}</td>
+                          ) : null}
+                          {checkCons ? (
+                            <td>{consultant?.parentConsultantName}</td>
+                          ) : null}
+                          {checkConsType ? (
+                            <td>{consultant?.consultantType?.name}</td>
+                          ) : null}
+                          {checkDate ? (
+                            <td>{handleDate(consultant?.createdOn)}</td>
+                          ) : null}
+                          {permissions?.includes(
+                            permissionList.Change_Status_Student
+                          ) ? (
+                            <>
+                              {checkSts ? (
+                                <td>{consultant?.accountStatus?.statusName}</td>
+                              ) : null}
+                            </>
+                          ) : null}
 
-                    {
-                      permissions?.includes(permissionList.View_Student_consultant_List) ? 
+                          {permissions?.includes(
+                            permissionList.View_Student_consultant_List
+                          ) ? (
+                            <>
+                              {checkStd ? (
+                                <td>
+                                  <span
+                                    className="badge badge-secondary"
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <Link
+                                      style={{ textDecoration: "none" }}
+                                      to={`/studentByConsultant/${consultant?.id}`}
+                                    >
+                                      {consultant?.studentCount}
+                                    </Link>
+                                  </span>
+                                </td>
+                              ) : null}
+                            </>
+                          ) : null}
 
-                     <>
-                      {checkStd ? (
-                        <td>
-                          <span
-                            className="badge badge-secondary"
-                            style={{ cursor: "pointer" }}
-                          >
-                            <Link
-                              style={{ textDecoration: "none" }}
-                              to={`/studentByConsultant/${consultant?.id}`}
-                            >
-                              {consultant?.studentCount}
-                            </Link>
-                          </span>
-                        </td>
-                      ) : null}
-                      </>
-                     :
-                     null
-                     }
+                          {permissions?.includes(
+                            permissionList.View_Application_List
+                          ) ? (
+                            <>
+                              {checkAppli ? (
+                                <td>
+                                  {" "}
+                                  <span
+                                    className="badge badge-primary"
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    {0}
+                                  </span>{" "}
+                                </td>
+                              ) : null}
+                            </>
+                          ) : null}
 
+                          {permissions?.includes(
+                            permissionList.View_Associate_List
+                          ) ? (
+                            <>
+                              {id == undefined ? null : (
+                                <>
+                                  {checkAsso ? (
+                                    <td>
+                                      {" "}
+                                      <span
+                                        className="badge badge-warning"
+                                        style={{
+                                          cursor: "pointer",
+                                          textDecoration: "none",
+                                        }}
+                                      >
+                                        <Link
+                                          style={{ textDecoration: "none" }}
+                                          to={`/associates/${consultant?.id}`}
+                                        >
+                                          {consultant?.childConsultantCount}
+                                        </Link>
+                                      </span>{" "}
+                                    </td>
+                                  ) : null}
+                                </>
+                              )}
+                            </>
+                          ) : null}
 
-                     {
-                      permissions?.includes(permissionList.View_Application_List) ?
-                      
-                      <>
-                      {checkAppli ? (
-                        <td>
-                          {" "}
-                          <span
-                            className="badge badge-primary"
-                            style={{ cursor: "pointer" }}
-                          >
-                            {0}
-                          </span>{" "}
-                        </td>
-                      ) : null}
-                      </>
-                     :
-                     null
-                     }
-
-                    {
-                      permissions?.includes(permissionList.View_Associate_List) ?
-                        
-                      <>
-                      {checkAsso ? (
-                        <td>
-                          {" "}
-                          <span
-                            className="badge badge-warning"
-                            style={{
-                              cursor: "pointer",
-                              textDecoration: "none",
-                            }}
-                          >
-                            <Link
-                              style={{ textDecoration: "none" }}
-                              to={`/associates/${consultant?.id}`}
-                            >
-                              {consultant?.childConsultantCount}
-                            </Link>
-                          </span>{" "}
-                        </td>
-                      ) : null}
-                      </>
-                      :
-                      null
-                      }
-                      
-                      {checkAction ? (
-                        <td style={{ width: "8%" }} className="text-center">
-                          <ButtonGroup variant="text">
-                            {/* <LinkButton
+                          {checkAction ? (
+                            <td style={{ width: "8%" }} className="text-center">
+                              <ButtonGroup variant="text">
+                                {/* <LinkButton
                           url={`/consultantProfile/${consultant?.id}`}
                           color={"primary"}
                           className={"mx-1 btn-sm"}
                           icon={<i className="fas fa-eye"></i>}
                           permission={6}
                         /> */}
-                          {
-                          permissions?.includes(permissionList?.View_Associate_info) ?
-                            <ButtonForFunction
-                              func={() => handleView(consultant?.id)}
-                              color={"primary"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-eye"></i>}
-                              permission={6}
-                            />
-                            :
-                            null
-                          }
+                                {permissions?.includes(
+                                  permissionList?.View_Associate_info
+                                ) ? (
+                                  <ButtonForFunction
+                                    func={() => handleView(consultant?.id)}
+                                    color={"primary"}
+                                    className={"mx-1 btn-sm"}
+                                    icon={<i className="fas fa-eye"></i>}
+                                    permission={6}
+                                  />
+                                ) : null}
 
-                            {
-                              permissions?.includes(permissionList.Update_Associate_info) ?
-                              <ButtonForFunction
-                              func={() => handleEdit(consultant)}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
-                            :
-                            null
-                            }
+                                {permissions?.includes(
+                                  permissionList.Update_Associate_info
+                                ) ? (
+                                  <ButtonForFunction
+                                    func={() => handleEdit(consultant)}
+                                    color={"warning"}
+                                    className={"mx-1 btn-sm"}
+                                    icon={<i className="fas fa-edit"></i>}
+                                    permission={6}
+                                  />
+                                ) : null}
 
-                           {
-                            permissions?.includes(permissionList.Delete_Associate) ? 
-                            <>
-                             {consultant?.id !== 1 ? (
-                              <ButtonForFunction
-                                color={"danger"}
-                                className={"mx-1 btn-sm"}
-                                func={() => toggleDanger(consultant)}
-                                icon={<i className="fas fa-trash-alt"></i>}
-                                permission={6}
-                              />
-                            ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
-                            null}
-                            </>
-                            :
-                            null
-                           }
-                          </ButtonGroup>
-                          <Modal
-                            isOpen={deleteModal}
-                            toggle={() => setDeleteModal(!deleteModal)}
-                            className="uapp-modal"
-                          >
-                            <ModalBody>
-                              <p>
-                                Are You Sure to Delete this ? Once Deleted it
-                                can't be Undone!
-                              </p>
-                            </ModalBody>
+                                {permissions?.includes(
+                                  permissionList.Delete_Associate
+                                ) ? (
+                                  <>
+                                    {consultant?.id !== 1 ? (
+                                      <ButtonForFunction
+                                        color={"danger"}
+                                        className={"mx-1 btn-sm"}
+                                        func={() => toggleDanger(consultant)}
+                                        icon={
+                                          <i className="fas fa-trash-alt"></i>
+                                        }
+                                        permission={6}
+                                      />
+                                    ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
+                                    null}
+                                  </>
+                                ) : null}
+                              </ButtonGroup>
+                              <Modal
+                                isOpen={deleteModal}
+                                toggle={() => setDeleteModal(!deleteModal)}
+                                className="uapp-modal"
+                              >
+                                <ModalBody>
+                                  <p>
+                                    Are You Sure to Delete this ? Once Deleted
+                                    it can't be Undone!
+                                  </p>
+                                </ModalBody>
 
-                            <ModalFooter>
-                              <Button color="danger" onClick={handleDeleteData}>
-                                {progress ? <ButtonLoader/> : 'YES'}
-                              </Button>
-                              <Button onClick={() => setDeleteModal(false)}>
-                                NO
-                              </Button>
-                            </ModalFooter>
-                          </Modal>
-                        </td>
-                      ) : null}
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-          )}
+                                <ModalFooter>
+                                  <Button
+                                    color="danger"
+                                    onClick={handleDeleteData}
+                                  >
+                                    {progress ? <ButtonLoader /> : "YES"}
+                                  </Button>
+                                  <Button onClick={() => setDeleteModal(false)}>
+                                    NO
+                                  </Button>
+                                </ModalFooter>
+                              </Modal>
+                            </td>
+                          ) : null}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
+              )}
 
-          <Pagination
-            dataPerPage={dataPerPage}
-            totalData={entity}
-            paginate={paginate}
-            currentPage={currentPage}
-          />
-        </CardBody>
-      </Card>
+              <Pagination
+                dataPerPage={dataPerPage}
+                totalData={entity}
+                paginate={paginate}
+                currentPage={currentPage}
+              />
+            </CardBody>
+          </Card>
+        </>
+      )}
     </div>
   );
 };

@@ -124,7 +124,7 @@ const EmployeeList = (props) => {
           }&searchstring=${searchStr}`
         ).then((action) => {
           setEmployeeList(action.models);
-
+          console.log("staffList", action.models);
           setEmpLabel(action?.models[0]?.employeeType?.name);
 
           setLoading(false);
@@ -138,7 +138,7 @@ const EmployeeList = (props) => {
           }&searchstring=${searchStr}`
         ).then((action) => {
           setEmployeeList(action.models);
-
+          console.log("staffList", action.models);
           setLoading(false);
           setEntity(action.totalEntity);
           setSerialNum(action.firstSerialNumber);
@@ -914,6 +914,11 @@ const EmployeeList = (props) => {
                           /> */}
 
                           {
+                            emp?.email == 'accountmanager@uapp.uk' || emp?.email == 'accounts@uapp.uk' || emp?.email == 'compliance@uapp.uk' || emp?.email == 'edit@uapp.uk' || emp?.email == 'finance@uapp.uk' ?
+                            null
+                            :
+                            <>
+                             {
                             permissions.includes(permissionList?.Update_Staff_info) ? 
                             <ButtonForFunction
                             func={() => redirecttoStaffGeneralInfo(emp?.id)}
@@ -942,6 +947,9 @@ const EmployeeList = (props) => {
                             :
                             null
                             }
+                            </>
+                          }
+                          
                           </ButtonGroup>
 
                           <Modal
