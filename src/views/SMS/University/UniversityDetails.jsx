@@ -24,7 +24,8 @@ import {
 import Axios from "axios";
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
-
+import uapploader from '../../../assets/img/Uapp_fav.png';
+import uapploader2 from '../../../assets/img/Asset 12Icon.svg';
 import get from "../../../helpers/get";
 import Select from "react-select";
 import { rootUrl } from "../../../constants/constants";
@@ -867,10 +868,18 @@ const UniversityDetails = () => {
                 <div className="uapp-employee-cover-image">
                   <div className="bg-image">
                     {/* <div className="uplode-cover-image"> */}
+                      {
+                        (universityInfo?.coverPhoto == null) ? 
+                        <img
+                        src={uapploader2}
+                        alt="cover_img"
+                      />
+                      :
                       <img
                         src={rootUrl + universityInfo?.coverPhoto?.fileUrl}
                         alt="cover_img"
                       />
+                      }
                       <div className="uplode-cover-image">
                       {
                         permissions?.includes(permissionList.Change_University_CoverImage) ?
@@ -991,10 +1000,16 @@ const UniversityDetails = () => {
                         <div className="text-left">
 
                           <div className='profile-pic'>
-                            <img className="empProfileImg"  src={
-                                   rootUrl + universityInfo?.universityLogo?.thumbnailUrl
-                                 }
-                                 alt="profile_img"/>
+                            {
+                              (universityInfo?.universityLogo == null) ?
+                              <img className="empProfileImg"  src={uapploader}
+                              alt="profile_img"/>
+                              :
+                              <img className="empProfileImg"  src={
+                                rootUrl + universityInfo?.universityLogo?.thumbnailUrl
+                              }
+                              alt="profile_img"/>
+                            }
 
                            {
                             permissions?.includes(permissionList.Change_University_LogoImage) ?

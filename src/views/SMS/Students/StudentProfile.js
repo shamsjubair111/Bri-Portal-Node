@@ -21,7 +21,7 @@ import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
-
+import uapploader from '../../../assets/img/Uapp_fav.png';
 import { Image } from 'antd';
 import { Upload } from "antd";
 import * as Icon from "react-feather";
@@ -561,7 +561,12 @@ const StudentProfile = () => {
                     <div className="uapp-employee-profile-image">
                     <div className="text-left">
                     <div className='profile-pic'>
-                        <img className="empProfileImg"  src={rootUrl+studentDetails?.profileImage?.fileUrl} alt='profile_img'/>
+                        {
+                          (studentDetails?.profileImage == null) ?
+                          <img className="empProfileImg"  src={uapploader} alt='profile_img'/>
+                          :
+                          <img className="empProfileImg"  src={rootUrl+studentDetails?.profileImage?.fileUrl} alt='profile_img'/>
+                        }
                        {
                         permissions?.includes(permissionList.Change_Student_profileImage) ?
                         <div class="edit"><span onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
