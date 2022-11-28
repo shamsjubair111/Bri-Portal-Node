@@ -32,22 +32,43 @@ import { history } from "../../../../history";
 import axios from "axios";
 import { rootUrl } from "../../../ReusableFunction/Api/ApiFunc";
 import { store } from "react-notifications-component";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Select from "react-select";
 import get from "../../../../helpers/get";
+import post from "../../../../helpers/post";
+import { useToasts } from "react-toast-notifications";
 
 const StudentRegisterJWT = () => {
   const [students, setStudents] = useState([]);
+  const [names,setNames] = useState([]);
 
   const [studentLabel, setStudentLabel] = useState("Student Type");
   const [studentValue, setStudentValue] = useState(0);
-  const [type, setType] = useState("");
-  const [title, setTitle] = useState("");
+  const [type, setType] = useState(0);
+  const [title, setTitle] = useState(0);
+  const [firstName,setFirstName] = useState(false);
+  const [lastName,setLastName] = useState(false);
+  const [email,setEmail] = useState(false);
+  const [password,setPassword] = useState(false);
+  const [cPassword,setCpassword] = useState(false);
+
+  const [typeError, setTypeError] = useState('');
+  const [titleError, setTitleError] = useState('');
+  const [passError, setPassError] = useState('');
+  
+  const [emailError,setEmailError] = useState(true);
+  const {addToast} = useToasts();
+  const history = useHistory();
 
   useEffect(() => {
     get("StudentTypeDD/Index").then((res) => {
       setStudents(res);
     });
+
+    get(`NameTittleDD/index`)
+    .then(res => {
+      setNames(res);
+    })
   }, []);
 
   const studentOptions = students?.map((st) => ({
@@ -60,8 +81,67 @@ const StudentRegisterJWT = () => {
     setStudentValue(value);
   };
 
+  const handleEmail = (e) =>{
+    setEmail(e.target.value);
+    get(`EmailCheck/Validate/${e.target.value}`)
+    .then(res => {
+      setEmailError(res);
+    })
+
+  }
+
+  const handlePass = (e) =>{
+    setPassError('');
+    setPassword(e.target.value);
+  
+  }
+  const handlePass2 = (e) =>{
+    setPassError('');
+    setCpassword(e.target.value);
+
+  }
+
   const handleRegister = (e) => {
     e.preventDefault();
+
+    const subData = {
+      studentTypeId: type,
+      NameTittleID: title,
+      FirstName: firstName,
+      LastName: lastName,
+      Email: email,
+      Password: password
+    }
+
+    if(type == 0){
+      setTypeError('Student type is required');
+    }
+    else if(title == 0){
+      setTitleError('Name title is required');
+    }
+    else if(password.length < 6){
+      setPassError('Password length can not be less than 6 digits');
+    }
+    else if(password !== cPassword){
+      setPassError('Passwords do not match');
+    }
+    else{
+        post(`Student/CreateAccount`,subData)
+        .then(res => {
+          if(res?.status == 200){
+            if(res?.data?.isSuccess == true){
+              addToast(res?.data?.message,{
+                appearance: 'success',
+                autoDismiss: true
+              })
+              history.push('/');
+            }
+            else{
+              setPassError(res?.data?.message)
+            }
+          }
+        })
+    }
   };
 
   const handleDisability = (event) => {
@@ -78,146 +158,71 @@ const StudentRegisterJWT = () => {
     <React.Fragment>
       <CardBody className="pt-1">
         <Form onSubmit={handleRegister}>
-          <input
-            type="hidden"
-            name="consultantId"
-            id="consultantId"
-            value="1"
-          />
-
          
-          
 
-            <FormGroup row className="has-icon-left position-relative">
-              <Col md="3">
-                <span style={{ fontWeight: "500" }}>Student Type</span>
-              </Col>
-              <Col md="6">
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="isHaveDisability"
-                    onChange={handleDisability}
-                    name="isHaveDisability"
-                    value="1"
-                    checked={type == "1"}
-                  />
-                  <Label
-                    className="form-check-label"
-                    check
-                    htmlFor="isHaveDisability"
-                  >
-                    Home
-                  </Label>
-                </FormGroup>
+         <div className="row">
+          <div className="col-md-3">
+            <span>Student type</span>
 
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="isHaveDisability"
-                    onChange={handleDisability}
-                    name="isHaveDisability"
-                    value="2"
-                    checked={type == "2"}
-                  />
-                  <Label
-                    className="form-check-label"
-                    check
-                    htmlFor="isHaveDisability"
-                  >
-                    EU/EEA
-                  </Label>
-                </FormGroup>
+          </div>
 
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="isHaveDisability"
-                    onChange={handleDisability}
-                    name="isHaveDisability"
-                    value="3"
-                    checked={type == "3"}
-                  />
-                  <Label
-                    className="form-check-label"
-                    check
-                    htmlFor="isHaveDisability"
-                  >
-                    International
-                  </Label>
-                </FormGroup>
-              </Col>
-            </FormGroup>
+          <div className="col-md-9">
+          {
+                        students?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="studentTypeId"
+                          id='studentTypeId'
+                          value={tt?.id}
+                          onClick={()=>setType(tt?.id)}
+                          
+                          />
 
-            <FormGroup row className="has-icon-left position-relative">
-              <Col md="3">
-                <span style={{ fontWeight: "500" }}>Title</span>
-              </Col>
-              <Col md="6">
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="1"
-                    checked={title == "1"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Mr.
-                  </Label>
-                </FormGroup>
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
 
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="2"
-                    checked={title == "2"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Miss
-                  </Label>
-                </FormGroup>
+                          
+                        ))
+                      }
 
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="3"
-                    checked={title == "3"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Ms.
-                  </Label>
-                </FormGroup>
+          </div>
 
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="4"
-                    checked={title == "4"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Mrs.
-                  </Label>
-                </FormGroup>
-              </Col>
-            </FormGroup>
+
+         </div>
+      
+        <div className="row">
+          <div className="col-md-3">
+            <span>Title</span>
+
+          </div>
+
+          <div className="col-md-9">
+
+          {
+                        names?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="NameTittleID"
+                          id='NameTittleID'
+                          value={tt?.id}
+                          onClick={()=>setTitle(tt?.id)}
+                          
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
+
+          </div>
+
+        </div>
       
 
           <div className="row gx-0">
@@ -226,8 +231,7 @@ const StudentRegisterJWT = () => {
               <Input
                 type="text"
                 placeholder="First Name"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+               onChange={(e)=> setFirstName(e.target.value)}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
@@ -244,8 +248,7 @@ const StudentRegisterJWT = () => {
               <Input
                 type="text"
                 placeholder="Last Name"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                onChange={(e)=> setLastName(e.target.value)}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
@@ -262,8 +265,7 @@ const StudentRegisterJWT = () => {
               <Input
                 type="email"
                 placeholder="Email"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                onChange={handleEmail}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
@@ -271,6 +273,7 @@ const StudentRegisterJWT = () => {
 
               </div>
               <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Email</Label>
+              <span className="text-danger">{emailError}</span>
 
            
               
@@ -282,8 +285,7 @@ const StudentRegisterJWT = () => {
               <Input
                 type="password"
                 placeholder="Password"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                onChange={handlePass}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
@@ -291,6 +293,9 @@ const StudentRegisterJWT = () => {
 
               </div>
               <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Password</Label>
+            
+             
+              <span className="text-danger">{passError}</span>
               
             </FormGroup>
             </div>
@@ -300,8 +305,7 @@ const StudentRegisterJWT = () => {
               <Input
                 type="password"
                 placeholder="Confirm Password"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                onChange={handlePass2}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
@@ -317,6 +321,7 @@ const StudentRegisterJWT = () => {
 
           <div className="d-flex justify-content-between">
             <div>
+             
               <button className="login-btn-style"  type="submit">
                 Register
               </button>
