@@ -8,58 +8,96 @@ import { history } from "../../../../history"
 import axios from "axios"
 import { rootUrl } from "../../../ReusableFunction/Api/ApiFunc"
 import { store } from "react-notifications-component"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import get from "../../../../helpers/get"
-import Select from 'react-select';
+import { useToasts } from "react-toast-notifications"
+import post from "../../../../helpers/post"
+
 
 const ProviderRegisterJWT = () => {
 
-  // const [title, settitle] = useState([]);
-  // const [titleLabel,setTitleLabel] = useState('Select Title');
-  // const [titleValue, setTitleValue] = useState(0);
-  const [type, setType] = useState("");
-  
 
-  const [title,setTitle] = useState('');
+  const [type, setType] = useState([]);
+  const history = useHistory();
+  const {addToast} = useToasts();
+  const [types, setTypes] = useState(0);
+  const [typeError,setTypeError] = useState(false);
+  const [name,setName] = useState('');
+  const [email,setEmail] = useState('');
+  const [adminEmail,setAdminEmail] = useState('');
+  const [pass,setPass] = useState('');
+  const [cPass,setCPass] = useState('');
+  const [error,setError] = useState('');
+  
+ 
 
   useEffect(()=>{
 
-    // get('NameTittleDD/index')
-    // .then(res => {
-      
-    //   settitle(res);
-
-    // })
-
+    get(`ProviderTypeDD/Index`)
+    .then(res =>{
+      setType(res);
+    })
+  
   },[])
 
-  // const  titleOptions = title?.map((tl) => ({
-  //   label: tl?.name,
-  //   value: tl?.id,
-  // }));
+  const handleEmail = (e) =>{
+    setAdminEmail(e.target.value);
+    get(`EmailCheck/Validate/${e.target.value}`)
+    .then(res => {
+      
+    })
 
+  }
+  
+  const handleEmail2 = (e) =>{
+    setEmail(e.target.value);
+    get(`Provider/EmailCheck/${e.target.value}`)
+    .then(res => {
+      
+    })
 
-  //  const selectTitle = (label, value) => {
-  //   setTitleLabel(label);
-  //   setTitleValue(value);
-  // };
+  }
 
-
-  const handleTitle = (event) => {
-    console.log(event.target.value);
-    setTitle(event.target.value);
-}
-
-
-const handleDisability = (event) => {
-  console.log(event.target.value);
-  setType(event.target.value);
-};
-
-
-
+ 
 const   handleRegister = e => {
-    e.preventDefault()
+    e.preventDefault();
+
+    const subData = {
+      ProviderTypeId: types,
+      Providername: name,
+      PoviderEmail: email,
+      ProviderAdminEmail: adminEmail,
+      Password: pass
+
+
+    }
+
+    if(types == 0){
+      setTypeError('Provider type is required');
+    }
+    else if(pass.length < 6){
+      setError('Password length can not be less than six digits');
+    }
+    else if(pass !== cPass){
+      setError('Passwords do not match');
+    }
+    else{
+        post(`Provider/CreateAccount`,subData)
+        .then(res =>{
+          if(res?.status == 200){
+            if(res?.data?.isSuccess == true){
+              addToast(res?.data?.message,{
+                appearance: 'success',
+                autoDismiss: true
+              })
+              history.push(`/`);
+            }
+            else{
+                setError(res?.data?.message);
+            }
+          }
+        })
+    }
     
   
 
@@ -71,240 +109,118 @@ const   handleRegister = e => {
     return (
 
       <React.Fragment>
-      <CardBody className="pt-1">
-        <Form onSubmit={handleRegister}>
-          <input
-            type="hidden"
-            name="consultantId"
-            id="consultantId"
-            value="1"
-          />
+      <CardBody>
+        <Form className="mt-2" onSubmit={handleRegister}>
+       
+        <div className="row">
+
+          <div className="col-md-3">
+            <span>Provider Type</span>
+
+          </div>
+          
+          <div className="col-md-9">
+          {
+                        type?.map((tt)=> (
+                         <>
+                         
+                         <input
+                          type='radio'
+                          name="studentTypeId"
+                          id='studentTypeId'
+                          value={tt?.id}
+                          onClick={()=>{
+                            setTypes(tt?.id);
+                            setTypeError('');
+                          }}
+                          
+                          />
+
+                          <label className="mr-3" style={{fontWeight:500, fontSize: '14px'}}>{tt?.name}</label>
+                         </>
+
+                          
+                        ))
+                      }
+
+                      <span className="text-danger">{typeError}</span>
+          </div>
+
+
+         </div>
 
          
           
-
-            <FormGroup row className="has-icon-left position-relative">
-              <Col md="3">
-                <span style={{ fontWeight: "500" }}>Student Type</span>
-              </Col>
-              <Col md="6">
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="isHaveDisability"
-                    onChange={handleDisability}
-                    name="isHaveDisability"
-                    value="1"
-                    checked={type == "1"}
-                  />
-                  <Label
-                    className="form-check-label"
-                    check
-                    htmlFor="isHaveDisability"
-                  >
-                    Home
-                  </Label>
-                </FormGroup>
-
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="isHaveDisability"
-                    onChange={handleDisability}
-                    name="isHaveDisability"
-                    value="2"
-                    checked={type == "2"}
-                  />
-                  <Label
-                    className="form-check-label"
-                    check
-                    htmlFor="isHaveDisability"
-                  >
-                    EU/EEA
-                  </Label>
-                </FormGroup>
-
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="isHaveDisability"
-                    onChange={handleDisability}
-                    name="isHaveDisability"
-                    value="3"
-                    checked={type == "3"}
-                  />
-                  <Label
-                    className="form-check-label"
-                    check
-                    htmlFor="isHaveDisability"
-                  >
-                    International
-                  </Label>
-                </FormGroup>
-              </Col>
-            </FormGroup>
-
-            <FormGroup row className="has-icon-left position-relative">
-              <Col md="3">
-                <span style={{ fontWeight: "500" }}>Title</span>
-              </Col>
-              <Col md="6">
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="1"
-                    checked={title == "1"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Mr.
-                  </Label>
-                </FormGroup>
-
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="2"
-                    checked={title == "2"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Miss
-                  </Label>
-                </FormGroup>
-
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="3"
-                    checked={title == "3"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Ms.
-                  </Label>
-                </FormGroup>
-
-                <FormGroup check inline>
-                  <Input
-                    className="form-check-input"
-                    type="radio"
-                    id="title"
-                    onChange={handleTitle}
-                    name="title"
-                    value="4"
-                    checked={title == "4"}
-                  />
-                  <Label className="form-check-label" check htmlFor="title">
-                    Mrs.
-                  </Label>
-                </FormGroup>
-              </Col>
-            </FormGroup>
-      
-
-          <div className="row gx-0">
-            <div className="col-md-6">
+ 
               <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
               <Input
                 type="text"
                 placeholder="First Name"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+               onChange={(e)=>setName(e.target.value)}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
-              <div className="form-control-position">
-
-              </div>
-              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >First Name</Label>
+             
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Name</Label>
               
             </FormGroup>
-            </div>
+         
 
-            <div className="col-md-6">
-            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
-              <Input
-                type="text"
-                placeholder="Last Name"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
-                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
-                required
-              />
-              <div className="form-control-position">
+          
+       
 
-              </div>
-              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Last Name</Label>
-              
-            </FormGroup>
-            </div>
-          </div>
+       
 
-          <div className="row">
-
-            <div className="col-md-6">
-
-            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "35px" }}>
               <Input
                 type="email"
                 placeholder="Email"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+               onChange={handleEmail2}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
-              <div className="form-control-position">
-
-              </div>
+              
               <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Email</Label>
               
             </FormGroup>
 
-            </div>
+            <div className="mt-3">
+                  <h4
+                    className=""
+                    style={{
+                      color: "#111111",
+                      fontSize: "18px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Provider Admin Login Details
+                  </h4>
+                  
+                </div>
 
-            <div className="col-md-6">
-
-            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+                <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "35px" }}>
               <Input
-                type="text"
-                placeholder="Phone Number"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                type="email"
+                placeholder="Email"
+               onChange={handleEmail}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
-              <div className="form-control-position">
-
-              </div>
-              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Phone Number</Label>
+              
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Email</Label>
               
             </FormGroup>
 
-            </div>
+       
 
-          </div>
+              <div className="row">
 
-          
-
-          <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+                <div className="col-md-6">
+                <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
               <Input
                 type="password"
                 placeholder="Password"
-                // value={this.state.email}
-                // onChange={e => this.setState({ email: e.target.value, emailerror: '' })}
+                onChange={(e)=>setPass(e.target.value)}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
               />
@@ -316,10 +232,37 @@ const   handleRegister = e => {
               
             </FormGroup>
 
+                </div>
+
+                <div className="col-md-6">
+                <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                onChange={(e)=>setCPass(e.target.value)}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              <div className="form-control-position">
+
+                    
+              </div>
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Confirm Password</Label>
+              
+            </FormGroup>
+
+                </div>
+              </div>
+
+            
+
             
 
           <div className="d-flex justify-content-between">
             <div>
+              <div>
+                <span className="text-danger">{error}</span>
+              </div>
               <button className="login-btn-style"  type="submit">
                 Register
               </button>

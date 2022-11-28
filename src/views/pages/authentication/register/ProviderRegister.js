@@ -54,12 +54,12 @@ class ProviderRegister extends React.Component {
 
         <Col lg="6" md="6" className="p-0">
 
-        <div className=" my-md-5 ml-md-4">
+        <div className="ml-md-3 mt-3">
                   <h4
                     className=""
                     style={{
                       color: "#111111",
-                      fontSize: "38px",
+                      fontSize: "25px",
                       fontWeight: "500",
                     }}
                   >
@@ -74,6 +74,7 @@ class ProviderRegister extends React.Component {
                   >
                     Help Student to Study in University
                   </span>
+                  
                 </div>
 
                 <div className="col-right">
