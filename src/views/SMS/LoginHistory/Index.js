@@ -21,7 +21,6 @@ const Index = () => {
 
         get(`LoginHistory/IndexForUsers?page=${currentPage}&pageSize=${dataPerPage}&Email=${current_user?.displayEmail}`)
         .then(res => {
-            console.log('response', res)
             setEntity(res?.totalEntity);
             setData(res?.models);
             setSerialNum(res?.firstSerialNumber);
@@ -50,7 +49,10 @@ const Index = () => {
     history.push('/');
   }
 
-
+  const handleDate1 = (date) => {
+    const d = date.split("T")[0];
+    return d;
+  }
 
     return (
         <div>
@@ -88,7 +90,7 @@ const Index = () => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                   <th>SL/NO</th>
-                  <th>Name</th>
+                  <th>Date</th>
                   <th>IP Address</th>
                   <th>Geolocation</th>
                   <th>Blocked</th>
@@ -98,7 +100,7 @@ const Index = () => {
                 {data?.map((d, i) => (
                     <tr key={i} style={{ textAlign: "center" }}>
                     <th scope="row">{i+serialNum}</th>
-                    <td>{d?.fullName}</td>
+                    <td>{handleDate1(d?.lastLoginDate)}</td>
                     <td>{d?.ipAddress}</td>
                     <td>{d?.geoLocationInfo}</td>
                     <td>{(d?.isDeviceBlocked) ? 'Yes': 'No'}</td>

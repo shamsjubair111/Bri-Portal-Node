@@ -1583,7 +1583,11 @@ const AdmissionManagerList = () => {
                             null
                             }
 
-                            {permissions?.includes(
+                            {
+                              manager?.email == 'admissionmanager@uapp.uk' ?
+                              null :
+                              <>
+                                {permissions?.includes(
                               permissionList?.Update_Admission_manager_info
                             ) ? (
                               //   <LinkButton
@@ -1619,6 +1623,9 @@ const AdmissionManagerList = () => {
                                 // disable={buttonStatus}
                               />
                             ) : null}
+                              </>
+                            }
+
                           </ButtonGroup>
 
                           <Modal
@@ -1637,7 +1644,7 @@ const AdmissionManagerList = () => {
                             
                               <Button 
                                 disabled={buttonStatus} color="danger" onClick={handleDelete}>
-                                {progress ? <ButtonLoader/> : 'Yes'}
+                                {progress ? <ButtonLoader/> : 'YES'}
                               </Button>
                               <Button
                                 

@@ -173,10 +173,10 @@ const BranchConsultantRegistration = () => {
         <CardHeader className="page-header">
           <h3 className="text-white">Add Default Consultant</h3>
           <div className="page-header-back-to-home">
-            <span className="text-white" onClick={backToBranchList}>
+            {/* <span className="text-white" onClick={backToBranchList}>
               {" "}
               <i className="fas fa-arrow-circle-left"></i> Back to Branch List
-            </span>
+            </span> */}
           </div>
         </CardHeader>
       </Card>

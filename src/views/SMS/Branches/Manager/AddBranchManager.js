@@ -349,7 +349,7 @@ if(titleValue == 0 ){
 
           <h3 className="text-white">Add Branch Manager Information</h3>
           <div className="page-header-back-to-home" >
-            <span onClick={backToBranchList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Branch List</span>
+            {/* <span onClick={backToBranchList} className="text-white"> <i className="fas fa-arrow-circle-left"></i> Back to Branch List</span> */}
           </div>
 
         </CardHeader>

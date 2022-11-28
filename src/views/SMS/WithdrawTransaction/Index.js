@@ -307,6 +307,8 @@ const Index = () => {
             setAmountInput(0);
             setSuccess(!success);
             setModal2Open(false);
+            setReference("");
+            setNote("");
           } else {
             addToast(res?.data?.message, {
               appearance: "error",
@@ -339,6 +341,8 @@ const Index = () => {
             setAmountInput(0);
             setSuccess(!success);
             setModal2Open(false);
+            setReference("");
+            setNote("");
           } else {
             addToast(res?.data?.message, {
               appearance: "error",

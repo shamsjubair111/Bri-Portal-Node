@@ -816,13 +816,14 @@ const ProviderDetails = () => {
                   </ul>
 
                   <div style={{position: 'relative', left: '55px'}}>
+                    <ButtonGroup>
                     {
                     permissions?.includes(permissionList?.View_Provider_Admin_info) ? 
                     <LinkButton
                     // name={"Edit"}
                     func={viewProviderAdminInfo}
                     color={'primary'}
-                    icon={<i className="fas fa-eye"></i>}
+                    icon={<i style={{paddingBottom: "4px"}} className="fas fa-eye"></i>}
                     className={'btn-sm mr-1'}
                   />
                   :
@@ -840,6 +841,7 @@ const ProviderDetails = () => {
                     className={'btn-sm ml-1'}
                   />
                 ) : null}
+                    </ButtonGroup>
               </div>
                 </div>
 
@@ -959,10 +961,32 @@ const ProviderDetails = () => {
                           </td>
                      
                           <td>
-                           {university?.totalApplication}
+                          <span className='badge badge-secondary' 
+                          // style={{ cursor: "pointer" }}
+                          >
+                          {university?.totalApplication}
+                          
+                            </span>
+                           
                           </td>
-                          <td>{university?.totalRegistered}</td>
-                          <td>{university?.totalSubjects}</td>
+                          <td>
+                          <span className='badge badge-secondary'
+                          // style={{ cursor: "pointer" }}
+                          >
+                              {university?.totalRegistered}
+                          
+                            </span>
+                          </td>
+
+                          <td>
+                          <span className='badge badge-secondary'
+                          // style={{ cursor: "pointer" }}
+                          >
+                              {university?.totalSubjects}
+                          
+                            </span>
+                          </td>
+
                           {permissions?.includes(permissionList?.Change_Status_University) ?
                           <td>
                             <ToggleSwitch
@@ -1076,8 +1100,22 @@ const ProviderDetails = () => {
                              }
                             </span>{" "}
                           </td>
-                          <td>{manager?.totalApplication}</td>
-                          <td>{manager?.registeredApplication}</td>
+                          <td>
+                          <span className='badge badge-secondary'
+                          style={{ cursor: "pointer" }}
+                          >
+                              {manager?.totalApplication}
+                          
+                            </span>
+                          </td>
+                          <td>
+                          <span className='badge badge-secondary'
+                          // style={{ cursor: "pointer" }}
+                          >
+                              {manager?.registeredApplication}
+                          
+                            </span>
+                          </td>
                           <td>
                             <ButtonGroup>
                           {/* <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
@@ -1216,8 +1254,22 @@ const ProviderDetails = () => {
                         
                           :null
                           }
-                          <td>{off?.applications}</td>
-                          <td>{off?.registeredApplications}</td>
+                          <td>
+                          <span className='badge badge-secondary'
+                          // style={{ cursor: "pointer" }}
+                          >
+                              {off?.applications}
+                          
+                            </span>
+                          </td>
+                          <td>
+                          <span className='badge badge-secondary'
+                          // style={{ cursor: "pointer" }}
+                          >
+                              {off?.registeredApplications}
+                          
+                            </span>
+                          </td>
                          
                           <td>
                             <ButtonGroup>

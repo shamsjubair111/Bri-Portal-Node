@@ -721,7 +721,10 @@ export const  permissionList = {
 
     GetAdmissionOfficerForManager : 553,
          
-
+    // login history
+    View_LoginHistory_list : 554,
+    DeviceBlocking : 555,
+    Delete_LoginHistory : 556,
 
      
 
