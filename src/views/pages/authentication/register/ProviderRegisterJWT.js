@@ -65,7 +65,7 @@ const   handleRegister = e => {
     const subData = {
       ProviderTypeId: types,
       Providername: name,
-      PoviderEmail: email,
+      ProviderEmail: email,
       ProviderAdminEmail: adminEmail,
       Password: pass
 
