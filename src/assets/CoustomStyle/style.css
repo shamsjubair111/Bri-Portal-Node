@@ -1780,79 +1780,6 @@ target-app-styless{
   border-bottom-right-radius: 10px;
 }
 
-.amoung-us-style{
-  height: 178px;
-  
-  background-color: #1E98B0;
-  border-radius: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.amoung-us-style2{
-  height: 178px;
-  
-  background-color: #23CCB5;
-  border-radius: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.amoung-us-style3{
-  height: 178px;
-  
-  background-color: #AE75F8;
-  border-radius: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.amoung-us-style4{
-  height: 178px;
- 
-  background-color: #F7BD12;
-  border-radius: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.amoung-us-style5{
-  height: 178px;
- 
-  background-color: #F87675;
-  border-radius: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.among-inner-div{
-  height: 60px;
-  width: 60px;
-  background-color: #FFFFFF;
-  opacity: 0.9;
-  font-size: 22px;
-  font-weight: 700;
-  color: #495057;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-}
-
-.title-among-style{
-  font-weight: 400;
-  font-size: 12px;
-}
 
 .report-status-styles-cons{
 
@@ -1878,6 +1805,59 @@ border-radius: 12px;
   top: -20px;
 }
 
+.custom-conslt-div1{
+  height: 25px;
+  background: rgb(36, 161, 205);
+  width: 10px;
+  margin-right: 10px;
+}
+
+.custom-conslt-div2{
+  height: 25px;
+  background: rgb(35, 204, 181);
+  width: 10px;
+  margin-right: 10px;
+}
+
+.custom-conslt-div3{
+  height: 25px;
+  background: rgb(174, 117, 248);
+  width: 10px;
+  margin-right: 10px;
+}
+
+.custom-conslt-div4{
+  height: 25px;
+  background: rgb(247, 189, 18);
+  width: 10px;
+  margin-right: 10px;
+}
+
+.custom-conslt-div5{
+  height: 25px;
+  background: rgb(248, 118, 117);
+  width: 10px;
+  margin-right: 10px;
+}
+
 
 
 /* consultant dashboard style end */
+
+/* provider admin dashboard style start */
+
+.pvdadmin-span-style1{
+  font-size: 13px;
+  color: #495057;
+  font-weight: 500;
+
+}
+
+.pvdadmin-span-style2{
+  font-size: 22px;
+  color: #495057;
+  font-weight: 700;
+  
+}
+
+/* provider admin dashboard style end */

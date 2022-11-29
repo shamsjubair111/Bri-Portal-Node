@@ -23,11 +23,13 @@ const ProviderRegisterJWT = () => {
   const [types, setTypes] = useState(0);
   const [typeError,setTypeError] = useState(false);
   const [name,setName] = useState('');
-  const [email,setEmail] = useState('');
+  // const [email,setEmail] = useState('');
   const [adminEmail,setAdminEmail] = useState('');
   const [pass,setPass] = useState('');
   const [cPass,setCPass] = useState('');
   const [error,setError] = useState('');
+  const [firstName,setFirstName] = useState('');
+  const [lastName,setLastName] = useState('');
   
  
 
@@ -48,15 +50,6 @@ const ProviderRegisterJWT = () => {
     })
 
   }
-  
-  const handleEmail2 = (e) =>{
-    setEmail(e.target.value);
-    get(`Provider/EmailCheck/${e.target.value}`)
-    .then(res => {
-      
-    })
-
-  }
 
  
 const   handleRegister = e => {
@@ -65,12 +58,11 @@ const   handleRegister = e => {
     const subData = {
       ProviderTypeId: types,
       Providername: name,
-      ProviderEmail: email,
-      ProviderAdminEmail: adminEmail,
-      Password: pass
-
-
-    }
+      Email: adminEmail,
+      Password: pass,
+      ProviderAdminFirstName: firstName,
+      ProviderAdminLastName: lastName
+      }
 
     if(types == 0){
       setTypeError('Provider type is required');
@@ -155,7 +147,7 @@ const   handleRegister = e => {
               <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
               <Input
                 type="text"
-                placeholder="First Name"
+                placeholder="Name"
                onChange={(e)=>setName(e.target.value)}
                 style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
                 required
@@ -165,25 +157,6 @@ const   handleRegister = e => {
               
             </FormGroup>
          
-
-          
-       
-
-       
-
-            <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "35px" }}>
-              <Input
-                type="email"
-                placeholder="Email"
-               onChange={handleEmail2}
-                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
-                required
-              />
-              
-              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Email</Label>
-              
-            </FormGroup>
-
             <div className="mt-3">
                   <h4
                     className=""
@@ -198,7 +171,45 @@ const   handleRegister = e => {
                   
                 </div>
 
-                <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "35px" }}>
+                <div className="row">
+
+                  <div className="col-md-6">
+
+                  <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="text"
+                placeholder="First Name"
+               onChange={(e)=> setFirstName(e.target.value)}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >First Name</Label>
+              
+            </FormGroup>
+
+                  </div>
+
+                  <div className="col-md-6">
+
+                  <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
+              <Input
+                type="text"
+                placeholder="Last Name"
+               onChange={(e)=> setLastName(e.target.value)}
+                style={{ height: "calc(1.5em + 1.3rem + 2px)" }}
+                required
+              />
+              
+              <Label style={{ fontSize: "18px", fontWeight: '600', top: "-35px" }} >Last Name</Label>
+              
+            </FormGroup>
+
+                  </div>
+
+                </div>
+
+                <FormGroup className="form-label-group position-relative has-icon-left" style={{ marginTop: "20px" }}>
               <Input
                 type="email"
                 placeholder="Email"

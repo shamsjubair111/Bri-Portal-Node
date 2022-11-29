@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useToasts } from 'react-toast-notifications';
 import plusicon from '../../../../../assets/img/plusicon.svg';
 import Vectorbeat from '../../../../../assets/img/Vectorbeat.svg';
 import user1 from '../../../../../assets/img/user1.svg';
@@ -14,15 +12,15 @@ import cuser1 from '../../../../../assets/img/cuser1.svg';
 import speed from '../../../../../assets/img/speed.PNG';
 import down from '../../../../../assets/img/down.svg';
 import camera2 from '../../../../../assets/img/camera2.svg';
-import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
+import Chart from 'react-apexcharts'
 import {
   Card,
   CardBody,
-  Col,
-  Row, Table
+   Table
 } from 'reactstrap';
 import { Drawer } from 'antd';
 import GaugeChart from 'react-gauge-chart';
+
 
 
 
@@ -30,72 +28,21 @@ const Consultant = () => {
 
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
   const referenceId  = localStorage.getItem('referenceId');
-  const {addToast} = useToasts();
-  const history = useHistory();
-  const [info,setInfo] = useState(false);
+
+
+
   const [open, setOpen] = useState(false);
-  const [activeIndex,setActiveindex] = useState(0);
+  const [options,setOptions] = useState({plotOptions: {
+    pie: {
+      donut: {
+        size: '40%'
+      }
+    }
+  }});
+  const [series,setSeries] = useState([44, 55, 41, 17, 15]);
+  const [Labels,setLabels] = useState(['A', 'B', 'C', 'D', 'E']);
 
-  const data = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
-  ];
-
-  const renderActiveShape = (props) => {
-    const RADIAN = Math.PI / 180;
-    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
-    const sin = Math.sin(-RADIAN * midAngle);
-    const cos = Math.cos(-RADIAN * midAngle);
-    const sx = cx + (outerRadius + 10) * cos;
-    const sy = cy + (outerRadius + 10) * sin;
-    const mx = cx + (outerRadius + 30) * cos;
-    const my = cy + (outerRadius + 30) * sin;
-    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
-    const ey = my;
-    const textAnchor = cos >= 0 ? 'start' : 'end';
   
-    return (
-      <g>
-        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-          {payload.name}
-        </text>
-        <Sector
-          cx={cx}
-          cy={cy}
-          innerRadius={innerRadius}
-          outerRadius={outerRadius}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          fill={fill}
-        />
-        <Sector
-          cx={cx}
-          cy={cy}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          innerRadius={outerRadius + 6}
-          outerRadius={outerRadius + 10}
-          fill={fill}
-        />
-        <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
-        <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`PV ${value}`}</text>
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-          {`(Rate ${(percent * 100).toFixed(2)}%)`}
-        </text>
-      </g>
-    );
-  };
-
-  const  onPieEnter = (_, index) => {
-    setActiveindex(index);
-  };
- 
-
-
-
 
 
   const showDrawer = () => {
@@ -619,143 +566,105 @@ const Consultant = () => {
 
               <div className='row my-4'>
 
-                <div className='col-md-6 text-center'>
+                <div className='col-md-3'>
 
-        <div className='d-flex flex-wrap justify-content-between'> 
 
-           
-        <div className='amoung-us-style'> 
 
-          <div className='among-inner-div'>
-              <span>105</span>
+          <div className='d-flex justify-content-between'>
 
-            
+
+          <div className='d-flex'>
+          <div className='custom-conslt-div1'></div>
+          <p style={{fontWeight: '500', position: 'relative', top: '4px'}}>Total Application</p>
+          
           </div>
 
-          <div className='text-white title-among-style'>
-
-          <br/>
-              <span>Total Application</span>
+          <div>
+            <span style={{ position: 'relative', top: '4px'}}>22</span>
           </div>
-
-          </div>
-
-
-
-
-
-          <div className='amoung-us-style2'> 
-          <div className='among-inner-div'>
-          <span>12</span>
 
 
           </div>
 
-          <div className='text-white title-among-style '>
+          <div className='d-flex justify-content-between'>
 
-          <br/>
-          <span>Submitted 
-          to University</span>
+
+          <div className='d-flex'>
+          <div className='custom-conslt-div2'></div>
+          <p style={{fontWeight: '500', position: 'relative', top: '4px'}}>Submitted To University </p>
+          
           </div>
 
+          <div>
+            <span style={{ position: 'relative', top: '4px'}}>22</span>
           </div>
-
-
-
-
-          <div className='amoung-us-style3'> 
-          <div className='among-inner-div'>
-          <span>12</span>
 
 
           </div>
 
-          <div className='text-white title-among-style'>
+          <div className='d-flex justify-content-between'>
 
-          <br/>
-          <span>Unconditional
-            Offer</span>
+
+          <div className='d-flex'>
+          <div className='custom-conslt-div3'></div>
+          <p style={{fontWeight: '500', position: 'relative', top: '4px'}}>Unconditional Offer</p>
+          
           </div>
+
+          <div>
+            <span style={{ position: 'relative', top: '4px'}}>22</span>
           </div>
-
-
-
-
-          <div className='amoung-us-style4'> 
-          <div className='among-inner-div'>
-          <span>12</span>
 
 
           </div>
 
-          <div className='text-white title-among-style'>
+          <div className='d-flex justify-content-between'>
 
-          <br/>
-          <span>Total
-          Registered</span>
+
+          <div className='d-flex'>
+          <div className='custom-conslt-div4'></div>
+          <p style={{fontWeight: '500', position: 'relative', top: '4px'}}>Total Registered</p>
+          
           </div>
+
+          <div>
+            <span style={{ position: 'relative', top: '4px'}}>22</span>
           </div>
-
-
-
-
-
-          <div className='amoung-us-style5'> 
-          <div className='among-inner-div'>
-          <span>12</span>
 
 
           </div>
 
-          <div className='text-white title-among-style'>
+          <div className='d-flex justify-content-between'>
 
-          <br/>
-          <span>Total
-            Rejected</span>
+
+          <div className='d-flex'>
+          <div className='custom-conslt-div5'></div>
+          <p style={{fontWeight: '500', position: 'relative', top: '4px'}}>Total Rejected</p>
+          
           </div>
+
+          <div>
+            <span style={{ position: 'relative', top: '4px'}}>22</span>
           </div>
 
 
-        </div>
+          </div>
 
-                
-
- 
                 </div>
 
             
 
-             <div className='col-md-3'>
+             <div className='col-md-5'>
 
-              <PieChart width={200} height={200}>
-              <Pie
-              activeIndex={activeIndex}
-              activeShape={renderActiveShape}
-              data={data}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              fill="#1e98b0"
-              dataKey="value"
-              onMouseEnter={onPieEnter}
-              />
-              </PieChart>
+             <Chart options={options} series={series} type="donut" width="100%" height='100%' />
 
 
               </div>
 
             
-
-
-               
-                  
-
-                
-
               {/* dropdown section */}
 
-                <div className='col-md-3'>
+                <div className='col-md-4'>
 
                 <div className='text-center report-status-styles-cons p-3 text-center-report-status-styles-cons'>
 

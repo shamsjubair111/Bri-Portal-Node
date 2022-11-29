@@ -168,6 +168,9 @@ const DocumentCategoryList = lazy(() => import("./views/SMS/Document/Documentcat
 // Report
 const AgentReport = lazy(() => import("./views/SMS/Report/AgentReport"))
 
+// Common Profile Component
+const CommonProfile = lazy(() => import("./views/SMS/CommonProfile/CommonProfile"))
+
 //Subject
 const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
 const AddSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/SubDepartment.jsx"))
@@ -924,6 +927,9 @@ class AppRouter extends React.Component {
   
            <AppRoute  path="/loginhistory" component={LoginHistory} />
            <AppRoute  path="/allUsersLoginHistory" component={permissions?.includes(permissionList.View_LoginHistory_list) ? AllLoginHistory : NotAuthorized} />
+
+           {/* common profile path */}
+           <AppRoute  path="/profile" component={CommonProfile} />
            
 
 

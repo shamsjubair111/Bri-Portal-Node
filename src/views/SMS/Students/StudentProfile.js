@@ -231,21 +231,21 @@ const StudentProfile = () => {
       
   
 
-      history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
+      history.push(`/addStudentApplicationInformation/${sId}/${1}`);
     }
 
     const gotoFromProfilePage = (data) => {
-      history.push(`/applicationDetails/${data?.id}/${sId}`);
+      history.push(`/applicationDetails/${sId}/${sId}`);
     }
 
 
-    const handleUpdatePersonalStatement = (data) => {
+    const handleUpdatePersonalStatement = (sId) => {
 
      
      
   
 
-      history.push(`/addPersonalStatement/${data?.id}/${1}`);
+      history.push(`/addPersonalStatement/${sId}/${1}`);
 
     }
 
@@ -256,7 +256,7 @@ const StudentProfile = () => {
      
   
 
-      history.push(`/addStudentInformation/${data?.id}/${1}`);
+      history.push(`/addStudentInformation/${sId}/${1}`);
 
     }
 
@@ -266,7 +266,7 @@ const StudentProfile = () => {
       
   
 
-      history.push(`/addTestScore/${data?.id}/${1}`);
+      history.push(`/addTestScore/${sId}/${1}`);
 
     }
 
@@ -277,7 +277,7 @@ const StudentProfile = () => {
       
   
 
-      history.push(`/addStudentContactInformation/${data?.id}/${1}`);
+      history.push(`/addStudentContactInformation/${sId}/${1}`);
 
 
     }
@@ -289,7 +289,7 @@ const StudentProfile = () => {
       
   
 
-      history.push(`/addOtherinformation/${data?.id}/${1}`);
+      history.push(`/addOtherinformation/${sId}/${1}`);
 
 
     }
@@ -302,7 +302,7 @@ const StudentProfile = () => {
       
   
 
-      history.push(`/addStudentEducationalInformation/${data?.id}/${1}`);
+      history.push(`/addStudentEducationalInformation/${sId}/${1}`);
 
 
 
@@ -316,7 +316,7 @@ const StudentProfile = () => {
      
   
 
-      history.push(`/addTestScore/${data?.id}/${1}`);
+      history.push(`/addTestScore/${sId}/${1}`);
 
     }
 
@@ -327,7 +327,7 @@ const StudentProfile = () => {
       
   
 
-      history.push(`/addExperience/${data?.id}/${1}`);
+      history.push(`/addExperience/${sId}/${1}`);
 
 
     }
@@ -339,7 +339,7 @@ const StudentProfile = () => {
      
   
 
-      history.push(`/addReference/${data?.id}/${1}`);
+      history.push(`/addReference/${sId}/${1}`);
 
 
 

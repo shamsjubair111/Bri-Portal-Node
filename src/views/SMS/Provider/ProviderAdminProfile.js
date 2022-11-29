@@ -10,6 +10,7 @@ import { useToasts } from 'react-toast-notifications';
 import put from '../../../helpers/put';
 import ButtonLoader from '../Components/ButtonLoader';
 import { userTypes } from '../../../constants/userTypeConstant';
+import Loader from '../Search/Loader/Loader';
 
 const ProviderAdminProfile = () => {
     
@@ -30,6 +31,7 @@ const ProviderAdminProfile = () => {
     const {addToast} = useToasts();
     const [success,setSuccess] = useState(false);
     const [text1,setText1] = useState('');
+    const [loading,setLoading] = useState(true);
 
     useEffect(()=>{
 
@@ -37,6 +39,7 @@ const ProviderAdminProfile = () => {
         .then(res =>{
             console.log('response2,', res);
             setData(res);
+            setLoading(false);
         })
     },[success])
 
@@ -138,169 +141,177 @@ const ProviderAdminProfile = () => {
   
 
     return (
+
+       <>
+       {
+        loading ? 
+        <Loader/>
+        :
         <div>
-              <Card className="uapp-card-bg">
-        <CardHeader className="page-header">
-          <h3 className="text-white">Provider Admin Profile</h3>
-          <div className="page-header-back-to-home">
-            {
-              userType == userTypes.ProviderAdmin ?
-              null :
-              <span onClick={backToProviderDetails} className="text-white">
-              {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
-            </span>
-            }
-          </div>
-        </CardHeader>
-      </Card>
+        <Card className="uapp-card-bg">
+  <CardHeader className="page-header">
+    <h3 className="text-white">Provider Admin Profile</h3>
+    <div className="page-header-back-to-home">
+      {
+        userType == userTypes.ProviderAdmin ?
+        null :
+        <span onClick={backToProviderDetails} className="text-white">
+        {" "}
+        <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
+      </span>
+      }
+    </div>
+  </CardHeader>
+</Card>
 
-      <Row>
-          <Col md="12">
-            <Card className="uapp-employee-profile-right">
-              <div className="uapp-profile-CardHeader">
-                <div className="uapp-circle-image margin-top-minus">
+<Row>
+    <Col md="12">
+      <Card className="uapp-employee-profile-right">
+        <div className="uapp-profile-CardHeader">
+          <div className="uapp-circle-image margin-top-minus">
+         
+            <div className='profile-pic1'>
+                   <img src={rootUrl+data?.providerAdminMedia?.fileUrl} className='img-fluid'  alt='provider_image' />
                
-                  <div className='profile-pic1'>
-                         <img src={rootUrl+data?.providerAdminMedia?.fileUrl} className='img-fluid'  alt='provider_image' />
-                     
-                        <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
-                      
-                     </div>
-                </div>    
-                {/* profile photo edit modal starts here */}
-              
-                <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
-                       <ModalHeader>Update Profile Photo</ModalHeader>
+                  <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
+                
+               </div>
+          </div>    
+          {/* profile photo edit modal starts here */}
+        
+          <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
+                 <ModalHeader>Update Profile Photo</ModalHeader>
 
-                       <ModalBody>
-                         <form onSubmit={handleSubmitProfilePhoto}>
-                           <input type="hidden" name="id" id="id" value={providerAdminId} />
+                 <ModalBody>
+                   <form onSubmit={handleSubmitProfilePhoto}>
+                     <input type="hidden" name="id" id="id" value={providerAdminId} />
 
-                           {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+                     {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
 
-                           <FormGroup row className="has-icon-left position-relative">
-                             <Col className='ml-5' md="4">
-                               <span>
-                                 Profile Photo <span className="text-danger">*</span>{" "}
-                               </span>
-                             </Col>
-                             <Col md="6">
-                               <div className="row d-flex">
-                                 {/* {consultantData?.consultantCoverImageMedia !== null ? (
-                                   <div className="col-md-6">
-                                     <Image
-                                       width={104}
-                                       height={104}
-                                       src={
-                                         rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
-                                       }
-                                     />
+                     <FormGroup row className="has-icon-left position-relative">
+                       <Col className='ml-5' md="4">
+                         <span>
+                           Profile Photo <span className="text-danger">*</span>{" "}
+                         </span>
+                       </Col>
+                       <Col md="6">
+                         <div className="row d-flex">
+                           {/* {consultantData?.consultantCoverImageMedia !== null ? (
+                             <div className="col-md-6">
+                               <Image
+                                 width={104}
+                                 height={104}
+                                 src={
+                                   rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
+                                 }
+                               />
+                             </div>
+                           ) : null} */}
+
+                           <div className="col-md-6">
+                             <>
+                               <Upload
+                                 listType="picture-card"
+                                 multiple={false}
+                                 fileList={FileList1}
+                                 onPreview={handlePreview1}
+                                 onChange={handleChange1}
+                                 beforeUpload={(file) => {
+                                   return false;
+                                 }}
+                               >
+                                 {FileList1.length < 1 ? (
+                                   <div className="text-danger" style={{ marginTop: 8 }}>
+                                     <Icon.Upload />
+                                     <br />
+                                     <span>Upload Image Here</span>
                                    </div>
-                                 ) : null} */}
+                                 ) : (
+                                   ""
+                                 )}
+                               </Upload>
+                               <Modal
+                                 visible={previewVisible1}
+                                 title={previewTitle1}
+                                 footer={null}
+                                 onCancel={handleCancel1}
+                               >
+                                 <img
+                                   alt="example"
+                                   style={{ width: "100%" }}
+                                   src={previewImage1}
+                                 />
+                               </Modal>
+                
 
-                                 <div className="col-md-6">
-                                   <>
-                                     <Upload
-                                       listType="picture-card"
-                                       multiple={false}
-                                       fileList={FileList1}
-                                       onPreview={handlePreview1}
-                                       onChange={handleChange1}
-                                       beforeUpload={(file) => {
-                                         return false;
-                                       }}
-                                     >
-                                       {FileList1.length < 1 ? (
-                                         <div className="text-danger" style={{ marginTop: 8 }}>
-                                           <Icon.Upload />
-                                           <br />
-                                           <span>Upload Image Here</span>
-                                         </div>
-                                       ) : (
-                                         ""
-                                       )}
-                                     </Upload>
-                                     <Modal
-                                       visible={previewVisible1}
-                                       title={previewTitle1}
-                                       footer={null}
-                                       onCancel={handleCancel1}
-                                     >
-                                       <img
-                                         alt="example"
-                                         style={{ width: "100%" }}
-                                         src={previewImage1}
-                                       />
-                                     </Modal>
-                      
+                               <span className="text-danger d-block">{text1}</span>
 
-                                     <span className="text-danger d-block">{text1}</span>
+                               {error1 && (
+                                 <span className="text-danger">
+                                   Profile photo is required
+                                 </span>
+                               )}
 
-                                     {error1 && (
-                                       <span className="text-danger">
-                                         Profile photo is required
-                                       </span>
-                                     )}
+                             </>
+                           </div>
+                         </div>
+                       </Col>
+                     </FormGroup>
 
-                                   </>
-                                 </div>
-                               </div>
-                             </Col>
-                           </FormGroup>
+                     <FormGroup row>
+                       <Col md="12">
+                         <div className="d-flex justify-content-end">
+                           <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
+                                 Cancel
+                           </Button>
+                           <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
+                             {progress? <ButtonLoader/> : 'Update'}
+                           </Button>
+                         </div>
+                       </Col>
+                     </FormGroup>
+                   </form>
+                 </ModalBody>
+               </Modal>
+              
+               {/* profile photo edit modal ends here */} 
 
-                           <FormGroup row>
-                             <Col md="12">
-                               <div className="d-flex justify-content-end">
-                                 <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
-                                       Cancel
-                                 </Button>
-                                 <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   {progress? <ButtonLoader/> : 'Update'}
-                                 </Button>
-                               </div>
-                             </Col>
-                           </FormGroup>
-                         </form>
-                       </ModalBody>
-                     </Modal>
-                    
-                     {/* profile photo edit modal ends here */} 
-
-                <div className="py-3">
-                  <h5 className="py-1">
-                    Name:{" "}
-                    <span className="text-primary">{data?.nameTittle?.name}{' '}{data?.firstName}{" "}{data?.lastName}</span>{" "}
-                  </h5>
-                  
-                  
-                </div>
-              </div>
-              <CardBody>
-                <div>
-                  <ul className="uapp-ul text-center">
-                  <h5 className="py-1">
-                    {" "}
-                    Email:{" "}{data?.email}
-                    <span className="text-primary">
-                     
-                    </span>{" "}
-                  </h5>
-                  <h5 className="py-1">
-                    {" "}
-                    Phone Number:{" "}{data?.phoneNumber}
-                    <span className="text-primary">
-                    
-                    </span>{" "}
-                  </h5>
-                  </ul>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+          <div className="py-3">
+            <h5 className="py-1">
+              Name:{" "}
+              <span className="text-primary">{data?.nameTittle?.name}{' '}{data?.firstName}{" "}{data?.lastName}</span>{" "}
+            </h5>
             
+            
+          </div>
         </div>
+        <CardBody>
+          <div>
+            <ul className="uapp-ul text-center">
+            <h5 className="py-1">
+              {" "}
+              Email:{" "}{data?.email}
+              <span className="text-primary">
+               
+              </span>{" "}
+            </h5>
+            <h5 className="py-1">
+              {" "}
+              Phone Number:{" "}{data?.phoneNumber}
+              <span className="text-primary">
+              
+              </span>{" "}
+            </h5>
+            </ul>
+          </div>
+        </CardBody>
+      </Card>
+    </Col>
+  </Row>
+      
+  </div>
+       }
+       </>
     );
 };
 

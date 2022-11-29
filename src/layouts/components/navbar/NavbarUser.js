@@ -28,40 +28,41 @@ const handleNavigation = (e, path) => {
 const userInfo = JSON.parse(localStorage.getItem('current_user'));
 const AuthStr = localStorage.getItem("token");
 
-const redirectToProfile = () => {
+// const redirectToProfile = () => {
 
-  if ( userInfo?.userTypeId == userTypes?.AccountManager ||
-    userInfo?.userTypeId == userTypes?.Editor ||
-    userInfo?.userTypeId == userTypes?.AccountOfficer ||
-    userInfo?.userTypeId == userTypes?.ComplianceManager ||
-    userInfo?.userTypeId == userTypes?.FinanceManager) {
-    history.push(`/staffProfile/${userInfo?.referenceId}`);
-  }
-  else if (userInfo?.userTypeId == userTypes?.AdmissionManager) {
-    history.push(`/admissionManagerProfile/${userInfo?.referenceId}`);
-  }
-  else if (userInfo?.userTypeId == userTypes?.AdmissionOfficer) {
-    history.push(`/admissionOfficerDetails/${userInfo?.referenceId}`);
-  }
-  else if (userInfo?.userTypeId == userTypes?.ProviderAdmin) {
-    history.push(`/providerAdminProfile/${userInfo?.referenceId}`);
-  }
-  else if (userInfo?.userTypeId == userTypes?.BranchManager) {
-    history.push(`/branchManagerProfile/${userInfo?.referenceId}`);//TODO
-  }
-  else if (userInfo?.userTypeId == userTypes?.Consultant) {
-    history.push(`/consultantProfile/${userInfo?.referenceId}`);
-  }
-  else if (userInfo?.userTypeId == userTypes?.Student) {
-    history.push(`/studentProfile/${userInfo?.referenceId}`);//TODO
-  }
-  else if (userInfo?.userTypeId == userTypes?.Provider) {
-    history.push(`/providerDetails/${userInfo?.referenceId}`);//TODO
-  }
-  else {
-    history.push('/');
-  }
-}
+//   if ( userInfo?.userTypeId == userTypes?.AccountManager ||
+//     userInfo?.userTypeId == userTypes?.Editor ||
+//     userInfo?.userTypeId == userTypes?.AccountOfficer ||
+//     userInfo?.userTypeId == userTypes?.ComplianceManager ||
+//     userInfo?.userTypeId == userTypes?.FinanceManager) {
+//     history.push(`/staffProfile/${userInfo?.referenceId}`);
+//   }
+//   else if (userInfo?.userTypeId == userTypes?.AdmissionManager) {
+//     history.push(`/admissionManagerProfile/${userInfo?.referenceId}`);
+//   }
+//   else if (userInfo?.userTypeId == userTypes?.AdmissionOfficer) {
+//     history.push(`/admissionOfficerDetails/${userInfo?.referenceId}`);
+//   }
+//   else if (userInfo?.userTypeId == userTypes?.ProviderAdmin) {
+//     history.push(`/providerAdminProfile/${userInfo?.referenceId}`);
+//   }
+//   else if (userInfo?.userTypeId == userTypes?.BranchManager) {
+//     history.push(`/branchManagerProfile/${userInfo?.referenceId}`);//TODO
+//   }
+//   else if (userInfo?.userTypeId == userTypes?.Consultant) {
+//     history.push(`/consultantProfile/${userInfo?.referenceId}`);
+//   }
+//   else if (userInfo?.userTypeId == userTypes?.Student) {
+//     history.push(`/studentProfile/${userInfo?.referenceId}`);//TODO
+//   }
+//   else if (userInfo?.userTypeId == userTypes?.Provider) {
+//     history.push(`/providerDetails/${userInfo?.referenceId}`);//TODO
+//   }
+//   else {
+//     history.push('/');
+//   }
+  
+// }
 
 const handleDate = (e) => {
   var datee = e;
@@ -216,7 +217,7 @@ const UserDropdown = props => {
 
 
   return (
-    <DropdownMenu left>
+    <DropdownMenu right>
       {/* <DropdownItem
         tag="a"
         href="#"
@@ -255,10 +256,11 @@ const UserDropdown = props => {
       </DropdownItem> */}
 
 
-      <DropdownItem
+     <Link to='/profile'>
+     <DropdownItem
         tag="a"
         // href="#"
-        onClick={redirectToProfile}
+        // onClick={redirectToProfile}
 
 
       >
@@ -266,6 +268,7 @@ const UserDropdown = props => {
         <Icon.User size={14} className="mr-1 align-middle" />
         <span className="align-middle"  >Profile</span>
       </DropdownItem>
+     </Link>
 
       <DropdownItem
         tag="a"

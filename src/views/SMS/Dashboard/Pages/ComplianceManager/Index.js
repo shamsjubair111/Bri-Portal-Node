@@ -1,277 +1,441 @@
-import React from 'react';
-
-
-
+import React, { useState } from 'react';
 import {
-  Col,
-  Row
+   Card,
+  CardBody,
+  Table
 } from 'reactstrap';
+import user1 from '../../../../../assets/img/user1.svg';
+import user2 from '../../../../../assets/img/user2.svg';
+import capture from '../../../../../assets/img/capture.PNG';
+import images1 from '../../../../../assets/img/images1.svg';
+import "../../../../../assets/scss/pages/dashboard-analytics.scss"
+import { Drawer } from 'antd';
+import plusicon from '../../../../../assets/img/plusicon.svg';
+import Vectorbeat from '../../../../../assets/img/Vectorbeat.svg';
+import gift from '../../../../../assets/img/gift.PNG';
+import cuser1 from '../../../../../assets/img/cuser1.svg';
+
+
 
 const ComplianceManager = () => {
 
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
 
+  const [open, setOpen] = useState(false);
+ 
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
     return (
         <React.Fragment>
-         {/* <div className="animated fadeIn">
-          <div className="uapp-dashboard">
-  
-            <div className="uapp-user-name">
-              <Row>
-                <Col sm='9' xs="12">
-                  <h2>Welcome, {currentUser?.displayName}.</h2>
-                </Col>
-  
-                <Col sm="3" xs="12 text-sm-right">
-                  <button className="uapp-btn btn">Add New Action</button>
-                </Col>
-              </Row>
+
+            <div className='d-flex justify-content-between flex-wrap'>
+            <div>
+              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <br/>
+              <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
-  
-  
-  
-            <div className="uapp-user-card mt-4">
-              <div className="row">
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-primary-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-info-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-purple-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-warning-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-danger-card uapp-card">
-                    <div className="card-body">
-                    <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-                <div className="col-lg-2 col-md-4 col-sm-6">
-                  <div className="uapp-secondary-card uapp-card">
-                    <div className="card-body">
-                      <p>  <span> <i class="fas fa-angle-double-right"></i> </span> 500</p>
-                      <h5> Total Application </h5>
-                    </div>
-                  </div>
-                </div>
-  
-  
+
+            <div  className='d-flex flex-wrap'>
+
+          
+
+
+             <div style={{cursor: 'pointer'}}>
+
+              <div className='std-dashboard-style4'>
+
+
               </div>
-  
+
+               <div className='std-dashboard-style5'>
+               <img src={plusicon} className='img-fluid dashbard-img-style1' />
+               <span className='std-dashboard-style3'>Add New Student</span>
+               </div>
+             </div>
+
+             <div style={{cursor: 'pointer'}}>
+
+              <div className='std-dashboard-style6'>
+
+              </div>
+
+              <div  onClick={function noRefCheck(){}}>
+                <img src={Vectorbeat} className='img-fluid dashbard-img-style2' onClick={showDrawer} />
+
+                <Drawer placement="right" onClose={onClose} open={open}>
+                <div className=''>
              
-            </div>
-  
-            <div className="uapp-dashboard-activity">
-              <div className="row">
-                <div className="col-lg-8 col-md-8 col-12">
-  
-                  <div className="card">
-                    <div class="db-card-header no-border-bottom card-header">
-                      <span>
-                        <h5 class="uapp-dachboard-head">New Application</h5>
-                      </span>
-                      <span class="db-app-count">70</span>
+             <Card>
+              <CardBody>
+              <span className='consultant-news-feed-style'>NEWS FEED</span>
+              </CardBody>
+             </Card>
+
+             <Card>
+              <CardBody>
+              <div>
+               <div className='d-flex'>
+                 <div className='notice-image-style'> 
+                 <img src={user1}  />
+                 </div>
+                 <div className='ml-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>We're delighted to introduce you to our new "Become an Education Consultant...
+                   <br/>
+                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>read more</span></span>
+
+                   <br/>
+                   <span className='notice-time-style'>02:14 PM Today</span>
+                 </div>
+
+
+               </div>
+
+             </div>
+              </CardBody>
+             </Card>
+             
+           
+           <Card>
+            <CardBody>
+            <div>
+               <div className='d-flex'>
+                 <div className='notice-image-style'> 
+                 <img src={user2}  />
+                 </div>
+                 <div className='ml-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>We're delighted to introduce you
+                    </span>
+                    <br/>
+                    <img src={capture} className='img-fluid' />
+                   <br/>
+                   <span className='notice-time-style'>02:14 PM Today</span>
+                 </div>
+
+
+               </div>
+
+             </div>
+            </CardBody>
+           </Card>
+
+            <Card>
+              <CardBody>
+              <div>
+               <div className='d-flex'>
+                 <div className='notice-image-style'> 
+                 <img src={user2}  />
+                 </div>
+                 <div className='ml-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>We're delighted to introduce you
+                    </span>
+                    <br/>
+                    <div className='d-flex justify-content-around my-2'>
+                    <img src={images1} className='img-fluid' />
+                    <img src={images1} className='img-fluid' />
+                    <img src={images1} className='img-fluid' />
                     </div>
-  
-                    <div className="card-body">
-  
-  
-                      <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Student ID</th>
-                              <th>University</th>
-                              <th>Status</th>
-                              <th>Date</th>
-                              <th>Consultant</th>
-                              <th>Admission Officer</th>
-                              <th>Actions</th>
-                            </tr></thead>
-                          <tbody>
-                            <tr class="borderBottom">
-                              <td>Claudia Iuliana Ivan</td>
-                              <td>STD00880</td>
-                              <td>Canterbury Christ Church University London- LSC</td>
-                              <td>New application</td>
-                              <td>20/09/21</td>
-                              <td>D Andreescu</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                            <tr class="borderBottom">
-                              <td>Carmen Simeanu</td>
-                              <td>STD00949</td>
-                              <td>New College Durham – LSC</td>
-                              <td>New application</td>
-                              <td>19/09/21</td>
-                              <td>BEATRICE</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class="btn uapp-actions-icon" href="#"><span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                            <tr class="borderBottom">
-                              <td>Carmen Simeanu</td>
-                              <td>STD00949</td>
-                              <td>New College Durham – LSC</td>
-                              <td>New application</td>
-                              <td>19/09/21</td>
-                              <td>BEATRICE</td>
-                              <td>Kaium</td>
-                              <td>
-                                <a class=" uapp-actions-icon" href="#"><span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-                            <tr class="borderBottom">
-                              <td>Tanya  Lazarova</td>
-                              <td>STD00574</td>
-                              <td>London Metropolitan University - Main Campus</td>
-                              <td>New application</td>
-                              <td>18/09/21</td>
-                              <td>Daniela</td>
-                              <td>Afsana</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span>  <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-                            <tr class="borderBottom">
-                              <td>MIHAIL IORDACHI</td>
-                              <td>STD00156</td>
-                              <td>London Metropolitan University - Main Campus</td>
-                              <td>New application</td>
-                              <td>17/09/21</td>
-                              <td>Mihaiela-Florita </td>
-                              <td>Afsana</td>
-                              <td>
-                                <a class="uapp-actions-icon" href="#"> <span>Details </span> <i class="fa fa-info-circle"></i></a>
-                              </td>
-                            </tr>
-  
-                          </tbody>
-                        </table>
-                      </div>
-  
-                    </div>
-                  </div>
-  
-  
-                </div>
-                <div className="col-lg-4 col-md-4 col-12">
-  
-                  <div className="card">
-                    <div class="db-card-header include-btn  no-border-bottom card-header">
-                      <h5 class="uapp-dachboard-head">Notice</h5>
-                      <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View All</button>
-                      </span>
-                    </div>
-  
-                    <div className="card-body">
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View </button>
-                      </span>
-                      </div>
-                    </div>
-  
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View </button>
-                      </span>
-                      </div>
-                    </div>
-  
-  
-  
-                    <div class="uapp-message-wrap uapp-notice">
-                      <div class="uapp-msg-head">
-                        <span class="msg-sender-name">Super Admin</span>
-                        <span class="msg-send-time uapp-float-right">27/07/21</span>
-                        </div>
-                        <div class="uapp-msg-body msg-width">
-                          <h6>No Qualifications required !! University of Suffolk London &amp; Manchester Campus, Oct 2021 Intake.</h6>
-                          <span class="uapp-float-right">
-                        <button type="button" class="uapp-sm-btn btn-sm uapp-sm-btn-bg btn">View</button>
-                      </span>
-                      </div>
-                    </div>
-  
-  
-  
-  
-                    </div>
-                  </div>
-  
-                </div>
+                   
+                   <span className='notice-time-style'>02:14 PM Today</span>
+                 </div>
+
+
+               </div>
+
+             </div>
+              </CardBody>
+            </Card>
+
+
+             <div>
+
+             <Card>
+              <CardBody>
+              <span className='consultant-news-feed-style'>NOTICE</span>
+              </CardBody>
+             </Card>
+
+             <Card>
+              <CardBody>
+              <div className=''>
+                 <div className='notice-image-stylemb-2'> 
+                 <span className='notice-user-name'>Super Admin</span>
+                 </div>
+                 <div className='mt-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
+
+                   <br/>
+                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
+
+              
+               
+               
+
+                 </div>
+
+
+                 <div className='mt-2'> 
+                 <span className='notice-time-style'>02:14 PM 19/07/22</span>
+                 </div>
+
+
+               </div>
+              </CardBody>
+             </Card>
+
+           <Card>
+            <CardBody>
+     
+               
+
+               <div>
+                 <div className='notice-image-stylemb-2'> 
+                 <span className='notice-user-name'>Super Admin</span>
+                 </div>
+                 <div className='mt-2'>
+                   <span className='notice-user-name'>MD Shamim (Admin)</span>
+                   <br/>
+                   <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
+
+                   <br/>
+                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
+
+              
+               
+               
+
+                 </div>
+
+
+                 <div className='mt-2'> 
+                 <span className='notice-time-style'>02:14 PM 19/07/22</span>
+                 </div>
+
+
+               </div>
+
+            </CardBody>
+           </Card>
+
+
+
+             </div>
+
+         <Card>
+          <CardBody>
+          <div>
+           <img src={gift} className='img-fluid' />
+         </div>
+          </CardBody>
+         </Card>
+        
+         </div>
+                </Drawer>
+
+                
+
               </div>
-  
+
+             </div>
+
             </div>
-  
-          </div>
-        </div> */}
 
-<div className='mt-5 text-center'>
-          <h3>Dashboard Is Under Maintenance. Stay Tuned for Further Notification</h3>
+           </div>
 
-        </div>
+              {/* Status reports start */}
+
+              <div className='row'>
+
+            <div className='col-md-3'>
+              <Card>
+
+                <CardBody>
+
+                  <span className='pvdadmin-span-style1'>Total Application</span>
+                  <br/>
+                  <span className='pvdadmin-span-style2'>1451</span>
+                  <br/>
+                  <br/>
+                </CardBody>
+              </Card>
+
+            </div>
+
+            <div className='col-md-3'>
+              <Card>
+
+                <CardBody>
+
+                  <span className='pvdadmin-span-style1'>Applications in Process</span>
+                  <br/>
+                  <span className='pvdadmin-span-style2'>500</span>
+                  <br/>
+                  <br/>
+                </CardBody>
+              </Card>
+
+            </div>
+
+            <div className='col-md-3'>
+              <Card>
+
+                <CardBody>
+
+                  <span className='pvdadmin-span-style1'>Unconditional Offer</span>
+                  <br/>
+                  <span className='pvdadmin-span-style2'>50</span>
+                  <br/>
+                  <br/>
+                </CardBody>
+              </Card>
+
+            </div>
+
+            <div className='col-md-3'>
+              <Card>
+
+                <CardBody>
+
+                  <span className='pvdadmin-span-style1'>Total Registered</span>
+                  <br/>
+                  <span className='pvdadmin-span-style2'>70</span>
+                  <br/>
+                  <br/>
+                </CardBody>
+              </Card>
+
+            </div>
+
+            <div className='col-md-3'>
+              <Card>
+
+                <CardBody>
+
+                  <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
+                  <br/>
+                  <span className='pvdadmin-span-style2'>70</span>
+                  <br/>
+                  <br/>
+                </CardBody>
+              </Card>
+
+            </div>
+
+            <div className='col-md-3'>
+              <Card>
+
+                <CardBody>
+
+                  <span className='pvdadmin-span-style1'>Withdrawn Application</span>
+                  <br/>
+                  <span className='pvdadmin-span-style2'>70</span>
+                  <br/>
+                  <br/>
+                </CardBody>
+              </Card>
+
+            </div>
+
+            </div>
+
+            {/* status reports end */}
+
+
+            {/* table start */}
+
+            <div>
+
+        
+
+            <Card>
+              <CardBody>
+
+                <span className='app-style-const'>Registered Applications</span>
+
+                <Table borderless responsive className='mt-3'>
+            <thead style={{backgroundColor: '#EEF3F4'}}>
+            <tr>
+            <th>Student ID</th>
+            <th>Name
+            </th>
+            <th>University</th>
+            <th>Admission Officer</th>
+            <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td>#STD002628	</td>
+            <td><div>
+            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
+            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
+            </div></td>
+            <td>Anglia Ruskin University – Navitas....</td>
+            <td>@Syed Istiake</td>
+            <td>15 June 2022	</td>
+            </tr>
+
+            <tr>
+            <td>#STD002628	</td>
+            <td><div>
+            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
+            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
+            </div></td>
+            <td>Anglia Ruskin University – Navitas....</td>
+            <td>@Syed Istiake</td>
+            <td>15 June 2022	</td>
+            </tr>
+
+            <tr>
+            <td>#STD002628	</td>
+            <td><div>
+            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
+            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
+            </div></td>
+            <td>Anglia Ruskin University – Navitas....</td>
+            <td>@Syed Istiake</td>
+            <td>15 June 2022	</td>
+            </tr>
+
+            <tr>
+            <td>#STD002628	</td>
+            <td><div>
+            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
+            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
+            </div></td>
+            <td>Anglia Ruskin University – Navitas....</td>
+            <td>@Syed Istiake</td>
+            <td>15 June 2022	</td>
+            </tr>
+
+            </tbody>
+            </Table>
+
+
+
+              </CardBody>
+            </Card>
+
+            </div>
+
+
+
+            {/* table end */}
+        
+
+
   
       </React.Fragment>
     );
