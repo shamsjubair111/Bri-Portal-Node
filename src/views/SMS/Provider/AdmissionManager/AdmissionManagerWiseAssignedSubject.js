@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { Button, ButtonGroup, Card, CardBody, CardHeader, Modal, ModalBody, ModalFooter, Table, Col,
   Dropdown,
@@ -59,6 +59,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
     const [progress,setProgress] = useState(false);
 
     const {addToast} = useToasts();
+    const location = useLocation();
     
 
     useEffect(()=>{
@@ -155,7 +156,13 @@ const AdmissionManagerWiseAssignedSubject = () => {
     };
     
     const backToDashboard = () => {
+      if(location.proviiderId != undefined){
+        history.push(`/providerDetails/${location.proviiderId}`);
+      }
+      else{
         history.push('/admissionManagerList');
+      }
+        
     }
 
     const toggleDanger =  (data) => {
@@ -280,7 +287,14 @@ const AdmissionManagerWiseAssignedSubject = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Admission Manager List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.proviiderId != undefined ?
+                "Back to Provider Details"
+                :
+                "Back to Admission Manager List"
+              }
+              
             </span>
           </div>
         </CardHeader>

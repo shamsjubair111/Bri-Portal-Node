@@ -25,7 +25,7 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import loader from '../../../assets/img/load.gif';
+import loader from "../../../assets/img/load.gif";
 import { Image, Upload } from "antd";
 import * as Icon from "react-feather";
 
@@ -123,13 +123,15 @@ const AdmissionOfficerList = () => {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPhn, setCheckPhn] = useState(true);
   const [checkCountry, setCheckCountry] = useState(true);
+  const [checkAssign, setCheckAssign] = useState(true);
+  const [sub, setSub] = useState(true);
   const [checkSts, setCheckSts] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
 
   const location = useLocation();
   const history = useHistory();
   const { addToast } = useToasts();
-  const {providerId, managerId} = useParams();
+  const { providerId, managerId } = useParams();
 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
@@ -137,24 +139,21 @@ const AdmissionOfficerList = () => {
 
   const [pass, setPass] = useState("");
   const [passError, setPassError] = useState("");
-  const [buttonStatus,setButtonStatus] = useState(false);
+  const [buttonStatus, setButtonStatus] = useState(false);
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [FileList, setFileList] = useState([]);
-  const [proLabel,setProLabel] = useState('Select Provider');
-  const [proValue,setProValue] = useState(0);
-  const [progress,setProgress] = useState(false);
-
+  const [proLabel, setProLabel] = useState("Select Provider");
+  const [proValue, setProValue] = useState(0);
+  const [progress, setProgress] = useState(false);
 
   const [imgError, setImgError] = useState(false);
 
-  const [error,setError] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-   
-
     get("CountryDD/index").then((res) => {
       setCountryList(res);
     });
@@ -170,63 +169,67 @@ const AdmissionOfficerList = () => {
     // setLoading(true);
     // setLoading(false);
 
-    if(providerId !== undefined && managerId !== undefined){
+    if (providerId !== undefined && managerId !== undefined) {
       get(
         `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${providerId}&admissionmanagerId=${managerId}&search=${searchStr}`
       ).then((res) => {
-        console.log('Response', res);
+        console.log("Response", res);
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
-        setProLabel(res?.models.length !== 0 ? res?.models[0]?.provider?.name : "");
+        setProLabel(
+          res?.models.length !== 0 ? res?.models[0]?.provider?.name : ""
+        );
         setProValue(providerId);
-        setManagerLabel(res?.models.length !== 0 ? res?.models[0]?.admissionManagerName : "");
+        setManagerLabel(
+          res?.models.length !== 0 ? res?.models[0]?.admissionManagerName : ""
+        );
         setManagerValue(managerId);
         // setManagerValue(managerId);
 
         setLoading(false);
       });
-    }
-    else{
+    } else {
       get(
         `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${proValue}&admissionmanagerId=${managerValue}&search=${searchStr}`
       ).then((res) => {
-        console.log('Response', res);
+        console.log("Response", res);
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
         setLoading(false);
       });
     }
-  }, [currentPage, dataPerPage, managerValue, searchStr, success, loading, proValue, managerId, providerId]);
+  }, [
+    currentPage,
+    dataPerPage,
+    managerValue,
+    searchStr,
+    success,
+    loading,
+    proValue,
+    managerId,
+    providerId,
+  ]);
 
-  useEffect(()=>{
-
-    if(userType == userTypes?.AdmissionManager){
-      get(`AdmissionManager/Profile/${referenceId}`)
-     .then(res =>{
-      
-      setManagerValue(res?.id);
-      setProValue(res?.providerId);
-     })
-    }
-
-    if(userType == userTypes?.ProviderAdmin){
-      get(`ProviderAdmin/Get/${referenceId}`)
-      .then(res => {
-        console.log('provider Admin Info', res);
+  useEffect(() => {
+    if (userType == userTypes?.AdmissionManager) {
+      get(`AdmissionManager/Profile/${referenceId}`).then((res) => {
+        setManagerValue(res?.id);
         setProValue(res?.providerId);
-        get(`AdmissionManagerDD/Index/${res?.providerId}`)
-        .then(res => {
-          setManagerDD(res);
-        })
-      })
+      });
     }
 
-  
-     
-    
-  },[])
+    if (userType == userTypes?.ProviderAdmin) {
+      get(`ProviderAdmin/Get/${referenceId}`).then((res) => {
+        console.log("provider Admin Info", res);
+        setProValue(res?.providerId);
+        get(`AdmissionManagerDD/Index/${res?.providerId}`).then((res) => {
+          setManagerDD(res);
+        });
+      });
+    }
+  }, []);
 
   const managerMenu = managerDD.map((manager) => ({
     label: manager?.name,
@@ -259,48 +262,47 @@ const AdmissionOfficerList = () => {
     value: countryOptions?.id,
   }));
 
-
   // Trial start
 
- function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
-
-const handleCancel = () => {
-  setPreviewVisible(false);
-};
-
-const handlePreview = async (file) => {
-  if (!file.url && !file.preview) {
-    file.preview = await getBase64(file.originFileObj);
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   }
 
-  setPreviewImage(file.url || file.preview);
-  setPreviewVisible(true);
-  setPreviewTitle(
-    file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-  );
-};
+  const handleCancel = () => {
+    setPreviewVisible(false);
+  };
 
-const handleChange = ({ fileList }) => {
-  
- 
-  if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
-    setFileList([]);
-    setError('Only jpeg, jpg, png image is allowed');
-  }
-  else{
-    setFileList(fileList);
-    setError('');
-  
-  }
-};
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
 
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+
+  const handleChange = ({ fileList }) => {
+    if (
+      fileList.length > 0 &&
+      fileList[0]?.type !== "image/jpeg" &&
+      fileList[0]?.type !== "image/jpg" &&
+      fileList[0]?.type !== "image/png"
+    ) {
+      setFileList([]);
+      setError("Only jpeg, jpg, png image is allowed");
+    } else {
+      setFileList(fileList);
+      setError("");
+    }
+  };
 
   // select University Country
   const selectUniCountry = (label, value) => {
@@ -360,7 +362,7 @@ const handleChange = ({ fileList }) => {
     });
   };
 
-  const selectProviders = (label,value) => {
+  const selectProviders = (label, value) => {
     setManagerLabel("Select Admission Manager");
     setManagerValue(0);
     setProLabel(label);
@@ -371,7 +373,7 @@ const handleChange = ({ fileList }) => {
       // setUniStateValue(res.id)
       // setUniversityStates(res);
     });
-  }
+  };
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
@@ -431,7 +433,7 @@ const handleChange = ({ fileList }) => {
   const handleClearSearch = () => {
     setManagerLabel("Select Admission Manager");
     setManagerValue(0);
-    setProLabel('Select Provider');
+    setProLabel("Select Provider");
     setProValue(0);
     setCallApi((prev) => !prev);
     setSearchStr("");
@@ -442,10 +444,9 @@ const handleChange = ({ fileList }) => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    if(providerId !== undefined && managerId !== undefined){
+    if (providerId !== undefined && managerId !== undefined) {
       history.push("/admissionManagerList");
-    }
-    else{
+    } else {
       history.push("/");
     }
   };
@@ -511,8 +512,7 @@ const handleChange = ({ fileList }) => {
             autoDismiss: true,
           });
           setSuccess(!success);
-        }
-        else{
+        } else {
           addToast(res?.data?.message, {
             appearance: "error",
             autoDismiss: true,
@@ -521,7 +521,6 @@ const handleChange = ({ fileList }) => {
       }
     );
   };
-
 
   const redirectToAssignPage = (providerId, managerId) => {
     history.push({
@@ -532,7 +531,7 @@ const handleChange = ({ fileList }) => {
 
   const redirectToSubjectPage = (data) => {
     history.push(`/admissionOfficerAssignedSubjects/${data}`);
-  }
+  };
 
   // on Close Modal
   const closeModal = () => {
@@ -565,7 +564,10 @@ const handleChange = ({ fileList }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
-    subdata.append('admissionOfficerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
+    subdata.append(
+      "admissionOfficerFile",
+      FileList?.length < 1 ? null : FileList[0]?.originFileObj
+    );
 
     for (var i of subdata) {
     }
@@ -713,6 +715,12 @@ const handleChange = ({ fileList }) => {
   const handleCheckedCountry = (e) => {
     setCheckCountry(e.target.checked);
   };
+  const handleCheckedAssign = (e) => {
+    setCheckAssign(e.target.checked);
+  };
+  const handleCheckedSub = (e) => {
+    setSub(e.target.checked);
+  };
   const handleCheckedSts = (e) => {
     setCheckSts(e.target.checked);
   };
@@ -720,134 +728,118 @@ const handleChange = ({ fileList }) => {
     setCheckAction(e.target.checked);
   };
 
-    return (
-        <div>
-     {
-      loading? 
-      <div className="text-center">
-
-          <img src={loader} className='img-fluid' />
+  return (
+    <div>
+      {loading ? (
+        <div className="text-center">
+          <img src={loader} className="img-fluid" />
         </div>
-
-        :
-
+      ) : (
         <div>
-           <Card className="uapp-card-bg">
-        <CardHeader className="page-header">
-          <h3 className="text-white">Admission Officer List</h3>
-          <div className="page-header-back-to-home">
-            <span onClick={backToDashboard} className="text-white">
-              {" "}
-              <i className="fas fa-arrow-circle-left"></i>{" "} 
-              {
-                providerId !== undefined && managerId !== undefined ?
-                "Back to Admission Manager List"
-                :
-                "Back to Dashboard"
-              }
-            </span>
-          </div>
-        </CardHeader>
-      </Card>
+          <Card className="uapp-card-bg">
+            <CardHeader className="page-header">
+              <h3 className="text-white">Admission Officer List</h3>
+              <div className="page-header-back-to-home">
+                <span onClick={backToDashboard} className="text-white">
+                  {" "}
+                  <i className="fas fa-arrow-circle-left"></i>{" "}
+                  {providerId !== undefined && managerId !== undefined
+                    ? "Back to Admission Manager List"
+                    : "Back to Dashboard"}
+                </span>
+              </div>
+            </CardHeader>
+          </Card>
 
-      <Card className="uapp-employee-search">
-        <CardBody className="search-card-body">
-          <Row>
-            {
-              (userType == userTypes?.AdmissionManager || userType == userTypes?.ProviderAdmin) ?
-              null:
-              <Col lg="6" md="6" sm="6" xs="12">
-            <Select
-                options={providerMenu}
-                value={{ label: proLabel, value: proValue }}
-                onChange={(opt) => selectProviders(opt.label, opt.value)}
-                name="admissionmanagerId"
-                id="admissionmanagerId"
-                isDisabled={providerId !== undefined ? true : false}
-              />
-            </Col>
-            }
+          <Card className="uapp-employee-search">
+            <CardBody className="search-card-body">
+              <Row>
+                {userType == userTypes?.AdmissionManager ||
+                userType == userTypes?.ProviderAdmin ? null : (
+                  <Col lg="6" md="6" sm="6" xs="12">
+                    <Select
+                      options={providerMenu}
+                      value={{ label: proLabel, value: proValue }}
+                      onChange={(opt) => selectProviders(opt.label, opt.value)}
+                      name="admissionmanagerId"
+                      id="admissionmanagerId"
+                      isDisabled={providerId !== undefined ? true : false}
+                    />
+                  </Col>
+                )}
 
-          {
-            (userType == userTypes?.AdmissionManager) ? 
-            null
-            :
-            <Col lg="6" md="6" sm="6" xs="12">
-            <Select
-                options={managerMenu}
-                value={{ label: managerLabel, value: managerValue }}
-                onChange={(opt) => selectManager(opt.label, opt.value)}
-                name="admissionmanagerId"
-                id="admissionmanagerId"
-                isDisabled={managerId !== undefined ? true : false}
-              />
-              
-            </Col>
-          }
+                {userType == userTypes?.AdmissionManager ? null : (
+                  <Col lg="6" md="6" sm="6" xs="12">
+                    <Select
+                      options={managerMenu}
+                      value={{ label: managerLabel, value: managerValue }}
+                      onChange={(opt) => selectManager(opt.label, opt.value)}
+                      name="admissionmanagerId"
+                      id="admissionmanagerId"
+                      isDisabled={managerId !== undefined ? true : false}
+                    />
+                  </Col>
+                )}
+              </Row>
 
-            
-          </Row>
+              <Row className="mt-3">
+                <Col lg="6" md="6" sm="6" xs="12">
+                  <Input
+                    style={{ height: "2.7rem" }}
+                    type="text"
+                    name="search"
+                    value={searchStr}
+                    id="search"
+                    placeholder="Name"
+                    onChange={searchValue}
+                    onKeyDown={handleKeyDown}
+                  />
+                </Col>
+              </Row>
 
-          <Row className="mt-3">
-          <Col lg="6" md="6" sm="6" xs="12">
-          <Input
-                style={{ height: "2.7rem" }}
-                type="text"
-                name="search"
-                value={searchStr}
-                id="search"
-                placeholder="Name"
-                onChange={searchValue}
-                onKeyDown={handleKeyDown}
-              />
-             
-            </Col>
-          </Row>
+              <Row className="">
+                <Col lg="12" md="12" sm="12" xs="12">
+                  <div style={{ display: "flex", justifyContent: "end" }}>
+                    <div
+                      className="mt-1 mx-1 d-flex btn-clear"
+                      onClick={handleClearSearch}
+                    >
+                      {/* <Icon.X  className='text-danger' />*/}
+                      <span className="text-danger">
+                        <i className="fa fa-times"></i> Clear
+                      </span>
+                    </div>
 
-          <Row className="">
-            <Col lg="12" md="12" sm="12" xs="12">
-              <div style={{ display: "flex", justifyContent: "end" }}>
-                <div
-                  className="mt-1 mx-1 d-flex btn-clear"
-                  onClick={handleClearSearch}
-                >
-                  {/* <Icon.X  className='text-danger' />*/}
-                  <span className="text-danger">
-                    <i className="fa fa-times"></i> Clear
-                  </span>
-                </div>
-
-                {/* <div className="mt-2 mx-1">
+                    {/* <div className="mt-2 mx-1">
                 <span className="btn btn-primary">Export</span>
               </div> */}
-              </div>
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
+                  </div>
+                </Col>
+              </Row>
+            </CardBody>
+          </Card>
 
-      <Card className="uapp-employee-search">
-        <CardBody>
-          {/* new */}
-          <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
-             {
-              permissions?.includes(permissionList.Add_New_Admissionofficer) ?
-              <ButtonForFunction
-              func={handleAddNew}
-              className={"btn btn-uapp-add "}
-              icon={<i className="fas fa-plus"></i>}
-              name={" Add Admission Officer"}
-              permission={6}
-            />
-            :
-            null
-             }
-            </Col>
+          <Card className="uapp-employee-search">
+            <CardBody>
+              {/* new */}
+              <Row className="mb-3">
+                <Col lg="5" md="5" sm="4" xs="4">
+                  {permissions?.includes(
+                    permissionList.Add_New_Admissionofficer
+                  ) ? (
+                    <ButtonForFunction
+                      func={handleAddNew}
+                      className={"btn btn-uapp-add "}
+                      icon={<i className="fas fa-plus"></i>}
+                      name={" Add Admission Officer"}
+                      permission={6}
+                    />
+                  ) : null}
+                </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
-                {/* <Col lg="2">
+                <Col lg="7" md="7" sm="8" xs="8">
+                  <div className="d-md-flex justify-content-end">
+                    {/* <Col lg="2">
                     
                     <div className='ms-2'>
                       <ReactToPrint
@@ -861,644 +853,721 @@ const handleChange = ({ fileList }) => {
                     </div>
                 </Col> */}
 
-                <div className="mr-3">
-                  <div className="d-flex align-items-center">
-                    <div className="mr-2">Showing :</div>
-                    <div className="mr-2">
-                      <Select
-                        options={dataSizeName}
-                        value={{ label: dataPerPage, value: dataPerPage }}
-                        onChange={(opt) => selectDataSize(opt.value)}
-                      />
+                    <div className="mr-3">
+                      <div className="d-flex align-items-center">
+                        <div className="mr-2">Showing :</div>
+                        <div className="mr-2">
+                          <Select
+                            options={dataSizeName}
+                            value={{ label: dataPerPage, value: dataPerPage }}
+                            onChange={(opt) => selectDataSize(opt.value)}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
-                <div className="">
-                  <Dropdown
-                    className="uapp-dropdown"
-                    style={{ float: "right" }}
-                    isOpen={dropdownOpen}
-                    toggle={toggle}
-                  >
-                    <DropdownToggle caret>
-                      <i className="fas fa-print fs-7"></i>
-                    </DropdownToggle>
-                    <DropdownMenu className="bg-dd-4">
-                      <div className="d-flex justify-content-around align-items-center mt-2">
-                        <div className="cursor-pointer">
-                          {/* <p onClick={handleExportXLSX}>
+                    <div className="">
+                      <Dropdown
+                        className="uapp-dropdown"
+                        style={{ float: "right" }}
+                        isOpen={dropdownOpen}
+                        toggle={toggle}
+                      >
+                        <DropdownToggle caret>
+                          <i className="fas fa-print fs-7"></i>
+                        </DropdownToggle>
+                        <DropdownMenu className="bg-dd-4">
+                          <div className="d-flex justify-content-around align-items-center mt-2">
+                            <div className="cursor-pointer">
+                              {/* <p onClick={handleExportXLSX}>
                             <i className="fas fa-file-excel"></i>
                           </p> */}
-                          <ReactTableConvertToXl
-                            id="test-table-xls-button"
-                            table="table-to-xls"
-                            filename="tablexls"
-                            sheet="tablexls"
-                            icon={<i className="fas fa-file-excel"></i>}
-                          />
-                        </div>
-                        <div className="cursor-pointer">
-                          <ReactToPrint
-                            trigger={() => (
-                              <p>
-                                <i className="fas fa-file-pdf"></i>
-                              </p>
-                            )}
-                            content={() => componentRef.current}
-                          />
-                        </div>
-                      </div>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
-
-                {/* column hide unhide starts here */}
-
-                <div className="ml-3">
-                  <Dropdown
-                    className="uapp-dropdown"
-                    style={{ float: "right" }}
-                    isOpen={dropdownOpen1}
-                    toggle={toggle1}
-                  >
-                    <DropdownToggle caret>
-                      <i className="fas fa-bars"></i>
-                    </DropdownToggle>
-                    <DropdownMenu className="bg-dd-1">
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">SL/NO</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              id=""
-                              name="isAcceptHome"
-                              onChange={(e) => {
-                                handleCheckedSLNO(e);
-                              }}
-                              defaultChecked={checkSlNo}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">UAPP Id</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedId(e);
-                              }}
-                              defaultChecked={checkId}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Name</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedName(e);
-                              }}
-                              defaultChecked={checkName}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Provider</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedPro(e);
-                              }}
-                              defaultChecked={checkPro}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Email</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedEmail(e);
-                              }}
-                              defaultChecked={checkEmail}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Phone No</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedPhn(e);
-                              }}
-                              defaultChecked={checkPhn}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Country</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedCountry(e);
-                              }}
-                              defaultChecked={checkCountry}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Account Status</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedSts(e);
-                              }}
-                              defaultChecked={checkSts}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
-                          <p className="">Action</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedAction(e);
-                              }}
-                              defaultChecked={checkAction}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
-
-                {/* column hide unhide ends here */}
-              </div>
-            </Col>
-          </Row>
-
-          {/* add / update modal */}
-
-          <Modal
-            isOpen={modalOpen}
-            toggle={closeModal}
-            className="uapp-modal4"
-            // style={{ height: "5px" }}
-            size="lg"
-          >
-            <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
-              <span className="text-white">Admission Officer</span>
-            </ModalHeader>
-            <ModalBody>
-              <Form onSubmit={handleSubmit}>
-                {selectedId != undefined ? (
-                  <FormGroup row className="has-icon-left position-relative">
-                    <Input type="hidden" id="id" name="id" value={selectedId} />
-                  </FormGroup>
-                ) : null}
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      Title <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={nameTitleMenu}
-                      value={{ label: nameTitleLabel, value: nameTitleValue }}
-                      onChange={(opt) => selectNameTitle(opt.label, opt.value)}
-                      name="nameTittleId"
-                      id="nameTittleId"
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                    {nameTitleError ? (
-                      <span className="text-danger">
-                        Title is required
-                      </span>
-                    ) : null}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      First Name <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="firstName"
-                      id="firstName"
-                      defaultValue={officerObj?.firstName}
-                      placeholder="Type First Name"
-                      required
-                    />
-                    {/* <div className="form-control-position">
-                                                <User size={15} />
-                                            </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      Last Name <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="lastName"
-                      id="lastName"
-                      defaultValue={officerObj?.lastName}
-                      placeholder="Type Last Name"
-                      required
-                    />
-                    {/* <div className="form-control-position">
-                                                <User size={15} />
-                                            </div> */}
-                  </Col>
-                </FormGroup>
-
-                {selectedId === undefined ? (
-                  <FormGroup row className="has-icon-left position-relative">
-                    <Col md="3">
-                      <span>
-                        Email <span className="text-danger">*</span>{" "}
-                      </span>
-                    </Col>
-                    <Col md="6">
-                      <Input
-                        type="email"
-                        name="email"
-                        id="email"
-                        onBlur={handleEmail}
-                        defaultValue={officerObj?.email}
-                        placeholder="Type Your Email"
-                        required
-                      />
-                      {!emailError ? (
-                        <span className="text-danger">
-                          Email already exists.
-                        </span>
-                      ) : null}
-                    </Col>
-                  </FormGroup>
-                ) : null}
-
-                {selectedId != undefined ? null : (
-                  <FormGroup row className="has-icon-left position-relative">
-                    <Col md="3">
-                      <span>
-                        Password <span className="text-danger">*</span>
-                      </span>
-                    </Col>
-                    <Col md="6">
-                      <Input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Type Your Password"
-                        required
-                        onChange={handlePass}
-                      />
-                      <span className="text-danger">{passError}</span>
-                    </Col>
-                  </FormGroup>
-                )}
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      Phone Number <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      defaultValue={officerObj?.phoneNumber}
-                      placeholder="Type Your Phone Number"
-                      required
-                    />
-                    {/* <div className="form-control-position">
-                                                <User size={15} />
-                                            </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      Country <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={countryDD}
-                      value={{ label: uniCountryLabel, value: uniCountryValue }}
-                      onChange={(opt) => selectUniCountry(opt.label, opt.value)}
-                      name="countryId"
-                      id="countryId"
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                    {countryError ? (
-                      <span className="text-danger">
-                        Country is required
-                      </span>
-                    ) : null}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      State <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Select
-                      options={universityStateName}
-                      value={{ label: uniStateLabel, value: unistateValue }}
-                      onChange={(opt) => selectUniState(opt.label, opt.value)}
-                      name="stateId"
-                      id="stateId"
-                    />
-
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                    {uniStateError ? (
-                      <span className="text-danger">
-                        State is required
-                      </span>
-                    ) : null}
-                  </Col>
-                </FormGroup>
-
-                {selectedId != undefined ? null : (
-                  <FormGroup row className="has-icon-left position-relative">
-                    <Col md="3">
-                      <span>
-                        Provider <span className="text-danger">*</span>{" "}
-                      </span>
-                    </Col>
-                    <Col md="6">
-                      <Select
-                        options={providerMenu}
-                        value={{ label: providerLabel, value: providerValue }}
-                        onChange={(opt) => selectProvider(opt.label, opt.value)}
-                        name="providerId"
-                        id="providerId"
-                      />
-
-                      {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-
-                      {providerError ? (
-                        <span className="text-danger">
-                          Provider is required
-                        </span>
-                      ) : null}
-                    </Col>
-                  </FormGroup>
-                )}
-
-                {selectedId != undefined ? null : (
-                  <FormGroup row className="has-icon-left position-relative">
-                    <Col md="3">
-                      <span>
-                        Admission Manager <span className="text-danger">*</span>{" "}
-                      </span>
-                    </Col>
-                    <Col md="6">
-                      <Select
-                        options={managerMenuForm}
-                        value={{
-                          label: managerFormLabel,
-                          value: managerFormValue,
-                        }}
-                        onChange={(opt) =>
-                          selectManagerForm(opt.label, opt.value)
-                        }
-                        name="admissionmanagerId"
-                        id="admissionmanagerId"
-                      />
-
-                      {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-
-                      {managerFormError ? (
-                        <span className="text-danger">
-                          Admission manager is required
-                        </span>
-                      ) : null}
-                    </Col>
-                  </FormGroup>
-                )}
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      City <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="city"
-                      id="city"
-                      defaultValue={officerObj?.city}
-                      placeholder="Type City Name"
-                      required
-                    />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      Post Code <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="text"
-                      name="postCode"
-                      id="postCode"
-                      defaultValue={officerObj?.postCode}
-                      placeholder="Type Post Code"
-                      required
-                    />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="3">
-                    <span>
-                      Image
-                    </span>
-                  </Col>
-                  <Col md="6">
-                  <div className="row">
-                  {(officerObj?.id) ? (
-                        <div className="col-md-3 mr-3">
-                          <Image
-                          
-                            width={104}
-                            height={104}
-                            src={rootUrl + officerObj?.admissionOfficerMedia?.fileUrl}
-                          />
-                        </div>
-                      ) : null}
-                    
-                    <div className="col-md-3">
-                      <>
-                        <Upload
-                          listType="picture-card"
-                          multiple={false}
-                          fileList={FileList}
-                          onPreview={handlePreview}
-                          onChange={handleChange}
-                          beforeUpload={(file) => {
-                            return false;
-                          }}
-                        >
-                          {FileList.length < 1 ? (
-                            <div
-                              className="text-danger"
-                              style={{ marginTop: 8 }}
-                            >
-                              <Icon.Upload />
-                              <br />
-                              <span>Upload Image Here</span>
+                              <ReactTableConvertToXl
+                                id="test-table-xls-button"
+                                table="table-to-xls"
+                                filename="tablexls"
+                                sheet="tablexls"
+                                icon={<i className="fas fa-file-excel"></i>}
+                              />
                             </div>
-                          ) : (
-                            ""
-                          )}
-                        </Upload>
-                        <Modal
-                          visible={previewVisible}
-                          title={previewTitle}
-                          footer={null}
-                          onCancel={handleCancel}
-                        >
-                          <img
-                            alt="example"
-                            style={{ width: "100%" }}
-                            src={previewImage}
-                          />
-                        </Modal>
-                         <span className="text-danger d-block">{error}</span>
-                      </>
+                            <div className="cursor-pointer">
+                              <ReactToPrint
+                                trigger={() => (
+                                  <p>
+                                    <i className="fas fa-file-pdf"></i>
+                                  </p>
+                                )}
+                                content={() => componentRef.current}
+                              />
+                            </div>
+                          </div>
+                        </DropdownMenu>
+                      </Dropdown>
                     </div>
+
+                    {/* column hide unhide starts here */}
+
+                    <div className="ml-3">
+                      <Dropdown
+                        className="uapp-dropdown"
+                        style={{ float: "right" }}
+                        isOpen={dropdownOpen1}
+                        toggle={toggle1}
+                      >
+                        <DropdownToggle caret>
+                          <i className="fas fa-bars"></i>
+                        </DropdownToggle>
+                        <DropdownMenu className="bg-dd-1">
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">SL/NO</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id=""
+                                  name="isAcceptHome"
+                                  onChange={(e) => {
+                                    handleCheckedSLNO(e);
+                                  }}
+                                  defaultChecked={checkSlNo}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">UAPP Id</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedId(e);
+                                  }}
+                                  defaultChecked={checkId}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Name</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedName(e);
+                                  }}
+                                  defaultChecked={checkName}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Provider</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedPro(e);
+                                  }}
+                                  defaultChecked={checkPro}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Email</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedEmail(e);
+                                  }}
+                                  defaultChecked={checkEmail}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Phone No</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedPhn(e);
+                                  }}
+                                  defaultChecked={checkPhn}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Country</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedCountry(e);
+                                  }}
+                                  defaultChecked={checkCountry}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Assigned University</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedAssign(e);
+                                  }}
+                                  defaultChecked={checkAssign}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Assigned Subject</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedSub(e);
+                                  }}
+                                  defaultChecked={sub}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Account Status</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedSts(e);
+                                  }}
+                                  defaultChecked={checkSts}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+
+                          <div className="d-flex justify-content-between">
+                            <Col md="8" className="">
+                              <p className="">Action</p>
+                            </Col>
+
+                            <Col md="4" className="text-center">
+                              <FormGroup check inline>
+                                <Input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleCheckedAction(e);
+                                  }}
+                                  defaultChecked={checkAction}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </div>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
+
+                    {/* column hide unhide ends here */}
                   </div>
-                  </Col>
-                </FormGroup>
+                </Col>
+              </Row>
 
-                <FormGroup
-                  className="has-icon-left position-relative"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Button
-                    color="danger"
-                    className="mr-1 mt-3"
-                    onClick={closeModal}
-                  >
-                    Close
-                  </Button>
+              {/* add / update modal */}
 
-                  {/* localStorage.getItem("updateUni") ? */}
-                  {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
+              <Modal
+                isOpen={modalOpen}
+                toggle={closeModal}
+                className="uapp-modal4"
+                // style={{ height: "5px" }}
+                size="lg"
+              >
+                <ModalHeader style={{ backgroundColor: "#1d94ab" }}>
+                  <span className="text-white">Admission Officer</span>
+                </ModalHeader>
+                <ModalBody>
+                  <Form onSubmit={handleSubmit}>
+                    {selectedId != undefined ? (
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Input
+                          type="hidden"
+                          id="id"
+                          name="id"
+                          value={selectedId}
+                        />
+                      </FormGroup>
+                    ) : null}
 
-                  {/* <Button.Ripple
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          Title <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Select
+                          options={nameTitleMenu}
+                          value={{
+                            label: nameTitleLabel,
+                            value: nameTitleValue,
+                          }}
+                          onChange={(opt) =>
+                            selectNameTitle(opt.label, opt.value)
+                          }
+                          name="nameTittleId"
+                          id="nameTittleId"
+                        />
+
+                        {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                        {nameTitleError ? (
+                          <span className="text-danger">Title is required</span>
+                        ) : null}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          First Name <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          name="firstName"
+                          id="firstName"
+                          defaultValue={officerObj?.firstName}
+                          placeholder="Type First Name"
+                          required
+                        />
+                        {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          Last Name <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          name="lastName"
+                          id="lastName"
+                          defaultValue={officerObj?.lastName}
+                          placeholder="Type Last Name"
+                          required
+                        />
+                        {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                      </Col>
+                    </FormGroup>
+
+                    {selectedId === undefined ? (
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            Email <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="email"
+                            name="email"
+                            id="email"
+                            onBlur={handleEmail}
+                            defaultValue={officerObj?.email}
+                            placeholder="Type Your Email"
+                            required
+                          />
+                          {!emailError ? (
+                            <span className="text-danger">
+                              Email already exists.
+                            </span>
+                          ) : null}
+                        </Col>
+                      </FormGroup>
+                    ) : null}
+
+                    {selectedId != undefined ? null : (
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            Password <span className="text-danger">*</span>
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Type Your Password"
+                            required
+                            onChange={handlePass}
+                          />
+                          <span className="text-danger">{passError}</span>
+                        </Col>
+                      </FormGroup>
+                    )}
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          Phone Number <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          name="phoneNumber"
+                          id="phoneNumber"
+                          defaultValue={officerObj?.phoneNumber}
+                          placeholder="Type Your Phone Number"
+                          required
+                        />
+                        {/* <div className="form-control-position">
+                                                <User size={15} />
+                                            </div> */}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          Country <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Select
+                          options={countryDD}
+                          value={{
+                            label: uniCountryLabel,
+                            value: uniCountryValue,
+                          }}
+                          onChange={(opt) =>
+                            selectUniCountry(opt.label, opt.value)
+                          }
+                          name="countryId"
+                          id="countryId"
+                        />
+
+                        {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                        {countryError ? (
+                          <span className="text-danger">
+                            Country is required
+                          </span>
+                        ) : null}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          State <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Select
+                          options={universityStateName}
+                          value={{ label: uniStateLabel, value: unistateValue }}
+                          onChange={(opt) =>
+                            selectUniState(opt.label, opt.value)
+                          }
+                          name="stateId"
+                          id="stateId"
+                        />
+
+                        {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                        {uniStateError ? (
+                          <span className="text-danger">State is required</span>
+                        ) : null}
+                      </Col>
+                    </FormGroup>
+
+                    {selectedId != undefined ? null : (
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            Provider <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Select
+                            options={providerMenu}
+                            value={{
+                              label: providerLabel,
+                              value: providerValue,
+                            }}
+                            onChange={(opt) =>
+                              selectProvider(opt.label, opt.value)
+                            }
+                            name="providerId"
+                            id="providerId"
+                          />
+
+                          {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+
+                          {providerError ? (
+                            <span className="text-danger">
+                              Provider is required
+                            </span>
+                          ) : null}
+                        </Col>
+                      </FormGroup>
+                    )}
+
+                    {selectedId != undefined ? null : (
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="3">
+                          <span>
+                            Admission Manager{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </span>
+                        </Col>
+                        <Col md="6">
+                          <Select
+                            options={managerMenuForm}
+                            value={{
+                              label: managerFormLabel,
+                              value: managerFormValue,
+                            }}
+                            onChange={(opt) =>
+                              selectManagerForm(opt.label, opt.value)
+                            }
+                            name="admissionmanagerId"
+                            id="admissionmanagerId"
+                          />
+
+                          {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+
+                          {managerFormError ? (
+                            <span className="text-danger">
+                              Admission manager is required
+                            </span>
+                          ) : null}
+                        </Col>
+                      </FormGroup>
+                    )}
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          City <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          name="city"
+                          id="city"
+                          defaultValue={officerObj?.city}
+                          placeholder="Type City Name"
+                          required
+                        />
+                        {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>
+                          Post Code <span className="text-danger">*</span>{" "}
+                        </span>
+                      </Col>
+                      <Col md="6">
+                        <Input
+                          type="text"
+                          name="postCode"
+                          id="postCode"
+                          defaultValue={officerObj?.postCode}
+                          placeholder="Type Post Code"
+                          required
+                        />
+                        {/* <div className="form-control-position">
+                                        <User size={15} />
+                                    </div> */}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row className="has-icon-left position-relative">
+                      <Col md="3">
+                        <span>Image</span>
+                      </Col>
+                      <Col md="6">
+                        <div className="row">
+                          {officerObj?.id ? (
+                            <div className="col-md-3 mr-3">
+                              <Image
+                                width={104}
+                                height={104}
+                                src={
+                                  rootUrl +
+                                  officerObj?.admissionOfficerMedia?.fileUrl
+                                }
+                              />
+                            </div>
+                          ) : null}
+
+                          <div className="col-md-3">
+                            <>
+                              <Upload
+                                listType="picture-card"
+                                multiple={false}
+                                fileList={FileList}
+                                onPreview={handlePreview}
+                                onChange={handleChange}
+                                beforeUpload={(file) => {
+                                  return false;
+                                }}
+                              >
+                                {FileList.length < 1 ? (
+                                  <div
+                                    className="text-danger"
+                                    style={{ marginTop: 8 }}
+                                  >
+                                    <Icon.Upload />
+                                    <br />
+                                    <span>Upload Image Here</span>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </Upload>
+                              <Modal
+                                visible={previewVisible}
+                                title={previewTitle}
+                                footer={null}
+                                onCancel={handleCancel}
+                              >
+                                <img
+                                  alt="example"
+                                  style={{ width: "100%" }}
+                                  src={previewImage}
+                                />
+                              </Modal>
+                              <span className="text-danger d-block">
+                                {error}
+                              </span>
+                            </>
+                          </div>
+                        </div>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup
+                      className="has-icon-left position-relative"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Button
+                        color="danger"
+                        className="mr-1 mt-3"
+                        onClick={closeModal}
+                      >
+                        Close
+                      </Button>
+
+                      {/* localStorage.getItem("updateUni") ? */}
+                      {/* <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> : */}
+
+                      {/* <Button.Ripple
                         color="warning"
                         type="submit"
                         className="mr-1 mt-3"
@@ -1507,169 +1576,164 @@ const handleChange = ({ fileList }) => {
                         Submit
                       </Button.Ripple> */}
 
-                  <CustomButtonRipple
-                    color={"primary"}
-                    type={"submit"}
-                    className={"mr-1 mt-3"}
-                    name={progress? <ButtonLoader/> : 'Submit'}
-                    permission={6}
-                    isDisabled={buttonStatus}
-                  />
-                </FormGroup>
-              </Form>
-            </ModalBody>
-          </Modal>
+                      <CustomButtonRipple
+                        color={"primary"}
+                        type={"submit"}
+                        className={"mr-1 mt-3"}
+                        name={progress ? <ButtonLoader /> : "Submit"}
+                        permission={6}
+                        isDisabled={buttonStatus}
+                      />
+                    </FormGroup>
+                  </Form>
+                </ModalBody>
+              </Modal>
 
-          
-         
-            <div className="table-responsive" ref={componentRef}>
-              <Table id="table-to-xls" className="table-sm table-bordered">
-                <thead className="thead-uapp-bg">
-                  <tr style={{ textAlign: "center" }}>
-                    {checkSlNo ? <th>SL/NO</th> : null}
-                    {checkId ? <th>UAPP Id</th> : null}
-                    {checkName ? <th>Name</th> : null}
-                    {checkPro ? <th>Provider</th> : null}
-                    {checkEmail ? <th>Email</th> : null}
-                    {checkPhn ? <th>Phone No</th> : null}
-                    {checkCountry ? <th>Country</th> : null}
-                   {
-                    permissions?.includes(permissionList.View_Admission_Officer_university_List) ?
-                    <th>Assigned University</th>
-                    :
-                    null
-                   }
-                    {
-                      permissions?.includes(permissionList?.View_Admissionofficer_Subject_list) ?
-                      <th>Assigned Subject</th>
-                      :
-                      null
-                    }
-                   {
-                    permissions?.includes(permissionList.Change_Status_AdmissionOfficer) ?
-                    <>
-                     {checkSts ? <th>Account Status</th> : null}
-                    </>
-                    :
-                    null
-                   }
-                    {/* <th>Assigned Admission Officer</th> */}
-                    {checkAction ? (
-                      <th style={{ width: "8%" }} className="text-center">
-                        Action
-                      </th>
-                    ) : null}
-                  </tr>
-                </thead>
-                <tbody>
-                  {officerList?.map((officer, i) => (
-                    <tr key={i} style={{ textAlign: "center" }}>
-                      {checkSlNo ? <th scope="row">{1 + i}</th> : null}
-                      {checkId ? <td>{officer?.sequenceId}</td> : null}
-
-                      {checkName ? (
-                        <td>
-                          {officer?.nameTittle?.name} {officer?.firstName}{" "}
-                          {officer?.lastName}
-                        </td>
+              <div className="table-responsive" ref={componentRef}>
+                <Table id="table-to-xls" className="table-sm table-bordered">
+                  <thead className="thead-uapp-bg">
+                    <tr style={{ textAlign: "center" }}>
+                      {checkSlNo ? <th>SL/NO</th> : null}
+                      {checkId ? <th>UAPP Id</th> : null}
+                      {checkName ? <th>Name</th> : null}
+                      {checkPro ? <th>Provider</th> : null}
+                      {checkEmail ? <th>Email</th> : null}
+                      {checkPhn ? <th>Phone No</th> : null}
+                      {checkCountry ? <th>Country</th> : null}
+                      {permissions?.includes(
+                        permissionList.View_Admission_Officer_university_List
+                      ) ? (
+                        <>{checkAssign ? <th>Assigned University</th> : null}</>
                       ) : null}
-
-                      {checkPro ? <td>{officer?.provider?.name}</td> : null}
-
-                      {checkEmail ? <td>{officer?.email}</td> : null}
-
-                      {checkPhn ? <td>{officer?.phoneNumber}</td> : null}
-
-                      {checkCountry ? (
-                        <td>
-                          {officer?.country?.name} ({officer?.state?.name})
-                        </td>
+                      {permissions?.includes(
+                        permissionList?.View_Admissionofficer_Subject_list
+                      ) ? (
+                        <>{sub ? <th>Assigned Subject</th> : null}</>
                       ) : null}
-                      {
-                        permissions?.includes(permissionList.View_Admission_Officer_university_List ) ? 
-                        <td>
-                        {" "}
-                        <span
-                          className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          <span
-                            onClick={() =>
-                              redirectToAssignPage(
-                                officer?.provider?.id,
-                                officer?.id
-                              )
-                            }
-                            className="text-decoration-none"
-                          >
-                            View
-                          </span>
-                        </span>{" "}
-                      </td>
-                      :
-                      null
-                      }
-                      {
-                        permissions?.includes(permissionList.View_Admissionofficer_Subject_list ) ? 
-                        <td>
-                        {" "}
-                        <span
-                          className="badge badge-secondary"
-                          style={{ cursor: "pointer" }}
-                        >
-                          <span
-                            onClick={() =>
-                              redirectToSubjectPage(
-                                
-                                officer?.id
-                              )
-                            }
-                            className="text-decoration-none"
-                          >
-                            View
-                          </span>
-                        </span>{" "}
-                      </td>
-                      :
-                      null
-                      }
-
-                     {
-                      permissions?.includes(permissionList.Change_Status_AdmissionOfficer) ?
-                      <>
-                       {checkSts ? (
-                        <td>
-                          {
-                            // <label className="switch">
-                            //   <input
-                            //     type="checkbox"
-                            //     defaultChecked={
-                            //       officer?.isActive == false ? false : true
-                            //     }
-                            //     onChange={(e) => {
-                            //       handleAccountStatus(e, officer?.id);
-                            //     }}
-                            //   />
-                            //   <span className="slider round"></span>
-                            // </label>
-
-                            <ToggleSwitch 
-                              defaultChecked={
-                                officer?.isActive == false ? false : true
-                              }
-                              onChange={(e) => {
-                                handleAccountStatus(e, officer?.id);
-                              }}
-                            />
-                          }
-                        </td>
+                      {permissions?.includes(
+                        permissionList.Change_Status_AdmissionOfficer
+                      ) ? (
+                        <>{checkSts ? <th>Account Status</th> : null}</>
                       ) : null}
-                      </>  
-                      :
-                      null
-                     }
+                      {/* <th>Assigned Admission Officer</th> */}
+                      {checkAction ? (
+                        <th style={{ width: "8%" }} className="text-center">
+                          Action
+                        </th>
+                      ) : null}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {officerList?.map((officer, i) => (
+                      <tr key={i} style={{ textAlign: "center" }}>
+                        {checkSlNo ? <th scope="row">{1 + i}</th> : null}
+                        {checkId ? <td>{officer?.sequenceId}</td> : null}
 
-                      {/* <td>
+                        {checkName ? (
+                          <td>
+                            {officer?.nameTittle?.name} {officer?.firstName}{" "}
+                            {officer?.lastName}
+                          </td>
+                        ) : null}
+
+                        {checkPro ? <td>{officer?.provider?.name}</td> : null}
+
+                        {checkEmail ? <td>{officer?.email}</td> : null}
+
+                        {checkPhn ? <td>{officer?.phoneNumber}</td> : null}
+
+                        {checkCountry ? (
+                          <td>
+                            {officer?.country?.name} ({officer?.state?.name})
+                          </td>
+                        ) : null}
+                        {permissions?.includes(
+                          permissionList.View_Admission_Officer_university_List
+                        ) ? (
+                          <>
+                            {checkAssign ? (
+                              <td>
+                                {" "}
+                                <span
+                                  className="badge badge-secondary"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <span
+                                    onClick={() =>
+                                      redirectToAssignPage(
+                                        officer?.provider?.id,
+                                        officer?.id
+                                      )
+                                    }
+                                    className="text-decoration-none"
+                                  >
+                                    View
+                                  </span>
+                                </span>{" "}
+                              </td>
+                            ) : null}
+                          </>
+                        ) : null}
+                        {permissions?.includes(
+                          permissionList.View_Admissionofficer_Subject_list
+                        ) ? (
+                          <>
+                            {sub ? (
+                              <td>
+                                {" "}
+                                <span
+                                  className="badge badge-secondary"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <span
+                                    onClick={() =>
+                                      redirectToSubjectPage(officer?.id)
+                                    }
+                                    className="text-decoration-none"
+                                  >
+                                    View
+                                  </span>
+                                </span>{" "}
+                              </td>
+                            ) : null}
+                          </>
+                        ) : null}
+
+                        {permissions?.includes(
+                          permissionList.Change_Status_AdmissionOfficer
+                        ) ? (
+                          <>
+                            {checkSts ? (
+                              <td>
+                                {
+                                  // <label className="switch">
+                                  //   <input
+                                  //     type="checkbox"
+                                  //     defaultChecked={
+                                  //       officer?.isActive == false ? false : true
+                                  //     }
+                                  //     onChange={(e) => {
+                                  //       handleAccountStatus(e, officer?.id);
+                                  //     }}
+                                  //   />
+                                  //   <span className="slider round"></span>
+                                  // </label>
+
+                                  <ToggleSwitch
+                                    defaultChecked={
+                                      officer?.isActive == false ? false : true
+                                    }
+                                    onChange={(e) => {
+                                      handleAccountStatus(e, officer?.id);
+                                    }}
+                                  />
+                                }
+                              </td>
+                            ) : null}
+                          </>
+                        ) : null}
+
+                        {/* <td>
                       {" "}
                       <span
                         className="badge badge-secondary"
@@ -1680,98 +1744,90 @@ const handleChange = ({ fileList }) => {
                       </span>{" "}     
                     </td> */}
 
-                      {checkAction ? (
-                        <td style={{ width: "8%" }} className="text-center">
-                          <ButtonGroup variant="text">
-                          {
-                            permissions?.includes(permissionList?.View_Admissionofficer_info) ?
-                            <ButtonForFunction
-                            func={() =>
-                              handlRedirectToAdmissionofficerDetails(
-                                officer?.id
-                              )
-                            }
-                            color={"primary"}
-                            className={"mx-1 btn-sm"}
-                            icon={<i className="fas fa-eye"></i>}
-                            permission={6}
-                          />
-                          :
-                          null
-                          }
+                        {checkAction ? (
+                          <td style={{ width: "8%" }} className="text-center">
+                            <ButtonGroup variant="text">
+                              {permissions?.includes(
+                                permissionList?.View_Admissionofficer_info
+                              ) ? (
+                                <ButtonForFunction
+                                  func={() =>
+                                    handlRedirectToAdmissionofficerDetails(
+                                      officer?.id
+                                    )
+                                  }
+                                  color={"primary"}
+                                  className={"mx-1 btn-sm"}
+                                  icon={<i className="fas fa-eye"></i>}
+                                  permission={6}
+                                />
+                              ) : null}
 
-                            {
-                              permissions?.includes(permissionList.Update_Admissionofficer_info) ?
+                              {permissions?.includes(
+                                permissionList.Update_Admissionofficer_info
+                              ) ? (
+                                <ButtonForFunction
+                                  func={() => handleUpdate(officer)}
+                                  color={"warning"}
+                                  className={"mx-1 btn-sm"}
+                                  icon={<i className="fas fa-edit"></i>}
+                                  permission={6}
+                                />
+                              ) : null}
 
-                              <ButtonForFunction
-                              func={() => handleUpdate(officer)}
-                              color={"warning"}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-edit"></i>}
-                              permission={6}
-                            />
-                            :
-                            null
-                            }
+                              {permissions?.includes(
+                                permissionList.Delete_Admissionofficer
+                              ) ? (
+                                <ButtonForFunction
+                                  color={"danger"}
+                                  func={() => toggleDanger(officer)}
+                                  className={"mx-1 btn-sm"}
+                                  icon={<i className="fas fa-trash-alt"></i>}
+                                  permission={6}
+                                />
+                              ) : null}
+                            </ButtonGroup>
 
-                            {
+                            <Modal
+                              isOpen={deleteModal}
+                              toggle={closeDeleteModal}
+                              className="uapp-modal"
+                            >
+                              <ModalBody>
+                                <p>
+                                  Are You Sure to Delete this{" "}
+                                  <b>{officerName}</b> ? Once Deleted it can't
+                                  be Undone!
+                                </p>
+                              </ModalBody>
 
-                              permissions?.includes(permissionList.Delete_Admissionofficer) ?
-                              <ButtonForFunction
-                              color={"danger"}
-                              func={() => toggleDanger(officer)}
-                              className={"mx-1 btn-sm"}
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              permission={6}
-                            />
-                            :
-                            null
-                            }
-                            
-                          </ButtonGroup>
+                              <ModalFooter>
+                                <Button
+                                  color="danger"
+                                  onClick={handleDelete}
+                                  disabled={buttonStatus}
+                                >
+                                  {progress ? <ButtonLoader /> : "YES"}
+                                </Button>
+                                <Button onClick={closeDeleteModal}>NO</Button>
+                              </ModalFooter>
+                            </Modal>
+                          </td>
+                        ) : null}
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
 
-                          <Modal
-                            isOpen={deleteModal}
-                            toggle={closeDeleteModal}
-                            className="uapp-modal"
-                          >
-                            <ModalBody>
-                              <p>
-                                Are You Sure to Delete this <b>{officerName}</b>{" "}
-                                ? Once Deleted it can't be Undone!
-                              </p>
-                            </ModalBody>
+              <Pagination
+                dataPerPage={dataPerPage}
+                totalData={entity}
+                paginate={paginate}
+                currentPage={currentPage}
+              />
 
-                            <ModalFooter>
-                            
-                              <Button color="danger" onClick={handleDelete} disabled={buttonStatus}>
-                                {progress? <ButtonLoader/> : 'YES'}
-                              </Button>
-                              <Button
-                                
-                                onClick={closeDeleteModal}
-                              >
-                                NO
-                              </Button>
-                            </ModalFooter>
-                          </Modal>
-                        </td>
-                      ) : null}
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-         
-
-          <Pagination
-            dataPerPage={dataPerPage}
-            totalData={entity}
-            paginate={paginate}
-            currentPage={currentPage}
-          />
-
-          {/* <Row className="mb-3">
+              {/* <Row className="mb-3">
             <Col lg="6">
               
             </Col>
@@ -1789,10 +1845,10 @@ const handleChange = ({ fileList }) => {
                </div>
              </Col>
           </Row> */}
-        </CardBody>
-      </Card>
+            </CardBody>
+          </Card>
         </div>
-     }
+      )}
     </div>
   );
 };

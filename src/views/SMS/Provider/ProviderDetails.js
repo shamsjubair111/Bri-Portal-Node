@@ -27,7 +27,7 @@ import * as Icon from "react-feather";
 import LinkButton from "../Components/LinkButton.js";
 import Form from "../../core/country/pages/form.js";
 import Select from "react-select";
-import uapploader from '../../../assets/img/Uapp_fav.png';
+import uapploader from "../../../assets/img/Uapp_fav.png";
 import put from "../../../helpers/put.js";
 import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
@@ -82,32 +82,32 @@ const ProviderDetails = () => {
   const [titleValue, setTitleValue] = useState(0);
   const [titleError, setTitleError] = useState(false);
 
-  const [managerName, setManagerName] = useState('');
+  const [managerName, setManagerName] = useState("");
   const [managerId, setManagerId] = useState(0);
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [FileList, setFileList] = useState([]);
-  const [buttonStatus,setButtonStatus] = useState(false);
-  const [progress,setProgress] = useState(false);
-  const [progress1,setProgress1] = useState(false);
-  const [progress2,setProgress2] = useState(false);
-  const [progress3,setProgress3] = useState(false);
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
+  const [progress3, setProgress3] = useState(false);
 
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const [modalOpen2, setModalOpen2] = useState(false);
-  const [buttonStatus1,setButtonStatus1] = useState(false);
+  const [buttonStatus1, setButtonStatus1] = useState(false);
   const [previewVisible1, setPreviewVisible1] = useState(false);
   const [previewImage1, setPreviewImage1] = useState("");
   const [previewTitle1, setPreviewTitle1] = useState("");
   const [FileList1, setFileList1] = useState([]);
   const [error1, setError1] = useState(false);
-  const [text1, setText1] = useState('');
-  const [delData2,setDelData2] = useState(false);
+  const [text1, setText1] = useState("");
+  const [delData2, setDelData2] = useState(false);
 
-  const [officer,setOfficer] = useState({});
+  const [officer, setOfficer] = useState({});
 
   const permissions = JSON.parse(localStorage.getItem("permissions"));
 
@@ -123,7 +123,7 @@ const ProviderDetails = () => {
     get(
       `University/IndexForProvider?page=${currentPage}&pagesize=${dataPerPage}&providerId=${id}`
     ).then((action) => {
-     console.log('University List', action);
+      console.log("University List", action);
       setUniversityList(action?.models);
       setLoading(false);
       setEntity(action?.totalEntity);
@@ -131,12 +131,11 @@ const ProviderDetails = () => {
     });
 
     get(`AdmissionManager/GetbyProvider/${id}`).then((res) => {
-      console.log('Admission Manager', res);
+      console.log("Admission Manager", res);
       setAdmissionManager(res);
     });
 
     get(`ProviderAdmin/GetbyProvider/${id}`).then((res) => {
-      
       console.log("providerAdmin", res);
       setAdminData(res);
       setTitleLabel(res?.nameTittle?.name);
@@ -149,15 +148,14 @@ const ProviderDetails = () => {
 
     // get(`AdmissionOfficer/GetByProvider/${id}`)
     // .then(res => {
-      
+
     //   setOfficer(res);
     // })
 
-    get(`AdmissionOfficer/OfficerForProvider/${id}`)
-    .then(res => {
-      console.log('first',res);
+    get(`AdmissionOfficer/OfficerForProvider/${id}`).then((res) => {
+      console.log("first", res);
       setOfficer(res);
-    })
+    });
   }, [
     currentPage,
     dataPerPage,
@@ -199,15 +197,18 @@ const ProviderDetails = () => {
   const handleChange = ({ fileList }) => {
     // setFileList(fileList);
 
-    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    if (
+      fileList.length > 0 &&
+      fileList[0]?.type !== "image/jpeg" &&
+      fileList[0]?.type !== "image/jpg" &&
+      fileList[0]?.type !== "image/png"
+    ) {
       setFileList([]);
-      setText('Only jpeg, jpg, png image is allowed');
-    }
-    else{
+      setText("Only jpeg, jpg, png image is allowed");
+    } else {
       setFileList(fileList);
-      setText('');
+      setText("");
     }
-
   };
 
   const backToDashboard = () => {
@@ -223,7 +224,7 @@ const ProviderDetails = () => {
   const closeDeleteModal = () => {
     setDeleteModal(false);
     setManagerId(0);
-    setManagerName('');
+    setManagerName("");
     setDeleteData({});
   };
 
@@ -235,34 +236,29 @@ const ProviderDetails = () => {
   };
   const closeDeleteModal2 = () => {
     setDeleteModal2(false);
-  
+
     setDeleteData({});
   };
 
   const handleUpdateStatus = (data) => {
     console.log(data);
-    put(`University/UpdateStatus/${data?.id}`)
-    .then(res => {
-      if(res?.status == 200 && res?.data?.isSuccess == true){
-        addToast(res?.data?.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
+    put(`University/UpdateStatus/${data?.id}`).then((res) => {
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
         setSuccess(!success);
+      } else {
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       }
-      else{
-        addToast(res?.data?.message,{
-          appearance: 'error',
-          autoDismiss: true
-        })
-      }
-    })
-
-  }
+    });
+  };
 
   const toggleDelete2 = (data) => {
-    
-    
     setDelData2(data);
     setDeleteModal2(true);
   };
@@ -278,7 +274,7 @@ const ProviderDetails = () => {
       setDeleteData({});
       setDeleteModal(false);
       setManagerId(0);
-      setManagerName('');
+      setManagerName("");
       setSuccess(!success);
     });
   };
@@ -294,8 +290,7 @@ const ProviderDetails = () => {
       });
       setDelData2({});
       setDeleteModal2(false);
-     
-     
+
       setSuccess(!success);
       setButtonStatus(false);
     });
@@ -318,7 +313,6 @@ const ProviderDetails = () => {
   };
 
   const updateAdmissionOfficer = (data) => {
-    
     history.push(`/updateAdmissionOfficer/${data?.id}/${id}`);
   };
 
@@ -333,7 +327,7 @@ const ProviderDetails = () => {
 
   const viewProviderAdminInfo = () => {
     history.push(`/providerAdminProfile/${adminData?.id}`);
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -342,7 +336,6 @@ const ProviderDetails = () => {
 
     subData.append("providerAdmin", FileList[0]?.originFileObj);
 
-    
     setButtonStatus(true);
 
     put(`ProviderAdmin/Update`, subData).then((res) => {
@@ -356,8 +349,7 @@ const ProviderDetails = () => {
         setFileList([]);
         setModalOpen(false);
         setSuccess(!success);
-      }
-      else{
+      } else {
         addToast(res?.data?.message, {
           appearance: "error",
           autoDismiss: true,
@@ -377,21 +369,24 @@ const ProviderDetails = () => {
     });
   };
 
-  const redirectToAssignPage = (managerId) =>{
+  const redirectToAssignPage = (managerId) => {
     history.push(`/assignUniversity/${id}/${managerId}`);
-  }
-  const redirectToAssignSubjectPage = (officer) =>{
-    history.push(`/admissionOfficerAssignedSubjects/${officer?.id}`);
-  }
+  };
+  const redirectToAssignSubjectPage = (officer) => {
+    history.push({
+      pathname: `/admissionOfficerAssignedSubjects/${officer?.id}`,
+      officerList: id
+    });
+  };
 
   const redirectToProviderAdmissionManager = (managerId, id) => {
-    history.push(`/providerAdmissionManager/${managerId}/${id}`)
-  }
+    history.push(`/providerAdmissionManager/${managerId}/${id}`);
+  };
 
   const updateProfilePic = () => {
     setModalOpen2(true);
     setFileList1([]);
-  }
+  };
 
   function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -406,53 +401,54 @@ const ProviderDetails = () => {
     setModalOpen2(false);
     setFileList1([]);
   };
-  
+
   const handleCancel1 = () => {
     setPreviewVisible1(false);
   };
-  
+
   const handlePreview1 = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-  
+
     setPreviewImage1(file.url || file.preview);
     setPreviewVisible1(true);
     setPreviewTitle1(
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
     );
   };
-  
+
   const handleChange1 = ({ fileList }) => {
     // setFileList(fileList);
-  
-    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+
+    if (
+      fileList.length > 0 &&
+      fileList[0]?.type !== "image/jpeg" &&
+      fileList[0]?.type !== "image/jpg" &&
+      fileList[0]?.type !== "image/png"
+    ) {
       setFileList1([]);
-      setText1('Only jpeg, jpg, png image is allowed');
-    }
-    else{
+      setText1("Only jpeg, jpg, png image is allowed");
+    } else {
       setFileList1(fileList);
-      setText1('');
+      setText1("");
       setError1(false);
       setButtonStatus1(false);
     }
-  
   };
-  
-  const handleSubmitProfilePhoto = event => {
+
+  const handleSubmitProfilePhoto = (event) => {
     event.preventDefault();
-    
+
     const subData = new FormData(event.target);
-  
+
     subData.append("providerLogo", FileList1[0]?.originFileObj);
-  
-    
+
     setButtonStatus1(true);
-  
+
     if (FileList1.length < 1) {
       setError1(true);
-    }
-    else{
+    } else {
       setProgress(true);
       put(`Provider/UpdateLogo`, subData).then((res) => {
         setButtonStatus1(false);
@@ -465,8 +461,7 @@ const ProviderDetails = () => {
           setFileList1([]);
           setModalOpen2(false);
           setSuccess(!success);
-        }
-        else{
+        } else {
           addToast(res?.data?.message, {
             appearance: "error",
             autoDismiss: true,
@@ -474,13 +469,27 @@ const ProviderDetails = () => {
         }
       });
     }
-  }
+  };
 
   const handleRedirectToAddProviderAdmin = () => {
     history.push({
       pathname: `/adminProviderForm/${id}`,
-      providerId: id
-    })
+      providerId: id,
+    });
+  };
+
+  const redirectToUniAssignPage = (providerId, officerId) => {
+    history.push({
+      pathname: `/assignOfficerUniversity/${providerId}/${officerId}`,
+      officerList: "officerList",
+    });
+  };
+
+  const redirectToSub = (data) => {
+    history.push({
+      pathname: `/admissionManagerAssignedSubjects/${data}`,
+      proviiderId: id
+    });
   }
 
   return (
@@ -606,7 +615,6 @@ const ProviderDetails = () => {
                       </Modal>
 
                       <span className="text-danger d-block">{text}</span>
-
                     </>
                   </div>
                 </div>
@@ -616,11 +624,19 @@ const ProviderDetails = () => {
             <FormGroup row>
               <Col md="9">
                 <div className="d-flex justify-content-end">
-                  <Button color='danger' onClick={()=>setModalOpen(false)} className='mr-1 mt-3'>
-                        Cancel
+                  <Button
+                    color="danger"
+                    onClick={() => setModalOpen(false)}
+                    className="mr-1 mt-3"
+                  >
+                    Cancel
                   </Button>
-                  <Button className="ml-1 mt-3" color="primary" disabled={buttonStatus}>
-                    {progress1? <ButtonLoader/> : 'Update'}
+                  <Button
+                    className="ml-1 mt-3"
+                    color="primary"
+                    disabled={buttonStatus}
+                  >
+                    {progress1 ? <ButtonLoader /> : "Update"}
                   </Button>
                 </div>
               </Col>
@@ -647,47 +663,70 @@ const ProviderDetails = () => {
             <Card className="uapp-employee-profile-right">
               <div className="uapp-profile-CardHeader">
                 <div className="uapp-circle-image margin-top-minus">
-                <div className='profile-pic1'>
-                      {
-                        (providerInfo?.providerLogoMedia == null) ?
-                          <img className="empProfileImg"  src={uapploader} alt="provider_profile"/>
-
-                          :
-
-                          <img className="empProfileImg"  src={
-                            rootUrl + providerInfo?.providerLogoMedia?.thumbnailUrl
-                          } alt="provider_profile"/>
-                      }
-                       {
-                        permissions?.includes(permissionList.Change_Provider_LogoImage) ?
-                        <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
-                        :
-                        null
-                       }
-                     </div>
+                  <div className="profile-pic1">
+                    {providerInfo?.providerLogoMedia == null ? (
+                      <img
+                        className="empProfileImg"
+                        src={uapploader}
+                        alt="provider_profile"
+                      />
+                    ) : (
+                      <img
+                        className="empProfileImg"
+                        src={
+                          rootUrl +
+                          providerInfo?.providerLogoMedia?.thumbnailUrl
+                        }
+                        alt="provider_profile"
+                      />
+                    )}
+                    {permissions?.includes(
+                      permissionList.Change_Provider_LogoImage
+                    ) ? (
+                      <div className="edit1">
+                        <span onClick={updateProfilePic}>
+                          <i
+                            className="fas fa-camera"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {" "}
+                          </i>
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
 
                 {/* profile photo edit modal starts here */}
-                {
-                        permissions?.includes(permissionList.Change_Provider_LogoImage) ?
-                <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
-                       <ModalHeader>Update Profile Photo</ModalHeader>
+                {permissions?.includes(
+                  permissionList.Change_Provider_LogoImage
+                ) ? (
+                  <Modal
+                    isOpen={modalOpen2}
+                    toggle={closeModal1}
+                    className="uapp-modal"
+                  >
+                    <ModalHeader>Update Profile Photo</ModalHeader>
 
-                       <ModalBody>
-                         <form onSubmit={handleSubmitProfilePhoto}>
-                           <input type="hidden" name="id" id="id" value={id} />
+                    <ModalBody>
+                      <form onSubmit={handleSubmitProfilePhoto}>
+                        <input type="hidden" name="id" id="id" value={id} />
 
-                           {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+                        {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
 
-                           <FormGroup row className="has-icon-left position-relative">
-                             <Col className='ml-5' md="4">
-                               <span>
-                                 Profile Photo <span className="text-danger">*</span>{" "}
-                               </span>
-                             </Col>
-                             <Col md="6">
-                               <div className="row d-flex">
-                                 {/* {consultantData?.consultantCoverImageMedia !== null ? (
+                        <FormGroup
+                          row
+                          className="has-icon-left position-relative"
+                        >
+                          <Col className="ml-5" md="4">
+                            <span>
+                              Profile Photo{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </span>
+                          </Col>
+                          <Col md="6">
+                            <div className="row d-flex">
+                              {/* {consultantData?.consultantCoverImageMedia !== null ? (
                                    <div className="col-md-6">
                                      <Image
                                        width={104}
@@ -699,75 +738,85 @@ const ProviderDetails = () => {
                                    </div>
                                  ) : null} */}
 
-                                 <div className="col-md-6">
-                                   <>
-                                     <Upload
-                                       listType="picture-card"
-                                       multiple={false}
-                                       fileList={FileList1}
-                                       onPreview={handlePreview1}
-                                       onChange={handleChange1}
-                                       beforeUpload={(file) => {
-                                         return false;
-                                       }}
-                                     >
-                                       {FileList1.length < 1 ? (
-                                         <div className="text-danger" style={{ marginTop: 8 }}>
-                                           <Icon.Upload />
-                                           <br />
-                                           <span>Upload Image Here</span>
-                                         </div>
-                                       ) : (
-                                         ""
-                                       )}
-                                     </Upload>
-                                     <Modal
-                                       visible={previewVisible1}
-                                       title={previewTitle1}
-                                       footer={null}
-                                       onCancel={handleCancel1}
-                                     >
-                                       <img
-                                         alt="example"
-                                         style={{ width: "100%" }}
-                                         src={previewImage1}
-                                       />
-                                     </Modal>
-                      
+                              <div className="col-md-6">
+                                <>
+                                  <Upload
+                                    listType="picture-card"
+                                    multiple={false}
+                                    fileList={FileList1}
+                                    onPreview={handlePreview1}
+                                    onChange={handleChange1}
+                                    beforeUpload={(file) => {
+                                      return false;
+                                    }}
+                                  >
+                                    {FileList1.length < 1 ? (
+                                      <div
+                                        className="text-danger"
+                                        style={{ marginTop: 8 }}
+                                      >
+                                        <Icon.Upload />
+                                        <br />
+                                        <span>Upload Image Here</span>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </Upload>
+                                  <Modal
+                                    visible={previewVisible1}
+                                    title={previewTitle1}
+                                    footer={null}
+                                    onCancel={handleCancel1}
+                                  >
+                                    <img
+                                      alt="example"
+                                      style={{ width: "100%" }}
+                                      src={previewImage1}
+                                    />
+                                  </Modal>
 
-                                     <span className="text-danger d-block">{text1}</span>
+                                  <span className="text-danger d-block">
+                                    {text1}
+                                  </span>
 
-                                     {error1 && (
-                                       <span className="text-danger">
-                                         Profile photo is required
-                                       </span>
-                                     )}
+                                  {error1 && (
+                                    <span className="text-danger">
+                                      Profile photo is required
+                                    </span>
+                                  )}
+                                </>
+                              </div>
+                            </div>
+                          </Col>
+                        </FormGroup>
 
-                                   </>
-                                 </div>
-                               </div>
-                             </Col>
-                           </FormGroup>
-
-                           <FormGroup row>
-                             <Col md="12">
-                               <div className="d-flex justify-content-end">
-                                 <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
-                                       Cancel
-                                 </Button>
-                                 <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
-                                   {progress? <ButtonLoader/> : 'Update'}
-                                 </Button>
-                               </div>
-                             </Col>
-                           </FormGroup>
-                         </form>
-                       </ModalBody>
-                     </Modal>
-                                    :
-                                    null
-               }
-                     {/* profile photo edit modal ends here */} 
+                        <FormGroup row>
+                          <Col md="12">
+                            <div className="d-flex justify-content-end">
+                              <Button
+                                color="danger"
+                                onClick={closeModal1}
+                                className="mr-1 mt-3"
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                type="submit"
+                                className="ml-1 mt-3"
+                                color="primary"
+                                disabled={buttonStatus1}
+                              >
+                                {progress ? <ButtonLoader /> : "Update"}
+                              </Button>
+                            </div>
+                          </Col>
+                        </FormGroup>
+                      </form>
+                    </ModalBody>
+                  </Modal>
+                ) : null}
+                {/* profile photo edit modal ends here */}
 
                 <h5> {providerInfo?.name}</h5>
                 <p> {providerInfo?.providerType?.name} </p>
@@ -783,95 +832,95 @@ const ProviderDetails = () => {
             </Card>
           </Col>
 
-           <Col md='4'>
-           {
-            adminData ? 
-            <Card className="uapp-employee-profile-right">
-              <div className="uapp-profile-CardHeader">
-                <div className="uapp-circle-image margin-top-minus">
-                  {
-                    (adminData?.providerAdminMedia == null) ?
-                    <img
-                    src={uapploader}
-                    alt="provider_profile"
-                  />
-                  :
-                  <img
-                    src={
-                      rootUrl + adminData?.providerAdminMedia?.thumbnailUrl
-                    }
-                    alt="provider_profile"
-                  />
-                  }
+          <Col md="4">
+            {adminData ? (
+              <Card className="uapp-employee-profile-right">
+                <div className="uapp-profile-CardHeader">
+                  <div className="uapp-circle-image margin-top-minus">
+                    {adminData?.providerAdminMedia == null ? (
+                      <img src={uapploader} alt="provider_profile" />
+                    ) : (
+                      <img
+                        src={
+                          rootUrl + adminData?.providerAdminMedia?.thumbnailUrl
+                        }
+                        alt="provider_profile"
+                      />
+                    )}
+                  </div>
+
+                  <h5 className="">
+                    {adminData?.nameTittle?.name} {adminData?.firstName}{" "}
+                    {adminData?.lastName}
+                  </h5>
+                  <p> Provider Admin </p>
                 </div>
+                <CardBody>
+                  <div className="d-flex justify-content-center">
+                    <ul className="uapp-ul text-center ms-4">
+                      <li> {adminData?.email} </li>
+                      <li> {adminData?.phoneNumber} </li>
+                    </ul>
 
-                <h5 className="">{adminData?.nameTittle?.name} {' '} {adminData?.firstName} {' '} {adminData?.lastName}</h5>
-                <p> Provider Admin </p>
-              </div>
-              <CardBody>
-                <div className="d-flex justify-content-center">
-                  <ul className="uapp-ul text-center ms-4">
-                    <li> {adminData?.email} </li>
-                    <li> {adminData?.phoneNumber} </li>
-                  </ul>
+                    <div style={{ position: "relative", left: "55px" }}>
+                      <ButtonGroup>
+                        {permissions?.includes(
+                          permissionList?.View_Provider_Admin_info
+                        ) ? (
+                          <LinkButton
+                            // name={"Edit"}
+                            func={viewProviderAdminInfo}
+                            color={"primary"}
+                            icon={
+                              <i
+                                style={{ paddingBottom: "4px" }}
+                                className="fas fa-eye"
+                              ></i>
+                            }
+                            className={"btn-sm mr-1"}
+                          />
+                        ) : null}
 
-                  <div style={{position: 'relative', left: '55px'}}>
-                    <ButtonGroup>
-                    {
-                    permissions?.includes(permissionList?.View_Provider_Admin_info) ? 
-                    <LinkButton
-                    // name={"Edit"}
-                    func={viewProviderAdminInfo}
-                    color={'primary'}
-                    icon={<i style={{paddingBottom: "4px"}} className="fas fa-eye"></i>}
-                    className={'btn-sm mr-1'}
-                  />
-                  :
-                  null
-                    }
-
-                {permissions?.includes(
-                  permissionList?.Update_Provider_Admin_info
-                ) ? (
-                  <LinkButton
-                    // name={"Edit"}
-                    func={updateProviderAdmin}
-                    color={'warning'}
-                    icon={<i className="fas fa-edit"></i>}
-                    className={'btn-sm ml-1'}
-                  />
-                ) : null}
-                    </ButtonGroup>
-              </div>
-                </div>
-
-               
-
-              </CardBody>
-            </Card>
-            :
-            <Card style={{marginTop: "40px"}}>
-                {
-                  permissions?.includes(permissionList.Add_New_Provider_Admin) ?
-                  <div className="container py-3">
-                  {/* <Link to={`/adminProviderForm/${id}`}> */}
-                    
-                    <center>
-                    <Button onClick={handleRedirectToAddProviderAdmin} className="btn btn-uapp-add "
-                    // onClick={localStorage.removeItem('branchManagerId')}
-                    >
-                      {" "}
-                      <i className="fas fa-plus"></i> Add Provider Admin{" "}
-                    </Button>
-                    </center>
-                  {/* </Link> */}
-                </div>
-                :
-                null
-                }
+                        {permissions?.includes(
+                          permissionList?.Update_Provider_Admin_info
+                        ) ? (
+                          <LinkButton
+                            // name={"Edit"}
+                            func={updateProviderAdmin}
+                            color={"warning"}
+                            icon={<i className="fas fa-edit"></i>}
+                            className={"btn-sm ml-1"}
+                          />
+                        ) : null}
+                      </ButtonGroup>
+                    </div>
+                  </div>
+                </CardBody>
               </Card>
-           }
-            </Col>
+            ) : (
+              <Card style={{ marginTop: "40px" }}>
+                {permissions?.includes(
+                  permissionList.Add_New_Provider_Admin
+                ) ? (
+                  <div className="container py-3">
+                    {/* <Link to={`/adminProviderForm/${id}`}> */}
+
+                    <center>
+                      <Button
+                        onClick={handleRedirectToAddProviderAdmin}
+                        className="btn btn-uapp-add "
+                        // onClick={localStorage.removeItem('branchManagerId')}
+                      >
+                        {" "}
+                        <i className="fas fa-plus"></i> Add Provider Admin{" "}
+                      </Button>
+                    </center>
+                    {/* </Link> */}
+                  </div>
+                ) : null}
+              </Card>
+            )}
+          </Col>
         </Row>
 
         <Row>
@@ -880,160 +929,173 @@ const ProviderDetails = () => {
               <CardBody>
                 <Row className="mb-3">
                   <Col lg="5" md="5" sm="4" xs="4">
-                  <div className="ms-3 mb-4 hedding-titel">
-                <h5> <b>University List</b> </h5>
-                 
-                <div className="bg-h"></div>
-                </div>
-                   {
-                    permissions?.includes(permissionList.Add_New_University) ?
-                    <ButtonForFunction
-                    func={handleAddUniversity}
-                    className={"ml-3 btn btn-uapp-add "}
-                    icon={<i className="fas fa-plus"></i>}
-                    name={" Add University"}
-                    permission={6}
-                  />
-                  :
-                  null
-                   }
+                    <div className="ms-3 mb-4 hedding-titel">
+                      <h5>
+                        {" "}
+                        <b>University List</b>{" "}
+                      </h5>
+
+                      <div className="bg-h"></div>
+                    </div>
+                    {permissions?.includes(
+                      permissionList.Add_New_University
+                    ) ? (
+                      <ButtonForFunction
+                        func={handleAddUniversity}
+                        className={"ml-3 btn btn-uapp-add "}
+                        icon={<i className="fas fa-plus"></i>}
+                        name={" Add University"}
+                        permission={6}
+                      />
+                    ) : null}
                   </Col>
 
                   <Col lg="7" md="7" sm="8" xs="8"></Col>
                 </Row>
 
-                {
-                  universityList.length < 1 ?
+                {universityList.length < 1 ? (
                   <h5 className="text-center mt-3 mb-4">
-                  University Not Found.
-                </h5>
-                :
-                <div className="table-responsive container mt-3">
-                  <Table className="table-sm table-bordered">
-                    <thead className="thead-uapp-bg">
-                      <tr style={{ textAlign: "center" }}>
-                        <th>Logo</th>
-                        <th>Name</th>
-                        <th>Total Applications</th>
-                        <th>Total Registered</th>
-                        <th>Total Subjects</th>
-                        {permissions?.includes(permissionList?.Change_Status_University) ?
-                        <th>Status</th>
-                      :
-                      null}
-                     
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {universityList?.map((university, i) => (
-                        <tr
-                          key={university?.id}
-                          style={{ textAlign: "center" }}
-                        >
-                          <td>
-                            {
-                              (university?.universityLogo == null) ?
-                              <>
-                              {" "}
-                              <img
-                                className="Uapp-c-image"
-                                src={uapploader}
-                                alt="logo"
-                              />{" "}
-                              </>
-                              :
-                            <>
-                              {" "}
-                            <img
-                              className="Uapp-c-image"
-                              src={`${
-                                rootUrl +
-                                university?.universityLogo?.thumbnailUrl
-                              }`}
-                              alt="logo"
-                            />{" "}
-                            </>
-                            }
-                          </td>
-                          <td>
-                            {university?.universityName} ({university?.universityShortName})
-                          </td>
-                     
-                          <td>
-                          <span className='badge badge-secondary' 
-                          // style={{ cursor: "pointer" }}
-                          >
-                          {university?.totalApplication}
-                          
-                            </span>
-                           
-                          </td>
-                          <td>
-                          <span className='badge badge-secondary'
-                          // style={{ cursor: "pointer" }}
-                          >
-                              {university?.totalRegistered}
-                          
-                            </span>
-                          </td>
+                    University Not Found.
+                  </h5>
+                ) : (
+                  <div className="table-responsive container mt-3">
+                    <Table className="table-sm table-bordered">
+                      <thead className="thead-uapp-bg">
+                        <tr style={{ textAlign: "center" }}>
+                          <th>Logo</th>
+                          <th>Name</th>
+                          <th>Total Applications</th>
+                          <th>Total Registered</th>
+                          <th>Total Subjects</th>
+                          {permissions?.includes(
+                            permissionList?.Change_Status_University
+                          ) ? (
+                            <th>Status</th>
+                          ) : null}
 
-                          <td>
-                          <span className='badge badge-secondary'
-                          // style={{ cursor: "pointer" }}
-                          >
-                              {university?.totalSubjects}
-                          
-                            </span>
-                          </td>
-
-                          {permissions?.includes(permissionList?.Change_Status_University) ?
-                          <td>
-                            <ToggleSwitch
-                            defaultChecked={university?.isActive}
-                            onChange={()=> handleUpdateStatus(university)}
-                            />
-                          </td>
-                          :
-                          null}
-                          <td>
-
-                          {
-                              permissions?.includes(permissionList.View_University_info) ?
-                              <Button color="primary" className="btn-sm" onClick={()=>{
-                                history.push({
-                                  pathname: `/universityDetails/${university?.id}`,
-                                  providerId: id 
-                                })
-                              }}><i className="fas fa-eye"></i></Button>
-                              :
-                              null
-                            }
-                          </td>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {universityList?.map((university, i) => (
+                          <tr
+                            key={university?.id}
+                            style={{ textAlign: "center" }}
+                          >
+                            <td>
+                              {university?.universityLogo == null ? (
+                                <>
+                                  {" "}
+                                  <img
+                                    className="Uapp-c-image"
+                                    src={uapploader}
+                                    alt="logo"
+                                  />{" "}
+                                </>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <img
+                                    className="Uapp-c-image"
+                                    src={`${
+                                      rootUrl +
+                                      university?.universityLogo?.thumbnailUrl
+                                    }`}
+                                    alt="logo"
+                                  />{" "}
+                                </>
+                              )}
+                            </td>
+                            <td>
+                              {university?.universityName} (
+                              {university?.universityShortName})
+                            </td>
 
-                  <Pagination
-                    dataPerPage={dataPerPage}
-                    totalData={entity}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                  />
-                </div>
-                }
+                            <td>
+                              <span
+                                className="badge badge-secondary"
+                                // style={{ cursor: "pointer" }}
+                              >
+                                {university?.totalApplication}
+                              </span>
+                            </td>
+                            <td>
+                              <span
+                                className="badge badge-secondary"
+                                // style={{ cursor: "pointer" }}
+                              >
+                                {university?.totalRegistered}
+                              </span>
+                            </td>
+
+                            <td>
+                              <span
+                                className="badge badge-secondary"
+                                // style={{ cursor: "pointer" }}
+                              >
+                                {university?.totalSubjects}
+                              </span>
+                            </td>
+
+                            {permissions?.includes(
+                              permissionList?.Change_Status_University
+                            ) ? (
+                              <td>
+                                <ToggleSwitch
+                                  defaultChecked={university?.isActive}
+                                  onChange={() =>
+                                    handleUpdateStatus(university)
+                                  }
+                                />
+                              </td>
+                            ) : null}
+                            <td>
+                              {permissions?.includes(
+                                permissionList.View_University_info
+                              ) ? (
+                                <Button
+                                  color="primary"
+                                  className="btn-sm"
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/universityDetails/${university?.id}`,
+                                      providerId: id,
+                                    });
+                                  }}
+                                >
+                                  <i className="fas fa-eye"></i>
+                                </Button>
+                              ) : null}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+
+                    <Pagination
+                      dataPerPage={dataPerPage}
+                      totalData={entity}
+                      paginate={paginate}
+                      currentPage={currentPage}
+                    />
+                  </div>
+                )}
               </CardBody>
             </Card>
 
             <Card className="p-3">
-            <div className="ms-3 mb-4 hedding-titel">
-                <h5> <b>Admission Manager</b> </h5>
-                 
-                <div className="bg-h"></div>
-                </div>
+              <div className="ms-3 mb-4 hedding-titel">
+                <h5>
+                  {" "}
+                  <b>Admission Manager</b>{" "}
+                </h5>
 
-              {permissions?.includes(permissionList?.Add_New_Admission_manager) ? (
+                <div className="bg-h"></div>
+              </div>
+
+              {permissions?.includes(
+                permissionList?.Add_New_Admission_manager
+              ) ? (
                 <Link to={`/addAdmissionManager/${id}`}>
                   <Button className="btn btn-uapp-add mt-2 ml-3">
                     {" "}
@@ -1056,11 +1118,19 @@ const ProviderDetails = () => {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone Number</th>
+                        {permissions?.includes(
+                          permissionList.View_Admission_manager_university_List
+                        ) ? (
+                          <th>Assigned University</th>
+                        ) : null}
                         {
-                              permissions?.includes(permissionList.View_Admission_manager_university_List) ?
-                        <th>Assigned University</th>
-                        :
-                        null}
+                      permissions?.includes(permissionList?.View_Admissionmanager_Subject_list) ?
+                      
+                      <th>Assigned Subject</th>
+                      
+                      :
+                      null
+                    }
                         <th>Applications</th>
                         <th>Registered Applications</th>
                         <th>Action</th>
@@ -1071,7 +1141,7 @@ const ProviderDetails = () => {
                         <tr key={manager.id} style={{ textAlign: "center" }}>
                           <td>{manager?.sequenceId}</td>
                           <td>
-                            <span className="me-1">{manager?.firstName}{' '}</span>
+                            <span className="me-1">{manager?.firstName} </span>
                             {manager?.lastName}
                           </td>
                           <td>{manager?.email}</td>
@@ -1092,33 +1162,66 @@ const ProviderDetails = () => {
                                 data={"View"}
                                 permission={6}
                               /> */}
-                             {
-                              permissions?.includes(permissionList.View_Admission_manager_university_List) ?
-                              <span onClick={()=>redirectToAssignPage(manager?.id)} className="text-decoration-none">View</span>
-                              :
-                              null
-                             }
+                              {permissions?.includes(
+                                permissionList.View_Admission_manager_university_List
+                              ) ? (
+                                <span
+                                  onClick={() =>
+                                    redirectToAssignPage(manager?.id)
+                                  }
+                                  className="text-decoration-none"
+                                >
+                                  View
+                                </span>
+                              ) : null}
                             </span>{" "}
                           </td>
-                          <td>
-                          <span className='badge badge-secondary'
-                          style={{ cursor: "pointer" }}
+
+                          {
+                      permissions?.includes(permissionList?.View_Admissionmanager_Subject_list) ?
+                    
+                        <td>
+                          {" "}
+                          <span
+                            className="badge badge-secondary"
+                            style={{ cursor: "pointer" }}
                           >
+                            <span
+                              onClick={() =>
+                                redirectToSub(
+                                  
+                                  manager?.id
+                                )
+                              }
+                              className="text-decoration-none"
+                            >
+                              View
+                            </span>
+                          </span>{" "}
+                        </td>
+                      :
+                      null
+                      }
+
+                          <td>
+                            <span
+                              className="badge badge-secondary"
+                              style={{ cursor: "pointer" }}
+                            >
                               {manager?.totalApplication}
-                          
                             </span>
                           </td>
                           <td>
-                          <span className='badge badge-secondary'
-                          // style={{ cursor: "pointer" }}
-                          >
+                            <span
+                              className="badge badge-secondary"
+                              // style={{ cursor: "pointer" }}
+                            >
                               {manager?.registeredApplication}
-                          
                             </span>
                           </td>
                           <td>
                             <ButtonGroup>
-                          {/* <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
+                              {/* <Link to={`/providerAdmissionManager/${manager?.id}/${id}`}>
                            <Button color="primary" className="btn-sm me-1">
                        
                           <i className="fas fa-eye"></i>
@@ -1126,40 +1229,38 @@ const ProviderDetails = () => {
                            </Button>
                            </Link> */}
 
-                            
-                          
-                            {permissions?.includes(
-                              permissionList?.Update_Admission_manager_info
-                            ) ? (
-                              // <Button color="warning">
-                              // <i
-                              //   className="fas fa-edit"
-                              //   onClick={() =>
-                              //     updateAdmissionManager(manager?.id, id)
-                              //   }
-                              // ></i>
-                              // </Button>
+                              {permissions?.includes(
+                                permissionList?.Update_Admission_manager_info
+                              ) ? (
+                                // <Button color="warning">
+                                // <i
+                                //   className="fas fa-edit"
+                                //   onClick={() =>
+                                //     updateAdmissionManager(manager?.id, id)
+                                //   }
+                                // ></i>
+                                // </Button>
 
-                            <ButtonForFunction
-                              func={()=>updateAdmissionManager(manager?.id, id)}
-                              className={"mx-1 btn-sm"}
-                              color = {"warning"}
-                              icon={<i className="fas fa-edit"></i>} 
-                            />
+                                <ButtonForFunction
+                                  func={() =>
+                                    updateAdmissionManager(manager?.id, id)
+                                  }
+                                  className={"mx-1 btn-sm"}
+                                  color={"warning"}
+                                  icon={<i className="fas fa-edit"></i>}
+                                />
+                              ) : null}
 
-                            ) : null}
-
-                            {permissions?.includes(
-                              permissionList?.Delete_Admission_manager
-                            ) ? (
-                              <Button color="danger" className="mx-1 btn-sm">
-                              <i
-                                className="fas fa-trash-alt"
-                                onClick={() => toggleDelete(manager)}
-                              ></i>
-                              </Button>
-                            ) : null}
-
+                              {permissions?.includes(
+                                permissionList?.Delete_Admission_manager
+                              ) ? (
+                                <Button color="danger" className="mx-1 btn-sm">
+                                  <i
+                                    className="fas fa-trash-alt"
+                                    onClick={() => toggleDelete(manager)}
+                                  ></i>
+                                </Button>
+                              ) : null}
                             </ButtonGroup>
 
                             <Modal
@@ -1169,16 +1270,22 @@ const ProviderDetails = () => {
                             >
                               <ModalBody>
                                 <p>
-                                  Are You Sure to Delete this <b>{managerName}</b> ? Once Deleted it
-                                  can't be Undone!
+                                  Are You Sure to Delete this{" "}
+                                  <b>{managerName}</b> ? Once Deleted it can't
+                                  be Undone!
                                 </p>
                               </ModalBody>
 
                               <ModalFooter>
                                 <Button color="danger" onClick={handleDelete}>
-                                  {progress2? <ButtonLoader/> : "YES"}
+                                  {progress2 ? <ButtonLoader /> : "YES"}
                                 </Button>
-                                <Button color="secondary" onClick={closeDeleteModal}>NO</Button>
+                                <Button
+                                  color="secondary"
+                                  onClick={closeDeleteModal}
+                                >
+                                  NO
+                                </Button>
                               </ModalFooter>
                             </Modal>
                           </td>
@@ -1191,20 +1298,25 @@ const ProviderDetails = () => {
             </Card>
 
             <Card className="p-3">
-            <div className="ms-3 mb-4 hedding-titel">
-                <h5> <b>Admission Officer</b> </h5>
-                 
-                <div className="bg-h"></div>
-                </div>
+              <div className="ms-3 mb-4 hedding-titel">
+                <h5>
+                  {" "}
+                  <b>Admission Officer</b>{" "}
+                </h5>
 
-              {/* {permissions?.includes(permissionList?.Add_New_Admissionofficer) ? (
-                <Link to={`/addAdmissionManager/${id}`}>
+                <div className="bg-h"></div>
+              </div>
+
+              {permissions?.includes(
+                permissionList?.Add_New_Admissionofficer
+              ) ? (
+                <Link to={`/addAdmissionOfficer/${id}`}>
                   <Button className="btn btn-uapp-add mt-2 ml-3">
                     {" "}
                     <i class="fas fa-plus"></i> Add Admission Officer{" "}
                   </Button>
-                 </Link>
-              ) : null} */}
+                </Link>
+              ) : null}
 
               {officer.length < 1 && (
                 <h5 className="text-center mt-3 mb-4">
@@ -1218,18 +1330,22 @@ const ProviderDetails = () => {
                       <tr style={{ textAlign: "center" }}>
                         <th>Uapp Id</th>
                         <th>Name</th>
-                        
+
                         <th>Email</th>
                         <th>Phone Number</th>
-                        {
-                            permissions?.includes(permissionList?.View_Admissionofficer_Subject_list) ?
-                        <th>Assigned Subject</th>
-                        :
-                        null
-                        }
+                        {permissions?.includes(
+                          permissionList.View_Admission_Officer_university_List
+                        ) ? (
+                          <th>Assigned University</th>
+                        ) : null}
+                        {permissions?.includes(
+                          permissionList?.View_Admissionofficer_Subject_list
+                        ) ? (
+                          <th>Assigned Subject</th>
+                        ) : null}
                         <th>Applications</th>
                         <th>Registered Applications</th>
-                      
+
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -1238,70 +1354,88 @@ const ProviderDetails = () => {
                         <tr key={i} style={{ textAlign: "center" }}>
                           <td>{off?.viewId}</td>
                           <td>
-                            
-                            <span className="me-1">{off?.firstName}{' '}</span>
+                            <span className="me-1">{off?.firstName} </span>
                             {off?.lastName}
                           </td>
                           <td>{off?.email}</td>
                           <td>{off?.phoneNumber}</td>
-                          {
-                            permissions?.includes(permissionList?.View_Admissionofficer_Subject_list) ?
-                          
-                              
-                          
-                          <td> <span onClick={()=>redirectToAssignSubjectPage(off)} className="badge badge-secondary"
-                              style={{ cursor: "pointer" }}>View</span></td>
-                        
-                          :null
-                          }
+                          {permissions?.includes(
+                            permissionList.View_Admission_Officer_university_List
+                          ) ? (
+                            <td>
+                              {" "}
+                              <span
+                                className="badge badge-secondary"
+                                style={{ cursor: "pointer" }}
+                              >
+                                <span
+                                  onClick={() =>
+                                    redirectToUniAssignPage(
+                                      id,
+                                      off?.id
+                                    )
+                                  }
+                                  className="text-decoration-none"
+                                >
+                                  View
+                                </span>
+                              </span>{" "}
+                            </td>
+                          ) : null}
+                          {permissions?.includes(
+                            permissionList?.View_Admissionofficer_Subject_list
+                          ) ? (
+                            <td>
+                              {" "}
+                              <span
+                                onClick={() => redirectToAssignSubjectPage(off)}
+                                className="badge badge-secondary"
+                                style={{ cursor: "pointer" }}
+                              >
+                                View
+                              </span>
+                            </td>
+                          ) : null}
                           <td>
-                          <span className='badge badge-secondary'
-                          // style={{ cursor: "pointer" }}
-                          >
+                            <span
+                              className="badge badge-secondary"
+                              // style={{ cursor: "pointer" }}
+                            >
                               {off?.applications}
-                          
                             </span>
                           </td>
                           <td>
-                          <span className='badge badge-secondary'
-                          // style={{ cursor: "pointer" }}
-                          >
+                            <span
+                              className="badge badge-secondary"
+                              // style={{ cursor: "pointer" }}
+                            >
                               {off?.registeredApplications}
-                          
                             </span>
                           </td>
-                         
+
                           <td>
                             <ButtonGroup>
-                          
+                              {permissions?.includes(
+                                permissionList?.Update_Admissionofficer_info
+                              ) ? (
+                                <ButtonForFunction
+                                  func={() => updateAdmissionOfficer(off)}
+                                  className={"mx-1 btn-sm"}
+                                  color={"warning"}
+                                  icon={<i className="fas fa-edit"></i>}
+                                />
+                              ) : null}
 
-                            
-                          
-                            {permissions?.includes(
-                              permissionList?.Update_Admissionofficer_info
-                            ) ? (
-                             
-
-                            <ButtonForFunction
-                              func={()=>updateAdmissionOfficer(off)}
-                              className={"mx-1 btn-sm"}
-                              color = {"warning"}
-                              icon={<i className="fas fa-edit"></i>} 
-                            />
-
-                            ) : null}
-
-                            {permissions?.includes(
-                              permissionList?.Delete_Admissionofficer
-                            ) ? (
-                              <Button color="danger" className="mx-1 btn-sm">
-                              <i
-                                className="fas fa-trash-alt"
-                                onClick={() => toggleDelete2(off)}
-                              ></i>
-                              </Button>
-                            ) : null}
-
+                              {permissions?.includes(
+                                permissionList?.Delete_Admissionofficer
+                              ) ? (
+                                <Button color="danger" className="mx-1 btn-sm">
+                                  <i
+                                    className="fas fa-trash-alt"
+                                    onClick={() => toggleDelete2(off)}
+                                  ></i>
+                                </Button>
+                              ) : null}
                             </ButtonGroup>
 
                             <Modal
@@ -1311,16 +1445,28 @@ const ProviderDetails = () => {
                             >
                               <ModalBody>
                                 <p>
-                                  Are You Sure to Delete this <b>{delData2?.firstName} {' '} {delData2?.lastName}</b> ? Once Deleted it
-                                  can't be Undone!
+                                  Are You Sure to Delete this{" "}
+                                  <b>
+                                    {delData2?.firstName} {delData2?.lastName}
+                                  </b>{" "}
+                                  ? Once Deleted it can't be Undone!
                                 </p>
                               </ModalBody>
 
                               <ModalFooter>
-                                <Button color="danger" onClick={handleDelete2} disabled={buttonStatus}>
-                               { progress3? <ButtonLoader/> : "YES"}
+                                <Button
+                                  color="danger"
+                                  onClick={handleDelete2}
+                                  disabled={buttonStatus}
+                                >
+                                  {progress3 ? <ButtonLoader /> : "YES"}
                                 </Button>
-                                <Button color="secondary" onClick={closeDeleteModal2}>NO</Button>
+                                <Button
+                                  color="secondary"
+                                  onClick={closeDeleteModal2}
+                                >
+                                  NO
+                                </Button>
                               </ModalFooter>
                             </Modal>
                           </td>
@@ -1340,7 +1486,7 @@ const ProviderDetails = () => {
               {/* <h6> Notice</h6>
               <span className="bg-wg bg-width"></span> */}
 
-              {/* <div className="ms-3 mb-1 hedding-titel">
+          {/* <div className="ms-3 mb-1 hedding-titel">
                 <h5> <b>Notice</b> </h5>
                  
                 <div className="bg-h"></div>
@@ -1462,8 +1608,7 @@ const ProviderDetails = () => {
 
 </Card> */}
 
-          
-              {/* <div className="notice-item card-widget mt-3 ">
+          {/* <div className="notice-item card-widget mt-3 ">
                 <div className="notice-titel">
                   <h6> Super Admin</h6>
                   <span> 10/12/2021</span>
@@ -1511,7 +1656,7 @@ const ProviderDetails = () => {
                 </div>
               </div>
             </Card>
-          </Col> */} 
+          </Col> */}
         </Row>
       </div>
     </div>
