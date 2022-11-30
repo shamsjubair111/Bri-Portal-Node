@@ -379,14 +379,14 @@ const AccountOfficer = () => {
       <th><span style={{position: 'relative', top: '-15px'}}>Agent</span>
       </th>
       <th>Transaction Code</th>
-      <th><span style={{position: 'relative', top: '-15px'}}>Amount</span></th>
+      <th><span style={{position: 'relative', top: '-16px'}}>Amount</span></th>
       <th>Reference/ Invoice No.</th>
-      <th><span style={{position: 'relative', top: '-15px'}}>Payment type</span></th>
-      <th><span style={{position: 'relative', top: '-15px'}}>Note</span></th>
+      <th><span>Payment type</span></th>
+      <th><span style={{position: 'relative', top: '-16px'}}>Note</span></th>
       <th>Payment Date</th>
-      <th><span style={{position: 'relative', top: '-15px'}}>Status</span></th>
+      <th><span style={{position: 'relative', top: '-16px'}}>Status</span></th>
       <th>Payment Status</th>
-      <th><span style={{position: 'relative', top: '-15px'}}>Invoice</span></th>
+      <th><span style={{position: 'relative', top: '-16px'}}>Invoice</span></th>
       </tr>
 
       </thead>
