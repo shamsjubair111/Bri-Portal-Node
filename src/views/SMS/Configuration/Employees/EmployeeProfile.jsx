@@ -88,6 +88,7 @@ const EmployeeProfile = () => {
   // on Close Modal
 const closeModal = () => {
   setModalOpen(false);
+  setError(false);
   setFileList([]);
 };
 
@@ -134,7 +135,7 @@ const handleChange = ({ fileList }) => {
 
 const handleSubmitCoverPhoto = event =>{
   event.preventDefault();
-  setProgress(true);
+  
   const subData = new FormData(event.target);
 
   subData.append("coverImage", FileList[0]?.originFileObj);
@@ -142,12 +143,13 @@ const handleSubmitCoverPhoto = event =>{
   // for(var x of subData.values()){
   //     console.log(x);
   // }
-  setButtonStatus(true);
 
   if (FileList.length < 1) {
     setError(true);
   }
   else{
+    setProgress(true);
+    setButtonStatus(true);
     put(`Employee/UpdateCoverPhoto`, subData).then((res) => {
       setProgress(false);
       setButtonStatus(false);
@@ -179,6 +181,7 @@ const updateProfilePic = () => {
 const closeModal1 = () => {
   setModalOpen2(false);
   setFileList1([]);
+  setError1(false);
 };
 
 const handleCancel1 = () => {
@@ -215,7 +218,6 @@ const handleChange1 = ({ fileList }) => {
 
 const handleSubmitProfilePhoto = event => {
   event.preventDefault();
-  setProgress(true);
 
   const subData = new FormData(event.target);
 
@@ -224,12 +226,13 @@ const handleSubmitProfilePhoto = event => {
   // for(var x of subData.values()){
   //     console.log(x);
   // }
-  setButtonStatus1(true);
 
   if (FileList1.length < 1) {
     setError1(true);
   }
   else{
+    setProgress(true);
+    setButtonStatus1(true);
     put(`Employee/UpdateProfilePhoto`, subData).then((res) => {
       setButtonStatus1(false);
       setProgress(false);

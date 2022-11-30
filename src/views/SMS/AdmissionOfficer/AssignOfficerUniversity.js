@@ -122,7 +122,12 @@ const AssignOfficerUniversity = () => {
 
 
     const  backToOfficerDetails = () => {
+      if(location.officerList != undefined){
+        history.push(`/providerDetails/${providerId}`);
+      }
+      else{
         history.push('/admissionOfficerList');
+      }
 
     }
 
@@ -384,7 +389,11 @@ const AssignOfficerUniversity = () => {
             <span onClick={backToOfficerDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              Back to Admission Officer List
+              {
+                location.officerList != undefined ? "Back to Provider Details"
+                :
+                "Back to Admission Officer List"
+              }
              
             </span>
           </div>

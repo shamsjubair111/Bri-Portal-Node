@@ -652,11 +652,13 @@ const UniversityDetails = () => {
     const closeModal2 = () => {
       setModalOpen3(false);
       setFileList([]);
+      setError(false);
     };
   
     const closeModal1 = () => {
       setModalOpen2(false);
       setFileList1([]);
+      setError1(false);
     };
   
     const handleCancel = () => {

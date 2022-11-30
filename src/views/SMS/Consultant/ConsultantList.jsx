@@ -41,9 +41,11 @@ import put from "../../../helpers/put.js";
 import load from '../../../assets/img/uappLoader.gif';
 import Loader from "../Search/Loader/Loader.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
+import { userTypes } from "../../../constants/userTypeConstant.js";
 
 const ConsultantList = () => {
   const permissions = JSON.parse(localStorage.getItem("permissions"));
+  const userTypeId = localStorage.getItem("userType");
 
   const [consultantList, setConsultantList] = useState([]);
   const { type } = useParams();
@@ -788,7 +790,17 @@ const ConsultantList = () => {
                     
                     {
                         permissions?.includes(permissionList.ChangePassword) ?
-                   <> {checkPass ? <th>Password</th> : null}</>
+                   <> 
+                     {
+                        userTypeId == userTypes?.SystemAdmin ||
+                          userTypeId == userTypes?.Admin ? 
+                          <>
+                            {checkPass ? <th>Password</th> : null}
+                          </>
+                          :
+                          null
+                     }
+                   </>
                    :
                    null
                    }
@@ -839,7 +851,11 @@ const ConsultantList = () => {
                       {
                         permissions?.includes(permissionList.ChangePassword) ?
                         <>
-                        {checkPass ? (
+                        {
+                            userTypeId == userTypes?.SystemAdmin ||
+                              userTypeId == userTypes?.Admin ? 
+                              <>
+                                {checkPass ? (
                         <td>
                           <span
                             className="passwordChangeStyle"
@@ -932,6 +948,10 @@ const ConsultantList = () => {
                           </Modal>
                         </td>
                       ) : null}
+                              </>
+                              :
+                              null
+                        }
                         </>
                         :
                         null

@@ -195,11 +195,13 @@ const ConsultantProfile = () => {
   const closeModal = () => {
     setModalOpen(false);
     setFileList([]);
+    setError(false);
   };
 
   const closeModal1 = () => {
     setModalOpen2(false);
     setFileList1([]);
+    setError1(false);
   };
 
   function getBase64(file) {
@@ -256,12 +258,13 @@ const ConsultantProfile = () => {
     // for(var x of subData.values()){
     //     console.log(x);
     // }
-    setButtonStatus(true);
+    
 
     if (FileList.length < 1) {
       setError(true);
     } else {
       setProgress(true);
+      setButtonStatus(true);
       put(`Consultant/UpdateCoverPhoto`, subData).then((res) => {
         setProgress(false);
         setButtonStatus(false);
@@ -333,12 +336,12 @@ const ConsultantProfile = () => {
     // for(var x of subData.values()){
     //     console.log(x);
     // }
-    setButtonStatus1(true);
 
     if (FileList1.length < 1) {
       setError1(true);
     } else {
       setProgress(true);
+      setButtonStatus1(true);
       put(`Consultant/UpdateProfilePhoto`, subData).then((res) => {
         setProgress(false);
         setButtonStatus(false);

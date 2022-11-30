@@ -1,6 +1,6 @@
 import { AddPhotoAlternateSharp } from "@material-ui/icons";
 import React, { useEffect, useRef, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import {
   Button,
@@ -70,6 +70,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
   const [progress, setProgress] = useState(false);
 
   const { addToast } = useToasts();
+  const location = useLocation();
 
   useEffect(() => {
     get(`AdmissionOfficerSubject/AssignedSubject/${officerId}`).then((res) => {
@@ -178,7 +179,13 @@ const AdmissionOfficerWiseAssignedSubject = () => {
   };
 
   const backToDashboard = () => {
-    history.push(`/admissionOfficerList`);
+    if(location.officerList != undefined){
+      history.push(`/providerDetails/${location.officerList}`);
+    }
+    else{
+      history.push(`/admissionOfficerList`);
+    }
+    
   };
 
   const toggleDanger = (data) => {
@@ -271,8 +278,13 @@ const AdmissionOfficerWiseAssignedSubject = () => {
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Admission
-              Officer List
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {
+                location.officerList != undefined ?
+                "Back to Provider Details" :
+                "Back to Admission Officer List"
+              }
+
             </span>
           </div>
         </CardHeader>

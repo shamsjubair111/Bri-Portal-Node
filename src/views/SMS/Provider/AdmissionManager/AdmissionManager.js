@@ -238,7 +238,7 @@ const goBack = () => {
 
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
-          <h3 className="text-white">Create Admission Manager</h3>
+          <h3 className="text-white">Add Admission Manager</h3>
           <div className="page-header-back-to-home">
             <span className="text-white" onClick={backToProviderDetails}>
               {" "}

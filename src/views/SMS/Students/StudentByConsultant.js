@@ -604,9 +604,21 @@ const StudentByConsultant = () => {
                     {checkPhn ? <th>Phone No</th> : null}
                     {checkCons ? <th>Consultant</th> : null}
                     {checkDate ? <th>UAPP Reg Date</th> : null}
+
                     {permissions?.includes(permissionList.ChangePassword) ? (
-                      <>{checkPass ? <th>Password</th> : null}</>
+                      <>
+                      {
+                          userTypeId == userTypes?.SystemAdmin ||
+                            userTypeId == userTypes?.Admin ? 
+                            <>
+                            {checkPass ? <th>Password</th> : null}
+                            </>
+                            :
+                            null
+                      }
+                      </>
                     ) : null}
+
                     {permissions?.includes(
                       permissionList?.Change_Status_Student
                     ) ? (
