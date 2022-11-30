@@ -1227,7 +1227,7 @@ const ConsultantProfile = () => {
                             ?.statusName
                         }{" "}
                       </li>
-                      <li> {consultantData?.parentConsultant?.branch?.name} </li>
+                      <li> <b>{consultantData?.parentConsultant?.branch?.name}</b> </li>
                       <li> {consultantData?.parentConsultant?.email} </li>
                       <li> {consultantData?.parentConsultant?.phoneNumber} </li>
                     </ul>
