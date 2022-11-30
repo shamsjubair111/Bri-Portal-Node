@@ -1861,3 +1861,17 @@ border-radius: 12px;
 }
 
 /* provider admin dashboard style end */
+
+
+/* Withdraw Request Invoice pdf style start */
+
+.invoice-winthdraw-request-style{
+  
+  display: flex; 
+  justify-content: space-around;
+
+}
+.inv-span-styles{
+  font-size: 20px;
+}
+/* Withdraw Request Invoice pdf style end */

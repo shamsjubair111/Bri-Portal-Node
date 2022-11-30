@@ -45,6 +45,7 @@ import Assets from "../../../assets/img/Asset 12Icon.svg";
 import Loader from "../Search/Loader/Loader";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import ButtonLoader from "../Components/ButtonLoader";
+import * as Icon from 'react-feather';
 
 const List = () => {
   const current_user = JSON.parse(localStorage.getItem("current_user"));
@@ -128,6 +129,14 @@ const List = () => {
     success,
     transactionCode,
   ]);
+
+  const handleDate = (e) => {
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    const x = localeDate.split(",")[0];
+    return x;
+  };
 
   const backToDashboard = () => {
     history.push("/");
@@ -838,7 +847,7 @@ const List = () => {
                         {checkTransCode ? <td>{ls?.transactionCode}</td> : null}
                         {checkAmount ? <td>{ls?.amount}</td> : null}
                         {checkPayType ? <td>{ls?.paymentType}</td> : null}
-                        {checkPayDate ? <td></td> : null}
+                        {checkPayDate ? <td>{ls?.transactionDate}</td> : null}
                         {
                           permissions?.includes(permissionList.Update_WithdrawRequest_TransactionStatus_info) ?
                           <>{checkStatus ? (
@@ -920,15 +929,178 @@ const List = () => {
             </CardBody>
           </Card>
 
+          {/* invoice pdf start */}
+
           <div style={{ display: "none" }}>
-            <div ref={componentRef2}>
-              <div className="d-flex justify-content-between">
-                <div>
+            <div ref={componentRef2} style={{marginTop: '100px'}}>
+             <div className="invoice-winthdraw-request-style">
                   <img height={100} src={Assets} />
+                  <h1>Remittance Advice</h1>
                 </div>
-              </div>
+
+                <div style={{marginTop: '100px'}}>
+                  <hr/>
+                </div>
+
+                
+
+                <div style={{marginTop: '100px'}}>
+
+                  <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                    <div>
+                      <div>
+                      <span>
+                        <Icon.PhoneCall color="#1e98b0" />
+                      </span>
+                      <span style={{marginLeft: '10px'}} className="inv-span-styles">
+                      +442072658478
+                      </span>
+                      </div>
+                      <div>
+                      <span>
+                        <Icon.Search color="#1e98b0" />
+                      </span>
+                      <span style={{marginLeft: '10px'}} className="inv-span-styles">
+                      finance@uapp.uk
+                      </span>
+                      </div>
+                      <div>
+                      <span>
+                        <Icon.Map color="#1e98b0" />
+                      </span>
+                      <span style={{marginLeft: '10px'}} className="inv-span-styles">
+                      80-82 Nelson Street London E1 2DY
+                      </span>
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      TC Date 24/11/2022
+
+                      </span>
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      TC ID 332
+
+                      </span>
+                      </div>
+                    </div>
+
+                    <div>
+                    <div>
+                      <div>
+                      <span className="inv-span-styles">
+                      Consultant Name : Mirela-Gabriela
+                      </span>
+                      
+                      </div>
+                      <div>
+                      <span className="inv-span-styles">
+                      Porcisteanu
+                      </span>
+                      
+                      </div>
+                      <div>
+                      <span className="inv-span-styles">
+                      Consultant ID : AG009
+                      </span>
+                     
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      Reference No :
+
+
+                      </span>
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      Date : 24/11/2022
+
+                      </span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  </div>
+
+                  
+                  
+                </div>
+
+
+                <div style={{marginTop: '100px', width: '80%', marginLeft: '100px'}}>
+
+                  <table style={{width: '100%'}}>
+
+                    <thead>
+                      <tr>
+                        <th style={{border: '1px solid black'}}><span className="inv-span-styles">Quantity</span></th>
+                        <th style={{border: '1px solid black'}}><span className="inv-span-styles">Description</span></th>
+                        <th style={{border: '1px solid black'}}><span className="inv-span-styles">Line Total</span></th>
+                      </tr>
+
+                    </thead>
+
+                    <tbody style={{textAlign: 'center'}}>
+                      <tr>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">1</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">TC-W317</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">200.00</span></td>
+                      </tr>
+                      <tr>
+                        <td style={{borderBottom: '1px solid black', borderLeft: '1px solid black'}}><span></span></td>
+                        <td style={{borderBottom: '1px solid black'}}><span className="inv-span-styles">SubTotal</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">200.00</span></td>
+                      </tr>
+                      <tr>
+                        <td style={{borderBottom: '1px solid black', borderLeft: '1px solid black'}}><span></span></td>
+                        <td style={{borderBottom: '1px solid black'}}><span className="inv-span-styles">Deductions</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">0</span></td>
+                      </tr>
+                      <tr>
+                        <td style={{borderBottom: '1px solid black', borderLeft: '1px solid black'}}><span ></span></td>
+                        <td style={{borderBottom: '1px solid black'}}><span className="inv-span-styles">Total</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">£ 200.00</span></td>
+                      </tr>
+                    </tbody>
+
+
+                  </table>
+              
+
+                </div>
+
+                <div style={{marginTop: '100px', marginLeft: '100px'}}>
+
+                  <div><span style={{color: '#1e98b0'}} className="inv-span-styles">Bank Details</span></div>
+                  <div><span className="inv-span-styles">Account Name : M G PORCISTEANU</span></div>
+                  <div><span className="inv-span-styles">Account Number : 31882007</span></div>
+                  <div><span className="inv-span-styles">Short code : 402310</span></div>
+                  <div><span className="inv-span-styles">Bank Name : HSBC</span></div>
+
+
+
+                </div>
+
+                <div style={{marginTop: '100px', textAlign: 'center'}}>
+                        <span className="inv-span-styles">Thank you for your business.</span>
+
+                </div>
+
+
+              
             </div>
           </div>
+
+            {/* invoice pdf end */}
+
+
         </>
       )}
     </div>

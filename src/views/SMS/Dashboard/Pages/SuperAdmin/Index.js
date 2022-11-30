@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    Card,
   CardBody,
@@ -17,13 +17,16 @@ import cuser1 from '../../../../../assets/img/cuser1.svg';
 import down from '../../../../../assets/img/down.svg';
 import camera2 from '../../../../../assets/img/camera2.svg';
 import Chart from 'react-apexcharts'
+import get from '../../../../../helpers/get';
 
 const SuperAdmin = () => {
   
   const [open, setOpen] = useState(false);
   const [options,setOptions] = useState({});
-  const [series,setSeries] = useState([44, 55, 41, 17, 15]);
+  const [series,setSeries] = useState([20, 20, 20, 20, 20]);
   const [Labels,setLabels] = useState(['A', 'B', 'C', 'D', 'E']);
+
+ 
  
   const showDrawer = () => {
     setOpen(true);
