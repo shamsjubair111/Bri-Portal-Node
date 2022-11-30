@@ -113,7 +113,7 @@ const ConsultantApplication = ({ currentUser }) => {
   //   console.log("currentuser", currentUser);
 
   // for hide/unhide column
-  const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [checkId, setCheckId] = useState(true);
   const [checkAppId, setCheckAppId] = useState(true);
   const [checkApplic, setCheckApplic] = useState(true);
@@ -832,27 +832,6 @@ const ConsultantApplication = ({ currentUser }) => {
                     <DropdownMenu className="bg-dd-1">
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">UAPP Id</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              id=""
-                              name="isAcceptHome"
-                              onChange={(e) => {
-                                handleCheckedId(e);
-                              }}
-                              defaultChecked={checkId}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
                           <p className="">App Id</p>
                         </Col>
 
@@ -867,6 +846,27 @@ const ConsultantApplication = ({ currentUser }) => {
                                 handleCheckedAppId(e);
                               }}
                               defaultChecked={checkAppId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
                             />
                           </FormGroup>
                         </Col>
@@ -1180,11 +1180,11 @@ const ConsultantApplication = ({ currentUser }) => {
               >
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    {checkId ? (
-                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
-                    ) : null}
                     {checkAppId ? (
                       <th style={{ verticalAlign: "middle" }}>App Id</th>
+                    ) : null}
+                    {checkId ? (
+                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
                     ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>
@@ -1245,14 +1245,14 @@ const ConsultantApplication = ({ currentUser }) => {
                 <tbody>
                   {applicationList?.map((app, i) => (
                     <tr key={i}>
+                      {checkAppId ? (
+                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
+                      ) : null}
+
                       {checkId ? (
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.uappId}
                         </td>
-                      ) : null}
-
-                      {checkAppId ? (
-                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
                       ) : null}
 
                       {checkApplic ? (
@@ -1362,34 +1362,31 @@ const ConsultantApplication = ({ currentUser }) => {
                               permission={6}
                             />
 
-                           {
-                            permissions?.includes(permissionList.View_Application) ?
-                            <LinkButton
-                            url={`/applicationDetails/${app?.id}/${app?.studentId}`}
-                            color="primary"
-                            className={"mx-1 btn-sm mt-2"}
-                            icon={<i className="fas fa-eye"></i>}
-                          />
-                          :
-                          null
-                           }
+                            {permissions?.includes(
+                              permissionList.View_Application
+                            ) ? (
+                              <LinkButton
+                                url={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                                color="primary"
+                                className={"mx-1 btn-sm mt-2"}
+                                icon={<i className="fas fa-eye"></i>}
+                              />
+                            ) : null}
 
                             {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                         {
-                          permissions?.includes(permissionList.Delete_Application) ?
-                          <ButtonForFunction
-                          icon={<i className="fas fa-trash-alt"></i>}
-                          color={"danger"}
-                          className={"mx-1 btn-sm mt-2"}
-                          func={() => toggleDanger(app)}
-                        />
-                     
-                      :
-                      null
-                         }
+                            {permissions?.includes(
+                              permissionList.Delete_Application
+                            ) ? (
+                              <ButtonForFunction
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                color={"danger"}
+                                className={"mx-1 btn-sm mt-2"}
+                                func={() => toggleDanger(app)}
+                              />
+                            ) : null}
                           </ButtonGroup>
 
                           <Modal
@@ -1406,7 +1403,7 @@ const ConsultantApplication = ({ currentUser }) => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData}>
-                              {progress? <ButtonLoader/> :"YES"}
+                                {progress ? <ButtonLoader /> : "YES"}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO

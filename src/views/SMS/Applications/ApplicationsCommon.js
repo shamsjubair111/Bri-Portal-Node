@@ -24,7 +24,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-
 } from "reactstrap";
 import Select from "react-select";
 import { useHistory, useLocation, useParams } from "react-router";
@@ -80,7 +79,7 @@ const ApplicationsCommon = () => {
   const [commonUniValue, setCommonUniValue] = useState(0);
   const [consultantLabel, setConsultantLabel] = useState("Consultant");
   const [consultantValue, setConsultantValue] = useState(0);
-  
+
   const [commonStdLabel, setCommonStdLabel] = useState("Name");
   const [commonStdValue, setCommonStdValue] = useState(0);
 
@@ -138,9 +137,9 @@ const ApplicationsCommon = () => {
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
-  const {consultantId, universityId} = useParams();
+  const { consultantId, universityId } = useParams();
   console.log("consId and uniId", consultantId, universityId);
-  const permissions = JSON?.parse(localStorage.getItem('permissions'));
+  const permissions = JSON?.parse(localStorage.getItem("permissions"));
 
   // for all dropdown
   const applicationMenu = applicationDD.map((application) => ({
@@ -189,7 +188,6 @@ const ApplicationsCommon = () => {
     label: student?.name,
     value: student?.id,
   }));
-
 
   // user select order
   const orderArr = [
@@ -292,8 +290,6 @@ const ApplicationsCommon = () => {
     // handleSearch();
   };
 
-
-
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
       setApplicationDD(res);
@@ -334,7 +330,6 @@ const ApplicationsCommon = () => {
     get("CommonApplicationFilterDD/Student").then((res) => {
       setCommonStdDD(res);
     });
-    
 
     // for list
 
@@ -397,13 +392,9 @@ const ApplicationsCommon = () => {
     //   // setSerialNumber(res?.firstSerialNumber);
     // });
 
-    if(consultantId !== undefined){
+    if (consultantId !== undefined) {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
-          consultantId
-        }&universityId=${
-          commonUniValue
-        }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantId}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
@@ -412,14 +403,9 @@ const ApplicationsCommon = () => {
         setEntity(res?.totalEntity);
         // setSerialNumber(res?.firstSerialNumber);
       });
-    }
-    else if(universityId !== undefined){
+    } else if (universityId !== undefined) {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
-          consultantValue
-        }&universityId=${
-          universityId
-        }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${universityId}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
@@ -429,12 +415,9 @@ const ApplicationsCommon = () => {
         setEntity(res?.totalEntity);
         // setSerialNumber(res?.firstSerialNumber);
       });
-    }
-    else{
+    } else {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${
-          commonUniValue
-        }&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
@@ -443,7 +426,6 @@ const ApplicationsCommon = () => {
         // setSerialNumber(res?.firstSerialNumber);
       });
     }
-
   }, [
     currentPage,
     dataPerPage,
@@ -466,7 +448,7 @@ const ApplicationsCommon = () => {
     // loading,
     // callApi
     consultantId,
-    universityId
+    universityId,
   ]);
 
   const toggleDanger = (data) => {
@@ -546,8 +528,8 @@ const ApplicationsCommon = () => {
     setCommonStdLabel("Name");
     setCommonStdValue(0);
     setApplicationId(0);
-    document.getElementById('app').placeholder ='Application Id';
-    document.getElementById('app').value = null;
+    document.getElementById("app").placeholder = "Application Id";
+    document.getElementById("app").value = null;
     // setLoading(true);
   };
 
@@ -670,9 +652,7 @@ const ApplicationsCommon = () => {
                 // isDisabled={
                 //   location.consultantIdFromConsultantList ? true : false
                 // }
-                isDisabled={
-                  consultantId !== undefined ? true : false
-                }
+                isDisabled={consultantId !== undefined ? true : false}
               />
             </Col>
 
@@ -768,13 +748,12 @@ const ApplicationsCommon = () => {
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Input
-              style={{height: '38px'}}
-              placeholder='Application Id'
-              type='text'
-              id='app'
-              onChange={(e)=>setApplicationId(e.target.value)}
+                style={{ height: "38px" }}
+                placeholder="Application Id"
+                type="text"
+                id="app"
+                onChange={(e) => setApplicationId(e.target.value)}
               />
-              
             </Col>
           </Row>
 
@@ -904,27 +883,6 @@ const ApplicationsCommon = () => {
                     <DropdownMenu className="bg-dd-1">
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">UAPP Id</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              id=""
-                              name="isAcceptHome"
-                              onChange={(e) => {
-                                handleCheckedId(e);
-                              }}
-                              defaultChecked={checkId}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
                           <p className="">App Id</p>
                         </Col>
 
@@ -939,6 +897,27 @@ const ApplicationsCommon = () => {
                                 handleCheckedAppId(e);
                               }}
                               defaultChecked={checkAppId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
                             />
                           </FormGroup>
                         </Col>
@@ -1252,11 +1231,11 @@ const ApplicationsCommon = () => {
               >
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    {checkId ? (
-                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
-                    ) : null}
                     {checkAppId ? (
                       <th style={{ verticalAlign: "middle" }}>App Id</th>
+                    ) : null}
+                    {checkId ? (
+                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
                     ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>
@@ -1317,14 +1296,14 @@ const ApplicationsCommon = () => {
                 <tbody>
                   {applicationList?.map((app, i) => (
                     <tr key={i}>
+                      {checkAppId ? (
+                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
+                      ) : null}
+
                       {checkId ? (
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.uappId}
                         </td>
-                      ) : null}
-
-                      {checkAppId ? (
-                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
                       ) : null}
 
                       {checkApplic ? (
@@ -1434,33 +1413,31 @@ const ApplicationsCommon = () => {
                               permission={6}
                             />
 
-                            {
-                              permissions?.includes(permissionList.View_Application) ? 
+                            {permissions?.includes(
+                              permissionList.View_Application
+                            ) ? (
                               <LinkButton
-                              url={`/applicationDetails/${app?.id}/${app?.studentId}`}
-                              color="primary"
-                              className={"mx-1 btn-sm mt-2"}
-                              icon={<i className="fas fa-eye"></i>}
-                            />
-                            :
-                            null
-                            }
+                                url={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                                color="primary"
+                                className={"mx-1 btn-sm mt-2"}
+                                icon={<i className="fas fa-eye"></i>}
+                              />
+                            ) : null}
 
                             {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                            {
-                              permissions.includes(permissionList.Delete_Application) ?
+                            {permissions.includes(
+                              permissionList.Delete_Application
+                            ) ? (
                               <ButtonForFunction
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              color={"danger"}
-                              className={"mx-1 btn-sm mt-2"}
-                              func={() => toggleDanger(app)}
-                            />
-                            :
-                            null
-                            }
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                color={"danger"}
+                                className={"mx-1 btn-sm mt-2"}
+                                func={() => toggleDanger(app)}
+                              />
+                            ) : null}
                           </ButtonGroup>
 
                           <Modal
@@ -1477,7 +1454,7 @@ const ApplicationsCommon = () => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData}>
-                              {progress? <ButtonLoader/> :"YES"}
+                                {progress ? <ButtonLoader /> : "YES"}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO
