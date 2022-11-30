@@ -44,6 +44,7 @@ import put from "../../../helpers/put";
 import { permissionList } from "../../../constants/AuthorizationConstant";
 import ToggleSwitch from "../Components/ToggleSwitch";
 import ButtonLoader from "../Components/ButtonLoader";
+import MessageHistoryCardApplicationDetailsPage from "./MessageHistoryCardApplicationDetailsPage";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
@@ -4164,7 +4165,7 @@ const ApplicationDetails = () => {
             </CardBody>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardBody>
               <div className="hedding-titel d-flex justify-content-between mb-4">
                 <div>
@@ -4175,13 +4176,18 @@ const ApplicationDetails = () => {
 
                   <div className="bg-h"></div>
                 </div>
-                {/* <div className="text-right edit-style  p-3">
-                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
-               </div> */}
+                
               </div>
               <div className="box arrow-left">Mistakenly apply</div>
             </CardBody>
-          </Card>
+          </Card> */}
+
+          <MessageHistoryCardApplicationDetailsPage
+            applicationId = {applicationInfo?.id}
+            studentMail = {applicationInfo?.student?.email}
+            consultantMail = {applicationInfo?.consultant?.email}
+            admissionManagerMail = {applicationInfo?.admissionManager?.email}
+          />
 
           <Card>
             <CardBody>
