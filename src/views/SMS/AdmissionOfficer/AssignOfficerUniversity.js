@@ -108,7 +108,7 @@ const AssignOfficerUniversity = () => {
 
     get(`AdmissionOfficer/Get/${managerId}`)
     .then(res => {
-        console.log('Admission officer Info', res);
+        
         setOfficerData(res);
     })
 

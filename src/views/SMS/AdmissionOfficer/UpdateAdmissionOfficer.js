@@ -79,7 +79,7 @@ const UpdateAdmissionOfficer = () => {
         get(`AdmissionOfficer/Get/${officerId}`)
         .then(res => {
             setData(res);
-            console.log(res);
+           
             setNameTitleLabel(res?.nameTittle?.name);
             setNameTitleValue(res?.nameTittle?.id);
             setUniCountryLabel(res?.country?.name);

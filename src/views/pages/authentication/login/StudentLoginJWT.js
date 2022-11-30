@@ -33,7 +33,7 @@ class Login extends React.Component {
       fetch(`https://geolocation-db.com/json/`)
         .then(res => res?.json())
         .then(data => {
-          console.log('exmp1',data);
+         
           this.setState({IpAddress: data?.IPv4, GeoLocationInfo: `latitude ${data?.latitude}, longitude ${data?.longitude} `})
           
         });
@@ -68,7 +68,7 @@ class Login extends React.Component {
               }
             })
               .then(res => {
-                console.log(res);
+               
                 
                 if (res?.status == 200) {
                   if(res?.data?.isActive == true){

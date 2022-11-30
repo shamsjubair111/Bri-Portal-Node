@@ -61,7 +61,7 @@ const AdmissionOfficerNewDetails = () => {
      
         setOfficerObj(res);
         setAdmissionManagerList(res?.admissionManager);
-        console.log('Admission Officer', res)
+        
         setLoading(false);
       });
     }, [officerId, success]);
@@ -145,9 +145,7 @@ const AdmissionOfficerNewDetails = () => {
     
       subData.append("profileImage", FileList1[0]?.originFileObj);
     
-      // for(var x of subData.values()){
-      //     console.log(x);
-      // }
+      
       
     
       if (FileList1.length < 1) {

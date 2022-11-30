@@ -173,7 +173,7 @@ const AdmissionOfficerList = () => {
       get(
         `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${providerId}&admissionmanagerId=${managerId}&search=${searchStr}`
       ).then((res) => {
-        console.log("Response", res);
+        
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
@@ -193,7 +193,7 @@ const AdmissionOfficerList = () => {
       get(
         `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${proValue}&admissionmanagerId=${managerValue}&search=${searchStr}`
       ).then((res) => {
-        console.log("Response", res);
+       
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
@@ -222,7 +222,7 @@ const AdmissionOfficerList = () => {
 
     if (userType == userTypes?.ProviderAdmin) {
       get(`ProviderAdmin/Get/${referenceId}`).then((res) => {
-        console.log("provider Admin Info", res);
+        
         setProValue(res?.providerId);
         get(`AdmissionManagerDD/Index/${res?.providerId}`).then((res) => {
           setManagerDD(res);

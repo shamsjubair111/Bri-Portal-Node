@@ -80,7 +80,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
     get(`AdmissionOfficerUniversityDD/AdmissionOfficer/${officerId}`).then(
       (res) => {
         setUni(res);
-        console.log("unidd", res);
+       
       }
     );
 
@@ -90,7 +90,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
       setSubData(res?.models);
       setEntity(res?.totalEntity);
       setSerialNum(res?.firstSerialNumber);
-      console.log("datas", res);
+      
     });
   }, [officerId, currentPage, dataPerPage, uniValue, statusValue, success]);
 
@@ -144,7 +144,7 @@ const AdmissionOfficerWiseAssignedSubject = () => {
   }));
 
   const selectStatus = (label, value) => {
-    // console.log("value", label, value);
+    
     // setLoading(true);
     setStatusLabel(label);
     setStatusValue(value);

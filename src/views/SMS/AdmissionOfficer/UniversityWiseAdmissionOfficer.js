@@ -15,7 +15,7 @@ const UniversityWiseAdmissionOfficer = () => {
     useEffect(()=>{
         get(`AdmissionOfficer/GetByUniversity/${universityId}`)
         .then(res => {
-            console.log(res);
+            
             setOFficer(res);
         })
 
@@ -30,7 +30,7 @@ const UniversityWiseAdmissionOfficer = () => {
 
     const gotoProfile = (data) => {
 
-        console.log(data);
+        
         history.push(`/admissionOfficerDetails/${data?.admissionOfficerId}`);
     }
 

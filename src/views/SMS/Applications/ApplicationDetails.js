@@ -176,7 +176,7 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
-      console.log("Application", res);
+      
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
@@ -193,7 +193,7 @@ const ApplicationDetails = () => {
     });
 
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
-      console.log("appliInfoStd", res);
+      
       setStudentProInfo(res);
     });
     get("DeliveryPatternDD/index").then((res) => {

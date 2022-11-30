@@ -145,12 +145,12 @@ const StudentRegisterJWT = () => {
   };
 
   const handleDisability = (event) => {
-    console.log(event.target.value);
+   
     setType(event.target.value);
   };
 
   const handleTitle = (event) => {
-    console.log(event.target.value);
+   
     setTitle(event.target.value);
   };
 

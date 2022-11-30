@@ -415,7 +415,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
     //   }
     // }
 
-    //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
+  
 
     if (currentUser != undefined) {
       get(
@@ -423,7 +423,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
-        console.log("appliList",res?.models);
+        
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });

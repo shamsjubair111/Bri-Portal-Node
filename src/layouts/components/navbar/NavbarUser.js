@@ -122,7 +122,7 @@ const handleLogOut = (e) => {
             }
           })
             .then(res => {
-              console.log(res);
+              
               
               if (res?.status == 200) {
                 if(res?.data?.isActive == true){
@@ -178,7 +178,7 @@ const convertToConsultantAccount = e => {
             }
           })
             .then(res => {
-              console.log(res);
+              
               
               if (res?.status == 200) {
                 if(res?.data?.isActive == true){
@@ -213,7 +213,7 @@ const goToLoginHistory = () => {
 
 
 const UserDropdown = props => {
-  console.log('result = ', props?.switch)  ;
+  
 
 
   return (
@@ -384,7 +384,7 @@ class NavbarUser extends React.PureComponent {
     }
   })
   .then(res => {
-    console.log(res,'111');
+    
     this.setState({notificationData: res?.data?.result});
     
   })
@@ -399,7 +399,7 @@ class NavbarUser extends React.PureComponent {
      if (newConnection) {
       newConnection.start()
           .then(result => {
-              console.log('Connected!');
+              
 
               newConnection.on('notificationHub', message => {
                   //  const updatedChat = [...latestChat.current];
@@ -412,10 +412,10 @@ class NavbarUser extends React.PureComponent {
                
               }
                   // this.setState = {chat: message}
-                  //  console.log(message)
+                
               });
           })
-          .catch(e => console.log('Connection failed: ', e));
+          
   }
  }
 
@@ -450,7 +450,7 @@ class NavbarUser extends React.PureComponent {
       }
     })
     .then(res => {
-      console.log(res,'111');
+      
       this.setState({notificationData: res?.data?.result});
       
     })
@@ -468,13 +468,13 @@ class NavbarUser extends React.PureComponent {
       }
     })
     .then(res => {
-      console.log(res,'abcdefg');
+      
     })
   }
 
 
   redirect = (data) => {
-    console.log(data);
+    
      this.notificationByIdFunction(data?.id);
      history.push(data?.targetUrl);
   }

@@ -25,7 +25,7 @@ const AdmissionOfficerWiseSubject = () => {
 
         get(`AdmissionOfficerSubject/AssignedSubjects/${universityId}/${managerId}`)
         .then(res => {
-            console.log(res);
+           
             setList(res);
         })
 
