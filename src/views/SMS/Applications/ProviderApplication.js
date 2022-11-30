@@ -64,7 +64,7 @@ const ProviderApplication = ({ currentUser }) => {
   const [interviewDD, setInterviewDD] = useState([]);
   const [elptDD, setElptDD] = useState([]);
   const [financeDD, setFinanceDD] = useState([]);
-  const permissions= JSON.parse(localStorage.getItem('permissions'));
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
 
   // for provider admin
   const [providerUappIdDD, setProviderUappIdDD] = useState([]);
@@ -138,7 +138,7 @@ const ProviderApplication = ({ currentUser }) => {
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
-  const {consultantId, universityId} = useParams();
+  const { consultantId, universityId } = useParams();
 
   // for all dropdown
   const applicationMenu = applicationDD.map((application) => ({
@@ -439,7 +439,7 @@ const ProviderApplication = ({ currentUser }) => {
     // }
 
     if (currentUser != undefined) {
-      if(consultantId !== undefined){
+      if (consultantId !== undefined) {
         get(
           `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${consultantId}universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
         ).then((res) => {
@@ -451,14 +451,9 @@ const ProviderApplication = ({ currentUser }) => {
           setEntity(res?.totalEntity);
           setSerialNumber(res?.firstSerialNumber);
         });
-      }
-      else if(universityId !== undefined){
+      } else if (universityId !== undefined) {
         get(
-          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${
-            providerConsValue
-          }&universityId=${
-            universityId
-          }&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${providerConsValue}&universityId=${universityId}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
@@ -468,14 +463,9 @@ const ProviderApplication = ({ currentUser }) => {
           setEntity(res?.totalEntity);
           setSerialNumber(res?.firstSerialNumber);
         });
-      }
-      else{
+      } else {
         get(
-          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${
-            providerConsValue
-          }&universityId=${
-            providerUniValue
-          }&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${providerUappIdValue}&studentId=${providerStdvalue}&consultantId=${providerConsValue}&universityId=${providerUniValue}&uappPhoneId=${providerPhoneValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
@@ -484,7 +474,6 @@ const ProviderApplication = ({ currentUser }) => {
         });
       }
     }
-
   }, [
     currentPage,
     dataPerPage,
@@ -504,7 +493,7 @@ const ProviderApplication = ({ currentUser }) => {
     providerConsValue,
     providerUniValue,
     providerPhoneValue,
-    consultantId
+    consultantId,
   ]);
 
   const toggleDanger = (data) => {
@@ -682,9 +671,7 @@ const ProviderApplication = ({ currentUser }) => {
                 // isDisabled={
                 //   location.consultantIdFromConsultantList ? true : false
                 // }
-                isDisabled={
-                  consultantId !== undefined ? true : false
-                }
+                isDisabled={consultantId !== undefined ? true : false}
               />
             </Col>
 
@@ -916,27 +903,6 @@ const ProviderApplication = ({ currentUser }) => {
                     <DropdownMenu className="bg-dd-1">
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">UAPP Id</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              id=""
-                              name="isAcceptHome"
-                              onChange={(e) => {
-                                handleCheckedId(e);
-                              }}
-                              defaultChecked={checkId}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
                           <p className="">App Id</p>
                         </Col>
 
@@ -951,6 +917,27 @@ const ProviderApplication = ({ currentUser }) => {
                                 handleCheckedAppId(e);
                               }}
                               defaultChecked={checkAppId}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP Id</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedId(e);
+                              }}
+                              defaultChecked={checkId}
                             />
                           </FormGroup>
                         </Col>
@@ -1264,11 +1251,11 @@ const ProviderApplication = ({ currentUser }) => {
               >
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    {checkId ? (
-                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
-                    ) : null}
                     {checkAppId ? (
                       <th style={{ verticalAlign: "middle" }}>App Id</th>
+                    ) : null}
+                    {checkId ? (
+                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
                     ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>
@@ -1329,14 +1316,14 @@ const ProviderApplication = ({ currentUser }) => {
                 <tbody>
                   {applicationList?.map((app, i) => (
                     <tr key={i}>
+                      {checkAppId ? (
+                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
+                      ) : null}
+
                       {checkId ? (
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.uappId}
                         </td>
-                      ) : null}
-
-                      {checkAppId ? (
-                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
                       ) : null}
 
                       {checkApplic ? (
@@ -1446,33 +1433,31 @@ const ProviderApplication = ({ currentUser }) => {
                               permission={6}
                             />
 
-                           {
-                            permissions?.includes(permissionList.View_Application) ?
-                            <LinkButton
-                            url={`/applicationDetails/${app?.id}/${app?.studentId}`}
-                            color="primary"
-                            className={"mx-1 btn-sm mt-2"}
-                            icon={<i className="fas fa-eye"></i>}
-                          />
-                          :
-                          null
-                           }
+                            {permissions?.includes(
+                              permissionList.View_Application
+                            ) ? (
+                              <LinkButton
+                                url={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                                color="primary"
+                                className={"mx-1 btn-sm mt-2"}
+                                icon={<i className="fas fa-eye"></i>}
+                              />
+                            ) : null}
 
                             {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}
 
-                            {
-                              permissions?.includes(permissionList.Delete_Application) ?
+                            {permissions?.includes(
+                              permissionList.Delete_Application
+                            ) ? (
                               <ButtonForFunction
-                              icon={<i className="fas fa-trash-alt"></i>}
-                              color={"danger"}
-                              className={"mx-1 btn-sm mt-2"}
-                              func={() => toggleDanger(app)}
-                            />
-                            :
-                            null
-                            }
+                                icon={<i className="fas fa-trash-alt"></i>}
+                                color={"danger"}
+                                className={"mx-1 btn-sm mt-2"}
+                                func={() => toggleDanger(app)}
+                              />
+                            ) : null}
                           </ButtonGroup>
 
                           <Modal
@@ -1489,7 +1474,7 @@ const ProviderApplication = ({ currentUser }) => {
 
                             <ModalFooter>
                               <Button color="danger" onClick={handleDeleteData}>
-                              {progress? <ButtonLoader/> :"YES"}
+                                {progress ? <ButtonLoader /> : "YES"}
                               </Button>
                               <Button onClick={() => setDeleteModal(false)}>
                                 NO
