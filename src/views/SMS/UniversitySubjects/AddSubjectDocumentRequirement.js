@@ -111,7 +111,8 @@ const AddSubjectDocumentRequirement = () => {
       history.push(`/subjectProfile/${location.subjectId}`);
     }
     else{
-      history.push("/subjectList");
+      // history.push("/subjectList");
+      history.push(`/subjectProfile/${id}`);
     }
   };
 
@@ -310,9 +311,9 @@ const onPreviousPage = () => {
               <i className="fas fa-arrow-circle-left"></i>{" "}
               {
                 location.subjectId != undefined ?
-                "Back to Subject Profile"
+                "Back to Subject Details"
                 :
-                "Back to Subject List"
+                "Back to Subject Details"
               }
             </span>
           </div>

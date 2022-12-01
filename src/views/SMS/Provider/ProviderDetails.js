@@ -123,7 +123,6 @@ const ProviderDetails = () => {
     get(
       `University/IndexForProvider?page=${currentPage}&pagesize=${dataPerPage}&providerId=${id}`
     ).then((action) => {
-      console.log("University List", action);
       setUniversityList(action?.models);
       setLoading(false);
       setEntity(action?.totalEntity);
@@ -131,12 +130,10 @@ const ProviderDetails = () => {
     });
 
     get(`AdmissionManager/GetbyProvider/${id}`).then((res) => {
-      console.log("Admission Manager", res);
       setAdmissionManager(res);
     });
 
     get(`ProviderAdmin/GetbyProvider/${id}`).then((res) => {
-      console.log("providerAdmin", res);
       setAdminData(res);
       setTitleLabel(res?.nameTittle?.name);
       setTitleValue(res?.nameTittle?.id);
@@ -153,7 +150,6 @@ const ProviderDetails = () => {
     // })
 
     get(`AdmissionOfficer/OfficerForProvider/${id}`).then((res) => {
-      console.log("first", res);
       setOfficer(res);
     });
   }, [
@@ -241,7 +237,6 @@ const ProviderDetails = () => {
   };
 
   const handleUpdateStatus = (data) => {
-    console.log(data);
     put(`University/UpdateStatus/${data?.id}`).then((res) => {
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
@@ -555,6 +550,24 @@ const ProviderDetails = () => {
                   name="lastName"
                   id="lastName"
                   defaultValue={adminData?.lastName}
+                />
+              </Col>
+            </FormGroup>
+
+            <FormGroup row className="has-icon-left position-relative">
+              <Col md="3">
+                <span>
+                  {" "}
+                  Phone Number
+                  <span className="text-danger">*</span>{" "}
+                </span>
+              </Col>
+              <Col md="6">
+                <Input
+                  type="text"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  defaultValue={adminData?.phoneNumber}
                 />
               </Col>
             </FormGroup>

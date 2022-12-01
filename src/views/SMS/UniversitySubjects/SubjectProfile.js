@@ -18,6 +18,7 @@ const SubjectProfile = () => {
     const [loading, setLoading] = useState(false);
     const [campData, setCampData] = useState(null);
     const [campusId, setCampusId] = useState(undefined);
+    const [universityId, setUniversityId] = useState(undefined);
     
 
     const location = useLocation();
@@ -42,7 +43,8 @@ const SubjectProfile = () => {
         history.push(`/universityDetails/${location.uniDetailId}`)
       }
       else{
-        history.push('/subjectList');
+        // history.push('/subjectList');
+        history.push(`/universitySubjectList/${universityId}`);
       } 
     }
 
@@ -50,8 +52,9 @@ const SubjectProfile = () => {
       setCampusId(location?.campId);
       get(`Subject/Profile/${subjId}`)
       .then(res=>{
-        console.log(res);
+        console.log("unidataaaa",res);
         setSubjectData(res);
+        setUniversityId(res?.university?.id);
         setCampList(res?.campusSubjects);
         setLoading(false);
       });
@@ -105,7 +108,7 @@ const SubjectProfile = () => {
                   :
                   location.uniDetailId != undefined ? "Back to University Details"
                   :
-                  "Back to Subject List"
+                  "Back to University Subject List"
                 }
                 </span>
               </div>

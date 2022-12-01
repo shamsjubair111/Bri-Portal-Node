@@ -207,7 +207,7 @@ const ApplicationsCommon = () => {
   }));
 
   const selectOrder = (label, value) => {
-    // setLoading(true);
+    setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
     setCallApi((prev) => !prev);
