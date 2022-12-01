@@ -26,8 +26,8 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import { LoadingOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 import * as Icon from "react-feather";
 import { Upload, Modal as AntdModal } from "antd";
 
@@ -50,7 +50,7 @@ const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
   const [applicationInfo, setApplicationInfo] = useState({});
   const [studentProInfo, setStudentProInfo] = useState({});
-  const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [uploadedDocuData, setUploadedDocuData] = useState([]);
   const [success, setSuccess] = useState(false);
 
@@ -119,30 +119,34 @@ const ApplicationDetails = () => {
   const location = useLocation();
 
   const [ielts, setIelts] = useState({});
-    const [duolingo, setDuolingo] = useState({});
-    const [toefl, setToefl] = useState({});
-    const [functions, setFunctions] = useState({});
-    const [gcse, setGcse] = useState({});
-    const [pearson, setPearson] = useState({});
-    const [others, setOthers] = useState({});
-    const [pte, setPte] = useState({});
-    const [gMatResult, setGMatResult]  =useState({});
-    const [greResult,setGreResult] = useState({});
+  const [duolingo, setDuolingo] = useState({});
+  const [toefl, setToefl] = useState({});
+  const [functions, setFunctions] = useState({});
+  const [gcse, setGcse] = useState({});
+  const [pearson, setPearson] = useState({});
+  const [others, setOthers] = useState({});
+  const [pte, setPte] = useState({});
+  const [gMatResult, setGMatResult] = useState({});
+  const [greResult, setGreResult] = useState({});
 
-    const [progress, setProgress] = useState(false);
-    const [progress1, setProgress1] = useState(false);
-    const [progress2, setProgress2] = useState(false);
-    const [progress3, setProgress3] = useState(false);
-    const [progress4, setProgress4] = useState(false);
-    const [progress5, setProgress5] = useState(false);
-    const [progress6, setProgress6] = useState(false);
-    const [progress7, setProgress7] = useState(false);
-    const [progress8, setProgress8] = useState(false);
-    const [progress9, setProgress9] = useState(false);
-    const [progress10, setProgress10] = useState(false);
-    const [progress11, setProgress11] = useState(false);
-    const [progress12, setProgress12] = useState(false);
- 
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
+  const [progress3, setProgress3] = useState(false);
+  const [progress4, setProgress4] = useState(false);
+  const [progress5, setProgress5] = useState(false);
+  const [progress6, setProgress6] = useState(false);
+  const [progress7, setProgress7] = useState(false);
+  const [progress8, setProgress8] = useState(false);
+  const [progress9, setProgress9] = useState(false);
+  const [progress10, setProgress10] = useState(false);
+  const [progress11, setProgress11] = useState(false);
+  const [progress12, setProgress12] = useState(false);
+
+  const [docuLabel, setDocuLabel] = useState("Select Status");
+  const [docuValue, setDocuValue] = useState(0);
+  const [docuDD, setDocuDD] = useState([]);
+  const [openStatusModal11, setOpenStatusModal11] = useState(false);
 
   function getBase641(file) {
     return new Promise((resolve, reject) => {
@@ -176,7 +180,6 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
-      
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
@@ -186,6 +189,9 @@ const ApplicationDetails = () => {
     // document upload
     get(`StudentUploadDocument/Index/${stdId}`).then((res) => {
       setUploadedDocuData(res);
+      // setDocuValue(res?.statusId);
+      // setDocuLabel(res?.statusId == 1 ? "Processing" : res?.statusId == 2 ? "Accepted" : "Rejected")
+      console.log("upload data", res);
     });
 
     get("DocumentDD/Index").then((res) => {
@@ -193,7 +199,6 @@ const ApplicationDetails = () => {
     });
 
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
-      
       setStudentProInfo(res);
     });
     get("DeliveryPatternDD/index").then((res) => {
@@ -215,8 +220,7 @@ const ApplicationDetails = () => {
       setElptStatusDD(res);
     });
 
-    get(`StudentProfile/Get/${stdId}`)
-    .then(res => {
+    get(`StudentProfile/Get/${stdId}`).then((res) => {
       setGMatResult(res?.gmatScoreInfo);
       setGreResult(res?.greScoreInfo);
 
@@ -251,36 +255,54 @@ const ApplicationDetails = () => {
       
     });
 
-    get(`Gcse/Index/${stdId}`).then(
-      (res) => {
-        setGcse(res);
-        
-      }
-    );
+    get(`Ielts/Index/${stdId}`).then((res) => {
+      setIelts(res);
+      console.log("ielts", res);
+    });
 
-    get(`Pearson/Index/${stdId}`).then(
-      (res) => {
-        setPearson(res);
-        
-      }
-    );
+    get(`Duolingo/Index/${stdId}`).then((res) => {
+      setDuolingo(res);
+    });
 
-    get(`Other/Index/${stdId}`).then(
-      (res) => {
-        setOthers(res);
-        
-      }
-    );
+    get(`Toefl/Index/${stdId}`).then((res) => {
+      setToefl(res);
+    });
 
-    get(`Pte/Index/${stdId}`).then(
-      (res) => {
-        
-        setPte(res);
-        
-      }
-    );
+    get(`FunctionalSkill/Index/${stdId}`).then((res) => {
+      setFunctions(res);
+    });
 
+    get(`Gcse/Index/${stdId}`).then((res) => {
+      setGcse(res);
+    });
+
+    get(`Pearson/Index/${stdId}`).then((res) => {
+      setPearson(res);
+    });
+
+    get(`Other/Index/${stdId}`).then((res) => {
+      setOthers(res);
+    });
+
+    get(`Pte/Index/${stdId}`).then((res) => {
+      setPte(res);
+    });
+
+    get(`DocumentStatusDD/index`).then((res) => {
+      console.log("docuDD", res);
+      setDocuDD(res);
+    });
   }, [id, stdId, success]);
+
+  const selectDocuStatus = (label, value) => {
+    setDocuLabel(label);
+    setDocuValue(value);
+  };
+
+  const statusName = docuDD?.map((docu) => ({
+    label: docu?.name,
+    value: docu?.id,
+  }));
 
   const docuTypeDD = docuType.map((docu) => ({
     label: docu?.name,
@@ -363,9 +385,6 @@ const ApplicationDetails = () => {
     const x = localeDate.split(",")[0];
     return x;
   };
-
- 
-
 
   const handleDate2 = (e) => {
     var datee = e;
@@ -536,11 +555,9 @@ const ApplicationDetails = () => {
       history.push(
         `/providerAdmissionManager/${location.managerId}/${location.providerId}`
       );
-    }
-    else if(location.appId != undefined){
+    } else if (location.appId != undefined) {
       history.push("/");
-    }
-    else {
+    } else {
       history.push("/applications");
     }
   };
@@ -763,9 +780,6 @@ const ApplicationDetails = () => {
     );
   };
 
-
-
-
   const handleOpenELPTModal = () => {
     setElptModalOpen(true);
   };
@@ -825,6 +839,50 @@ const ApplicationDetails = () => {
     });
   };
 
+  const statusModal1 = (studentDocuId) => {
+    console.log("first", studentDocuId);
+    get(`StudentUploadDocument/StatusInfo/${studentDocuId}`).then(res=>{
+      console.log("ddddd", res);
+      setDocuLabel(res?.name);
+      setDocuValue(res?.id);
+    })
+    setOpenStatusModal11(true);
+  };
+
+  const closeStatusModal11 = () => {
+    setDocuLabel("Select Status");
+    setDocuValue(0);
+    setOpenStatusModal11(false);
+  }
+
+  const handleStatusUpdateSubmit = (event) => {
+    event.preventDefault();
+
+    const subdata = new FormData(event.target);
+
+     
+    for (var value of subdata.values()) {
+      console.log("values",value);
+    }
+
+    put("StudentUploadDocument/UpdateStatus", subdata).then((res) => {
+      console.log("1st put response", res);
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setOpenStatusModal11(false);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    });
+  }
+
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -837,8 +895,9 @@ const ApplicationDetails = () => {
               {location.providerId != undefined &&
               location.managerId != undefined
                 ? "Back to Admission Manager Details"
-                : location.appId ? "Back to Student Dashboard" :
-                 "Back to Application List"}
+                : location.appId
+                ? "Back to Student Dashboard"
+                : "Back to Application List"}
             </span>
           </div>
         </CardHeader>
@@ -909,26 +968,25 @@ const ApplicationDetails = () => {
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.applicationStatus?.name}
 
-                              {
-                                permissions?.includes(permissionList.Update_Application_Status) ?
+                              {permissions?.includes(
+                                permissionList.Update_Application_Status
+                              ) ? (
                                 <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={() =>
-                                  handleApplicationEdit(
-                                    applicationInfo?.applicationStatus?.name,
-                                    applicationInfo?.applicationStatus?.id
-                                  )
-                                }
-                                permission={6}
-                              />
-                              :
-                              null
-                              }
+                                  icon={
+                                    <i
+                                      style={{ cursor: "pointer" }}
+                                      className="fas fa-pencil-alt pencil-style"
+                                    ></i>
+                                  }
+                                  func={() =>
+                                    handleApplicationEdit(
+                                      applicationInfo?.applicationStatus?.name,
+                                      applicationInfo?.applicationStatus?.id
+                                    )
+                                  }
+                                  permission={6}
+                                />
+                              ) : null}
 
                               <Modal
                                 isOpen={statusModalOpen}
@@ -994,7 +1052,9 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={progress? <ButtonLoader/> :"Submit"}
+                                        name={
+                                          progress ? <ButtonLoader /> : "Submit"
+                                        }
                                         permission={6}
                                       />
 
@@ -1015,26 +1075,25 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.offerStatus?.name}
-                              {
-                                permissions?.includes(permissionList.Update_Application_OfferStatus) ?
-                              <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={() =>
-                                  handleOfferEdit(
-                                    applicationInfo?.offerStatus?.name,
-                                    applicationInfo?.offerStatus?.id
-                                  )
-                                }
-                                permission={6}
-                              />
-                              :
-                              null
-                              }
+                              {permissions?.includes(
+                                permissionList.Update_Application_OfferStatus
+                              ) ? (
+                                <SpanButton
+                                  icon={
+                                    <i
+                                      style={{ cursor: "pointer" }}
+                                      className="fas fa-pencil-alt pencil-style"
+                                    ></i>
+                                  }
+                                  func={() =>
+                                    handleOfferEdit(
+                                      applicationInfo?.offerStatus?.name,
+                                      applicationInfo?.offerStatus?.id
+                                    )
+                                  }
+                                  permission={6}
+                                />
+                              ) : null}
                               <Modal
                                 isOpen={offerModalOpen}
                                 toggle={closeModal}
@@ -1095,7 +1154,13 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={progress1? <ButtonLoader/> :"Submit"}
+                                        name={
+                                          progress1 ? (
+                                            <ButtonLoader />
+                                          ) : (
+                                            "Submit"
+                                          )
+                                        }
                                         permission={6}
                                       />
 
@@ -1129,26 +1194,25 @@ const ApplicationDetails = () => {
                                 <>{applicationInfo?.enrollmentStatus?.name}</>
                               )}
 
-                              {
-                                permissions?.includes(permissionList.Update_Application_EnrollmentStatus) ?
+                              {permissions?.includes(
+                                permissionList.Update_Application_EnrollmentStatus
+                              ) ? (
                                 <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={() =>
-                                  handleEditEnrol(
-                                    applicationInfo?.enrollmentStatus?.name,
-                                    applicationInfo?.enrollmentStatus?.id
-                                  )
-                                }
-                                permission={6}
-                              />
-                              :
-                              null
-                              }
+                                  icon={
+                                    <i
+                                      style={{ cursor: "pointer" }}
+                                      className="fas fa-pencil-alt pencil-style"
+                                    ></i>
+                                  }
+                                  func={() =>
+                                    handleEditEnrol(
+                                      applicationInfo?.enrollmentStatus?.name,
+                                      applicationInfo?.enrollmentStatus?.id
+                                    )
+                                  }
+                                  permission={6}
+                                />
+                              ) : null}
 
                               <Modal
                                 isOpen={enrollModalOpen}
@@ -1259,7 +1323,13 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={progress2? <ButtonLoader/> :"Submit"}
+                                        name={
+                                          progress2 ? (
+                                            <ButtonLoader />
+                                          ) : (
+                                            "Submit"
+                                          )
+                                        }
                                         permission={6}
                                       />
 
@@ -1298,27 +1368,26 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.studentFinanceStatus?.name}
-                              {
-
-                              permissions?.includes(permissionList.Update_Application_Student_Finance) ?
-                              <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={() =>
-                                  handleEditFinance(
-                                    applicationInfo?.studentFinanceStatus?.name,
-                                    applicationInfo?.studentFinanceStatus?.id
-                                  )
-                                }
-                                permission={6}
-                              />
-                              :
-                              null
-                              }
+                              {permissions?.includes(
+                                permissionList.Update_Application_Student_Finance
+                              ) ? (
+                                <SpanButton
+                                  icon={
+                                    <i
+                                      style={{ cursor: "pointer" }}
+                                      className="fas fa-pencil-alt pencil-style"
+                                    ></i>
+                                  }
+                                  func={() =>
+                                    handleEditFinance(
+                                      applicationInfo?.studentFinanceStatus
+                                        ?.name,
+                                      applicationInfo?.studentFinanceStatus?.id
+                                    )
+                                  }
+                                  permission={6}
+                                />
+                              ) : null}
 
                               <Modal
                                 isOpen={financeModalOpen}
@@ -1382,7 +1451,13 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={progress3? <ButtonLoader/> :"Submit"}
+                                        name={
+                                          progress3 ? (
+                                            <ButtonLoader />
+                                          ) : (
+                                            "Submit"
+                                          )
+                                        }
                                         permission={6}
                                       />
 
@@ -1421,26 +1496,25 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.deliveryPattern?.name}
-                             {
-                              permissions?.includes(permissionList.Update_Application_Delivery_Pattern) ?
-                              <SpanButton
-                              icon={
-                                <i
-                                  style={{ cursor: "pointer" }}
-                                  className="fas fa-pencil-alt pencil-style"
-                                ></i>
-                              }
-                              func={() =>
-                                handleEditDeliveryPattern(
-                                  applicationInfo?.deliveryPattern?.name,
-                                  applicationInfo?.deliveryPattern?.id
-                                )
-                              }
-                              permission={6}
-                            />
-                            :
-                            null
-                             }
+                              {permissions?.includes(
+                                permissionList.Update_Application_Delivery_Pattern
+                              ) ? (
+                                <SpanButton
+                                  icon={
+                                    <i
+                                      style={{ cursor: "pointer" }}
+                                      className="fas fa-pencil-alt pencil-style"
+                                    ></i>
+                                  }
+                                  func={() =>
+                                    handleEditDeliveryPattern(
+                                      applicationInfo?.deliveryPattern?.name,
+                                      applicationInfo?.deliveryPattern?.id
+                                    )
+                                  }
+                                  permission={6}
+                                />
+                              ) : null}
 
                               <Modal
                                 isOpen={deliveryModalOpen}
@@ -1504,7 +1578,13 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={progress4? <ButtonLoader/> :"Submit"}
+                                        name={
+                                          progress4 ? (
+                                            <ButtonLoader />
+                                          ) : (
+                                            "Submit"
+                                          )
+                                        }
                                         permission={6}
                                       />
 
@@ -1548,25 +1628,24 @@ const ApplicationDetails = () => {
                           <td width="60%">
                             <div className="d-flex justify-content-between">
                               {applicationInfo?.universityStudentId}
-                             {
-                              permissions?.includes(permissionList.Update_Appliation_University_StudentId) ?
-                              <SpanButton
-                              icon={
-                                <i
-                                  style={{ cursor: "pointer" }}
-                                  className="fas fa-pencil-alt pencil-style"
-                                ></i>
-                              }
-                              func={() =>
-                                handleEditUniStdId(
-                                  applicationInfo?.universityStudentId
-                                )
-                              }
-                              permission={6}
-                            />
-                            :
-                            null
-                             }
+                              {permissions?.includes(
+                                permissionList.Update_Appliation_University_StudentId
+                              ) ? (
+                                <SpanButton
+                                  icon={
+                                    <i
+                                      style={{ cursor: "pointer" }}
+                                      className="fas fa-pencil-alt pencil-style"
+                                    ></i>
+                                  }
+                                  func={() =>
+                                    handleEditUniStdId(
+                                      applicationInfo?.universityStudentId
+                                    )
+                                  }
+                                  permission={6}
+                                />
+                              ) : null}
 
                               <Modal
                                 isOpen={uniStdIdModalOpen}
@@ -1623,7 +1702,13 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={progress5? <ButtonLoader/> :"Submit"}
+                                        name={
+                                          progress5 ? (
+                                            <ButtonLoader />
+                                          ) : (
+                                            "Submit"
+                                          )
+                                        }
                                         permission={6}
                                       />
 
@@ -1650,25 +1735,24 @@ const ApplicationDetails = () => {
                                   )}
                                 </>
                               ) : null}
-                              {
-                                permissions?.includes(permissionList.Update_University_ApplicationDate) ?
+                              {permissions?.includes(
+                                permissionList.Update_University_ApplicationDate
+                              ) ? (
                                 <SpanButton
-                                icon={
-                                  <i
-                                    style={{ cursor: "pointer" }}
-                                    className="fas fa-pencil-alt pencil-style"
-                                  ></i>
-                                }
-                                func={() =>
-                                  handleEditUniAppDate(
-                                    applicationInfo?.universityApplicationDate
-                                  )
-                                }
-                                permission={6}
-                              />
-                              :
-                              null
-                              }
+                                  icon={
+                                    <i
+                                      style={{ cursor: "pointer" }}
+                                      className="fas fa-pencil-alt pencil-style"
+                                    ></i>
+                                  }
+                                  func={() =>
+                                    handleEditUniAppDate(
+                                      applicationInfo?.universityApplicationDate
+                                    )
+                                  }
+                                  permission={6}
+                                />
+                              ) : null}
 
                               <Modal
                                 isOpen={uniAppDateModalOpen}
@@ -1727,7 +1811,13 @@ const ApplicationDetails = () => {
                                         color={"primary"}
                                         type={"submit"}
                                         className={"mr-1 mt-3"}
-                                        name={progress6? <ButtonLoader/> :"Submit"}
+                                        name={
+                                          progress6 ? (
+                                            <ButtonLoader />
+                                          ) : (
+                                            "Submit"
+                                          )
+                                        }
                                         permission={6}
                                       />
 
@@ -1835,23 +1925,22 @@ const ApplicationDetails = () => {
                       </div>
                       <div className="text-right">
                         {/* <span> <i className="fas fa-pencil-alt pencil-style"></i> </span> */}
-                        {
-                          permissions?.includes(permissionList.Update_ELPT) ?
-                          <>{applicationInfo?.elpt !== null ? (
-                            <SpanButton
-                              icon={
-                                <i
-                                  style={{ cursor: "pointer" }}
-                                  className="fas fa-pencil-alt pencil-style"
-                                ></i>
-                              }
-                              func={handleElptupdate}
-                              permission={6}
-                            />
-                          ) : null}</>
-                          :
-                          null
-                        }
+                        {permissions?.includes(permissionList.Update_ELPT) ? (
+                          <>
+                            {applicationInfo?.elpt !== null ? (
+                              <SpanButton
+                                icon={
+                                  <i
+                                    style={{ cursor: "pointer" }}
+                                    className="fas fa-pencil-alt pencil-style"
+                                  ></i>
+                                }
+                                func={handleElptupdate}
+                                permission={6}
+                              />
+                            ) : null}
+                          </>
+                        ) : null}
 
                         <Modal
                           size="lg"
@@ -2122,7 +2211,9 @@ const ApplicationDetails = () => {
                                     color={"primary"}
                                     type={"submit"}
                                     className={"ml-5 mt-3"}
-                                    name={progress8? <ButtonLoader/> :"Submit"}
+                                    name={
+                                      progress8 ? <ButtonLoader /> : "Submit"
+                                    }
                                     permission={6}
                                   />
                                 </Col>
@@ -2151,17 +2242,14 @@ const ApplicationDetails = () => {
 
                     {applicationInfo?.elpt === null ? (
                       <>
-                       {
-                        permissions?.includes(permissionList.Add_ELPT) ?
-                        <ButtonForFunction
-                        func={handleOpenELPTModal}
-                        className={"badge-primary"}
-                        name={<b>Add ELPT</b>}
-                        permission={6}
-                      />
-                      :
-                      null
-                       }
+                        {permissions?.includes(permissionList.Add_ELPT) ? (
+                          <ButtonForFunction
+                            func={handleOpenELPTModal}
+                            className={"badge-primary"}
+                            name={<b>Add ELPT</b>}
+                            permission={6}
+                          />
+                        ) : null}
 
                         <Modal
                           size="lg"
@@ -2421,7 +2509,9 @@ const ApplicationDetails = () => {
                                     color={"primary"}
                                     type={"submit"}
                                     className={"ml-5 mt-3"}
-                                    name={progress7? <ButtonLoader/> :"Submit"}
+                                    name={
+                                      progress7 ? <ButtonLoader /> : "Submit"
+                                    }
                                     permission={6}
                                   />
                                 </Col>
@@ -2564,12 +2654,19 @@ const ApplicationDetails = () => {
                         <div key={i} className="card mb-3 file-upload-border">
                           <div className="container  py-3 flex-style ">
                             <div>
+                              <div className="document-type-style">
+                                <span className="badge badge-secondary">
+                                  <span
+                                    className="text-decoration-none"
+                                    style={{ fontSize: "15px" }}
+                                  >
+                                    {docu?.document?.name}{" "}
+                                  </span>
+                                </span>
+                              </div>
+
                               <h5 className="document-title">
                                 {docu?.documentLevelName}
-                              </h5>
-
-                              <h5 className="document-type-style">
-                                Document Type: {docu?.document?.name}{" "}
                               </h5>
                             </div>
 
@@ -2579,31 +2676,126 @@ const ApplicationDetails = () => {
 
                               // }
                             >
+                              <div className="col-6">
+                                <b>Status</b>{" "}
+                                <i
+                                  style={{cursor: "pointer"}}
+                                  onClick={() => statusModal1(docu?.studentDocumentId)}
+                                  className="fas fa-edit"
+                                ></i>
+                                <Modal
+                                  isOpen={openStatusModal11}
+                                  toggle={closeStatusModal11}
+                                  className="uapp-modal"
+                                >
+                                  <ModalHeader>
+                                    Update Status
+                                  </ModalHeader>
+
+                                  <ModalBody>
+                                    <form onSubmit={handleStatusUpdateSubmit}>
+                                      {/* <input
+                                        type="hidden"
+                                        name="providerId"
+                                        id="providerId"
+                                        value={id}
+                                      /> */}
+
+                                      <input
+                                        type="hidden"
+                                        name="studentDocumentId"
+                                        id="studentDocumentId"
+                                        value={docu?.studentDocumentId}
+                                      />
+
+                                      <FormGroup
+                                        row
+                                        className="has-icon-left position-relative"
+                                      >
+                                        <Col md="3">
+                                          <span>
+                                            {" "}
+                                            Status
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </span>
+                                        </Col>
+                                        <Col md="6">
+                                        <Select
+                                          options={statusName}
+                                          value={{
+                                            label: docuLabel,
+                                            value: docuValue,
+                                          }}
+                                          onChange={(opt) =>
+                                            selectDocuStatus(opt.label, opt.value)
+                                          }
+                                          name="statusId"
+                                          id="statusId"
+                                        />
+                                        </Col>
+                                      </FormGroup>
+
+                                      <FormGroup row>
+                                        <Col md="9">
+                                          <div className="d-flex justify-content-end">
+                                            <Button
+                                              color="danger"
+                                              onClick={() =>
+                                                setOpenStatusModal11(false)
+                                              }
+                                              className="mr-1 mt-3"
+                                            >
+                                              Cancel
+                                            </Button>
+                                            <Button
+                                              className="ml-1 mt-3"
+                                              color="primary"
+                                              // disabled={buttonStatus}
+                                            >
+                                              {/* {progress1 ? (
+                                                <ButtonLoader />
+                                              ) : (
+                                                "Update"
+                                              )} */}
+                                              Update
+                                            </Button>
+                                          </div>
+                                        </Col>
+                                      </FormGroup>
+                                    </form>
+                                  </ModalBody>
+                                </Modal>
+                                
+                              </div>
+
                               {docu?.studentDocumentFile === null ? (
                                 <div className="col-4">
                                   <div
                                     style={{ cursor: "pointer" }}
                                     className="image-upload"
                                   >
-                                    {
-                                      progress12 ? 
+                                    {progress12 ? (
                                       <LoadingOutlined
-                                      style={{
-                                        fontSize: 30, color: 'black', fontWeight: 'bold'
-                                      }}
-                                      spin
-                                    />
-                                        :
-                                        <label htmlFor={`hp+${i}`}>
-                                          <i
-                                            style={{
-                                              fontSize: "50px",
-                                              cursor: "pointer",
-                                            }}
-                                            className="fas fa-arrow-alt-circle-up text-danger"
-                                          ></i>
-                                        </label>
-                                    }
+                                        style={{
+                                          fontSize: 30,
+                                          color: "black",
+                                          fontWeight: "bold",
+                                        }}
+                                        spin
+                                      />
+                                    ) : (
+                                      <label htmlFor={`hp+${i}`}>
+                                        <i
+                                          style={{
+                                            fontSize: "50px",
+                                            cursor: "pointer",
+                                          }}
+                                          className="fas fa-arrow-alt-circle-up text-danger"
+                                        ></i>
+                                      </label>
+                                    )}
 
                                     <input
                                       name={i}
@@ -2632,12 +2824,10 @@ const ApplicationDetails = () => {
                                 </div>
                               )}
 
-                              <div className="col-4"></div>
-
-                              <div className="col-4">
+                              <div className="col-2">
                                 <Icon.XCircle
                                   onClick={() => toggleDanger(docu)}
-                                  className=" ml-2 text-danger cross-icon-style"
+                                  className=" ml-0 pr-1 text-danger cross-icon-style"
                                 />
                               </div>
 
@@ -2664,7 +2854,7 @@ const ApplicationDetails = () => {
                                     // }
                                     onClick={handleDeleteDocument}
                                   >
-                                    {progress11? <ButtonLoader/> :"YES"}
+                                    {progress11 ? <ButtonLoader /> : "YES"}
                                   </Button>
                                   <Button onClick={closeDeleteModal}>NO</Button>
                                 </ModalFooter>
@@ -2718,7 +2908,7 @@ const ApplicationDetails = () => {
                                     )
                                   }
                                 >
-                                  {progress10? <ButtonLoader/> :"YES"}
+                                  {progress10 ? <ButtonLoader /> : "YES"}
                                 </Button>
                                 <Button onClick={closeDeleteModalFile}>
                                   NO
@@ -2863,17 +3053,16 @@ const ApplicationDetails = () => {
                         className="has-icon-left position-relative"
                         style={{ display: "flex" }}
                       >
-                        {
-                          permissions?.includes(permissionList.Add_New_Student_Documents) ?
+                        {permissions?.includes(
+                          permissionList.Add_New_Student_Documents
+                        ) ? (
                           <ButtonForFunction
-                          type={"submit"}
-                          className={"mr-1 mt-3 badge-primary"}
-                          name={progress9? <ButtonLoader/> :"Upload"}
-                          permission={6}
-                        />
-                        :
-                        null
-                        }
+                            type={"submit"}
+                            className={"mr-1 mt-3 badge-primary"}
+                            name={progress9 ? <ButtonLoader /> : "Upload"}
+                            permission={6}
+                          />
+                        ) : null}
                       </FormGroup>
                     </Form>
                   </TabPane>
@@ -2889,18 +3078,17 @@ const ApplicationDetails = () => {
                         </h2>
                       </div>
                       <div className="text-right edit-style  p-3">
-                        {
-                          permissions?.includes(permissionList.Update_Student_info) ? 
+                        {permissions?.includes(
+                          permissionList.Update_Student_info
+                        ) ? (
                           <SpanButton
-                          icon={
-                            <i className="fas fa-pencil-alt pencil-style"></i>
-                          }
-                          func={() => handleEdit(studentProInfo)}
-                          permission={6}
-                        />
-                        :
-                        null
-                        }
+                            icon={
+                              <i className="fas fa-pencil-alt pencil-style"></i>
+                            }
+                            func={() => handleEdit(studentProInfo)}
+                            permission={6}
+                          />
+                        ) : null}
                       </div>
                     </div>
                     <div className="hedding-titel d-flex justify-content-between my-4">
@@ -3082,66 +3270,63 @@ const ApplicationDetails = () => {
                   </div> */}
                     </div>
 
-                    {
-                      studentProInfo?.studentContactInfos?.addressLine ?
+                    {studentProInfo?.studentContactInfos?.addressLine ? (
                       <Table className="table-bordered mt-4">
-                      <tbody>
-                        <tr>
-                          <td width="40%">
-                            <b>House No. :</b>
-                          </td>
+                        <tbody>
+                          <tr>
+                            <td width="40%">
+                              <b>House No. :</b>
+                            </td>
 
-                          <td width="60%">
-                            {/* {studentProInfo?.firstName}{" "}
+                            <td width="60%">
+                              {/* {studentProInfo?.firstName}{" "}
                             {studentProInfo?.lastName} */}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Street Address:</b>
-                          </td>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Street Address:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.studentContactInfos?.addressLine}
-                          </td>
-                        </tr>
+                            <td width="60%">
+                              {studentProInfo?.studentContactInfos?.addressLine}
+                            </td>
+                          </tr>
 
-                        <tr>
-                          <td width="40%">
-                            <b>City:</b>
-                          </td>
+                          <tr>
+                            <td width="40%">
+                              <b>City:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.studentContactInfos?.city}
-                          </td>
-                        </tr>
+                            <td width="60%">
+                              {studentProInfo?.studentContactInfos?.city}
+                            </td>
+                          </tr>
 
-                        <tr>
-                          <td width="40%">
-                            <b>Post / Zip Code:</b>
-                          </td>
+                          <tr>
+                            <td width="40%">
+                              <b>Post / Zip Code:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.studentContactInfos?.zipCode}
-                          </td>
-                        </tr>
+                            <td width="60%">
+                              {studentProInfo?.studentContactInfos?.zipCode}
+                            </td>
+                          </tr>
 
-                        <tr>
-                          <td width="40%">
-                            <b>Country:</b>
-                          </td>
+                          <tr>
+                            <td width="40%">
+                              <b>Country:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.studentContactInfos?.country}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                    :
-                    <span>Correspondence address is not added.</span>
-                    }
-
-                    
+                            <td width="60%">
+                              {studentProInfo?.studentContactInfos?.country}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    ) : (
+                      <span>Correspondence address is not added.</span>
+                    )}
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
@@ -3204,109 +3389,105 @@ const ApplicationDetails = () => {
                       </Table>
                     ) : (
                       <>
-                        {
-                          studentProInfo?.educationInfos
-                          ?.educationLevelName ?
+                        {studentProInfo?.educationInfos?.educationLevelName ? (
                           <Table className="table-bordered mt-4">
-                          <tbody>
-                          <tr>
-                            <td width="40%">
-                              <b>Qualification Level:</b>
-                            </td>
+                            <tbody>
+                              <tr>
+                                <td width="40%">
+                                  <b>Qualification Level:</b>
+                                </td>
 
-                            <td width="60%">
-                              {
-                                studentProInfo?.educationInfos
-                                  ?.educationLevelName
-                              }
-                            </td>
-                          </tr>
-                          <tr>
-                            <td width="40%">
-                              <b>Qualification Subject:</b>
-                            </td>
+                                <td width="60%">
+                                  {
+                                    studentProInfo?.educationInfos
+                                      ?.educationLevelName
+                                  }
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="40%">
+                                  <b>Qualification Subject:</b>
+                                </td>
 
-                            <td width="60%">
-                              {
-                                studentProInfo?.educationInfos
-                                  ?.qualificationSubject
-                              }
-                            </td>
-                          </tr>
-                          <tr>
-                            <td width="40%">
-                              <b>Final Grade Awarded:</b>
-                            </td>
+                                <td width="60%">
+                                  {
+                                    studentProInfo?.educationInfos
+                                      ?.qualificationSubject
+                                  }
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="40%">
+                                  <b>Final Grade Awarded:</b>
+                                </td>
 
-                            <td width="60%">
-                              {studentProInfo?.educationInfos?.finalGrade}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td width="40%">
-                              <b>From Date:</b>
-                            </td>
+                                <td width="60%">
+                                  {studentProInfo?.educationInfos?.finalGrade}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="40%">
+                                  <b>From Date:</b>
+                                </td>
 
-                            <td width="60%">
-                              {handleDate(
-                                studentProInfo?.educationInfos
-                                  ?.attendedInstitutionFrom
+                                <td width="60%">
+                                  {handleDate(
+                                    studentProInfo?.educationInfos
+                                      ?.attendedInstitutionFrom
+                                  )}
+                                </td>
+                              </tr>
+                              {studentProInfo?.educationInfos?.stillStudying ? (
+                                <tr>
+                                  <td width="40%">
+                                    <b>Still Studying:</b>
+                                  </td>
+
+                                  <td width="60%">Yes</td>
+                                </tr>
+                              ) : (
+                                <tr>
+                                  <td width="40%">
+                                    <b>To Date:</b>
+                                  </td>
+
+                                  <td width="60%">
+                                    {studentProInfo?.educationInfos
+                                      ?.attendedInstitutionTo !== null
+                                      ? handleDate(
+                                          studentProInfo?.educationInfos
+                                            ?.attendedInstitutionTo
+                                        )
+                                      : null}
+                                  </td>
+                                </tr>
                               )}
-                            </td>
-                          </tr>
-                          {studentProInfo?.educationInfos?.stillStudying ? (
-                            <tr>
-                              <td width="40%">
-                                <b>Still Studying:</b>
-                              </td>
+                              <tr>
+                                <td width="40%">
+                                  <b>Name of Institution:</b>
+                                </td>
 
-                              <td width="60%">Yes</td>
-                            </tr>
-                          ) : (
-                            <tr>
-                              <td width="40%">
-                                <b>To Date:</b>
-                              </td>
+                                <td width="60%">
+                                  {
+                                    studentProInfo?.educationInfos
+                                      ?.nameOfInstitution
+                                  }
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="40%">
+                                  <b>Country of Completed Qualification:</b>
+                                </td>
 
-                              <td width="60%">
-                                {studentProInfo?.educationInfos
-                                  ?.attendedInstitutionTo !== null
-                                  ? handleDate(
-                                      studentProInfo?.educationInfos
-                                        ?.attendedInstitutionTo
-                                    )
-                                  : null}
-                              </td>
-                            </tr>
-                          )}
-                          <tr>
-                            <td width="40%">
-                              <b>Name of Institution:</b>
-                            </td>
-
-                            <td width="60%">
-                              {
-                                studentProInfo?.educationInfos
-                                  ?.nameOfInstitution
-                              }
-                            </td>
-                          </tr>
-                          <tr>
-                            <td width="40%">
-                              <b>Country of Completed Qualification:</b>
-                            </td>
-
-                            <td width="60%">
-                              {studentProInfo?.educationInfos?.country}
-                            </td>
-                          </tr>
-                        </tbody>
-                        </Table>
-                        :
-                        <div>
-                        Education/Qualification is not added.
-                      </div>
-                        }
+                                <td width="60%">
+                                  {studentProInfo?.educationInfos?.country}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </Table>
+                        ) : (
+                          <div>Education/Qualification is not added.</div>
+                        )}
                       </>
                     )}
 
@@ -3322,353 +3503,395 @@ const ApplicationDetails = () => {
                     </div>
 
                     {/* Test Score Data */}
-                    {
-                      greResult || greResult || ielts?.id || duolingo?.id || toefl?.id || functions?.id || gcse?.id || pearson?.id || others?.id || pte?.id ?
+                    {greResult ||
+                    greResult ||
+                    ielts?.id ||
+                    duolingo?.id ||
+                    toefl?.id ||
+                    functions?.id ||
+                    gcse?.id ||
+                    pearson?.id ||
+                    others?.id ||
+                    pte?.id ? (
                       <div className=" row">
+                        {greResult ? (
+                          <div
+                            className="col-md-6 mt-2"
+                            style={{ textAlign: "left" }}
+                          >
+                            <Card>
+                              <CardBody>
+                                <div className="d-flex justify-content-between">
+                                  <h5 className="test-score-title-style2">
+                                    GRE Score
+                                  </h5>
+                                </div>
 
-{
-  greResult ?
-  <div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
+                                <h6>
+                                  Quantitative Score:{" "}
+                                  {greResult?.quantitativeScore}
+                                </h6>
+                                <h6>
+                                  Quantitative Rank:{" "}
+                                  {greResult?.quantitativeRank}
+                                </h6>
+                                <h6>Verbal Score: {greResult?.verbalScore}</h6>
+                                <h6>Verbal Rank: {greResult?.verbalRank}</h6>
+                                <h6>
+                                  Writing Score: {greResult?.writingScore}
+                                </h6>
+                                <h6>Writing Rank: {greResult?.writingRank}</h6>
+                              </CardBody>
+                            </Card>
+                          </div>
+                        ) : null}
 
+                        {gMatResult ? (
+                          <div
+                            className="col-md-6 mt-2"
+                            style={{ textAlign: "left" }}
+                          >
+                            <Card>
+                              <CardBody>
+                                <div className="d-flex justify-content-between">
+                                  <h5 className="test-score-title-style2">
+                                    GMAT Score
+                                  </h5>
+                                </div>
 
-  <Card>
-    <CardBody>
-    <div className="d-flex justify-content-between">
-            <h5 className="test-score-title-style2">GRE Score</h5>
-            
-          
-                  
-         
-          </div>
-  
-    <h6>Quantitative Score: {greResult?.quantitativeScore}</h6>
-    <h6>Quantitative Rank: {greResult?.quantitativeRank}</h6>
-    <h6>Verbal Score: {greResult?.verbalScore}</h6>
-    <h6>Verbal Rank: {greResult?.verbalRank}</h6>
-    <h6>Writing Score: {greResult?.writingScore}</h6>
-    <h6>Writing Rank: {greResult?.writingRank}</h6>
-  
-    </CardBody>
-  </Card>
-   
-  </div>
-  :
-  null
-}
+                                <h6>
+                                  Quantitative Score:{" "}
+                                  {gMatResult?.quantitativeScore}
+                                </h6>
+                                <h6>
+                                  Quantitative Rank:{" "}
+                                  {gMatResult?.quantitativeRank}
+                                </h6>
+                                <h6>Verbal Score: {gMatResult?.verbalScore}</h6>
+                                <h6>Verbal Rank: {gMatResult?.verbalRank}</h6>
+                                <h6>Total Score: {gMatResult?.totalScore}</h6>
+                                <h6>Total Rank: {gMatResult?.totalRank}</h6>
+                                <h6>
+                                  Writing Score: {gMatResult?.writingScore}
+                                </h6>
+                                <h6>Writing Rank: {gMatResult?.writingRank}</h6>
+                              </CardBody>
+                            </Card>
+                          </div>
+                        ) : null}
 
-{
-  gMatResult ?
-  <div className='col-md-6 mt-2' style={{ textAlign: "left" }}>
+                        {/* English Test Scores */}
+                      </div>
+                    ) : (
+                      <span>Test score is not added.</span>
+                    )}
 
+                    <div className="row mt-3">
+                      {ielts?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card className="">
+                            <CardBody className="">
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  IELTS Score
+                                </h5>
+                              </div>
 
-  <Card>
-    <CardBody>
-    <div className="d-flex justify-content-between">
-            <h5 className="test-score-title-style2">GMAT Score</h5>
-            
-          
-                  
-         
-          </div>
-   
-  
-  <h6>Quantitative Score: {gMatResult?.quantitativeScore}</h6>
-  <h6>Quantitative Rank: {gMatResult?.quantitativeRank}</h6>
-  <h6>Verbal Score: {gMatResult?.verbalScore}</h6>
-  <h6>Verbal Rank: {gMatResult?.verbalRank}</h6>
-  <h6>Total Score: {gMatResult?.totalScore}</h6>
-  <h6>Total Rank: {gMatResult?.totalRank}</h6>
-  <h6>Writing Score: {gMatResult?.writingScore}</h6>
-  <h6>Writing Rank: {gMatResult?.writingRank}</h6>
-  
-    </CardBody>
-  </Card>
-     
-  
-  </div>
-  :
-  null
-}
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Overall: {ielts?.overall}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Speaking: {ielts?.speaking}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    reading: {ielts?.reading}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Writing: {ielts?.writing}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Listening: {ielts?.listening}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Exam Date: {handleDate(ielts?.examDate)}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
 
-              {/* English Test Scores */}
+                      {duolingo?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card className="">
+                            <CardBody className="">
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  DUOLINGO Score
+                                </h5>
+                              </div>
 
-  
-</div>
-:
-<span>Test score is not added.</span>
-                    }
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Literacy: {duolingo?.leteracy}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Comprehension: {duolingo?.comprehension}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Conversation: {duolingo?.conversation}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Production: {duolingo?.production}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Exam Date: {handleDate(duolingo?.examDate)}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    IELTS Equivalent Score:{" "}
+                                    {duolingo?.ieltsEquivalent}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
 
-<div className="row mt-3">
+                      {toefl?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card className="">
+                            <CardBody className="">
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  TOEFL Score
+                                </h5>
+                              </div>
 
-{ielts?.id ? (
-  
-  <div className="col-6 mt-2">
-    <Card className="">
-      <CardBody className="">
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">IELTS Score</h5>
-          
-        
-                
-       
-        </div>
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Overall: {toefl?.overall}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Speaking: {toefl?.speaking}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    reading: {toefl?.reading}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Writing: {toefl?.writing}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Listening: {toefl?.listening}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Exam Date: {handleDate(toefl?.examDate)}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    IELTS Equivalent Score:{" "}
+                                    {toefl?.ieltsEquivalent}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
+                      {functions?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card className="">
+                            <CardBody className="">
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  Functional Skill Score
+                                </h5>
+                              </div>
 
-   <div className="d-flex justify-content-between">
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Overall: {functions?.overall}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Speaking: {functions?.speaking}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    reading: {functions?.reading}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Writing: {functions?.writing}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Listening: {functions?.listening}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Exam Date: {handleDate(functions?.examDate)}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    IELTS Equivalent Score:{" "}
+                                    {functions?.ieltsEquivalent}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
 
-    <div>
-    <span className='bank-account-info-text'>Overall: {ielts?.overall}</span>
-        <br/>
-        <span className='bank-account-info-text'>Speaking: {ielts?.speaking}</span>
-        <br/>
-        <span className='bank-account-info-text'>reading: {ielts?.reading}</span>
-        <br/>
-        <span className='bank-account-info-text'>Writing: {ielts?.writing}</span>
-        <br/>
-        <span className='bank-account-info-text'>Listening: {ielts?.listening}</span>
-        <br/>
-        <span className='bank-account-info-text'>Exam Date: {handleDate(ielts?.examDate)}</span>
+                      {gcse?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card className="">
+                            <CardBody className="">
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  GCSE Score
+                                </h5>
+                              </div>
 
-        
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Result: {gcse?.result}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    IELTS Equivalent Score:{" "}
+                                    {gcse?.ieltsEquivalent}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
 
-    </div>
+                      {pearson?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card className="">
+                            <CardBody className="">
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  PEARSON Score
+                                </h5>
+                              </div>
 
-  
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Result: {pearson?.result}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    IELTS Equivalent Score:{" "}
+                                    {pearson?.ieltsEquivalent}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
 
-   </div>
-      </CardBody>
+                      {others?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card className="">
+                            <CardBody className="">
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  Other Score
+                                </h5>
+                              </div>
 
-      
-    </Card>
-  </div>
-) : null}
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Test Name: {others?.testName}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Overall Score: {others?.scoreOverall}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    IELTS Equivalent Score:{" "}
+                                    {others?.ieltsEquivalent}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
+                      {pte?.id ? (
+                        <div className="col-6 mt-2">
+                          <Card>
+                            <CardBody>
+                              <div className="d-flex justify-content-between">
+                                <h5 className="test-score-title-style2">
+                                  PTE Score
+                                </h5>
+                              </div>
 
-{duolingo?.id ? (
-  <div className="col-6 mt-2">
-    <Card className="">
-      <CardBody className="">
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">DUOLINGO Score</h5>
-         
-        </div>
-
-        <div className="d-flex justify-content-between">
-          <div>
-          <span  className='bank-account-info-text'>Literacy: {duolingo?.leteracy}</span>
-        <br/>
-        <span  className='bank-account-info-text'>Comprehension: {duolingo?.comprehension}</span>
-        <br/>
-        <span  className='bank-account-info-text'>Conversation: {duolingo?.conversation}</span>
-        <br/>
-        <span  className='bank-account-info-text'>Production: {duolingo?.production}</span>
-        <br/>
-        <span  className='bank-account-info-text'>Exam Date: {handleDate(duolingo?.examDate)}</span>
-        <br/>
-        <span  className='bank-account-info-text'>IELTS Equivalent Score: {duolingo?.ieltsEquivalent}</span>
-          </div>
-
-         
-
-        </div>
-      </CardBody>
-
-    </Card>
-  </div>
-) : null}
-
-{toefl?.id ? (
-  <div className="col-6 mt-2">
-    <Card className="">
-      <CardBody className="">
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">TOEFL Score</h5>
-          
-        </div>
-
-        <div className="d-flex justify-content-between">
-
-          <div>
-
-          <span className="bank-account-info-text">Overall: {toefl?.overall}</span>
-        <br/>
-        <span  className="bank-account-info-text">Speaking: {toefl?.speaking}</span>
-        <br/>
-        <span  className="bank-account-info-text">reading: {toefl?.reading}</span>
-        <br/>
-        <span  className="bank-account-info-text">Writing: {toefl?.writing}</span>
-        <br/>
-        <span  className="bank-account-info-text">Listening: {toefl?.listening}</span>
-        <br/>
-        <span  className="bank-account-info-text">Exam Date: {handleDate(toefl?.examDate)}</span>
-        <br/>
-        <span  className="bank-account-info-text">IELTS Equivalent Score: {toefl?.ieltsEquivalent}</span>
-
-          </div>
-
-         
-
-        </div>
-      </CardBody>
-
-      
-    </Card>
-  </div>
-) : null}
-{functions?.id ? (
-  <div className="col-6 mt-2">
-    <Card className="">
-      <CardBody className="">
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">Functional Skill Score</h5>
-          
-        </div>
-
-       <div className="d-flex justify-content-between">
-        <div>
-        <span className="bank-account-info-text">Overall: {functions?.overall}</span>
-        <br/>
-        <span className="bank-account-info-text">Speaking: {functions?.speaking}</span>
-        <br/>
-        <span className="bank-account-info-text">reading: {functions?.reading}</span>
-        <br/>
-        <span className="bank-account-info-text">Writing: {functions?.writing}</span>
-        <br/>
-        <span className="bank-account-info-text">Listening: {functions?.listening}</span>
-        <br/>
-        <span className="bank-account-info-text">Exam Date: {handleDate(functions?.examDate)}</span>
-        <br/>
-        <span className="bank-account-info-text">IELTS Equivalent Score: {functions?.ieltsEquivalent}</span>
-        </div>
-
-        
-
-
-
-       </div>
-
-      </CardBody>
-
-    </Card>
-  </div>
-) : null}
-
-{gcse?.id ? (
-  <div className="col-6 mt-2">
-    <Card className="">
-      <CardBody className="">
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">GCSE Score</h5>
-       
-        </div>
-
-       <div className="d-flex justify-content-between">
-        <div>
-        <span className="bank-account-info-text">Result: {gcse?.result}</span>
-        <br/>
-        <span className="bank-account-info-text">IELTS Equivalent Score: {gcse?.ieltsEquivalent}</span>
-        </div>
-       
-
-       </div>
-
-      </CardBody>
-
-    </Card>
-  </div>
-) : null}
-
-{pearson?.id ? (
-  <div className="col-6 mt-2">
-    <Card className="">
-      <CardBody className="">
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">PEARSON Score</h5>
-         
-        </div>
-
-       <div className="d-flex justify-content-between">
-        <div>
-        <span className="bank-account-info-text">Result: {pearson?.result}</span>
-        <br/>
-        <span className="bank-account-info-text">IELTS Equivalent Score: {pearson?.ieltsEquivalent}</span>
-        </div>
-
-
-       </div>
-      </CardBody>
-
-      
-    </Card>
-  </div>
-) : null}
-
-{others?.id ? (
-  <div className="col-6 mt-2">
-    <Card className="">
-      <CardBody className="">
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">Other Score</h5>
-          
-        </div>
-
-      <div className="d-flex justify-content-between">
-        <div>
-        <span className="bank-account-info-text">Test Name: {others?.testName}</span>
-        <br/>
-        <span className="bank-account-info-text">Overall Score: {others?.scoreOverall}</span>
-        <br/>
-        <span className="bank-account-info-text">IELTS Equivalent Score: {others?.ieltsEquivalent}</span>
-        </div>
-
-
-
-      </div>
-      
-      </CardBody>
-
-      
-    </Card>
-  </div>
-) : null}
-{pte?.id ? (
-  <div className="col-6 mt-2">
-  <Card>
-
-    <CardBody>
-     
-        <div className="d-flex justify-content-between">
-          <h5 className="test-score-title-style2">PTE Score</h5>
-          
-        </div>
-
-        <div className="d-flex justify-content-between">
-
-          <div>
-          <span className="bank-account-info-text">Overall: {pte?.overall}</span>
-        <br/>
-        <span className="bank-account-info-text">Speaking: {pte?.speaking}</span>
-        <br/>
-        <span className="bank-account-info-text">Reading: {pte?.reading}</span>
-        <br/>
-        <span className="bank-account-info-text">Writing: {pte?.writing}</span>
-        <br/>
-        <span className="bank-account-info-text">Listening: {pte?.listening}</span>
-        <br/>
-        <span className="bank-account-info-text">IELTS Equivalent Score: {pte?.ieltsEquivalent}</span>
-          </div>
-
-
-        </div>
-        
- 
-  </CardBody>
-
-</Card>     
-  
-  </div>
-) : null}
-</div>
-
-                   
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <span className="bank-account-info-text">
+                                    Overall: {pte?.overall}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Speaking: {pte?.speaking}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Reading: {pte?.reading}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Writing: {pte?.writing}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    Listening: {pte?.listening}
+                                  </span>
+                                  <br />
+                                  <span className="bank-account-info-text">
+                                    IELTS Equivalent Score:{" "}
+                                    {pte?.ieltsEquivalent}
+                                  </span>
+                                </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ) : null}
+                    </div>
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
@@ -3684,85 +3907,82 @@ const ApplicationDetails = () => {
                   </div> */}
                     </div>
 
-                    {
-                      studentProInfo?.experienceinfo?.companyName ?
+                    {studentProInfo?.experienceinfo?.companyName ? (
                       <Table className="table-bordered mt-4">
-                      <tbody>
-                        <tr>
-                          <td width="40%">
-                            <b>Job Title:</b>
-                          </td>
-
-                          <td width="60%">
-                            {studentProInfo?.experienceinfo?.jobTitle}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Company Name:</b>
-                          </td>
-
-                          <td width="60%">
-                            {studentProInfo?.experienceinfo?.companyName}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Employeement Details:</b>
-                          </td>
-
-                          <td width="60%">
-                            {
-                              studentProInfo?.experienceinfo
-                                ?.employeementDetails
-                            }
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>From Date:</b>
-                          </td>
-
-                          <td width="60%">
-                            {handleDate(
-                              studentProInfo?.experienceinfo?.startDate
-                            )}
-                          </td>
-                        </tr>
-                        {studentProInfo?.experienceinfo?.isStillWorking ? (
+                        <tbody>
                           <tr>
                             <td width="40%">
-                              <b>Currently Working:</b>
+                              <b>Job Title:</b>
                             </td>
 
-                            <td width="60%">Yes</td>
+                            <td width="60%">
+                              {studentProInfo?.experienceinfo?.jobTitle}
+                            </td>
                           </tr>
-                        ) : (
                           <tr>
                             <td width="40%">
-                              <b>To Date:</b>
+                              <b>Company Name:</b>
+                            </td>
+
+                            <td width="60%">
+                              {studentProInfo?.experienceinfo?.companyName}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Employeement Details:</b>
                             </td>
 
                             <td width="60%">
                               {
-                                studentProInfo?.experienceinfo?.endDate !== null ?
-                                handleDate(
-                                  studentProInfo?.experienceinfo?.endDate
-                                )
-                                :
-                                null
+                                studentProInfo?.experienceinfo
+                                  ?.employeementDetails
                               }
-                              {/* {handleDate(
-                                studentProInfo?.experienceinfo?.endDate
-                              )} */}
                             </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </Table>
-                    :
-                    <span>Employment history is not added.</span>
-                    }
+                          <tr>
+                            <td width="40%">
+                              <b>From Date:</b>
+                            </td>
+
+                            <td width="60%">
+                              {handleDate(
+                                studentProInfo?.experienceinfo?.startDate
+                              )}
+                            </td>
+                          </tr>
+                          {studentProInfo?.experienceinfo?.isStillWorking ? (
+                            <tr>
+                              <td width="40%">
+                                <b>Currently Working:</b>
+                              </td>
+
+                              <td width="60%">Yes</td>
+                            </tr>
+                          ) : (
+                            <tr>
+                              <td width="40%">
+                                <b>To Date:</b>
+                              </td>
+
+                              <td width="60%">
+                                {studentProInfo?.experienceinfo?.endDate !==
+                                null
+                                  ? handleDate(
+                                      studentProInfo?.experienceinfo?.endDate
+                                    )
+                                  : null}
+                                {/* {handleDate(
+                                studentProInfo?.experienceinfo?.endDate
+                              )} */}
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </Table>
+                    ) : (
+                      <span>Employment history is not added.</span>
+                    )}
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
@@ -3778,102 +3998,95 @@ const ApplicationDetails = () => {
                   </div> */}
                     </div>
 
-                    
-                      {
-                        studentProInfo?.referenceInfo?.referenceName ?
-                        <Table className="table-bordered mt-4">
+                    {studentProInfo?.referenceInfo?.referenceName ? (
+                      <Table className="table-bordered mt-4">
                         <tbody>
-                        <tr>
-                          <td width="40%">
-                            <b>Reference Name:</b>
-                          </td>
+                          <tr>
+                            <td width="40%">
+                              <b>Reference Name:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.referenceName}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Relation:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.referenceName}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Relation:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.referenceTypeName}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Reference Institute/Company:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.referenceTypeName}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Reference Institute/Company:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.institute_Company}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Phone Number:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.institute_Company}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Phone Number:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.phoneNumber}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Email Address:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.phoneNumber}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Email Address:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.emailAddress}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Country:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.emailAddress}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Country:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.country}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>Street Address:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.country}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>Street Address:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.addressLine}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>City:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.addressLine}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>City:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.city}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td width="40%">
-                            <b>State:</b>
-                          </td>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.city}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="40%">
+                              <b>State:</b>
+                            </td>
 
-                          <td width="60%">
-                            {studentProInfo?.referenceInfo?.state}
-                          </td>
-                        </tr>
-                      </tbody>
+                            <td width="60%">
+                              {studentProInfo?.referenceInfo?.state}
+                            </td>
+                          </tr>
+                        </tbody>
                       </Table>
-                      :
-                      <span
-                      >
-                        Reference information is not added.
-                      </span>
-                      }
-                      
-                    
+                    ) : (
+                      <span>Reference information is not added.</span>
+                    )}
 
                     <div className="hedding-titel d-flex justify-content-between my-4">
                       <div>
@@ -4077,16 +4290,16 @@ const ApplicationDetails = () => {
                     <img src={profileImage} alt="provider_img" />
                   ) : ( */}
 
-                     <img
+                    <img
                       src={
                         rootUrl +
                         applicationInfo?.admissionManager?.admissionManagerMedia
                           ?.thumbnailUrl
                       }
                       alt="admission_manager_img"
-                    /> 
+                    />
 
-                     {/* )} */}
+                    {/* )} */}
                   </div>
                 </div>
               </div>
@@ -4123,26 +4336,21 @@ const ApplicationDetails = () => {
                   <span>
                     <b>Phone:</b> {applicationInfo?.consultant?.phoneNumber}
                   </span>
-                  <br/>
-                
+                  <br />
                   <span>
-                    <b>Account Status: </b> {applicationInfo?.consultant?.accountStatus?.statusName}
-                   
-                    <br/>
-                  {
-                    (applicationInfo?.consultant?.accountStatusId == 4) ?
-                    <span className="text-danger">  The consultant of this student is blocked due to compliance issue. Please contact admin before you do any further update on his applications.</span>
-                    :
-                    null
-                  }
-
-                 
+                    <b>Account Status: </b>{" "}
+                    {applicationInfo?.consultant?.accountStatus?.statusName}
+                    <br />
+                    {applicationInfo?.consultant?.accountStatusId == 4 ? (
+                      <span className="text-danger">
+                        {" "}
+                        The consultant of this student is blocked due to
+                        compliance issue. Please contact admin before you do any
+                        further update on his applications.
+                      </span>
+                    ) : null}
                   </span>
-                  <br/>
-                  
-                 
-                  
-                  
+                  <br />
                 </div>
                 <div>
                   <div className="uapp-circle-image margin-top-minus">
@@ -4183,10 +4391,10 @@ const ApplicationDetails = () => {
           </Card> */}
 
           <MessageHistoryCardApplicationDetailsPage
-            applicationId = {applicationInfo?.id}
-            studentMail = {applicationInfo?.student?.email}
-            consultantMail = {applicationInfo?.consultant?.email}
-            admissionManagerMail = {applicationInfo?.admissionManager?.email}
+            applicationId={applicationInfo?.id}
+            studentMail={applicationInfo?.student?.email}
+            consultantMail={applicationInfo?.consultant?.email}
+            admissionManagerMail={applicationInfo?.admissionManager?.email}
           />
 
           <Card>

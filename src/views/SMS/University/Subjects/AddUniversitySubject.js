@@ -493,7 +493,8 @@ const AddUniversitySubject = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Description <span className="text-danger">*</span>{" "}
+                      Description 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -502,10 +503,7 @@ const AddUniversitySubject = () => {
                       rows='4'
                       defaultValue={description}
                       placeholder='Enter Description'
-                      required
-                    //   options={universityTypeName}
-                    //   value={{ label: uniTypeLabel, value: uniTypeValue }}
-                    //   onChange={(opt) => selectUniType(opt.label, opt.value)}
+                      // required
                       name="description"
                       id="description"
                     />
@@ -515,7 +513,8 @@ const AddUniversitySubject = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Duration <span className="text-danger">*</span>{" "}
+                      Duration 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -525,7 +524,7 @@ const AddUniversitySubject = () => {
                       id="duration"
                       defaultValue={duration}
                       placeholder="Enter Duration"
-                      required
+                      // required
                     />
                   </Col>
                 </FormGroup>

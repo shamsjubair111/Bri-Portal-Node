@@ -48,7 +48,11 @@ const AddSubjectFee = () => {
     const [buttonStatus,setButtonStatus] = useState(false);
     const [progress, setProgress] = useState(false);
 
-    
+    const [addLocalTutionFee, setAddLocalTutionFee] = useState(undefined);
+    const [addIntTutionFee, setAddIntTutionFee] = useState(undefined);
+    const [addEUTutionFee, setAddEUTutionFee] = useState(undefined);
+
+    console.log("id1",id1);
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -61,7 +65,8 @@ const AddSubjectFee = () => {
         history.push(`/subjectProfile/${location.subjectId}`);
       }
       else{
-        history.push("/subjectList");
+        // history.push("/subjectList");
+        history.push(`/subjectProfile/${id}`);
       }
     };
 
@@ -71,10 +76,15 @@ const AddSubjectFee = () => {
         
           get(`SubjectFeeStructure/GetBySubject/${id}`)
         .then(res=>{
-          
-          setLocalTutionFee(res?.localTutionFee);
-          setIntTutionFee(res?.internationalTutionFee);
-          setEuTutionFee(res?.eU_TutionFee);
+          console.log("subjectFeeget",res);
+          // setLocalTutionFee(res?.localTutionFee);
+          // setIntTutionFee(res?.internationalTutionFee);
+          // setEuTutionFee(res?.eU_TutionFee);
+
+          setAddLocalTutionFee(res?.localTutionFee);
+          setAddIntTutionFee(res?.internationalTutionFee);
+          setAddEUTutionFee(res?.eU_TutionFee);
+
           setSId(res?.subjectId);
           setId(res?.id);
         })
@@ -124,6 +134,12 @@ const AddSubjectFee = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
+    const postdata = {
+      subjectId: id,
+      localTutionFee: addLocalTutionFee == undefined ? 0 : addLocalTutionFee,
+      internationalTutionFee: addIntTutionFee == undefined ? 0 : addIntTutionFee,
+      eU_TutionFee: addEUTutionFee == undefined ? 0 : addEUTutionFee
+    }
 
     for (var value of subdata.values()) { 
       
@@ -151,7 +167,7 @@ const AddSubjectFee = () => {
      else{
       setButtonStatus(true);
       setProgress(true);
-      Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
+      Axios.post(`${rootUrl}SubjectFeeStructure/Create`, postdata, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': AuthStr,
@@ -207,9 +223,9 @@ const AddSubjectFee = () => {
                     <i className="fas fa-arrow-circle-left"></i>{" "}
                     {
                       location.subjectId != undefined ?
-                      "Back to Subject Profile"
+                      "Back to Subject Details"
                       :
-                      "Back to Subject List"
+                      "Back to Subject Details"
                     } 
                   </span>
                 </div>
@@ -273,18 +289,21 @@ const AddSubjectFee = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Local Tution Fee <span className="text-danger">*</span>{" "}
+                      Local Tution Fee 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
                     <Input
                       type="number"
                       min="0"
-                      defaultValue={localTutionFee}
+                      onChange={(e)=> setAddLocalTutionFee(e.target.value)}
+                      // defaultValue={localTutionFee}
+                      defaultValue={addLocalTutionFee}
                       name="localTutionFee"
                       id="localTutionFee"
-                      placeholder="Tution Fee"
-                      required
+                      placeholder="Enter Local Tution Fee"
+                      // required
                     />
                   </Col>
                 </FormGroup>
@@ -292,16 +311,19 @@ const AddSubjectFee = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      International Tution Fee <span className="text-danger">*</span>{" "}
+                      Int. Tution Fee 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
                     <Input
                       type='number'
                       min="0"
-                      defaultValue={intTutionFee}
+                      onChange={(e)=>setAddIntTutionFee(e.target.value)}
+                      // defaultValue={intTutionFee}
+                      defaultValue={addIntTutionFee}
                       placeholder='Enter International Tution Fee '
-                      required
+                      // required
                       name="internationalTutionFee"
                       id="internationalTutionFee"
                     />
@@ -311,7 +333,8 @@ const AddSubjectFee = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      EU Tution Fee <span className="text-danger">*</span>{" "}
+                      EU Tution Fee 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -320,9 +343,11 @@ const AddSubjectFee = () => {
                       min="0"
                       name="eU_TutionFee"
                       id="eU_TutionFee"
-                      defaultValue={euTutionFee}
+                      onChange={(e)=>setAddEUTutionFee(e.target.value)}
+                      // defaultValue={euTutionFee}
+                      defaultValue={addEUTutionFee}
                       placeholder="Enter EU Tution Fee"
-                      required
+                      // required
                     />
                   </Col>
                 </FormGroup>

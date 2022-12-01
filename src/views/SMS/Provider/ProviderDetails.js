@@ -562,6 +562,24 @@ const ProviderDetails = () => {
             <FormGroup row className="has-icon-left position-relative">
               <Col md="3">
                 <span>
+                  {" "}
+                  Phone Number
+                  <span className="text-danger">*</span>{" "}
+                </span>
+              </Col>
+              <Col md="6">
+                <Input
+                  type="text"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  defaultValue={adminData?.phoneNumber}
+                />
+              </Col>
+            </FormGroup>
+
+            <FormGroup row className="has-icon-left position-relative">
+              <Col md="3">
+                <span>
                   Profile Photo <span className="text-danger">*</span>{" "}
                 </span>
               </Col>

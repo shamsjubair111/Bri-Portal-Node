@@ -177,7 +177,8 @@ const Subject = () => {
       history.push(`/subjectProfile/${location.subjectId}`);
     }
     else{
-      history.push("/subjectList");
+      // history.push("/subjectList");
+      history.push(`/subjectProfile/${id}`);
     }
   };
 
@@ -385,9 +386,9 @@ const Subject = () => {
                     <i className="fas fa-arrow-circle-left"></i>{" "}
                     {
                       location.subjectId != undefined ?
-                      "Back to Subject Profile"
+                      "Back to Subject Details"
                       :
-                      "Back to Subject List"
+                      "Back to Subject Details"
                     } 
                   </span>
                 </div>
@@ -535,7 +536,8 @@ const Subject = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Description <span className="text-danger">*</span>{" "}
+                      Description 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -544,7 +546,7 @@ const Subject = () => {
                       rows='4'
                       defaultValue={description}
                       placeholder='Enter Description'
-                      required
+                      // required
                     //   options={universityTypeName}
                     //   value={{ label: uniTypeLabel, value: uniTypeValue }}
                     //   onChange={(opt) => selectUniType(opt.label, opt.value)}
@@ -557,7 +559,8 @@ const Subject = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Duration <span className="text-danger">*</span>{" "}
+                      Duration 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -567,7 +570,7 @@ const Subject = () => {
                       id="duration"
                       defaultValue={duration}
                       placeholder="Enter Duration"
-                      required
+                      // required
                     />
                   </Col>
                 </FormGroup>
