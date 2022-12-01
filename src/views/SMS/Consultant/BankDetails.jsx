@@ -63,7 +63,7 @@ const BankDetails = () => {
 
     get(`BankDetails/Index/${consultantRegisterId}`)
     .then(res => {
-      console.log('Get Response For Bank Details in Array', res);
+      
       setBankDetailsData(res);
 
     })
@@ -101,7 +101,7 @@ const BankDetails = () => {
 
   const toggleDanger = (p) => {
 
-    console.log(p);
+    
     setDeleteData(p);
 
     setDeleteModal(true);
@@ -135,7 +135,7 @@ const closeModal = () => {
 
 const handleEdit = (data) => {
 
-  console.log(data);
+  
   setModalOpen(true);
 
   get(`BankDetails/Get/${data?.id}`)
@@ -215,7 +215,7 @@ const handleEdit = (data) => {
     .then(res => {
       setProgress(false);
       setButtonStatus(false);
-      console.log('Bank Data Post Resonse', res);
+      
       if(res?.status ==200){
         addToast(res?.data?.message,{
           appearance:'success',

@@ -59,7 +59,7 @@ const  StudentProfileImage = (props) => {
   };
 
  const handleChange = ({ fileList }) => {
-    console.log('Checking Update',fileList);
+    
      setFileList(fileList);
     
     
@@ -88,7 +88,7 @@ const  StudentProfileImage = (props) => {
           beforeUpload={(file)=>{
           
 
-            console.log(file);
+            
           
               
             

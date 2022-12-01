@@ -90,13 +90,13 @@ const UpdateIntake = () => {
 
     const selectMonthType = (label, value) => {
         setSelectedMonth(label);
-        console.log('month',label,value);
+        
         setMonthId(value); 
       }
 
       const selectYearType = (label, value) => {
         setSelectedYear(label);
-        console.log('year',label, value);
+        
         setYearId(value); 
       }
 
@@ -111,7 +111,7 @@ const UpdateIntake = () => {
         put(`Intake/Update`, subData).then(action => {
           setButtonStatus(true);
           setProgress(false);
-          // console.log(action);
+          // 
           addToast(action?.data?.message, {
             appearance: 'success',
             autoDismiss: true,

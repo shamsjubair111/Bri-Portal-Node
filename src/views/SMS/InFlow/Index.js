@@ -127,7 +127,7 @@ const Index = () => {
     get(
       `BonusTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${consultantValue}`
     ).then((res) => {
-      console.log(res);
+      
       setEntity(res?.totalEntity);
       setData(res?.models);
     });

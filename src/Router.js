@@ -497,6 +497,9 @@ const ConvertStudentIntoConsultantForm = lazy(() => import("./views/SMS/ConvertS
 const LoginHistory = lazy(() => import("./views/SMS/LoginHistory/Index"));
 const AllLoginHistory = lazy(() => import("./views/SMS/LoginHistory/AllLoginHistory"));
 
+// Student Type Document
+const StudentTypeDocument = lazy(() => import("./views/SMS/StudentTypeDocument/List"));
+
 
 
 
@@ -720,6 +723,9 @@ class AppRouter extends React.Component {
          <AppRoute  path="/documentlist" component={permissions?.includes(permissionList?.View_Document_List)? DocumentList : NotAuthorized} />
          <AppRoute  path="/documentCategoryList" component={permissions?.includes(permissionList?.View_Document_Category_List)? DocumentCategoryList : NotAuthorized} />
          <AppRoute  path="/subjectDocumentGroup" component={permissions?.includes(permissionList?.Add_New_Document_Group)? DocumentGroup : NotAuthorized} />
+
+         {/* Student type document group path */}
+         <AppRoute  path="/studentTypeDocumentGroup" component={permissions?.includes(permissionList?.View_Student_Type_Documents_List)? StudentTypeDocument : NotAuthorized} />
 
 
          <AppRoute  path="/department" component={permissions?.includes(permissionList?.Add_new_department)? AddDepartment : NotAuthorized} />

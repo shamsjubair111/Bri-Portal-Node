@@ -15,7 +15,7 @@ const ComissionTransactionDetails = () => {
 
         get(`AccountTransaction/Details/${id}`)
         .then(res => {
-            console.log('first', res);
+            
             setData(res);
             setLoading(false);
         })

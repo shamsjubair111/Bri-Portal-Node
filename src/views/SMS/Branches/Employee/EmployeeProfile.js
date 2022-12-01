@@ -129,7 +129,7 @@ const EmployeeProfile = () => {
     subData.append("coverImage", FileList[0]?.originFileObj);
 
     // for(var x of subData.values()){
-    //     console.log(x);
+    //     
     // }
     setButtonStatus(true);
 
@@ -204,7 +204,7 @@ const EmployeeProfile = () => {
     subData.append("profileImage", FileList1[0]?.originFileObj);
 
     // for(var x of subData.values()){
-    //     console.log(x);
+    //     
     // }
     setButtonStatus1(true);
 

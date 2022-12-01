@@ -9,7 +9,7 @@ const Demo2 = () => {
 
     const handleRender = (value) =>{
 
-        console.log(value);
+        
 
     }
 

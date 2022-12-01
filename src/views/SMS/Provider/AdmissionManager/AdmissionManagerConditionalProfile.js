@@ -140,7 +140,7 @@ const AdmissionManagerConditionalProfile = () => {
       setApplicationData(res?.admissionManagerApplications);
       setAdmissionOfficer(res?.admissionOfficers);
       setProviderId(res?.providerId);
-      console.log("admission mnager", res);
+      
     });
   }, [managerId, success, providerId]);
 
@@ -251,7 +251,7 @@ const handleChange = ({ fileList }) => {
         .then(res => {
           setSuccess(!success);
           setModalOpen(false);
-          console.log("ressss", res);
+          
           setNameTitleLabel("Select Title");
           setNameTitleValue(0);
           setUniCountryLabel("Select Country");
@@ -392,7 +392,7 @@ const selectNameTitle = (label, value) => {
   }
 
   const handleEmail = (e) => {
-    console.log(e.target.value);
+    
 
     get(`Consultant/OnChangeEmail/${e.target.value}`)
     .then(res => {
@@ -407,7 +407,7 @@ const selectNameTitle = (label, value) => {
 
   const handleUpdate = (officer) =>{
 
-    console.log("officer", officer);
+    
     setOfficerObj(officer);
     setNameTitleLabel(officer?.nameTittleName);
     setNameTitleValue(officer?.nameTittleId);
@@ -420,7 +420,7 @@ const selectNameTitle = (label, value) => {
   }
 
   const toggleDanger = (officer) => {
-    console.log(officer);
+    
     setDeleteName(officer?.firstName);
     setDeleteId(officer?.officermanagerId);
     setDeleteModal(true);
@@ -511,7 +511,7 @@ const selectNameTitle = (label, value) => {
     subData.append("profileImage", FileList1[0]?.originFileObj);
   
     // for(var x of subData.values()){
-    //     console.log(x);
+    //     
     // }
     setButtonStatus1(true);
   

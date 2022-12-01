@@ -113,7 +113,7 @@ const AddUniversity = (props) => {
   const {univerId} = useParams();
   const location = useLocation();
 
-  console.log("uniIds", universityId, uniId, univerId);
+  
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -152,13 +152,13 @@ const AddUniversity = (props) => {
     // }
     
     setLogoDropzoneError(false);
-    console.log("fileList", fileList);
+    
   };
 
   const handleChange2 = ({ fileList }) => {
     // setFileList2(fileList);
     // setCoverDropzoneError(false);
-    // console.log(fileList);
+    // 
     if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
       setFileList2([]);
       setCoverText('Only jpeg, jpg, png image is allowed');
@@ -212,7 +212,7 @@ const AddUniversity = (props) => {
 
   useEffect(()=>{
     get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-      console.log("providerHelper",typeof(res));
+      
         setProviderValue(res != 0 ? res : 0);
         // if(res != 0){
         //   localStorage.setItem("providerValue", res);
@@ -220,13 +220,13 @@ const AddUniversity = (props) => {
     })
   },[userType, referenceId])
 
-  console.log("providervalue", typeof(providerValue));
+  
 
   useEffect(() => {
     get("ProviderDD/Index")
       .then((res) => {
         setProvider(res);
-        console.log(res, "ppppppp");
+        
       })
       .catch();
     get("UniversityCountryDD/Index")
@@ -247,13 +247,13 @@ const AddUniversity = (props) => {
     get("ContractTypeDD/Index")
       .then((res) => {
         setContractTypeDD(res);
-        // console.log("contract type", res);
+        // 
       })
       .catch();
 
     if (universityId != undefined) {
       get(`University/get/${universityId}`).then((res) => {
-        console.log("uniIddata", res);
+        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -272,7 +272,7 @@ const AddUniversity = (props) => {
 
     if (univerId != undefined) {
       get(`University/get/${univerId}`).then((res) => {
-        console.log("uniIddata", res);
+        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -394,7 +394,7 @@ const AddUniversity = (props) => {
     // for (var value of subdata.values()) {
 
     // }
-    console.log("providerTypeValue",providerTypeValue);
+    
 
     const config = {
       headers: {
@@ -410,7 +410,7 @@ const AddUniversity = (props) => {
       }
       
       // if(providerTypeValue === 0){
-      //   console.log("providerTypeValue",providerTypeValue);
+      //   
       // setProviderTypeError(true);
       // }
       else if (uniTypeValue === 0) {
@@ -451,7 +451,7 @@ const AddUniversity = (props) => {
           setButtonStatus(true);
           setProgress(true);
           put("University/Update", subdata, config).then((res) => {
-            console.log("1st put response", res);
+            
             setButtonStatus(false);
             setProgress(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
@@ -474,7 +474,7 @@ const AddUniversity = (props) => {
           setProgress(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
-              console.log("unipostData", res);
+              
               setButtonStatus(false);
               setProgress(false);
               // localStorage.setItem("id", res.data.result.id);
@@ -505,7 +505,7 @@ const AddUniversity = (props) => {
       // }
       
       // if(providerTypeValue === 0){
-      //   console.log("providerTypeValue",providerTypeValue);
+      //   
       // setProviderTypeError(true);
       // }
        if (uniTypeValue === 0) {
@@ -546,7 +546,7 @@ const AddUniversity = (props) => {
           setButtonStatus(true);
           setProgress(true);
           put("University/Update", subdata, config).then((res) => {
-            console.log("1st put response", res);
+            
             setButtonStatus(false);
             setProgress(false);
             if (res?.status == 200 && res?.data?.isSuccess == true) {
@@ -569,7 +569,7 @@ const AddUniversity = (props) => {
           setProgress(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
-              console.log("unipostData", res);
+              
               setButtonStatus(false);
               setProgress(false);
               // localStorage.setItem("id", res.data.result.id);

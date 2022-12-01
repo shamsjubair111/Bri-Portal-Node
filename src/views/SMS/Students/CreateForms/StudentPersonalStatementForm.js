@@ -48,7 +48,7 @@ const StudentPersonalStatementForm = () => {
             .then(res => {
               setProgress(false);
               setButtonStatus(false);
-              console.log(res);
+              
               if(res?.status == 200 && res?.data?.isSuccess == true){
                 addToast(res?.data?.message,{
                   appearance: 'success',

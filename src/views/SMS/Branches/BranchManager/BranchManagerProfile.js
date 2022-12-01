@@ -42,7 +42,7 @@ const BranchManagerProfile = () => {
     useEffect(()=>{
         get(`BranchManager/Get/${branchManagerId}`)
         .then(res => {
-            console.log('response',res);
+            
             setManager(res);
             setLoading(false);
         })

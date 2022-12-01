@@ -44,19 +44,19 @@ const Reference = () => {
 
         get('CountryDD/index')
         .then(res => {
-            console.log(res);
+            
             setCountry(res);
         })
 
         get(`Reference/GetByStudentId/${applicationStudentId}`)
         .then(res => {
-            console.log(res);
+            
             setRefList(res);
         })
 
         get(`ReferenceTypeDD/Index`)
         .then(res => {
-            console.log(res);
+            
             setReference(res);
         })
 
@@ -158,7 +158,7 @@ const Reference = () => {
   setDeleteModal(false);
   get(`Reference/GetByStudentId/${applicationStudentId}`)
   .then(res => {
-      console.log(res);
+      
       setRefList(res);
   })
 
@@ -172,10 +172,10 @@ const Reference = () => {
   
   setShowForm(true);
  
-   console.log(id);
+   
    get(`Reference/Get/${id}`)
    .then(res => {
-    console.log(res);
+    
 
     setOneData(res);
     setCountryLabel(res?.country?.name);
@@ -245,7 +245,7 @@ const onShow=()=>{
           setOneData({});
           get(`Reference/GetByStudentId/${applicationStudentId}`)
           .then(res => {
-              console.log(res);
+              
               setRefList(res);
              
               setReferenceValue(0);
@@ -273,7 +273,7 @@ const onShow=()=>{
           })
           get(`Reference/GetByStudentId/${applicationStudentId}`)
           .then(res => {
-              console.log(res);
+              
               setRefList(res);
           
               setReferenceValue(0);

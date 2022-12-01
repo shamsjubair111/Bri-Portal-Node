@@ -42,7 +42,7 @@ const AdminProviderForm = () => {
 
       get('NameTittle/GetAll')
       .then(res => {
-        console.log('title',res);
+        
         setTitle(res);
       })
 
@@ -125,7 +125,7 @@ const handleChange = ({ fileList }) => {
   
 };
 
-console.log('hello', FileList);
+
 
 // provider admin image code end 
 
@@ -176,11 +176,11 @@ const handleSubmit  = (event) => {
 }
 
 const handleEmail = (e) => {
-  console.log(e.target.value);
+  
 
   get(`EmailCheck/Validate/${e.target.value}`)
   .then(res => {
-    console.log('Checking Response', res);
+    
     setEmailError(res);
   })
 }

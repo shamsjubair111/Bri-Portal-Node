@@ -74,7 +74,7 @@ const AddProviderUniversityCommission = () => {
 
     get(`UniversityComission/GetByUniversity/${univerId}`)
         .then(res => {
-          console.log(res,'112222');
+          
           setData(res);
           setCommissionTitleHome(res?.homeStudentComissionType ==1 ? 'Amount' : res?.homeStudentComissionType ==2 ? 'Percentage' : 'Select Commission Type');
           setCommissionTitleinternational(res?.internationalStudentComissionType ==1 ? 'Amount' : res?.internationalStudentComissionType ==2 ?'Percentage' : 'Select Commission Type');

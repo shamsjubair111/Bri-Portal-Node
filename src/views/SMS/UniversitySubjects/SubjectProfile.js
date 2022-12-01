@@ -50,7 +50,7 @@ const SubjectProfile = () => {
       setCampusId(location?.campId);
       get(`Subject/Profile/${subjId}`)
       .then(res=>{
-        console.log(res);
+        
         setSubjectData(res);
         setCampList(res?.campusSubjects);
         setLoading(false);
@@ -80,7 +80,7 @@ const SubjectProfile = () => {
     }
 
     const handleRedirectUniProfile = (subjectData) => {
-      console.log("subData", subjectData?.id);
+      
       history.push({
         pathname: `/universityDetails/${subjectData?.university?.id}`,
         subjectDataUniversityId: subjectData?.id

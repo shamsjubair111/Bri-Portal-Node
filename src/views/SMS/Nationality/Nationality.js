@@ -42,7 +42,7 @@ const Nationality = () => {
     const handleChange1 = ({ fileList }) => {
       setUploadError(false);
       setFileList1(fileList);
-      console.log(fileList);
+      
     };
   
     function getBase641(file) {
@@ -83,7 +83,7 @@ const Nationality = () => {
     useEffect(()=>{
         get('Nationality/Index')
         .then(res => {
-            console.log(res);
+            
             setCountryList(res);
             setLoading(false);
         })
@@ -104,7 +104,7 @@ const Nationality = () => {
   const toggleDeleteModal = (data) => {
 
     setDelData(data);
-    console.log(data);
+    
     setDeleteModal(true);
 
   }
@@ -154,7 +154,7 @@ const Nationality = () => {
               setButtonStatus(false);
               setProgress1(false);
                if(res?.status ==200){
-                console.log(res?.data?.message);
+                
                 addToast(res?.data?.message,{
                     appearance: 'success',
                     autoDismiss: true
@@ -174,7 +174,7 @@ const Nationality = () => {
           setButtonStatus(false);
           setProgress1(false);
             if(res?.status == 200 && res?.data?.isSuccess == true){
-                console.log(res?.data?.message);
+                
             addToast(res?.data?.message,{
                 appearance: 'success',
                 autoDismiss: true
@@ -211,7 +211,7 @@ const Nationality = () => {
       );
   
       for (var i of subData) {
-        console.log(i);
+        
       }
   
       if (FileList1.length < 1) {

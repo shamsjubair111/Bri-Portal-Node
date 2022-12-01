@@ -431,7 +431,7 @@ const StudentTestScoreForm = () => {
     }
   };
 
-  console.log(qualificationLabel, qualificationValue, "dummy");
+  
 
   const testSignleOptions = testOptions?.map((test) => ({
     label: test.name,
@@ -440,11 +440,11 @@ const StudentTestScoreForm = () => {
 
   //  select  quakification type
   const selectQualificationType = (label, value) => {
-    console.log(label,value);
+    
     setQualificationLabel(label);
     setQualificationValue(value);
 
-    // console.log(label, value);
+    // 
   };
 
   const history = useHistory();
@@ -459,7 +459,7 @@ const StudentTestScoreForm = () => {
     const subData = new FormData(event.target);
 
     for (var x of subData.values()) {
-      console.log(x);
+      
     }
 
        setButtonStatus(true);
@@ -494,7 +494,7 @@ const StudentTestScoreForm = () => {
     const subData = new FormData(event.target);
 
     for (var x of subData.values()) {
-      console.log(x);
+      
     }
         setButtonStatus(true);
         setProgress(true);

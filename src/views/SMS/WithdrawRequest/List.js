@@ -117,7 +117,7 @@ const List = () => {
     get(
       `WithdrawRequest/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${consultantValue}&transactionStatus=${transactionValue}&paymentStatuas=${paymentValue}&code=${transactionCode}`
     ).then((res) => {
-      console.log(res?.models);
+      
       setData(res?.models);
       setEntity(res?.totalEntity);
       setLoading(false);

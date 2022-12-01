@@ -52,7 +52,7 @@ const Conscent = () => {
 
         get(`ConsultantConscent/Get/${consultantRegisterId}`)
         .then(res => {
-            console.log(res,'conscentData');
+            
             setConscentData(res);
            
         })
@@ -60,7 +60,7 @@ const Conscent = () => {
         fetch(`https://geolocation-db.com/json/`)
         .then(res => res?.json())
         .then(data => {
-          console.log(data);
+          
           setAPiInfo(data)
         });
 

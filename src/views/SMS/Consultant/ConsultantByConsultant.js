@@ -85,11 +85,11 @@ const ConsultantByConsultant = () => {
       get(
         `Consultant/GetAssociate?page=${currentPage}&pageSize=${dataPerPage}&id=${referenceId}`
       ).then((res) => {
-        console.log("wdwdwdwd", res);
+        
         setConsultantList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
-        console.log(res?.models);
+        
         setLoading(false);
         setPageLoad(false);
       });
@@ -97,11 +97,11 @@ const ConsultantByConsultant = () => {
       get(
         `Consultant/GetAssociate?page=${currentPage}&pageSize=${dataPerPage}&id=${id}`
       ).then((res) => {
-        console.log("wdwdwdwd", res);
+        
         setConsultantList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
-        console.log(res?.models);
+        
         setLoading(false);
         setPageLoad(false);
       });
@@ -144,7 +144,7 @@ const ConsultantByConsultant = () => {
     setProgress(true);
     remove(`Consultant/Delete/${delData?.id}`).then((res) => {
       setProgress(false);
-      // console.log(res);
+      // 
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -180,7 +180,7 @@ const ConsultantByConsultant = () => {
   };
 
   const handleEdit = (data) => {
-    console.log(data);
+    
 
     history.push(`/consultantInformation/${data?.id}`);
   };

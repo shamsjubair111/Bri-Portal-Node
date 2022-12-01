@@ -81,7 +81,7 @@ const UniversityCampusForm = () => {
   const [buttonStatus,setButtonStatus] = useState(false);
   const [progress, setProgress] = useState(false);
 
-  console.log("univerId", univerId);
+  
 
   let uniId;
   // let uniId = "10019";
@@ -94,7 +94,7 @@ const UniversityCampusForm = () => {
   useEffect(()=>{
     get(`UniversityCountryDD/Index`)
     .then(res => {
-      // console.log('all Campuses',res)
+      
       setUniverSityCountries(res);
     })
   },[])
@@ -114,7 +114,7 @@ const UniversityCampusForm = () => {
           setShowForm(false);
           setSelectedId(0);
         }
-        console.log("actionnnn", action);
+        
       }
     );
   }, [success, uniId, universityId, univerId]);
@@ -126,7 +126,7 @@ const UniversityCampusForm = () => {
     setUniCountryLabel(label);
     setUniCountryValue(value);
     get(`UniversityStateDD/Index/${value}`).then((res) => {
-      console.log("uni states",res);
+      
       setUniversityStates(res);
     });
     setUniStateLabel('Select Campus State')
@@ -148,7 +148,7 @@ const UniversityCampusForm = () => {
 
     const subdata = new FormData(event.target);
     //  for (var value of subdata.values()) {
-    //   console.log(value);
+    //   
     //  }
 
     if(uniCountryValue == 0){
@@ -167,7 +167,7 @@ const UniversityCampusForm = () => {
             'authorization': AuthStr,
           },
         }).then((res) => {
-          console.log(res);
+          
           setButtonStatus(false);
           setProgress(false);
           setuniversityId(res.data.result.universityId);

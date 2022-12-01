@@ -33,7 +33,7 @@ const PersonalStatement = () => {
 
       get(`PersonalStatement/GetByStudentId/${applicationStudentId}`)
       .then(res => {
-        console.log(res,'Personal Statement Check');
+        
         setStatement(res?.statement);
         setId(res?.id);
       })
@@ -56,7 +56,7 @@ const PersonalStatement = () => {
        
   }
   
- console.log(stringData);
+ 
 
     const previousPage = () => {
       history.push(`/addReference/${applicationStudentId}/${1}`);

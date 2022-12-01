@@ -160,7 +160,7 @@ const TestScore = () => {
     get(
       `GreScore/GetbyStudent/${applicationStudentId}`
     ).then((res) => {
-      console.log("fetch GRE data form API", res);
+      
       setGreData(res);
       setLoading(false);
     });
@@ -168,7 +168,7 @@ const TestScore = () => {
     get(
       `GmatScore/GetByStudent/${applicationStudentId}`
     ).then((res) => {
-      console.log("Fetching Gmat Score Form Api", res);
+      
       setGmatData(res);
       setLoading(false);
     });
@@ -182,7 +182,7 @@ const TestScore = () => {
 
     get(`Duolingo/Index/${applicationStudentId}`).then(
       (res) => {
-        console.log("duolingo data", res);
+        
         setDuolingo(res);
         setLoading(false);
       }
@@ -225,7 +225,7 @@ const TestScore = () => {
 
     get(`Pte/Index/${applicationStudentId}`).then(
       (res) => {
-        console.log("pte Data ", res);
+        
         setPte(res);
         setLoading(false);
       }
@@ -422,21 +422,21 @@ const TestScore = () => {
   };
 
   const toggleDanger = (info, number) => {
-    console.log(info, "data");
-    console.log(number, "value");
+    
+    
     setValue(number);
     setData(info);
     setDeleteModal(true);
   };
 
   const toggleDanger2 = (p) => {
-    console.log(p);
+    
 
     setDeleteModal2(true);
   };
 
   const toggleDanger3 = (p) => {
-    console.log(p);
+    
 
     setDeleteModal3(true);
   };
@@ -516,13 +516,13 @@ const TestScore = () => {
   const handleEdit2 = (data) => {
     setModal2Open(true);
 
-    console.log(data);
+    
   };
 
   const handleEdit3 = (data) => {
     setModal3Open(true);
 
-    console.log(data);
+    
   };
 
   const showGREForm = () => {
@@ -983,7 +983,7 @@ const TestScore = () => {
     }
   };
 
-  console.log(qualificationLabel, qualificationValue, "dummy");
+  
 
   const testSignleOptions = testOptions?.map((test) => ({
     label: test.name,
@@ -992,11 +992,11 @@ const TestScore = () => {
 
   //  select  quakification type
   const selectQualificationType = (label, value) => {
-    console.log(label,value);
+    
     setQualificationLabel(label);
     setQualificationValue(value);
 
-    // console.log(label, value);
+    // 
   };
 
   const history = useHistory();
@@ -1054,7 +1054,7 @@ const TestScore = () => {
     const subData = new FormData(event.target);
 
     for (var x of subData.values()) {
-      console.log(x);
+      
     }
 
     if (greData?.id) {
@@ -1110,7 +1110,7 @@ const TestScore = () => {
     const subData = new FormData(event.target);
 
     for (var x of subData.values()) {
-      console.log(x);
+      
     }
 
     if (gmatData?.id) {

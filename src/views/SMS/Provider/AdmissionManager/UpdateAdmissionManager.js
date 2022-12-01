@@ -16,7 +16,7 @@ const UpdateAdmissionManager = () => {
 
     const {id,id2} = useParams();
 
-    console.log('one',id,'two',id2);
+    
     const history = useHistory();
     const location = useLocation();
 
@@ -50,19 +50,19 @@ const UpdateAdmissionManager = () => {
     const [error,setError] = useState(false);
     
 
-    console.log('checking id for upadating admission Manager',id);
+    
 
     useEffect(()=>{
         
         get(`Country/Index`)
         .then( res=> {
-            // console.log('Country list', res);
+            // 
             setCountry(res);
         })
 
         get(`AdmissionManager/Get/${id}`)
         .then(res => {
-            console.log('Ad Manager',res);
+            
             setData(res);
             setTitleLabel(res?.nameTittle?.name);
             setTitleValue(res?.nameTittle?.id);
@@ -74,7 +74,7 @@ const UpdateAdmissionManager = () => {
 
         get('NameTittle/GetAll')
         .then(res => {
-          console.log('title',res);
+          
           setTitle(res);
         })
 
@@ -169,7 +169,7 @@ const handleChange = ({ fileList }) => {
     const searchStateByCountry = (countryValue) => {
         get(`State/GetbyCountryId/${countryValue}`)
         .then(res => {
-          console.log('State',res);
+          
           setState(res);
         })
       }

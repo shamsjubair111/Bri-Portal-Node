@@ -68,7 +68,7 @@ const AddState = () => {
     const returnValue = get(`State/GetAll`).then((action) => {
       setStateList(action);
       setLoading(false);
-      console.log("stateList", action);
+      
     });
   }, [success]);
 
@@ -138,7 +138,7 @@ const AddState = () => {
 
   // delete button click
   const toggleDanger = (state) => {
-    console.log(state);
+    
     setDelUniStateName(state?.name);
     setDelUniStateId(state?.id);
     setDeleteModal(true);
@@ -171,7 +171,7 @@ const AddState = () => {
 
   // update state
   const handleUpdate = (state) => {
-    console.log(state);
+    
     setModalOpen(true);
     setState(state?.name);
     setCodeValue(state?.code);

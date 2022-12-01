@@ -50,7 +50,7 @@ const Experience = () => {
       
       let isChecked = e.target.checked;
       setWorking(isChecked);
-      console.log(isChecked);
+      
      
     } 
 
@@ -62,7 +62,7 @@ const Experience = () => {
 
       get(`Experience/GetByStudentId/${applicationStudentId}`)
       .then(res => {
-        console.log(res);
+        
         setInfo(res);
 
      
@@ -142,7 +142,7 @@ const Experience = () => {
         }
 
         for( var a of subData.values()){
-          console.log(a);
+          
         }
 
        if(value.id){
@@ -220,7 +220,7 @@ const handleDeletePermission = () => {
     setDeleteModal(false);
     get(`Experience/GetByStudentId/${applicationStudentId}`)
       .then(res => {
-        console.log(res);
+        
         setInfo(res);
         
 
@@ -238,7 +238,7 @@ const handleDeletePermission = () => {
 const handleUpdate = (id) => {
  
 
-  console.log(id);
+  
 
   setShowForm(true);
   get(`Experience/Get/${id}`)
@@ -253,7 +253,7 @@ var localeDte = utcDate.toLocaleString("en-CA");
 var localeDte2 = localeDte.split(",")[0];
 var localeDte3 = localeDte2.replace('/', '-');
 
-console.log(localeDte);
+
 setSDate(localeDte3.replace('/', '-'));
 
     var datee99 =res?.endDate;
@@ -262,7 +262,7 @@ var localeDte99 = utcDate99.toLocaleString("en-CA");
 var localeDte299 = localeDte99.split(",")[0];
 var localeDte399 = localeDte299.replace('/', '-');
 
-// console.log(localeDte);
+// 
 setEDate(localeDte399.replace('/', '-'));
 
 
@@ -270,7 +270,7 @@ setEDate(localeDte399.replace('/', '-'));
 
     // 
     
-    console.log(res);
+    
     setWorking(res.isStillWorking);
 
   })
@@ -278,7 +278,7 @@ setEDate(localeDte399.replace('/', '-'));
    
 }
 
-console.log('trying', sDate?.split(",")[0]);
+
 
   // redirect to Next Page
   const onNextPage = () => {

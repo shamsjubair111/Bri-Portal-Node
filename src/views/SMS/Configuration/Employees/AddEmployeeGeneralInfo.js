@@ -161,7 +161,7 @@ const EmployeeGeneralInfo = (props) => {
         })
 
         get("BranchDD/index").then((res) => {
-            // console.log(res);
+            // 
             setBranch(res);
           });
     }, [])
@@ -188,7 +188,7 @@ const EmployeeGeneralInfo = (props) => {
         setPass(e.target.value);
     }
 
-    console.log(result1);
+    
 
     // submitting form
     const handleSubmit = (event) => {

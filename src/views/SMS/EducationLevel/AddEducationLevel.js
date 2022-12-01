@@ -28,7 +28,7 @@ import put from "../../../helpers/put";
 const AddEducationLevel = () => {
   const { name, description, levelValue, id } = useParams();
 
-  console.log(name, description, levelValue, id);
+  
 
   const history = useHistory();
   const { addToast } = useToasts();

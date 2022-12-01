@@ -138,7 +138,7 @@ const ApplicationsCommon = () => {
   const { addToast } = useToasts();
   const location = useLocation();
   const { consultantId, universityId } = useParams();
-  console.log("consId and uniId", consultantId, universityId);
+ 
   const permissions = JSON?.parse(localStorage.getItem("permissions"));
 
   // for all dropdown
@@ -377,7 +377,7 @@ const ApplicationsCommon = () => {
     //   }
     // }
 
-    //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
+
     // get(
     //   `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${
     //     consId ? consId : consultantValue
@@ -387,7 +387,7 @@ const ApplicationsCommon = () => {
     // ).then((res) => {
     //   setLoading(false);
     //   setApplicationList(res?.models);
-    //   console.log("commonApp", res?.models);
+   
     //   setEntity(res?.totalEntity);
     //   // setSerialNumber(res?.firstSerialNumber);
     // });
@@ -411,7 +411,7 @@ const ApplicationsCommon = () => {
         setApplicationList(res?.models);
         setCommonUniLabel(res.models[0]?.universityName);
         setCommonUniValue(universityId);
-        console.log("commonApp", res?.models);
+        
         setEntity(res?.totalEntity);
         // setSerialNumber(res?.firstSerialNumber);
       });
@@ -421,7 +421,7 @@ const ApplicationsCommon = () => {
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
-        console.log("commonApp", res?.models);
+        
         setEntity(res?.totalEntity);
         // setSerialNumber(res?.firstSerialNumber);
       });

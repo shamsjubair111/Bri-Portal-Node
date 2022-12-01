@@ -92,7 +92,7 @@ const AddProviderUniversityTemplateDocument = () => {
   const handleChange1 = ({ fileList }) => {
     setUploadError(false);
     setFileList1(fileList);
-    console.log(fileList);
+    
   };
 
   function getBase641(file) {
@@ -134,7 +134,7 @@ const AddProviderUniversityTemplateDocument = () => {
       get(
         `UniversityTemplateDocument/GetByUniversity/${univerId}`
       ).then((res) => {
-        console.log("tempDocuData", res);
+        
         setTemplateList(res);
         if (res.length > 0) {
           setShowForm(true);
@@ -197,7 +197,7 @@ const AddProviderUniversityTemplateDocument = () => {
   };
 
   const toggleDanger = (p) => {
-    console.log("dele", p);
+    
     setTemplateId(p?.id);
     setTemplateName(p?.name);
     setDeleteModal(true);
@@ -214,7 +214,7 @@ const AddProviderUniversityTemplateDocument = () => {
     );
 
     // for(var i of subData){
-    //   console.log("i", i);
+    //   
     // }
 
     if (applicationTypeValue == 0) {
@@ -229,7 +229,7 @@ const AddProviderUniversityTemplateDocument = () => {
         setButtonStatus(true);
         setProgress(true);
         post("UniversityTemplateDocument/Create", subData).then((res) => {
-          console.log("document data", res);
+          
           setButtonStatus(false);
           setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
@@ -325,13 +325,13 @@ const AddProviderUniversityTemplateDocument = () => {
     setShowForm(false);
 
     get(`UniversityTemplateDocument/Get/${id}`).then((action) => {
-      console.log("template update object", action);
+      
       setApplicationObject(action);
       setApplicationTypeLabel(action?.applicationTypeId === 1 ? 'Home' : action?.applicationTypeId === 2 ? 'EU/UK' : 'International');
       setApplicationTypeValue(action?.applicationTypeId);
       // setFileList1(action?.templateFile?.thumbnailUrl);
       setSelectedId(action?.id);
-      console.log(action?.id);
+      
     });
   };
 

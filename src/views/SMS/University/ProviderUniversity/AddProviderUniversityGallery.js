@@ -59,7 +59,7 @@ const AddProviderUniversityGallery = () => {
   const galleryResult = useSelector(
     (state) => state.UniversityGalleryImageReducer.universityGalleryImage
   );
-  // console.log(galleryResult);
+  // 
   const AuthStr = localStorage.getItem("token");
 
   const handleUpload = (event) => {
@@ -103,14 +103,14 @@ const AddProviderUniversityGallery = () => {
     }
 
     // for (var value of subdata.values()) {
-    //     console.log(value);
+    //     
     // }
   };
 
   useEffect(() => {
     get(`UniversityGallery/GetByUniversity/${univerId}`).then(
       (res) => {
-        console.log("gallery", res);
+        
         setGallery(res);
       }
     );
@@ -159,7 +159,7 @@ const AddProviderUniversityGallery = () => {
   };
 
   const handleDelete = (gallery) => {
-    console.log("gallery", gallery);
+    
     setDelGalName(gallery?.mediaFileMedia?.fileName);
     setDelGalId(gallery?.id);
     setDeleteModal(true);
@@ -199,7 +199,7 @@ const AddProviderUniversityGallery = () => {
   const handleView = (gallery) => {
     setGalleryObj(gallery);
     setViewModalOpen(true);
-    console.log("gOBj", gallery);
+    
   };
     return (
         <div>

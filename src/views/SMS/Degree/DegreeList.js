@@ -46,14 +46,14 @@ const DegreeList = () => {
 
         get(`Degree/Index`)
         .then(res => {
-            console.log('Checking Degree Data from get method', res);
+            
             setDegreeList(res);
             setLoading(false);
         })
 
         get('EducationLevelDD/Index')
         .then(res => {
-            console.log('Cehecking Education Data from get method', res);
+            
             setEducation(res);
         })
 
@@ -66,7 +66,7 @@ const DegreeList = () => {
 
        const toggleDanger = (data) => {
 
-        // console.log(data);
+        // 
         setDeleteData(data);
         setDeleteModal(true);
       }

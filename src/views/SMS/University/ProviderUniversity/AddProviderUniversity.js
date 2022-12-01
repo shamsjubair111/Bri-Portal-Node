@@ -112,7 +112,7 @@ const AddProviderUniversity = () => {
   const [uniId, setUniId] = useState(undefined);
   const [check, setCheck] = useState(true);
 
-  console.log("proProfileId", location?.providerProfileId);
+  
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -135,7 +135,7 @@ const AddProviderUniversity = () => {
 
   const handleChange1 = ({ fileList }) => {
   
-    console.log(fileList);
+    
     if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
       setFileList1([]);
       setError('Only jpeg, jpg, png image is allowed');
@@ -149,7 +149,7 @@ const AddProviderUniversity = () => {
 
   const handleChange2 = ({ fileList }) => {
    
-    console.log(fileList);
+    
     if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
       setFileList2([]);
       setError2('Only jpeg, jpg, png image is allowed');
@@ -204,19 +204,19 @@ const AddProviderUniversity = () => {
 
 //   useEffect(()=>{
 //     get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-//       console.log("providerHelper",typeof(res));
+
 //         setProviderValue(res != 0 ? res : 0);
         
 //     })
 //   },[userType, referenceId])
 
-//   console.log("providervalue", typeof(providerValue));
+
 
   useEffect(() => {
     get("ProviderDD/Index")
       .then((res) => {
         setProvider(res);
-        console.log(res, "ppppppp");
+        
       })
       .catch();
     get("UniversityCountryDD/Index")
@@ -237,13 +237,13 @@ const AddProviderUniversity = () => {
     get("ContractTypeDD/Index")
       .then((res) => {
         setContractTypeDD(res);
-        // console.log("contract type", res);
+        // 
       })
       .catch();
 
     if (univerId != undefined) {
       get(`University/get/${univerId}`).then((res) => {
-        console.log("uniIddata", res);
+        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -262,7 +262,7 @@ const AddProviderUniversity = () => {
 
     if (universityId != undefined) {
       get(`University/get/${universityId}`).then((res) => {
-        console.log("uniIddata", res);
+        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -384,7 +384,7 @@ const AddProviderUniversity = () => {
     // for (var value of subdata.values()) {
 
     // }
-    console.log("providerTypeValue",providerTypeValue);
+    
 
     const config = {
       headers: {
@@ -397,7 +397,7 @@ const AddProviderUniversity = () => {
       
       
       // if(providerTypeValue === 0){
-      //   console.log("providerTypeValue",providerTypeValue);
+      //   
       // setProviderTypeError(true);
       // }
       if (uniTypeValue === 0) {
@@ -452,7 +452,7 @@ const AddProviderUniversity = () => {
           setProgress(true);
           Axios.post(`${rootUrl}University/Create`, subdata, config).then(
             (res) => {
-              console.log("unipostData", res);
+              
               setButtonStatus(false);
               setProgress(false);
               //  .setItem("id", res.data.result.id);

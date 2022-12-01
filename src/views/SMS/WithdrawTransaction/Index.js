@@ -123,7 +123,7 @@ const Index = () => {
     get(
       `WithdrawTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${value1}&code=${transactionCode}`
     ).then((res) => {
-      console.log("data", res);
+      
       setListData(res?.models);
       setEntity(res?.totalEntity);
       setLoading(false);

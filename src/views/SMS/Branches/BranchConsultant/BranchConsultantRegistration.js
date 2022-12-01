@@ -84,11 +84,11 @@ const BranchConsultantRegistration = () => {
     }
 
     const handleEmail = (e) => {
-      console.log(e.target.value);
+      
 
       get(`EmailCheck/EmailCheck/${e.target.value}`)
       .then(res => {
-        console.log('Checking Response', res);
+        
         setEmailError(res);
       })
     }
@@ -120,7 +120,7 @@ const BranchConsultantRegistration = () => {
 
        //  watch form data values
     for (var value of subdata) {
-      console.log(value);
+      
     }
     
   
@@ -134,7 +134,7 @@ const BranchConsultantRegistration = () => {
       setProgress(true);
       post("Consultant/RegisterToBranch", subdata).then(res=>{
         setProgress(false);
-        console.log("consultant",res);
+        
         addToast(res?.data?.message, {
           appearance: res?.data?.isSuccess == true ? 'success': 'error',
           autoDismiss: true,

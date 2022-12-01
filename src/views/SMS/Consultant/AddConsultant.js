@@ -91,11 +91,11 @@ const AddConsultant = () => {
     }
 
     const handleEmail = (e) => {
-      console.log(e.target.value);
+      
 
       get(`EmailCheck/EmailCheck/${e.target.value}`)
       .then(res => {
-        console.log('Checking Response', res);
+        
         setEmailError(res);
       })
     }
@@ -126,7 +126,7 @@ const AddConsultant = () => {
 
        //  watch form data values
     for (var value of subdata) {
-      console.log(value);
+      
     }
     
   
@@ -140,7 +140,7 @@ const AddConsultant = () => {
       setProgress(true);
       post("Consultant/Register", subdata).then(res=>{
         setProgress(false);
-        console.log("consultant",res);
+        
         addToast(res?.data?.message, {
           appearance: res?.data?.isSuccess == true ? 'success': 'error',
           autoDismiss: true,

@@ -39,7 +39,7 @@ const AddConsultantType = () => {
 
     useEffect(()=>{
         get('ConsultantType/Index').then(res=>{
-            console.log("consultantList", res);
+            
             setConsultants(res);
             setLoading(false);
         })
@@ -68,10 +68,10 @@ const AddConsultantType = () => {
 
     const handleDeleteUniType = (id) => {
         const returnValue = remove(`ConsultantType/Delete/${id}`).then((action)=> {
-          console.log("delRes",action);
+          
           setDeleteModal(false);
           setSuccess(!success);
-          // console.log(action);
+          // 
            addToast(action, {
              appearance: 'error',
              autoDismiss: true,
@@ -85,7 +85,7 @@ const AddConsultantType = () => {
         setModalOpen(true);
         setConsultantType(type.name);
         // localStorage.setItem('updateUni',type.id)
-        // console.log(type);
+        // 
         get(`ConsultantType/Get/${type}`)
         .then(res=> {
           setPostId(res.id);

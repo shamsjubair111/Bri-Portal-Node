@@ -35,7 +35,7 @@ const StudentType = () => {
     useEffect(()=>{
         get('StudentType/Index')
         .then(res => {
-            console.log(res);
+            
             setStudentTypeInfo(res);
 
         })
@@ -61,12 +61,12 @@ const StudentType = () => {
 
   const AddModalOpen= (id) => {
   
-    console.log(id);
+    
     
    if(id !=='add'){
     get(`StudentType/Get/${id}`)
     .then(res => {
-      console.log(res);
+      
         setInfo(res);
     })
 
@@ -105,7 +105,7 @@ const StudentType = () => {
    else{
      put('StudentType/Update',subdata)
      .then(res => {
-       console.log(res);
+       
        if(res?.status == 200 && res?.data?.isSuccess == true){
         setSuccess(!success)
         setModalOpen(false)

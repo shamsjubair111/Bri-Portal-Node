@@ -57,7 +57,7 @@ const StudentEducationForm = () => {
 
       get('CountryDD/index')
         .then(res => {
-            console.log(res);
+            
             setCountry(res);
         })
     
@@ -95,7 +95,7 @@ const selectEducationLevel = (label, value) => {
 setProgramError(false);
 setEducationLevelLabel(label);
 setEducationLevelValue(value);
-console.log(value);
+
 
 
 }

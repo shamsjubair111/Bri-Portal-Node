@@ -92,7 +92,7 @@ const UniversityTemplateDocumentForm = () => {
   const handleChange1 = ({ fileList }) => {
     setUploadError(false);
     setFileList1(fileList);
-    console.log(fileList);
+    
   };
 
   function getBase641(file) {
@@ -156,7 +156,7 @@ const UniversityTemplateDocumentForm = () => {
     );
 
     // for(var i of subData){
-    //   console.log("i", i);
+    //   
     // }
 
     if (applicationTypeValue == 0) {
@@ -170,7 +170,7 @@ const UniversityTemplateDocumentForm = () => {
         setProgress(true);
         setButtonStatus(true);
         post("UniversityTemplateDocument/Create", subData).then((res) => {
-          console.log("document data", res);
+          
           setButtonStatus(false);
           setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {

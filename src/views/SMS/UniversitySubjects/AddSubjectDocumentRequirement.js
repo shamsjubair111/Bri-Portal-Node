@@ -64,15 +64,15 @@ const AddSubjectDocumentRequirement = () => {
 
   useEffect(() => {
     get("DocumentGroupDD/Index").then((res) => {
-      console.log(res, "response");
+      
       setDocuDD(res);
     });
     get("ApplicationTypeDD/Index").then((res) => {
-      console.log(res, "response");
+      
       setApplicationTypeDD(res);
     });
     get(`SubjectDocumentRequirement/GetBySubject/${id}`).then((res) => {
-      console.log(res, "ssxcsxs");
+      
       setDocumentGrpList(res);
     });
   }, [id, success]);
@@ -158,7 +158,7 @@ const AddSubjectDocumentRequirement = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata) {
-      console.log("values", value);
+      
     }
 
     if (docuValue === 0) {
@@ -247,7 +247,7 @@ const AddSubjectDocumentRequirement = () => {
   };
 
   const handleUpdate = (document) => {
-    console.log("documentList", document);
+    
     setUpdate(document?.id);
     setDocuLabel(document?.documentGroup?.title);
     setDocuValue(document?.documentGroup?.id);
@@ -282,7 +282,7 @@ const handleDeleteDocuRequired = (id) => {
     setProgress1(false);
     setDeleteModal(false);
     setSuccess(!success);
-    // console.log(action);
+    // 
      addToast(action, {
        appearance: 'error',
        autoDismiss: true,

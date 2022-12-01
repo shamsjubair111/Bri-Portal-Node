@@ -96,7 +96,7 @@ const ConsultantProfile = () => {
 
   useEffect(() => {
     get(`Consultant/Profile/${id}`).then((res) => {
-      console.log("Consultant Profile Data Check", res);
+      
       setConsultantData(res);
       setStatusLabel(res?.accountStatus?.statusName);
       setStatusValue(res?.accountStatus?.id);
@@ -107,7 +107,7 @@ const ConsultantProfile = () => {
       var localeDte2 = localeDte.split(",")[0];
       var localeDte3 = localeDte2.replace("/", "-");
 
-      console.log(localeDte);
+      
       setRegistrationDate(localeDte3.replace("/", "-"));
       setLoading(false);
     });
@@ -118,13 +118,13 @@ const ConsultantProfile = () => {
     });
 
     get(`GroupPriceRange/ByConsultant/${id}`).then((res) => {
-      console.log("priceList", res);
+      
       setPriceRangeList(res);
       setLoading(false);
     });
 
     get(`ConsultantCommissionGroup/Index/${id}`).then((res) => {
-      console.log("consultantCommissionList", res);
+      
       setCommissionGrouplist(res);
       setLoading(false);
     });
@@ -144,7 +144,7 @@ const ConsultantProfile = () => {
       accountStatusId: value,
     };
 
-    console.log("aaaaaaaaaaaa", accountStatusData);
+    
 
     put("Consultant/statuschange", accountStatusData).then((res) => {
       addToast(res?.data?.message, {
@@ -256,7 +256,7 @@ const ConsultantProfile = () => {
     subData.append("consultantCoverImage", FileList[0]?.originFileObj);
 
     // for(var x of subData.values()){
-    //     console.log(x);
+    //     
     // }
     
 
@@ -334,7 +334,7 @@ const ConsultantProfile = () => {
     subData.append("consultantProfileImage", FileList1[0]?.originFileObj);
 
     // for(var x of subData.values()){
-    //     console.log(x);
+    //     
     // }
 
     if (FileList1.length < 1) {

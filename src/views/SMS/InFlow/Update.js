@@ -29,7 +29,7 @@ const Update = () => {
       
         get(`BonusTransaction/Details/${id}`)
         .then( res => {
-            console.log(res);
+            
             setTransactionInfo(res);
             setCLabel(res?.consultant);
             setCValue(res?.consultantId);

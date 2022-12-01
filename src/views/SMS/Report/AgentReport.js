@@ -87,19 +87,19 @@ const AgentReport = () => {
   useEffect(() => {
     get("ConsultantDD/index").then((res) => {
       setConsultant(res);
-      console.log("res", res);
+      
     });
 
     get("YearDD/Index").then((res) => {
       // setConsultant(res);
       setYearData(res);
-      console.log("year", res);
+      
     });
 
     get("AccountIntake/GetCurrentAccountIntake").then((res) => {
       setCurrentIntake(res);
       setIntakeId(res?.id);
-      console.log("intake", res);
+      
     });
 
     if(consultantValue != 0){
@@ -108,7 +108,7 @@ const AgentReport = () => {
         setReportData(res);
         setRangeItems(res?.rangeItems);
         setNextStepCounter(res?.remainingFromTarget);
-        console.log("reportttt", res);
+        
       });
     }
   }, [consultantValue, intakeId, date]);
@@ -140,18 +140,18 @@ const AgentReport = () => {
 
   const selectDate = (e) => {
     setIsShowCalender(false);
-    console.log('selected date', e);
+    
     // const day = e.getDate();
     // const month = e.getMonth() + 1;
     // const year = e.getFullYear();
   
-    console.log("dateee", e.target.value);
+    
 
     setDate(e.target.value);
 
     // const handleDate = e =>{
     //   var datee = e;
-    //   console.log("dateeeeeee", datee);
+    //   
     //   var utcDate = new Date(e);
     //   var localeDate = utcDate.toLocaleString("en-CA");
     //   const x = localeDate.split(",")[0];
@@ -162,7 +162,7 @@ const AgentReport = () => {
     //   .then(response => response.json())
     //   .then(data => {
     //     this.setState({ AppProgress: data, loading: false, date: e });
-    //     console.log('agent data by date', data)
+    //    
     //   });
 
   }
@@ -180,7 +180,7 @@ const AgentReport = () => {
   const toggleMonth = (month) => {
     setMonthlyCardShow(false);
     setActiveMonth(month);
-    console.log("month", month);
+    
   }
 
   const redirectToAddCommission = () => {

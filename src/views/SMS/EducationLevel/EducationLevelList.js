@@ -39,7 +39,7 @@ const EducationLevelList = () => {
 
       const toggleDanger = (data) => {
 
-        // console.log(data);
+        // 
         setDeleteData(data);
         setDeleteModal(true);
       }
@@ -129,7 +129,7 @@ const EducationLevelList = () => {
         get('EducationLevel/Index')
         .then(res => {
 
-            console.log('Checking Educational Level Index', res);
+            
             setEducationLevelData(res);
             setLoading(false);
         })

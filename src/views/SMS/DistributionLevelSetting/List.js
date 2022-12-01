@@ -17,7 +17,7 @@ const DistributionLevelSettingList = (props) => {
     const [progress,setProgress] = useState(false);
    
 
-    console.log(distributionData);
+    
 
     const toggleDanger = (data) => {
         setDelData(data);

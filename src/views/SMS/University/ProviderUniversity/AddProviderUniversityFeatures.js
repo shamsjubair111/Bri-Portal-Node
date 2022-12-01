@@ -70,7 +70,7 @@ const AddProviderUniversityFeatures = () => {
     get(
       `UniversityFeatures/GetByUniversity/${univerId}`
     ).then((res) => {
-      console.log("unifeatures", res?.id);
+      
       setFeatures(res);
       setFeatureId(res?.id);
       setRadioPracticalTraining(`${res?.practicalTraining}`);
@@ -102,7 +102,7 @@ const AddProviderUniversityFeatures = () => {
       setButtonStatus(true);
       setProgress(true);
       put("UniversityFeatures/Update", subdata).then((res) => {
-        console.log("1st put response", res);
+        
         setButtonStatus(false);
         setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {

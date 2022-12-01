@@ -88,7 +88,7 @@ const AddUniversityApplicationDocument = () => {
     });
 
     get(`DocumentDD/Index`).then((res) => {
-      console.log("Checking document requirement Status", res);
+      
       setDocument(res);
     });
 
@@ -96,7 +96,7 @@ const AddUniversityApplicationDocument = () => {
       get(
         `UniversityApplicationDocument/GetByUniversity/${univerId}`
       ).then((res) => {
-        console.log("appDocuData", res);
+        
         setApplicationList(res);
         if (res.length > 0) {
           setShowForm(true);
@@ -168,7 +168,7 @@ const AddUniversityApplicationDocument = () => {
   };
 
   const toggleDanger = (p) => {
-    console.log("dele", p);
+    
     setApplicationId(p?.id);
     setApplicationName(p?.document?.name);
     setDeleteModal(true);
@@ -180,7 +180,7 @@ const AddUniversityApplicationDocument = () => {
     const subData = new FormData(e.target);
 
     for (var i of subData) {
-      console.log("i", i);
+      
     }
 
     if (documentValue == 0) {
@@ -196,7 +196,7 @@ const AddUniversityApplicationDocument = () => {
         setButtonStatus(true);
         setProgress(true);
         post("UniversityApplicationDocument/Create", subData).then((res) => {
-          console.log("document data", res);
+          
           setButtonStatus(false);
           setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
@@ -303,7 +303,7 @@ const AddUniversityApplicationDocument = () => {
     setShowForm(false);
 
     get(`UniversityApplicationDocument/Get/${id}`).then((action) => {
-      console.log("application update object", action);
+      
       setApplicationObject(action);
       setDocumentLabel(action?.document?.name);
       setDocumentValue(action?.documentId);
@@ -318,12 +318,12 @@ const AddUniversityApplicationDocument = () => {
       setIsMandatory(`${action?.isMandatory}`);
       // setFileList1(action?.document?.fileUrl);
       setSelectedId(action?.id);
-      console.log(action?.id);
+      
     });
   };
 
   const handleIsMandatory = (event) => {
-    console.log(event.target.value);
+    
     setIsMandatory(event.target.value);
     setApplicationError(false);
   };

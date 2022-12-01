@@ -108,7 +108,7 @@ const RoleMenu = (props) => {
         }
   }
 
-  console.log('checked',checked);
+  
 
   // on Select All Checkbox
   const handleSelectAll = e => {

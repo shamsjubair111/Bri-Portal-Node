@@ -49,7 +49,7 @@ const ProviderForm = (props) => {
     // useEffect(()=>{
       
     //   get("NameTittleDD/index").then((res) => {
-    //     console.log("title", res);
+    //     
     //     setTitles(res);
     //   });
     // },[])
@@ -62,7 +62,7 @@ const ProviderForm = (props) => {
     
     const providerLogo = useSelector((state) => state?.GeneralProviderlogoFile ?.ProviderLogoFile);
 
-    // console.log('Hello Provider Logo', providerLogo[0]?.originFileObj);
+    // 
  
     
 
@@ -151,11 +151,11 @@ const ProviderForm = (props) => {
       }
 
       const handleEmail = (e) => {
-        console.log(e.target.value);
+        
   
         get(`Provider/EmailCheck/${e.target.value}`)
         .then(res => {
-          console.log('Checking Response', res);
+          
           setEmailError(res);
         })
       }

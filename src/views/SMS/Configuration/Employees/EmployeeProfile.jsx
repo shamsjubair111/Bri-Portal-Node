@@ -60,7 +60,7 @@ const EmployeeProfile = () => {
 
      get(`Employee/Profile/${id}`).then((action) => {
       setemployeeDetails(action);
-      console.log("datas", action);
+      
       setemployeeImgDetails(action.profileImageMedia);
       setemployeeType(action.employeeType);
       setLoading(false);
@@ -141,7 +141,7 @@ const handleSubmitCoverPhoto = event =>{
   subData.append("coverImage", FileList[0]?.originFileObj);
 
   // for(var x of subData.values()){
-  //     console.log(x);
+  //     
   // }
 
   if (FileList.length < 1) {
@@ -224,7 +224,7 @@ const handleSubmitProfilePhoto = event => {
   subData.append("profileImage", FileList1[0]?.originFileObj);
 
   // for(var x of subData.values()){
-  //     console.log(x);
+  //     
   // }
 
   if (FileList1.length < 1) {

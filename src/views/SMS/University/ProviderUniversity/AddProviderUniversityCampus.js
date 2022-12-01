@@ -95,7 +95,7 @@ const AddProviderUniversityCampus = (props) => {
     useEffect(()=>{
       get(`UniversityCountryDD/Index`)
       .then(res => {
-        // console.log('all Campuses',res)
+  
         setUniverSityCountries(res);
       })
     },[])
@@ -112,7 +112,7 @@ const AddProviderUniversityCampus = (props) => {
             setShowForm(false);
             setSelectedId(0);
           }
-          console.log("actionnnn", action);
+          
         }
       );
     }, [success, uniId, universityId, univerId]);
@@ -157,7 +157,7 @@ const AddProviderUniversityCampus = (props) => {
       setUniCountryLabel(label);
       setUniCountryValue(value);
       get(`UniversityStateDD/Index/${value}`).then((res) => {
-        console.log("uni states",res);
+        
         setUniversityStates(res);
       });
     };
@@ -177,7 +177,7 @@ const AddProviderUniversityCampus = (props) => {
       
       const subdata = new FormData(event.target);
       //  for (var value of subdata.values()) {
-      //   console.log(value);
+      //   
       //  }
   
       if(uniCountryValue == 0){
@@ -198,7 +198,7 @@ const AddProviderUniversityCampus = (props) => {
           }).then((res) => {
             setButtonStatus(false);
             setProgress(false);
-            console.log(res);
+            
             setuniversityId(res.data.result.universityId);
             if (res.status === 200 && res.data.isSuccess === true) {
               setSubmitData(false);
@@ -318,17 +318,14 @@ const AddProviderUniversityCampus = (props) => {
       setShowForm(false);
   
       get(`UniversityCampus/Get/${id}`).then((action) => {
-        console.log(
-          "asjskdjskdskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjs",
-          action
-        );
+       
         setuniversityCampusObject(action);
         setUniCountryLabel(action?.universityCountry?.name);
         setUniCountryValue(action?.universityCountry?.id);
         setUniStateLabel(action?.universityState?.name);
         setUniStateValue(action?.campusStateId);
         setSelectedId(action?.id);
-        console.log(id);
+        
       });
     };
   

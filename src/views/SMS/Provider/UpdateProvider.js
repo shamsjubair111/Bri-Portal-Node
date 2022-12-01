@@ -102,7 +102,7 @@ const UpdateProvider = () => {
    useEffect(()=> {
        get(`Provider/Get/${id}`)
        .then(res => {
-           console.log(res);
+           
            setProviderInfo(res);
            setProviderTypeLabel(res?.providerType?.name);
            setProviderTypeValue(res?.providerType?.id);
@@ -114,7 +114,7 @@ const UpdateProvider = () => {
    useEffect(()=> {
     get(`ProviderType/GetAll`)
     .then(res => {
-      console.log('provider type',res);
+      
       setProviderType(res);
     })
     .catch()
@@ -143,7 +143,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
       };
 
       for(let val of subData.values()){
-          console.log(val);
+          
       }
       setButtonStatus(true);
       put(`Provider/Update`,subData,config)
@@ -151,7 +151,7 @@ const providerMenu = providerType.map(providerOptions =>({label:providerOptions.
         setProgress(false);
         setButtonStatus(false);
         // for (const val of subData.value()){
-        //   console.log(val);
+        //   
         // }
        
         addToast(res?.data?.message, {

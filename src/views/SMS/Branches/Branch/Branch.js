@@ -198,7 +198,7 @@ const Branch = () => {
           },
         }).then((res) => {
         
-          console.log("branchInfo", res);
+          
           setButtoStatus(false);
           setProgress(false);
           if (res?.status === 200 && res?.data?.isSuccess === true) {

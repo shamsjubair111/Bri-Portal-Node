@@ -138,7 +138,7 @@ const UniversitySubjectList = (props) => {
 
     useEffect(()=>{
       get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-        console.log("providerHelper",typeof(res));
+        
           setProviderValue(res != 0 ? res : 0);
           // if(res != 0){
           //   localStorage.setItem("providerValue", res);
@@ -165,7 +165,7 @@ const UniversitySubjectList = (props) => {
     useEffect(()=>{
         get(`UniversityCampus/GetbyUniversity/${id}`)
         .then(res =>{
-        console.log("campusByUniversity",res);
+        
         setCampList(res);
       })
     },[id]);
@@ -179,7 +179,7 @@ const UniversitySubjectList = (props) => {
         get(`UniversityCampus/GetbyUniversity/${id}`).then(res =>{
         // get(`UniversityCampus/GetbyUniversity/${localStorage.getItem("uniIdForSubList")}`).then(res =>{
           setCam(res);
-          console.log("camuni", res[0]?.university?.name);
+          
           setUniName(res[0]?.university?.name);
           dispatch(StoreUniversityCampusListData(res));
         });
@@ -195,7 +195,7 @@ const UniversitySubjectList = (props) => {
   
         get(`Subject/TableShowPaged?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${campValue}&UniversityId=${id}&search=${searchStr}&sortby=${orderValue}`).then((res) => {
           setSubList(res?.models);
-          console.log("sublist",res);
+          
           setSerialNum(res?.firstSerialNumber);
           setEntity(res?.totalEntity);        
           setLoading(false);
@@ -210,7 +210,7 @@ const UniversitySubjectList = (props) => {
     // const searchCampusByUniversity = (universityValue) =>{
     //   get(`UniversityCampus/GetbyUniversity/${universityValue}`)
     //   .then(res =>{
-    //   console.log("campusByUniversity",res);
+    //   
     //   setCampList(res);
     // })
     // }
@@ -252,7 +252,7 @@ const UniversitySubjectList = (props) => {
   }));
 
   const selectOrder = (label, value) => {
-    // console.log("value", label, value);
+    // 
     setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
@@ -310,7 +310,7 @@ const UniversitySubjectList = (props) => {
       const returnValue = remove(`Subject/Delete/${id}`).then((action)=> {
         setButtonStatus(false);
         setProgress(false);
-        // console.log(action);
+        // 
         setSuccess(!success);
         setDeleteModal(false);
          addToast(action, {

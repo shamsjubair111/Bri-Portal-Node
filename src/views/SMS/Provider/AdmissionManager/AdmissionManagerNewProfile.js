@@ -142,7 +142,7 @@ const AdmissionManagerNewProfile = () => {
         setApplicationData(res?.admissionManagerApplications);
         setAdmissionOfficer(res?.admissionOfficers);
         setProviderId(res?.providerId);
-        console.log("admission mnager", res);
+        
       });
     }, [managerId, success, providerId]);
   
@@ -253,7 +253,7 @@ const AdmissionManagerNewProfile = () => {
           .then(res => {
             setSuccess(!success);
             setModalOpen(false);
-            console.log("ressss", res);
+            
             setNameTitleLabel("Select Title");
             setNameTitleValue(0);
             setUniCountryLabel("Select Country");
@@ -394,7 +394,7 @@ const AdmissionManagerNewProfile = () => {
     }
   
     const handleEmail = (e) => {
-      console.log(e.target.value);
+      
   
       get(`Consultant/OnChangeEmail/${e.target.value}`)
       .then(res => {
@@ -409,7 +409,7 @@ const AdmissionManagerNewProfile = () => {
   
     const handleUpdate = (officer) =>{
   
-      console.log("officer", officer);
+      
       setOfficerObj(officer);
       setNameTitleLabel(officer?.nameTittleName);
       setNameTitleValue(officer?.nameTittleId);
@@ -422,7 +422,7 @@ const AdmissionManagerNewProfile = () => {
     }
   
     const toggleDanger = (officer) => {
-      console.log(officer);
+      
       setDeleteName(officer?.firstName);
       setDeleteId(officer?.officermanagerId);
       setDeleteModal(true);
@@ -513,7 +513,7 @@ const AdmissionManagerNewProfile = () => {
       subData.append("profileImage", FileList1[0]?.originFileObj);
     
       // for(var x of subData.values()){
-      //     console.log(x);
+      //     
       // }
       setButtonStatus1(true);
     

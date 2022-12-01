@@ -55,14 +55,14 @@ const StudentOtherInformationForm = () => {
       }
 
       const handleDisability = (event) => {
-        console.log(event.target.value);
+        
         setDisability(event.target.value);
     }
 
 
 
       const handleCrime = (event) => {
-        console.log(event.target.value);
+        
         setCrime(event.target.value);
     }
 

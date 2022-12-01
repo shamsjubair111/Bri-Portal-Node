@@ -219,13 +219,13 @@ const ApplicationDetails = () => {
     .then(res => {
       setGMatResult(res?.gmatScoreInfo);
       setGreResult(res?.greScoreInfo);
-      console.log("gre&gmat", res);
+
     })
 
     get(`Ielts/Index/${stdId}`).then(
       (res) => {
         setIelts(res);
-        console.log("ielts", res);
+       
       }
     );
 
@@ -546,7 +546,7 @@ const ApplicationDetails = () => {
   };
 
   const handleUpdateTestScores = (data) => {
-    console.log("datas", data);
+  
 
     localStorage.setItem("applictionStudentId", data?.id);
     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);

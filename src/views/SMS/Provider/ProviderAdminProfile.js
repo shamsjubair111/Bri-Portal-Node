@@ -37,7 +37,7 @@ const ProviderAdminProfile = () => {
 
         get(`ProviderAdmin/Profile/${providerAdminId}`)
         .then(res =>{
-            console.log('response2,', res);
+            
             setData(res);
             setLoading(false);
         })

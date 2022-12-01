@@ -88,7 +88,7 @@ const UniversityApplicationDocumentForm = () => {
     });
 
     get(`DocumentDD/Index`).then((res) => {
-      console.log("Checking document requirement Status", res);
+      
       setDocument(res);
     });
 
@@ -127,7 +127,7 @@ const UniversityApplicationDocumentForm = () => {
     const subData = new FormData(e.target);
 
     for (var i of subData) {
-      console.log("i", i);
+      
     }
 
     if (documentValue == 0) {
@@ -142,7 +142,7 @@ const UniversityApplicationDocumentForm = () => {
       setProgress(true);
         setButtonStatus(true);
         post("UniversityApplicationDocument/Create", subData).then((res) => {
-          console.log("document data", res);
+          
           setButtonStatus(false);
           setProgress(false);
           if (res?.status == 200 && res?.data?.isSuccess == true) {
@@ -168,7 +168,7 @@ const UniversityApplicationDocumentForm = () => {
   };
 
   const handleIsMandatory = (event) => {
-    console.log(event.target.value);
+    
     setIsMandatory(event.target.value);
     setApplicationError(false);
   };

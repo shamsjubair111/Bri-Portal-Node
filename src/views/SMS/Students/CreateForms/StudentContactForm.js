@@ -47,12 +47,12 @@ const StudentContactForm = () => {
 
     useEffect(() => {
         get("CountryDD/index").then((res) => {
-          console.log(res);
+          
           setCountry(res);
         });
     
         get("AddressTypeDD/Index").then((res) => {
-          console.log(res);
+          
           setAddressType(res);
         });
     

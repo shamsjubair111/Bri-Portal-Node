@@ -42,7 +42,7 @@ const OtherInformation = () => {
 
       get(`OtherInformation/GetByStudentId/${applicationStudentId}`)
       .then(res => {
-        console.log('checking Other information', res);
+        
         setDisability(`${res?.isHaveDisability}`);
         setCrime(`${res?.isHaveCriminalConvictions}`);
         setData(res);
@@ -165,14 +165,14 @@ const OtherInformation = () => {
       }
 
       const handleDisability = (event) => {
-        console.log(event.target.value);
+        
         setDisability(event.target.value);
     }
 
 
 
       const handleCrime = (event) => {
-        console.log(event.target.value);
+        
         setCrime(event.target.value);
     }
   

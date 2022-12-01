@@ -52,7 +52,7 @@ const AssignMultipleSubject = () => {
   const [progress1, setProgress1] = useState(false);
   const [progress2, setProgress2] = useState(false);
 
-  // console.log("datas", checkboxData)
+
 
   const { id } = useParams();
   const history = useHistory();
@@ -60,7 +60,7 @@ const AssignMultipleSubject = () => {
 
   useEffect(() => {
     get(`UniversityCampusSubject/GetAllSubjectByCampus/${id}`).then((res) => {
-      console.log("MultipleSubList", res);
+      
       setMultipleSubAssign([]);
       setMultipleSubAssign(res);
     });
@@ -68,7 +68,7 @@ const AssignMultipleSubject = () => {
 
   // const getFunction = (id) =>{
   //   get(`UniversityCampusSubject/GetAllSubjectByCampus/${id}`).then((res) => {
-  //     console.log("MultipleSubList", res);
+  //     
   //     setMultipleSubAssign(res);
   //   });
   // }
@@ -89,7 +89,7 @@ const AssignMultipleSubject = () => {
       [subId], [checkboxData.slice(0,3)]
   ]
 
-  console.log("subdata", subdata);
+  
 
     const subData = {
       campusId: sub?.campusId,
@@ -113,7 +113,7 @@ const AssignMultipleSubject = () => {
             autoDismiss: true,
           });
           get(`UniversityCampusSubject/GetAllSubjectByCampus/${id}`).then((res) => {
-            console.log("MultipleSubList", res);
+            
             setMultipleSubAssign([]);
             setMultipleSubAssign(res);
           });
@@ -126,7 +126,7 @@ const AssignMultipleSubject = () => {
     // else{
     //   alert("Click the right button");
     // }
-    console.log("subdataaaaa", subData);
+    
   };
 
   const backToDashboard = () => {
@@ -134,7 +134,7 @@ const AssignMultipleSubject = () => {
   };
 
   const toggleDanger = (p) => {
-    console.log("ppppp", p);
+    
     // setHomeAccept(p?.isAcceptHome);
     // setUkAccept(p?.isAcceptEU_UK);
     // setIntAccept(p?.isAcceptInternational);
@@ -161,23 +161,23 @@ const AssignMultipleSubject = () => {
           autoDismiss: true,
         });
         setMultipleSubAssign([]);
-        console.log("multiple array",multipleSubAssign);
+        
         get(`UniversityCampusSubject/GetAllSubjectByCampus/${id}`).then((res) => {
-          console.log("MultipleSubList", res);
+          
           
           setMultipleSubAssign(res);
         });
         localStorage.removeItem("subjeId");
         localStorage.removeItem("subjeName");
         // window.location.reload(false);
-        console.log("checkboxDelete", homeAccept, ukAccept, intAccept);
+        
       }
     );
   };
 
-  console.log("checkbox", homeAccept, ukAccept, intAccept);
+  
 
-  // console.log("successBefore post", success);
+  // 
 
   const handleAssignAll = () =>{
     setProgress(true);
@@ -190,7 +190,7 @@ const AssignMultipleSubject = () => {
           autoDismiss: true,
         })
         get(`UniversityCampusSubject/GetAllSubjectByCampus/${id}`).then((res) => {
-          console.log("MultipleSubList", res);
+          
           setMultipleSubAssign([]);
           setMultipleSubAssign(res);
         });
@@ -200,7 +200,7 @@ const AssignMultipleSubject = () => {
     })
   }
 
-  // console.log("successAfter post", success);
+  // 
 
   // for feature checkboxes
   const handleFeatureHome = e =>{
@@ -221,7 +221,7 @@ const AssignMultipleSubject = () => {
     //   }
     // }
 
-    console.log("dataHome", checkboxData);
+    
     
 }
 
@@ -241,7 +241,7 @@ const handleFeatureUk = e =>{
   //   }
   // }
  
-  console.log("dataUk", checkboxData)
+ 
 }
 
 const handleFeatureInt = e =>{
@@ -260,10 +260,10 @@ const handleFeatureInt = e =>{
   //   }
   // }
 
-  console.log("dataInt", checkboxData)
+
 }
 
-console.log("data", checkboxData)
+
 
   return (
     <div>

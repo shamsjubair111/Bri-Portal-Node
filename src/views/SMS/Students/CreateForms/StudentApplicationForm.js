@@ -53,19 +53,19 @@ const StudentApplicationForm = () => {
 
     get('StudentTypeDD/Index')
     .then(res => {
-      console.log('Student Type Dropdown',res);
+      
       setStudentType(res);
     })
 
     get('VisaTypeDD/Index')
     .then(res => {
-      console.log(res);
+      
       setVisaStatus(res);
     })
 
     get(`ApplicationInfo/GetByStudentId/${id}`)
     .then(res => {
-      console.log('application post response', res);
+      
       
       setApplicationInformation(res);
       setStudentTypeLabel(res?.student?.studentType?.name);
@@ -89,21 +89,21 @@ const StudentApplicationForm = () => {
 
     
   const handleChangeIsAppliedStudentFinance = (event) => {
-    console.log(event.target.value);
+    
     setIsAppliedStudentFinance(event.target.value)
 }
 
 
 
   const handleChangeIsApplyingFromInside = (event) => {
-    console.log(event.target.value);
+    
     setIsApplyingFromInside(event.target.value);
 }
 
 
 
   const handleChangeIsStayedoutsideUkInLastThreeYears = (event) => {
-    console.log(event.target.value);
+    
     setIsStayedOutsideUkInLastThreeYears(event.target.value);
 }
 
@@ -111,7 +111,7 @@ const StudentApplicationForm = () => {
 
 
   const handlePreSettlementStatus = (event) => {
-    console.log(event.target.value);
+    
     setPresettlementStatus(event.target.value);
 }
 
@@ -171,7 +171,7 @@ const handleSubmit = (event) => {
       .then(res => {
         setProgress(false);
         setButtonStatus(false);
-        console.log('application response',res);
+        
         if(res?.status == 200){
           if(res?.data?.isSuccess == true){
 

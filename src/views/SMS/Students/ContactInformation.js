@@ -60,7 +60,7 @@ const ContactInformation = () => {
     get(
       `StudentContactInformation/GetByStudentId/${applicationStudentId}`
     ).then((res) => {
-      console.log("Contact information from local storage", res);
+      
       setOneData(res);
       setCountryLabel(
         res?.country?.name == null ? "Select Country" : res?.country?.name

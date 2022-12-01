@@ -75,7 +75,7 @@ const DocumentcategoryList = () => {
       setDocuList(action);
       setUniTypeId(action?.id);
       setLoading(false);
-      console.log("docuCate", action);
+      
     });
   }, [success]);
 
@@ -85,7 +85,7 @@ const DocumentcategoryList = () => {
     const subdata = new FormData(event.target);
     // for (const vale of subdata.values())
     // {
-    //   console.log(vale);
+    //   
 
     // }
 
@@ -139,7 +139,7 @@ const DocumentcategoryList = () => {
         setProgress1(false);
         setDeleteModal(false);
         setSuccess(!success);
-        // console.log(action);
+        // 
         addToast(action, {
           appearance: "error",
           autoDismiss: true,

@@ -76,7 +76,7 @@ const  LogoFile = () => {
 
 
  dispatch(StoreSiteSettingLogoImage(FileList));
-//  console.log(FileList);
+//  
 
 
 
@@ -97,7 +97,7 @@ const  LogoFile = () => {
           onPreview={handlePreview}
           onChange={handleChange}
           beforeUpload={(file)=>{ 
-            console.log(file);
+            
            
 
             

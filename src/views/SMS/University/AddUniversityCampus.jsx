@@ -83,7 +83,7 @@ const AddUniversityCampus = (props) => {
   const [progress, setProgress] = useState(false);
   const [progress1, setProgress1] = useState(false);
 
-  console.log("univerId", univerId);
+  
 
   let uniId;
   // let uniId = "10019";
@@ -96,7 +96,7 @@ const AddUniversityCampus = (props) => {
   useEffect(()=>{
     get(`UniversityCountryDD/Index`)
     .then(res => {
-      // console.log('all Campuses',res)
+   
       setUniverSityCountries(res);
     })
   },[])
@@ -116,7 +116,7 @@ const AddUniversityCampus = (props) => {
           setShowForm(false);
           setSelectedId(0);
         }
-        console.log("actionnnn", action);
+        
       }
     );
   }, [success, uniId, universityId, univerId]);
@@ -159,7 +159,7 @@ const AddUniversityCampus = (props) => {
     setUniCountryLabel(label);
     setUniCountryValue(value);
     get(`UniversityStateDD/Index/${value}`).then((res) => {
-      console.log("uni states",res);
+      
       setUniversityStates(res);
     });
     setUniStateLabel('Select Campus State')
@@ -181,7 +181,7 @@ const AddUniversityCampus = (props) => {
 
     const subdata = new FormData(event.target);
     //  for (var value of subdata.values()) {
-    //   console.log(value);
+    //   
     //  }
 
     if(uniCountryValue == 0){
@@ -200,7 +200,7 @@ const AddUniversityCampus = (props) => {
             'authorization': AuthStr,
           },
         }).then((res) => {
-          console.log(res);
+          
           setButtonStatus(false);
           setProgress(false);
           setuniversityId(res.data.result.universityId);
@@ -327,17 +327,14 @@ const AddUniversityCampus = (props) => {
     setShowForm(false);
 
     get(`UniversityCampus/Get/${id}`).then((action) => {
-      console.log(
-        "asjskdjskdskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjskdjs",
-        action
-      );
+      
       setuniversityCampusObject(action);
       setUniCountryLabel(action?.universityCountry?.name);
       setUniCountryValue(action?.universityCountry?.id);
       setUniStateLabel(action?.universityState?.name);
       setUniStateValue(action?.campusStateId);
       setSelectedId(action?.id);
-      console.log(id);
+      
     });
   };
 

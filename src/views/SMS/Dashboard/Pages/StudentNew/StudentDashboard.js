@@ -40,17 +40,17 @@ const StudentDashboard = () => {
 
   useEffect(() => {
     get(`StudentApplication/Index/${currentUser?.referenceId}`).then((res) => {
-      console.log("response app", res);
+      
       setApplicationInfo(res);
     });
 
     get(`StudentProfile/Get/${currentUser?.referenceId}`).then((res) => {
-      console.log("profileData", res);
+      
       setStudentDetails(res);
       // setIsHaveDisability(res?.profileOtherInfo?.isHaveDisability);
       // setIsHaveCriminalConvictions(res?.profileOtherInfo?.isHaveCriminalConvictions);
       // setEducationInfos(res?.educationInfos);
-      // console.log("eduInfo", res?.educationInfos)
+     
       // setGMatResult(res?.gmatScoreInfo);
       // setGreResult(res?.greScoreInfo);
       // setStudentTestScore(res?.studentTestScoreInfo);

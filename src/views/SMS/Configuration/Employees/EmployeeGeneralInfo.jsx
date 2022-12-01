@@ -79,7 +79,7 @@ const EmployeeGeneralInfo = (props) => {
 
   useEffect(() => {
     get(`Employee/Details/${id}`).then((res) => {
-      console.log('check response', res);
+      
       setBranchLabel(res?.branch?.name != null ? res?.branch?.name : 'Select Branch')
       setBranchValue(res?.branch?.id != null ? res?.branch?.id : 0);
       setEmployeeType(res.employeeType.name);
@@ -99,7 +99,7 @@ const EmployeeGeneralInfo = (props) => {
     });
 
     get("BranchDD/index").then((res) => {
-      // console.log(res);
+      // 
       setBranch(res);
     });
 
@@ -188,7 +188,7 @@ const EmployeeGeneralInfo = (props) => {
   };
 
  const handleChange = ({ fileList }) => {
-  console.log(fileList);
+  
   if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
     setFileList([]);
     setError('Only jpeg, jpg, png image is allowed');

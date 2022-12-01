@@ -364,7 +364,7 @@ const StudentApplication = ({ currentUser }) => {
     //     }
     //   }
 
-    //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
+    //   
 
     if (currentUser != undefined) {
       get(
@@ -372,7 +372,7 @@ const StudentApplication = ({ currentUser }) => {
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
-        console.log("Student Application", res?.models);
+        
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });

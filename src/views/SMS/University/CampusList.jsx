@@ -105,7 +105,7 @@ const CampusList = (props) => {
     get(
       `UniversityCampus/index?universityId=${uniId}&search=${searchStr}`
     ).then((res) => {
-      console.log("pagination", res);
+      
       setCampusList(res);
 
       setLoading(false);
@@ -116,7 +116,7 @@ const CampusList = (props) => {
     });
 
     get(`University/Get/${uniId}`).then((res) => {
-      console.log("single uni", res);
+      
       setUniNameFromObj(res?.name);
     });
   }, [
@@ -236,7 +236,7 @@ const CampusList = (props) => {
           setProgress1(false);
           setSuccess(!success);
           setModalOpen(false);
-          console.log("ressss", res);
+          
           setuniversityId(res?.data?.result?.universityId);
           if (res.status === 200 && res.data.isSuccess === true) {
             setSubmitData(false);
@@ -284,7 +284,7 @@ const CampusList = (props) => {
     setUniStateLabel("Select State");
     setUniStateValue(0);
     get(`UniversityStateDD/Index/${value}`).then((res) => {
-      console.log("res", res);
+      
       // setUniStateLabel(res.name)
       // setUniStateValue(res.id)
       setUniversityStates(res);
@@ -313,7 +313,7 @@ const CampusList = (props) => {
   const componentRef = useRef();
 
   const toggleDanger = (p) => {
-    console.log("dele", p);
+    
     // localStorage.setItem("camppId", p?.id);
     // localStorage.setItem("camppName", p?.name);
     setCamppId(p?.id);

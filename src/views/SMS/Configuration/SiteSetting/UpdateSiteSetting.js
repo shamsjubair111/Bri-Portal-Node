@@ -27,7 +27,7 @@ const UpdateSiteSetting = () => {
 
   useEffect(() => {
     get(`SiteSetting/Get`).then((res) => {
-      console.log(res);
+      
       setSiteInfo(res);
     });
   }, []);
@@ -38,7 +38,7 @@ const UpdateSiteSetting = () => {
     subData.append("uappLogoFile", result[0]?.originFileObj);
     subData.append("uappfaviconFile", result1[0]?.originFileObj);
     for (let val of subData.values()) {
-      console.log(val);
+      
     }
 
     put(`SiteSetting/Update`, subData).then((res) => {

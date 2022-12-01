@@ -147,7 +147,7 @@ const AddConsultantInformation = () => {
 
     get(`Consultant/Get/${consultantRegisterId}`).then(
       (res) => {
-        console.log("fetching consultant info from api", res);
+        
         setConsultantData(res);
         setNameLabel(res?.nameTittleId? res?.nameTitle?.name : 'Select Title');
         setNameValue(res?.nameTittleId? res?.nameTitle?.id : 0);
@@ -178,24 +178,24 @@ const AddConsultantInformation = () => {
     );
 
     get("VisaTypeDD/Index").then((res) => {
-      // console.log(res);
+      // 
       setVisa(res);
     });
 
     get("BranchDD/index").then((res) => {
-      // console.log(res);
+      // 
       setBranch(res);
     });
 
     get("ResidencyStatusDD/index").then((res) => {
-      // console.log(res);
+      // 
       setResidency(res);
     });
 
     get(
       `AccountStatusDD/index/${consultantRegisterId}`
     ).then((res) => {
-      // console.log(res);
+      // 
       setAccount(res);
     });
   }, [success]);
@@ -246,7 +246,7 @@ const AddConsultantInformation = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  // console.log('Profile Image of Consultant', FileList1[0]?.originFileObj);
+  // 
 
   // Profile Image Code End
 
@@ -290,7 +290,7 @@ const AddConsultantInformation = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  // console.log('Cover Image of Consultant', FileList2[0]?.originFileObj);
+  // 
 
   // Cover Image Code End
 
@@ -338,7 +338,7 @@ const AddConsultantInformation = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  // console.log('Id or Passport of Consultant', FileList3[0]?.originFileObj);
+  // 
 
   // Id or Passport Code End
 
@@ -386,7 +386,7 @@ const AddConsultantInformation = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  // console.log('Id or Passport of Consultant', FileList3[0]?.originFileObj);
+  // 
 
   // Proof of Address Code End
 
@@ -433,7 +433,7 @@ const AddConsultantInformation = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  // console.log('Id or Passport of Consultant', FileList3[0]?.originFileObj);
+  // 
 
   // Proof of Right to Work Code End
 
@@ -539,12 +539,12 @@ const AddConsultantInformation = () => {
   // Have Right To Work Radio Button
 
   const handleWork = (event) => {
-    console.log(event.target.value);
+    
     setWork(event.target.value);
     setWorkError(false);
   };
 
-  console.log(FileList5);
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -573,7 +573,7 @@ const AddConsultantInformation = () => {
     );
 
     // for (var x of subData) {
-    //   console.log(x);
+    //   
     // }
 
     // if (nameValue == 0) {

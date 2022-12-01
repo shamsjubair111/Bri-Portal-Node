@@ -65,13 +65,13 @@ const DocumentList = () => {
 
   useEffect(() => {
     get("Document/Index").then((res) => {
-      console.log("doc data", res);
+      
       setDocumentdata(res);
       setLoading(false);
     });
 
     get("DocumentCategoryDD/Index").then((res) => {
-      console.log("dd", res);
+      
       setDocuDD(res);
     });
   }, [success]);
@@ -89,7 +89,7 @@ const DocumentList = () => {
 
   const handleUpdate = (document) => {
     setModalOpen(true);
-    console.log(document, document?.documentCategory?.id);
+    
     setDocuLabel(document?.documentCategory?.name)
     setDocuValue(document?.documentCategory?.id);
     setDocumentName(document?.name);
@@ -105,7 +105,7 @@ const DocumentList = () => {
     const subData = new FormData(event.target);
 
     // for(var i of subData){
-    //     console.log(i);
+    //     
     // }
 
     // const subdata = {
@@ -120,7 +120,7 @@ const DocumentList = () => {
     }
     else{
       if (updateDocument != undefined) {
-        console.log(localStorage.getItem("updateDocument"));
+        
         setButtonStatus(true);
         setProgress1(true);
         const returnvalue = put(`Document/Update`, subData).then((action) => {
@@ -231,7 +231,7 @@ const DocumentList = () => {
   };
 
   const handleApplication = (event) => {
-    console.log(event.target.value);
+    
     setApplication(event.target.value);
     setApplicationError(false);
   };

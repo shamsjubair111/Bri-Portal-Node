@@ -163,7 +163,7 @@ const AdmissionManagerList = () => {
     get(
       `AdmissionManager/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${providerValue}&search=${searchStr}`
     ).then((res) => {
-      console.log(res);
+      
       setManagerList(res?.models);
       setEntity(res?.totalEntity);
       setSerialNum(res?.firstSerialNumber);
@@ -260,7 +260,7 @@ const AdmissionManagerList = () => {
 
  
 
-  console.log("One two three", FileList[0]?.originFileObj);
+  
 
   // Trial End
 
@@ -336,7 +336,7 @@ const AdmissionManagerList = () => {
   };
 
   const toggleDelete = (manager) => {
-    console.log("manager", manager);
+    
     setManagerId(manager?.id);
     setManagerName(manager?.firstName);
     setDeleteData(manager);
@@ -370,15 +370,15 @@ const AdmissionManagerList = () => {
   };
 
   const handleAccountStatus = (e, managerId) => {
-    console.log(e.target.checked, managerId);
+    
     // setChecked(e.target.checked);
-    // console.log(check);
+    // 
 
     const subData = {
       id: managerId,
     };
 
-    console.log("SubDataaa", subData);
+    
 
     put(`AdmissionManager/UpdateAccountStatus/${managerId}`, subData).then(
       (res) => {
@@ -431,7 +431,7 @@ const AdmissionManagerList = () => {
     subdata.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
     for (var i of subdata) {
-      console.log(i);
+      
     }
 
     if (providerValue2 === 0) {
@@ -496,7 +496,7 @@ const AdmissionManagerList = () => {
     setUniStateLabel("Select State");
     setUniStateValue(0);
     get(`StateDD/Index/${value}`).then((res) => {
-      console.log("res", res);
+      
       // setUniStateLabel(res.name)
       // setUniStateValue(res.id)
       setUniversityStates(res);
@@ -516,7 +516,7 @@ const AdmissionManagerList = () => {
   };
 
   const redirectToAdmissionOfficerList = (providerId, managerId) => {
-    console.log("ids", providerId, managerId);
+    
     history.push(`/admissionOfficerListFromAdmissionManagerList/${providerId}/${managerId}`);
   }
 

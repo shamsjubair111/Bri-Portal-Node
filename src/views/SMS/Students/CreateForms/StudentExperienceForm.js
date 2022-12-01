@@ -34,7 +34,7 @@ const StudentExperience = () => {
       
         let isChecked = e.target.checked;
         setWorking(isChecked);
-        console.log(isChecked);
+        
        
       } 
 
@@ -52,7 +52,7 @@ const StudentExperience = () => {
         }
 
         for( var a of subData.values()){
-          console.log(a);
+          
         }
          setButtonStatus(true);
          setProgress(true);

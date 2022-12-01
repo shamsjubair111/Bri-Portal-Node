@@ -126,7 +126,7 @@ const AdmissionManagerProfile = () => {
   useEffect(() => {
 
     get(`AdmissionOfficerDD/Index/${providerId}/${managerId}`).then((res) => {
-      console.log("rsdsd", res);
+      
       setOfficerDD(res);
       // setManagerDDForm(res);
       setLoading(false);
@@ -151,7 +151,7 @@ const AdmissionManagerProfile = () => {
       setManagerData(res);
       setApplicationData(res?.admissionManagerApplications);
       setAdmissionOfficer(res?.admissionOfficers);
-      console.log("admission mnager", res);
+      
       setLoading(false);
     });
   }, [managerId, success, providerId, loading]);
@@ -265,7 +265,7 @@ const handleChange = ({ fileList }) => {
           setSuccess(!success);
           setProgress(false);
           setModalOpen(false);
-          console.log("ressss", res);
+          
           setNameTitleLabel("Select Title");
           setNameTitleValue(0);
           setUniCountryLabel("Select Country");
@@ -409,7 +409,7 @@ const selectNameTitle = (label, value) => {
   }
 
   const handleEmail = (e) => {
-    console.log(e.target.value);
+    
 
     get(`Consultant/OnChangeEmail/${e.target.value}`)
     .then(res => {
@@ -424,7 +424,7 @@ const selectNameTitle = (label, value) => {
 
   const handleUpdate = (officer) =>{
 
-    console.log("officer", officer);
+    
     setOfficerObj(officer);
     setNameTitleLabel(officer?.nameTittleName);
     setNameTitleValue(officer?.nameTittleId);
@@ -437,7 +437,7 @@ const selectNameTitle = (label, value) => {
   }
 
   const toggleDanger = (officer) => {
-    console.log(officer);
+    
     setDeleteName(officer?.firstName);
     setDeleteId(officer?.officermanagerId);
     setDeleteModal(true);
@@ -531,7 +531,7 @@ const selectNameTitle = (label, value) => {
     subData.append("profileImage", FileList1[0]?.originFileObj);
   
     // for(var x of subData.values()){
-    //     console.log(x);
+    //     
     // }
     
   

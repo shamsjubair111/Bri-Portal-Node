@@ -115,7 +115,7 @@ const UniversityForm = () => {
   const {univerId} = useParams();
   const location = useLocation();
 
-  console.log("uniIds", universityId, uniId, univerId);
+  
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -154,13 +154,13 @@ const UniversityForm = () => {
     // }
     
     setLogoDropzoneError(false);
-    console.log("fileList", fileList);
+    
   };
 
   const handleChange2 = ({ fileList }) => {
     // setFileList2(fileList);
     setCoverDropzoneError(false);
-    // console.log(fileList);
+    // 
     if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
       setFileList2([]);
       setCoverText('Only jpeg, jpg, png image is allowed');
@@ -214,7 +214,7 @@ const UniversityForm = () => {
 
   useEffect(()=>{
     get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-      console.log("providerHelper",typeof(res));
+      
         setProviderValue(res != 0 ? res : 0);
         // if(res != 0){
         //   localStorage.setItem("providerValue", res);
@@ -222,13 +222,13 @@ const UniversityForm = () => {
     })
   },[userType, referenceId])
 
-  console.log("providervalue", typeof(providerValue));
+  
 
   useEffect(() => {
     get("ProviderDD/Index")
       .then((res) => {
         setProvider(res);
-        console.log(res, "ppppppp");
+        
       })
       .catch();
     get("UniversityCountryDD/Index")
@@ -249,13 +249,13 @@ const UniversityForm = () => {
     get("ContractTypeDD/Index")
       .then((res) => {
         setContractTypeDD(res);
-        // console.log("contract type", res);
+        // 
       })
       .catch();
 
     if (universityId != undefined) {
       get(`University/get/${universityId}`).then((res) => {
-        console.log("uniIddata", res);
+        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -274,7 +274,7 @@ const UniversityForm = () => {
 
     if (univerId != undefined) {
       get(`University/get/${univerId}`).then((res) => {
-        console.log("uniIddata", res);
+        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -396,7 +396,7 @@ const UniversityForm = () => {
     // for (var value of subdata.values()) {
 
     // }
-    console.log("providerTypeValue",providerTypeValue);
+    
 
     const config = {
       headers: {
@@ -433,7 +433,7 @@ const UniversityForm = () => {
             setProgress(true);
             Axios.post(`${rootUrl}University/Create`, subdata, config).then(
               (res) => {
-                console.log("unipostData", res);
+                
                 setButtonStatus(false);
                 setProgress(false);
                 // localStorage.setItem("id", res.data.result.id);
@@ -486,7 +486,7 @@ const UniversityForm = () => {
             setProgress(true);
             Axios.post(`${rootUrl}University/Create`, subdata, config).then(
               (res) => {
-                console.log("unipostData", res);
+                
                 setButtonStatus(false);
                 setProgress(false);
                 // localStorage.setItem("id", res.data.result.id);

@@ -92,7 +92,7 @@ const AddNewIntakes = () => {
           event.preventDefault();
           const subData = new FormData(event.target);
         //   for (var value of subData.values()) {
-        //       console.log('valueeee',value);
+        //       
         //     }
         if(monthTypeValue == 0){
           setMonthError('Month is required');

@@ -49,7 +49,7 @@ const UniversityTestScore = () => {
     useEffect(()=>{
         get(`TestScoreRequirement/Index/${univerId}`)
         .then(res => {
-            console.log(res);
+            
             setData(res);
             setRequired(res?.isTestScoreRequired);
             setIelts(res?.isIeltsMandatory);

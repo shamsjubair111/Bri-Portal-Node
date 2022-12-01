@@ -139,7 +139,7 @@ const CampusDetails = () => {
     remove(`UniversityCampusSubject/Delete/${data?.id}`).then((res) => {
       setButtonStatus2(false);
       setProgress2(false);
-      console.log(res);
+      
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -153,7 +153,7 @@ const CampusDetails = () => {
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
     setFileError(false);
-    console.log(fileList);
+    
   };
 
   const handleCancel1 = () => {
@@ -168,7 +168,7 @@ const CampusDetails = () => {
 
     get(`UniversityCampus/Get/${id}`).then((res) => {
       setCampusInfo(res);
-      console.log("unicamp", res);
+      
       setUniId(res?.university?.id);
     });
 
@@ -176,18 +176,18 @@ const CampusDetails = () => {
     get(`UniversityCampusSubject/GetUnassigned/${id}`).then((res) => {
       setSubList(res);
       // setSubList1(res);
-      console.log("Sublist", res);
+      
       // setSubList(res);
     });
 
     get(`Subject/GetByCampusIdWithIntake/${id}`).then((res) => {
       setSubList1(res);
-      console.log("Sublist1111", res);
+      
       // setSubList(res);
     });
 
     get(`Subject/GetByCampusIdWithIntake/${id}`).then((res) => {
-      console.log("ressssssSSSS", res);
+      
       setSubjectIds(res);
       let defaultChecked = checked1;
       if (res.length > 0) {
@@ -215,7 +215,7 @@ const CampusDetails = () => {
     });
 
     get(`UniversityCampusSubject/GetByCampus/${id}`).then((res) => {
-      console.log("subject list main", res);
+      
       setSubjectList(res);
     });
   }, [id, success]);
@@ -261,7 +261,7 @@ const CampusDetails = () => {
     setRadioIsAcceptUk(`${data?.isAcceptEU_UK}`);
     setSubValue(data?.subject?.id);
     // setSubLabel("Select Subject");
-    console.log(data);
+    
 
     setDeleteModal2(true);
   };
@@ -319,7 +319,7 @@ const CampusDetails = () => {
   // Delete Modal
 
   const toggleDanger = (data) => {
-    console.log(data);
+    
     setData(data);
 
     setDeleteModal1(true);
@@ -329,20 +329,20 @@ const CampusDetails = () => {
     e.preventDefault();
 
     const subdata = subList;
-    console.log("postData", subdata);
+    
 
     // setSubData(subdata);
 
     // const x =[...a,subdata];
     // setA(x);
-    // console.log("subList",clonedSubData);
+    // 
 
     // for (var value of subId) {
-    //     console.log("values",value);
+    //     
     //    }
 
     // for (var value of clonedSubData) {
-    //   console.log("values",value);
+    //   
     //  }
   };
 
@@ -404,7 +404,7 @@ const CampusDetails = () => {
       post(`UniversityCampusSubject/Create`, subData).then((res) => {
         setButtonStatus3(false);
         setProgress4(false);
-        console.log(res);
+        
         if (res?.data?.isSuccess == true && res?.status == 200) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -429,19 +429,19 @@ const CampusDetails = () => {
         return { ...sub, isChecked: checked };
       });
       setSubList(tmpUsers);
-      console.log("selectAll", tmpUsers);
+      
     } else if (name === "allDeselect") {
       let tmpUsers = subList.map((sub) => {
         return { ...sub, isChecked: !checked };
       });
       setSubList(tmpUsers);
-      console.log("dselectAll", tmpUsers);
+      
     } else {
       let tmpUsers = subList.map((sub) =>
         sub.name === name ? { ...sub, isChecked: checked } : sub
       );
       setSubList(tmpUsers);
-      console.log("singleSelect", tmpUsers);
+      
     }
   };
   // for multiple assign ends here
@@ -456,7 +456,7 @@ const CampusDetails = () => {
         : data
     );
     setSubList(features);
-    console.log("featureHome", features);
+    
     // if(data?.isChecked === true){
     //     setSubList({...data, isAcceptHome: homeAccept})
     // }
@@ -471,7 +471,7 @@ const CampusDetails = () => {
         : data
     );
     setSubList(features);
-    console.log("featureUk", features);
+    
     // if(data?.isChecked === true){
     //     setSubList({...data, isAcceptHome: homeAccept})
     // }
@@ -486,7 +486,7 @@ const CampusDetails = () => {
         : data
     );
     setSubList(features);
-    console.log("featureInt", features);
+    
     // if(data?.isChecked === true){
     //     setSubList({...data, isAcceptHome: homeAccept})
     // }
@@ -537,11 +537,11 @@ const CampusDetails = () => {
   const handleView = (gallery) => {
     setGalleryObj(gallery);
     setViewModalOpen(true);
-    console.log("gOBj", gallery);
+    
   };
 
   const handleDelete = (gallery) => {
-    console.log("gallery", gallery);
+    
     setDelGalName(gallery?.mediaFileMedia?.fileName);
     setDelGalId(gallery?.id);
     setDeleteModal(true);
@@ -586,7 +586,7 @@ const CampusDetails = () => {
     // }
 
     for (let value of subdata) {
-      console.log(value);
+      
     }
 
     const config = {
@@ -643,7 +643,7 @@ const CampusDetails = () => {
     }
   };
 
-  console.log('checked1', checked1);
+  
 
   // on Select All Checkbox
   const handleSelectAll = (e) => {
@@ -668,7 +668,7 @@ const CampusDetails = () => {
     }
   };
 
-  console.log("checked1", checked1);
+  
 
   const handleMultipleSubjects = () => {
     history.push(`/assignMultipleSubject/${id}`);

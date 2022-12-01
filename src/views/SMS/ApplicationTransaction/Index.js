@@ -174,7 +174,7 @@ const Index = () => {
       get(
         `ApplicationTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&uappid=${uappValue}&studentid=${studentValue}&consultantid=${consultantId}&intakeid=${intakeValue}`
       ).then((res) => {
-        console.log("trans data", res?.models);
+        
         setData(res?.models);
         setConsultantValue(consultantId);
         setConsultantLabel(res?.models[0]?.consultant.split("-")[1]);

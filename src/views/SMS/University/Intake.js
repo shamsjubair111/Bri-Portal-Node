@@ -101,7 +101,7 @@ const Intake = () => {
 
   useEffect(() => {
     get(`Intake/Index`).then((res) => {
-      console.log("checkng intake list", res);
+      
       setIntakeList(res);
       setEntity(res?.totalEntity);
       setLoading(false);

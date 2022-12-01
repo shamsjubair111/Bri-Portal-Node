@@ -36,7 +36,7 @@ const EmployeeList = (props) => {
   useEffect(()=>{
       get(`SiteSetting/Get`)
       .then(res => {
-          console.log([res]);
+          
           setSiteSettingInfo([res]);
         
        

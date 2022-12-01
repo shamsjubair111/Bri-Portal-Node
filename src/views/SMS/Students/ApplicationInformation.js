@@ -16,7 +16,7 @@ const ApplicationInformation = () => {
   const history = useHistory();
   const {applicationStudentId, update} = useParams();
 
-  console.log(applicationStudentId, update);
+  
 
   const [applicationInformation, setApplicationInformation] = useState({});
   const [activetab, setActivetab] = useState("1");
@@ -61,19 +61,19 @@ const ApplicationInformation = () => {
 
     get('StudentTypeDD/Index')
     .then(res => {
-      console.log('Student Type Dropdown',res);
+      
       setStudentType(res);
     })
 
     get('VisaTypeDD/Index')
     .then(res => {
-      console.log(res);
+      
       setVisaStatus(res);
     })
 
     // get(`StudentType/Get/${applicationStudentTypeId}`)
     // .then(res => {
-    //   console.log('getting data from previous page',res);
+    //   
     //   setStudentTypeValue(res?.id);
     //   setStudentTypeLabel(res?.name);
     // })
@@ -81,7 +81,7 @@ const ApplicationInformation = () => {
 
     get(`ApplicationInfo/GetByStudentId/${applicationStudentId}`)
     .then(res => {
-      console.log('application post response', res);
+      
       
       setApplicationInformation(res);
       setStudentTypeLabel(res?.student?.studentType?.name);
@@ -105,7 +105,7 @@ const ApplicationInformation = () => {
       var localeDte2 = localeDte.split(",")[0];
       var localeDte3 = localeDte2.replace('/', '-');
       
-      console.log(localeDte);
+      
       setDateOfMoveToUk(localeDte3.replace('/', '-'));
     
 
@@ -175,21 +175,21 @@ const toggle = (tab) => {
 
     
     const handleChangeIsAppliedStudentFinance = (event) => {
-      console.log(event.target.value);
+      
       setIsAppliedStudentFinance(event.target.value)
   }
 
 
 
     const handleChangeIsApplyingFromInside = (event) => {
-      console.log(event.target.value);
+      
       setIsApplyingFromInside(event.target.value);
   }
 
 
 
     const handleChangeIsStayedoutsideUkInLastThreeYears = (event) => {
-      console.log(event.target.value);
+      
       setIsStayedOutsideUkInLastThreeYears(event.target.value);
   }
 
@@ -197,7 +197,7 @@ const toggle = (tab) => {
 
 
     const handlePreSettlementStatus = (event) => {
-      console.log(event.target.value);
+      
       setPresettlementStatus(event.target.value);
   }
 
@@ -256,7 +256,7 @@ const handleSubmit = (event) => {
     .then(res => {
       setButtonStatus(false);
       setProgress(false);
-      console.log('2nd put response',res);
+      
       if(res?.status == 200 && res?.data?.isSuccess == true){
        
         addToast(res?.data?.message,{
@@ -286,7 +286,7 @@ const handleSubmit = (event) => {
     .then(res => {
       setButtonStatus(false);
       setProgress(false);
-      console.log('application response',res);
+      
       if(res?.status == 200 && res?.data?.isSuccess == true){
         addToast(res.data.message,{
           appearance: 'success',

@@ -85,24 +85,24 @@ const ConsultantCommission = () => {
 
   useEffect(() => {
     get("CommissionGroupDD/Index").then((res) => {
-      console.log("ddd", res);
+      
       setCommissionDD(res);
     });
 
     get(`ConsultantCommissionGroup/Index/${consultantRegisterId}`).then(
       (res) => {
-        console.log("consultantCommissionList", res);
+        
         setCommissionGrouplist(res);
       }
     );
 
     get(`GroupPriceRange/ByConsultant/${consultantRegisterId}`).then((res) => {
-      console.log("priceList", res);
+      
       setPriceRangeList(res);
     });
 
     get("PromotionalCommission/Index").then(res=>{
-      console.log("promotional commission", res);
+      
       setPromotionalList(res);
     })
 
@@ -144,7 +144,7 @@ const ConsultantCommission = () => {
     subdata.append(`isApplicable`, checked);
 
     for (var i of subdata) {
-      console.log(i);
+      
     }
 
     if (commissionValue === 0) {
@@ -209,7 +209,7 @@ const ConsultantCommission = () => {
       setButtonStatus(false);
         setDeleteModal(false);
         setSuccess(!success);
-        // console.log(action);
+        // 
          addToast(action, {
            appearance: 'error',
            autoDismiss: true,
@@ -220,7 +220,7 @@ const ConsultantCommission = () => {
   }
 
   const handleReAssign = (commission) =>{
-    console.log("update commission", commission);
+    
     setCommissionId(commission?.id);
     setCommissionName(commission?.commissionGroup?.name);
     setReAssignModal(true);

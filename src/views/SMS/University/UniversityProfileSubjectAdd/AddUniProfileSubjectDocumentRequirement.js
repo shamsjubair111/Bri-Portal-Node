@@ -62,15 +62,15 @@ const AddUniProfileSubjectDocumentRequirement = () => {
 
   useEffect(() => {
     get("DocumentGroupDD/Index").then((res) => {
-      console.log(res, "response");
+      
       setDocuDD(res);
     });
     get("ApplicationTypeDD/Index").then((res) => {
-      console.log(res, "response");
+      
       setApplicationTypeDD(res);
     });
     get(`SubjectDocumentRequirement/GetBySubject/${subjId}`).then((res) => {
-      console.log(res, "ssxcsxs");
+      
       setDocumentGrpList(res);
     });
   }, [subjId, success]);
@@ -136,7 +136,7 @@ const AddUniProfileSubjectDocumentRequirement = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata) {
-      console.log("values", value);
+      
     }
 
     if (docuValue === 0) {
@@ -155,7 +155,7 @@ const AddUniProfileSubjectDocumentRequirement = () => {
         }).then((res) => {
           setButtonStatus(false);
           setProgress(false);
-          console.log(res);
+          
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -195,7 +195,7 @@ const AddUniProfileSubjectDocumentRequirement = () => {
         }).then((res) => {
           setButtonStatus(false);
           setProgress(false);
-          console.log(res);
+          
           if (res.status === 200 && res.data.isSuccess === true) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -227,7 +227,7 @@ const AddUniProfileSubjectDocumentRequirement = () => {
   };
 
   const handleUpdate = (document) => {
-    console.log("documentList", document);
+    
     setUpdate(document?.id);
     setDocuLabel(document?.documentGroup?.title);
     setDocuValue(document?.documentGroup?.id);
@@ -242,7 +242,7 @@ const AddUniProfileSubjectDocumentRequirement = () => {
   };
 
   const toggleDanger = (document) => {
-    console.log(document);
+    
     setDelRequiredDocuName(document?.documentGroup?.title);
     setDelRequiredDocuId(document?.id);
     setDeleteModal(true);
@@ -263,7 +263,7 @@ const handleDeleteDocuRequired = (id) => {
     setProgress1(false);
     setDeleteModal(false);
     setSuccess(!success);
-    // console.log(action);
+    // 
      addToast(action, {
        appearance: 'error',
        autoDismiss: true,

@@ -48,13 +48,13 @@ const AdmissionManager = () => {
     useEffect(()=>{
         get(`CountryDD/index`)
         .then( res=> {
-            // console.log('Country list', res);
+            // 
             setCountry(res);
         })
 
         get('NameTittle/GetAll')
       .then(res => {
-        console.log('title',res);
+        
         setTitle(res);
       })
 
@@ -150,7 +150,7 @@ const goBack = () => {
     const searchStateByCountry = (countryValue) => {
         get(`StateDD/Index/${countryValue}`)
         .then(res => {
-          console.log('State',res);
+          
           setState(res);
         })
       }
@@ -222,11 +222,11 @@ const goBack = () => {
     }
 
     const handleEmail = (e) => {
-      console.log(e.target.value);
+      
 
       get(`Consultant/OnChangeEmail/${e.target.value}`)
       .then(res => {
-        console.log('Checking Response', res);
+        
         setEmailError(res);
       })
     }

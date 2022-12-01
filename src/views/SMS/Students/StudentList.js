@@ -126,7 +126,7 @@ const StudentList = () => {
 
     get("ConsultantDD/index").then((res) => {
       setConsultant(res);
-      console.log('res', res);
+      
       if(cId){
         const result  = res.find(r => r?.id == cId);
         setConsultantLabel(result?.name);
@@ -141,7 +141,7 @@ const StudentList = () => {
             userTypeId == userTypes?.Consultant ? referenceId : consultantValue
           }&status=${statusValue}&sortby=${orderValue}`
         ).then((res) => {
-          console.log("first",res);
+          
           setStudentData(res?.models);
           setEntity(res?.totalEntity);
           setSerialNum(res?.firstSerialNumber);
@@ -244,7 +244,7 @@ const StudentList = () => {
   }));
 
   const selectOrder = (label, value) => {
-    // console.log("value", label, value);
+    // 
     
     setOrderLabel(label);
     setOrderValue(value);
@@ -330,7 +330,7 @@ const StudentList = () => {
   };
 
   const handleEdit = (data) => {
-    console.log(data);
+    
 
     history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
   };
@@ -373,7 +373,7 @@ const StudentList = () => {
 
   const handlePass = (data) => {
     setPassData(data);
-    console.log(data);
+    
     setPassModal(true);
   };
 
@@ -445,9 +445,9 @@ const StudentList = () => {
   };
 
   const handleBlacklist = (e, id) => {
-    console.log(e.target.checked, id);
+    
     // setChecked(e.target.checked);
-    // console.log(check);
+    // 
 
     const subData = {
       id: id,

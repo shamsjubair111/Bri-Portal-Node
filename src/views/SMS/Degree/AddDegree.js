@@ -30,14 +30,14 @@ const AddDegree = () => {
 
         get('EducationLevelDD/Index')
         .then(res => {
-            console.log('Cehecking Education Data from get method', res);
+            
             setEducation(res);
         })
 
         if(educationId){
           get(`EducationLevel/Get/${educationId}`)
           .then(res => {
-            console.log(res,'fgfggfg');
+            
             setData(res);
             setEducationLabel(res?.name);
             setEducationValue(res?.id);

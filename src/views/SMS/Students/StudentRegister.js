@@ -51,13 +51,13 @@ const StudentRegister = () => {
 
     get('StudentTypeDD/Index')
       .then(res => {
-        console.log(res);
+        
         setStudentType(res);
       })
 
     get('ConsultantDD/index')
       .then(res => {
-        console.log(res);
+        
         setConsultant(res);
       })
 
@@ -67,7 +67,7 @@ const StudentRegister = () => {
 
     axios.get(`${rootUrl}EmailCheck/Validate/${email}`)
     .then(res => {
-      console.log('checking onBlur email value', res);
+      
       if(res?.data?.isSuccess === false && res?.data?.result === false){
         setEmailError(res?.data?.message);
       }
@@ -153,7 +153,7 @@ const StudentRegister = () => {
             setButtonStatus(false);
            
             if(res?.status === 200 && res?.data?.isSuccess === true){
-              console.log('hello', res);
+              
              
               addToast(res?.data?.message, {
                 appearance: 'success',
@@ -184,7 +184,7 @@ const StudentRegister = () => {
           .then(res => {
             setProgress(false);
             setButtonStatus(false);
-            console.log('hello', res);
+            
          
             addToast(res?.data?.message, {
               appearance: res?.data?.isSuccess == true? 'success' : 'error',

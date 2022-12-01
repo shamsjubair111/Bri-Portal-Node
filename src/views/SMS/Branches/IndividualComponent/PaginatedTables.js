@@ -93,7 +93,7 @@ const PaginatedTables = (props) => {
 
         get(`BranchConsultant/Bybranch?page=${currentPage6}&pageSize=${dataPerPage6}&branchId=${props?.id}`)
         .then(res => {
-          console.log('Branch Consultant', res);
+          
           setConsultant(res?.models);
           setEntity6(res?.totalEntity);
         })
@@ -181,7 +181,7 @@ const PaginatedTables = (props) => {
         remove(`Consultant/Delete/${delData?.id}`).then((res) => {
           setProgress(false);
           setButtonStatus(false);
-          // console.log(res);
+          // 
           addToast(res, {
             appearance: "error",
             autoDismiss: true,
@@ -198,7 +198,7 @@ const PaginatedTables = (props) => {
         // Edit Consultant Information
 
   const handleEdit = (data) => {
-    console.log(data);
+    
 
     history.push(`/consultantInformation/${data?.id}`);
   };

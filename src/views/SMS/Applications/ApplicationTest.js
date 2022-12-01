@@ -425,7 +425,7 @@ const ApplicationTest = () => {
         }
       }
 
-      console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
+      
 
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${

@@ -140,7 +140,7 @@ const PromotionalCommissionList = () => {
       const handleUpdate = (data) => {
         setUpdate(true);
         setData(data);
-        console.log(data);
+        
         get(`PromotionalCommission/Get/${data?.id}`)
         .then(res => {
            setUniversityLabel(res?.university?.name);

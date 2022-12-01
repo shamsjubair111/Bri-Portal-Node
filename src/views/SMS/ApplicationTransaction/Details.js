@@ -79,7 +79,7 @@ const Details = () => {
 
         get(`ApplicationTransaction/Details/${id}`)
         .then(res => {
-           console.log(res,'string');
+           
             setData(res);
             setTransactionLabel(res?.transactionStatus);
             setTransactionValue(res?.transactionStatusId);
@@ -92,7 +92,7 @@ const Details = () => {
 
         get(`ApplicationTransactionInstallment/Get/${id}`)
         .then(res => {
-          console.log('dfgdfgdgfdg', res, "afsdfsdfdsf");
+          
           setInstallment(res);
           setFirstLabel(res?.firstInstallmentStatus == 1 ? 'Pending' : res?.firstInstallmentStatus == 2 ? 'Received' : 'Rejected');
           setFirstValue(res?.firstInstallmentStatus);
@@ -110,7 +110,7 @@ const Details = () => {
 
         get(`InstallmentStatusDD/Index`)
         .then(res => {
-          // console.log('second', res);
+          // 
           setPayment(res);
         })
 

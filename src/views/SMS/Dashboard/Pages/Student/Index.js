@@ -31,7 +31,7 @@ const Student = () => {
     
       get(`Student/CheckIfStudentIsConsultant/${currentUser?.displayEmail}`)
       .then(res => {
-        console.log('checkEmail',res);
+        
         setInfo(res);
       })
 

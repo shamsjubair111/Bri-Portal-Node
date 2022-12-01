@@ -421,7 +421,7 @@ const ProviderApplication = ({ currentUser }) => {
     //   }
     // }
 
-    //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
+    //   
 
     // if (currentUser != undefined) {
     //   get(
@@ -445,7 +445,7 @@ const ProviderApplication = ({ currentUser }) => {
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
-          console.log("commonApp", res?.models, res.models[0]?.consultantName);
+          
           setProviderConsLabel(res.models[0]?.consultantName);
           setProviderConsValue(consultantId);
           setEntity(res?.totalEntity);
@@ -457,7 +457,7 @@ const ProviderApplication = ({ currentUser }) => {
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
-          console.log("commonApp", res?.models, res.models[0]?.consultantName);
+          
           setProviderUniLabel(res.models[0]?.universityName);
           setProviderUniValue(universityId);
           setEntity(res?.totalEntity);

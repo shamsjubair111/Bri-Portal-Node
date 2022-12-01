@@ -73,7 +73,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
         get(`AdmissionManagerUniversityDD/UniversityList/${managerId}`)
         .then(res => {
             setUni(res);
-            console.log("unidd", res);
+            
         })
 
         get(`AdmissionManagerSubject/GetPagedAssignedSubjects?page=${currentPage}&pageSize=${dataPerPage}&UniversityId=${uniValue}&AdmissionManagerId=${managerId}&AssignedId=${statusValue}`)
@@ -81,7 +81,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
             setSubData(res?.models);
             setEntity(res?.totalEntity);
             setSerialNum(res?.firstSerialNumber);
-            console.log("datas", res);
+            
         })
 
 
@@ -131,7 +131,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
   }));
 
   const selectStatus = (label, value) => {
-    // console.log("value", label, value);
+    // 
     // setLoading(true);
     setStatusLabel(label);
     setStatusValue(value);

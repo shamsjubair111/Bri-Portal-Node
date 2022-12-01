@@ -54,7 +54,7 @@ const EmployeeContactInfo = () => {
 
   useEffect(() => {
     get(`EmployeeContactInformation/GetByEmployeeId/${id}`).then((res) => {
-      console.log('checking',res);
+      
   
       setContactInfo(res);
       setAddressLineValue(res !== null ? res?.addressTypeId : 0);

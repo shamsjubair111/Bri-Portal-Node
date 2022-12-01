@@ -25,7 +25,7 @@ import { permissionList } from '../../../constants/AuthorizationConstant';
 const AddUniversityType = (props) => {
 
   const universityTypes = props.univerSityTypeList[0];
-  console.log("uniType", universityTypes);
+  
   const [uniTypeId, setUniTypeId] = useState(0);
   const [universityType,setUniversityType] = useState('');
 
@@ -79,7 +79,7 @@ const handleSubmit = (event) => {
   const subdata = new FormData(event.target);
   // for (const vale of subdata.values())
   // {
-  //   console.log(vale);
+  //   
 
   // }
   
@@ -120,7 +120,7 @@ const handleUpdate = (type) => {
   setModalOpen(true);
   setUniversityType(type.name);
   // localStorage.setItem('updateUni',type.id)
-  console.log(type);
+  
   setUpdateState(type);
    
 }
@@ -136,7 +136,7 @@ const handleUpdateSubmit = (e) => {
   // }
   const subData = new FormData(e.target)
   // for (const val of subData.values()){
-  //   console.log(val);
+  //   
 
   // }
 
@@ -161,7 +161,7 @@ const handleDeleteUniType = (id) => {
   const returnValue = remove(`UniversityType/Delete/${id}`).then((action)=> {
     setDeleteModal(false);
     setSuccess(!success);
-    // console.log(action);
+    // 
      addToast(action, {
        appearance: 'error',
        autoDismiss: true,

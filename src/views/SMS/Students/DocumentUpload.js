@@ -93,13 +93,13 @@ const DocumentUpload = () => {
   const handleChange1 = ({ fileList }) => {
     setUploadError(false);
     setFileList1(fileList);
-    console.log(fileList);
+    
   };
 
   const handleChange2 = ({ fileList }) => {
     // setUploadError(false);
     setFileList2(fileList);
-    console.log(fileList);
+    
   };
 
   function getBase641(file) {
@@ -129,7 +129,7 @@ const DocumentUpload = () => {
 
   useEffect(() => {
     get(`StudentUploadDocument/Index/${applicationStudentId}`).then((res) => {
-      console.log("studentDocu data",res);
+      
       setUploadedDocuData(res);
     });
 
@@ -202,7 +202,7 @@ const DocumentUpload = () => {
     );
 
     for (var i of subData) {
-      console.log(i);
+      
     }
 
     if (docuTypeValue == 0) {
@@ -240,7 +240,7 @@ const DocumentUpload = () => {
   };
 
   const toggleDanger = (docu) => {
-    console.log("delete", docu);
+    
     setdelDocData(docu);
     setDelDocNam(docu?.documentLevelName);
     setDelDocId(docu?.studentDocumentLevelId);
@@ -248,7 +248,7 @@ const DocumentUpload = () => {
   };
   
   const toggleDangerFile = (docFile) => {
-    console.log("delete file", docFile, docFile?.studentDocumentFile?.fileName);
+    
     setDelFileName(docFile?.studentDocumentFile?.fileName);
     setDelFileId(docFile?.studentDocumentLevelId);
     setDeleteModal2(true);
@@ -270,7 +270,7 @@ const DocumentUpload = () => {
   };
 
   const handleDeleteDocument = () => {
-    console.log("delData", delDocData?.studentDocumentLevelId);
+    
     setButtonStatus(true);
     setProgress2(true);
     const returnValue = remove(`StudentUploadDocument/LevelDelete/${delDocData?.studentDocumentLevelId}`).then(
@@ -311,7 +311,7 @@ const DocumentUpload = () => {
 
 
   const changeHandler = (e, doc) => {   
-      console.log("document", doc);      
+            
       setFileList2(e.target.files[0]);
       setIsSelected(true);
       setStudentDocuId(doc?.studentDocumentLevelId);
@@ -327,7 +327,7 @@ const DocumentUpload = () => {
     
 
     // for (var i of subData) {
-    //   console.log(i);
+    //   
     // }
 
     if(studentDocuId !== 0){

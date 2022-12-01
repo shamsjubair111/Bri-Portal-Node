@@ -57,12 +57,12 @@ const AddUniversitySubjectDeliveryPattern = () => {
 
   useEffect(() => {
     get("DeliveryPatternDD/index").then((res) => {
-      console.log(res, "response");
+      
       setDeliveryDD(res);
     });
 
     get(`SubjectDeliveryPattern/GetBySubject/${subjId}`).then((res) => {
-      console.log("dsdsdsdds", res);
+      
       setPatternList(res);
     });
   }, [subjId, success]);
@@ -116,7 +116,7 @@ const AddUniversitySubjectDeliveryPattern = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata) {
-      console.log("values", value);
+      
     }
 
     if (deliveryValue === 0) {
@@ -192,7 +192,7 @@ const AddUniversitySubjectDeliveryPattern = () => {
   };
 
   const handleUpdate = (pattern) => {
-    console.log(pattern);
+    
     setUpdate(pattern?.id);
     setDeliveryLabel(pattern?.deliveryPattern?.name);
     setDeliveryValue(pattern?.deliveryPattern?.id);
@@ -225,7 +225,7 @@ const handleDeleteDeliveryPattern = (id) => {
     setProgress1(false);
     setDeleteModal(false);
     setSuccess(!success);
-    // console.log(action);
+    // 
      addToast(action, {
        appearance: 'error',
        autoDismiss: true,

@@ -36,7 +36,7 @@ const UpdateUniversityInformation = (props) => {
     useEffect(()=>{
         get(`University/Get/${id?.id}`)
         .then(res => {
-            console.log(res);
+            
             setUniData(res);
 
         })

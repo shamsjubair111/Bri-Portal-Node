@@ -111,7 +111,7 @@ const UniversityList = (props) => {
     (state) => state?.universityProviderDataReducer?.universityProviders
   );
   const providerDataResult = providerData?.models;
-  // console.log(providerDataResult);
+  // 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
   useEffect(() => {
@@ -132,14 +132,14 @@ const UniversityList = (props) => {
     });
 
     // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-    //   console.log("providerHelper",typeof(res));
+   
     //   if(res !== 0){
     //     setProviderValue(res);
     //   }
     // })
   }, []);
 
-  console.log(location);
+  
 
   useEffect(() => {
     const uCountryId = 0;
@@ -207,7 +207,7 @@ const UniversityList = (props) => {
     if (providerId !== 0) {
       var providertype = providerDataResult?.find((p) => p.id === providerId);
 
-      console.log(providertype);
+      
 
       if (providertype === undefined) {
         //  setProviderLabel('Provider');
@@ -218,7 +218,7 @@ const UniversityList = (props) => {
     }
 
     // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-    //   console.log("providerHelper",typeof(res));
+
     //     setProviderValue(res != 0 ? res : 0);
     //     if(res != 0){
     //       localStorage.setItem("providerValue", res);
@@ -237,7 +237,7 @@ const UniversityList = (props) => {
       }&search=${searchStr}&orderId=${orderValue}`
     ).then((action) => {
       setUniversityList(action?.models);
-      console.log("aaaaaactionvalhalla", action?.models);
+      
 
       setLoading(false);
       setEntity(action?.totalEntity);
@@ -267,7 +267,7 @@ const UniversityList = (props) => {
 
   const searchStateByCountry = (countryValue) => {
     get(`UniversityStateDD/Index/${countryValue}`).then((res) => {
-      console.log("statebyCountry", res);
+      
       // dispatch(StoreUniversityStateData(res));
       setUniversityStates(res);
     });
@@ -315,7 +315,7 @@ const UniversityList = (props) => {
   };
 
   const selectOrder = (label, value) => {
-    // console.log("value", label, value);
+    // 
     setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
@@ -377,7 +377,7 @@ const UniversityList = (props) => {
     label: prov.name,
     value: prov.id,
   }));
-  // console.log(providerlist);
+  // 
 
   const selectUniType = (label, value) => {
     setUniTypeLabel(label);
@@ -409,7 +409,7 @@ const UniversityList = (props) => {
     //   })
   };
 
-  // console.log(uniCountryValue);
+  // 
 
   // select University State
   const selectUniState = (label, value) => {
@@ -514,7 +514,7 @@ const UniversityList = (props) => {
   // deleting university end
 
   const handleEdit = (data) => {
-    console.log("editData", data);
+    
     // localStorage.removeItem("id");
     // localStorage.setItem("id", data?.id);
     // localStorage.setItem('editMethod','put');

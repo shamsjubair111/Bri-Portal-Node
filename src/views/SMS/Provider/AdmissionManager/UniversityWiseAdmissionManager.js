@@ -29,7 +29,7 @@ const UniversityWiseAdmissionManager = () => {
     useEffect(()=> {
         get(`AdmissionManager/GetByUniversity/${universityId}`)
         .then(res => {
-            console.log('AdmissionManager List', res);
+            
             setAdManagerData(res);
         })
     },[])

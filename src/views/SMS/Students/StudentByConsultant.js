@@ -96,7 +96,7 @@ const StudentByConsultant = () => {
       setStudentList(res?.models);
       setEntity(res?.totalEntity);
       setSerialNum(res?.firstSerialNumber);
-      console.log(res?.models);
+      
       setLoading(false);
     });
   }, [id, currentPage, dataPerPage, callApi, entity, loading, success]);
@@ -191,9 +191,9 @@ const StudentByConsultant = () => {
   };
 
   const handleBlacklist = (e, id) => {
-    console.log(e.target.checked, id);
+    
     // setChecked(e.target.checked);
-    // console.log(check);
+    // 
 
     const subData = {
       id: id,
@@ -223,7 +223,7 @@ const StudentByConsultant = () => {
     remove(`Student/Delete/${delData?.id}`).then((res) => {
       setProgress(false);
       setButtonStatus(false);
-      console.log(res);
+      
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
@@ -235,7 +235,7 @@ const StudentByConsultant = () => {
 
   const handlePass = (data) => {
     setPassData(data);
-    console.log(data);
+    
     setPassModal(true);
   };
 

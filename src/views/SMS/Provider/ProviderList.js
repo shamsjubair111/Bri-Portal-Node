@@ -98,18 +98,18 @@ const ProviderList = () => {
       }&uappId=${uappIdValue}&searchstring=${searchStr}`
     ).then((action) => {
       setProviderList(action?.models);
-      console.log("aaaaaa", action);
-      // console.log('aaaaaa',action);
+      
+      // 
 
-      // console.log(searchStr);
-      // console.log(providerValue);
+      // 
+      // 
       setLoading(false);
       setEntity(action?.totalEntity);
       setSerialNum(action?.firstSerialNumber);
     });
 
     get(`ProviderType/GetAll`).then((res) => {
-      // console.log('provider',res);
+      // 
       setProviderType(res);
     });
 
@@ -118,8 +118,8 @@ const ProviderList = () => {
     });
   }, [providerValue, uappIdValue, searchStr, currentPage, success]);
 
-  // console.log(providerValue);
-  // console.log(searchStr);
+  // 
+  // 
 
   const toggleDeleteProvider = (data) => {
     setDelData(data);
@@ -133,7 +133,7 @@ const ProviderList = () => {
   useEffect(() => {
     get(`Provider/Index`).then((res) => {
       dispatch(StoreUniversityProviderData(res));
-      // console.log('provider',res);
+      // 
       //  setProviderList(res?.models)
     });
   }, []);
@@ -164,12 +164,12 @@ const ProviderList = () => {
     history.push("/");
   };
 
-  // console.log(providerlist);
+  // 
   const providertype = providerType.map((list) => ({
     label: list.name,
     value: list.id,
   }));
-  // console.log(providertype);
+  // 
 
   // select University State
 
@@ -248,15 +248,15 @@ const ProviderList = () => {
   };
 
   const handleAccountStatus = (e, providerId) => {
-    console.log(e.target.checked, providerId);
+    
     // setChecked(e.target.checked);
-    // console.log(check);
+    // 
 
     const subData = {
       id: providerId,
     };
 
-    console.log("SubDataaa", subData);
+    
 
     put(`Provider/UpdateStatus/${providerId}`, subData).then(
       (res) => {

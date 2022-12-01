@@ -42,14 +42,14 @@ const StudentReferenceForm = () => {
 
         get('CountryDD/index')
         .then(res => {
-            console.log(res);
+            
             setCountry(res);
         })
 
 
         get(`ReferenceTypeDD/Index`)
         .then(res => {
-            console.log(res);
+            
             setReference(res);
         })
 

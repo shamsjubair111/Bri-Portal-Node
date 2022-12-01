@@ -41,7 +41,7 @@ import CustomButtonRipple from "../Components/CustomButtonRipple";
 
 const PromotionalCommission = ({promotionalList}) => {
 
-    console.log("compproList", promotionalList)
+
     
 
     return (

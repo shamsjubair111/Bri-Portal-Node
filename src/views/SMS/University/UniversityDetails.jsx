@@ -155,7 +155,7 @@ const UniversityDetails = () => {
 
     get(`University/Get/${id}`).then((res) => {
       setUniversityInfo(res);
-      console.log("University Information", res);
+      
     });
 
     // get(
@@ -166,7 +166,7 @@ const UniversityDetails = () => {
     //   // setEntity(res?.totalEntity);
     //   setLoading(false);
 
-    //   console.log('aaaaaa',res);
+    //   
     // });
 
     // for getting university campus list
@@ -177,14 +177,14 @@ const UniversityDetails = () => {
 
     // for getting financial information
     get(`FinancialInformation/GetByUniversity/${id}`).then((res) => {
-      // console.log('fin Info',res);
+      // 
       setFinancialInfo(res);
     });
 
     // for getting Features
     get(`UniversityFeatures/GetByUniversity/${id}`).then((res) => {
       setUniversityFeatures(res);
-      console.log("features", res);
+      
     });
 
     // for intake
@@ -199,13 +199,13 @@ const UniversityDetails = () => {
     // Subject get by university
     get(`Subject/GetByUniversity/${id}`).then((res) => {
       setSubList(res);
-      console.log("Sublist", res);
+      
       // setSubList(res);
     });
 
     // for university gallery
     get(`UniversityGallery/GetByUniversity/${id}`).then((res) => {
-      console.log("gallery", res);
+      
       setGallery(res);
     });
 
@@ -214,7 +214,7 @@ const UniversityDetails = () => {
     });
 
     get(`UniversityTemplateDocument/GetByUniversity/${id}`).then((res) => {
-      console.log(res);
+      
       setTempDocument(res);
     });
 
@@ -223,12 +223,12 @@ const UniversityDetails = () => {
     });
 
     get(`UniversityComission/GetByUniversity/${id}`).then((res) => {
-      console.log(res, "112222");
+      
       setData(res);
     });
 
     get(`TestScoreRequirement/Index/${id}`).then((res) => {
-      console.log(res, "Score");
+      
       setScore(res);
       // setRequired(res?.isTestScoreRequired);
       // setIelts(res?.isIeltsMandatory);
@@ -252,7 +252,7 @@ const UniversityDetails = () => {
     setUniStateLabel("Select State");
     setUniStateValue(0);
     get(`UniversityStateDD/Index/${value}`).then((res) => {
-      console.log("res", res);
+      
       // setUniStateLabel(res.name)
       // setUniStateValue(res.id)
       setUniversityStates(res);
@@ -287,7 +287,7 @@ const UniversityDetails = () => {
         setProgress4(false);
         setSuccess(!success);
         setModalOpen(false);
-        console.log("ressss", res);
+        
         // setuniversityId(res?.data?.result?.universityId);
         if (res.status === 200 && res.data.isSuccess === true) {
           // setSubmitData(false);
@@ -351,7 +351,7 @@ const UniversityDetails = () => {
   //   setMenus([]);
   //   checked = [];
 
-  //     console.log("Action",action);
+  //     
   //     setMenus(action);
 
   //     let defaultChecked = checked;
@@ -365,7 +365,7 @@ const UniversityDetails = () => {
   //         }
   //       }
   //     }
-  //     console.log(menus);
+  //     
 
   // };
 
@@ -373,7 +373,7 @@ const UniversityDetails = () => {
   const handleSelectAll = (e) => {
     let newChecked = [];
     const val = e.target.checked;
-    console.log("menus", menus);
+    
     if (val === true) {
       menus.map((menu) => {
         const menuId = menu.id.toString();
@@ -381,7 +381,7 @@ const UniversityDetails = () => {
         document.getElementById(menu.id).checked = true;
       });
       setChecked([...newChecked]);
-      console.log("selectChecked", checked);
+      
     } else {
       setChecked([...checked]);
     }
@@ -407,7 +407,7 @@ const UniversityDetails = () => {
   // on De Select all
   const handleDeselectAll = (e) => {
     const val = e.target.checked;
-    console.log("val1", val);
+    
     if (val === true) {
       // eslint-disable-next-line no-lone-blocks
       {
@@ -419,7 +419,7 @@ const UniversityDetails = () => {
     } else {
       setChecked([...checked]);
     }
-    console.log("deSelectChecked", checked);
+    
   };
 
   // handling checkbox
@@ -427,8 +427,8 @@ const UniversityDetails = () => {
     let id = e.target.id;
     let val = e.target.checked;
 
-    console.log("check id", id);
-    console.log("checked", checked);
+    
+    
 
     if (val === true) {
       setChecked([...checked, id]);
@@ -449,19 +449,19 @@ const UniversityDetails = () => {
   //       return { ...sub, isChecked: checked };
   //     });
   //     setSubList(tmpUsers);
-  //     console.log("selectAll", tmpUsers);
+  //     
   //   } else if (name === "allDeselect") {
   //     let tmpUsers = subList.map((sub) => {
   //       return { ...sub, isChecked: !checked };
   //     });
   //     setSubList(tmpUsers);
-  //     console.log("dselectAll", tmpUsers);
+  //     
   //   } else {
   //     let tmpUsers = subList.map((sub) =>
   //       sub.name === name ? { ...sub, isChecked: checked } : sub
   //     );
   //     setSubList(tmpUsers);
-  //     console.log("singleSelect", tmpUsers);
+  //     
   //   }
   // };
 
@@ -470,7 +470,7 @@ const UniversityDetails = () => {
     const subdata = new FormData(e.target);
 
     for (var value of subdata.values()) {
-      console.log("values", value);
+      
     }
   };
 
@@ -478,7 +478,7 @@ const UniversityDetails = () => {
     overflowX: "scroll",
   };
 
-  //  console.log('finalcialInfo', financialInfo?.avarageTutionFee);
+  //  
 
   const handleProfileEdit = (id) => {
     // localStorage.removeItem("id");
@@ -494,7 +494,7 @@ const UniversityDetails = () => {
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
     setFileError(false);
-    console.log(fileList);
+    
   };
 
   const handleCancel1 = () => {
@@ -525,11 +525,11 @@ const UniversityDetails = () => {
   const handleView = (gallery) => {
     setGalleryObj(gallery);
     setViewModalOpen(true);
-    console.log("gOBj", gallery);
+    
   };
 
   const handleDelete = (gallery) => {
-    console.log("gallery", gallery);
+    
     setDelGalName(gallery?.mediaFileMedia?.fileName);
     setDelGalId(gallery?.id);
     setDeleteModal(true);
@@ -701,7 +701,7 @@ const UniversityDetails = () => {
       subData.append("coverImageFile", FileList[0]?.originFileObj);
   
       // for(var x of subData.values()){
-      //     console.log(x);
+      //     
       // }
       
   
@@ -779,7 +779,7 @@ const UniversityDetails = () => {
       subData.append("universityLogoFile", FileList2[0]?.originFileObj);
   
       // for(var x of subData.values()){
-      //     console.log(x);
+      //     
       // }
       
   

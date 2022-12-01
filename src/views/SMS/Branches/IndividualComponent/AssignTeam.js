@@ -144,7 +144,7 @@ const AssignTeam = (props) => {
     
 
     get(`BranchTeamEmployee/GetUnassigned/${value}`).then((action) => {
-      console.log(action,'action');
+      
       
       setMenus(action);
       setSuccess(!success);
@@ -206,7 +206,7 @@ const AssignTeam = (props) => {
         }
       };
 
-      console.log('checked',checked);
+      
 
       const branchTeamName = branchTeam?.map((branch) => ({
         label: branch.name,
@@ -219,7 +219,7 @@ const AssignTeam = (props) => {
     const val = e.target.checked;
     if (val === true) {
       menus.map((menu) => {
-        console.log(menu);
+        
         const menuId = menu.id.toString();
         newChecked.push(menuId);
         document.getElementById(menu?.id).checked = true;
@@ -230,7 +230,7 @@ const AssignTeam = (props) => {
     if (val === false) {
       {
         menus.map((menu) => {
-          console.log(menu);
+          
           document.getElementById(menu?.id).checked = false;
         });
         setChecked([]);
@@ -238,7 +238,7 @@ const AssignTeam = (props) => {
     }
   };
 
-  console.log('Ale ALe', checked);
+  
 
   const redirectToUpdateBranchEmployee = (branchId, employeeId) => {
     history.push(`/branchEmployeeInformation/${branchId}/${employeeId}`);

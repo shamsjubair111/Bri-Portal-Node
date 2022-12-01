@@ -44,7 +44,7 @@ const ProviderAdminList = () => {
 
         get('ProviderAdmin/GetAll')
         .then(res => {
-            console.log('Admin Data', res);
+            
             setAdminData(res);
         })
 

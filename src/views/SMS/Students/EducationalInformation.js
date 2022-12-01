@@ -53,20 +53,20 @@ const EducationalInformation = () => {
 
     get('EducationLevelDD/Index')
     .then(res => {
-        console.log(res);
+        
         setEducationLevel(res);
     })
 
     get('CountryDD/index')
     .then(res => {
-        console.log(res);
+        
         setCountry(res);
     })
 
     get(`EducationInformation/GetByStudentId/${applicationStudentId}`)
     .then(res => {
       setEduDetails(res);
-      console.log('Edu details', res);
+      
     })
 
   },[success])
@@ -157,7 +157,7 @@ const handleIelts = (e) => {
     setProgramError(false);
   setEducationLevelLabel(label);
   setEducationLevelValue(value);
-  console.log(value);
+  
   
   
   }
@@ -276,7 +276,7 @@ const handleDeletePermission = () => {
   remove(`EducationInformation/Delete/${deleteData?.id}`)
   .then(res => {
     setProgress(false);
-    console.log(res);
+    
     addToast(res, {
       appearance: 'error',
       autoDismiss: true
@@ -292,11 +292,11 @@ const handleDeletePermission = () => {
 const handleUpdate = (id) => {
  
 
-  console.log(id);
+  
   get(`EducationInformation/Get/${id}`)
   .then(res => {
 
-    console.log('one Data value found',res);
+    
     setOneData(res);
     setEducationLevelLabel(res?.educationLevel?.name);
     setEducationLevelValue(res?.educationLevel?.id);

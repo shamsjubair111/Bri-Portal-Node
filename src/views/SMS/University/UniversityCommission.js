@@ -70,7 +70,7 @@ const UniversityCommission = () => {
     });
 
     get(`UniversityComission/GetByUniversity/${univerId}`).then((res) => {
-      console.log(res, "112222");
+      
       setData(res);
       setCommissionTitleHome(
         res?.homeStudentComissionType == 1
@@ -172,12 +172,12 @@ const UniversityCommission = () => {
     setVal(data);
   };
 
-  // console.log('ABCDEFG',commissionValueHome,commissionValueInternational,commissionValueEU_UK);
+  // 
 
   const submitFormData = (event) => {
     event.preventDefault();
     const subData = new FormData(event.target);
-    console.log('ABCDEFG',commissionValueHome,commissionValueInternational,commissionValueEU_UK);
+    
     if (commissionValueHome == 0 || commissionValueHome == undefined) {
       setHomeError("Select commission type for home students");
     } else if (commissionValueInternational == 0 || commissionValueInternational == undefined) {

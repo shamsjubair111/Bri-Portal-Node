@@ -72,17 +72,17 @@ const AddUniversitySubject = () => {
 
     const {addToast} = useToasts();
     const {id, subjId} = useParams();
-    console.log("idddd", id);
+    
     const history = useHistory();
 
     const userType = localStorage.getItem("userType");
     const referenceId = localStorage.getItem("referenceId");
 
-    console.log("subId", subId);
+    
 
     useEffect(()=>{
       get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-        console.log("providerHelper",typeof(res));
+        
           setProviderValue(res != 0 ? res : 0);
           // if(res != 0){
           //   localStorage.setItem("providerValue", res);
@@ -107,7 +107,7 @@ const AddUniversitySubject = () => {
           setDepValue(res?.department?.id);
           setSubDepLabel(res?.subDepartment?.name);
           setSubDepValue(res?.subDepartment?.id);
-          console.log(res);
+          
       })
       .catch();
       }
@@ -126,7 +126,7 @@ const AddUniversitySubject = () => {
           setDepValue(res?.department?.id);
           setSubDepLabel(res?.subDepartment?.name);
           setSubDepValue(res?.subDepartment?.id);
-          console.log(res);
+          
       })
       .catch();
       }
@@ -267,7 +267,7 @@ const AddUniversitySubject = () => {
         setButtonStatus(true);
         setProgress(true);
         put('Subject/Update', subdata).then((res) => {
-          console.log(res);
+          
           setButtonStatus(false);
           setProgress(false);
           if (res.status === 200 && res.data.isSuccess === true) {

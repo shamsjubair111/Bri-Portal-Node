@@ -66,7 +66,7 @@ const AddCountry = () => {
 
   useEffect(() => {
     get("Country/Index").then((res) => {
-      console.log("country", res);
+      
       setCountries(res);
       setLoading(false);
     });
@@ -151,7 +151,7 @@ const AddCountry = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  console.log("One two three", FileList[0]?.originFileObj);
+  
 
   // Trial End
 
@@ -159,7 +159,7 @@ const AddCountry = () => {
     setModalOpen(true);
     setCountry(country?.name);
     setCode(country?.code);
-    console.log(country);
+    
     setUpdateState(country);
   };
 

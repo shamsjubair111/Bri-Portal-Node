@@ -33,14 +33,14 @@ const StudentDeclaration = () => {
 
         get(`StudentConsent/Get/${applicationStudentId}`)
         .then(res =>{ 
-            console.log(res,'resStudentData');
+            
             setConscentData(res);
         })
 
         fetch(`https://geolocation-db.com/json/`)
         .then(res => res?.json())
         .then(data => {
-          console.log('exmp1',data);
+          
           setAPiInfo(data?.IPv4);
           
         });

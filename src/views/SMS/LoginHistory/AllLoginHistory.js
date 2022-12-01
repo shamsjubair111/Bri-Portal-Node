@@ -50,7 +50,7 @@ const AllLoginHistory = () => {
     get(
       `LoginHistory/IndexForSysAdmin?page=${currentPage}&pageSize=${dataPerPage}&Username=${searchStr}`
     ).then((res) => {
-      console.log("response", res);
+      
       setEntity(res?.totalEntity);
       setData(res?.models);
       setSerialNum(res?.firstSerialNumber);
@@ -105,7 +105,7 @@ const AllLoginHistory = () => {
   };
 
   const toggleDelete = (userHistoryId) => {
-    console.log("historyId", userHistoryId);
+    
     setDeleteId(userHistoryId);
     // setManagerId(manager?.id);
     // setManagerName(manager?.firstName);

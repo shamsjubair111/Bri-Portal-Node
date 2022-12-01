@@ -147,7 +147,7 @@ const CampusSubjectList = () => {
   }));
 
   const selectOrder = (label, value) => {
-    // console.log("value", label, value);
+    // 
     setLoading(true);
     setOrderLabel(label);
     setOrderValue(value);
@@ -180,13 +180,13 @@ const CampusSubjectList = () => {
     get(
       `Subject/GetByCampusId?page=${currentPage}&pageSize=${dataPerPage}&CampusId=${camId}&search=${searchStr}&sortby=${orderValue}`
     ).then((res) => {
-      console.log("subject", res);
+      
       setLoading(false);
       setSubList(res?.models);
       setEntity(res?.totalEntity);
     });
     get(`UniversityCampus/Get/${camId}`).then((res) => {
-      console.log("campus", res);
+      
       setUniversityId(res?.university?.id);
       setCampus(res);
     });
@@ -211,7 +211,7 @@ const CampusSubjectList = () => {
   };
 
   const toggleDanger = (name, id) => {
-    console.log("name, id", name, id);
+    
     setSubName(name);
     setSubId(id);
     setDeleteModal(true);
@@ -230,7 +230,7 @@ const CampusSubjectList = () => {
       (action) => {
         setButtonStatus1(false);
         setProgress(false);
-        // console.log(action);
+        // 
         
         setDeleteModal(false);
         addToast(action, {
@@ -390,7 +390,7 @@ const CampusSubjectList = () => {
         post(`UniversityCampusSubject/Create`, subData).then((res) => {
           setButtonStatus(false);
           setProgress1(false);
-          console.log(res);
+          
           if (res?.data?.isSuccess == true && res?.status == 200) {
             addToast(res?.data?.message, {
               appearance: "success",
@@ -416,7 +416,7 @@ const CampusSubjectList = () => {
   };
 
   const toggleEdit = (data) => {
-    console.log(data);
+    
     setData(data);
     setRadioIsAcceptHome(`${data?.isAcceptHome}`);
     setRadioIsAcceptInt(`${data?.isAcceptInternational}`);

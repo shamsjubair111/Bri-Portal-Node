@@ -55,7 +55,7 @@ const UniversityRecquiredDocument = () => {
 
   useEffect(() => {
     get(`DocumentDD/Index`).then((res) => {
-      console.log("Checking document DD", res);
+      
       setDocument(res);
     });
 
@@ -65,7 +65,7 @@ const UniversityRecquiredDocument = () => {
       //     "id"
       //   )}`
       // ).then((res) => {
-      //   console.log("Required document", res);
+      //   
       //   setDocumentData(res);
       //   if (res.length > 0) {
       //     setShowForm(true);
@@ -131,14 +131,14 @@ const UniversityRecquiredDocument = () => {
     const subData = new FormData(event.target);
 
     // for(var i of subData){
-    //   console.log("i", i);
+    //   
     // }
 
     if (documentValue === 0) {
       setDocumentError(true);
     } else {
       post("UniversityRequiredDocuments/Create", subData).then((res) => {
-        console.log("document data", res);
+        
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",
@@ -173,7 +173,7 @@ const UniversityRecquiredDocument = () => {
   };
 
   const toggleDanger = (p) => {
-    console.log("dele", p);
+    
     localStorage.setItem("documentId", p?.id);
     localStorage.setItem("documentName", p?.document?.name);
     setDeleteModal(true);
@@ -198,14 +198,14 @@ const UniversityRecquiredDocument = () => {
     // const id = localStorage.getItem("id");
     // localStorage.removeItem("id");
     history.push('/universityList')
-    // console.log(id,localStorage.getItem("id"));
+
   }
   
   const onGoUniProfile = () => {
     const id = localStorage.getItem("id");
     // localStorage.removeItem("id");
     history.push(`/universityDetails/${id}`)
-    // console.log(id,localStorage.getItem("id"));
+
   }
 
   return (

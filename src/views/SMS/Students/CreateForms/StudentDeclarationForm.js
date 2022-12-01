@@ -32,14 +32,14 @@ const StudentDocumentForm = () => {
 
         get(`StudentConsent/Get/${idVal}`)
         .then(res =>{ 
-            console.log(res,'resStudentData');
+            
             setConscentData(res);
         })
 
         fetch(`https://geolocation-db.com/json/`)
         .then(res => res?.json())
         .then(data => {
-          console.log(data);
+          
           setAPiInfo(data)
         });
 

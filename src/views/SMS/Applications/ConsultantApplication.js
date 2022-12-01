@@ -110,7 +110,7 @@ const ConsultantApplication = ({ currentUser }) => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(false);
 
-  //   console.log("currentuser", currentUser);
+  //   
 
   // for hide/unhide column
   const permissions = JSON.parse(localStorage.getItem("permissions"));
@@ -278,24 +278,24 @@ const ConsultantApplication = ({ currentUser }) => {
     if (currentUser != undefined) {
       get(`ConsultantApplicationFilterDD/UappId/${currentUser}`).then((res) => {
         setConsultantUappIdDD(res);
-        console.log("uappId", res);
+        
       });
       get(`ConsultantApplicationFilterDD/Student/${currentUser}`).then(
         (res) => {
           setConsultantStdDD(res);
-          console.log("Student", res);
+          
         }
       );
       get(`ConsultantApplicationFilterDD/University/${currentUser}`).then(
         (res) => {
           setConsultantUniDD(res);
-          console.log("University", res);
+          
         }
       );
       get(`ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`).then(
         (res) => {
           setConsultantPhnDD(res);
-          console.log("PhoneNumber", res);
+          
         }
       );
     }
@@ -344,7 +344,7 @@ const ConsultantApplication = ({ currentUser }) => {
     //     }
     //   }
 
-    //   console.log("consProfileId", location.consultantIdFromConsultantList, consultant);
+    //   
     if (currentUser != undefined) {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${

@@ -93,7 +93,7 @@ const StudentNewProfile = () => {
 
       get(`StudentConsent/Get/${sId}`)
         .then(res =>{ 
-          console.log('Consent Information',res);
+          
            
             setConscentData(res);
             setLoading(false);
@@ -183,7 +183,7 @@ const StudentNewProfile = () => {
 
     useEffect(()=>{
       get(`PreffereCourse/Index/${sId}`).then(res=>{
-        console.log("course list", res);
+        
         setCourseList(res);
         // setSuccess(!success);
       })
@@ -191,7 +191,7 @@ const StudentNewProfile = () => {
 
     useEffect(()=>{
        get(`StudentProfile/Get/${sId}`).then(res=>{
-       console.log('student Data',res);
+       
         setStudentDetails(res);
         setIsHaveDisability(res?.profileOtherInfo?.isHaveDisability);
         setIsHaveCriminalConvictions(res?.profileOtherInfo?.isHaveCriminalConvictions);
@@ -365,7 +365,7 @@ const StudentNewProfile = () => {
       // setSuccess(!success);
       // setModalOpen(false);
       // setButtonStatus(false);
-      console.log("course response", res); 
+       
       addToast(res?.data?.message, {
         appearance: "success",
         autoDismiss: true,

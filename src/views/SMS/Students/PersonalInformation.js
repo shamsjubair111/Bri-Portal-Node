@@ -106,45 +106,45 @@ const PersonalInformation = () => {
 
   useEffect(() => {
     get("NameTittleDD/index").then((res) => {
-      console.log("title", res);
+      
       setTitle(res);
     });
 
     get("MaritalStatusDD/Index").then((res) => {
-      console.log(res);
+      
       setMaritalStatus(res);
     });
 
     get("GenderDD/Index").then((res) => {
-      console.log(res);
+      
       setGender(res);
     });
 
     get("CountryDD/index").then((res) => {
-      console.log("Check Country", res);
+      
       setCountry(res);
     });
 
     get("NationalityDD/Index").then((res) => {
-      console.log(res);
+      
       setNationality(res);
     });
 
     get("ConsultantDD/index").then((res) => {
-      console.log("r", res);
+      
       setConsultant(res);
       setConsultantLabel(res?.name);
       setConsultantValue(res?.id);
     });
 
     get("StudentTypeDD/Index").then((res) => {
-      console.log(res);
+      
       setStudentType(res);
     });
 
     // get(`Consultant/Get/${consultantValueId}`)
     // .then(res => {
-    //   console.log('Cid',res);
+    //   
     //   setConsultantLabel(res?.firstName);
     //   setConsultantValue(res?.id);
     // })
@@ -152,7 +152,7 @@ const PersonalInformation = () => {
     if (applicationStudentId) {
       get(`Student/Get/${applicationStudentId}`).then(
         (res) => {
-          console.log("fetching student info from api", res);
+          
           setConsultantLabel(
             res?.consultant?.firstName + " " + res?.consultant?.lastName
           );
@@ -185,7 +185,7 @@ const PersonalInformation = () => {
           );
           setCountryValue(res?.country?.id == null ? 0 : res?.country?.id);
           setCheck(false);
-          console.log("Check", check);
+          
 
           const z = res?.dateOfBirth;
 
@@ -201,7 +201,7 @@ const PersonalInformation = () => {
     }
   }, [success]);
 
-  console.log("Image Error", imgError);
+  
 
   // Trial start
 
@@ -246,13 +246,13 @@ const PersonalInformation = () => {
 
   // dispatch(StoreStudentProfileImageData(FileList));
 
-  console.log("One two three", FileList[0]?.originFileObj);
+  
 
   // Trial End
 
   // const profileImageData = useSelector((state) => state?.StudentProfileImageReducer?.studentImage);
 
-  // console.log('11111111',profileImageData);
+  // 
 
   const toggle = (tab) => {
     setActivetab(tab);
@@ -375,14 +375,14 @@ const PersonalInformation = () => {
     subData.append("profileImageFile", FileList[0]?.originFileObj);
 
     // for( var x of subData.values()){
-    //   console.log(x);
+    //   
     // }
 
   
 
     if (titleValue == 0) {
       setTitleError(true);
-      console.log("error 111111");
+      
     }
 
     else if (countryValue == 0) {
@@ -410,7 +410,7 @@ const PersonalInformation = () => {
       put("Student/Update", subData).then((res) => {
         setButtonStatus(false);
         setProgress(false);
-        console.log("posted data", res);
+        
         if (res?.status == 200 && res?.data?.isSuccess == true) {
           addToast(res?.data?.message, {
             appearance: "success",

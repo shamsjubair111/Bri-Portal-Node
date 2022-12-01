@@ -18,6 +18,7 @@ import down from '../../../../../assets/img/down.svg';
 import camera2 from '../../../../../assets/img/camera2.svg';
 import Chart from 'react-apexcharts'
 import get from '../../../../../helpers/get';
+import { rootUrl } from '../../../../../constants/constants';
 
 const SuperAdmin = () => {
   
@@ -25,6 +26,65 @@ const SuperAdmin = () => {
   const [options,setOptions] = useState({});
   const [series,setSeries] = useState([20, 20, 20, 20, 20]);
   const [Labels,setLabels] = useState(['A', 'B', 'C', 'D', 'E']);
+  const [totalApp,setTotalApp] = useState(0);
+  const [appInProcess,setAppInProcess] = useState(0);
+  const [unconditional,setUnconditional] = useState(0);
+  const [registered,setRegistered] = useState(0);
+  const [rejected,setRejected] = useState(0);
+  const [withdrawn,setWithdrawn] = useState(0);
+  const [newS,setNewS] = useState(0);
+  const [newC,setNewC] = useState(0);
+  const [applications,setApplications] = useState([]);
+
+  useEffect(()=>{
+
+    get(`SystemAdminCounting/TotalApplication`)
+    .then(res => {
+      setTotalApp(res);
+    })
+
+    get(`SystemAdminCounting/TotalApplicationInProgress`)
+    .then(res => {
+      setAppInProcess(res);
+    })
+
+    get(`SystemAdminCounting/TotalRegistered`)
+    .then(res => {
+      setRegistered(res);
+    })
+
+    get(`SystemAdminCounting/TotalRejected`)
+    .then(res => {
+      setRejected(res);
+    })
+
+    get(`SystemAdminCounting/TotalunconditionalOffer`)
+    .then(res => {
+      setUnconditional(res);
+    })
+
+    get(`SystemAdminCounting/TotalWithdrawn`)
+    .then(res => {
+      setWithdrawn(res);
+    })
+
+    get(`SystemAdminCounting/TotalNewStudent`)
+    .then(res => {
+      setNewS(res);
+    })
+
+    get(`SystemAdminCounting/TotalNewConsultant`)
+    .then(res => {
+      setNewC(res);
+    })
+
+    get(`ApplicationDashboard/SystemAdminApplicationAll`)
+    .then(res => {
+      
+      setApplications(res);
+    })
+
+  },[])
 
  
  
@@ -35,6 +95,14 @@ const SuperAdmin = () => {
     setOpen(false);
   };
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
+
+  const handleDate = (e) => {
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    const x = localeDate.split(",")[0];
+    return x;
+  };
 
 
     return (
@@ -272,7 +340,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Total Application</span>
             <br/>
-            <span className='pvdadmin-span-style2'>1451</span>
+            <span className='pvdadmin-span-style2'>{totalApp}</span>
             <br/>
             <br/>
           </CardBody>
@@ -287,7 +355,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Applications in Process</span>
             <br/>
-            <span className='pvdadmin-span-style2'>500</span>
+            <span className='pvdadmin-span-style2'>{appInProcess}</span>
             <br/>
             <br/>
           </CardBody>
@@ -302,7 +370,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Unconditional Offer</span>
             <br/>
-            <span className='pvdadmin-span-style2'>50</span>
+            <span className='pvdadmin-span-style2'>{unconditional}</span>
             <br/>
             <br/>
           </CardBody>
@@ -317,7 +385,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Total Registered</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
+            <span className='pvdadmin-span-style2'>{registered}</span>
             <br/>
             <br/>
           </CardBody>
@@ -332,7 +400,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
+            <span className='pvdadmin-span-style2'>{rejected}</span>
             <br/>
             <br/>
           </CardBody>
@@ -347,7 +415,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Withdrawn Application</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
+            <span className='pvdadmin-span-style2'>{withdrawn}</span>
             <br/>
             <br/>
           </CardBody>
@@ -362,7 +430,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>New Students</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
+            <span className='pvdadmin-span-style2'>{newS}</span>
             <br/>
             <br/>
           </CardBody>
@@ -377,7 +445,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>New Consultants</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
+            <span className='pvdadmin-span-style2'>{newC}</span>
             <br/>
             <br/>
           </CardBody>
@@ -401,65 +469,43 @@ const SuperAdmin = () => {
 
           <span className='app-style-const'>New Applications</span>
 
-          <Table borderless responsive className='mt-3'>
+        <div style={{height: '300px', overflowY: 'scroll'}}>
+
+        <Table borderless responsive className='mt-3'>
       <thead style={{backgroundColor: '#EEF3F4'}}>
       <tr>
       <th>Student ID</th>
       <th>Name
       </th>
       <th>University</th>
-      <th>Admission Officer</th>
+      <th>Admission Manager</th>
       <th>Date</th>
       </tr>
       </thead>
+      
       <tbody>
-      <tr>
-      <td>#STD002628	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>Anglia Ruskin University – Navitas....</td>
-      <td>@Syed Istiake</td>
-      <td>15 June 2022	</td>
-      </tr>
 
-      <tr>
-      <td>#STD002628	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>Anglia Ruskin University – Navitas....</td>
-      <td>@Syed Istiake</td>
-      <td>15 June 2022	</td>
-      </tr>
-
-      <tr>
-      <td>#STD002628	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>Anglia Ruskin University – Navitas....</td>
-      <td>@Syed Istiake</td>
-      <td>15 June 2022	</td>
-      </tr>
-
-      <tr>
-      <td>#STD002628	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>Anglia Ruskin University – Navitas....</td>
-      <td>@Syed Istiake</td>
-      <td>15 June 2022	</td>
-      </tr>
+     {
+      applications?.map(app => (
+        <tr>
+        <td>{app?.student?.studentViewId}	</td>
+        <td><div>
+        <img src={rootUrl+app?.student?.profileImage?.fileUrl} style={{height: '28px', width: '28px' , borderRadius: '50%'}} className='img-fluid' />
+        <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{''}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
+        </div></td>
+        <td>{app?.universityName}</td>
+        <td>{app?.managerName}</td>
+        <td>{handleDate(app?.applicationDate)}</td>
+        </tr>
+      ))
+     }
 
       </tbody>
+
       </Table>
 
+        </div>
+       
 
 
         </CardBody>
@@ -623,7 +669,7 @@ const SuperAdmin = () => {
 
             <span className='app-style-const'>Consultant Transaction List</span>
 
-          <Table borderless responsive className='mt-3'>
+          <Table borderless responsive className='mt-3' style={{height: '300px', overflowY: 'scroll'}}>
         <thead style={{backgroundColor: '#EEF3F4'}}>
         <tr>
         <th>Consultant ID</th>

@@ -46,7 +46,7 @@ const Demo = () => {
 
     get('Practice/GetAttribute')
     .then(res => {
-      console.log('dynamic form', res);
+      
       setFormType(res);
     })
 
@@ -54,7 +54,7 @@ const Demo = () => {
       method: 'GET',
     'headers': { 'Authorization': localStorage.getItem('token') } })
     .then(res => {
-      console.log('checking', res);
+      
     })
 
 
@@ -70,7 +70,7 @@ const Demo = () => {
   // })
   // .then(res => res.json())
   // .then(data => {
-  //   console.log('checking', data);
+  //   
   // })
 
 //   fetch('http://192.168.0.119:45455/Account/GetCurrentUser',{
@@ -85,7 +85,7 @@ const Demo = () => {
 // })
 // .then(res => res.json())
 // .then(data => {
-//   console.log('checking', data);
+//   
 // })
   
   },[]);
@@ -125,12 +125,12 @@ const Demo = () => {
   //   const newDat = dat.filter((label,value) => dat?.name !== label && dat?.id !== value );
     
   //   setDat(newDat);
-  //   console.log(newDat);
+  //   
  
    
   
 
-  // console.log('Practising a new thing',dat);
+  // 
 
 // const handleSubmit  = (event) => {
 
@@ -139,7 +139,7 @@ const Demo = () => {
 //   const subdata = new FormData(event.target);
 
 //   for (var x of subdata.values()){
-//     console.log(x);
+//     
 //   }
 
 // }
@@ -188,16 +188,16 @@ const Demo = () => {
   //   f: y.value
   // }))
 
-  console.log('mapping object from optGroup', values);
+  
 
   
 
-  // console.log('second mapping for inner array', values?.b);
+  // 
 
   const { Option, OptGroup } = Select;
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    
   };
 
 

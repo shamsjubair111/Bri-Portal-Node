@@ -62,7 +62,7 @@ const AddProviderUniversityFinancial = (props) => {
     get(
       `FinancialInformation/GetByUniversity/${univerId}`
     ).then((res) => {
-      console.log("finanInfo", res?.id);
+      
       setFinancialData(res);
       setFinancialId(res?.id);
     });
@@ -98,7 +98,7 @@ const AddProviderUniversityFinancial = (props) => {
     //   }
 
     if (financialId == undefined) {
-      console.log("fin Id", financialId);
+      
       setButtonStatus(true);
       setProgress(true);
       Axios.post(`${rootUrl}FinancialInformation/Create`, subdata, {
@@ -128,11 +128,11 @@ const AddProviderUniversityFinancial = (props) => {
         }
       });
     } else {
-      console.log("financial id", financialId);
+      
       setButtonStatus(true);
       setProgress(true);
       put("FinancialInformation/Update", subdata).then((res) => {
-        console.log("1st put response", res);
+        
         setButtonStatus(false);
         setProgress(false);
         if (res?.status == 200 && res?.data?.isSuccess == true) {

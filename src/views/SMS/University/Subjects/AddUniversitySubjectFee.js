@@ -46,7 +46,7 @@ const AddUniversitySubjectFee = () => {
     const [buttonStatus,setButtonStatus] = useState(false);
     const [progress, setProgress] = useState(false);
 
-    // console.log("id1",id1);
+    // 
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -63,7 +63,7 @@ const AddUniversitySubjectFee = () => {
         
           get(`SubjectFeeStructure/GetBySubject/${subjId}`)
         .then(res=>{
-          console.log("subjectFeeget",res);
+          
           setLocalTutionFee(res?.localTutionFee);
           setIntTutionFee(res?.internationalTutionFee);
           setEuTutionFee(res?.eU_TutionFee);
@@ -103,7 +103,7 @@ const AddUniversitySubjectFee = () => {
     const subdata = new FormData(event.target);
 
     for (var value of subdata.values()) { 
-      console.log("values",value);
+      
      }
 
      if(id1 != undefined){
@@ -135,7 +135,7 @@ const AddUniversitySubjectFee = () => {
       }).then((res) => {
         setButtonStatus(false);
         setProgress(false);
-        console.log("post response", res);
+        
         if (res.status === 200 && res.data.isSuccess === true) {
           addToast(res?.data?.message, {
             appearance:'success',

@@ -145,7 +145,7 @@ const StudentPersonalForm = () => {
 
       get(`Student/Get/${id}`).then(
         (res) => {
-          console.log('data data data',res);
+          
           
           setConsultantLabel(
             res?.consultant?.firstName + " " + res?.consultant?.lastName
@@ -190,7 +190,7 @@ const StudentPersonalForm = () => {
   };
 
   const handleChange = ({ fileList }) => {
-   console.log(fileList);
+   
    
     if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
       setFileList([]);
@@ -266,7 +266,7 @@ const StudentPersonalForm = () => {
 
     const subData = new FormData(event.target);
     subData.append("profileImageFile", FileList[0]?.originFileObj);
-    console.log(FileList);
+    
 
    
 

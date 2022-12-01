@@ -50,7 +50,7 @@ const ConsultantList = () => {
   const [consultantList, setConsultantList] = useState([]);
   const { type } = useParams();
 
-  console.log("checking type", type);
+  
 
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
@@ -165,7 +165,7 @@ const ConsultantList = () => {
     get(
       `Consultant/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&searchstring=${searchStr}`
     ).then((res) => {
-      console.log("consultant List", res);
+      
       setConsultantList(res?.models);
       setSerialNum(res?.firstSerialNumber);
       setEntity(res?.totalEntity);
@@ -184,7 +184,7 @@ const ConsultantList = () => {
   // Edit Consultant Information
 
   const handleEdit = (data) => {
-    console.log(data);
+    
 
     history.push(`/consultantInformation/${data?.id}`);
   };
@@ -211,7 +211,7 @@ const ConsultantList = () => {
 
   const handlePass = (data) => {
     setPassData(data);
-    console.log(data);
+    
     setPassModal(true);
   };
 
@@ -263,7 +263,7 @@ const ConsultantList = () => {
     remove(`Consultant/Delete/${delData?.id}`).then((res) => {
       setProgress(false);
       setButtonStatus(false);
-      // console.log(res);
+      // 
       addToast(res, {
         appearance: "error",
         autoDismiss: true,
