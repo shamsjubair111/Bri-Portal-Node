@@ -57,7 +57,7 @@ const ProviderAdmin = () => {
 
              <div style={{cursor: 'pointer'}}>
 
-              <div className='std-dashboard-style6'>
+              <div className='std-dashboard-style6' onClick={showDrawer}>
 
               </div>
 
@@ -203,7 +203,7 @@ const ProviderAdmin = () => {
 
                 <CardBody>
 
-                  <span className='pvdadmin-span-style1'>Total Application</span>
+                  <span className='pvdadmin-span-style1'>Admission Managers</span>
                   <br/>
                   <span className='pvdadmin-span-style2'>50</span>
                   <br/>

@@ -67,7 +67,7 @@ const SuperAdmin = () => {
 
              <div style={{cursor: 'pointer'}}>
 
-              <div className='std-dashboard-style6'>
+              <div className='std-dashboard-style6' onClick={showDrawer}>
 
               </div>
 
@@ -346,6 +346,36 @@ const SuperAdmin = () => {
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Withdrawn Application</span>
+            <br/>
+            <span className='pvdadmin-span-style2'>70</span>
+            <br/>
+            <br/>
+          </CardBody>
+        </Card>
+
+      </div>
+
+      <div className='col-md-3'>
+        <Card>
+
+          <CardBody>
+
+            <span className='pvdadmin-span-style1'>New Students</span>
+            <br/>
+            <span className='pvdadmin-span-style2'>70</span>
+            <br/>
+            <br/>
+          </CardBody>
+        </Card>
+
+      </div>
+
+      <div className='col-md-3'>
+        <Card>
+
+          <CardBody>
+
+            <span className='pvdadmin-span-style1'>New Consultants</span>
             <br/>
             <span className='pvdadmin-span-style2'>70</span>
             <br/>

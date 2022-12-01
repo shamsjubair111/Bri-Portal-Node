@@ -353,6 +353,36 @@ const Admin = () => {
 
 </div>
 
+<div className='col-md-3'>
+        <Card>
+
+          <CardBody>
+
+            <span className='pvdadmin-span-style1'>New Students</span>
+            <br/>
+            <span className='pvdadmin-span-style2'>70</span>
+            <br/>
+            <br/>
+          </CardBody>
+        </Card>
+
+      </div>
+
+      <div className='col-md-3'>
+        <Card>
+
+          <CardBody>
+
+            <span className='pvdadmin-span-style1'>New Consultants</span>
+            <br/>
+            <span className='pvdadmin-span-style2'>70</span>
+            <br/>
+            <br/>
+          </CardBody>
+        </Card>
+
+      </div>
+
 </div>
 
 {/* status reports end */}

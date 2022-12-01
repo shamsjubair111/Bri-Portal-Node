@@ -60,7 +60,7 @@ const ComplianceManager = () => {
 
              <div style={{cursor: 'pointer'}}>
 
-              <div className='std-dashboard-style6'>
+              <div className='std-dashboard-style6' onClick={showDrawer}>
 
               </div>
 

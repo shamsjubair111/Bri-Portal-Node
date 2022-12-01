@@ -63,7 +63,7 @@ const AccountManager = () => {
 
              <div style={{cursor: 'pointer'}}>
 
-              <div className='std-dashboard-style6'>
+              <div className='std-dashboard-style6' onClick={showDrawer}>
 
               </div>
 
@@ -387,29 +387,7 @@ const AccountManager = () => {
 
                 <div className='col-md-4'>
 
-                <div className='text-center report-status-styles-cons p-3 text-center-report-status-styles-cons'>
-
-                    <span className='app-style-const'>Estimated Income</span>
-
-                    <br/>
-                    <br/>
-
-                    <img src={camera2} className='img-fluid' />
-
-                    <br/>
-                    <br/>
-                  
-
-                      <span className='consultant-name-style-student-dashboard2 amount-div-style'>£ 125</span>
-
-                      <br/>
-                      <br/>
-
-                      <span style={{textDecoration: 'underline' ,textDecorationColor: '#495057', color: '#495057', cursor: 'pointer'}}>July 2022-October 2022</span>
                
-
-
-                </div>
 
                 </div>
 

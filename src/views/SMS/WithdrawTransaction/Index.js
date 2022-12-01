@@ -87,6 +87,7 @@ const Index = () => {
   const [delData, setDelData] = useState({});
   const [buttonStatus, setButtonStatus] = useState(false);
   const userType = localStorage.getItem('userType');
+  const [sr,setSr] = useState(1);
  
 
   // for hide/unhide column
@@ -99,6 +100,25 @@ const Index = () => {
   const [checkTransDate, setCheckTransDate] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [callApi, setCallApi] = useState(false);
+  const [dataPerPage, setDataPerPage] = useState(15);
+  const [entity, setEntity] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // user select data per page
+  const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
+  const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
+  const [orderLabel, setOrderLabel] = useState("Select order by");
+  const [orderValue, setOrderValue] = useState(0);
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(false);
+  const { addToast } = useToasts();
+  const [note, setNote] = useState("");
+  const [cError, setCError] = useState("");
+  const [tError, setTError] = useState("");
+
+
   useEffect(() => {
     get(
       `WithdrawTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${value1}&code=${transactionCode}`
@@ -107,6 +127,7 @@ const Index = () => {
       setListData(res?.models);
       setEntity(res?.totalEntity);
       setLoading(false);
+      setSr(res?.firstSerialNumber);
     });
 
     get(`ConsultantDD/index`).then((res) => {
@@ -123,7 +144,7 @@ const Index = () => {
       });
     }
 
-  }, [value1, success, transactionCode]);
+  }, [value1, success, transactionCode, currentPage, dataPerPage, value1, transactionCode]);
 
   const closeModal = () => {
     setModalOpen(false);
@@ -181,23 +202,6 @@ const Index = () => {
     });
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [callApi, setCallApi] = useState(false);
-  const [dataPerPage, setDataPerPage] = useState(15);
-  const [entity, setEntity] = useState(0);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  // user select data per page
-  const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
-  const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
-  const [orderLabel, setOrderLabel] = useState("Select order by");
-  const [orderValue, setOrderValue] = useState(0);
-  const [dropdownOpen1, setDropdownOpen1] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [progress, setProgress] = useState(false);
-  const { addToast } = useToasts();
-  const [note, setNote] = useState("");
-  const [cError, setCError] = useState("");
-  const [tError, setTError] = useState("");
 
   const selectDataSize = (value) => {
     setDataPerPage(value);
@@ -629,19 +633,24 @@ const Index = () => {
           <Card className="uapp-employee-search">
             <CardBody>
               <div className=" row mb-3">
-                <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4">
-                 {
-                  permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
-                  <ButtonForFunction
-                  className={"btn btn-uapp-add "}
-                  icon={<i className="fas fa-plus"></i>}
-                  func={() => setModal2Open(true)}
-                  name={" Add Withdraw Transaction"}
-                ></ButtonForFunction>
-                :
+               {
+                (userType == userTypes?.Consultant) ?
                 null
-                 }
-                </div>
+                :
+                <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4">
+                {
+                 permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
+                 <ButtonForFunction
+                 className={"btn btn-uapp-add "}
+                 icon={<i className="fas fa-plus"></i>}
+                 func={() => setModal2Open(true)}
+                 name={" Add Withdraw Transaction"}
+               ></ButtonForFunction>
+               :
+               null
+                }
+               </div>
+               }
 
                 <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8">
                   <div className="d-flex justify-content-end flex-wrap">
@@ -889,7 +898,7 @@ const Index = () => {
                 <tbody>
                   {listData?.map((ls, i) => (
                     <tr key={i} style={{ textAlign: "center" }}>
-                      {checkSlNo ? <td>{i + 1}</td> : null}
+                      {checkSlNo ? <td>{i + sr}</td> : null}
                       {checkTransDate ? <td>{ls?.transactionDate}</td> : null}
                       {checkCons ? <td>{ls?.consultantName}</td> : null}
                       {checkTransCode ? <td>{ls?.transactionCode}</td> : null}

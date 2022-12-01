@@ -861,32 +861,37 @@ const Index = () => {
                   </div>
                 </div>
 
+               {
+                (userType == userTypes?.Consultant) ? 
+                null
+                :
                 <div className="col-md-2">
-                  <div className="d-flex flex-column">
-                  {
-                    permissions?.includes(permissionList.Add_New_Bonus_transaction) ?
-                    <button
-                      className="mb-1 acc-tran-btn-style"
-                      onClick={() => setModalOpen(true)}
-                    >
-                      Inflow
-                    </button>
-                    :
-                    null
-                    }
-                    {
-                    permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
-                    <button
-                      className="mt-1 acc-tran-btn-style"
-                      onClick={() => setModal2Open(true)}
-                    >
-                      Outflow
-                    </button>
-                    :
-                    null
+                <div className="d-flex flex-column">
+                {
+                  permissions?.includes(permissionList.Add_New_Bonus_transaction) ?
+                  <button
+                    className="mb-1 acc-tran-btn-style"
+                    onClick={() => setModalOpen(true)}
+                  >
+                    Inflow
+                  </button>
+                  :
+                  null
                   }
-                  </div>
+                  {
+                  permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
+                  <button
+                    className="mt-1 acc-tran-btn-style"
+                    onClick={() => setModal2Open(true)}
+                  >
+                    Outflow
+                  </button>
+                  :
+                  null
+                }
                 </div>
+              </div>
+               }
               </div>
 
               <div className="row">
