@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardBody,
@@ -10,6 +10,10 @@ import plusicon from '../../../../../assets/img/plusicon.svg';
 import Vectorbeat from '../../../../../assets/img/Vectorbeat.svg';
 import gift from '../../../../../assets/img/gift.PNG';
 import cuser1 from '../../../../../assets/img/cuser1.svg';
+import user from '../../../../../assets/img/Uapp_fav.png';
+import get from '../../../../../helpers/get';
+import { rootUrl } from '../../../../../constants/constants';
+
 
 
 
@@ -18,12 +22,44 @@ const ProviderAdmin = () => {
 
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
   const [open, setOpen] = useState(false);
+  const [count,setCount] = useState({});
+  const [applications,setApplications] = useState([]);
+  const [managers,setManagers] = useState([]);
+
+  useEffect(()=>{
+
+    get(`ProviderAdminDashboard/Counting`)
+    .then(res => {
+      setCount(res);
+    })
+
+    get(`ProviderAdminDashboard/Application`)
+    .then(res => {
+      setApplications(res);
+    })
+
+    get(`ProviderAdminDashboard/Managers`)
+    .then(res => {
+      setManagers(res);
+    })
+
+  
+
+  },[])
  
   const showDrawer = () => {
     setOpen(true);
   };
   const onClose = () => {
     setOpen(false);
+  };
+
+  const handleDate = (e) => {
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    const x = localeDate.split(",")[0];
+    return x;
   };
 
     
@@ -176,7 +212,7 @@ const ProviderAdmin = () => {
 
                   <span className='pvdadmin-span-style1'>Total Application</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>1451</span>
+                  <span className='pvdadmin-span-style2'>{count?.totalApplication}</span>
                   <br/>
                   <br/>
                 </CardBody>
@@ -191,7 +227,7 @@ const ProviderAdmin = () => {
 
                   <span className='pvdadmin-span-style1'>Universities</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>500</span>
+                  <span className='pvdadmin-span-style2'>{count?.universities}</span>
                   <br/>
                   <br/>
                 </CardBody>
@@ -205,7 +241,7 @@ const ProviderAdmin = () => {
 
                   <span className='pvdadmin-span-style1'>Admission Managers</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>50</span>
+                  <span className='pvdadmin-span-style2'>{count?.admissionmanagers}</span>
                   <br/>
                   <br/>
                 </CardBody>
@@ -219,7 +255,7 @@ const ProviderAdmin = () => {
 
                   <span className='pvdadmin-span-style1'>Admission Officers</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>70</span>
+                  <span className='pvdadmin-span-style2'>{count?.admissionofficers}</span>
                   <br/>
                   <br/>
                 </CardBody>
@@ -242,6 +278,8 @@ const ProviderAdmin = () => {
 
                   <span className='app-style-const'>New Applications</span>
 
+                  <div style={{height: '300px',  overflowY: 'scroll'}}>
+
                   <Table borderless responsive className='mt-3'>
             <thead style={{backgroundColor: '#EEF3F4'}}>
             <tr>
@@ -249,57 +287,80 @@ const ProviderAdmin = () => {
             <th>Name
               </th>
             <th>University</th>
-            <th>Admission Officer</th>
+            <th>Admission Manager</th>
             <th>Date</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-              </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            </tr>
-
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-              </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            </tr>
-
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-              </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            </tr>
-
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-              </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            </tr>
+           {
+              applications?.map((app,i) => (
+                <tr key={i}>
+                <td>{app?.student?.studentViewId}</td>
+                <td><div>
+                  <img src={(app?.student?.profileImage?.thumbnailUrl == null) ? user : rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
+                  <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{''}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
+                  </div></td>
+                <td>{app?.universityName}</td>
+                <td>{app?.managerName}</td>
+                <td>{handleDate(app?.applicationDate)}</td>
+                </tr>
+              ))
+           }
 
             </tbody>
             </Table>
+
+                  </div>
+              
+              
+
+                </CardBody>
+              </Card>
+
+            </div>
+           <div>
+
+        
+
+              <Card>
+                <CardBody>
+
+                  <span className='app-style-const'>Admission Manager List</span>
+
+                  <div style={{height: '300px', overflowY: 'scroll'}}>
+                  <Table borderless responsive className='mt-3'>
+            <thead style={{backgroundColor: '#EEF3F4'}}>
+            <tr>
+            <th>Admission Manager ID</th>
+            <th>Name
+              </th>
+            <th>Email</th>
+            <th>Application</th>
+            
+            </tr>
+            </thead>
+            <tbody>
+           {
+
+              managers?.map((man,i) =>(
+                <tr key={i}>
+                <td>{man?.uappId}</td>
+                <td><div>
+                  <img src={(man?.imageUrl == null) ? user : rootUrl+man?.imageUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
+                  <span style={{marginLeft: '5px'}}>{man?.nameTittle}{' '}{man?.fullName}</span>
+                  </div></td>
+                <td>{man?.email}</td>
+                <td>{man?.applicationCount}</td>
+              
+                
+                </tr>
+              ))
+           }
+
+           </tbody>
+            </Table>
+
+                  </div>
               
               
 

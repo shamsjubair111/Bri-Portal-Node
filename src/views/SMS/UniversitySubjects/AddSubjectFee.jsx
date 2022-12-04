@@ -52,7 +52,7 @@ const AddSubjectFee = () => {
     const [addIntTutionFee, setAddIntTutionFee] = useState(undefined);
     const [addEUTutionFee, setAddEUTutionFee] = useState(undefined);
 
-    console.log("id1",id1);
+  
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -76,7 +76,7 @@ const AddSubjectFee = () => {
         
           get(`SubjectFeeStructure/GetBySubject/${id}`)
         .then(res=>{
-          console.log("subjectFeeget",res);
+          
           // setLocalTutionFee(res?.localTutionFee);
           // setIntTutionFee(res?.internationalTutionFee);
           // setEuTutionFee(res?.eU_TutionFee);

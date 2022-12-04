@@ -137,6 +137,7 @@ const AdmissionManagerList = () => {
   const [FileList, setFileList] = useState([]);
   const [error,setError] = useState(false);
   const [progress,setProgress] = useState(false);
+  const [mId,setMId] = useState(0);
  
 
   const [imgError, setImgError] = useState(false);
@@ -156,6 +157,11 @@ const AdmissionManagerList = () => {
       setCountryList(res);
       setLoading(false);
     });
+
+    get(`Provideradmin/GetProviderId/${localStorage.getItem('referenceId')}`)
+    .then(res => {
+      setMId(res);
+    })
 
     // setLoading(true);
     // setLoading(false);
@@ -430,44 +436,80 @@ const AdmissionManagerList = () => {
     const subdata = new FormData(event.target);
     subdata.append('admissionManagerFile',FileList?.length< 1 ? null : FileList[0]?.originFileObj)
 
-    for (var i of subdata) {
-      
+    
+    if(userType == userTypes?.ProviderAdmin){
+     if (nameTitleValue === 0) {
+        setNameTitleError(true);
+      } else if (pass.length < 6) {
+        setPassError("Password length can not be less than six digits");
+      } else if (uniCountryValue === 0) {
+        setCountryError(true);
+      } else if (unistateValue === 0) {
+        setUniStateError(true);
+      }
+       else {
+        setButtonStatus1(true);
+        setProgress(true);
+        post(`AdmissionManager/Create`, subdata).then((res) => {
+          setButtonStatus1(false);
+          setProgress(false);
+          setSuccess(!success);
+  
+          if (res?.status === 200 && res?.data?.isSuccess == true) {
+            addToast(res.data.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            closeModal();
+            setModalOpen(false);
+            setFileList([]);
+          }
+          if (res?.status === 200 && res?.data?.isSuccess == false) {
+            addToast(res.data.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+        });
+      }
     }
-
-    if (providerValue2 === 0) {
-      setProviderError(true);
-    } else if (nameTitleValue === 0) {
-      setNameTitleError(true);
-    } else if (pass.length < 6) {
-      setPassError("Password length can not be less than six digits");
-    } else if (uniCountryValue === 0) {
-      setCountryError(true);
-    } else if (unistateValue === 0) {
-      setUniStateError(true);
-    }
-     else {
-      setButtonStatus1(true);
-      setProgress(true);
-      post(`AdmissionManager/Create`, subdata).then((res) => {
-        setButtonStatus1(false);
-        setProgress(false);
-        setSuccess(!success);
-
-        if (res?.status === 200 && res?.data?.isSuccess == true) {
-          addToast(res.data.message, {
-            appearance: "success",
-            autoDismiss: true,
-          });
-          closeModal();
-          setModalOpen(false);
-        }
-        if (res?.status === 200 && res?.data?.isSuccess == false) {
-          addToast(res.data.message, {
-            appearance: "error",
-            autoDismiss: true,
-          });
-        }
-      });
+    else{
+      if (providerValue2 === 0) {
+        setProviderError(true);
+      } else if (nameTitleValue === 0) {
+        setNameTitleError(true);
+      } else if (pass.length < 6) {
+        setPassError("Password length can not be less than six digits");
+      } else if (uniCountryValue === 0) {
+        setCountryError(true);
+      } else if (unistateValue === 0) {
+        setUniStateError(true);
+      }
+       else {
+        setButtonStatus1(true);
+        setProgress(true);
+        post(`AdmissionManager/Create`, subdata).then((res) => {
+          setButtonStatus1(false);
+          setProgress(false);
+          setSuccess(!success);
+  
+          if (res?.status === 200 && res?.data?.isSuccess == true) {
+            addToast(res.data.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            closeModal();
+            setModalOpen(false);
+            setFileList([]);
+          }
+          if (res?.status === 200 && res?.data?.isSuccess == false) {
+            addToast(res.data.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+        });
+      }
     }
   };
 
@@ -671,33 +713,45 @@ const AdmissionManagerList = () => {
                 </ModalHeader>
                 <ModalBody>
                   <Form onSubmit={handleSubmit}>
-                    <FormGroup row className="has-icon-left position-relative">
-                      <Col md="3">
-                        <span>
-                          Provider <span className="text-danger">*</span>{" "}
-                        </span>
-                      </Col>
-                      <Col md="6">
-                        <Select
-                          options={providerMenu}
-                          value={{
-                            label: providerLabel2,
-                            value: providerValue2,
-                          }}
-                          onChange={(opt) =>
-                            selectProvider2(opt.label, opt.value)
-                          }
-                          name="providerId"
-                          id="providerId"
-                        />
+                 {
+                  (userType == userTypes?.ProviderAdmin) ?
 
-                        {providerError ? (
-                          <span className="text-danger">
-                            Provider is required
-                          </span>
-                        ) : null}
-                      </Col>
-                    </FormGroup>
+                  <input
+                  type='hidden'
+                  name='providerId'
+                  id='providerId'
+                  value={mId}
+                  />
+
+                  :
+                  <FormGroup row className="has-icon-left position-relative">
+                  <Col md="3">
+                    <span>
+                      Provider <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={providerMenu}
+                      value={{
+                        label: providerLabel2,
+                        value: providerValue2,
+                      }}
+                      onChange={(opt) =>
+                        selectProvider2(opt.label, opt.value)
+                      }
+                      name="providerId"
+                      id="providerId"
+                    />
+
+                    {providerError ? (
+                      <span className="text-danger">
+                        Provider is required
+                      </span>
+                    ) : null}
+                  </Col>
+                </FormGroup>
+                 }
 
                     <FormGroup row className="has-icon-left position-relative">
                       <Col md="3">

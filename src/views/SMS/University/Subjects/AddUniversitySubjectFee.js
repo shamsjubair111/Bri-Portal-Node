@@ -50,7 +50,7 @@ const AddUniversitySubjectFee = () => {
     const [addIntTutionFee, setAddIntTutionFee] = useState(undefined);
     const [addEUTutionFee, setAddEUTutionFee] = useState(undefined);
 
-    // console.log("id1",id1);
+  
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -67,7 +67,7 @@ const AddUniversitySubjectFee = () => {
         
           get(`SubjectFeeStructure/GetBySubject/${subjId}`)
         .then(res=>{
-          console.log("subjectFeeget",res);
+          
           // setLocalTutionFee(res?.localTutionFee);
           // setIntTutionFee(res?.internationalTutionFee);
           // setEuTutionFee(res?.eU_TutionFee);
@@ -117,7 +117,7 @@ const AddUniversitySubjectFee = () => {
       eU_TutionFee: addEUTutionFee == undefined ? 0 : addEUTutionFee
     }
 
-    console.log("post data", postdata);
+
 
     for (var value of subdata.values()) { 
       

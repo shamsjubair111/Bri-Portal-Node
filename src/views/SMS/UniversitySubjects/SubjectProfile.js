@@ -52,7 +52,7 @@ const SubjectProfile = () => {
       setCampusId(location?.campId);
       get(`Subject/Profile/${subjId}`)
       .then(res=>{
-        console.log("unidataaaa",res);
+       
         setSubjectData(res);
         setUniversityId(res?.university?.id);
         setCampList(res?.campusSubjects);

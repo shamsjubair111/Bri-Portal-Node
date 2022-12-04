@@ -150,6 +150,7 @@ const AdmissionOfficerList = () => {
   const [progress, setProgress] = useState(false);
 
   const [imgError, setImgError] = useState(false);
+  const [mId,setMId] = useState(0);
 
   const [error, setError] = useState(false);
 
@@ -222,12 +223,22 @@ const AdmissionOfficerList = () => {
 
     if (userType == userTypes?.ProviderAdmin) {
       get(`ProviderAdmin/Get/${referenceId}`).then((res) => {
-        
+       
         setProValue(res?.providerId);
         get(`AdmissionManagerDD/Index/${res?.providerId}`).then((res) => {
           setManagerDD(res);
         });
       });
+
+      get(`Provideradmin/GetProviderId/${localStorage.getItem('referenceId')}`)
+    .then(res => {
+      setMId(res);
+    })
+
+    get(`AdmissionManagerDD/Index/${localStorage.getItem('referenceId')}`).then((res) => {
+      setManagerDDForm(res);
+      
+    });
     }
   }, []);
 
@@ -356,9 +367,7 @@ const AdmissionOfficerList = () => {
     setManagerFormValue(0);
     get(`AdmissionManagerDD/Index/${value}`).then((res) => {
       setManagerDDForm(res);
-      // setUniStateLabel(res.name)
-      // setUniStateValue(res.id)
-      // setUniversityStates(res);
+      
     });
   };
 
@@ -569,96 +578,184 @@ const AdmissionOfficerList = () => {
       FileList?.length < 1 ? null : FileList[0]?.originFileObj
     );
 
-    for (var i of subdata) {
-    }
-
-    if (selectedId === undefined) {
-      if (nameTitleValue === 0) {
-        setNameTitleError(true);
-      } else if (pass.length < 6) {
-        setPassError("Password length can not be less than six digits");
-      } else if (emailError == false) {
-        setEmailError(emailError);
-      } else if (uniCountryValue === 0) {
-        setCountryError(true);
-      } else if (unistateValue === 0) {
-        setUniStateError(true);
-      } else if (providerValue === 0 && selectedId === undefined) {
-        setProviderError(true);
-      } else if (managerFormValue === 0 && selectedId === undefined) {
-        setManagerFormError(true);
-      } else {
-        setOfficerObj({});
-        setButtonStatus(true);
-        setProgress(true);
-        post(`AdmissionOfficer/Create`, subdata).then((res) => {
-          setProgress(false);
-          setSuccess(!success);
-          setButtonStatus(false);
-
-          //   setuniversityId(res?.data?.result?.universityId)
-          if (res?.status === 200 && res?.data?.isSuccess == true) {
-            // setSubmitData(false);
-            addToast(res.data.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-
-            setNameTitleLabel("Select Title");
-            setNameTitleValue(0);
-            setUniCountryLabel("Select Country");
-            setUniCountryValue(0);
-            setUniStateLabel("Select State");
-            setUniStateValue(0);
-            setProviderLabel("Select Provider");
-            setProviderValue(0);
-            setManagerFormLabel("Select Admission Manager");
-            setManagerFormValue(0);
-            setModalOpen(false);
-            setFileList([]);
-          } else {
-            // setSubmitData(false);
-            addToast(res.data.message, {
-              appearance: "error",
-              autoDismiss: true,
-            });
-            // closeModal();
-          }
-        });
-      }
-    } else {
-      if (unistateValue === 0) {
-        setUniStateError(true);
-      } else {
-        setButtonStatus(true);
-        setProgress(true);
-        put(`AdmissionOfficer/Update`, subdata).then((res) => {
-          setProgress(false);
-          setButtonStatus(false);
-          if (res.status === 200 && res.data.isSuccess === true) {
-            addToast(res.data.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-            setNameTitleLabel("Select Title");
-            setNameTitleValue(0);
-            setUniCountryLabel("Select Country");
-            setUniCountryValue(0);
-            setUniStateLabel("Select State");
-            setUniStateValue(0);
-            setProviderLabel("Select Provider");
-            setProviderValue(0);
-            setManagerFormLabel("Select Admission Manager");
-            setManagerFormValue(0);
-            setOfficerObj({});
-            setSelectedId(undefined);
+    if(userType == userTypes?.ProviderAdmin){
+      if (selectedId === undefined) {
+        if (nameTitleValue === 0) {
+          setNameTitleError(true);
+        } else if (pass.length < 6) {
+          setPassError("Password length can not be less than six digits");
+        } else if (emailError == false) {
+          setEmailError(emailError);
+        } else if (uniCountryValue === 0) {
+          setCountryError(true);
+        } else if (unistateValue === 0) {
+          setUniStateError(true);
+        }  else if (managerFormValue === 0 && selectedId === undefined) {
+          setManagerFormError(true);
+        } else {
+          setOfficerObj({});
+          setButtonStatus(true);
+          setProgress(true);
+          post(`AdmissionOfficer/Create`, subdata).then((res) => {
+            setProgress(false);
             setSuccess(!success);
-            setModalOpen(false);
-            setFileList([]);
-          }
-        });
+            setButtonStatus(false);
+  
+            //   setuniversityId(res?.data?.result?.universityId)
+            if (res?.status === 200 && res?.data?.isSuccess == true) {
+              // setSubmitData(false);
+              addToast(res.data.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+  
+              setNameTitleLabel("Select Title");
+              setNameTitleValue(0);
+              setUniCountryLabel("Select Country");
+              setUniCountryValue(0);
+              setUniStateLabel("Select State");
+              setUniStateValue(0);
+              setProviderLabel("Select Provider");
+              setProviderValue(0);
+              setManagerFormLabel("Select Admission Manager");
+              setManagerFormValue(0);
+              setModalOpen(false);
+              setFileList([]);
+            } else {
+              // setSubmitData(false);
+              addToast(res.data.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+              // closeModal();
+            }
+          });
+        }
+      } else {
+        if (unistateValue === 0) {
+          setUniStateError(true);
+        } else {
+          setButtonStatus(true);
+          setProgress(true);
+          put(`AdmissionOfficer/Update`, subdata).then((res) => {
+            setProgress(false);
+            setButtonStatus(false);
+            if (res.status === 200 && res.data.isSuccess === true) {
+              addToast(res.data.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              setNameTitleLabel("Select Title");
+              setNameTitleValue(0);
+              setUniCountryLabel("Select Country");
+              setUniCountryValue(0);
+              setUniStateLabel("Select State");
+              setUniStateValue(0);
+              setProviderLabel("Select Provider");
+              setProviderValue(0);
+              setManagerFormLabel("Select Admission Manager");
+              setManagerFormValue(0);
+              setOfficerObj({});
+              setSelectedId(undefined);
+              setSuccess(!success);
+              setModalOpen(false);
+              setFileList([]);
+            }
+          });
+        }
       }
     }
+    else{
+      if (selectedId === undefined) {
+        if (nameTitleValue === 0) {
+          setNameTitleError(true);
+        } else if (pass.length < 6) {
+          setPassError("Password length can not be less than six digits");
+        } else if (emailError == false) {
+          setEmailError(emailError);
+        } else if (uniCountryValue === 0) {
+          setCountryError(true);
+        } else if (unistateValue === 0) {
+          setUniStateError(true);
+        } else if (providerValue === 0 && selectedId === undefined) {
+          setProviderError(true);
+        } else if (managerFormValue === 0 && selectedId === undefined) {
+          setManagerFormError(true);
+        } else {
+          setOfficerObj({});
+          setButtonStatus(true);
+          setProgress(true);
+          post(`AdmissionOfficer/Create`, subdata).then((res) => {
+            setProgress(false);
+            setSuccess(!success);
+            setButtonStatus(false);
+  
+            //   setuniversityId(res?.data?.result?.universityId)
+            if (res?.status === 200 && res?.data?.isSuccess == true) {
+              // setSubmitData(false);
+              addToast(res.data.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+  
+              setNameTitleLabel("Select Title");
+              setNameTitleValue(0);
+              setUniCountryLabel("Select Country");
+              setUniCountryValue(0);
+              setUniStateLabel("Select State");
+              setUniStateValue(0);
+              setProviderLabel("Select Provider");
+              setProviderValue(0);
+              setManagerFormLabel("Select Admission Manager");
+              setManagerFormValue(0);
+              setModalOpen(false);
+              setFileList([]);
+            } else {
+              // setSubmitData(false);
+              addToast(res.data.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+              // closeModal();
+            }
+          });
+        }
+      } else {
+        if (unistateValue === 0) {
+          setUniStateError(true);
+        } else {
+          setButtonStatus(true);
+          setProgress(true);
+          put(`AdmissionOfficer/Update`, subdata).then((res) => {
+            setProgress(false);
+            setButtonStatus(false);
+            if (res.status === 200 && res.data.isSuccess === true) {
+              addToast(res.data.message, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+              setNameTitleLabel("Select Title");
+              setNameTitleValue(0);
+              setUniCountryLabel("Select Country");
+              setUniCountryValue(0);
+              setUniStateLabel("Select State");
+              setUniStateValue(0);
+              setProviderLabel("Select Provider");
+              setProviderValue(0);
+              setManagerFormLabel("Select Admission Manager");
+              setManagerFormValue(0);
+              setOfficerObj({});
+              setSelectedId(undefined);
+              setSuccess(!success);
+              setModalOpen(false);
+              setFileList([]);
+            }
+          });
+        }
+      }
+    }
+
+    
   };
 
   const handleEmail = (e) => {
@@ -1367,7 +1464,19 @@ const AdmissionOfficerList = () => {
                       </Col>
                     </FormGroup>
 
-                    {selectedId != undefined ? null : (
+                   {
+
+                    (userType == userTypes?.ProviderAdmin) ? 
+                    
+                    <input
+                    type='hidden'
+                    name="providerId"
+                    id='providerId'
+                    value={mId}
+                    />
+                    :
+                    <>
+                     {selectedId != undefined ? null : (
                       <FormGroup
                         row
                         className="has-icon-left position-relative"
@@ -1403,6 +1512,9 @@ const AdmissionOfficerList = () => {
                         </Col>
                       </FormGroup>
                     )}
+                    </>
+
+                   }
 
                     {selectedId != undefined ? null : (
                       <FormGroup

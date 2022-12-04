@@ -26,62 +26,19 @@ const SuperAdmin = () => {
   const [options,setOptions] = useState({});
   const [series,setSeries] = useState([20, 20, 20, 20, 20]);
   const [Labels,setLabels] = useState(['A', 'B', 'C', 'D', 'E']);
-  const [totalApp,setTotalApp] = useState(0);
-  const [appInProcess,setAppInProcess] = useState(0);
-  const [unconditional,setUnconditional] = useState(0);
-  const [registered,setRegistered] = useState(0);
-  const [rejected,setRejected] = useState(0);
-  const [withdrawn,setWithdrawn] = useState(0);
-  const [newS,setNewS] = useState(0);
-  const [newC,setNewC] = useState(0);
+  const [count,setCount] = useState({});
   const [applications,setApplications] = useState([]);
 
   useEffect(()=>{
 
-    get(`SystemAdminCounting/TotalApplication`)
-    .then(res => {
-      setTotalApp(res);
+    get(`SystemAdminDashboard/Counting`)
+    .then(res =>{
+    setCount(res);
     })
 
-    get(`SystemAdminCounting/TotalApplicationInProgress`)
-    .then(res => {
-      setAppInProcess(res);
-    })
-
-    get(`SystemAdminCounting/TotalRegistered`)
-    .then(res => {
-      setRegistered(res);
-    })
-
-    get(`SystemAdminCounting/TotalRejected`)
-    .then(res => {
-      setRejected(res);
-    })
-
-    get(`SystemAdminCounting/TotalunconditionalOffer`)
-    .then(res => {
-      setUnconditional(res);
-    })
-
-    get(`SystemAdminCounting/TotalWithdrawn`)
-    .then(res => {
-      setWithdrawn(res);
-    })
-
-    get(`SystemAdminCounting/TotalNewStudent`)
-    .then(res => {
-      setNewS(res);
-    })
-
-    get(`SystemAdminCounting/TotalNewConsultant`)
-    .then(res => {
-      setNewC(res);
-    })
-
-    get(`ApplicationDashboard/SystemAdminApplicationAll`)
-    .then(res => {
-      
-      setApplications(res);
+    get(`SystemAdminDashboard/Application`)
+    .then(res =>{
+    setApplications(res);
     })
 
   },[])
@@ -94,6 +51,7 @@ const SuperAdmin = () => {
   const onClose = () => {
     setOpen(false);
   };
+
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
 
   const handleDate = (e) => {
@@ -340,7 +298,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Total Application</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{totalApp}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalApplication}</span>
             <br/>
             <br/>
           </CardBody>
@@ -355,7 +313,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Applications in Process</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{appInProcess}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalApplicationInProgress}</span>
             <br/>
             <br/>
           </CardBody>
@@ -370,7 +328,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Unconditional Offer</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{unconditional}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalUnconditionalOffer}</span>
             <br/>
             <br/>
           </CardBody>
@@ -385,7 +343,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Total Registered</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{registered}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalRegistered}</span>
             <br/>
             <br/>
           </CardBody>
@@ -400,7 +358,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{rejected}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalRejected}</span>
             <br/>
             <br/>
           </CardBody>
@@ -415,7 +373,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>Withdrawn Application</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{withdrawn}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalWithdrawn}</span>
             <br/>
             <br/>
           </CardBody>
@@ -430,7 +388,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>New Students</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{newS}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalNewStudent}</span>
             <br/>
             <br/>
           </CardBody>
@@ -445,7 +403,7 @@ const SuperAdmin = () => {
 
             <span className='pvdadmin-span-style1'>New Consultants</span>
             <br/>
-            <span className='pvdadmin-span-style2'>{newC}</span>
+            <span className='pvdadmin-span-style2'>{count?.totalNewConsultant}</span>
             <br/>
             <br/>
           </CardBody>

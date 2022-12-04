@@ -30,6 +30,13 @@ const ComplianceManager = () => {
     setOpen(false);
   };
 
+  const textDecorationStyle ={
+    textDecoration: 'underline',
+    textDecorationColor: '#1e98b0',
+    color: '#1e98b0',
+    cursor: 'pointer'
+  }
+
     return (
         <React.Fragment>
 
@@ -60,192 +67,14 @@ const ComplianceManager = () => {
 
              <div style={{cursor: 'pointer'}}>
 
-              <div className='std-dashboard-style6' onClick={showDrawer}>
+              <div className='std-dashboard-style6'>
 
               </div>
 
-              <div  onClick={function noRefCheck(){}}>
-                <img src={Vectorbeat} className='img-fluid dashbard-img-style2' onClick={showDrawer} />
-
-                <Drawer placement="right" onClose={onClose} open={open}>
-                <div className=''>
-             
-             <Card>
-              <CardBody>
-              <span className='consultant-news-feed-style'>NEWS FEED</span>
-              </CardBody>
-             </Card>
-
-             <Card>
-              <CardBody>
               <div>
-               <div className='d-flex'>
-                 <div className='notice-image-style'> 
-                 <img src={user1}  />
-                 </div>
-                 <div className='ml-2'>
-                   <span className='notice-user-name'>MD Shamim (Admin)</span>
-                   <br/>
-                   <span className='notice-user-desc'>We're delighted to introduce you to our new "Become an Education Consultant...
-                   <br/>
-                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>read more</span></span>
+                <img src={Vectorbeat} className='img-fluid dashbard-img-style2'/>
 
-                   <br/>
-                   <span className='notice-time-style'>02:14 PM Today</span>
-                 </div>
-
-
-               </div>
-
-             </div>
-              </CardBody>
-             </Card>
-             
-           
-           <Card>
-            <CardBody>
-            <div>
-               <div className='d-flex'>
-                 <div className='notice-image-style'> 
-                 <img src={user2}  />
-                 </div>
-                 <div className='ml-2'>
-                   <span className='notice-user-name'>MD Shamim (Admin)</span>
-                   <br/>
-                   <span className='notice-user-desc'>We're delighted to introduce you
-                    </span>
-                    <br/>
-                    <img src={capture} className='img-fluid' />
-                   <br/>
-                   <span className='notice-time-style'>02:14 PM Today</span>
-                 </div>
-
-
-               </div>
-
-             </div>
-            </CardBody>
-           </Card>
-
-            <Card>
-              <CardBody>
-              <div>
-               <div className='d-flex'>
-                 <div className='notice-image-style'> 
-                 <img src={user2}  />
-                 </div>
-                 <div className='ml-2'>
-                   <span className='notice-user-name'>MD Shamim (Admin)</span>
-                   <br/>
-                   <span className='notice-user-desc'>We're delighted to introduce you
-                    </span>
-                    <br/>
-                    <div className='d-flex justify-content-around my-2'>
-                    <img src={images1} className='img-fluid' />
-                    <img src={images1} className='img-fluid' />
-                    <img src={images1} className='img-fluid' />
-                    </div>
-                   
-                   <span className='notice-time-style'>02:14 PM Today</span>
-                 </div>
-
-
-               </div>
-
-             </div>
-              </CardBody>
-            </Card>
-
-
-             <div>
-
-             <Card>
-              <CardBody>
-              <span className='consultant-news-feed-style'>NOTICE</span>
-              </CardBody>
-             </Card>
-
-             <Card>
-              <CardBody>
-              <div className=''>
-                 <div className='notice-image-stylemb-2'> 
-                 <span className='notice-user-name'>Super Admin</span>
-                 </div>
-                 <div className='mt-2'>
-                   <span className='notice-user-name'>MD Shamim (Admin)</span>
-                   <br/>
-                   <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
-
-                   <br/>
-                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
-
-              
                
-               
-
-                 </div>
-
-
-                 <div className='mt-2'> 
-                 <span className='notice-time-style'>02:14 PM 19/07/22</span>
-                 </div>
-
-
-               </div>
-              </CardBody>
-             </Card>
-
-           <Card>
-            <CardBody>
-     
-               
-
-               <div>
-                 <div className='notice-image-stylemb-2'> 
-                 <span className='notice-user-name'>Super Admin</span>
-                 </div>
-                 <div className='mt-2'>
-                   <span className='notice-user-name'>MD Shamim (Admin)</span>
-                   <br/>
-                   <span className='notice-user-desc'>University of Suffolk admissions open for September 2022 intake.
-
-                   <br/>
-                   <span style={{textDecoration:'underline', textDecorationColor: '#878A99', cursor: 'pointer'}}>View</span></span>
-
-              
-               
-               
-
-                 </div>
-
-
-                 <div className='mt-2'> 
-                 <span className='notice-time-style'>02:14 PM 19/07/22</span>
-                 </div>
-
-
-               </div>
-
-            </CardBody>
-           </Card>
-
-
-
-             </div>
-
-         <Card>
-          <CardBody>
-          <div>
-           <img src={gift} className='img-fluid' />
-         </div>
-          </CardBody>
-         </Card>
-        
-         </div>
-                </Drawer>
-
-                
-
               </div>
 
              </div>
@@ -258,7 +87,7 @@ const ComplianceManager = () => {
 
               <div className='row'>
 
-            <div className='col-md-3'>
+            <div className='col-md-2'>
               <Card>
 
                 <CardBody>
@@ -273,7 +102,7 @@ const ComplianceManager = () => {
 
             </div>
 
-            <div className='col-md-3'>
+            <div className='col-md-2'>
               <Card>
 
                 <CardBody>
@@ -282,13 +111,13 @@ const ComplianceManager = () => {
                   <br/>
                   <span className='pvdadmin-span-style2'>500</span>
                   <br/>
-                  <br/>
+               
                 </CardBody>
               </Card>
 
             </div>
 
-            <div className='col-md-3'>
+            <div className='col-md-2'>
               <Card>
 
                 <CardBody>
@@ -303,7 +132,7 @@ const ComplianceManager = () => {
 
             </div>
 
-            <div className='col-md-3'>
+            <div className='col-md-2'>
               <Card>
 
                 <CardBody>
@@ -318,7 +147,7 @@ const ComplianceManager = () => {
 
             </div>
 
-            <div className='col-md-3'>
+            <div className='col-md-2'>
               <Card>
 
                 <CardBody>
@@ -333,7 +162,7 @@ const ComplianceManager = () => {
 
             </div>
 
-            <div className='col-md-3'>
+            <div className='col-md-2'>
               <Card>
 
                 <CardBody>
@@ -342,7 +171,7 @@ const ComplianceManager = () => {
                   <br/>
                   <span className='pvdadmin-span-style2'>70</span>
                   <br/>
-                  <br/>
+                  
                 </CardBody>
               </Card>
 
@@ -371,8 +200,9 @@ const ComplianceManager = () => {
             <th>Name
             </th>
             <th>University</th>
-            <th>Admission Officer</th>
+            <th>Status</th>
             <th>Date</th>
+            <th></th>
             </tr>
             </thead>
             <tbody>
@@ -385,6 +215,7 @@ const ComplianceManager = () => {
             <td>Anglia Ruskin University – Navitas....</td>
             <td>@Syed Istiake</td>
             <td>15 June 2022	</td>
+            <td style={textDecorationStyle}>Details</td>
             </tr>
 
             <tr>
@@ -396,6 +227,7 @@ const ComplianceManager = () => {
             <td>Anglia Ruskin University – Navitas....</td>
             <td>@Syed Istiake</td>
             <td>15 June 2022	</td>
+            <td style={textDecorationStyle}>Details</td>
             </tr>
 
             <tr>
@@ -407,6 +239,7 @@ const ComplianceManager = () => {
             <td>Anglia Ruskin University – Navitas....</td>
             <td>@Syed Istiake</td>
             <td>15 June 2022	</td>
+            <td style={textDecorationStyle}>Details</td>
             </tr>
 
             <tr>
@@ -418,6 +251,7 @@ const ComplianceManager = () => {
             <td>Anglia Ruskin University – Navitas....</td>
             <td>@Syed Istiake</td>
             <td>15 June 2022	</td>
+            <td style={textDecorationStyle}>Details</td>
             </tr>
 
             </tbody>

@@ -191,7 +191,7 @@ const ApplicationDetails = () => {
       setUploadedDocuData(res);
       // setDocuValue(res?.statusId);
       // setDocuLabel(res?.statusId == 1 ? "Processing" : res?.statusId == 2 ? "Accepted" : "Rejected")
-      console.log("upload data", res);
+      
     });
 
     get("DocumentDD/Index").then((res) => {
@@ -257,7 +257,7 @@ const ApplicationDetails = () => {
 
     get(`Ielts/Index/${stdId}`).then((res) => {
       setIelts(res);
-      console.log("ielts", res);
+      
     });
 
     get(`Duolingo/Index/${stdId}`).then((res) => {
@@ -289,7 +289,7 @@ const ApplicationDetails = () => {
     });
 
     get(`DocumentStatusDD/index`).then((res) => {
-      console.log("docuDD", res);
+      
       setDocuDD(res);
     });
   }, [id, stdId, success]);
@@ -840,9 +840,9 @@ const ApplicationDetails = () => {
   };
 
   const statusModal1 = (studentDocuId) => {
-    console.log("first", studentDocuId);
+    
     get(`StudentUploadDocument/StatusInfo/${studentDocuId}`).then(res=>{
-      console.log("ddddd", res);
+      
       setDocuLabel(res?.name);
       setDocuValue(res?.id);
     })
@@ -862,11 +862,11 @@ const ApplicationDetails = () => {
 
      
     for (var value of subdata.values()) {
-      console.log("values",value);
+      
     }
 
     put("StudentUploadDocument/UpdateStatus", subdata).then((res) => {
-      console.log("1st put response", res);
+     
       if (res?.status == 200 && res?.data?.isSuccess == true) {
         addToast(res?.data?.message, {
           appearance: "success",

@@ -264,7 +264,7 @@ const AccountOfficer = () => {
 
                   <div className='row'>
 
-      <div className='col-md-3'>
+      <div className='col-md-2'>
         <Card>
 
           <CardBody>
@@ -279,7 +279,7 @@ const AccountOfficer = () => {
 
       </div>
 
-      <div className='col-md-3'>
+      <div className='col-md-2'>
         <Card>
 
           <CardBody>
@@ -288,13 +288,13 @@ const AccountOfficer = () => {
             <br/>
             <span className='pvdadmin-span-style2'>500</span>
             <br/>
-            <br/>
+            
           </CardBody>
         </Card>
 
       </div>
 
-      <div className='col-md-3'>
+      <div className='col-md-2'>
         <Card>
 
           <CardBody>
@@ -309,7 +309,7 @@ const AccountOfficer = () => {
 
       </div>
 
-      <div className='col-md-3'>
+      <div className='col-md-2'>
         <Card>
 
           <CardBody>
@@ -324,7 +324,7 @@ const AccountOfficer = () => {
 
       </div>
 
-      <div className='col-md-3'>
+      <div className='col-md-2'>
         <Card>
 
           <CardBody>
@@ -339,7 +339,7 @@ const AccountOfficer = () => {
 
       </div>
 
-      <div className='col-md-3'>
+      <div className='col-md-2'>
         <Card>
 
           <CardBody>
@@ -348,7 +348,7 @@ const AccountOfficer = () => {
             <br/>
             <span className='pvdadmin-span-style2'>70</span>
             <br/>
-            <br/>
+            
           </CardBody>
         </Card>
 
