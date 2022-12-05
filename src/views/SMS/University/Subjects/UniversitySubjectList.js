@@ -852,6 +852,18 @@ const UniversitySubjectList = (props) => {
                               />
                             ) : null}
 
+                            {permissions?.includes(
+                              permissionList?.Update_subject_info
+                            ) ? (
+                              <LinkButton
+                                url={`/copyAndAddUniversitySubject/${id}/${sub.id}`}
+                                color={"primary"}
+                                className={"mx-1 btn-sm"}
+                                icon={<i className="fas fa-file-import"></i>}
+                                permission={6}
+                              />
+                            ) : null}
+
                             {/* <Button onClick={() => toggleDanger(sub?.name, sub?.id)} color="danger" className="mx-1 btn-sm">
                             <i className="fas fa-trash-alt"></i>
                           </Button> */}

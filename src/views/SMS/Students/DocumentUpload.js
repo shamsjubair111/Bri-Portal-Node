@@ -419,6 +419,7 @@ const DocumentUpload = () => {
         });
         setProgress13(false);
         setOpenStatusModal11(false);
+        setSuccess(!success);
       } else {
         addToast(res?.data?.message, {
           appearance: "error",
@@ -575,7 +576,14 @@ const DocumentUpload = () => {
                                   statusModal1(docu?.studentDocumentId)
                                 }
                                 className="fas fa-edit warning"
-                              ></i>
+                              ></i> <br />
+                              <span>
+                                {docu?.statusId == 1
+                                  ? "Processing"
+                                  : docu?.statusId == 2
+                                  ? "Accepted"
+                                  : "Rejected"}
+                              </span>
                             </>
                           ) : (
                             <>

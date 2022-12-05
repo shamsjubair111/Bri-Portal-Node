@@ -199,6 +199,13 @@ const AddUniversitySubjectDeliveryPattern = lazy(() => import("./views/SMS/Unive
 const AddUniversitySubjectRequirements = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectRequirements"));
 const AddUniversitySubjectDocumentRequirement = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectDocumentRequirement"));
 
+// copy and save university subject
+const CopyUniversitySubject = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubject"));
+const CopyUniversitySubjectFee = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectFee"));
+const CopyUniversitySubjectDeliveryPattern = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectDeliveryPattern"));
+const CopyUniversitySubjectRequirements = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectRequirements"));
+const CopyUniversitySubjectDocumentRequirement = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectDocumentRequirement"));
+
 // university profile subject
 const AddUniProfileSubject = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubject"));
 const AddUniProfileSubjectFee = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectFee"));
@@ -705,6 +712,17 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addUniversitySubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? AddUniversitySubjectDeliveryPattern : NotAuthorized} />
          <AppRoute  path="/addUniversitySubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddUniversitySubjectRequirements : NotAuthorized} />
          <AppRoute  path="/addUniversitySubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement_document)? AddUniversitySubjectDocumentRequirement : NotAuthorized} />
+
+         {/* copy and add university subject */}
+         <AppRoute  path="/copyAndAddUniversitySubject/:id/:subjId/:newSubId?" component={permissions?.includes(permissionList?.Add_New_university_campus_subject)? CopyUniversitySubject : NotAuthorized} />
+
+         <AppRoute  path="/copyAndAddUniversitySubjectFee/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? CopyUniversitySubjectFee : NotAuthorized} />
+
+         <AppRoute  path="/copyAndAddUniversitySubjectDeliveryPattern/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? CopyUniversitySubjectDeliveryPattern : NotAuthorized} />
+
+         <AppRoute  path="/copyAndAddUniversitySubjectRequirements/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? CopyUniversitySubjectRequirements : NotAuthorized} />
+
+         <AppRoute  path="/copyAndAddUniversitySubjectDocumentRequirement/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_subject_requirement_document)? CopyUniversitySubjectDocumentRequirement : NotAuthorized} />
 
          {/* University Subject ends here */}
 
