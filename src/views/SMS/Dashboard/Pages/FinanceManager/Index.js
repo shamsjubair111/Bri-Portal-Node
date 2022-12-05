@@ -30,8 +30,17 @@ const FinanceManager = () => {
   const [registered,setRegistered] = useState(0);
   const [rejected,setRejected] = useState(0);
   const [withdrawn,setWithdrawn] = useState(0);
+  const [count,setCount] = useState({});
+  const [applications,setApplications] = useState([]);
   
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
+
+  useEffect(()=>{
+
+    get(`FinanceManagerDashboard/Counting`)
+    .then(res => setCount(res))
+
+  },[])
 
   
   const showDrawer = () => {
@@ -46,7 +55,7 @@ const FinanceManager = () => {
 
           <div className='d-flex justify-content-between flex-wrap'>
             <div>
-              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <span className='std-dashboard-style1'>Hello, {currentUser?.displayName}!</span>
               <br/>
               <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
@@ -269,102 +278,101 @@ const FinanceManager = () => {
 
                         <div className='row'>
 
-                        <div className='col-md-2'>
-                          <Card>
+                      <div className='col-md-2'>
+                        <Card style={{border: '0.5px solid #24A1CD'}}>
 
-                            <CardBody>
+                          <CardBody>
 
-                              <span className='pvdadmin-span-style1'>Total Application</span>
-                              <br/>
-                              <br/>
-                              <span className='pvdadmin-span-style2'>{totalApp}</span>
-                              <br/>
-                             
-                            </CardBody>
-                          </Card>
+                            <span className='pvdadmin-span-style1'>Total Application</span>
+                            <br/>
+                            <br/>
+                            <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
+                            <br/>
+                          
+                          </CardBody>
+                        </Card>
 
-                        </div>
+                      </div>
 
-                        <div className='col-md-2'>
-                          <Card>
+                      <div className='col-md-2'>
+                        <Card style={{border: '0.5px solid #F87675'}}>
 
-                            <CardBody>
+                          <CardBody>
 
-                              <span className='pvdadmin-span-style1'>Applications in Process</span>
-                              <br/>
-                              <span className='pvdadmin-span-style2'>{appInProcess}</span>
-                              <br/>
+                            <span className='pvdadmin-span-style1'>Applications in Process</span>
+                            <br/>
+                            <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalApplicationInProgress}</span>
+                            <br/>
                             
-                            </CardBody>
-                          </Card>
+                          </CardBody>
+                        </Card>
 
-                        </div>
+                      </div>
 
-                        <div className='col-md-2'>
-                          <Card>
+                      <div className='col-md-2'>
+                        <Card style={{border: '0.5px solid #23CCB5'}}> 
 
-                            <CardBody>
+                          <CardBody>
 
-                              <span className='pvdadmin-span-style1'>Unconditional Offer</span>
-                              <br/>
-                              <br/>
-                              <span className='pvdadmin-span-style2'>{unconditional}</span>
-                              <br/>
-                              
-                            </CardBody>
-                          </Card>
-
-                        </div>
-
-                        <div className='col-md-2'>
-                          <Card>
-
-                            <CardBody>
-
-                              <span className='pvdadmin-span-style1'>Total Registered</span>
-                              <br/>
-                              <br/>
-                              <span className='pvdadmin-span-style2'>{registered}</span>
-                              <br/>
-                              
-                            </CardBody>
-                          </Card>
-
-                        </div>
-
-                        <div className='col-md-2'>
-                          <Card>
-
-                            <CardBody>
-
-                              <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
-                              <br/>
-                              <br/>
-                              <span className='pvdadmin-span-style2'>{rejected}</span>
-                              <br/>
-                              
-                            </CardBody>
-                          </Card>
-
-                        </div>
-
-                        <div className='col-md-2'>
-                          <Card>
-
-                            <CardBody>
-
-                              <span className='pvdadmin-span-style1'>Withdrawn Application</span>
-                              <br/>
-                              <span className='pvdadmin-span-style2'>{withdrawn}</span>
-                              <br/>
+                            <span className='pvdadmin-span-style1'>Unconditional Offer</span>
+                            <br/>
+                            <br/>
+                            <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalUnconditionalOffer}</span>
+                            <br/>
                             
-                            </CardBody>
-                          </Card>
+                          </CardBody>
+                        </Card>
 
-                        </div>
+                      </div>
 
-                    
-                        </div>
+                      <div className='col-md-2'>
+                        <Card style={{border: '0.5px solid #AE75F8'}}>
+
+                          <CardBody>
+
+                            <span className='pvdadmin-span-style1'>Total Registered</span>
+                            <br/>
+                            <br/>
+                            <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalRegistered}</span>
+                            <br/>
+                          
+                          </CardBody>
+                        </Card>
+
+                      </div>
+
+                      <div className='col-md-2'>
+                        <Card style={{border: '0.5px solid #F7BD12'}}>
+
+                          <CardBody>
+
+                            <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
+                            <br/>
+                            
+                            <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRejected}</span>
+                            <br/>
+                          
+                          </CardBody>
+                        </Card>
+
+                      </div>
+
+                      <div className='col-md-2'>
+                        <Card style={{border: '0.5px solid #707070'}}>
+
+                          <CardBody>
+
+                            <span className='pvdadmin-span-style1'>Withdrawn Application</span>
+                            <br/>
+                            <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
+                            <br/>
+                            
+                          </CardBody>
+                        </Card>
+
+                      </div>
+
+                      </div>
 
                   {/* status reports end */}
 

@@ -34,14 +34,11 @@ const AnalyticsDashboard = () => {
 
    
     {
-      currentUser.userTypeId == userTypes?.SystemAdmin && 
+      (currentUser.userTypeId == userTypes?.SystemAdmin || currentUser.userTypeId == userTypes?.Admin) && 
       <SuperAdmin/>
     }
 
-    {
-      currentUser.userTypeId == userTypes?.Admin && 
-      <Admin/>
-      }
+   
 
     {
       currentUser.userTypeId == userTypes?.AdmissionManager && 

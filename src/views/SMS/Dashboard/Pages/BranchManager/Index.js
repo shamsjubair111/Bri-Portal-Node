@@ -66,7 +66,7 @@ const BranchManager = () => {
          
          <div className='d-flex justify-content-between flex-wrap'>
             <div>
-              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <span className='std-dashboard-style1'>Hello, {currentUser?.displayName}!</span>
               <br/>
               <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
@@ -290,14 +290,14 @@ const BranchManager = () => {
                   <div className='row'>
 
                   <div className='col-md-2'>
-                    <Card>
+                    <Card style={{border: '0.5px solid #24A1CD'}}>
 
                       <CardBody>
 
                         <span className='pvdadmin-span-style1'>Total Application</span>
                         <br/>
                         <br/>
-                        <span className='pvdadmin-span-style2'>{count?.totalApplication}</span>
+                        <span className='pvdadmin-span-style2'  style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
                         <br/>
                       
                       </CardBody>
@@ -306,13 +306,13 @@ const BranchManager = () => {
                   </div>
 
                   <div className='col-md-2'>
-                    <Card>
+                    <Card style={{border: '0.5px solid #23CCB5'}}>
 
                       <CardBody>
 
                         <span className='pvdadmin-span-style1'>Applications in Process</span>
                         <br/>
-                        <span className='pvdadmin-span-style2'>{count?.totalApplicationInProgress}</span>
+                        <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
                         <br/>
                       
                       </CardBody>
@@ -321,14 +321,14 @@ const BranchManager = () => {
                   </div>
 
                   <div className='col-md-2'>
-                    <Card>
+                    <Card style={{border: '0.5px solid #AE75F8'}}>
 
                       <CardBody>
 
                         <span className='pvdadmin-span-style1'>Unconditional Offer</span>
                         <br/>
                         <br/>
-                        <span className='pvdadmin-span-style2'>{count?.totalUnconditionalOffer}</span>
+                        <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
                         <br/>
                         
                       </CardBody>
@@ -337,14 +337,14 @@ const BranchManager = () => {
                   </div>
 
                   <div className='col-md-2'>
-                    <Card>
+                    <Card style={{border: '0.5px solid #F7BD12'}}>
 
                       <CardBody>
 
                         <span className='pvdadmin-span-style1'>Total Registered</span>
                         <br/>
                         <br/>
-                        <span className='pvdadmin-span-style2'>{count?.totalRegistered}</span>
+                        <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
                         <br/>
                         
                       </CardBody>
@@ -353,14 +353,14 @@ const BranchManager = () => {
                   </div>
 
                   <div className='col-md-2'>
-                    <Card>
+                    <Card style={{border: '0.5px solid #F87675'}}>
 
                       <CardBody>
 
                         <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
                         <br/>
-                        <br/>
-                        <span className='pvdadmin-span-style2'>{count?.totalRejected}</span>
+                       
+                        <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
                         <br/>
                         
                       </CardBody>
@@ -369,13 +369,13 @@ const BranchManager = () => {
                   </div>
 
                   <div className='col-md-2'>
-                    <Card>
+                    <Card style={{border: '0.5px solid #707070'}}>
 
                       <CardBody>
 
                         <span className='pvdadmin-span-style1'>Withdrawn Application</span>
                         <br/>
-                        <span className='pvdadmin-span-style2'>{count?.totalWithdrawn}</span>
+                        <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
                         <br/>
                       
                       </CardBody>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
    Card,
   CardBody,
@@ -14,18 +14,40 @@ import plusicon from '../../../../../assets/img/plusicon.svg';
 import Vectorbeat from '../../../../../assets/img/Vectorbeat.svg';
 import gift from '../../../../../assets/img/gift.PNG';
 import cuser1 from '../../../../../assets/img/cuser1.svg';
+import user from '../../../../../assets/img/Uapp_fav.png';
 import down from '../../../../../assets/img/down.svg';
 import camera2 from '../../../../../assets/img/camera2.svg';
 import downloadBtn from '../../../../../assets/img/downloadBtn.svg';
+import Assets from '../../../../../assets/img/Asset 12Icon.svg';
 import eyeBtn from '../../../../../assets/img/eyeBtn.svg';
 import Chart from 'react-apexcharts'
 import get from '../../../../../helpers/get';
+import { rootUrl } from '../../../../../constants/constants';
+import ReactToPrint from 'react-to-print';
+import * as Icon from 'react-feather';
 
 
 const AccountOfficer = () => {
 
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
   const [open, setOpen] = useState(false);
+  const [count,setCount] = useState({});
+  const [applications,setApplications] = useState([]);
+  const componentRef2 = useRef();
+
+  useEffect(()=>{
+
+    get(`AccountOfficerDashboard/Counting`)
+    .then(res => {
+      setCount(res);
+    })
+
+    get(`AccountOfficerDashboard/WithdrawRequest`)
+    .then(res => {
+      setApplications(res);
+    })
+
+  },[])
 
 
   const showDrawer = () => {
@@ -38,9 +60,9 @@ const AccountOfficer = () => {
     return (
         <React.Fragment>
 
-<div className='d-flex justify-content-between flex-wrap'>
+            <div className='d-flex justify-content-between flex-wrap'>
             <div>
-              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <span className='std-dashboard-style1'>Hello, {currentUser?.displayName}!</span>
               <br/>
               <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
@@ -265,28 +287,29 @@ const AccountOfficer = () => {
                   <div className='row'>
 
       <div className='col-md-2'>
-        <Card>
+        <Card style={{border: '0.5px solid #24A1CD'}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Total Application</span>
             <br/>
-            <span className='pvdadmin-span-style2'>1451</span>
             <br/>
+            <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
             <br/>
+          
           </CardBody>
         </Card>
 
       </div>
 
       <div className='col-md-2'>
-        <Card>
+        <Card style={{border: '0.5px solid #F87675'}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Applications in Process</span>
             <br/>
-            <span className='pvdadmin-span-style2'>500</span>
+            <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalApplicationInProgress}</span>
             <br/>
             
           </CardBody>
@@ -295,58 +318,61 @@ const AccountOfficer = () => {
       </div>
 
       <div className='col-md-2'>
-        <Card>
+        <Card style={{border: '0.5px solid #23CCB5'}}> 
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Unconditional Offer</span>
             <br/>
-            <span className='pvdadmin-span-style2'>50</span>
             <br/>
+            <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalUnconditionalOffer}</span>
             <br/>
+            
           </CardBody>
         </Card>
 
       </div>
 
       <div className='col-md-2'>
-        <Card>
+        <Card style={{border: '0.5px solid #AE75F8'}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Total Registered</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
             <br/>
+            <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalRegistered}</span>
             <br/>
+           
           </CardBody>
         </Card>
 
       </div>
 
       <div className='col-md-2'>
-        <Card>
+        <Card style={{border: '0.5px solid #F7BD12'}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
+            
+            <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRejected}</span>
             <br/>
-            <br/>
+           
           </CardBody>
         </Card>
 
       </div>
 
       <div className='col-md-2'>
-        <Card>
+        <Card style={{border: '0.5px solid #707070'}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Withdrawn Application</span>
             <br/>
-            <span className='pvdadmin-span-style2'>70</span>
+            <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
             <br/>
             
           </CardBody>
@@ -371,22 +397,25 @@ const AccountOfficer = () => {
 
           <span className='app-style-const'>Withdrawal Requests</span>
 
-          <Table borderless responsive className='mt-3'>
+        <div style={{height: '300px', overflowY: 'scroll'}}>
+
+
+        <Table borderless responsive className='mt-3'>
       <thead style={{backgroundColor: '#EEF3F4'}}>
 
       <tr>
-      <th><span style={{position: 'relative', top: '-15px'}}>Request Date</span></th>
-      <th><span style={{position: 'relative', top: '-15px'}}>Agent</span>
+      <th><span>Request Date</span></th>
+      <th><span>Agent</span>
       </th>
       <th>Transaction Code</th>
-      <th><span style={{position: 'relative', top: '-16px'}}>Amount</span></th>
-      <th>Reference/ Invoice No.</th>
+      <th><span>Amount</span></th>
+      
       <th><span>Payment type</span></th>
-      <th><span style={{position: 'relative', top: '-16px'}}>Note</span></th>
+      
       <th>Payment Date</th>
-      <th><span style={{position: 'relative', top: '-16px'}}>Status</span></th>
+     
       <th>Payment Status</th>
-      <th><span style={{position: 'relative', top: '-16px'}}>Invoice</span></th>
+      <th><span>Invoice</span></th>
       </tr>
 
       </thead>
@@ -394,111 +423,46 @@ const AccountOfficer = () => {
       <tbody>
 
 
-      <tr>
-      <td>15 June 2022	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>WR313</td>
-      <td>250</td>
-      <td></td>
-      <td>Bank Transfer</td>
-      <td></td>
-      <td>15 June 2022</td>
-      <td>Pending</td>
-      <td>Pending</td>
-      <td>
+     {
+      applications?.map((app,i) => (
+        <tr key={i}>
+        <td>{app?.transactionDate}</td>
+        <td><div>
+        <img src={(app?.imageUrl == null) ? user : rootUrl+app?.imageUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
+        <span style={{marginLeft: '5px'}}>{app?.consultantName}</span>
+        </div></td>
+        <td>{app?.transactionCode}</td>
+        <td>{app?.amount}</td>
+       
+        <td>{app?.paymentType}</td>
+     
+        <td>{app?.paymentDate}</td>
+        <td>{app?.paymentStatus}</td>
+        
+        <td>
+  
+ 
+       
+        <ReactToPrint
+                                trigger={() => (
+                                  <img src={downloadBtn} className='img-fluid' style={{cursor: 'pointer'}} />
+                                )}
+                                content={() => componentRef2.current}
+                              />
+     
+  
+  
+        </td>
+        </tr>
+      ))
+     }
 
-      <div className='d-flex'>
-      <img src={downloadBtn} className='img-fluid' style={{cursor: 'pointer', marginRight: '10px'}} />
-      <img src={eyeBtn} className='img-fluid' style={{cursor: 'pointer'}} />
-
-      </div>
-
-      </td>
-      </tr>
-
-      <tr>
-      <td>15 June 2022	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>WR313</td>
-      <td>250</td>
-      <td></td>
-      <td>Bank Transfer</td>
-      <td></td>
-      <td>15 June 2022</td>
-      <td>Pending</td>
-      <td>Pending</td>
-      <td>
-
-      <div className='d-flex'>
-      <img src={downloadBtn} className='img-fluid' style={{cursor: 'pointer', marginRight: '10px'}} />
-      <img src={eyeBtn} className='img-fluid' style={{cursor: 'pointer'}} />
-
-      </div>
-
-      </td>
-      </tr>
-
-      <tr>
-      <td>15 June 2022	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>WR313</td>
-      <td>250</td>
-      <td></td>
-      <td>Bank Transfer</td>
-      <td></td>
-      <td>15 June 2022</td>
-      <td>Pending</td>
-      <td>Pending</td>
-      <td>
-
-      <div className='d-flex'>
-      <img src={downloadBtn} className='img-fluid' style={{cursor: 'pointer', marginRight: '10px'}} />
-      <img src={eyeBtn} className='img-fluid' style={{cursor: 'pointer'}} />
-
-      </div>
-
-      </td>
-      </tr>
-
-      <tr>
-      <td>15 June 2022	</td>
-      <td><div>
-      <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-      <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-      </div></td>
-      <td>WR313</td>
-      <td>250</td>
-      <td></td>
-      <td>Bank Transfer</td>
-      <td></td>
-      <td>15 June 2022</td>
-      <td>Pending</td>
-      <td>Pending</td>
-      <td>
-
-      <div className='d-flex'>
-      <img src={downloadBtn} className='img-fluid' style={{cursor: 'pointer', marginRight: '10px'}} />
-      <img src={eyeBtn} className='img-fluid' style={{cursor: 'pointer'}} />
-
-      </div>
-
-      </td>
-      </tr>
     
-
-   
 
       </tbody>
       </Table>
+
+        </div>
 
 
 
@@ -510,6 +474,177 @@ const AccountOfficer = () => {
 
 
       {/* table end */}
+
+      {/* invoice pdf start */}
+
+      <div style={{ display: "none" }}>
+            <div ref={componentRef2} style={{marginTop: '100px'}}>
+             <div className="invoice-winthdraw-request-style">
+                  <img height={100} src={Assets} />
+                  <h1>Remittance Advice</h1>
+                </div>
+
+                <div style={{marginTop: '100px'}}>
+                  <hr/>
+                </div>
+
+                
+
+                <div style={{marginTop: '100px'}}>
+
+                  <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                    <div>
+                      <div>
+                      <span>
+                        <Icon.PhoneCall color="#1e98b0" />
+                      </span>
+                      <span style={{marginLeft: '10px'}} className="inv-span-styles">
+                      +442072658478
+                      </span>
+                      </div>
+                      <div>
+                      <span>
+                        <Icon.Search color="#1e98b0" />
+                      </span>
+                      <span style={{marginLeft: '10px'}} className="inv-span-styles">
+                      finance@uapp.uk
+                      </span>
+                      </div>
+                      <div>
+                      <span>
+                        <Icon.Map color="#1e98b0" />
+                      </span>
+                      <span style={{marginLeft: '10px'}} className="inv-span-styles">
+                      80-82 Nelson Street London E1 2DY
+                      </span>
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      TC Date 24/11/2022
+
+                      </span>
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      TC ID 332
+
+                      </span>
+                      </div>
+                    </div>
+
+                    <div>
+                    <div>
+                      <div>
+                      <span className="inv-span-styles">
+                      Consultant Name : Mirela-Gabriela
+                      </span>
+                      
+                      </div>
+                      <div>
+                      <span className="inv-span-styles">
+                      Porcisteanu
+                      </span>
+                      
+                      </div>
+                      <div>
+                      <span className="inv-span-styles">
+                      Consultant ID : AG009
+                      </span>
+                     
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      Reference No :
+
+
+                      </span>
+                      </div>
+                      <div>
+                     
+                      <span className="inv-span-styles">
+                      Date : 24/11/2022
+
+                      </span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  </div>
+
+                  
+                  
+                </div>
+
+
+                <div style={{marginTop: '100px', width: '80%', marginLeft: '100px'}}>
+
+                  <table style={{width: '100%'}}>
+
+                    <thead>
+                      <tr>
+                        <th style={{border: '1px solid black'}}><span className="inv-span-styles">Quantity</span></th>
+                        <th style={{border: '1px solid black'}}><span className="inv-span-styles">Description</span></th>
+                        <th style={{border: '1px solid black'}}><span className="inv-span-styles">Line Total</span></th>
+                      </tr>
+
+                    </thead>
+
+                    <tbody style={{textAlign: 'center'}}>
+                      <tr>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">1</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">TC-W317</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">200.00</span></td>
+                      </tr>
+                      <tr>
+                        <td style={{borderBottom: '1px solid black', borderLeft: '1px solid black'}}><span></span></td>
+                        <td style={{borderBottom: '1px solid black'}}><span className="inv-span-styles">SubTotal</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">200.00</span></td>
+                      </tr>
+                      <tr>
+                        <td style={{borderBottom: '1px solid black', borderLeft: '1px solid black'}}><span></span></td>
+                        <td style={{borderBottom: '1px solid black'}}><span className="inv-span-styles">Deductions</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">0</span></td>
+                      </tr>
+                      <tr>
+                        <td style={{borderBottom: '1px solid black', borderLeft: '1px solid black'}}><span ></span></td>
+                        <td style={{borderBottom: '1px solid black'}}><span className="inv-span-styles">Total</span></td>
+                        <td style={{border: '1px solid black'}}><span className="inv-span-styles">£ 200.00</span></td>
+                      </tr>
+                    </tbody>
+
+
+                  </table>
+              
+
+                </div>
+
+                <div style={{marginTop: '100px', marginLeft: '100px'}}>
+
+                  <div><span style={{color: '#1e98b0'}} className="inv-span-styles">Bank Details</span></div>
+                  <div><span className="inv-span-styles">Account Name : M G PORCISTEANU</span></div>
+                  <div><span className="inv-span-styles">Account Number : 31882007</span></div>
+                  <div><span className="inv-span-styles">Short code : 402310</span></div>
+                  <div><span className="inv-span-styles">Bank Name : HSBC</span></div>
+
+
+
+                </div>
+
+                <div style={{marginTop: '100px', textAlign: 'center'}}>
+                        <span className="inv-span-styles">Thank you for your business.</span>
+
+                </div>
+
+
+              
+            </div>
+          </div>
+
+            {/* invoice pdf end */}
         
   
       </React.Fragment>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    Card,
   CardBody,
@@ -14,6 +14,10 @@ import plusicon from '../../../../../assets/img/plusicon.svg';
 import Vectorbeat from '../../../../../assets/img/Vectorbeat.svg';
 import gift from '../../../../../assets/img/gift.PNG';
 import cuser1 from '../../../../../assets/img/cuser1.svg';
+import user from '../../../../../assets/img/Uapp_fav.png';
+import get from '../../../../../helpers/get';
+import { rootUrl } from '../../../../../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 
@@ -22,6 +26,21 @@ const ComplianceManager = () => {
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
 
   const [open, setOpen] = useState(false);
+  const [count,setCount] = useState({});
+  const [applications,setApplications] = useState([]);
+
+  useEffect(()=>{
+    get(`CompilanceManagerDashboard/Counting`)
+    .then(res =>{
+      setCount(res);
+    })
+
+    get(`CompilanceManagerDashboard/Application`)
+    .then(res =>{
+      setApplications(res);
+    })
+
+  },[])
  
   const showDrawer = () => {
     setOpen(true);
@@ -37,12 +56,20 @@ const ComplianceManager = () => {
     cursor: 'pointer'
   }
 
+  const handleDate = (e) => {
+    var datee = e;
+    var utcDate = new Date(datee);
+    var localeDate = utcDate.toLocaleString("en-CA");
+    const x = localeDate.split(",")[0];
+    return x;
+  };
+
     return (
         <React.Fragment>
 
             <div className='d-flex justify-content-between flex-wrap'>
             <div>
-              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <span className='std-dashboard-style1'>Hello, {currentUser?.displayName}!</span>
               <br/>
               <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
@@ -88,28 +115,29 @@ const ComplianceManager = () => {
               <div className='row'>
 
             <div className='col-md-2'>
-              <Card>
+              <Card style={{border: '0.5px solid #24A1CD'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Total Application</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>1451</span>
                   <br/>
+                  <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
                   <br/>
+                 
                 </CardBody>
               </Card>
 
             </div>
 
             <div className='col-md-2'>
-              <Card>
+              <Card style={{border: '0.5px solid #23CCB5'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Applications in Process</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>500</span>
+                  <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
                   <br/>
                
                 </CardBody>
@@ -118,58 +146,60 @@ const ComplianceManager = () => {
             </div>
 
             <div className='col-md-2'>
-              <Card>
+              <Card style={{border: '0.5px solid #AE75F8'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Unconditional Offer</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>50</span>
                   <br/>
+                  <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
                   <br/>
+                
                 </CardBody>
               </Card>
 
             </div>
 
             <div className='col-md-2'>
-              <Card>
+              <Card style={{border: '0.5px solid #F7BD12'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Total Registered</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>70</span>
                   <br/>
+                  <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
                   <br/>
+                 
                 </CardBody>
               </Card>
 
             </div>
 
             <div className='col-md-2'>
-              <Card>
+              <Card style={{border: '0.5px solid #F87675'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>70</span>
+                  <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
                   <br/>
-                  <br/>
+                  
                 </CardBody>
               </Card>
 
             </div>
 
             <div className='col-md-2'>
-              <Card>
+              <Card style={{border: '0.5px solid #707070'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Withdrawn Application</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>70</span>
+                  <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
                   <br/>
                   
                 </CardBody>
@@ -191,9 +221,11 @@ const ComplianceManager = () => {
             <Card>
               <CardBody>
 
-                <span className='app-style-const'>Registered Applications</span>
+                <span className='app-style-const'>Recent Applications</span>
 
-                <Table borderless responsive className='mt-3'>
+               <div style={{height: '300px', overflowY : 'scroll'}}>
+
+               <Table borderless responsive className='mt-3'>
             <thead style={{backgroundColor: '#EEF3F4'}}>
             <tr>
             <th>Student ID</th>
@@ -206,56 +238,28 @@ const ComplianceManager = () => {
             </tr>
             </thead>
             <tbody>
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-            </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            <td style={textDecorationStyle}>Details</td>
-            </tr>
+       {
+        applications?.map((app,i) =>(
+          <tr key={i}>
+          <td>{app?.student?.studentViewId}</td>
+          <td><div>
+          <img src={(app?.student?.profileImage?.thumbnailUrl == null) ? user : rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
+          <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
+          </div></td>
+          <td>{app?.universityName}</td>
+          <td>{app?.applicationStatusName}</td>
+          <td>{handleDate(app?.applicationDate)}</td>
+          <Link to={`applicationDetails/${app?.id}/${app?.studentId}`}><td style={textDecorationStyle}>Details</td></Link>
+          </tr>
+        ))
+       }
 
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-            </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            <td style={textDecorationStyle}>Details</td>
-            </tr>
-
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-            </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            <td style={textDecorationStyle}>Details</td>
-            </tr>
-
-            <tr>
-            <td>#STD002628	</td>
-            <td><div>
-            <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-            <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-            </div></td>
-            <td>Anglia Ruskin University – Navitas....</td>
-            <td>@Syed Istiake</td>
-            <td>15 June 2022	</td>
-            <td style={textDecorationStyle}>Details</td>
-            </tr>
-
+          
             </tbody>
             </Table>
+
+
+               </div>
 
 
 

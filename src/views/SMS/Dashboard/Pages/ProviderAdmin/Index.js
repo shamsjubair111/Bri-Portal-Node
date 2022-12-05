@@ -68,7 +68,7 @@ const ProviderAdmin = () => {
 
             <div className='d-flex justify-content-between flex-wrap'>
             <div>
-              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <span className='std-dashboard-style1'>Hello, {currentUser?.displayName}!</span>
               <br/>
               <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
@@ -87,7 +87,7 @@ const ProviderAdmin = () => {
 
                <div className='std-dashboard-style5'>
                <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
+               <span className='std-dashboard-style3'>Add New University</span>
                </div>
              </div>
 
@@ -206,13 +206,13 @@ const ProviderAdmin = () => {
            <div className='row'>
 
             <div className='col-md-3'>
-              <Card>
+              <Card style={{border: '0.5px solid #24A1CD'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Total Application</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>{count?.totalApplication}</span>
+                  <span className='pvdadmin-span-style2'  style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
                   <br/>
                   <br/>
                 </CardBody>
@@ -221,13 +221,13 @@ const ProviderAdmin = () => {
             </div>
 
             <div className='col-md-3'>
-              <Card>
+              <Card style={{border: '0.5px solid #23CCB5'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Universities</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>{count?.universities}</span>
+                  <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.universities}</span>
                   <br/>
                   <br/>
                 </CardBody>
@@ -235,13 +235,13 @@ const ProviderAdmin = () => {
 
             </div>
             <div className='col-md-3'>
-              <Card>
+              <Card style={{border: '0.5px solid #AE75F8'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Admission Managers</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>{count?.admissionmanagers}</span>
+                  <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.admissionmanagers}</span>
                   <br/>
                   <br/>
                 </CardBody>
@@ -249,13 +249,13 @@ const ProviderAdmin = () => {
 
             </div>
             <div className='col-md-3'>
-              <Card>
+              <Card style={{border: '0.5px solid #F7BD12'}}>
 
                 <CardBody>
 
                   <span className='pvdadmin-span-style1'>Admission Officers</span>
                   <br/>
-                  <span className='pvdadmin-span-style2'>{count?.admissionofficers}</span>
+                  <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.admissionofficers}</span>
                   <br/>
                   <br/>
                 </CardBody>

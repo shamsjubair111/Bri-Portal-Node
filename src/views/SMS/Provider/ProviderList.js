@@ -43,6 +43,7 @@ import Loader from "../Search/Loader/Loader.js";
 import ToggleSwitch from "../../SMS/Components/ToggleSwitch";
 import put from "../../../helpers/put.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
+import { userTypes } from "../../../constants/userTypeConstant.js";
 
 const ProviderList = () => {
   const history = useHistory();
@@ -53,7 +54,7 @@ const ProviderList = () => {
   const [providerValue, setProviderValue] = useState(0);
   const [uappIdLabel, setUappIdLabel] = useState("UAPP Id");
   const [uappIdValue, setUappIdValue] = useState(0);
-
+  const userType = localStorage.getItem('userType');
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(0);
   const [entity, setEntity] = useState(0);
@@ -771,7 +772,10 @@ const ProviderList = () => {
                             null
                             }
 
-                              {
+                            {
+                              (userType == userTypes?.ProviderAdmin) ?
+                              <>
+                                {
                               permissions?.includes(permissionList?.View_Provider_info) ?
                             <ButtonForFunction
                               color={"primary"}
@@ -784,6 +788,10 @@ const ProviderList = () => {
                             />
                             :
                             null
+                            }
+                              </>
+                              :
+                              null
                             }
 
                             {

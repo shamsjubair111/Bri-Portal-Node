@@ -400,6 +400,7 @@ class NavbarUser extends React.PureComponent {
       newConnection.start()
           .then(result => {
               
+            
 
               newConnection.on('notificationHub', message => {
                   //  const updatedChat = [...latestChat.current];

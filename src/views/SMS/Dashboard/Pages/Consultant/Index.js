@@ -35,6 +35,7 @@ const Consultant = () => {
   const [applications,setApplications] = useState([]);
   const [open, setOpen] = useState(false);
   const [count,setCount] = useState({});
+  const [target,setTarget] = useState(0);
   const [options,setOptions] = useState({plotOptions: {
     pie: {
       donut: {
@@ -64,6 +65,12 @@ const Consultant = () => {
     .then(res =>{
       setBalance(res);
       
+    })
+
+    get(`ConsultantDashboard/TargetApplication`)
+    .then(res => {
+       setTarget(res)
+       
     })
     
 
@@ -95,7 +102,7 @@ const Consultant = () => {
 
         <div className='d-flex justify-content-between flex-wrap'>
             <div>
-              <span className='std-dashboard-style1'>Good Morning, {currentUser?.displayName}!</span>
+              <span className='std-dashboard-style1'>Hello, {currentUser?.displayName}!</span>
               <br/>
               <span className='std-dashboard-style2'>Here's what's happening with your store today.</span>
             </div>
@@ -326,12 +333,12 @@ const Consultant = () => {
             <div className='col-md-9'>
               <div className='row'>
                 <div className='col-md-4'>
-                  <Card>
+                  <Card style={{border: '0.5px solid #24A1CD'}}>
                     <CardBody>
                       <span className='application-count-style'>TOTAL APPLICATION</span>
                       <br/>
                       
-                      <span className='application-count-style2'>{count?.totalApplication}</span>
+                      <span className='application-count-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
                       <br/>
                    
                     </CardBody>
@@ -340,12 +347,12 @@ const Consultant = () => {
                 </div>
 
                 <div className='col-md-4'>
-                  <Card>
+                  <Card style={{border: '0.5px solid #23CCB5'}}>
                     <CardBody>
                       <span className='application-count-style'>APPLICATION IN PROCESS</span>
                       <br/>
                       
-                      <span className='application-count-style2'>{count?.totalApplicationInProgress}</span>
+                      <span className='application-count-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
                       <br/>
                    
                     </CardBody>
@@ -354,12 +361,12 @@ const Consultant = () => {
                 </div>
 
                 <div className='col-md-4'>
-                  <Card>
+                  <Card style={{border: '0.5px solid #AE75F8'}}>
                     <CardBody>
                       <span className='application-count-style'>UNCONDITIONAL OFFER</span>
                       <br/>
                       
-                      <span className='application-count-style2'>{count?.totalUnconditionalOffer}</span>
+                      <span className='application-count-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
                       <br/>
                    
                     </CardBody>
@@ -368,12 +375,12 @@ const Consultant = () => {
                 </div>
 
                 <div className='col-md-4 mt-3'>
-                  <Card>
+                  <Card style={{border: '0.5px solid #F7BD12'}}>
                     <CardBody>
                       <span className='application-count-style'>TOTAL REGISTERED</span>
                       <br/>
                       
-                      <span className='application-count-style2'>{count?.totalRegistered}</span>
+                      <span className='application-count-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
                       <br/>
                    
                     </CardBody>
@@ -382,12 +389,12 @@ const Consultant = () => {
                 </div>
 
                 <div className='col-md-4 mt-3'>
-                  <Card>
+                  <Card style={{border: '0.5px solid #F87675'}}>
                     <CardBody>
                       <span className='application-count-style'>REJECTED / CANCELLED</span>
                       <br/>
                       
-                      <span className='application-count-style2'>{count?.totalRejected}</span>
+                      <span className='application-count-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
                       <br/>
                    
                     </CardBody>
@@ -396,12 +403,12 @@ const Consultant = () => {
                 </div>
 
                 <div className='col-md-4 mt-3'>
-                  <Card>
+                  <Card style={{border: '0.5px solid #707070'}}>
                     <CardBody>
                       <span className='application-count-style'>Withdrawn Application</span>
                       <br/>
                       
-                      <span className='application-count-style2'>{count?.totalWithdrawn}</span>
+                      <span className='application-count-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
                       <br/>
                 
                     </CardBody>
@@ -476,7 +483,7 @@ const Consultant = () => {
             <td>{app?.student?.studentViewId}	</td>
             <td><div>
               <img src={rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{''}{app?.student?.firstName}{''}{app?.student?.lastName}</span>
+              <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
               </div></td>
             <td>{app?.universityName}</td>
             <td>{app?.managerName}</td>
@@ -502,20 +509,24 @@ const Consultant = () => {
            <Card>
             <CardBody>
             <div className='consultant-custom-card-style mb-3'>
-                <div className='mb-4'>
+                <div className='mb-3'>
                   <span className='const-target-style'>Target Applications</span>
                   <hr/>
             
+                </div>
+                <div className='text-center'>
+                  <span style={{fontWeight: '500', color: '#1e98b0'}}>Current Applications: {target?.currentApplication}</span>
                 </div>
 
                <div className='container text-center mt-5' style={{height: '96px'}}>
                <GaugeChart id="gauge-chart2" 
                 nrOfLevels={30} 
-                percent={150/500} 
+                percent={target?.currentApplication/target?.targetApplication} 
                 hideText = {true}
                 colors={["#1E98B0", "#1E98B0"]} 
                 textColor={'#1E98B0'}
                 arcWidth={0.3} 
+                animate={false}
                
               />
 
@@ -525,11 +536,21 @@ const Consultant = () => {
 
               </div>
 
-              <div className='text-center py-4 mt-3 custom-border-style' style={{backgroundColor: '#1E98B0', color: '#fff'}}>
+              {
+                (target == null) ?
+
+               <div className='text-center'>
+                 <span>No Commission Group Assigned</span>
+
+               </div>
+
+                :
+
+                <div className='text-center py-4 custom-border-style' style={{backgroundColor: '#1E98B0', color: '#fff'}}>
 
               <div>
                 <span className='target-app-style'>
-                  500
+                  {target?.targetApplication}
                 </span>
               </div>
 
@@ -541,7 +562,8 @@ const Consultant = () => {
 
 
               </div>
-              <br/>
+              }
+              
             </CardBody>
            </Card>
 
