@@ -97,6 +97,8 @@ const ConsultantList = () => {
   const [buttonStatus,setButtonStatus] = useState(false);
   const [progress,setProgress] = useState(false);
 
+  const userType = localStorage.getItem('userType');
+
   const history = useHistory();
 
   // const selectConsType = (label, value) => {
@@ -339,6 +341,10 @@ const ConsultantList = () => {
   const handleCheckedAction = (e) => {
     setCheckAction(e.target.checked);
   };
+
+  const redirectToConsultantDashboard = (consultantId) => {
+    history.push(`/consultantDashboard/${consultantId}`);
+  }
 
   return (
     <div>
@@ -1065,6 +1071,25 @@ const ConsultantList = () => {
                             />
                             :
                             null
+                            }
+
+                            {
+                              (userType == userTypes?.SystemAdmin || userType == userTypes?.Admin || userType == userTypes?.ComplianceManager) ?
+                              <>
+                                
+                            <ButtonForFunction
+                              color={"primary"}
+                              func={() => redirectToConsultantDashboard(consultant?.id)}
+                              className={"mx-1 btn-sm"}
+                              icon={
+                                <i className="fas fa-tachometer-alt-fast"></i>
+                              }
+                              permission={6}
+                            />
+                            
+                              </>
+                              :
+                              null
                             }
 
                             {consultant?.id !== 1 ? (
