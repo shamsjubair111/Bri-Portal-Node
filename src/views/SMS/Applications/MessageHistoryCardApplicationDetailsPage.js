@@ -1,7 +1,51 @@
-import React from 'react';
+import { HubConnectionBuilder } from '@microsoft/signalr';
+import { string } from 'prop-types';
+import React, { useEffect } from 'react';
 import { Card, CardBody } from 'reactstrap';
+import { rootUrl } from '../../../constants/constants';
+import { userTypes } from '../../../constants/userTypeConstant';
 
-const MessageHistoryCardApplicationDetailsPage = ({applicationId,studentMail,consultantMail,admissionManagerMail}) => {
+const MessageHistoryCardApplicationDetailsPage = (props) => {
+
+  const userType = localStorage.getItem('userType');
+  const {applicationId,studentMail,consultantMail,admissionManagerMail,loading,setLoading} = props;
+  console.log(applicationId, 'xxxxxxx')
+
+  useEffect(()=>{
+
+    if(!loading){
+      if(userType == userTypes?.Consultant || userType == userTypes?.AdmissionManager || userType == userTypes?.Student){
+    
+        const newConnection = new HubConnectionBuilder()
+      .withUrl(`${rootUrl}applicationMessageHub`)
+      .withAutomaticReconnect()
+      .build();
+      console.log('New Connection', newConnection);
+    
+        newConnection.start()
+            .then(result => {
+              console.log("SignalR is now connected")
+              newConnection.invoke("JoinGroup", applicationId.toString());
+              
+              
+            })
+            
+       
+      }
+    }
+
+  },[])
+ 
+ 
+  
+   
+
+
+
+
+   
+
+
 
     return (
         

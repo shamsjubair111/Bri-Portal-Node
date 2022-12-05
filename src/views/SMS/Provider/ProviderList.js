@@ -773,7 +773,7 @@ const ProviderList = () => {
                             }
 
                             {
-                              (userType == userTypes?.ProviderAdmin) ?
+                              (userType == userTypes?.SystemAdmin || userType == userTypes?.Admin || userType == userTypes?.ComplianceManager) ?
                               <>
                                 {
                               permissions?.includes(permissionList?.View_Provider_info) ?

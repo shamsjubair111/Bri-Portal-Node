@@ -30,7 +30,7 @@ const ProviderDashboard = () => {
 
     get(`ProviderAdminDashboard/ProviderManagers/${id}`).then((res) => {
       setManagers(res);
-      console.log("managers", res);
+     
     });
   }, []);
 

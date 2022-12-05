@@ -217,10 +217,6 @@ const StudentProfile = () => {
     }
 
 
- 
-    
-
-  
 
     const tableStyle = {
       overflowX: 'scroll',

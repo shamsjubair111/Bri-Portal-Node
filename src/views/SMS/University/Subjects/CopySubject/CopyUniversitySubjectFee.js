@@ -72,7 +72,7 @@ const CopyUniversitySubjectFee = () => {
           // setLocalTutionFee(res?.localTutionFee);
           // setIntTutionFee(res?.internationalTutionFee);
           // setEuTutionFee(res?.eU_TutionFee);
-          console.log("subFee", res);
+         
           setAddLocalTutionFee(res?.localTutionFee);
           setAddIntTutionFee(res?.internationalTutionFee);
           setAddEUTutionFee(res?.eU_TutionFee);

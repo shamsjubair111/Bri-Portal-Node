@@ -22,12 +22,14 @@ import MessageHistoryCardApplicationDetailsPage from "./MessageHistoryCardApplic
 import StudentDocument from "./ApplicationDetailsComponents/StudentDocument";
 import ApplicationStudentProfile from "./ApplicationDetailsComponents/ApplicationStudentProfile";
 import ApplicationInfo from "./ApplicationDetailsComponents/ApplicationInfo";
+import Loader from "../Search/Loader/Loader";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
   const [applicationInfo, setApplicationInfo] = useState({});
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [success, setSuccess] = useState(false);
+  const [loading,setLoading] = useState(true);
 
   // ELPT modal
   
@@ -42,11 +44,13 @@ const ApplicationDetails = () => {
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
+      setLoading(false);
       setApplicationInfo(res);
       setElptDate(handleDate(res?.elpt?.elptDate));
       setEtaDate(handleDate(res?.elpt?.eta));
       setEtaDeadLine(handleDate(res?.elpt?.etaDeadline));
     });
+
 
   }, [id, stdId, success]);
 
@@ -96,7 +100,12 @@ const ApplicationDetails = () => {
 
 
   return (
-    <div>
+    <>
+    {
+      loading ? 
+      <Loader/>
+      :
+      <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">Application Details</h3>
@@ -327,6 +336,8 @@ const ApplicationDetails = () => {
             studentMail={applicationInfo?.student?.email}
             consultantMail={applicationInfo?.consultant?.email}
             admissionManagerMail={applicationInfo?.admissionManager?.email}
+            loading={loading}
+            setLoading={setLoading}
           />
 
           <Card>
@@ -363,6 +374,8 @@ const ApplicationDetails = () => {
         </Col>
       </Row>
     </div>
+    }
+    </>
   );
 };
 

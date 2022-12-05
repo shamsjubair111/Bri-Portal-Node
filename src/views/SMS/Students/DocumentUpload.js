@@ -406,9 +406,7 @@ const DocumentUpload = () => {
 
     const subdata = new FormData(event.target);
 
-    // for (var value of subdata.values()) {
-    //   console.log("values", value);
-    // }
+    
 
     setProgress13(true);
     put("StudentUploadDocument/UpdateStatus", subdata).then((res) => {
