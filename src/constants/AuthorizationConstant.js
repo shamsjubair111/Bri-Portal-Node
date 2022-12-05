@@ -726,7 +726,14 @@ export const  permissionList = {
     DeviceBlocking : 555,
     Delete_LoginHistory : 556,
 
-     
+    //student type document
+    View_StudentType_Document_list : 557,
+    View_StudentType_Document : 558,
+    Add_StudentType_Document : 559,
+    Edit_StudentType_Document : 560,
+    Delete_StudentType_Document : 561,
+
+    Change_Document_Status : 562,
 
 
 
