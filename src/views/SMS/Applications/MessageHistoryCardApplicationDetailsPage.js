@@ -1,7 +1,7 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { string } from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, Form, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Form, Input } from 'reactstrap';
 import { rootUrl } from '../../../constants/constants';
 import { userTypes } from '../../../constants/userTypeConstant';
 import get from '../../../helpers/get';
@@ -12,6 +12,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
   const [messages,setMessages] = useState([]);
   const {applicationId} = props;
   const [stringData,setStringData] = useState('');
+  const current_user = JSON.parse(localStorage.getItem('current_user'));
 
   const getMessage = (appId) =>{
       get(`ApplicationMessage/GetMessages/${appId}`)
@@ -94,8 +95,8 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
         
         <>
         <Card>
-            <CardBody>
-              <div className="hedding-titel d-flex justify-content-between mb-4">
+          <CardHeader>
+          <div className="hedding-titel d-flex justify-content-between mb-4">
                 <div>
                   <h5>
                     {" "}
@@ -108,31 +109,42 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                </div> */}
               </div>
-              <div className="box arrow-left">
-                {
+          </CardHeader>
+            <CardBody style={{height: '400px', overflowY: 'scroll'}}>
+              
+              
+               <div>
+               {
                   messages?.map((chat,i)=> (
-                   <div key={i}>
+                    <div className={(current_user?.displayEmail == chat?.senderEmail) ? 'box arrow-right my-3' : 'box arrow-left my-3'} key={i} >
+                  
                     <ul style={{listStyleType: 'none'}}>
-                      <li>Email: {chat?.senderEmail}</li>
-                      <li>Message: {chat?.messageBody}</li>
+                      <li style={{fontSize: '11px', fontWeight: '500', color: '#1e98b0'}}>{chat?.senderName}</li>
+                      <li> {chat?.messageBody}</li>
 
                     </ul>
-                   </div>
+                    </div>
+                   
                   ))
                 }
-              </div>
+               </div>
+             
 
               
 
                <form onSubmit={submitFormData}>
+                <br/>
 
                <Input
                 type='textarea'
                 placeholder='Type message'
                 onChange={handleStringData}
                 />
-                <br/>
+                
+                <div className='d-flex justify-content-end mt-2'>
                 <Button color='primary' type='submit'>Send</Button>
+
+                </div>
                </form>
 
 

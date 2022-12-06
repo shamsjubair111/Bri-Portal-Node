@@ -562,7 +562,7 @@ th {
 .box {
   width: 100%;
   height: auto;
-  background-color: rgba(85,85,85,.3333333333333333);
+  background-color: rgb(207 207 207 / 33%);
   color: black;
   padding: 15px;
   position: relative;
@@ -581,8 +581,19 @@ th {
   left: -15px;
   top: 12px;
   border-top: 12px solid transparent;
-  border-right: 15px solid rgba(85,85,85,.3333333333333333);
+  border-right: 15px solid rgb(207 207 207 / 33%);
   border-left: none;
+  border-bottom: 0px solid transparent;
+}
+
+.box.arrow-right:after {
+  content: " ";
+  position: absolute;
+  right: -15px;
+  top: 12px;
+  border-top: 12px solid transparent;
+  border-left: 15px solid rgb(207 207 207 / 33%);
+  border-right: none;
   border-bottom: 0px solid transparent;
 }
 

@@ -64,7 +64,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
   const [interviewDD, setInterviewDD] = useState([]);
   const [elptDD, setElptDD] = useState([]);
   const [financeDD, setFinanceDD] = useState([]);
-  const permissions = JSON.parse(localStorage.getItem("permission"));
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
 
   // for admission manager
   const [managerUappIdDD, setManagerUappIdDD] = useState([]);
