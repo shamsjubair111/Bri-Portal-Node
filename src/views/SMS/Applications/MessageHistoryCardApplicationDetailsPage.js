@@ -96,7 +96,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
         <>
         <Card>
           <CardHeader>
-          <div className="hedding-titel d-flex justify-content-between mb-4">
+          <div className="hedding-titel d-flex justify-content-between">
                 <div>
                   <h5>
                     {" "}

@@ -737,5 +737,7 @@ export const  permissionList = {
 
     Provider_Dashboard : 563,
     Consultant_Dashboard : 564,
+    Add_ApplicationNote : 565,
+     Get_ApplicationNote : 566
 
 }

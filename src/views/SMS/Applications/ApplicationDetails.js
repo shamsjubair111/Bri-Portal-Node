@@ -11,6 +11,8 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Input,
+  Button,
 } from "reactstrap";
 
 import get from "../../../helpers/get";
@@ -23,6 +25,7 @@ import StudentDocument from "./ApplicationDetailsComponents/StudentDocument";
 import ApplicationStudentProfile from "./ApplicationDetailsComponents/ApplicationStudentProfile";
 import ApplicationInfo from "./ApplicationDetailsComponents/ApplicationInfo";
 import Loader from "../Search/Loader/Loader";
+import post from "../../../helpers/post";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
@@ -30,6 +33,9 @@ const ApplicationDetails = () => {
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [success, setSuccess] = useState(false);
   const [loading,setLoading] = useState(true);
+  const {addToast} = useToasts();
+  const [noteString,setNoteString] = useState('');
+  const  [notes,setNotes] = useState([]);
 
   // ELPT modal
   
@@ -50,6 +56,13 @@ const ApplicationDetails = () => {
       setEtaDate(handleDate(res?.elpt?.eta));
       setEtaDeadLine(handleDate(res?.elpt?.etaDeadline));
     });
+
+    get(`ApplicationNote/get/${id}`)
+    .then(res =>{
+      console.log('Application Notes Array', res);
+      setNotes(res);
+
+    })
 
 
   }, [id, stdId, success]);
@@ -89,6 +102,31 @@ const ApplicationDetails = () => {
       history.push("/applications");
     }
   };
+
+
+  const submitNotes = (event) =>{
+    event.preventDefault();
+
+    const subData = new FormData(event.target);
+
+    post(`ApplicationNote/Create`,subData)
+    .then(res => {
+      if(res?.status == 200 && res?.data?.isSuccess == true ){
+        addToast(res?.data?.message,{
+          appearance: 'success',
+          autoDismiss: true
+        });
+        setSuccess(!success);
+        setNoteString('');
+      }
+      else{
+        addToast(res?.data?.message,{
+          appearance: 'error',
+          autoDismiss: true
+        });
+      }
+    })
+  }
 
   // const handleUpdateTestScores = (data) => {
   //   localStorage.setItem("applictionStudentId", data?.id);
@@ -337,8 +375,8 @@ const ApplicationDetails = () => {
           />
 
           <Card>
-            <CardBody>
-              <div className="hedding-titel d-flex justify-content-between mb-4">
+            <CardHeader>
+            <div className="hedding-titel d-flex justify-content-between">
                 <div>
                   <h5>
                     {" "}
@@ -351,6 +389,60 @@ const ApplicationDetails = () => {
                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                </div> */}
               </div>
+            </CardHeader>
+            <CardBody style={{height: '400px', overflowY: 'scroll'}}>
+
+            <div>
+               {
+                  notes?.map((chat,i)=> (
+                    <div className= 'box my-3' key={i} >
+                  
+                    <div className="d-flex justify-content-between mb-2">
+
+                      <span style={{fontSize: '12px', fontWeight: '800', color: '#1e98b0'}}>{chat?.createdBy}</span>
+                      <span style={{fontSize: '11', color: 'hsla(0,0%,50.2%,.918)'}}>{chat?.createdon}</span>
+
+                    </div>
+                    <span>{chat?.note}</span>
+
+                    </div>
+                   
+                  ))
+                }
+               </div>
+             
+
+             <div>
+             <form onSubmit = {submitNotes}>
+
+            <Input
+            type='hidden'
+            name="applicationId"
+            id='applicationId'
+              value={id}
+            />
+
+            <Input
+            type="textarea"
+            name="note"
+            id="note"
+            placeholder="Write note"
+            value={noteString}
+            onChange={(e)=>setNoteString(e.target.value)}
+            />
+
+            <div className="d-flex justify-content-end mt-2">
+            {
+              (permissions?.includes(permissionList?.Add_ApplicationNote)) ?
+              <Button type="submit" color="primary">Submit</Button>
+              :
+              null
+            }
+            </div>
+
+            </form>
+             </div>
+
             </CardBody>
           </Card>
 
