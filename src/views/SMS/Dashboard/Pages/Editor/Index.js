@@ -66,13 +66,13 @@ const Editor = () => {
                   <div className='row mt-3'>
 
       <div className='col-md-3'>
-        <Card>
+        <Card style={{border: "0.5px solid #24A1CD"}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Total University</span>
             <br/>
-            <span className='pvdadmin-span-style2'>500</span>
+            <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>500</span>
             <br/>
             <br/>
           </CardBody>
@@ -81,13 +81,13 @@ const Editor = () => {
       </div>
 
       <div className='col-md-3'>
-        <Card>
+        <Card style={{border: '0.5px solid #23CCB5'}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Total Subjects</span>
             <br/>
-            <span className='pvdadmin-span-style2'>500</span>
+            <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>500</span>
             <br/>
             <br/>
           </CardBody>
@@ -96,13 +96,13 @@ const Editor = () => {
       </div>
 
       <div className='col-md-3'>
-        <Card>
+        <Card style={{border: "0.5px solid #AE75F8"}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Total Providers</span>
             <br/>
-            <span className='pvdadmin-span-style2'>500</span>
+            <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>500</span>
             <br/>
             <br/>
           </CardBody>
@@ -111,13 +111,13 @@ const Editor = () => {
       </div>
 
       <div className='col-md-3'>
-        <Card>
+        <Card style={{border: '0.5px solid #F7BD12 '}}>
 
           <CardBody>
 
             <span className='pvdadmin-span-style1'>Total Students</span>
             <br/>
-            <span className='pvdadmin-span-style2'>500</span>
+            <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>500</span>
             <br/>
             <br/>
           </CardBody>

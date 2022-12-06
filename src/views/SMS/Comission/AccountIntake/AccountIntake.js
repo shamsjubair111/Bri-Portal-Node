@@ -348,6 +348,8 @@ const AccountIntake = () => {
                     null
                 }
 
+                 <div> <b> Total <span className="badge badge-primary">{intakeList?.length}</span> Account Intakes Found   </b></div>
+
                 </CardHeader>
 
                 <CardBody className="search-card-body">

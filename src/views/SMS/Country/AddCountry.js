@@ -303,7 +303,7 @@ const AddCountry = () => {
               <span className="badge badge-primary">
                 {countries?.length}
               </span>{" "}
-              Country Found{" "}
+              Countries Found{" "}
             </b>
           </div>
         </CardHeader>
