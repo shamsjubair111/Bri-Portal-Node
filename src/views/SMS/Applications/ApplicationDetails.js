@@ -332,12 +332,8 @@ const ApplicationDetails = () => {
           </Card> */}
 
           <MessageHistoryCardApplicationDetailsPage
-            applicationId={applicationInfo?.id}
-            studentMail={applicationInfo?.student?.email}
-            consultantMail={applicationInfo?.consultant?.email}
-            admissionManagerMail={applicationInfo?.admissionManager?.email}
-            loading={loading}
-            setLoading={setLoading}
+            applicationId={id}
+          
           />
 
           <Card>
