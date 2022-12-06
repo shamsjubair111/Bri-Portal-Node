@@ -234,6 +234,8 @@ const ComissionGroup = () => {
               :
               null
           }
+
+           <div> <b> Total <span className="badge badge-primary">{commission?.length}</span> Commission Group Found   </b></div>
           </CardHeader>
   
           <CardBody className="search-card-body">

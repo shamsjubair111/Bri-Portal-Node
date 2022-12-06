@@ -373,23 +373,29 @@ const DegreeList = () => {
 
                 <Card>
 
+                 <CardHeader>
+                 {/* <div className='mb-3'> */}
+
+                   {
+                       permissions?.includes(permissionList.Add_New_degree) ? 
+                       <ButtonForFunction className ={"btn btn-uapp-add "}
+                           icon ={<i className="fas fa-plus"></i>}
+                           func={handleAddDegree} 
+                           name={' Add Degree'}
+                                       
+                   />
+                   :
+                   null
+                   }
+
+                   <div> <b> Total <span className="badge badge-primary">{degreeList?.length}</span> Degrees Found   </b></div>
+                   
+                   {/* </div> */}
+                 </CardHeader>
+
             <CardBody>
 
-            <div className='mb-3'>
-
-            {
-                permissions?.includes(permissionList.Add_New_degree) ? 
-                <ButtonForFunction className ={"btn btn-uapp-add "}
-                    icon ={<i className="fas fa-plus"></i>}
-                    func={handleAddDegree} 
-                    name={' Add Degree'}
-                                
-            />
-            :
-            null
-            }
-
-            </div>
+            
 
             <div className="table-responsive mb-3">
                     <Table className="table-sm table-bordered">

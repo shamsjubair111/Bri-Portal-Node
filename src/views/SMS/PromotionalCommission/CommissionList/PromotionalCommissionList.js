@@ -435,14 +435,16 @@ const PromotionalCommissionList = () => {
      
      <CardHeader>
 
-     <div className=''>
+     {/* <div className=''> */}
          <Button className ="btn btn-uapp-add" onClick={openModal}>
             <i className="fas fa-plus"></i>
           {' '}
            Add Promotional Commission
                       
               </Button>
-         </div>
+
+              <div> <b> Total <span className="badge badge-primary">{promotion?.length}</span> Promotional Commission Found   </b></div>
+         {/* </div> */}
      </CardHeader>
 
      <CardBody className="search-card-body">

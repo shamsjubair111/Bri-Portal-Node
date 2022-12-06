@@ -262,7 +262,7 @@ const AddState = () => {
                 {" "}
                 {stateList?.length}{" "}
               </span>{" "}
-              State Found{" "}
+              States Found{" "}
             </b>
           </div>
         </CardHeader>

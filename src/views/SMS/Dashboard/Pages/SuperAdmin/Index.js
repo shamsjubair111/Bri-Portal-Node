@@ -450,8 +450,8 @@ const SuperAdmin = () => {
         <tr>
         <td>{app?.student?.studentViewId}	</td>
         <td><div>
-        <img src={rootUrl+app?.student?.profileImage?.fileUrl} style={{height: '28px', width: '28px' , borderRadius: '50%'}} className='img-fluid' />
-        <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{''}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
+        <img src={rootUrl+app?.student?.profileImage?.fileUrl} alt="" style={{height: '28px', width: '28px' , borderRadius: '50%'}} className='img-fluid' />
+        <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
         </div></td>
         <td>{app?.universityName}</td>
         <td>{app?.managerName}</td>

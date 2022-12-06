@@ -270,7 +270,7 @@ const DocumentList = () => {
           null
         }
 
-          {/* <div> <b> Total <span className="badge badge-primary">{univerSityCountries?.length}</span> University Country Found   </b></div> */}
+          <div> <b> Total <span className="badge badge-primary">{documentData?.length}</span> Documents Found   </b></div>
         </CardHeader>
         <CardBody>
           <div>
