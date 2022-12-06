@@ -735,6 +735,7 @@ export const  permissionList = {
 
     Change_Document_Status : 562,
 
-
+    Provider_Dashboard : 563,
+    Consultant_Dashboard : 564,
 
 }

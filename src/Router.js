@@ -152,6 +152,7 @@ const UpdateIntake = lazy(() => import("./views/SMS/University/UpdateIntake.jsx"
 
 // consultant
 const ConsultantList = lazy(() => import("./views/SMS/Consultant/ConsultantList"))
+const ConsultantDashboard = lazy(() => import("./views/SMS/Consultant/ConsultantDashboard"))
 const ConsultantProfile = lazy(() => import("./views/SMS/Consultant/ConsultantProfile"))
 const AddConsultant = lazy(() => import("./views/SMS/Consultant/AddConsultant"))
 const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultantType"))
@@ -812,7 +813,8 @@ class AppRouter extends React.Component {
 
          <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider_info)? ProviderDetails : NotAuthorized} />
 
-         <AppRoute  path="/providerDashboard/:id" component={ProviderDashboard} />
+         <AppRoute  path="/providerDashboard/:id" component={permissions?.includes(permissionList?.Provider_Dashboard)? ProviderDashboard : NotAuthorized} />
+         <AppRoute  path="/consultantDashboard/:consultantId" component={permissions?.includes(permissionList?.Consultant_Dashboard)? ConsultantDashboard : NotAuthorized} />
 
          <AppRoute  path="/assignUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Add_New_Admission_manager_university)? AssignUniversity : NotAuthorized} />
 

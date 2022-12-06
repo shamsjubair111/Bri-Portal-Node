@@ -32,7 +32,7 @@ const ProviderDashboard = () => {
       setManagers(res);
      
     });
-  }, []);
+  }, [id]);
 
   const showDrawer = () => {
     setOpen(true);
@@ -188,11 +188,11 @@ const ProviderDashboard = () => {
 
       <div className="row">
         <div className="col-md-3">
-          <Card>
+          <Card style={{border: '0.5px solid #24A1CD'}}>
             <CardBody>
               <span className="pvdadmin-span-style1">Total Application</span>
               <br />
-              <span className="pvdadmin-span-style2">
+              <span className="pvdadmin-span-style2" style={{color: '#24A1CD'}}>
                 {count?.totalApplication}
               </span>
               <br />
@@ -202,11 +202,11 @@ const ProviderDashboard = () => {
         </div>
 
         <div className="col-md-3">
-          <Card>
+          <Card style={{border: '0.5px solid #23CCB5'}}>
             <CardBody>
               <span className="pvdadmin-span-style1">Universities</span>
               <br />
-              <span className="pvdadmin-span-style2">
+              <span className="pvdadmin-span-style2" style={{color: '#23CCB5'}}>
                 {count?.universities}
               </span>
               <br />
@@ -215,11 +215,11 @@ const ProviderDashboard = () => {
           </Card>
         </div>
         <div className="col-md-3">
-          <Card>
+          <Card style={{border: '0.5px solid #AE75F8'}}>
             <CardBody>
               <span className="pvdadmin-span-style1">Admission Managers</span>
               <br />
-              <span className="pvdadmin-span-style2">
+              <span className="pvdadmin-span-style2" style={{color: '#AE75F8'}}>
                 {count?.admissionmanagers}
               </span>
               <br />
@@ -228,11 +228,11 @@ const ProviderDashboard = () => {
           </Card>
         </div>
         <div className="col-md-3">
-          <Card>
+          <Card  style={{border: '0.5px solid #F7BD12'}}>
             <CardBody>
               <span className="pvdadmin-span-style1">Admission Officers</span>
               <br />
-              <span className="pvdadmin-span-style2">
+              <span className="pvdadmin-span-style2" style={{color: '#F7BD12'}}>
                 {count?.admissionofficers}
               </span>
               <br />
