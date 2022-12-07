@@ -1,7 +1,7 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { string } from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, Form, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, Form, Input } from 'reactstrap';
 import { rootUrl } from '../../../constants/constants';
 import { userTypes } from '../../../constants/userTypeConstant';
 import get from '../../../helpers/get';
@@ -100,7 +100,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
         <Card>
           <CardHeader>
           <div className="hedding-titel d-flex justify-content-between">
-                <div>
+                <div className='mb-3'>
                   <h5>
                     {" "}
                     <b>Message History</b>{" "}
@@ -113,7 +113,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                </div> */}
               </div>
           </CardHeader>
-            <CardBody style={{height: '400px', overflowY: 'scroll'}}>
+            <CardBody style={{height: '300px', overflowY: 'scroll'}}>
               
               {
                 (messages?.length < 1) ?
@@ -125,11 +125,12 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                   messages?.map((chat,i)=> (
                     <div className={(current_user?.displayEmail == chat?.senderEmail) ? 'box arrow-right my-3' : 'box arrow-left my-3'} key={i} >
                   
-                    <ul style={{listStyleType: 'none'}}>
+                    <ul className='ml-2' style={{listStyleType: 'none', padding: '0', margin: '0'}}>
                       <li style={{fontSize: '11px', fontWeight: '500', color: '#1e98b0'}}>{chat?.senderName}</li>
                       <li> {chat?.messageBody}</li>
 
                     </ul>
+
                     </div>
                    
                   ))
@@ -137,14 +138,14 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                </div>
                 </>
               }
-              
-             
-
-              
-
-              {
+                            
+            </CardBody>
+            {
                 (userType == userTypes?.Consultant || userType == userTypes?.Student || userType == userTypes?.AdmissionManager)  ?
-                <form onSubmit={submitFormData}>
+            <CardFooter style={{marginTop: "15px"}}>
+            
+                <div>
+                  <form onSubmit={submitFormData}>
                 <br/>
 
                <Input
@@ -153,20 +154,18 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                 onChange={handleStringData}
                 />
                 
-                <div className='d-flex justify-content-end mt-2'>
+                <div className='d-flex justify-content-end my-2'>
                 <Button color='primary' type='submit'>Send</Button>
 
                 </div>
                </form>
-               :
-               null
+                </div>
+               
+            </CardFooter>
+            :
+            null
 
-              }
-
-            
-
-      
-            </CardBody>
+           }
           </Card>
           </>
     );
