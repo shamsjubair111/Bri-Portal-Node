@@ -372,7 +372,7 @@ const AdmissionOfficer = () => {
 
               <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
               <br/>
-            
+              <br/>
               <span className='pvdadmin-span-style2'  style={{color: '#F87675'}}>{count?.totalRejected}</span>
               <br/>
               

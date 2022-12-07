@@ -26,6 +26,7 @@ import ApplicationStudentProfile from "./ApplicationDetailsComponents/Applicatio
 import ApplicationInfo from "./ApplicationDetailsComponents/ApplicationInfo";
 import Loader from "../Search/Loader/Loader";
 import post from "../../../helpers/post";
+import Assessment from "./ApplicationDetailsComponents/Assessment";
 
 const ApplicationDetails = () => {
   const [activetab, setActivetab] = useState("1");
@@ -78,6 +79,10 @@ const ApplicationDetails = () => {
       //   history.push("/addUniversityFinancial");
     }
     if (tab == "3") {
+      setActivetab(tab);
+      //   history.push("/addUniversityFeatures");
+    }
+    if (tab == "4") {
       setActivetab(tab);
       //   history.push("/addUniversityFeatures");
     }
@@ -165,7 +170,7 @@ const ApplicationDetails = () => {
         <Col md="7">
           <Card>
             <CardBody>
-              <Nav tabs className="row row-cols-md-3 row-cols-sm-1 text-center">
+              <Nav tabs className="row row-cols-md-4 row-cols-sm-1 text-center">
                 <NavItem>
                   <NavLink
                     active={activetab === "1"}
@@ -188,6 +193,14 @@ const ApplicationDetails = () => {
                     onClick={() => toggle("3")}
                   >
                     Profile
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    active={activetab === "4"}
+                    onClick={() => toggle("4")}
+                  >
+                    Assessment
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -216,7 +229,7 @@ const ApplicationDetails = () => {
 
                   </TabPane>
                 </TabContent>
-              ) : (
+              ) : activetab == 3 ?(
                 <TabContent activeTab={activetab}>
                   <TabPane tabId="3">
 
@@ -224,7 +237,21 @@ const ApplicationDetails = () => {
 
                   </TabPane>
                 </TabContent>
-              )}
+              )
+
+              :
+
+              (
+                <TabContent activeTab={activetab}>
+                  <TabPane tabId="4">
+
+                    <Assessment/>
+
+                  </TabPane>
+                </TabContent>
+              )
+            
+            }
             </CardBody>
           </Card>
         </Col>
@@ -374,6 +401,9 @@ const ApplicationDetails = () => {
           
           />
 
+        {
+              (permissions?.includes(permissionList?.Add_ApplicationNote)) ?
+
           <Card>
             <CardHeader>
             <div className="hedding-titel d-flex justify-content-between">
@@ -432,19 +462,21 @@ const ApplicationDetails = () => {
             />
 
             <div className="d-flex justify-content-end mt-2">
-            {
-              (permissions?.includes(permissionList?.Add_ApplicationNote)) ?
+          
               <Button type="submit" color="primary">Submit</Button>
-              :
-              null
-            }
+            
             </div>
 
             </form>
+            
              </div>
 
             </CardBody>
           </Card>
+
+          :
+          null
+    }
 
           {/* <div
             className="has-icon-left position-relative"

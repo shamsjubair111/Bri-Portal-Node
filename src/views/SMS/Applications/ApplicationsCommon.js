@@ -1302,13 +1302,15 @@ const ApplicationsCommon = () => {
 
                       {checkId ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          {app?.uappId}
+                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>  {app?.uappId}</Link>
+                        
                         </td>
                       ) : null}
 
                       {checkApplic ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          {app?.studentName}
+                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>  {app?.studentName}</Link>
+                         
                         </td>
                       ) : null}
 
@@ -1321,7 +1323,8 @@ const ApplicationsCommon = () => {
 
                       {checkUni ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          {app?.universityName}
+                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>  {app?.universityName}</Link>
+                          
                         </td>
                       ) : null}
 

@@ -419,7 +419,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
 
     if (currentUser != undefined) {
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}&userId=${currentUser}`
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
@@ -441,7 +441,6 @@ const AdmissionManagerApplication = ({ currentUser }) => {
     orderValue,
     entity,
     success,
-    currentUser,
     managerUappIdValue,
     managerStdValue,
     managerConsValue,
@@ -1267,13 +1266,15 @@ const AdmissionManagerApplication = ({ currentUser }) => {
 
                       {checkId ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          {app?.uappId}
+                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}> {app?.uappId}</Link>
+                         
                         </td>
                       ) : null}
 
                       {checkApplic ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          {app?.studentName}
+                           <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}> {app?.studentName}</Link>
+                          
                         </td>
                       ) : null}
 
@@ -1286,7 +1287,8 @@ const AdmissionManagerApplication = ({ currentUser }) => {
 
                       {checkUni ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          {app?.universityName}
+                           <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}> {app?.universityName}</Link>
+                          
                         </td>
                       ) : null}
 
