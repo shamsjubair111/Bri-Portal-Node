@@ -73,7 +73,7 @@ const ApplicationsCommon = () => {
   const [applicationId, setApplicationId] = useState(0);
 
   // for common
-  const [commonUappIdLabel, setCommonUappIdLabel] = useState("UAPP Id");
+  const [commonUappIdLabel, setCommonUappIdLabel] = useState("UAPP ID");
   const [commonUappIdValue, setCommonUappIdValue] = useState(0);
   const [commonUniLabel, setCommonUniLabel] = useState("University Name");
   const [commonUniValue, setCommonUniValue] = useState(0);
@@ -519,7 +519,7 @@ const ApplicationsCommon = () => {
     setElptValue(0);
     setFinanceLabel("SLCs");
     setFinanceValue(0);
-    setCommonUappIdLabel("UAPP Id");
+    setCommonUappIdLabel("UAPP ID");
     setCommonUappIdValue(0);
     setCommonUniLabel("University Name");
     setCommonUniValue(0);
@@ -883,7 +883,7 @@ const ApplicationsCommon = () => {
                     <DropdownMenu className="bg-dd-1">
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">App Id</p>
+                          <p className="">APP ID</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -904,7 +904,7 @@ const ApplicationsCommon = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">UAPP Id</p>
+                          <p className="">UAPP ID</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -1232,10 +1232,10 @@ const ApplicationsCommon = () => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     {checkAppId ? (
-                      <th style={{ verticalAlign: "middle" }}>App Id</th>
+                      <th style={{ verticalAlign: "middle" }}>APP ID</th>
                     ) : null}
                     {checkId ? (
-                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
+                      <th style={{ verticalAlign: "middle" }}>UAPP ID</th>
                     ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>

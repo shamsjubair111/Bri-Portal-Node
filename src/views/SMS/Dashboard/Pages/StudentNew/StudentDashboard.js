@@ -96,7 +96,7 @@ const StudentDashboard = () => {
                     {/* <span className="university-title-style">Subject</span> */}
                     <span className="">
                       {/* <i className="fas fa-location-dot"></i> */}
-                      <b>App Id</b>
+                      <b>APP ID</b>
                     </span>
                     <br />
                     <span className="span-style-search">

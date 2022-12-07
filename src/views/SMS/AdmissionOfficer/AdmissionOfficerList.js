@@ -1038,7 +1038,7 @@ const AdmissionOfficerList = () => {
 
                           <div className="d-flex justify-content-between">
                             <Col md="8" className="">
-                              <p className="">UAPP Id</p>
+                              <p className="">UAPP ID</p>
                             </Col>
 
                             <Col md="4" className="text-center">
@@ -1706,7 +1706,7 @@ const AdmissionOfficerList = () => {
                   <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
                       {checkSlNo ? <th>SL/NO</th> : null}
-                      {checkId ? <th>UAPP Id</th> : null}
+                      {checkId ? <th>UAPP ID</th> : null}
                       {checkName ? <th>Name</th> : null}
                       {checkPro ? <th>Provider</th> : null}
                       {checkEmail ? <th>Email</th> : null}

@@ -541,7 +541,7 @@ const PaginatedTables = (props) => {
                   <tr style={{ textAlign: "center" }}>
                     
                    <th>SL/NO</th> 
-                   <th>Uapp Id</th> 
+                   <th>UAPP ID</th> 
                    <th>Full Name</th> 
                    <th>Email</th> 
                   <th>Total Students</th> 

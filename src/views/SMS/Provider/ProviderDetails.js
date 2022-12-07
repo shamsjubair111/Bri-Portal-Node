@@ -1132,7 +1132,7 @@ const ProviderDetails = () => {
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>
-                        <th>Uapp Id</th>
+                        <th>UAPP ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone Number</th>
@@ -1346,7 +1346,7 @@ const ProviderDetails = () => {
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>
-                        <th>Uapp Id</th>
+                        <th>UAPP ID</th>
                         <th>Name</th>
 
                         <th>Email</th>

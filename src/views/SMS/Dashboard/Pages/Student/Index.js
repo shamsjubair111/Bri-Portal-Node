@@ -166,7 +166,7 @@ const Student = () => {
          
 
                   <div className='col-md-2'>
-                    <span className='std-dashboard-style7'>App Id</span>
+                    <span className='std-dashboard-style7'>APP ID</span>
 
                   
                    

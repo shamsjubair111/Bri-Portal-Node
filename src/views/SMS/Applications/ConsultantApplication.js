@@ -832,7 +832,7 @@ const ConsultantApplication = ({ currentUser }) => {
                     <DropdownMenu className="bg-dd-1">
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">App Id</p>
+                          <p className="">APP ID</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -853,7 +853,7 @@ const ConsultantApplication = ({ currentUser }) => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">UAPP Id</p>
+                          <p className="">UAPP ID</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -1181,10 +1181,10 @@ const ConsultantApplication = ({ currentUser }) => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     {checkAppId ? (
-                      <th style={{ verticalAlign: "middle" }}>App Id</th>
+                      <th style={{ verticalAlign: "middle" }}>APP ID</th>
                     ) : null}
                     {checkId ? (
-                      <th style={{ verticalAlign: "middle" }}>UAPP Id</th>
+                      <th style={{ verticalAlign: "middle" }}>UAPP ID</th>
                     ) : null}
                     {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>

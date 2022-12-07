@@ -47,7 +47,7 @@ const Index = () => {
   const {consultantId} = useParams();
 
   const [uapp, setUapp] = useState([]);
-  const [uappLabel, setUappLabel] = useState("UAPP Id");
+  const [uappLabel, setUappLabel] = useState("UAPP ID");
   const [uappValue, setUappValue] = useState(0);
 
   const [student, setStudent] = useState([]);
@@ -305,7 +305,7 @@ const Index = () => {
   };
 
   const handleReset = () => {
-    setUappLabel("UAPP Id");
+    setUappLabel("UAPP ID");
     setUappValue(0);
     setStudentLabel("Select Student");
     setStudentValue(0);

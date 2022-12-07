@@ -1316,7 +1316,7 @@ const selectNameTitle = (label, value) => {
                   <thead className="">
                     <tr style={{ textAlign: "center" }}>
                       <th>#</th>
-                      <th>UAPP Id</th>
+                      <th>UAPP ID</th>
                       <th>Name</th>
                       <th>Provider</th>
                       <th>Email</th>

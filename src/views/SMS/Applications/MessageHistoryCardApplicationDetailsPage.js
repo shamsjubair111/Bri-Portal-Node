@@ -66,6 +66,9 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
             
        
       }
+      else{
+        getMessage(applicationId);
+      }
    
 
   },[])
@@ -112,8 +115,12 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
           </CardHeader>
             <CardBody style={{height: '400px', overflowY: 'scroll'}}>
               
-              
-               <div>
+              {
+                (messages?.length < 1) ?
+                <span style={{fontSize: '12px', fontWeight: '500', color: '#1e98b0'}}>No Message Found</span>
+                :
+                <>
+                 <div>
                {
                   messages?.map((chat,i)=> (
                     <div className={(current_user?.displayEmail == chat?.senderEmail) ? 'box arrow-right my-3' : 'box arrow-left my-3'} key={i} >
@@ -128,11 +135,16 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                   ))
                 }
                </div>
+                </>
+              }
+              
              
 
               
 
-               <form onSubmit={submitFormData}>
+              {
+                (userType == userTypes?.Consultant || userType == userTypes?.Student || userType == userTypes?.AdmissionManager)  ?
+                <form onSubmit={submitFormData}>
                 <br/>
 
                <Input
@@ -146,7 +158,12 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
 
                 </div>
                </form>
+               :
+               null
 
+              }
+
+            
 
       
             </CardBody>

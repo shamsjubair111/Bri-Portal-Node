@@ -556,7 +556,7 @@ const EmployeeList = (props) => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">UAPP Id</p>
+                          <p className="">UAPP ID</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -723,7 +723,7 @@ const EmployeeList = (props) => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     {checkSlNo ? <th>SL/NO</th> : null}
-                    {checkId ? <th>UAPP Id</th> : null}
+                    {checkId ? <th>UAPP ID</th> : null}
                     {checkSType ? <th>Staff Type</th> : null}
                     { permissions?.includes(permissionList.ChangePassword) ?
                     <>  {userTypeId == userTypes?.SystemAdmin ||

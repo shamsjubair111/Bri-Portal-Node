@@ -53,7 +53,7 @@ const NewDashboard = () => {
                   {/* <span className="university-title-style">Subject</span> */}
                   <span className="span-style-search">
                     {/* <i className="fas fa-location-dot"></i> */}
-                    App Id
+                    APP ID
                   </span>
                   <br />
                   <span className="">

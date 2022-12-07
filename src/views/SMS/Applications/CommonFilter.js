@@ -237,7 +237,7 @@ const CommonFilter = ({
     setElptValue(0);
     setFinanceLabel("SLCs");
     setFinanceValue(0);
-    setCommonUappIdLabel("UAPP Id");
+    setCommonUappIdLabel("UAPP ID");
     setCommonUappIdValue(0);
     setCommonUniLabel("University Name");
     setCommonUniValue(0);

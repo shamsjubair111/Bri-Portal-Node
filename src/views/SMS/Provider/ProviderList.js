@@ -52,7 +52,7 @@ const ProviderList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [providerLabel, setProviderLabel] = useState("Provider Type");
   const [providerValue, setProviderValue] = useState(0);
-  const [uappIdLabel, setUappIdLabel] = useState("UAPP Id");
+  const [uappIdLabel, setUappIdLabel] = useState("UAPP ID");
   const [uappIdValue, setUappIdValue] = useState(0);
   const userType = localStorage.getItem('userType');
   const [callApi, setCallApi] = useState(false);
@@ -203,7 +203,7 @@ const ProviderList = () => {
     setSearchStr("");
     setProviderLabel("Provider Type");
     setProviderValue(0);
-    setUappIdLabel("UAPP Id");
+    setUappIdLabel("UAPP ID");
     setUappIdValue(0);
     setCallApi((prev) => !prev);
   };
@@ -480,7 +480,7 @@ const ProviderList = () => {
                     <DropdownMenu className="bg-dd-1">
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Uapp Id</p>
+                          <p className="">UAPP ID</p>
                         </Col>
 
                         <Col md="4" className="text-center">
@@ -647,7 +647,7 @@ const ProviderList = () => {
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
-                    {checkSlNo ? <th>Uapp Id</th> : null}
+                    {checkSlNo ? <th>UAPP ID</th> : null}
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone No</th> : null}
