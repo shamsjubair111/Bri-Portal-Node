@@ -10,6 +10,7 @@ import plusicon from "../../../../../assets/img/plusicon.svg";
 import Vectorbeat from "../../../../../assets/img/Vectorbeat.svg";
 import gift from "../../../../../assets/img/gift.PNG";
 import cuser1 from "../../../../../assets/img/cuser1.svg";
+import user from "../../../../../assets/img/Uapp_fav.png";
 import down from "../../../../../assets/img/down.svg";
 import camera2 from "../../../../../assets/img/camera2.svg";
 import Chart from "react-apexcharts";
@@ -461,7 +462,7 @@ const SuperAdmin = () => {
                       <td>
                         <div>
                           <img
-                            src={rootUrl + app?.student?.profileImage?.fileUrl}
+                            src={(app?.student?.profileImage?.fileUrl == null) ? user : rootUrl + app?.student?.profileImage?.fileUrl}
                             alt=""
                             style={{
                               height: "28px",

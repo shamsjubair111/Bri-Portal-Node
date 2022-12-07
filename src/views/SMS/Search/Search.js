@@ -2062,7 +2062,7 @@ alt='logo-img'
 <div className='text-center'>
 <span className='university-title-style'>{info?.name}</span>
 <br/>
-<span className='span-style-search'><i className="fas fa-location-dot"></i>{info?.address}</span>
+<span className='span-style-search'><i className="fas fa-location-dot"></i>{' '}{info?.address}</span>
 </div>
 
 </div>
