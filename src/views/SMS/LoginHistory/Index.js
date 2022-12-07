@@ -4,6 +4,9 @@ import Select from "react-select";
 import { CardBody, Table, Card, CardHeader } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
+import ToggleSwitch from '../Components/ToggleSwitch';
+import put from '../../../helpers/put';
+import { useToasts } from 'react-toast-notifications';
 
 const Index = () => {
 
@@ -16,6 +19,9 @@ const Index = () => {
     const [entity, setEntity] = useState(0);
     const history = useHistory();
     const [serialNum, setSerialNum] = useState(1);
+    const [success, setSuccess] = useState(false);
+
+    const { addToast } = useToasts();
 
     useEffect(()=>{
 
@@ -23,12 +29,13 @@ const Index = () => {
         .then(res => {
             setEntity(res?.totalEntity);
             setData(res?.models);
+            console.log("logindata", res);
             setSerialNum(res?.firstSerialNumber);
         })
 
     },[ currentPage,
         dataPerPage,
-        callApi,])
+        callApi, success])
 
     const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
     const dataSizeName = dataSizeArr.map((dsn) => ({ label: dsn, value: dsn }));
@@ -53,6 +60,27 @@ const Index = () => {
     const d = date.split("T")[0];
     return d;
   }
+
+  const handleAccountStatus = (e, ipAddress) => {
+    const subData = {
+      IpAdress: ipAddress,
+    };
+
+    put(`LoginHistory/DeviceBlock/${ipAddress}`, subData).then((res) => {
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+      } else {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+      }
+    });
+  };
 
     return (
         <div>
@@ -103,7 +131,20 @@ const Index = () => {
                     <td>{handleDate1(d?.lastLoginDate)}</td>
                     <td>{d?.ipAddress}</td>
                     <td>{d?.geoLocationInfo}</td>
-                    <td>{(d?.isDeviceBlocked) ? 'Yes': 'No'}</td>
+                    <td>
+                      {
+                        <ToggleSwitch
+                          defaultChecked={
+                            d?.isDeviceBlocked == false ? false : true
+                          }
+                          onChange={(e) => {
+                            handleAccountStatus(e, d?.ipAddress);
+                          }}
+                        />
+                      }
+
+                      {/* {d?.isDeviceBlocked ? "Yes" : "No"} */}
+                    </td>
                     </tr>
                   ))}
                  

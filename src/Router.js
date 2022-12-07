@@ -954,7 +954,7 @@ class AppRouter extends React.Component {
 
            {/* login history path */}
   
-           <AppRoute  path="/loginhistory" component={LoginHistory} />
+           <AppRoute  path="/loginHistory" component={LoginHistory} />
            <AppRoute  path="/allUsersLoginHistory" component={permissions?.includes(permissionList.View_LoginHistory_list) ? AllLoginHistory : NotAuthorized} />
 
            {/* common profile path */}
