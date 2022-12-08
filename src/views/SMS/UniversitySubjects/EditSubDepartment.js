@@ -85,12 +85,12 @@ const EditSubDepartment = () => {
               })
               history.push('/subDepartment');
             }
-            // else{
-            //   addToast(res?.data?.message, {
-            //     appearance: 'error',
-            //     autoDismiss: true,
-            //   })
-            // }
+            else{
+              addToast(res?.data?.message, {
+                appearance: 'error',
+                autoDismiss: true,
+              })
+            }
           })
 
       }

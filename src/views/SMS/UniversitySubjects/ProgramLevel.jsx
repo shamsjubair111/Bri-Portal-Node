@@ -299,6 +299,7 @@ return (
         name="levelValue"
         id="levelValue"
         placeholder='Enter Level Value'
+        required
         value={levelValue}
         onChange={(e) => 
           setLevelValue(e.target.value)

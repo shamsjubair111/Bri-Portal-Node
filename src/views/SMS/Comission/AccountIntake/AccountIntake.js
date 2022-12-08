@@ -225,7 +225,7 @@ const AccountIntake = () => {
                 .then(res => {
                     setProgress(false);
                     setButtonStatus(false);
-                    if(res?.status ==200){
+                    if(res?.status ==200 && res?.data?.isSuccess == true){
                         addToast(res?.data?.message,{
                             appearance: 'success',
                             autoDismiss: true
@@ -241,6 +241,12 @@ const AccountIntake = () => {
                         setEMonthLabel('');
                         setEMonthValue(0);
                     }
+                    else{
+                        addToast(res?.data?.message, {
+                          appearance: "error",
+                          autoDismiss: true,
+                        });
+                      }
                 })
             }
 
