@@ -106,12 +106,19 @@ const AddNewIntakes = () => {
           setButtonStatus(true);
           setProgress(true);
           post(`Intake/Create`, subData).then(action => {
+            if (action?.status == 200 && action?.data?.isSuccess == true) {
             setProgress(false);
             setButtonStatus(false);
             addToast(action?.data?.message, {
                 appearance: 'success',
                 autoDismiss: true,
               })
+            }else {
+              addToast(action?.data?.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+            }
               history.push({
                 pathname: "/intake",
               });

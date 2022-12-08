@@ -153,7 +153,7 @@ const Nationality = () => {
             .then(res => {
               setButtonStatus(false);
               setProgress1(false);
-               if(res?.status ==200){
+               if(res?.status ==200 && res?.data?.isSuccess == true){
                 
                 addToast(res?.data?.message,{
                     appearance: 'success',
@@ -163,6 +163,12 @@ const Nationality = () => {
                setSuccess(!success);
                 setModalOpen(false);
                }
+               else{
+                addToast(res?.data?.message, {
+                  appearance: "error",
+                  autoDismiss: true,
+                });
+              }
     
             })
         }
