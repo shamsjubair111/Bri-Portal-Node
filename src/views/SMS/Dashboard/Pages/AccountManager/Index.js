@@ -17,6 +17,8 @@ import cuser1 from '../../../../../assets/img/cuser1.svg';
 import down from '../../../../../assets/img/down.svg';
 import camera2 from '../../../../../assets/img/camera2.svg';
 import Chart from 'react-apexcharts'
+import get from '../../../../../helpers/get';
+import { Link } from 'react-router-dom';
 
 const AccountManager = () => {
 
@@ -25,6 +27,22 @@ const AccountManager = () => {
   const [options,setOptions] = useState({});
   const [series,setSeries] = useState([20, 20, 20, 20, 20]);
   const [Labels,setLabels] = useState(['A', 'B', 'C', 'D', 'E']);
+  const [count,setCount] = useState({});
+  const [consultants,setConsultants] = useState([]);
+
+  useEffect(()=>{
+
+      get(`AccountManagerDashboard/Counting`)
+      .then(res => {
+        setCount(res);
+      })
+
+      get(`AccountManagerDashboard/GetTransactions`)
+      .then(res => {
+        setConsultants(res);
+      })
+
+  },[])
 
   const showDrawer = () => {
     setOpen(true);
@@ -260,9 +278,107 @@ const AccountManager = () => {
 
                  {/* Progress Report */}
 
-           <Card>
-            <CardBody>
-              <div className='d-flex flex-wrap justify-content-between'>
+    
+              
+
+              <div className='row'>
+
+                <div className='col-md-6'>
+
+                  <div className='row mt-2'>
+
+                    <div className='col-md-6'>
+
+                    <Card style={{border: '0.5px solid #24A1CD', height: '136px'}}>
+
+                    <CardBody>
+
+                      <span className='pvdadmin-span-style1'>Total Transactions</span>
+                      <br/>
+                      <br/>
+                      <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.accountTransaction}</span>
+                      <br/>
+
+                    </CardBody>
+                    </Card>
+
+                    </div>
+
+                    <div className='col-md-6'>
+
+                    <Card style={{border: '0.5px solid #F87675', height: '136px'}}>
+
+                    <CardBody>
+
+                      <span className='pvdadmin-span-style1'>App Transactions</span>
+                      <br/>
+                      <br/>
+                      <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.applicationTransaction}</span>
+                      <br/>
+
+                    </CardBody>
+                    </Card>
+
+                    </div>
+
+                    <div className='col-md-6'>
+
+                    <Card style={{border: '0.5px solid #23CCB5', height: '136px'}}>
+
+                    <CardBody>
+
+                      <span className='pvdadmin-span-style1'>Total Withdrawn</span>
+                      <br/>
+                      <br/>
+                      <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.withdrawTransaction}</span>
+                      <br/>
+
+                    </CardBody>
+                    </Card>
+
+                    </div>
+
+                    <div className='col-md-6'>
+
+                    <Card style={{border: '0.5px solid #AE75F8', height: '136px'}}>
+
+                    <CardBody>
+
+                      <span className='pvdadmin-span-style1'>Total Bonus Transactions</span>
+                      <br/>
+                      <br/>
+                      <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.bonusTransaction}</span>
+                      <br/>
+
+                    </CardBody>
+                    </Card>
+
+                    </div>
+
+
+                  </div>
+
+
+
+          
+
+                </div>
+
+            
+
+
+            
+              {/* dropdown section */}
+
+              
+
+                <div className='col-md-6'>
+
+              <Card>
+
+                <CardBody>
+
+                <div className='d-flex flex-wrap justify-content-between'>
                 <span className='const-target-style'>Progress Report</span>
                 <div className='d-flex flex-wrap justify-content-between'>
                   <div style={{cursor: 'pointer'}}>
@@ -281,17 +397,11 @@ const AccountManager = () => {
               </div>
               <hr/>
 
-              <div>
+              <div className='mb-3'>
                 <span className='application-count-style'>Intake July 2022-October 2022</span>
               </div>
 
-              <div className='row my-4'>
-
-                <div className='col-md-3'>
-
-
-
-          <div className='d-flex justify-content-between'>
+              <div className='d-flex justify-content-between'>
 
 
           <div className='d-flex'>
@@ -371,30 +481,16 @@ const AccountManager = () => {
 
           </div>
 
-                </div>
-
-            
-
-             <div className='col-md-5'>
-
-             <Chart options={options} series={series} type="donut" width="100%" height='100%' />
+                </CardBody>
 
 
-              </div>
-
-            
-              {/* dropdown section */}
-
-                <div className='col-md-4'>
-
-               
+              </Card>
 
                 </div>
 
               </div>
 
-            </CardBody>
-           </Card>
+          
 
                 {/* table start */}
 
@@ -407,7 +503,9 @@ const AccountManager = () => {
 
                   <span className='app-style-const'>Consultant Transaction List</span>
 
-                  <Table borderless responsive className='mt-3'>
+             <div style={{height: '300px', overflowY: 'scroll'}}>
+
+             <Table borderless responsive className='mt-3'>
               <thead style={{backgroundColor: '#EEF3F4'}}>
               <tr>
               <th>Consultant ID</th>
@@ -420,59 +518,26 @@ const AccountManager = () => {
               </tr>
               </thead>
               <tbody>
-              <tr>
-              <td>AG009	</td>
+              {
+                consultants?.map((con,i) =>(
+                  <tr key={i}>
+              <td>{con?.consultantViewId}</td>
               <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
+            
+              <span>{con?.consultantName}</span>
               </div></td>
-              <td>20472.5</td>
-              <td>1448</td>
-              <td>5985</td>
-              <td style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</td>
+              <td>{con?.credit}</td>
+              <td>{con?.debit}</td>
+              <td>{con?.balance}</td>
+              <td><Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</Link></td>
 
               </tr>
-              <tr>
-              <td>AG009	</td>
-              <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-              </div></td>
-              <td>20472.5</td>
-              <td>1448</td>
-              <td>5985</td>
-              <td style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</td>
-
-              </tr>
-              <tr>
-              <td>AG009	</td>
-              <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-              </div></td>
-              <td>20472.5</td>
-              <td>1448</td>
-              <td>5985</td>
-              <td style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</td>
-
-              </tr>
-              <tr>
-              <td>AG009	</td>
-              <td><div>
-              <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>Mr Stephen Mason</span>
-              </div></td>
-              <td>20472.5</td>
-              <td>1448</td>
-              <td>5985</td>
-              <td style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</td>
-
-              </tr>
-
-              
-
+                ))
+              }
               </tbody>
               </Table>
+
+             </div>
 
 
 

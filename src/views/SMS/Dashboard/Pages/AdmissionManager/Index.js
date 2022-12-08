@@ -358,7 +358,7 @@ const AdmissionManager = () => {
             </div>
 
             <div className='col-md-2'>
-              <Card style={{border: '0.5px solid #F7BD12'}}>
+              <Card style={{border: '0.5px solid #F87675'}}>
 
                 <CardBody>
 
@@ -380,9 +380,9 @@ const AdmissionManager = () => {
 
                   <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
                   <br/>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
-                  <br/>
+           
+                  <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRejected}</span>
+                  
                   
                 </CardBody>
               </Card>
