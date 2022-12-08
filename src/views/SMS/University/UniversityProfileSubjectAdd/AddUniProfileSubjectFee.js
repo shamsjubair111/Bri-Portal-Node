@@ -46,7 +46,9 @@ const AddUniProfileSubjectFee = () => {
     const [buttonStatus,setButtonStatus] = useState(false);
     const [progress, setProgress] = useState(false);
 
-    
+    const [addLocalTutionFee, setAddLocalTutionFee] = useState(undefined);
+    const [addIntTutionFee, setAddIntTutionFee] = useState(undefined);
+    const [addEUTutionFee, setAddEUTutionFee] = useState(undefined);
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -64,9 +66,14 @@ const AddUniProfileSubjectFee = () => {
           get(`SubjectFeeStructure/GetBySubject/${subjId}`)
         .then(res=>{
           
-          setLocalTutionFee(res?.localTutionFee);
-          setIntTutionFee(res?.internationalTutionFee);
-          setEuTutionFee(res?.eU_TutionFee);
+          // setLocalTutionFee(res?.localTutionFee);
+          // setIntTutionFee(res?.internationalTutionFee);
+          // setEuTutionFee(res?.eU_TutionFee);
+
+          setAddLocalTutionFee(res?.localTutionFee);
+          setAddIntTutionFee(res?.internationalTutionFee);
+          setAddEUTutionFee(res?.eU_TutionFee);
+
           setSId(res?.subjectId);
           setId(res?.id);
         })
@@ -101,6 +108,12 @@ const AddUniProfileSubjectFee = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const subdata = new FormData(event.target);
+    const postdata = {
+      subjectId: subjId,
+      localTutionFee: addLocalTutionFee == undefined ? 0 : addLocalTutionFee,
+      internationalTutionFee: addIntTutionFee == undefined ? 0 : addIntTutionFee,
+      eU_TutionFee: addEUTutionFee == undefined ? 0 : addEUTutionFee
+    }
 
     for (var value of subdata.values()) { 
       
@@ -127,7 +140,7 @@ const AddUniProfileSubjectFee = () => {
      else{
       setButtonStatus(true);
       setProgress(true);
-      Axios.post(`${rootUrl}SubjectFeeStructure/Create`, subdata, {
+      Axios.post(`${rootUrl}SubjectFeeStructure/Create`, postdata, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': AuthStr,
@@ -245,7 +258,8 @@ const AddUniProfileSubjectFee = () => {
                     <Input
                       type="number"
                       min="0"
-                      defaultValue={localTutionFee}
+                      onChange={(e)=> setAddLocalTutionFee(e.target.value)}
+                      defaultValue={addLocalTutionFee}
                       name="localTutionFee"
                       id="localTutionFee"
                       placeholder="Tution Fee"
@@ -264,7 +278,8 @@ const AddUniProfileSubjectFee = () => {
                     <Input
                       type='number'
                       min="0"
-                      defaultValue={intTutionFee}
+                      onChange={(e)=>setAddIntTutionFee(e.target.value)}
+                      defaultValue={addIntTutionFee}
                       placeholder='Enter International Tution Fee '
                       required
                       name="internationalTutionFee"
@@ -285,7 +300,8 @@ const AddUniProfileSubjectFee = () => {
                       min="0"
                       name="eU_TutionFee"
                       id="eU_TutionFee"
-                      defaultValue={euTutionFee}
+                      onChange={(e)=>setAddEUTutionFee(e.target.value)}
+                      defaultValue={addEUTutionFee}
                       placeholder="Enter EU Tution Fee"
                       required
                     />
