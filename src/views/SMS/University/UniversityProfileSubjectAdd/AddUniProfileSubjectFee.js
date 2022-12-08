@@ -251,7 +251,8 @@ const AddUniProfileSubjectFee = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Local Tution Fee <span className="text-danger">*</span>{" "}
+                      Local Tution Fee 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -263,7 +264,7 @@ const AddUniProfileSubjectFee = () => {
                       name="localTutionFee"
                       id="localTutionFee"
                       placeholder="Tution Fee"
-                      required
+                      // required
                     />
                   </Col>
                 </FormGroup>
@@ -271,7 +272,8 @@ const AddUniProfileSubjectFee = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      International Tution Fee <span className="text-danger">*</span>{" "}
+                      International Tution Fee 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -281,7 +283,7 @@ const AddUniProfileSubjectFee = () => {
                       onChange={(e)=>setAddIntTutionFee(e.target.value)}
                       defaultValue={addIntTutionFee}
                       placeholder='Enter International Tution Fee '
-                      required
+                      // required
                       name="internationalTutionFee"
                       id="internationalTutionFee"
                     />
@@ -291,7 +293,8 @@ const AddUniProfileSubjectFee = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      EU Tution Fee <span className="text-danger">*</span>{" "}
+                      EU Tution Fee 
+                      {/* <span className="text-danger">*</span>{" "} */}
                     </span>
                   </Col>
                   <Col md="6">
@@ -303,7 +306,7 @@ const AddUniProfileSubjectFee = () => {
                       onChange={(e)=>setAddEUTutionFee(e.target.value)}
                       defaultValue={addEUTutionFee}
                       placeholder="Enter EU Tution Fee"
-                      required
+                      // required
                     />
                   </Col>
                 </FormGroup>
