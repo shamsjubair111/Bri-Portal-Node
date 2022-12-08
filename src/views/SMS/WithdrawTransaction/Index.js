@@ -637,7 +637,7 @@ const Index = () => {
                 (userType == userTypes?.Consultant) ?
                 null
                 :
-                <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4">
+                <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4"  style={{marginBottom: "10px"}}>
                 {
                  permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
                  <ButtonForFunction
@@ -882,6 +882,7 @@ const Index = () => {
                 </div>
               </div>
 
+              <div className="table-responsive">
               <Table id="table-to-xls" className="table-sm table-bordered">
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
@@ -956,6 +957,7 @@ const Index = () => {
                   ))}
                 </tbody>
               </Table>
+              </div>
 
               <Pagination
                 dataPerPage={dataPerPage}
