@@ -151,7 +151,7 @@ const AdmissionManagerProfile = () => {
       setManagerData(res);
       setApplicationData(res?.admissionManagerApplications);
       setAdmissionOfficer(res?.admissionOfficers);
-      
+      console.log("managerData", res);
       setLoading(false);
     });
   }, [managerId, success, providerId, loading]);
@@ -881,7 +881,7 @@ const selectNameTitle = (label, value) => {
                           </td>
 
                           <td>
-                           {sub?.universityShortName} - {sub?.universityFullName}
+                          {sub?.universityFullName} ({sub?.universityShortName})
                             
                            
                           </td>
