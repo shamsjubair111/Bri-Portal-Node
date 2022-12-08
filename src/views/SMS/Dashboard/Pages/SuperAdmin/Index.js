@@ -16,6 +16,7 @@ import camera2 from "../../../../../assets/img/camera2.svg";
 import Chart from "react-apexcharts";
 import get from "../../../../../helpers/get";
 import { rootUrl } from "../../../../../constants/constants";
+import { Link } from "react-router-dom";
 
 const SuperAdmin = () => {
   const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ const SuperAdmin = () => {
   const [Labels, setLabels] = useState(["A", "B", "C", "D", "E"]);
   const [count, setCount] = useState({});
   const [applications, setApplications] = useState([]);
+  const [consultants,setConsultants] = useState([]);
 
   useEffect(() => {
     get(`SystemAdminDashboard/Counting`).then((res) => {
@@ -33,6 +35,11 @@ const SuperAdmin = () => {
     get(`SystemAdminDashboard/Application`).then((res) => {
       setApplications(res);
     });
+
+    get(`SystemAdminDashboard/GetTransactions`).then((res) => {
+      setConsultants(res);
+    });
+
   }, []);
 
   const showDrawer = () => {
@@ -638,11 +645,12 @@ const SuperAdmin = () => {
           <CardBody>
             <span className="app-style-const">Consultant Transaction List</span>
 
-            <Table
+          <div style={{height: '300px', overflowY: 'scroll'}}>
+          <Table
               borderless
               responsive
               className="mt-3"
-              style={{ height: "300px", overflowY: "scroll" }}
+             
             >
               <thead style={{ backgroundColor: "#EEF3F4" }}>
                 <tr>
@@ -655,116 +663,23 @@ const SuperAdmin = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>#AG009 </td>
-                  <td>
-                    <div>
-                      <img
-                        src={cuser1}
-                        style={{ height: "28px", width: "28px" }}
-                        className="img-fluid"
-                      />
-                      <span style={{ marginLeft: "5px" }}>
-                        Mirela-Gabriela Porcisteanu
-                      </span>
-                    </div>
-                  </td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td
-                    style={{
-                      textDecoration: "underline",
-                      color: "#1e98b0",
-                      textDecorationColor: "#1e98b0",
-                    }}
-                  >
-                    Details
-                  </td>
-                </tr>
-                <tr>
-                  <td>#AG00955 </td>
-                  <td>
-                    <div>
-                      <img
-                        src={cuser1}
-                        style={{ height: "28px", width: "28px" }}
-                        className="img-fluid"
-                      />
-                      <span style={{ marginLeft: "5px" }}>
-                        Mirela-Gabriela Porcisteanu
-                      </span>
-                    </div>
-                  </td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td
-                    style={{
-                      textDecoration: "underline",
-                      color: "#1e98b0",
-                      textDecorationColor: "#1e98b0",
-                    }}
-                  >
-                    Details
-                  </td>
-                </tr>
-                <tr>
-                  <td>#AG009 </td>
-                  <td>
-                    <div>
-                      <img
-                        src={cuser1}
-                        style={{ height: "28px", width: "28px" }}
-                        className="img-fluid"
-                      />
-                      <span style={{ marginLeft: "5px" }}>
-                        Mirela-Gabriela Porcisteanu
-                      </span>
-                    </div>
-                  </td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td
-                    style={{
-                      textDecoration: "underline",
-                      color: "#1e98b0",
-                      textDecorationColor: "#1e98b0",
-                    }}
-                  >
-                    Details
-                  </td>
-                </tr>
-                <tr>
-                  <td>#AG009 </td>
-                  <td>
-                    <div>
-                      <img
-                        src={cuser1}
-                        style={{ height: "28px", width: "28px" }}
-                        className="img-fluid"
-                      />
-                      <span style={{ marginLeft: "5px" }}>
-                        Mirela-Gabriela Porcisteanu
-                      </span>
-                    </div>
-                  </td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td
-                    style={{
-                      textDecoration: "underline",
-                      color: "#1e98b0",
-                      textDecorationColor: "#1e98b0",
-                    }}
-                  >
-                    Details
-                  </td>
-                </tr>
+              {
+                      consultants?.map((con,i)=>(
+                        <tr key={i}>
+                    <td>{con?.consultantViewId}</td>
+                    <td>{con?.consultantName}</td>
+                    <td>{con?.credit}</td>
+                    <td>{con?.debit}</td>
+                    <td>{con?.balance}</td>
+                    <td><Link style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}} to={`accountTransactionByConsultant/${con?.consultantId}`}>Details</Link></td>
+                    </tr>
+                      ))
+                    }
               </tbody>
             </Table>
+
+
+          </div>
           </CardBody>
         </Card>
       </div>

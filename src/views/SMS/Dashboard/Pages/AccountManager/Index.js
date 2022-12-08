@@ -529,7 +529,7 @@ const AccountManager = () => {
               <td>{con?.credit}</td>
               <td>{con?.debit}</td>
               <td>{con?.balance}</td>
-              <td><Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</Link></td>
+              <td><Link to={`/accountTransactionByConsultant/${con?.consultantId}`} style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</Link></td>
 
               </tr>
                 ))

@@ -19,6 +19,7 @@ import camera2 from '../../../../../assets/img/camera2.svg';
 import Chart from 'react-apexcharts'
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
+import { Link } from 'react-router-dom';
 
 const BranchManager = () => {
 
@@ -26,6 +27,7 @@ const BranchManager = () => {
   const [open, setOpen] = useState(false);
   const [application,setApplication] = useState([]);
   const [count,setCount] = useState({});
+ 
 
 
 
@@ -41,6 +43,7 @@ const BranchManager = () => {
       setApplication(res);
     })
 
+    
 
 
   },[])
@@ -443,89 +446,7 @@ const BranchManager = () => {
 
                   {/* new applications table end */}
 
-                   {/* consultant transaction list table start */}
-     
-                   <div>
-
-                            
-
-                  <Card>
-                    <CardBody>
-
-                      <span className='app-style-const'>Consultant Transaction List</span>
-
-                    <Table borderless responsive className='mt-3' style={{height: '300px', overflowY: 'scroll'}}>
-                  <thead style={{backgroundColor: '#EEF3F4'}}>
-                  <tr>
-                  <th>Consultant ID</th>
-                  <th>Consultant Name
-                  </th>
-                  <th>Total In Flow</th>
-                  <th>Total Out Flow</th>
-                  <th>Total Balance</th>
-                  <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-
-
-                  <tr>
-                  <td>#AG009	</td>
-                  <td><div>
-                  <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                  <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                  </div></td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
-                  </tr>
-                  <tr>
-                  <td>#AG00955	</td>
-                  <td><div>
-                  <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                  <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                  </div></td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
-                  </tr>
-                  <tr>
-                  <td>#AG009	</td>
-                  <td><div>
-                  <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                  <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                  </div></td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
-                  </tr>
-                  <tr>
-                  <td>#AG009	</td>
-                  <td><div>
-                  <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                  <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                  </div></td>
-                  <td>20472.5</td>
-                  <td>1448</td>
-                  <td>5985</td>
-                  <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
-                  </tr>
-
-                  </tbody>
-                  </Table>
-
-
-
-                    </CardBody>
-                  </Card>
-
-                  </div>
-
-
-                  {/* consultant transaction list table end */}
+               
 
       </React.Fragment>
     );

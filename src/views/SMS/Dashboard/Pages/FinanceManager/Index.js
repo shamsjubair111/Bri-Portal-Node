@@ -19,6 +19,7 @@ import camera2 from '../../../../../assets/img/camera2.svg';
 import Chart from 'react-apexcharts'
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 const FinanceManager = () => {
@@ -31,7 +32,7 @@ const FinanceManager = () => {
   const [rejected,setRejected] = useState(0);
   const [withdrawn,setWithdrawn] = useState(0);
   const [count,setCount] = useState({});
-  const [applications,setApplications] = useState([]);
+  const [consultants, setConsultants] = useState([]);
   
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
 
@@ -39,6 +40,9 @@ const FinanceManager = () => {
 
     get(`FinanceManagerDashboard/Counting`)
     .then(res => setCount(res))
+
+    get(`FinanceManagerDashboard/GetTransactions`)
+    .then(res => setConsultants(res))
 
   },[])
 
@@ -388,7 +392,9 @@ const FinanceManager = () => {
 
                         <span className='app-style-const'>Consultant Transaction List</span>
 
-                      <Table borderless responsive className='mt-3' style={{height: '300px', overflowY: 'scroll'}}>
+                     <div style={{height: '300px', overflowY : 'scroll'}}>
+
+                     <Table borderless responsive className='mt-3'>
                     <thead style={{backgroundColor: '#EEF3F4'}}>
                     <tr>
                     <th>Consultant ID</th>
@@ -401,55 +407,23 @@ const FinanceManager = () => {
                     </tr>
                     </thead>
                     <tbody>
-
-
-                    <tr>
-                    <td>#AG009	</td>
-                    <td><div>
-                    <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                    <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                    </div></td>
-                    <td>20472.5</td>
-                    <td>1448</td>
-                    <td>5985</td>
-                    <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
+                    {
+                      consultants?.map((con,i)=>(
+                        <tr key={i}>
+                    <td>{con?.consultantViewId}</td>
+                    <td>{con?.consultantName}</td>
+                    <td>{con?.credit}</td>
+                    <td>{con?.debit}</td>
+                    <td>{con?.balance}</td>
+                    <td><Link style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}} to={`accountTransactionByConsultant/${con?.consultantId}`}>Details</Link></td>
                     </tr>
-                    <tr>
-                    <td>#AG00955	</td>
-                    <td><div>
-                    <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                    <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                    </div></td>
-                    <td>20472.5</td>
-                    <td>1448</td>
-                    <td>5985</td>
-                    <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
-                    </tr>
-                    <tr>
-                    <td>#AG009	</td>
-                    <td><div>
-                    <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                    <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                    </div></td>
-                    <td>20472.5</td>
-                    <td>1448</td>
-                    <td>5985</td>
-                    <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
-                    </tr>
-                    <tr>
-                    <td>#AG009	</td>
-                    <td><div>
-                    <img src={cuser1} style={{height: '28px', width: '28px'}} className='img-fluid' />
-                    <span style={{marginLeft: '5px'}}>Mirela-Gabriela Porcisteanu</span>
-                    </div></td>
-                    <td>20472.5</td>
-                    <td>1448</td>
-                    <td>5985</td>
-                    <td style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}}>Details</td>
-                    </tr>
-
+                      ))
+                    }
                     </tbody>
                     </Table>
+
+
+                     </div>
 
 
 

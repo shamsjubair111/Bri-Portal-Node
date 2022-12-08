@@ -30,7 +30,7 @@ import {
   DropdownMenu,
 } from "reactstrap";
 import Select from "react-select";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import get from "../../../helpers/get";
 import { userTypes } from "../../../constants/userTypeConstant";
 import Pagination from "../Pagination/Pagination";
@@ -47,6 +47,7 @@ import ButtonLoader from "../Components/ButtonLoader";
 
 const Index = () => {
   const history = useHistory();
+  const {consultantId} = useParams();
   const userType = localStorage.getItem("userType");
   const [success, setSuccess] = useState(false);
   const [data, setData] = useState([]);
@@ -116,8 +117,8 @@ const Index = () => {
       background: "#fff",
       borderColor: "#9e9e9e",
       minHeight: "30px",
-      height: "34px",
-      boxShadow: state.isFocused ? null : null,
+      height: "34px"
+      
     }),
 
     // valueContainer: (provided, state) => ({
@@ -169,6 +170,7 @@ const Index = () => {
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [progress, setProgress] = useState(false);
   const [progress1, setProgress1] = useState(false);
+  const [disabledSelect,setDisabledSelect] = useState(false);
 
   const selectDataSize = (value) => {
     setDataPerPage(value);
@@ -251,6 +253,13 @@ const Index = () => {
   useEffect(() => {
     get(`ConsultantDD/index`).then((res) => {
       setConsultant(res);
+      if(consultantId){
+        const result = res?.find(ans => ans?.id == consultantId);
+        setConsultantLabel(result?.name);
+        setConsultantValue(res?.id);
+        setDisabledSelect(true);
+
+      }
     });
 
     get(`TransactionTypeDD/Index`).then((res) => {
@@ -261,6 +270,20 @@ const Index = () => {
       setStatus(res);
     });
 
+   if(consultantId){
+    get(
+      `AccountTransaction/Index?page=${currentPage}&pageSize=${dataPerPage}&consultantid=${consultantId}&typeid=${transactionValue}&transactionStatusId=${statusValue}&code=${
+        transactionCode == "" ? "emptystring" : transactionCode
+      }`
+    ).then((res) => {
+      
+      setEntity(res?.totalEntity);
+      setData(res?.models);
+      setLoading(false);
+      setSer(res?.firstSerialNumber);
+    });
+   }
+   else{
     get(
       `AccountTransaction/Index?page=${currentPage}&pageSize=${dataPerPage}&consultantid=${consultantValue}&typeid=${transactionValue}&transactionStatusId=${statusValue}&code=${
         transactionCode == "" ? "emptystring" : transactionCode
@@ -272,6 +295,7 @@ const Index = () => {
       setLoading(false);
       setSer(res?.firstSerialNumber);
     });
+   }
 
     get(`BonusTransactionTypeDD/Index`).then((res) => {
       setBonusTransaction(res);
@@ -669,6 +693,8 @@ const Index = () => {
                       onChange={(opt) => selectConsultant(opt.label, opt.value)}
                       name="consultantId"
                       id="consultantId"
+                      isDisabled={consultantId ? true: false }
+                      
                     />
                     <span className="text-danger">{inflowConsultantError}</span>
                   </Col>
@@ -823,6 +849,7 @@ const Index = () => {
                             onChange={(opt) =>
                               selectConsultant(opt.label, opt.value)
                             }
+                            isDisabled={consultantId ? true: false }
                           />
                         </>
                       ) : null}
