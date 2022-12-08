@@ -687,7 +687,7 @@ const AdmissionManagerList = () => {
         <CardBody>
           {/* new */}
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="12" xs="12">
+            <Col lg="5" md="5" sm="12" xs="12"  style={{marginBottom: "10px"}}>
               {
               permissions?.includes(permissionList.Add_New_Admission_manager) ? 
               <ButtonForFunction

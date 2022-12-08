@@ -441,7 +441,7 @@ const EmployeeList = (props) => {
         <CardBody>
           {/* new */}
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+            <Col lg="5" md="5" sm="12" xs="12"  style={{marginBottom: "10px"}}>
               {permissions?.includes(permissionList?.Add_New_Staff) ? (
                 <ButtonForFunction
                   func={handleAddStaff}
@@ -452,8 +452,8 @@ const EmployeeList = (props) => {
               ) : null}
             </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="7" md="7" sm="12" xs="12">
+              <div className="d-flex justify-content-md-end justify-content-sm-start">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>
