@@ -13,6 +13,7 @@ import {
   NavLink,
   Input,
   Button,
+  CardFooter,
 } from "reactstrap";
 
 import get from "../../../helpers/get";
@@ -407,7 +408,7 @@ const ApplicationDetails = () => {
           <Card>
             <CardHeader>
             <div className="hedding-titel d-flex justify-content-between">
-                <div>
+                <div className="mb-3">
                   <h5>
                     {" "}
                     <b>Note</b>{" "}
@@ -420,7 +421,7 @@ const ApplicationDetails = () => {
                </div> */}
               </div>
             </CardHeader>
-            <CardBody style={{height: '400px', overflowY: 'scroll'}}>
+            <CardBody style={{height: '300px', overflowY: 'scroll'}}>
 
             <div>
                {
@@ -440,9 +441,11 @@ const ApplicationDetails = () => {
                   ))
                 }
                </div>
-             
 
-             <div>
+            </CardBody>
+
+            <CardFooter style={{marginTop: "15px"}}>
+            <div>
              <form onSubmit = {submitNotes}>
 
             <Input
@@ -470,8 +473,8 @@ const ApplicationDetails = () => {
             </form>
             
              </div>
+            </CardFooter>
 
-            </CardBody>
           </Card>
 
           :
