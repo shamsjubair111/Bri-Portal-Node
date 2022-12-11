@@ -11,6 +11,7 @@ import put from '../../../helpers/put';
 import ButtonLoader from '../Components/ButtonLoader';
 import { userTypes } from '../../../constants/userTypeConstant';
 import Loader from '../Search/Loader/Loader';
+import user from '../../../assets/img/Uapp_fav.png';
 
 
 const ProviderAdminNewProfile = () => {
@@ -172,7 +173,7 @@ const ProviderAdminNewProfile = () => {
               <div className="uapp-circle-image margin-top-minus">
              
                 <div className='profile-pic1'>
-                       <img src={rootUrl+data?.providerAdminMedia?.fileUrl} className='img-fluid'  alt='provider_image' />
+                       <img src={data?.providerAdminMedia?.fileUrl == null ? user : rootUrl+data?.providerAdminMedia?.fileUrl} className='img-fluid'  alt='provider_image' />
                    
                       <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
                     

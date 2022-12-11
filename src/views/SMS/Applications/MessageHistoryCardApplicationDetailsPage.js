@@ -126,7 +126,12 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                     <div className={(current_user?.displayEmail == chat?.senderEmail) ? 'box arrow-right my-3' : 'box arrow-left my-3'} key={i} >
                   
                     <ul className='ml-2' style={{listStyleType: 'none', padding: '0', margin: '0'}}>
-                      <li style={{fontSize: '11px', fontWeight: '500', color: '#1e98b0'}}>{chat?.senderName}</li>
+                     <div className='d-flex justify-content-between'>
+                     <li style={{fontSize: '11px', fontWeight: '500', color: '#1e98b0'}}>{chat?.senderName}</li>
+                      <li style={{fontSize: '11', color: 'hsla(0,0%,50.2%,.918)'}}>{chat?.messageTime}</li>
+
+                     </div>
+
                       <li> {chat?.messageBody}</li>
 
                     </ul>
@@ -152,6 +157,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                 type='textarea'
                 placeholder='Type message'
                 onChange={handleStringData}
+                value={stringData}
                 />
                 
                 <div className='d-flex justify-content-end my-2'>
