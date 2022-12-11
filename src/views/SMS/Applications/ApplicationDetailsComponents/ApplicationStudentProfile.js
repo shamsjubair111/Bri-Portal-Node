@@ -31,6 +31,7 @@ const ApplicationStudentProfile = ({ stdId }) => {
   useEffect(() => {
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
       setStudentProInfo(res);
+      console.log("studentProfileInfo", res);
     });
 
     get(`StudentProfile/Get/${stdId}`).then((res) => {
@@ -40,6 +41,7 @@ const ApplicationStudentProfile = ({ stdId }) => {
 
     get(`StudentConsent/Get/${stdId}`).then((res) => {
       setConsentData(res);
+      console.log("consentData", res);
     });
 
     get(`Ielts/Index/${stdId}`).then((res) => {
@@ -176,7 +178,144 @@ const ApplicationStudentProfile = ({ stdId }) => {
             </td>
           </tr>
 
-          <tr>
+          {
+            studentProInfo?.applicationInfos?.studentTypeId === 1 ?
+            <>
+              <tr>
+                <td width="40%">
+                  <b>Applied Student Finance:</b>
+                </td>
+              
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.isAppliedStudentFinance === true ? "Yes" : "No"}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Finance Application Details:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.financeApplicationDetails}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Share Code:</b>
+                </td>
+
+                <td width="60%">{studentProInfo?.applicationInfos?.code}</td>
+              </tr>
+            </>
+            :
+            studentProInfo?.applicationInfos?.studentTypeId === 2 ?
+            <>
+              <tr>
+                <td width="40%">
+                  <b>Move in UK:</b>
+                </td>
+
+                <td width="60%">
+                  {handleDate(studentProInfo?.applicationInfos?.dateOfMoveToUk)}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Stayed in Outside UK/EU Territory in Last 3 Years:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos
+                    ?.isStayedOutsideEU_UkinLast3Years === false
+                    ? "No"
+                    : "Yes"}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Pre-Settlement Status:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.isHavePre_Settlementstatus ===
+                  true
+                    ? "Yes"
+                    : "No"}
+                </td>
+              </tr>
+            </>
+            :
+            <>
+              <tr>
+                <td width="40%">
+                  <b>Applying From Inside:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.isApplyingFromInside === true ? "Yes" : "No"}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Visa Status:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.visaStatusName}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Source Of Tution Fee:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.tutionFeeSource}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Source Of Fund:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.sourceOfFund}
+                </td>
+              </tr>
+
+              <tr>
+                <td width="40%">
+                  <b>Source Of Sponsor:</b>
+                </td>
+
+                <td width="60%">
+                  {studentProInfo?.applicationInfos?.sourceOfSponsor}
+                </td>
+              </tr>
+            </>
+          }
+
+          {/* {
+            studentProInfo?.applicationInfos?.studentTypeId === 1 ?
+            <tr>
+            <td width="40%">
+              <b>Applied Student Finance:</b>
+            </td>
+
+            <td width="60%">
+              {studentProInfo?.applicationInfos?.isAppliedStudentFinance === true ? "Yes" : "No"}
+            </td>
+          </tr>
+          :
+          studentProInfo?.applicationInfos?.studentTypeId === 2 ?
+            <tr>
             <td width="40%">
               <b>Move in UK:</b>
             </td>
@@ -185,6 +324,18 @@ const ApplicationStudentProfile = ({ stdId }) => {
               {handleDate(studentProInfo?.applicationInfos?.dateOfMoveToUk)}
             </td>
           </tr>
+          :
+          <tr>
+            <td width="40%">
+              <b>Applying From Inside:</b>
+            </td>
+
+            <td width="60%">
+              {studentProInfo?.applicationInfos?.isApplyingFromInside === true ? "Yes" : "No"}
+            </td>
+          </tr>
+
+          }
 
           <tr>
             <td width="40%">
@@ -212,13 +363,18 @@ const ApplicationStudentProfile = ({ stdId }) => {
             </td>
           </tr>
 
-          <tr>
+          {
+            studentProInfo?.applicationInfos?.code !== null ?
+            <tr>
             <td width="40%">
               <b>Share Code:</b>
             </td>
 
             <td width="60%">{studentProInfo?.applicationInfos?.code}</td>
           </tr>
+          :
+          null
+          } */}
         </tbody>
       </Table>
 
@@ -1176,7 +1332,9 @@ const ApplicationStudentProfile = ({ stdId }) => {
                 : "Signed"}
             </td>
           </tr>
-          <tr>
+          {
+            consentData?.consentSignTime !== null ?
+            <tr>
             <td width="40%">
               <b>Date and Time:</b>
             </td>
@@ -1185,6 +1343,9 @@ const ApplicationStudentProfile = ({ stdId }) => {
               {handleConsentDate(consentData?.consentSignTime)}
             </td>
           </tr>
+          :
+          null
+          }
           <tr>
             <td width="40%">
               <b>IP:</b>
