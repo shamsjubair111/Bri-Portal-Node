@@ -43,6 +43,8 @@ import ButtonLoader from "../Components/ButtonLoader";
 const AddUniversityCountry = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
 
+  console.log("universitiesCountries", univerSityCountries);
+
   const [universityCountry, setUniversityCountry] = useState("");
   //   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   //   const [rawContent,setRawContent] = useState('');
@@ -182,6 +184,10 @@ const AddUniversityCountry = (props) => {
   const backToDashboard = () => {
     history.push("/");
   };
+
+  // const redirectToUniversityList = countryId =>{
+  //   history.push(`/universityListFromAddUniversityCountry/${countryId}`)
+  // }
 
   return (
     <div>
@@ -364,7 +370,7 @@ const AddUniversityCountry = (props) => {
                     <LinkSpanButton
                       url={
                         {
-                          pathname: '/universityList',
+                          pathname: `/universityListFromAddUniversityCountry/${uniCountry?.id}`,
                           universityCountry: uniCountry?.id,
                           name: uniCountry?.name
                           
@@ -375,6 +381,15 @@ const AddUniversityCountry = (props) => {
                       permission={6}
                     
                     />
+
+                      {/* <span
+                        onClick={() => redirectToUniversityList(uniCountry?.id)}
+                        className="badge badge-primary"
+                        style={{ cursor: "pointer" }}
+                      >
+                          {uniCountry?.universityCount}
+                      </span> */}
+
                     </td>
                     :
                     null

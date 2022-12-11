@@ -75,7 +75,7 @@ const AccountIntake = () => {
         get(`AccountIntake/Index`)
         .then(res => {
             setIntakeList(res);
-          
+            console.log("accIntake", res);
             setLoading(false);
 
         })
