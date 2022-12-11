@@ -16,7 +16,7 @@ import camera2 from "../../../../../assets/img/camera2.svg";
 import Chart from "react-apexcharts";
 import get from "../../../../../helpers/get";
 import { rootUrl } from "../../../../../constants/constants";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const SuperAdmin = () => {
   const [open, setOpen] = useState(false);
@@ -26,6 +26,7 @@ const SuperAdmin = () => {
   const [count, setCount] = useState({});
   const [applications, setApplications] = useState([]);
   const [consultants,setConsultants] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     get(`SystemAdminDashboard/Counting`).then((res) => {
@@ -300,144 +301,153 @@ const SuperAdmin = () => {
       {/* Status reports start */}
 
       <div className="row">
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #24A1CD" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">Total Application</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#24A1CD" }}
+        <div className="col-md-3 mb-3">
+       
+             <div className="count-card count-primary counter-h-112">
+             <div className="count-card-title">Total Application</div>
+              
+              <div
+                className="count-card-value"
+                onClick={()=>{
+                  history.push(`/applications`)
+                }}
+                style={{cursor: 'pointer'}}
               >
+              
                 {count?.totalApplication}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+               
+              </div>
+             </div>
+            
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #23CCB5" }}>
-            <CardBody>
+        <div className="col-md-3 mb-3">
+        <div className="count-card count-primary counter-h-112">
+
+      
               <span className="pvdadmin-span-style1">
                 Applications in Process
               </span>
-              <br />
+          
               <span
                 className="pvdadmin-span-style2"
-                style={{ color: "#23CCB5" }}
+                style={{ color: "#23CCB5", cursor: 'pointer' }}
+                onClick={()=>{
+                  history.push(`/applicationsByStatus/${2}/${1}`);
+                }}
               >
                 {count?.totalApplicationInProgress}
               </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+          
+              </div>
+        
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #AE75F8" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">Unconditional Offer</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#AE75F8" }}
-              >
-                {count?.totalUnconditionalOffer}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+   
+             <div className="count-card counter-h-112" style={{ border: "0.5px solid #AE75F8" }}>
+             <span className="pvdadmin-span-style1">Unconditional Offer</span>
+       
+       <span
+         className="pvdadmin-span-style2"
+         style={{ color: "#AE75F8", cursor: 'pointer' }}
+         onClick={()=>{
+          history.push(`/applicationsByStatus/${2}/${2}`);
+        }}
+       >
+         {count?.totalUnconditionalOffer}
+       </span>
+             </div>
+          
+        
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #F7BD12 " }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">Total Registered</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#F7BD12" }}
-              >
-                {count?.totalRegistered}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+       <div className="count-card counter-h-112" style={{ border: "0.5px solid #F7BD12 " }}>
+       <span className="pvdadmin-span-style1">Total Registered</span>
+         
+         <span
+           className="pvdadmin-span-style2"
+           style={{ color: "#F7BD12", cursor: 'pointer' }}
+           onClick={()=>{
+            history.push(`/applicationsByStatus/${2}/${3}`);
+           }}
+         >
+           {count?.totalRegistered}
+         </span>
+       </div>
+             
+           
+        
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #F87675" }}>
-            <CardBody>
+        <div className="col-md-3 mb-3">
+              <div className="count-card counter-h-112" style={{ border: "0.5px solid #F87675" }}>
               <span className="pvdadmin-span-style1">Rejected / Cancelled</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#F87675" }}
-              >
-                {count?.totalRejected}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+   
+   <span
+     className="pvdadmin-span-style2"
+     style={{ color: "#F87675" }}
+   >
+     {count?.totalRejected}
+   </span>
+ 
+
+              </div>
+          
+          
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #707070" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">
+        <div className="col-md-3 mb-3">
+        <div className="count-card counter-h-112" style={{ border: "0.5px solid #707070" }}>
+        <span className="pvdadmin-span-style1">
                 Withdrawn Application
               </span>
-              <br />
+            
               <span
                 className="pvdadmin-span-style2"
                 style={{ color: "#707070" }}
               >
                 {count?.totalWithdrawn}
               </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+
+        </div>
+            
+  
+           
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #5BC973" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">New Students</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#5BC973" }}
-              >
-                {count?.totalNewStudent}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+       <div className="count-card counter-h-112" style={{ border: "0.5px solid #5BC973" }}>
+       <span className="pvdadmin-span-style1">New Students</span>
+           
+           <span
+             className="pvdadmin-span-style2"
+             style={{ color: "#5BC973" }}
+           >
+             {count?.totalNewStudent}
+           </span>
+       </div>
+             
+            
+            
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #8DC8FF" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">New Consultants</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#8DC8FF" }}
-              >
-                {count?.totalNewConsultant}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+         <div className="count-card counter-h-112" style={{ border: "0.5px solid #8DC8FF" }}>
+
+         <span className="pvdadmin-span-style1">New Consultants</span>
+          
+          <span
+            className="pvdadmin-span-style2"
+            style={{ color: "#8DC8FF" }}
+          >
+            {count?.totalNewConsultant}
+          </span>
+         </div>
+             
+            
+            
         </div>
       </div>
 

@@ -21,12 +21,14 @@ import {
 import { Drawer } from 'antd';
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
+import { useHistory } from 'react-router-dom';
 
 
 const AdmissionManager = () => {
 
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
   const [open, setOpen] = useState(false);
+  const history = useHistory();
   const [options,setOptions] = useState({plotOptions: {
     pie: {
       donut: {
@@ -310,97 +312,101 @@ const AdmissionManager = () => {
 
             <div className='row'>
 
-            <div className='col-md-2'>
-              <Card style={{border: '0.5px solid #24A1CD'}}>
-
-                <CardBody>
-
+            <div className='col-md-2 mb-3'>
+            
+                  <div className='count-card counter-h-112' style={{border: '0.5px solid #24A1CD'}}>
                   <span className='pvdadmin-span-style1'>Total Application</span>
-                  <br/>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
-                  <br/>
                 
-                </CardBody>
-              </Card>
+                <span className='pvdadmin-span-style2' onClick={()=>{
+                  history.push(`/applications`)
+                }} style={{color: '#24A1CD',cursor: 'pointer'}}>{count?.totalApplication}</span>
 
-            </div>
-
-            <div className='col-md-2'>
-              <Card style={{border: '0.5px solid #23CCB5'}}>
-
-                <CardBody>
-
-                  <span className='pvdadmin-span-style1'>Applications in Process</span>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
-                  <br/>
+                  </div>
+                 
                 
-                </CardBody>
-              </Card>
+                
+         
 
             </div>
 
-            <div className='col-md-2'>
-              <Card style={{border: '0.5px solid #AE75F8'}}>
+            <div className='col-md-2 mb-3'>
+             <div className='count-card counter-h-112' style={{border: '0.5px solid #23CCB5'}}>
 
-                <CardBody>
 
-                  <span className='pvdadmin-span-style1'>Unconditional Offer</span>
-                  <br/>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
-                  <br/>
+             <span className='pvdadmin-span-style1'>Applications in Process</span>
+            
+            <span className='pvdadmin-span-style2'  onClick={()=>{
+                  history.push(`/applicationsByStatus/${2}/${1}`);
+                }} style={{color: '#23CCB5', cursor: 'pointer'}}>{count?.totalApplicationInProgress}</span>
+             </div>
+
+                 
+                
+             
+            </div>
+
+            <div className='col-md-2 mb-3'>
+            
+              <div className='count-card counter-h-112' style={{border: '0.5px solid #AE75F8'}}>
+              <span className='pvdadmin-span-style1'>Unconditional Offer</span>
+                 
+                 <span className='pvdadmin-span-style2' style={{color: '#AE75F8', cursor: 'pointer'}} onClick={()=>{
+          history.push(`/applicationsByStatus/${2}/${2}`);
+        }}>{count?.totalUnconditionalOffer}</span>
+
+              </div>
                   
-                </CardBody>
-              </Card>
-
-            </div>
-
-            <div className='col-md-2'>
-              <Card style={{border: '0.5px solid #F87675'}}>
-
-                <CardBody>
-
-                  <span className='pvdadmin-span-style1'>Total Registered</span>
-                  <br/>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRegistered}</span>
-                  <br/>
+             
                   
-                </CardBody>
-              </Card>
+             
 
             </div>
 
-            <div className='col-md-2'>
-              <Card style={{border: '0.5px solid #F7BD12'}}>
+            <div className='col-md-2 mb-3'>
+            <div className='count-card counter-h-112' style={{border: '0.5px solid #F87675'}}>
+            <span className='pvdadmin-span-style1'>Total Registered</span>
+               
+               <span className='pvdadmin-span-style2' onClick={()=>{
+            history.push(`/applicationsByStatus/${2}/${3}`);
+           }} style={{color: '#F87675', cursor: 'pointer'}
+              
+              }>{count?.totalRegistered}</span>
 
-                <CardBody>
+            </div>
 
-                  <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
-                  <br/>
+                 
+              
            
-                  <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRejected}</span>
-                  
-                  
-                </CardBody>
-              </Card>
 
             </div>
 
-            <div className='col-md-2'>
-              <Card style={{border: '0.5px solid #707070'}}>
+            <div className='col-md-2 mb-3'>
+           <div className='count-card counter-h-112' style={{border: '0.5px solid #F7BD12'}}>
 
-                <CardBody>
+           <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
+      
+           
+      <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRejected}</span>
+           </div>
 
-                  <span className='pvdadmin-span-style1'>Withdrawn Application</span>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
-                  <br/>
+                 
+                  
+                  
+            
+
+            </div>
+
+            <div className='col-md-2 mb-3'>
+              <div className='count-card counter-h-112' style={{border: '0.5px solid #707070'}}>
+              <span className='pvdadmin-span-style1'>Withdrawn Application</span>
+          
+          <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
+              </div>
+
                 
-                </CardBody>
-              </Card>
+           
+                
+               
 
             </div>
 

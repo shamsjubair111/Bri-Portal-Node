@@ -1886,3 +1886,36 @@ border-radius: 12px;
   font-size: 20px;
 }
 /* Withdraw Request Invoice pdf style end */
+
+.count-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
+  border-radius: 7px;
+  padding:17px 15px;
+}
+.count-card-title{
+    font-size: 13px;
+    color: #495057!important;
+    font-weight: 500;
+}
+.count-card-value{
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.count-primary{
+  border: 0.5px solid #24A1CD;
+  color: #24A1CD;
+}
+/* .value-primary{
+} */
+/*counter height */
+.counter-h-112{
+  height: 112px;
+}
+
+.counter-h-1122{
+  height: 136px;
+}

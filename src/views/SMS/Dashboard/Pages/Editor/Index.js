@@ -294,72 +294,69 @@ const Editor = () => {
       {/* Status reports start */}
 
       <div className="row mt-3">
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #24A1CD" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">Total University</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#24A1CD" }}
-              >
-                {count?.universityCount}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+        <div className="count-card counter-h-112" style={{ border: "0.5px solid #24A1CD" }}>
+
+        <span className="pvdadmin-span-style1">Total University</span>
+          
+          <span
+            className="pvdadmin-span-style2"
+            style={{ color: "#24A1CD" }}
+          >
+            {count?.universityCount}
+          </span>
+        </div>
+           
+            
+          
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #23CCB5" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">Total Subjects</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#23CCB5" }}
-              >
-                {count?.subjectCount}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+        <div className="count-card counter-h-112" style={{ border: "0.5px solid #23CCB5" }}>
+        <span className="pvdadmin-span-style1">Total Subjects</span>
+                  
+                  <span
+                    className="pvdadmin-span-style2"
+                    style={{ color: "#23CCB5" }}
+                  >
+                    {count?.subjectCount}
+                  </span>
+        </div>
+             
+             
+          
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #AE75F8" }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">Total Providers</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#AE75F8" }}
-              >
-                {count?.providerCount}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+       <div style={{ border: "0.5px solid #AE75F8" }} className='count-card counter-h-112'>
+       <span className="pvdadmin-span-style1">Total Providers</span>
+         
+         <span
+           className="pvdadmin-span-style2"
+           style={{ color: "#AE75F8" }}
+         >
+           {count?.providerCount}
+         </span>
+       </div>
+             
+             
+          
         </div>
 
-        <div className="col-md-3">
-          <Card style={{ border: "0.5px solid #F7BD12 " }}>
-            <CardBody>
-              <span className="pvdadmin-span-style1">Total Students</span>
-              <br />
-              <span
-                className="pvdadmin-span-style2"
-                style={{ color: "#F7BD12" }}
-              >
-                {count?.studentCount}
-              </span>
-              <br />
-              <br />
-            </CardBody>
-          </Card>
+        <div className="col-md-3 mb-3">
+     <div style={{ border: "0.5px solid #F7BD12 " }} className='count-card counter-h-112'>
+     <span className="pvdadmin-span-style1">Total Students</span>
+          
+          <span
+            className="pvdadmin-span-style2"
+            style={{ color: "#F7BD12" }}
+          >
+            {count?.studentCount}
+          </span>
+     </div>
+            
+          
+        
         </div>
       </div>
 

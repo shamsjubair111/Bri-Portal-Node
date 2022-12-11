@@ -137,7 +137,8 @@ const ApplicationsCommon = () => {
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
-  const { consultantId, universityId } = useParams();
+  const { consultantId, universityId, status, selector } = useParams();
+  
  
   const permissions = JSON?.parse(localStorage.getItem("permissions"));
 
@@ -415,7 +416,49 @@ const ApplicationsCommon = () => {
         setEntity(res?.totalEntity);
         // setSerialNumber(res?.firstSerialNumber);
       });
-    } else {
+    }
+    else if(status && selector){
+     if(selector == 1){
+       get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${status}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setEntity(res?.totalEntity);
+        setApplicationList(res?.models);
+        setApplicationValue(status);
+        setApplicationLabel(res?.models[0]?.applicationStatusName);
+      
+      });
+     }
+     else if(selector == 2){
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${status}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setEntity(res?.totalEntity);
+        setApplicationList(res?.models);
+        setOfferValue(status);
+        setOfferLabel(res?.models[0]?.offerStatusName);
+      
+      });
+     }
+     else if(selector == 3){
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${status}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setEntity(res?.totalEntity);
+        setApplicationList(res?.models);
+        setEnrollValue(status);
+        setEnrollLabel(res?.models[0]?.enrollmentStatusName);
+      
+      });
+     }
+
+    }
+    
+    
+    else {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
@@ -664,6 +707,7 @@ const ApplicationsCommon = () => {
                 placeholder="Status"
                 name="name"
                 id="id"
+                isDisabled={selector == 1 ? true : false}
               />
             </Col>
 
@@ -675,6 +719,7 @@ const ApplicationsCommon = () => {
                 placeholder="Offer"
                 name="name"
                 id="id"
+                isDisabled={selector == 2 ? true : false}
               />
             </Col>
 
@@ -686,6 +731,7 @@ const ApplicationsCommon = () => {
                 placeholder="Enrolment st..."
                 name="name"
                 id="id"
+                isDisabled={selector == 3 ? true : false}
               />
             </Col>
 

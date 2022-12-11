@@ -287,71 +287,64 @@ const AccountManager = () => {
 
                   <div className='row mt-2'>
 
-                    <div className='col-md-6'>
+                    <div className='col-md-6 mb-3'>
 
-                    <Card style={{border: '0.5px solid #24A1CD', height: '136px'}}>
+              
+                    <div className='count-card counter-h-1122'   style={{border: '0.5px solid #24A1CD'}}>
+                    <span className='pvdadmin-span-style1'>Total Transactions</span>
+                        
+                                
+                        <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.accountTransaction}</span>
+                    </div>
+                     
+                 
 
-                    <CardBody>
-
-                      <span className='pvdadmin-span-style1'>Total Transactions</span>
-                      <br/>
-                      <br/>
-                      <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.accountTransaction}</span>
-                      <br/>
-
-                    </CardBody>
-                    </Card>
 
                     </div>
 
-                    <div className='col-md-6'>
+                    <div className='col-md-6 mb-3'>
 
-                    <Card style={{border: '0.5px solid #F87675', height: '136px'}}>
-
-                    <CardBody>
-
+                      <div className='count-card counter-h-1122'  style={{border: '0.5px solid #F87675'}}>
                       <span className='pvdadmin-span-style1'>App Transactions</span>
-                      <br/>
-                      <br/>
-                      <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.applicationTransaction}</span>
-                      <br/>
+                  
+                  <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.applicationTransaction}</span>
 
-                    </CardBody>
-                    </Card>
+                      </div>
 
-                    </div>
 
-                    <div className='col-md-6'>
+                 
+                
 
-                    <Card style={{border: '0.5px solid #23CCB5', height: '136px'}}>
-
-                    <CardBody>
-
-                      <span className='pvdadmin-span-style1'>Total Withdrawn</span>
-                      <br/>
-                      <br/>
-                      <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.withdrawTransaction}</span>
-                      <br/>
-
-                    </CardBody>
-                    </Card>
 
                     </div>
 
-                    <div className='col-md-6'>
+                    <div className='col-md-6 mb-3'>
 
-                    <Card style={{border: '0.5px solid #AE75F8', height: '136px'}}>
+            <div style={{border: '0.5px solid #23CCB5', height: '136px'}} className='count-card count-h-1122'>
+            <span className='pvdadmin-span-style1'>Total Withdrawn</span>
+              
+              <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.withdrawTransaction}</span>
+            </div>
 
-                    <CardBody>
+                   
+                 
 
-                      <span className='pvdadmin-span-style1'>Total Bonus Transactions</span>
-                      <br/>
-                      <br/>
-                      <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.bonusTransaction}</span>
-                      <br/>
+                 
+                    </div>
 
-                    </CardBody>
-                    </Card>
+                    <div className='col-md-6 mb-3'>
+
+         <div className='count-card counter-h-1122' style={{border: '0.5px solid #AE75F8'}}>
+
+         <span className='pvdadmin-span-style1'>Total Bonus Transactions</span>
+                  
+                  <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.bonusTransaction}</span>
+
+         </div>
+
+                    
+        
+
 
                     </div>
 

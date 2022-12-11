@@ -65,6 +65,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
   const [elptDD, setElptDD] = useState([]);
   const [financeDD, setFinanceDD] = useState([]);
   const permissions = JSON.parse(localStorage.getItem("permissions"));
+  const {status,selector} = useParams();
 
   // for admission manager
   const [managerUappIdDD, setManagerUappIdDD] = useState([]);
@@ -418,6 +419,10 @@ const AdmissionManagerApplication = ({ currentUser }) => {
   
 
     if (currentUser != undefined) {
+
+      if(status && selector){
+        
+      }
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {

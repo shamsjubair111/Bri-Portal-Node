@@ -778,6 +778,8 @@ class AppRouter extends React.Component {
          {/* Applications */}
          <AppRoute  path="/applications" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
 
+         <AppRoute  path="/applicationsByStatus/:status/:selector" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
+
          <AppRoute  path="/applicationsFromConsultant/:consultantId" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
 
          <AppRoute  path="/applicationsFromUniversity/:universityId" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
