@@ -95,7 +95,7 @@ const StudentProfile = () => {
       get(`StudentConsent/Get/${sId}`)
         .then(res =>{ 
           
-           
+            console.log("consentdata", res);
             setConscentData(res);
             setLoading(false);
         })
@@ -2191,7 +2191,8 @@ const StudentProfile = () => {
                       <div className="mb-1 text-left ms-md-4  ">
                   
                  
-                  <span>Conscent Signed on: <span className=""> {handleDate(conscentData?.consentSignTime)}</span></span>
+                  <span>Conscent Signed on: <span className=""> {conscentData?.consentSignTime !== null ?
+                    handleDate(conscentData?.consentSignTime) : null}</span></span>
                     <br/>
                   <span>Conscent Signed From Ip:<span className=""> {conscentData?.consentFromIp}</span></span>
            
@@ -2230,7 +2231,8 @@ const StudentProfile = () => {
                <div className="notice-description"> 
                    <span>Consent Signed On, </span>
                    <br/>
-                   <span>Date: {handleDate(conscentData?.consentSignTime)} </span>
+                   <span>Date: {conscentData?.consentSignTime !== null ? handleDate(conscentData?.consentSignTime)
+                   : null} </span>
                    <br/>
                    <span>From Ip: {conscentData?.consentFromIp}</span>
                    <div className="text-center mt-2">
