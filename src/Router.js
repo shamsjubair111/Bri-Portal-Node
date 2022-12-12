@@ -700,6 +700,9 @@ class AppRouter extends React.Component {
          <AppRoute  path="/addUniversityGallery/:univerId" component={permissions?.includes(permissionList?.Add_New_Universitygallery)? AddUniversityGallery: NotAuthorized} />
          <AppRoute  path="/addProviderUniversityGallery/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_Universitygallery)? AddProviderUniversityGallery: NotAuthorized} />
          <AppRoute  path="/universityList" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
+         <AppRoute  path="/universityListFromAddUniversityCountry/:counId" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
+         <AppRoute  path="/universityListFromUniversityTypes/:univerTypeId" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
+         <AppRoute  path="/universityListFromProviderList/:provideId" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
          <AppRoute  path="/universityDetails/:id" component={permissions?.includes(permissionList?.View_University_info)? UniversityDetails : NotAuthorized} />
          <AppRoute  path="/campusList/:uniId?" component={permissions?.includes(permissionList?.View_UniversityCampus_List)? CampusList : NotAuthorized } />
          <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.View_university_campus_subject_List)? CampusSubjectList : NotAuthorized} />

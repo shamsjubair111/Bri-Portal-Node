@@ -257,7 +257,7 @@ const ApplicationDetails = () => {
           </Card>
         </Col>
 
-        <Col md="5">
+        <Col md="5" className="mb-5">
           <Card>
             <CardBody>
               <div className="hedding-titel d-flex justify-content-between">
@@ -466,7 +466,7 @@ const ApplicationDetails = () => {
 
             <div className="d-flex justify-content-end mt-2">
           
-              <Button type="submit" color="primary">Submit</Button>
+              <Button type="submit" color="primary">Save</Button>
             
             </div>
 

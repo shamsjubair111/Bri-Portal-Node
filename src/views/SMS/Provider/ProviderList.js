@@ -705,7 +705,7 @@ const ProviderList = () => {
                         <td>
                           <Link
                             to={{
-                              pathname: "/universityList",
+                              pathname: `/universityListFromProviderList/${prov?.id}`,
                               providerName: prov?.name,
                               providervalue: prov?.id,
                             }}

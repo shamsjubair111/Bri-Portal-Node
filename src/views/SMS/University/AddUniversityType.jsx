@@ -398,7 +398,7 @@ const closeDeleteModal = () => {
                     <LinkSpanButton
                       url={
                         {
-                          pathname: '/universityList',
+                          pathname: `/universityListFromUniversityTypes/${uniType?.id}`,
                           universityType: uniType?.id,
                           universityName: uniType?.name,
                         }

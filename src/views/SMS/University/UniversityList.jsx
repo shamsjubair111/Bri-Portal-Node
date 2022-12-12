@@ -22,7 +22,7 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import Pagination from "../../SMS/Pagination/Pagination.jsx";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import uapploader from '../../../assets/img/Uapp_fav.png';
 import get from "../../../helpers/get.js";
 import { rootUrl } from "../../../constants/constants.js";
@@ -114,6 +114,9 @@ const UniversityList = (props) => {
   // 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
+  const {counId, univerTypeId, provideId} = useParams();
+
+
   useEffect(() => {
     // get("University/GetAll").then((res) => {
     //   // setUList(res);
@@ -142,125 +145,110 @@ const UniversityList = (props) => {
   
 
   useEffect(() => {
-    const uCountryId = 0;
-    const uStateId = 0;
-    const uTypeId =
-      uniTypeValue !== 0
-        ? uniTypeValue
-        : typeof location.universityType !== undefined ||
-          location.universityType !== null
-        ? location.universityType
-        : 0;
-    const providerId =
-      providerValue !== 0
-        ? providerValue
-        : typeof location.providervalue !== undefined ||
-          location.providervalue !== null
-        ? location.providervalue
-        : 0;
 
-    const countryId =
-      uniCountryValue !== 0
-        ? uniCountryValue
-        : typeof location?.universityCountry !== undefined ||
-          location?.universityCountry !== null
-        ? location?.universityCountry
-        : 0;
-
-    if (uTypeId !== 0) {
-      var unitype = universityTypes?.find((s) => s.id === uTypeId);
-
-      if (unitype === undefined) {
-        setUniTypeLabel("Type");
-      } else {
-        setUniTypeLabel(unitype?.name);
-        setUniTypeValue(uTypeId);
-      }
+    if(counId !== undefined){
+      get(
+        `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
+          providerValue
+        }&universityCountryId=${
+          counId
+        }&universityStateId=${
+          unistateValue
+        }&universityTypeId=${
+          uniTypeValue
+        }&search=${searchStr}&orderId=${orderValue}`
+      ).then((action) => {
+        setUniversityList(action?.models);
+  
+        setLoading(false);
+        setEntity(action?.totalEntity);
+        setSerialNum(action?.firstSerialNumber);
+        setLoading(false);
+        setUniCountryLabel(action?.models.length !== 0 ? action?.models[0]?.universityCountry?.name
+          : "");
+        setUniCountryValue(counId);
+      });
+    }
+    else if(univerTypeId !== undefined){
+      get(
+        `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
+          providerValue
+        }&universityCountryId=${
+          uniCountryValue
+        }&universityStateId=${
+          unistateValue
+        }&universityTypeId=${
+          univerTypeId
+        }&search=${searchStr}&orderId=${orderValue}`
+      ).then((action) => {
+        setUniversityList(action?.models);
+  
+        setLoading(false);
+        setEntity(action?.totalEntity);
+        setSerialNum(action?.firstSerialNumber);
+        setLoading(false);
+        setUniTypeLabel(action?.models[0]?.universityType?.name);
+        setUniTypeValue(univerTypeId);
+      });
+    }
+    else if(provideId !== undefined){
+      get(
+        `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
+          provideId
+        }&universityCountryId=${
+          uniCountryValue
+        }&universityStateId=${
+          unistateValue
+        }&universityTypeId=${
+          uniTypeValue
+        }&search=${searchStr}&orderId=${orderValue}`
+      ).then((action) => {
+        setUniversityList(action?.models);
+  
+        setLoading(false);
+        setEntity(action?.totalEntity);
+        setSerialNum(action?.firstSerialNumber);
+        setLoading(false);
+        setProviderLabel(action?.models[0]?.provider?.name);
+        setProviderValue(univerTypeId);
+      });
+    }
+    else{
+      get(
+        `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
+          providerValue
+        }&universityCountryId=${
+          uniCountryValue
+        }&universityStateId=${
+          unistateValue
+        }&universityTypeId=${
+          uniTypeValue
+        }&search=${searchStr}&orderId=${orderValue}`
+      ).then((action) => {
+        setUniversityList(action?.models);
+        setLoading(false);
+        setEntity(action?.totalEntity);
+        setSerialNum(action?.firstSerialNumber);
+        setLoading(false);
+      });
     }
 
-    if (countryId !== 0) {
-      var country = univerSityCountries?.find((s) => s.id === countryId);
-
-      if (country === undefined) {
-        setUniCountryLabel("Country");
-      } else {
-        setUniCountryLabel(country?.name);
-        setUniCountryValue(countryId);
-        searchStateByCountry(countryId);
-      }
-    }
-
-    // if(location?.universityCountry != undefined){
-    //   setUniCountryValue(location?.universityCountry);
-    // }
-    // else{
-    //   setUniCountryValue(0);
-    // }
-
-    // if(location?.name != undefined){
-    //   setUniCountryLabel(location?.name);
-    // }
-    // else{
-    //   setUniCountryLabel('Country');
-    // }
-
-    if (providerId !== 0) {
-      var providertype = providerDataResult?.find((p) => p.id === providerId);
-
-      
-
-      if (providertype === undefined) {
-        //  setProviderLabel('Provider');
-      } else {
-        setProviderLabel(providertype?.name);
-        setProviderValue(providerId);
-      }
-    }
-
-    // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
-
-    //     setProviderValue(res != 0 ? res : 0);
-    //     if(res != 0){
-    //       localStorage.setItem("providerValue", res);
-    //     }
-    // })
-
-    get(
-      `University/Index?page=${currentPage}&pagesize=${dataPerPage}&providerId=${
-        providerId ? providerId : providerValue
-      }&universityCountryId=${
-        countryId ? countryId : uniCountryValue
-      }&universityStateId=${
-        uStateId ? uStateId : unistateValue
-      }&universityTypeId=${
-        uTypeId ? uTypeId : uniTypeValue
-      }&search=${searchStr}&orderId=${orderValue}`
-    ).then((action) => {
-      setUniversityList(action?.models);
-      
-
-      setLoading(false);
-      setEntity(action?.totalEntity);
-      setSerialNum(action?.firstSerialNumber);
-      setLoading(false);
-    });
+    
   }, [
     currentPage,
     dataPerPage,
-    location.providervalue,
-    location.universityType,
     searchStr,
     uniCountryValue,
     uniTypeValue,
     unistateValue,
-    universityTypes,
+    // universityTypes,
     orderValue,
     providerValue,
-    referenceId,
-    userType,
+    // referenceId,
+    // userType,
     entity,
-    location.name,
-    location.universityCountry,
+    // location.name,
+    // location.universityCountry,
     success,
     // serialNum
   ]);
@@ -348,11 +336,11 @@ const UniversityList = (props) => {
 
   // redirect to dashboard
   const backToDashboard = () => {
-    if (location?.universityCountry != undefined) {
+    if (counId != undefined) {
       history.push("/UniversityCountry");
-    } else if (location.universityType != undefined) {
+    } else if (univerTypeId != undefined) {
       history.push("/UniversityTypes");
-    } else if (location.providervalue != undefined) {
+    } else if (provideId != undefined) {
       history.push("/providerList");
     } else {
       history.push("/");
@@ -606,11 +594,11 @@ const UniversityList = (props) => {
             <span onClick={backToDashboard} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {location?.universityCountry != undefined
+              {counId !== undefined
                 ? "Back to University Countries"
-                : location.universityType != undefined
+                : univerTypeId !== undefined
                 ? "Back to University Types"
-                : location.providervalue != undefined
+                : provideId !== undefined
                 ? "Back to Provider List"
                 : "Back to Dashboard"}
             </span>
@@ -640,6 +628,7 @@ const UniversityList = (props) => {
                 onChange={(opt) => selectUniType(opt.label, opt.value)}
                 name="UniversityTypeId"
                 id="UniversityTypeId"
+                isDisabled={univerTypeId !== undefined ? true : false}
               />
             </Col>
 
@@ -650,6 +639,7 @@ const UniversityList = (props) => {
                 onChange={(opt) => selectUniCountry(opt.label, opt.value)}
                 name="UniversityCountryId"
                 id="UniversityCountryId"
+                isDisabled={counId !== undefined ? true : false}
               />
             </Col>
 
@@ -674,6 +664,7 @@ const UniversityList = (props) => {
                   onChange={(opt) => selectProviderState(opt.label, opt.value)}
                   name="providerId"
                   id="providerId"
+                  isDisabled={provideId !== undefined ? true : false}
                 />
               </Col>
             ) : null}
