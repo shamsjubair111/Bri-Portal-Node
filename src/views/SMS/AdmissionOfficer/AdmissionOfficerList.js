@@ -829,7 +829,7 @@ const AdmissionOfficerList = () => {
     <div>
       {loading ? (
         <div className="text-center">
-          <img src={loader} className="img-fluid" />
+          <img src={loader} alt="" className="img-fluid" />
         </div>
       ) : (
         <div>

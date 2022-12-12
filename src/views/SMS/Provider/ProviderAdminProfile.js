@@ -38,7 +38,6 @@ const ProviderAdminProfile = () => {
 
         get(`ProviderAdmin/Profile/${providerAdminId}`)
         .then(res =>{
-            
             setData(res);
             setLoading(false);
         })
@@ -172,7 +171,7 @@ const ProviderAdminProfile = () => {
           <div className="uapp-circle-image margin-top-minus">
          
             <div className='profile-pic1'>
-                   <img src={data?.providerAdminMedia?.fileUrl == null ? user : rootUrl+data?.providerAdminMedia?.fileUrl} className='img-fluid'  alt='provider_image' />
+                   <img src={data?.providerAdminMedia?.fileUrl == null ? user : rootUrl+data?.providerAdminMedia?.thumbnailUrl} className='img-fluid'  alt='provider_image' />
                
                   <div className="edit1"><span  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span></div>
                 
