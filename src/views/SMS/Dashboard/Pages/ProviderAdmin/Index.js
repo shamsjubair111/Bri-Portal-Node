@@ -205,61 +205,55 @@ const ProviderAdmin = () => {
 
            <div className='row'>
 
-            <div className='col-md-3'>
-              <Card style={{border: '0.5px solid #24A1CD'}}>
+            <div className='col-md-3 mb-3'>
+             
+            <div className='count-card counter-h-112' style={{border: '0.5px solid #24A1CD'}}>
+            <span className='pvdadmin-span-style1'>Total Application</span>
+              
+              <span className='pvdadmin-span-style2'  style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
 
-                <CardBody>
-
-                  <span className='pvdadmin-span-style1'>Total Application</span>
-                  <br/>
-                  <span className='pvdadmin-span-style2'  style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
-                  <br/>
-                  <br/>
-                </CardBody>
-              </Card>
+            </div>
+                  
+                
+              
 
             </div>
 
-            <div className='col-md-3'>
-              <Card style={{border: '0.5px solid #23CCB5'}}>
+            <div className='col-md-3 mb-3'>
+           <div className='count-card counter-h-112' style={{border: '0.5px solid #23CCB5'}}>
+           <span className='pvdadmin-span-style1'>Universities</span>
+               
+               <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.universities}</span>
+           </div>
 
-                <CardBody>
-
-                  <span className='pvdadmin-span-style1'>Universities</span>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.universities}</span>
-                  <br/>
-                  <br/>
-                </CardBody>
-              </Card>
+                 
+             
+             
 
             </div>
-            <div className='col-md-3'>
-              <Card style={{border: '0.5px solid #AE75F8'}}>
+            <div className='col-md-3 mb-3'>
+              <div className='count-card counter-h-112' style={{border: '0.5px solid #AE75F8'}}>
+              <span className='pvdadmin-span-style1'>Admission Managers</span>
+           
+           <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.admissionmanagers}</span>
 
-                <CardBody>
+              </div>
 
-                  <span className='pvdadmin-span-style1'>Admission Managers</span>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.admissionmanagers}</span>
-                  <br/>
-                  <br/>
-                </CardBody>
-              </Card>
+                 
+              
+             
 
             </div>
-            <div className='col-md-3'>
-              <Card style={{border: '0.5px solid #F7BD12'}}>
+            <div className='col-md-3 mb-3'>
+             <div style={{border: '0.5px solid #F7BD12'}} className='count-card counter-h-112'>
+             <span className='pvdadmin-span-style1'>Admission Officers</span>
+            
+            <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.admissionofficers}</span>
 
-                <CardBody>
-
-                  <span className='pvdadmin-span-style1'>Admission Officers</span>
-                  <br/>
-                  <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.admissionofficers}</span>
-                  <br/>
-                  <br/>
-                </CardBody>
-              </Card>
+             </div>
+                 
+               
+           
 
             </div>
 

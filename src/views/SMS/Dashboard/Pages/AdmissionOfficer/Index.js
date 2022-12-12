@@ -301,98 +301,91 @@ const AdmissionOfficer = () => {
 
         <div className='row'>
 
-        <div className='col-md-2'>
-          <Card style={{border: '0.5px solid #24A1CD'}}>
-
-            <CardBody>
-
-              <span className='pvdadmin-span-style1'>Total Application</span>
-              <br/>
-              <br/>
-              <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication
-              }</span>
-              <br/>
+        <div className='col-md-2 mb-3'>
+       <div style={{border: '0.5px solid #24A1CD'}} className='count-card counter-h-112'>
+       <span className='pvdadmin-span-style1'>Total Application</span>
             
-            </CardBody>
-          </Card>
+            <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication
+            }</span>
+
+       </div>
+
+              
+       
+   
 
         </div>
 
-        <div className='col-md-2'>
-          <Card style={{border: '0.5px solid #23CCB5'}}>
+        <div className='col-md-2 mb-3'>
+          
+          <div style={{border: '0.5px solid #23CCB5'}} className='count-card counter-h-112'>
+          <span className='pvdadmin-span-style1'>Applications in Process</span>
+          
+          <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
+          </div>
 
-            <CardBody>
-
-              <span className='pvdadmin-span-style1'>Applications in Process</span>
-              <br/>
-              <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
-              <br/>
+              
+   
             
-            </CardBody>
-          </Card>
+          
 
         </div>
 
-        <div className='col-md-2'>
-          <Card style={{border: '0.5px solid #AE75F8'}}>
-
-            <CardBody>
-
-              <span className='pvdadmin-span-style1'>Unconditional Offer</span>
-              <br/>
-              <br/>
-              <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
-              <br/>
+        <div className='col-md-2 mb-3'>
+            <div className='count-card counter-h-112' style={{border: '0.5px solid #AE75F8'}}>
               
-            </CardBody>
-          </Card>
+            <span className='pvdadmin-span-style1'>Unconditional Offer</span>
+           
+           <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
 
-        </div>
+            </div>
 
-        <div className='col-md-2'>
-          <Card style={{border: '0.5px solid #F7BD12'}}>
-
-            <CardBody>
-
-              <span className='pvdadmin-span-style1'>Total Registered</span>
-              <br/>
-              <br/>
-              <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
-              <br/>
+      
               
-            </CardBody>
-          </Card>
+       
 
         </div>
 
-        <div className='col-md-2'>
-          <Card style={{border: '0.5px solid #F87675'}}>
+        <div className='col-md-2 mb-3'>
+         <div style={{border: '0.5px solid #F7BD12'}} className='count-card counter-h-112'>
+         <span className='pvdadmin-span-style1'>Total Registered</span>
+           
+           <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
+         </div>
 
-            <CardBody>
-
-              <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
-              <br/>
-              <br/>
-              <span className='pvdadmin-span-style2'  style={{color: '#F87675'}}>{count?.totalRejected}</span>
-              <br/>
+             
+           
               
-            </CardBody>
-          </Card>
+         
 
         </div>
 
-        <div className='col-md-2'>
-          <Card style={{border: '0.5px solid #707070'}}>
+        <div className='col-md-2 mb-3'>
+        
+          <div style={{border: '0.5px solid #F87675'}} className='count-card counter-h-112'>
+          <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
+            
+            <span className='pvdadmin-span-style2'  style={{color: '#F87675'}}>{count?.totalRejected}</span>
+          </div>
+             
+          
+              
+         
 
-            <CardBody>
+        </div>
 
-              <span className='pvdadmin-span-style1'>Withdrawn Application</span>
-              <br/>
+        <div className='col-md-2 mb-3'>
+          <div style={{border: '0.5px solid #707070'}} className='count-card counter-h-112'>
+
+          <span className='pvdadmin-span-style1'>Withdrawn Application</span>
+              
               <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
-              <br/>
+          </div>
+
             
-            </CardBody>
-          </Card>
+             
+            
+          
 
         </div>
 

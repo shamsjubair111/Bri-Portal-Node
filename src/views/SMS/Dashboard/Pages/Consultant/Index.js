@@ -332,87 +332,93 @@ const Consultant = () => {
 
             <div className='col-md-9'>
               <div className='row'>
-                <div className='col-md-4'>
-                  <Card style={{border: '0.5px solid #24A1CD'}}>
-                    <CardBody>
-                      <span className='application-count-style'>TOTAL APPLICATION</span>
-                      <br/>
+                <div className='col-md-4 mb-3'>
+                  <div style={{border: '0.5px solid #24A1CD'}} className='count-card counter-h-112'>
+                  <span className='application-count-style'>TOTAL APPLICATION</span>
+           
                       
-                      <span className='application-count-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
-                      <br/>
-                   
-                    </CardBody>
-                  </Card>
+           <span className='application-count-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
 
-                </div>
-
-                <div className='col-md-4'>
-                  <Card style={{border: '0.5px solid #23CCB5'}}>
-                    <CardBody>
-                      <span className='application-count-style'>APPLICATION IN PROCESS</span>
-                      <br/>
-                      
-                      <span className='application-count-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
-                      <br/>
-                   
-                    </CardBody>
-                  </Card>
-
-                </div>
-
-                <div className='col-md-4'>
-                  <Card style={{border: '0.5px solid #AE75F8'}}>
-                    <CardBody>
-                      <span className='application-count-style'>UNCONDITIONAL OFFER</span>
-                      <br/>
-                      
-                      <span className='application-count-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
-                      <br/>
-                   
-                    </CardBody>
-                  </Card>
-
-                </div>
-
-                <div className='col-md-4 mt-3'>
-                  <Card style={{border: '0.5px solid #F7BD12'}}>
-                    <CardBody>
-                      <span className='application-count-style'>TOTAL REGISTERED</span>
-                      <br/>
-                      
-                      <span className='application-count-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
-                      <br/>
-                   
-                    </CardBody>
-                  </Card>
-
-                </div>
-
-                <div className='col-md-4 mt-3'>
-                  <Card style={{border: '0.5px solid #F87675'}}>
-                    <CardBody>
-                      <span className='application-count-style'>REJECTED / CANCELLED</span>
-                      <br/>
-                      
-                      <span className='application-count-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
-                      <br/>
-                   
-                    </CardBody>
-                  </Card>
-
-                </div>
-
-                <div className='col-md-4 mt-3'>
-                  <Card style={{border: '0.5px solid #707070'}}>
-                    <CardBody>
-                      <span className='application-count-style'>Withdrawn Application</span>
-                      <br/>
-                      
-                      <span className='application-count-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
-                      <br/>
+                  </div>
                 
-                    </CardBody>
-                  </Card>
+                    
+                  
+                   
+              
+
+                </div>
+
+                <div className='col-md-4 mb-3'>
+
+                  <div style={{border: '0.5px solid #23CCB5'}} className='count-card counter-h-112'>
+                  <span className='application-count-style'>APPLICATION IN PROCESS</span>
+              
+                      
+              <span className='application-count-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
+                  </div>
+                
+                      
+            
+                   
+                 
+
+                </div>
+
+                <div className='col-md-4 mb-3'>
+                 <div style={{border: '0.5px solid #AE75F8'}} className='count-card counter-h-112'>
+                 <span className='application-count-style'>UNCONDITIONAL OFFER</span>
+         
+                      
+         <span className='application-count-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
+
+                 </div>
+                      
+                  
+                   
+                
+
+                </div>
+
+                <div className='col-md-4 mb-3'>
+                <div style={{border: '0.5px solid #F7BD12'}} className='count-card counter-h-112'>
+
+                <span className='application-count-style'>TOTAL REGISTERED</span>
+                    
+                      
+                    <span className='application-count-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
+                </div>
+                     
+                   
+                   
+                 
+                </div>
+
+                <div className='col-md-4 mb-3'>
+                  <div style={{border: '0.5px solid #F87675'}} className='count-card counter-h-112'>
+                  <span className='application-count-style'>REJECTED / CANCELLED</span>
+                    
+                      
+                    <span className='application-count-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
+                  </div>
+                
+                      
+                 
+                   
+                 
+
+                </div>
+
+                <div className='col-md-4 mb-3'>
+                  <div className='count-card counter-h-112' style={{border: '0.5px solid #707070'}}>
+                    
+                  <span className='application-count-style'>Withdrawn Application</span>
+       
+                      
+       <span className='application-count-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
+                  </div>
+              
+            
+                
 
                 </div>
 
