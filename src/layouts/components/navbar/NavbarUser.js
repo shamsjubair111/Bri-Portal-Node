@@ -217,11 +217,11 @@ const UserDropdown = props => {
 
 
   return (
-    <DropdownMenu positionFixed={true} >
+    <DropdownMenu  right>
       
 
 
-     <Link to='/profile'>
+     <Link style={{textDecoration: 'none', }} to='/profile'>
      <DropdownItem
         tag="a"
         // href="#"

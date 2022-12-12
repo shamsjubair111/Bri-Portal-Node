@@ -15,6 +15,7 @@ import camera2 from "../../../../../assets/img/camera2.svg";
 import Chart from "react-apexcharts";
 import get from "../../../../../helpers/get";
 import { rootUrl } from "../../../../../constants/constants";
+import {useHistory} from "react-router-dom";
 
 const Editor = () => {
   const currentUser = JSON?.parse(localStorage.getItem("current_user"));
@@ -24,6 +25,7 @@ const Editor = () => {
   const [Labels, setLabels] = useState(["A", "B", "C", "D", "E"]);
   const [count, setCount] = useState({});
   const [universities, setUniversities] = useState([]);
+  const history = useHistory();
 
   const showDrawer = () => {
     setOpen(true);

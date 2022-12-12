@@ -421,17 +421,55 @@ const AdmissionManagerApplication = ({ currentUser }) => {
     if (currentUser != undefined) {
 
       if(status && selector){
+        if(selector == 1){
+          get(
+            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${status}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+          ).then((res) => {
+            setLoading(false);
+            setApplicationList(res?.models);
+            setApplicationLabel(res?.models[0]?.applicationStatusName);
+            setApplicationValue(status);
+            setEntity(res?.totalEntity);
+            setSerialNumber(res?.firstSerialNumber);
+          });
+        }
+        else if(selector == 2){
+          get(
+            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${status}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+          ).then((res) => {
+            setLoading(false);
+            setApplicationList(res?.models);
+            setOfferLabel(res?.models[0]?.offerStatusName);
+            setOfferValue(status);
+            setEntity(res?.totalEntity);
+            setSerialNumber(res?.firstSerialNumber);
+          });
+        }
+        else if(selector == 3){
+          get(
+            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${status}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+          ).then((res) => {
+            setLoading(false);
+            setApplicationList(res?.models);
+            setEnrollLabel(res?.models[0]?.enrollmentStatusName);
+            setEnrollValue(status);
+            setEntity(res?.totalEntity);
+            setSerialNumber(res?.firstSerialNumber);
+          });
+        }
         
       }
-      get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-      ).then((res) => {
-        setLoading(false);
-        setApplicationList(res?.models);
-        
-        setEntity(res?.totalEntity);
-        setSerialNumber(res?.firstSerialNumber);
-      });
+      else{
+        get(
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        ).then((res) => {
+          setLoading(false);
+          setApplicationList(res?.models);
+          
+          setEntity(res?.totalEntity);
+          setSerialNumber(res?.firstSerialNumber);
+        });
+      }
     }
   }, [
     currentPage,
@@ -633,6 +671,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
                 placeholder="Status"
                 name="name"
                 id="id"
+                isDisabled={selector == 1 ? true : false}
               />
             </Col>
 
@@ -644,6 +683,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
                 placeholder="Offer"
                 name="name"
                 id="id"
+                isDisabled={selector == 2 ? true : false}
               />
             </Col>
 
@@ -655,6 +695,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
                 placeholder="Enrolment st..."
                 name="name"
                 id="id"
+                isDisabled={selector == 3 ? true : false}
               />
             </Col>
 

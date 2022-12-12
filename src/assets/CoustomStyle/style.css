@@ -64,6 +64,7 @@ body .custom-nav.content .coustom-wrapper.content-wrapper {
   .dropdown-menu-right
   .dropdown-item:active {
   background: #1d94ab !important;
+  color: #fff !important;
 }
 .text-uapp {
   color: #20a8d8;

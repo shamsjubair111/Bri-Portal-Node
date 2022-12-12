@@ -18,7 +18,7 @@ import down from '../../../../../assets/img/down.svg';
 import camera2 from '../../../../../assets/img/camera2.svg';
 import Chart from 'react-apexcharts'
 import get from '../../../../../helpers/get';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const AccountManager = () => {
 
@@ -29,6 +29,7 @@ const AccountManager = () => {
   const [Labels,setLabels] = useState(['A', 'B', 'C', 'D', 'E']);
   const [count,setCount] = useState({});
   const [consultants,setConsultants] = useState([]);
+  const history   = useHistory();
 
   useEffect(()=>{
 

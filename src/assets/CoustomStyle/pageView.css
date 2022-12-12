@@ -1093,13 +1093,13 @@ display: flex;
 }
 
 .notification-footer-style{
-  background-color: #ededed;
+  background-color: #ededed!important;
   font-weight: 500;
   cursor: pointer;
 }
 
 .notification-footer-style:hover{
-  background-color: #1e98b0;
+  background-color: #1e98b0!important;
   color: white;
   font-weight: 700;
   cursor: pointer;

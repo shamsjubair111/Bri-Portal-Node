@@ -22,6 +22,7 @@ import {
 import { Drawer } from 'antd';
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
+import {useHistory} from "react-router-dom";
 const AdmissionOfficer = () => {
 
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
@@ -39,6 +40,7 @@ const AdmissionOfficer = () => {
   const [Labels,setLabels] = useState(['A', 'B', 'C', 'D', 'E']);
   const [count,setCount] = useState({});
   const [applications,setApplications] = useState([]);
+  const history = useHistory();
 
   useEffect(()=>{
 
@@ -305,7 +307,9 @@ const AdmissionOfficer = () => {
        <div style={{border: '0.5px solid #24A1CD'}} className='count-card counter-h-112'>
        <span className='pvdadmin-span-style1'>Total Application</span>
             
-            <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication
+            <span className='pvdadmin-span-style2' onClick={()=>{
+              history.push(`/applications`);
+            }} style={{color: '#24A1CD', cursor: 'pointer'}}>{count?.totalApplication
             }</span>
 
        </div>
@@ -321,7 +325,9 @@ const AdmissionOfficer = () => {
           <div style={{border: '0.5px solid #23CCB5'}} className='count-card counter-h-112'>
           <span className='pvdadmin-span-style1'>Applications in Process</span>
           
-          <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
+          <span className='pvdadmin-span-style2' onClick={()=>{
+              history.push(`/applicationsByStatus/${2}/${1}`);
+            }} style={{color: '#23CCB5', cursor: 'pointer'}}>{count?.totalApplicationInProgress}</span>
           </div>
 
               
@@ -336,7 +342,9 @@ const AdmissionOfficer = () => {
               
             <span className='pvdadmin-span-style1'>Unconditional Offer</span>
            
-           <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
+           <span className='pvdadmin-span-style2' onClick={()=>{
+              history.push(`/applicationsByStatus/${2}/${2}`);
+            }} style={{color: '#AE75F8', cursor: 'pointer'}}>{count?.totalUnconditionalOffer}</span>
 
             </div>
 
@@ -350,7 +358,9 @@ const AdmissionOfficer = () => {
          <div style={{border: '0.5px solid #F7BD12'}} className='count-card counter-h-112'>
          <span className='pvdadmin-span-style1'>Total Registered</span>
            
-           <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
+           <span className='pvdadmin-span-style2' onClick={()=>{
+              history.push(`/applicationsByStatus/${2}/${3}`);
+            }} style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRegistered}</span>
          </div>
 
              

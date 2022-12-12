@@ -22,6 +22,7 @@ import { Drawer } from 'antd';
 import GaugeChart from 'react-gauge-chart';
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
+import {useHistory} from "react-router-dom";
 
 
 
@@ -36,6 +37,7 @@ const Consultant = () => {
   const [open, setOpen] = useState(false);
   const [count,setCount] = useState({});
   const [target,setTarget] = useState(0);
+  const history  = useHistory();
   const [options,setOptions] = useState({plotOptions: {
     pie: {
       donut: {
@@ -337,7 +339,9 @@ const Consultant = () => {
                   <span className='application-count-style'>TOTAL APPLICATION</span>
            
                       
-           <span className='application-count-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
+           <span className='application-count-style2' onClick={()=>{
+            history.push(`/applications`);
+           }} style={{color: '#24A1CD', cursor: 'pointer'}}>{count?.totalApplication}</span>
 
                   </div>
                 
@@ -354,7 +358,9 @@ const Consultant = () => {
                   <span className='application-count-style'>APPLICATION IN PROCESS</span>
               
                       
-              <span className='application-count-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
+              <span className='application-count-style2' onClick={()=>{
+            history.push(`/applicationsByStatus/${2}/${1}`);
+           }} style={{color: '#23CCB5', cursor: 'pointer'}}>{count?.totalApplicationInProgress}</span>
                   </div>
                 
                       
@@ -369,7 +375,9 @@ const Consultant = () => {
                  <span className='application-count-style'>UNCONDITIONAL OFFER</span>
          
                       
-         <span className='application-count-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
+         <span className='application-count-style2' onClick={()=>{
+            history.push(`/applicationsByStatus/${2}/${2}`);
+           }}  style={{color: '#AE75F8', cursor: 'pointer'}}>{count?.totalUnconditionalOffer}</span>
 
                  </div>
                       
@@ -385,7 +393,9 @@ const Consultant = () => {
                 <span className='application-count-style'>TOTAL REGISTERED</span>
                     
                       
-                    <span className='application-count-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
+                    <span className='application-count-style2' onClick={()=>{
+            history.push(`/applicationsByStatus/${2}/${3}`);
+           }}  style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRegistered}</span>
                 </div>
                      
                    

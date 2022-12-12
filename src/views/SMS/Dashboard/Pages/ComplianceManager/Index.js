@@ -17,7 +17,7 @@ import cuser1 from '../../../../../assets/img/cuser1.svg';
 import user from '../../../../../assets/img/Uapp_fav.png';
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 
@@ -28,6 +28,7 @@ const ComplianceManager = () => {
   const [open, setOpen] = useState(false);
   const [count,setCount] = useState({});
   const [applications,setApplications] = useState([]);
+  const history = useHistory();
 
   useEffect(()=>{
     get(`CompilanceManagerDashboard/Counting`)
@@ -119,7 +120,9 @@ const ComplianceManager = () => {
             <div style={{border: '0.5px solid #24A1CD'}} className='count-card counter-h-112'>
             <span className='pvdadmin-span-style1'>Total Application</span>
                           
-                          <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
+                          <span className='pvdadmin-span-style2' onClick={()=>{
+                            history.push(`/applications`);
+                          }} style={{color: '#24A1CD', cursor: 'pointer'}}>{count?.totalApplication}</span>
             </div>
                  
              
@@ -133,7 +136,9 @@ const ComplianceManager = () => {
 
            <span className='pvdadmin-span-style1'>Applications in Process</span>
                 
-                <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalApplicationInProgress}</span>
+                <span className='pvdadmin-span-style2' onClick={()=>{
+                            history.push(`/applicationsByStatus/${2}/${1}`);
+                          }}  style={{color: '#23CCB5', cursor: 'ponter'}}>{count?.totalApplicationInProgress}</span>
            </div>
 
                   
@@ -147,7 +152,9 @@ const ComplianceManager = () => {
               <div style={{border: '0.5px solid #AE75F8'}} className='count-card counter-h-112'>
               <span className='pvdadmin-span-style1'>Unconditional Offer</span>
                 
-                <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalUnconditionalOffer}</span>
+                <span className='pvdadmin-span-style2' onClick={()=>{
+                            history.push(`/applicationsByStatus/${2}/${2}`);
+                          }}  style={{color: '#AE75F8', cursor: 'pointer'}}>{count?.totalUnconditionalOffer}</span>
 
               </div>
 
@@ -163,7 +170,9 @@ const ComplianceManager = () => {
 
             <span className='pvdadmin-span-style1'>Total Registered</span>
                
-               <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRegistered}</span>
+               <span className='pvdadmin-span-style2' onClick={()=>{
+                            history.push(`/applicationsByStatus/${2}/${3}`);
+                          }}  style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRegistered}</span>
             </div>
 
                   

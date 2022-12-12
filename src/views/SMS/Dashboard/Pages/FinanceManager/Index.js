@@ -19,7 +19,7 @@ import camera2 from '../../../../../assets/img/camera2.svg';
 import Chart from 'react-apexcharts'
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 const FinanceManager = () => {
@@ -33,6 +33,7 @@ const FinanceManager = () => {
   const [withdrawn,setWithdrawn] = useState(0);
   const [count,setCount] = useState({});
   const [consultants, setConsultants] = useState([]);
+  const history = useHistory();
   
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
 
@@ -286,7 +287,9 @@ const FinanceManager = () => {
               <div style={{border: '0.5px solid #24A1CD'}} className='count-card counter-h-112'>
               <span className='pvdadmin-span-style1'>Total Application</span>
                        
-                       <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
+                       <span className='pvdadmin-span-style2' onClick={()=>{
+                        history.push(`/applications`)
+                       }} style={{color: '#24A1CD', cursor: 'pointer'}}>{count?.totalApplication}</span>
               </div>
 
                            
@@ -300,7 +303,9 @@ const FinanceManager = () => {
                       <div style={{border: '0.5px solid #F87675'}} className='count-card counter-h-112'>
                       <span className='pvdadmin-span-style1'>Applications in Process</span>
                      
-                     <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalApplicationInProgress}</span>
+                     <span className='pvdadmin-span-style2' onClick={()=>{
+                        history.push(`/applicationsByStatus/${2}/${1}`)
+                       }}  style={{color: '#F87675', cursor: 'pointer'}}>{count?.totalApplicationInProgress}</span>
 
                       </div>
 
@@ -315,7 +320,9 @@ const FinanceManager = () => {
                      <div style={{border: '0.5px solid #23CCB5'}} className='count-card counter-h-112'> 
                      <span className='pvdadmin-span-style1'>Unconditional Offer</span>
                     
-                    <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.totalUnconditionalOffer}</span>
+                    <span className='pvdadmin-span-style2' onClick={()=>{
+                        history.push(`/applicationsByStatus/${2}/${2}`)
+                       }}  style={{color: '#23CCB5', cursor: 'pointer'}}>{count?.totalUnconditionalOffer}</span>
                      </div>
 
                            
@@ -330,7 +337,9 @@ const FinanceManager = () => {
                         <div style={{border: '0.5px solid #AE75F8'}} className='count-card counter-h-112'>
                         <span className='pvdadmin-span-style1'>Total Registered</span>
                           
-                          <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.totalRegistered}</span>
+                          <span className='pvdadmin-span-style2' onClick={()=>{
+                        history.push(`/applicationsByStatus/${2}/${3}`)
+                       }}  style={{color: '#AE75F8', cursor: 'pointer'}}>{count?.totalRegistered}</span>
 
                         </div>
                           

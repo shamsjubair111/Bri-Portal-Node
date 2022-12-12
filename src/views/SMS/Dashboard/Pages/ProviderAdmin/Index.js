@@ -13,6 +13,7 @@ import cuser1 from '../../../../../assets/img/cuser1.svg';
 import user from '../../../../../assets/img/Uapp_fav.png';
 import get from '../../../../../helpers/get';
 import { rootUrl } from '../../../../../constants/constants';
+import {useHistory} from "react-router-dom";
 
 
 
@@ -25,6 +26,7 @@ const ProviderAdmin = () => {
   const [count,setCount] = useState({});
   const [applications,setApplications] = useState([]);
   const [managers,setManagers] = useState([]);
+  const history = useHistory();
 
   useEffect(()=>{
 
@@ -210,7 +212,9 @@ const ProviderAdmin = () => {
             <div className='count-card counter-h-112' style={{border: '0.5px solid #24A1CD'}}>
             <span className='pvdadmin-span-style1'>Total Application</span>
               
-              <span className='pvdadmin-span-style2'  style={{color: '#24A1CD'}}>{count?.totalApplication}</span>
+              <span className='pvdadmin-span-style2' onClick={()=>{
+                history.push('/applications');
+              }} style={{color: '#24A1CD', cursor: 'pointer'}}>{count?.totalApplication}</span>
 
             </div>
                   
