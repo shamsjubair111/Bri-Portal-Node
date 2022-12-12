@@ -26,6 +26,7 @@ const Search = () => {
    const  [studentInfo, setStudentInfo] = useState({});
    const userType = localStorage.getItem('userType');
    const permissions = JSON.parse(localStorage.getItem('permissions'));
+   const current_user  =JSON.parse(localStorage.getItem('current_user'));
 
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
@@ -144,6 +145,10 @@ const Search = () => {
     const [buttonStatus,setButtonStatus] = useState(false);
 
     const [applicationCount,setApplicationCount] = useState(0);
+
+    const [eligibleModal,setEligibleModal] = useState(false);
+    const [elans,setElAns] = useState({});
+    
    
 
    
@@ -390,6 +395,18 @@ const Search = () => {
     
     
   ]
+
+  const checkEligibility  = (data1,data2) => {
+    setEligibleModal(true);
+    get(`Eligibility/CheckEligibility/${data1?.universityId}/${data2?.subjectId}/${localStorage.getItem('referenceId')}`)
+    .then(res => {
+        console.error(res.message);
+        setElAns(res);
+       
+    })
+    setEligibleModal(true);
+
+  }
 
  
   const toggle1 = (tab) => {
@@ -852,6 +869,36 @@ const Search = () => {
 
     return (
         <div>
+
+          {/* Student Eligibility modal */}
+          <Modal isOpen={eligibleModal} toggle={()=>{
+            setEligibleModal(false);
+          }} className="uapp-modal2">
+
+          <ModalHeader style={{backgroundColor: '#1E98B0'}}>
+
+            <p style={{color:'white', fontWeight: '700'}}>Eligibility Check</p>
+          </ModalHeader>
+         
+
+          <ModalBody>
+
+          <p className={(elans?.isEligible) ? 'text-center elg' : 'text-center elg2'}>{elans?.message}</p>
+
+
+          </ModalBody>
+
+          <ModalFooter>
+
+            <Button color='danger' onClick={()=>{
+              setEligibleModal(false)
+            }}>Close</Button>
+          </ModalFooter>
+
+
+
+          </Modal>
+
 
        
           <div>
@@ -1748,12 +1795,26 @@ null
 
     subjectInfo?.canApply? 
     <div className='col-md-2'>
-      {
+     <div>
+
+     {
     permissions?.includes(permissionList.Add_Application) ?
     <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
+    
+    
     :
     null
       }
+     </div>
+       <div className='mt-2'>
+{
+  userType == userTypes?.Student ? 
+  <button className='button-style-search' onClick={()=> checkEligibility(info,subjectInfo)}>Eligibility</button>
+  :
+  null
+}
+
+ </div>
     
   </div>
   :
@@ -1906,11 +1967,24 @@ null
 
 subjectInfo?.canApply? 
 <div className='col-md-2'>
-  {
+ <div>
+
+ {
     permissions?.includes(permissionList.Add_Application) ?
     <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
     : null
   }
+ </div>
+
+ <div className='mt-2'>
+{
+  userType == userTypes?.Student ? 
+  <button className='button-style-search'  onClick={()=> checkEligibility(info, subjectInfo)}>Eligibility</button>
+  :
+  null
+}
+
+ </div>
     
   </div>
 :
