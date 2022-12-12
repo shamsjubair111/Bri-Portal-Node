@@ -299,7 +299,7 @@ const EmployeeList = (props) => {
   };
 
   const redirectToStaffProfile = (empId) => {
-    history.push(`staffProfile/${empId}`);
+    history.push(`/staffProfile/${empId}`);
   };
 
   // for hide/unhide column

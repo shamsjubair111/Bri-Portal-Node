@@ -65,7 +65,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
   const [elptDD, setElptDD] = useState([]);
   const [financeDD, setFinanceDD] = useState([]);
   const permissions = JSON.parse(localStorage.getItem("permissions"));
-  const {status,selector} = useParams();
+  const {status, selector, universityId, consultantId} = useParams();
 
   // for admission manager
   const [managerUappIdDD, setManagerUappIdDD] = useState([]);
@@ -459,6 +459,31 @@ const AdmissionManagerApplication = ({ currentUser }) => {
         }
         
       }
+      else if(universityId !== undefined){
+        get(
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${universityId}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        ).then((res) => {
+          setLoading(false);
+          setApplicationList(res?.models);
+          setManagerUniLabel(res?.models[0]?.universityName);
+          setManagerUniValue(universityId);
+          setEntity(res?.totalEntity);
+          setSerialNumber(res?.firstSerialNumber);
+        });
+      }
+      else if(consultantId !== undefined){
+        get(
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${consultantId}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        ).then((res) => {
+          setLoading(false);
+          setApplicationList(res?.models);
+          console.log("managerConS", res?.models[0]?.consultantName);
+          setManagerConsLabel(res?.models[0]?.consultantName);
+          setManagerConsValue(consultantId);
+          setEntity(res?.totalEntity);
+          setSerialNumber(res?.firstSerialNumber);
+        });
+      }
       else{
         get(
           `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
@@ -660,6 +685,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
                 placeholder="Consultant"
                 name="name"
                 id="id"
+                isDisabled={consultantId !== undefined ? true : false}
               />
             </Col>
 
@@ -751,6 +777,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
                 placeholder="University N..."
                 name="name"
                 id="id"
+                isDisabled={universityId !== undefined ? true : false}
               />
             </Col>
 
