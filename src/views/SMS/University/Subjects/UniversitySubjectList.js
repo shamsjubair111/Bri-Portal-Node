@@ -202,7 +202,19 @@ const UniversitySubjectList = (props) => {
         });
     
 
-    }, [success, currentPage, dataPerPage, callApi, searchStr, uniTypeId, campValue, univerSList, uniValue, id, orderValue]);
+    }, [
+        success, 
+        currentPage, 
+        dataPerPage, 
+        callApi, 
+        searchStr, 
+        // uniTypeId, 
+        campValue, 
+        // univerSList, 
+        uniValue, 
+        // id, 
+        orderValue
+      ]);
 
    
 
