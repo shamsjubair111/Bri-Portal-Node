@@ -75,12 +75,12 @@ const UniversityWiseAdmissionOfficer = () => {
                             :
                             null
                          }
-                       {
-                        permissions?.includes(permissionList.View_Admission_manager_info) ?
+                       {/* {
+                        permissions?.includes(permissionList.View_Admission_manager_info) ? */}
                         <th>Action</th>
-                        :
+                        {/* :
                         null
-                       }
+                       } */}
 
                   </tr>
                 </thead>

@@ -204,13 +204,12 @@ const UniversityList = (props) => {
         }&search=${searchStr}&orderId=${orderValue}`
       ).then((action) => {
         setUniversityList(action?.models);
-  
         setLoading(false);
         setEntity(action?.totalEntity);
         setSerialNum(action?.firstSerialNumber);
         setLoading(false);
         setProviderLabel(action?.models[0]?.provider?.name);
-        setProviderValue(univerTypeId);
+        setProviderValue(provideId);
       });
     }
     else{
@@ -241,16 +240,9 @@ const UniversityList = (props) => {
     uniCountryValue,
     uniTypeValue,
     unistateValue,
-    // universityTypes,
     orderValue,
     providerValue,
-    // referenceId,
-    // userType,
-    entity,
-    // location.name,
-    // location.universityCountry,
-    success,
-    // serialNum
+    success
   ]);
 
   const searchStateByCountry = (countryValue) => {
@@ -1060,9 +1052,23 @@ const UniversityList = (props) => {
 
                     {checkCountry ? <th>Country</th> : null}
 
-                    {adManager ? <th>ADM</th> : null}
+                    {
+                      permissions?.includes(permissionList?.View_Admission_manager_university_List) ?
+                      <>
+                        {adManager ? <th>ADM</th> : null}
+                      </>
+                      :
+                      null
+                    }
 
-                    {adOfficer ? <th>ADO</th> : null}
+                    {
+                      permissions?.includes(permissionList?.View_Admission_Officer_university_List) ?
+                      <>
+                        {adOfficer ? <th>ADO</th> : null}
+                      </>
+                      :
+                      null
+                    }
 
                    {
                     permissions?.includes(permissionList.View_UniversityCampus_List) ? 
@@ -1142,27 +1148,41 @@ const UniversityList = (props) => {
                       ) : null}
 
                    
-                          {adManager ? (
-                        <td>
-                       
+                          {
+                            permissions?.includes(permissionList?.View_Admission_manager_university_List) ?
+                            <>
+                              {adManager ? (
+                                <td>
 
-                          <span className='badge badge-secondary'  onClick={() => redirectToAdManagerList(university?.id)}  style={{ cursor: "pointer" }}>
-                              View
-                          
-                            </span>
-                        </td>
-                      ) : null}
+                                    <span className='badge badge-secondary'  onClick={() => redirectToAdManagerList(university?.id)}  style={{ cursor: "pointer" }}>
+                                      View
 
-                          {adOfficer ? (
-                        <td>
-                       
+                                    </span>
 
-                          <span className='badge badge-secondary'   onClick={() => redirectToAdOfficerList(university?.id)}  style={{ cursor: "pointer" }}>
-                              View
-                          
-                            </span>
-                        </td>
-                      ) : null}
+                                </td>
+                              ) : null}
+                            </>
+                            :
+                            null
+                          }
+
+                          {
+                            permissions?.includes(permissionList?.View_Admission_Officer_university_List) ?
+                            <>
+                              {adOfficer ? (
+                                <td>
+
+                                    <span className='badge badge-secondary'   onClick={() => redirectToAdOfficerList(university?.id)}  style={{ cursor: "pointer" }}>
+                                      View
+
+                                    </span>
+
+                                </td>
+                              ) : null}
+                            </>
+                            :
+                            null
+                          }
                  
 
                      {

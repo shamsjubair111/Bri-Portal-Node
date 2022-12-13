@@ -626,7 +626,7 @@ const SubjectProfile = () => {
                  <div className="bg-h"></div>
                  </div>
 
-                <div className='mt-2'>
+                <div className='table-responsive mt-2'>
                   <Table className="table-sm striped" style={{overflowX: 'scroll'}}>
                       <thead className="">
                         <tr style={{ textAlign: "center" }}>
