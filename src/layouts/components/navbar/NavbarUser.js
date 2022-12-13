@@ -19,6 +19,7 @@ import { userTypes } from "../../../constants/userTypeConstant"
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { Link } from "react-router-dom"
 import get from "../../../helpers/get"
+import user from '../../../assets/img/Uapp_fav.png';
 
 const handleNavigation = (e, path) => {
   e.preventDefault()
@@ -581,7 +582,7 @@ class NavbarUser extends React.PureComponent {
             </div>
             <span data-tour="user">
               <img
-                src={rootUrl + userInfo?.displayImage}
+                src={(userInfo?.displayImage == null) ? user:  rootUrl + userInfo?.displayImage}
                 className="round"
                 height="40"
                 width="40"
