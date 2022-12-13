@@ -934,7 +934,7 @@ const List = () => {
           <div style={{ display: "none" }}>
             <div ref={componentRef2} style={{marginTop: '100px'}}>
              <div className="invoice-winthdraw-request-style">
-                  <img height={100} src={Assets} />
+                  <img height={70} src={Assets} />
                   <h1>Remittance Advice</h1>
                 </div>
 
@@ -948,6 +948,15 @@ const List = () => {
 
                   <div style={{display: 'flex', justifyContent: 'space-around'}}>
                     <div>
+                    <div>
+                     
+                     <span className="inv-span-styles" style={{color: '#1e98b0', fontWeight: '500'}}>
+                     TC ID 332
+
+                     </span>
+                     </div>
+                     <br/>
+                     <br/>
                       <div>
                       <span>
                         <Icon.PhoneCall color="#1e98b0" />
@@ -979,17 +988,20 @@ const List = () => {
 
                       </span>
                       </div>
-                      <div>
-                     
-                      <span className="inv-span-styles">
-                      TC ID 332
-
-                      </span>
-                      </div>
+                      
                     </div>
 
                     <div>
                     <div>
+                    <div>
+                     
+                     <span className="inv-span-styles" style={{color: '#1e98b0', fontWeight: '500'}}>
+                     Date : 24/11/2022
+
+                     </span>
+                     </div>
+                     <br/>
+                     <br/>
                       <div>
                       <span className="inv-span-styles">
                       Consultant Name : Mirela-Gabriela
@@ -1016,13 +1028,7 @@ const List = () => {
 
                       </span>
                       </div>
-                      <div>
-                     
-                      <span className="inv-span-styles">
-                      Date : 24/11/2022
-
-                      </span>
-                      </div>
+                      
                     </div>
 
                   </div>
