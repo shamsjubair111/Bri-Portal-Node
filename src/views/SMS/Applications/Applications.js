@@ -50,6 +50,7 @@ import ConsultantApplication from "./ConsultantApplication.js";
 import StudentApplication from "./StudentApplication.js";
 import ProviderApplication from "./ProviderApplication.js";
 import AdmissionManagerApplication from "./AdmissionManagerApplication.js";
+import AdmissionOfficerApplication from "./AdmissionOfficerApplication";
 
 const Applications = () => {
   const [loading, setLoading] = useState(true);
@@ -79,9 +80,12 @@ const Applications = () => {
            parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin ?
            <ProviderApplication currentUser={currentUser} />
            :
-         (  parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager || parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionOfficer) ?
+           parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionManager ?
            <AdmissionManagerApplication currentUser={currentUser} />
            :
+          //  parseInt(localStorage.getItem("userType")) === userTypes?.AdmissionOfficer ?
+          //  <AdmissionOfficerApplication currentUser={currentUser} />
+          //  :
            parseInt(localStorage.getItem("userType")) == userTypes?.BranchManager ? 
            <ApplicationsCommon />
            :

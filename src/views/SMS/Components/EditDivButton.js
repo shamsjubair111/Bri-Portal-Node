@@ -9,9 +9,9 @@ const EditDivButton = (props) => {
         <>
           
            
-            <div className={className} onClick={func}>
+            <div className={className}>
               <div className="text-right">
-                  <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                  <span style={{cursor: "pointer"}}  onClick={func}> <i className="fas fa-pencil-alt pencil-style"></i> </span>
               </div>
             </div>
            

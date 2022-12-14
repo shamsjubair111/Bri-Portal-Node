@@ -48,7 +48,7 @@ import Loader from "../Search/Loader/Loader.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
 
-const ConsultantApplication = ({ currentUser }) => {
+const AdmissionOfficerApplication = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
@@ -64,23 +64,29 @@ const ConsultantApplication = ({ currentUser }) => {
   const [interviewDD, setInterviewDD] = useState([]);
   const [elptDD, setElptDD] = useState([]);
   const [financeDD, setFinanceDD] = useState([]);
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
+  const { status, selector, universityId, consultantId } = useParams();
 
-  // for consultant
-  const [consultantUappIdDD, setConsultantUappIdDD] = useState([]);
-  const [consUappIdLabel, setConsUappIdLabel] = useState("UAPP ID");
-  const [consUappIdValue, setConsUappIdValue] = useState(0);
+  // for admission manager
+  const [managerUappIdDD, setManagerUappIdDD] = useState([]);
+  const [managerUappIdLabel, setmanagerUappIdLabel] = useState("UAPP ID");
+  const [managerUappIdValue, setmanagerUappIdValue] = useState(0);
 
-  const [consultantStdDD, setConsultantStdDD] = useState([]);
-  const [consStdLabel, setConsStdLabel] = useState("Name");
-  const [consStdValue, setConsStdValue] = useState(0);
+  const [managerStdDD, setManagerStdDD] = useState([]);
+  const [managerStdLabel, setManagerStdLabel] = useState("Name");
+  const [managerStdValue, setManagerStdValue] = useState(0);
 
-  const [consultantUniDD, setConsultantUniDD] = useState([]);
-  const [consUniLabel, setConsUniLabel] = useState("University Name");
-  const [consUniValue, setConsUniValue] = useState(0);
+  const [managerConsDD, setManagerConsDD] = useState([]);
+  const [managerConsLabel, setManagerConsLabel] = useState("Consultant");
+  const [managerConsValue, setManagerConsValue] = useState(0);
 
-  const [consultantPhnDD, setConsultantPhnDD] = useState([]);
-  const [consPhnLabel, setConsPhnLabel] = useState("Phone No.");
-  const [consPhnValue, setConsPhnValue] = useState(0);
+  const [managerUniDD, setManagerUniDD] = useState([]);
+  const [managerUniLabel, setManagerUniLabel] = useState("University Name");
+  const [managerUniValue, setManagerUniValue] = useState(0);
+
+  const [managerPhnDD, setManagerPhoneDD] = useState([]);
+  const [managerPhnLabel, setManagerPhnLabel] = useState("Phone No.");
+  const [managerPhnValue, setManagerPhnValue] = useState(0);
 
   // for all
   const [applicationLabel, setApplicationLabel] = useState("Status");
@@ -105,15 +111,10 @@ const ConsultantApplication = ({ currentUser }) => {
   const [cId, setConsId] = useState(undefined);
   const [uId, setUniId] = useState(undefined);
 
-  // current_user
-  //   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(false);
 
-  //   
-
   // for hide/unhide column
-  const permissions = JSON.parse(localStorage.getItem("permissions"));
   const [checkId, setCheckId] = useState(true);
   const [checkAppId, setCheckAppId] = useState(true);
   const [checkApplic, setCheckApplic] = useState(true);
@@ -134,11 +135,151 @@ const ConsultantApplication = ({ currentUser }) => {
   const [delData, setDelData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
-  const {status,selector} = useParams();
 
   const history = useHistory();
   const { addToast } = useToasts();
   const location = useLocation();
+
+  // for all dropdown
+  const applicationMenu = applicationDD.map((application) => ({
+    label: application?.name,
+    value: application?.id,
+  }));
+  const offerMenu = offerDD.map((offer) => ({
+    label: offer?.name,
+    value: offer?.id,
+  }));
+  const enrollMenu = enrollDD.map((enroll) => ({
+    label: enroll?.name,
+    value: enroll?.id,
+  }));
+  const intakeMenu = intakeDD.map((intake) => ({
+    label: intake?.name,
+    value: intake?.id,
+  }));
+  const interviewMenu = interviewDD.map((interview) => ({
+    label: interview?.name,
+    value: interview?.id,
+  }));
+  const elptMenu = elptDD.map((elpt) => ({
+    label: elpt?.name,
+    value: elpt?.id,
+  }));
+  const financeMenu = financeDD.map((finance) => ({
+    label: finance?.name,
+    value: finance?.id,
+  }));
+
+  // for admission manager dropdown
+  const managerUappIdMenu = managerUappIdDD.map((manager) => ({
+    label: manager?.name,
+    value: manager?.id,
+  }));
+  const managerStdMenu = managerStdDD.map((student) => ({
+    label: student?.name,
+    value: student?.id,
+  }));
+  const managerConsMenu = managerConsDD.map((consultant) => ({
+    label: consultant?.name,
+    value: consultant?.id,
+  }));
+  const managerUniMenu = managerUniDD.map((uni) => ({
+    label: uni?.name,
+    value: uni?.id,
+  }));
+  const managerPhnMenu = managerPhnDD.map((phone) => ({
+    label: phone?.name,
+    value: phone?.id,
+  }));
+
+  const selectAppliDD = (label, value) => {
+    setApplicationLabel(label);
+    setApplicationValue(value);
+    // handleSearch();
+  };
+  const selectOfferDD = (label, value) => {
+    setOfferLabel(label);
+    setOfferValue(value);
+    // handleSearch();
+  };
+  const selectEnrollDD = (label, value) => {
+    setEnrollLabel(label);
+    setEnrollValue(value);
+    // handleSearch();
+  };
+  const selectIntakeDD = (label, value) => {
+    setIntakeLabel(label);
+    setIntakeValue(value);
+    // handleSearch();
+  };
+  const selectInterviewDD = (label, value) => {
+    setInterviewLabel(label);
+    setInterviewValue(value);
+    // handleSearch();
+  };
+  const selectElptDD = (label, value) => {
+    setElptLabel(label);
+    setElptValue(value);
+    // handleSearch();
+  };
+  const selectFinanceDD = (label, value) => {
+    setFinanceLabel(label);
+    setFinanceValue(value);
+    // handleSearch();
+  };
+  const selectUappId = (label, value) => {
+    setmanagerUappIdLabel(label);
+    setmanagerUappIdValue(value);
+    // handleSearch();
+  };
+  const selectManagerStd = (label, value) => {
+    setManagerStdLabel(label);
+    setManagerStdValue(value);
+    // handleSearch();
+  };
+  const selectManagerCons = (label, value) => {
+    setManagerConsLabel(label);
+    setManagerConsValue(value);
+    // handleSearch();
+  };
+  const selectUniMenu = (label, value) => {
+    setManagerUniLabel(label);
+    setManagerUniValue(value);
+    // handleSearch();
+  };
+  const selectManagerPhn = (label, value) => {
+    setManagerPhnLabel(label);
+    setManagerPhnValue(value);
+    // handleSearch();
+  };
+
+  // on clear
+  const handleClearSearch = () => {
+    setApplicationLabel("Status");
+    setApplicationValue(0);
+    setOfferLabel("Offer");
+    setOfferValue(0);
+    setEnrollLabel("Enrolment Status");
+    setEnrollValue(0);
+    setIntakeLabel("Intake");
+    setIntakeValue(0);
+    setInterviewLabel("Interview");
+    setInterviewValue(0);
+    setElptLabel("ELPT");
+    setElptValue(0);
+    setFinanceLabel("SLCs");
+    setFinanceValue(0);
+    setmanagerUappIdLabel("UAPP ID");
+    setmanagerUappIdValue(0);
+    setManagerStdLabel("Name");
+    setManagerStdValue(0);
+    setManagerConsLabel("Consultant");
+    setManagerConsValue(0);
+    setManagerUniLabel("University Name");
+    setManagerUniValue(0);
+    setManagerPhnLabel("Phone No.");
+    setManagerPhnValue(0);
+  };
 
   // user select order
   const orderArr = [
@@ -174,79 +315,6 @@ const ConsultantApplication = ({ currentUser }) => {
     setCallApi((prev) => !prev);
   };
 
-  const selectAppliDD = (label, value) => {
-    // setLoading(true);
-    setApplicationLabel(label);
-    setApplicationValue(value);
-    // handleSearch();
-  };
-  const selectOfferDD = (label, value) => {
-    // setLoading(true);
-    setOfferLabel(label);
-    setOfferValue(value);
-    // handleSearch();
-  };
-  const selectEnrollDD = (label, value) => {
-    // setLoading(true);
-    setEnrollLabel(label);
-    setEnrollValue(value);
-    // handleSearch();
-  };
-  const selectIntakeDD = (label, value) => {
-    // setLoading(true);
-    setIntakeLabel(label);
-    setIntakeValue(value);
-    // handleSearch();
-  };
-  const selectInterviewDD = (label, value) => {
-    // setLoading(true);
-    setInterviewLabel(label);
-    setInterviewValue(value);
-    // handleSearch();
-  };
-  const selectElptDD = (label, value) => {
-    // setLoading(true);
-    setElptLabel(label);
-    setElptValue(value);
-    // handleSearch();
-  };
-  const selectFinanceDD = (label, value) => {
-    // setLoading(true);
-    setFinanceLabel(label);
-    setFinanceValue(value);
-    // handleSearch();
-  };
-  const selectConsUappId = (label, value) => {
-    // setLoading(true);
-    setConsUappIdLabel(label);
-    setConsUappIdValue(value);
-    // handleSearch();
-  };
-  const selectConsStd = (label, value) => {
-    // setLoading(true);
-    setConsStdLabel(label);
-    setConsStdValue(value);
-    // handleSearch();
-  };
-  const selectConsUni = (label, value) => {
-    // setLoading(true);
-    setConsUniLabel(label);
-    setConsUniValue(value);
-    // handleSearch();
-  };
-  const selectConsPhn = (label, value) => {
-    // setLoading(true);
-    setConsPhnLabel(label);
-    setConsPhnValue(value);
-    // handleSearch();
-  };
-
-  //   useEffect(() => {
-  //     get("Account/GetCurrentUserId").then((res) => {
-  //       setCurrentUser(res);
-  //     });
-  //   }, []);
-
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
       setApplicationDD(res);
@@ -275,123 +343,145 @@ const ConsultantApplication = ({ currentUser }) => {
       setFinanceDD(res);
     });
 
-    // for consultant
+    // for admission manager
     if (currentUser != undefined) {
-      get(`ConsultantApplicationFilterDD/UappId/${currentUser}`).then((res) => {
-        setConsultantUappIdDD(res);
-        
+      get(`AddmissionmanagerApplicationFilterDD/UappId/${currentUser}`).then(
+        (res) => {
+          setManagerUappIdDD(res);
+        }
+      );
+      get(`AddmissionmanagerApplicationFilterDD/Student/${currentUser}`).then(
+        (res) => {
+          setManagerStdDD(res);
+        }
+      );
+      get(
+        `AddmissionmanagerApplicationFilterDD/Consultant/${currentUser}`
+      ).then((res) => {
+        setManagerConsDD(res);
       });
-      get(`ConsultantApplicationFilterDD/Student/${currentUser}`).then(
-        (res) => {
-          setConsultantStdDD(res);
-          
-        }
-      );
-      get(`ConsultantApplicationFilterDD/University/${currentUser}`).then(
-        (res) => {
-          setConsultantUniDD(res);
-          
-        }
-      );
-      get(`ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`).then(
-        (res) => {
-          setConsultantPhnDD(res);
-          
-        }
-      );
+      get(
+        `AddmissionmanagerApplicationFilterDD/University/${currentUser}`
+      ).then((res) => {
+        setManagerUniDD(res);
+      });
+      get(
+        `AddmissionmanagerApplicationFilterDD/PhoneNumber/${currentUser}`
+      ).then((res) => {
+        setManagerPhoneDD(res);
+      });
     }
 
     // for list
 
-    //   const uniId =
-    //     commonUniValue !== 0
-    //       ? commonUniValue
-    //       : typeof location.universityIdFromUniList !== undefined ||
-    //         location.universityIdFromUniList !== null
-    //       ? location.universityIdFromUniList
-    //       : 0;
+    // const uniId =
+    //   providerUniValue !== 0
+    //     ? providerUniValue
+    //     : typeof location.universityIdFromUniList !== undefined ||
+    //       location.universityIdFromUniList !== null
+    //     ? location.universityIdFromUniList
+    //     : 0;
 
-    //   setUniId(parseInt(uniId));
+    // setUniId(parseInt(uniId));
 
-    //   if (uniId !== 0) {
-    //     var uni = commonUniDD?.find((s) => s.id === uniId);
+    // if (uniId !== 0) {
+    //   var uni = providerUniDD?.find((s) => s.id === uniId);
 
-    //     if (uni === undefined) {
-    //       setCommonUniLabel("University Name");
-    //     } else {
-    //       setCommonUniLabel(uni?.name);
-    //       setCommonUniValue(uniId);
-    //     }
+    //   if (uni === undefined) {
+    //     // setProviderUniLabel("University Name");
+    //   } else {
+    //     setProviderUniLabel(uni?.name);
+    //     setProviderUniValue(uniId);
     //   }
+    // }
 
-    //   const consId =
-    //     consultantValue !== 0
-    //       ? consultantValue
-    //       : typeof location.consultantIdFromConsultantList !== undefined ||
-    //         location.consultantIdFromConsultantList !== null
-    //       ? location.consultantIdFromConsultantList
-    //       : 0;
+    // const consId =
+    //   providerConsValue !== 0
+    //     ? providerConsValue
+    //     : typeof location.consultantIdFromConsultantList !== undefined ||
+    //       location.consultantIdFromConsultantList !== null
+    //     ? location.consultantIdFromConsultantList
+    //     : 0;
 
-    //       setConsId(parseInt(consId));
+    // setConsId(parseInt(consId));
 
-    //   if (parseInt(consId) !== 0) {
-    //     var consultant = commonConsultantDD?.find((s) => s.id === parseInt(consId));
+    // if (parseInt(consId) !== 0) {
+    //   var consultant = providerConsDD?.find((s) => s.id === parseInt(consId));
 
-    //     if (consultant === undefined) {
-    //       // setConsultantLabel("Consultant");
-    //     } else {
-    //       setConsultantLabel(consultant?.name);
-    //       setConsultantValue(consId);
-    //     }
+    //   if (consultant === undefined) {
+    //     // setConsultantLabel("Consultant");
+    //   } else {
+    //     setProviderConsLabel(consultant?.name);
+    //     setProviderConsValue(consId);
     //   }
+    // }
 
-    //   
     if (currentUser != undefined) {
-      if(status && selector){
-        if(selector == 1){
+      if (status && selector) {
+        if (selector == 1) {
           get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${status}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${status}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
           ).then((res) => {
             setLoading(false);
             setApplicationList(res?.models);
-            setEntity(res?.totalEntity);
             setApplicationLabel(res?.models[0]?.applicationStatusName);
             setApplicationValue(status);
+            setEntity(res?.totalEntity);
             setSerialNumber(res?.firstSerialNumber);
           });
-        }
-        else if (selector == 2){
+        } else if (selector == 2) {
           get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${status}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${status}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
           ).then((res) => {
             setLoading(false);
             setApplicationList(res?.models);
-            setEntity(res?.totalEntity);
             setOfferLabel(res?.models[0]?.offerStatusName);
             setOfferValue(status);
+            setEntity(res?.totalEntity);
             setSerialNumber(res?.firstSerialNumber);
           });
-        }
-        else if(selector == 3){
+        } else if (selector == 3) {
           get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${status}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${status}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
           ).then((res) => {
             setLoading(false);
             setApplicationList(res?.models);
-            setEntity(res?.totalEntity);
             setEnrollLabel(res?.models[0]?.enrollmentStatusName);
-            setEnrollValue(status)
+            setEnrollValue(status);
+            setEntity(res?.totalEntity);
             setSerialNumber(res?.firstSerialNumber);
           });
         }
-
-      }
-      else{
+      } else if (universityId !== undefined) {
         get(
-          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${universityId}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
+          setManagerUniLabel(res?.models[0]?.universityName);
+          setManagerUniValue(universityId);
+          setEntity(res?.totalEntity);
+          setSerialNumber(res?.firstSerialNumber);
+        });
+      } else if (consultantId !== undefined) {
+        get(
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${consultantId}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        ).then((res) => {
+          setLoading(false);
+          setApplicationList(res?.models);
+          console.log("managerConS", res?.models[0]?.consultantName);
+          setManagerConsLabel(res?.models[0]?.consultantName);
+          setManagerConsValue(consultantId);
+          setEntity(res?.totalEntity);
+          setSerialNumber(res?.firstSerialNumber);
+        });
+      } else {
+        get(
+          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        ).then((res) => {
+          setLoading(false);
+          setApplicationList(res?.models);
+
           setEntity(res?.totalEntity);
           setSerialNumber(res?.firstSerialNumber);
         });
@@ -410,60 +500,12 @@ const ConsultantApplication = ({ currentUser }) => {
     orderValue,
     // entity,
     success,
-    consUappIdValue,
-    consStdValue,
-    consUniValue,
-    consPhnValue
-   
+    managerUappIdValue,
+    managerStdValue,
+    managerConsValue,
+    managerUniValue,
+    managerPhnValue,
   ]);
-
-  // for all dropdown
-  const applicationMenu = applicationDD.map((application) => ({
-    label: application?.name,
-    value: application?.id,
-  }));
-  const offerMenu = offerDD.map((offer) => ({
-    label: offer?.name,
-    value: offer?.id,
-  }));
-  const enrollMenu = enrollDD.map((enroll) => ({
-    label: enroll?.name,
-    value: enroll?.id,
-  }));
-  const intakeMenu = intakeDD.map((intake) => ({
-    label: intake?.name,
-    value: intake?.id,
-  }));
-  const interviewMenu = interviewDD.map((interview) => ({
-    label: interview?.name,
-    value: interview?.id,
-  }));
-  const elptMenu = elptDD.map((elpt) => ({
-    label: elpt?.name,
-    value: elpt?.id,
-  }));
-  const financeMenu = financeDD.map((finance) => ({
-    label: finance?.name,
-    value: finance?.id,
-  }));
-
-  // for consultant
-  const consUappIdMenu = consultantUappIdDD.map((uappId) => ({
-    label: uappId?.name,
-    value: uappId?.id,
-  }));
-  const consStdMenu = consultantStdDD.map((std) => ({
-    label: std?.name,
-    value: std?.id,
-  }));
-  const consUniMenu = consultantUniDD.map((uni) => ({
-    label: uni?.name,
-    value: uni?.id,
-  }));
-  const consPhnMenu = consultantPhnDD.map((phn) => ({
-    label: phn?.name,
-    value: phn?.id,
-  }));
 
   const toggleDanger = (data) => {
     setDelData(data);
@@ -495,6 +537,17 @@ const ConsultantApplication = ({ currentUser }) => {
 
   const componentRef = useRef();
 
+  // redirect to dashboard
+  const backToDashboard = () => {
+    if (location.universityIdFromUniList != undefined) {
+      history.push("/universityList");
+    } else if (location.consultantIdFromConsultantList != undefined) {
+      history.push("/consultantList");
+    } else {
+      history.push("/");
+    }
+  };
+
   const handleDate = (e) => {
     var datee = e;
     var utcDate = new Date(datee);
@@ -515,33 +568,6 @@ const ConsultantApplication = ({ currentUser }) => {
       setDeleteModal(false);
       setDelData({});
     });
-  };
-
-  // on clear
-  const handleClearSearch = () => {
-    setApplicationLabel("Status");
-    setApplicationValue(0);
-    setOfferLabel("Offer");
-    setOfferValue(0);
-    setEnrollLabel("Enrolment Status");
-    setEnrollValue(0);
-    setIntakeLabel("Intake");
-    setIntakeValue(0);
-    setInterviewLabel("Interview");
-    setInterviewValue(0);
-    setElptLabel("ELPT");
-    setElptValue(0);
-    setFinanceLabel("SLCs");
-    setFinanceValue(0);
-    setConsUappIdLabel("UAPP ID");
-    setConsUappIdValue(0);
-    setConsStdLabel("Name");
-    setConsStdValue(0);
-    setConsUniLabel("University Name");
-    setConsUniValue(0);
-    setConsPhnLabel("Phone No.");
-    setConsPhnValue(0);
-    // setLoading(true);
   };
 
   // for hide/unhide column
@@ -598,16 +624,6 @@ const ConsultantApplication = ({ currentUser }) => {
     setCheckAction(e.target.checked);
   };
 
-  const backToDashboard = () => {
-    if (location.universityIdFromUniList != undefined) {
-      history.push("/universityList");
-    } else if (location.consultantIdFromConsultantList != undefined) {
-      history.push("/consultantList");
-    } else {
-      history.push("/");
-    }
-  };
-
   return (
     <div>
       <Card className="uapp-card-bg">
@@ -615,7 +631,13 @@ const ConsultantApplication = ({ currentUser }) => {
           <h3 className="text-white">Applications</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToDashboard} className="text-white">
-              <i className="fas fa-arrow-circle-left"></i> Back to Dashboard
+              {" "}
+              <i className="fas fa-arrow-circle-left"></i>{" "}
+              {location.universityIdFromUniList != undefined
+                ? "Back to University List"
+                : location.consultantIdFromConsultantList != undefined
+                ? "Back to Consultant List"
+                : "Back to Dashboard"}
             </span>
           </div>
         </CardHeader>
@@ -626,9 +648,9 @@ const ConsultantApplication = ({ currentUser }) => {
           <Row className="gy-3">
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={consUappIdMenu}
-                value={{ label: consUappIdLabel, value: consUappIdValue }}
-                onChange={(opt) => selectConsUappId(opt.label, opt.value)}
+                options={managerUappIdMenu}
+                value={{ label: managerUappIdLabel, value: managerUappIdValue }}
+                onChange={(opt) => selectUappId(opt.label, opt.value)}
                 placeholder="UAPP ID"
                 name="name"
                 id="id"
@@ -637,12 +659,24 @@ const ConsultantApplication = ({ currentUser }) => {
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={consStdMenu}
-                value={{ label: consStdLabel, value: consStdValue }}
-                onChange={(opt) => selectConsStd(opt.label, opt.value)}
+                options={managerStdMenu}
+                value={{ label: managerStdLabel, value: managerStdValue }}
+                onChange={(opt) => selectManagerStd(opt.label, opt.value)}
                 placeholder="Name"
                 name="name"
                 id="id"
+              />
+            </Col>
+
+            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
+              <Select
+                options={managerConsMenu}
+                value={{ label: managerConsLabel, value: managerConsValue }}
+                onChange={(opt) => selectManagerCons(opt.label, opt.value)}
+                placeholder="Consultant"
+                name="name"
+                id="id"
+                isDisabled={consultantId !== undefined ? true : false}
               />
             </Col>
 
@@ -654,7 +688,7 @@ const ConsultantApplication = ({ currentUser }) => {
                 placeholder="Status"
                 name="name"
                 id="id"
-                isDisabled={selector  == 1 ? true : false}
+                isDisabled={selector == 1 ? true : false}
               />
             </Col>
 
@@ -666,7 +700,7 @@ const ConsultantApplication = ({ currentUser }) => {
                 placeholder="Offer"
                 name="name"
                 id="id"
-                isDisabled={selector  == 2 ? true : false}
+                isDisabled={selector == 2 ? true : false}
               />
             </Col>
 
@@ -678,7 +712,7 @@ const ConsultantApplication = ({ currentUser }) => {
                 placeholder="Enrolment st..."
                 name="name"
                 id="id"
-                isDisabled={selector  == 3 ? true : false}
+                isDisabled={selector == 3 ? true : false}
               />
             </Col>
 
@@ -728,20 +762,21 @@ const ConsultantApplication = ({ currentUser }) => {
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={consUniMenu}
-                value={{ label: consUniLabel, value: consUniValue }}
-                onChange={(opt) => selectConsUni(opt.label, opt.value)}
+                options={managerUniMenu}
+                value={{ label: managerUniLabel, value: managerUniValue }}
+                onChange={(opt) => selectUniMenu(opt.label, opt.value)}
                 placeholder="University N..."
                 name="name"
                 id="id"
+                isDisabled={universityId !== undefined ? true : false}
               />
             </Col>
 
             <Col lg="2" md="3" sm="6" xs="6" className="p-2">
               <Select
-                options={consPhnMenu}
-                value={{ label: consPhnLabel, value: consPhnValue }}
-                onChange={(opt) => selectConsPhn(opt.label, opt.value)}
+                options={managerPhnMenu}
+                value={{ label: managerPhnLabel, value: managerPhnValue }}
+                onChange={(opt) => selectManagerPhn(opt.label, opt.value)}
                 placeholder="Phone No."
                 name="name"
                 id="id"
@@ -1226,6 +1261,7 @@ const ConsultantApplication = ({ currentUser }) => {
                     {checkAppId ? (
                       <th style={{ verticalAlign: "middle" }}>APP ID</th>
                     ) : null}
+
                     {checkId ? (
                       <th style={{ verticalAlign: "middle" }}>UAPP ID</th>
                     ) : null}
@@ -1294,15 +1330,31 @@ const ConsultantApplication = ({ currentUser }) => {
 
                       {checkId ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>{app?.uappId}</Link>
-                          
+                          <Link
+                            style={{
+                              color: "#1e98b0",
+                              textDecorationColor: "#1e98b0",
+                            }}
+                            to={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                          >
+                            {" "}
+                            {app?.uappId}
+                          </Link>
                         </td>
                       ) : null}
 
                       {checkApplic ? (
                         <td style={{ verticalAlign: "middle" }}>
-                           <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>  {app?.studentName}</Link>
-                        
+                          <Link
+                            style={{
+                              color: "#1e98b0",
+                              textDecorationColor: "#1e98b0",
+                            }}
+                            to={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                          >
+                            {" "}
+                            {app?.studentName}
+                          </Link>
                         </td>
                       ) : null}
 
@@ -1315,8 +1367,16 @@ const ConsultantApplication = ({ currentUser }) => {
 
                       {checkUni ? (
                         <td style={{ verticalAlign: "middle" }}>
-                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>{app?.universityName}</Link>
-                          
+                          <Link
+                            style={{
+                              color: "#1e98b0",
+                              textDecorationColor: "#1e98b0",
+                            }}
+                            to={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                          >
+                            {" "}
+                            {app?.universityName}
+                          </Link>
                         </td>
                       ) : null}
 
@@ -1477,4 +1537,4 @@ const ConsultantApplication = ({ currentUser }) => {
   );
 };
 
-export default ConsultantApplication;
+export default AdmissionOfficerApplication;

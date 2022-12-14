@@ -388,7 +388,7 @@ const StudentApplication = ({ currentUser }) => {
     elptValue,
     financeValue,
     orderValue,
-    entity,
+    // entity,
     success,
     studentConsValue,
     studentUniValue,

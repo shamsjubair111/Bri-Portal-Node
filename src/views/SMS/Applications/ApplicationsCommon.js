@@ -485,7 +485,7 @@ const ApplicationsCommon = () => {
     elptValue,
     financeValue,
     orderValue,
-    entity,
+    // entity,
     success,
     // serialNumber,
     // loading,

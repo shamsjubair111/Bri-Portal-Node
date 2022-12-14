@@ -175,7 +175,15 @@ const AdmissionManagerList = () => {
       setSerialNum(res?.firstSerialNumber);
       setLoading(false);
     });
-  }, [currentPage, dataPerPage, providerValue, searchStr, success, loading]);
+  }, 
+  [
+    currentPage, 
+    dataPerPage, 
+    providerValue, 
+    searchStr, 
+    success, 
+    // loading
+  ]);
 
   const providerMenu = providerDD.map((provider) => ({
     label: provider?.name,

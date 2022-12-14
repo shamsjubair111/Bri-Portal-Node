@@ -527,7 +527,7 @@ const ProviderApplication = ({ currentUser }) => {
     elptValue,
     financeValue,
     orderValue,
-    entity,
+    // entity,
     success,
     providerUappIdValue,
     providerStdvalue,
