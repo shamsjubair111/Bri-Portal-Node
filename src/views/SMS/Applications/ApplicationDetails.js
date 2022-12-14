@@ -462,6 +462,7 @@ const ApplicationDetails = () => {
             placeholder="Write note"
             value={noteString}
             onChange={(e)=>setNoteString(e.target.value)}
+            required
             />
 
             <div className="d-flex justify-content-end mt-2">

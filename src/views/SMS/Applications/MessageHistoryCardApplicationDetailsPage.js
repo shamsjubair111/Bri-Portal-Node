@@ -158,6 +158,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                 placeholder='Type message'
                 onChange={handleStringData}
                 value={stringData}
+                required
                 />
                 
                 <div className='d-flex justify-content-end my-2'>

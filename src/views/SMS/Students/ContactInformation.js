@@ -433,6 +433,24 @@ const ContactInformation = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
+                      House No. <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="string"
+                      name="houseNo"
+                      id="houseNo"
+                      placeholder="Enter house no."
+                      required
+                     
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
                       Address Line <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>

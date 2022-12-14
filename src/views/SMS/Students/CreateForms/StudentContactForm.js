@@ -210,12 +210,30 @@ const StudentContactForm = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
+                      House No. <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="text"
+                      name="houseNo"
+                      id="houseNo"
+                      placeholder="Enter house no."
+                      required
+                     
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
                       Address Line <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
                     <Input
-                      type="string"
+                      type="text"
                       name="addressLine"
                       id="addressLine"
                       placeholder="Enter Address Line"
@@ -233,7 +251,7 @@ const StudentContactForm = () => {
                   </Col>
                   <Col md="6">
                     <Input
-                      type="string"
+                      type="text"
                       name="city"
                       id="city"
                       placeholder="Enter City"
@@ -252,7 +270,7 @@ const StudentContactForm = () => {
                   </Col>
                   <Col md="6">
                     <Input
-                      type="string"
+                      type="text"
                       name="state"
                       id="state"
                       placeholder="Enter State"
@@ -270,7 +288,7 @@ const StudentContactForm = () => {
                   </Col>
                   <Col md="6">
                     <Input
-                      type="string"
+                      type="text"
                       name="zipCode"
                       id="zipCode"
                       placeholder="Enter Zip Code"

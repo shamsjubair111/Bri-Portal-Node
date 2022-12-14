@@ -2,10 +2,12 @@ import Axios from "axios";
 
 import history from "./history";
 import { rootUrl } from "../constants/constants";
+import { expireDateHandler } from "./checkExpireDate";
 
 const AuthStr = localStorage.getItem("token");
 async function put(url, body = {}, authToken = "") {
   try {
+    expireDateHandler();
     const res = await Axios.put(`${rootUrl}${url}`, body, {
       headers: {
         "authorization": AuthStr,

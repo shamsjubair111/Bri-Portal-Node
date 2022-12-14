@@ -1,9 +1,11 @@
 import Axios from "axios";
 import { rootUrl } from "../constants/constants";
+import { expireDateHandler } from "./checkExpireDate";
 import history from "./history";
 const AuthStr = localStorage.getItem("token");
 async function remove(url, authToken = "") {
   try {
+    expireDateHandler();
     const res = await Axios.delete(`${rootUrl}${url}`, {
       headers: {
         "authorization": AuthStr,
