@@ -50,7 +50,7 @@ const CampusList = (props) => {
   const [searchStr, setSearchStr] = useState("");
   const [callApi, setCallApi] = useState(false);
   const [serialNum, setSerialNum] = useState(1);
-  const [entity, setEntity] = useState(0);
+  // const [entity, setEntity] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -124,7 +124,7 @@ const CampusList = (props) => {
     currentPage,
     dataPerPage,
     searchStr,
-    entity,
+    // entity,
     loading,
     serialNum,
     success,

@@ -138,7 +138,7 @@ const EmployeeList = (props) => {
           }&searchstring=${searchStr}`
         ).then((action) => {
           setEmployeeList(action.models);
-          
+          console.log("list", action?.models);
           setLoading(false);
           setEntity(action.totalEntity);
           setSerialNum(action.firstSerialNumber);
@@ -155,7 +155,7 @@ const EmployeeList = (props) => {
     dataPerPage,
     employeeId,
     searchStr,
-    entity,
+    // entity,
     success,
   ]);
 

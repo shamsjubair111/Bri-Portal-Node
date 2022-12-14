@@ -194,7 +194,7 @@ const AdmissionOfficerList = () => {
       get(
         `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${proValue}&admissionmanagerId=${managerValue}&search=${searchStr}`
       ).then((res) => {
-       
+        
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
@@ -207,7 +207,7 @@ const AdmissionOfficerList = () => {
     managerValue,
     searchStr,
     success,
-    loading,
+    // loading,
     proValue,
     managerId,
     providerId,

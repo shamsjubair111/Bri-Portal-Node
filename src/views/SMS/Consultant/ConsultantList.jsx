@@ -173,7 +173,15 @@ const ConsultantList = () => {
       setEntity(res?.totalEntity);
       setLoading(false);
     });
-  }, [currentPage, dataPerPage, callApi, searchStr, entity, loading, success]);
+  }, [
+      currentPage, 
+      dataPerPage, 
+      callApi, 
+      searchStr, 
+      // entity, 
+      loading, 
+      success
+     ]);
 
   const handleDate = (e) => {
     var datee = e;

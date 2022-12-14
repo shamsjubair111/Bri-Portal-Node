@@ -507,7 +507,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
     elptValue,
     financeValue,
     orderValue,
-    entity,
+    // entity,
     success,
     managerUappIdValue,
     managerStdValue,

@@ -1274,13 +1274,18 @@ const ConsultantProfile = () => {
                         permission={6}
                       />
                     ) : null}
-  
+
+                    {permissions?.includes(
+                      permissionList.View_Application_transaction_List
+                    ) ? (
                     <ButtonForFunction
                       func={redirectToApplicationTransaction}
                       className={"btn btn-uapp-add "}
                       name={"Transaction"}
                       permission={6}
                     />
+                    ) : null}
+                    
                   </div>
                 </CardBody>
               </Card>
