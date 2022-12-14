@@ -761,50 +761,49 @@ const AssignUniversity = () => {
                             null
                             }
 
-                            <Modal
-                              isOpen={deleteModal}
-                              toggle={() => setDeleteModal(!deleteModal)}
-                              className="uapp-modal"
-                            >
-                              <ModalBody>
-                                <p>
-                                  Are You Sure to Delete this{" "}
-                                  <b>{managerUniName}</b> ? Once Deleted it
-                                  can't be Undone!
-                                </p>
-                              </ModalBody>
-
-                              <ModalFooter>
-
-                              <Button
-                                  disabled={buttonStatus1}
-                                  color="danger"
-                                  onClick={() =>
-                                    handleDeletePermission(managerUniId)
-                                  }
-                                >
-                                 {progress1? <ButtonLoader/> : "YES"}
-                                </Button>
-                                
-                                <Button
-                                  // color="primary"
-                                  onClick={() => {
-                                    setDeleteModal(false);
-                                    setManagerUniId(0);
-                                    setManagerUniName("");
-                                  }}
-                                >
-                                  NO
-                                </Button>
-
-                                
-                              </ModalFooter>
-                            </Modal>
                           </ButtonGroup>
                         </td>
                       ) : null}
                     </tr>
                   ))}
+
+                          <Modal
+                            isOpen={deleteModal}
+                            toggle={() => setDeleteModal(!deleteModal)}
+                            className="uapp-modal"
+                          >
+                            <ModalBody>
+                              <p>
+                                Are You Sure to Delete this{" "}
+                                <b>{managerUniName}</b> ? Once Deleted it
+                                can't be Undone!
+                              </p>
+                            </ModalBody>
+                            <ModalFooter>
+                            <Button
+                                disabled={buttonStatus1}
+                                color="danger"
+                                onClick={() =>
+                                  handleDeletePermission(managerUniId)
+                                }
+                              >
+                               {progress1? <ButtonLoader/> : "YES"}
+                              </Button>
+                              
+                              <Button
+                                // color="primary"
+                                onClick={() => {
+                                  setDeleteModal(false);
+                                  setManagerUniId(0);
+                                  setManagerUniName("");
+                                }}
+                              >
+                                NO
+                              </Button>
+                              
+                            </ModalFooter>
+                          </Modal>
+
                 </tbody>
               </Table>
             </div>
