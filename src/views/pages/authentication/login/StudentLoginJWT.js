@@ -58,7 +58,9 @@ class Login extends React.Component {
         if (response?.status == 200) {
           if (response?.data?.isSuccess == true) {
             this.setState({ error: '' });
+            localStorage.removeItem('date');
             localStorage.setItem('token', 'Bearer ' + response?.data?.message);
+            localStorage.setItem('date',  response?.data?.expireDate);
             localStorage.setItem('permissions', JSON.stringify(response?.data?.permissions));
             const AuthStr = 'Bearer ' + response?.data?.message;
             axios.get(`${rootUrl}Account/GetCurrentUser`, {

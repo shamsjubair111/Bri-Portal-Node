@@ -6,6 +6,7 @@ import get from '../../../helpers/get';
 import post from '../../../helpers/post';
 import { useToasts } from 'react-toast-notifications';
 import ButtonLoader from '../Components/ButtonLoader';
+import { userTypes } from '../../../constants/userTypeConstant';
 
 const Create = () => {
 
@@ -20,6 +21,8 @@ const Create = () => {
     const {addToast} = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
     const [progress,setProgress] = useState(false);
+    const userType = localStorage.getItem('userType');
+
 
     useEffect(()=>{
 
@@ -28,11 +31,22 @@ const Create = () => {
         setConsultant(res);
         })
 
-        get(`Balance/ConsultantBalance/${consultantValue}`)
+       
+
+        if(userType == userTypes?.Consultant){
+            get(`Balance/ConsultantBalance/${localStorage.getItem('referenceId')}`)
         .then(res => {
             
             setAmount(res);
         })
+        }
+        else{
+            get(`Balance/ConsultantBalance/${consultantValue}`)
+            .then(res => {
+                
+                setAmount(res);
+            })
+        }
 
     },[success,consultantValue])
 
@@ -64,10 +78,7 @@ const Create = () => {
             setProgress(true);
             event.preventDefault();
             const subData = new FormData(event.target);
-            if(consultantValue ==0) {
-                setConsultantError('Consultant Must be Selected');
-            }
-            else{
+            if(userType == userTypes?.Consultant){
                 setButtonStatus(true);
                 post(`WithdrawRequest/Create`,subData)
                 .then(res => {
@@ -90,7 +101,36 @@ const Create = () => {
                         })
                     }
                 })
-
+            }
+            else{
+                if(consultantValue ==0) {
+                    setConsultantError('Consultant Must be Selected');
+                }
+                else{
+                    setButtonStatus(true);
+                    post(`WithdrawRequest/Create`,subData)
+                    .then(res => {
+                        setProgress(false);
+                        setButtonStatus(false);
+                        if(res?.status == 200 && res?.data?.isSuccess == true){
+                            addToast(res?.data?.message,{
+                                appearance: 'success',
+                                autoDismiss: true
+                            })
+                            setConsultantLabel('Select Consultant');
+                            setConsultantValue(0);
+                            setAmountInput('');
+                            history.push('/withdrawRequestList');
+                        }
+                        else{
+                            addToast(res?.data?.message,{
+                                appearance: 'error',
+                                autoDismiss: true
+                            })
+                        }
+                    })
+    
+                }
             }
     }
 
@@ -115,25 +155,35 @@ const Create = () => {
                     <div className='row'>
                         <div className='col-md-9'>
                         <form onSubmit={handleSubmit}>
+                  {
+                    (userType == userTypes?.Consultant) ? 
+                    <input
+                    type='hidden'
+                    name='consultantId'
+                    id='consultandId'
+                    value={localStorage.getItem('referenceId')}
+                    />
+                    :
                     <FormGroup row className="has-icon-left position-relative">
-                            <Col md="2">
-                            <span>
-                                Select Consultant <span className="text-danger">*</span>{" "}
-                            </span>
-                            </Col>
-                            <Col md="8">
-                            <Select
-                                    
-                                    options={consultantOptions}
-                                    value={{ label: consultantLabel, value: consultantValue }}
-                                    onChange={(opt) => selectConsultant(opt.label, opt.value)}
-                                    name='consultantId'
-                                    id='consultantId'
-                                    />
-                                    <span className='text-danger'>{consultantError}</span>
-                                    
-                            </Col>
-                        </FormGroup>
+                    <Col md="2">
+                    <span>
+                        Select Consultant <span className="text-danger">*</span>{" "}
+                    </span>
+                    </Col>
+                    <Col md="8">
+                    <Select
+                            
+                            options={consultantOptions}
+                            value={{ label: consultantLabel, value: consultantValue }}
+                            onChange={(opt) => selectConsultant(opt.label, opt.value)}
+                            name='consultantId'
+                            id='consultantId'
+                            />
+                            <span className='text-danger'>{consultantError}</span>
+                            
+                    </Col>
+                </FormGroup>
+                  }
 
                     <FormGroup row className="has-icon-left position-relative">
                             <Col md="2">

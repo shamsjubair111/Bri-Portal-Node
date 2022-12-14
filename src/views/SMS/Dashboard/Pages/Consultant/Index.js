@@ -9,6 +9,7 @@ import gift from '../../../../../assets/img/gift.PNG';
 import poundicon from '../../../../../assets/img/poundcoin.svg';
 import camera from '../../../../../assets/img/camera.svg';
 import cuser1 from '../../../../../assets/img/cuser1.svg';
+import user from '../../../../../assets/img/Uapp_fav.png';
 import speed from '../../../../../assets/img/speed.PNG';
 import down from '../../../../../assets/img/down.svg';
 import camera2 from '../../../../../assets/img/camera2.svg';
@@ -498,7 +499,7 @@ const Consultant = () => {
               <tr key={i}>
             <td>{app?.student?.studentViewId}	</td>
             <td><div>
-              <img src={rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
+              <img src={(app?.student?.profileImage?.thumbnailUrl == null)? user : rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
               <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
               </div></td>
             <td>{app?.universityName}</td>
@@ -537,7 +538,7 @@ const Consultant = () => {
                <div className='container text-center mt-5' style={{height: '96px'}}>
                <GaugeChart id="gauge-chart2" 
                 nrOfLevels={30} 
-                percent={target?.currentApplication/target?.targetApplication} 
+                percent={(target?.currentApplication > target.targetApplication) ? 1 : target?.currentApplication/target?.targetApplication} 
                 hideText = {true}
                 colors={["#1E98B0", "#1E98B0"]} 
                 textColor={'#1E98B0'}

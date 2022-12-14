@@ -51,7 +51,7 @@ const Footer = () => {
 
             <div className="col-md-4 col-sm-12 order-md-3 d-flex justify-content-center order-2  footer-text"> 
             <span className="text-center">support: support@uapp.uk</span> 
-            <span className="align-middle ml-2">Powered by   <a href="#">Jpro UK ltd.</a> </span>
+            <span className="ml-2">Powered by   <a href="#">Jpro UK ltd.</a> </span>
             
          </div>
 

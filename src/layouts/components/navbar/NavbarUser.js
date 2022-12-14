@@ -222,7 +222,11 @@ const UserDropdown = props => {
       
 
 
-     <Link style={{textDecoration: 'none', }} to='/profile'>
+    {
+      (userInfo?.userTypeId == userTypes?.SystemAdmin) ? 
+      null
+      :
+       <Link style={{textDecoration: 'none', }} to='/profile'>
      <DropdownItem
         tag="a"
         // href="#"
@@ -235,6 +239,7 @@ const UserDropdown = props => {
         <span className="align-middle"  >Profile</span>
       </DropdownItem>
      </Link>
+    }
 
       <DropdownItem
         tag="a"

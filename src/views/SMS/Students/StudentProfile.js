@@ -235,7 +235,7 @@ const StudentProfile = () => {
     }
 
 
-    const handleUpdatePersonalStatement = (sId) => {
+    const handleUpdatePersonalStatement = (data) => {
 
      
      
