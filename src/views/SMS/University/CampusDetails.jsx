@@ -1360,7 +1360,7 @@ const CampusDetails = () => {
 
                                         <Button.Ripple
                                           onClick={taggleModal}
-                                          type="submit"
+                                          // type="submit"
                                           color="danger"
                                           className="mr-1 mt-3"
                                         >

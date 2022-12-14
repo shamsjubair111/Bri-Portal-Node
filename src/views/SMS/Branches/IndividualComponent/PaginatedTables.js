@@ -607,20 +607,29 @@ const PaginatedTables = (props) => {
                             {con?.id !== 1 ? (
 
                                <>
-                                   <ButtonForFunction
-                                   func={() => handleEdit(con)}
-                                   color={"warning"}
-                                   className={"mx-1 btn-sm"}
-                                   icon={<i className="fas fa-edit"></i>}
-                                   />
+                                   {
+                                      permissions?.includes(permissionList.Update_Consultant_info) ?
+                                      <ButtonForFunction
+                                        func={() => handleEdit(con)}
+                                        color={"warning"}
+                                        className={"mx-1 btn-sm"}
+                                        icon={<i className="fas fa-edit"></i>}
+                                        />
+                                        :
+                                      null
+                                   }
 
-                                  <ButtonForFunction
+                                   {
+                                    permissions?.includes(permissionList.Delete_Consultant) ?
+                                    <ButtonForFunction
                                     color={"danger"}
                                     className={"mx-1 btn-sm"}
                                     func={() => toggleDanger(con)}
                                     icon={<i className="fas fa-trash-alt"></i>}
-                                    
-                                  />
+                                    />
+                                    :
+                                    null
+                                   }
                                </>
 
                             ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>

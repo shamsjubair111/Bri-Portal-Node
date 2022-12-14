@@ -1330,12 +1330,12 @@ const AdmissionManagerNewProfile = () => {
                          <th>Founded</th>
                          <th>Global Ranking</th>
                          <th>Part Time Work Information</th> */}
-                            {
-                            permissions?.includes(permissionList?.View_Admission_manager_university_List) ?
+                            {/* {
+                            permissions?.includes(permissionList?.View_Admission_manager_university_List) ? */}
                       <th>Assign University</th>
-                      :
+                      {/* :
                       null
-                            }
+                            } */}
                       <th>Action</th>
                     </tr>
                   </thead>
