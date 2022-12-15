@@ -796,7 +796,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
       :
       <Card>
         <CardBody>
-          <center><b>Please select the university to see the subject list.</b></center>
+          <center><b>Please select university to see the subject list.</b></center>
         </CardBody>
       </Card>
       }
