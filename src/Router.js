@@ -154,6 +154,7 @@ const UpdateIntake = lazy(() => import("./views/SMS/University/UpdateIntake.jsx"
 const ConsultantList = lazy(() => import("./views/SMS/Consultant/ConsultantList"))
 const ConsultantDashboard = lazy(() => import("./views/SMS/Consultant/ConsultantDashboard"))
 const ConsultantProfile = lazy(() => import("./views/SMS/Consultant/ConsultantProfile"))
+const AssociateProfile = lazy(() => import("./views/SMS/Consultant/AssociateProfile"))
 const AddConsultant = lazy(() => import("./views/SMS/Consultant/AddConsultant"))
 const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultantType"))
 
@@ -662,6 +663,7 @@ class AppRouter extends React.Component {
           {/* consultant */}
           <AppRoute  path="/consultantList" component={permissions?.includes(permissionList?.View_Counsultant_List) ? ConsultantList : NotAuthorized} />
           <AppRoute  path="/consultantProfile/:id" component={permissions?.includes(permissionList?.View_Consultant_info)? ConsultantProfile : NotAuthorized} />
+          <AppRoute  path="/associateProfile/:id" component={permissions?.includes(permissionList?.View_Associate_info)? AssociateProfile : NotAuthorized} />
           <AppRoute  path="/addConsultant" component={permissions?.includes(permissionList?.Add_New_Consultant) ? AddConsultant : NotAuthorized} />
 
           {/* Branch consultant */}
