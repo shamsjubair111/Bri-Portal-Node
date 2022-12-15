@@ -691,7 +691,7 @@ const ProviderList = () => {
                         <td>
                           <span
                             className="badge badge-primary"
-                            style={{ cursor: "pointer" }}
+                            
                           >
                             {prov?.applicationCount}
                           </span>

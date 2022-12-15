@@ -1558,7 +1558,7 @@ const AdmissionManagerList = () => {
                         <td>
                         <span
                             className="badge badge-primary"
-                            style={{ cursor: "pointer" }}
+                           
                           >
                             {manager?.registeredApplication}
                           </span>
@@ -1572,7 +1572,7 @@ const AdmissionManagerList = () => {
                         <td>
                           <span
                             className="badge badge-primary"
-                            style={{ cursor: "pointer" }}
+                            
                           >
                             {manager?.totalApplication}
                           </span>

@@ -586,7 +586,7 @@ const AccountIntake = () => {
                       </td>
 
                       <td>
-                        <span className='badge badge-pill badge-primary' style={{cursor: 'pointer'}}>{list?.applications}</span>
+                        <span className='badge badge-pill badge-primary'>{list?.applications}</span>
                       </td>
 
                     
