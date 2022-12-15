@@ -72,6 +72,7 @@ const Consultant = () => {
 
     get(`ConsultantDashboard/TargetApplication`)
     .then(res => {
+      console.log(res);
        setTarget(res)
        
     })
@@ -531,7 +532,11 @@ const Consultant = () => {
                   <hr/>
             
                 </div>
-                <div className='text-center'>
+                <>
+                {
+                  !(target == null) ?
+                  <>
+                  <div className='text-center'>
                   <span style={{fontWeight: '500', color: '#1e98b0'}}>Current Applications: {target?.currentApplication}</span>
                 </div>
 
@@ -548,6 +553,11 @@ const Consultant = () => {
               />
 
                </div>
+                  </>
+                  :
+                  <p style={{color: '#1e98b0', textAlign: 'center'}}>No Applications Yet</p>
+                }
+                </>
 
               
 
@@ -557,7 +567,7 @@ const Consultant = () => {
                 (target == null) ?
 
                <div className='text-center'>
-                 <span>No Commission Group Assigned</span>
+                 <span style={{color: '#1e98b0', textAlign: 'center'}}>No Commission Group Assigned</span>
 
                </div>
 
