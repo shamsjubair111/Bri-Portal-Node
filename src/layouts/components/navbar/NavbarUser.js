@@ -212,6 +212,12 @@ const goToLoginHistory = () => {
   history.push('/loginHistory');
 }
 
+const goToSettings = () => {
+ 
+  history.push(`/accountSettings/${userInfo?.referenceId}`);
+
+}
+
 
 const UserDropdown = props => {
   
@@ -243,8 +249,8 @@ const UserDropdown = props => {
 
       <DropdownItem
         tag="a"
-        href="#"
-
+       
+        onClick={goToSettings}
       >
 
         <Icon.Settings size={14} className="mr-1 align-middle" />

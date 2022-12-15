@@ -192,6 +192,9 @@ const EditDeliveryPattern = lazy(() => import("./views/SMS/UniversitySubjects/Ed
 const SubjectIntake =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectIntake.jsx"))
 const SubjectProfile =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectProfile.js"))
 
+// Settings
+const Settings =  lazy(() => import("./views/SMS/Settings/Settings"))
+
 // university subject
 const UniversitySubjectList = lazy(() => import("./views/SMS/University/Subjects/UniversitySubjectList"));
 const AddUniversitySubject = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubject"));
@@ -966,7 +969,10 @@ class AppRouter extends React.Component {
 
            {/* common profile path */}
            <AppRoute  path="/profile" component={CommonProfile} />
-           
+
+           {/* Account Settings Path */}
+           <AppRoute  path="/accountSettings/:userId" component={Settings} />
+
 
 
         <AppRoute  path="/search" component={Search} />

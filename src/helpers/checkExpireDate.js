@@ -4,8 +4,8 @@ export  const  expireDateHandler =() => {
 
     console.log(currentDate, expiryDate);
     if(currentDate.getTime() > expiryDate.getTime()){
-        window.localStorage.clear();
-        window.location.reload();
+        // window.localStorage.clear();
+        // window.location.reload();
     }
     
 }
