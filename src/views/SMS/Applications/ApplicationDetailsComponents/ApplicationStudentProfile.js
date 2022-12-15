@@ -1340,7 +1340,7 @@ const ApplicationStudentProfile = ({ stdId }) => {
             </td>
 
             <td width="60%">
-              {handleConsentDate(consentData?.consentSignTime)}
+              {(consentData == null) ? '-' : handleConsentDate(consentData?.consentSignTime)}
             </td>
           </tr>
           :

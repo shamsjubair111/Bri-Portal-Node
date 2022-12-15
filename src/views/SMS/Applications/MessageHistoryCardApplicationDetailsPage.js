@@ -117,7 +117,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
               
               {
                 (messages?.length < 1) ?
-                <span style={{fontSize: '12px', fontWeight: '500', color: '#1e98b0'}}>Inbox is empty</span>
+                <span style={{fontSize: '15px', fontWeight: '500', color: '#1e98b0', marginLeft: '5px'}}>Inbox is empty</span>
                 :
                 <>
                  <div>
