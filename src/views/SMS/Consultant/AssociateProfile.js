@@ -158,15 +158,15 @@ const AssociateProfile = () => {
   
     // redirect to dashboard
     const backToConsultantList = () => {
-      history.push("/consultantList");
+      history.push("/associateList");
     };
   
     const handleUpdateBankDetailsFromProfile = () => {
       history.push(`/consultantBankDetails/${id}`);
     };
   
-    const handleUpdateConsultantProfile = () => {
-      history.push(`/consultantInformation/${id}`);
+    const handleUpdateAssociateProfile = () => {
+      history.push(`/associateInformation/${id}`);
     };
   
     const tableStyle = {
@@ -377,16 +377,15 @@ const AssociateProfile = () => {
         <div>
         <Card className="uapp-card-bg">
           <CardHeader className="page-header">
-            <h3 className="text-white">Consultant Profile</h3>
-            {!(userTypeId == userTypes?.Consultant) ? (
+            <h3 className="text-white">Associate Profile</h3>
+            
               <div className="page-header-back-to-home">
                 <span onClick={backToConsultantList} className="text-white">
                   {" "}
-                  <i className="fas fa-arrow-circle-left"></i> Back to Consultant
-                  List
+                  <i className="fas fa-arrow-circle-left"></i> Back to Associates
                 </span>
               </div>
-            ) : null}
+            
           </CardHeader>
         </Card>
   
@@ -594,14 +593,14 @@ const AssociateProfile = () => {
                         </Col>
   
                         {permissions?.includes(
-                          permissionList.Update_Consultant_info
+                          permissionList.Update_Associate_info
                         ) ? (
                           <Col>
-                            <EditDivButton
+                            {/* <EditDivButton
                               className={"uapp-employee-profile-Edit"}
-                              func={handleUpdateConsultantProfile}
+                              func={handleUpdateAssociateProfile}
                               permission={6}
-                            />
+                            /> */}
                           </Col>
                         ) : null}
                       </Row>

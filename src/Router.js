@@ -156,12 +156,17 @@ const ConsultantDashboard = lazy(() => import("./views/SMS/Consultant/Consultant
 const ConsultantProfile = lazy(() => import("./views/SMS/Consultant/ConsultantProfile"))
 const AssociateProfile = lazy(() => import("./views/SMS/Consultant/AssociateProfile"))
 const AddConsultant = lazy(() => import("./views/SMS/Consultant/AddConsultant"))
+const AddAssociate = lazy(() => import("./views/SMS/Consultant/AddAssociate"))
 const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultantType"))
 
 const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
+const UpdateAssociateBankDetails = lazy(() => import("./views/SMS/Consultant/UpdateAssociateBankDetails"))
 const ConsultantCommission = lazy(() => import("./views/SMS/Consultant/ConsultantCommission"))
+const UpdateAssociateCommission = lazy(() => import("./views/SMS/Consultant/UpdateAssociateCommission"))
 const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
+const AssociateInformation = lazy(() => import("./views/SMS/Consultant/AssociateInformation"))
 const AssociateList = lazy(() => import("./views/SMS/Consultant/ConsultantByConsultant"))
+const AssociateAddSuccess = lazy(() => import("./views/SMS/Consultant/AssociateAddSuccess"))
 
 // Document
 const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
@@ -423,6 +428,7 @@ const UpdateUser = lazy(() => import("./views/Test/UpdateUser"));
 // Consultant Conscent
 
 const ConsultantConscent = lazy(() => import("./views/SMS/Consultant/ConsultantConscent"));
+const AssociateConsent = lazy(() => import("./views/SMS/Consultant/AssociateConsent"));
 
 // Student Declaration
 const StudentDeclaration = lazy(() => import("./views/SMS/Students/StudentDeclaration"));
@@ -665,6 +671,7 @@ class AppRouter extends React.Component {
           <AppRoute  path="/consultantProfile/:id" component={permissions?.includes(permissionList?.View_Consultant_info)? ConsultantProfile : NotAuthorized} />
           <AppRoute  path="/associateProfile/:id" component={permissions?.includes(permissionList?.View_Associate_info)? AssociateProfile : NotAuthorized} />
           <AppRoute  path="/addConsultant" component={permissions?.includes(permissionList?.Add_New_Consultant) ? AddConsultant : NotAuthorized} />
+          <AppRoute  path="/addAssociate" component={permissions?.includes(permissionList?.Add_New_Associate) ? AddAssociate : NotAuthorized} />
 
           {/* Branch consultant */}
           <AppRoute  path="/addBranchConsultant/:branchId" component={permissions?.includes(permissionList?.Add_New_Consultant) ? BranchConsultantRegistration : NotAuthorized} />
@@ -677,7 +684,9 @@ class AppRouter extends React.Component {
           {/* permission not added */}
           <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.View_Consultant_type_List) ? AddConsultantType : NotAuthorized} />
           <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? BankDetails : NotAuthorized } />
+          <AppRoute  path="/associateBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? UpdateAssociateBankDetails : NotAuthorized } />
           <AppRoute  path="/consultantCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.View_ConsultantCommissionGroup_List)? ConsultantCommission : NotAuthorized} />
+          <AppRoute  path="/associateCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.View_ConsultantCommissionGroup_List)? UpdateAssociateCommission : NotAuthorized} />
 
           {
 
@@ -690,9 +699,13 @@ class AppRouter extends React.Component {
 
           }
 
+          <AppRoute  path="/associateInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Update_Associate_info) ? AssociateInformation : NotAuthorized} />
+
           <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
 
           <AppRoute  path="/associateList" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
+
+          <AppRoute  path="/associateAddSuccess" component={AssociateAddSuccess} />
           
           
 
@@ -900,6 +913,8 @@ class AppRouter extends React.Component {
         {/* Consultant Conscent Path */}
 
           <AppRoute  path="/consultantConscent/:consultantRegisterId" component={permissions?.includes(permissionList.Add_New_consultant_consent) ? ConsultantConscent : NotAuthorized} />
+
+          <AppRoute  path="/associateConsent/:consultantRegisterId" component={AssociateConsent} />
 
           {/* Student Declaration Path */}
           <AppRoute  path="/studentDeclaration/:applicationStudentId/:update?" component={permissions?.includes(permissionList.Update_student_consent_info) ? StudentDeclaration : NotAuthorized} />

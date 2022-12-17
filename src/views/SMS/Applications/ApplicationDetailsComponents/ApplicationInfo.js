@@ -95,7 +95,7 @@ const ApplicationInfo = ({
     //   setEtaDeadLine(handleDate(res?.elpt?.etaDeadline));
     // });
 
-    get("DeliveryPatternDD/index").then((res) => {
+    get(`DeliveryPatternDD/Subject/${applicationInfo?.subjectId}`).then((res) => {
       setDeliveryDD(res);
     });
     get("StudentFinanceStatusDD/Index").then((res) => {
