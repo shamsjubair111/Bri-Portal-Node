@@ -731,7 +731,7 @@ const Search = () => {
       setUniversityTypeValue(0);
       setUniversityLabel('Select University');
       setUniversityValue(0);
-      
+      setState([]);
       setIntakeLabel('Select Intakes');
       setIntakeValue(0);
       setProgramLabel('Select Programme Level');
