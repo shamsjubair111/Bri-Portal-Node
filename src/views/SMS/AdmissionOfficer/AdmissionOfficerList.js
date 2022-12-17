@@ -1746,9 +1746,13 @@ const AdmissionOfficerList = () => {
                         {checkId ? <td>{officer?.sequenceId}</td> : null}
 
                         {checkName ? (
-                          <td>
+                          <td className="cursor-pointer hyperlink-hover">
+                            <span onClick={()=>{
+                              history.push(`/admissionOfficerDetails/${officer?.id}`)
+                            }}>
                             {officer?.nameTittle?.name} {officer?.firstName}{" "}
                             {officer?.lastName}
+                            </span>
                           </td>
                         ) : null}
 

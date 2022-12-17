@@ -680,8 +680,11 @@ const ProviderList = () => {
                       {checkSlNo ? <td>{prov?.providerViewId}</td> : null}
 
                       {checkName ? (
-                        <td>
-                          {prov?.nameTittle?.name} {prov?.name}
+                        <td className="cursor-pointer hyperlink-hover">
+                          <span onClick={()=>{
+                             history.push(`/providerDetails/${prov?.id}`);
+                          }}>{prov?.nameTittle?.name} {prov?.name}</span>
+                          
                         </td>
                       ) : null}
                       {checkEmail ? <td>{prov?.email}</td> : null}

@@ -1171,8 +1171,11 @@ const UniversityList = (props) => {
                       ) : null}
 
                       {checkName ? (
-                        <td>
-                          {university?.name} ({university?.shortName})
+                        <td className="cursor-pointer hyperlink-hover">
+                          <span onClick={()=>{
+                            history.push(`/universityDetails/${university?.id}`);
+                          }}>{university?.name} ({university?.shortName})</span>
+                          
                         </td>
                       ) : null}
 

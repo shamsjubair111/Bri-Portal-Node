@@ -1461,9 +1461,11 @@ const AdmissionManagerList = () => {
                       {checkId ? <td>{manager?.sequenceId}</td> : null}
 
                       {checkName ? (
-                        <td>
-                          {manager?.nameTittle?.name} {manager?.firstName}{" "}
-                          {manager?.lastName}
+                        <td className="cursor-pointer hyperlink-hover">
+                        <span onClick={()=>{
+                          history.push(`/providerAdmissionManager/${manager?.id}/${manager?.provider?.id}`)
+                        }}>  {manager?.nameTittle?.name} {manager?.firstName}{" "}
+                          {manager?.lastName}</span>
                         </td>
                       ) : null}
 

@@ -264,7 +264,7 @@ const Search = () => {
 
      
 
-    },[success, modalCampus, modalIntake, modalDeliveryPattern])
+    },[])
 
    
 
@@ -669,7 +669,7 @@ const Search = () => {
 
     const toggleModal = (data) => {
 
-   
+      console.log(data);
       setModalCampus(data?.campuses);
       setModalIntake(data?.intakes);
       setModalDeliveryPattern(data?.deliveryPatterns);
@@ -1138,7 +1138,7 @@ null
   <div style={{color: '#bb4509', fontWeight: '500'}}>
     <span>Note: Please Provide Correct Information. </span>
     <br/>
-    <span>You Can Have Only One Application at a Time.</span>
+    <span>You Can Have Three Applications at a Time.</span>
 
   </div>
 

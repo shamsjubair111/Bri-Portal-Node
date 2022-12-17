@@ -852,9 +852,12 @@ const ConsultantList = () => {
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
 
                       {checkName ? (
-                        <td>
-                          {consultant?.nameTitle?.name} {consultant?.firstName}{" "}
-                          {consultant?.lastName}
+                        
+                        <td className="cursor-pointer hyperlink-hover">
+                         <span onClick={()=>{
+                          history.push(`/consultantProfile/${consultant?.id}`)
+                        }}> {consultant?.nameTitle?.name} {consultant?.firstName}{" "}
+                        {consultant?.lastName}</span>
                         </td>
                       ) : null}
 

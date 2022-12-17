@@ -996,9 +996,11 @@ else{
                       {checkId ? <td>{student?.studentViewId}</td> : null}
 
                       {checkName ? (
-                        <td>
-                          {student?.nameTittle?.name} {student?.firstName}{" "}
-                          {student?.lastName}
+                        <td className="cursor-pointer hyperlink-hover">
+                        <span onClick={()=>{
+                          history.push(`/studentProfile/${student?.id}`);
+                        }}>  {student?.nameTittle?.name} {student?.firstName}{" "}
+                          {student?.lastName}</span>
                         </td>
                       ) : null}
 
