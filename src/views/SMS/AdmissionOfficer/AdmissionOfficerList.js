@@ -150,7 +150,7 @@ const AdmissionOfficerList = () => {
   const [progress, setProgress] = useState(false);
 
   const [imgError, setImgError] = useState(false);
-  const [mId,setMId] = useState(0);
+  const [mId, setMId] = useState(0);
 
   const [error, setError] = useState(false);
 
@@ -163,9 +163,27 @@ const AdmissionOfficerList = () => {
       setNameTitleDD(res);
     });
 
-    get("ProviderDD/Index").then((res) => {
-      setProviderDD(res);
-    });
+    if (providerId) {
+      get("ProviderDD/Index").then((res) => {
+        setProviderDD(res);
+        const result = res?.find((ans) => ans?.id == providerId);
+        setProLabel(result?.name);
+        setProviderValue(result.id);
+      });
+      get(`AdmissionManagerDD/Index/${providerId}`).then((res) => {
+        setManagerDDForm(res);
+        if (managerId) {
+          const result = res?.find((ans) => ans?.id == managerId);
+          console.log("Manager", res);
+          setManagerLabel(result?.name);
+          setManagerValue(result?.id);
+        }
+      });
+    } else {
+      get("ProviderDD/Index").then((res) => {
+        setProviderDD(res);
+      });
+    }
 
     // setLoading(true);
     // setLoading(false);
@@ -174,19 +192,9 @@ const AdmissionOfficerList = () => {
       get(
         `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${providerId}&admissionmanagerId=${managerId}&search=${searchStr}`
       ).then((res) => {
-        
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
-        setProLabel(
-          res?.models.length !== 0 ? res?.models[0]?.provider?.name : ""
-        );
-        setProValue(providerId);
-        setManagerLabel(
-          res?.models.length !== 0 ? res?.models[0]?.admissionManagerName : ""
-        );
-        setManagerValue(managerId);
-        // setManagerValue(managerId);
 
         setLoading(false);
       });
@@ -194,7 +202,6 @@ const AdmissionOfficerList = () => {
       get(
         `AdmissionOfficer/GetPaginated?page=${currentPage}&pageSize=${dataPerPage}&providerId=${proValue}&admissionmanagerId=${managerValue}&search=${searchStr}`
       ).then((res) => {
-        
         setOfficerList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
@@ -209,8 +216,6 @@ const AdmissionOfficerList = () => {
     success,
     // loading,
     proValue,
-    managerId,
-    providerId,
   ]);
 
   useEffect(() => {
@@ -223,22 +228,23 @@ const AdmissionOfficerList = () => {
 
     if (userType == userTypes?.ProviderAdmin) {
       get(`ProviderAdmin/Get/${referenceId}`).then((res) => {
-       
         setProValue(res?.providerId);
         get(`AdmissionManagerDD/Index/${res?.providerId}`).then((res) => {
           setManagerDD(res);
         });
       });
 
-      get(`Provideradmin/GetProviderId/${localStorage.getItem('referenceId')}`)
-    .then(res => {
-      setMId(res);
-    })
+      get(
+        `Provideradmin/GetProviderId/${localStorage.getItem("referenceId")}`
+      ).then((res) => {
+        setMId(res);
+      });
 
-    get(`AdmissionManagerDD/Index/${localStorage.getItem('referenceId')}`).then((res) => {
-      setManagerDDForm(res);
-      
-    });
+      get(
+        `AdmissionManagerDD/Index/${localStorage.getItem("referenceId")}`
+      ).then((res) => {
+        setManagerDDForm(res);
+      });
     }
   }, []);
 
@@ -367,7 +373,6 @@ const AdmissionOfficerList = () => {
     setManagerFormValue(0);
     get(`AdmissionManagerDD/Index/${value}`).then((res) => {
       setManagerDDForm(res);
-      
     });
   };
 
@@ -578,7 +583,7 @@ const AdmissionOfficerList = () => {
       FileList?.length < 1 ? null : FileList[0]?.originFileObj
     );
 
-    if(userType == userTypes?.ProviderAdmin){
+    if (userType == userTypes?.ProviderAdmin) {
       if (selectedId === undefined) {
         if (nameTitleValue === 0) {
           setNameTitleError(true);
@@ -590,7 +595,7 @@ const AdmissionOfficerList = () => {
           setCountryError(true);
         } else if (unistateValue === 0) {
           setUniStateError(true);
-        }  else if (managerFormValue === 0 && selectedId === undefined) {
+        } else if (managerFormValue === 0 && selectedId === undefined) {
           setManagerFormError(true);
         } else {
           setOfficerObj({});
@@ -600,7 +605,7 @@ const AdmissionOfficerList = () => {
             setProgress(false);
             setSuccess(!success);
             setButtonStatus(false);
-  
+
             //   setuniversityId(res?.data?.result?.universityId)
             if (res?.status === 200 && res?.data?.isSuccess == true) {
               // setSubmitData(false);
@@ -608,7 +613,7 @@ const AdmissionOfficerList = () => {
                 appearance: "success",
                 autoDismiss: true,
               });
-  
+
               setNameTitleLabel("Select Title");
               setNameTitleValue(0);
               setUniCountryLabel("Select Country");
@@ -664,8 +669,7 @@ const AdmissionOfficerList = () => {
           });
         }
       }
-    }
-    else{
+    } else {
       if (selectedId === undefined) {
         if (nameTitleValue === 0) {
           setNameTitleError(true);
@@ -689,7 +693,7 @@ const AdmissionOfficerList = () => {
             setProgress(false);
             setSuccess(!success);
             setButtonStatus(false);
-  
+
             //   setuniversityId(res?.data?.result?.universityId)
             if (res?.status === 200 && res?.data?.isSuccess == true) {
               // setSubmitData(false);
@@ -697,7 +701,7 @@ const AdmissionOfficerList = () => {
                 appearance: "success",
                 autoDismiss: true,
               });
-  
+
               setNameTitleLabel("Select Title");
               setNameTitleValue(0);
               setUniCountryLabel("Select Country");
@@ -754,8 +758,6 @@ const AdmissionOfficerList = () => {
         }
       }
     }
-
-    
   };
 
   const handleEmail = (e) => {
@@ -920,7 +922,13 @@ const AdmissionOfficerList = () => {
             <CardBody>
               {/* new */}
               <Row className="mb-3">
-                <Col lg="5" md="5" sm="12" xs="12" style={{marginBottom: "10px"}}>
+                <Col
+                  lg="5"
+                  md="5"
+                  sm="12"
+                  xs="12"
+                  style={{ marginBottom: "10px" }}
+                >
                   {permissions?.includes(
                     permissionList.Add_New_Admissionofficer
                   ) ? (
@@ -1464,57 +1472,53 @@ const AdmissionOfficerList = () => {
                       </Col>
                     </FormGroup>
 
-                   {
+                    {userType == userTypes?.ProviderAdmin ? (
+                      <input
+                        type="hidden"
+                        name="providerId"
+                        id="providerId"
+                        value={mId}
+                      />
+                    ) : (
+                      <>
+                        {selectedId != undefined ? null : (
+                          <FormGroup
+                            row
+                            className="has-icon-left position-relative"
+                          >
+                            <Col md="3">
+                              <span>
+                                Provider <span className="text-danger">*</span>{" "}
+                              </span>
+                            </Col>
+                            <Col md="6">
+                              <Select
+                                options={providerMenu}
+                                value={{
+                                  label: providerLabel,
+                                  value: providerValue,
+                                }}
+                                onChange={(opt) =>
+                                  selectProvider(opt.label, opt.value)
+                                }
+                                name="providerId"
+                                id="providerId"
+                              />
 
-                    (userType == userTypes?.ProviderAdmin) ? 
-                    
-                    <input
-                    type='hidden'
-                    name="providerId"
-                    id='providerId'
-                    value={mId}
-                    />
-                    :
-                    <>
-                     {selectedId != undefined ? null : (
-                      <FormGroup
-                        row
-                        className="has-icon-left position-relative"
-                      >
-                        <Col md="3">
-                          <span>
-                            Provider <span className="text-danger">*</span>{" "}
-                          </span>
-                        </Col>
-                        <Col md="6">
-                          <Select
-                            options={providerMenu}
-                            value={{
-                              label: providerLabel,
-                              value: providerValue,
-                            }}
-                            onChange={(opt) =>
-                              selectProvider(opt.label, opt.value)
-                            }
-                            name="providerId"
-                            id="providerId"
-                          />
-
-                          {/* <div className="form-control-position">
+                              {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
 
-                          {providerError ? (
-                            <span className="text-danger">
-                              Provider is required
-                            </span>
-                          ) : null}
-                        </Col>
-                      </FormGroup>
+                              {providerError ? (
+                                <span className="text-danger">
+                                  Provider is required
+                                </span>
+                              ) : null}
+                            </Col>
+                          </FormGroup>
+                        )}
+                      </>
                     )}
-                    </>
-
-                   }
 
                     {selectedId != undefined ? null : (
                       <FormGroup

@@ -119,20 +119,51 @@ const StudentList = () => {
 
   
   useEffect(() => {
-    get("StudentTypeDD/Index").then((res) => {
-      
-      setStudentList(res);
-    });
 
-    get("ConsultantDD/index").then((res) => {
-      setConsultant(res);
+    if(type){
+      get("StudentTypeDD/Index").then((res) => {
       
-      if(cId){
-        const result  = res.find(r => r?.id == cId);
-        setConsultantLabel(result?.name);
-      }
-    });
-  }, []);
+        setStudentList(res);
+       
+          const result = res?.find(ans => ans?.id == type);
+          setStudentTypeLabel(result?.name);
+          setStudentTypeValue(result?.id);
+       
+      })
+    }
+    else{
+      get("StudentTypeDD/Index").then((res) => {
+      
+        setStudentList(res);
+       
+       
+       
+      });
+    }
+  
+if(cId){
+  get("ConsultantDD/index").then((res) => {
+    setConsultant(res);
+    
+  
+      const result  = res.find(r => r?.id == cId);
+      setConsultantLabel(result?.name);
+    
+  })
+}
+
+else{
+  get("ConsultantDD/index").then((res) => {
+    setConsultant(res);
+    
+  
+
+
+    
+  });
+}
+ 
+  }, [studentTypeValue]);
 
   useEffect(() => {
     type
@@ -146,7 +177,7 @@ const StudentList = () => {
           setEntity(res?.totalEntity);
           setSerialNum(res?.firstSerialNumber);
           setLoading(false);
-          setStudentTypeLabel(res?.models[0]?.studentType?.name);
+         
          
         })
       : 
@@ -540,7 +571,7 @@ const StudentList = () => {
                 onChange={(opt) => selectStudentType(opt.label, opt.value)}
                 name="UniversityTypeId"
                 id="UniversityTypeId"
-                isDisabled={type ? true : false}
+                isDisabled={type}
               />
             </Col>
 

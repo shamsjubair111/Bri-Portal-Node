@@ -122,17 +122,61 @@ const UniversityList = (props) => {
     //   // setUList(res);
     //   dispatch(StoreUniversityListData(res));
     // });
-    get(`ProviderDD/Index`).then((res) => {
-      setProviderList(res);
-    });
+  provideId ?
+  get(`ProviderDD/Index`).then((res) => {
+    setProviderList(res);
+    
+      const result = res?.find(ans => ans?.id == provideId);
+      setProviderLabel(result?.name);
+      setProviderValue(res?.id);
+   
+  })
+  :
+  get(`ProviderDD/Index`).then((res) => {
+    setProviderList(res);
+    
+   
+   
+  });
 
-    get(`UniversityCountryDD/Index`).then((res) => {
-      setUniverSityCountries(res);
-    });
+   counId ?
+   get(`UniversityCountryDD/Index`).then((res) => {
+    setUniverSityCountries(res);
+ 
+      const result = res?.find(ans => ans?.id == counId);
+      setUniCountryLabel(result?.name);
+      setUniCountryValue(result?.id);
+      get(`UniversityStateDD/Index/${counId}`).then((res) => {
+      
+      
+        setUniversityStates(res);
+      });
+    
+  })
+  :
+  get(`UniversityCountryDD/Index`).then((res) => {
+    setUniverSityCountries(res);
+ 
+   
+    
+  });
 
-    get(`UniversityTypeDD/Index`).then((res) => {
-      setUniversityTypes(res);
-    });
+   univerTypeId ?
+   get(`UniversityTypeDD/Index`).then((res) => {
+    setUniversityTypes(res);
+  
+      const result = res?.find(ans => ans?.id == univerTypeId);
+      setUniTypeLabel(result?.name);
+      setUniTypeValue(result?.id);
+  
+  })
+  :
+  get(`UniversityTypeDD/Index`).then((res) => {
+    setUniversityTypes(res);
+  
+      
+  
+  });
 
     // get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
    
@@ -140,7 +184,7 @@ const UniversityList = (props) => {
     //     setProviderValue(res);
     //   }
     // })
-  }, []);
+  }, [providerValue, uniCountryValue, uniTypeValue]);
 
   
 
@@ -164,9 +208,7 @@ const UniversityList = (props) => {
         setEntity(action?.totalEntity);
         setSerialNum(action?.firstSerialNumber);
         setLoading(false);
-        setUniCountryLabel(action?.models.length !== 0 ? action?.models[0]?.universityCountry?.name
-          : "");
-        setUniCountryValue(counId);
+      
       });
     }
     else if(univerTypeId !== undefined){
@@ -187,8 +229,7 @@ const UniversityList = (props) => {
         setEntity(action?.totalEntity);
         setSerialNum(action?.firstSerialNumber);
         setLoading(false);
-        setUniTypeLabel(action?.models[0]?.universityType?.name);
-        setUniTypeValue(univerTypeId);
+       
       });
     }
     else if(provideId !== undefined){
@@ -208,8 +249,7 @@ const UniversityList = (props) => {
         setEntity(action?.totalEntity);
         setSerialNum(action?.firstSerialNumber);
         setLoading(false);
-        setProviderLabel(action?.models[0]?.provider?.name);
-        setProviderValue(provideId);
+       
       });
     }
     else{

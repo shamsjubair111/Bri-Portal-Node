@@ -117,25 +117,9 @@ const EmployeeList = (props) => {
   }));
 
   useEffect(() => {
-    type
-      ? get(
-          `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${
-            type ? type : empValue
-          }&searchstring=${searchStr}`
-        ).then((action) => {
-          setEmployeeList(action.models);
-          
-          setEmpLabel(action?.models[0]?.employeeType?.name);
-
-          setLoading(false);
-          setEntity(action.totalEntity);
-          setSerialNum(action.firstSerialNumber);
-          setLoading(false);
-        })
-      : get(
-          `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${
-            type ? type : empValue
-          }&searchstring=${searchStr}`
+    
+       get(
+          `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empValue}&searchstring=${searchStr}`
         ).then((action) => {
           setEmployeeList(action.models);
           console.log("list", action?.models);
@@ -145,15 +129,27 @@ const EmployeeList = (props) => {
           setLoading(false);
         });
 
+    type ? 
+    get(`EmployeeTypeDD/Index`).then((res) => {
+      setEmpList(res);
+      const result = res?.find (ans => ans?.id == type);
+      setLoading(false);
+      setEmpLabel(result?.name);
+      setEmpValue(res?.id);
+    })
+    :
     get(`EmployeeTypeDD/Index`).then((res) => {
       setEmpList(res);
       setLoading(false);
     });
+
+
+
   }, [
     callApi,
     currentPage,
     dataPerPage,
-    employeeId,
+ 
     searchStr,
     // entity,
     success,
