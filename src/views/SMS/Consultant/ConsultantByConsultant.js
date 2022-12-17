@@ -85,7 +85,7 @@ const ConsultantByConsultant = () => {
       get(
         `Consultant/GetAssociate?page=${currentPage}&pageSize=${dataPerPage}&id=${referenceId}`
       ).then((res) => {
-        
+        console.log('assoData', res);
         setConsultantList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);
@@ -106,7 +106,7 @@ const ConsultantByConsultant = () => {
         setPageLoad(false);
       });
     }
-  }, [id, currentPage, dataPerPage, callApi, entity, loading, success]);
+  }, [id, currentPage, dataPerPage, callApi, loading, success]);
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];
@@ -182,13 +182,13 @@ const ConsultantByConsultant = () => {
   const handleEdit = (data) => {
     
 
-    history.push(`/consultantInformation/${data?.id}`);
+    history.push(`/associateInformation/${data?.id}`);
   };
 
   const componentRef = useRef();
 
   const handleView = (consultantId) => {
-    history.push(`/consultantProfile/${consultantId}`);
+    history.push(`/associateProfile/${consultantId}`);
   };
 
   // for hide/unhide column
@@ -236,6 +236,10 @@ const ConsultantByConsultant = () => {
     setCheckAction(e.target.checked);
   };
 
+  const handleAddAssociate = () => {
+    history.push("/addAssociate");
+  }
+
   return (
     <div>
       {pageLoad ? (
@@ -268,18 +272,18 @@ const ConsultantByConsultant = () => {
               {/* new */}
               <Row className="mb-3">
                 <Col lg="5" md="5" sm="4" xs="4">
-                  {/* {
-                    permissions?.includes(permissionList?.Add_subject) ?
-              <ButtonForFunction
-                func={handleAddSubject}
-                className={"btn btn-uapp-add "}
-                icon={<i className="fas fa-plus"></i>}
-                name={" Add New Subject"}
-                permission={6}
-              />
-              :
-              null
-              } */}
+                  {
+                    permissions?.includes(permissionList?.Add_New_Associate) ?
+                      <ButtonForFunction
+                        func={handleAddAssociate}
+                        className={"btn btn-uapp-add "}
+                        icon={<i className="fas fa-plus"></i>}
+                        name={" Add Associate"}
+                        permission={6}
+                      />
+                      :
+                      null
+                  }
                 </Col>
 
                 <Col lg="7" md="7" sm="8" xs="8">
@@ -822,9 +826,9 @@ const ConsultantByConsultant = () => {
                                   {" "}
                                   <span
                                     className="badge badge-primary"
-                                    style={{ cursor: "pointer" }}
+                                    // style={{ cursor: "pointer" }}
                                   >
-                                    {0}
+                                    {consultant?.applicationCount}
                                   </span>{" "}
                                 </td>
                               ) : null}
@@ -883,7 +887,7 @@ const ConsultantByConsultant = () => {
                                   />
                                 ) : null}
 
-                                {permissions?.includes(
+                                {/* {permissions?.includes(
                                   permissionList.Update_Associate_info
                                 ) ? (
                                   <ButtonForFunction
@@ -893,9 +897,9 @@ const ConsultantByConsultant = () => {
                                     icon={<i className="fas fa-edit"></i>}
                                     permission={6}
                                   />
-                                ) : null}
+                                ) : null} */}
 
-                                {permissions?.includes(
+                                {/* {permissions?.includes(
                                   permissionList.Delete_Associate
                                 ) ? (
                                   <>
@@ -912,7 +916,8 @@ const ConsultantByConsultant = () => {
                                     ) : // <Button color="danger" className="mx-1 btn-sm" disabled><i className="fas fa-trash-alt"></i></Button>
                                     null}
                                   </>
-                                ) : null}
+                                ) : null} */}
+
                               </ButtonGroup>
                               <Modal
                                 isOpen={deleteModal}
