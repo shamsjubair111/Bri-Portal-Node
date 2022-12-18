@@ -44,6 +44,8 @@ import Loader from "../Search/Loader/Loader.js";
 import { useToasts } from "react-toast-notifications";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
+import ToggleSwitch from "../Components/ToggleSwitch.js";
+import put from "../../../helpers/put.js";
 
 const UniversityList = (props) => {
   const dispatch = useDispatch();
@@ -99,6 +101,7 @@ const UniversityList = (props) => {
   const [checkCampus, setCheckCampus] = useState(true);
   const [checkAppli, setCheckAppli] = useState(true);
   const [checkProg, setCheckProg] = useState(true);
+  const [checkStatus, setCheckStatus] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [delData,setDelData] = useState({});
   const {addToast} = useToasts();
@@ -569,6 +572,25 @@ const UniversityList = (props) => {
     history.push(`/universityDetails/${uniId}`);
   };
 
+
+  const handleUpdateStatus = (data) => {
+    
+    put(`University/UpdateStatus/${data?.id}`).then((res) => {
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+      } else {
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    });
+  };
+
  
 
   // for hide/unhide column
@@ -607,6 +629,9 @@ const UniversityList = (props) => {
   };
   const handleCheckedProg = (e) => {
     setCheckProg(e.target.checked);
+  };
+  const handleCheckedStatus = (e) => {
+    setCheckStatus(e.target.checked);
   };
   const handleCheckedAction = (e) => {
     setCheckAction(e.target.checked);
@@ -1049,6 +1074,25 @@ const UniversityList = (props) => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
+                          <p className="">Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedStatus(e);
+                              }}
+                              defaultChecked={checkStatus}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
                           <p className="">Action</p>
                         </Col>
 
@@ -1127,6 +1171,13 @@ const UniversityList = (props) => {
                    {
                     permissions?.includes(permissionList.View_subject_List) ?
                     <> {checkProg ? <th>Programs</th> : null}</>
+                    :
+                    null
+                   }
+
+                   {
+                    permissions?.includes(permissionList?.Change_Status_University) ?
+                    <>{checkStatus ? <th>Status</th> : null}</>
                     :
                     null
                    }
@@ -1329,6 +1380,27 @@ const UniversityList = (props) => {
                     :
                     null
                           }
+
+                      {
+                        permissions?.includes(permissionList?.Change_Status_University) ?
+                        <>
+                          {
+                            checkStatus ?
+                              <td>
+                                <ToggleSwitch
+                                  defaultChecked={university?.isActive}
+                                  onChange={() =>
+                                    handleUpdateStatus(university)
+                                  }
+                                />
+                              </td>
+                              :
+                              null
+                          }
+                        </>
+                        :
+                        null
+                      }
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
