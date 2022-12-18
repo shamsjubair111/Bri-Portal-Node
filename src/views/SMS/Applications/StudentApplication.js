@@ -48,7 +48,7 @@ import Loader from "../Search/Loader/Loader.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
 
-const StudentApplication = ({ currentUser }) => {
+const StudentApplication = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
@@ -307,18 +307,18 @@ const StudentApplication = ({ currentUser }) => {
     });
 
     // for student
-    if (currentUser != undefined) {
-      get(`StudentApplicationFilterDD/University/${currentUser}`).then(
+    // if (currentUser != undefined) {
+      get(`CommonApplicationFilterDD/University`).then(
         (res) => {
           setStudentUniDD(res);
         }
       );
-      get(`StudentApplicationFilterDD/Consultant/${currentUser}`).then(
-        (res) => {
-          setStudentConsDD(res);
-        }
-      );
-    }
+      // get(`CommonApplicationFilterDD/Student`).then(
+      //   (res) => {
+      //     setStudentConsDD(res);
+      //   }
+      // );
+    // }
 
     // for list
 
@@ -366,7 +366,7 @@ const StudentApplication = ({ currentUser }) => {
 
     //   
 
-    if (currentUser != undefined) {
+    // if (currentUser != undefined) {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
@@ -376,7 +376,7 @@ const StudentApplication = ({ currentUser }) => {
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    }
+    // }
   }, [
     currentPage,
     dataPerPage,
