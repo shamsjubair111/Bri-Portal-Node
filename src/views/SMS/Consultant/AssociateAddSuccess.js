@@ -41,7 +41,7 @@ const AssociateAddSuccess = () => {
           <Card>
             <div className='p-3'>
              <h2>Success</h2>
-             <p>Please notify the new agent to complete his / her profile!</p>
+             <p>Please notify the new associate to complete his / her profile!</p>
             </div>
           </Card>
         </div>
