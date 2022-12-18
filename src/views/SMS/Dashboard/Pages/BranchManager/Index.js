@@ -347,7 +347,7 @@ const BranchManager = () => {
                     
                     <span className='pvdadmin-span-style2' onClick={()=>{
                       history.push(`applicationsByStatus/${2}/${3}`)
-                    }} style={{color: '#F7BD12', cursor: 'poiner'}}>{count?.totalRegistered}</span>
+                    }} style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRegistered}</span>
                 </div>
 
                        
@@ -359,10 +359,12 @@ const BranchManager = () => {
                   <div className='col-md-2 mb-3'>
                   
                     <div className='count-card counter-h-112' style={{border: '0.5px solid #F87675'}}>
-                    <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
+                    <span  className='pvdadmin-span-style1'>Rejected / Cancelled</span>
          
                        
-         <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
+         <span onClick={()=>{
+                      history.push(`/applicationsByStatus/${5}/${3}`)
+                    }} className='pvdadmin-span-style2' style={{color: '#F87675', cursor: 'pointer'}}>{count?.totalRejected}</span>
 
 
                     </div>
@@ -377,7 +379,9 @@ const BranchManager = () => {
                 <div className='count-card counter-h-112' style={{border: '0.5px solid #707070'}}>
                 <span className='pvdadmin-span-style1'>Withdrawn Application</span>
              
-             <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
+             <span onClick={()=>{
+                      history.push(`/applicationsByStatus/${4}/${3}`)
+                    }} className='pvdadmin-span-style2' style={{color: '#707070', cursor: 'pointer'}}>{count?.totalWithdrawn}</span>
 
 
                 </div>
@@ -417,7 +421,9 @@ const BranchManager = () => {
          {
           application?.map((app,i) => (
             <tr key={i}>
-            <td>{app?.student?.studentViewId}	</td>
+            <td className='cursor-pointer hyperlink-hover'><span onClick={()=>{
+              history.push(`/applicationDetails/${app?.id}/${app?.studentId}`);
+            }}>{app?.student?.studentViewId}</span>	</td>
             <td><div>
               <img src={rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
               <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>

@@ -1263,7 +1263,9 @@ const UniversityList = (props) => {
                             {university?.totalApplication}
                           </span> */}
   
-                            <SpanButton
+                            {
+                              (university?.totalApplication > 0) ?
+                              <SpanButton
                               func={() =>
                                 redirectToApplications(
                                   university?.id,
@@ -1275,6 +1277,17 @@ const UniversityList = (props) => {
                               data={university?.totalApplication}
                               permission={6}
                             />
+                            :
+                            <SpanButton
+                             
+                              className={"badge badge-primary"}
+                              
+                              data={university?.totalApplication}
+                              permission={6}
+                            />
+                                
+                              
+                            }
                           </td>
                         ) : null}</>
                         :

@@ -187,7 +187,9 @@ const ComplianceManager = () => {
             <div style={{border: '0.5px solid #F87675'}} className='count-card counter-h-112'>
             <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
             
-            <span className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
+            <span onClick={()=>{
+                  history.push(`applicationsByStatus/${5}/${3}`)
+                 }} className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
 
             </div>
                  
@@ -201,7 +203,9 @@ const ComplianceManager = () => {
              <div style={{border: '0.5px solid #707070'}} className='count-card counter-h-112'>
              <span className='pvdadmin-span-style1'>Withdrawn Application</span>
                  
-                 <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
+                 <span onClick={()=>{
+                  history.push(`applicationsByStatus/${4}/${3}`)
+                 }} className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
 
              </div>
 
@@ -246,7 +250,9 @@ const ComplianceManager = () => {
        {
         applications?.map((app,i) =>(
           <tr key={i}>
-          <td>{app?.student?.studentViewId}</td>
+          <td className='cursor-pointer hyperlink-hover'><span onClick={()=>{
+            history.push(`/applicationDetails/${app?.id}/${app?.studentId}`);
+          }}>{app?.student?.studentViewId}</span></td>
           <td><div>
           <img src={(app?.student?.profileImage?.thumbnailUrl == null) ? user : rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
           <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
@@ -254,7 +260,7 @@ const ComplianceManager = () => {
           <td>{app?.universityName}</td>
           <td>{app?.applicationStatusName}</td>
           <td>{handleDate(app?.applicationDate)}</td>
-          <Link to={`applicationDetails/${app?.id}/${app?.studentId}`}><td style={textDecorationStyle}>Details</td></Link>
+          
           </tr>
         ))
        }

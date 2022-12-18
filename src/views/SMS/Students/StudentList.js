@@ -148,6 +148,7 @@ if(cId){
   
       const result  = res.find(r => r?.id == cId);
       setConsultantLabel(result?.name);
+      setConsultantValue(result?.id);
     
   })
 }
@@ -163,7 +164,7 @@ else{
   });
 }
  
-  }, [studentTypeValue]);
+  }, [studentTypeValue, cId,consultantValue]);
 
   useEffect(() => {
     type

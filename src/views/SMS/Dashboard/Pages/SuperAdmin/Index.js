@@ -36,6 +36,7 @@ const SuperAdmin = () => {
 
     get(`SystemAdminDashboard/Application`).then((res) => {
       setApplications(res);
+      console.log(res);
     });
 
     get(`SystemAdminDashboard/GetTransactions`).then((res) => {
@@ -385,11 +386,14 @@ const SuperAdmin = () => {
 
         <div className="col-md-3 mb-3">
               <div className="count-card counter-h-112" style={{ border: "0.5px solid #F87675" }}>
-              <span className="pvdadmin-span-style1">Rejected / Cancelled</span>
+              <span  className="pvdadmin-span-style1">Rejected / Cancelled</span>
    
    <span
+   onClick={()=>{
+    history.push(`/applicationsByStatus/${5}/${3}`);
+ }}  
      className="pvdadmin-span-style2"
-     style={{ color: "#F87675" }}
+     style={{ color: "#F87675", cursor: 'pointer' }}
    >
      {count?.totalRejected}
    </span>
@@ -402,13 +406,16 @@ const SuperAdmin = () => {
 
         <div className="col-md-3 mb-3">
         <div className="count-card counter-h-112" style={{ border: "0.5px solid #707070" }}>
-        <span className="pvdadmin-span-style1">
+        <span  className="pvdadmin-span-style1">
                 Withdrawn Application
               </span>
             
               <span
+              onClick={()=>{
+                history.push(`/applicationsByStatus/${4}/${3}`);
+             }}
                 className="pvdadmin-span-style2"
-                style={{ color: "#707070" }}
+                style={{ color: "#707070", cursor: 'pointer' }}
               >
                 {count?.totalWithdrawn}
               </span>
@@ -477,7 +484,9 @@ const SuperAdmin = () => {
                 <tbody>
                   {applications?.map((app) => (
                     <tr>
-                      <td>{app?.student?.studentViewId} </td>
+                      <td className="cursor-pointer hyperlink-hover"><span onClick={()=>{
+                        history.push(`/applicationDetails/${app?.id}/${app?.studentId}`)
+                      }}>{app?.student?.studentViewId}</span> </td>
                       <td>
                         <div>
                           <img
@@ -678,12 +687,14 @@ const SuperAdmin = () => {
               {
                       consultants?.map((con,i)=>(
                         <tr key={i}>
-                    <td>{con?.consultantViewId}</td>
+                    <td className="cursor-pointer hyperlink-hover"><span onClick={()=>{
+                      history.push(`accountTransactionByConsultant/${con?.consultantId}`);
+                    }}>{con?.consultantViewId}</span></td>
                     <td>{con?.consultantName}</td>
                     <td>{con?.credit}</td>
                     <td>{con?.debit}</td>
                     <td>{con?.balance}</td>
-                    <td><Link style={{textDecoration: 'underline', color:'#1e98b0', textDecorationColor: '#1e98b0'}} to={`accountTransactionByConsultant/${con?.consultantId}`}>Details</Link></td>
+                    
                     </tr>
                       ))
                     }

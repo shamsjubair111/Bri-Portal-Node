@@ -357,7 +357,9 @@ const AccountOfficer = () => {
                       <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
 
                             
-                      <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.totalRejected}</span>
+                      <span onClick={()=>{
+                        history.push(`/applicationsbyStatus/${5}/${3}`)
+                      }} className='pvdadmin-span-style2' style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRejected}</span>
                       </div>
 
                           
@@ -371,7 +373,9 @@ const AccountOfficer = () => {
                         <div style={{border: '0.5px solid #707070'}} className='count-card counter-h-112'>
                         <span className='pvdadmin-span-style1'>Withdrawn Application</span>
 
-                        <span className='pvdadmin-span-style2' style={{color: '#707070'}}>{count?.totalWithdrawn}</span>
+                        <span onClick={()=>{
+                        history.push(`/applicationsbyStatus/${4}/${3}`)
+                      }}  className='pvdadmin-span-style2' style={{color: '#707070', cursor: 'pointer'}}>{count?.totalWithdrawn}</span>
                         </div>
 
                           

@@ -323,14 +323,29 @@ const ProviderApplication = ({ currentUser }) => {
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
       setApplicationDD(res);
+      if(selector == 1){
+        const result = res?.find(ans => ans?.id == status);
+        setApplicationLabel(result?.name);
+        setApplicationValue(res?.id);
+      }
     });
 
     get("OfferStatusDD/Index").then((res) => {
       setOfferDD(res);
+      if(selector == 2){
+        const result = res?.find(ans => ans?.id == status);
+        setOfferLabel(result?.name);
+        setOfferValue(res?.id);
+      }
     });
 
     get("EnrollmentStatusDD/Index").then((res) => {
       setEnrollDD(res);
+      if(selector == 3){
+        const result = res?.find(ans => ans?.id == status);
+        setEnrollLabel(result?.name);
+        setEnrollValue(res?.id);
+      }
     });
 
     get("IntakeDD/Index").then((res) => {
@@ -363,11 +378,21 @@ const ProviderApplication = ({ currentUser }) => {
       get(`CommonApplicationFilterDD/Consultant`).then(
         (res) => {
           setProviderConsDD(res);
+          if(consultantId){
+            const result = res?.find(ans => ans?.id == consultantId);
+            setProviderConsLabel(result?.name);
+            setProviderConsValue(res?.id);
+          }
         }
       );
       get(`CommonApplicationFilterDD/University`).then(
         (res) => {
           setProviderUniDD(res);
+          if(universityId){
+            const result = res?.find(ans => ans?.id == universityId);
+            setProviderUniLabel(result?.name);
+            setProviderUniValue(res?.id);
+          }
         }
       );
       get(`CommonApplicationFilterDD/PhoneNumber`).then(
@@ -535,6 +560,9 @@ const ProviderApplication = ({ currentUser }) => {
     providerUniValue,
     providerPhoneValue,
     consultantId,
+    universityId,
+    status,
+    selector
   ]);
 
   const toggleDanger = (data) => {

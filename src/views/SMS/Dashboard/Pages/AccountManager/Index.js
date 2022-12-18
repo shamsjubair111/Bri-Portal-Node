@@ -295,7 +295,9 @@ const AccountManager = () => {
                     <span className='pvdadmin-span-style1'>Total Transactions</span>
                         
                                 
-                        <span className='pvdadmin-span-style2' style={{color: '#24A1CD'}}>{count?.accountTransaction}</span>
+                        <span onClick={()=>{
+                          history.push('/applications')
+                        }} className='pvdadmin-span-style2' style={{color: '#24A1CD', cursor: 'pointer'}}>{count?.accountTransaction}</span>
                     </div>
                      
                  
@@ -515,7 +517,9 @@ const AccountManager = () => {
               {
                 consultants?.map((con,i) =>(
                   <tr key={i}>
-              <td>{con?.consultantViewId}</td>
+              <td className='hyperlink-hover cursor-pointer'> <span onClick={()=>{
+                history.push(`/accountTransactionByConsultant/${con?.consultantId}`);
+              }}>{con?.consultantViewId}</span></td>
               <td><div>
             
               <span>{con?.consultantName}</span>
@@ -523,7 +527,7 @@ const AccountManager = () => {
               <td>{con?.credit}</td>
               <td>{con?.debit}</td>
               <td>{con?.balance}</td>
-              <td><Link to={`/accountTransactionByConsultant/${con?.consultantId}`} style={{color: '#1e98b0', textDecorationColor: '#1e98b0', textDecoration: 'underline'}}>Details</Link></td>
+              
 
               </tr>
                 ))

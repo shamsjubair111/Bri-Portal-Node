@@ -1017,13 +1017,24 @@ const ConsultantList = () => {
                       <>
                       {checkAppli ? (
                         <td>
+                         {
+                          (consultant?.applicationCount > 0) ?
                           <SpanButton
-                            func={() => redirectToApplications(consultant?.id)}
-                            className={"badge badge-primary"}
-                            style={{ cursor: "pointer" }}
-                            data={consultant?.applicationCount}
-                            permission={6}
-                          />
+                          func={() => redirectToApplications(consultant?.id)}
+                          className={"badge badge-primary"}
+                          style={{ cursor: "pointer" }}
+                          data={consultant?.applicationCount}
+                          permission={6}
+                        />
+                        :
+                        <SpanButton
+                        
+                        className={"badge badge-primary"}
+                        
+                        data={consultant?.applicationCount}
+                        permission={6}
+                      />
+                         }
                         </td>
                       ) : null}
                       </>

@@ -293,7 +293,9 @@ const ProviderAdmin = () => {
            {
               applications?.map((app,i) => (
                 <tr key={i}>
-                <td>{app?.student?.studentViewId}</td>
+                <td className='cursor-pointer hyperlink-hover'><span onClick={()=>{
+                  history.push(`/applicationDetails/${app?.id}/${app?.studentId}`)
+                }}>{app?.student?.studentViewId}</span></td>
                 <td><div>
                   <img src={(app?.student?.profileImage?.thumbnailUrl == null) ? user : rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
                   <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{''}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>

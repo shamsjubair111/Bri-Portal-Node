@@ -155,6 +155,11 @@ const Index = () => {
   useEffect(() => {
     get(`ConsultantDD/index`).then((res) => {
       setConsultant(res);
+      if(consultantId){
+        const result = res?.find(ans => ans?.id == consultantId);
+        setConsultantLabel(result?.name);
+        setConsultantValue(result?.id);
+      }
     });
 
     get(`StudentDD/Index`).then((res) => {
@@ -176,8 +181,7 @@ const Index = () => {
       ).then((res) => {
         
         setData(res?.models);
-        setConsultantValue(consultantId);
-        setConsultantLabel(res?.models[0]?.consultant.split("-")[1]);
+      
         setEntity(res?.totalEntity);
         setLoading(false);
       });

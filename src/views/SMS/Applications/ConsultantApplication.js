@@ -134,7 +134,7 @@ const ConsultantApplication = ({ currentUser }) => {
   const [delData, setDelData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
   const [success, setSuccess] = useState(false);
-  const {status,selector} = useParams();
+  const {status,selector, universityId} = useParams();
 
   const history = useHistory();
   const { addToast } = useToasts();
@@ -250,14 +250,29 @@ const ConsultantApplication = ({ currentUser }) => {
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
       setApplicationDD(res);
+      if(selector == 1){
+        const result = res?.find(ans => ans?.id == status);
+        setApplicationLabel(result?.name);
+        setApplicationValue(res?.id);
+      }
     });
 
     get("OfferStatusDD/Index").then((res) => {
       setOfferDD(res);
+      if(selector == 2){
+        const result = res?.find(ans => ans?.id == status);
+        setOfferLabel(result?.name);
+        setOfferValue(res?.id);
+      }
     });
 
     get("EnrollmentStatusDD/Index").then((res) => {
       setEnrollDD(res);
+      if(selector == 3){
+        const result = res?.find(ans => ans?.id == status);
+        setEnrollLabel(result?.name);
+        setEnrollValue(res?.id);
+      }
     });
 
     get("IntakeDD/Index").then((res) => {
@@ -290,6 +305,11 @@ const ConsultantApplication = ({ currentUser }) => {
       get(`CommonApplicationFilterDD/University`).then(
         (res) => {
           setConsultantUniDD(res);
+      if(universityId){
+        const result = res?.find(ans => ans?.id == universityId);
+        setConsUniLabel(result?.name);
+        setConsUniValue(result?.id);
+      }
           
         }
       );
@@ -355,8 +375,7 @@ const ConsultantApplication = ({ currentUser }) => {
             setLoading(false);
             setApplicationList(res?.models);
             setEntity(res?.totalEntity);
-            setApplicationLabel(res?.models[0]?.applicationStatusName);
-            setApplicationValue(status);
+            
             setSerialNumber(res?.firstSerialNumber);
           });
         }
@@ -367,8 +386,7 @@ const ConsultantApplication = ({ currentUser }) => {
             setLoading(false);
             setApplicationList(res?.models);
             setEntity(res?.totalEntity);
-            setOfferLabel(res?.models[0]?.offerStatusName);
-            setOfferValue(status);
+            
             setSerialNumber(res?.firstSerialNumber);
           });
         }
@@ -379,23 +397,32 @@ const ConsultantApplication = ({ currentUser }) => {
             setLoading(false);
             setApplicationList(res?.models);
             setEntity(res?.totalEntity);
-            setEnrollLabel(res?.models[0]?.enrollmentStatusName);
-            setEnrollValue(status)
+            
             setSerialNumber(res?.firstSerialNumber);
           });
         }
 
       }
-      else{
-        get(
-          `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-        ).then((res) => {
-          setLoading(false);
-          setApplicationList(res?.models);
-          setEntity(res?.totalEntity);
-          setSerialNumber(res?.firstSerialNumber);
-        });
-      }
+     else if(universityId){
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${universityId}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+     }
+     else{
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        setEntity(res?.totalEntity);
+        setSerialNumber(res?.firstSerialNumber);
+      });
+    }
     }
   }, [
     currentPage,
@@ -413,7 +440,10 @@ const ConsultantApplication = ({ currentUser }) => {
     consUappIdValue,
     consStdValue,
     consUniValue,
-    consPhnValue
+    consPhnValue,
+    universityId,
+    status,
+    selector
    
   ]);
 

@@ -318,14 +318,29 @@ const AdmissionManagerApplication = ({ currentUser }) => {
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
       setApplicationDD(res);
+      if(selector == 1){
+        const result = res?.find(ans => ans?.id == status);
+        setApplicationLabel(result?.name);
+        setApplicationValue(res?.id);
+      }
     });
 
     get("OfferStatusDD/Index").then((res) => {
       setOfferDD(res);
+      if(selector == 2){
+        const result = res?.find(ans => ans?.id == status);
+        setOfferLabel(result?.name);
+        setOfferValue(res?.id);
+      }
     });
 
     get("EnrollmentStatusDD/Index").then((res) => {
       setEnrollDD(res);
+      if(selector == 3){
+        const result = res?.find(ans => ans?.id == status);
+        setEnrollLabel(result?.name);
+        setEnrollValue(res?.id);
+      }
     });
 
     get("IntakeDD/Index").then((res) => {
@@ -359,11 +374,21 @@ const AdmissionManagerApplication = ({ currentUser }) => {
         `CommonApplicationFilterDD/Consultant`
       ).then((res) => {
         setManagerConsDD(res);
+        if(consultantId){
+          const result = res?.find(ans => ans?.id == consultantId);
+          setManagerConsLabel(result?.name);
+          setManagerConsValue(result?.id);
+        }
       });
       get(
         `CommonApplicationFilterDD/University`
       ).then((res) => {
         setManagerUniDD(res);
+        if(universityId){
+          const result = res?.find(ans => ans?.id == universityId);
+          setManagerUniLabel(result?.name);
+          setManagerUniValue(result?.id);
+        }
       });
       get(
         `CommonApplicationFilterDD/PhoneNumber`
@@ -427,8 +452,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
           ).then((res) => {
             setLoading(false);
             setApplicationList(res?.models);
-            setApplicationLabel(res?.models[0]?.applicationStatusName);
-            setApplicationValue(status);
+            
             setEntity(res?.totalEntity);
             setSerialNumber(res?.firstSerialNumber);
           });
@@ -439,8 +463,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
           ).then((res) => {
             setLoading(false);
             setApplicationList(res?.models);
-            setOfferLabel(res?.models[0]?.offerStatusName);
-            setOfferValue(status);
+            
             setEntity(res?.totalEntity);
             setSerialNumber(res?.firstSerialNumber);
           });
@@ -451,8 +474,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
           ).then((res) => {
             setLoading(false);
             setApplicationList(res?.models);
-            setEnrollLabel(res?.models[0]?.enrollmentStatusName);
-            setEnrollValue(status);
+           
             setEntity(res?.totalEntity);
             setSerialNumber(res?.firstSerialNumber);
           });
@@ -465,8 +487,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
-          setManagerUniLabel(res?.models[0]?.universityName);
-          setManagerUniValue(universityId);
+          
           setEntity(res?.totalEntity);
           setSerialNumber(res?.firstSerialNumber);
         });
@@ -478,8 +499,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
           setLoading(false);
           setApplicationList(res?.models);
           console.log("managerConS", res?.models[0]?.consultantName);
-          setManagerConsLabel(res?.models[0]?.consultantName);
-          setManagerConsValue(consultantId);
+         
           setEntity(res?.totalEntity);
           setSerialNumber(res?.firstSerialNumber);
         });
@@ -514,6 +534,10 @@ const AdmissionManagerApplication = ({ currentUser }) => {
     managerConsValue,
     managerUniValue,
     managerPhnValue,
+    universityId,
+    consultantId,
+    status,
+    selector
   ]);
 
   const toggleDanger = (data) => {

@@ -7,7 +7,7 @@ export  const  expireDateHandler =() => {
     const userType  = localStorage.getItem('userType');
     const referenceId  = localStorage.getItem('referenceId');
     const date = localStorage.getItem('date');
-    console.log(referenceId);
+   
 
     console.log(currentDate, expiryDate);
     if(currentDate.getTime() > expiryDate.getTime()){

@@ -294,14 +294,29 @@ const ApplicationsCommon = () => {
   useEffect(() => {
     get("ApplicationStatusDD/Index").then((res) => {
       setApplicationDD(res);
+      if(selector == 1){
+        const result = res?.find(ans => ans?.id == status);
+        setApplicationLabel(result?.name);
+        setApplicationValue(res?.id);
+      }
     });
 
     get("OfferStatusDD/Index").then((res) => {
       setOfferDD(res);
+      if(selector == 2){
+        const result = res?.find(ans => ans?.id == status);
+        setOfferLabel(result?.name);
+        setOfferValue(res?.id);
+      }
     });
 
     get("EnrollmentStatusDD/Index").then((res) => {
       setEnrollDD(res);
+      if(selector == 3){
+        const result = res?.find(ans => ans?.id == status);
+        setEnrollLabel(result?.name);
+        setEnrollValue(res?.id);
+      }
     });
 
     get("IntakeDD/Index").then((res) => {
@@ -324,9 +339,21 @@ const ApplicationsCommon = () => {
     });
     get("CommonApplicationFilterDD/University").then((res) => {
       setCommonUniDD(res);
+      const result = res?.find(ans => ans?.id == universityId);
+      if(universityId){
+        setCommonUniLabel(result?.name);
+      setCommonUniValue(result?.id);
+      }
     });
     get("CommonApplicationFilterDD/Consultant").then((res) => {
       setCommonConsultantDD(res);
+      
+      if(consultantId){
+        const result = res?.find (ans => ans?.id == consultantId);
+        
+        setConsultantLabel(result?.name);
+        setConsultantValue(result?.id);
+      }
     });
     get("CommonApplicationFilterDD/Student").then((res) => {
       setCommonStdDD(res);
@@ -399,8 +426,7 @@ const ApplicationsCommon = () => {
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
-        setConsultantLabel(res.models[0]?.consultantName);
-        setConsultantValue(consultantId);
+       
         setEntity(res?.totalEntity);
         // setSerialNumber(res?.firstSerialNumber);
       });
@@ -410,8 +436,7 @@ const ApplicationsCommon = () => {
       ).then((res) => {
         setLoading(false);
         setApplicationList(res?.models);
-        setCommonUniLabel(res.models[0]?.universityName);
-        setCommonUniValue(universityId);
+       
         
         setEntity(res?.totalEntity);
         // setSerialNumber(res?.firstSerialNumber);
@@ -425,8 +450,7 @@ const ApplicationsCommon = () => {
         setLoading(false);
         setEntity(res?.totalEntity);
         setApplicationList(res?.models);
-        setApplicationValue(status);
-        setApplicationLabel(res?.models[0]?.applicationStatusName);
+       
       
       });
      }
@@ -437,8 +461,7 @@ const ApplicationsCommon = () => {
         setLoading(false);
         setEntity(res?.totalEntity);
         setApplicationList(res?.models);
-        setOfferValue(status);
-        setOfferLabel(res?.models[0]?.offerStatusName);
+       
       
       });
      }
@@ -449,8 +472,7 @@ const ApplicationsCommon = () => {
         setLoading(false);
         setEntity(res?.totalEntity);
         setApplicationList(res?.models);
-        setEnrollValue(status);
-        setEnrollLabel(res?.models[0]?.enrollmentStatusName);
+       
       
       });
      }
@@ -492,6 +514,8 @@ const ApplicationsCommon = () => {
     // callApi
     consultantId,
     universityId,
+    status,
+    selector
   ]);
 
   const toggleDanger = (data) => {
