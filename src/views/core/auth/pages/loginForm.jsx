@@ -19,7 +19,7 @@ function LoginForm(props) {
         });
         const content = await response.json();
     
-        localStorage.setItem("JwtBearerToken",content.message)
+     
        
         setredirect(true);
         // props.setName(content.name) 

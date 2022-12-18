@@ -298,9 +298,7 @@ const ApplicationDetails = () => {
   }
 
   // const handleUpdateTestScores = (data) => {
-  //   localStorage.setItem("applictionStudentId", data?.id);
-  //   localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
-  //   localStorage.setItem("method", "put");
+
 
   //   history.push(`/addTestScore/${data?.id}/${1}`);
   // };

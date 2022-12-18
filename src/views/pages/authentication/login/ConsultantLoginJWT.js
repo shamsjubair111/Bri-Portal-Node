@@ -32,7 +32,7 @@ class ConsultantLoginJWT extends React.Component {
     //     if (response.data) {
     //       if(response.data.isSuccess == true){
     //         this.setState({error: ''});
-    //         localStorage.setItem('token',response.data.message);
+    //   
     //         const AuthStr = 'Bearer ' + response.data.message;
     //         history.push("/")
     //         window.location.reload();

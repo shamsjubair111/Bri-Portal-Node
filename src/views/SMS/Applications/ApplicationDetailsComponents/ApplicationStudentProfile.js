@@ -94,17 +94,13 @@ const ApplicationStudentProfile = ({ stdId }) => {
   }, [stdId]);
 
   //   const handleUpdateTestScores = (data) => {
-  //     localStorage.setItem("applictionStudentId", data?.id);
-  //     localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
-  //     localStorage.setItem("method", "put");
+
 
   //     history.push(`/addTestScore/${data?.id}/${1}`);
   //   };
 
   const handleEdit = (data) => {
-    localStorage.setItem("applictionStudentId", data?.id);
-    localStorage.setItem("applictionStudentTypeId", data?.studentTypeId);
-    localStorage.setItem("method", "put");
+    
 
     history.push(`/addStudentApplicationInformation/${data?.id}/${1}`);
   };

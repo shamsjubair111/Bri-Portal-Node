@@ -161,8 +161,7 @@ const StudentDocument = ({ stdId }) => {
 
   const toggleDanger = (docu) => {
     setdelDocData(docu);
-    // localStorage.setItem("delDocNam", docu?.documentLevelName);
-    // localStorage.setItem("delDocId", docu?.studentDocumentLevelId);
+
     setDeleteModal(true);
   };
 

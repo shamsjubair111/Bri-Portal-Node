@@ -217,7 +217,7 @@ export const loginWithGithub = () => {
 //       .then(response => {
 //         if (response.data) {
 //           if(response.data.isSuccess == true){
-//             localStorage.setItem('token',response.data.message);
+//        
 //             const AuthStr = 'Bearer ' + response.data.message;
 //             history.push("/")
 //             window.location.reload();
