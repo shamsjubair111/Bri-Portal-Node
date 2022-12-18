@@ -350,27 +350,27 @@ const ProviderApplication = ({ currentUser }) => {
 
     // for provider admin
     if (currentUser != undefined) {
-      get(`ProviderAdminApplicationFilterDD/UappId/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/UappId`).then(
         (res) => {
           setProviderUappIdDD(res);
         }
       );
-      get(`ProviderAdminApplicationFilterDD/Student/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/Student`).then(
         (res) => {
           setProviderStdDD(res);
         }
       );
-      get(`ProviderAdminApplicationFilterDD/Consultant/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/Consultant`).then(
         (res) => {
           setProviderConsDD(res);
         }
       );
-      get(`ProviderAdminApplicationFilterDD/University/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/University`).then(
         (res) => {
           setProviderUniDD(res);
         }
       );
-      get(`ProviderAdminApplicationFilterDD/PhoneNumber/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/PhoneNumber`).then(
         (res) => {
           setProviderPhoneDD(res);
         }

@@ -345,28 +345,28 @@ const AdmissionManagerApplication = ({ currentUser }) => {
 
     // for admission manager
     if (currentUser != undefined) {
-      get(`AddmissionmanagerApplicationFilterDD/UappId/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/UappId`).then(
         (res) => {
           setManagerUappIdDD(res);
         }
       );
-      get(`AddmissionmanagerApplicationFilterDD/Student/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/Student`).then(
         (res) => {
           setManagerStdDD(res);
         }
       );
       get(
-        `AddmissionmanagerApplicationFilterDD/Consultant/${currentUser}`
+        `CommonApplicationFilterDD/Consultant`
       ).then((res) => {
         setManagerConsDD(res);
       });
       get(
-        `AddmissionmanagerApplicationFilterDD/University/${currentUser}`
+        `CommonApplicationFilterDD/University`
       ).then((res) => {
         setManagerUniDD(res);
       });
       get(
-        `AddmissionmanagerApplicationFilterDD/PhoneNumber/${currentUser}`
+        `CommonApplicationFilterDD/PhoneNumber`
       ).then((res) => {
         setManagerPhoneDD(res);
       });

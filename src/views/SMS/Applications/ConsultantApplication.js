@@ -277,23 +277,23 @@ const ConsultantApplication = ({ currentUser }) => {
 
     // for consultant
     if (currentUser != undefined) {
-      get(`ConsultantApplicationFilterDD/UappId/${currentUser}`).then((res) => {
+      get(`CommonApplicationFilterDD/UappId`).then((res) => {
         setConsultantUappIdDD(res);
         
       });
-      get(`ConsultantApplicationFilterDD/Student/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/Student`).then(
         (res) => {
           setConsultantStdDD(res);
           
         }
       );
-      get(`ConsultantApplicationFilterDD/University/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/University`).then(
         (res) => {
           setConsultantUniDD(res);
           
         }
       );
-      get(`ConsultantApplicationFilterDD/PhoneNumber/${currentUser}`).then(
+      get(`CommonApplicationFilterDD/PhoneNumber`).then(
         (res) => {
           setConsultantPhnDD(res);
           
