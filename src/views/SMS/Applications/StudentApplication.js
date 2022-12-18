@@ -48,7 +48,7 @@ import Loader from "../Search/Loader/Loader.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
 
-const StudentApplication = () => {
+const StudentApplication = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
   const [callApi, setCallApi] = useState(false);
@@ -307,7 +307,7 @@ const StudentApplication = () => {
     });
 
     // for student
-    // if (currentUser != undefined) {
+    if (currentUser != undefined) {
       get(`CommonApplicationFilterDD/University`).then(
         (res) => {
           setStudentUniDD(res);
@@ -318,7 +318,7 @@ const StudentApplication = () => {
       //     setStudentConsDD(res);
       //   }
       // );
-    // }
+    }
 
     // for list
 
@@ -366,7 +366,7 @@ const StudentApplication = () => {
 
     //   
 
-    // if (currentUser != undefined) {
+    if (currentUser != undefined) {
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
@@ -376,7 +376,7 @@ const StudentApplication = () => {
         setEntity(res?.totalEntity);
         setSerialNumber(res?.firstSerialNumber);
       });
-    // }
+    }
   }, [
     currentPage,
     dataPerPage,

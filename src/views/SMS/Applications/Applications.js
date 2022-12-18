@@ -74,7 +74,7 @@ const Applications = () => {
            <ConsultantApplication currentUser={currentUser} />
            :
            parseInt(localStorage.getItem("userType")) === userTypes?.Student ?
-           <StudentApplication/>
+           <StudentApplication currentUser={currentUser} />
            :
            parseInt(localStorage.getItem("userType")) === userTypes?.ProviderAdmin ?
            <ProviderApplication currentUser={currentUser} />
