@@ -1293,16 +1293,24 @@ const ConsultantApplication = ({ currentUser }) => {
                       ) : null}
 
                       {checkId ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>{app?.uappId}</Link>
-                          
-                        </td>
+                       
+                        <td style={{ verticalAlign: "middle" }} className='cursor-pointer hyperlink-hover'>
+                        <span onClick={()=>{
+                          history.push(`/applicationDetails/${app?.id}/${app?.studentId}`)
+                        }}>{app?.uappId}</span>
+                         
+                       
+                      </td>
                       ) : null}
 
                       {checkApplic ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                           <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>  {app?.studentName}</Link>
                         
+                          <td style={{ verticalAlign: "middle" }} className='cursor-pointer hyperlink-hover'>
+                          <span onClick={()=>{
+                            history.push(`/applicationDetails/${app?.id}/${app?.studentId}`)
+                          }}>{app?.studentName}</span>
+                           
+                         
                         </td>
                       ) : null}
 
@@ -1314,10 +1322,14 @@ const ConsultantApplication = ({ currentUser }) => {
                       ) : null}
 
                       {checkUni ? (
-                        <td style={{ verticalAlign: "middle" }}>
-                          <Link style={{color: '#1e98b0', textDecorationColor: '#1e98b0'}} to={`/applicationDetails/${app?.id}/${app?.studentId}`}>{app?.universityName}</Link>
+                        
+                         <td style={{ verticalAlign: "middle" }} className='cursor-pointer hyperlink-hover'>
+                         <span onClick={()=>{
+                           history.push(`/applicationDetails/${app?.id}/${app?.studentId}`)
+                         }}>{app?.universityName}</span>
                           
-                        </td>
+                        
+                       </td>
                       ) : null}
 
                       {checkCamp ? (
