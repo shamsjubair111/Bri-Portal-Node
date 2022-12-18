@@ -37,6 +37,7 @@ import ButtonForFunction from "../Components/ButtonForFunction.js";
 import { permissionList } from "../../../constants/AuthorizationConstant.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
 import Loader from "../Search/Loader/Loader.js";
+import { userTypes } from "../../../constants/userTypeConstant.js";
 
 const ConsultantByConsultant = () => {
   const { id } = useParams();
@@ -79,6 +80,7 @@ const ConsultantByConsultant = () => {
   const [progress, setProgress] = useState(false);
 
   const referenceId = localStorage.getItem("referenceId");
+  const userTypeId = localStorage.getItem("userType");
 
   useEffect(() => {
     if (id == undefined) {
@@ -273,6 +275,9 @@ const ConsultantByConsultant = () => {
               <Row className="mb-3">
                 <Col lg="5" md="5" sm="4" xs="4">
                   {
+                    userTypeId == userTypes.Consultant ?
+                    <>
+                      {
                     permissions?.includes(permissionList?.Add_New_Associate) ?
                       <ButtonForFunction
                         func={handleAddAssociate}
@@ -281,8 +286,12 @@ const ConsultantByConsultant = () => {
                         name={" Add Associate"}
                         permission={6}
                       />
-                      :
-                      null
+                         :
+                         null
+                     }
+                    </>
+                    :
+                    null
                   }
                 </Col>
 
