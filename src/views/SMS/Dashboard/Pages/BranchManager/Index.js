@@ -81,7 +81,9 @@ const BranchManager = () => {
           
 
 
-             <div style={{cursor: 'pointer'}}>
+             <div style={{cursor: 'pointer'}} onClick={()=>{
+              history.push('/addConsultant');
+             }}>
 
               <div className='std-dashboard-style4'>
 
@@ -90,7 +92,7 @@ const BranchManager = () => {
 
                <div className='std-dashboard-style5'>
                <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
+               <span className='std-dashboard-style3'>Add Consultant</span>
                </div>
              </div>
 
@@ -310,7 +312,7 @@ const BranchManager = () => {
 
                   <div className='col-md-2 mb-3'>
                   <div className='count-card counter-h-112' style={{border: '0.5px solid #23CCB5'}}>
-                  <span className='pvdadmin-span-style1'>Applications in Process</span>
+                  <span className='pvdadmin-span-style1'>Applications In Process</span>
              
              <span className='pvdadmin-span-style2' onClick={()=>{
               history.push(`applicationsByStatus/${2}/${1}`)
@@ -405,46 +407,51 @@ const BranchManager = () => {
 
                   <span className='app-style-const'>New Applications</span>
 
-                 <div style={{height: '300px', overflowY: 'scroll'}}>
-                 <Table borderless responsive className='mt-3'>
-        <thead style={{backgroundColor: '#EEF3F4'}}>
-          <tr>
-            <th>Student ID</th>
-            <th>Name
-              </th>
-            <th>University</th>
-            <th>Admission Manager</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-         {
-          application?.map((app,i) => (
-            <tr key={i}>
-            <td className='cursor-pointer hyperlink-hover'><span onClick={()=>{
-              history.push(`/applicationDetails/${app?.id}/${app?.studentId}`);
-            }}>{app?.student?.studentViewId}</span>	</td>
-            <td><div>
-              <img src={rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
-              <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
-              </div></td>
-            <td>{app?.universityName}</td>
-            <td>{app?.managerName}</td>
-             <td>{handleDate(app?.applicationDate)}	</td>
-          </tr>
-
-          ))
-         }
-         
-
+                {
+                  (application?.length > 0) ?
+                  <div style={{height: '300px', overflowY: 'scroll'}}>
+                  <Table borderless responsive className='mt-3'>
+         <thead style={{backgroundColor: '#EEF3F4'}}>
+           <tr>
+             <th>Student ID</th>
+             <th>Name
+               </th>
+             <th>University</th>
+             <th>Admission Manager</th>
+             <th>Date</th>
+           </tr>
+         </thead>
+         <tbody>
+          {
+           application?.map((app,i) => (
+             <tr key={i}>
+             <td className='cursor-pointer hyperlink-hover'><span onClick={()=>{
+               history.push(`/applicationDetails/${app?.id}/${app?.studentId}`);
+             }}>{app?.student?.studentViewId}</span>	</td>
+             <td><div>
+               <img src={rootUrl+app?.student?.profileImage?.thumbnailUrl} style={{height: '28px', width: '28px', borderRadius: '50%'}} className='img-fluid' />
+               <span style={{marginLeft: '5px'}}>{app?.student?.nameTittle?.name}{' '}{app?.student?.firstName}{' '}{app?.student?.lastName}</span>
+               </div></td>
+             <td>{app?.universityName}</td>
+             <td>{app?.managerName}</td>
+              <td>{handleDate(app?.applicationDate)}	</td>
+           </tr>
+ 
+           ))
+          }
           
-
-         
-        </tbody>
-      </Table>
-
-
-                 </div>
+ 
+           
+ 
+          
+         </tbody>
+       </Table>
+ 
+ 
+                  </div>
+                  :
+                  <p style={{textAlign: 'center', fontWeight: '700'}}>No Application</p>
+                }
                
                
 

@@ -67,18 +67,7 @@ const AccountManager = () => {
           
 
 
-             <div style={{cursor: 'pointer'}}>
-
-              <div className='std-dashboard-style4'>
-
-
-              </div>
-
-               <div className='std-dashboard-style5'>
-               <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
-               </div>
-             </div>
+             
 
              <div style={{cursor: 'pointer'}}>
 
@@ -498,44 +487,51 @@ const AccountManager = () => {
                 <CardBody>
 
                   <span className='app-style-const'>Consultant Transaction List</span>
+                {
+                        (consultants?.length > 0) ? 
+                        <div style={{height: '300px', overflowY: 'scroll'}}>
 
-             <div style={{height: '300px', overflowY: 'scroll'}}>
-
-             <Table borderless responsive className='mt-3'>
-              <thead style={{backgroundColor: '#EEF3F4'}}>
-              <tr>
-              <th>Consultant ID</th>
-              <th>Consultant Name
-              </th>
-              <th>Total In Flow</th>
-              <th>Total Out Flow</th>
-              <th>Total Balance</th>
-              <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {
+                <Table borderless responsive className='mt-3'>
+                <thead style={{backgroundColor: '#EEF3F4'}}>
+                <tr>
+                <th>Consultant ID</th>
+                <th>Consultant Name
+                </th>
+                <th>Total In Flow</th>
+                <th>Total Out Flow</th>
+                <th>Total Balance</th>
+                <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {
                 consultants?.map((con,i) =>(
-                  <tr key={i}>
-              <td className='hyperlink-hover cursor-pointer'> <span onClick={()=>{
+                <tr key={i}>
+                <td className='hyperlink-hover cursor-pointer'> <span onClick={()=>{
                 history.push(`/accountTransactionByConsultant/${con?.consultantId}`);
-              }}>{con?.consultantViewId}</span></td>
-              <td><div>
-            
-              <span>{con?.consultantName}</span>
-              </div></td>
-              <td>{con?.credit}</td>
-              <td>{con?.debit}</td>
-              <td>{con?.balance}</td>
-              
+                }}>{con?.consultantViewId}</span></td>
+                <td><div>
 
-              </tr>
+                <span>{con?.consultantName}</span>
+                </div></td>
+                <td>{con?.credit}</td>
+                <td>{con?.debit}</td>
+                <td>{con?.balance}</td>
+
+
+                </tr>
                 ))
-              }
-              </tbody>
-              </Table>
+                }
+                </tbody>
+                </Table>
 
-             </div>
+                </div>
+
+                :
+
+                <p style={{textAlign: 'center', fontWeight: '700'}}>No Transaction</p>
+                }
+    
 
 
 

@@ -59,7 +59,7 @@ const Admin = () => {
 
          <div className='std-dashboard-style5'>
          <img src={plusicon} className='img-fluid dashbard-img-style1' />
-         <span className='std-dashboard-style3'>Add New Student</span>
+         <span className='std-dashboard-style3'>Add Student</span>
          </div>
        </div>
 
@@ -283,7 +283,7 @@ const Admin = () => {
 
     <CardBody>
 
-      <span className='pvdadmin-span-style1'>Applications in Process</span>
+      <span className='pvdadmin-span-style1'>Applications In Process</span>
       <br/>
       <span className='pvdadmin-span-style2'>500</span>
       <br/>

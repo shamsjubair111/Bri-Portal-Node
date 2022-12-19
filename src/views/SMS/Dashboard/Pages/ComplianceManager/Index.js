@@ -80,18 +80,7 @@ const ComplianceManager = () => {
           
 
 
-             <div style={{cursor: 'pointer'}}>
-
-              <div className='std-dashboard-style4'>
-
-
-              </div>
-
-               <div className='std-dashboard-style5'>
-               <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
-               </div>
-             </div>
+              
 
              <div style={{cursor: 'pointer'}}>
 
@@ -134,7 +123,7 @@ const ComplianceManager = () => {
             <div className='col-md-2 mb-3'>
            <div  style={{border: '0.5px solid #23CCB5'}} className='count-card counter-h-112'>
 
-           <span className='pvdadmin-span-style1'>Applications in Process</span>
+           <span className='pvdadmin-span-style1'>Applications In Process</span>
                 
                 <span className='pvdadmin-span-style2' onClick={()=>{
                             history.push(`/applicationsByStatus/${2}/${1}`);
@@ -232,7 +221,9 @@ const ComplianceManager = () => {
 
                 <span className='app-style-const'>Recent Applications</span>
 
-               <div style={{height: '300px', overflowY : 'scroll'}}>
+               {
+                (applications?.length > 0) ? 
+                <div style={{height: '300px', overflowY : 'scroll'}}>
 
                <Table borderless responsive className='mt-3'>
             <thead style={{backgroundColor: '#EEF3F4'}}>
@@ -271,6 +262,9 @@ const ComplianceManager = () => {
 
 
                </div>
+               :
+               <p style={{textAlign: 'center', fontWeight: '700'}}>No Application</p>
+               }
 
 
 

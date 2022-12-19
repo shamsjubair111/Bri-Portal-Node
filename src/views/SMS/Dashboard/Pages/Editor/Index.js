@@ -68,12 +68,14 @@ const Editor = () => {
         </div>
 
         <div className="d-flex flex-wrap">
-          <div style={{ cursor: "pointer" }}>
+          <div style={{ cursor: "pointer" }} onClick={()=>{
+            history.push('/createUniversity');
+          }}>
             <div className="std-dashboard-style4"></div>
 
             <div className="std-dashboard-style5">
               <img src={plusicon} alt="" className="img-fluid dashbard-img-style1" />
-              <span className="std-dashboard-style3">Add New Student</span>
+              <span className="std-dashboard-style3">Add University</span>
             </div>
           </div>
 
@@ -371,7 +373,9 @@ const Editor = () => {
           <CardBody>
             <span className="app-style-const">Recent Added Universities</span>
 
-            <div style={{ height: "300px", overflowY: "scroll" }}>
+            {
+              (universities?.length > 0) ?
+              <div style={{ height: "300px", overflowY: "scroll" }}>
               <Table borderless responsive className="mt-3">
                 <thead style={{ backgroundColor: "#EEF3F4" }}>
                   <tr>
@@ -412,6 +416,9 @@ const Editor = () => {
                 </tbody>
               </Table>
             </div>
+            :
+            <p style={{textAlign: 'center', fontWeight: '700'}}>No University</p>
+            }
           </CardBody>
         </Card>
       </div>

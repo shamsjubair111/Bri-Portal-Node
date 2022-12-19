@@ -77,12 +77,14 @@ const SuperAdmin = () => {
         </div>
 
         <div className="d-flex flex-wrap">
-          <div style={{ cursor: "pointer" }}>
+          <div style={{ cursor: "pointer" }} onClick={()=>{
+            history.push(`/addStudentRegister`);
+          }}>
             <div className="std-dashboard-style4"></div>
 
             <div className="std-dashboard-style5">
               <img src={plusicon} className="img-fluid dashbard-img-style1" />
-              <span className="std-dashboard-style3">Add New Student</span>
+              <span className="std-dashboard-style3">Add Student</span>
             </div>
           </div>
 
@@ -329,7 +331,7 @@ const SuperAdmin = () => {
 
       
               <span className="pvdadmin-span-style1">
-                Applications in Process
+                Applications In Process
               </span>
           
               <span
@@ -469,7 +471,9 @@ const SuperAdmin = () => {
           <CardBody>
             <span className="app-style-const">New Applications</span>
 
-            <div style={{ height: "300px", overflowY: "scroll" }}>
+            {
+              (applications?.length > 0) ? 
+              <div style={{ height: "300px", overflowY: "scroll" }}>
               <Table borderless responsive className="mt-3">
                 <thead style={{ backgroundColor: "#EEF3F4" }}>
                   <tr>
@@ -513,6 +517,9 @@ const SuperAdmin = () => {
                 </tbody>
               </Table>
             </div>
+            :
+            <p style={{textAlign: 'center', fontWeight: '700'}}>No Application</p>
+            }
           </CardBody>
         </Card>
       </div>
@@ -666,7 +673,9 @@ const SuperAdmin = () => {
           <CardBody>
             <span className="app-style-const">Consultant Transaction List</span>
 
-          <div style={{height: '300px', overflowY: 'scroll'}}>
+          {
+            (consultants?.length > 0) ? 
+            <div style={{height: '300px', overflowY: 'scroll'}}>
           <Table
               borderless
               responsive
@@ -703,6 +712,9 @@ const SuperAdmin = () => {
 
 
           </div>
+          :
+          <p style={{textAlign: 'center', fontWeight: '700'}}>No Transaction</p>
+          }
           </CardBody>
         </Card>
       </div>

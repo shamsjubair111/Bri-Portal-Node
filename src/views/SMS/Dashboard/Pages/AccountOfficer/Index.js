@@ -74,18 +74,7 @@ const AccountOfficer = () => {
           
 
 
-             <div style={{cursor: 'pointer'}}>
-
-              <div className='std-dashboard-style4'>
-
-
-              </div>
-
-               <div className='std-dashboard-style5'>
-               <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
-               </div>
-             </div>
+            
 
              <div style={{cursor: 'pointer'}}>
 
@@ -304,7 +293,7 @@ const AccountOfficer = () => {
 
                       <div className='col-md-2 mb-3'>
                       <div style={{border: '0.5px solid #F87675'}} className='count-card counter-h-112'>
-                      <span className='pvdadmin-span-style1'>Applications in Process</span>
+                      <span className='pvdadmin-span-style1'>Applications In Process</span>
 
                       <span className='pvdadmin-span-style2' onClick={()=>{
                         history.push(`/applicationsByStatus/${2}/${1}`)
@@ -402,6 +391,8 @@ const AccountOfficer = () => {
 
           <span className='app-style-const'>Withdrawal Requests</span>
 
+      {
+        (applications?.length > 0) ? 
         <div style={{height: '300px', overflowY: 'scroll'}}>
 
 
@@ -468,6 +459,9 @@ const AccountOfficer = () => {
       </Table>
 
         </div>
+        :
+        <p style={{textAlign: 'center', fontWeight: '700'}}>No Withdrawal Requests</p>
+      }
 
 
 

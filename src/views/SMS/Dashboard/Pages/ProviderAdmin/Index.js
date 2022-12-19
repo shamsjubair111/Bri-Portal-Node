@@ -80,7 +80,9 @@ const ProviderAdmin = () => {
           
 
 
-             <div style={{cursor: 'pointer'}}>
+             <div style={{cursor: 'pointer'}} onClick={()=>{
+              history.push(`/createUniversity`);
+             }}>
 
               <div className='std-dashboard-style4'>
 
@@ -89,7 +91,7 @@ const ProviderAdmin = () => {
 
                <div className='std-dashboard-style5'>
                <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New University</span>
+               <span className='std-dashboard-style3'>Add University</span>
                </div>
              </div>
 
@@ -276,6 +278,8 @@ const ProviderAdmin = () => {
 
                   <span className='app-style-const'>New Applications</span>
 
+                {
+                  (applications?.length > 0) ? 
                   <div style={{height: '300px',  overflowY: 'scroll'}}>
 
                   <Table borderless responsive className='mt-3'>
@@ -311,6 +315,9 @@ const ProviderAdmin = () => {
             </Table>
 
                   </div>
+                  :
+                  <p style={{textAlign: 'center', fontWeight: '700'}}>No Application</p>
+                }
               
               
 
@@ -327,6 +334,8 @@ const ProviderAdmin = () => {
 
                   <span className='app-style-const'>Admission Manager List</span>
 
+                 {
+                  (managers?.length > 0) ? 
                   <div style={{height: '300px', overflowY: 'scroll'}}>
                   <Table borderless responsive className='mt-3'>
             <thead style={{backgroundColor: '#EEF3F4'}}>
@@ -361,6 +370,9 @@ const ProviderAdmin = () => {
             </Table>
 
                   </div>
+                  :
+                  <p style={{textAlign: 'center', fontWeight: '700'}}>No Admission Manager</p>
+                 }
               
               
 

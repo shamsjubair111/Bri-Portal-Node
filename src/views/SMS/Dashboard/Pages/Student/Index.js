@@ -82,7 +82,7 @@ const Student = () => {
 
                <div className='std-dashboard-style5'>
                <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
+               <span className='std-dashboard-style3'>Add Student</span>
                </div>
              </div> */}
 

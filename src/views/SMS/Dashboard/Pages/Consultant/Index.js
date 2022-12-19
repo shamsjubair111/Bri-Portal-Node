@@ -125,7 +125,7 @@ const Consultant = () => {
 
                <div className='std-dashboard-style5'>
                <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
+               <span className='std-dashboard-style3'>Add Student</span>
                </div>
              </div>
 
@@ -561,7 +561,7 @@ const Consultant = () => {
                </div>
                   </>
                   :
-                  <p style={{color: '#1e98b0', textAlign: 'center'}}>No Applications Yet</p>
+                  <p style={{color: '#1e98b0', textAlign: 'center'}}>No Application Yet</p>
                 }
                 </>
 

@@ -70,18 +70,7 @@ const FinanceManager = () => {
           
 
 
-             <div style={{cursor: 'pointer'}}>
-
-              <div className='std-dashboard-style4'>
-
-
-              </div>
-
-               <div className='std-dashboard-style5'>
-               <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
-               </div>
-             </div>
+             
 
              <div style={{cursor: 'pointer'}}>
 
@@ -301,7 +290,7 @@ const FinanceManager = () => {
 
                       <div className='col-md-2 mb-3'>
                       <div style={{border: '0.5px solid #F87675'}} className='count-card counter-h-112'>
-                      <span className='pvdadmin-span-style1'>Applications in Process</span>
+                      <span className='pvdadmin-span-style1'>Applications In Process</span>
                      
                      <span className='pvdadmin-span-style2' onClick={()=>{
                         history.push(`/applicationsByStatus/${2}/${1}`)
@@ -398,40 +387,45 @@ const FinanceManager = () => {
 
                         <span className='app-style-const'>Consultant Transaction List</span>
 
-                     <div style={{height: '300px', overflowY : 'scroll'}}>
+                   {
+                    (consultants?.length > 0) ? 
+                    <div style={{height: '300px', overflowY : 'scroll'}}>
 
-                     <Table borderless responsive className='mt-3'>
-                    <thead style={{backgroundColor: '#EEF3F4'}}>
-                    <tr>
-                    <th>Consultant ID</th>
-                    <th>Consultant Name
-                    </th>
-                    <th>Total In Flow</th>
-                    <th>Total Out Flow</th>
-                    <th>Total Balance</th>
-                    <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                      consultants?.map((con,i)=>(
-                        <tr key={i}>
-                    <td className='cursor-pointer hyperlink-hover'><span onClick={()=>{
-                      history.push(`/accountTransactionByConsultant/${con?.consultantId}`)
-                    }}>{con?.consultantViewId}</span></td>
-                    <td>{con?.consultantName}</td>
-                    <td>{con?.credit}</td>
-                    <td>{con?.debit}</td>
-                    <td>{con?.balance}</td>
-                    
-                    </tr>
-                      ))
-                    }
-                    </tbody>
-                    </Table>
+                    <Table borderless responsive className='mt-3'>
+                   <thead style={{backgroundColor: '#EEF3F4'}}>
+                   <tr>
+                   <th>Consultant ID</th>
+                   <th>Consultant Name
+                   </th>
+                   <th>Total In Flow</th>
+                   <th>Total Out Flow</th>
+                   <th>Total Balance</th>
+                   <th></th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   {
+                     consultants?.map((con,i)=>(
+                       <tr key={i}>
+                   <td className='cursor-pointer hyperlink-hover'><span onClick={()=>{
+                     history.push(`/accountTransactionByConsultant/${con?.consultantId}`)
+                   }}>{con?.consultantViewId}</span></td>
+                   <td>{con?.consultantName}</td>
+                   <td>{con?.credit}</td>
+                   <td>{con?.debit}</td>
+                   <td>{con?.balance}</td>
+                   
+                   </tr>
+                     ))
+                   }
+                   </tbody>
+                   </Table>
 
 
-                     </div>
+                    </div>
+                    :
+                    <p style={{textAlign:'center', fontWeight: '700'}}>No Transaction</p>
+                   }
 
 
 

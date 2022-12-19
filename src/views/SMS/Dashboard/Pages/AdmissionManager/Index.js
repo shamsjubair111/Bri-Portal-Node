@@ -98,7 +98,9 @@ const AdmissionManager = () => {
           
 
 
-             <div style={{cursor: 'pointer'}}>
+             <div style={{cursor: 'pointer'}} onClick={()=>{
+              history.push(`/addStudentRegister`);
+             }}>
 
               <div className='std-dashboard-style4'>
 
@@ -107,7 +109,7 @@ const AdmissionManager = () => {
 
                <div className='std-dashboard-style5'>
                <img src={plusicon} className='img-fluid dashbard-img-style1' />
-               <span className='std-dashboard-style3'>Add New Student</span>
+               <span className='std-dashboard-style3'>Add Student</span>
                </div>
              </div>
 
@@ -333,7 +335,7 @@ const AdmissionManager = () => {
              <div className='count-card counter-h-112' style={{border: '0.5px solid #23CCB5'}}>
 
 
-             <span className='pvdadmin-span-style1'>Applications in Process</span>
+             <span className='pvdadmin-span-style1'>Applications In Process</span>
             
             <span className='pvdadmin-span-style2'  onClick={()=>{
                   history.push(`/applicationsByStatus/${2}/${1}`);
@@ -427,6 +429,8 @@ const AdmissionManager = () => {
 
                   <span className='app-style-const'>New Applications</span>
 
+              {
+                (applications?.length > 0) ?
                 <div style={{height: '300px', overflowY: 'scroll'}}>
                 <Table borderless responsive className='mt-3'>
         <thead style={{backgroundColor: '#EEF3F4'}}>
@@ -462,6 +466,9 @@ const AdmissionManager = () => {
       </Table>
 
                 </div>
+                :
+                <p style={{textAlign: 'center', fontWeight: '700'}}>No Application</p>
+              }
                
                
 
