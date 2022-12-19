@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useState } from 'react'
 import { connect } from "react-redux";
-import { Table } from 'reactstrap';
+import { ButtonGroup, Table } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Row, Card, CardHeader, CardTitle, CardBody, } from 'reactstrap';
 import { User } from "react-feather"
 import { useToasts } from "react-toast-notifications";
@@ -15,6 +15,7 @@ import remove from '../../../../helpers/remove';
 import put from '../../../../helpers/put';
 import ButtonForFunction from '../../Components/ButtonForFunction';
 import loader from '../../../../assets/img/load.gif';
+import ButtonLoader from '../../Components/ButtonLoader';
 const EmployeeType = (props) => {
 
   const myForm = createRef();
@@ -22,18 +23,29 @@ const EmployeeType = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [employeesTypeName, setemployeesTypeName] = useState('');
   const [selected, setSelected] = useState('');
+  const [selectedId, setSelectedId] = useState(undefined);
   const { addToast } = useToasts();
   const dispatch = useDispatch();
   const [deleteModal, setDeleteModal] = useState(false);
   const EmployeesTypeList = props.EmployeesTypeList[0];
   const history = useHistory();
   const [loading,setLoading] = useState(true);
+  const [empDelName, setEmpDelName] = useState('');
+  const [empDelId, setEmpDelId] = useState(undefined);
+  const [progress, setProgress] = useState(false);
+  const [progress1, setProgress1] = useState(false);
+  const [progress2, setProgress2] = useState(false);
  
- 
+  const openModal = () => {
+    setModalOpen(!modalOpen);
+    setSelected("");
+    setSelectedId(undefined);
+  }
 
   const closeModal = () => {
     setModalOpen(false)
     setSelected('');
+    setSelectedId(undefined);
     setemployeesTypeName('')
     localStorage.removeItem('updateemployeesType')
   }
@@ -53,18 +65,19 @@ const EmployeeType = (props) => {
       Name: employeesTypeName
     }
 
-
+    setProgress(true);
     const returnValue = post(`EmployeType/Create`, subdata).then((action) => {
       setSuccess(!success)
       setModalOpen(false)
       
-     
+      setProgress(false);
       addToast(action?.data?.message, {
         appearance: 'success',
         autoDismiss: true,
       })
-      setemployeesTypeName('')
-      setSelected('')
+      setemployeesTypeName('');
+      setSelected('');
+      setSelectedId(undefined);
       get(`EmployeType/Index`).then((data) => {
      
         dispatch(StoreEmployeeTypeData(data))
@@ -74,9 +87,10 @@ const EmployeeType = (props) => {
 
 
   const handleUpdate = (p) => {
-    setModalOpen(true)
-    setSelected(p.name)
-    localStorage.setItem('updateemployeesType', p.id)
+    setModalOpen(true);
+    setSelected(p?.name);
+    setSelectedId(p?.id);
+    // localStorage.setItem('updateemployeesType', p.id)
   }
 
   const changingemployeesType = (v) => {
@@ -84,24 +98,29 @@ const EmployeeType = (props) => {
     setSelected(v)
   }
   const toggleDanger = (p) => {
-    localStorage.setItem('employeesTypeId', p.id)
-    localStorage.setItem('employeesTypeName', p.name)
+    // localStorage.setItem('employeesTypeId', p.id);
+    setEmpDelId(p?.id);
+    setEmpDelName(p?.name);
+    // localStorage.setItem('employeesTypeName', p.name)
     setDeleteModal(true)
   }
 
   const handleDeletePermission = (id) => {
- 
+    
+    setProgress2(true);
     const returnValue = remove(`EmployeType/Delete/${id}`).then((action) => {
       setDeleteModal(false);
       setSuccess(!success);
-     
+      setProgress2(false);
       
         addToast(action, {
           appearance:  'error',
           autoDismiss: true,
         })
-        localStorage.removeItem('employeesTypeId')
-        localStorage.removeItem('employeesTypeName')
+        setEmpDelName("");
+        setEmpDelId(undefined);
+        // localStorage.removeItem('employeesTypeId')
+        // localStorage.removeItem('employeesTypeName')
         get(`EmployeType/Index`).then((data) => {
      
           dispatch(StoreEmployeeTypeData(data))
@@ -113,13 +132,14 @@ const EmployeeType = (props) => {
 
   const handleUpdateSubmit = () => {
 
-    const id = localStorage.getItem('updateemployeesType');
+    // const id = localStorage.getItem('updateemployeesType');
 
     const subData = {
       Name: selected,
-      Id: id
+      Id: selectedId
     }
 
+    setProgress1(true);
     const returnvalue = put(`EmployeType/Update`, subData).then((action) => {
       setSuccess(!success)
       setModalOpen(false)
@@ -129,8 +149,10 @@ const EmployeeType = (props) => {
           appearance:  'success',
           autoDismiss: true
         })
-        setSelected('')
-        localStorage.removeItem('updateemployeesType')
+        setProgress1(false);
+        setSelected('');
+        setSelectedId(undefined);
+        // localStorage.removeItem('updateemployeesType')
         get(`EmployeType/Index`).then((data) => {
        
           dispatch(StoreEmployeeTypeData(data))
@@ -141,6 +163,7 @@ const EmployeeType = (props) => {
           appearance:  'error',
           autoDismiss: true
         })
+        setProgress1(false);
       }
       
     })
@@ -186,20 +209,22 @@ const EmployeeType = (props) => {
         <CardHeader>
         
           
-          {/* <ButtonForFunction
-            color={"success"}
+          <ButtonForFunction
+            // color={"success"}
+            className={"btn btn-uapp-add "}
+            icon={<i className="fas fa-plus"></i>}
             func={() => setModalOpen(true)}
-            name={"Add Employee Type"}
+            name={" Add Employee Type"}
             permission={6}
-          /> */}
+          />
 
         <div className='ml-auto'> <b> Total <span className="badge badge-primary">{EmployeesTypeList?.length}</span> Staff Types Found   </b></div>
 
         </CardHeader>
         <CardBody>
 
-          <Modal isOpen={modalOpen} toggle={() => setModalOpen(!modalOpen)} className="uapp-modal">
-            <ModalHeader>Add Employees Type</ModalHeader>
+          <Modal isOpen={modalOpen} toggle={openModal} className="uapp-modal">
+            <ModalHeader>Employees Type</ModalHeader>
             <ModalBody>
               <Form ref={myForm} onSubmit={handleSubmit}>
 
@@ -212,7 +237,7 @@ const EmployeeType = (props) => {
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="4">
-                    <span>Add Employees Type</span>
+                    <span>Employees Type <span className="text-danger">*</span>{" "}</span>
                   </Col>
                   <Col md="8">
                     <Input
@@ -232,15 +257,16 @@ const EmployeeType = (props) => {
                   <Button color="danger" className="mr-1 mt-3" onClick={() => closeModal()}>Close</Button>
 
                   {
-                    localStorage.getItem("updateemployeesType") ?
-                      <Button color="warning" className="mr-1 mt-3" onClick={handleUpdateSubmit}>Update</Button> :
+                    // localStorage.getItem("updateemployeesType") ?
+                    selectedId != undefined ?
+                      <Button color="primary" className="mr-1 mt-3" onClick={handleUpdateSubmit}>{progress1? <ButtonLoader/> : "Update"}</Button> :
                       <Button.Ripple
                         color="primary"
                         type="submit"
                         className="mr-1 mt-3"
 
                       >
-                        Submit
+                        {progress? <ButtonLoader/> : "Submit"}
                       </Button.Ripple>
 
                   }
@@ -259,7 +285,7 @@ const EmployeeType = (props) => {
                 <th>SL/NO</th>
                 <th>Name</th>
                 <th className="text-center"> Total Staff</th>
-                {/* <th>Action</th> */}
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -268,47 +294,57 @@ const EmployeeType = (props) => {
                   <th scope="row">{i + 1}</th>
                   <td>{etype.name}</td>
                   <td className="text-center">
-                    <span onClick={()=>handleEmpCount(etype.id)} className="badge badge-pill badge-primary cursor-pointer">  {etype.employeeCount} </span>
+                    <span onClick={()=>handleEmpCount(etype?.id)} className="badge badge-pill badge-primary cursor-pointer">  {etype.employeeCount} </span>
                   </td>
-                  {/* <td> */}
+                  <td>
 
-                    {/* <Button onClick={() => toggleDanger(etype)} color="danger" className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
+                    <ButtonGroup>
+                      {
+                        etype?.id == 2 || etype?.id == 3 || etype?.id == 4 || etype?.id == 5 || etype?.id == 6 || etype?.id == 7 ? null 
+                        :
+                        <>
 
-                    {/* <ButtonForFunction
-                      func={() => toggleDanger(etype)}
-                      color={"danger"}
-                      className={"mr-2 btn-sm"}
-                      icon={<i className="fas fa-trash-alt"></i>}
-                      permission={6}
-                    /> */}
+                          {/* <Button onClick={() => handleUpdate(etype)} color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button> */}
 
-                    {/* <Button onClick={() => handleUpdate(etype)} color="warning" className=" btn-sm"> <i className="fas fa-edit"></i> </Button> */}
+                          <ButtonForFunction
+                            func={() => handleUpdate(etype)}
+                            color={"warning"}
+                            className={"mr-2 btn-sm"}
+                            icon={<i className="fas fa-edit"></i>}
+                            permission={6}
+                          />
 
-                    {/* <ButtonForFunction
-                      func={() => handleUpdate(etype)}
-                      color={"warning"}
-                      className={" btn-sm"}
-                      icon={<i className="fas fa-edit"></i>}
-                      permission={6}
-                    /> */}
+                          {/* <Button onClick={() => toggleDanger(etype)} color="danger" className="mr-2 btn-sm"><i className="fas fa-trash-alt"></i></Button> */}
 
-                    {/* <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
+                            <ButtonForFunction
+                            func={() => toggleDanger(etype)}
+                            color={"danger"}
+                            className={"btn-sm"}
+                            icon={<i className="fas fa-trash-alt"></i>}
+                            permission={6}
+                          />
+                        </>
+                      }
+                    </ButtonGroup>
 
-                      <ModalBody>
-                        <p>Are You Sure to Delete this {localStorage.getItem('employeesTypeName')} ? Once Deleted it can't be Undone!</p>
-                      </ModalBody>
-
-                      <ModalFooter>
-                        <Button onClick={() => handleDeletePermission(localStorage.getItem('employeesTypeId'))} color="danger">YES</Button>
-                        <Button onClick={() => setDeleteModal(false)}>NO</Button>
-                      </ModalFooter>
-
-                    </Modal> */}
-                  {/* </td> */}
+                    
+                  </td>
                 </tr>
 
                 )}
+                
+                <Modal isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)} className="uapp-modal">
 
+                  <ModalBody>
+                    <p>Are You Sure to Delete this <b>{empDelName}</b> ? Once Deleted it can't be Undone!</p>
+                  </ModalBody>
+
+                    <ModalFooter>
+                      <Button onClick={() => handleDeletePermission(empDelId)} color="danger">{progress2? <ButtonLoader/> : "YES"}</Button>
+                      <Button onClick={() => setDeleteModal(false)}>NO</Button>
+                    </ModalFooter>
+
+                  </Modal>
 
             </tbody>
           </Table>

@@ -158,10 +158,12 @@ const AdmissionManagerList = () => {
       setLoading(false);
     });
 
-    get(`Provideradmin/GetProviderId/${localStorage.getItem('referenceId')}`)
+    if(userType == userTypes?.ProviderAdmin){
+      get(`Provideradmin/GetProviderId/${localStorage.getItem('referenceId')}`)
     .then(res => {
       setMId(res);
     })
+    }
 
     // setLoading(true);
     // setLoading(false);
