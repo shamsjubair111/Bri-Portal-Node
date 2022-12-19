@@ -2804,9 +2804,9 @@ const UniversityDetails = () => {
                       <span>Accommodations</span>
                       <p>
                         {universityFeatures?.accommodations === false ? (
-                          <i className=" danger fas fa-times-circle"></i>
+                          <i className="text-danger fas fa-times-circle"></i>
                         ) : (
-                          <i className="success fas fa-check-circle"></i>
+                          <i className="text-success fas fa-check-circle"></i>
                         )}
                       </p>
                     </div>
@@ -2816,9 +2816,9 @@ const UniversityDetails = () => {
                       <p>
                         {universityFeatures?.conditionalOfferLetter ===
                         false ? (
-                          <i className=" danger fas fa-times-circle"></i>
+                          <i className="text-danger fas fa-times-circle"></i>
                         ) : (
-                          <i className="success fas fa-check-circle"></i>
+                          <i className="text-success fas fa-check-circle"></i>
                         )}
                       </p>
                     </div>
@@ -2828,9 +2828,9 @@ const UniversityDetails = () => {
                       <p>
                         {universityFeatures?.intershipParticipation ===
                         false ? (
-                          <i className=" danger fas fa-times-circle"></i>
+                          <i className="text-danger fas fa-times-circle"></i>
                         ) : (
-                          <i className="success fas fa-check-circle"></i>
+                          <i className="text-success fas fa-check-circle"></i>
                         )}
                       </p>
                     </div>
@@ -2839,9 +2839,9 @@ const UniversityDetails = () => {
                       <span>Practical Training</span>
                       <p>
                         {universityFeatures?.practicalTraining === false ? (
-                          <i className=" danger fas fa-times-circle"></i>
+                          <i className="text-danger fas fa-times-circle"></i>
                         ) : (
-                          <i className="success fas fa-check-circle"></i>
+                          <i className="text-success fas fa-check-circle"></i>
                         )}
                       </p>
                     </div>
@@ -2850,9 +2850,9 @@ const UniversityDetails = () => {
                       <span>Work While Studying</span>
                       <p>
                         {universityFeatures?.workWhileStudying === false ? (
-                          <i className=" danger fas fa-times-circle"></i>
+                          <i className="text-danger fas fa-times-circle"></i>
                         ) : (
-                          <i className="success fas fa-check-circle"></i>
+                          <i className="text-success fas fa-check-circle"></i>
                         )}
                       </p>
                     </div>
@@ -2885,9 +2885,9 @@ const UniversityDetails = () => {
                       <span>Test Score Required</span>
                       <p>
                         {score?.isTestScoreRequired === false ? (
-                          <i className=" danger fas fa-times-circle"></i>
+                          <i className="text-danger fas fa-times-circle"></i>
                         ) : (
-                          <i className="success fas fa-check-circle"></i>
+                          <i className="text-success fas fa-check-circle"></i>
                         )}
                       </p>
                     </div>
@@ -2896,9 +2896,9 @@ const UniversityDetails = () => {
                       <span>IELTS Mandatory</span>
                       <p>
                         {score?.isIeltsMandatory === false ? (
-                          <i className=" danger fas fa-times-circle"></i>
+                          <i className="text-danger fas fa-times-circle"></i>
                         ) : (
-                          <i className="success fas fa-check-circle"></i>
+                          <i className="text-success fas fa-check-circle"></i>
                         )}
                       </p>
                     </div>

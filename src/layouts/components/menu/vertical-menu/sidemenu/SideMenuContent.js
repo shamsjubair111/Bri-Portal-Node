@@ -44,7 +44,7 @@ class SideMenuContent extends React.Component {
     }
     
     else{
-      get(`RoleMenuItem/Index/${userType?.displayUserType}`).then((action) => {
+      get(`RoleMenuItem/GetUserMenu`).then((action) => {
       
         this.setState({ menu: action });
        
