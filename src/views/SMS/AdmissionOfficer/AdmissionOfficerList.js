@@ -174,7 +174,7 @@ const AdmissionOfficerList = () => {
         setManagerDDForm(res);
         if (managerId) {
           const result = res?.find((ans) => ans?.id == managerId);
-          console.log("Manager", res);
+      
           setManagerLabel(result?.name);
           setManagerValue(result?.id);
         }

@@ -31,7 +31,7 @@ const ApplicationStudentProfile = ({ stdId }) => {
   useEffect(() => {
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
       setStudentProInfo(res);
-      console.log("studentProfileInfo", res);
+    
     });
 
     get(`StudentProfile/Get/${stdId}`).then((res) => {
@@ -41,7 +41,7 @@ const ApplicationStudentProfile = ({ stdId }) => {
 
     get(`StudentConsent/Get/${stdId}`).then((res) => {
       setConsentData(res);
-      console.log("consentData", res);
+    
     });
 
     get(`Ielts/Index/${stdId}`).then((res) => {

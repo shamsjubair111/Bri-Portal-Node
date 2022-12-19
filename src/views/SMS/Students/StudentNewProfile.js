@@ -96,7 +96,7 @@ const StudentNewProfile = () => {
           
            
             setConscentData(res);
-            console.log("consentData", res);
+          
             setLoading(false);
         })
 

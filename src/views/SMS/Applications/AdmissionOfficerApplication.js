@@ -469,7 +469,7 @@ const AdmissionOfficerApplication = ({ currentUser }) => {
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
-          console.log("managerConS", res?.models[0]?.consultantName);
+         
           setManagerConsLabel(res?.models[0]?.consultantName);
           setManagerConsValue(consultantId);
           setEntity(res?.totalEntity);

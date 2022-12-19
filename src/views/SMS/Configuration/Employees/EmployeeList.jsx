@@ -123,7 +123,7 @@ const EmployeeList = (props) => {
       `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${type}&searchstring=${searchStr}`
     ).then((action) => {
       setEmployeeList(action.models);
-      console.log("list", action?.models);
+     
       setLoading(false);
       setEntity(action.totalEntity);
       setSerialNum(action.firstSerialNumber);
@@ -134,7 +134,7 @@ const EmployeeList = (props) => {
       `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empValue}&searchstring=${searchStr}`
     ).then((action) => {
       setEmployeeList(action.models);
-      console.log("list", action?.models);
+      
       setLoading(false);
       setEntity(action.totalEntity);
       setSerialNum(action.firstSerialNumber);

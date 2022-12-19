@@ -498,7 +498,7 @@ const AdmissionManagerApplication = ({ currentUser }) => {
         ).then((res) => {
           setLoading(false);
           setApplicationList(res?.models);
-          console.log("managerConS", res?.models[0]?.consultantName);
+          
          
           setEntity(res?.totalEntity);
           setSerialNumber(res?.firstSerialNumber);

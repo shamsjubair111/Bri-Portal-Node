@@ -87,7 +87,7 @@ const ConsultantByConsultant = () => {
       get(
         `Consultant/GetAssociate?page=${currentPage}&pageSize=${dataPerPage}&id=${referenceId}`
       ).then((res) => {
-        console.log('assoData', res);
+      
         setConsultantList(res?.models);
         setEntity(res?.totalEntity);
         setSerialNum(res?.firstSerialNumber);

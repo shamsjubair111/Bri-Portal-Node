@@ -79,7 +79,7 @@ const ApplicationDetails = () => {
     get(`Application/Get/${id}`).then((res) => {
       setLoading(false);
       setApplicationInfo(res);
-      console.log("appInfo", res);
+      
       setManagerId(res?.admissionManager?.id);
       setOfficerId(res?.admissionOfficer?.id);
       setUniId(res?.university?.id);
@@ -90,7 +90,7 @@ const ApplicationDetails = () => {
 
     get(`ApplicationNote/get/${id}`)
     .then(res =>{
-      console.log('Application Notes Array', res);
+    
       setNotes(res);
 
     })

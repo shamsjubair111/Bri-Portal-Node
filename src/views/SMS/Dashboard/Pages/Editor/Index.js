@@ -37,12 +37,12 @@ const Editor = () => {
   useEffect(() => {
     get(`EditorDashboard/Counting`).then((res) => {
       setCount(res);
-      console.log("counting", res);
+     
     });
 
     get(`EditorDashboard/University`).then((res) => {
       setUniversities(res);
-      console.log("University", res);
+      
     });
   }, []);
 

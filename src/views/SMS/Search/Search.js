@@ -669,7 +669,7 @@ const Search = () => {
 
     const toggleModal = (data) => {
 
-      console.log(data);
+     
       setModalCampus(data?.campuses);
       setModalIntake(data?.intakes);
       setModalDeliveryPattern(data?.deliveryPatterns);

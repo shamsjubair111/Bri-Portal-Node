@@ -121,7 +121,7 @@ const StudentDocument = ({ stdId }) => {
     const subdata = new FormData(event.target);
 
     // for (var value of subdata.values()) {
-    //   console.log("values", value);
+    
     // }
 
     setProgress13(true);

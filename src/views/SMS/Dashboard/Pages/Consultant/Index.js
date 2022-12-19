@@ -72,7 +72,7 @@ const Consultant = () => {
 
     get(`ConsultantDashboard/TargetApplication`)
     .then(res => {
-      console.log(res);
+    
        setTarget(res)
        
     })

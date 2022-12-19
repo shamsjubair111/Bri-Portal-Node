@@ -36,7 +36,7 @@ const SuperAdmin = () => {
 
     get(`SystemAdminDashboard/Application`).then((res) => {
       setApplications(res);
-      console.log(res);
+     
     });
 
     get(`SystemAdminDashboard/GetTransactions`).then((res) => {

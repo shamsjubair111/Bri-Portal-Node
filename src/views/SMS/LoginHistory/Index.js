@@ -28,7 +28,7 @@ const Index = () => {
     ).then((res) => {
       setEntity(res?.totalEntity);
       setData(res?.models);
-      console.log("logindata", res);
+      
       setSerialNum(res?.firstSerialNumber);
     });
   }, [currentPage, dataPerPage, callApi, success]);

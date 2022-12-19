@@ -43,7 +43,7 @@ import ButtonLoader from "../Components/ButtonLoader";
 const AddUniversityCountry = (props) => {
   const univerSityCountries = props.univerSityCountryList[0];
 
-  console.log("universitiesCountries", univerSityCountries);
+  
 
   const [universityCountry, setUniversityCountry] = useState("");
   //   const [editorState, setEditorState] = useState(EditorState.createEmpty());

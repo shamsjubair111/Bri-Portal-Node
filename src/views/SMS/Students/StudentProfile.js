@@ -95,7 +95,7 @@ const StudentProfile = () => {
       get(`StudentConsent/Get/${sId}`)
         .then(res =>{ 
           
-            console.log("consentdata", res);
+           
             setConscentData(res);
             setLoading(false);
         })

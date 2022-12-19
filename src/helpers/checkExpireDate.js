@@ -9,7 +9,6 @@ export  const  expireDateHandler =() => {
     const date = localStorage.getItem('date');
    
 
-    console.log(currentDate, expiryDate);
     if(currentDate.getTime() > expiryDate.getTime()){
         // window.localStorage.clear();
         // window.location.reload();

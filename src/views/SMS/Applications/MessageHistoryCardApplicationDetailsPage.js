@@ -17,7 +17,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
   const getMessage = (appId) =>{
       get(`ApplicationMessage/GetMessages/${appId}`)
       .then(res =>{
-        console.log('first response', res);
+        
         setMessages(res);
       })
 
@@ -42,7 +42,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
             .then(result => {
       //         get(`ApplicationMessage/JoinGroup/${applicationId}`)
       //         .then(res =>{
-      //         console.log(res);
+     
       // })
       getMessage(applicationId);
               newConnection.invoke("JoinGroup", applicationId);
@@ -51,7 +51,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
               newConnection.on('applicationMessageHub', message => {
                 //  const updatedChat = [...latestChat.current];
                 // updatedChat.push(message);
-                console.log('Message Chekcing', message);
+                
             if(message){
               
           getMessage(applicationId);
