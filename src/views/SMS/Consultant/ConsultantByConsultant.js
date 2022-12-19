@@ -832,13 +832,26 @@ const ConsultantByConsultant = () => {
                             <>
                               {checkAppli ? (
                                 <td>
-                                  {" "}
-                                  <span
+                                  {
+                                    (consultant?.applicationCount > 0) ?
+                                    <span
+                                  onClick={()=>{
+                                    history.push(`/applicationsFromConsultant/${consultant?.id}`)
+                                  }}
                                     className="badge badge-primary"
-                                    // style={{ cursor: "pointer" }}
+                                      style={{cursor: 'pointer'}}
                                   >
                                     {consultant?.applicationCount}
-                                  </span>{" "}
+                                  </span>
+                                  :
+                                  <span
+                                  
+                                    className="badge badge-primary"
+                                     
+                                  >
+                                    {consultant?.applicationCount}
+                                  </span>
+                                  }
                                 </td>
                               ) : null}
                             </>

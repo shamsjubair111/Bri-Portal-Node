@@ -118,16 +118,28 @@ const EmployeeList = (props) => {
 
   useEffect(() => {
     
-       get(
-          `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empValue}&searchstring=${searchStr}`
-        ).then((action) => {
-          setEmployeeList(action.models);
-          console.log("list", action?.models);
-          setLoading(false);
-          setEntity(action.totalEntity);
-          setSerialNum(action.firstSerialNumber);
-          setLoading(false);
-        });
+     type?
+     get(
+      `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${type}&searchstring=${searchStr}`
+    ).then((action) => {
+      setEmployeeList(action.models);
+      console.log("list", action?.models);
+      setLoading(false);
+      setEntity(action.totalEntity);
+      setSerialNum(action.firstSerialNumber);
+      setLoading(false);
+    })
+    :
+    get(
+      `Employee/Index?page=${currentPage}&pagesize=${dataPerPage}&employeetypeid=${empValue}&searchstring=${searchStr}`
+    ).then((action) => {
+      setEmployeeList(action.models);
+      console.log("list", action?.models);
+      setLoading(false);
+      setEntity(action.totalEntity);
+      setSerialNum(action.firstSerialNumber);
+      setLoading(false);
+    });
 
     type ? 
     get(`EmployeeTypeDD/Index`).then((res) => {
@@ -149,7 +161,7 @@ const EmployeeList = (props) => {
     callApi,
     currentPage,
     dataPerPage,
- 
+    empValue,
     searchStr,
     // entity,
     success,
