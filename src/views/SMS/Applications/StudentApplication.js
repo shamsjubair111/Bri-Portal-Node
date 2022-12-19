@@ -1286,23 +1286,13 @@ const StudentApplication = ({ currentUser }) => {
 
                       {checkAction ? (
                         <td
-                          style={{ width: "8%", verticalAlign: "middle" }}
+                          style={{ width: "8%"}}
                           className="text-center"
                         >
-                          <ButtonGroup variant="text">
-                            <LinkSpanButton
-                              style={{ padding: "8px 12px" }}
-                              url={
-                                {
-                                  // pathname: "/universityList",
-                                  // universityType: uniType?.id,
-                                  // universityName: uniType?.name,
-                                }
-                              }
-                              className={"badge badge-primary mx-1 btn-sm mt-2"}
-                              data={2}
-                              permission={6}
-                            />
+
+                        {/* <ButtonGroup variant="text"> */}
+
+                          <div className="d-flex">
 
                             {permissions?.includes(
                               permissionList.View_Application
@@ -1323,13 +1313,15 @@ const StudentApplication = ({ currentUser }) => {
                               permissionList.Delete_Application
                             ) ? (
                               <ButtonForFunction
-                                icon={<i className="fas fa-trash-alt"></i>}
+                                icon={<i className="fas fa-trash-alt" style={{paddingLeft: "1.8px", paddingRight: "1.8px"}}></i>}
                                 color={"danger"}
                                 className={"mx-1 btn-sm mt-2"}
                                 func={() => toggleDanger(app)}
                               />
                             ) : null}
-                          </ButtonGroup>
+                          </div>
+
+                          {/* </ButtonGroup> */}
 
                           <Modal
                             isOpen={deleteModal}

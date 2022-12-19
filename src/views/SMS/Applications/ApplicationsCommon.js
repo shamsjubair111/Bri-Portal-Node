@@ -1476,11 +1476,11 @@ const ApplicationsCommon = () => {
 
                       {checkAction ? (
                         <td
-                          style={{ width: "8%", verticalAlign: "middle" }}
+                          style={{ width: "8%"}}
                           className="text-center"
                         >
-                          <ButtonGroup variant="text">
-                            <LinkSpanButton
+                          {/* <ButtonGroup variant="text"> */}
+                            {/* <LinkSpanButton
                               style={{ padding: "8px 12px" }}
                               url={
                                 {
@@ -1492,34 +1492,36 @@ const ApplicationsCommon = () => {
                               className={"badge badge-primary mx-1 btn-sm mt-2"}
                               data={2}
                               permission={6}
-                            />
+                            /> */}
 
-                            {permissions?.includes(
-                              permissionList.View_Application
-                            ) ? (
-                              <LinkButton
-                                url={`/applicationDetails/${app?.id}/${app?.studentId}`}
-                                color="primary"
-                                className={"mx-1 btn-sm mt-2"}
-                                icon={<i className="fas fa-eye"></i>}
-                              />
-                            ) : null}
+                            <div className="d-flex">
+                              {permissions?.includes(
+                                permissionList.View_Application
+                              ) ? (
+                                <LinkButton
+                                  url={`/applicationDetails/${app?.id}/${app?.studentId}`}
+                                  color="primary"
+                                  className={"mx-1 btn-sm mt-2"}
+                                  icon={<i className="fas fa-eye"></i>}
+                                />
+                              ) : null}
 
-                            {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
-                            <i className="fas fa-trash-alt"></i>
-                          </Button> */}
+                              {/* <Button onClick={() => toggleDanger(student?.name, student?.id)} color="danger" className="mx-1 btn-sm">
+                              <i className="fas fa-trash-alt"></i>
+                            </Button> */}
 
-                            {permissions.includes(
-                              permissionList.Delete_Application
-                            ) ? (
-                              <ButtonForFunction
-                                icon={<i className="fas fa-trash-alt"></i>}
-                                color={"danger"}
-                                className={"mx-1 btn-sm mt-2"}
-                                func={() => toggleDanger(app)}
-                              />
-                            ) : null}
-                          </ButtonGroup>
+                              {permissions.includes(
+                                permissionList.Delete_Application
+                              ) ? (
+                                <ButtonForFunction
+                                  icon={<i className="fas fa-trash-alt" style={{paddingLeft: "1.8px", paddingRight: "1.8px"}}></i>}
+                                  color={"danger"}
+                                  className={"mx-1 btn-sm mt-2"}
+                                  func={() => toggleDanger(app)}
+                                />
+                              ) : null}
+                            </div>
+                          {/* </ButtonGroup> */}
 
                           <Modal
                             isOpen={deleteModal}
