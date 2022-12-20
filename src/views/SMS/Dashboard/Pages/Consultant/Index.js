@@ -80,7 +80,7 @@ const Consultant = () => {
 
     get(`AccountIntake/GetCurrentAccountIntake`)
     .then(res =>{
-      console.log('Account Intake', res);
+      setIntake(res);
     })
     
 
@@ -120,7 +120,9 @@ const Consultant = () => {
             <div  className='d-flex flex-wrap'>
 
           
-
+            <div className="mt-2 mr-4">
+            <span style={{fontWeight: '500'}}>Intake: {intake?.intakeName}</span>
+          </div>
 
              <div style={{cursor: 'pointer'}}>
 

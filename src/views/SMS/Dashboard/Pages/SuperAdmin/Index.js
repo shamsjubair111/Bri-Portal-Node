@@ -46,7 +46,7 @@ const SuperAdmin = () => {
 
     get(`AccountIntake/GetCurrentAccountIntake`)
     .then(res =>{
-      console.log('Account Intake', res);
+      setIntake(res);
     })
   
 
@@ -83,6 +83,9 @@ const SuperAdmin = () => {
         </div>
 
         <div className="d-flex flex-wrap">
+          <div className="mt-2 mr-4">
+            <span style={{fontWeight: '500'}}>Intake: {intake?.intakeName}</span>
+          </div>
           <div style={{ cursor: "pointer" }} onClick={()=>{
             history.push(`/addStudentRegister`);
           }}>

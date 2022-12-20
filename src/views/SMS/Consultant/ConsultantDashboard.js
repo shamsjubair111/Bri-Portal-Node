@@ -38,6 +38,7 @@ const ConsultantDashboard = () => {
   const [count,setCount] = useState({});
   const [target,setTarget] = useState(0);
   const history  = useHistory();
+  const [intake,setIntake] = useState({});
   const [options,setOptions] = useState({plotOptions: {
     pie: {
       donut: {
@@ -51,13 +52,13 @@ const ConsultantDashboard = () => {
   
   useEffect(()=>{
 
-    get(`ConsultantDashboard/Counting`)
+    get(`ConsultantDashboard/ConsultantCounting/${consultantId}`)
     .then(res =>{
       setCount(res);
       
     })
 
-    get(`ConsultantDashboard/Application`)
+    get(`ConsultantDashboard/ConsultantApplication/${consultantId}`)
     .then(res =>{
       setApplications(res);
       
@@ -69,11 +70,19 @@ const ConsultantDashboard = () => {
       
     })
 
-    get(`ConsultantDashboard/TargetApplication`)
+    get(`ConsultantDashboard/ConsultantTargetApplication/${consultantId}`)
     .then(res => {
     
        setTarget(res)
        
+    })
+
+
+
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      setIntake(res);
     })
     
 
@@ -111,7 +120,9 @@ const ConsultantDashboard = () => {
 
           <div  className='d-flex flex-wrap'>
 
-        
+          <div className="mt-2 mr-4">
+            <span style={{fontWeight: '500'}}>Intake: {intake?.intakeName}</span>
+          </div>
 
 
           <div style={{cursor: 'pointer'}}>
@@ -409,7 +420,7 @@ const ConsultantDashboard = () => {
                   
                     
                   <span onClick={()=>{
-                  history.push( `applicationsByStatus/${5}/${3}`)
+                  history.push( `/applicationsByStatus/${5}/${3}`)
                   }} className='application-count-style2' style={{color: '#F87675', cursor: 'pointer'}}>{count?.totalRejected}</span>
                 </div>
               
@@ -427,7 +438,7 @@ const ConsultantDashboard = () => {
 
                     
       <span onClick={()=>{
-                    history.push(`applicationsByStatus/${4}/${3}`)
+                    history.push(`/applicationsByStatus/${4}/${3}`)
                   }} className='application-count-style2' style={{color: '#707070', cursor: 'pointer'}}>{count?.totalWithdrawn}</span>
                 </div>
             
