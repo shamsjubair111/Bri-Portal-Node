@@ -41,6 +41,7 @@ const AdmissionOfficer = () => {
   const [count,setCount] = useState({});
   const [applications,setApplications] = useState([]);
   const history = useHistory();
+  const [intake,setIntake] = useState({});
 
   useEffect(()=>{
 
@@ -53,6 +54,11 @@ const AdmissionOfficer = () => {
     .then(res =>{
       console.warn(res);
       setApplications(res);
+    })
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
     })
 
   },[])

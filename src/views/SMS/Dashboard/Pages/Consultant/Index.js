@@ -39,6 +39,7 @@ const Consultant = () => {
   const [count,setCount] = useState({});
   const [target,setTarget] = useState(0);
   const history  = useHistory();
+  const [intake,setIntake] = useState({});
   const [options,setOptions] = useState({plotOptions: {
     pie: {
       donut: {
@@ -75,6 +76,11 @@ const Consultant = () => {
     
        setTarget(res)
        
+    })
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
     })
     
 

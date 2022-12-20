@@ -96,6 +96,7 @@ const ConsultantList = () => {
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
   const [progress,setProgress] = useState(false);
+  const [uid,setUId] = useState(true);
 
   const userType = localStorage.getItem('userType');
 
@@ -349,6 +350,9 @@ const ConsultantList = () => {
   const handleCheckedAction = (e) => {
     setCheckAction(e.target.checked);
   };
+  const handleCheckedUId = (e) => {
+    setUId(e.target.checked);
+  };
 
   const redirectToConsultantDashboard = (consultantId) => {
     history.push(`/consultantDashboard/${consultantId}`);
@@ -529,6 +533,26 @@ const ConsultantList = () => {
                                 handleCheckedSLNO(e);
                               }}
                               defaultChecked={checkSlNo}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">UAPP ID</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              id=""
+                              name="isAcceptHome"
+                              onChange={(e) => {
+                                handleCheckedUId(e);
+                              }}
+                              defaultChecked={uid}
                             />
                           </FormGroup>
                         </Col>
@@ -798,6 +822,8 @@ const ConsultantList = () => {
                 <thead className="thead-uapp-bg">
                   <tr style={{ textAlign: "center" }}>
                     {checkSlNo ? <th>SL/NO</th> : null}
+
+                    {uid ? <th>UAPP ID</th> : null}
                     {checkName ? <th>Name</th> : null}
                     {checkEmail ? <th>Email</th> : null}
                     {checkPhn ? <th>Phone</th> : null}
@@ -850,6 +876,9 @@ const ConsultantList = () => {
                   {consultantList?.map((consultant, i) => (
                     <tr key={consultant?.id} style={{ textAlign: "center" }}>
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
+                      {uid ? <td className="cursor-pointer hyperlink-hover"><span onClick={()=>{
+                        history.push(`/consultantProfile/${consultant?.id}`)
+                      }}>{consultant?.viewId}</span></td> : null}
 
                       {checkName ? (
                         

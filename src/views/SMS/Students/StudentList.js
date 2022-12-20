@@ -994,7 +994,9 @@ else{
                   {studentData?.map((student, i) => (
                     <tr key={student.id} style={{ textAlign: "center" }}>
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
-                      {checkId ? <td>{student?.studentViewId}</td> : null}
+                      {checkId ? <td className="cursor-pointer hyperlink-hover"><span onClick={()=>{
+                          history.push(`/studentProfile/${student?.id}`);
+                        }}>{student?.studentViewId}</span></td> : null}
 
                       {checkName ? (
                         <td className="cursor-pointer hyperlink-hover">

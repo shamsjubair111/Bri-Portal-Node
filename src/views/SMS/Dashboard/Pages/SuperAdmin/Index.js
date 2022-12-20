@@ -28,6 +28,7 @@ const SuperAdmin = () => {
   const [applications, setApplications] = useState([]);
   const [consultants,setConsultants] = useState([]);
   const history = useHistory();
+  const [intake,setIntake] = useState({});
 
   useEffect(() => {
     get(`SystemAdminDashboard/Counting`).then((res) => {
@@ -42,6 +43,11 @@ const SuperAdmin = () => {
     get(`SystemAdminDashboard/GetTransactions`).then((res) => {
       setConsultants(res);
     });
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
+    })
   
 
   }, []);

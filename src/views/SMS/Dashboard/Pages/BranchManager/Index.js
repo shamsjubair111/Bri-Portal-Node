@@ -29,6 +29,7 @@ const BranchManager = () => {
   const [application,setApplication] = useState([]);
   const [count,setCount] = useState({});
   const history = useHistory();
+  const [intake,setIntake] = useState({});
  
 
 
@@ -43,6 +44,11 @@ const BranchManager = () => {
     get(`BranchManagerDashboard/Application`)
     .then(res => {
       setApplication(res);
+    })
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
     })
 
     

@@ -26,6 +26,7 @@ const Editor = () => {
   const [count, setCount] = useState({});
   const [universities, setUniversities] = useState([]);
   const history = useHistory();
+  const [intake,setIntake] = useState({});
 
   const showDrawer = () => {
     setOpen(true);
@@ -44,6 +45,11 @@ const Editor = () => {
       setUniversities(res);
       
     });
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
+    })
   }, []);
 
   const handleDate = (e) => {

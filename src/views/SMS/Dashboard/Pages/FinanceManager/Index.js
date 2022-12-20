@@ -34,6 +34,7 @@ const FinanceManager = () => {
   const [count,setCount] = useState({});
   const [consultants, setConsultants] = useState([]);
   const history = useHistory();
+  const [intake,setIntake] = useState({});
   
   const currentUser = JSON?.parse(localStorage.getItem('current_user'));
 
@@ -44,6 +45,11 @@ const FinanceManager = () => {
 
     get(`FinanceManagerDashboard/GetTransactions`)
     .then(res => setConsultants(res))
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
+    })
 
   },[])
 

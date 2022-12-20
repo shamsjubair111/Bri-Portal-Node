@@ -27,6 +27,7 @@ const ProviderAdmin = () => {
   const [applications,setApplications] = useState([]);
   const [managers,setManagers] = useState([]);
   const history = useHistory();
+  const [intake,setIntake] = useState({});
 
   useEffect(()=>{
 
@@ -43,6 +44,11 @@ const ProviderAdmin = () => {
     get(`ProviderAdminDashboard/Managers`)
     .then(res => {
       setManagers(res);
+    })
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
     })
 
   

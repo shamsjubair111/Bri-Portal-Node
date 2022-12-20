@@ -754,7 +754,7 @@ const EmployeeList = (props) => {
                   {employeeList?.map((emp, i) => (
                     <tr key={emp.id} style={{ textAlign: "center" }}>
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
-                      {checkId ? <td>{emp?.employeeViewId}</td> : null}
+                      {checkId ? <td className="cursor-pointer hyperlink-hover" onClick={() => handleEmpClick(emp.id)}><span>{emp?.employeeViewId}</span></td> : null}
                       {checkSType ? <td>{emp?.employeeType?.name}</td> : null}
                       {permissions?.includes(permissionList.ChangePassword) ?
                       <>  {userTypeId == userTypes?.SystemAdmin ||

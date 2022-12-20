@@ -29,6 +29,7 @@ const ComplianceManager = () => {
   const [count,setCount] = useState({});
   const [applications,setApplications] = useState([]);
   const history = useHistory();
+  const [intake,setIntake] = useState({});
 
   useEffect(()=>{
     get(`CompilanceManagerDashboard/Counting`)
@@ -39,6 +40,11 @@ const ComplianceManager = () => {
     get(`CompilanceManagerDashboard/Application`)
     .then(res =>{
       setApplications(res);
+    })
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
     })
 
   },[])

@@ -677,7 +677,9 @@ const ProviderList = () => {
                 <tbody>
                   {providerList?.map((prov, i) => (
                     <tr key={prov.id} style={{ textAlign: "center" }}>
-                      {checkSlNo ? <td>{prov?.providerViewId}</td> : null}
+                      {checkSlNo ? <td className="cursor-pointer hyperlink-hover"> <span onClick={()=>{
+                             history.push(`/providerDetails/${prov?.id}`);
+                          }}>{prov?.providerViewId}</span></td> : null}
 
                       {checkName ? (
                         <td className="cursor-pointer hyperlink-hover">

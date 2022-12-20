@@ -1743,7 +1743,10 @@ const AdmissionOfficerList = () => {
                     {officerList?.map((officer, i) => (
                       <tr key={i} style={{ textAlign: "center" }}>
                         {checkSlNo ? <th scope="row">{1 + i}</th> : null}
-                        {checkId ? <td>{officer?.sequenceId}</td> : null}
+                        {checkId ? <td className="cursor-pointer hyperlink-hover">
+                          <span onClick={()=>{
+                              history.push(`/admissionOfficerDetails/${officer?.id}`)
+                            }}>{officer?.sequenceId}</span></td> : null}
 
                         {checkName ? (
                           <td className="cursor-pointer hyperlink-hover">

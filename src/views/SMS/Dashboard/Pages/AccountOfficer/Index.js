@@ -36,6 +36,7 @@ const AccountOfficer = () => {
   const [applications,setApplications] = useState([]);
   const componentRef2 = useRef();
   const history = useHistory();
+  const [intake,setIntake] = useState({});
 
   useEffect(()=>{
 
@@ -47,6 +48,11 @@ const AccountOfficer = () => {
     get(`AccountOfficerDashboard/WithdrawRequest`)
     .then(res => {
       setApplications(res);
+    })
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
     })
 
   },[])

@@ -41,6 +41,7 @@ const AdmissionManager = () => {
 
   const [applications,setApplications] = useState([]);
   const [count,setCount] = useState({});
+  const [intake,setIntake] = useState({});
 
 
   useEffect(()=>{
@@ -56,6 +57,11 @@ const AdmissionManager = () => {
       setApplications(res);
       
 
+    })
+
+    get(`AccountIntake/GetCurrentAccountIntake`)
+    .then(res =>{
+      console.log('Account Intake', res);
     })
 
 

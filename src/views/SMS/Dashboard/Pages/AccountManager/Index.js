@@ -30,6 +30,7 @@ const AccountManager = () => {
   const [count,setCount] = useState({});
   const [consultants,setConsultants] = useState([]);
   const history   = useHistory();
+  const [intake,setIntake] = useState({});
 
   useEffect(()=>{
 
@@ -41,6 +42,11 @@ const AccountManager = () => {
       get(`AccountManagerDashboard/GetTransactions`)
       .then(res => {
         setConsultants(res);
+      })
+
+      get(`AccountIntake/GetCurrentAccountIntake`)
+      .then(res =>{
+        console.log('Account Intake', res);
       })
 
   },[])

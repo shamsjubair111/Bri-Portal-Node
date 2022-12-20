@@ -1460,7 +1460,9 @@ const AdmissionManagerList = () => {
                   {managerList?.map((manager, i) => (
                     <tr key={manager.id} style={{ textAlign: "center" }}>
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
-                      {checkId ? <td>{manager?.sequenceId}</td> : null}
+                      {checkId ? <td className="cursor-pointer hyperlink-hover"> <span onClick={()=>{
+                          history.push(`/providerAdmissionManager/${manager?.id}/${manager?.provider?.id}`)
+                        }}>{manager?.sequenceId}</span></td> : null}
 
                       {checkName ? (
                         <td className="cursor-pointer hyperlink-hover">
