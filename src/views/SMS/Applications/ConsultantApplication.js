@@ -117,7 +117,7 @@ const ConsultantApplication = ({ currentUser }) => {
   const [checkId, setCheckId] = useState(true);
   const [checkAppId, setCheckAppId] = useState(true);
   const [checkApplic, setCheckApplic] = useState(true);
-  const [checkContact, setCheckContact] = useState(true);
+  const [checkContact, setCheckContact] = useState(false);
   const [checkUni, setCheckUni] = useState(true);
   const [checkCamp, setCheckCamp] = useState(true);
   const [checkCourse, setCheckCourse] = useState(true);
@@ -128,8 +128,8 @@ const ConsultantApplication = ({ currentUser }) => {
   const [checkIntrv, setCheckIntrv] = useState(true);
   const [checkElpt, setCheckElpt] = useState(true);
   const [checkEnSts, setCheckEnSts] = useState(true);
-  const [checkSlcs, setCheckEnSlcs] = useState(true);
-  const [checkCons, setCheckCons] = useState(true);
+  const [checkSlcs, setCheckEnSlcs] = useState(false);
+  const [checkCons, setCheckCons] = useState(false);
   const [checkAction, setCheckAction] = useState(true);
   const [delData, setDelData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
@@ -1326,7 +1326,7 @@ const ConsultantApplication = ({ currentUser }) => {
                        
                         <td style={{ verticalAlign: "middle" }} className='cursor-pointer hyperlink-hover'>
                         <span onClick={()=>{
-                          history.push(`/applicationDetails/${app?.id}/${app?.studentId}`)
+                          history.push(`/studentProfile/${app?.studentId}`)
                         }}>{app?.uappId}</span>
                          
                        
@@ -1353,10 +1353,8 @@ const ConsultantApplication = ({ currentUser }) => {
 
                       {checkUni ? (
                         
-                         <td style={{ verticalAlign: "middle" }} className='cursor-pointer hyperlink-hover'>
-                         <span onClick={()=>{
-                           history.push(`/applicationDetails/${app?.id}/${app?.studentId}`)
-                         }}>{app?.universityName}</span>
+                         <td style={{ verticalAlign: "middle" }}>
+                         <span>{app?.universityName}</span>
                           
                         
                        </td>
