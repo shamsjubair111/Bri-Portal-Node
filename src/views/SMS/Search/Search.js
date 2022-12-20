@@ -148,6 +148,7 @@ const Search = () => {
 
     const [eligibleModal,setEligibleModal] = useState(false);
     const [elans,setElAns] = useState({});
+    const [eligibilityWhileAppying,setEligibilityWhileApplying] = useState({});
     
    
 
@@ -396,11 +397,23 @@ const Search = () => {
     
   ]
 
+  const checkEligibilityWhileApplying = (info,subjectInfo) =>{
+    
+    get(`Eligibility/CheckEligibility/${info?.universityId}/${subjectInfo?.subjectId}/${localStorage.getItem('referenceId')}`)
+    .then(res => {
+        console.error(res);
+        setEligibilityWhileApplying(res);
+       
+    })
+    
+
+  }
+
   const checkEligibility  = (data1,data2) => {
     setEligibleModal(true);
     get(`Eligibility/CheckEligibility/${data1?.universityId}/${data2?.subjectId}/${localStorage.getItem('referenceId')}`)
     .then(res => {
-        console.error(res.message);
+        
         setElAns(res);
        
     })
@@ -667,7 +680,7 @@ const Search = () => {
    
     };
 
-    const toggleModal = (data) => {
+    const toggleModal = (data,data2) => {
 
      
       setModalCampus(data?.campuses);
@@ -675,6 +688,8 @@ const Search = () => {
       setModalDeliveryPattern(data?.deliveryPatterns);
       setCurrentData(data);
       setPrimaryCampus(data?.campuses.find(s=> s.campusId == campusValue));
+      checkEligibilityWhileApplying(data2,data);
+      
    
       setModal(true);
     
@@ -922,6 +937,13 @@ const Search = () => {
   <h4 className='mb-3'>{currentData?.title}</h4>
   <h6>EU Fee: {currentData?.eu_Fee}</h6>
   <h6>Home Fee: {currentData?.home_Fee}</h6>
+
+  <div className='mt-5'>
+
+    <span className={(eligibilityWhileAppying?.isEligible) ? 'celg' : 'celg2'}>Considering your qualifications, there is a gap between requirement and your qualification.</span>
+
+
+  </div>
 
 
 
@@ -1799,7 +1821,7 @@ null
 
      {
     permissions?.includes(permissionList.Add_Application) ?
-    <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
+    <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo, info)}>Apply</button>
     
     
     :
@@ -1971,7 +1993,7 @@ subjectInfo?.canApply?
 
  {
     permissions?.includes(permissionList.Add_Application) ?
-    <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo)}>Apply</button>
+    <button className='button-style-search (userType == userTypes?.Student)? w-75 : null ' onClick={()=>toggleModal(subjectInfo,info)}>Apply</button>
     : null
   }
  </div>

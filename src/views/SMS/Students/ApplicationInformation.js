@@ -92,8 +92,7 @@ const ApplicationInformation = () => {
       setIsAppliedStudentFinance(`${res?.isAppliedStudentFinance}`);
       setFinanceDetails(res?.financeApplicationDetails);
       setCode(res?.code);
-      setStudentTypeValue(res?.student?.studentType?.id);
-      setStudentTypeLabel(res?.student?.studentType?.name);
+  
       setIsApplyingFromInside(`${res?.isApplyingFromInside}`);
       setVisaStatusLabel(res?.visaStatus?.name ? res?.visaStatus?.name : 'Select Visa Status');
       setVisaStatusValue(res?.visaStatusId ? res?.visaStatusId : 0);
@@ -240,7 +239,7 @@ const handleSubmit = (event) => {
   
 
 
-    if(visaStatusValue == 0){
+    if( studentTypeValue == 3 &&visaStatusValue == 0){
 
       setVisaError(true);
 
@@ -248,7 +247,7 @@ const handleSubmit = (event) => {
 
    
 
-    if(update){
+   else if(update){
 
       setButtonStatus(true);
       setProgress(true);

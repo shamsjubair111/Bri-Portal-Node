@@ -239,7 +239,7 @@ const StudentNewProfile = () => {
     }
 
 
-    const handleUpdatePersonalStatement = (sId) => {
+    const handleUpdatePersonalStatement = () => {
 
      
      
@@ -764,7 +764,7 @@ const StudentNewProfile = () => {
                      permissions?.includes(permissionList.Update_personalstatement_info) ?
                      <EditDivButton
                      className={"text-right edit-style  p-3"}
-                     func={()=>handleUpdatePersonalStatement(studentDetails)}
+                     func={()=>handleUpdatePersonalStatement()}
                      permission={6}
                    />
                    :
