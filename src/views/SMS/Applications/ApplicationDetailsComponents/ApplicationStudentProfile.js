@@ -31,7 +31,7 @@ const ApplicationStudentProfile = ({ stdId }) => {
   useEffect(() => {
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
       setStudentProInfo(res);
-    
+      console.log("sdInfo", res);
     });
 
     get(`StudentProfile/Get/${stdId}`).then((res) => {
@@ -472,12 +472,11 @@ const ApplicationStudentProfile = ({ stdId }) => {
           <tbody>
             <tr>
               <td width="40%">
-                <b>House No. :</b>
+                <b>House No :</b>
               </td>
 
               <td width="60%">
-                {/* {studentProInfo?.firstName}{" "}
-                            {studentProInfo?.lastName} */}
+                {studentProInfo?.studentContactInfos?.houseNo}
               </td>
             </tr>
             <tr>
