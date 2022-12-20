@@ -62,6 +62,7 @@ const ContactInformation = () => {
     ).then((res) => {
       
       setOneData(res);
+      console.log("contact", res);
       setCountryLabel(
         res?.country?.name == null ? "Select Country" : res?.country?.name
       );
@@ -442,6 +443,7 @@ const ContactInformation = () => {
                       name="houseNo"
                       id="houseNo"
                       placeholder="Enter house no."
+                      defaultValue={oneData?.houseNo}
                       required
                      
                     />

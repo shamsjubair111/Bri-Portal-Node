@@ -929,6 +929,16 @@ const StudentNewProfile = () => {
                            {studentDetails?.studentContactInfos?.addressTypeName}
                            </td>
                          </tr>
+
+                         <tr>
+                          <td width="40%">
+                           <span> <b>House No:</b></span>
+                          </td>
+
+                          <td width="60%">
+                           {studentDetails?.studentContactInfos?.houseNo}
+                           </td>
+                         </tr>
  
                          <tr>
                            <td width="40%">
