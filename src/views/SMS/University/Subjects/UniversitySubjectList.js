@@ -871,7 +871,7 @@ const UniversitySubjectList = (props) => {
                                 url={`/copyAndAddUniversitySubject/${id}/${sub.id}`}
                                 color={"primary"}
                                 className={"mx-1 btn-sm"}
-                                icon={<i className="fas fa-file-import"></i>}
+                                icon={<i style={{paddingBottom: "4px"}} className="fas fa-file-import"></i>}
                                 permission={6}
                               />
                             ) : null}
