@@ -409,7 +409,7 @@ const AssignOfficerUniversity = () => {
           </div>
 
           <Row className="mb-3">
-            <Col lg="6" md="5" sm="6" xs="4">
+            <Col lg="6" md="6" sm="12" xs="12">
               {
                 permissions?.includes(permissionList.Add_New_Admission_Officer_university) ? 
                 <ButtonForFunction
@@ -424,8 +424,8 @@ const AssignOfficerUniversity = () => {
               }
             </Col>
 
-            <Col lg="6" md="7" sm="6" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="6" md="6" sm="12" xs="12">
+              <div className="d-flex justify-content-end">
                 <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"

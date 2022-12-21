@@ -855,7 +855,7 @@ const AdmissionOfficerList = () => {
               <Row>
                 {userType == userTypes?.AdmissionManager ||
                 userType == userTypes?.ProviderAdmin ? null : (
-                  <Col lg="6" md="6" sm="6" xs="12">
+                  <Col lg="6" md="6" sm="12" xs="12" className="mb-2">
                     <Select
                       options={providerMenu}
                       value={{ label: proLabel, value: proValue }}
@@ -868,7 +868,7 @@ const AdmissionOfficerList = () => {
                 )}
 
                 {userType == userTypes?.AdmissionManager ? null : (
-                  <Col lg="6" md="6" sm="6" xs="12">
+                  <Col lg="6" md="6" sm="12" xs="12">
                     <Select
                       options={managerMenu}
                       value={{ label: managerLabel, value: managerValue }}
@@ -881,8 +881,8 @@ const AdmissionOfficerList = () => {
                 )}
               </Row>
 
-              <Row className="mt-3">
-                <Col lg="6" md="6" sm="6" xs="12">
+              <Row className="mt-2">
+                <Col lg="6" md="6" sm="12" xs="12">
                   <Input
                     style={{ height: "2.7rem" }}
                     type="text"

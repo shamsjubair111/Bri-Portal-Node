@@ -973,8 +973,8 @@ const selectNameTitle = (label, value) => {
         <div className=" info-item mt-4">
           <Card>
             <CardBody>
-              <div className="d-flex justify-content-between">
-              <div className="hedding-titel d-flex justify-content-between">
+              <div className="d-flex flex-wrap justify-content-between">
+              <div className="hedding-titel d-flex justify-content-between mb-2">
                 <div>
                   <h5>
                     {" "}
@@ -991,7 +991,7 @@ const selectNameTitle = (label, value) => {
                 permissions?.includes(permissionList?.Add_New_Admissionofficer) ?
                 <ButtonForFunction
                 func={handleAddNew}
-                className={"btn btn-uapp-add mr-1"}
+                className={"btn btn-uapp-add mr-1 mb-2"}
                 // icon={<i className="fas fa-plus"></i>}
                 name={"Add Admission Officer"}
                 permission={6}
@@ -1004,7 +1004,7 @@ const selectNameTitle = (label, value) => {
                   permissions?.includes(permissionList.Add_New_AdmissionofficerOfManager) ? 
                   <ButtonForFunction
                 func={() => setAssignModalOpen(true)}
-                className={"btn btn-uapp-add ml-1"}
+                className={"btn btn-uapp-add ml-md-1"}
                 // icon={<i className="fas fa-plus"></i>}
                 name={"Assign Admission Officer"}
                 permission={6}
