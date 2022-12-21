@@ -70,7 +70,7 @@ const ApplicationsCommon = () => {
   const [commonConsultantDD, setCommonConsultantDD] = useState([]);
   const [commonStdDD, setCommonStdDD] = useState([]);
 
-  const [applicationId, setApplicationId] = useState(0);
+  const [applicationId, setApplicationId] = useState('');
 
   // for common
   const [commonUappIdLabel, setCommonUappIdLabel] = useState("UAPP ID");
@@ -594,7 +594,7 @@ const ApplicationsCommon = () => {
     setConsultantValue(0);
     setCommonStdLabel("Name");
     setCommonStdValue(0);
-    setApplicationId(0);
+    setApplicationId('');
     document.getElementById("app").placeholder = "Application Id";
     document.getElementById("app").value = null;
     // setLoading(true);
@@ -1367,7 +1367,7 @@ const ApplicationsCommon = () => {
                   {applicationList?.map((app, i) => (
                     <tr key={i}>
                       {checkAppId ? (
-                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
+                        <td style={{ verticalAlign: "middle" }}>{app?.applicationViewId}</td>
                       ) : null}
 
                       {checkId ? (

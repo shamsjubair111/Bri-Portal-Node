@@ -1173,7 +1173,7 @@ const StudentApplication = ({ currentUser }) => {
                   {applicationList?.map((app, i) => (
                     <tr key={i}>
                       {checkAppId ? (
-                        <td style={{ verticalAlign: "middle" }}>{app?.id}</td>
+                        <td style={{ verticalAlign: "middle" }}>{app?.applicationViewId}</td>
                       ) : null}
 
                       {checkId ? (

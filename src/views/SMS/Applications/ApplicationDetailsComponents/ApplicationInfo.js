@@ -962,6 +962,15 @@ const ApplicationInfo = ({
 
       <Table className="table-bordered mt-4">
         <tbody>
+
+          <tr>
+            <td width="40%">
+              <b>Application Id:</b>
+            </td>
+
+            <td width="60%">{applicationInfo?.applicationViewId}</td>
+          </tr>
+
           <tr>
             <td width="40%">
               <b>Delivery Pattern:</b>

@@ -31,7 +31,6 @@ const ApplicationStudentProfile = ({ stdId }) => {
   useEffect(() => {
     get(`StudentProfile/StudentApplication/${stdId}`).then((res) => {
       setStudentProInfo(res);
-      console.log("sdInfo", res);
     });
 
     get(`StudentProfile/Get/${stdId}`).then((res) => {
