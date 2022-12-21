@@ -738,7 +738,7 @@ const CampusDetails = () => {
                         :
                         <div className="uapp-employee-profile-Edit">
                         <div className="text-right">
-                          <span onClick={redirectToCampusEdit} >
+                          <span style={{cursor: 'pointer'}} onClick={redirectToCampusEdit} >
                             {" "}
                             <i className="fas fa-pencil-alt"></i>{" "}
                           </span>
