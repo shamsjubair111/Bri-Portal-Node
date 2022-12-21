@@ -5,6 +5,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Form, Input } from 'rea
 import { rootUrl } from '../../../constants/constants';
 import { userTypes } from '../../../constants/userTypeConstant';
 import get from '../../../helpers/get';
+import post from '../../../helpers/post';
 
 const MessageHistoryCardApplicationDetailsPage = (props) => {
 
@@ -81,10 +82,11 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
    const submitFormData = (event) => {
 
     event.preventDefault();
-    const newString = "'" +stringData +"'";
-    console.log(newString);
 
-    get(`ApplicationMessage/SendMessage/${newString}/${applicationId}`)
+    const subData = new FormData(event.target);
+   
+
+    post(`ApplicationMessage/SendMessage`,subData)
     .then(res => {
       if(res){
         setStringData('');
@@ -154,6 +156,12 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                 <div>
                   <form onSubmit={submitFormData}>
                 <br/>
+                <input
+                type='hidden'
+                name='groupId'
+                id='groupId'
+                value={applicationId}
+                />
 
                <Input
                 type='textarea'
@@ -161,6 +169,8 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                 onChange={handleStringData}
                 value={stringData}
                 required
+                name='message'
+                id='message'
                 />
                 
                 <div className='d-flex justify-content-end my-2'>
