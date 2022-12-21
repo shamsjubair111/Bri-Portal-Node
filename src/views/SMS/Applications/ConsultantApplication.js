@@ -125,8 +125,8 @@ const ConsultantApplication = ({ currentUser }) => {
   const [checkDate, setCheckDate] = useState(true);
   const [checkSts, setCheckSts] = useState(true);
   const [checkOfr, setCheckOfr] = useState(true);
-  const [checkIntrv, setCheckIntrv] = useState(true);
-  const [checkElpt, setCheckElpt] = useState(true);
+  const [checkIntrv, setCheckIntrv] = useState(false);
+  const [checkElpt, setCheckElpt] = useState(false);
   const [checkEnSts, setCheckEnSts] = useState(true);
   const [checkSlcs, setCheckEnSlcs] = useState(false);
   const [checkCons, setCheckCons] = useState(false);

@@ -149,6 +149,7 @@ const Search = () => {
     const [eligibleModal,setEligibleModal] = useState(false);
     const [elans,setElAns] = useState({});
     const [eligibilityWhileAppying,setEligibilityWhileApplying] = useState({});
+    const [elStatus,setElStatus] = useState({});
     
    
 
@@ -401,9 +402,14 @@ const Search = () => {
     
     get(`Eligibility/CheckEligibility/${info?.universityId}/${subjectInfo?.subjectId}/${localStorage.getItem('referenceId')}`)
     .then(res => {
-        console.error(res);
+        
         setEligibilityWhileApplying(res);
        
+    })
+
+    get(`Eligibility/ShowEligibility/${info?.universityId}/${subjectInfo?.subjectId}`)
+    .then(res => {
+      setElStatus(res);
     })
     
 
@@ -681,6 +687,7 @@ const Search = () => {
     };
 
     const toggleModal = (data,data2) => {
+      console.log(data2);
 
      
       setModalCampus(data?.campuses);
@@ -940,7 +947,18 @@ const Search = () => {
 
   <div className='mt-5'>
 
-    <span className={(eligibilityWhileAppying?.isEligible) ? 'celg' : 'celg2'}>Considering your qualifications, there is a gap between requirement and your qualification.</span>
+    <span className={(eligibilityWhileAppying?.isEligible) ? 'celg' : 'celg2'}>{(eligibilityWhileAppying?.isEligible)?'Considering your qualifications, you are eligible to apply' : 'Considering your qualifications, there is a gap between requirement and your qualification'}</span>
+
+
+  </div>
+
+  <div className='mt-3'>
+
+    <span style={{fontSize: '14px', fontWeight: '500'}}>IELTS: {elStatus?.ieltsMessage}</span>
+    <br/>
+    <span style={{fontSize: '14px', fontWeight: '500'}}>Level Requirement: {elStatus?.requiredEducationlevel}</span>
+    <br/>
+    <span style={{fontSize: '14px', fontWeight: '500'}}>Percentage Requirement: {elStatus?.requiredResultInPercentage}</span>
 
 
   </div>
