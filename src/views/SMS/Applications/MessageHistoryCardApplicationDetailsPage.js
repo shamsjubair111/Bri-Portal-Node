@@ -81,8 +81,10 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
    const submitFormData = (event) => {
 
     event.preventDefault();
+    const newString = "'" +stringData +"'";
+    console.log(newString);
 
-    get(`ApplicationMessage/SendMessage/${stringData}/${applicationId}`)
+    get(`ApplicationMessage/SendMessage/${newString}/${applicationId}`)
     .then(res => {
       if(res){
         setStringData('');
