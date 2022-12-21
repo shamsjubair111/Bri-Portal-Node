@@ -558,6 +558,7 @@ const AccountIntake = () => {
 
                     </div>
 
+                <div className="table-responsive">
                 <Table className="table-sm table-bordered">
                         <thead className="thead-uapp-bg">
                         <tr style={{ textAlign: "center" }}>
@@ -643,6 +644,7 @@ const AccountIntake = () => {
                         
                         </tbody>
                     </Table>
+                </div>
 
                 </CardBody>
                 </Card>

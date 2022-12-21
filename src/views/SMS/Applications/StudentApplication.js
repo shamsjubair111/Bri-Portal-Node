@@ -116,7 +116,7 @@ const StudentApplication = ({ currentUser }) => {
   const [checkIntrv, setCheckIntrv] = useState(false);
   const [checkElpt, setCheckElpt] = useState(false);
   const [checkEnSts, setCheckEnSts] = useState(true);
-  const [checkSlcs, setCheckEnSlcs] = useState(false);
+  const [checkSlcs, setCheckEnSlcs] = useState(true);
   const [checkCons, setCheckCons] = useState(false);
   const [checkAction, setCheckAction] = useState(true);
   const [delData, setDelData] = useState({});
@@ -279,46 +279,41 @@ const StudentApplication = ({ currentUser }) => {
   };
 
   useEffect(() => {
-    get("ApplicationStatusDD/Index").then((res) => {
-      setApplicationDD(res);
-    });
+    // get("ApplicationStatusDD/Index").then((res) => {
+    //   setApplicationDD(res);
+    // });
 
-    get("OfferStatusDD/Index").then((res) => {
-      setOfferDD(res);
-    });
+    // get("OfferStatusDD/Index").then((res) => {
+    //   setOfferDD(res);
+    // });
 
-    get("EnrollmentStatusDD/Index").then((res) => {
-      setEnrollDD(res);
-    });
+    // get("EnrollmentStatusDD/Index").then((res) => {
+    //   setEnrollDD(res);
+    // });
 
-    get("IntakeDD/Index").then((res) => {
-      setIntakeDD(res);
-    });
+    // get("IntakeDD/Index").then((res) => {
+    //   setIntakeDD(res);
+    // });
 
-    get("InterviewStatusDD/Index").then((res) => {
-      setInterviewDD(res);
-    });
+    // get("InterviewStatusDD/Index").then((res) => {
+    //   setInterviewDD(res);
+    // });
 
-    get("ElptStatusDD/Index").then((res) => {
-      setElptDD(res);
-    });
-    get("StudentFinanceStatusDD/Index").then((res) => {
-      setFinanceDD(res);
-    });
+    // get("ElptStatusDD/Index").then((res) => {
+    //   setElptDD(res);
+    // });
+    // get("StudentFinanceStatusDD/Index").then((res) => {
+    //   setFinanceDD(res);
+    // });
 
     // for student
-    if (currentUser != undefined) {
-      get(`CommonApplicationFilterDD/University`).then(
-        (res) => {
-          setStudentUniDD(res);
-        }
-      );
-      // get(`CommonApplicationFilterDD/Student`).then(
-      //   (res) => {
-      //     setStudentConsDD(res);
-      //   }
-      // );
-    }
+    // if (currentUser != undefined) {
+    //   get(`CommonApplicationFilterDD/University`).then(
+    //     (res) => {
+    //       setStudentUniDD(res);
+    //     }
+    //   );
+    // }
 
     // for list
 
@@ -367,32 +362,26 @@ const StudentApplication = ({ currentUser }) => {
     //   
 
     if (currentUser != undefined) {
+      // get(
+      //   `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      // ).then((res) => {
+      //   setLoading(false);
+      //   setApplicationList(res?.models);
+        
+      //   setEntity(res?.totalEntity);
+      //   setSerialNumber(res?.firstSerialNumber);
+      // });
       get(
-        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&consultantId=${studentConsValue}&universityId=${studentUniValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+        `Application/GetByStudent`
       ).then((res) => {
         setLoading(false);
-        setApplicationList(res?.models);
-        
-        setEntity(res?.totalEntity);
-        setSerialNumber(res?.firstSerialNumber);
+        setApplicationList(res);
+        console.log("dsdsdsd", res);
+        // setEntity(res?.totalEntity);
+        // setSerialNumber(res?.firstSerialNumber);
       });
     }
-  }, [
-    currentPage,
-    dataPerPage,
-    applicationValue,
-    offerValue,
-    enrollValue,
-    intakeValue,
-    interviewValue,
-    elptValue,
-    financeValue,
-    orderValue,
-    // entity,
-    success,
-    studentConsValue,
-    studentUniValue,
-  ]);
+  }, [success]);
 
   const toggleDanger = (data) => {
     setDelData(data);
@@ -530,126 +519,6 @@ const StudentApplication = ({ currentUser }) => {
         </CardHeader>
       </Card>
 
-      <Card className="uapp-employee-search">
-        <CardBody className="search-card-body">
-          <Row className="gy-3">
-            {/* <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={studentConsMenu}
-                value={{ label: studentConsLabel, value: studentConsValue }}
-                onChange={(opt) => selectStdCons(opt.label, opt.value)}
-                placeholder="Consultant"
-                name="name"
-                id="id"
-              />
-            </Col> */}
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={applicationMenu}
-                value={{ label: applicationLabel, value: applicationValue }}
-                onChange={(opt) => selectAppliDD(opt.label, opt.value)}
-                placeholder="Status"
-                name="name"
-                id="id"
-              />
-            </Col>
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={offerMenu}
-                value={{ label: offerLabel, value: offerValue }}
-                onChange={(opt) => selectOfferDD(opt.label, opt.value)}
-                placeholder="Offer"
-                name="name"
-                id="id"
-              />
-            </Col>
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={enrollMenu}
-                value={{ label: enrollLabel, value: enrollValue }}
-                onChange={(opt) => selectEnrollDD(opt.label, opt.value)}
-                placeholder="Enrolment st..."
-                name="name"
-                id="id"
-              />
-            </Col>
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={intakeMenu}
-                value={{ label: intakeLabel, value: intakeValue }}
-                onChange={(opt) => selectIntakeDD(opt.label, opt.value)}
-                placeholder="Intake"
-                name="name"
-                id="id"
-              />
-            </Col>
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={interviewMenu}
-                value={{ label: interviewLabel, value: interviewValue }}
-                onChange={(opt) => selectInterviewDD(opt.label, opt.value)}
-                placeholder="Interview"
-                name="name"
-                id="id"
-              />
-            </Col>
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={elptMenu}
-                value={{ label: elptLabel, value: elptValue }}
-                onChange={(opt) => selectElptDD(opt.label, opt.value)}
-                placeholder="ELPT"
-                name="name"
-                id="id"
-              />
-            </Col>
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={financeMenu}
-                value={{ label: financeLabel, value: financeValue }}
-                onChange={(opt) => selectFinanceDD(opt.label, opt.value)}
-                placeholder="SLCs"
-                name="name"
-                id="id"
-              />
-            </Col>
-
-            <Col lg="2" md="3" sm="6" xs="6" className="p-2">
-              <Select
-                options={studentUniMenu}
-                value={{ label: studentUniLabel, value: studentUniValue }}
-                onChange={(opt) => selectStudentUni(opt.label, opt.value)}
-                placeholder="University N..."
-                name="name"
-                id="id"
-              />
-            </Col>
-          </Row>
-
-          <Row className="">
-            <Col lg="12" md="12" sm="12" xs="12">
-              <div style={{ display: "flex", justifyContent: "end" }}>
-                <div
-                  className="mt-1 mx-1 d-flex btn-clear"
-                  onClick={handleClearSearch}
-                >
-                  {/* <Icon.X  className='text-danger' />*/}
-                  <span className="text-danger">
-                    <i className="fa fa-times"></i> Clear
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
 
       <Card className="uapp-employee-search">
         <CardBody>
@@ -679,7 +548,8 @@ const StudentApplication = ({ currentUser }) => {
                       />
                     </div>
                 </Col> */}
-                <div className="mr-3">
+
+                {/* <div className="mr-3">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Order By :</div>
                     <div>
@@ -703,7 +573,7 @@ const StudentApplication = ({ currentUser }) => {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="mr-3">
                   <Dropdown
@@ -778,7 +648,7 @@ const StudentApplication = ({ currentUser }) => {
                         </Col>
                       </div>
 
-                      <div className="d-flex justify-content-between">
+                      {/* <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">UAPP ID</p>
                         </Col>
@@ -797,9 +667,9 @@ const StudentApplication = ({ currentUser }) => {
                             />
                           </FormGroup>
                         </Col>
-                      </div>
+                      </div> */}
 
-                      <div className="d-flex justify-content-between">
+                      {/* <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">Applicant</p>
                         </Col>
@@ -816,9 +686,9 @@ const StudentApplication = ({ currentUser }) => {
                             />
                           </FormGroup>
                         </Col>
-                      </div>
+                      </div> */}
 
-                      <div className="d-flex justify-content-between">
+                      {/* <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">Contact</p>
                         </Col>
@@ -835,7 +705,7 @@ const StudentApplication = ({ currentUser }) => {
                             />
                           </FormGroup>
                         </Col>
-                      </div>
+                      </div> */}
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
@@ -1046,7 +916,7 @@ const StudentApplication = ({ currentUser }) => {
                         </Col>
                       </div>
 
-                      <div className="d-flex justify-content-between">
+                      {/* <div className="d-flex justify-content-between">
                         <Col md="8" className="">
                           <p className="">Consultant</p>
                         </Col>
@@ -1063,7 +933,7 @@ const StudentApplication = ({ currentUser }) => {
                             />
                           </FormGroup>
                         </Col>
-                      </div>
+                      </div> */}
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
@@ -1110,15 +980,15 @@ const StudentApplication = ({ currentUser }) => {
                     {checkAppId ? (
                       <th style={{ verticalAlign: "middle" }}>APP ID</th>
                     ) : null}
-                    {checkId ? (
+                    {/* {checkId ? (
                       <th style={{ verticalAlign: "middle" }}>UAPP ID</th>
-                    ) : null}
-                    {checkApplic ? (
+                    ) : null} */}
+                    {/* {checkApplic ? (
                       <th style={{ verticalAlign: "middle" }}>Applicant</th>
-                    ) : null}
-                    {checkContact ? (
+                    ) : null} */}
+                    {/* {checkContact ? (
                       <th style={{ verticalAlign: "middle" }}>Contact</th>
-                    ) : null}
+                    ) : null} */}
                     {checkUni ? (
                       <th style={{ verticalAlign: "middle" }}>University</th>
                     ) : null}
@@ -1156,9 +1026,9 @@ const StudentApplication = ({ currentUser }) => {
                     {checkSlcs ? (
                       <th style={{ verticalAlign: "middle" }}>SLCs</th>
                     ) : null}
-                    {checkCons ? (
+                    {/* {checkCons ? (
                       <th style={{ verticalAlign: "middle" }}>Consultant</th>
-                    ) : null}
+                    ) : null} */}
                     {checkAction ? (
                       <th
                         style={{ verticalAlign: "middle" }}
@@ -1176,7 +1046,7 @@ const StudentApplication = ({ currentUser }) => {
                         <td style={{ verticalAlign: "middle" }}>{app?.applicationViewId}</td>
                       ) : null}
 
-                      {checkId ? (
+                      {/* {checkId ? (
                         
                          <td style={{ verticalAlign: "middle" }} className='cursor-pointer hyperlink-hover'>
                          <span onClick={()=>{
@@ -1185,9 +1055,9 @@ const StudentApplication = ({ currentUser }) => {
                           
                         
                        </td>
-                      ) : null}
+                      ) : null} */}
 
-                      {checkApplic ? (
+                      {/* {checkApplic ? (
                         
                         <td style={{ verticalAlign: "middle" }} className='cursor-pointer hyperlink-hover'>
                         <span onClick={()=>{
@@ -1196,14 +1066,14 @@ const StudentApplication = ({ currentUser }) => {
                          
                        
                       </td>
-                      ) : null}
+                      ) : null} */}
 
-                      {checkContact ? (
+                      {/* {checkContact ? (
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.studentPhone} <br />
                           {app?.studentEmail}
                         </td>
-                      ) : null}
+                      ) : null} */}
 
                       {checkUni ? (
                        
@@ -1276,11 +1146,11 @@ const StudentApplication = ({ currentUser }) => {
                         </td>
                       ) : null}
 
-                      {checkCons ? (
+                      {/* {checkCons ? (
                         <td style={{ verticalAlign: "middle" }}>
                           {app?.consultantName}
                         </td>
-                      ) : null}
+                      ) : null} */}
 
                       {checkAction ? (
                         <td
@@ -1351,12 +1221,16 @@ const StudentApplication = ({ currentUser }) => {
             </div>
           )}
 
-          <Pagination
+          <div className="d-flex justify-content-end mt-3">
+             <h5>Total Results Found: {applicationList.length}</h5>
+          </div>
+
+          {/* <Pagination
             dataPerPage={dataPerPage}
             totalData={entity}
             paginate={paginate}
             currentPage={currentPage}
-          />
+          /> */}
         </CardBody>
       </Card>
     </div>
