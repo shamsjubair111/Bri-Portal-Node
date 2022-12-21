@@ -303,7 +303,7 @@ const AdmissionManagerWiseAssignedSubject = () => {
       <Card className="uapp-employee-search">
               <CardBody className="search-card-body">
                 <Row className="mt-3">
-                  <Col lg="6" md="6" sm="12" xs="12">
+                  <Col lg="6" md="6" sm="12" xs="12" className='mb-2'>
                   <Select
                       options={uniOption}
                       value={{ label: uniLabel, value: uniValue }}
@@ -477,8 +477,8 @@ const AdmissionManagerWiseAssignedSubject = () => {
           </Modal> */}
             {/* assign sub modal ends here */}
 
-            <Col lg="6" md="7" sm="6" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="6" md="6" sm="12" xs="12">
+              <div className="d-flex justify-content-end">
 
               <div className="mr-3">
                   <div className="d-flex align-items-center">

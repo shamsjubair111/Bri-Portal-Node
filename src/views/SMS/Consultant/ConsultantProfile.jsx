@@ -1252,7 +1252,7 @@ const ConsultantProfile = () => {
                       <LinkButton
                         url={`/studentListByConsultant/${id}`}
                         className={"btn btn-uapp-add "}
-                        name={"Student"}
+                        name={"Students"}
                         permission={6}
                       />
                     ) : null}
@@ -1270,7 +1270,7 @@ const ConsultantProfile = () => {
                       <ButtonForFunction
                         func={() => redirectToApplications(id)}
                         className={"btn btn-uapp-add "}
-                        name={"Application"}
+                        name={"Applications"}
                         permission={6}
                       />
                     ) : null}
@@ -1281,7 +1281,7 @@ const ConsultantProfile = () => {
                     <ButtonForFunction
                       func={redirectToApplicationTransaction}
                       className={"btn btn-uapp-add "}
-                      name={"Transaction"}
+                      name={"Transactions"}
                       permission={6}
                     />
                     ) : null}

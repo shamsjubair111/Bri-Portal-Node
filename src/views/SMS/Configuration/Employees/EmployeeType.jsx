@@ -218,7 +218,7 @@ const EmployeeType = (props) => {
             permission={6}
           />
 
-        <div className='ml-auto'> <b> Total <span className="badge badge-primary">{EmployeesTypeList?.length}</span> Staff Types Found   </b></div>
+        <div className='mt-2'> <b> Total <span className="badge badge-primary">{EmployeesTypeList?.length}</span> Staff Types Found   </b></div>
 
         </CardHeader>
         <CardBody>

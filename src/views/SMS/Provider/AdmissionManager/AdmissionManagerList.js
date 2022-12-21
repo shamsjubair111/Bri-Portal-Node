@@ -643,7 +643,7 @@ const AdmissionManagerList = () => {
         <CardBody className="search-card-body">
           <Row>
           
-            <Col lg="6" md="6" sm="6" xs="12">
+            <Col lg="6" md="6" sm="6" xs="12" className="mb-2">
             {
               (userType == userTypes?.ProviderAdmin) ?
               null:
