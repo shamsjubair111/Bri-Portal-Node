@@ -327,7 +327,7 @@ const ProviderList = () => {
       <Card className="uapp-employee-search">
         <CardBody>
           <Row>
-            <Col lg="4" md="4" sm="6" xs="6">
+            <Col lg="4" md="4" sm="12" xs="12" className="mb-2">
               <Select
                 options={providertype}
                 value={{ label: providerLabel, value: providerValue }}
@@ -339,7 +339,7 @@ const ProviderList = () => {
               />
             </Col>
 
-            <Col lg="4" md="4" sm="6" xs="6">
+            <Col lg="4" md="4" sm="12" xs="12" className="mb-2">
               <Select
                 options={uappIdOptions}
                 value={{ label: uappIdLabel, value: uappIdValue }}
@@ -351,7 +351,7 @@ const ProviderList = () => {
               />
             </Col>
 
-            <Col lg="4" md="4" sm="6" xs="6">
+            <Col lg="4" md="4" sm="12" xs="12">
               <Input
                 style={{ height: "2.7rem" }}
                 type="text"
@@ -410,7 +410,7 @@ const ProviderList = () => {
             </Col>
 
             <Col lg="6" md="6" sm="12" xs="12">
-              <div className="d-flex justify-content-md-end justify-content-sm-start">
+              <div className="d-flex justify-content-end">
                 <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"

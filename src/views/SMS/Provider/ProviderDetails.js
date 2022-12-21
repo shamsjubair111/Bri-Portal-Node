@@ -946,7 +946,7 @@ const ProviderDetails = () => {
             <Card>
               <CardBody>
                 <Row className="mb-3">
-                  <Col lg="5" md="5" sm="4" xs="4">
+                  <Col lg="5" md="5" sm="12" xs="12">
                     <div className="ms-3 mb-4 hedding-titel">
                       <h5>
                         {" "}
@@ -960,7 +960,7 @@ const ProviderDetails = () => {
                     ) ? (
                       <ButtonForFunction
                         func={handleAddUniversity}
-                        className={"ml-3 btn btn-uapp-add "}
+                        className={" btn btn-uapp-add "}
                         icon={<i className="fas fa-plus"></i>}
                         name={" Add University"}
                         permission={6}
@@ -968,7 +968,7 @@ const ProviderDetails = () => {
                     ) : null}
                   </Col>
 
-                  <Col lg="7" md="7" sm="8" xs="8"></Col>
+                  <Col lg="7" md="7" sm="12" xs="12"></Col>
                 </Row>
 
                 {universityList.length < 1 ? (
@@ -976,7 +976,7 @@ const ProviderDetails = () => {
                     University Not Found.
                   </h5>
                 ) : (
-                  <div className="table-responsive container mt-3">
+                  <div className="table-responsive  mt-3">
                     <Table className="table-sm table-bordered">
                       <thead className="thead-uapp-bg">
                         <tr style={{ textAlign: "center" }}>
@@ -1115,7 +1115,7 @@ const ProviderDetails = () => {
                 permissionList?.Add_New_Admission_manager
               ) ? (
                 <Link to={`/addAdmissionManager/${id}`}>
-                  <Button className="btn btn-uapp-add mt-2 ml-3">
+                  <Button className="btn btn-uapp-add mt-2">
                     {" "}
                     <i className="fas fa-plus"></i> Add Admission Manager{" "}
                   </Button>
@@ -1128,7 +1128,7 @@ const ProviderDetails = () => {
                 </h5>
               )}
               {admissionManager.length > 0 && (
-                <div className="table-responsive container mt-3">
+                <div className="table-responsive  mt-3">
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>
@@ -1329,7 +1329,7 @@ const ProviderDetails = () => {
                 permissionList?.Add_New_Admissionofficer
               ) ? (
                 <Link to={`/addAdmissionOfficer/${id}`}>
-                  <Button className="btn btn-uapp-add mt-2 ml-3">
+                  <Button className="btn btn-uapp-add mt-2">
                     {" "}
                     <i class="fas fa-plus"></i> Add Admission Officer{" "}
                   </Button>
@@ -1342,7 +1342,7 @@ const ProviderDetails = () => {
                 </h5>
               )}
               {officer.length > 0 && (
-                <div className="table-responsive container mt-3">
+                <div className="table-responsive  mt-3">
                   <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                       <tr style={{ textAlign: "center" }}>

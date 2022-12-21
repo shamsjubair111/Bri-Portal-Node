@@ -477,7 +477,7 @@ const List = () => {
                 
                 {
                    parseInt(localStorage.getItem("userType")) !== userTypes?.Consultant ?
-                   <div className="col-md-3">
+                   <div className="col-md-3 mb-2">
                   <Select
                     options={consultantOptions}
                     value={{ label: consultantLabel, value: consultantValue }}
@@ -488,7 +488,7 @@ const List = () => {
                 null
                 }
 
-                <div className="col-md-3">
+                <div className="col-md-3 mb-2">
                   <Select
                     options={transactionOptions}
                     value={{ label: transactionLabel, value: transactionValue }}
@@ -496,7 +496,7 @@ const List = () => {
                   />
                 </div>
 
-                <div className="col-md-3">
+                <div className="col-md-3 mb-2">
                   <Select
                     options={paymentOptions}
                     value={{ label: paymentLabel, value: paymentValue }}

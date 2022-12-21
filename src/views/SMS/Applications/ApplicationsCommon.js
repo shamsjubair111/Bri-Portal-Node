@@ -848,7 +848,7 @@ const ApplicationsCommon = () => {
       <Card className="uapp-employee-search">
         <CardBody>
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+            <Col lg="5" md="5" sm="12" xs="12">
               {/* <ButtonForFunction
                 func={handleAddUniversity}
                 className={"btn btn-uapp-add "}
@@ -858,8 +858,8 @@ const ApplicationsCommon = () => {
               /> */}
             </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="7" md="7" sm="12" xs="12">
+              <div className="d-flex flex-wrap justify-content-end">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>
@@ -873,7 +873,7 @@ const ApplicationsCommon = () => {
                       />
                     </div>
                 </Col> */}
-                <div className="mr-3">
+                <div className="mr-3 mb-2">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Order By :</div>
                     <div>

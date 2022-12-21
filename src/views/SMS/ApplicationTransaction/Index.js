@@ -347,7 +347,7 @@ const Index = () => {
           <div className="row">
             <div className="col-md-12">
               <div className="row">
-                <div className="col-md-3">
+                <div className="col-md-3 mb-2">
                   <Select
                     options={uappOptions}
                     // styles={customStyles2}
@@ -356,7 +356,7 @@ const Index = () => {
                   />
                 </div>
 
-                <div className="col-md-3">
+                <div className="col-md-3 mb-2">
                   <Select
                     // styles={customStyles2}
                     options={studentOptions}
@@ -365,7 +365,7 @@ const Index = () => {
                   />
                 </div>
                 {parseInt(userType) !== userTypes?.Consultant ? (
-                  <div className="col-md-3">
+                  <div className="col-md-3 mb-2">
                     <Select
                       // styles={customStyles2}
                       options={consultantOptions}
@@ -410,7 +410,7 @@ const Index = () => {
             </Col>
 
             <Col lg="7" md="7" sm="12" xs="12">
-              <div className="d-flex justify-content-md-end justify-content-sm-start">
+              <div className="d-flex justify-content-end">
                 
                 <div className="mr-3">
                   <div className="d-flex align-items-center">

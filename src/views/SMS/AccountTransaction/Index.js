@@ -414,7 +414,7 @@ const Index = () => {
   };
 
   const handleInflowSubmit = (event) => {
-    setProgress(true);
+    
     event.preventDefault();
     const subData = new FormData(event.target);
     if (consultantValue == 0) {
@@ -422,6 +422,7 @@ const Index = () => {
     } else if (bonusTransactionValue == 0) {
       setInflowTransactionError("Transaction Type Must be Selected");
     } else {
+      setProgress(true);
       setButtonStatus(true);
       post(`BonusTransaction/Create`, subData).then((res) => {
         setProgress(false);
@@ -445,7 +446,7 @@ const Index = () => {
 
   const submitWithdrawRequest = (event) => {
     event.preventDefault();
-    setProgress1(true);
+    
     const subData = {
       consultantId: value2,
       amount: amountInput,
@@ -459,6 +460,7 @@ const Index = () => {
     } else if (tValue == 0) {
       setTError("Transaction type is required");
     } else {
+      setProgress1(true);
       setButtonStatus(true);
       post(`WithdrawTransaction/Create`, subData).then((res) => {
         setProgress1(false);
@@ -879,6 +881,7 @@ const Index = () => {
                       <h6>Transaction Code</h6>
                       <Input
                         style={{ height: "38px" }}
+                        className='mb-2'
                         type="text"
                         placeholder="Enter Transaction Code"
                         value={transactionCode}

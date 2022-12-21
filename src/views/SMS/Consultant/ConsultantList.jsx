@@ -450,7 +450,7 @@ const ConsultantList = () => {
             </Col>
 
             <Col lg="7" md="7" sm="12" xs="12">
-              <div className="d-flex justify-content-md-end justify-content-sm-start">
+              <div className="d-flex justify-content-end">
 
                 <div className="mr-3">
                   <div className="d-flex align-items-center">

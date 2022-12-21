@@ -593,7 +593,7 @@ const Index = () => {
                 
                 {
                    parseInt(localStorage.getItem("userType")) !== userTypes?.Consultant ?
-                   <div className="col-md-6">
+                   <div className="col-md-6 mb-2">
                   <Select
                     styles={customStyles}
                     options={consultantOptions}
@@ -633,11 +633,13 @@ const Index = () => {
           <Card className="uapp-employee-search">
             <CardBody>
               <div className=" row mb-3">
-               {
+               
+                <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12"  style={{marginBottom: "10px"}}>
+                {
                 (userType == userTypes?.Consultant) ?
                 null
                 :
-                <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4"  style={{marginBottom: "10px"}}>
+                <>
                 {
                  permissions?.includes(permissionList.Add_New_withdraw_transaction) ?
                  <ButtonForFunction
@@ -649,10 +651,12 @@ const Index = () => {
                :
                null
                 }
+                </>
+                   }
                </div>
-               }
+            
 
-                <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8">
+                <div className="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                   <div className="d-flex justify-content-end flex-wrap">
                     <div className="me-3">
                       <div className="d-flex align-items-center">
@@ -668,7 +672,7 @@ const Index = () => {
                       </div>
                     </div>
 
-                    <div className="mr-2">
+                    <div className="mr-md-2 mb-2">
                       <Dropdown
                         className="uapp-dropdown"
                         style={{ float: "right" }}
