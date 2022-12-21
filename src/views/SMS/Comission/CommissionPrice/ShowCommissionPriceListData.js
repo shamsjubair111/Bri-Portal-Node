@@ -22,6 +22,7 @@ const ShowCommissionPriceListData = (props) => {
                                 <span className='branch-title-style2'>Commission Price List</span>
                             </div>
 
+                        <div className="table-responsive">
                         <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
@@ -123,6 +124,7 @@ const ShowCommissionPriceListData = (props) => {
                     
                     </tbody>
                     </Table>
+                        </div>
                             
             
         </div>

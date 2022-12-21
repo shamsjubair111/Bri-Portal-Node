@@ -50,6 +50,7 @@ const DistributionLevelSettingList = (props) => {
               <span className='branch-title-style2'>Distribution Level Settings List</span>
              </div>
 
+             <div className="table-responsive">
              <Table className="table-sm table-bordered">
                     <thead className="thead-uapp-bg">
                     <tr style={{ textAlign: "center" }}>
@@ -126,6 +127,7 @@ const DistributionLevelSettingList = (props) => {
                     
                     </tbody>
                     </Table>
+             </div>
 
           
             
