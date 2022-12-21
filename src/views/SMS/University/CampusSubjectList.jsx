@@ -474,7 +474,7 @@ const CampusSubjectList = () => {
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
           <Row>
-            <Col lg="12" md="4" sm="6" xs="6">
+            <Col lg="12" md="12" sm="12" xs="12">
               <Input
                 style={{ height: "2.7rem" }}
                 type="text"
@@ -529,7 +529,7 @@ const CampusSubjectList = () => {
 
           {/* new */}
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+            <Col lg="5" md="5" sm="12" xs="12">
               {
                 permissions?.includes(permissionList.Add_New_university_campus_subject) ?
                 <ButtonForFunction
@@ -544,8 +544,8 @@ const CampusSubjectList = () => {
               }
             </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="7" md="7" sm="12" xs="12">
+              <div className="d-flex flex-wrap justify-content-end">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>
@@ -559,11 +559,12 @@ const CampusSubjectList = () => {
                       />
                     </div>
                 </Col> */}
-                <div className="mr-3">
+                <div className="me-3 mb-2">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Order By :</div>
                     <div>
                       <Select
+                        className="mr-md-2 mr-sm-0"
                         options={orderName}
                         value={{ label: orderLabel, value: orderValue }}
                         onChange={(opt) => selectOrder(opt.label, opt.value)}
