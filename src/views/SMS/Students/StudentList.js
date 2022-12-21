@@ -564,8 +564,8 @@ else{
 
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
-          <Row className="mb-3">
-            <Col lg="6" md="6" sm="12" xs="12">
+          <Row className="mb-2">
+            <Col lg="6" md="6" sm="12" xs="12" className="mb-2">
               <Select
                 options={studentTypeOption}
                 value={{ label: studentTypeLabel, value: studentTypeValue }}
@@ -590,11 +590,11 @@ else{
             </Col>
           </Row>
 
-          <Row className="mt-3">
+          <Row className="mt-2">
 
             {
               parseInt(localStorage.getItem("userType")) !== userTypes?.Consultant ?
-              <Col lg="6" md="6" sm="12" xs="12">
+              <Col lg="6" md="6" sm="12" xs="12" className="mb-2">
                     <Select
                     options={consultantOption}
                     value={{ label: consultantLabel, value: consultantValue }}
@@ -643,7 +643,7 @@ else{
         <CardBody>
           {/* new */}
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+            <Col lg="5" md="5" sm="12" xs="12">
               {
                 permissions?.includes(permissionList?.Add_New_Student) ?
                 <ButtonForFunction
@@ -657,8 +657,8 @@ else{
               }
             </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="7" md="7" sm="12" xs="12">
+              <div className="d-flex flex-wrap justify-content-end">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>
@@ -672,7 +672,7 @@ else{
                       />
                     </div>
                 </Col> */}
-                <div className="me-3">
+                <div className="me-3 mb-2">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Order By :</div>
                     <div>

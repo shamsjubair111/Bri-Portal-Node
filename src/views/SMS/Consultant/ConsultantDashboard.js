@@ -495,7 +495,9 @@ const ConsultantDashboard = () => {
 
                 <span className='app-style-const'>New Applications</span>
 
-                <div style={{height: '300px', overflowY: 'scroll'}}>
+                {
+                  (applications?.length > 0) ? 
+<div style={{height: '300px', overflowY: 'scroll'}}>
                 <Table borderless responsive className='mt-3'>
       <thead style={{backgroundColor: '#EEF3F4'}}>
         <tr>
@@ -530,6 +532,11 @@ const ConsultantDashboard = () => {
       </Table>
             
                 </div>
+                  :
+                  <p style={{color: '#1e98b0', textAlign: 'center'}}>No Application Yet</p>
+                }
+
+                
             
 
               </CardBody>
