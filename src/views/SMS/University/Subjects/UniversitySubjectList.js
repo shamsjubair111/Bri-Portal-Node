@@ -511,7 +511,7 @@ const UniversitySubjectList = (props) => {
 
           {/* new */}
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+            <Col lg="5" md="5" sm="12" xs="12">
             {
                     permissions?.includes(permissionList?.Add_New_subject) ?
               <ButtonForFunction
@@ -526,8 +526,8 @@ const UniversitySubjectList = (props) => {
               }
             </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="7" md="7" sm="12" xs="12">
+              <div className="d-flex flex-wrap justify-content-end">
                 {/* <Col lg="2">
                     
                     <div className='ms-2'>
@@ -541,11 +541,12 @@ const UniversitySubjectList = (props) => {
                       />
                     </div>
                 </Col> */}
-                <div className="mr-3">
+                <div className="me-3 mb-2">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Order By :</div>
                     <div>
                       <Select
+                        className="mr-md-2 mr-sm-0"
                         options={orderName}
                         value={{ label: orderLabel, value: orderValue }}
                         onChange={(opt) => selectOrder(opt.label, opt.value)}

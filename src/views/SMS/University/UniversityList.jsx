@@ -666,7 +666,7 @@ const UniversityList = (props) => {
       <Card className="uapp-employee-search">
         <CardBody className="search-card-body">
 
-          <div className="container test-score-div-1-style mt-1 mb-4">
+          <div className="test-score-div-1-style mt-1 mb-4">
             {/* <span className="test-score-span-1-style">
               <b>Assign or Revoke Menu for User Types.</b>
             </span>
@@ -678,7 +678,7 @@ const UniversityList = (props) => {
           </div>
 
           <Row>
-            <Col lg="2" md="3" sm="6" xs="6">
+            <Col lg="2" md="3" sm="6" xs="6" className="mb-2">
               <Select
                 options={universityTypeName}
                 value={{ label: uniTypeLabel, value: uniTypeValue }}
@@ -689,7 +689,7 @@ const UniversityList = (props) => {
               />
             </Col>
 
-            <Col lg="2" md="3" sm="6" xs="6">
+            <Col lg="2" md="3" sm="6" xs="6" className="mb-2">
               <Select
                 options={universityCountryName}
                 value={{ label: uniCountryLabel, value: uniCountryValue }}
@@ -700,7 +700,7 @@ const UniversityList = (props) => {
               />
             </Col>
 
-            <Col lg="2" md="3" sm="6" xs="6">
+            <Col lg="2" md="3" sm="6" xs="6" className="mb-2">
               <Select
                 options={universityStateName}
                 value={{ label: uniStateLabel, value: unistateValue }}
@@ -773,7 +773,7 @@ const UniversityList = (props) => {
       <Card className="uapp-employee-search">
         <CardBody>
           <Row className="mb-3">
-            <Col lg="5" md="5" sm="4" xs="4">
+            <Col lg="5" md="5" sm="12" xs="12">
              {
               permissions?.includes(permissionList.Add_New_University) ? 
               <ButtonForFunction
@@ -788,8 +788,9 @@ const UniversityList = (props) => {
              }
             </Col>
 
-            <Col lg="7" md="7" sm="8" xs="8">
-              <div className="d-md-flex justify-content-end">
+            <Col lg="7" md="7" sm="12" xs="12">
+              <div className="d-flex flex-wrap justify-content-end">
+              {/* <Row className="justify-content-end ml-1 mr-1"> */}
                 {/* <Col lg="2">
                     
                     <div className='ml-2'>
@@ -803,11 +804,12 @@ const UniversityList = (props) => {
                       />
                     </div>
                 </Col> */}
-                <div className="mr-3">
+                <div className="me-3 mb-2">
                   <div className="d-flex align-items-center">
                     <div className="mr-2">Order By :</div>
                     <div>
                       <Select
+                        className="mr-md-2 mr-sm-0"
                         options={orderName}
                         value={{ label: orderLabel, value: orderValue }}
                         onChange={(opt) => selectOrder(opt.label, opt.value)}
