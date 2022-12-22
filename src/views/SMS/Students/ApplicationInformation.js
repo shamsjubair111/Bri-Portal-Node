@@ -589,7 +589,7 @@ const handleSubmit = (event) => {
 
     }
 
-    if(fundValue == 0){
+    else if(fundValue == 0){
       setFundError('Source of fund is requied');
     }
     
