@@ -420,7 +420,7 @@ const CampusList = (props) => {
       <Card className="uapp-employee-search">
         <CardBody>
           {uniNameFromObj ? (
-            <div className="container test-score-div-1-style mt-1 mb-4">
+            <div className="test-score-div-1-style mt-1 mb-4">
               <span className="test-score-span-1-style">
                 Showing campus list of <b>{uniNameFromObj}</b>
               </span>

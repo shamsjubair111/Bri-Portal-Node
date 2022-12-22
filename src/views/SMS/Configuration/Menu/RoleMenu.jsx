@@ -185,7 +185,7 @@ const RoleMenu = (props) => {
 
             <Card>
                 <CardHeader>
-                <div className="container test-score-div-1-style mt-1 mb-4">
+                <div className="test-score-div-1-style mt-1 mb-4">
             <span className="test-score-span-1-style">
               <b>Assign or Revoke Menu for User Types.</b>
             </span>

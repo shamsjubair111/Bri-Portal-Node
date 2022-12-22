@@ -516,7 +516,7 @@ const CampusSubjectList = () => {
       <Card className="uapp-employee-search">
         <CardBody>
           {campus?.name != undefined ? (
-            <div className="container test-score-div-1-style mt-1 mb-4">
+            <div className="test-score-div-1-style mt-1 mb-4">
               <span className="test-score-span-1-style">
                 Showing{" "}
                 subject list of{" "}
