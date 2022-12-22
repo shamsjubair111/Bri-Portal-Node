@@ -1016,6 +1016,9 @@ const AddUniversity = (props) => {
                       id="ShortName"
                       defaultValue={universityData?.shortName}
                       placeholder="Write University Short Name"
+                      pattern="[A-Za-z]{1,15}"
+                      title="You can type maximum 15 characters. You can't type any space and special character."
+                      // maxlength="15"
                       required
                     />
                     {/* <div className="form-control-position">

@@ -149,6 +149,7 @@ const AddConsultantInformation = () => {
       (res) => {
         
         setConsultantData(res);
+        console.log("consData", res);
         setNameLabel(res?.nameTittleId? res?.nameTitle?.name : 'Select Title');
         setNameValue(res?.nameTittleId? res?.nameTitle?.id : 0);
         setTypeLabel(res?.consultantTypeId !== null ? res?.consultantType?.name : null);
@@ -232,7 +233,7 @@ const AddConsultantInformation = () => {
 
   const handleChange1 = ({ fileList }) => {
     setFileList1(fileList);
-    
+    setProfilePicError(false);
     if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
       setFileList1([]);
       setError('Only jpeg, jpg, png image is allowed');
@@ -324,16 +325,16 @@ const AddConsultantInformation = () => {
   const handleChange3 = ({ fileList }) => {
   
     
-    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
-      setFileList3([]);
-      setError3('Only jpeg, jpg, png image is allowed');
+    // if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    //   setFileList3([]);
+    //   setError3('Only jpeg, jpg, png image is allowed');
       
-    }
-    else{
+    // }
+    // else{
       setFileList3(fileList);
-      setError3('');
+      // setError3('');
       setIdPassportError(false);
-    }
+    // }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -372,16 +373,16 @@ const AddConsultantInformation = () => {
   const handleChange4 = ({ fileList }) => {
     
     
-    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
-      setFileList4([]);
-      setError4('Only jpeg, jpg, png image is allowed');
+    // if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    //   setFileList4([]);
+    //   setError4('Only jpeg, jpg, png image is allowed');
       
-    }
-    else{
+    // }
+    // else{
       setFileList4(fileList);
-      setError4('');
+      // setError4('');
       setProofOfAddressError(false);
-    }
+    // }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -420,15 +421,15 @@ const AddConsultantInformation = () => {
   const handleChange5 = ({ fileList }) => {
     
     
-    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
-      setFileList5([]);
-      setError5('Only jpeg, jpg, png image is allowed');
-    }
-    else{
+    // if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    //   setFileList5([]);
+    //   setError5('Only jpeg, jpg, png image is allowed');
+    // }
+    // else{
       setFileList5(fileList);
-      setError5('');
+      // setError5('');
       setProofOfRightError('');
-    }
+    // }
   };
 
   // dispatch(StoreStudentProfileImageData(FileList));
@@ -606,10 +607,10 @@ const AddConsultantInformation = () => {
    else if (work !== "false" && work !== "true") {
       setWorkError(true);
     }
-    else if (FileList1.length < 1 && consultantData?.consultantProfileImageMedia == null) {
+    else if (FileList1.length < 1 && consultantData?.consultantProfileImageMedia?.fileUrl == null) {
       setProfilePicError(true);
     }
-   else  if (FileList3.length < 1 && consultantData?.idOrPassportMedia == null) {
+   else if (FileList3.length < 1 && consultantData?.idOrPassportMedia == null) {
       setIdPassportError(true);
     }
    else if (FileList4.length < 1 && consultantData?.proofOfAddressMedia == null) {
@@ -1200,7 +1201,7 @@ const AddConsultantInformation = () => {
                         src={previewImage3}
                       />
                     </Modal>
-                    <span className="text-danger d-block">{error3}</span>
+                    {/* <span className="text-danger d-block">{error3}</span> */}
                   </div>
                 </div>
 
@@ -1264,7 +1265,7 @@ const AddConsultantInformation = () => {
                         src={previewImage4}
                       />
                     </Modal>
-                    <span className="text-danger d-block">{error4}</span>
+                    {/* <span className="text-danger d-block">{error4}</span> */}
                   </div>
                 </div>
 
@@ -1331,7 +1332,7 @@ const AddConsultantInformation = () => {
                           src={previewImage5}
                         />
                       </Modal>
-                      <span className="text-danger d-block">{error5}</span>
+                      {/* <span className="text-danger d-block">{error5}</span> */}
                     </div>
                   </div>
 
