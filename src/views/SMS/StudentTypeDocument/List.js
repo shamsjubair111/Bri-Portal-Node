@@ -207,7 +207,7 @@ const List = () => {
 
         <CardBody>
 
-       <div className='d-flex justify-content-between'>
+       <div className='d-flex justify-content-between flex-wrap'>
 
        <div>
         {

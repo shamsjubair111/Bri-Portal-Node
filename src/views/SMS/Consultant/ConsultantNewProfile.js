@@ -1251,7 +1251,7 @@ const ConsultantNewProfile = () => {
                         <LinkButton
                           url={`/studentListByConsultant/${id}`}
                           className={"btn btn-uapp-add "}
-                          name={"Student"}
+                          name={"Students"}
                           permission={6}
                         />
                       ) : null}
@@ -1269,7 +1269,7 @@ const ConsultantNewProfile = () => {
                         <ButtonForFunction
                           func={() => redirectToApplications(id)}
                           className={"btn btn-uapp-add "}
-                          name={"Application"}
+                          name={"Applications"}
                           permission={6}
                         />
                       ) : null}
@@ -1277,7 +1277,7 @@ const ConsultantNewProfile = () => {
                       <ButtonForFunction
                         func={redirectToApplicationTransaction}
                         className={"btn btn-uapp-add "}
-                        name={"Transaction"}
+                        name={"Transactions"}
                         permission={6}
                       />
                     </div>

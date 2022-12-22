@@ -400,26 +400,7 @@ const handleSubmit = (event) => {
             </Col>
           </FormGroup>
 
-          <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Source Of Tution Fee
-              </span>
-            </Col>
-            <Col md="6">
-         
-              <Input
-              type='text'
-              name='tutionFeeSource'
-              id='tutionFeeSource'
-              placeholder='Enter Source Of Tution Free'
-              
-            
-              />
-
-            
-            </Col>
-          </FormGroup>
+          
 
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
@@ -429,39 +410,13 @@ const handleSubmit = (event) => {
             </Col>
             <Col md="6">
          
-              <Input
-              type='text'
-              name='sourceOfFund'
-              id='sourceOfFund'
-              placeholder='Enter Source Of Fund'
-              required
-       
-              />
-
-            
-            </Col>
-          </FormGroup>
-
-          <FormGroup row className="has-icon-left position-relative">
-            <Col md="2">
-              <span>
-                Source Of Sponsor
-              </span>
-            </Col>
-            <Col md="6">
-         
-              <Input
-              type='text'
-              name='sourceOfSponsor'
-              id='sourceOfSponsor'
-              placeholder='Enter Source Of Sponsor'
              
-              required
-              />
 
             
             </Col>
           </FormGroup>
+
+          
 
 
               

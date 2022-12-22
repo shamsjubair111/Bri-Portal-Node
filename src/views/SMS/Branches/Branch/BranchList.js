@@ -178,7 +178,7 @@ const BranchList = () => {
             </Col>
 
             <Col lg="6" md="6" sm="12" xs="12">
-              <div className="d-flex justify-content-md-end justify-content-sm-start">
+              <div className="d-flex justify-content-end">
                 <div className="mr-3">
                   <Dropdown
                     className="uapp-dropdown"
