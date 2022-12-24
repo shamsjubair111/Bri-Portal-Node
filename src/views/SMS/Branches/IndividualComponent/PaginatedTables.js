@@ -564,9 +564,35 @@ const PaginatedTables = (props) => {
                       <td>{con?.viewId}</td>
                       <td>{con?.firstName}{' '}{con.lastName}</td>
                       <td>{con?.email}</td>
-                      <td>{con?.totalStudent}</td>
-                      <td>{con?.totalApplication}</td>
-                      <td>{con?.registeredStudent}</td>
+                      <td>
+                      <span
+                        // onClick={() => redirectToAdmissionOfficerList(manager?.providerId, manager?.id)}
+                        className="badge badge-secondary"
+                        // style={{ cursor: "pointer" }}
+                      >
+                           {con?.totalStudent}
+                          </span>
+                      </td>
+                      <td>
+                      <span
+                        // onClick={() => redirectToAdmissionOfficerList(manager?.providerId, manager?.id)}
+                        className="badge badge-secondary"
+                        // style={{ cursor: "pointer" }}
+                      >
+                            {con?.totalApplication}
+                          </span>
+                        
+                      </td>
+                      <td>
+                      <span
+                        // onClick={() => redirectToAdmissionOfficerList(manager?.providerId, manager?.id)}
+                        className="badge badge-secondary"
+                        // style={{ cursor: "pointer" }}
+                      >
+                            {con?.registeredStudent}
+                          </span>
+                        
+                      </td>
                       {
                         permissions?.includes(permissionList?.Change_Status_Consultant) ?
                         <td>

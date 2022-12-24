@@ -1124,6 +1124,9 @@ const CampusList = (props) => {
               </Table>
             </div>
           )}
+          <div className="d-flex justify-content-end mt-3">
+             <h5>Total Results Found: {campusList.length}</h5>
+          </div>
 
           {/* <Pagination
             dataPerPage={dataPerPage}
