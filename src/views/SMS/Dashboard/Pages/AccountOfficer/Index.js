@@ -78,7 +78,7 @@ const AccountOfficer = () => {
             <div  className='d-flex flex-wrap'>
 
             <div className="mt-2 mr-4">
-            <span style={{fontWeight: '500'}}>Intake: {intake?.intakeName}</span>
+            <span style={{fontWeight: '500'}}>Intake Range: {intake?.intakeName}</span>
           </div>
 
 
