@@ -1090,14 +1090,16 @@ const ProviderDetails = () => {
                       </tbody>
                     </Table>
 
-                    <Pagination
-                      dataPerPage={dataPerPage}
-                      totalData={entity}
-                      paginate={paginate}
-                      currentPage={currentPage}
-                    />
                   </div>
                 )}
+
+                <Pagination
+                  dataPerPage={dataPerPage}
+                  totalData={entity}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />
+
               </CardBody>
             </Card>
 
@@ -1224,7 +1226,7 @@ const ProviderDetails = () => {
                           <td>
                             <span
                               className="badge badge-secondary"
-                              style={{ cursor: "pointer" }}
+                              // style={{ cursor: "pointer" }}
                             >
                               {manager?.totalApplication}
                             </span>

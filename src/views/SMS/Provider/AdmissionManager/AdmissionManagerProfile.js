@@ -112,7 +112,9 @@ const AdmissionManagerProfile = () => {
   };
 
   const backToProviderDetails = () => {
-    if (location.managerList != undefined) {
+    // if (location.managerList != undefined) 
+    if (managerId != undefined) 
+    {
       history.push(`/admissionManagerList`);
     } 
     else if(location.officerId != undefined){
@@ -577,7 +579,9 @@ const selectNameTitle = (label, value) => {
             <span onClick={backToProviderDetails} className="text-white">
               {" "}
               <i className="fas fa-arrow-circle-left"></i>{" "}
-              {location.managerList != undefined
+              {
+                // location.managerList != undefined
+                managerId != undefined
                 ? "Back to Admission Manager List"
                 : 
                 location.officerId != undefined ? 
@@ -987,11 +991,12 @@ const selectNameTitle = (label, value) => {
 
               <div>
                 {/* <Button color="primary" className="me-1">Add New Admission Officer</Button> */}
+              {/* <div className="d-flex"> */}
               {
                 permissions?.includes(permissionList?.Add_New_Admissionofficer) ?
                 <ButtonForFunction
                 func={handleAddNew}
-                className={"btn btn-uapp-add mr-1 mb-2"}
+                className={"btn btn-uapp-add mr-1 mb-2 mb-md-0 mb-lg-0 mb-sm-0"}
                 // icon={<i className="fas fa-plus"></i>}
                 name={"Add Admission Officer"}
                 permission={6}
@@ -1012,6 +1017,7 @@ const selectNameTitle = (label, value) => {
               :
               null
                 }
+              {/* </div> */}
 
               {/* assign admission officer */}
               <Modal

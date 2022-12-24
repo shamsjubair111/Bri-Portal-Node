@@ -1634,7 +1634,7 @@ const AdmissionManagerList = () => {
                            </Link> */}
 
                             {
-                              permissions?.includes(permissionList.Update_Admission_manager_info) ? 
+                              permissions?.includes(permissionList.View_Admission_manager_info) ? 
                               <ButtonForFunction
                               func={() =>
                                 handleViewAdmissionManager(

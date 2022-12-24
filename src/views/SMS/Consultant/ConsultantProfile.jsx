@@ -101,6 +101,7 @@ const ConsultantProfile = () => {
     get(`Consultant/Profile/${id}`).then((res) => {
       
       setConsultantData(res);
+      console.log("consData", res);
       setStatusLabel(res?.accountStatus?.statusName);
       setStatusValue(res?.accountStatus?.id);
 
@@ -1212,6 +1213,7 @@ const ConsultantProfile = () => {
                             </td>
   
                             <td width="60%">
+                              <div className="d-flex">
                               <ButtonForFunction
                                 color={"success"}
                                 func={() => setViewModalOpen(true)}
@@ -1234,6 +1236,7 @@ const ConsultantProfile = () => {
                                 Download
                               </a>
                               </Button>
+                              </div>
 
                             </td>
                               </>
@@ -1251,6 +1254,7 @@ const ConsultantProfile = () => {
                             </td>
   
                             <td width="60%">
+                              <div className="d-flex">
                               <ButtonForFunction
                                   color={"success"}
                                   func={() => setViewModalOpen1(true)}
@@ -1275,6 +1279,7 @@ const ConsultantProfile = () => {
                                   Download
                                 </a>
                                 </Button>
+                              </div>
                             </td>
                               </>
                               :
@@ -1291,6 +1296,7 @@ const ConsultantProfile = () => {
                             </td>
   
                             <td width="60%">
+                            <div className="d-flex">
                             <ButtonForFunction
                                 color={"success"}
                                 func={() => setViewModalOpen2(true)}
@@ -1314,6 +1320,7 @@ const ConsultantProfile = () => {
                                 Download
                               </a>
                               </Button>
+                            </div>
                             </td>
                               </>
                               :
@@ -1327,15 +1334,31 @@ const ConsultantProfile = () => {
                       {/* id or Password modal starts here */}
 
                       <Modal
-                        size="xl"
+                        size={consultantData?.idOrPassportMedia?.mediaType == 4 ? "xl" : "50%"}
                         isOpen={viewModalOpen}
                         toggle={closeViewModal}
+                        className={consultantData?.idOrPassportMedia?.mediaType == 4 ? "" : "uapp-modal2"}
                       >
                         <ModalHeader>Id or Passport</ModalHeader>
-                        <ModalBody   style={{height: "80vh"}}>
+                        <ModalBody className={consultantData?.idOrPassportMedia?.mediaType == 4 ? "modalHeight" : ""}>
                           {/* <Form> */}
                                       
-                             <iframe
+                          {
+
+                            consultantData?.idOrPassportMedia?.mediaType == 1 ?
+                            <img
+                               src={
+                                 rootUrl + consultantData?.idOrPassportMedia?.fileUrl
+                               }
+                               alt="gallery_image"
+                               className="image"
+                               style={{ width: "100%"}}
+                             />
+
+                             :
+
+                             consultantData?.idOrPassportMedia?.mediaType == 4 ? 
+                            <iframe
                               src={rootUrl + consultantData?.idOrPassportMedia?.fileUrl}
                               // frameBorder="0"
                               // scrolling="auto"
@@ -1346,6 +1369,20 @@ const ConsultantProfile = () => {
                               >
                               
                              </iframe>
+                             
+                              :
+                              <span>This type of file cannot be displayed. You can download it by{" "}
+                                 <a
+                                // style={{textDecoration: "none", color: "white"}}
+                                href={rootUrl +
+                                  consultantData?.idOrPassportMedia?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                clicking here.
+                              </a>
+                            </span>
+                          }
                                       
                         </ModalBody>
                                       
@@ -1364,15 +1401,31 @@ const ConsultantProfile = () => {
 
                       {/* Proof of address modal starts here */}
                       <Modal
-                        size="xl"
+                        size={consultantData?.proofOfAddressMedia?.mediaType == 4 ? "xl" : "50%"}
                         isOpen={viewModalOpen1}
                         toggle={closeViewModal1}
+                        className={consultantData?.proofOfAddressMedia?.mediaType == 4 ? "" : "uapp-modal2"}
                       >
                         <ModalHeader>Proof of Address</ModalHeader>
-                        <ModalBody   style={{height: "80vh"}}>
+                        <ModalBody className={consultantData?.proofOfAddressMedia?.mediaType == 4 ? "modalHeight" : ""}>
                           {/* <Form> */}
                                       
-                             <iframe
+                          {
+
+                            consultantData?.proofOfAddressMedia?.mediaType == 1 ?
+                            <img
+                               src={
+                                 rootUrl + consultantData?.proofOfAddressMedia?.fileUrl
+                               }
+                               alt="gallery_image"
+                               className="image"
+                               style={{ width: "100%"}}
+                             />
+                             
+                             :
+                             
+                             consultantData?.proofOfAddressMedia?.mediaType == 4 ? 
+                            <iframe
                               src={rootUrl + consultantData?.proofOfAddressMedia?.fileUrl}
                               // frameBorder="0"
                               // scrolling="auto"
@@ -1383,6 +1436,20 @@ const ConsultantProfile = () => {
                               >
                               
                              </iframe>
+
+                              :
+                              <span>This type of file cannot be displayed. You can download it by{" "}
+                                 <a
+                                // style={{textDecoration: "none", color: "white"}}
+                                href={rootUrl +
+                                  consultantData?.proofOfAddressMedia?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                clicking here.
+                              </a>
+                            </span>
+                            }
                                       
                         </ModalBody>
                                       
@@ -1400,15 +1467,31 @@ const ConsultantProfile = () => {
 
                       {/* Proof of Right to Work modal starts here */}
                       <Modal
-                        size="xl"
+                        size={consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? "xl" : "50%"}
                         isOpen={viewModalOpen2}
                         toggle={closeViewModal2}
+                        className={consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? "" : "uapp-modal2"}
                       >
                         <ModalHeader>Proof of Right to Work</ModalHeader>
-                        <ModalBody   style={{height: "80vh"}}>
+                        <ModalBody className={consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? "modalHeight" : ""}>
                           {/* <Form> */}
                                       
-                             <iframe
+                          {
+
+                            consultantData?.proofOfRightToWorkMedia?.mediaType == 1 ?
+                            <img
+                               src={
+                                 rootUrl + consultantData?.proofOfRightToWorkMedia?.fileUrl
+                               }
+                               alt="gallery_image"
+                               className="image"
+                               style={{ width: "100%"}}
+                             />
+                             
+                             :
+                             
+                             consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? 
+                            <iframe
                               src={rootUrl + consultantData?.proofOfRightToWorkMedia?.fileUrl}
                               // frameBorder="0"
                               // scrolling="auto"
@@ -1419,6 +1502,20 @@ const ConsultantProfile = () => {
                               >
                               
                              </iframe>
+
+                              :
+                              <span>This type of file cannot be displayed. You can download it by{" "}
+                                 <a
+                                // style={{textDecoration: "none", color: "white"}}
+                                href={rootUrl +
+                                  consultantData?.proofOfRightToWorkMedia?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                clicking here.
+                              </a>
+                            </span>
+                            }
                                       
                         </ModalBody>
                                       
