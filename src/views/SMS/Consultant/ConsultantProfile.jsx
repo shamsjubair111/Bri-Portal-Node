@@ -1213,6 +1213,7 @@ const ConsultantProfile = () => {
                             </td>
   
                             <td width="60%">
+                              <div className="d-flex">
                               <ButtonForFunction
                                 color={"success"}
                                 func={() => setViewModalOpen(true)}
@@ -1235,6 +1236,7 @@ const ConsultantProfile = () => {
                                 Download
                               </a>
                               </Button>
+                              </div>
 
                             </td>
                               </>
@@ -1252,6 +1254,7 @@ const ConsultantProfile = () => {
                             </td>
   
                             <td width="60%">
+                              <div className="d-flex">
                               <ButtonForFunction
                                   color={"success"}
                                   func={() => setViewModalOpen1(true)}
@@ -1276,6 +1279,7 @@ const ConsultantProfile = () => {
                                   Download
                                 </a>
                                 </Button>
+                              </div>
                             </td>
                               </>
                               :
@@ -1292,6 +1296,7 @@ const ConsultantProfile = () => {
                             </td>
   
                             <td width="60%">
+                            <div className="d-flex">
                             <ButtonForFunction
                                 color={"success"}
                                 func={() => setViewModalOpen2(true)}
@@ -1315,6 +1320,7 @@ const ConsultantProfile = () => {
                                 Download
                               </a>
                               </Button>
+                            </div>
                             </td>
                               </>
                               :

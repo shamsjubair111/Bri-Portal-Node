@@ -1211,6 +1211,7 @@ const AssociateProfile = () => {
                             </td>
   
                             <td width="60%">
+                              <div className="d-flex">
                               <ButtonForFunction
                                 color={"success"}
                                 func={() => setViewModalOpen(true)}
@@ -1233,6 +1234,7 @@ const AssociateProfile = () => {
                                 Download
                               </a>
                               </Button>
+                              </div>
 
                             </td>
                               </>
@@ -1250,6 +1252,7 @@ const AssociateProfile = () => {
                             </td>
   
                             <td width="60%">
+                              <div className="d-flex">
                               <ButtonForFunction
                                   color={"success"}
                                   func={() => setViewModalOpen1(true)}
@@ -1274,6 +1277,7 @@ const AssociateProfile = () => {
                                   Download
                                 </a>
                                 </Button>
+                              </div>
                             </td>
                               </>
                               :
@@ -1290,13 +1294,15 @@ const AssociateProfile = () => {
                             </td>
   
                             <td width="60%">
-                            <ButtonForFunction
+                              <div className="d-flex">
+                              <ButtonForFunction
                                 color={"success"}
                                 func={() => setViewModalOpen2(true)}
                                 className={"btn mr-2"}
                                 name={"View"}
                                 permission={6}
                               />
+                              
                               <Button
                                 // color="primary"
                                 className="btn btn-uapp-add"
@@ -1313,6 +1319,7 @@ const AssociateProfile = () => {
                                 Download
                               </a>
                               </Button>
+                              </div>
                             </td>
                               </>
                               :
