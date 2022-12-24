@@ -1107,16 +1107,16 @@ display: flex;
 
 .login-img{
   background-image: url('../img/Login.png');
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   width: 100%;
-  height: fit-content;
+  
  
 }
 
 .student-register-img{
   background-image: url('../img/Studentregister.png');
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   width: 100%;
   height: fit-content;
@@ -1125,7 +1125,7 @@ display: flex;
 
 .consultant-register-img{
   background-image: url('../img/Cinsultant.png');
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   width: 100%;
   height: fit-content;

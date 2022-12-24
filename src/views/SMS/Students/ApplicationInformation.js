@@ -614,6 +614,8 @@ const handleSubmit = (event) => {
   }
   else if(fundValue == 6){
     subData.append('scholarshipFile', FileList5[0]?.originFileObj);
+    
+    console.log(FileList5);
   }
   
 
@@ -696,50 +698,7 @@ const handleSubmit = (event) => {
 
    }
 
-   else{
-
-    setButtonStatus(true);
-    setProgress(true);
-    if(fundValue == 1){
-      post(`SelfFunded/Create`,subData);
-    }
-    else if(fundValue == 2){
-      post(`FamilyFunded/Create`,subData);
-    }
-    else if(fundValue == 3){
-      post(`StudentLoanCompany/Create`,subData);
-    }
-    else if(fundValue == 4 ){
-      post(`BankLoan/Create`,subData);
-    }
-    else if(fundValue == 5){
-      post(`GovernmentLoanFund/Create`,subData);
-    }
-    else if(fundValue == 6){
-      post(`Scholarship/Create`,subData);
-    }
-    post('ApplicationInfo/Create',subData)
-    .then(res => {
-      setButtonStatus(false);
-      setProgress(false);
-      
-      if(res?.status == 200 && res?.data?.isSuccess == true){
-        addToast(res.data.message,{
-          appearance: 'success',
-          autoDismiss: true
-        })
-        history.push(`/addStudentinformation/${applicationStudentId}`);
-      }
-      else{
-        addToast(res?.data?.message, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-      }
-  
-    })
-
-   }
+ 
 
 }
 
@@ -866,8 +825,7 @@ const cancelForm = () => {
 
                     </div>
 
-            {
-              (update) ? 
+            
               <input
               type='hidden'
               name='id'
@@ -875,11 +833,6 @@ const cancelForm = () => {
               value={applicationId}
               
               />
-
-              :
-
-              null
-            }
 
             <input
             type='hidden'
