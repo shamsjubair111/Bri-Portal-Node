@@ -17,6 +17,8 @@ const GovernmentLoan = () => {
                 type='textarea'
                 placeholder='Add loan amount in the box'
                 required
+                name='details'
+                id='details'
                 />
 
              

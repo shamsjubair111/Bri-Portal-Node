@@ -19,6 +19,8 @@ const Scholarship = ({previewVisible5, setPreviewVisible5, previewTitle5, setPre
                 type='textarea'
                 required
                 placeholder='Add name, amount in the box '
+                name='details'
+                id='details'
                 />
 
              

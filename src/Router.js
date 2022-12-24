@@ -952,6 +952,7 @@ class AppRouter extends React.Component {
            <AppRoute  path="/withdrawRequestList" component={permissions?.includes(permissionList.View_withdraw_request_List) ? WithdrawRequestList : NotAuthorized} />
 
            <AppRoute  path="/withdrawTransaction" component={permissions?.includes(permissionList.View_withdraw_transaction_List) ? WithdrawTransaction : NotAuthorized} />
+           <AppRoute  path="/withdrawTransactionByConsultant/:consultantId" component={permissions?.includes(permissionList.View_withdraw_transaction_List) ? WithdrawTransaction : NotAuthorized} />
            <AppRoute  path="/withdrawTransactionDetails/:id" component={permissions?.includes(permissionList.View_withdraw_transaction_info) ? WithdrawTransactionDetails : NotAuthorized} />
 
            {/* commission transaction details  */}

@@ -466,7 +466,9 @@ const ConsultantDashboard = () => {
               </div>
         
             <div className='d-flex justify-content-between'>
-            <span className='application-count-style' style={{textDecoration: 'underline',cursor: 'pointer', position:'relative', top: '36px'}}>Withdraw money</span>
+            <span onClick={()=>{
+                history.push(`/withdrawTransactionByConsultant/${consultantId}`)
+              }} className='application-count-style' style={{textDecoration: 'underline',cursor: 'pointer', position:'relative', top: '36px'}}>Withdraw money</span>
             <div className='mt-4'>
               
             <div className='consultant-bg-img'>

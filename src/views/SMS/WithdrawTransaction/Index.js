@@ -36,7 +36,7 @@ import Select from "react-select";
 import get from "../../../helpers/get";
 import Pagination from "../Pagination/Pagination";
 import Loader from "../Search/Loader/Loader";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ButtonForFunction from "../Components/ButtonForFunction";
 
 import { useToasts } from "react-toast-notifications";
@@ -66,6 +66,8 @@ const Index = () => {
     // }),
   };
   const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const {consultantId} = useParams();
+ 
 
   const [label1, setLabel1] = useState("Select Consultant");
   const [label2, setLabel2] = useState("Select Consultant");
@@ -120,19 +122,38 @@ const Index = () => {
 
 
   useEffect(() => {
-    get(
-      `WithdrawTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${value1}&code=${transactionCode}`
-    ).then((res) => {
-      
-      setListData(res?.models);
-      setEntity(res?.totalEntity);
-      setLoading(false);
-      setSr(res?.firstSerialNumber);
-    });
+   consultantId? 
+   get(
+    `WithdrawTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${consultantId}&code=${transactionCode}`
+  ).then((res) => {
+    
+    setListData(res?.models);
+    setEntity(res?.totalEntity);
+    setLoading(false);
+    setSr(res?.firstSerialNumber);
+  })
+  :
+  get(
+    `WithdrawTransaction/Index?page=${currentPage}&pagesize=${dataPerPage}&consultantid=${value1}&code=${transactionCode}`
+  ).then((res) => {
+    
+    setListData(res?.models);
+    setEntity(res?.totalEntity);
+    setLoading(false);
+    setSr(res?.firstSerialNumber);
+  });
 
-    get(`ConsultantDD/index`).then((res) => {
-      setCounsultant(res);
-    });
+   consultantId ?
+   get(`ConsultantDD/index`).then((res) => {
+    setCounsultant(res);
+    const result = res?.find(data => data?.id == consultantId);
+    setLabel1(result?.name);
+    setValue1(result?.id);
+  }):
+  get(`ConsultantDD/index`).then((res) => {
+    setCounsultant(res);
+  
+  });
 
     get(`TransactionTypeDD/Index`).then((res) => {
       setTransaction(res);
@@ -599,6 +620,7 @@ const Index = () => {
                     options={consultantOptions}
                     value={{ label: label1, value: value1 }}
                     onChange={(opt) => selectConsultant1(opt.label, opt.value)}
+                    isDisabled={consultantId ? true : false}
                   />
                 </div>
                 : null

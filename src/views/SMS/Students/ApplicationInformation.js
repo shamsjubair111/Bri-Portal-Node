@@ -144,6 +144,8 @@ const ApplicationInformation = () => {
       setVisaStatusLabel(res?.visaStatus?.name ? res?.visaStatus?.name : 'Select Visa Status');
       setVisaStatusValue(res?.visaStatusId ? res?.visaStatusId : 0);
       setApplicationId(res?.id);
+      setFundLabel(res?.sourceOfFundName);
+      setFundValue(res?.sourceOfFundId);
 
       var datee =res?.dateOfMoveToUk;
       var utcDate = new Date(datee);
@@ -153,7 +155,40 @@ const ApplicationInformation = () => {
       
       
       setDateOfMoveToUk(localeDte3.replace('/', '-'));
-    
+      res?.sourceOfFundId == 1 ?
+      get(`SelfFunded/GetByStudentId/${applicationStudentId}`)
+      .then(res => {
+        console.log(res);
+      })
+      :
+      res?.sourceOfFundId == 2 ? 
+      get(`FamilyFunded/GetByStudentId/${applicationStudentId}`)
+      .then(res => {
+        console.log(res);
+      })
+      :
+      res?.sourceOfFundId == 3 ?
+      get(`StudentLoanCompany/GetByStudentId/${applicationStudentId}`)
+      .then(res => {
+        console.log(res);
+      })
+      :
+      res?.sourceOfFundId == 4 ?
+      get(`BankLoan/GetByStudentId/${applicationStudentId}`)
+      .then(res => {
+        console.log(res);
+      })
+      :
+      res?.sourceOfFundId == 5 ?
+      get(`GovernmentLoanFund/GetByStudentId/${applicationStudentId}`)
+      .then(res => {
+        console.log(res);
+      })
+      :
+      get(`Scholarship/GetByStudentId/${applicationStudentId}`)
+      .then(res => {
+        console.log(res);
+      })
 
 
     })
@@ -578,7 +613,7 @@ const handleSubmit = (event) => {
     subData.append('bankLoanFile', FileList4[0]?.originFileObj);
   }
   else if(fundValue == 6){
-    subData.append('bankLoanFile', FileList5[0]?.originFileObj);
+    subData.append('scholarshipFile', FileList5[0]?.originFileObj);
   }
   
 

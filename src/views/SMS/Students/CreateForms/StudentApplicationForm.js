@@ -9,6 +9,12 @@ import post from '../../../../helpers/post';
 import get from '../../../../helpers/get';
 import ButtonForFunction from '../../Components/ButtonForFunction';
 import ButtonLoader from '../../Components/ButtonLoader';
+import SelfFunded from '../SourceOfFunds/SelfFunded';
+import FamilyFunded from '../SourceOfFunds/FamilyFunded';
+import StudentLoanCompany from '../SourceOfFunds/StudentLoanCompany';
+import BankLoan from '../SourceOfFunds/BankLoan';
+import Scholarship from '../SourceOfFunds/Scholarship';
+import GovernmentLoan from '../SourceOfFunds/GovernmentLoan';
 
 const StudentApplicationForm = () => {
 
@@ -48,6 +54,45 @@ const StudentApplicationForm = () => {
     const {addToast} = useToasts();
     const [buttonStatus,setButtonStatus] = useState(false);
 
+    // Update NEw Infos
+    const [fund,setFund] = useState([]);
+  const [fundLabel,setFundLabel] = useState('Select Fund Type');
+  const [fundValue,setFundValue] = useState(0);
+  const [selfError,setSelfError] = useState('');
+  const [familyError,setFamilyError] = useState('');
+  const [sLoanError,setSLoanError] = useState('');
+  const [bLoanError,setBLoanError] = useState('');
+  const [scholarshipError,setScholarshipError] = useState('');
+  const [govtError,setGovtError] = useState('');
+
+  const [fundError,setFundError] = useState('');
+
+  const [previewVisible1, setPreviewVisible1] = useState(false);
+  const [previewImage1, setPreviewImage1] = useState('');
+  const [previewTitle1, setPreviewTitle1] = useState('');
+  const [FileList1, setFileList1] = useState([]);
+
+  const [previewVisible2, setPreviewVisible2] = useState(false);
+  const [previewImage2, setPreviewImage2] = useState('');
+  const [previewTitle2, setPreviewTitle2] = useState('');
+  const [FileList2, setFileList2] = useState([]);
+
+  const [previewVisible3, setPreviewVisible3] = useState(false);
+  const [previewImage3, setPreviewImage3] = useState('');
+  const [previewTitle3, setPreviewTitle3] = useState('');
+  const [FileList3, setFileList3] = useState([]);
+
+  const [previewVisible4, setPreviewVisible4] = useState(false);
+  const [previewImage4, setPreviewImage4] = useState('');
+  const [previewTitle4, setPreviewTitle4] = useState('');
+  const [FileList4, setFileList4] = useState([]);
+
+  const [previewVisible5, setPreviewVisible5] = useState(false);
+  const [previewImage5, setPreviewImage5] = useState('');
+  const [previewTitle5, setPreviewTitle5] = useState('');
+  const [FileList5, setFileList5] = useState([]);
+ 
+
     
   useEffect(()=>{
 
@@ -55,6 +100,12 @@ const StudentApplicationForm = () => {
     .then(res => {
       
       setStudentType(res);
+    })
+
+    get(`SourceOfFundDD/Index`)
+    .then(res =>{
+      
+      setFund(res);
     })
 
     get('VisaTypeDD/Index')
@@ -116,9 +167,297 @@ const StudentApplicationForm = () => {
 }
 
 
+ //  Dynamic1  COde Start
+
+
+    
+ function getBase641(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+
+
+const  handleCancel1 = () => {
+    setPreviewVisible1(false);
+};
+
+const handlePreview1 = async file => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase641(file.originFileObj);
+  }
+
+  // this.setState({
+  //   previewImage: file.url || file.preview,
+  //   previewVisible: true,
+  //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+  // });
+
+  setPreviewImage1(file.url || file.preview);
+  setPreviewVisible1(true);
+  setPreviewTitle1(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+};
+
+const handleChange1 = ({ fileList }) => {
+ 
+  
+setFileList1(fileList);
+setSelfError('');
+    
+  }
+  
+
+
+
+
+  // Dynamic1  code end
+
+//  Dynamic2  COde Start
+
+
+  
+function getBase642(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+
+
+const  handleCancel2 = () => {
+    setPreviewVisible2(false);
+};
+
+const handlePreview2 = async file => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase642(file.originFileObj);
+  }
+
+  // this.setState({
+  //   previewImage: file.url || file.preview,
+  //   previewVisible: true,
+  //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+  // });
+
+  setPreviewImage2(file.url || file.preview);
+  setPreviewVisible2(true);
+  setPreviewTitle2(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+};
+
+const handleChange2 = ({ fileList }) => {
+ 
+  
+setFileList2(fileList);
+setSelfError('');
+    
+  }
+  
+
+
+
+
+  // Dynamic2  code end
+
+//  Dynamic3  COde Start
+
+
+  
+function getBase643(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+
+
+const  handleCancel3 = () => {
+    setPreviewVisible3(false);
+};
+
+const handlePreview3 = async file => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase643(file.originFileObj);
+  }
+
+  // this.setState({
+  //   previewImage: file.url || file.preview,
+  //   previewVisible: true,
+  //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+  // });
+
+  setPreviewImage3(file.url || file.preview);
+  setPreviewVisible3(true);
+  setPreviewTitle3(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+};
+
+const handleChange3 = ({ fileList }) => {
+ 
+  
+setFileList3(fileList);
+setSLoanError('');
+    
+  }
+  
+
+
+
+
+  // Dynamic3  code end
+
+//  Dynamic4  COde Start
+
+
+  
+function getBase644(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+
+
+const  handleCancel4 = () => {
+    setPreviewVisible4(false);
+};
+
+const handlePreview4 = async file => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase644(file.originFileObj);
+  }
+
+  // this.setState({
+  //   previewImage: file.url || file.preview,
+  //   previewVisible: true,
+  //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+  // });
+
+  setPreviewImage4(file.url || file.preview);
+  setPreviewVisible4(true);
+  setPreviewTitle4(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+};
+
+const handleChange4 = ({ fileList }) => {
+ 
+  
+setFileList4(fileList);
+setBLoanError('');
+    
+  }
+  
+
+
+
+
+  // Dynamic4  code end
+
+//  Dynamic5  COde Start
+
+
+  
+function getBase645(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+
+
+const  handleCancel5 = () => {
+    setPreviewVisible5(false);
+};
+
+const handlePreview5 = async file => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase645(file.originFileObj);
+  }
+
+  // this.setState({
+  //   previewImage: file.url || file.preview,
+  //   previewVisible: true,
+  //   previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+  // });
+
+  setPreviewImage5(file.url || file.preview);
+  setPreviewVisible5(true);
+  setPreviewTitle5(file.name ||  file.url.substring(file.url.lastIndexOf('/') + 1) );
+
+
+
+
+
+};
+
+const handleChange5 = ({ fileList }) => {
+ 
+  
+setFileList5(fileList);
+setScholarshipError('');
+    
+  }
+  
+
+
+
+
+  // Dynamic5  code end
+
+
 const studentTypeName = studentType?.map((branchCountry) => ({
   label: branchCountry.name,
   value: branchCountry.id,
+}));
+
+const selectFund = (label,value) =>{
+  setFundError('');
+  setSelfError('');
+  setFamilyError('');
+  setSLoanError('');
+  setBLoanError('');
+  setScholarshipError('');
+  setGovtError('');
+  setFundLabel(label);
+  setFundValue(value);
+}
+
+const fundOptions = fund?.map((f) => ({
+  label: f.name,
+  value: f.id,
 }));
 
 
@@ -152,6 +491,22 @@ const handleSubmit = (event) => {
 
     event.preventDefault();
     const subData = new FormData(event.target);
+
+    if(fundValue == 1){
+      subData.append('selfFundedFile', FileList1[0]?.originFileObj);
+    }
+    else if(fundValue == 2){
+      subData.append('familyFundedFile', FileList2[0]?.originFileObj);
+    }
+    else if(fundValue == 3){
+      subData.append('studentLoanCompanyFile', FileList3[0]?.originFileObj);
+    }
+    else if(fundValue == 4){
+      subData.append('bankLoanFile', FileList4[0]?.originFileObj);
+    }
+    else if(fundValue == 6){
+      subData.append('bankLoanFile', FileList5[0]?.originFileObj);
+    }
     
   
   
@@ -161,12 +516,49 @@ const handleSubmit = (event) => {
           setVisaError(true);
     
         }
+        else if(fundValue == 0){
+          setFundError('Source of fund is requied');
+        }
+        
+        else if(fundValue == 1 && FileList1?.length < 1){
+          setSelfError('Attachment is required');
+        }
+        else if(fundValue == 2 && FileList2?.length < 1){
+          setFamilyError('Attachment is required');
+        }
+        else if(fundValue == 3 && FileList3?.length < 1){
+          setSLoanError('Attachment is required');
+        }
+        else if(fundValue == 4 && FileList4?.length < 1){
+          setBLoanError('Attachment is required');
+        }
+        else if(fundValue == 6 && FileList5?.length < 1){
+          setScholarshipError('Attachment is required');
+        }
      
    
      else{
   
       setButtonStatus(true);
       setProgress(true);
+      if(fundValue == 1){
+        post(`SelfFunded/Create`,subData);
+      }
+      else if(fundValue == 2){
+        post(`FamilyFunded/Create`,subData);
+      }
+      else if(fundValue == 3){
+        post(`StudentLoanCompany/Create`,subData);
+      }
+      else if(fundValue == 4 ){
+        post(`BankLoan/Create`,subData);
+      }
+      else if(fundValue == 5){
+        post(`GovernmentLoanFund/Create`,subData);
+      }
+      else if(fundValue == 6){
+        post(`Scholarship/Create`,subData);
+      }
       post('ApplicationInfo/Create',subData)
       .then(res => {
         setProgress(false);
@@ -348,7 +740,7 @@ const handleSubmit = (event) => {
               <FormGroup row className="has-icon-left position-relative">
               <Col md="2">
                 <span>
-                  Applying From Inside?
+                  Applying From Inside? <span className="text-danger">*</span>{" "}
                 </span>
               </Col>
               <Col md="6">
@@ -405,18 +797,138 @@ const handleSubmit = (event) => {
           <FormGroup row className="has-icon-left position-relative">
             <Col md="2">
               <span>
-                Source Of Fund
+                Source Of Fund  <span className="text-danger">*</span>{" "}
               </span>
             </Col>
             <Col md="6">
-         
-             
+            <Select
+                    options={fundOptions}
+                    value={{ label: fundLabel, value: fundValue }}
+                    onChange={(opt) => selectFund(opt.label, opt.value)}
+                    name="sourceOfFundId"
+                    id="sourceOfFundId"
+                    required
+
+                  />
+                  <span className='text-danger'>{fundError}</span>
+              
 
             
             </Col>
           </FormGroup>
 
-          
+          {
+            fundValue == 1 && <SelfFunded
+            
+            previewVisible1 = {previewVisible1}
+            setPreviewVisible1 = {setPreviewVisible1}
+            previewTitle1 = {previewTitle1}
+            setPreviewTitle1 = {setPreviewTitle1}
+            previewImage1 = {previewImage1}
+            setPreviewImage1 = {setPreviewImage1}
+            FileList1 = {FileList1}
+            setFileList1 = {setFileList1}
+            handleCancel1 = {handleCancel1}
+            handlePreview1 = {handlePreview1}
+            getBase641 = {getBase641}
+            handleChange1 = {handleChange1}
+            selfError = {selfError}
+            setSelfError = {setSelfError}
+            
+            />
+          }
+
+          {
+            fundValue == 2 && <FamilyFunded
+            
+            previewVisible2 = {previewVisible2}
+            setPreviewVisible2 = {setPreviewVisible2}
+            previewTitle2 = {previewTitle2}
+            setPreviewTitle2 = {setPreviewTitle2}
+            previewImage2 = {previewImage2}
+            setPreviewImage2 = {setPreviewImage2}
+            FileList2 = {FileList2}
+            setFileList2 = {setFileList2}
+            handleCancel2 = {handleCancel2}
+            handlePreview2 = {handlePreview2}
+            getBase642 = {getBase642}
+            handleChange2 = {handleChange2}
+            familyError = {familyError}
+            setFamilyError = {setFamilyError}
+            
+            />
+          }
+
+          {
+            fundValue == 3 && <StudentLoanCompany
+            
+            previewVisible3 = {previewVisible3}
+            setPreviewVisible3 = {setPreviewVisible3}
+            previewTitle3 = {previewTitle3}
+            setPreviewTitle3 = {setPreviewTitle3}
+            previewImage3 = {previewImage3}
+            setPreviewImage3 = {setPreviewImage3}
+            FileList3 = {FileList3}
+            setFileList3 = {setFileList3}
+            handleCancel3 = {handleCancel3}
+            handlePreview3 = {handlePreview3}
+            getBase643 = {getBase643}
+            handleChange3 = {handleChange3}
+            sLoanError = {sLoanError}
+            setSLoanError = {setSLoanError}
+            
+            />
+          }
+
+          {
+            fundValue == 4 && <BankLoan
+            
+            previewVisible4 = {previewVisible4}
+            setPreviewVisible4 = {setPreviewVisible4}
+            previewTitle4 = {previewTitle4}
+            setPreviewTitle4 = {setPreviewTitle4}
+            previewImage4 = {previewImage4}
+            setPreviewImage4 = {setPreviewImage4}
+            FileList4 = {FileList4}
+            setFileList4 = {setFileList4}
+            handleCancel4 = {handleCancel4}
+            handlePreview4 = {handlePreview4}
+            getBase644 = {getBase644}
+            handleChange4 = {handleChange4}
+            bLoanError = {bLoanError}
+            setBLoanError = {setBLoanError}
+            
+            />
+          }
+          {
+            fundValue == 6 && <Scholarship
+            
+            previewVisible5 = {previewVisible5}
+            setPreviewVisible5 = {setPreviewVisible5}
+            previewTitle5 = {previewTitle5}
+            setPreviewTitle5 = {setPreviewTitle5}
+            previewImage5 = {previewImage5}
+            setPreviewImage5 = {setPreviewImage5}
+            FileList5 = {FileList5}
+            setFileList5 = {setFileList5}
+            handleCancel5 = {handleCancel5}
+            handlePreview5 = {handlePreview5}
+            getBase645 = {getBase645}
+            handleChange5 = {handleChange5}
+            scholarshipError = {scholarshipError}
+            setScholarshipError = {setScholarshipError}
+            
+            />
+          }
+          {
+            fundValue == 5 && <GovernmentLoan
+            
+            
+            
+            />
+          }
+
+        
 
 
               

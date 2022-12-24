@@ -147,7 +147,7 @@ const AddConsultantInformation = () => {
 
     get(`Consultant/Get/${consultantRegisterId}`).then(
       (res) => {
-        
+        console.log(res);
         setConsultantData(res);
         console.log("consData", res);
         setNameLabel(res?.nameTittleId? res?.nameTitle?.name : 'Select Title');
