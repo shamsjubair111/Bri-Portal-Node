@@ -748,6 +748,10 @@ th {
 
 }
 
+.modalHeight{
+  height: 100vh;
+}
+
 
 
 .test-score-title-style{
