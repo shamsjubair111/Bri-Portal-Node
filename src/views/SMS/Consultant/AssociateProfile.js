@@ -91,9 +91,26 @@ const AssociateProfile = () => {
   
     const [text1, setText1] = useState("");
     const [loading,setLoading] = useState(true);
+
+    const [viewModalOpen, setViewModalOpen] = useState(false);
+    const [viewModalOpen1, setViewModalOpen1] = useState(false);
+    const [viewModalOpen2, setViewModalOpen2] = useState(false);
   
     const { addToast } = useToasts();
     const [progress,setProgress] = useState(false);
+
+     // on Close Modal
+   const closeViewModal = () => {
+     setViewModalOpen(false);
+   };
+ 
+   const closeViewModal1 = () => {
+     setViewModalOpen1(false);
+   };
+ 
+   const closeViewModal2 = () => {
+     setViewModalOpen2(false);
+   };
   
     useEffect(() => {
       get(`Consultant/Profile/${id}`).then((res) => {
@@ -1109,7 +1126,7 @@ const AssociateProfile = () => {
                       <div className="bg-h"></div>
                     </div>
   
-                    <div className="row text-center">
+                    {/* <div className="row text-center">
                       <div className="col-md-4 col-sm-12">
                         <Card className="shadow-lg">
                           <CardBody>
@@ -1175,7 +1192,344 @@ const AssociateProfile = () => {
                       null
                       }
   
-                    </div>
+                    </div> */}
+
+{
+                        consultantData?.idOrPassportMedia == null && consultantData?.proofOfAddressMedia == null && consultantData?.proofOfRightToWorkMedia == null ?
+                        <div className="my-4">
+                          There are no documents added here.
+                        </div>
+                        :
+                        <Table className="table-bordered mt-4">
+                        <tbody>
+                          <tr>
+                            {
+                              consultantData?.idOrPassportMedia !== null ?
+                              <>
+                                <td width="40%">
+                              <b>Id or Passport: </b>
+                            </td>
+  
+                            <td width="60%">
+                              <div className="d-flex">
+                              <ButtonForFunction
+                                color={"success"}
+                                func={() => setViewModalOpen(true)}
+                                className={"btn mr-2"}
+                                name={"View"}
+                                permission={6}
+                              />
+
+                              <Button
+                                // color="primary"
+                                className="btn btn-uapp-add"
+                              >
+                                <a
+                                style={{textDecoration: "none", color: "white"}}
+                                href={rootUrl +
+                                  consultantData?.idOrPassportMedia?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                Download
+                              </a>
+                              </Button>
+                              </div>
+
+                            </td>
+                              </>
+                              :
+                              null
+                            }
+                          </tr>
+
+                          <tr>
+                            {
+                              consultantData?.proofOfAddressMedia !== null ?
+                              <>
+                                <td width="40%">
+                              <b>Proof of Address: </b>
+                            </td>
+  
+                            <td width="60%">
+                              <div className="d-flex">
+                              <ButtonForFunction
+                                  color={"success"}
+                                  func={() => setViewModalOpen1(true)}
+                                  className={"btn mr-2"}
+                                  name={"View"}
+                                  permission={6}
+                                />
+
+                                <Button
+                                  // color="primary"
+                                  className="btn btn-uapp-add"
+                                >
+                                  <a
+                                  style={{textDecoration: "none", color: "white"}}
+                                  href={
+                                    rootUrl +
+                                    consultantData?.proofOfAddressMedia?.fileUrl
+                                  }
+                                  target="_blank"
+                                  // download
+                                >
+                                  Download
+                                </a>
+                                </Button>
+                              </div>
+                            </td>
+                              </>
+                              :
+                              null
+                            }
+                          </tr>
+
+                          <tr>
+                            {
+                              consultantData?.proofOfRightToWorkMedia !== null ?
+                              <>
+                                <td width="40%">
+                              <b>Proof of Right to Work: </b>
+                            </td>
+  
+                            <td width="60%">
+                              <div className="d-flex">
+                              <ButtonForFunction
+                                color={"success"}
+                                func={() => setViewModalOpen2(true)}
+                                className={"btn mr-2"}
+                                name={"View"}
+                                permission={6}
+                              />
+                              
+                              <Button
+                                // color="primary"
+                                className="btn btn-uapp-add"
+                              >
+                                <a
+                                style={{textDecoration: "none", color: "white"}}
+                                href={
+                                  rootUrl +
+                                  consultantData?.proofOfRightToWorkMedia?.fileUrl
+                                }
+                                target="_blank"
+                                // download
+                              >
+                                Download
+                              </a>
+                              </Button>
+                              </div>
+                            </td>
+                              </>
+                              :
+                              null
+                            }
+                          </tr>
+                        </tbody>
+                      </Table>
+                      }
+
+                      {/* id or Password modal starts here */}
+
+                      <Modal
+                        size={consultantData?.idOrPassportMedia?.mediaType == 4 ? "xl" : "50%"}
+                        isOpen={viewModalOpen}
+                        toggle={closeViewModal}
+                        className={consultantData?.idOrPassportMedia?.mediaType == 4 ? "" : "uapp-modal2"}
+                      >
+                        <ModalHeader>Id or Passport</ModalHeader>
+                        <ModalBody className={consultantData?.idOrPassportMedia?.mediaType == 4 ? "modalHeight" : ""}>
+                          {/* <Form> */}
+                                      
+                          {
+
+                            consultantData?.idOrPassportMedia?.mediaType == 1 ?
+                            <img
+                               src={
+                                 rootUrl + consultantData?.idOrPassportMedia?.fileUrl
+                               }
+                               alt="gallery_image"
+                               className="image"
+                               style={{ width: "100%"}}
+                             />
+
+                             :
+
+                             consultantData?.idOrPassportMedia?.mediaType == 4 ? 
+                            <iframe
+                              src={rootUrl + consultantData?.idOrPassportMedia?.fileUrl}
+                              // frameBorder="0"
+                              // scrolling="auto"
+                              // scrolling="no"
+                              height="100%"
+                              width="100%"
+                              title="docs"
+                              >
+                              
+                             </iframe>
+                             
+                              :
+                              <span>This type of file cannot be displayed. You can download it by{" "}
+                                 <a
+                                // style={{textDecoration: "none", color: "white"}}
+                                href={rootUrl +
+                                  consultantData?.idOrPassportMedia?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                clicking here.
+                              </a>
+                            </span>
+                          }
+                                      
+                        </ModalBody>
+                                      
+                        <ModalFooter>
+                         <Button
+                           color="danger"
+                           className="mr-1 mt-3"
+                           onClick={closeViewModal}
+                         >
+                           Close
+                         </Button>
+                        </ModalFooter>
+                      </Modal>
+
+                      {/* id or Password modal ends here */}
+
+                      {/* Proof of address modal starts here */}
+                      <Modal
+                        size={consultantData?.proofOfAddressMedia?.mediaType == 4 ? "xl" : "50%"}
+                        isOpen={viewModalOpen1}
+                        toggle={closeViewModal1}
+                        className={consultantData?.proofOfAddressMedia?.mediaType == 4 ? "" : "uapp-modal2"}
+                      >
+                        <ModalHeader>Proof of Address</ModalHeader>
+                        <ModalBody className={consultantData?.proofOfAddressMedia?.mediaType == 4 ? "modalHeight" : ""}>
+                          {/* <Form> */}
+                                      
+                          {
+
+                            consultantData?.proofOfAddressMedia?.mediaType == 1 ?
+                            <img
+                               src={
+                                 rootUrl + consultantData?.proofOfAddressMedia?.fileUrl
+                               }
+                               alt="gallery_image"
+                               className="image"
+                               style={{ width: "100%"}}
+                             />
+                             
+                             :
+                             
+                             consultantData?.proofOfAddressMedia?.mediaType == 4 ? 
+                            <iframe
+                              src={rootUrl + consultantData?.proofOfAddressMedia?.fileUrl}
+                              // frameBorder="0"
+                              // scrolling="auto"
+                              // scrolling="no"
+                              height="100%"
+                              width="100%"
+                              title="docs"
+                              >
+                              
+                             </iframe>
+
+                              :
+                              <span>This type of file cannot be displayed. You can download it by{" "}
+                                 <a
+                                // style={{textDecoration: "none", color: "white"}}
+                                href={rootUrl +
+                                  consultantData?.proofOfAddressMedia?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                clicking here.
+                              </a>
+                            </span>
+                            }
+                                      
+                        </ModalBody>
+                                      
+                        <ModalFooter>
+                         <Button
+                           color="danger"
+                           className="mr-1 mt-3"
+                           onClick={closeViewModal1}
+                         >
+                           Close
+                         </Button>
+                        </ModalFooter>
+                      </Modal>
+                      {/* Proof of address modal ends here */}
+
+                      {/* Proof of Right to Work modal starts here */}
+                      <Modal
+                        size={consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? "xl" : "50%"}
+                        isOpen={viewModalOpen2}
+                        toggle={closeViewModal2}
+                        className={consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? "" : "uapp-modal2"}
+                      >
+                        <ModalHeader>Proof of Right to Work</ModalHeader>
+                        <ModalBody className={consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? "modalHeight" : ""}>
+                          {/* <Form> */}
+                                      
+                          {
+
+                            consultantData?.proofOfRightToWorkMedia?.mediaType == 1 ?
+                            <img
+                               src={
+                                 rootUrl + consultantData?.proofOfRightToWorkMedia?.fileUrl
+                               }
+                               alt="gallery_image"
+                               className="image"
+                               style={{ width: "100%"}}
+                             />
+                             
+                             :
+                             
+                             consultantData?.proofOfRightToWorkMedia?.mediaType == 4 ? 
+                            <iframe
+                              src={rootUrl + consultantData?.proofOfRightToWorkMedia?.fileUrl}
+                              // frameBorder="0"
+                              // scrolling="auto"
+                              // scrolling="no"
+                              height="100%"
+                              width="100%"
+                              title="docs"
+                              >
+                              
+                             </iframe>
+
+                              :
+                              <span>This type of file cannot be displayed. You can download it by{" "}
+                                 <a
+                                // style={{textDecoration: "none", color: "white"}}
+                                href={rootUrl +
+                                  consultantData?.proofOfRightToWorkMedia?.fileUrl}
+                                target="_blank"
+                                // download
+                              >
+                                clicking here.
+                              </a>
+                            </span>
+                            }
+                                      
+                        </ModalBody>
+                                      
+                        <ModalFooter>
+                         <Button
+                           color="danger"
+                           className="mr-1 mt-3"
+                           onClick={closeViewModal2}
+                         >
+                           Close
+                         </Button>
+                        </ModalFooter>
+                      </Modal>
+                      {/* Proof of Right to Work modal ends here */}
+
                   </Card>
                 </div>
               </div>
