@@ -1,9 +1,18 @@
-import { Upload } from 'antd';
+import { Upload, Image } from 'antd';
 import React from 'react';
-import { Col, FormGroup, Input, Modal } from 'reactstrap';
+import { Col, FormGroup, Input, Modal, Button } from 'reactstrap';
 import * as Icon from 'react-feather';
+import audio from '../../../../assets/img/audio.png';
+import compressed from '../../../../assets/img/compressed.png';
+import document from '../../../../assets/img/document.png';
+import excel from '../../../../assets/img/excel.png';
+import others from '../../../../assets/img/others.png';
+import pdf from '../../../../assets/img/pdf.png';
+import ppt from '../../../../assets/img/ppt.png';
+import video from '../../../../assets/img/video.png';
+import { rootUrl } from '../../../../constants/constants';
 
-const StudentLoanCompany = ({previewVisible3, setPreviewVisible3, previewTitle3, setPreviewTitle3, previewImage3, setPreviewImage3, FileList3, setFileList3, handleCancel3, handlePreview3,getBase643, handleChange3, sLoanError, setSLoanError}) => {
+const StudentLoanCompany = ({previewVisible3, setPreviewVisible3, previewTitle3, setPreviewTitle3, previewImage3, setPreviewImage3, FileList3, setFileList3, handleCancel3, handlePreview3,getBase643, handleChange3, sLoanError, setSLoanError,studentFunding, studentAttachment}) => {
     return (
         <div>
             <FormGroup row className="has-icon-left position-relative">
@@ -16,17 +25,33 @@ const StudentLoanCompany = ({previewVisible3, setPreviewVisible3, previewTitle3,
               </Col>
               <Col md="6">
                 <div className="row">
-                  {/* {consultantData?.idOrPassportMedia?.fileUrl != null ? (
+                {studentFunding?.attachement != null ? (
                     <div className="col-md-3">
-                      <Image
+                     {
+                        studentAttachment == 'image' ?
+                        <Image
                         width={104}
                         height={104}
-                        src={
-                          rootUrl + consultantData?.idOrPassportMedia?.thumbnailUrl
-                        }
+                        src={rootUrl+studentFunding?.attachement}
                       />
+                      :
+                      <>
+                      <div style={{height: '104px', width: '125px'}} className='d-flex flex-column justify-content-center'>
+                      <div className='mb-2'>
+                     <Button onClick={()=>{
+                        window.open(rootUrl+studentFunding?.attachement,'_blank')
+                      }} color='primary'>View <Icon.Eye className='ml-2'></Icon.Eye></Button>
+                     </div>
+                    
+                    <div>
+                    <Button color='primary'><a href={rootUrl+studentFunding?.attachement} download style={{textDecoration: 'none', color: 'white', textDecorationColor: 'white'}}>Download <Icon.Download className='ml-2'></Icon.Download></a></Button>
                     </div>
-                  ) : null} */}
+                      </div>
+                    
+                      </>
+                      }
+                    </div>
+                  ) : null}
 
                   <div className="col-md-6">
                     <Upload

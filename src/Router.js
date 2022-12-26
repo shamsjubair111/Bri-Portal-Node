@@ -229,6 +229,9 @@ const AddCountry = lazy(() => import("./views/SMS/Country/AddCountry"))
 // State List
 const AddState = lazy(() => import("./views/SMS/State/AddState"))
 
+// City List
+const AddCity = lazy(() => import("./views/SMS/City/AddCity"))
+
 // file upload
 const FileUpload =  lazy(() => import("./views/SMS/UniversitySubjects/FileUpload.js"))
 
@@ -664,6 +667,9 @@ class AppRouter extends React.Component {
 
           {/* State */}
           <AppRoute  path="/state" component={permissions?.includes(permissionList?.View_State_List)? AddState: NotAuthorized} />
+
+          {/* State also path not implemented yet */} 
+          <AppRoute  path="/city" component={permissions?.includes(permissionList?.View_State_List)? AddCity: NotAuthorized} />
 
 
           {/* consultant */}

@@ -1,9 +1,19 @@
-import { Upload } from 'antd';
+import { Upload, Image } from 'antd';
 import React from 'react';
-import { Col, FormGroup, Input, Modal } from 'reactstrap';
+import { Button, Col, FormGroup, Input, Modal } from 'reactstrap';
 import * as Icon from 'react-feather';
+import audio from '../../../../assets/img/audio.png';
+import compressed from '../../../../assets/img/compressed.png';
+import document from '../../../../assets/img/document.png';
+import excel from '../../../../assets/img/excel.png';
+import others from '../../../../assets/img/others.png';
+import pdf from '../../../../assets/img/pdf.png';
+import ppt from '../../../../assets/img/ppt.png';
+import video from '../../../../assets/img/video.png';
+import { rootUrl } from '../../../../constants/constants';
 
-const FamilyFunded = ({previewVisible2, setPreviewVisible2, previewTitle2, setPreviewTitle2, previewImage2, setPreviewImage2, FileList2, setFileList2, handleCancel2, handlePreview2,getBase642, handleChange2, familyError, setFamilyError}) => {
+const FamilyFunded = ({previewVisible2, setPreviewVisible2, previewTitle2, setPreviewTitle2, previewImage2, setPreviewImage2, FileList2, setFileList2, handleCancel2, handlePreview2,getBase642, handleChange2, familyError, setFamilyError, familyFunding, familyAttachment}) => {
+  console.log(familyAttachment);
     return (
         <div>
         <FormGroup row className="has-icon-left position-relative">
@@ -16,17 +26,34 @@ const FamilyFunded = ({previewVisible2, setPreviewVisible2, previewTitle2, setPr
           </Col>
           <Col md="6">
             <div className="row">
-              {/* {consultantData?.idOrPassportMedia?.fileUrl != null ? (
-                <div className="col-md-3">
-                  <Image
-                    width={104}
-                    height={104}
-                    src={
-                      rootUrl + consultantData?.idOrPassportMedia?.thumbnailUrl
-                    }
-                  />
-                </div>
-              ) : null} */}
+            {familyFunding?.attachement != null ? (
+                    <div className="col-md-3">
+                      {
+                        familyAttachment == 'image' ?
+                        <Image
+                        width={104}
+                        height={104}
+                        src={rootUrl+familyFunding?.attachement}
+                      />
+                      :
+                      <>
+                      <div style={{height: '104px', width: '125px'}} className='d-flex flex-column justify-content-center'>
+                      <div className='mb-2'>
+                     <Button onClick={()=>{
+                        window.open(rootUrl+familyFunding?.attachement,'_blank')
+                      }} color='primary'>View <Icon.Eye className='ml-2'></Icon.Eye></Button>
+                     </div>
+                    
+                    <div>
+                    <Button color='primary'><a href={rootUrl+familyFunding?.attachement} download style={{textDecoration: 'none', color: 'white', textDecorationColor: 'white'}}>Download <Icon.Download className='ml-2'></Icon.Download></a></Button>
+                    </div>
+                      </div>
+                    
+                      </>
+                      }
+                      
+                    </div>
+                  ) : null}
 
               <div className="col-md-6">
                 <Upload

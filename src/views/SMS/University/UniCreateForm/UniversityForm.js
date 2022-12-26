@@ -58,6 +58,9 @@ const UniversityForm = () => {
   const [universityStates, setUniversityStates] = useState([]);
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const styleLabelBold = {
+    // fontWeight: "bold"
+  };
 
   const [activetab, setActivetab] = useState("1");
   const [description, setDescription] = useState("");
@@ -75,6 +78,10 @@ const UniversityForm = () => {
   const [uniStateLabel, setUniStateLabel] = useState(
     "Select University State"
   );
+  const [city,setCity] = useState([]);
+  const [cityLabel,setCityLabel] = useState('Select University City');
+  const [cityValue, setCityValue] = useState(0);
+  const [cityError,setCityError] = useState('');
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
@@ -114,6 +121,10 @@ const UniversityForm = () => {
   const { addToast } = useToasts();
   const {univerId} = useParams();
   const location = useLocation();
+
+  const [achome,setAcHome] = useState(false);
+  const [aceu,setAcEu] = useState(false);
+  const [acint,setAcInt] = useState(false);
 
   
 
@@ -179,6 +190,21 @@ const UniversityForm = () => {
       reader.onerror = (error) => reject(error);
     });
   }
+  
+  const handleHome = (event) => {
+        
+    setAcHome(event.target.value);
+}
+
+  const handleEu = (event) => {
+        
+    setAcEu(event.target.value);
+}
+
+  const handleInt = (event) => {
+        
+    setAcInt(event.target.value);
+}
 
   const handleCancel1 = () => {
     setPreviewVisible1(false);
@@ -290,6 +316,7 @@ const UniversityForm = () => {
         setCheck(false);
       });
     }
+
 
   }, [universityId, univerId]);
 
@@ -420,6 +447,9 @@ const UniversityForm = () => {
         else if (unistateValue === 0) {
           setUniStateError(true);
         }
+        else if (cityValue === 0) {
+          setCityError('University city is required');
+        }
         else if (FileList1.length < 1 && check) {
           setLogoDropzoneError(true);
         }
@@ -522,6 +552,9 @@ const UniversityForm = () => {
     get(`UniversityStateDD/Index/${countryValue}`).then((res) => {
       setUniversityStates(res);
     });
+    get(`UniversityCityDD/Index/${countryValue}`).then((res) => {
+      setCity(res);
+    });
   };
 
   // select University Country
@@ -531,6 +564,8 @@ const UniversityForm = () => {
     setUniCountryValue(value);
     setUniStateLabel("Select University State");
     setUniStateValue(0);
+    setCityLabel("Select University City");
+    setCityValue(0);
 
     searchStateByCountry(value);
 
@@ -541,6 +576,11 @@ const UniversityForm = () => {
     setUniStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
+  };
+  const selectUniCity = (label, value) => {
+    setCityError('');
+    setCityLabel(label);
+    setCityValue(value);
   };
 
 
@@ -553,6 +593,10 @@ const UniversityForm = () => {
     value: uniCountry.id,
   }));
   const universityStateName = universityStates?.map((uniState) => ({
+    label: uniState.name,
+    value: uniState.id,
+  }));
+  const cityOptions = city?.map((uniState) => ({
     label: uniState.name,
     value: uniState.id,
   }));
@@ -814,18 +858,25 @@ const UniversityForm = () => {
                     </span>
                   </Col>
                   <Col md="6">
-                    <Input
-                      type="text"
-                      name="UniversityCity"
-                      id="UniversityCity"
-                      defaultValue={universityData?.universityCity}
-                      placeholder="Write University City Name"
-                      required
+                  <Select
+                      options={cityOptions}
+                      value={{ label: cityLabel, value: cityValue }}
+                      onChange={(opt) => selectUniCity(opt.label, opt.value)}
+                      name="universityCityId"
+                      id="universityCityId"
                     />
+
+                    {uniStateError && (
+                      <span className="text-danger">
+                        {cityError}
+                      </span>
+                    )}
+
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
                   </Col>
+                 
                 </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
@@ -866,25 +917,7 @@ const UniversityForm = () => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>Required Minimum Result (%) </span><span className="text-danger">*</span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="number"
-                      name="RequiredResult"
-                      id="RequiredResult"
-                      defaultValue={universityData?.requiredResult}
-                      placeholder="Write Minimum Result"
-                      required
-                      max={100}
-                    />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
+                
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -1110,6 +1143,78 @@ const UniversityForm = () => {
                         Cover photo is required
                       </span>
                     )}
+                  </Col>
+                </FormGroup>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                      <div>
+                        <h5> <b>Recruitment Type</b> </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                        {/* <div className="text-right edit-style  p-3" >
+                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                        </div> */}
+
+                    </div>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Home </span>
+                  </Col>
+                  <Col md="6">
+                  <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptHome" onChange={handleHome} name="isAcceptHome" value='true' checked={achome == 'true'} />
+          <Label className="form-check-label" check htmlFor="isAcceptHome" style={styleLabelBold}>Yes</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptHome" onChange={handleHome} name="isAcceptHome" value='false' checked={achome == 'false'} />
+          <Label className="form-check-label" check htmlFor="isAcceptHome" style={styleLabelBold}>No</Label>
+
+          </FormGroup>
+                  
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>EU/UK </span>
+                  </Col>
+                  <Col md="6">
+                  <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptEU_UK" onChange={handleEu} name="isAcceptEU_UK" value='true' checked={aceu == 'true'} />
+          <Label className="form-check-label" check htmlFor="isAcceptEU_UK" style={styleLabelBold}>Yes</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptEU_UK" onChange={handleEu} name="isAcceptEU_UK" value='false' checked={aceu == 'false'} />
+          <Label className="form-check-label" check htmlFor="isAcceptEU_UK" style={styleLabelBold}>No</Label>
+
+          </FormGroup>
+                  
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>International </span>
+                  </Col>
+                  <Col md="6">
+                  <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptInternational" onChange={handleInt} name="isAcceptInternational" value='true' checked={acint == 'true'} />
+          <Label className="form-check-label" check htmlFor="isAcceptInternational" style={styleLabelBold}>Yes</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptInternational" onChange={handleInt} name="isAcceptInternational" value='false' checked={acint == 'false'} />
+          <Label className="form-check-label" check htmlFor="isAcceptInternational" style={styleLabelBold}>No</Label>
+
+          </FormGroup>
+                  
                   </Col>
                 </FormGroup>
 

@@ -57,6 +57,10 @@ const AddUniversity = (props) => {
 
   const permissions = JSON.parse(localStorage.getItem('permissions'));
 
+  const [achome,setAcHome] = useState(false);
+  const [aceu,setAcEu] = useState(false);
+  const [acint,setAcInt] = useState(false);
+
   const [activetab, setActivetab] = useState("1");
   const [description, setDescription] = useState("");
   const [googleMap, setGoogleMap] = useState("");
@@ -67,6 +71,9 @@ const AddUniversity = (props) => {
   const [uniCountryLabel, setUniCountryLabel] = useState(
     "Select University Country"
   );
+  const styleLabelBold = {
+    // fontWeight: "bold"
+  };
   const [uniCountryValue, setUniCountryValue] = useState(0);
   const [uniCountryError, setUniCountryError] = useState(false);
 
@@ -298,6 +305,21 @@ const AddUniversity = (props) => {
     useState("Select Provider");
   const [providerTypeValue, setProviderTypeValue] = useState(0);
   const [providerTypeError, setProviderTypeError] = useState(false);
+
+  const handleHome = (event) => {
+        
+    setAcHome(event.target.value);
+}
+
+  const handleEu = (event) => {
+        
+    setAcEu(event.target.value);
+}
+
+  const handleInt = (event) => {
+        
+    setAcInt(event.target.value);
+}
 
   const selectProviderType = (label, value) => {
     setProviderTypeError(false);
@@ -1440,6 +1462,80 @@ const AddUniversity = (props) => {
                     )}
                   </Col>
                 </FormGroup>
+
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                      <div>
+                        <h5> <b>Recruitment Type</b> </h5>
+
+                        <div className="bg-h"></div>
+                      </div>
+                        {/* <div className="text-right edit-style  p-3" >
+                        <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+                        </div> */}
+
+                    </div>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>Home </span>
+                  </Col>
+                  <Col md="6">
+                  <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptHome" onChange={handleHome} name="isAcceptHome" value='true' checked={achome == 'true'} />
+          <Label className="form-check-label" check htmlFor="isAcceptHome" style={styleLabelBold}>Yes</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptHome" onChange={handleHome} name="isAcceptHome" value='false' checked={achome == 'false'} />
+          <Label className="form-check-label" check htmlFor="isAcceptHome" style={styleLabelBold}>No</Label>
+
+          </FormGroup>
+                  
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>EU/UK </span>
+                  </Col>
+                  <Col md="6">
+                  <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptEU_UK" onChange={handleEu} name="isAcceptEU_UK" value='true' checked={aceu == 'true'} />
+          <Label className="form-check-label" check htmlFor="isAcceptEU_UK" style={styleLabelBold}>Yes</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptEU_UK" onChange={handleEu} name="isAcceptEU_UK" value='false' checked={aceu == 'false'} />
+          <Label className="form-check-label" check htmlFor="isAcceptEU_UK" style={styleLabelBold}>No</Label>
+
+          </FormGroup>
+                  
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>International </span>
+                  </Col>
+                  <Col md="6">
+                  <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptInternational" onChange={handleInt} name="isAcceptInternational" value='true' checked={acint == 'true'} />
+          <Label className="form-check-label" check htmlFor="isAcceptInternational" style={styleLabelBold}>Yes</Label>
+
+          </FormGroup>
+
+          <FormGroup check inline>
+          <Input className="form-check-input" type="radio" id="isAcceptInternational" onChange={handleInt} name="isAcceptInternational" value='false' checked={acint == 'false'} />
+          <Label className="form-check-label" check htmlFor="isAcceptInternational" style={styleLabelBold}>No</Label>
+
+          </FormGroup>
+                  
+                  </Col>
+                </FormGroup>
+
+                
 
                 <FormGroup
                   row

@@ -14,6 +14,7 @@ import StudentLoanCompany from './SourceOfFunds/StudentLoanCompany';
 import BankLoan from './SourceOfFunds/BankLoan';
 import Scholarship from './SourceOfFunds/Scholarship';
 import GovernmentLoan from './SourceOfFunds/GovernmentLoan';
+import { getExtension } from '../../../helpers/checkFileType';
 
 
 
@@ -54,6 +55,7 @@ const ApplicationInformation = () => {
   const [bLoanError,setBLoanError] = useState('');
   const [scholarshipError,setScholarshipError] = useState('');
   const [govtError,setGovtError] = useState('');
+  const [ploading,setLoading] = useState(true);
 
 
  
@@ -90,11 +92,25 @@ const ApplicationInformation = () => {
   const [previewImage5, setPreviewImage5] = useState('');
   const [previewTitle5, setPreviewTitle5] = useState('');
   const [FileList5, setFileList5] = useState([]);
+
+  const [selfFunding,setSelfFunding] = useState({});
+  const [familyFunding,setFamilyFunding] = useState({});
+  const [studentFunding,setStudentFunding] = useState({});
+  const [bankFunding,setBankFunding] = useState({});
+  const [govtFunding,setGovtFunding] = useState({});
+  const [scholarshipFunding,setScholarshipFunding] = useState({});
+
+  const [selfAttachment,setSelfAttachment] = useState('');
+  const [familyAttachment,setFamilyAttachment] = useState('');
+  const [studentAttachment,setStudentAttachment] = useState('');
+  const [bankAttachment,setBankAttachment] = useState('');
+  const [govtAttachment,setGovtAttachment] = useState('');
+  const [scholarshipAttachment,setScholarshipAttachment] = useState('');
  
 
   
  
-
+ 
 
 
 
@@ -128,8 +144,8 @@ const ApplicationInformation = () => {
 
     get(`ApplicationInfo/GetByStudentId/${applicationStudentId}`)
     .then(res => {
-      console.log(res);
       
+      console.log(res);
       setApplicationInformation(res);
       setStudentTypeLabel(res?.student?.studentType?.name);
       setStudentTypeValue(res?.student?.studentType?.id);
@@ -159,36 +175,53 @@ const ApplicationInformation = () => {
       get(`SelfFunded/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
+        setSelfFunding(res);
+        setSelfAttachment(getExtension(res?.attachement));
+        
       })
       :
       res?.sourceOfFundId == 2 ? 
       get(`FamilyFunded/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
+        setFamilyFunding(res);
+        setFamilyAttachment(getExtension(res?.attachement));
+        console.log(getExtension(res?.attachement));
       })
       :
       res?.sourceOfFundId == 3 ?
       get(`StudentLoanCompany/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
+        setStudentFunding(res);
+        setStudentAttachment(getExtension(res?.attachement));
       })
       :
       res?.sourceOfFundId == 4 ?
       get(`BankLoan/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
+        setBankFunding(res);
+        setBankAttachment(getExtension(res?.attachement));
       })
       :
       res?.sourceOfFundId == 5 ?
       get(`GovernmentLoanFund/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
+        setGovtFunding(res);
+        
       })
       :
+      res?.sourceOfFundId == 6 ?
       get(`Scholarship/GetByStudentId/${applicationStudentId}`)
       .then(res => {
         console.log(res);
+        setScholarshipFunding(res);
+        setScholarshipAttachment(getExtension(res?.attachement));
       })
+      :
+      setLoading(false);
 
 
     })
@@ -626,7 +659,7 @@ const handleSubmit = (event) => {
 
     }
 
-    else if(fundValue == 0){
+    else if(studentTypeValue == 3 &&fundValue == 0){
       setFundError('Source of fund is requied');
     }
     
@@ -1047,6 +1080,8 @@ const cancelForm = () => {
             handleChange1 = {handleChange1}
             selfError = {selfError}
             setSelfError = {setSelfError}
+            selfFunding={selfFunding}
+            selfAttachment = {selfAttachment}
             
             />
           }
@@ -1068,6 +1103,8 @@ const cancelForm = () => {
             handleChange2 = {handleChange2}
             familyError = {familyError}
             setFamilyError = {setFamilyError}
+            familyFunding = {familyFunding}
+            familyAttachment = {familyAttachment}
             
             />
           }
@@ -1089,6 +1126,8 @@ const cancelForm = () => {
             handleChange3 = {handleChange3}
             sLoanError = {sLoanError}
             setSLoanError = {setSLoanError}
+            studentFunding = {studentFunding}
+            studentAttachment = {studentAttachment}
             
             />
           }
@@ -1110,6 +1149,8 @@ const cancelForm = () => {
             handleChange4 = {handleChange4}
             bLoanError = {bLoanError}
             setBLoanError = {setBLoanError}
+            bankFunding = {bankFunding}
+            bankAttachment = {bankAttachment}
             
             />
           }
@@ -1130,13 +1171,15 @@ const cancelForm = () => {
             handleChange5 = {handleChange5}
             scholarshipError = {scholarshipError}
             setScholarshipError = {setScholarshipError}
+            scholarshipFunding = {scholarshipFunding}
+            scholarshipAttachment = {scholarshipAttachment}
             
             />
           }
           {
             fundValue == 5 && <GovernmentLoan
             
-            
+            govtFunding = {govtFunding}
             
             />
           }

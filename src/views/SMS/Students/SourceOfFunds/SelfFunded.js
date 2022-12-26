@@ -1,9 +1,22 @@
-import { Upload } from 'antd';
+import { Upload, Image } from 'antd';
 import React from 'react';
-import { Col, FormGroup, Input, Modal } from 'reactstrap';
+import { Col, FormGroup, Input, Modal, Button } from 'reactstrap';
 import * as Icon from 'react-feather';
+import { rootUrl } from '../../../../constants/constants';
+import audio from '../../../../assets/img/audio.png';
+import compressed from '../../../../assets/img/compressed.png';
+import document from '../../../../assets/img/document.png';
+import excel from '../../../../assets/img/excel.png';
+import others from '../../../../assets/img/others.png';
+import pdf from '../../../../assets/img/pdf.png';
+import ppt from '../../../../assets/img/ppt.png';
+import video from '../../../../assets/img/video.png';
 
-const SelfFunded = ({previewVisible1, setPreviewVisible1, previewTitle1, setPreviewTitle1, previewImage1, setPreviewImage1, FileList1, setFileList1, handleCancel1, handlePreview1,getBase641, handleChange1, selfError, setSelfError}) => {
+const SelfFunded = ({previewVisible1, setPreviewVisible1, previewTitle1, setPreviewTitle1, previewImage1, setPreviewImage1, FileList1, setFileList1, handleCancel1, handlePreview1,getBase641, handleChange1, selfError, setSelfError, selfFunding, selfAttachment}) => {
+
+
+
+
     return (
         <div>
             <FormGroup row className="has-icon-left position-relative">
@@ -16,17 +29,38 @@ const SelfFunded = ({previewVisible1, setPreviewVisible1, previewTitle1, setPrev
               </Col>
               <Col md="6">
                 <div className="row">
-                  {/* {consultantData?.idOrPassportMedia?.fileUrl != null ? (
+                  {selfFunding?.attachement != null ? (
                     <div className="col-md-3">
-                      <Image
+                     {
+                        selfAttachment == 'image' ?
+                        <Image
                         width={104}
                         height={104}
-                        src={
-                          rootUrl + consultantData?.idOrPassportMedia?.thumbnailUrl
-                        }
+                        src={rootUrl+selfFunding?.attachement}
                       />
+                      :
+                      <>
+                    <div style={{height: '104px', width: '125px'}} className='d-flex flex-column justify-content-center'>
+                    <div className='mb-2'>
+                     <Button
+                     className='w-100'
+                     onClick={()=>{
+                      
+                        window.open(rootUrl+selfFunding?.attachement,'_blank')
+                      }} color='primary'>View <Icon.Eye className='ml-2'></Icon.Eye></Button>
+                     </div>
+                    
+                    <div>
+                    <Button
+                    className='w-100'
+                    color='primary'><a href={rootUrl+selfFunding?.attachement} download style={{textDecoration: 'none', color: 'white', textDecorationColor: 'white'}}>Download <Icon.Download className='ml-2'></Icon.Download></a></Button>
                     </div>
-                  ) : null} */}
+                    </div>
+                      </>
+                      }
+                      
+                    </div>
+                  ) : null}
 
                   <div className="col-md-6">
                     <Upload

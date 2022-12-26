@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, FormGroup, Input } from 'reactstrap';
 
-const GovernmentLoan = () => {
+const GovernmentLoan = ({govtFunding}) => {
     return (
         <div>
               <FormGroup row className="has-icon-left position-relative">
@@ -19,6 +19,7 @@ const GovernmentLoan = () => {
                 required
                 name='details'
                 id='details'
+                defaultValue={govtFunding?.details}
                 />
 
              

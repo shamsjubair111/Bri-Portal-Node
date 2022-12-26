@@ -300,6 +300,11 @@ const Search = () => {
       .then(res =>{
         setApplicationCount(res);
       })
+
+      get(`StudentType/GetbyStudent/${value}`)
+      .then(res =>{
+        console.log(res);
+      })
     }
 
     const patternOptions = pattern?.map(ptn => ({
