@@ -43,6 +43,11 @@ const AddConsultantInformation = () => {
   const [typeLabel, setTypeLabel] = useState("Select Consultant Type");
   const [typeValue, setTypeValue] = useState(0);
 
+  const [recruitmentType, setRecruitmentType] = useState([]);
+  const [recTypeLabel, setRecTypeLabel] = useState("Select Recruitment Type");
+  const [recTypeValue, setRecTypeValue] = useState(0);
+  const [recTypeError, setRecTypeError] = useState(false);
+
   const userTypeId = localStorage.getItem('userType');
 
   const [emailError, setEmailError] = useState(true);
@@ -147,13 +152,14 @@ const AddConsultantInformation = () => {
 
     get(`Consultant/Get/${consultantRegisterId}`).then(
       (res) => {
-        console.log(res);
         setConsultantData(res);
         console.log("consData", res);
         setNameLabel(res?.nameTittleId? res?.nameTitle?.name : 'Select Title');
         setNameValue(res?.nameTittleId? res?.nameTitle?.id : 0);
         setTypeLabel(res?.consultantTypeId !== null ? res?.consultantType?.name : null);
         setTypeValue(res?.consultantTypeId !== null ? res?.consultantType?.id : null);
+        setRecTypeLabel(res?.recruitmentType !== null ? res?.recruitmentType?.name : null);
+        setRecTypeValue(res?.recruitmentType !== null ? res?.recruitmentType?.id : null);
         setParentLabel(res?.parentConsultantId !== null ? res?.parentConsultantName : 'Select Parent Consultant');
         setParentValue(res?.parentConsultantId !== null ? res?.parentConsultantId : 0);
         setAccountLabel(res?.accountStatusId !== null? res?.accountStatus?.statusName : 'Select Account Label' );
@@ -199,6 +205,11 @@ const AddConsultantInformation = () => {
       // 
       setAccount(res);
     });
+
+    get("RecruitmentTypeDD/index").then(res=>{
+      setRecruitmentType(res);
+    });
+
   }, [success]);
 
   // Profile Image Code Start
@@ -451,6 +462,11 @@ const AddConsultantInformation = () => {
     value: consTypeOptions?.id,
   }));
 
+  const recTypeMenu = recruitmentType?.map(recTypeOpt => ({
+    label: recTypeOpt?.name, 
+    value: recTypeOpt?.id
+  }));
+
   const visaStatusName = visa?.map((v) => ({
     label: v.name,
     value: v.id,
@@ -511,6 +527,12 @@ const AddConsultantInformation = () => {
     setTypeLabel(label);
     setTypeValue(value);
   };
+
+  const selectRecType = (label, value) => {
+    setRecTypeError(false);
+    setRecTypeLabel(label);
+    setRecTypeValue(value);
+  }
 
   const backToConsultantList = () => {
     history.push("/consultantList");
@@ -763,6 +785,29 @@ const AddConsultantInformation = () => {
                 )}
               </Col>
             </FormGroup>
+
+            <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Recruitment Type <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={recTypeMenu}
+                      value={{ label: recTypeLabel, value: recTypeValue }}
+                      onChange={(opt) => selectRecType(opt.label, opt.value)}
+                      name="recruitmentTypeId"
+                      id="recruitmentTypeId"
+                    />
+
+                    {
+                      recTypeError && 
+                      <span className='text-danger'>Recruitment type is required</span>
+                    }
+
+                  </Col>
+                </FormGroup>
 
           {
             (!consultantData?.id === 1) ?

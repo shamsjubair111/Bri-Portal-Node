@@ -840,6 +840,17 @@ const ConsultantNewProfile = () => {
                                 {consultantData?.consultantType?.name}
                               </td>
                             </tr>
+
+                            <tr>
+                            <td width="40%">
+                              <b>Recruitment Type:</b>
+                            </td>
+  
+                            <td width="60%">
+                              {consultantData?.recruitmentType?.name}
+                            </td>
+                            </tr>
+
                             <tr>
                               <td width="40%">
                                 <b>Branch:</b>
