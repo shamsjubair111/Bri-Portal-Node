@@ -32,6 +32,11 @@ const AddConsultant = () => {
     const [typeLabel, setTypeLabel] = useState("Select Consultant Type");
     const [typeValue, setTypeValue] = useState(0);
 
+    const [recruitmentType, setRecruitmentType] = useState([]);
+    const [recTypeLabel, setRecTypeLabel] = useState("Select Recruitment Type");
+    const [recTypeValue, setRecTypeValue] = useState(0);
+    const [recTypeError, setRecTypeError] = useState(false);
+
     const [emailError, setEmailError] = useState(true);
     const [consultantError, setConsultantError] = useState(false);
     const [parentError, setParentError] = useState(false);
@@ -55,13 +60,19 @@ const AddConsultant = () => {
 
       get("ConsultantTypeDD/index").then(res=>{
         setConsType(res);
-      })
+      });
+
+      get("RecruitmentTypeDD/index").then(res=>{
+        setRecruitmentType(res);
+      });
 
     },[]);
     
     const nameTitleMenu = nameTitle?.map(titleOptions => ({label:titleOptions?.name, value:titleOptions?.id}));
     const consParentMenu = consParent?.map(consParentOptions => ({label:consParentOptions?.name, value:consParentOptions?.id}));
     const consTypeMenu = consType?.map(consTypeOptions => ({label:consTypeOptions?.name, value:consTypeOptions?.id}));
+
+    const recTypeMenu = recruitmentType?.map(recTypeOpt => ({label: recTypeOpt?.name, value: recTypeOpt?.id}));
     
     const selectNameTitle = (label, value) => {
 
@@ -90,6 +101,13 @@ const AddConsultant = () => {
       setTypeValue(value);
     }
 
+    const selectRecType = (label, value) => {
+
+      setRecTypeError(false);
+      setRecTypeLabel(label);
+      setRecTypeValue(value);
+    }
+
     const handleEmail = (e) => {
       
 
@@ -111,6 +129,9 @@ const AddConsultant = () => {
 
      if(typeValue == 0){
       setConsultantError(true);
+    }
+    else if(recTypeValue == 0 ){
+      setRecTypeError(true);
     }
     else if(parentValue == 0 ){
       setParentError(true);
@@ -210,6 +231,29 @@ const AddConsultant = () => {
 
                       consultantError && 
                       <span className='text-danger'>Consultant type is required</span>
+                    }
+
+                  </Col>
+                </FormGroup>
+
+              <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Recruitment Type <span className="text-danger">*</span>{" "}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Select
+                      options={recTypeMenu}
+                      value={{ label: recTypeLabel, value: recTypeValue }}
+                      onChange={(opt) => selectRecType(opt.label, opt.value)}
+                      name="recruitmentTypeId"
+                      id="recruitmentTypeId"
+                    />
+
+                    {
+                      recTypeError && 
+                      <span className='text-danger'>Recruitment type is required</span>
                     }
 
                   </Col>
