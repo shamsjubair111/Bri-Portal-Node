@@ -289,7 +289,6 @@ const AddUniversity = (props) => {
 
     if (univerId != undefined) {
       get(`University/get/${univerId}`).then((res) => {
-        console.log("uniBasicData", res);
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);

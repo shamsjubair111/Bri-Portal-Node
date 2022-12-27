@@ -155,7 +155,6 @@ const UniversityDetails = () => {
 
     get(`University/Get/${id}`).then((res) => {
       setUniversityInfo(res);
-      console.log("unidata", res);
     });
 
     // get(
