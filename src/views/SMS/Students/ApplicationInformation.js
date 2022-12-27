@@ -160,8 +160,8 @@ const ApplicationInformation = () => {
       setVisaStatusLabel(res?.visaStatus?.name ? res?.visaStatus?.name : 'Select Visa Status');
       setVisaStatusValue(res?.visaStatusId ? res?.visaStatusId : 0);
       setApplicationId(res?.id);
-      setFundLabel(res?.sourceOfFundName);
-      setFundValue(res?.sourceOfFundId);
+      setFundLabel(res?.sourceOfFundName ? res?.sourceOfFundName : 'Select Source of Fund');
+      setFundValue(res?.sourceOfFundId ? res?.sourceOfFundId : 0);
 
       var datee =res?.dateOfMoveToUk;
       var utcDate = new Date(datee);
@@ -653,14 +653,17 @@ const handleSubmit = (event) => {
   
 
 
-    if( studentTypeValue == 3 &&visaStatusValue == 0){
 
+    if( studentTypeValue == 3 && visaStatusValue == 0){
       setVisaError(true);
+       
+    } 
 
-    }
-
-    else if(studentTypeValue == 3 &&fundValue == 0){
+    else if(studentTypeValue == 3 && fundValue == 0){
+     
+        
       setFundError('Source of fund is requied');
+    
     }
     
     else if(fundValue == 1 && FileList1?.length < 1){

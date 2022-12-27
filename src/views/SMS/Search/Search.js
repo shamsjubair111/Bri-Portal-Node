@@ -27,6 +27,9 @@ const Search = () => {
    const userType = localStorage.getItem('userType');
    const permissions = JSON.parse(localStorage.getItem('permissions'));
    const current_user  =JSON.parse(localStorage.getItem('current_user'));
+   const [showLocal,setShowLocal] = useState(true);
+   const [showEU,setShowEU] = useState(true);
+   const [showInt,setShowInt] = useState(true);
 
     const [advance,setAdvance] = useState(false);
     const history= useHistory();
@@ -303,7 +306,21 @@ const Search = () => {
 
       get(`StudentType/GetbyStudent/${value}`)
       .then(res =>{
-        console.log(res);
+        if(res?.id == 2){
+          setShowInt(false);
+          setShowLocal(false);
+        }
+        else if(res?.id == 1){
+          setShowEU(false);
+          setShowInt(false);
+        }
+        else if(res?.id == 3){
+          setShowEU(false);
+          setShowLocal(false);
+        }
+        const result = studentType?.find(ans => ans?.id == res?.id);
+        setStudentTypeLabel(result?.name);
+        setStudentTypeValue(result?.id);
       })
     }
 
@@ -1710,40 +1727,12 @@ info?.subjects?.length <1 ?
 
 
 <>
-{
-  permissions?.includes(permissionList.View_subject_info) ?
-  <CustomLinkButton
-  url={`/subjectProfile/${subjectInfo?.subjectId}`}
-  target={'_blank'}
- 
- 
- className='button2-style-search mr-2  '
- icon={<i className="fas fa-eye"></i>}
- 
- 
- />
- :
- null
-}
+
 </>
 
 :
 <>
-{
-  permissions?.includes(permissionList.View_subject_info) ?
-<CustomLinkButton
- url={`/subjectProfile/${subjectInfo?.subjectId}`}
- target={'_blank'}
 
-
-className='button2-style-search me-1 w-75  '
-icon={<i className="fas fa-eye"></i>}
-
-
-/>
-:
-null
-}
 </>
 
 }
@@ -1778,14 +1767,37 @@ null
 </div>
 
 <div className='row'>
-<div className='col-md-2'>
+<div className='col-md-3'>
   <span className='p-style-1'>Tution fee</span>
-  <br/>
+  {
+    showLocal ? 
+    <>
+    <br/>
   <span className='p-style-2'>Local - {subjectInfo?.home_Fee}</span>
-  <br/>
+    </>
+    :
+    null
+  }
+ {
+  showEU ? 
+  <>
+   <br/>
   <span className='p-style-2'>EU - {subjectInfo?.eu_Fee}</span>
-  <br/>
+  </>
+  :
+  null
+ }
+ {
+  showInt ? 
+  <>
+   <br/>
   <span className='p-style-2'>International - {subjectInfo?.international_Fee}</span>
+  </>
+  :
+  null
+ }
+ <br/>
+ <span className='p-style-2' style={{color: '#1e98b0'}}>Application Fee: {info?.avarageApplicationFee == null ? 'Free to apply' : info?.avarageApplicationFee}</span>
 
 </div>
 
@@ -1799,7 +1811,7 @@ null
 
 
 
-<div className='col-md-3'>
+<div className='col-md-2'>
 <span className='p-style-1'>Duration</span>
   <br/>
   <span className='p-style-2'>{subjectInfo?.duration}</span>
@@ -1841,6 +1853,26 @@ null
     subjectInfo?.canApply? 
     <div className='col-md-2'>
      <div>
+      <div className='mb-2'>
+
+      {
+  permissions?.includes(permissionList.View_subject_info) ?
+  <CustomLinkButton
+  url={`/subjectProfile/${subjectInfo?.subjectId}`}
+  target={'_blank'}
+ 
+ 
+ className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
+ icon={<i className="fas fa-eye"></i>}
+ 
+ permission={6}
+ />
+ :
+ null
+ }
+      </div>
+      
+
 
      {
     permissions?.includes(permissionList.Add_Application) ?
@@ -1922,21 +1954,7 @@ null
 
   <div className='col-md-2'>
 
- {
-  permissions?.includes(permissionList.View_subject_info) ?
-  <CustomLinkButton
-  url={`/subjectProfile/${subjectInfo?.subjectId}`}
-  target={'_blank'}
- 
- 
- className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
- icon={<i className="fas fa-eye"></i>}
- 
- permission={6}
- />
- :
- null
- }
+
 
   </div>
 
@@ -2013,6 +2031,25 @@ null
 subjectInfo?.canApply? 
 <div className='col-md-2'>
  <div>
+  
+<div className='mb-2'>
+
+{
+  permissions?.includes(permissionList.View_subject_info) ?
+  <CustomLinkButton
+  url={`/subjectProfile/${subjectInfo?.subjectId}`}
+  target={'_blank'}
+ 
+ 
+ className={'button2-style-search me-1 (userType == userTypes?.Student)? w-75 : null  '}
+ icon={<i className="fas fa-eye"></i>}
+ 
+ permission={6}
+ />
+ :
+ null
+ }
+</div>
 
  {
     permissions?.includes(permissionList.Add_Application) ?
@@ -2190,18 +2227,7 @@ alt='logo-img'
 <div className='col-md-2'>
 
 <div className='d-flex justify-content-end'>
-{
-  permissions?.includes(permissionList.View_University_info) ?
-<LinkButton
-url={`/universityDetails/${info?.universityId}`}
-target={'_blank'}
-color={"primary"}
-className={"mx-1 btn-sm mt-2"}
-icon={<i className="fas fa-eye"></i>}
-permission={6}
-/>
-:
-null}
+
 
 </div>
 

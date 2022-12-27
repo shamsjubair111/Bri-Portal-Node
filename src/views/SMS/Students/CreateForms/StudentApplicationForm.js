@@ -516,7 +516,7 @@ const handleSubmit = (event) => {
           setVisaError(true);
     
         }
-        else if(fundValue == 0){
+        else if(studentTypeValue == 3 && fundValue == 0){
           setFundError('Source of fund is requied');
         }
         

@@ -469,9 +469,9 @@ const SubjectProfile = () => {
                  <div>
                     <ul className="uapp-ul text-center">
                       {
-                        subjectData?.university?.universityCity && subjectData?.university?.universityState?.name && subjectData?.university?.universityCountry?.name ?
+                        subjectData?.university?.location ?
                         <li>
-                          {subjectData?.university?.universityCity}{","} {subjectData?.university?.universityState?.name}{","} {subjectData?.university?.universityCountry?.name}
+                          {subjectData?.university?.location}
                         </li>
                         :
                         <p>No data available</p>
