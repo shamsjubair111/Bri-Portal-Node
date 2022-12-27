@@ -1614,7 +1614,10 @@ const ConsultantProfile = () => {
                       }
                       <li> <b>{consultantData?.parentConsultant?.branch?.name}</b> </li>
                       <li> <i className="far fa-envelope"></i>{" "}{consultantData?.parentConsultant?.email} </li>
-                      <li> {consultantData?.parentConsultant?.phoneNumber} </li>
+                      {
+                        consultantData?.parentConsultant?.phoneNumber == null ? null :
+                        <li> <i className="fas fa-phone"></i>{" "}{consultantData?.parentConsultant?.phoneNumber} </li>
+                      }
                     </ul>
                   </div>
                 </CardBody>

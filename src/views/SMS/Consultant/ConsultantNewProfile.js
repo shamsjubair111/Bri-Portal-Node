@@ -105,7 +105,7 @@ const ConsultantNewProfile = () => {
       setConsultantData(res);
       setStatusLabel(res?.accountStatus?.statusName);
       setStatusValue(res?.accountStatus?.id);
-
+      console.log("consData", res);
       var datee = res?.createdOn;
       var utcDate = new Date(datee);
       var localeDte = utcDate.toLocaleString("en-CA");
@@ -1614,7 +1614,10 @@ const ConsultantNewProfile = () => {
                         </li> */}
                         <li> <b>{consultantData?.parentConsultant?.branch?.name}</b> </li>
                         <li><i className="far fa-envelope"></i>{" "} {consultantData?.parentConsultant?.email} </li>
-                        <li> {consultantData?.parentConsultant?.phoneNumber} </li>
+                        {
+                          consultantData?.parentConsultant?.phoneNumber == null ? null :
+                          <li> <i className="fas fa-phone"></i>{" "}{consultantData?.parentConsultant?.phoneNumber} </li>
+                        }
                       </ul>
                     </div>
                   </CardBody>
