@@ -385,6 +385,10 @@ const AssociateProfile = () => {
       history.push(`/applicationTransactionFromConsultant/${id}`);
     }
 
+    const redirectToParentConsultantProfile = () => {
+      history.push(`/consultantProfile/${consultantData?.parentConsultantId}`)
+    }
+
     return (
         <>
       {
@@ -1561,9 +1565,20 @@ const AssociateProfile = () => {
                   </div>
   
                   <h5>
-                    {consultantData?.parentConsultant?.nameTitle?.name}{" "}
-                    {consultantData?.parentConsultant?.firstName}{" "}
-                    {consultantData?.parentConsultant?.lastName}{" "}
+                  {
+                      userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin ?
+                      <span onClick={redirectToParentConsultantProfile} style={{cursor: "pointer"}}>
+                      {consultantData?.parentConsultant?.nameTitle?.name}{" "}
+                      {consultantData?.parentConsultant?.firstName}{" "}
+                      {consultantData?.parentConsultant?.lastName}{" "}
+                      </span>
+                      :
+                      <span>
+                      {consultantData?.parentConsultant?.nameTitle?.name}{" "}
+                      {consultantData?.parentConsultant?.firstName}{" "}
+                      {consultantData?.parentConsultant?.lastName}{" "}
+                      </span>
+                    }
                   </h5>
                   <p>
                     {" "}
@@ -1573,15 +1588,19 @@ const AssociateProfile = () => {
                 <CardBody>
                   <div>
                     <ul className="uapp-ul text-center">
-                      <li>
+                      {
+                        userTypeId == userTypes?.SystemAdmin || userTypeId == userTypes?.Admin ?
+                        <li>
                         {" "}
                         {
                           consultantData?.parentConsultant?.accountStatus
                             ?.statusName
                         }{" "}
                       </li>
+                      : null
+                      }
                       <li> <b>{consultantData?.parentConsultant?.branch?.name}</b> </li>
-                      <li> {consultantData?.parentConsultant?.email} </li>
+                      <li> <i className="far fa-envelope"></i>{" "}{consultantData?.parentConsultant?.email} </li>
                       <li> {consultantData?.parentConsultant?.phoneNumber} </li>
                     </ul>
                   </div>
