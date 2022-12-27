@@ -2201,7 +2201,7 @@ const StudentProfile = () => {
                       <div className="mb-1 text-left ms-md-4  ">
                   
                  
-                  <span>Conscent Signed on: <span className=""> {conscentData?.consentSignTime !== null ?
+                  <span>Conscent Sign Date: <span className=""> {conscentData?.consentSignTime !== null ?
                     handleDate(conscentData?.consentSignTime) : null}</span></span>
                     <br/>
                   <span>Conscent Signed From Ip:<span className=""> {conscentData?.consentFromIp}</span></span>
@@ -2239,8 +2239,11 @@ const StudentProfile = () => {
                <div className="notice-item card-widget mt-3 ">
                       
                <div className="notice-description"> 
-                   <span>Consent Signed On, </span>
-                   <br/>
+                   <div className='d-flex'>
+                   <span>Consent Signed </span>
+                   <span className='text-success' style={{fontSize: '15px', fontWeight: '700', marginLeft: '10px'}}><i class="fa-solid fa-check"></i> </span>
+                   </div>
+                   
                    <span>Date: {conscentData?.consentSignTime !== null ? handleDate(conscentData?.consentSignTime)
                    : null} </span>
                    <br/>

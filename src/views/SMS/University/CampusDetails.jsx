@@ -1848,11 +1848,11 @@ const CampusDetails = () => {
               <CardBody>
                 <div>
                   <ul className="uapp-ul text-center">
-                    {campusInfo?.university?.universityCity &&
+                    {campusInfo?.university?.universityCity?.name &&
                     campusInfo?.university?.universityState?.name &&
                     campusInfo?.university?.universityCountry?.name ? (
                       <li>
-                        {campusInfo?.university?.universityCity}
+                        {campusInfo?.university?.universityCity?.name}
                         {","} {campusInfo?.university?.universityState?.name}
                         {","} {campusInfo?.university?.universityCountry?.name}
                       </li>

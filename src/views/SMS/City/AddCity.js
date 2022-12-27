@@ -31,6 +31,7 @@ const AddCity = () => {
     const [buttonStatus,setButtonStatus] = useState(false);
     const [success,setSuccess] = useState(false);
     const [delData,setDelData] = useState({});
+    
 
     useEffect(()=>{
 
@@ -133,6 +134,9 @@ const AddCity = () => {
                     })
                     setSuccess(!success);
                     setModalOpen(false);
+                    setCityVar('');
+                    setUniLabel('Select University Country');
+                    setUniValue(0);
                     
                 }
                 else{
@@ -158,6 +162,9 @@ const AddCity = () => {
                     })
                     setSuccess(!success);
                     setModalOpen(false);
+                    setCityVar('');
+                    setUniLabel('Select University Country');
+                    setUniValue(0);
                     
                 }
                 else{

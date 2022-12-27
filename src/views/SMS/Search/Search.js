@@ -16,6 +16,7 @@ import loader from '../../../assets/img/load.gif';
 import axios from 'axios';
 import { permissionList } from '../../../constants/AuthorizationConstant';
 import ButtonLoader from '../Components/ButtonLoader';
+import { Drawer } from 'antd';
 
 
 
@@ -153,6 +154,23 @@ const Search = () => {
     const [elans,setElAns] = useState({});
     const [eligibilityWhileAppying,setEligibilityWhileApplying] = useState({});
     const [elStatus,setElStatus] = useState({});
+
+    // drawer code antd start
+
+    const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+ 
+
+
+
+
+    // drawer code antd end
     
    
 
@@ -789,6 +807,9 @@ const Search = () => {
       setProgramName('');
       setStudentDataLabel('Select Student');
       setStudentDataValue(0);
+      setShowLocal(true);
+      setShowEU(true);
+      setShowInt(true);
       
 
       setSuccess(!success);
@@ -1216,9 +1237,285 @@ null
 
 <div className='row'>
 
-<div className='col-md-3 mb-5'>
+<div className='col-md-3 mb-5 left-max-button'>
+
+  <Button color='primary' onClick={showDrawer}>Show Filters</Button>
+  
+  <Drawer title="Filters" placement="left" onClose={onClose} open={open}>
+
+    
+{
+  (userType == userTypes?.Student) ?
+
+  null
+  :
+
+  <Card className='pb-2'>
+<CardBody>
+
+<div className='mb-2'>
+<span className="search-card-title-1" >Applying For:</span>
+</div>
+  
+<Select 
+styles={customStyles2}
+options={studentOptions}
+value={{ label: studentDataLabel, value: studentDataValue }}
+onChange={(opt) => selectStudent(opt.label, opt.value)}
+name="providerTypeId"
+id="providerTypeId"
 
 
+/>
+
+</CardBody>
+
+</Card>
+
+}
+
+
+
+
+
+<Card className='pb-2'>
+<CardBody>
+
+<div className='mb-2'>
+<span className="search-card-title-1" >Search Program:</span>
+</div>
+
+
+<Input
+type='text'
+placeholder='Program Name'
+style={{border: '1px solidrgba(0,0,0,.125)'}}
+onChange={handleProgramName}
+value={programName}
+/>
+
+
+
+</CardBody>
+
+</Card>
+
+
+
+
+<div>
+
+
+
+<Card>
+
+<CardBody>
+
+<span className='search-card-title-1'> Filter University</span>
+<span className="underline-span-style-1"></span>
+
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={uniTypeOptions}
+value={{ label: universityTypeLabel, value: universityTypeValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectUniversityType(opt.label, opt.value)}
+
+/>
+
+
+
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={countryOptions}
+value={{ label: universityCountryLabel, value: universityCountryValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectCountry(opt.label, opt.value)}
+
+/>
+
+
+
+<Select
+className='mt-3' 
+options={stateOptions}
+// styles={customStyles}
+value={{ label: cityLabel, value: cityValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectState(opt.label, opt.value)}
+
+/>
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={universityOptions}
+value={{ label: universityLabel, value: universityValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectUniversity(opt.label, opt.value)}
+
+
+/>
+
+
+
+<Select
+className='mt-3' 
+// styles={customStyles}
+options={campusOptions}
+value={{ label: campusLabel, value: campusValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectCampus(opt.label, opt.value)}
+isDisabled={universityValue == 0 ? true : false}
+
+
+/>
+
+
+
+
+
+</CardBody>
+</Card>
+
+</div>
+
+<div className=''>
+
+<Card className='card-style-search'>
+
+<CardBody>
+
+<span className='search-card-title-1'> Filter Program</span>
+<span className="underline-span-style-1"></span>
+
+
+
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={studentTypeOptions}
+value={{ label: studentTypeLabel, value: studentTypeValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectStudentType(opt.label, opt.value)}
+
+/>
+
+
+
+{/* <Select 
+className='mt-3'
+// styles={customStyles}
+options={patternOptions}
+value={{ label: patternLabel, value: patternValue }}
+onChange={(opt) => selectPattern(opt.label, opt.value)}
+name="providerTypeId"
+id="providerTypeId"
+
+
+/> */}
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={intakeOptions}
+value={{ label: intakeLabel, value: intakeValue }}
+onChange={(opt) => selectIntake(opt.label, opt.value)}
+name="providerTypeId"
+id="providerTypeId"
+
+
+/>
+
+
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={programLevelOptions}
+value={{ label: programLabel, value: programValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectProgramLevel(opt.label, opt.value)}
+
+
+/>
+
+
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={departmentOptions}
+value={{ label: departmentLabel, value: departmentValue }}
+name="providerTypeId"
+id="providerTypeId"
+onChange={(opt) => selectDepartment(opt.label, opt.value)}
+
+
+/>
+
+
+
+
+
+
+<Select 
+className='mt-3'
+// styles={customStyles}
+options={subDepartmentOptions}
+value={{ label: subLabel, value: subValue }}
+onChange={(opt) => selectSubDepartment(opt.label, opt.value)}
+
+name="providerTypeId"
+id="providerTypeId"
+
+
+/>
+
+<br/>
+
+
+<div className='d-flex justify-content-end'>
+<Button color='danger' onClick={clearAllDropdown}>
+Clear
+
+</Button>
+</div>
+
+
+
+
+
+</CardBody>
+
+
+
+</Card>
+
+</div>
+       
+      </Drawer>
+
+  
+
+</div>
+
+<div className='col-md-3 mb-5 left-max-height'>
+
+ 
+    
 
 {
   (userType == userTypes?.Student) ?
@@ -1390,7 +1687,7 @@ onChange={(opt) => selectStudentType(opt.label, opt.value)}
 
 
 
-<Select 
+{/* <Select 
 className='mt-3'
 // styles={customStyles}
 options={patternOptions}
@@ -1400,7 +1697,7 @@ name="providerTypeId"
 id="providerTypeId"
 
 
-/>
+/> */}
 
 <Select 
 className='mt-3'
@@ -1481,6 +1778,9 @@ Clear
 </Card>
 
 </div>
+
+ 
+
 
 </div>
 
@@ -1669,6 +1969,7 @@ alt='logo-img'
 </div>
 
 <div className='col-md-2'>
+  <span style={{fontSize:  '15px', fontWeight: '600' ,position:'relative', top: '5px'}}>{info?.providerName}</span>
 
 </div>
 
@@ -1966,14 +2267,37 @@ info?.subjects?.length <1 ?
 </div>
 
 <div className='row'>
-<div className='col-md-2'>
-  <span className='p-style-1'>Tution fee</span>
-  <br/>
+<div className='col-md-3'>
+<span className='p-style-1'>Tution fee</span>
+  {
+    showLocal ? 
+    <>
+    <br/>
   <span className='p-style-2'>Local - {subjectInfo?.home_Fee}</span>
-  <br/>
+    </>
+    :
+    null
+  }
+ {
+  showEU ? 
+  <>
+   <br/>
   <span className='p-style-2'>EU - {subjectInfo?.eu_Fee}</span>
-  <br/>
+  </>
+  :
+  null
+ }
+ {
+  showInt ? 
+  <>
+   <br/>
   <span className='p-style-2'>International - {subjectInfo?.international_Fee}</span>
+  </>
+  :
+  null
+ }
+ <br/>
+ <span className='p-style-2' style={{color: '#1e98b0'}}>Application Fee: {info?.avarageApplicationFee == null ? 'Free to apply' : info?.avarageApplicationFee}</span>
 
 </div>
 
@@ -1987,7 +2311,7 @@ info?.subjects?.length <1 ?
 
 
 
-<div className='col-md-3'>
+<div className='col-md-2'>
 <span className='p-style-1'>Duration</span>
   <br/>
   <span className='p-style-2'>{subjectInfo?.duration}</span>

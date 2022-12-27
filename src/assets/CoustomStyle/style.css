@@ -1999,3 +1999,21 @@ border-radius: 12px;
 
 
 /* user account settings end */
+.left-max-button {
+  display : none
+}
+
+
+
+
+/* search page style */
+
+@media only screen and (max-width: 767.98px) {
+.left-max-height {
+    display : none
+  }
+.left-max-button {
+    display : block
+  }
+}
+

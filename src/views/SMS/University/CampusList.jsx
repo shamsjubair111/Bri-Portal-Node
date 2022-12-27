@@ -96,6 +96,11 @@ const CampusList = (props) => {
   const location = useLocation();
   localStorage.setItem("uIdForCamp", location?.id);
 
+  const [uniCampus,setUniCampus] = useState([]);
+  const [uniCampusLabel,setUniCampusLabel] = useState('Select City');
+  const [uniCampusValue,setUniCampusValue] = useState(0);
+  const [uniCampusError,setUniCampusError] = useState('');
+
   useEffect(() => {
     // const page = 0;
     // const pageSize = 0;
@@ -106,6 +111,7 @@ const CampusList = (props) => {
       `UniversityCampus/index?universityId=${uniId}&search=${searchStr}`
     ).then((res) => {
       
+      console.log(res);
       setCampusList(res);
 
       setLoading(false);
@@ -192,6 +198,8 @@ const CampusList = (props) => {
   // on Close Modal
   const closeModal = () => {
     setCampObj({});
+    setUniCampusLabel('Select City');
+    setUniCampusValue(0);
     setUniCountryLabel("Select Country");
     setUniCountryValue(0);
     setUniStateLabel("Select State");
@@ -205,11 +213,18 @@ const CampusList = (props) => {
     value: uniState.id,
   }));
 
+  const cityOptions = uniCampus?.map(uni => ({
+    label: uni?.name,
+    value: uni?.id
+  }))
+
   const handleUpdate = (id) => {
     setModalOpen(true);
 
     get(`UniversityCampus/Get/${id}`).then((res) => {
       setCampObj(res);
+      setUniCampusLabel(res?.universityCity?.name);
+      setUniCampusValue(res?.universityCountry?.id);
       setUniCountryLabel(res?.universityCountry?.name);
       setUniCountryValue(res?.campusCountryId);
       setUniStateLabel(res?.universityState?.name);
@@ -228,7 +243,11 @@ const CampusList = (props) => {
         setCountryError(true);
       } else if (unistateValue === 0) {
         setStateError(true);
-      } else {
+      } 
+      else if(uniCampusValue == 0){
+        setUniCampusError('City is required');
+      }
+      else {
         setButtonStatus(true);
         setProgress1(true);
         post(`UniversityCampus/Create`, subdata).then((res) => {
@@ -248,6 +267,8 @@ const CampusList = (props) => {
             setUniCountryValue(0);
             setUniStateLabel("Select State");
             setUniStateValue(0);
+            setUniCampusLabel('Select City');
+            setUniCampusValue(0);
           }
         });
       }
@@ -271,6 +292,8 @@ const CampusList = (props) => {
           setUniStateLabel("Select State");
           setUniStateValue(0);
           setModalOpen(false);
+          setUniCampusLabel('Select City');
+            setUniCampusValue(0);
         }
       });
     }
@@ -289,7 +312,22 @@ const CampusList = (props) => {
       // setUniStateValue(res.id)
       setUniversityStates(res);
     });
+
+  
+
+    get(`UniversityCityDD/Index/${value}`)
+    .then(res =>{
+      setUniCampus(res);
+    })
   };
+
+  const selectUniCity = (label,value) => {
+
+    setUniCampusError('');
+    setUniCampusLabel(label);
+    setUniCampusValue(value);
+
+  }
 
   // select University State
   const selectUniState = (label, value) => {
@@ -635,7 +673,7 @@ const CampusList = (props) => {
                 <Form onSubmit={handleSubmit}>
                   <FormGroup row className="has-icon-left position-relative">
                     <Input
-                      type="hidden"
+                      type="hidden"Campus Name
                       id="universityId"
                       name="universityId"
                       value={uniId}
@@ -703,8 +741,8 @@ const CampusList = (props) => {
                         options={universityStateName}
                         value={{ label: uniStateLabel, value: unistateValue }}
                         onChange={(opt) => selectUniState(opt.label, opt.value)}
-                        name="CampusStateId"
-                        id="CampusStateId"
+                        name="campusStateId"
+                        id="campusStateId"
                       />
 
                       {stateError ? (
@@ -722,17 +760,21 @@ const CampusList = (props) => {
                       </span>
                     </Col>
                     <Col md="6">
-                      <Input
-                        type="text"
-                        name="CampusCity"
-                        id="CampusCity"
-                        defaultValue={campObj?.campusCity}
-                        placeholder="Enter Campus City Name"
-                        required
+                    <Select
+                        options={cityOptions}
+                        value={{
+                          label: uniCampusLabel,
+                          value: uniCampusValue,
+                        }}
+                        onChange={(opt) =>
+                          selectUniCity(opt.label, opt.value)
+                        }
+                        name="campusCityId"
+                        id="campusCityId"
                       />
-                      {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                      {
+                        <span className="text-danger">{uniCampusError}</span>
+                      }
                     </Col>
                   </FormGroup>
 
@@ -969,7 +1011,7 @@ const CampusList = (props) => {
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
 
                       {checkName ? <td>{campus?.name}</td> : null}
-                      {checkCity ? <td>{campus?.campusCity}</td> : null}
+                      {checkCity ? <td>{campus?.campusCity?.name}</td> : null}
                       {checkStd ? (
                         <td>
                           Total Student - {campus?.totalStudent} {<br />}
