@@ -81,7 +81,7 @@ const UniversityForm = () => {
   const [city,setCity] = useState([]);
   const [cityLabel,setCityLabel] = useState('Select University City');
   const [cityValue, setCityValue] = useState(0);
-  const [cityError,setCityError] = useState('');
+  const [cityError, setCityError] = useState(false);
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
@@ -448,7 +448,8 @@ const UniversityForm = () => {
           setUniStateError(true);
         }
         else if (cityValue === 0) {
-          setCityError('University city is required');
+          // setCityError('University city is required');
+          setCityError(true);
         }
         else if (FileList1.length < 1 && check) {
           setLogoDropzoneError(true);
@@ -502,6 +503,10 @@ const UniversityForm = () => {
         }
         else if (unistateValue === 0) {
           setUniStateError(true);
+        }
+        else if (cityValue === 0) {
+          // setCityError('University city is required');
+          setCityError(true);
         }
         else if (FileList1.length < 1 && check) {
           setLogoDropzoneError(true);
@@ -578,7 +583,7 @@ const UniversityForm = () => {
     setUniStateValue(value);
   };
   const selectUniCity = (label, value) => {
-    setCityError('');
+    setCityError(false);
     setCityLabel(label);
     setCityValue(value);
   };
@@ -735,6 +740,8 @@ const UniversityForm = () => {
                       id="ShortName"
                       defaultValue={universityData?.shortName}
                       placeholder="Write University Short Name"
+                      pattern="[A-Za-z]{1,15}"
+                      title="You can type maximum 15 characters. You can't type any space and special character."
                       required
                     />
                     {/* <div className="form-control-position">
@@ -866,9 +873,9 @@ const UniversityForm = () => {
                       id="universityCityId"
                     />
 
-                    {uniStateError && (
+                    {cityError && (
                       <span className="text-danger">
-                        {cityError}
+                        University city is required
                       </span>
                     )}
 

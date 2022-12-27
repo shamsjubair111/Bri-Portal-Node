@@ -268,6 +268,7 @@ const UniversityList = (props) => {
         }&search=${searchStr}&orderId=${orderValue}`
       ).then((action) => {
         setUniversityList(action?.models);
+        console.log("uniList", action?.models);
         setLoading(false);
         setEntity(action?.totalEntity);
         setSerialNum(action?.firstSerialNumber);

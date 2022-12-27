@@ -83,6 +83,11 @@ const AddUniversity = (props) => {
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
+  const [city,setCity] = useState([]);
+  const [cityLabel,setCityLabel] = useState('Select University City');
+  const [cityValue, setCityValue] = useState(0);
+  const [cityError, setCityError] = useState(false);
+
   const [contractTypeDD, setContractTypeDD] = useState([]);
   const [contractTypeLabel, setContractTypeLabel] = useState("Select Contract Type");
   const [contractTypeValue, setContractTypeValue] = useState(0);
@@ -272,6 +277,11 @@ const AddUniversity = (props) => {
         setUniCountryValue(res?.universityCountry?.id);
         setUniStateLabel(res?.universityState?.name);
         setUniStateValue(res?.universityState?.id);
+        setCityLabel(res?.universityCity?.name);
+        setCityValue(res?.universityCity?.id);
+        setAcHome(`${res?.isAcceptHome}`);
+        setAcEu(`${res?.isAcceptEU_UK}`);
+        setAcInt(`${res?.isAcceptInternational}`);
         setUniId(res?.id);
         setCheck(false);
       });
@@ -279,7 +289,7 @@ const AddUniversity = (props) => {
 
     if (univerId != undefined) {
       get(`University/get/${univerId}`).then((res) => {
-        
+        console.log("uniBasicData", res);
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -291,7 +301,12 @@ const AddUniversity = (props) => {
         setUniCountryValue(res?.universityCountry?.id);
         setUniStateLabel(res?.universityState?.name);
         setUniStateValue(res?.universityState?.id);
+        setCityLabel(res?.universityCity?.name);
+        setCityValue(res?.universityCity?.id);
         setUniId(res?.id);
+        setAcHome(`${res?.isAcceptHome}`);
+        setAcEu(`${res?.isAcceptEU_UK}`);
+        setAcInt(`${res?.isAcceptInternational}`);
         setCheck(false);
       });
     }
@@ -446,6 +461,10 @@ const AddUniversity = (props) => {
       }
       else if (unistateValue === 0) {
         setUniStateError(true);
+      }
+      else if (cityValue === 0) {
+        // setCityError('University city is required');
+        setCityError(true);
       }
       else if (FileList1.length < 1 && check) {
         setLogoDropzoneError(true);
@@ -626,6 +645,9 @@ const AddUniversity = (props) => {
     get(`UniversityStateDD/Index/${countryValue}`).then((res) => {
       setUniversityStates(res);
     });
+    get(`UniversityCityDD/Index/${countryValue}`).then((res) => {
+      setCity(res);
+    });
   };
 
   // select University Country
@@ -635,9 +657,9 @@ const AddUniversity = (props) => {
     setUniCountryValue(value);
     setUniStateLabel("Select University State");
     setUniStateValue(0);
-
+    setCityLabel("Select University City");
+    setCityValue(0);
     searchStateByCountry(value);
-
   };
 
   // select University State
@@ -646,6 +668,18 @@ const AddUniversity = (props) => {
     setUniStateLabel(label);
     setUniStateValue(value);
   };
+
+  const cityOptions = city?.map((uniState) => ({
+    label: uniState.name,
+    value: uniState.id,
+  }));
+
+  const selectUniCity = (label, value) => {
+    setCityError(false);
+    setCityLabel(label);
+    setCityValue(value);
+  };
+
   // tab toggle
   const toggle = (tab) => {
     setActivetab(tab);
@@ -1164,14 +1198,20 @@ const AddUniversity = (props) => {
                     </span>
                   </Col>
                   <Col md="6">
-                    <Input
-                      type="text"
-                      name="UniversityCity"
-                      id="UniversityCity"
-                      defaultValue={universityData?.universityCity}
-                      placeholder="Write University City Name"
-                      required
+
+                  <Select
+                      options={cityOptions}
+                      value={{ label: cityLabel, value: cityValue }}
+                      onChange={(opt) => selectUniCity(opt.label, opt.value)}
+                      name="universityCityId"
+                      id="universityCityId"
                     />
+
+                    {cityError && (
+                      <span className="text-danger">
+                        University city is required
+                      </span>
+                    )}
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -1216,7 +1256,7 @@ const AddUniversity = (props) => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {/* <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>Required Minimum Result (%) </span><span className="text-danger">*</span>
                   </Col>
@@ -1230,11 +1270,9 @@ const AddUniversity = (props) => {
                       required
                       max={100}
                     />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
-                </FormGroup>
+                </FormGroup> */}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

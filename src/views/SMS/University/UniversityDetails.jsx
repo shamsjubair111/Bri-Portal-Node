@@ -155,7 +155,7 @@ const UniversityDetails = () => {
 
     get(`University/Get/${id}`).then((res) => {
       setUniversityInfo(res);
-      
+      console.log("unidata", res);
     });
 
     // get(
@@ -1524,6 +1524,16 @@ const UniversityDetails = () => {
                     <tbody>
                       <tr>
                         <td width="40%">
+                          <b>University Status:</b>
+                        </td>
+
+                        <td width="60%">
+                          {universityInfo?.isActive === true ? "Active" : "Inactive"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td width="40%">
                           <b>Name:</b>
                         </td>
 
@@ -1557,7 +1567,7 @@ const UniversityDetails = () => {
                           <b>City:</b>
                         </td>
 
-                        <td width="60%">{universityInfo?.universityCity}</td>
+                        <td width="60%">{universityInfo?.universityCity?.name}</td>
                       </tr>
 
                       <tr>
@@ -2915,6 +2925,64 @@ const UniversityDetails = () => {
                 )}
               </CardBody>
             </Card>
+
+            {/* show recruitment type starts here */}
+            <Card>
+              <CardBody>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Recruitment Type</b>{" "}
+                    </h5>
+
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3">
+                 <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
+               </div> */}
+                </div>
+
+                
+                  <>
+                    <div className="d-flex justify-content-between">
+                      <span>Accept Home</span>
+                      <p>
+                        {universityInfo?.isAcceptHome === false ? (
+                          <i className="text-danger fas fa-times-circle"></i>
+                        ) : (
+                          <i className="text-success fas fa-check-circle"></i>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="d-flex justify-content-between">
+                      <span>Accept EU/UK</span>
+                      <p>
+                        {universityInfo?.isAcceptEU_UK === false ? (
+                          <i className="text-danger fas fa-times-circle"></i>
+                        ) : (
+                          <i className="text-success fas fa-check-circle"></i>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="d-flex justify-content-between">
+                      <span>Accept International</span>
+                      <p>
+                        {universityInfo?.isAcceptInternational === false ? (
+                          <i className="text-danger fas fa-times-circle"></i>
+                        ) : (
+                          <i className="text-success fas fa-check-circle"></i>
+                        )}
+                      </p>
+                    </div>
+
+                  </>
+                
+              </CardBody>
+            </Card>
+            {/* show recruitment type ends here */}
 
             {/* embedded map starts here */}
 
