@@ -340,6 +340,8 @@ const Search = () => {
         setStudentTypeLabel(result?.name);
         setStudentTypeValue(result?.id);
       })
+
+      
     }
 
     const patternOptions = pattern?.map(ptn => ({
@@ -2098,7 +2100,7 @@ info?.subjects?.length <1 ?
   null
  }
  <br/>
- <span className='p-style-2' style={{color: '#1e98b0'}}>Application Fee: {info?.avarageApplicationFee == null ? 'Free to apply' : info?.avarageApplicationFee}</span>
+ <span className='p-style-2' style={{color: '#1e98b0'}}>Application Fee: {subjectInfo?.avarageApplicationFee == null ? 'Free to apply' : subjectInfo?.avarageApplicationFee}</span>
 
 </div>
 
@@ -2297,7 +2299,7 @@ info?.subjects?.length <1 ?
   null
  }
  <br/>
- <span className='p-style-2' style={{color: '#1e98b0'}}>Application Fee: {info?.avarageApplicationFee == null ? 'Free to apply' : info?.avarageApplicationFee}</span>
+ <span className='p-style-2' style={{color: '#1e98b0'}}>Application Fee: {subjectInfo?.avarageApplicationFee == null ? 'Free to apply' : subjectInfo?.avarageApplicationFee}</span>
 
 </div>
 

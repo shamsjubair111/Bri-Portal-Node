@@ -397,91 +397,10 @@ const AdmissionManagerApplication = ({ currentUser }) => {
       });
     }
 
-    // for list
-
-    // const uniId =
-    //   providerUniValue !== 0
-    //     ? providerUniValue
-    //     : typeof location.universityIdFromUniList !== undefined ||
-    //       location.universityIdFromUniList !== null
-    //     ? location.universityIdFromUniList
-    //     : 0;
-
-    // setUniId(parseInt(uniId));
-
-    // if (uniId !== 0) {
-    //   var uni = providerUniDD?.find((s) => s.id === uniId);
-
-    //   if (uni === undefined) {
-    //     // setProviderUniLabel("University Name");
-    //   } else {
-    //     setProviderUniLabel(uni?.name);
-    //     setProviderUniValue(uniId);
-    //   }
-    // }
-
-    // const consId =
-    //   providerConsValue !== 0
-    //     ? providerConsValue
-    //     : typeof location.consultantIdFromConsultantList !== undefined ||
-    //       location.consultantIdFromConsultantList !== null
-    //     ? location.consultantIdFromConsultantList
-    //     : 0;
-
-    // setConsId(parseInt(consId));
-
-    // if (parseInt(consId) !== 0) {
-    //   var consultant = providerConsDD?.find((s) => s.id === parseInt(consId));
-
-    //   if (consultant === undefined) {
-    //     // setConsultantLabel("Consultant");
-    //   } else {
-    //     setProviderConsLabel(consultant?.name);
-    //     setProviderConsValue(consId);
-    //   }
-    // }
-
-  
-
+    
     if (currentUser != undefined) {
 
-      if(status && selector){
-        if(selector == 1){
-          get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${status}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-          ).then((res) => {
-            setLoading(false);
-            setApplicationList(res?.models);
-            
-            setEntity(res?.totalEntity);
-            setSerialNumber(res?.firstSerialNumber);
-          });
-        }
-        else if(selector == 2){
-          get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${status}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-          ).then((res) => {
-            setLoading(false);
-            setApplicationList(res?.models);
-            
-            setEntity(res?.totalEntity);
-            setSerialNumber(res?.firstSerialNumber);
-          });
-        }
-        else if(selector == 3){
-          get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${managerUniValue}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${status}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-          ).then((res) => {
-            setLoading(false);
-            setApplicationList(res?.models);
-           
-            setEntity(res?.totalEntity);
-            setSerialNumber(res?.firstSerialNumber);
-          });
-        }
-        
-      }
-      else if(universityId !== undefined){
+      if(universityId !== undefined){
         get(
           `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${managerUappIdValue}&studentId=${managerStdValue}&consultantId=${managerConsValue}&universityId=${universityId}&uappPhoneId=${managerPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
         ).then((res) => {

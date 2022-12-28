@@ -32,6 +32,7 @@ import * as Icon from "react-feather";
 import uapploader from '../../../../assets/img/Uapp_fav.png';
 import ButtonLoader from "../../Components/ButtonLoader";
 import Loader from "../../Search/Loader/Loader";
+import Intersect from '../../../../assets/img/Intersect.png';
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -594,12 +595,10 @@ const selectNameTitle = (label, value) => {
       </Card>
 
       <div className="uapp-employee-profile">
-        <Card className="uapp-employee-profile-right">
+        {/* <Card className="uapp-employee-profile-right">
           <div className="uapp-profile-CardHeader">
             <div className="uapp-circle-image margin-top-minus">
-            {/* <img className="empProfileImg"  src={
-                      rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl
-                    } alt="admissionManager"/> */}
+           
             <div className='profile-pic1'>
             {
               !(managerData?.admissionManagerMedia == null) ?
@@ -618,7 +617,7 @@ const selectNameTitle = (label, value) => {
              </div>
                 </div>
 
-                {/* profile photo edit modal starts here */}
+              
                 {
                         permissions?.includes(permissionList.Change_Admission_Manager_profileImage) ?
                 <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
@@ -628,7 +627,7 @@ const selectNameTitle = (label, value) => {
                          <form onSubmit={handleSubmitProfilePhoto}>
                            <input type="hidden" name="id" id="id" value={managerId} />
 
-                           {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+                          
 
                            <FormGroup row className="has-icon-left position-relative">
                              <Col className='ml-5' md="4">
@@ -638,17 +637,7 @@ const selectNameTitle = (label, value) => {
                              </Col>
                              <Col md="6">
                                <div className="row d-flex">
-                                 {/* {consultantData?.consultantCoverImageMedia !== null ? (
-                                   <div className="col-md-6">
-                                     <Image
-                                       width={104}
-                                       height={104}
-                                       src={
-                                         rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
-                                       }
-                                     />
-                                   </div>
-                                 ) : null} */}
+                               
 
                                  <div className="col-md-6">
                                    <>
@@ -718,7 +707,7 @@ const selectNameTitle = (label, value) => {
                                     :
                                     null
                }
-                     {/* profile photo edit modal ends here */} 
+                   
 
             <div className="py-3">
               <h5 className="py-1">
@@ -766,7 +755,58 @@ const selectNameTitle = (label, value) => {
               </ul>
             </div>
           </CardBody>
+        </Card> */}
+
+
+
+        <Card>
+          <CardBody>
+
+            <div className="row">
+
+              <div className="col-md-10 col-sm-12">
+
+                <div className="row">
+
+                  <div className="col-md-6 col-sm-12 bg-success">
+                    <div className="d-flex">
+                      <div className="d-flex">
+                        <img src={Intersect} className='img-fluid bg-danger'/>
+                        <img className="bg-warning" style={{height: '100px', width: '100px', borderRadius: '50%', position: 'relative', left: '-150px', top: '23px',   border: '3px solid white'}}  src={rootUrl+managerData?.admissionManagerMedia?.thumbnailUrl
+              } alt="admissionManager" />
+
+
+                      </div>
+
+                      <div style={{height: '148px'}} className='d-flex flex-column justify-content-center bg-primary'>
+                        <p style={{fontSize: '18px', fontWeight: '600', color: '#495057'}}>{managerData?.nameTittleName} {managerData?.firstName} {}{" "}
+                  {managerData?.lastName}{" "}</p>
+                       
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className="col-md-6 col-sm-12">
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="col-md-2 col-sm-12">
+
+              </div>
+
+            </div>
+
+
+          </CardBody>
         </Card>
+
+
 
         <div className=" info-item mt-4">
           <Card>

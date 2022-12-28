@@ -134,16 +134,12 @@ const AddNewAdmissionOfficerPage = () => {
   }, []);
 
 
-
-
-
   const handlePass = (e) => {
     setPassError("");
     setPass(e.target.value);
   };
 
   
-
   const managerMenuForm = managerDDForm.map((managerForm) => ({
     label: managerForm?.name,
     value: managerForm?.id,

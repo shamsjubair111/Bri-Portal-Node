@@ -211,63 +211,100 @@ const ProviderDashboard = () => {
 
    {/* Status reports start */}
 
-   <div className='row'>
+        <div className='row'>
 
-    <div className='col-md-3 mb-3'>
-     
-    <div className='count-card counter-h-112' style={{border: '0.5px solid #24A1CD'}}>
-    <span className='pvdadmin-span-style1'>Total Application</span>
-      
-      <span className='pvdadmin-span-style2' onClick={()=>{
-        history.push('/applications');
-      }} style={{color: '#24A1CD', cursor: 'pointer'}}>{count?.totalApplication}</span>
+      <div className='col-md-2 mb-3'>
 
-    </div>
+            <div className='count-card counter-h-112' style={{border: '0.5px solid #24A1CD'}}>
+            <span className='pvdadmin-span-style1'>Total Application</span>
           
-        
-      
+          <span className='pvdadmin-span-style2'  style={{color: '#24A1CD',cursor: 'pointer'}}>{count?.totalApplication}</span>
 
-    </div>
+            </div>
+          
+          
+          
 
-    <div className='col-md-3 mb-3'>
-   <div className='count-card counter-h-112' style={{border: '0.5px solid #23CCB5'}}>
-   <span className='pvdadmin-span-style1'>Universities</span>
-       
-       <span className='pvdadmin-span-style2' style={{color: '#23CCB5'}}>{count?.universities}</span>
-   </div>
-
-         
-     
-     
-
-    </div>
-    <div className='col-md-3 mb-3'>
-      <div className='count-card counter-h-112' style={{border: '0.5px solid #AE75F8'}}>
-      <span className='pvdadmin-span-style1'>Admission Managers</span>
-   
-   <span className='pvdadmin-span-style2' style={{color: '#AE75F8'}}>{count?.admissionmanagers}</span>
 
       </div>
 
-         
-      
-     
+      <div className='col-md-2 mb-3'>
+      <div className='count-card counter-h-112' style={{border: '0.5px solid #23CCB5'}}>
 
-    </div>
-    <div className='col-md-3 mb-3'>
-     <div style={{border: '0.5px solid #F7BD12'}} className='count-card counter-h-112'>
-     <span className='pvdadmin-span-style1'>Admission Officers</span>
-    
-    <span className='pvdadmin-span-style2' style={{color: '#F7BD12'}}>{count?.admissionofficers}</span>
 
-     </div>
-         
-       
-   
+      <span className='pvdadmin-span-style1'>Applications In Process</span>
 
-    </div>
+      <span className='pvdadmin-span-style2'  style={{color: '#23CCB5', cursor: 'pointer'}}>{count?.totalApplicationInProgress}</span>
+      </div>
 
-   </div>
+          
+          
+
+      </div>
+
+      <div className='col-md-2 mb-3'>
+
+        <div className='count-card counter-h-112' style={{border: '0.5px solid #AE75F8'}}>
+        <span className='pvdadmin-span-style1'>Unconditional Offer</span>
+          
+          <span className='pvdadmin-span-style2' style={{color: '#AE75F8', cursor: 'pointer'}}>{count?.totalUnconditionalOffer}</span>
+
+        </div>
+            
+
+            
+
+
+      </div>
+
+      <div className='col-md-2 mb-3'>
+      <div className='count-card counter-h-112' style={{border: '0.5px solid #F87675'}}>
+      <span className='pvdadmin-span-style1'>Total Registered</span>
+        
+        <span  className='pvdadmin-span-style2'style={{color: '#F87675', cursor: 'pointer'}
+        
+        }>{count?.totalRegistered}</span>
+
+      </div>
+
+          
+        
+
+
+      </div>
+
+      <div className='col-md-2 mb-3'>
+      <div className='count-card counter-h-112' style={{border: '0.5px solid #F7BD12'}}>
+
+      <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
+
+
+      <span  className='pvdadmin-span-style2' style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRejected}</span>
+      </div>
+
+          
+            
+            
+
+
+      </div>
+
+      <div className='col-md-2 mb-3'>
+        <div className='count-card counter-h-112' style={{border: '0.5px solid #707070'}}>
+        <span className='pvdadmin-span-style1'>Withdrawn Application</span>
+
+      <span  className='pvdadmin-span-style2' style={{color: '#707070', cursor: 'pointer'}}>{count?.totalWithdrawn}</span>
+        </div>
+
+          
+
+          
+        
+
+      </div>
+
+
+      </div>
 
    {/* status reports end */}
 

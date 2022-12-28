@@ -352,7 +352,7 @@ const FinanceManager = () => {
                       
                             
                       <span onClick={()=>{
-                        history.push(`/applicationByStatus/${5}/${3}`)
+                        history.push(`/applicationByStatus/${5}/${1}`)
                       }} className='pvdadmin-span-style2' style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRejected}</span>
                        </div>
 

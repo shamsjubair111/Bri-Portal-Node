@@ -386,7 +386,7 @@ const AdmissionOfficer = () => {
           <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
             
             <span className='pvdadmin-span-style2' onClick={()=>{
-                history.push(`/applicationsByStatus/${5}/${3}`);
+                history.push(`/applicationsByStatus/${5}/${1}`);
              }}  style={{color: '#F87675', cursor: 'pointer'}}>{count?.totalRejected}</span>
           </div>
              

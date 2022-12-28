@@ -355,7 +355,7 @@ const AccountOfficer = () => {
 
                             
                       <span onClick={()=>{
-                        history.push(`/applicationsbyStatus/${5}/${3}`)
+                        history.push(`/applicationsbyStatus/${5}/${1}`)
                       }} className='pvdadmin-span-style2' style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRejected}</span>
                       </div>
 

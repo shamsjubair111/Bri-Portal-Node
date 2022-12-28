@@ -397,7 +397,7 @@ const AdmissionManager = () => {
       
            
       <span onClick={()=>{
-        history.push(`/applicationsByStatus/${5}/${3}`)
+        history.push(`/applicationsByStatus/${5}/${1}`)
       }} className='pvdadmin-span-style2' style={{color: '#F7BD12', cursor: 'pointer'}}>{count?.totalRejected}</span>
            </div>
 

@@ -49,6 +49,7 @@ const AddUniversitySubjectFee = () => {
     const [addLocalTutionFee, setAddLocalTutionFee] = useState(undefined);
     const [addIntTutionFee, setAddIntTutionFee] = useState(undefined);
     const [addEUTutionFee, setAddEUTutionFee] = useState(undefined);
+    const [averageFee, setAverageFee] = useState(undefined);
 
   
 
@@ -78,6 +79,7 @@ const AddUniversitySubjectFee = () => {
           
           setSId(res?.subjectId);
           setId(res?.id);
+          setAverageFee(res?.averageApplicationFee);
         })
         
       
@@ -114,7 +116,8 @@ const AddUniversitySubjectFee = () => {
       subjectId: subjId,
       localTutionFee: addLocalTutionFee == undefined ? 0 : addLocalTutionFee,
       internationalTutionFee: addIntTutionFee == undefined ? 0 : addIntTutionFee,
-      eU_TutionFee: addEUTutionFee == undefined ? 0 : addEUTutionFee
+      eU_TutionFee: addEUTutionFee == undefined ? 0 : addEUTutionFee,
+      averageApplicationFee: averageFee == undefined ? 0 : averageFee
     }
 
 
@@ -313,6 +316,28 @@ const AddUniversitySubjectFee = () => {
                       // defaultValue={euTutionFee}
                       defaultValue={addEUTutionFee}
                       placeholder="Enter EU Tution Fee"
+                      // required
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Average Application Fee
+                      {/* <span className="text-danger">*</span>{" "} */}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      min="0"
+                      name="averageApplicationFee"
+                      id="averageApplicationFee"
+                      onChange={(e)=>setAverageFee(e.target.value)}
+                      // defaultValue={euTutionFee}
+                      defaultValue={averageFee}
+                      placeholder="Enter Average Application Fee"
                       // required
                     />
                   </Col>

@@ -185,7 +185,7 @@ const ComplianceManager = () => {
             <span className='pvdadmin-span-style1'>Rejected / Cancelled</span>
             
             <span onClick={()=>{
-                  history.push(`applicationsByStatus/${5}/${3}`)
+                  history.push(`applicationsByStatus/${5}/${1}`)
                  }} className='pvdadmin-span-style2' style={{color: '#F87675'}}>{count?.totalRejected}</span>
 
             </div>

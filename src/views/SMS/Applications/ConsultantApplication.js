@@ -321,89 +321,10 @@ const ConsultantApplication = ({ currentUser }) => {
       );
     }
 
-    // for list
-
-    //   const uniId =
-    //     commonUniValue !== 0
-    //       ? commonUniValue
-    //       : typeof location.universityIdFromUniList !== undefined ||
-    //         location.universityIdFromUniList !== null
-    //       ? location.universityIdFromUniList
-    //       : 0;
-
-    //   setUniId(parseInt(uniId));
-
-    //   if (uniId !== 0) {
-    //     var uni = commonUniDD?.find((s) => s.id === uniId);
-
-    //     if (uni === undefined) {
-    //       setCommonUniLabel("University Name");
-    //     } else {
-    //       setCommonUniLabel(uni?.name);
-    //       setCommonUniValue(uniId);
-    //     }
-    //   }
-
-    //   const consId =
-    //     consultantValue !== 0
-    //       ? consultantValue
-    //       : typeof location.consultantIdFromConsultantList !== undefined ||
-    //         location.consultantIdFromConsultantList !== null
-    //       ? location.consultantIdFromConsultantList
-    //       : 0;
-
-    //       setConsId(parseInt(consId));
-
-    //   if (parseInt(consId) !== 0) {
-    //     var consultant = commonConsultantDD?.find((s) => s.id === parseInt(consId));
-
-    //     if (consultant === undefined) {
-    //       // setConsultantLabel("Consultant");
-    //     } else {
-    //       setConsultantLabel(consultant?.name);
-    //       setConsultantValue(consId);
-    //     }
-    //   }
-
-    //   
+     
     if (currentUser != undefined) {
-      if(status && selector){
-        if(selector == 1){
-          get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${status}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-          ).then((res) => {
-            setLoading(false);
-            setApplicationList(res?.models);
-            setEntity(res?.totalEntity);
-            
-            setSerialNumber(res?.firstSerialNumber);
-          });
-        }
-        else if (selector == 2){
-          get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${status}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-          ).then((res) => {
-            setLoading(false);
-            setApplicationList(res?.models);
-            setEntity(res?.totalEntity);
-            
-            setSerialNumber(res?.firstSerialNumber);
-          });
-        }
-        else if(selector == 3){
-          get(
-            `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${consUniValue}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${status}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
-          ).then((res) => {
-            setLoading(false);
-            setApplicationList(res?.models);
-            setEntity(res?.totalEntity);
-            
-            setSerialNumber(res?.firstSerialNumber);
-          });
-        }
-
-      }
-     else if(universityId){
+     
+    if(universityId){
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${consUappIdValue}&studentId=${consStdValue}&universityId=${universityId}&uappPhoneId=${consPhnValue}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
