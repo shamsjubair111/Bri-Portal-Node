@@ -4,30 +4,27 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 import {  Card, CardBody, Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter, Input, CardHeader,Label, Col,  Row, Table, Form, FormGroup, Button } from 'reactstrap';
+  ModalFooter, Input, CardHeader, Col,  Row, Table, Form, FormGroup, Button } from 'reactstrap';
 import get from '../../../helpers/get';
 // import coverImage from '../../../../assets/img/profile/user-uploads/cover.jpg';
 import coverImage from '../../../assets/img/Asset 12Icon.svg';
 // import profileImage from '../../../../assets/img/profile/user-uploads/user-07.jpg';
-import profileImage from '../../../assets/img/profile/user-uploads/user-07.jpg';
 import ReactToPrint from 'react-to-print';
 import { rootUrl } from '../../../constants/constants';
 import EditDivButton from '../Components/EditDivButton';
 import ButtonForFunction from '../Components/ButtonForFunction';
-import LinkButton from '../Components/LinkButton';
-import axios from 'axios'
 import { userTypes } from '../../../constants/userTypeConstant';
 import post from '../../../helpers/post';
 import { useToasts } from "react-toast-notifications";
 import remove from '../../../helpers/remove';
 import put from '../../../helpers/put';
 import uapploader from '../../../assets/img/Uapp_fav.png';
-import loaderImage from '../../../assets/img/uappLoader.gif';
 import { Upload, Image } from "antd";
 import * as Icon from "react-feather";
 import { permissionList } from '../../../constants/AuthorizationConstant';
 import ButtonLoader from '../Components/ButtonLoader';
 import Loader from '../Search/Loader/Loader';
+import ToggleSwitch2 from '../Components/ToggleSwitch2';
 
 
 const StudentProfile = () => {
@@ -61,6 +58,8 @@ const StudentProfile = () => {
     const [FileList1, setFileList1] = useState([]);
     const [error1, setError1] = useState(false);
     const [text1, setText1] = useState('');
+
+    const [blackList, setBlackList] = useState(null);
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -192,7 +191,7 @@ const StudentProfile = () => {
 
     useEffect(()=>{
        get(`StudentProfile/Get/${sId}`).then(res=>{
-       
+        setBlackList(res?.blackList);
         setStudentDetails(res);
         setIsHaveDisability(res?.profileOtherInfo?.isHaveDisability);
         setIsHaveCriminalConvictions(res?.profileOtherInfo?.isHaveCriminalConvictions);
@@ -516,7 +515,37 @@ const StudentProfile = () => {
     })
   }
 
-  
+  const handleBlacklist = (e, SId) => {
+
+    
+    // setChecked(e.target.checked);
+    // 
+
+    const subData = {
+      id: SId,
+    };
+    // setButtonStatus(true);
+
+    put(`Student/UpdateAccountStatus/${SId}`, subData).then((res) => {
+      // setButtonStatus(false);
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+        // setPassData({});
+        // setPassModal(false);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+      }
+    });
+  };
 
 
     return (
@@ -732,6 +761,34 @@ const StudentProfile = () => {
 
                       <Col md="6"> 
                      <ul className="uapp-ul text-right1">
+
+                     {
+                      permissions?.includes(permissionList.Change_Status_Student) ?
+                      
+                        <>
+                          
+                          <div className='d-flex justify-content-end'>
+                            <div>
+                            <span className='mr-1'>Blacklist : </span>
+                            </div>
+                            <ToggleSwitch2
+                              style={{marginRight: "4px"}}
+                              checked={
+                                  blackList === null ? false :
+                                  blackList === false ? false
+                                  : true
+                              }
+                              onChange={(e) => {
+                                handleBlacklist(e, studentDetails?.id);
+                              }}
+                          />
+                          </div>
+
+                        </>
+                      :
+                      null
+                    }
+
                             <li> 
                               <span> Email : {studentDetails?.email}</span>
                             </li>
