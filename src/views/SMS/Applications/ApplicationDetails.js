@@ -71,6 +71,9 @@ const ApplicationDetails = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
   const [officerId, setOfficerId] = useState(0);
 
+  const [intakeDD, setIntakeDD] = useState([]);
+  const [deliveryDD, setDeliveryDD] = useState([]);
+
   const [progress1, setProgress1] = useState(false);
   const [progress2, setProgress2] = useState(false);
 
@@ -79,6 +82,19 @@ const ApplicationDetails = () => {
   const { id, stdId } = useParams();
   const location = useLocation();
   const userType = localStorage.getItem("userType");
+
+  useEffect(()=>{
+    if(applicationInfo?.subjectId !== undefined){
+      get(`DeliveryPatternDD/Subject/${applicationInfo?.subjectId}`).then((res) => {
+        setDeliveryDD(res);
+        console.log("deliveryDD", res);
+      });
+      get(`IntakeDD/Intake/${applicationInfo?.subjectId}`).then((res) => {
+        setIntakeDD(res);
+        console.log("intakeDD", res);
+      });
+    }
+  },[applicationInfo?.subjectId])
 
   useEffect(() => {
     get(`Application/Get/${id}`).then((res) => {
@@ -364,6 +380,8 @@ const ApplicationDetails = () => {
                         <ApplicationInfo
                           id={id}
                           applicationInfo={applicationInfo}
+                          deliveryDD={deliveryDD}
+                          intakeDD={intakeDD}
                           elptDate={elptDate}
                           etaDate={etaDate}
                           eatDeadLine={eatDeadLine}

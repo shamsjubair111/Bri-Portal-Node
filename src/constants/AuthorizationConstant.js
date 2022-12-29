@@ -738,6 +738,13 @@ export const  permissionList = {
     Provider_Dashboard : 563,
     Consultant_Dashboard : 564,
     Add_ApplicationNote : 565,
-     Get_ApplicationNote : 566
+    Get_ApplicationNote : 566,
+
+    Add_New_City : 567,
+    View_City_List : 568,
+    Update_City_info : 569,
+    View_City_info : 570,
+    Delete_city : 571,
+    Update_Application_Intake : 572,
 
 }

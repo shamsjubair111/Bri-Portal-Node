@@ -26,6 +26,8 @@ import ButtonLoader from "../../Components/ButtonLoader";
 
 const ApplicationInfo = ({
   applicationInfo,
+  intakeDD,
+  deliveryDD,
   id,
   elptDate,
   etaDate,
@@ -38,7 +40,7 @@ const ApplicationInfo = ({
   const [statusValue, setStatusvalue] = useState(0);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
 
-  const [deliveryDD, setDeliveryDD] = useState([]);
+  // const [deliveryDD, setDeliveryDD] = useState([]);
   const [deliveryModalOpen, setDeliveryModalOpen] = useState(false);
   const [deliveryLabel, setDeliveryLabel] = useState("");
   const [deliveryValue, setDeliveryValue] = useState(0);
@@ -61,6 +63,11 @@ const ApplicationInfo = ({
   const [uniStdIdModalOpen, setUniStdIdModalOpen] = useState(false);
   const [uniAppDateModalOpen, setUniAppDateModalOpen] = useState(false);
 
+  const [intakeModal, setIntakeModal] = useState(false);
+  const [intakeLabel, setIntakeLabel] = useState("");
+  const [intakeValue, setIntakeValue] = useState(0);
+  // const [intakeDD, setIntakeDD] = useState([]);
+
   const [elptModalOpen, setElptModalOpen] = useState(false);
   const [elptModalOpen1, setElptModalOpen1] = useState(false);
   const [elptStatusLabel, setElptStatusLabel] = useState("Select ELPT status");
@@ -81,6 +88,7 @@ const ApplicationInfo = ({
   const [progress6, setProgress6] = useState(false);
   const [progress7, setProgress7] = useState(false);
   const [progress8, setProgress8] = useState(false);
+  const [progress9, setProgress9] = useState(false);
 
   const { addToast } = useToasts();
 
@@ -95,9 +103,15 @@ const ApplicationInfo = ({
     //   setEtaDeadLine(handleDate(res?.elpt?.etaDeadline));
     // });
 
-    get(`DeliveryPatternDD/Subject/${applicationInfo?.subjectId}`).then((res) => {
-      setDeliveryDD(res);
-    });
+    // if(applicationInfo?.subjectId !== undefined){
+    //   get(`DeliveryPatternDD/Subject/${applicationInfo?.subjectId}`).then((res) => {
+    //     setDeliveryDD(res);
+    //   });
+    //   get(`IntakeDD/Intake/${applicationInfo?.subjectId}`).then((res) => {
+    //     setIntakeDD(res);
+    //     console.log("intakeDD", res);
+    //   });
+    // }
     get("StudentFinanceStatusDD/Index").then((res) => {
       setFinanceDD(res);
     });
@@ -113,7 +127,9 @@ const ApplicationInfo = ({
     get("ElptStatusDD/Index").then((res) => {
       setElptStatusDD(res);
     });
-  }, []);
+  }, [
+      // applicationInfo?.subjectId
+     ]);
 
   const handleApplicationEdit = (name, id) => {
     setStatusLabel(name);
@@ -177,9 +193,19 @@ const ApplicationInfo = ({
     value: delivery?.id,
   }));
 
+  const intakeMenu = intakeDD.map((intake) => ({
+    label: intake?.name,
+    value: intake?.id,
+  }));
+
   const selectDelivery = (label, value) => {
     setDeliveryLabel(label);
     setDeliveryValue(value);
+  };
+
+  const selectIntake = (label, value) => {
+    setIntakeLabel(label);
+    setIntakeValue(value);
   };
 
   const handleOfferEdit = (name, id) => {
@@ -210,6 +236,12 @@ const ApplicationInfo = ({
     setUniStdIdModalOpen(true);
   };
 
+  const handleUpdateIntake = (value, label) => {
+    setIntakeModal(true);
+    setIntakeLabel(label);
+    setIntakeValue(value);
+  }
+
   // on Close Modal
   const closeModal = () => {
     setDeliveryModalOpen(false);
@@ -229,6 +261,9 @@ const ApplicationInfo = ({
     setOfferModalOpen(false);
     setUniStdIdModalOpen(false);
     setUniAppDateModalOpen(false);
+    setIntakeModal(false);
+    setIntakeLabel("");
+    setIntakeValue(0);
   };
 
   const handleApplicationUpdateSubmit = (e) => {
@@ -362,6 +397,24 @@ const ApplicationInfo = ({
     });
   };
 
+  const handleUpdateIntakeSubmit = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    setProgress9(true);
+    const returnvalue = put(
+      `Application/UpdateIntake`,
+      subData
+    ).then((action) => {
+      setProgress9(false);
+      setSuccess(!success);
+      setIntakeModal(false);
+      addToast(action?.data?.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    });
+  };
+
   const handleEditUniAppDate = (id) => {
     setUniAppDateModalOpen(true);
   };
@@ -443,6 +496,8 @@ const ApplicationInfo = ({
       });
     }
   };
+
+  console.log("app stdId", typeof(applicationInfo?.subjectId));
 
   return (
     <div>
@@ -1098,7 +1153,9 @@ const ApplicationInfo = ({
 
             <td width="60%">
               <div className="d-flex justify-content-between">
-                {applicationInfo?.universityStudentId}
+                <div>
+                  {applicationInfo?.universityStudentId}
+                </div>
                 {permissions?.includes(
                   permissionList.Update_Appliation_University_StudentId
                 ) ? (
@@ -1187,9 +1244,11 @@ const ApplicationInfo = ({
 
             <td width="60%">
               <div className="d-flex justify-content-between">
-                {applicationInfo?.universityApplicationDate ? (
-                  <>{handleDate(applicationInfo?.universityApplicationDate)}</>
-                ) : null}
+                <div>
+                  {applicationInfo?.universityApplicationDate ? (
+                    <>{handleDate(applicationInfo?.universityApplicationDate)}</>
+                  ) : null}
+                </div>
                 {permissions?.includes(
                   permissionList.Update_University_ApplicationDate
                 ) ? (
@@ -1312,7 +1371,100 @@ const ApplicationInfo = ({
               <b>Intake:</b>
             </td>
 
-            <td width="60%">{applicationInfo?.intake?.name}</td>
+            <td width="60%">
+
+              {/* {applicationInfo?.intake?.name} */}
+
+              <div className="d-flex justify-content-between">
+                <div>
+                 {applicationInfo?.intake?.name}
+                </div>
+                {permissions?.includes(
+                  permissionList.Update_Application_Intake
+                ) ? (
+                  <SpanButton
+                    icon={
+                      <i
+                        style={{ cursor: "pointer" }}
+                        className="fas fa-pencil-alt pencil-style"
+                      ></i>
+                    }
+                    func={() =>
+                      handleUpdateIntake(applicationInfo?.intake?.id, applicationInfo?.intake?.name)
+                    }
+                    permission={6}
+                  />
+                ) : null}
+
+                <Modal
+                  isOpen={intakeModal}
+                  toggle={closeModal}
+                  className="uapp-modal"
+                >
+                  <ModalHeader>Update Intake</ModalHeader>
+                  <ModalBody>
+                    <Form onSubmit={handleUpdateIntakeSubmit}>
+                      <input
+                        type="hidden"
+                        name="id"
+                        id="id"
+                        value={applicationInfo?.id}
+                      />
+
+                      <FormGroup
+                        row
+                        className="has-icon-left position-relative"
+                      >
+                        <Col md="4">
+                          <span>Intake </span>
+                        </Col>
+                        <Col md="8">
+                        <Select
+                            options={intakeMenu}
+                            value={{
+                              label: intakeLabel,
+                              value: intakeValue,
+                            }}
+                            onChange={(opt) =>
+                              selectIntake(opt.label, opt.value)
+                            }
+                            name="intakeId"
+                            id="intakeId"
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup
+                        className="has-icon-left position-relative"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Button
+                          color="danger"
+                          className="mr-1 mt-3"
+                          onClick={closeModal}
+                        >
+                          Close
+                        </Button>
+
+                        <CustomButtonRipple
+                          color={"primary"}
+                          type={"submit"}
+                          className={"mr-1 mt-3"}
+                          name={progress9 ? <ButtonLoader /> : "Submit"}
+                          permission={6}
+                        />
+
+                        {/* }  */}
+                      </FormGroup>
+                    </Form>
+                  </ModalBody>
+                </Modal>
+              </div>
+
+            </td>
           </tr>
 
           <tr>

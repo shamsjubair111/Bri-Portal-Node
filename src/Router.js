@@ -669,7 +669,7 @@ class AppRouter extends React.Component {
           <AppRoute  path="/state" component={permissions?.includes(permissionList?.View_State_List)? AddState: NotAuthorized} />
 
           {/* State also path not implemented yet */} 
-          <AppRoute  path="/city" component={permissions?.includes(permissionList?.View_State_List)? AddCity: NotAuthorized} />
+          <AppRoute  path="/city" component={permissions?.includes(permissionList?.View_City_List)? AddCity: NotAuthorized} />
 
 
           {/* consultant */}
