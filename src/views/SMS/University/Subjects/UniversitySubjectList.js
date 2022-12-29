@@ -424,7 +424,9 @@ const UniversitySubjectList = (props) => {
                   <h3 className="text-white">
                     {
                       uniName !== undefined ?
-                      `Subject List of ${uniName}`
+                      <>
+                      Subject List of {uniName}
+                      </>
                       :
                       'Subject List'
                     }

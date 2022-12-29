@@ -168,7 +168,7 @@ const AdmissionOfficerList = () => {
         setProviderDD(res);
         const result = res?.find((ans) => ans?.id == providerId);
         setProLabel(result?.name);
-        setProviderValue(result.id);
+        
       });
       get(`AdmissionManagerDD/Index/${providerId}`).then((res) => {
         setManagerDDForm(res);
@@ -176,7 +176,7 @@ const AdmissionOfficerList = () => {
           const result = res?.find((ans) => ans?.id == managerId);
       
           setManagerLabel(result?.name);
-          setManagerValue(result?.id);
+        
         }
       });
     } else {

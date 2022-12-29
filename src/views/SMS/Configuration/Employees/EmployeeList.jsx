@@ -147,7 +147,7 @@ const EmployeeList = (props) => {
       const result = res?.find (ans => ans?.id == type);
       setLoading(false);
       setEmpLabel(result?.name);
-      setEmpValue(res?.id);
+      
     })
     :
     get(`EmployeeTypeDD/Index`).then((res) => {

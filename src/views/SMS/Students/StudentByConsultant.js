@@ -89,6 +89,8 @@ const StudentByConsultant = () => {
     history.push("/consultantList");
   };
 
+  console.log(id);
+
   useEffect(() => {
     get(
       `Student/GetByConsultant?page=${currentPage}&pageSize=${dataPerPage}&id=${id}`
@@ -99,7 +101,7 @@ const StudentByConsultant = () => {
       
       setLoading(false);
     });
-  }, [id, currentPage, dataPerPage, callApi, entity, loading, success]);
+  }, [currentPage, dataPerPage, callApi, success]);
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];

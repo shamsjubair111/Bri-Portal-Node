@@ -127,7 +127,7 @@ const StudentList = () => {
        
           const result = res?.find(ans => ans?.id == type);
           setStudentTypeLabel(result?.name);
-          setStudentTypeValue(result?.id);
+          
        
       })
     }

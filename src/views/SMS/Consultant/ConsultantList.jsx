@@ -1050,15 +1050,15 @@ const ConsultantList = () => {
                       {checkStd ? (
                         <td>
                           <span
+                          onClick={()=>{
+                            history.push(`/studentByConsultant/${consultant?.id}`)
+                          }}
                             className="badge badge-secondary"
                             style={{ cursor: "pointer" }}
                           >
-                            <Link
-                              style={{ textDecoration: "none" }}
-                              to={`/studentByConsultant/${consultant?.id}`}
-                            >
+                           
                               {consultant?.studentCount}
-                            </Link>
+                            
                           </span>
                         </td>
                       ) : null}

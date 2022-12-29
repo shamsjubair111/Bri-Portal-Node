@@ -131,7 +131,7 @@ const UniversityList = (props) => {
     
       const result = res?.find(ans => ans?.id == provideId);
       setProviderLabel(result?.name);
-      setProviderValue(res?.id);
+      
    
   })
   :
@@ -148,7 +148,7 @@ const UniversityList = (props) => {
  
       const result = res?.find(ans => ans?.id == counId);
       setUniCountryLabel(result?.name);
-      setUniCountryValue(result?.id);
+      
       get(`UniversityStateDD/Index/${counId}`).then((res) => {
       
       
@@ -169,8 +169,8 @@ const UniversityList = (props) => {
     setUniversityTypes(res);
   
       const result = res?.find(ans => ans?.id == univerTypeId);
-      setUniTypeLabel(result?.name);
-      setUniTypeValue(result?.id);
+      
+      
   
   })
   :

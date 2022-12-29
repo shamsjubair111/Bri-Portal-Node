@@ -108,7 +108,7 @@ const ConsultantByConsultant = () => {
         setPageLoad(false);
       });
     }
-  }, [id, currentPage, dataPerPage, callApi, loading, success]);
+  }, [currentPage, dataPerPage, callApi, loading, success]);
 
   // user select data per page
   const dataSizeArr = [10, 15, 20, 30, 50, 100, 1000];

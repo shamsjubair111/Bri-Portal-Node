@@ -345,7 +345,7 @@ const ApplicationsCommon = () => {
       const result = res?.find(ans => ans?.id == universityId);
       if(universityId){
         setCommonUniLabel(result?.name);
-      setCommonUniValue(result?.id);
+      
       }
     });
     get("CommonApplicationFilterDD/Consultant").then((res) => {
@@ -355,7 +355,7 @@ const ApplicationsCommon = () => {
         const result = res?.find (ans => ans?.id == consultantId);
         
         setConsultantLabel(result?.name);
-        setConsultantValue(result?.id);
+        
       }
     });
     get("CommonApplicationFilterDD/Student").then((res) => {
