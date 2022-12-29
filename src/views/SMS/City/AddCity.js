@@ -197,7 +197,7 @@ const AddCity = () => {
 
       <CardHeader>
           {
-            permissions?.includes(permissionList?.Add_New_State) ?
+            permissions?.includes(permissionList?.Add_New_City) ?
             <ButtonForFunction
             className={"btn btn-uapp-add"}
             func={() => setModalOpen(true)}
@@ -345,7 +345,7 @@ const AddCity = () => {
                  
 
                       {
-                        permissions?.includes(permissionList.Update_State_info) ?
+                        permissions?.includes(permissionList.Update_City_info) ?
                         <ButtonForFunction
                         func={() => handleUpdate(state)}
                         className={"mx-1 btn-sm"}
@@ -358,7 +358,7 @@ const AddCity = () => {
                       }
 
                   {
-                      permissions?.includes(permissionList?.Delete_State)?
+                      permissions?.includes(permissionList?.Delete_city)?
                       <ButtonForFunction
                       func={() => toggleDanger(state)}
                       className={"mx-1 btn-sm"}

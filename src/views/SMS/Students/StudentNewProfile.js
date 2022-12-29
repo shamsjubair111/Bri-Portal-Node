@@ -28,6 +28,7 @@ import * as Icon from "react-feather";
 import { permissionList } from '../../../constants/AuthorizationConstant';
 import ButtonLoader from '../Components/ButtonLoader';
 import Loader from '../Search/Loader/Loader';
+import ToggleSwitch2 from '../Components/ToggleSwitch2';
 
 const StudentNewProfile = () => {
 
@@ -60,6 +61,8 @@ const StudentNewProfile = () => {
     const [FileList1, setFileList1] = useState([]);
     const [error1, setError1] = useState(false);
     const [text1, setText1] = useState('');
+
+    const [blackList, setBlackList] = useState(null);
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -192,7 +195,7 @@ const StudentNewProfile = () => {
 
     useEffect(()=>{
        get(`StudentProfile/Get/${sId}`).then(res=>{
-       
+        setBlackList(res?.blackList);
         setStudentDetails(res);
         setIsHaveDisability(res?.profileOtherInfo?.isHaveDisability);
         setIsHaveCriminalConvictions(res?.profileOtherInfo?.isHaveCriminalConvictions);
@@ -520,6 +523,37 @@ const StudentNewProfile = () => {
     })
   }
 
+  const handleBlacklist = (e, SId) => {
+
+    
+    // setChecked(e.target.checked);
+    // 
+
+    const subData = {
+      id: SId,
+    };
+    // setButtonStatus(true);
+
+    put(`Student/UpdateAccountStatus/${SId}`, subData).then((res) => {
+      // setButtonStatus(false);
+      if (res?.status == 200 && res?.data?.isSuccess == true) {
+        addToast(res?.data?.message, {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+        // setPassData({});
+        // setPassModal(false);
+      }
+      else{
+        addToast(res?.data?.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        setSuccess(!success);
+      }
+    });
+  };
 
     return (
         <>
@@ -734,6 +768,34 @@ const StudentNewProfile = () => {
  
                        <Col md="6"> 
                       <ul className="uapp-ul text-right1">
+
+                      {/* {
+                      permissions?.includes(permissionList.Change_Status_Student) ?
+                      
+                        <>
+                          
+                          <div className='d-flex justify-content-end'>
+                            <div>
+                            <span className='mr-1'>Blacklist : </span>
+                            </div>
+                            <ToggleSwitch2
+                              style={{marginRight: "4px"}}
+                              checked={
+                                  blackList === null ? false :
+                                  blackList === false ? false
+                                  : true
+                              }
+                              onChange={(e) => {
+                                handleBlacklist(e, studentDetails?.id);
+                              }}
+                          />
+                          </div>
+
+                        </>
+                      :
+                      null
+                    } */}
+
                              <li> 
                                <span> Email : {studentDetails?.email}</span>
                              </li>

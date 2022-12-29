@@ -42,6 +42,7 @@ import load from '../../../assets/img/uappLoader.gif';
 import Loader from "../Search/Loader/Loader.js";
 import ButtonLoader from "../Components/ButtonLoader.js";
 import { userTypes } from "../../../constants/userTypeConstant.js";
+import ToggleSwitch from "../Components/ToggleSwitch.js";
 
 const ConsultantList = () => {
   const permissions = JSON.parse(localStorage.getItem("permissions"));
@@ -356,6 +357,25 @@ const ConsultantList = () => {
 
   const redirectToConsultantDashboard = (consultantId) => {
     history.push(`/consultantDashboard/${consultantId}`);
+  }
+
+  const handleUpdate = (data) => {
+    put(`Consultant/UpdateAccountStatus/${data?.id}`)
+    .then(res => {
+      if(res?.status == 200 && res?.data?.isSuccess == true){
+        addToast(res?.data?.message,{
+          autoDismiss: true,
+          appearance:'success'
+        })
+        setSuccess(!success);
+      }
+      else{
+        addToast(res?.data?.message,{
+          autoDismiss: true,
+          appearance:'error'
+        })
+      }
+    })
   }
 
   return (
@@ -712,25 +732,6 @@ const ConsultantList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
-                          <p className="">Status</p>
-                        </Col>
-
-                        <Col md="4" className="text-center">
-                          <FormGroup check inline>
-                            <Input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleCheckedSts(e);
-                              }}
-                              defaultChecked={checkSts}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </div>
-
-                      <div className="d-flex justify-content-between">
-                        <Col md="8" className="">
                           <p className="">Student</p>
                         </Col>
 
@@ -781,6 +782,25 @@ const ConsultantList = () => {
                                 handleCheckedAsso(e);
                               }}
                               defaultChecked={checkAsso}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
+                          <p className="">Status</p>
+                        </Col>
+
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSts(e);
+                              }}
+                              defaultChecked={checkSts}
                             />
                           </FormGroup>
                         </Col>
@@ -848,7 +868,7 @@ const ConsultantList = () => {
                     {checkCons ? <th>Parent</th> : null}
                     {checkConsType ? <th>Type</th> : null}
                     {checkDate ? <th>Started</th> : null}
-                    {checkSts ? <th>Status</th> : null}
+                    
                     {
                       permissions?.includes(permissionList.View_Student_consultant_List) ? 
                       <>{checkStd ? <th>Student</th> : null}</>
@@ -865,6 +885,16 @@ const ConsultantList = () => {
                       null
                     }
                     {checkAsso ? <th>Associates</th> : null}
+
+                    {
+                      permissions?.includes(permissionList?.Change_Status_Consultant) ?
+                      <>
+                        {checkSts ? <th>Status</th> : null}
+                      </>
+                      :
+                      null
+                    }
+
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
                         Action
@@ -1012,9 +1042,6 @@ const ConsultantList = () => {
                       {checkDate ? (
                         <td>{handleDate(consultant?.createdOn)}</td>
                       ) : null}
-                      {checkSts ? (
-                        <td>{consultant?.accountStatus?.statusName}</td>
-                      ) : null}
 
                     {
                       permissions?.includes(permissionList.View_Student_consultant_List) ? 
@@ -1098,6 +1125,25 @@ const ConsultantList = () => {
                       :
                       null
                       }
+
+                      {
+                        permissions?.includes(permissionList?.Change_Status_Consultant) ?
+                        <>
+                          {checkSts ? (
+                          <td>
+
+                            <ToggleSwitch
+                              defaultChecked={consultant?.isActive}
+                              onChange={()=>handleUpdate(consultant)}
+                            />
+                         </td>
+                        ) : null}
+                        </>
+                      :
+                      null
+                      }
+
+                      
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">

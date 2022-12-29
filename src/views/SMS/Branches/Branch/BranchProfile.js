@@ -29,6 +29,7 @@ import Team from "../IndividualComponent/Team";
 import AssignTeam from "../IndividualComponent/AssignTeam";
 import PaginatedTables from "../IndividualComponent/PaginatedTables";
 import Loader from "../../Search/Loader/Loader";
+import ApplicationListForBranch from "../IndividualComponent/ApplicationListForBranch";
 
 const BranchProfile = (props) => {
   const history = useHistory();
@@ -274,6 +275,8 @@ const BranchProfile = (props) => {
           <PaginatedTables
           id={id}
           />
+
+          <ApplicationListForBranch id={id} />
     
 
         
