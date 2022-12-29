@@ -204,6 +204,8 @@ const CampusList = (props) => {
     setUniCountryValue(0);
     setUniStateLabel("Select State");
     setUniStateValue(0);
+    setUniCampusLabel("Select City");
+    setUniCampusValue(0);
     setSelectedId(0);
     setModalOpen(false);
   };
@@ -293,7 +295,7 @@ const CampusList = (props) => {
           setUniStateValue(0);
           setModalOpen(false);
           setUniCampusLabel('Select City');
-            setUniCampusValue(0);
+          setUniCampusValue(0);
         }
       });
     }
@@ -319,6 +321,8 @@ const CampusList = (props) => {
     .then(res =>{
       setUniCampus(res);
     })
+    setUniCampusLabel("Select City");
+    setUniCampusValue(0);
   };
 
   const selectUniCity = (label,value) => {

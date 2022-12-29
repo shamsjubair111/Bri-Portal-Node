@@ -58,6 +58,11 @@ const UniversityCampusForm = () => {
   const [uniCountryValue, setUniCountryValue] = useState(0);
   const [uniCountryError, setUniCountryError] = useState(false);
 
+  const [city, setCity] = useState([]);
+  const [cityLabel, setCityLabel] = useState("Select Campus City");
+  const [cityValue, setCityValue] = useState(0);
+  const [cityError, setCityError] = useState(false);
+
   const [radioHomeVal, setRadioHomeVal] = useState(false);
   const [radioEuUkVal, setRadioEuUkVal] = useState(false);
   const [radioInternationalVal, setRadioInternationalVal] = useState(false);
@@ -131,6 +136,11 @@ const UniversityCampusForm = () => {
     });
     setUniStateLabel('Select Campus State')
     setUniStateValue(0);
+    get(`UniversityCityDD/Index/${value}`).then((res) => {
+      setCity(res);
+    });
+    setCityLabel("Select Campus City");
+    setCityValue(0);
   };
 
   // select University State
@@ -138,6 +148,12 @@ const UniversityCampusForm = () => {
     setUniStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
+  };
+
+  const selectCampusCity = (label, value) => {
+    setCityError(false);
+    setCityLabel(label);
+    setCityValue(value);
   };
 
   const AuthStr = localStorage.getItem("token");
@@ -156,6 +172,9 @@ const UniversityCampusForm = () => {
     }
     else if(unistateValue === 0){
       setUniStateError(true);
+    }
+    else if(cityValue === 0){
+      setCityError(true);
     }
     else{
       
@@ -200,6 +219,11 @@ const UniversityCampusForm = () => {
   const universityStateName = universityStates?.map((uniState) => ({
     label: uniState.name,
     value: uniState.id,
+  }));
+
+  const cityOptions = city?.map((c) => ({
+    label: c.name,
+    value: c.id,
   }));
 
 //   const cancel = () => {
@@ -348,14 +372,21 @@ const UniversityCampusForm = () => {
                         </span>
                       </Col>
                       <Col md="6">
-                        <Input
-                          type="text"
-                          name="CampusCity"
-                          id="CampusCity"
-                          defaultValue={universityCampusObject?.campusCity}
-                          placeholder="Write Campus City Name"
-                          required
-                        />
+                        
+                        <Select
+                           options={cityOptions}
+                           value={{ label: cityLabel, value: cityValue }}
+                           onChange={(opt) => selectCampusCity(opt.label, opt.value)}
+                           name="campusCityId"
+                           id="campusCityId"
+                         />
+
+                         {cityError && (
+                           <span className="text-danger">
+                             Campus city is required
+                           </span>
+                         )}
+
                         {/* <div className="form-control-position">
                               <User size={15} />
                           </div> */}

@@ -79,6 +79,11 @@ const AddUniversityCampus = (props) => {
   const [UniversityCampusName, setUniversityCampusName] = useState('');
   const [UniversityCampusId, setUniversityCampusId] = useState(0);
 
+  const [city, setCity] = useState([]);
+  const [cityLabel, setCityLabel] = useState("Select Campus City");
+  const [cityValue, setCityValue] = useState(0);
+  const [cityError, setCityError] = useState(false);
+
   const [buttonStatus,setButtonStatus] = useState(false);
   const [progress, setProgress] = useState(false);
   const [progress1, setProgress1] = useState(false);
@@ -110,6 +115,7 @@ const AddUniversityCampus = (props) => {
         //  get(`UniversityCampus/GetByUniversity/${localStorage.getItem('editUniId')}`).then((action) => {
         // get(`UniversityCampus/GetByUniversity/${universityId}`).then((action) => {
         setuniversityCampusList(action);
+        console.log("unicamp Data", action);
         if (action.length > 0) {
           setShowForm(true);
         } else {
@@ -119,7 +125,12 @@ const AddUniversityCampus = (props) => {
         
       }
     );
-  }, [success, uniId, universityId, univerId]);
+  }, [
+       success, 
+      //  uniId, 
+      //  universityId, 
+      //  univerId
+     ]);
 
   // tab toggle
   const toggle = (tab) => {
@@ -164,6 +175,11 @@ const AddUniversityCampus = (props) => {
     });
     setUniStateLabel('Select Campus State')
     setUniStateValue(0);
+    get(`UniversityCityDD/Index/${value}`).then((res) => {
+      setCity(res);
+    });
+    setCityLabel("Select Campus City");
+    setCityValue(0);
   };
 
   // select University State
@@ -171,6 +187,12 @@ const AddUniversityCampus = (props) => {
     setUniStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
+  };
+
+  const selectCampusCity = (label, value) => {
+    setCityError(false);
+    setCityLabel(label);
+    setCityValue(value);
   };
 
   const AuthStr = localStorage.getItem("token");
@@ -189,6 +211,9 @@ const AddUniversityCampus = (props) => {
     }
     else if(unistateValue === 0){
       setUniStateError(true);
+    }
+    else if(cityValue === 0){
+      setCityError(true);
     }
     else{
       if (selectedId === 0) {
@@ -214,6 +239,8 @@ const AddUniversityCampus = (props) => {
             setUniCountryValue(0);
             setUniStateLabel("Select Campus State");
             setUniStateValue(0);
+            setCityLabel("Select Campus City");
+            setCityValue(0);
             setSuccess(!success);
           }
         });
@@ -237,6 +264,8 @@ const AddUniversityCampus = (props) => {
             setUniCountryValue(0);
             setUniStateLabel("Select Campus State");
             setUniStateValue(0);
+            setCityLabel("Select Campus City");
+            setCityValue(0);
             setSuccess(!success);
           }
         });
@@ -265,6 +294,10 @@ const AddUniversityCampus = (props) => {
   const universityStateName = universityStates?.map((uniState) => ({
     label: uniState.name,
     value: uniState.id,
+  }));
+  const cityOptions = city?.map((c) => ({
+    label: c.name,
+    value: c.id,
   }));
 
   const styleLabelBold = {
@@ -327,14 +360,15 @@ const AddUniversityCampus = (props) => {
     setShowForm(false);
 
     get(`UniversityCampus/Get/${id}`).then((action) => {
-      
       setuniversityCampusObject(action);
-      setUniCountryLabel(action?.universityCountry?.name);
-      setUniCountryValue(action?.universityCountry?.id);
+      // setUniCountryLabel(action?.universityCountry?.name);
+      // setUniCountryValue(action?.universityCountry?.id);
+      selectUniCountry(action?.universityCountry?.name, action?.universityCountry?.id);
       setUniStateLabel(action?.universityState?.name);
       setUniStateValue(action?.campusStateId);
       setSelectedId(action?.id);
-      
+      setCityLabel(action?.universityCity?.name);
+      setCityValue(action?.universityCity?.id);
     });
   };
 
@@ -357,6 +391,8 @@ const AddUniversityCampus = (props) => {
     setUniCountryValue(0);
     setUniStateLabel("Select Campus State");
     setUniStateValue(0);
+    setCityLabel("Select Campus City");
+    setCityValue(0);
   };
   return (
     <div>
@@ -589,14 +625,19 @@ const AddUniversityCampus = (props) => {
                         </span>
                       </Col>
                       <Col md="6">
-                        <Input
-                          type="text"
-                          name="CampusCity"
-                          id="CampusCity"
-                          defaultValue={universityCampusObject?.campusCity}
-                          placeholder="Write Campus City Name"
-                          required
-                        />
+                      <Select
+                           options={cityOptions}
+                           value={{ label: cityLabel, value: cityValue }}
+                           onChange={(opt) => selectCampusCity(opt.label, opt.value)}
+                           name="campusCityId"
+                           id="campusCityId"
+                         />
+
+                         {cityError && (
+                           <span className="text-danger">
+                             Campus city is required
+                           </span>
+                         )}
                         {/* <div className="form-control-position">
                               <User size={15} />
                           </div> */}
@@ -906,12 +947,12 @@ const AddUniversityCampus = (props) => {
                           </h6>
                           <p>
                             {" "}
-                            {uniCampus?.campusCity},{" "}
+                            {uniCampus?.universityCity?.name},{" "}
                             {uniCampus?.universityState?.name},{" "}
                             {uniCampus?.universityCountry?.name}{" "}
                           </p>
                           <p> {uniCampus?.addressLine}</p>
-                          <p> {uniCampus?.addressLine}</p>
+                          {/* <p> {uniCampus?.addressLine}</p> */}
                         </Col>
 
                         <Col md="6">
