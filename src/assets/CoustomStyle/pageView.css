@@ -682,6 +682,29 @@ margin-left: 5px;
   font-size:15px;
   color: #ffffff;
   }
+
+.edit1-adm {
+	color: #364649;
+}
+
+.edit1-adm{
+
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff;
+  text-align: center;
+  border-radius: 50%;
+  z-index: 20;
+  position: relative;
+  left: -30px;
+  bottom: -30px;
+}
+
+.edit1-adm i{
+  line-height: 30px;
+  font-size:15px;
+  color: #1e98b0;
+  }
 /* profile pic version 2 ends here */
 
 .uapp-employee-cover-image {

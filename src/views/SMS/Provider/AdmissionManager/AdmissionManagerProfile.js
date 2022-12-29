@@ -33,6 +33,8 @@ import uapploader from '../../../../assets/img/Uapp_fav.png';
 import ButtonLoader from "../../Components/ButtonLoader";
 import Loader from "../../Search/Loader/Loader";
 import Intersect from '../../../../assets/img/Intersect.png';
+import bulb from '../../../../assets/img/bulb.png';
+import user from '../../../../assets/img/Uapp_fav.png';
 
 const AdmissionManagerProfile = () => {
   const { managerId, providerId } = useParams();
@@ -759,52 +761,177 @@ const selectNameTitle = (label, value) => {
 
 
 
-        <Card>
+       
+
+          <div className="row">
+          {
+                        permissions?.includes(permissionList.Change_Admission_Manager_profileImage) ?
+                <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
+                       <ModalHeader>Update Profile Photo</ModalHeader>
+
+                       <ModalBody>
+                         <form onSubmit={handleSubmitProfilePhoto}>
+                           <input type="hidden" name="id" id="id" value={managerId} />
+
+                          
+
+                           <FormGroup row className="has-icon-left position-relative">
+                             <Col className='ml-5' md="4">
+                               <span>
+                                 Profile Photo <span className="text-danger">*</span>{" "}
+                               </span>
+                             </Col>
+                             <Col md="6">
+                               <div className="row d-flex">
+                               
+
+                                 <div className="col-md-6">
+                                   <>
+                                     <Upload
+                                       listType="picture-card"
+                                       multiple={false}
+                                       fileList={FileList1}
+                                       onPreview={handlePreview1}
+                                       onChange={handleChange1}
+                                       beforeUpload={(file) => {
+                                         return false;
+                                       }}
+                                     >
+                                       {FileList1.length < 1 ? (
+                                         <div className="text-danger" style={{ marginTop: 8 }}>
+                                           <Icon.Upload />
+                                           <br />
+                                           <span>Upload Image Here</span>
+                                         </div>
+                                       ) : (
+                                         ""
+                                       )}
+                                     </Upload>
+                                     <Modal
+                                       visible={previewVisible1}
+                                       title={previewTitle1}
+                                       footer={null}
+                                       onCancel={handleCancel1}
+                                     >
+                                       <img
+                                         alt="example"
+                                         style={{ width: "100%" }}
+                                         src={previewImage1}
+                                       />
+                                     </Modal>
+                      
+
+                                     <span className="text-danger d-block">{text1}</span>
+
+                                     {error1 && (
+                                       <span className="text-danger">
+                                         Profile photo is required
+                                       </span>
+                                     )}
+
+                                   </>
+                                 </div>
+                               </div>
+                             </Col>
+                           </FormGroup>
+
+                           <FormGroup row>
+                             <Col md="12">
+                               <div className="d-flex justify-content-end">
+                                 <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
+                                       Cancel
+                                 </Button>
+                                 <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
+                                   {progress ? <ButtonLoader/> : 'Update'}
+                                 </Button>
+                               </div>
+                             </Col>
+                           </FormGroup>
+                         </form>
+                       </ModalBody>
+                     </Modal>
+                                    :
+                                    null
+               }
+
+            <div className="col-md-10 col-sm-12">
+
+            <Card>
           <CardBody>
 
-            <div className="row">
+              <div className="row">
 
-              <div className="col-md-10 col-sm-12">
+                <div className="col-md-6 col-sm-12 left-adm-div">
 
-                <div className="row">
+                  <div className="adm-user-img">
+                   {
+                    (managerData?.admissionManagerMedia?.thumbnailUrl == null) ? 
 
-                  <div className="col-md-6 col-sm-12 bg-success">
-                    <div className="d-flex">
-                      <div className="d-flex">
-                        <img src={Intersect} className='img-fluid bg-danger'/>
-                        <img className="bg-warning" style={{height: '100px', width: '100px', borderRadius: '50%', position: 'relative', left: '-150px', top: '23px',   border: '3px solid white'}}  src={rootUrl+managerData?.admissionManagerMedia?.thumbnailUrl
-              } alt="admissionManager" />
+                    <img src={user} alt='admission_manager_media' />
+                    :
+                     <img src={rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl} alt='admission_manager_media' />
+                   }
 
-
-                      </div>
-
-                      <div style={{height: '148px'}} className='d-flex flex-column justify-content-center bg-primary'>
-                        <p style={{fontSize: '18px', fontWeight: '600', color: '#495057'}}>{managerData?.nameTittleName} {managerData?.firstName} {}{" "}
-                  {managerData?.lastName}{" "}</p>
-                       
-
-                      </div>
-                    </div>
+                    {
+                permissions?.includes(permissionList.Change_Admission_Manager_profileImage) ?
+               <span className="edit1-adm"  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span>
+                :
+                null
+               }
 
                   </div>
 
-                  <div className="col-md-6 col-sm-12">
+                  <div className="adm-manager-user-info ml-md-5 ml-ms-0">
+                    <p className="adm-user-title">{managerData?.nameTittleName} {managerData?.firstName} {}{" "}
+                  {managerData?.lastName}{" "}</p>
+
+                  <p><span className="adm-provider-css">Provider: </span><span className="adm-provider-css-name" onClick={()=>{
+                    history.push(`/providerDetails/${managerData?.providerId}`)
+                  }}>{managerData?.providerName}</span></p>
+                  </div>
+
+                </div>
+
+
+                <div className="col-md-6 col-sm-12 right-adm-div">
+
+                <div className="adm-manager-user-info ml-md-5 ml-ms-0">
+                   
+
+              <div className="mb-1">
+              <span className="adm-provider-css-name2">{managerData?.email}</span>
+              </div>
+                  
+                 <div className="mb-1">
+                 <span className="adm-provider-css-name2">{managerData?.phoneNumber}</span>
+                 </div>
+                
+                  <div className="mb-1">
+                  <span className="adm-provider-css">{managerData?.stateName}</span>
+                  </div>
+                  </div>
+
+                  <div className="adm-user-img2">
+                    <img src={bulb} alt='admission_manager_media' />
 
                   </div>
 
                 </div>
 
               </div>
-
-              <div className="col-md-2 col-sm-12">
-
-              </div>
+              </CardBody>
+        </Card>
 
             </div>
 
+            <div className="col-md-2 col-sm-0">
 
-          </CardBody>
-        </Card>
+            </div>
+
+          </div>
+
+
+        
 
 
 

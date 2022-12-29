@@ -29,6 +29,9 @@ import { permissionList } from "../../../../constants/AuthorizationConstant";
 import { rootUrl } from "../../../../constants/constants";
 import { Image, Upload } from "antd";
 import * as Icon from "react-feather";
+import bulb from '../../../../assets/img/bulb.png';
+import user from '../../../../assets/img/Uapp_fav.png';
+import ButtonLoader from "../../Components/ButtonLoader";
 
 const AdmissionManagerNewProfile = () => {
 
@@ -39,7 +42,7 @@ const AdmissionManagerNewProfile = () => {
     const [admissionOfficer, setAdmissionOfficer] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [assignModalOpen, setAssignModalOpen] = useState(false);
-  
+    const [progress,setProgress]= useState(false);
     const [officerDD, setOfficerDD] = useState([]);
     const [countryList, setCountryList] = useState([]);
     const [uniCountryLabel, setUniCountryLabel] = useState('Select Country');
@@ -565,12 +568,10 @@ const AdmissionManagerNewProfile = () => {
       </Card>
 
       <div className="uapp-employee-profile">
-        <Card className="uapp-employee-profile-right">
+        {/* <Card className="uapp-employee-profile-right">
           <div className="uapp-profile-CardHeader">
             <div className="uapp-circle-image margin-top-minus">
-            {/* <img className="empProfileImg"  src={
-                      rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl
-                    } alt="admissionManager"/> */}
+           
             <div className='profile-pic1'>
             <img className="empProfileImg"  src={
                       rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl
@@ -584,7 +585,7 @@ const AdmissionManagerNewProfile = () => {
              </div>
                 </div>
 
-                {/* profile photo edit modal starts here */}
+              
                 {
                         permissions?.includes(permissionList.Change_Admission_Manager_profileImage) ?
                 <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
@@ -594,7 +595,7 @@ const AdmissionManagerNewProfile = () => {
                          <form onSubmit={handleSubmitProfilePhoto}>
                            <input type="hidden" name="id" id="id" value={managerId} />
 
-                           {/* <input type="hidden" name="id" id="id" value={adminData?.id} /> */}
+                          
 
                            <FormGroup row className="has-icon-left position-relative">
                              <Col className='ml-5' md="4">
@@ -604,17 +605,7 @@ const AdmissionManagerNewProfile = () => {
                              </Col>
                              <Col md="6">
                                <div className="row d-flex">
-                                 {/* {consultantData?.consultantCoverImageMedia !== null ? (
-                                   <div className="col-md-6">
-                                     <Image
-                                       width={104}
-                                       height={104}
-                                       src={
-                                         rootUrl + consultantData?.consultantCoverImageMedia?.thumbnailUrl
-                                       }
-                                     />
-                                   </div>
-                                 ) : null} */}
+                                
 
                                  <div className="col-md-6">
                                    <>
@@ -684,7 +675,7 @@ const AdmissionManagerNewProfile = () => {
                                     :
                                     null
                }
-                     {/* profile photo edit modal ends here */} 
+                    
 
             <div className="py-3">
               <h5 className="py-1">
@@ -732,7 +723,176 @@ const AdmissionManagerNewProfile = () => {
               </ul>
             </div>
           </CardBody>
+        </Card> */}
+
+
+          <div className="row">
+          {
+                        permissions?.includes(permissionList.Change_Admission_Manager_profileImage) ?
+                <Modal isOpen={modalOpen2} toggle={closeModal1} className="uapp-modal">
+                       <ModalHeader>Update Profile Photo</ModalHeader>
+
+                       <ModalBody>
+                         <form onSubmit={handleSubmitProfilePhoto}>
+                           <input type="hidden" name="id" id="id" value={managerId} />
+
+                          
+
+                           <FormGroup row className="has-icon-left position-relative">
+                             <Col className='ml-5' md="4">
+                               <span>
+                                 Profile Photo <span className="text-danger">*</span>{" "}
+                               </span>
+                             </Col>
+                             <Col md="6">
+                               <div className="row d-flex">
+                               
+
+                                 <div className="col-md-6">
+                                   <>
+                                     <Upload
+                                       listType="picture-card"
+                                       multiple={false}
+                                       fileList={FileList1}
+                                       onPreview={handlePreview1}
+                                       onChange={handleChange1}
+                                       beforeUpload={(file) => {
+                                         return false;
+                                       }}
+                                     >
+                                       {FileList1.length < 1 ? (
+                                         <div className="text-danger" style={{ marginTop: 8 }}>
+                                           <Icon.Upload />
+                                           <br />
+                                           <span>Upload Image Here</span>
+                                         </div>
+                                       ) : (
+                                         ""
+                                       )}
+                                     </Upload>
+                                     <Modal
+                                       visible={previewVisible1}
+                                       title={previewTitle1}
+                                       footer={null}
+                                       onCancel={handleCancel1}
+                                     >
+                                       <img
+                                         alt="example"
+                                         style={{ width: "100%" }}
+                                         src={previewImage1}
+                                       />
+                                     </Modal>
+                      
+
+                                     <span className="text-danger d-block">{text1}</span>
+
+                                     {error1 && (
+                                       <span className="text-danger">
+                                         Profile photo is required
+                                       </span>
+                                     )}
+
+                                   </>
+                                 </div>
+                               </div>
+                             </Col>
+                           </FormGroup>
+
+                           <FormGroup row>
+                             <Col md="12">
+                               <div className="d-flex justify-content-end">
+                                 <Button color='danger' onClick={closeModal1} className='mr-1 mt-3'>
+                                       Cancel
+                                 </Button>
+                                 <Button type="submit" className="ml-1 mt-3" color="primary" disabled={buttonStatus1}>
+                                   {progress ? <ButtonLoader/> : 'Update'}
+                                 </Button>
+                               </div>
+                             </Col>
+                           </FormGroup>
+                         </form>
+                       </ModalBody>
+                     </Modal>
+                                    :
+                                    null
+               }
+
+            <div className="col-md-10 col-sm-12">
+
+            <Card>
+          <CardBody>
+
+              <div className="row">
+
+                <div className="col-md-6 col-sm-12 left-adm-div">
+
+                  <div className="adm-user-img">
+                   {
+                    (managerData?.admissionManagerMedia?.thumbnailUrl == null) ? 
+
+                    <img src={user} alt='admission_manager_media' />
+                    :
+                     <img src={rootUrl + managerData?.admissionManagerMedia?.thumbnailUrl} alt='admission_manager_media' />
+                   }
+
+                    {
+                permissions?.includes(permissionList.Change_Admission_Manager_profileImage) ?
+               <span className="edit1-adm"  onClick={updateProfilePic}><i className="fas fa-camera" style={{cursor: "pointer"}} > </i ></span>
+                :
+                null
+               }
+
+                  </div>
+
+                  <div className="adm-manager-user-info ml-md-5 ml-ms-0">
+                    <p className="adm-user-title">{managerData?.nameTittleName} {managerData?.firstName} {}{" "}
+                  {managerData?.lastName}{" "}</p>
+
+                  <p><span className="adm-provider-css">Provider: </span><span className="adm-provider-css-name" onClick={()=>{
+                    history.push(`/providerDetails/${managerData?.providerId}`)
+                  }}>{managerData?.providerName}</span></p>
+                  </div>
+
+                </div>
+
+
+                <div className="col-md-6 col-sm-12 right-adm-div">
+
+                <div className="adm-manager-user-info ml-md-5 ml-ms-0">
+                   
+
+              <div className="mb-1">
+              <span className="adm-provider-css-name2">{managerData?.email}</span>
+              </div>
+                  
+                 <div className="mb-1">
+                 <span className="adm-provider-css-name2">{managerData?.phoneNumber}</span>
+                 </div>
+                
+                  <div className="mb-1">
+                  <span className="adm-provider-css">{managerData?.stateName}</span>
+                  </div>
+                  </div>
+
+                  <div className="adm-user-img2">
+                    <img src={bulb} alt='admission_manager_media' />
+
+                  </div>
+
+                </div>
+
+              </div>
+              </CardBody>
         </Card>
+
+            </div>
+
+            <div className="col-md-2 col-sm-0">
+
+            </div>
+
+          </div>
+
 
         <div className=" info-item mt-4">
           <Card>
