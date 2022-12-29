@@ -298,7 +298,7 @@ const ApplicationsCommon = () => {
         const result = res?.find(ans => ans?.id == status);
         console.log('Result', result);
         setApplicationLabel(result?.name);
-        setApplicationValue(result?.id);
+        
       }
     });
 
@@ -308,7 +308,7 @@ const ApplicationsCommon = () => {
         const result = res?.find(ans => ans?.id == status);
         console.log('Result', result);
         setOfferLabel(result?.name);
-        setOfferValue(result?.id);
+      
       }
     });
 
@@ -318,7 +318,7 @@ const ApplicationsCommon = () => {
         const result = res?.find(ans => ans?.id == status);
         console.log('Result', result);
         setEnrollLabel(result?.name);
-        setEnrollValue(result?.id);
+       
       }
     });
 
@@ -364,7 +364,7 @@ const ApplicationsCommon = () => {
 
     
 
-    if (consultantId !== undefined) {
+   (consultantId !== undefined) ?
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantId}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
@@ -372,9 +372,10 @@ const ApplicationsCommon = () => {
         setApplicationList(res?.models);
        
         setEntity(res?.totalEntity);
-        // setSerialNumber(res?.firstSerialNumber);
-      });
-    } else if (universityId !== undefined) {
+     
+      })
+      :
+     (universityId !== undefined) ?
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${universityId}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
@@ -383,11 +384,51 @@ const ApplicationsCommon = () => {
        
         
         setEntity(res?.totalEntity);
-        // setSerialNumber(res?.firstSerialNumber);
-      });
-    }
+     
+      })
+      
+      :
    
-    else {
+      (selector == 1) ?
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${status}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        
+        setEntity(res?.totalEntity);
+       
+      })
+
+      :
+
+      (selector == 2) ?
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${status}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        
+        setEntity(res?.totalEntity);
+       
+      })
+
+      :
+
+      (selector == 3) ?
+      get(
+        `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${status}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
+      ).then((res) => {
+        setLoading(false);
+        setApplicationList(res?.models);
+        
+        setEntity(res?.totalEntity);
+       
+      })
+
+      :
+
+     
       get(
         `Application/GetPaginated?page=${currentPage}&pagesize=${dataPerPage}&uappStudentId=${commonUappIdValue}&studentId=${commonStdValue}&consultantId=${consultantValue}&universityId=${commonUniValue}&appId=${applicationId}&applicationStatusId=${applicationValue}&offerStatusId=${offerValue}&enrollmentId=${enrollValue}&intakeId=${intakeValue}&interviewId=${interviewValue}&elptId=${elptValue}&studentFinanceId=${financeValue}&orderId=${orderValue}`
       ).then((res) => {
@@ -395,9 +436,10 @@ const ApplicationsCommon = () => {
         setApplicationList(res?.models);
         
         setEntity(res?.totalEntity);
-        // setSerialNumber(res?.firstSerialNumber);
-      });
-    }
+       
+      })
+
+    
   }, [
     currentPage,
     dataPerPage,
