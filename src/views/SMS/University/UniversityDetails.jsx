@@ -109,6 +109,10 @@ const UniversityDetails = () => {
   const [stateError, setStateError] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [universityStates, setUniversityStates] = useState([]);
+  const [city, setCity] = useState([]);
+  const [cityLabel, setCityLabel] = useState("Select City");
+  const [cityValue, setCityValue] = useState(0);
+  const [cityError, setCityError] = useState(false);
 
   const [delGalName, setDelGalName] = useState("");
   const [delGalId, setDelGalId] = useState(0);
@@ -248,14 +252,21 @@ const UniversityDetails = () => {
     setCountryError(false);
     setUniCountryLabel(label);
     setUniCountryValue(value);
-    setUniStateLabel("Select State");
-    setUniStateValue(0);
+    
     get(`UniversityStateDD/Index/${value}`).then((res) => {
       
       // setUniStateLabel(res.name)
       // setUniStateValue(res.id)
       setUniversityStates(res);
     });
+    setUniStateLabel("Select State");
+    setUniStateValue(0);
+
+    get(`UniversityCityDD/Index/${value}`).then((res) => {
+      setCity(res);
+    });
+    setCityLabel("Select City");
+    setCityValue(0);
   };
 
   const universityStateName = universityStates?.map((uniState) => ({
@@ -263,11 +274,22 @@ const UniversityDetails = () => {
     value: uniState.id,
   }));
 
+  const cityOptions = city?.map((c) => ({
+    label: c.name,
+    value: c.id,
+  }));
+
   // select University State
   const selectUniState = (label, value) => {
     setStateError(false);
     setUniStateLabel(label);
     setUniStateValue(value);
+  };
+
+  const selectCampusCity = (label, value) => {
+    setCityError(false);
+    setCityLabel(label);
+    setCityValue(value);
   };
 
   const handleSubmitCampus = (event) => {
@@ -278,7 +300,11 @@ const UniversityDetails = () => {
       setCountryError(true);
     } else if (unistateValue === 0) {
       setStateError(true);
-    } else {
+    } 
+    else if(cityValue === 0){
+      setCityError(true);
+    }
+    else {
       setButtonStatus2(true);
       setProgress4(true);
       post(`UniversityCampus/Create`, subdata).then((res) => {
@@ -298,6 +324,8 @@ const UniversityDetails = () => {
           setUniCountryValue(0);
           setUniStateLabel("Select State");
           setUniStateValue(0);
+          setCityLabel("Select City");
+          setCityValue(0);
         }
       });
     }
@@ -636,10 +664,14 @@ const UniversityDetails = () => {
 
   // on Close Modal
   const closeModal = () => {
+    setCity([]);
+    setUniversityStates([]);
     setUniCountryLabel("Select Country");
     setUniCountryValue(0);
     setUniStateLabel("Select State");
     setUniStateValue(0);
+    setCityLabel("Select City");
+    setCityValue(0);
     setModalOpen(false);
   };
 
@@ -1772,16 +1804,19 @@ const UniversityDetails = () => {
                               </span>
                             </Col>
                             <Col md="6">
-                              <Input
-                                type="text"
-                                name="CampusCity"
-                                id="CampusCity"
-                                placeholder="Enter Campus City Name"
-                                required
-                              />
-                              {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                               <Select
+                                 options={cityOptions}
+                                 value={{ label: cityLabel, value: cityValue }}
+                                 onChange={(opt) => selectCampusCity(opt.label, opt.value)}
+                                 name="campusCityId"
+                                 id="campusCityId"
+                               />
+
+                               {cityError && (
+                                 <span className="text-danger">
+                                   Campus city is required
+                                 </span>
+                               )}
                             </Col>
                           </FormGroup>
 
