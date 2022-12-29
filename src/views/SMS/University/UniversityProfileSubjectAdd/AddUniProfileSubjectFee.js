@@ -49,6 +49,7 @@ const AddUniProfileSubjectFee = () => {
     const [addLocalTutionFee, setAddLocalTutionFee] = useState(undefined);
     const [addIntTutionFee, setAddIntTutionFee] = useState(undefined);
     const [addEUTutionFee, setAddEUTutionFee] = useState(undefined);
+    const [avFee,setAvFee] = useState(undefined);
 
     const history = useHistory();
     const { addToast } = useToasts();
@@ -73,7 +74,7 @@ const AddUniProfileSubjectFee = () => {
           setAddLocalTutionFee(res?.localTutionFee);
           setAddIntTutionFee(res?.internationalTutionFee);
           setAddEUTutionFee(res?.eU_TutionFee);
-
+          setAvFee(res?.averageApplicationFee);
           setSId(res?.subjectId);
           setId(res?.id);
         })
@@ -112,7 +113,8 @@ const AddUniProfileSubjectFee = () => {
       subjectId: subjId,
       localTutionFee: addLocalTutionFee == undefined ? 0 : addLocalTutionFee,
       internationalTutionFee: addIntTutionFee == undefined ? 0 : addIntTutionFee,
-      eU_TutionFee: addEUTutionFee == undefined ? 0 : addEUTutionFee
+      eU_TutionFee: addEUTutionFee == undefined ? 0 : addEUTutionFee,
+      averageApplicationFee: avFee == undefined? 0 : avFee
     }
 
     for (var value of subdata.values()) { 
@@ -306,6 +308,27 @@ const AddUniProfileSubjectFee = () => {
                       onChange={(e)=>setAddEUTutionFee(e.target.value)}
                       defaultValue={addEUTutionFee}
                       placeholder="Enter EU Tution Fee"
+                      // required
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Average Application Fee
+                      {/* <span className="text-danger">*</span>{" "} */}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      min="0"
+                      name="averageApplicationFee"
+                      id="averageApplicationFee"
+                      onChange={(e)=>setAvFee(e.target.value)}
+                      defaultValue={avFee}
+                      placeholder="Enter Average Application Fee"
                       // required
                     />
                   </Col>
