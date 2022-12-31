@@ -46,11 +46,8 @@ const ApplicationListForBranch = ({id}) => {
 
         get(`Branch/Applicationlist?page=${currentPage}&pagesize=${dataPerPage}&id=${id}`)
         .then(res => {
-          console.log("app Data", res);
           setApplications(res?.models);
           setEntity(res?.totalEntity);
-        //   setConsultant(res?.models);
-        //   setEntity6(res?.totalEntity);
         })
 
     },[

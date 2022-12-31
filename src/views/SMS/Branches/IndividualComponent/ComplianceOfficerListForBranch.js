@@ -143,7 +143,6 @@ const ComplianceOfficerListForBranch = ({ id }) => {
     if (updateId !== undefined) {
       get(`ComplianceOfficer/Get/${updateId}`).then((res) => {
         setOfficerInfo(res);
-        console.log("complianceManagerData", res);
         setCountryLabel(res?.country?.name);
         setCountryValue(res?.country.id);
         setStateLabel(res?.state?.name);
@@ -156,11 +155,8 @@ const ComplianceOfficerListForBranch = ({ id }) => {
     get(
       `ComplianceOfficer/Getpaginated?page=${currentPage}&pageSize=${dataPerPage}&branchId=${id}`
     ).then((res) => {
-      console.log("compliance officer Data", res);
       setApplications(res?.models);
       setEntity(res?.totalEntity);
-      //   setConsultant(res?.models);
-      //   setEntity6(res?.totalEntity);
     });
   }, [currentPage, dataPerPage, callApi, success, updateId]);
 
@@ -371,7 +367,7 @@ const ComplianceOfficerListForBranch = ({ id }) => {
             </div>
           </div>
 
-          {permissions?.includes(permissionList.Add_New_University) ? (
+          {permissions?.includes(permissionList.Add_New_ComplianceOfficer) ? (
             <ButtonForFunction
               func={handleModalOpen}
               className={" btn btn-uapp-add mt-2"}
@@ -379,7 +375,8 @@ const ComplianceOfficerListForBranch = ({ id }) => {
               name={" Add Compliance Officer"}
               permission={6}
             />
-          ) : null}
+            ) : null
+          }
 
           <Modal
             isOpen={modalOpen}
@@ -712,7 +709,7 @@ const ComplianceOfficerListForBranch = ({ id }) => {
                     <td style={{ width: "8%" }} className="text-center">
                       <ButtonGroup variant="text">
                         {permissions?.includes(
-                          permissionList?.View_Branch_info
+                          permissionList?.View_ComplianceOfficer_List
                         ) ? (
                           <ButtonForFunction
                             color={"primary"}
@@ -726,7 +723,7 @@ const ComplianceOfficerListForBranch = ({ id }) => {
                         ) : null}
 
                         {permissions?.includes(
-                          permissionList.Update_Branch_info
+                          permissionList.Update_ComplianceOfficer_info
                         ) ? (
                           <>
                             <ButtonForFunction
@@ -740,7 +737,7 @@ const ComplianceOfficerListForBranch = ({ id }) => {
                         ) : null}
 
                         {permissions?.includes(
-                          permissionList?.Delete_Branch
+                          permissionList?.Delete_ComplianceOfficer
                         ) ? (
                           <>
                               <ButtonForFunction

@@ -747,4 +747,12 @@ export const  permissionList = {
     Delete_city : 571,
     Update_Application_Intake : 572,
 
+    View_ComplianceOfficer_List : 573,
+    Add_New_ComplianceOfficer : 574,
+    Update_ComplianceOfficer_info: 575,
+    View_ComplianceOfficer_info : 576,
+    Delete_ComplianceOfficer : 577,
+    Change_ComplianceOfficer_Status : 578,
+    Change_ComplianceOfficer_profileImage : 579,
+
 }

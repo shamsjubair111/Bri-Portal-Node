@@ -184,7 +184,7 @@ const ComplianceOfficerList = () => {
         <CardBody>
           <Row className="mb-3">
             <Col lg="6" md="6" sm="12" xs="12"  style={{marginBottom: "10px"}}>
-              {permissions?.includes(permissionList?.Add_New_Branch) ? (
+              {permissions?.includes(permissionList?.Add_New_ComplianceOfficer) ? (
                 <LinkButton
                   url={"/complianceOfficerInformation"}
                   //  func={handleLocalStorage}
@@ -497,7 +497,7 @@ const ComplianceOfficerList = () => {
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
                             {
-                              permissions?.includes(permissionList?.View_Branch_info) ?
+                              permissions?.includes(permissionList?.View_ComplianceOfficer_List) ?
                               <ButtonForFunction
                               color={"primary"}
                               className={"mx-1 btn-sm"}
@@ -519,7 +519,7 @@ const ComplianceOfficerList = () => {
                             permission={6}
                           /> */}
                            {
-                            (permissions?.includes(permissionList.Update_Branch_info)) ?
+                            (permissions?.includes(permissionList.Update_ComplianceOfficer_info)) ?
                             <>
                              
                             <ButtonForFunction
@@ -536,7 +536,7 @@ const ComplianceOfficerList = () => {
                            }
 
                             {
-                              permissions?.includes(permissionList?.Delete_Branch) ?
+                              permissions?.includes(permissionList?.Delete_ComplianceOfficer) ?
                               <>
                               {
                               comp?.email !== 'info@smsheg.co.uk'?
