@@ -17,7 +17,7 @@ const AddComplianceOfficer = () => {
 
       const history = useHistory();
       const { addToast } = useToasts();
-      const {branchId} = useParams();
+      const {complianceOfficerId} = useParams();
    
       const [submitData, setSubmitData] = useState(false);
       const [countryLabel, setCountryLabel] = useState("Select Country");
@@ -26,7 +26,7 @@ const AddComplianceOfficer = () => {
       const [stateValue, setStateValue] = useState(0);
       const [country,setCountry] = useState([]);
       const [state,setState] = useState([]);
-      const [branchInfo,setBranchInfo] = useState({});
+      const [officerInfo,setOfficerInfo] = useState({});
       const location = useLocation();
 
       const [title, setTitle] = useState([]);
@@ -110,18 +110,25 @@ const AddComplianceOfficer = () => {
         setBranch(res);
       });
        
-    //    get(`Branch/Get/${branchId}`)
-    //    .then(res => {
+      if(complianceOfficerId !== undefined){
+        get(`ComplianceOfficer/Get/${complianceOfficerId}`)
+       .then(res => {
          
-    //     setBranchInfo(res)
-    //     setCountryLabel(res?.country?.name);
-    //     setCountryValue(res?.country.id);
-    //     setStateLabel(res?.state?.name);
-    //     setStateValue(res?.state?.id);
-    //    })
+        setOfficerInfo(res);
+        console.log("complianceManagerData", res);
+        setCountryLabel(res?.country?.name);
+        setCountryValue(res?.country.id);
+        setStateLabel(res?.state?.name);
+        setStateValue(res?.state?.id);
+        setTitleLabel(res?.nameTittle?.name);
+        setTitleValue(res?.nameTittle?.id);
+        setBranchLabel(res?.branch?.name);
+        setBranchValue(res?.branch?.id);
+       })
+      }
     
    
-     },[branchId])
+     },[])
 
      
   
@@ -242,10 +249,10 @@ const AddComplianceOfficer = () => {
     }
     else{
 
-      if(branchId){
+      if(complianceOfficerId){
         setButtoStatus(true);
         setProgress(true);
-        put('Branch/Update', subdata).then((res) => {
+        put('ComplianceOfficer/Update', subdata).then((res) => {
           
           setButtoStatus(false);
           setProgress(false);
@@ -256,7 +263,7 @@ const AddComplianceOfficer = () => {
               autoDismiss: true,
             })
             history.push({
-              pathname: "/branchList"
+              pathname: "/complianceOfficerList"
              
             });
           }
@@ -324,10 +331,10 @@ const AddComplianceOfficer = () => {
           <div>
               <Form className="mt-5" onSubmit={handleSubmit}>
                 {
-                  branchId? 
+                  complianceOfficerId ? 
                   <Input 
                   type='hidden'
-                  value={branchId}
+                  value={complianceOfficerId}
                   name='id'
                   id='id' />
                   :
@@ -370,7 +377,7 @@ const AddComplianceOfficer = () => {
                       id="firstName"
                       placeholder="Enter First Name"
                       required
-                    //   defaultValue={branchInfo?.name}
+                      defaultValue={officerInfo?.firstName}
                     />
                 
                   </Col>
@@ -389,7 +396,7 @@ const AddComplianceOfficer = () => {
                       id="lastName"
                       placeholder="Enter Last Name"
                       required
-                    //   defaultValue={branchInfo?.name}
+                      defaultValue={officerInfo?.lastName}
                     />
                 
                   </Col>
@@ -408,7 +415,7 @@ const AddComplianceOfficer = () => {
                       id="email"
                       placeholder="Enter Email"
                       required
-                    //   defaultValue={branchInfo?.email}
+                      defaultValue={officerInfo?.email}
                       onBlur={handleEmail}
                     />
                     {
@@ -434,7 +441,7 @@ const AddComplianceOfficer = () => {
                       name="phoneNumber"
                       id="phoneNumber"
                       placeholder="Enter Phone Number"
-                    //   defaultValue={branchInfo?.phoneNumber}
+                      defaultValue={officerInfo?.phoneNumber}
                     
                     />
                 
@@ -453,14 +460,15 @@ const AddComplianceOfficer = () => {
                       name="postCode"
                       id="postCode"
                       placeholder="Enter Post Code"
-                      
-                    //   defaultValue={branchInfo?.telePhoneNumber}
+                      defaultValue={officerInfo?.postCode}
                     />
                 
                   </Col>
                 </FormGroup>
                 
-                <FormGroup row className="has-icon-left position-relative">
+                {
+                  complianceOfficerId ? null :
+                  <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
                       Password <span className="text-danger">*</span>{" "}
@@ -478,6 +486,7 @@ const AddComplianceOfficer = () => {
                 
                   </Col>
                 </FormGroup>
+                }
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -571,7 +580,7 @@ const AddComplianceOfficer = () => {
                       id="city"
                       placeholder="Enter City Name"
                       required
-                    //   defaultValue={branchInfo?.branchCode}
+                      defaultValue={officerInfo?.city}
                     />
                 
                   </Col>
@@ -583,8 +592,19 @@ const AddComplianceOfficer = () => {
                   </Col>
                   <Col md="4">
                     <div className="row">
-                      <div className="col-md-3">
-                        <>
+                    {officerInfo?.complianceOfficerMedia ? (
+                        <div className="col-md-4">
+                          <Image
+                            width={104}
+                            height={104}
+                            src={
+                              rootUrl + officerInfo?.complianceOfficerMedia?.thumbnailUrl
+                            }
+                          />
+                        </div>
+                      ) : null}
+                      <div className="col-md-4">
+                        
                           <Upload
                             listType="picture-card"
                             multiple={false}
@@ -618,7 +638,7 @@ const AddComplianceOfficer = () => {
                             />
                           </Modal>
                           
-                        </>
+                        
                       </div>
                     </div>
                     <span className="text-danger d-block">{error}</span>

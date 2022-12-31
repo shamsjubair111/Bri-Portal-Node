@@ -78,7 +78,7 @@ const ComplianceOfficerList = () => {
   // };
 
   const handleUpdate = (id) => {
-    history.push(`/branchInformation/${id}`);
+    history.push(`/complianceOfficerInformation/${id}`);
   };
 
   const handleDeleteCompOfficer = () => {
@@ -186,7 +186,7 @@ const ComplianceOfficerList = () => {
             <Col lg="6" md="6" sm="12" xs="12"  style={{marginBottom: "10px"}}>
               {permissions?.includes(permissionList?.Add_New_Branch) ? (
                 <LinkButton
-                  url={"/addComplianceOfficer"}
+                  url={"/complianceOfficerInformation"}
                   //  func={handleLocalStorage}
                   className={"btn btn-uapp-add "}
                   icon={<i className="fas fa-plus"></i>}
@@ -521,18 +521,15 @@ const ComplianceOfficerList = () => {
                            {
                             (permissions?.includes(permissionList.Update_Branch_info)) ?
                             <>
-                             {
-                              comp?.email  !== 'info@smsheg.co.uk' ?
+                             
                             <ButtonForFunction
                               color={"warning"}
                               className={"mx-1 btn-sm"}
-                            //   func={() => handleUpdate(singleBranch?.id)}
+                              func={() => handleUpdate(comp?.id)}
                               icon={<i className="fas fa-edit"></i>}
                               permission={6}
                             />
-                            : 
-                            null
-                            }
+                            
                             </>
                             :
                             null

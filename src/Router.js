@@ -872,7 +872,7 @@ class AppRouter extends React.Component {
 
          {/* compliance officer */}
          <AppRoute  path="/complianceOfficerList" component={ComplianceOfficerList} />
-         <AppRoute  path="/addComplianceOfficer" component={AddComplianceOfficer} />
+         <AppRoute  path="/complianceOfficerInformation/:complianceOfficerId?" component={AddComplianceOfficer} />
 
          <AppRoute  path="/studentList" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
          <AppRoute  path="/studentListByType/:type" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />

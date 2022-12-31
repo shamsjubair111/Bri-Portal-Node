@@ -30,6 +30,7 @@ import AssignTeam from "../IndividualComponent/AssignTeam";
 import PaginatedTables from "../IndividualComponent/PaginatedTables";
 import Loader from "../../Search/Loader/Loader";
 import ApplicationListForBranch from "../IndividualComponent/ApplicationListForBranch";
+import ComplianceOfficerListForBranch from "../IndividualComponent/ComplianceOfficerListForBranch";
 
 const BranchProfile = (props) => {
   const history = useHistory();
@@ -276,10 +277,10 @@ const BranchProfile = (props) => {
           id={id}
           />
 
+          <ComplianceOfficerListForBranch id={id} />
+
           <ApplicationListForBranch id={id} />
     
-
-        
         </Col>
 
         <Col md="4">
