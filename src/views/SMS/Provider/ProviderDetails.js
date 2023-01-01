@@ -880,7 +880,7 @@ const ProviderDetails = () => {
                       <li> {adminData?.phoneNumber} </li>
                     </ul>
 
-                    <div style={{ position: "relative", left: "55px" }}>
+                    <div style={{ position: "relative", left: "45px" }}>
                       <ButtonGroup>
                         {permissions?.includes(
                           permissionList?.View_Provider_Admin_info
