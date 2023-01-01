@@ -52,7 +52,7 @@ const SubjectProfile = () => {
       setCampusId(location?.campId);
       get(`Subject/Profile/${subjId}`)
       .then(res=>{
-       
+        console.log("sub data", res);
         setSubjectData(res);
         setUniversityId(res?.university?.id);
         setCampList(res?.campusSubjects);
@@ -450,8 +450,8 @@ const SubjectProfile = () => {
                 </div>    
                 
                 <div className='d-flex justify-content-center'>
-                  <h5>{subjectData?.university?.name} ({subjectData?.university?.shortName})</h5>
-                  <div>
+                  <h5><span style={{cursor: "pointer"}} onClick={() => handleRedirectUniProfile(subjectData)}>{subjectData?.university?.name} ({subjectData?.university?.shortName})</span></h5>
+                  {/* <div>
                   <ButtonForFunction
                     func={() => handleRedirectUniProfile(subjectData)}
                     color={"primary"}
@@ -459,7 +459,7 @@ const SubjectProfile = () => {
                     icon={<i className="fas fa-eye"></i>}
                     permission={6}
                   />
-                  </div>
+                  </div> */}
                 </div>
 
                  <p> {subjectData?.university?.universityType?.name} </p>  
@@ -556,6 +556,11 @@ const SubjectProfile = () => {
                      <div className='d-flex justify-content-between'>
                         <span>Local Tution Fee</span>
                         <p>{subjectData?.university?.universityCountry?.id == 1 ?  '£' : subjectData?.university?.universityCountry?.id == 3 ? 'CA$' : subjectData?.university?.universityCountry?.id == 2 ? '$' : subjectData?.university?.universityCountry?.id == 4 ? '€' : null}{subjectData?.subjectFee?.localTutionFee}</p>
+                     </div>
+
+                     <div className='d-flex justify-content-between'>
+                        <span>Average Application Fee</span>
+                        <p>{subjectData?.university?.universityCountry?.id == 1 ?  '£' : subjectData?.university?.universityCountry?.id == 3 ? 'CA$' : subjectData?.university?.universityCountry?.id == 2 ? '$' : subjectData?.university?.universityCountry?.id == 4 ? '€' : null}{subjectData?.subjectFee?.avarageApplicationFee}</p>
                      </div>
                     </>
                     :

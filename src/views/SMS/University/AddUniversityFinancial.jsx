@@ -376,7 +376,7 @@ const AddUniversityFinancial = (props) => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
+                {/* <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
                       Avg. Application Fee{" "}
@@ -393,11 +393,9 @@ const AddUniversityFinancial = (props) => {
                       placeholder="Avarage Application Fee"
                       required
                     />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
+                    
                   </Col>
-                </FormGroup>
+                </FormGroup> */}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
