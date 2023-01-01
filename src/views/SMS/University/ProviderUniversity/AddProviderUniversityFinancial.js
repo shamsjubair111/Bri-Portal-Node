@@ -350,28 +350,6 @@ const AddProviderUniversityFinancial = (props) => {
                   </Col>
                 </FormGroup>
 
-                <FormGroup row className="has-icon-left position-relative">
-                  <Col md="2">
-                    <span>
-                      Avg. Application Fee{" "}
-                      <span className="text-danger">*</span>{" "}
-                    </span>
-                  </Col>
-                  <Col md="6">
-                    <Input
-                      type="number"
-                      min="0"
-                      name="AvarageApplicationFee"
-                      id="AvarageApplicationFee"
-                      defaultValue={financialData?.avarageApplicationFee}
-                      placeholder="Avarage Application Fee"
-                      required
-                    />
-                    {/* <div className="form-control-position">
-                                        <User size={15} />
-                                    </div> */}
-                  </Col>
-                </FormGroup>
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">

@@ -2797,17 +2797,17 @@ const UniversityDetails = () => {
                 ) : (
                   <>
                     <div className="d-flex justify-content-between">
-                      <span>Avarage Tution Fee</span>
+                      <span>Average Tution Fee</span>
                       <p>{universityInfo?.universityCountry?.id == 1 ?  '£' : universityInfo?.universityCountry?.id == 3 ? 'CA$' : universityInfo?.universityCountry?.id == 2 ? '$' : universityInfo?.universityCountry?.id == 4 ? '€' : null}{financialInfo?.avarageTutionFee}</p>
                     </div>
 
-                    <div className="d-flex justify-content-between">
-                      <span>Avarage Application Fee</span>
+                    {/* <div className="d-flex justify-content-between">
+                      <span>Average Application Fee</span>
                       <p>{universityInfo?.universityCountry?.id == 1 ?  '£' : universityInfo?.universityCountry?.id == 3 ? 'CA$' : universityInfo?.universityCountry?.id == 2 ? '$' : universityInfo?.universityCountry?.id == 4 ? '€' : null}{financialInfo?.avarageApplicationFee}</p>
-                    </div>
+                    </div> */}
 
                     <div className="d-flex justify-content-between">
-                      <span>Avarage Living Cost</span>
+                      <span>Average Living Cost</span>
                       <p>{universityInfo?.universityCountry?.id == 1 ?  '£' : universityInfo?.universityCountry?.id == 3 ? 'CA$' : universityInfo?.universityCountry?.id == 2 ? '$' : universityInfo?.universityCountry?.id == 4 ? '€' : null}{financialInfo?.avarageLivingCost}</p>
                     </div>
 

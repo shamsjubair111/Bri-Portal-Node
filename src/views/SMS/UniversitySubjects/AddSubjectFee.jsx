@@ -51,6 +51,7 @@ const AddSubjectFee = () => {
     const [addLocalTutionFee, setAddLocalTutionFee] = useState(undefined);
     const [addIntTutionFee, setAddIntTutionFee] = useState(undefined);
     const [addEUTutionFee, setAddEUTutionFee] = useState(undefined);
+    const [averageFee, setAverageFee] = useState(undefined);
 
   
 
@@ -87,6 +88,7 @@ const AddSubjectFee = () => {
 
           setSId(res?.subjectId);
           setId(res?.id);
+          setAverageFee(res?.averageApplicationFee);
         })
         
       
@@ -352,7 +354,27 @@ const AddSubjectFee = () => {
                   </Col>
                 </FormGroup>
 
-                
+                <FormGroup row className="has-icon-left position-relative">
+                  <Col md="2">
+                    <span>
+                      Average Application Fee
+                      {/* <span className="text-danger">*</span>{" "} */}
+                    </span>
+                  </Col>
+                  <Col md="6">
+                    <Input
+                      type="number"
+                      min="0"
+                      name="averageApplicationFee"
+                      id="averageApplicationFee"
+                      onChange={(e)=>setAverageFee(e.target.value)}
+                      // defaultValue={euTutionFee}
+                      defaultValue={averageFee}
+                      placeholder="Enter Average Application Fee"
+                      // required
+                    />
+                  </Col>
+                </FormGroup>
 
                 <FormGroup
                   className="has-icon-left position-relative"
