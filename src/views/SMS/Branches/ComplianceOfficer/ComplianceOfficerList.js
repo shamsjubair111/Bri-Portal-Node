@@ -31,6 +31,8 @@ import ButtonForFunction from "../../Components/ButtonForFunction";
 import { permissionList } from "../../../../constants/AuthorizationConstant";
 import Loader from "../../Search/Loader/Loader";
 import ButtonLoader from "../../Components/ButtonLoader";
+import ToggleSwitch from "../../Components/ToggleSwitch";
+import put from "../../../../helpers/put";
 
 const ComplianceOfficerList = () => {
 
@@ -53,6 +55,7 @@ const ComplianceOfficerList = () => {
   const [checkCountry, setCheckCountry] = useState(true);
   const [checkState, setCheckState] = useState(true);
   const [checkBranch, setCheckBranch] = useState(true);
+  const [checkSts, setCheckSts] = useState(true);
   const [checkAction, setCheckAction] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false);
   const [progress, setProgress] = useState(false);
@@ -157,8 +160,36 @@ const ComplianceOfficerList = () => {
   const handleCheckedBranch = (e) => {
     setCheckBranch(e.target.checked);
   };
+  const handleCheckedSts = (e) => {
+    setCheckSts(e.target.checked);
+  };
   const handleCheckedAction = (e) => {
     setCheckAction(e.target.checked);
+  };
+
+  const handleAccountStatus = (e, officerId) => {
+    // setChecked(e.target.checked);
+
+    const subData = {
+      id: officerId,
+    };
+
+    put(`ComplianceOfficer/UpdateAccountStatus/${officerId}`, subData).then(
+      (res) => {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+        } else {
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      }
+    );
   };
 
     return (
@@ -420,6 +451,24 @@ const ComplianceOfficerList = () => {
 
                       <div className="d-flex justify-content-between">
                         <Col md="8" className="">
+                          <p className="">Account Status</p>
+                        </Col>
+                        <Col md="4" className="text-center">
+                          <FormGroup check inline>
+                            <Input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleCheckedSts(e);
+                              }}
+                              defaultChecked={checkSts}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <Col md="8" className="">
                           <p className="">Action</p>
                         </Col>
 
@@ -461,7 +510,11 @@ const ComplianceOfficerList = () => {
                     {checkCountry ? <th>Country</th> : null}
                     {checkState ? <th>State</th> : null}
                     {checkBranch ? <th>Branch</th> : null}
-
+                    {permissions?.includes(
+                        permissionList.Change_ComplianceOfficer_Status
+                      ) ? (
+                        <>{checkSts ? <th>Account Status</th> : null}</>
+                      ) : null}
                     {checkAction ? (
                       <th style={{ width: "8%" }} className="text-center">
                         Action
@@ -492,6 +545,27 @@ const ComplianceOfficerList = () => {
                        {checkCountry ? <td>{comp?.country?.name}</td> : null}
                        {checkState ? <td>{comp?.state?.name}</td> : null}
                        {checkBranch ? <td>{comp?.branch?.name}</td> : null}
+
+                       {permissions?.includes(
+                          permissionList.Change_ComplianceOfficer_Status
+                        ) ? (
+                          <>
+                            {checkSts ? (
+                              <td>
+                                {
+                                  <ToggleSwitch
+                                    defaultChecked={
+                                      comp?.isActive == false ? false : true
+                                    }
+                                    onChange={(e) => {
+                                      handleAccountStatus(e, comp?.id);
+                                    }}
+                                  />
+                                }
+                              </td>
+                            ) : null}
+                          </>
+                        ) : null}
 
                       {checkAction ? (
                         <td style={{ width: "8%" }} className="text-center">
