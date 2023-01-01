@@ -28,11 +28,12 @@ import { Image, Modal as AntModal, Upload } from "antd";
 import * as Icon from "react-feather";
 import put from "../../../../helpers/put";
 import { rootUrl } from "../../../../constants/constants";
+import ToggleSwitch from "../../Components/ToggleSwitch";
 
 const ComplianceOfficerListForBranch = ({ id }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage, setDataPerPage] = useState(15);
-  const [applications, setApplications] = useState([]);
+  const [complianceOficers, setComplianceOficers] = useState([]);
   const [entity, setEntity] = useState(0);
   const [callApi, setCallApi] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -159,7 +160,7 @@ const ComplianceOfficerListForBranch = ({ id }) => {
     get(
       `ComplianceOfficer/Getpaginated?page=${currentPage}&pageSize=${dataPerPage}&branchId=${id}`
     ).then((res) => {
-      setApplications(res?.models);
+      setComplianceOficers(res?.models);
       setEntity(res?.totalEntity);
     });
   }, [currentPage, dataPerPage, callApi, success, updateId]);
@@ -343,6 +344,31 @@ const ComplianceOfficerListForBranch = ({ id }) => {
   const handleUpdate = (officerId) => {
     setUpdateId(officerId);
     setModalOpen(true);
+  };
+
+  const handleAccountStatus = (e, officerId) => {
+    // setChecked(e.target.checked);
+
+    const subData = {
+      id: officerId,
+    };
+
+    put(`ComplianceOfficer/UpdateAccountStatus/${officerId}`, subData).then(
+      (res) => {
+        if (res?.status == 200 && res?.data?.isSuccess == true) {
+          addToast(res?.data?.message, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          setSuccess(!success);
+        } else {
+          addToast(res?.data?.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      }
+    );
   };
 
   return (
@@ -685,14 +711,18 @@ const ComplianceOfficerListForBranch = ({ id }) => {
                   <th>City</th>
                   <th>Country</th>
                   <th>State</th>
-
+                  {permissions?.includes(
+                        permissionList.Change_ComplianceOfficer_Status
+                      ) ? (
+                        <th>Account Status</th>
+                      ) : null}
                   <th style={{ width: "8%" }} className="text-center">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {applications?.map((comp, i) => (
+                {complianceOficers?.map((comp, i) => (
                   <tr key={comp?.id} style={{ textAlign: "center" }}>
                     <th scope="row">{1 + i}</th>
 
@@ -709,6 +739,23 @@ const ComplianceOfficerListForBranch = ({ id }) => {
 
                     <td>{comp?.country?.name}</td>
                     <td>{comp?.state?.name}</td>
+
+                    {permissions?.includes(
+                          permissionList.Change_ComplianceOfficer_Status
+                        ) ? (
+                              <td>
+                                {
+                                  <ToggleSwitch
+                                    defaultChecked={
+                                      comp?.isActive == false ? false : true
+                                    }
+                                    onChange={(e) => {
+                                      handleAccountStatus(e, comp?.id);
+                                    }}
+                                  />
+                                }
+                              </td>
+                        ) : null}
 
                     <td style={{ width: "8%" }} className="text-center">
                       <ButtonGroup variant="text">
