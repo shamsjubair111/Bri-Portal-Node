@@ -12,5 +12,6 @@ export const userTypes = {
     ComplianceManager: 11,
     ProviderAdmin: 12,
     Consultant: 13,
-    AdmissionOfficer: 14
+    AdmissionOfficer: 14,
+    ComplianceOfficer: 15
 }

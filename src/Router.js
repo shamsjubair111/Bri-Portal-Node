@@ -341,6 +341,7 @@ const BranchConsultantRegistration = lazy(() => import("./views/SMS/Branches/Bra
 // Compliance Officer
 const ComplianceOfficerList = lazy(() => import("./views/SMS/Branches/ComplianceOfficer/ComplianceOfficerList"));
 const AddComplianceOfficer = lazy(() => import("./views/SMS/Branches/ComplianceOfficer/AddComplianceOfficer"));
+const ComplianceOfficerProfile = lazy(() => import("./views/SMS/Branches/ComplianceOfficer/ComplianceOfficerProfile"));
 
 // Admission Manager
 
@@ -871,8 +872,9 @@ class AppRouter extends React.Component {
          <AppRoute  path="/teamEmployee/:branchId/:teamId" component={permissions?.includes(permissionList?.View_Branch_Team_Employee_List)? BranchTeamEmployeeInformation : NotAuthorized} />
 
          {/* compliance officer */}
-         <AppRoute  path="/complianceOfficerList" component={ComplianceOfficerList} />
-         <AppRoute  path="/complianceOfficerInformation/:complianceOfficerId?" component={AddComplianceOfficer} />
+         <AppRoute  path="/complianceOfficerList" component={permissions?.includes(permissionList?.View_ComplianceOfficer_List) ? ComplianceOfficerList : NotAuthorized} />
+         <AppRoute  path="/complianceOfficerInformation/:complianceOfficerId?" component={ permissions?.includes(permissionList?.Add_New_ComplianceOfficer || permissionList?.Update_ComplianceOfficer_info) ? AddComplianceOfficer : NotAuthorized} />
+         <AppRoute  path="/complianceOfficerProfile/:complianceOfficerId" component={permissions?.includes(permissionList?.View_ComplianceOfficer_info ) ? ComplianceOfficerProfile : NotAuthorized}/>
 
          <AppRoute  path="/studentList" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
          <AppRoute  path="/studentListByType/:type" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />

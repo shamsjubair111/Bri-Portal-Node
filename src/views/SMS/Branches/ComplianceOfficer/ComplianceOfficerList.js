@@ -127,8 +127,8 @@ const ComplianceOfficerList = () => {
 
   const componentRef = useRef();
 
-  const redirectToBranchProfile = (branchId) => {
-    history.push(`/branchProfile/${branchId}`);
+  const redirectToProfile = (data) => {
+    history.push(`/complianceOfficerProfile/${data?.id}`);
   };
 
   // for hide/unhide column
@@ -497,13 +497,13 @@ const ComplianceOfficerList = () => {
                         <td style={{ width: "8%" }} className="text-center">
                           <ButtonGroup variant="text">
                             {
-                              permissions?.includes(permissionList?.View_ComplianceOfficer_List) ?
+                              permissions?.includes(permissionList?.View_ComplianceOfficer_info) ?
                               <ButtonForFunction
                               color={"primary"}
                               className={"mx-1 btn-sm"}
-                            //   func={() =>
-                            //     redirectToBranchProfile(singleBranch?.id)
-                            //   }
+                              func={() =>
+                                redirectToProfile(comp)
+                              }
                               icon={<i className="fas fa-eye"></i>}
                               permission={6}
                             />
