@@ -994,7 +994,7 @@ const StudentNewProfile = () => {
 
                          <tr>
                           <td width="40%">
-                           <span> <b>House No:</b></span>
+                           <span> <b>House no:</b></span>
                           </td>
 
                           <td width="60%">
