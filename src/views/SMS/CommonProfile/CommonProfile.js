@@ -2,6 +2,7 @@ import React from 'react';
 import { userTypes } from '../../../constants/userTypeConstant';
 import AdmissionOfficerNewDetails from '../AdmissionOfficer/AdmissionOfficerNewDetails';
 import BranchManagerNewProfile from '../Branches/BranchManager/BranchManagerNewProfile';
+import ComplianceOfficerNewProfile from '../Branches/ComplianceOfficer/ComplianceOfficerNewProfile';
 import EmployeeNewProfile from '../Configuration/Employees/EmployeeNewProfile';
 import ConsultantNewProfile from '../Consultant/ConsultantNewProfile';
 import AdmissionManagerNewProfile from '../Provider/AdmissionManager/AdmissionManagerNewProfile';
@@ -66,6 +67,11 @@ const CommonProfile = () => {
     {
       currentUser == userTypes?.Consultant && 
         <ConsultantNewProfile/>
+      } 
+
+    {
+      currentUser == userTypes?.ComplianceOfficer && 
+        <ComplianceOfficerNewProfile/>
       } 
 
 

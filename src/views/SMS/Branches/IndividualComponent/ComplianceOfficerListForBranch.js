@@ -90,6 +90,10 @@ const ComplianceOfficerListForBranch = ({ id }) => {
     setPreviewVisible(false);
   };
 
+  const goToProfile = (data) => {
+    history.push(`/complianceOfficerProfile/${data?.id}`);
+  }
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -709,14 +713,14 @@ const ComplianceOfficerListForBranch = ({ id }) => {
                     <td style={{ width: "8%" }} className="text-center">
                       <ButtonGroup variant="text">
                         {permissions?.includes(
-                          permissionList?.View_ComplianceOfficer_List
+                          permissionList?.View_ComplianceOfficer_info
                         ) ? (
                           <ButtonForFunction
                             color={"primary"}
                             className={"mx-1 btn-sm"}
-                            //   func={() =>
-                            //     redirectToBranchProfile(singleBranch?.id)
-                            //   }
+                              func={() =>
+                                goToProfile(comp)
+                              }
                             icon={<i className="fas fa-eye"></i>}
                             permission={6}
                           />

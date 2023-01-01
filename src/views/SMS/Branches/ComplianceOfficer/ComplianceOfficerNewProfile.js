@@ -29,13 +29,12 @@ import bulb from '../../../../assets/img/bulb.png';
 import user from '../../../../assets/img/Uapp_fav.png';
 import branch from '../../../../assets/img/branch.jpg';
 
-const ComplianceOfficerProfile = () => {
+const ComplianceOfficerNewProfile = () => {
 
-   
-  const [managerData, setManagerData] = useState({});
+    const [managerData, setManagerData] = useState({});
   const [applicationData, setApplicationData] = useState([]);
   const [admissionOfficer, setAdmissionOfficer] = useState([]);
-
+    const complianceOfficerId = localStorage.getItem('referenceId');
     const permissions = JSON.parse(localStorage.getItem('permissions'));
 
     const [success, setSuccess] = useState(false);
@@ -53,7 +52,7 @@ const ComplianceOfficerProfile = () => {
   const [progress,setProgress]= useState(false);
   const [loading,setLoading] = useState(true);
 
-  const {complianceOfficerId}  = useParams();
+  
     
   
 
@@ -171,7 +170,7 @@ const ComplianceOfficerProfile = () => {
 
 
     return (
-        <div>
+           <div>
 
 
         <div className="row">
@@ -382,4 +381,4 @@ const ComplianceOfficerProfile = () => {
     );
 };
 
-export default ComplianceOfficerProfile;
+export default ComplianceOfficerNewProfile;
