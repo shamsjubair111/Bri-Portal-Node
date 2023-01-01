@@ -2187,12 +2187,9 @@ info?.subjects?.length <1 ?
       }
      </div>
        <div className='mt-2'>
-{
-  userType == userTypes?.Student ? 
+
   <button className='button-style-search' onClick={()=> checkEligibility(info,subjectInfo)}>Eligibility</button>
-  :
-  null
-}
+
 
  </div>
     
@@ -2385,12 +2382,9 @@ subjectInfo?.canApply?
  </div>
 
  <div className='mt-2'>
-{
-  userType == userTypes?.Student ? 
+
   <button className='button-style-search'  onClick={()=> checkEligibility(info, subjectInfo)}>Eligibility</button>
-  :
-  null
-}
+
 
  </div>
     
