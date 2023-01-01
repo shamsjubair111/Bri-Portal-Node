@@ -1884,22 +1884,22 @@ const CampusDetails = () => {
                 </div>
 
                 <div className="d-flex justify-content-between">
-                  <span>Avg. application fee :</span>
+                  <span>Average Application Fee :</span>
                   <p>€{campusInfo?.avarageApplicationFee}</p>
                 </div>
 
                 <div className="d-flex justify-content-between">
-                  <span>Avg tution fee :</span>
+                  <span>Average Tution Fee :</span>
                   <p>€{campusInfo?.avarageTutionFee}</p>
                 </div>
 
                 <div className="d-flex justify-content-between">
-                  <span>Avg. living cost :</span>
+                  <span>Average Living Cost :</span>
                   <p>€{campusInfo?.avarageLivingCost}</p>
                 </div>
 
                 <div className="d-flex justify-content-between">
-                  <span>Est. total cost :</span>
+                  <span>Estimated Total Cost :</span>
                   <p>€{campusInfo?.estimatedTotalCost}</p>
                 </div>
               </CardBody>
