@@ -882,8 +882,8 @@ const CampusSubjectList = () => {
 
                       {checkDep ? (
                         <td>
-                          {sub?.department?.name}
-                          {","} {sub?.subDepartment?.name}
+                          {sub?.department?.name}{" "}
+                          ({sub?.subDepartment?.name})
                         </td>
                       ) : null}
 
