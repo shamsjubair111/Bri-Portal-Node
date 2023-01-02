@@ -1015,7 +1015,7 @@ const CampusList = (props) => {
                       {checkSlNo ? <th scope="row">{serialNum + i}</th> : null}
 
                       {checkName ? <td>{campus?.name}</td> : null}
-                      {checkCity ? <td>{campus?.campusCity?.name}</td> : null}
+                      {checkCity ? <td>{campus?.universityCity?.name}</td> : null}
                       {checkStd ? (
                         <td>
                           Total Student - {campus?.totalStudent} {<br />}
