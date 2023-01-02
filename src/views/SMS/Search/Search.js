@@ -1514,10 +1514,12 @@ Clear
 
 </div>
 
-<div className='col-md-3 mb-5 left-max-height'>
+<div className='col-md-3 mb-5 left-max-height' style={{position: 'relative', top: '10px', marginBottom: '20px'}}>
 
  
     
+<div style={{position: 'fixed', width: '20%', height: '80vh', overflowY: 'scroll'}}>
+
 
 {
   (userType == userTypes?.Student) ?
@@ -1781,6 +1783,8 @@ Clear
 
 </div>
 
+
+</div>
  
 
 
