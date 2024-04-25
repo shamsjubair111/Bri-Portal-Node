@@ -10,7 +10,123 @@ import { history } from "../../../../../history";
 import get from "../../../../../helpers/get";
 
 const initialState = {
-  menu: [],
+  menu: [
+    {
+      id: 1,
+      title: "Stats",
+      navLink: "/",
+      type: "item",
+      icon: "fa-solid fa-chart-simple",
+      parentId: null,
+      parentName: null,
+      displayOrder: 1,
+      children: null,
+    },
+    {
+      id: 2,
+      title: "User",
+      navLink: "/users",
+      type: "item",
+      icon: "fa-solid fa-user-group",
+      parentId: null,
+      parentName: null,
+      displayOrder: 2,
+      children: null,
+    },
+    {
+      id: 3,
+      title: "SIP Trunk",
+      navLink: "/siptrunk",
+      type: "item",
+      icon: "fa-solid fa-bars",
+      parentId: null,
+      parentName: null,
+      displayOrder: 3,
+    },
+    {
+      id: 7,
+      title: "Notification",
+      navLink: "",
+      type: "item",
+      icon: "fa-solid fa-bell",
+      parentId: null,
+      parentName: null,
+      displayOrder: 7,
+    },
+    {
+      id: 12,
+      title: "Sales",
+      navLink: "/sales",
+      type: "item",
+      icon: "fa-solid fa-dollar-sign",
+      parentId: null,
+      parentName: null,
+      displayOrder: 12,
+    },
+    {
+      id: 16,
+      title: "Calls",
+      navLink: "/calls",
+      type: "item",
+      icon: "fa-solid fa-phone",
+      parentId: null,
+      parentName: null,
+      displayOrder: 16,
+      children: null,
+    },
+    {
+      id: 17,
+      title: "Stickers",
+      navLink: "/studentList",
+      type: "item",
+      icon: "fa-solid fa-note-sticky",
+      parentId: null,
+      parentName: null,
+      displayOrder: 17,
+      children: null,
+    },
+    {
+      id: 27,
+      title: "Calling Cards",
+      navLink: "/callCard",
+      type: "item",
+      icon: "",
+      parentId: null,
+      parentName: null,
+      displayOrder: 17,
+    },
+    {
+      id: 22,
+      title: "Call Packages",
+      navLink: "/callPackages",
+      type: "item",
+      icon: "far fa-file",
+      parentId: null,
+      parentName: null,
+      displayOrder: 22,
+      children: null,
+    },
+    {
+      id: 23,
+      title: "services Gateways",
+      navLink: "",
+      type: "item",
+      icon: "fa-solid fa-envelope",
+      parentId: null,
+      parentName: null,
+      displayOrder: 23,
+    },
+    {
+      id: 29,
+      title: "Setting",
+      navLink: "",
+      type: "item",
+      icon: "fa-solid fa-gear",
+      parentId: null,
+      parentName: null,
+      displayOrder: 29,
+    },
+  ],
   flag: true,
   isHovered: false,
   activeGroups: [],
@@ -29,42 +145,28 @@ class SideMenuContent extends React.Component {
     };
 
     //   const menuItems = get(`https://192.168.0.123:45455/api/MenuItem/Index`).then((action)=> {
-    //    
+    //
 
     //  })
 
-    const userType = JSON.parse(localStorage.getItem('current_user'));
+    const userType = JSON.parse(localStorage.getItem("current_user"));
 
-  
     const valueObj = JSON.parse(localStorage.getItem("menu"));
 
-    if(valueObj){
-      this.state.menu = valueObj;
-      
-    }
-    
-    else{
-      get(`RoleMenuItem/GetUserMenu`).then((action) => {
-      
-        this.setState({ menu: action });
-       
-        
-      });
-
-    }
-
-
-     
-  
-
-  
+    // if (valueObj) {
+    //   this.state.menu = valueObj;
+    // } else {
+    //   get(`RoleMenuItem/GetUserMenu`).then((action) => {
+    //     this.setState({ menu: action });
+    //   });
+    // }
   }
 
   // componentDidMount(){
   //   const menuItems = get(`https://192.168.0.123:45455/api/MenuItem/Index`)
   //  menuItems.then((action)=> {
   //    this.setState({menu: action})
-  //   
+  //
   //  })
   // }
 
@@ -149,9 +251,7 @@ class SideMenuContent extends React.Component {
 
   componentDidMount() {
     this.initRender(this.parentArr[0] ? this.parentArr[0] : []);
-  
   }
-
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.activePath !== this.props.activePath) {

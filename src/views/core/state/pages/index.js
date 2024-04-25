@@ -35,9 +35,9 @@ const styles = (theme) => ({
 const StateList = ({ classes, ...props }) => {
   const [currentId, setCurrentId] = useState(0);
 
-  useEffect(() => {
-    props.fetchAllState();
-  }, []);
+  // useEffect(() => {
+  //   props.fetchAllState();
+  // }, []);
 
   const { addToast } = useToasts();
 

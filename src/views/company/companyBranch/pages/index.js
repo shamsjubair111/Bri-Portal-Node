@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import * as actions from "../../../../redux/actions/company/companyBranch/companyBranch";
 import {
   div,
-  
   TableContainer,
   Table,
   TableHead,
@@ -39,9 +38,9 @@ const CompanyBranchList = ({ classes, ...props }) => {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  useEffect(() => {
-    props.fetchAllCompanyBranch();
-  }, [props]);
+  // useEffect(() => {
+  //   props.fetchAllCompanyBranch();
+  // }, [props]);
 
   const { addToast } = useToasts();
 
@@ -55,8 +54,6 @@ const CompanyBranchList = ({ classes, ...props }) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
- 
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));

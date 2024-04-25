@@ -353,15 +353,15 @@
 //   );
 // }
 
-import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React from "react";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import { makeStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -374,47 +374,45 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Test() {
-  const [numbers,setNumbers]=useState([1,2,3,4]);
-  const [age, setAge] = React.useState('');
+  const [numbers, setNumbers] = useState([1, 2, 3, 4]);
+  const [age, setAge] = React.useState("");
   const classes = useStyles();
-  const cityArray=[{"id":1,"name":"Dhaka"},{"id":2,"name":"Khula"}]
-  useEffect(()=>{
-  
-  },[numbers])
+  const cityArray = [
+    { id: 1, name: "Dhaka" },
+    { id: 2, name: "Khula" },
+  ];
+  // useEffect(()=>{
 
-  const handleChange = (event) => {
-  
-  };
+  // },[numbers])
+
+  const handleChange = (event) => {};
   return (
-  //   <div>
-  //     Hello from test
-  //     <button onClick={()=>setNumbers([12])}>Click Number</button>
-  //     {numbers.map(data=>(
-  //       <p>{data}</p>
-  // ))}
-  //   </div>
-  
-  
-  <FormControl variant="outlined" className={classes.formControl}>
-  <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
-  <Select
-    labelId="demo-simple-select-outlined-label"
-    id="demo-simple-select-outlined"
-    value={age}
-    onChange={handleChange}
-    label="Age"
-  >
-    <MenuItem value="">
-      <em>None</em>
-    </MenuItem>
-   {cityArray.map(data=>(
-     <MenuItem value={data.id}>{data.name}</MenuItem>
-   ))}
-    
-  </Select>
-</FormControl>
-  )
+    //   <div>
+    //     Hello from test
+    //     <button onClick={()=>setNumbers([12])}>Click Number</button>
+    //     {numbers.map(data=>(
+    //       <p>{data}</p>
+    // ))}
+    //   </div>
+
+    <FormControl variant="outlined" className={classes.formControl}>
+      <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+      <Select
+        labelId="demo-simple-select-outlined-label"
+        id="demo-simple-select-outlined"
+        value={age}
+        onChange={handleChange}
+        label="Age"
+      >
+        <MenuItem value="">
+          <em>None</em>
+        </MenuItem>
+        {cityArray.map((data) => (
+          <MenuItem value={data.id}>{data.name}</MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
 }
 
-export default Test
-
+export default Test;

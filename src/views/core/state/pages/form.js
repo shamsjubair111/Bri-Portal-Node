@@ -22,22 +22,20 @@ function StateCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId == 0) {
-   
         props.createState(values, onSuccess);
       } else {
-        
         props.updateState(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId != 0) {
-      setValues({
-        ...props.stateList.find((x) => x.id == props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId]);
+  // useEffect(() => {
+  //   if (props.currentId != 0) {
+  //     setValues({
+  //       ...props.stateList.find((x) => x.id == props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId]);
   return (
     <React.Fragment>
       <h2>Create State</h2>

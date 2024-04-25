@@ -5,8 +5,6 @@ import {
   CardHeader,
   CardTitle,
   CardBody,
-
-
   FormGroup,
   Label,
   Input,
@@ -26,7 +24,7 @@ function CompanyInformationCreate({ ...props }) {
   const validate = () => {
     return true;
   };
-  const { values, setValues,  setErrors, handleInputChange, resetForm } =
+  const { values, setValues, setErrors, handleInputChange, resetForm } =
     useForm(initialFieldValues, validate, props.setCurrentId);
 
   // const countries = () => {
@@ -34,14 +32,12 @@ function CompanyInformationCreate({ ...props }) {
   //     return response.data;
   //   });
   // };
- 
 
   // const states = () => {
   //   return axios.get("api/state/get").then(function (response) {
   //     return response.data;
   //   });
   // };
-
 
   // const cities = () => {
   //   return axios.get("api/city/get").then(function (response) {
@@ -54,8 +50,6 @@ function CompanyInformationCreate({ ...props }) {
   //     cities.name;
   //   })
   // );
-
-
 
   //test data
   // const colourOptions = [
@@ -74,22 +68,20 @@ function CompanyInformationCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId === 0) {
-       
         props.createCompanyInformation(values, onSuccess);
       } else {
-     
         props.updateCompanyInformation(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId !== 0) {
-      setValues({
-        ...props.companyInformationList.find((x) => x.id === props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId, props.companyInformationList, setErrors,  setValues]);
+  // useEffect(() => {
+  //   if (props.currentId !== 0) {
+  //     setValues({
+  //       ...props.companyInformationList.find((x) => x.id === props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId, props.companyInformationList, setErrors,  setValues]);
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>

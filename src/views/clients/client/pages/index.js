@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../../redux/actions/clients/client/client";
 import {
- 
   TableContainer,
   Table,
   TableHead,
@@ -38,9 +37,9 @@ const ClientList = ({ classes, ...props }) => {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  useEffect(() => {
-    props.fetchAllClient();
-  }, [props]);
+  // useEffect(() => {
+  //   props.fetchAllClient();
+  // }, [props]);
 
   const { addToast } = useToasts();
 

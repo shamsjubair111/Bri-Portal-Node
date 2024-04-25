@@ -44,22 +44,20 @@ function DesignationCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId == 0) {
-  
         props.createDesignation(values, onSuccess);
       } else {
-       
         props.updateDesignation(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId != 0) {
-      setValues({
-        ...props.designationList.find((x) => x.id == props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId]);
+  // useEffect(() => {
+  //   if (props.currentId != 0) {
+  //     setValues({
+  //       ...props.designationList.find((x) => x.id == props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId]);
   return (
     <React.Fragment>
       <h2>Create Designation</h2>
@@ -74,12 +72,12 @@ function DesignationCreate({ ...props }) {
               <Input
                 id="basicInput"
                 placeholder="Branch Name"
-          type="text"
+                type="text"
                 name="name"
-          value={values.name}
-          onChange={handleInputChange}
-          className="form-control"
-        />
+                value={values.name}
+                onChange={handleInputChange}
+                className="form-control"
+              />
             </FormGroup>
 
             <FormGroup>

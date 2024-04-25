@@ -11,11 +11,10 @@ function CityCreate({ ...props }) {
   const validate = () => {
     return true;
   };
-  const { values, setValues,  setErrors, handleInputChange, resetForm } =
+  const { values, setValues, setErrors, handleInputChange, resetForm } =
     useForm(initialFieldValues, validate, props.setCurrentId);
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
     if (validate()) {
       const onSuccess = () => {
@@ -23,22 +22,20 @@ function CityCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId === 0) {
-     
         props.createCity(values, onSuccess);
       } else {
-        
         props.updateCity(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId !== 0) {
-      setValues({
-        ...props.cityList.find((x) => x.id === props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId, props.cityList, setErrors,  setValues]);
+  // useEffect(() => {
+  //   if (props.currentId !== 0) {
+  //     setValues({
+  //       ...props.cityList.find((x) => x.id === props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId, props.cityList, setErrors,  setValues]);
   return (
     <React.Fragment>
       <h2>Create City</h2>

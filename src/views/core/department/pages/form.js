@@ -22,22 +22,20 @@ function DepartmentCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId == 0) {
-     
         props.createDepartment(values, onSuccess);
       } else {
-      
         props.updateDepartment(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId != 0) {
-      setValues({
-        ...props.departmentList.find((x) => x.id == props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId]);
+  // useEffect(() => {
+  //   if (props.currentId != 0) {
+  //     setValues({
+  //       ...props.departmentList.find((x) => x.id == props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId]);
   return (
     <React.Fragment>
       <h2>Create Department</h2>

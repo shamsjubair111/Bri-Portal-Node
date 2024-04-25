@@ -1,6 +1,6 @@
-import React from "react"
-import { Card, CardBody, Button, Row, Col } from "reactstrap"
-import notAuthImg from "../../../assets/img/pages/not-authorized.png"
+import React from "react";
+import { Card, CardBody, Button, Row, Col } from "reactstrap";
+import notAuthImg from "../../../assets/img/pages/not-authorized.png";
 
 class NotAuthorized extends React.Component {
   render() {
@@ -36,7 +36,7 @@ class NotAuthorized extends React.Component {
           </Card>
         </Col>
       </Row>
-    )
+    );
   }
 }
-export default NotAuthorized
+export default NotAuthorized;

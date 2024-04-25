@@ -8,40 +8,37 @@ import { useToasts } from "react-toast-notifications";
 const initialFieldValues = new Client();
 
 function ClientCreate({ ...props }) {
-
   const { addToast } = useToasts();
   const validate = () => {
     return true;
   };
-  const { values, setValues,  setErrors, handleInputChange, resetForm } =
+  const { values, setValues, setErrors, handleInputChange, resetForm } =
     useForm(initialFieldValues, validate, props.setCurrentId);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     if (validate()) {
       const onSuccess = () => {
         resetForm();
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId === 0) {
-    
         props.createClient(values, onSuccess);
       } else {
-      
         props.updateClient(props.currentId, values, onSuccess);
       }
     }
   };
 
-  useEffect(() => {
-    if (props.currentId !== 0) {
-      setValues({
-        ...props.clientList.find((x) => x.id === props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId,props.clientList,setErrors, setValues]);
+  // useEffect(() => {
+  //   if (props.currentId !== 0) {
+  //     setValues({
+  //       ...props.clientList.find((x) => x.id === props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId,props.clientList,setErrors, setValues]);
   return (
     <React.Fragment>
       <h2>Create Clientr</h2>

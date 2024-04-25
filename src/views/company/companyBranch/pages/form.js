@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
   CardBody,
- 
   FormGroup,
   Label,
   Input,
@@ -33,14 +32,12 @@ function CompanyBranchCreate({ ...props }) {
   //     return response.data;
   //   });
   // };
-  
 
   // const states = () => {
   //   return axios.get("api/state/get").then(function (response) {
   //     return response.data;
   //   });
   // };
-  
 
   // const cities = () => {
   //   return axios.get("api/city/get").then(function (response) {
@@ -53,8 +50,6 @@ function CompanyBranchCreate({ ...props }) {
   //     cities.name;
   //   })
   // );
-
-  
 
   //test data
   const colourOptions = [
@@ -73,22 +68,20 @@ function CompanyBranchCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId === 0) {
-       
         props.createCompanyBranch(values, onSuccess);
       } else {
-        
         props.updateCompanyBranch(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId !== 0) {
-      setValues({
-        ...props.companyBranchList.find((x) => x.id === props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId,props.companyBranchList, setErrors,  setValues]);
+  // useEffect(() => {
+  //   if (props.currentId !== 0) {
+  //     setValues({
+  //       ...props.companyBranchList.find((x) => x.id === props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId,props.companyBranchList, setErrors,  setValues]);
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>

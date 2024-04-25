@@ -22,22 +22,20 @@ function ApplicationCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId == 0) {
-    
         props.createApplication(values, onSuccess);
       } else {
-      
         props.updateApplication(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId != 0) {
-      setValues({
-        ...props.applicationList.find((x) => x.id == props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId]);
+  // useEffect(() => {
+  //   if (props.currentId != 0) {
+  //     setValues({
+  //       ...props.applicationList.find((x) => x.id == props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId]);
   return (
     <React.Fragment>
       <h2>Create Application</h2>

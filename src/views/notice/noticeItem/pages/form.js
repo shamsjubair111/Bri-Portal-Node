@@ -37,22 +37,20 @@ function NoticeItemCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId == 0) {
-    
         props.createNoticeItem(values, onSuccess);
       } else {
-       
         props.updateNoticeItem(props.currentId, values, onSuccess);
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId != 0) {
-      setValues({
-        ...props.noticeItemList.find((x) => x.id == props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId]);
+  // useEffect(() => {
+  //   if (props.currentId != 0) {
+  //     setValues({
+  //       ...props.noticeItemList.find((x) => x.id == props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId]);
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>

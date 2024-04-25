@@ -39,9 +39,9 @@ const NoticeItemList = ({ classes, ...props }) => {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  useEffect(() => {
-    props.fetchAllNoticeItem();
-  }, []);
+  // useEffect(() => {
+  //   props.fetchAllNoticeItem();
+  // }, []);
 
   const { addToast } = useToasts();
 
@@ -55,8 +55,6 @@ const NoticeItemList = ({ classes, ...props }) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
-
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));

@@ -39,9 +39,9 @@ const NoticeForEmployeeList = ({ classes, ...props }) => {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  useEffect(() => {
-    props.fetchAllNoticeForEmployee();
-  }, []);
+  // useEffect(() => {
+  //   props.fetchAllNoticeForEmployee();
+  // }, []);
 
   const { addToast } = useToasts();
 
@@ -55,8 +55,6 @@ const NoticeForEmployeeList = ({ classes, ...props }) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
-
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));

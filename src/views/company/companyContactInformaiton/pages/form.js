@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
   CardBody,
-
   FormGroup,
   Label,
   Input,
@@ -34,13 +33,11 @@ function CompanyContactInformationCreate({ ...props }) {
   //   });
   // };
 
-
   // const states = () => {
   //   return axios.get("api/state/get").then(function (response) {
   //     return response.data;
   //   });
   // };
- 
 
   // const cities = () => {
   //   return axios.get("api/city/get").then(function (response) {
@@ -53,8 +50,6 @@ function CompanyContactInformationCreate({ ...props }) {
   //     cities.name;
   //   })
   // );
-
-
 
   //test data
   const colourOptions = [
@@ -73,10 +68,8 @@ function CompanyContactInformationCreate({ ...props }) {
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId === 0) {
-    
         props.createCompanyContactInformation(values, onSuccess);
       } else {
-     
         props.updateCompanyContactInformation(
           props.currentId,
           values,
@@ -85,16 +78,16 @@ function CompanyContactInformationCreate({ ...props }) {
       }
     }
   };
-  useEffect(() => {
-    if (props.currentId !== 0) {
-      setValues({
-        ...props.companyContactInformationList.find(
-          (x) => x.id === props.currentId
-        ),
-      });
-      setErrors({});
-    }
-  }, [props.currentId, props.companyContactInformationList, setErrors,  setValues]);
+  // useEffect(() => {
+  //   if (props.currentId !== 0) {
+  //     setValues({
+  //       ...props.companyContactInformationList.find(
+  //         (x) => x.id === props.currentId
+  //       ),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId, props.companyContactInformationList, setErrors,  setValues]);
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>

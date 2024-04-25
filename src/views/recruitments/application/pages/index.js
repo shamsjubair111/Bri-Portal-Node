@@ -39,9 +39,9 @@ const ApplicationList = ({ classes, ...props }) => {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  useEffect(() => {
-    props.fetchAllApplication();
-  }, []);
+  // useEffect(() => {
+  //   props.fetchAllApplication();
+  // }, []);
 
   const { addToast } = useToasts();
 

@@ -40,9 +40,9 @@ const JobCircularList = ({ classes, ...props }) => {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  useEffect(() => {
-    props.fetchAllJobCircular();
-  }, []);
+  // useEffect(() => {
+  //   props.fetchAllJobCircular();
+  // }, []);
 
   const { addToast } = useToasts();
 

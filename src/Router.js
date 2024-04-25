@@ -1,435 +1,794 @@
-import React, { Suspense, lazy } from "react"
-import { Router, Switch, Route } from "react-router-dom"
-
-import { history } from "./history"
-import { connect } from "react-redux"
-import { Redirect } from "react-router-dom"
-import Spinner from "./components/core/spinner/Loading-spinner"
-import { ContextLayout } from "./utility/context/Layout"
-
+import React, { Suspense, lazy } from "react";
+import { Router, Switch, Route } from "react-router-dom";
+import StudentList from "./views/services/Students/StudentList.js"; ////
+import { history } from "./history";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import Spinner from "./components/core/spinner/Loading-spinner";
+import { ContextLayout } from "./utility/context/Layout";
 
 import { ToastProvider } from "react-toast-notifications";
-import './assets/CoustomStyle/style.css'
-import './assets/CoustomStyle/pageView.css'
-import AdmissionGetData from "./views/Test/AdmissionGetData"
+import "./assets/CoustomStyle/style.css";
+import "./assets/CoustomStyle/pageView.css";
+import AdmissionGetData from "./views/Test/AdmissionGetData";
 
-
-import {permissionList} from './constants/AuthorizationConstant'
-import { userTypes } from "./constants/userTypeConstant"
-
-
-
-
-
-
+import { permissionList } from "./constants/AuthorizationConstant";
+import { userTypes } from "./constants/userTypeConstant";
 
 // Authentication Checking
-const token = localStorage.getItem('token');
-const permissions= JSON.parse(localStorage.getItem('permissions'));
+
+const token = localStorage.getItem("userInfo");
+
+const permissions = JSON.parse(localStorage.getItem("permissions"));
 
 const isAuth = token != null ? true : false;
 const permission = JSON.parse(localStorage.getItem("current_user"));
 const userTypeId = localStorage.getItem("userType");
 
-
 // Route-based code splitting
 const analyticsDashboard = lazy(() =>
   import("./views/dashboard/analytics/AnalyticsDashboard")
-)
+);
 
 // trial dashboard start
 // const analyticsDashboard = lazy(() =>
-//   import("./views/SMS/Dashboard/Pages/ProviderAdmin/Index")
+//   import("./views/services/Dashboard/Pages/ProviderAdmin/Index")
 // )
 // trial dashboard end
 
-const select = lazy(() => import("./views/forms/form-elements/select/Select"))
+const select = lazy(() => import("./views/forms/form-elements/select/Select"));
 const switchComponent = lazy(() =>
   import("./views/forms/form-elements/switch/Switch")
-)
+);
 const checkbox = lazy(() =>
   import("./views/forms/form-elements/checkboxes/Checkboxes")
-)
-const radio = lazy(() => import("./views/forms/form-elements/radio/Radio"))
-const input = lazy(() => import("./views/forms/form-elements/input/Input"))
+);
+const radio = lazy(() => import("./views/forms/form-elements/radio/Radio"));
+const input = lazy(() => import("./views/forms/form-elements/input/Input"));
 const group = lazy(() =>
   import("./views/forms/form-elements/input-groups/InputGoups")
-)
+);
 const numberInput = lazy(() =>
   import("./views/forms/form-elements/number-input/NumberInput")
-)
+);
 const textarea = lazy(() =>
   import("./views/forms/form-elements/textarea/Textarea")
-)
+);
 const pickers = lazy(() =>
   import("./views/forms/form-elements/datepicker/Pickers")
-)
+);
 const inputMask = lazy(() =>
   import("./views/forms/form-elements/input-mask/InputMask")
-)
-const layout = lazy(() => import("./views/forms/form-layouts/FormLayouts"))
-const formik = lazy(() => import("./views/forms/formik/Formik"))
+);
+const layout = lazy(() => import("./views/forms/form-layouts/FormLayouts"));
+const formik = lazy(() => import("./views/forms/formik/Formik"));
 
- // Desk Client Component
-const countryList = lazy(()=>import("./views/core/country/pages/index"))
-const designationList = lazy(()=>import("./views/core/designation/pages/index"))
-const companyBranchList =lazy(()=>import("./views/company/companyBranch/pages/index"))
-const companyContactInformation =lazy(()=>import("./views/company/companyContactInformaiton/pages/index"))
-const companyInformation =lazy(()=>import("./views/company/companyInformation/pages/index"))
-const noticeItemList =lazy(()=>import("./views/notice/noticeItem/pages/index"))
-const noticeForEmployeeList =lazy(()=>import("./views/notice/noticeForEmployee/pages/index"))
-const cityList =lazy(()=>import("./views/core/city/pages/index"))
-const stateList =lazy(()=>import("./views/core/state/pages/index"))
-const jobCircularList =lazy(()=>import("./views/recruitments/jobCircular/pages/index"))
-const applicationList =lazy(()=>import("./views/recruitments/application/pages/index"))
-const clientList =lazy(()=>import("./views/clients/client/pages/index"))
-const clientTypeList =lazy(()=>import("./views/clients/clientType/pages/index"))
-// SMS Client Component
+// Desk Client Component
+const countryList = lazy(() => import("./views/core/country/pages/index"));
+const designationList = lazy(() =>
+  import("./views/core/designation/pages/index")
+);
+const companyBranchList = lazy(() =>
+  import("./views/company/companyBranch/pages/index")
+);
+const companyContactInformation = lazy(() =>
+  import("./views/company/companyContactInformaiton/pages/index")
+);
+const companyInformation = lazy(() =>
+  import("./views/company/companyInformation/pages/index")
+);
+const noticeItemList = lazy(() =>
+  import("./views/notice/noticeItem/pages/index")
+);
+const noticeForEmployeeList = lazy(() =>
+  import("./views/notice/noticeForEmployee/pages/index")
+);
+const cityList = lazy(() => import("./views/core/city/pages/index"));
+const stateList = lazy(() => import("./views/core/state/pages/index"));
+const jobCircularList = lazy(() =>
+  import("./views/recruitments/jobCircular/pages/index")
+);
+const applicationList = lazy(() =>
+  import("./views/recruitments/application/pages/index")
+);
+const clientList = lazy(() => import("./views/clients/client/pages/index"));
+const clientTypeList = lazy(() =>
+  import("./views/clients/clientType/pages/index")
+);
+// services Client Component
 
 // const AdmissionManager = lazy(() => import("./views/Test/AdmissionManager"))
 
-const Roles = lazy(() => import("./views/SMS/Configuration/Roles/Roles.jsx"))
-const Menu = lazy(() => import("./views/SMS/Configuration/Menu/Menu.jsx"))
+const Roles = lazy(() =>
+  import("./views/services/Configuration/Roles/Roles.jsx")
+);
+const Menu = lazy(() => import("./views/services/Configuration/Menu/Menu.jsx"));
 
-const RolePermission = lazy(() => import("./views/SMS/Configuration/Permissions/RolePermission.jsx"))
-const RoleMenu = lazy(() => import("./views/SMS/Configuration/Menu/RoleMenu.jsx"))
-const EmployeeType = lazy(() => import("./views/SMS/Configuration/Employees/EmployeeType.jsx"))
-const EmployeeGeneralInfo = lazy(() => import("./views/SMS/Configuration/Employees/EmployeeGeneralInfo.jsx"))
-const EmployeeContactInfo = lazy(() => import("./views/SMS/Configuration/Employees/EmployeeContactInfo.jsx"))
-const EmployeeList = lazy(() => import("./views/SMS/Configuration/Employees/EmployeeList.jsx"))
-const EmployeeProfile = lazy(() => import("./views/SMS/Configuration/Employees/EmployeeProfile.jsx"))
-const AddUniversityType = lazy(() => import("./views/SMS/University/AddUniversityType.jsx"))
-const AddUniversityCountry = lazy(() => import("./views/SMS/University/AddUniversityCountry.jsx"))
-const AddUniversityState = lazy(() => import("./views/SMS/University/AddUniversityState.jsx"))
-const AddUniversity = lazy(() => import("./views/SMS/University/AddUniversity.jsx"))
-const AddProviderUniversity = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversity"))
-const AddProviderUniversityCampus = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityCampus"))
-const AddProviderUniversityFinancial = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityFinancial"))
-const AddProviderUniversityFeatures = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityFeatures"))
-const AddProviderUniversityGallery = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityGallery"))
-const AddProviderUniversityApplicationDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityApplicationDocument"))
-const AddProviderUniversityTemplateDocument = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTemplateDocument"))
-const AddProviderUniversityCommission = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityCommission"))
-const AddProviderUniversityTestScore = lazy(() => import("./views/SMS/University/ProviderUniversity/AddProviderUniversityTestScore"))
+const RolePermission = lazy(() =>
+  import("./views/services/Configuration/Permissions/RolePermission.jsx")
+);
+const RoleMenu = lazy(() =>
+  import("./views/services/Configuration/Menu/RoleMenu.jsx")
+);
+const EmployeeType = lazy(() =>
+  import("./views/services/Configuration/Employees/EmployeeType.jsx")
+);
+const EmployeeGeneralInfo = lazy(() =>
+  import("./views/services/Configuration/Employees/EmployeeGeneralInfo.jsx")
+);
+const EmployeeContactInfo = lazy(() =>
+  import("./views/services/Configuration/Employees/EmployeeContactInfo.jsx")
+);
+const EmployeeList = lazy(() =>
+  import("./views/services/Configuration/Employees/EmployeeList.jsx")
+);
+const EmployeeProfile = lazy(() =>
+  import("./views/services/Configuration/Employees/EmployeeProfile.jsx")
+);
+const AddUniversityType = lazy(() =>
+  import("./views/services/University/AddUniversityType.jsx")
+);
+const AddUniversityCountry = lazy(() =>
+  import("./views/services/University/AddUniversityCountry.jsx")
+);
+const AddUniversityState = lazy(() =>
+  import("./views/services/University/AddUniversityState.jsx")
+);
+const AddUniversity = lazy(() =>
+  import("./views/services/University/AddUniversity.jsx")
+);
+const AddProviderUniversity = lazy(() =>
+  import("./views/services/University/ProviderUniversity/AddProviderUniversity")
+);
+const AddProviderUniversityCampus = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityCampus"
+  )
+);
+const AddProviderUniversityFinancial = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityFinancial"
+  )
+);
+const AddProviderUniversityFeatures = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityFeatures"
+  )
+);
+const AddProviderUniversityGallery = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityGallery"
+  )
+);
+const AddProviderUniversityApplicationDocument = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityApplicationDocument"
+  )
+);
+const AddProviderUniversityTemplateDocument = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityTemplateDocument"
+  )
+);
+const AddProviderUniversityCommission = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityCommission"
+  )
+);
+const AddProviderUniversityTestScore = lazy(() =>
+  import(
+    "./views/services/University/ProviderUniversity/AddProviderUniversityTestScore"
+  )
+);
 
 // university create form
-const UniversityForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityForm"))
+const UniversityForm = lazy(() =>
+  import("./views/services/University/UniCreateForm/UniversityForm")
+);
 
-const UniversityCampusForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityCampusForm"))
+const UniversityCampusForm = lazy(() =>
+  import("./views/services/University/UniCreateForm/UniversityCampusForm")
+);
 
-const UniversityFinancialForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityFinancialForm"))
+const UniversityFinancialForm = lazy(() =>
+  import("./views/services/University/UniCreateForm/UniversityFinancialForm")
+);
 
-const UniversityFeaturesForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityFeaturesForm"))
+const UniversityFeaturesForm = lazy(() =>
+  import("./views/services/University/UniCreateForm/UniversityFeaturesForm")
+);
 
-const UniversityTestScoreForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityTestScoreForm"))
+const UniversityTestScoreForm = lazy(() =>
+  import("./views/services/University/UniCreateForm/UniversityTestScoreForm")
+);
 
-const UniversityApplicationDocumentForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityApplicationDocumentForm"))
+const UniversityApplicationDocumentForm = lazy(() =>
+  import(
+    "./views/services/University/UniCreateForm/UniversityApplicationDocumentForm"
+  )
+);
 
-const UniversityTemplateDocumentForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityTemplateDocumentForm"))
+const UniversityTemplateDocumentForm = lazy(() =>
+  import(
+    "./views/services/University/UniCreateForm/UniversityTemplateDocumentForm"
+  )
+);
 
-const UniversityCommissionForm = lazy(() => import("./views/SMS/University/UniCreateForm/UniversityCommissionForm"))
+const UniversityCommissionForm = lazy(() =>
+  import("./views/services/University/UniCreateForm/UniversityCommissionForm")
+);
 
-const AddUniversityCampus = lazy(() => import("./views/SMS/University/AddUniversityCampus.jsx"))
-const EditDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditDepartment"))
-const EditSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/EditSubDepartment"))
-const AddUniversityFinancial = lazy(() => import("./views/SMS/University/AddUniversityFinancial.jsx"))
-const AddUniversityFeatures = lazy(() => import("./views/SMS/University/AddUniversityFeatures.jsx"))
-const UniversityList = lazy(() => import("./views/SMS/University/UniversityList.jsx"))
-const UniversityDetails = lazy(() => import("./views/SMS/University/UniversityDetails.jsx"))
-const CampusList = lazy(() => import("./views/SMS/University/CampusList.jsx"))
-const CampusDetails = lazy(() => import("./views/SMS/University/CampusDetails.jsx"))
-const AssignMultipleSubject = lazy(() => import("./views/SMS/University/AssignMultipleSubject"))
-const CampusSubjectList = lazy(() => import("./views/SMS/University/CampusSubjectList.jsx"))
-const AddUniversityGallery = lazy(() => import("./views/SMS/University/AddUniversityGallery.jsx"))
-const AddUniversityTemplateDocument = lazy(() => import("./views/SMS/University/AddUniversityTemplateDocument"))
-const AddUniversityApplicationDocument = lazy(() => import("./views/SMS/University/AddUniversityApplicationDocument"))
-const UniversityRecquiredDocument = lazy(() => import("./views/SMS/University/UniversityRecquiredDocument"))
+const AddUniversityCampus = lazy(() =>
+  import("./views/services/University/AddUniversityCampus.jsx")
+);
+const EditDepartment = lazy(() =>
+  import("./views/services/UniversitySubjects/EditDepartment")
+);
+const EditSubDepartment = lazy(() =>
+  import("./views/services/UniversitySubjects/EditSubDepartment")
+);
+const AddUniversityFinancial = lazy(() =>
+  import("./views/services/University/AddUniversityFinancial.jsx")
+);
+const AddUniversityFeatures = lazy(() =>
+  import("./views/services/University/AddUniversityFeatures.jsx")
+);
+const UniversityList = lazy(() =>
+  import("./views/services/University/UniversityList.jsx")
+);
+const UniversityDetails = lazy(() =>
+  import("./views/services/University/UniversityDetails.jsx")
+);
+const CampusList = lazy(() =>
+  import("./views/services/University/CampusList.jsx")
+);
+const CampusDetails = lazy(() =>
+  import("./views/services/University/CampusDetails.jsx")
+);
+const AssignMultipleSubject = lazy(() =>
+  import("./views/services/University/AssignMultipleSubject")
+);
+const CampusSubjectList = lazy(() =>
+  import("./views/services/University/CampusSubjectList.jsx")
+);
+const AddUniversityGallery = lazy(() =>
+  import("./views/services/University/AddUniversityGallery.jsx")
+);
+const AddUniversityTemplateDocument = lazy(() =>
+  import("./views/services/University/AddUniversityTemplateDocument")
+);
+const AddUniversityApplicationDocument = lazy(() =>
+  import("./views/services/University/AddUniversityApplicationDocument")
+);
+const UniversityRecquiredDocument = lazy(() =>
+  import("./views/services/University/UniversityRecquiredDocument")
+);
 
 // intake
-const Intake = lazy(() => import("./views/SMS/University/Intake.js"))
-const AddNewIntakes = lazy(() => import("./views/SMS/University/AddNewIntakes.jsx"))
-const UpdateIntake = lazy(() => import("./views/SMS/University/UpdateIntake.jsx"))
+const Intake = lazy(() => import("./views/services/University/Intake.js"));
+const AddNewIntakes = lazy(() =>
+  import("./views/services/University/AddNewIntakes.jsx")
+);
+const UpdateIntake = lazy(() =>
+  import("./views/services/University/UpdateIntake.jsx")
+);
 
 // consultant
-const ConsultantList = lazy(() => import("./views/SMS/Consultant/ConsultantList"))
-const ConsultantDashboard = lazy(() => import("./views/SMS/Consultant/ConsultantDashboard"))
-const ConsultantProfile = lazy(() => import("./views/SMS/Consultant/ConsultantProfile"))
-const AssociateProfile = lazy(() => import("./views/SMS/Consultant/AssociateProfile"))
-const AddConsultant = lazy(() => import("./views/SMS/Consultant/AddConsultant"))
-const AddAssociate = lazy(() => import("./views/SMS/Consultant/AddAssociate"))
-const AddConsultantType = lazy(() => import("./views/SMS/Consultant/AddConsultantType"))
+const ConsultantList = lazy(() =>
+  import("./views/services/Consultant/ConsultantList")
+);
+const ConsultantDashboard = lazy(() =>
+  import("./views/services/Consultant/ConsultantDashboard")
+);
+const ConsultantProfile = lazy(() =>
+  import("./views/services/Consultant/ConsultantProfile")
+);
+const AssociateProfile = lazy(() =>
+  import("./views/services/Consultant/AssociateProfile")
+);
+const AddConsultant = lazy(() =>
+  import("./views/services/Consultant/AddConsultant")
+);
+const AddAssociate = lazy(() =>
+  import("./views/services/Consultant/AddAssociate")
+);
+const AddConsultantType = lazy(() =>
+  import("./views/services/Consultant/AddConsultantType")
+);
 
-const BankDetails = lazy(() => import("./views/SMS/Consultant/BankDetails"))
-const UpdateAssociateBankDetails = lazy(() => import("./views/SMS/Consultant/UpdateAssociateBankDetails"))
-const ConsultantCommission = lazy(() => import("./views/SMS/Consultant/ConsultantCommission"))
-const UpdateAssociateCommission = lazy(() => import("./views/SMS/Consultant/UpdateAssociateCommission"))
-const AddConsultantInformation = lazy(() => import("./views/SMS/Consultant/AddConsultantInformation"))
-const AssociateInformation = lazy(() => import("./views/SMS/Consultant/AssociateInformation"))
-const AssociateList = lazy(() => import("./views/SMS/Consultant/ConsultantByConsultant"))
-const AssociateAddSuccess = lazy(() => import("./views/SMS/Consultant/AssociateAddSuccess"))
+const BankDetails = lazy(() =>
+  import("./views/services/Consultant/BankDetails")
+);
+const UpdateAssociateBankDetails = lazy(() =>
+  import("./views/services/Consultant/UpdateAssociateBankDetails")
+);
+const ConsultantCommission = lazy(() =>
+  import("./views/services/Consultant/ConsultantCommission")
+);
+const UpdateAssociateCommission = lazy(() =>
+  import("./views/services/Consultant/UpdateAssociateCommission")
+);
+const AddConsultantInformation = lazy(() =>
+  import("./views/services/Consultant/AddConsultantInformation")
+);
+const AssociateInformation = lazy(() =>
+  import("./views/services/Consultant/AssociateInformation")
+);
+const AssociateList = lazy(() =>
+  import("./views/services/Consultant/ConsultantByConsultant")
+);
+const AssociateAddSuccess = lazy(() =>
+  import("./views/services/Consultant/AssociateAddSuccess")
+);
 
 // Document
-const DocumentList = lazy(() => import("./views/SMS/Document/DocumentList.js"))
-const DocumentCategoryList = lazy(() => import("./views/SMS/Document/DocumentcategoryList.js"))
+const DocumentList = lazy(() =>
+  import("./views/services/Document/DocumentList.js")
+);
+const DocumentCategoryList = lazy(() =>
+  import("./views/services/Document/DocumentcategoryList.js")
+);
 
 // Report
-const AgentReport = lazy(() => import("./views/SMS/Report/AgentReport"))
+const AgentReport = lazy(() => import("./views/services/Report/AgentReport"));
 
 // Common Profile Component
-const CommonProfile = lazy(() => import("./views/SMS/CommonProfile/CommonProfile"))
+const CommonProfile = lazy(() =>
+  import("./views/services/CommonProfile/CommonProfile")
+);
 
 //Subject
-const AddDepartment = lazy(() => import("./views/SMS/UniversitySubjects/Department.jsx"))
-const AddSubDepartment = lazy(() => import("./views/SMS/UniversitySubjects/SubDepartment.jsx"))
-const AddProgramLevel = lazy(() => import("./views/SMS/UniversitySubjects/ProgramLevel.jsx"))
-const Subject = lazy(() => import("./views/SMS/UniversitySubjects/Subject.jsx"))
-const SubjectList = lazy(() => import("./views/SMS/UniversitySubjects/SubjectList.jsx"))
-const DocumentGroup = lazy(() => import("./views/SMS/UniversitySubjects/DocumentGroup.js"))
-const AddSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectFee.jsx"))
-const AddSubjectDeliveryPattern = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectDeliveryPattern"))
-const AddSubjectDocumentRequirement = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectDocumentRequirement"))
-const EditSubjectDocumentRequirement = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectDocumentRequirement"))
-const AddSubjectRequirements = lazy(() => import("./views/SMS/UniversitySubjects/AddSubjectRequirements"))
-const EditSubjectRequirements = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectRequirements"))
-const SubjectFeeInformation = lazy(() => import("./views/SMS/UniversitySubjects/SubjectFeeInformation.jsx"))
-const EditSubject = lazy(() => import("./views/SMS/UniversitySubjects/EditSubject.jsx"))
-const EditSubjectFee = lazy(() => import("./views/SMS/UniversitySubjects/EditSubjectFee.jsx"))
-const EditDeliveryPattern = lazy(() => import("./views/SMS/UniversitySubjects/EditDeliveryPattern"))
-const SubjectIntake =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectIntake.jsx"))
-const SubjectProfile =  lazy(() => import("./views/SMS/UniversitySubjects/SubjectProfile.js"))
+const AddDepartment = lazy(() =>
+  import("./views/services/UniversitySubjects/Department.jsx")
+);
+const AddSubDepartment = lazy(() =>
+  import("./views/services/UniversitySubjects/SubDepartment.jsx")
+);
+const AddProgramLevel = lazy(() =>
+  import("./views/services/UniversitySubjects/ProgramLevel.jsx")
+);
+const Subject = lazy(() =>
+  import("./views/services/UniversitySubjects/Subject.jsx")
+);
+const SubjectList = lazy(() =>
+  import("./views/services/UniversitySubjects/SubjectList.jsx")
+);
+const DocumentGroup = lazy(() =>
+  import("./views/services/UniversitySubjects/DocumentGroup.js")
+);
+const AddSubjectFee = lazy(() =>
+  import("./views/services/UniversitySubjects/AddSubjectFee.jsx")
+);
+const AddSubjectDeliveryPattern = lazy(() =>
+  import("./views/services/UniversitySubjects/AddSubjectDeliveryPattern")
+);
+const AddSubjectDocumentRequirement = lazy(() =>
+  import("./views/services/UniversitySubjects/AddSubjectDocumentRequirement")
+);
+const EditSubjectDocumentRequirement = lazy(() =>
+  import("./views/services/UniversitySubjects/EditSubjectDocumentRequirement")
+);
+const AddSubjectRequirements = lazy(() =>
+  import("./views/services/UniversitySubjects/AddSubjectRequirements")
+);
+const EditSubjectRequirements = lazy(() =>
+  import("./views/services/UniversitySubjects/EditSubjectRequirements")
+);
+const SubjectFeeInformation = lazy(() =>
+  import("./views/services/UniversitySubjects/SubjectFeeInformation.jsx")
+);
+const EditSubject = lazy(() =>
+  import("./views/services/UniversitySubjects/EditSubject.jsx")
+);
+const EditSubjectFee = lazy(() =>
+  import("./views/services/UniversitySubjects/EditSubjectFee.jsx")
+);
+const EditDeliveryPattern = lazy(() =>
+  import("./views/services/UniversitySubjects/EditDeliveryPattern")
+);
+const SubjectIntake = lazy(() =>
+  import("./views/services/UniversitySubjects/SubjectIntake.jsx")
+);
+const SubjectProfile = lazy(() =>
+  import("./views/services/UniversitySubjects/SubjectProfile.js")
+);
 
 // Settings
-const Settings =  lazy(() => import("./views/SMS/Settings/Settings"))
+const Settings = lazy(() => import("./views/services/Settings/Settings"));
 
 // university subject
-const UniversitySubjectList = lazy(() => import("./views/SMS/University/Subjects/UniversitySubjectList"));
-const AddUniversitySubject = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubject"));
-const AddUniversitySubjectFee = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectFee"));
-const AddUniversitySubjectDeliveryPattern = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectDeliveryPattern"));
-const AddUniversitySubjectRequirements = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectRequirements"));
-const AddUniversitySubjectDocumentRequirement = lazy(() => import("./views/SMS/University/Subjects/AddUniversitySubjectDocumentRequirement"));
+const UniversitySubjectList = lazy(() =>
+  import("./views/services/University/Subjects/UniversitySubjectList")
+);
+const AddUniversitySubject = lazy(() =>
+  import("./views/services/University/Subjects/AddUniversitySubject")
+);
+const AddUniversitySubjectFee = lazy(() =>
+  import("./views/services/University/Subjects/AddUniversitySubjectFee")
+);
+const AddUniversitySubjectDeliveryPattern = lazy(() =>
+  import(
+    "./views/services/University/Subjects/AddUniversitySubjectDeliveryPattern"
+  )
+);
+const AddUniversitySubjectRequirements = lazy(() =>
+  import(
+    "./views/services/University/Subjects/AddUniversitySubjectRequirements"
+  )
+);
+const AddUniversitySubjectDocumentRequirement = lazy(() =>
+  import(
+    "./views/services/University/Subjects/AddUniversitySubjectDocumentRequirement"
+  )
+);
 
 // copy and save university subject
-const CopyUniversitySubject = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubject"));
-const CopyUniversitySubjectFee = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectFee"));
-const CopyUniversitySubjectDeliveryPattern = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectDeliveryPattern"));
-const CopyUniversitySubjectRequirements = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectRequirements"));
-const CopyUniversitySubjectDocumentRequirement = lazy(() => import("./views/SMS/University/Subjects/CopySubject/CopyUniversitySubjectDocumentRequirement"));
+const CopyUniversitySubject = lazy(() =>
+  import(
+    "./views/services/University/Subjects/CopySubject/CopyUniversitySubject"
+  )
+);
+const CopyUniversitySubjectFee = lazy(() =>
+  import(
+    "./views/services/University/Subjects/CopySubject/CopyUniversitySubjectFee"
+  )
+);
+const CopyUniversitySubjectDeliveryPattern = lazy(() =>
+  import(
+    "./views/services/University/Subjects/CopySubject/CopyUniversitySubjectDeliveryPattern"
+  )
+);
+const CopyUniversitySubjectRequirements = lazy(() =>
+  import(
+    "./views/services/University/Subjects/CopySubject/CopyUniversitySubjectRequirements"
+  )
+);
+const CopyUniversitySubjectDocumentRequirement = lazy(() =>
+  import(
+    "./views/services/University/Subjects/CopySubject/CopyUniversitySubjectDocumentRequirement"
+  )
+);
 
 // university profile subject
-const AddUniProfileSubject = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubject"));
-const AddUniProfileSubjectFee = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectFee"));
-const AddUniProfileSubjectDeliveryPattern = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectDeliveryPattern"));
-const AddUniProfileSubjectRequirements = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectRequirements.js"));
-const AddUniProfileSubjectDocumentRequirement = lazy(() => import("./views/SMS/University/UniversityProfileSubjectAdd/AddUniProfileSubjectDocumentRequirement"));
+const AddUniProfileSubject = lazy(() =>
+  import(
+    "./views/services/University/UniversityProfileSubjectAdd/AddUniProfileSubject"
+  )
+);
+const AddUniProfileSubjectFee = lazy(() =>
+  import(
+    "./views/services/University/UniversityProfileSubjectAdd/AddUniProfileSubjectFee"
+  )
+);
+const AddUniProfileSubjectDeliveryPattern = lazy(() =>
+  import(
+    "./views/services/University/UniversityProfileSubjectAdd/AddUniProfileSubjectDeliveryPattern"
+  )
+);
+const AddUniProfileSubjectRequirements = lazy(() =>
+  import(
+    "./views/services/University/UniversityProfileSubjectAdd/AddUniProfileSubjectRequirements.js"
+  )
+);
+const AddUniProfileSubjectDocumentRequirement = lazy(() =>
+  import(
+    "./views/services/University/UniversityProfileSubjectAdd/AddUniProfileSubjectDocumentRequirement"
+  )
+);
 
 // country List
-const AddCountry = lazy(() => import("./views/SMS/Country/AddCountry"))
+const AddCountry = lazy(() => import("./views/services/Country/AddCountry"));
 
 // State List
-const AddState = lazy(() => import("./views/SMS/State/AddState"))
+const AddState = lazy(() => import("./views/services/State/AddState"));
 
 // City List
-const AddCity = lazy(() => import("./views/SMS/City/AddCity"))
+const AddCity = lazy(() => import("./views/services/City/AddCity"));
 
 // file upload
-const FileUpload =  lazy(() => import("./views/SMS/UniversitySubjects/FileUpload.js"))
+const FileUpload = lazy(() =>
+  import("./views/services/UniversitySubjects/FileUpload.js")
+);
 
 // Applications
-const Applications = lazy(() => import("./views/SMS/Applications/Applications.js"));
-const ApplicationDetails = lazy(() => import("./views/SMS/Applications/ApplicationDetails.js"));
+const Applications = lazy(() =>
+  import("./views/services/Applications/Applications.js")
+);
+const ApplicationDetails = lazy(() =>
+  import("./views/services/Applications/ApplicationDetails.js")
+);
 
+// const Pagination = lazy(() => import("./views/services/Pagination/Pagination.jsx"))
 
-// const Pagination = lazy(() => import("./views/SMS/Pagination/Pagination.jsx"))
-
-// const Login = lazy(() => import("./views/SMS/Login/Login.jsx"))
-
+// const Login = lazy(() => import("./views/services/Login/Login.jsx"))
 
 const forgotPassword = lazy(() =>
   import("./views/pages/authentication/ForgotPassword")
-)
-const lockScreen = lazy(() => import("./views/pages/authentication/LockScreen"))
+);
+const lockScreen = lazy(() =>
+  import("./views/pages/authentication/LockScreen")
+);
 const resetPassword = lazy(() =>
   import("./views/pages/authentication/ResetPassword")
-)
+);
 const StudentRegister = lazy(() =>
   import("./views/pages/authentication/register/StudentRegister")
-)
+);
 const ConsultantRegister = lazy(() =>
   import("./views/pages/authentication/register/ConsultantRegister")
-)
+);
 const ProviderRegister = lazy(() =>
   import("./views/pages/authentication/register/ProviderRegister")
-)
+);
 const accessControl = lazy(() =>
   import("./extensions/access-control/AccessControl")
-)
-const notFound = lazy(() =>
-  import("./views/pages/misc/error/404")
-)
-const BadRequest = lazy(() =>
-  import("./views/pages/misc/error/400")
-)
+);
+const notFound = lazy(() => import("./views/pages/misc/error/404"));
+const BadRequest = lazy(() => import("./views/pages/misc/error/400"));
 
-const InternalServerError = lazy(() =>
-  import("./views/pages/misc/error/500")
-)
+const InternalServerError = lazy(() => import("./views/pages/misc/error/500"));
 
-const NotAuthorized = lazy(() =>
-  import("./views/pages/misc/NotAuthorized")
-)
+const NotAuthorized = lazy(() => import("./views/pages/misc/NotAuthorized"));
 
-const Post = lazy(() =>
-  import("./views/SMS/CRUD/Post/Post")
-)
-const Get = lazy(() =>
-  import("./views/SMS/CRUD/Get/Get")
-)
-const Put = lazy(() =>
-  import("./views/SMS/CRUD/PUT/Put")
-)
-const Delete = lazy(() =>
-  import("./views/SMS/CRUD/Delete/Delete")
-)
+const Post = lazy(() => import("./views/services/CRUD/Post/Post"));
+const Get = lazy(() => import("./views/services/CRUD/Get/Get"));
+const Put = lazy(() => import("./views/services/CRUD/PUT/Put"));
+const Delete = lazy(() => import("./views/services/CRUD/Delete/Delete"));
 const ProviderForm = lazy(() =>
-  import("./views/SMS/Provider/ProviderForm")
-)
+  import("./views/services/Provider/ProviderForm")
+);
 const AdminProviderForm = lazy(() =>
-  import("./views/SMS/Provider/Admin/AdminProviderForm")
-)
-const loginForm = lazy(() =>
-  import("./views/core/auth/pages/loginForm")
-)
+  import("./views/services/Provider/Admin/AdminProviderForm")
+);
+const loginForm = lazy(() => import("./views/core/auth/pages/loginForm"));
 const StudentLogin = lazy(() =>
   import("./views/pages/authentication/login/StudentLogin")
-)
+);
 
 const SessionExpired = lazy(() =>
   import("./views/pages/authentication/login/SessionExpired")
-)
+);
 
-const AddEmployeeGeneralInfo = lazy(() => import("./views/SMS/Configuration/Employees/AddEmployeeGeneralInfo"))
-const AddEmployeeContactInfo = lazy(() => import("./views/SMS/Configuration/Employees/AddEmployeeContactInfo"))
-const EmployeeInformation = lazy(() => import("./views/SMS/Configuration/Employees/EmployeeInformatio"))
-const MenuInfo = lazy(() => import("./views/SMS/Configuration/Menu/MenuInfo"))
-const SiteSetting = lazy(() => import("./views/SMS/Configuration/SiteSetting/SiteSetting"))
-const AddSiteSetting = lazy(() => import("./views/SMS/Configuration/SiteSetting/AddSiteSetting"))
-const UpdateSiteSetting = lazy(() => import("./views/SMS/Configuration/SiteSetting/UpdateSiteSetting"))
-const Country = lazy(() => import("./views/core/country/pages/index"))
-const ProviderList = lazy(() => import("./views/SMS/Provider/ProviderList"))
-const ProviderAdminList = lazy(() => import("./views/SMS/Provider/Admin/ProviderAdminList"))
-const ProviderAdminProfile = lazy(() => import("./views/SMS/Provider/ProviderAdminProfile"))
-const ProviderDetails = lazy(() => import("./views/SMS/Provider/ProviderDetails"))
-const ProviderDashboard = lazy(() => import("./views/SMS/Provider/ProviderDashboard"))
-const AssignUniversity = lazy(() => import("./views/SMS/Provider/AssignUniversity"))
-const AssignOfficerUniversity = lazy(() => import("./views/SMS/AdmissionOfficer/AssignOfficerUniversity"))
-const UpdateProvider = lazy(() => import("./views/SMS/Provider/UpdateProvider"))
-const Branch = lazy(() => import("./views/SMS/Branches/Branch/Branch"))
-const BranchManager = lazy(() => import("./views/SMS/Branches/Manager/BranchManager"))
-const BranchManagerProfile = lazy(() => import("./views/SMS/Branches/BranchManager/BranchManagerProfile"))
-const AddBranchManager = lazy(() => import("./views/SMS/Branches/Manager/AddBranchManager"))
-const UpdateBranch = lazy(() => import("./views/SMS/Branches/Branch/UpdateBranch"))
-const BranchList = lazy(() => import("./views/SMS/Branches/Branch/BranchList"))
-const UpdateBranchManager = lazy(() => import("./views/SMS/Branches/Manager/UpdateBranchManager"))
-const BranchProfile = lazy(() => import("./views/SMS/Branches/Branch/BranchProfile"))
-const BranchEmployee = lazy(() => import("./views/SMS/Branches/Employee/BranchEmployee"))
-const BranchManagerInformation = lazy(() => import("./views/SMS/Branches/BranchManager/BranchManagerInformation"))
-const BranchTeamEmployeeInformation = lazy(() => import("./views/SMS/Branches/BranchManager/BranchTeamEmployeeInformation"))
+const AddEmployeeGeneralInfo = lazy(() =>
+  import("./views/services/Configuration/Employees/AddEmployeeGeneralInfo")
+);
+const AddEmployeeContactInfo = lazy(() =>
+  import("./views/services/Configuration/Employees/AddEmployeeContactInfo")
+);
+const EmployeeInformation = lazy(() =>
+  import("./views/services/Configuration/Employees/EmployeeInformatio")
+);
+const MenuInfo = lazy(() =>
+  import("./views/services/Configuration/Menu/MenuInfo")
+);
+const SiteSetting = lazy(() =>
+  import("./views/services/Configuration/SiteSetting/SiteSetting")
+);
+const AddSiteSetting = lazy(() =>
+  import("./views/services/Configuration/SiteSetting/AddSiteSetting")
+);
+const UpdateSiteSetting = lazy(() =>
+  import("./views/services/Configuration/SiteSetting/UpdateSiteSetting")
+);
+const Country = lazy(() => import("./views/core/country/pages/index"));
+const ProviderList = lazy(() =>
+  import("./views/services/Provider/ProviderList")
+);
+const ProviderAdminList = lazy(() =>
+  import("./views/services/Provider/Admin/ProviderAdminList")
+);
+const ProviderAdminProfile = lazy(() =>
+  import("./views/services/Provider/ProviderAdminProfile")
+);
+const ProviderDetails = lazy(() =>
+  import("./views/services/Provider/ProviderDetails")
+);
+const ProviderDashboard = lazy(() =>
+  import("./views/services/Provider/ProviderDashboard")
+);
+const AssignUniversity = lazy(() =>
+  import("./views/services/Provider/AssignUniversity")
+);
+const AssignOfficerUniversity = lazy(() =>
+  import("./views/services/AdmissionOfficer/AssignOfficerUniversity")
+);
+const UpdateProvider = lazy(() =>
+  import("./views/services/Provider/UpdateProvider")
+);
+const Branch = lazy(() => import("./views/services/Branches/Branch/Branch"));
+const BranchManager = lazy(() =>
+  import("./views/services/Branches/Manager/BranchManager")
+);
+const BranchManagerProfile = lazy(() =>
+  import("./views/services/Branches/BranchManager/BranchManagerProfile")
+);
+const AddBranchManager = lazy(() =>
+  import("./views/services/Branches/Manager/AddBranchManager")
+);
+const UpdateBranch = lazy(() =>
+  import("./views/services/Branches/Branch/UpdateBranch")
+);
+const BranchList = lazy(() =>
+  import("./views/services/Branches/Branch/BranchList")
+);
+const UpdateBranchManager = lazy(() =>
+  import("./views/services/Branches/Manager/UpdateBranchManager")
+);
+const BranchProfile = lazy(() =>
+  import("./views/services/Branches/Branch/BranchProfile")
+);
+const BranchEmployee = lazy(() =>
+  import("./views/services/Branches/Employee/BranchEmployee")
+);
+const BranchManagerInformation = lazy(() =>
+  import("./views/services/Branches/BranchManager/BranchManagerInformation")
+);
+const BranchTeamEmployeeInformation = lazy(() =>
+  import(
+    "./views/services/Branches/BranchManager/BranchTeamEmployeeInformation"
+  )
+);
 
-const BranchConsultantRegistration = lazy(() => import("./views/SMS/Branches/BranchConsultant/BranchConsultantRegistration"))
+const BranchConsultantRegistration = lazy(() =>
+  import(
+    "./views/services/Branches/BranchConsultant/BranchConsultantRegistration"
+  )
+);
 
 // Compliance Officer
-const ComplianceOfficerList = lazy(() => import("./views/SMS/Branches/ComplianceOfficer/ComplianceOfficerList"));
-const AddComplianceOfficer = lazy(() => import("./views/SMS/Branches/ComplianceOfficer/AddComplianceOfficer"));
-const ComplianceOfficerProfile = lazy(() => import("./views/SMS/Branches/ComplianceOfficer/ComplianceOfficerProfile"));
+const ComplianceOfficerList = lazy(() =>
+  import("./views/services/Branches/ComplianceOfficer/ComplianceOfficerList")
+);
+const AddComplianceOfficer = lazy(() =>
+  import("./views/services/Branches/ComplianceOfficer/AddComplianceOfficer")
+);
+const ComplianceOfficerProfile = lazy(() =>
+  import("./views/services/Branches/ComplianceOfficer/ComplianceOfficerProfile")
+);
 
 // Admission Manager
 
-const AdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManager"))
-const AdmissionManagerList = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerList"))
-const UpdateAdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/UpdateAdmissionManager"))
+const AdmissionManager = lazy(() =>
+  import("./views/services/Provider/AdmissionManager/AdmissionManager")
+);
+const AdmissionManagerList = lazy(() =>
+  import("./views/services/Provider/AdmissionManager/AdmissionManagerList")
+);
+const UpdateAdmissionManager = lazy(() =>
+  import("./views/services/Provider/AdmissionManager/UpdateAdmissionManager")
+);
 
-const UniversityWiseAdmissionManager = lazy(() => import("./views/SMS/Provider/AdmissionManager/UniversityWiseAdmissionManager"))
+const UniversityWiseAdmissionManager = lazy(() =>
+  import(
+    "./views/services/Provider/AdmissionManager/UniversityWiseAdmissionManager"
+  )
+);
 
-const UniversityWiseAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/UniversityWiseAdmissionOfficer"))
+const UniversityWiseAdmissionOfficer = lazy(() =>
+  import("./views/services/AdmissionOfficer/UniversityWiseAdmissionOfficer")
+);
 
-const AdmissionManagerSubjects = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerSubjects"))
+const AdmissionManagerSubjects = lazy(() =>
+  import("./views/services/Provider/AdmissionManager/AdmissionManagerSubjects")
+);
 
-const AdmissionOfficerSubjects = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerWiseSubject"))
+const AdmissionOfficerSubjects = lazy(() =>
+  import("./views/services/AdmissionOfficer/AdmissionOfficerWiseSubject")
+);
 
-const AddNewAdmissionOfficerPage = lazy(() => import("./views/SMS/AdmissionOfficer/AddNewAdmissionOfficerPage"))
+const AddNewAdmissionOfficerPage = lazy(() =>
+  import("./views/services/AdmissionOfficer/AddNewAdmissionOfficerPage")
+);
 
-const AdmissionOfficerAssignedSubjects = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerWiseAssignedSubject"))
+const AdmissionOfficerAssignedSubjects = lazy(() =>
+  import(
+    "./views/services/AdmissionOfficer/AdmissionOfficerWiseAssignedSubject"
+  )
+);
 
-const AdmissionManagerAssignedSubjects = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerWiseAssignedSubject"))
+const AdmissionManagerAssignedSubjects = lazy(() =>
+  import(
+    "./views/services/Provider/AdmissionManager/AdmissionManagerWiseAssignedSubject"
+  )
+);
 
 // Student
 
-const StudentList = lazy(() => import("./views/SMS/Students/StudentList"))
-const StudentProfile = lazy(() => import("./views/SMS/Students/StudentProfile"))
-const PersonalInformation = lazy(() => import("./views/SMS/Students/PersonalInformation"))
-const ContactInformation = lazy(() => import("./views/SMS/Students/ContactInformation"))
-const ApplicationInformation = lazy(() => import("./views/SMS/Students/ApplicationInformation"))
-const EducationalInformation = lazy(() => import("./views/SMS/Students/EducationalInformation"))
-const AddStudentRegister = lazy(() => import("./views/SMS/Students/StudentRegister"))
-const AddExperience = lazy(() => import("./views/SMS/Students/Experience"))
-const AddReference = lazy(() => import("./views/SMS/Students/Reference"))
-const AddPersonalStatement = lazy(() => import("./views/SMS/Students/PersonalStatement"))
-const AddOtherInformation = lazy(() => import("./views/SMS/Students/OtherInformation"))
-const AddTestScore = lazy(() => import("./views/SMS/Students/TestScore"))
-const StudentByConsultant = lazy(() => import("./views/SMS/Students/StudentByConsultant"))
+//  import StudentList from "./views/services/Students/StudentList.js";
+const StudentProfile = lazy(() =>
+  import("./views/services/Students/StudentProfile")
+);
+const PersonalInformation = lazy(() =>
+  import("./views/services/Students/PersonalInformation")
+);
+const ContactInformation = lazy(() =>
+  import("./views/services/Students/ContactInformation")
+);
+const ApplicationInformation = lazy(() =>
+  import("./views/services/Students/ApplicationInformation")
+);
+const EducationalInformation = lazy(() =>
+  import("./views/services/Students/EducationalInformation")
+);
+const AddStudentRegister = lazy(() =>
+  import("./views/services/Students/StudentRegister")
+);
+const AddExperience = lazy(() =>
+  import("./views/services/Students/Experience")
+);
+const AddReference = lazy(() => import("./views/services/Students/Reference"));
+const AddPersonalStatement = lazy(() =>
+  import("./views/services/Students/PersonalStatement")
+);
+const AddOtherInformation = lazy(() =>
+  import("./views/services/Students/OtherInformation")
+);
+const AddTestScore = lazy(() => import("./views/services/Students/TestScore"));
+const StudentByConsultant = lazy(() =>
+  import("./views/services/Students/StudentByConsultant")
+);
 
 // Education Level
 
-const EducationLevelList = lazy(() => import("./views/SMS/EducationLevel/EducationLevelList"))
-// const AddEducationLevel = lazy(() => import("./views/SMS/EducationLevel/AddEducationLevel"))
+const EducationLevelList = lazy(() =>
+  import("./views/services/EducationLevel/EducationLevelList")
+);
+// const AddEducationLevel = lazy(() => import("./views/services/EducationLevel/AddEducationLevel"))
 
 // Degree
 
-const DegreeList = lazy(() => import("./views/SMS/Degree/DegreeList"))
-// const AddDegree = lazy(() => import("./views/SMS/Degree/AddDegree"))
+const DegreeList = lazy(() => import("./views/services/Degree/DegreeList"));
+// const AddDegree = lazy(() => import("./views/services/Degree/AddDegree"))
 
 // Seed Data
 
-const SeedData = lazy(() => import("./views/SMS/SeedData/Index"));
+const SeedData = lazy(() => import("./views/services/SeedData/Index"));
 
 // Guidelines for newcomers to the website
 
-const GuideLine = lazy(() => import("./views/SMS/Guideline/GuideLine"));
+const GuideLine = lazy(() => import("./views/services/Guideline/GuideLine"));
 
+const UploadDocument = lazy(() =>
+  import("./views/services/Students/DocumentUpload")
+);
 
+const ExamTestType = lazy(() =>
+  import("./views/services/Configuration/ExamTestType/ExamTestType")
+);
+const ExamTestTypeAttribute = lazy(() =>
+  import("./views/services/Configuration/ExamTestType/ExamTestTypeAttribute")
+);
 
+const UpdateUniversityInformation = lazy(() =>
+  import("./views/services/University/UpdateUniversityInformation")
+);
 
-
-
-
-const UploadDocument = lazy(() => import("./views/SMS/Students/DocumentUpload"))
-
-const ExamTestType = lazy(() => import("./views/SMS/Configuration/ExamTestType/ExamTestType"))
-const ExamTestTypeAttribute = lazy(() => import("./views/SMS/Configuration/ExamTestType/ExamTestTypeAttribute"))
-
-
-const UpdateUniversityInformation = lazy(() => import("./views/SMS/University/UpdateUniversityInformation"))
-
-const StudentType = lazy(() => import("./views/SMS/Students/StudentType.js"))
+const StudentType = lazy(() =>
+  import("./views/services/Students/StudentType.js")
+);
 
 // country
 
-const CountryList = lazy(() => import("./views/SMS/Configuration/Country/Country.js"))
+const CountryList = lazy(() =>
+  import("./views/services/Configuration/Country/Country.js")
+);
 
 // Search
 
-const Search = lazy(() => import("./views/SMS/Search/Search"))
+const Search = lazy(() => import("./views/services/Search/Search"));
 
 // Comission
-const AccountIntake = lazy(() => import("./views/SMS/Comission/AccountIntake/AccountIntake"))
+const AccountIntake = lazy(() =>
+  import("./views/services/Comission/AccountIntake/AccountIntake")
+);
 
-const ComissionGroup = lazy(() => import("./views/SMS/Comission/CommissionGroup/ComissionGroup"))
+const ComissionGroup = lazy(() =>
+  import("./views/services/Comission/CommissionGroup/ComissionGroup")
+);
 
-
-
-const CommissionPriceList = lazy(() => import("./views/SMS/Comission/CommissionPrice/CommissionPriceList"))
-
+const CommissionPriceList = lazy(() =>
+  import("./views/services/Comission/CommissionPrice/CommissionPriceList")
+);
 
 // practice
 
@@ -437,690 +796,1275 @@ const UpdateUser = lazy(() => import("./views/Test/UpdateUser"));
 
 // Consultant Conscent
 
-const ConsultantConscent = lazy(() => import("./views/SMS/Consultant/ConsultantConscent"));
-const AssociateConsent = lazy(() => import("./views/SMS/Consultant/AssociateConsent"));
+const ConsultantConscent = lazy(() =>
+  import("./views/services/Consultant/ConsultantConscent")
+);
+const AssociateConsent = lazy(() =>
+  import("./views/services/Consultant/AssociateConsent")
+);
 
 // Student Declaration
-const StudentDeclaration = lazy(() => import("./views/SMS/Students/StudentDeclaration"));
+const StudentDeclaration = lazy(() =>
+  import("./views/services/Students/StudentDeclaration")
+);
 
 // Branch Employee Profile Page
-const BranchEmployeeProfile = lazy(() => import("./views/SMS/Branches/Employee/EmployeeProfile"));
+const BranchEmployeeProfile = lazy(() =>
+  import("./views/services/Branches/Employee/EmployeeProfile")
+);
 
+const Nationality = lazy(() =>
+  import("./views/services/Nationality/Nationality")
+);
 
+const AdmissionManagerProfile = lazy(() =>
+  import("./views/services/Provider/AdmissionManager/AdmissionManagerProfile")
+);
 
-const Nationality = lazy(() => import("./views/SMS/Nationality/Nationality"));
+const AdmissionManagerConditionalProfile = lazy(() =>
+  import(
+    "./views/services/Provider/AdmissionManager/AdmissionManagerConditionalProfile"
+  )
+);
 
-const AdmissionManagerProfile = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerProfile"));
+const PromotionalCommissionList = lazy(() =>
+  import(
+    "./views/services/PromotionalCommission/CommissionList/PromotionalCommissionList"
+  )
+);
 
-const AdmissionManagerConditionalProfile = lazy(() => import("./views/SMS/Provider/AdmissionManager/AdmissionManagerConditionalProfile"));
+const DistributionLevelSetting = lazy(() =>
+  import("./views/services/DistributionLevelSetting/Index")
+);
 
-const PromotionalCommissionList = lazy(() => import("./views/SMS/PromotionalCommission/CommissionList/PromotionalCommissionList"));
+const ApplicationTransaction = lazy(() =>
+  import("./views/services/ApplicationTransaction/Index")
+);
+const ApplicationTransactionDetails = lazy(() =>
+  import("./views/services/ApplicationTransaction/Details")
+);
 
-const DistributionLevelSetting = lazy(() => import("./views/SMS/DistributionLevelSetting/Index"));
+const InFlow = lazy(() => import("./views/services/InFlow/Index"));
+const InFlowDetails = lazy(() => import("./views/services/InFlow/Details"));
+const InFlowUpdate = lazy(() => import("./views/services/InFlow/Update"));
 
-const ApplicationTransaction = lazy(() => import("./views/SMS/ApplicationTransaction/Index"));
-const ApplicationTransactionDetails = lazy(() => import("./views/SMS/ApplicationTransaction/Details"));
+const AccountTransactionList = lazy(() =>
+  import("./views/services/AccountTransaction/Index")
+);
 
-const InFlow = lazy(() => import("./views/SMS/InFlow/Index"));
-const InFlowDetails = lazy(() => import("./views/SMS/InFlow/Details"));
-const InFlowUpdate = lazy(() => import("./views/SMS/InFlow/Update"));
+const CreateWithdrawRequest = lazy(() =>
+  import("./views/services/WithdrawRequest/Create")
+);
+const WithdrawRequestList = lazy(() =>
+  import("./views/services/WithdrawRequest/List")
+);
+const ExportWithdrawRequestPdf = lazy(() =>
+  import("./views/services/WithdrawRequest/ExportWithdrawRequestPdf")
+);
 
-const AccountTransactionList = lazy(() => import("./views/SMS/AccountTransaction/Index"));
-
-const CreateWithdrawRequest = lazy(() => import("./views/SMS/WithdrawRequest/Create"));
-const WithdrawRequestList = lazy(() => import("./views/SMS/WithdrawRequest/List"));
-const ExportWithdrawRequestPdf =  lazy(() => import("./views/SMS/WithdrawRequest/ExportWithdrawRequestPdf"));
-
-const WithdrawTransaction = lazy(() => import("./views/SMS/WithdrawTransaction/Index"));
-const WithdrawTransactionDetails = lazy(() => import("./views/SMS/WithdrawTransaction/Details"));
+const WithdrawTransaction = lazy(() =>
+  import("./views/services/WithdrawTransaction/Index")
+);
+const WithdrawTransactionDetails = lazy(() =>
+  import("./views/services/WithdrawTransaction/Details")
+);
 
 // Comission Transaction Details
-const ComissionTransactionDetails = lazy(() => import("./views/SMS/Comission/ComissionTransactionDetails"));
-
+const ComissionTransactionDetails = lazy(() =>
+  import("./views/services/Comission/ComissionTransactionDetails")
+);
 
 // admission officer
-const AdmissionOfficerList = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerList.js"));
-const AdmissionOfficerDetails = lazy(() => import("./views/SMS/AdmissionOfficer/AdmissionOfficerDetails.js"));
-const AssignAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/AssignAdmissionOfficer.js"));
-const UpdateAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/UpdateAdmissionOfficer.js"));
-const AddAdmissionOfficer = lazy(() => import("./views/SMS/AdmissionOfficer/AddAdmissionOfficer"));
+const AdmissionOfficerList = lazy(() =>
+  import("./views/services/AdmissionOfficer/AdmissionOfficerList.js")
+);
+const AdmissionOfficerDetails = lazy(() =>
+  import("./views/services/AdmissionOfficer/AdmissionOfficerDetails.js")
+);
+const AssignAdmissionOfficer = lazy(() =>
+  import("./views/services/AdmissionOfficer/AssignAdmissionOfficer.js")
+);
+const UpdateAdmissionOfficer = lazy(() =>
+  import("./views/services/AdmissionOfficer/UpdateAdmissionOfficer.js")
+);
+const AddAdmissionOfficer = lazy(() =>
+  import("./views/services/AdmissionOfficer/AddAdmissionOfficer")
+);
 
 // Student Create Forms
-const StudentApplicationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentApplicationForm"));
+const StudentApplicationForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentApplicationForm")
+);
 
-const StudentPersonalForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentPersonalForm"));
+const StudentPersonalForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentPersonalForm")
+);
 
-const StudentContactForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentContactForm"));
+const StudentContactForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentContactForm")
+);
 
-const StudentEducationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentEducationForm"));
+const StudentEducationForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentEducationForm")
+);
 
-const StudentTestScoreForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentTestScoreForm"));
+const StudentTestScoreForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentTestScoreForm")
+);
 
-const StudentExperienceForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentExperienceForm"));
+const StudentExperienceForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentExperienceForm")
+);
 
-const StudentReferenceForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentReferenceForm"));
+const StudentReferenceForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentReferenceForm")
+);
 
-const StudentPersonalStatementForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentPersonalStatementForm"));
+const StudentPersonalStatementForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentPersonalStatementForm")
+);
 
-const StudentOtherInformationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentOtherInformationForm"));
+const StudentOtherInformationForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentOtherInformationForm")
+);
 
-const StudentDeclarationForm = lazy(() => import("./views/SMS/Students/CreateForms/StudentDeclarationForm"));
+const StudentDeclarationForm = lazy(() =>
+  import("./views/services/Students/CreateForms/StudentDeclarationForm")
+);
 
-const UniversityCommission = lazy(() => import("./views/SMS/University/UniversityCommission"));
-const UniversityTestScore = lazy(() => import("./views/SMS/University/UniversityTestScore"));
-
-
+const UniversityCommission = lazy(() =>
+  import("./views/services/University/UniversityCommission")
+);
+const UniversityTestScore = lazy(() =>
+  import("./views/services/University/UniversityTestScore")
+);
 
 // All Notification Page
-const Notifications = lazy(() => import("./views/SMS/Notifications/Notifications"));
-
+const Notifications = lazy(() =>
+  import("./views/services/Notifications/Notifications")
+);
 
 const TrialNotification = lazy(() => import("./views/Test/Notification"));
 
 // MAke Student a Consultant
-const ConvertStudentIntoConsultantForm = lazy(() => import("./views/SMS/ConvertStudentIntoConsultant/ConvertStudentIntoConsultantForm"));
+const ConvertStudentIntoConsultantForm = lazy(() =>
+  import(
+    "./views/services/ConvertStudentIntoConsultant/ConvertStudentIntoConsultantForm"
+  )
+);
 
-
-// Login History 
-const LoginHistory = lazy(() => import("./views/SMS/LoginHistory/Index"));
-const AllLoginHistory = lazy(() => import("./views/SMS/LoginHistory/AllLoginHistory"));
+// Login History
+const LoginHistory = lazy(() => import("./views/services/LoginHistory/Index"));
+const AllLoginHistory = lazy(() =>
+  import("./views/services/LoginHistory/AllLoginHistory")
+);
 
 // Student Type Document
-const StudentTypeDocument = lazy(() => import("./views/SMS/StudentTypeDocument/List"));
+const StudentTypeDocument = lazy(() =>
+  import("./views/services/StudentTypeDocument/List")
+);
 
-
-
-
-const demo = lazy(() => import("./views/SMS/Demo/Demo"))
-
-
+// const Users = lazy(() => import("./views/services/Users/Users.jsx"));
+const Users = lazy(() =>
+  import("./views/services/UserManagment/UserManageMent.jsx")
+);
+const Siptrunk = lazy(() => import("./views/services/SipTrunks/SipTrunks.jsx"));
+const Calls = lazy(() => import("./views/services/Calls/Calls.jsx"));
+const CallPackeges = lazy(() =>
+  import("./views/services/CallPackeges/CallPackeges.jsx")
+);
+// const Sales = lazy(()=>)
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
   <Route
     {...rest}
-    render={props => {
+    render={(props) => {
       return (
         <ContextLayout.Consumer>
-          {context => {
+          {(context) => {
             let LayoutTag =
               fullLayout === true
                 ? context.fullLayout
                 : context.state.activeLayout === "horizontal"
                 ? context.horizontalLayout
-                : context.VerticalLayout
+                : context.VerticalLayout;
             return (
               <LayoutTag {...props} permission={props.user}>
                 <Suspense fallback={<Spinner />}>
-                    <Component {...props} />
+                  <Component {...props} />
                 </Suspense>
               </LayoutTag>
-            )
+            );
           }}
         </ContextLayout.Consumer>
-      )
+      );
     }}
   />
-)
-const mapStateToProps = state => {
+);
+const mapStateToProps = (state) => {
   return {
-    user: state.auth.login.userRole
-  }
-}
+    user: state.auth.login.userRole,
+  };
+};
 
-const AppRoute = connect(mapStateToProps)(RouteConfig)
+const AppRoute = connect(mapStateToProps)(RouteConfig);
 
 class AppRouter extends React.Component {
   render() {
     return (
       // Set the directory path if you are deploying in sub-folder
       <>
-     
-          {/* SMS Client Routing */}
-         {
-           isAuth ?
-           <>
-             <Router history={history}>
-         <ToastProvider autoDismiss={true}>
-        <Switch>
-         <AppRoute exact path="/" component={analyticsDashboard} />
-        
-         {/* <AppRoute  path="/AdmissionManager" component={permissions?.includes(602)? AdmissionManager  : NotAuthorized } /> */}
+        {/* services Client Routing */}
+        {isAuth ? (
+          <>
+            <Router history={history}>
+              <ToastProvider autoDismiss={true}>
+                <Switch>
+                  <AppRoute exact path="/" component={analyticsDashboard} />
 
-         {/* <AppRoute  path="/AdmissionGetData" component={AdmissionGetData} /> */}
+                  {/* emon code */}
+                  <AppRoute
+                    exact
+                    path="/addAdmissionManager/:id"
+                    component={AdmissionManager}
+                  />
+                  <AppRoute path="/siptrunk" component={Siptrunk} />
+                  <AppRoute path="/calls" component={Calls} />
+                  <AppRoute path="/callPackages" component={CallPackeges} />
+                  <AppRoute
+                    exact
+                    path="/admissionManagerList"
+                    component={AdmissionManagerList}
+                  />
+                  <AppRoute
+                    path="/updateAdmissionManager/:id/:id2"
+                    component={UpdateAdmissionManager}
+                  />
 
-         {/* <AppRoute  path="/updateUser/:id" component={UpdateUser} /> */}
+                  <AppRoute
+                    path="/universityAdmissionManagers/:universityId"
+                    component={UniversityWiseAdmissionManager}
+                  />
 
-         <AppRoute exact path="/addAdmissionManager/:id" component={permissions?.includes(permissionList.Add_New_Admission_manager)? AdmissionManager : NotAuthorized} />
-         <AppRoute exact path="/admissionManagerList" component={permissions?.includes(permissionList.View_Admission_manager_List) ? AdmissionManagerList : NotAuthorized} />
-         <AppRoute  path="/updateAdmissionManager/:id/:id2" component={permissions?.includes(permissionList.Update_Admission_manager_info) ? UpdateAdmissionManager : NotAuthorized } />
+                  <AppRoute
+                    path="/universityAdmissionOfficers/:universityId"
+                    component={UniversityWiseAdmissionOfficer}
+                  />
 
-         <AppRoute  path="/universityAdmissionManagers/:universityId" component={permissions?.includes(permissionList.View_Admission_manager_university_List) ? UniversityWiseAdmissionManager : NotAuthorized } />
+                  <AppRoute
+                    path="/updateAdmissionOfficer/:officerId/:id"
+                    component={UpdateAdmissionOfficer}
+                  />
 
-         <AppRoute  path="/universityAdmissionOfficers/:universityId" component={permissions?.includes(permissionList.View_Admission_Officer_university_List) ? UniversityWiseAdmissionOfficer : NotAuthorized } />
+                  <AppRoute
+                    path="/addAdmissionOfficer/:providerId"
+                    component={AddAdmissionOfficer}
+                  />
 
-         <AppRoute  path="/updateAdmissionOfficer/:officerId/:id" component={permissions?.includes(permissionList.Update_Admissionofficer_info) ? UpdateAdmissionOfficer : NotAuthorized } />
+                  <AppRoute
+                    path="/admissionManagerSubjects/:managerId/:universityId"
+                    component={AdmissionManagerSubjects}
+                  />
 
-         <AppRoute  path="/addAdmissionOfficer/:providerId" component={permissions?.includes(permissionList.Add_New_Admissionofficer) ? AddAdmissionOfficer : NotAuthorized } />
+                  <AppRoute
+                    path="/admissionOfficerSubjects/:managerId/:universityId"
+                    component={AdmissionOfficerSubjects}
+                  />
 
-         <AppRoute  path="/admissionManagerSubjects/:managerId/:universityId" component={permissions?.includes(permissionList.View_Admissionmanager_Subject_list) ? AdmissionManagerSubjects : NotAuthorized } />
+                  <AppRoute
+                    path="/admissionOfficerAssignedSubjects/:officerId"
+                    component={AdmissionOfficerAssignedSubjects}
+                  />
 
-         <AppRoute  path="/admissionOfficerSubjects/:managerId/:universityId" component={permissions?.includes(permissionList.View_Admissionofficer_Subject_list) ? AdmissionOfficerSubjects : NotAuthorized } />
+                  <AppRoute
+                    path="/admissionManagerAssignedSubjects/:managerId"
+                    component={AdmissionManagerAssignedSubjects}
+                  />
 
-         <AppRoute  path="/admissionOfficerAssignedSubjects/:officerId" component={permissions?.includes(permissionList.View_Admissionofficer_Subject_list) ? AdmissionOfficerAssignedSubjects : NotAuthorized } />
+                  <AppRoute
+                    path="/addAdmissionOfficer"
+                    component={AddNewAdmissionOfficerPage}
+                  />
 
-         <AppRoute  path="/admissionManagerAssignedSubjects/:managerId" component={permissions?.includes(permissionList.View_Admissionofficer_Subject_list) ? AdmissionManagerAssignedSubjects : NotAuthorized } />
+                  {/* admission officer */}
+                  <AppRoute
+                    path="/admissionOfficerList"
+                    component={AdmissionOfficerList}
+                  />
+                  <AppRoute
+                    path="/admissionOfficerListFromAdmissionManagerList/:providerId/:managerId"
+                    component={AdmissionOfficerList}
+                  />
+                  <AppRoute
+                    path="/admissionOfficerDetails/:officerId"
+                    component={AdmissionOfficerDetails}
+                  />
 
-         <AppRoute  path="/addAdmissionOfficer" component={permissions?.includes(permissionList.Add_New_Admissionofficer) ? AddNewAdmissionOfficerPage : NotAuthorized } />
-
-         {/* admission officer */}
-         <AppRoute  path="/admissionOfficerList" component={permissions?.includes(permissionList?.View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />
-         <AppRoute  path="/admissionOfficerListFromAdmissionManagerList/:providerId/:managerId" component={permissions?.includes(permissionList?.View_Admissionofficer_List) ? AdmissionOfficerList : NotAuthorized} />
-         <AppRoute  path="/admissionOfficerDetails/:officerId" component={permissions?.includes(permissionList.View_Admissionofficer_info) ? AdmissionOfficerDetails : NotAuthorized} />
-
-         {/* <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} /> */}
-{/*   
+                  {/* <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} /> */}
+                  {/*
          <AppRoute  path="/demo" component={demo} /> */}
-         {/* <AppRoute  path="/uni1" component={demo} /> */}
-         {/* <AppRoute  path="/uni2" component={demo} /> */}
-         {/* <AppRoute  path="/roles" component={permissions?.includes(3)? Roles : NotAuthorized} /> */}
-         {/* <AppRoute  path="/addMenu" component={Menu} /> */}
-         {/* <AppRoute  path="/menu" component={MenuInfo} /> */}
-   
-         <AppRoute  path="/rolePermission" component={permissions?.includes(permissionList?.View_Permission)? RolePermission : NotAuthorized} />
-         <AppRoute  path="/roleMenu" component={permissions?.includes(permissionList?.View_Menu) ? RoleMenu : NotAuthorized} />
+                  {/* <AppRoute  path="/uni1" component={demo} /> */}
+                  {/* <AppRoute  path="/uni2" component={demo} /> */}
+                  {/* <AppRoute  path="/roles" component={permissions?.includes(3)? Roles} /> */}
+                  {/* <AppRoute  path="/addMenu" component={Menu} /> */}
+                  {/* <AppRoute  path="/menu" component={MenuInfo} /> */}
 
-  
-         <AppRoute  path="/staffType" component={permissions.includes(permissionList?.EmployeeTypeList)? EmployeeType : NotAuthorized} />
-         {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
-         {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
-         <AppRoute  path="/staffListByType/:type" component={permissions?.includes(permissionList?.View_Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute exact path="/staffList" component={permissions?.includes(permissionList?.View_Staff_List) ? EmployeeList : NotAuthorized} />
-         <AppRoute  path="/staffProfile/:id" component={permissions?.includes(permissionList?.View_Staff_info)? EmployeeProfile : NotAuthorized} />
-         <AppRoute  path="/universityTypes" component={permissions?.includes(permissionList?.View_Universitytype_List)? AddUniversityType : NotAuthorized} />
-         <AppRoute  path="/universityCountry" component={permissions?.includes(permissionList?.View_UniversityCountry_List)? AddUniversityCountry : NotAuthorized} />
-         <AppRoute  path="/universityState" component={permissions?.includes(permissionList?.View_Universitystate_List) ? AddUniversityState : NotAuthorized} />
-         <AppRoute  path="/addUniversity/:univerId?" component={permissions?.includes(permissionList?.Add_New_University  || permissionList?.Update_University_info)? AddUniversity : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversity/:providerProfileId/:univerId?" component={permissions?.includes(permissionList?.Add_New_University  || permissionList?.Update_University_info)? AddProviderUniversity : NotAuthorized} />
-         <AppRoute  path="/addUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info)? AddUniversityApplicationDocument: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityApplicationDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info)? AddProviderUniversityApplicationDocument: NotAuthorized} />
-         <AppRoute  path="/addUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info)? AddUniversityTemplateDocument : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityTemplateDocument/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info)? AddProviderUniversityTemplateDocument : NotAuthorized} />
-         
-         <AppRoute  path="/addProviderUniversityCommission/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Commission || permissionList?.Update_University_Commission_info) ? AddProviderUniversityCommission : NotAuthorized} />
+                  <AppRoute path="/rolePermission" component={RolePermission} />
+                  <AppRoute path="/roleMenu" component={RoleMenu} />
 
-         {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
+                  <AppRoute path="/staffType" component={EmployeeType} />
+                  {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
+                  {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
+                  <AppRoute
+                    path="/staffListByType/:type"
+                    component={EmployeeList}
+                  />
+                  <AppRoute exact path="/staffList" component={EmployeeList} />
+                  <AppRoute
+                    path="/staffProfile/:id"
+                    component={EmployeeProfile}
+                  />
+                  <AppRoute
+                    path="/universityTypes"
+                    component={AddUniversityType}
+                  />
+                  <AppRoute
+                    path="/universityCountry"
+                    component={AddUniversityCountry}
+                  />
+                  <AppRoute
+                    path="/universityState"
+                    component={AddUniversityState}
+                  />
+                  <AppRoute
+                    path="/addUniversity/:univerId?"
+                    component={AddUniversity}
+                  />
+                  <AppRoute
+                    path="/addProviderUniversity/:providerProfileId/:univerId?"
+                    component={AddProviderUniversity}
+                  />
+                  <AppRoute
+                    path="/addUniversityApplicationDocument/:univerId"
+                    component={AddUniversityApplicationDocument}
+                  />
+                  <AppRoute
+                    path="/addProviderUniversityApplicationDocument/:providerProfileId/:univerId"
+                    component={AddProviderUniversityApplicationDocument}
+                  />
+                  <AppRoute
+                    path="/addUniversityTemplateDocument/:univerId"
+                    component={AddUniversityTemplateDocument}
+                  />
+                  <AppRoute
+                    path="/addProviderUniversityTemplateDocument/:providerProfileId/:univerId"
+                    component={AddProviderUniversityTemplateDocument}
+                  />
 
-          {/* intake */}
-          <AppRoute  path="/intake" component={permissions?.includes(permissionList?.View_subject_intake_List)? Intake : NotAuthorized} />
-          <AppRoute  path="/addNewIntakes" component={permissions?.includes(permissionList?.Add_New_subject_intake)? AddNewIntakes: NotAuthorized} />
-          <AppRoute  path="/updateIntake/:id" component={permissions?.includes(permissionList?.Update_subject_intake_info)? UpdateIntake : NotAuthorized} />
+                  <AppRoute
+                    path="/addProviderUniversityCommission/:providerProfileId/:univerId"
+                    component={AddProviderUniversityCommission}
+                  />
 
-          {/* university create form */}
-          <AppRoute  path="/createUniversity" component={permissions?.includes(permissionList?.Add_New_University)? UniversityForm : NotAuthorized} />
+                  {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
 
-          <AppRoute  path="/createUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityCampus)? UniversityCampusForm : NotAuthorized} />
+                  {/* end code emon */}
 
-          <AppRoute  path="/createUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_New_Financialinfo)? UniversityFinancialForm : NotAuthorized }/>
+                  {/* intake */}
+                  <AppRoute path="/intake" component={Intake} />
+                  <AppRoute path="/addNewIntakes" component={AddNewIntakes} />
+                  <AppRoute path="/updateIntake/:id" component={UpdateIntake} />
 
-          <AppRoute  path="/createUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityFeatures)? UniversityFeaturesForm : NotAuthorized} />
+                  {/* university create form */}
+                  <AppRoute
+                    path="/createUniversity"
+                    component={UniversityForm}
+                  />
 
-          <AppRoute  path="/createUniversityTestScore/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Test_Requirement) ? UniversityTestScoreForm : NotAuthorized} />
+                  <AppRoute
+                    path="/createUniversityCampus/:univerId"
+                    component={UniversityCampusForm}
+                  />
 
-          <AppRoute  path="/createUniversityApplicationDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_universityApplicationdocument || permissionList?.Update_universityApplicationdocument_info)? UniversityApplicationDocumentForm: NotAuthorized} />
+                  <AppRoute
+                    path="/createUniversityFinancial/:univerId"
+                    component={UniversityFinancialForm}
+                  />
 
-          <AppRoute  path="/createUniversityTemplateDocument/:univerId" component={permissions?.includes(permissionList?.Add_New_University_Template_Document || permissionList?.Update_University_Template_Document_info)? UniversityTemplateDocumentForm : NotAuthorized} />
+                  <AppRoute
+                    path="/createUniversityFeatures/:univerId"
+                    component={UniversityFeaturesForm}
+                  />
 
-          <AppRoute  path="/createUniversityCommission/:univerId" component={permissions?.includes(permissionList.Add_New_University_Commission) ? UniversityCommissionForm : NotAuthorized} />
+                  <AppRoute
+                    path="/createUniversityTestScore/:univerId"
+                    component={UniversityTestScoreForm}
+                  />
 
-          {/* Country */}
-          <AppRoute  path="/country" component={permissions?.includes(permissionList?.View_Country_List)? AddCountry: NotAuthorized} />
+                  <AppRoute
+                    path="/createUniversityApplicationDocument/:univerId"
+                    component={UniversityApplicationDocumentForm}
+                  />
 
-          {/* State */}
-          <AppRoute  path="/state" component={permissions?.includes(permissionList?.View_State_List)? AddState: NotAuthorized} />
+                  <AppRoute
+                    path="/createUniversityTemplateDocument/:univerId"
+                    component={UniversityTemplateDocumentForm}
+                  />
 
-          {/* State also path not implemented yet */} 
-          <AppRoute  path="/city" component={permissions?.includes(permissionList?.View_City_List)? AddCity: NotAuthorized} />
+                  <AppRoute
+                    path="/createUniversityCommission/:univerId"
+                    component={UniversityCommissionForm}
+                  />
 
+                  {/* Country */}
+                  <AppRoute path="/country" component={AddCountry} />
 
-          {/* consultant */}
-          <AppRoute  path="/consultantList" component={permissions?.includes(permissionList?.View_Counsultant_List) ? ConsultantList : NotAuthorized} />
-          <AppRoute  path="/consultantProfile/:id" component={permissions?.includes(permissionList?.View_Consultant_info)? ConsultantProfile : NotAuthorized} />
-          <AppRoute  path="/associateProfile/:id" component={permissions?.includes(permissionList?.View_Associate_info)? AssociateProfile : NotAuthorized} />
-          <AppRoute  path="/addConsultant" component={permissions?.includes(permissionList?.Add_New_Consultant) ? AddConsultant : NotAuthorized} />
-          <AppRoute  path="/addAssociate" component={permissions?.includes(permissionList?.Add_New_Associate) ? AddAssociate : NotAuthorized} />
+                  {/* State */}
+                  <AppRoute path="/state" component={AddState} />
 
-          {/* Branch consultant */}
-          <AppRoute  path="/addBranchConsultant/:branchId" component={permissions?.includes(permissionList?.Add_New_Consultant) ? BranchConsultantRegistration : NotAuthorized} />
-          
-          {/* Report */}
-          <AppRoute  path="/agentReport" component={AgentReport} />
-          
-          
+                  {/* State also path not implemented yet */}
+                  <AppRoute path="/city" component={AddCity} />
 
-          {/* permission not added */}
-          <AppRoute  path="/consultantType" component={permissions?.includes(permissionList?.View_Consultant_type_List) ? AddConsultantType : NotAuthorized} />
-          <AppRoute  path="/consultantBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? BankDetails : NotAuthorized } />
-          <AppRoute  path="/associateBankDetails/:consultantRegisterId" component={permissions?.includes(permissionList?.Add_New_Consultant)? UpdateAssociateBankDetails : NotAuthorized } />
-          <AppRoute  path="/consultantCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.View_ConsultantCommissionGroup_List)? ConsultantCommission : NotAuthorized} />
-          <AppRoute  path="/associateCommission/:consultantRegisterId" component={permissions?.includes(permissionList?.View_ConsultantCommissionGroup_List)? UpdateAssociateCommission : NotAuthorized} />
+                  {/* consultant */}
+                  <AppRoute path="/consultantList" component={ConsultantList} />
+                  <AppRoute
+                    path="/consultantProfile/:id"
+                    component={ConsultantProfile}
+                  />
+                  <AppRoute
+                    path="/associateProfile/:id"
+                    component={AssociateProfile}
+                  />
+                  <AppRoute path="/addConsultant" component={AddConsultant} />
+                  <AppRoute path="/addAssociate" component={AddAssociate} />
 
-          {
+                  {/* Branch consultant */}
+                  <AppRoute
+                    path="/addBranchConsultant/:branchId"
+                    component={BranchConsultantRegistration}
+                  />
 
-          (userTypeId == userTypes.ComplianceManager) ?
-          <AppRoute  path="/consultantInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Update_Consultant_info)? AddConsultantInformation : NotAuthorized } />
+                  {/* Report */}
+                  <AppRoute path="/agentReport" component={AgentReport} />
 
-          :
+                  {/* permission not added */}
+                  <AppRoute
+                    path="/consultantType"
+                    component={AddConsultantType}
+                  />
+                  <AppRoute
+                    path="/consultantBankDetails/:consultantRegisterId"
+                    component={BankDetails}
+                  />
+                  <AppRoute
+                    path="/associateBankDetails/:consultantRegisterId"
+                    component={UpdateAssociateBankDetails}
+                  />
+                  <AppRoute
+                    path="/consultantCommission/:consultantRegisterId"
+                    component={ConsultantCommission}
+                  />
+                  <AppRoute
+                    path="/associateCommission/:consultantRegisterId"
+                    component={UpdateAssociateCommission}
+                  />
 
-          <AppRoute  path="/consultantInformation/:consultantRegisterId" component={(permissions?.includes(permissionList?.Add_New_Consultant) || permissions?.includes(permissionList?.Update_Consultant_info))? AddConsultantInformation : NotAuthorized } />
+                  {userTypeId === userTypes.ComplianceManager ? (
+                    <AppRoute
+                      path="/consultantInformation/:consultantRegisterId"
+                      component={AddConsultantInformation}
+                    />
+                  ) : (
+                    <AppRoute
+                      path="/consultantInformation/:consultantRegisterId"
+                      component={AddConsultantInformation}
+                    />
+                  )}
 
-          }
+                  <AppRoute
+                    path="/associateInformation/:consultantRegisterId"
+                    component={AssociateInformation}
+                  />
 
-          <AppRoute  path="/associateInformation/:consultantRegisterId" component={permissions?.includes(permissionList?.Update_Associate_info) ? AssociateInformation : NotAuthorized} />
+                  <AppRoute path="/associates/:id" component={AssociateList} />
 
-          <AppRoute  path="/associates/:id" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
+                  <AppRoute path="/associateList" component={AssociateList} />
 
-          <AppRoute  path="/associateList" component={permissions?.includes(permissionList?.View_Associate_List)? AssociateList : NotAuthorized} />
+                  <AppRoute
+                    path="/associateAddSuccess"
+                    component={AssociateAddSuccess}
+                  />
 
-          <AppRoute  path="/associateAddSuccess" component={AssociateAddSuccess} />
-          
-          
+                  <AppRoute
+                    path="/addUniversityCampus/:univerId"
+                    component={AddUniversityCampus}
+                  />
+                  <AppRoute
+                    path="/addProviderUniversityCampus/:providerProfileId/:univerId"
+                    component={AddProviderUniversityCampus}
+                  />
+                  <AppRoute
+                    path="/addUniversityFinancial/:univerId"
+                    component={AddUniversityFinancial}
+                  />
+                  <AppRoute
+                    path="/addProviderUniversityFinancial/:providerProfileId/:univerId"
+                    component={AddProviderUniversityFinancial}
+                  />
+                  <AppRoute
+                    path="/addUniversityFeatures/:univerId"
+                    component={AddUniversityFeatures}
+                  />
+                  <AppRoute
+                    path="/addProviderUniversityFeatures/:providerProfileId/:univerId"
+                    component={AddProviderUniversityFeatures}
+                  />
+                  <AppRoute
+                    path="/addUniversityGallery/:univerId"
+                    component={AddUniversityGallery}
+                  />
+                  <AppRoute
+                    path="/addProviderUniversityGallery/:providerProfileId/:univerId"
+                    component={AddProviderUniversityGallery}
+                  />
+                  <AppRoute path="/universityList" component={UniversityList} />
+                  <AppRoute
+                    path="/universityListFromAddUniversityCountry/:counId"
+                    component={UniversityList}
+                  />
+                  <AppRoute
+                    path="/universityListFromUniversityTypes/:univerTypeId"
+                    component={UniversityList}
+                  />
+                  <AppRoute
+                    path="/universityListFromProviderList/:provideId"
+                    component={UniversityList}
+                  />
+                  <AppRoute
+                    path="/universityDetails/:id"
+                    component={UniversityDetails}
+                  />
+                  <AppRoute path="/campusList/:uniId?" component={CampusList} />
+                  <AppRoute
+                    path="/campusSubjectList/:camId"
+                    component={CampusSubjectList}
+                  />
+                  <AppRoute
+                    path="/campusDetails/:id"
+                    component={CampusDetails}
+                  />
+                  <AppRoute
+                    path="/assignMultipleSubject/:id"
+                    component={AssignMultipleSubject}
+                  />
+                  {/* University Subject starts here */}
+                  <AppRoute
+                    path="/universitySubjectList/:id"
+                    component={UniversitySubjectList}
+                  />
+                  <AppRoute
+                    path="/addUniversitySubject/:id/:subjId?"
+                    component={AddUniversitySubject}
+                  />
+                  <AppRoute
+                    path="/addUniversitySubjectFee/:id/:subjId"
+                    component={AddUniversitySubjectFee}
+                  />
+                  <AppRoute
+                    path="/addUniversitySubjectDeliveryPattern/:id/:subjId"
+                    component={AddUniversitySubjectDeliveryPattern}
+                  />
+                  <AppRoute
+                    path="/addUniversitySubjectRequirements/:id/:subjId"
+                    component={AddUniversitySubjectRequirements}
+                  />
+                  <AppRoute
+                    path="/addUniversitySubjectDocumentRequirement/:id/:subjId"
+                    component={AddUniversitySubjectDocumentRequirement}
+                  />
 
-         <AppRoute  path="/addUniversityCampus/:univerId" component={permissions?.includes(permissionList?.Add_New_University)? AddUniversityCampus: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityCampus/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityCampus)? AddProviderUniversityCampus: NotAuthorized} />
-         <AppRoute  path="/addUniversityFinancial/:univerId" component={permissions?.includes(permissionList?.Add_New_Financialinfo)? AddUniversityFinancial : NotAuthorized }/>
-         <AppRoute  path="/addProviderUniversityFinancial/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_Financialinfo)? AddProviderUniversityFinancial : NotAuthorized }/>
-         <AppRoute  path="/addUniversityFeatures/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityFeatures)? AddUniversityFeatures : NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityFeatures/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_UniversityFeatures)? AddProviderUniversityFeatures : NotAuthorized} />
-         <AppRoute  path="/addUniversityGallery/:univerId" component={permissions?.includes(permissionList?.Add_New_Universitygallery)? AddUniversityGallery: NotAuthorized} />
-         <AppRoute  path="/addProviderUniversityGallery/:providerProfileId/:univerId" component={permissions?.includes(permissionList?.Add_New_Universitygallery)? AddProviderUniversityGallery: NotAuthorized} />
-         <AppRoute  path="/universityList" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
-         <AppRoute  path="/universityListFromAddUniversityCountry/:counId" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
-         <AppRoute  path="/universityListFromUniversityTypes/:univerTypeId" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
-         <AppRoute  path="/universityListFromProviderList/:provideId" component={permissions?.includes(permissionList?.View_University_List)? UniversityList : NotAuthorized} />
-         <AppRoute  path="/universityDetails/:id" component={permissions?.includes(permissionList?.View_University_info)? UniversityDetails : NotAuthorized} />
-         <AppRoute  path="/campusList/:uniId?" component={permissions?.includes(permissionList?.View_UniversityCampus_List)? CampusList : NotAuthorized } />
-         <AppRoute  path="/campusSubjectList/:camId" component={permissions?.includes(permissionList?.View_university_campus_subject_List)? CampusSubjectList : NotAuthorized} />
-         <AppRoute  path="/campusDetails/:id" component={permissions?.includes(permissionList?.View_UniversityCampus_info)? CampusDetails : NotAuthorized } />
-         <AppRoute  path="/assignMultipleSubject/:id" component={permissions?.includes(permissionList?.Add_New_university_campus_subject)? AssignMultipleSubject : NotAuthorized } />
+                  {/* copy and add university subject */}
+                  <AppRoute
+                    path="/copyAndAddUniversitySubject/:id/:subjId/:newSubId?"
+                    component={CopyUniversitySubject}
+                  />
 
-         {/* University Subject starts here */}
-         <AppRoute  path="/universitySubjectList/:id" component={permissions?.includes(permissionList?.View_university_campus_subject_List)? UniversitySubjectList : NotAuthorized } />
-         <AppRoute  path="/addUniversitySubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_New_university_campus_subject)? AddUniversitySubject : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? AddUniversitySubjectFee : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? AddUniversitySubjectDeliveryPattern : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddUniversitySubjectRequirements : NotAuthorized} />
-         <AppRoute  path="/addUniversitySubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement_document)? AddUniversitySubjectDocumentRequirement : NotAuthorized} />
+                  <AppRoute
+                    path="/copyAndAddUniversitySubjectFee/:id/:subjId/:newSubId"
+                    component={CopyUniversitySubjectFee}
+                  />
 
-         {/* copy and add university subject */}
-         <AppRoute  path="/copyAndAddUniversitySubject/:id/:subjId/:newSubId?" component={permissions?.includes(permissionList?.Add_New_university_campus_subject)? CopyUniversitySubject : NotAuthorized} />
+                  <AppRoute
+                    path="/copyAndAddUniversitySubjectDeliveryPattern/:id/:subjId/:newSubId"
+                    component={CopyUniversitySubjectDeliveryPattern}
+                  />
 
-         <AppRoute  path="/copyAndAddUniversitySubjectFee/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? CopyUniversitySubjectFee : NotAuthorized} />
+                  <AppRoute
+                    path="/copyAndAddUniversitySubjectRequirements/:id/:subjId/:newSubId"
+                    component={CopyUniversitySubjectRequirements}
+                  />
 
-         <AppRoute  path="/copyAndAddUniversitySubjectDeliveryPattern/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? CopyUniversitySubjectDeliveryPattern : NotAuthorized} />
+                  <AppRoute
+                    path="/copyAndAddUniversitySubjectDocumentRequirement/:id/:subjId/:newSubId"
+                    component={CopyUniversitySubjectDocumentRequirement}
+                  />
 
-         <AppRoute  path="/copyAndAddUniversitySubjectRequirements/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? CopyUniversitySubjectRequirements : NotAuthorized} />
+                  {/* University Subject ends here */}
 
-         <AppRoute  path="/copyAndAddUniversitySubjectDocumentRequirement/:id/:subjId/:newSubId" component={permissions?.includes(permissionList?.Add_New_subject_requirement_document)? CopyUniversitySubjectDocumentRequirement : NotAuthorized} />
+                  {/* university profile subject add starts here */}
+                  <AppRoute
+                    path="/addUniProfileSubject/:id/:subjId?"
+                    component={AddUniProfileSubject}
+                  />
 
-         {/* University Subject ends here */}
+                  <AppRoute
+                    path="/addUniProfileSubjectFee/:id/:subjId"
+                    component={AddUniProfileSubjectFee}
+                  />
 
-         {/* university profile subject add starts here */}
-         <AppRoute  path="/addUniProfileSubject/:id/:subjId?" component={permissions?.includes(permissionList?.Add_New_subject)? AddUniProfileSubject : NotAuthorized} />
+                  <AppRoute
+                    path="/addUniProfileSubjectDeliveryPattern/:id/:subjId"
+                    component={AddUniProfileSubjectDeliveryPattern}
+                  />
 
-         <AppRoute  path="/addUniProfileSubjectFee/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? AddUniProfileSubjectFee : NotAuthorized} />
+                  <AppRoute
+                    path="/addUniProfileSubjectRequirements/:id/:subjId"
+                    component={AddUniProfileSubjectRequirements}
+                  />
 
-         <AppRoute  path="/addUniProfileSubjectDeliveryPattern/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? AddUniProfileSubjectDeliveryPattern : NotAuthorized} />
+                  <AppRoute
+                    path="/addUniProfileSubjectDocumentRequirement/:id/:subjId"
+                    component={AddUniProfileSubjectDocumentRequirement}
+                  />
+                  {/* university profile subject add ends here */}
 
-         <AppRoute  path="/addUniProfileSubjectRequirements/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddUniProfileSubjectRequirements : NotAuthorized} />
+                  <AppRoute path="/documentlist" component={DocumentList} />
+                  <AppRoute
+                    path="/documentCategoryList"
+                    component={DocumentCategoryList}
+                  />
+                  <AppRoute
+                    path="/subjectDocumentGroup"
+                    component={DocumentGroup}
+                  />
 
-         <AppRoute  path="/addUniProfileSubjectDocumentRequirement/:id/:subjId" component={permissions?.includes(permissionList?.Add_New_subject_requirement_document)? AddUniProfileSubjectDocumentRequirement : NotAuthorized} />
-         {/* university profile subject add ends here */}
+                  {/* Student type document group path */}
+                  <AppRoute
+                    path="/studentTypeDocumentGroup"
+                    component={StudentTypeDocument}
+                  />
 
-         <AppRoute  path="/documentlist" component={permissions?.includes(permissionList?.View_Document_List)? DocumentList : NotAuthorized} />
-         <AppRoute  path="/documentCategoryList" component={permissions?.includes(permissionList?.View_Document_Category_List)? DocumentCategoryList : NotAuthorized} />
-         <AppRoute  path="/subjectDocumentGroup" component={permissions?.includes(permissionList?.Add_New_Document_Group)? DocumentGroup : NotAuthorized} />
+                  <AppRoute path="/department" component={AddDepartment} />
+                  <AppRoute
+                    path="/subDepartment"
+                    component={AddSubDepartment}
+                  />
+                  <AppRoute path="/programLevel" component={AddProgramLevel} />
+                  {/* <AppRoute  path="/addSubject" component={permissions?.includes(permissionList?.Add_subject)? Subject} /> */}
 
-         {/* Student type document group path */}
-         <AppRoute  path="/studentTypeDocumentGroup" component={permissions?.includes(permissionList?.View_Student_Type_Documents_List)? StudentTypeDocument : NotAuthorized} />
+                  {/* <AppRoute  path="/addDepartment" component={permissions?.includes(permissionList?.Add_department)? AddDepartment} /> */}
+                  <AppRoute
+                    path="/addSubDepartment"
+                    component={AddSubDepartment}
+                  />
+                  <AppRoute path="/programLevel" component={AddProgramLevel} />
+                  <AppRoute path="/addSubject/:id?" component={Subject} />
 
+                  <AppRoute path="/subjectList" component={SubjectList} />
+                  <AppRoute path="/editSubject/:id" component={EditSubject} />
+                  <AppRoute
+                    path="/addSubjectFee/:id"
+                    component={AddSubjectFee}
+                  />
+                  <AppRoute
+                    path="/addSubjectDeliveryPattern/:id"
+                    component={AddSubjectDeliveryPattern}
+                  />
+                  <AppRoute
+                    path="/addSubjectDocumentRequirement/:id"
+                    component={AddSubjectDocumentRequirement}
+                  />
+                  <AppRoute
+                    path="/editSubjectDocumentRequirement/:id"
+                    component={EditSubjectDocumentRequirement}
+                  />
+                  <AppRoute
+                    path="/addSubjectRequirements/:id"
+                    component={AddSubjectRequirements}
+                  />
+                  <AppRoute
+                    path="/EditSubjectRequirements/:id"
+                    component={EditSubjectRequirements}
+                  />
+                  <AppRoute
+                    path="/EditSubjectFee/:subId"
+                    component={EditSubjectFee}
+                  />
+                  <AppRoute
+                    path="/editDeliveryPattern/:id"
+                    component={EditDeliveryPattern}
+                  />
+                  <AppRoute
+                    path="/subjectFeeInfo"
+                    component={SubjectFeeInformation}
+                  />
+                  <AppRoute
+                    path="/subjectIntake/:camId/:subbId"
+                    component={SubjectIntake}
+                  />
+                  <AppRoute
+                    path="/subjectProfile/:subjId"
+                    component={SubjectProfile}
+                  />
 
-         <AppRoute  path="/department" component={permissions?.includes(permissionList?.Add_new_department)? AddDepartment : NotAuthorized} />
-         <AppRoute  path="/subDepartment" component={permissions?.includes(permissionList?.View_sub_department_List)? AddSubDepartment : NotAuthorized} />
-         <AppRoute  path="/programLevel" component={permissions?.includes(permissionList?.View_program_level_List)? AddProgramLevel : NotAuthorized} />
-         {/* <AppRoute  path="/addSubject" component={permissions?.includes(permissionList?.Add_subject)? Subject : NotAuthorized} /> */}
+                  {/* <AppRoute  path="/fileUpload" component={FileUpload} /> */}
 
-         {/* <AppRoute  path="/addDepartment" component={permissions?.includes(permissionList?.Add_department)? AddDepartment : NotAuthorized} /> */}
-         <AppRoute  path="/addSubDepartment" component={permissions?.includes(permissionList?.View_sub_department_List)? AddSubDepartment : NotAuthorized} />
-         <AppRoute  path="/programLevel" component={permissions?.includes(permissionList?.View_program_level_List)? AddProgramLevel : NotAuthorized} />
-         <AppRoute  path="/addSubject/:id?" component={permissions?.includes(permissionList?.Add_New_subject)? Subject : NotAuthorized} />
+                  {/* <AppRoute path="/subjectIntake" component={SubjectIntake} /> */}
 
-         <AppRoute  path="/subjectList" component={permissions?.includes(permissionList?.View_subject_List)? SubjectList: NotAuthorized} />
-         <AppRoute  path="/editSubject/:id" component={permissions?.includes(permissionList?.Update_subject_info)? EditSubject : NotAuthorized} />
-         <AppRoute  path="/addSubjectFee/:id" component={permissions?.includes(permissionList?.Add_New_subject_fee_structure)? AddSubjectFee : NotAuthorized} />
-         <AppRoute  path="/addSubjectDeliveryPattern/:id" component={permissions?.includes(permissionList?.Add_New_Subject_Delivery_Pattern)? AddSubjectDeliveryPattern : NotAuthorized} />
-         <AppRoute  path="/addSubjectDocumentRequirement/:id" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddSubjectDocumentRequirement : NotAuthorized} />
-         <AppRoute  path="/editSubjectDocumentRequirement/:id" component={permissions?.includes(permissionList?.Update_subject_requirement_info)? EditSubjectDocumentRequirement : NotAuthorized} />
-         <AppRoute  path="/addSubjectRequirements/:id" component={permissions?.includes(permissionList?.Add_New_subject_requirement)? AddSubjectRequirements : NotAuthorized} />
-         <AppRoute  path="/EditSubjectRequirements/:id" component={permissions?.includes(permissionList?.Update_subject_requirement_info)? EditSubjectRequirements : NotAuthorized} />
-         <AppRoute  path="/EditSubjectFee/:subId" component={permissions?.includes(permissionList?.Update_subject_fee_structure_info)? EditSubjectFee : NotAuthorized} />
-         <AppRoute  path="/editDeliveryPattern/:id" component={permissions?.includes(permissionList?.Update_Subject_Delivery_Pattern)? EditDeliveryPattern : NotAuthorized} />
-         <AppRoute  path="/subjectFeeInfo" component={permissions?.includes(permissionList?.View_subject_fee_structure_List)? SubjectFeeInformation : NotAuthorized} />
-         <AppRoute  path="/subjectIntake/:camId/:subbId" component={permissions?.includes(permissionList?.View_subject_intake_List)? SubjectIntake : NotAuthorized} />
-         <AppRoute  path="/subjectProfile/:subjId" component={permissions?.includes(permissionList?.View_subject_info)? SubjectProfile : NotAuthorized} />
+                  {/* Applications */}
+                  <AppRoute path="/applications" component={Applications} />
 
-         {/* <AppRoute  path="/fileUpload" component={FileUpload} /> */}
-         
-         {/* <AppRoute path="/subjectIntake" component={SubjectIntake} /> */}
+                  <AppRoute
+                    path="/applicationsByStatus/:status/:selector"
+                    component={Applications}
+                  />
 
-         {/* Applications */}
-         <AppRoute  path="/applications" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
+                  <AppRoute
+                    path="/applicationsFromConsultant/:consultantId"
+                    component={Applications}
+                  />
 
-         <AppRoute  path="/applicationsByStatus/:status/:selector" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
+                  <AppRoute
+                    path="/applicationsFromUniversity/:universityId"
+                    component={Applications}
+                  />
 
-         <AppRoute  path="/applicationsFromConsultant/:consultantId" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
+                  {/* <AppRoute  path="/applicationsByConsultant/:cId" component={permissions?.includes(permissionList?.View_Application_List)? Applications} /> */}
 
-         <AppRoute  path="/applicationsFromUniversity/:universityId" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} />
+                  <AppRoute
+                    path="/applicationDetails/:id/:stdId"
+                    component={ApplicationDetails}
+                  />
 
-         {/* <AppRoute  path="/applicationsByConsultant/:cId" component={permissions?.includes(permissionList?.View_Application_List)? Applications : NotAuthorized} /> */}
+                  {/* <AppRoute  path="/newform" component={Post} /> */}
+                  {/* <AppRoute  path="/showdata" component={Get} /> */}
+                  {/* <AppRoute  path="/update/:id" component={Put} /> */}
+                  {/* <AppRoute  path="/delete/:id" component={Delete} /> */}
 
-         <AppRoute  path="/applicationDetails/:id/:stdId" component={permissions?.includes(permissionList?.View_Application_List)? ApplicationDetails : NotAuthorized} />
-
-        
-         {/* <AppRoute  path="/newform" component={Post} /> */}
-         {/* <AppRoute  path="/showdata" component={Get} /> */}
-         {/* <AppRoute  path="/update/:id" component={Put} /> */}
-         {/* <AppRoute  path="/delete/:id" component={Delete} /> */}
-
-         <AppRoute  path="/providerForm" component={permissions?.includes(permissionList?.Add_New_Provider)? ProviderForm : NotAuthorized} />
-         <AppRoute  path="/adminProviderForm/:adminProviderHiddenId" component={permissions?.includes(permissionList?.Add_New_Provider_Admin)? AdminProviderForm : NotAuthorized} />
-         <AppRoute  path="/addStaffGeneralInfo" component={permissions?.includes(permissionList?.Add_New_Staff)? AddEmployeeGeneralInfo : NotAuthorized} />
-         <AppRoute  path="/addStaffContactInfo/:employeeId?" component={permissions?.includes(permissionList?.Add_New_Staff)? AddEmployeeContactInfo : NotAuthorized} />
-         <AppRoute  path="/staffGeneralInfo/:id" component={permissions?.includes(permissionList?.Update_Staff_info)? EmployeeGeneralInfo : NotAuthorized} />
-         <AppRoute  path="/staffContactInfo/:id" component={permissions?.includes(permissionList?.Update_Staff_info)? EmployeeContactInfo : NotAuthorized} />
-         {/* <AppRoute  path="/employeeInformatio" component={EmployeeInformation} /> */}
-         {/* <AppRoute  path="/siteSetting" component={SiteSetting} />
+                  <AppRoute path="/providerForm" component={ProviderForm} />
+                  <AppRoute
+                    path="/adminProviderForm/:adminProviderHiddenId"
+                    component={AdminProviderForm}
+                  />
+                  <AppRoute
+                    path="/addStaffGeneralInfo"
+                    component={AddEmployeeGeneralInfo}
+                  />
+                  <AppRoute
+                    path="/addStaffContactInfo/:employeeId?"
+                    component={AddEmployeeContactInfo}
+                  />
+                  <AppRoute
+                    path="/staffGeneralInfo/:id"
+                    component={EmployeeGeneralInfo}
+                  />
+                  <AppRoute
+                    path="/staffContactInfo/:id"
+                    component={EmployeeContactInfo}
+                  />
+                  {/* <AppRoute  path="/employeeInformatio" component={EmployeeInformation} /> */}
+                  {/* <AppRoute  path="/siteSetting" component={SiteSetting} />
          <AppRoute  path="/addSiteSetting" component={AddSiteSetting} />
          <AppRoute  path="/updateSiteSetting" component={UpdateSiteSetting} /> */}
-         {/* <AppRoute  path="/country" component={Country} /> */}
-         <AppRoute  path="/editDepartment/:id" component={permissions?.includes(permissionList?.Update_department_info)? EditDepartment : NotAuthorized} />
-         <AppRoute  path="/editSubDepartment/:id" component={permissions?.includes(permissionList?.Update_sub_department_info)? EditSubDepartment : NotAuthorized} />
-
-         <AppRoute  path="/providerList" component={permissions?.includes(permissionList?.View_Provider_List)? ProviderList : NotAuthorized} />
-         <AppRoute  path="/providerAdminList" component={permissions?.includes(permissionList?.View_Provider_Admin_List)? ProviderAdminList : NotAuthorized} />
-         <AppRoute  path="/providerAdminProfile/:providerAdminId" component={permissions?.includes(permissionList?.View_Provider_Admin_info)? ProviderAdminProfile : NotAuthorized} />
-
-
-         <AppRoute  path="/providerDetails/:id" component={permissions?.includes(permissionList?.View_Provider_info)? ProviderDetails : NotAuthorized} />
-
-         <AppRoute  path="/providerDashboard/:id" component={permissions?.includes(permissionList?.Provider_Dashboard)? ProviderDashboard : NotAuthorized} />
-         <AppRoute  path="/consultantDashboard/:consultantId" component={permissions?.includes(permissionList?.Consultant_Dashboard)? ConsultantDashboard : NotAuthorized} />
-
-         <AppRoute  path="/assignUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Add_New_Admission_manager_university)? AssignUniversity : NotAuthorized} />
-
-         <AppRoute  path="/assignOfficerUniversity/:providerId/:managerId" component={permissions?.includes(permissionList?.Add_New_Admission_Officer_university)? AssignOfficerUniversity : NotAuthorized} />
-
-         <AppRoute  path="/updateProvider/:id" component={permissions?.includes(permissionList?.Update_Provider_info)? UpdateProvider : NotAuthorized} />
-         <AppRoute  path="/branchInformation/:branchId?" component={permissions?.includes(permissionList?.Add_New_Branch)? Branch : NotAuthorized} />
-         <AppRoute  path="/addBranchManager/:branchId" component={permissions?.includes(permissionList?.Add_New_Branch_Manager)? BranchManager : NotAuthorized} />
-         <AppRoute  path="/branchManager/:branchId" component={permissions?.includes(permissionList?.Add_New_Branch_Manager)? AddBranchManager : NotAuthorized} />
-         <AppRoute  path="/branchManagerProfile/:branchManagerId" component={permissions?.includes(permissionList?.View_Branch_Manager_info)? BranchManagerProfile : NotAuthorized} />
-         <AppRoute  path="/branchEmployeeInformation/:branchId/:employeeId?" component={permissions?.includes(permissionList?.Add_New_Branch_Employee)? BranchEmployee : NotAuthorized} />
-         {/* <AppRoute path="/updateBranch/:id" component={UpdateBranch} /> */}
-         <AppRoute  path="/branchList" component={permissions?.includes(permissionList?.View_Branch_List)? BranchList : NotAuthorized} />
-         {/* <AppRoute path="/updateBranchManager/:id" component={UpdateBranchManager} /> */}
-         <AppRoute  path="/branchProfile/:id" component={permissions?.includes(permissionList?.View_Branch_Manager_info)? BranchProfile : NotAuthorized} />
-         <AppRoute  path="/updateBranchManagerInformation/:branchId/:managerId" component={permissions?.includes(permissionList?.Update_Branch_Manager_info)? BranchManagerInformation : NotAuthorized} />
-         <AppRoute  path="/teamEmployee/:branchId/:teamId" component={permissions?.includes(permissionList?.View_Branch_Team_Employee_List)? BranchTeamEmployeeInformation : NotAuthorized} />
-
-         {/* compliance officer */}
-         <AppRoute  path="/complianceOfficerList" component={permissions?.includes(permissionList?.View_ComplianceOfficer_List) ? ComplianceOfficerList : NotAuthorized} />
-         <AppRoute  path="/complianceOfficerInformation/:complianceOfficerId?" component={ permissions?.includes(permissionList?.Add_New_ComplianceOfficer || permissionList?.Update_ComplianceOfficer_info) ? AddComplianceOfficer : NotAuthorized} />
-         <AppRoute  path="/complianceOfficerProfile/:complianceOfficerId" component={permissions?.includes(permissionList?.View_ComplianceOfficer_info ) ? ComplianceOfficerProfile : NotAuthorized}/>
-
-         <AppRoute  path="/studentList" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
-         <AppRoute  path="/studentListByType/:type" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
-         <AppRoute  path="/studentListByConsultant/:cId" component={permissions?.includes(permissionList?.View_Student_List)? StudentList : NotAuthorized} />
-         <AppRoute  path="/studentProfile/:sId" component={permissions?.includes(permissionList?.View_Student_info)? StudentProfile : NotAuthorized} />
-         <AppRoute  path="/addStudentInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? PersonalInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentContactInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? ContactInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentApplicationInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Applicationinfo_info)? ApplicationInformation : NotAuthorized} />
-         <AppRoute  path="/addStudentEducationalInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? EducationalInformation : NotAuthorized} />
-        
-         <AppRoute  path="/addStudentRegister" component={permissions?.includes(permissionList?.Add_New_Student)? AddStudentRegister : NotAuthorized} />
-
-         <AppRoute  path="/addExperience/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddExperience : NotAuthorized} />
-         <AppRoute  path="/addReference/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddReference : NotAuthorized} />
-         <AppRoute  path="/addPersonalStatement/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddPersonalStatement : NotAuthorized} />
-         <AppRoute  path="/addOtherInformation/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? AddOtherInformation : NotAuthorized} />
-         <AppRoute  path="/addTestScore/:applicationStudentId/:update?" component={permissions?.includes(permissionList?.Update_Student_info)?AddTestScore : NotAuthorized} />
-
-         
-         <AppRoute  path="/studentByConsultant/:id" component={permissions?.includes(permissionList?.View_Student_consultant_List)? StudentByConsultant : NotAuthorized} />
-       
-         <AppRoute  path="/uploadDocument/:applicationStudentId?/:update?" component={permissions?.includes(permissionList?.Update_Student_info)? UploadDocument : NotAuthorized} />
-
-         {/* Education Level paths */}
-
-         <AppRoute  path="/educationalLevelList" component={permissions?.includes(permissionList?.View_Education_Level_List)? EducationLevelList : NotAuthorized} />
-         {/* <AppRoute  path="/addEducationLevel/:name?/:description?/:levelValue?/:id?" component={permissions?.includes(permissionList?.Add_Education_Level)? AddEducationLevel : NotAuthorized} /> */}
-
-         {/* Degree Paths */}
-
-         <AppRoute  path="/degreeList" component={permissions?.includes(permissionList?.View_degree_List)? DegreeList : NotAuthorized} />
-         {/* <AppRoute  path="/addDegree/:degreeName?/:eduLabel?/:educationId?/:id?" component={permissions?.includes(permissionList?.Add_degree)? AddDegree : NotAuthorized} /> */}
-
-
-         <AppRoute  path="/examTestType" component={permissions?.includes(permissionList?.View_Exam_test_type_List)? ExamTestType : NotAuthorized} />
-
-         {/* <AppRoute  path="/examTestTypeAttribute" component={ExamTestTypeAttribute} /> */}
-
-
-
-
-         <AppRoute  path="/updateUniversityInformation/:id" component={permissions?.includes(permissionList?.Update_University_info)? UpdateUniversityInformation : NotAuthorized} />
-
-         <AppRoute  path="/studentTypeList" component={permissions?.includes(permissionList?.View_Student_type_List)? StudentType : NotAuthorized} />
-
-
-         <AppRoute  path="/countryList" component={permissions?.includes(permissionList?.View_Country_List)? CountryList : NotAuthorized} />
-
-         {/* Comission paths */}
-
-        <AppRoute  path="/accountIntakeList" component={permissions?.includes(permissionList?.View_AccountIntake_List)? AccountIntake : NotAuthorized} />
-        <AppRoute  path="/commissionGroupList" component={permissions?.includes(permissionList?.View_CommissionGroup_List)? ComissionGroup : NotAuthorized} />
-        
-        <AppRoute  path="/commissionPriceList/:id" component={permissions?.includes(permissionList?.View_GroupPriceRange_List)? CommissionPriceList : NotAuthorized} />
-
-        {/* Consultant Conscent Path */}
-
-          <AppRoute  path="/consultantConscent/:consultantRegisterId" component={permissions?.includes(permissionList.Add_New_consultant_consent) ? ConsultantConscent : NotAuthorized} />
-
-          <AppRoute  path="/associateConsent/:consultantRegisterId" component={AssociateConsent} />
-
-          {/* Student Declaration Path */}
-          <AppRoute  path="/studentDeclaration/:applicationStudentId/:update?" component={permissions?.includes(permissionList.Update_student_consent_info) ? StudentDeclaration : NotAuthorized} />
-
-          {/* Branch Employee Profile path */}
-          <AppRoute  path="/branchEmployeeProfile/:branchId/:employeeId" component={permissions?.includes(permissionList.View_Branch_Employee_info) ? BranchEmployeeProfile : NotAuthorized} />
-
-          {/* nationality path */}
-           <AppRoute  path="/nationality" component={permissions?.includes(permissionList.View_Nationality_List) ? Nationality : NotAuthorized} />
-
-
-           <AppRoute  path="/providerAdmissionManager/:managerId/:providerId" component={permissions?.includes(permissionList.View_Admission_manager_info) ? AdmissionManagerProfile : NotAuthorized} />
-
-           <AppRoute  path="/admissionManagerProfile/:managerId" component={permissions?.includes(permissionList.View_Admission_manager_info) ? AdmissionManagerConditionalProfile : NotAuthorized} />
-
-
-           <AppRoute  path="/promotionalCommissionList" component={permissions?.includes(permissionList.View_promotional_commission_List) ? PromotionalCommissionList : NotAuthorized} />
-
-           <AppRoute  path="/distributionLevelSetting" component={permissions?.includes(permissionList.View_Distribution_Level_Setting_List) ? DistributionLevelSetting : NotAuthorized} />
-
-           <AppRoute  path="/applicationTransaction" component={permissions?.includes(permissionList.View_Application_transaction_List) ? ApplicationTransaction : NotAuthorized} />
-           <AppRoute  path="/applicationTransactionFromConsultant/:consultantId" component={permissions?.includes(permissionList.View_Application_transaction_List) ? ApplicationTransaction : NotAuthorized} />
-
-           <AppRoute  path="/applicationTransactionDetails/:id" component={permissions?.includes(permissionList.View_Application_transaction_info) ? ApplicationTransactionDetails : NotAuthorized} />
-
-           <AppRoute  path="/inFlowTransaction" component={permissions?.includes(permissionList.View_Account_transaction_List) ? InFlow : NotAuthorized} />
-           <AppRoute  path="/inFlow/details/:id" component={permissions?.includes(permissionList.View_Account_transaction_info) ? InFlowDetails : NotAuthorized} />
-           <AppRoute  path="/inFlow/Update/:id" component={permissions?.includes(permissionList.Update_Account_transaction_info) ? InFlowUpdate : NotAuthorized} />
-
-           <AppRoute  path="/accountTransaction" component={permissions?.includes(permissionList.View_Account_transaction_List) ? AccountTransactionList : NotAuthorized} />
-
-           <AppRoute  path="/accountTransactionByConsultant/:consultantId" component={permissions?.includes(permissionList.View_Account_transaction_List) ? AccountTransactionList : NotAuthorized} />
-
-           <AppRoute  path="/createWithdrawRequest" component={permissions?.includes(permissionList.Add_New_withdraw_request) ? CreateWithdrawRequest : NotAuthorized} />
-           <AppRoute  path="/withdrawRequestList" component={permissions?.includes(permissionList.View_withdraw_request_List) ? WithdrawRequestList : NotAuthorized} />
-
-           <AppRoute  path="/withdrawTransaction" component={permissions?.includes(permissionList.View_withdraw_transaction_List) ? WithdrawTransaction : NotAuthorized} />
-           <AppRoute  path="/withdrawTransactionByConsultant/:consultantId" component={permissions?.includes(permissionList.View_withdraw_transaction_List) ? WithdrawTransaction : NotAuthorized} />
-           <AppRoute  path="/withdrawTransactionDetails/:id" component={permissions?.includes(permissionList.View_withdraw_transaction_info) ? WithdrawTransactionDetails : NotAuthorized} />
-
-           {/* commission transaction details  */}
-           <AppRoute  path="/commissionTransactionDetails/:id" component={permissions?.includes(permissionList.View_Account_transaction_info) ? ComissionTransactionDetails : NotAuthorized} />
-
-
-           <AppRoute  path="/exportPDF" component={ExportWithdrawRequestPdf} />
-
-
-
-           {/* Student Create Form Paths */}
-           <AppRoute  path="/studentApplication/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentApplicationForm : NotAuthorized} />
-           <AppRoute  path="/studentPersonal/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentPersonalForm : NotAuthorized} />
-           <AppRoute  path="/studentContact/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentContactForm : NotAuthorized} />
-           <AppRoute  path="/studentEducation/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentEducationForm : NotAuthorized} />
-           <AppRoute  path="/studentTestScore/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentTestScoreForm : NotAuthorized} />
-           <AppRoute  path="/studentExperience/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentExperienceForm : NotAuthorized} />
-           <AppRoute  path="/studentReference/:id" component={permissions?.includes(permissionList.Add_New_Student) ? StudentReferenceForm : NotAuthorized} />
-           <AppRoute  path="/studentPersonalStatement/:idVal" component={permissions?.includes(permissionList.Add_New_Student) ? StudentPersonalStatementForm : NotAuthorized} />
-           <AppRoute  path="/studentOtherInformation/:idVal" component={permissions?.includes(permissionList.Add_New_Student) ? StudentOtherInformationForm : NotAuthorized} />
-           <AppRoute  path="/studentDeclarations/:idVal" component={permissions?.includes(permissionList.Add_New_student_consent) ? StudentDeclarationForm : NotAuthorized} />
-
-           <AppRoute  path="/addUniversityCommission/:univerId" component={permissions?.includes(permissionList.Add_New_University_Commission) ? UniversityCommission : NotAuthorized} />
-           <AppRoute  path="/addUniversityTestScore/:univerId" component={permissions?.includes(permissionList.Add_New_University_Test_Requirement) ? UniversityTestScore : NotAuthorized} />
-         
-           <AppRoute  path="/addProviderUniversityTestScore/:providerProfileId/:univerId" component={permissions?.includes(permissionList.Add_New_University_Test_Requirement) ? AddProviderUniversityTestScore : NotAuthorized} />
-
-           {/* login history path */}
-  
-           <AppRoute  path="/loginHistory" component={LoginHistory} />
-           <AppRoute  path="/allUsersLoginHistory" component={permissions?.includes(permissionList.View_LoginHistory_list) ? AllLoginHistory : NotAuthorized} />
-
-           {/* common profile path */}
-           <AppRoute  path="/profile" component={CommonProfile} />
-
-           {/* Account Settings Path */}
-           <AppRoute  path="/accountSettings/:userId" component={Settings} />
-
-
-
-        <AppRoute  path="/search" component={Search} />
-
-        {/* Seed Data path */}
-        <AppRoute  path="/seedData" component={SeedData} />
-
-        {/* All Notifications Path */}
-         <AppRoute  path="/allNotifications" component={Notifications} />
-
-         {/* guideline path */}
-        <AppRoute  path="/guideLines" component={GuideLine} />
-
-
-
-         <AppRoute  path="/500" component={InternalServerError} />
-
-         <AppRoute  path="/notAuthorized" component={NotAuthorized} />
-        
-
-         {/* make student a consultant path */}
-         <AppRoute  path="/becomeConsultant/:studentId" component={ConvertStudentIntoConsultantForm} />
-
-
-
-
-         {/* trial notification */}
-         <AppRoute  path="/notification" component={TrialNotification} />
-
-         <AppRoute  path="/400" component={BadRequest}  fullLayout/>
-
-  
-          {/* Session Expired  */}
-         {/* <AppRoute path='/sessionExpired' component={SessionExpired} fullLayout /> */}
-
-
-         <AppRoute component={notFound} fullLayout />
-
-
-
-         </Switch>
-      </ToastProvider>
-      </Router>
-
-
-
-
-
-         
-         
-         
-
-        
-         
-       
-        
-         
-         
-
-
-
-
-           </> :
-           <>
-             <Router history={history}>
-         <ToastProvider autoDismiss={true}>
-        <Switch>
-
-          
-      
-         <AppRoute exact path="/" component={StudentLogin} fullLayout />
-
-         <AppRoute path="/studentRegister" component={StudentRegister} fullLayout />
-         <AppRoute path="/consultantRegister" component={ConsultantRegister} fullLayout />
-         <AppRoute path="/providerRegister" component={ProviderRegister} fullLayout />
-       
-
-         <AppRoute
-            path="/pages/forgot-password"
-            component={forgotPassword}
-            fullLayout
-          />
-         <AppRoute
-            path="/pages/lock-screen"
-            component={lockScreen}
-            fullLayout
-          />
-          <AppRoute
-            path="/pages/reset-password"
-            component={resetPassword}
-            fullLayout
-          />
-
-            <AppRoute
-            path="*"
-            exact
-            component={() => <Redirect to="/" />}
-          />
-
-      </Switch>
-      </ToastProvider>
-      </Router>
-           </>
-         }
-         
-         
-       
+                  {/* <AppRoute  path="/country" component={Country} /> */}
+                  <AppRoute
+                    path="/editDepartment/:id"
+                    component={EditDepartment}
+                  />
+                  <AppRoute
+                    path="/editSubDepartment/:id"
+                    component={EditSubDepartment}
+                  />
+
+                  <AppRoute path="/providerList" component={ProviderList} />
+                  <AppRoute
+                    path="/providerAdminList"
+                    component={ProviderAdminList}
+                  />
+                  <AppRoute
+                    path="/providerAdminProfile/:providerAdminId"
+                    component={ProviderAdminProfile}
+                  />
+
+                  <AppRoute
+                    path="/providerDetails/:id"
+                    component={ProviderDetails}
+                  />
+
+                  <AppRoute
+                    path="/providerDashboard/:id"
+                    component={ProviderDashboard}
+                  />
+                  <AppRoute
+                    path="/consultantDashboard/:consultantId"
+                    component={ConsultantDashboard}
+                  />
+
+                  <AppRoute
+                    path="/assignUniversity/:providerId/:managerId"
+                    component={AssignUniversity}
+                  />
+
+                  <AppRoute
+                    path="/assignOfficerUniversity/:providerId/:managerId"
+                    component={AssignOfficerUniversity}
+                  />
+
+                  <AppRoute
+                    path="/updateProvider/:id"
+                    component={UpdateProvider}
+                  />
+                  <AppRoute
+                    path="/branchInformation/:branchId?"
+                    component={Branch}
+                  />
+                  <AppRoute
+                    path="/addBranchManager/:branchId"
+                    component={BranchManager}
+                  />
+                  <AppRoute
+                    path="/branchManager/:branchId"
+                    component={AddBranchManager}
+                  />
+                  <AppRoute
+                    path="/branchManagerProfile/:branchManagerId"
+                    component={BranchManagerProfile}
+                  />
+                  <AppRoute
+                    path="/branchEmployeeInformation/:branchId/:employeeId?"
+                    component={BranchEmployee}
+                  />
+                  {/* <AppRoute path="/updateBranch/:id" component={UpdateBranch} /> */}
+                  <AppRoute path="/branchList" component={BranchList} />
+                  {/* <AppRoute path="/updateBranchManager/:id" component={UpdateBranchManager} /> */}
+                  <AppRoute
+                    path="/branchProfile/:id"
+                    component={BranchProfile}
+                  />
+                  <AppRoute
+                    path="/updateBranchManagerInformation/:branchId/:managerId"
+                    component={BranchManagerInformation}
+                  />
+                  <AppRoute
+                    path="/teamEmployee/:branchId/:teamId"
+                    component={BranchTeamEmployeeInformation}
+                  />
+                  {/*  */}
+                  {/* compliance officer */}
+                  <AppRoute
+                    path="/complianceOfficerList"
+                    component={ComplianceOfficerList}
+                  />
+                  <AppRoute
+                    path="/complianceOfficerInformation/:complianceOfficerId?"
+                    component={AddComplianceOfficer}
+                  />
+                  <AppRoute
+                    path="/complianceOfficerProfile/:complianceOfficerId"
+                    component={ComplianceOfficerProfile}
+                  />
+
+                  <AppRoute path="/studentList" component={StudentList} />
+                  <AppRoute
+                    path="/studentListByType/:type"
+                    component={StudentList}
+                  />
+                  <AppRoute
+                    path="/studentListByConsultant/:cId"
+                    component={StudentList}
+                  />
+                  <AppRoute
+                    path="/studentProfile/:sId"
+                    component={StudentProfile}
+                  />
+                  <AppRoute
+                    path="/addStudentInformation/:applicationStudentId/:update?"
+                    component={PersonalInformation}
+                  />
+                  <AppRoute
+                    path="/addStudentContactInformation/:applicationStudentId/:update?"
+                    component={ContactInformation}
+                  />
+                  <AppRoute
+                    path="/addStudentApplicationInformation/:applicationStudentId/:update?"
+                    component={ApplicationInformation}
+                  />
+                  <AppRoute
+                    path="/addStudentEducationalInformation/:applicationStudentId/:update?"
+                    component={EducationalInformation}
+                  />
+
+                  <AppRoute
+                    path="/addStudentRegister"
+                    component={AddStudentRegister}
+                  />
+
+                  <AppRoute
+                    path="/addExperience/:applicationStudentId/:update?"
+                    component={AddExperience}
+                  />
+                  <AppRoute
+                    path="/addReference/:applicationStudentId/:update?"
+                    component={AddReference}
+                  />
+                  <AppRoute
+                    path="/addPersonalStatement/:applicationStudentId/:update?"
+                    component={AddPersonalStatement}
+                  />
+                  <AppRoute
+                    path="/addOtherInformation/:applicationStudentId/:update?"
+                    component={AddOtherInformation}
+                  />
+                  <AppRoute
+                    path="/addTestScore/:applicationStudentId/:update?"
+                    component={AddTestScore}
+                  />
+
+                  <AppRoute
+                    path="/studentByConsultant/:id"
+                    component={StudentByConsultant}
+                  />
+
+                  <AppRoute
+                    path="/uploadDocument/:applicationStudentId?/:update?"
+                    component={UploadDocument}
+                  />
+
+                  {/* Education Level paths */}
+
+                  <AppRoute
+                    path="/educationalLevelList"
+                    component={EducationLevelList}
+                  />
+                  {/* <AppRoute  path="/addEducationLevel/:name?/:description?/:levelValue?/:id?" component={permissions?.includes(permissionList?.Add_Education_Level)? AddEducationLevel} /> */}
+
+                  {/* Degree Paths */}
+
+                  <AppRoute path="/degreeList" component={DegreeList} />
+                  {/* <AppRoute  path="/addDegree/:degreeName?/:eduLabel?/:educationId?/:id?" component={permissions?.includes(permissionList?.Add_degree)? AddDegree} /> */}
+
+                  <AppRoute path="/examTestType" component={ExamTestType} />
+
+                  {/* <AppRoute  path="/examTestTypeAttribute" component={ExamTestTypeAttribute} /> */}
+
+                  <AppRoute
+                    path="/updateUniversityInformation/:id"
+                    component={UpdateUniversityInformation}
+                  />
+
+                  <AppRoute path="/studentTypeList" component={StudentType} />
+
+                  <AppRoute path="/countryList" component={CountryList} />
+
+                  {/* Comission paths */}
+
+                  <AppRoute
+                    path="/accountIntakeList"
+                    component={AccountIntake}
+                  />
+                  <AppRoute
+                    path="/commissionGroupList"
+                    component={ComissionGroup}
+                  />
+
+                  <AppRoute
+                    path="/commissionPriceList/:id"
+                    component={CommissionPriceList}
+                  />
+
+                  {/* Consultant Conscent Path */}
+
+                  <AppRoute
+                    path="/consultantConscent/:consultantRegisterId"
+                    component={ConsultantConscent}
+                  />
+
+                  <AppRoute
+                    path="/associateConsent/:consultantRegisterId"
+                    component={AssociateConsent}
+                  />
+
+                  {/* Student Declaration Path */}
+                  <AppRoute
+                    path="/studentDeclaration/:applicationStudentId/:update?"
+                    component={StudentDeclaration}
+                  />
+
+                  {/* Branch Employee Profile path */}
+                  <AppRoute
+                    path="/branchEmployeeProfile/:branchId/:employeeId"
+                    component={BranchEmployeeProfile}
+                  />
+
+                  {/* nationality path */}
+                  <AppRoute path="/nationality" component={Nationality} />
+
+                  <AppRoute
+                    path="/providerAdmissionManager/:managerId/:providerId"
+                    component={AdmissionManagerProfile}
+                  />
+
+                  <AppRoute
+                    path="/admissionManagerProfile/:managerId"
+                    component={AdmissionManagerConditionalProfile}
+                  />
+
+                  <AppRoute
+                    path="/promotionalCommissionList"
+                    component={PromotionalCommissionList}
+                  />
+
+                  <AppRoute
+                    path="/distributionLevelSetting"
+                    component={DistributionLevelSetting}
+                  />
+
+                  <AppRoute
+                    path="/applicationTransaction"
+                    component={ApplicationTransaction}
+                  />
+                  <AppRoute
+                    path="/applicationTransactionFromConsultant/:consultantId"
+                    component={ApplicationTransaction}
+                  />
+
+                  <AppRoute
+                    path="/applicationTransactionDetails/:id"
+                    component={ApplicationTransactionDetails}
+                  />
+
+                  <AppRoute path="/inFlowTransaction" component={InFlow} />
+                  <AppRoute
+                    path="/inFlow/details/:id"
+                    component={InFlowDetails}
+                  />
+                  <AppRoute
+                    path="/inFlow/Update/:id"
+                    component={InFlowUpdate}
+                  />
+
+                  <AppRoute
+                    path="/accountTransaction"
+                    component={AccountTransactionList}
+                  />
+
+                  <AppRoute
+                    path="/accountTransactionByConsultant/:consultantId"
+                    component={AccountTransactionList}
+                  />
+
+                  <AppRoute
+                    path="/createWithdrawRequest"
+                    component={CreateWithdrawRequest}
+                  />
+                  <AppRoute
+                    path="/withdrawRequestList"
+                    component={WithdrawRequestList}
+                  />
+
+                  <AppRoute
+                    path="/withdrawTransaction"
+                    component={WithdrawTransaction}
+                  />
+                  <AppRoute
+                    path="/withdrawTransactionByConsultant/:consultantId"
+                    component={WithdrawTransaction}
+                  />
+                  <AppRoute
+                    path="/withdrawTransactionDetails/:id"
+                    component={WithdrawTransactionDetails}
+                  />
+
+                  {/* commission transaction details  */}
+                  <AppRoute
+                    path="/commissionTransactionDetails/:id"
+                    component={ComissionTransactionDetails}
+                  />
+
+                  <AppRoute
+                    path="/exportPDF"
+                    component={ExportWithdrawRequestPdf}
+                  />
+
+                  {/* Student Create Form Paths */}
+                  <AppRoute
+                    path="/studentApplication/:id"
+                    component={StudentApplicationForm}
+                  />
+                  <AppRoute
+                    path="/studentPersonal/:id"
+                    component={StudentPersonalForm}
+                  />
+                  <AppRoute
+                    path="/studentContact/:id"
+                    component={StudentContactForm}
+                  />
+                  <AppRoute
+                    path="/studentEducation/:id"
+                    component={StudentEducationForm}
+                  />
+                  <AppRoute
+                    path="/studentTestScore/:id"
+                    component={StudentTestScoreForm}
+                  />
+                  <AppRoute
+                    path="/studentExperience/:id"
+                    component={StudentExperienceForm}
+                  />
+                  <AppRoute
+                    path="/studentReference/:id"
+                    component={StudentReferenceForm}
+                  />
+                  <AppRoute
+                    path="/studentPersonalStatement/:idVal"
+                    component={StudentPersonalStatementForm}
+                  />
+                  <AppRoute
+                    path="/studentOtherInformation/:idVal"
+                    component={StudentOtherInformationForm}
+                  />
+                  <AppRoute
+                    path="/studentDeclarations/:idVal"
+                    component={StudentDeclarationForm}
+                  />
+
+                  <AppRoute
+                    path="/addUniversityCommission/:univerId"
+                    component={UniversityCommission}
+                  />
+                  <AppRoute
+                    path="/addUniversityTestScore/:univerId"
+                    component={UniversityTestScore}
+                  />
+
+                  <AppRoute
+                    path="/addProviderUniversityTestScore/:providerProfileId/:univerId"
+                    component={AddProviderUniversityTestScore}
+                  />
+
+                  {/* login history path */}
+
+                  <AppRoute path="/loginHistory" component={LoginHistory} />
+                  <AppRoute
+                    path="/allUsersLoginHistory"
+                    component={AllLoginHistory}
+                  />
+
+                  {/* common profile path */}
+                  <AppRoute path="/users" component={Users} />
+
+                  {/* Account Settings Path */}
+                  <AppRoute
+                    path="/accountSettings/:userId"
+                    component={Settings}
+                  />
+
+                  <AppRoute path="/search" component={Search} />
+
+                  {/* Seed Data path */}
+                  <AppRoute path="/seedData" component={SeedData} />
+
+                  {/* All Notifications Path */}
+                  <AppRoute
+                    path="/allNotifications"
+                    component={Notifications}
+                  />
+
+                  {/* guideline path */}
+                  <AppRoute path="/guideLines" component={GuideLine} />
+
+                  <AppRoute path="/500" component={InternalServerError} />
+
+                  <AppRoute path="/notAuthorized" component={NotAuthorized} />
+
+                  {/* make student a consultant path */}
+                  <AppRoute
+                    path="/becomeConsultant/:studentId"
+                    component={ConvertStudentIntoConsultantForm}
+                  />
+
+                  {/* trial notification */}
+                  <AppRoute
+                    path="/notification"
+                    component={TrialNotification}
+                  />
+
+                  <AppRoute path="/400" component={BadRequest} fullLayout />
+
+                  {/* Session Expired  */}
+                  {/* <AppRoute path='/sessionExpired' component={SessionExpired} fullLayout /> */}
+
+                  <AppRoute component={notFound} fullLayout />
+                </Switch>
+              </ToastProvider>
+            </Router>
+          </>
+        ) : (
+          <>
+            <Router history={history}>
+              <ToastProvider autoDismiss={true}>
+                <Switch>
+                  <AppRoute
+                    exact
+                    path="/"
+                    component={StudentLogin}
+                    fullLayout
+                  />
+
+                  <AppRoute
+                    path="/studentRegister"
+                    component={StudentRegister}
+                    fullLayout
+                  />
+                  <AppRoute
+                    path="/consultantRegister"
+                    component={ConsultantRegister}
+                    fullLayout
+                  />
+                  <AppRoute
+                    path="/providerRegister"
+                    component={ProviderRegister}
+                    fullLayout
+                  />
+
+                  <AppRoute
+                    path="/pages/forgot-password"
+                    component={forgotPassword}
+                    fullLayout
+                  />
+                  <AppRoute
+                    path="/pages/lock-screen"
+                    component={lockScreen}
+                    fullLayout
+                  />
+                  <AppRoute
+                    path="/pages/reset-password"
+                    component={resetPassword}
+                    fullLayout
+                  />
+
+                  <AppRoute
+                    path="*"
+                    exact
+                    component={() => <Redirect to="/" />}
+                  />
+                </Switch>
+              </ToastProvider>
+            </Router>
+          </>
+        )}
       </>
-    )
+    );
   }
 }
 
-export default AppRouter
+export default AppRouter;

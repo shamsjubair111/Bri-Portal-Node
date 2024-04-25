@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import * as actions from "../../../../redux/actions/core/city/city";
 import {
   div,
- 
   TableContainer,
   Table,
   TableHead,
@@ -35,10 +34,10 @@ const styles = (theme) => ({
 const CityList = ({ classes, ...props }) => {
   const [currentId, setCurrentId] = useState(0);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    props.fetchAllCity();
-  }, [props]);
+  //   props.fetchAllCity();
+  // }, [props]);
 
   const { addToast } = useToasts();
 

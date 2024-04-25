@@ -36,9 +36,9 @@ const DesignationList = ({ classes, ...props }) => {
   const [currentId, setCurrentId] = useState(0);
   const [designationList, setDesignationList] = useState([]);
 
-  useEffect(() => {
-    setDesignationList(props.fetchAllDesignation());
-  }, [designationList]);
+  // useEffect(() => {
+  //   setDesignationList(props.fetchAllDesignation());
+  // }, [designationList]);
 
   const { addToast } = useToasts();
 

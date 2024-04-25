@@ -18,30 +18,28 @@ function ClientTypeCreate({ ...props }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   
+
     if (validate()) {
       const onSuccess = () => {
         resetForm();
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId == 0) {
-      
         props.createClientType(values, onSuccess);
       } else {
-       
         props.updateClientType(props.currentId, values, onSuccess);
       }
     }
   };
 
-  useEffect(() => {
-    if (props.currentId != 0) {
-      setValues({
-        ...props.clientTypeList.find((x) => x.id == props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId]);
+  // useEffect(() => {
+  //   if (props.currentId != 0) {
+  //     setValues({
+  //       ...props.clientTypeList.find((x) => x.id == props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId]);
   return (
     <React.Fragment>
       <h2>Create Client Type</h2>

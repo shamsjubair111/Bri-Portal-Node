@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -8,55 +8,51 @@ import {
   Col,
   Input,
   Form,
-  Button
+  Button,
 } from "reactstrap";
 
 import { useToasts } from "react-toast-notifications";
 
-import Checkbox from "../../components/core/checkbox/CheckboxesVuexy"
-import { Check, User, Mail, Smartphone, Lock } from "react-feather"
-import { useParams } from 'react-router-dom';
-import get from '../../helpers/get';
-import put from '../../helpers/put';
+import Checkbox from "../../components/core/checkbox/CheckboxesVuexy";
+import { Check, User, Mail, Smartphone, Lock } from "react-feather";
+import { useParams } from "react-router-dom";
+import get from "../../helpers/get";
+import put from "../../helpers/put";
 
 const UpdateUser = () => {
+  const [user, setUser] = useState({});
+  const { addToast } = useToasts();
+  const { id } = useParams();
 
-    const [user, setUser] = useState({});
-    const { addToast } = useToasts();
-    const {id} = useParams();
+  // useEffect(() => {
+  //     get(`Practice/Get/${id}`).then(res => {
+  //         setUser(res);
+  //     })
+  // }, [id]);
 
-    useEffect(() => {
-        get(`Practice/Get/${id}`).then(res => {
-            setUser(res);
-        })
-    }, [id]);
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const subData = new FormData(e.target);
+    // for(let i of subData.values()){
 
-    const handleUpdate = (e) => {
-      e.preventDefault();
-      const subData = new FormData(e.target);
-      // for(let i of subData.values()){
-     
-      // }
-      put(`Practice/Update`, subData).then(action => {
-        addToast(action, {
-          appearance: 'success',
-          autoDismiss: true,
-        })
+    // }
+    put(`Practice/Update`, subData).then((action) => {
+      addToast(action, {
+        appearance: "success",
+        autoDismiss: true,
       });
-    }
-
-  
-
+    });
+  };
 
   return (
     <div>
-   <Card>
+      <Card>
         <CardHeader>
           <CardTitle>Update User Information</CardTitle>
         </CardHeader>
         <CardBody>
           <Form onSubmit={handleUpdate}>
-          <FormGroup row className="has-icon-left position-relative">
+            <FormGroup row className="has-icon-left position-relative">
               <Col md="4">
                 <span>Id</span>
               </Col>
@@ -198,7 +194,7 @@ const UpdateUser = () => {
         </CardBody>
       </Card>
     </div>
-  )
-}
+  );
+};
 
 export default UpdateUser;

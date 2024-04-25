@@ -40,9 +40,9 @@ const ClientTypeList = ({ classes, ...props }) => {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  useEffect(() => {
-    props.fetchAllClientType();
-  }, []);
+  // useEffect(() => {
+  //   props.fetchAllClientType();
+  // }, []);
 
   const { addToast } = useToasts();
 

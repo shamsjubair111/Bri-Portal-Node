@@ -755,4 +755,12 @@ export const  permissionList = {
     Change_ComplianceOfficer_Status : 578,
     Change_ComplianceOfficer_profileImage : 579,
 
+    Add_New_ConsultantRating : 580,
+    View_ConsultantRating_List : 581,
+    Update_ConsultantRating_info : 582,
+    View_ConsultantRating_info : 583,
+    Delete_ConsultantRating : 584,
+
+    Update_ApplicationAssesment_info : 585,
+
 }

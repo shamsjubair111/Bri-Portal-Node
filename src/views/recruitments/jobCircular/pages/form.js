@@ -18,30 +18,28 @@ function JobCircularCreate({ ...props }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     if (validate()) {
       const onSuccess = () => {
         resetForm();
         addToast("Submitted successfully", { appearance: "success" });
       };
       if (props.currentId == 0) {
-      
         props.createJobCircular(values, onSuccess);
       } else {
-       
         props.updateJobCircular(props.currentId, values, onSuccess);
       }
     }
   };
 
-  useEffect(() => {
-    if (props.currentId != 0) {
-      setValues({
-        ...props.jobCircularList.find((x) => x.id == props.currentId),
-      });
-      setErrors({});
-    }
-  }, [props.currentId]);
+  // useEffect(() => {
+  //   if (props.currentId != 0) {
+  //     setValues({
+  //       ...props.jobCircularList.find((x) => x.id == props.currentId),
+  //     });
+  //     setErrors({});
+  //   }
+  // }, [props.currentId]);
   return (
     <React.Fragment>
       <h2>Create Job Circular</h2>

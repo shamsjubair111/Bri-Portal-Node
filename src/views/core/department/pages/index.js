@@ -36,9 +36,9 @@ const DepartmentList = ({ classes, ...props }) => {
   const [currentId, setCurrentId] = useState(0);
   const [departmentList, setDepartmentList] = useState([]);
 
-  useEffect(() => {
-    setDepartmentList(props.fetchAllDepartment());
-  }, [departmentList]);
+  // useEffect(() => {
+  //   setDepartmentList(props.fetchAllDepartment());
+  // }, [departmentList]);
 
   const { addToast } = useToasts();
 
