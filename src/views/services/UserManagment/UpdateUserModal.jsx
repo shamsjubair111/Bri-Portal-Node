@@ -15,6 +15,7 @@ const UpdateUserModal = ({
   adminRole,
   setUserData,
 }) => {
+  console.log(userData.roles);
   return (
     <div>
       <Modal
@@ -92,45 +93,13 @@ const UpdateUserModal = ({
                   <Form.Label>Status:</Form.Label>
                   <Form.Control
                     as="select"
-                    name="status"
+                    name="userStatus"
                     value={userData.userStatus}
                     onChange={updateHandleChange}
                   >
                     <option value="">Choose...</option>
-                    <option value="Active">Active</option>
-                    <option value="Suspended">Suspended</option>
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                {/* <Form.Group controlId="status">
-                  <Form.Label>Role:</Form.Label>
-                  <Select
-                    defaultValue={[]}
-                    isMulti
-                    name="roles"
-                    options={adminRole}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    onChange={(selectedOptions) =>
-                      setUserData((prevState) => ({
-                        ...prevState,
-                        roles: selectedOptions,
-                      }))
-                    }
-                  />
-                </Form.Group> */}
-                <Form.Group controlId="role">
-                  <Form.Label>ROLE:</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="role"
-                    value={userData.role}
-                    onChange={updateHandleChange}
-                  >
-                    <option value="">Choose...</option>
-                    <option value="Active">ADMIN</option>
-                    <option value="Suspended">USER</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="SUSPENDED">SUSPENDED</option>
                   </Form.Control>
                   {/* <Select
                     defaultValue={[]}
@@ -146,6 +115,54 @@ const UpdateUserModal = ({
                     }
                   /> */}
                 </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="roles">
+                  <Form.Label>Role:</Form.Label>
+                  <Select
+                    defaultValue={userData.roles.map((role) => ({
+                      value: role.name,
+                      label: role.name,
+                    }))}
+                    isMulti
+                    name="roles"
+                    options={adminRole}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={(selectedOptions) =>
+                      setUserData((prevState) => ({
+                        ...prevState,
+                        roles: selectedOptions,
+                      }))
+                    }
+                  />
+                </Form.Group>
+                {/* <Form.Group controlId="role">
+                  <Form.Label>ROLE:</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="role"
+                    value={userData.role}
+                    onChange={updateHandleChange}
+                  >
+                    <option value="">Choose...</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="USER">USER</option>
+                  </Form.Control> */}
+                {/* <Select
+                    defaultValue={[]}
+                    name="status"
+                    options={status}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={(selectedOptions) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        roles: selectedOptions,
+                      }))
+                    }
+                  /> */}
+                {/* </Form.Group> */}
               </Col>
             </Row>
 

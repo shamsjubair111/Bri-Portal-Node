@@ -965,6 +965,7 @@ const StudentTypeDocument = lazy(() =>
 );
 
 // const Users = lazy(() => import("./views/services/Users/Users.jsx"));
+// Emon code
 const Users = lazy(() =>
   import("./views/services/UserManagment/UserManageMent.jsx")
 );
@@ -973,7 +974,15 @@ const Calls = lazy(() => import("./views/services/Calls/Calls.jsx"));
 const CallPackeges = lazy(() =>
   import("./views/services/CallPackeges/CallPackeges.jsx")
 );
-// const Sales = lazy(()=>)
+const AddRole = lazy(() =>
+  import("./views/services/RoleManagment/RoleManagment.jsx")
+);
+const AddPermission = lazy(() =>
+  import("./views/services/PermissionManagement/PermissionManagement.jsx")
+);
+
+const RatePlan = lazy(() => import("./views/services/RatePlan/RatePlan.jsx"));
+const Sales = lazy(() => import("./views/services/Sales/Sales.jsx"));
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
   <Route
     {...rest}
@@ -1030,6 +1039,8 @@ class AppRouter extends React.Component {
                   <AppRoute path="/siptrunk" component={Siptrunk} />
                   <AppRoute path="/calls" component={Calls} />
                   <AppRoute path="/callPackages" component={CallPackeges} />
+                  <AppRoute path="/sales" component={Sales} />
+                  <AppRoute path="/ratePlan" component={RatePlan} />
                   <AppRoute
                     exact
                     path="/admissionManagerList"
@@ -1098,7 +1109,8 @@ class AppRouter extends React.Component {
                     path="/admissionOfficerDetails/:officerId"
                     component={AdmissionOfficerDetails}
                   />
-
+                  <AppRoute path="/addRole" component={AddRole} />
+                  <AppRoute path="/permissions" component={AddPermission} />
                   {/* <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} /> */}
                   {/*
          <AppRoute  path="/demo" component={demo} /> */}

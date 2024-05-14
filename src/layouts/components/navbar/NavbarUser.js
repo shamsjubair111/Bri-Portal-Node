@@ -79,20 +79,47 @@ const handleLogOut = (e) => {
   console.log(userInfo);
 
   axios
-    .get(`${logOut}`, {
-      method: "post",
-      headers: {
-        authorization: userInfo.token,
-      },
-    })
+    .post(
+      `${rootUrl}logOut`,
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + userInfo.token,
+        },
+      }
+    )
     .then((res) => {
-      // localStorage.removeItem('token');
-      history.push("/");
+      localStorage.removeItem("userInfo");
+      // history.push("/");
       window.localStorage.clear();
       window.location.reload();
     });
 };
+// const handleLogOut = (e) => {
+//   e.preventDefault();
 
+//   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+//   console.log(userInfo);
+
+//   // Assuming `logOut` is your logout endpoint
+//   axios
+//     .post(
+//       logOut,
+//       {},
+//       {
+//         headers: {
+//           Authorization: `Bearer ${userInfo.token}`, // Fix the formatting here
+//         },
+//       }
+//     )
+//     .then((res) => {
+//       localStorage.removeItem("userInfo");
+//       window.location.href = "/"; // Redirect to the home page
+//     })
+//     .catch((error) => {
+//       console.error("Logout failed:", error);
+//     });
+// };
 const convertAccount = (e) => {
   axios
     .get(`${rootUrl}AccountSwitch/SwitchToConsultant`, {
@@ -185,13 +212,13 @@ const convertToConsultantAccount = (e) => {
     .catch();
 };
 
-const goToLoginHistory = () => {
-  history.push("/loginHistory");
-};
+// const goToLoginHistory = () => {
+//   history.push("/loginHistory");
+// };
 
-const goToSettings = () => {
-  history.push(`/accountSettings/${userInfo?.referenceId}`);
-};
+// const goToSettings = () => {
+//   history.push(`/accountSettings/${userInfo?.referenceId}`);
+// };
 
 const UserDropdown = (props) => {
   return (
@@ -209,15 +236,15 @@ const UserDropdown = (props) => {
         </Link>
       )}
 
-      <DropdownItem tag="a" onClick={goToSettings}>
+      {/* <DropdownItem tag="a" onClick={goToSettings}>
         <Icon.Settings size={14} className="mr-1 align-middle" />
         <span className="align-middle">Settings</span>
-      </DropdownItem>
+      </DropdownItem> */}
 
-      <DropdownItem tag="a" onClick={goToLoginHistory}>
+      {/* <DropdownItem tag="a" onClick={goToLoginHistory}>
         <Icon.LogIn size={14} className="mr-1 align-middle" />
         <span className="align-middle">Login History</span>
-      </DropdownItem>
+      </DropdownItem> */}
 
       <DropdownItem divider />
 

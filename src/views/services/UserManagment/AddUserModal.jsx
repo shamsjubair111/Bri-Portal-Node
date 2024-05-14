@@ -117,7 +117,7 @@ function AddUserModal({
                 </Form.Group>
               </Col>
               <Col md={6}>
-                {/* <Form.Group controlId="status">
+                <Form.Group controlId="status">
                   <Form.Label>Role:</Form.Label>
                   <Select
                     defaultValue={[]}
@@ -133,19 +133,6 @@ function AddUserModal({
                       }))
                     }
                   />
-                </Form.Group> */}
-                <Form.Group controlId="role">
-                  <Form.Label>ROLE:</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="role"
-                    value={formData.role}
-                    onChange={handleChange}
-                  >
-                    <option value="">Choose...</option>
-                    <option value="ADMIN">ADMIN</option>
-                    <option value="USER">USER</option>
-                  </Form.Control>
                 </Form.Group>
               </Col>
             </Row>

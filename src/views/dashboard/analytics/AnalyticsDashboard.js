@@ -31,7 +31,7 @@ const AnalyticsDashboard = () => {
   return (
     <>
       <SuperAdmin />
-      <Users />
+      {/* <Users /> */}
     </>
     // <div>
     //   {currentUser.userTypeId === userTypes?.AdmissionManager && (

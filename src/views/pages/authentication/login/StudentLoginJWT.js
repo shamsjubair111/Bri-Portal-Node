@@ -61,7 +61,7 @@ class Login extends React.Component {
 
     if (localStorage.getItem("userInfo") == null) {
       axios
-        .post(`${rootUrl}auth/authenticate`, userDetails)
+        .post(`${rootUrl}auth/login`, userDetails)
         .then((response) => {
           console.log("Response:", response.data);
 

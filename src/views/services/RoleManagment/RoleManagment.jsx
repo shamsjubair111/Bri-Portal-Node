@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { CardBody } from "reactstrap";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Form, Button } from "react-bootstrap";
-
-import AddUserModal from "./AddUserModal";
-import UpdateUserModal from "./UpdateUserModal";
-import userServices from "../../../apiServices/UserServices/UserServices";
+import axios from "axios";
+import { rootUrl } from "../../../constants/constants";
+import AddRole from "./AddRole";
+import UpdateRole from "./UpdateRole";
 import roleServices from "../../../apiServices/RoleServices/RoleServices";
+import permissionServices from "../../../apiServices/PermissionServices/PermissionServices";
 
-const UserManagement = () => {
-  const [passwordError, setPasswordError] = useState("");
+const RoleManagement = () => {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
+  const [permissions, setpermissions] = useState([]);
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
 
@@ -37,33 +38,17 @@ const UserManagement = () => {
   };
 
   const initialFormData = {
-    firstName: "",
-    lastName: "",
-    phoneNo: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    userStatus: "",
-    roles: [],
+    role: "",
+    descrption: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [userData, setUserData] = useState(initialFormData);
+  const [roleData, setRoleData] = useState(initialFormData);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authToken = "Bearer " + userInfo.token;
 
-  const fetchUsers = async () => {
-    try {
-      const data = await userServices.fetchAllUsers(userInfo.token);
-      setUsers(data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      // Handle error
-    }
-  };
-
-  // roles
+  // fetch all user
   const fetchRoles = async () => {
     try {
       const data = await roleServices.fetchRoles();
@@ -72,21 +57,29 @@ const UserManagement = () => {
       console.error("Error fetching roles:", error);
     }
   };
+  const fetchPermission = async () => {
+    try {
+      const data = await permissionServices.fetchPermissions();
+      setpermissions(data);
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
+  };
   useEffect(() => {
-    fetchUsers();
     fetchRoles();
+    fetchPermission();
   }, []);
 
-  // single user data
-  const fetchUserData = async (id) => {
+  // single Role data
+  const fetchRoleData = async (id) => {
     try {
-      const data = await userServices.fetchUserById(id, userInfo.token);
-      setUserData(data);
+      const data = await roleServices.fetchRoleById(id, userInfo.token);
+      setRoleData(data);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  // create User
+  // create Role
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
@@ -96,97 +89,86 @@ const UserManagement = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData({
+      ...formData,
+      [name]: name === "role" ? value.toUpperCase() : value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordError("Passwords do not match");
-      return;
-    } else {
-      setPasswordError("");
-    }
-    const userData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      phoneNo: formData.phoneNo,
-      email: formData.email,
-      password: formData.password,
-      roles: formData.roles.map((role) => ({ name: role.value })),
-      userStatus: formData.userStatus,
+    const roleData = {
+      name: formData.role,
+      description: formData.description,
     };
     try {
-      await userServices.createUser(userData, userInfo.token);
+      await roleServices.createRole(roleData);
       handleClose();
-      fetchUsers();
+      fetchRoles();
     } catch (error) {
-      console.error("Error adding user:", error);
-      // Handle error
+      console.error("Error:", error);
     }
   };
 
-  // update User
+  // update Role
   const handleUpdateOpen = async (id) => {
     setUserId(id);
     setUpdateOpen(true);
-    await fetchUserData(id);
+    await fetchRoleData(id);
   };
 
   const handleUpdateClose = () => {
     setUpdateOpen(false);
-    setUserData(initialFormData);
+    setRoleData(initialFormData);
   };
   const updateHandleChange = (e) => {
     const { name, value } = e.target;
-    setUserData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setRoleData({
+      ...formData,
+      [name]: name === "role" ? value.toUpperCase() : value,
+    });
   };
-  const handleUpdateSubmit = async (e, id) => {
-    e.preventDefault();
-    const updateUserData = {
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      phoneNo: userData.phoneNo,
-      email: userData.email,
-      roles: userData.roles.map((role) => ({ name: role.value })),
-      userStatus: userData.userStatus,
-    };
-    try {
-      await userServices.updateUser(id, updateUserData, userInfo.token);
-      handleClose();
-      fetchUsers();
-    } catch (error) {
-      console.error("Error updating user:", error);
-      // Handle error
-    }
-  };
+  // const handleUpdateSubmit = (e, id) => {
+  //   e.preventDefault();
+  //   const updateUserData = {
+  //     role: roleData.role,
+  //     descrption: roleData.descrption,
+  //   };
+  //   axios
+  //     .put(`${rootUrl}editUser/${id}`, updateUserData, {
+  //       headers: {
+  //         Authorization: "Bearer " + userInfo.token,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       handleClose();
+  //       fetchRoles();
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error updating user:", error);
+  //     });
+  // };
+  // // delete Role
 
-  // delete User
-  const handleDeleteUser = async (id) => {
+  const handleDeleteRole = async (id) => {
     try {
-      await userServices.deleteUser(id, userInfo.token);
-      fetchUsers();
+      await roleServices.deleteRole(id, userInfo.token);
+      fetchRoles();
     } catch (error) {
       console.error("Error removing user:", error);
-      // Handle error
     }
   };
-
-  const adminRole = roles.map((role) => ({
+  const permission = permissions.map((role) => ({
     value: role.name,
     label: role.name,
   }));
+  console.log("permission :", permission);
   return (
     <div>
       {/* Modal add user*/}
-      <AddUserModal
+      <AddRole
         open={open}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
@@ -194,37 +176,32 @@ const UserManagement = () => {
         formData={formData}
         style={style}
         setFormData={setFormData}
-        adminRole={adminRole}
-        passwordError={passwordError}
+        permission={permission}
       />
 
       {/* end */}
       {/* update modal */}
-      <UpdateUserModal
+      <UpdateRole
         updateOpen={updateOpen}
         handleUpdateClose={handleUpdateClose}
         style={style}
-        handleUpdateSubmit={handleUpdateSubmit}
-        userData={userData}
+        // handleUpdateSubmit={handleUpdateSubmit}
+        roleData={roleData}
         updateHandleChange={updateHandleChange}
-        adminRole={adminRole}
-        setUserData={setUserData}
+        setRoleData={setRoleData}
+        permission={permission}
       />
       {/* update modal end */}
       <Card>
         <CardBody>
           <div className="border-bottom mb-4">
-            <h4 className="pb-3">User Management</h4>
+            <h4 className="pb-3">Role Management</h4>
           </div>
           <div className="mt-4 container-fluid">
             <div className="row mb-3">
               <div className="col-md-4">
-                <h6>Find User : </h6>
+                <h6>Find Role : </h6>
                 <form style={{ display: "flex", alignItems: "center" }}>
-                  {/* <FloatingLabel
-                  controlId="floatingInputGrid"
-                  label="Find User"
-                ></FloatingLabel> */}
                   <Form.Control
                     placeholder="Search..."
                     style={{ marginRight: "10px" }}
@@ -239,11 +216,12 @@ const UserManagement = () => {
                 style={{ marginTop: "23px" }}
               >
                 <Button style={{ padding: "7px 30px" }} onClick={handleOpen}>
-                  Add User
+                  Add Role
                 </Button>
               </div>
             </div>
           </div>
+          {/* <TableContainer component={Paper}> */}
           <div
             className="overflow-auto"
             style={{ maxWidth: "100%", overflowX: "scroll" }}
@@ -252,34 +230,21 @@ const UserManagement = () => {
               <TableHead className="thead-uapp-bg">
                 <TableRow style={{ textAlign: "center" }}>
                   <th></th>
-                  <th align="right">User Name</th>
                   <th align="right">Role</th>
-                  <th align="right">Created on</th>
-                  <th align="right">Status</th>
-                  <th align="right">Actions</th>
+                  <th align="right">Description</th>
+                  <th align="right">Action</th>
                 </TableRow>
               </TableHead>
               <tbody>
-                {users.map((row, i) => (
+                {roles.map((row, i) => (
                   <tr key={row.name}>
                     <td style={{ padding: "2px 16px" }}>{i + 1}</td>
-                    <td
-                      component="th"
-                      scope="row"
-                      style={{ padding: "2px 16px", minWidth: "220px" }}
-                    >
-                      {row.firstName} {row.lastName}
+
+                    <td style={{ padding: "2px 16px", minWidth: "220px" }}>
+                      {row.name}
                     </td>
                     <td style={{ padding: "2px 16px", minWidth: "220px" }}>
-                      {row.roles.map((role) => (
-                        <span key={role.name}> {role.name}</span>
-                      ))}
-                    </td>{" "}
-                    <td style={{ padding: "2px 16px", minWidth: "220px" }}>
-                      {row.createdOn}
-                    </td>
-                    <td style={{ padding: "2px 16px", minWidth: "220px" }}>
-                      {row.userStatus}
+                      {row.description}
                     </td>
                     <td style={{ padding: "2px 16px", minWidth: "220px" }}>
                       <Button onClick={() => handleUpdateOpen(row.id)}>
@@ -287,7 +252,7 @@ const UserManagement = () => {
                       </Button>{" "}
                       <Button
                         variant="danger"
-                        onClick={() => handleDeleteUser(row.id)}
+                        onClick={() => handleDeleteRole(row.id)}
                       >
                         Delete
                       </Button>
@@ -297,10 +262,53 @@ const UserManagement = () => {
               </tbody>
             </Table>
           </div>
+          {/* <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell align="right">Permissoin</TableCell>
+                  <TableCell align="right">Description</TableCell>
+                  <TableCell align="right">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {roles.map((row, i) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell style={{ padding: "2px 16px" }}>
+                      {i + 1}
+                    </TableCell>
+
+                    <TableCell style={{ padding: "2px 16px" }}>
+                      {row.name}
+                    </TableCell>
+                    <TableCell style={{ padding: "2px 16px" }}>
+                      {row.descriptiom}
+                    </TableCell>
+                    <TableCell style={{ padding: "2px 16px" }}>
+                      <Button onClick={() => handleUpdateOpen(row.id)}>
+                        Edit
+                      </Button>{" "}
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDeleteRole(row.id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer> */}
+          {/* </TableContainer> */}
         </CardBody>
       </Card>
     </div>
   );
 };
 
-export default UserManagement;
+export default RoleManagement;
