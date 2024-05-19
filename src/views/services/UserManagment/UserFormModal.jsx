@@ -5,31 +5,31 @@ import Modal from "@mui/material/Modal";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Select from "react-select";
 
-const UpdateUserModal = ({
-  updateOpen,
-  handleUpdateClose,
+const UserFormModal = ({
+  open,
+  handleClose,
+  handleSubmit,
+  handleChange,
+  formData,
   style,
-  handleUpdateSubmit,
-  userData,
-  updateHandleChange,
   adminRole,
-  setUserData,
+  isUpdate = false,
+  passwordError,
 }) => {
-  console.log(userData.roles);
   return (
     <div>
       <Modal
-        open={updateOpen}
-        onClose={handleUpdateClose}
+        open={open}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Update User
+            {isUpdate ? "Update User" : "Add User"}
           </Typography>
 
-          <Form onSubmit={(e) => handleUpdateSubmit(e, userData.id)}>
+          <Form onSubmit={handleSubmit}>
             <Row className="mb-4">
               <Col md={6}>
                 <Form.Group controlId="firstName">
@@ -38,8 +38,8 @@ const UpdateUserModal = ({
                     type="text"
                     name="firstName"
                     placeholder="Enter First Name"
-                    value={userData.firstName}
-                    onChange={updateHandleChange}
+                    value={formData.firstName}
+                    onChange={handleChange}
                     required
                   />
                 </Form.Group>
@@ -51,8 +51,8 @@ const UpdateUserModal = ({
                     type="text"
                     name="lastName"
                     placeholder="Enter Last Name"
-                    value={userData.lastName}
-                    onChange={updateHandleChange}
+                    value={formData.lastName}
+                    onChange={handleChange}
                     required
                   />
                 </Form.Group>
@@ -67,8 +67,8 @@ const UpdateUserModal = ({
                     type="tel"
                     name="phoneNo"
                     placeholder="Enter Phone Number"
-                    value={userData.phoneNo}
-                    onChange={updateHandleChange}
+                    value={formData.phoneNo}
+                    onChange={handleChange}
                   />
                 </Form.Group>
               </Col>
@@ -79,8 +79,8 @@ const UpdateUserModal = ({
                     type="email"
                     name="email"
                     placeholder="Enter Email"
-                    value={userData.email}
-                    onChange={updateHandleChange}
+                    value={formData.email}
+                    onChange={handleChange}
                     required
                   />
                 </Form.Group>
@@ -94,54 +94,69 @@ const UpdateUserModal = ({
                   <Form.Control
                     as="select"
                     name="userStatus"
-                    value={userData.userStatus}
-                    onChange={updateHandleChange}
+                    value={formData.userStatus}
+                    onChange={handleChange}
                   >
                     <option value="">Choose...</option>
                     <option value="ACTIVE">ACTIVE</option>
                     <option value="SUSPENDED">SUSPENDED</option>
                   </Form.Control>
-                  {/* <Select
-                    defaultValue={[]}
-                    name="status"
-                    options={status}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    onChange={(selectedOptions) =>
-                      setFormData((prevState) => ({
-                        ...prevState,
-                        roles: selectedOptions,
-                      }))
-                    }
-                  /> */}
                 </Form.Group>
               </Col>
               <Col md={6}>
                 <Form.Group controlId="roles">
                   <Form.Label>Role:</Form.Label>
                   <Select
-                    defaultValue={userData.roles.map((role) => ({
-                      value: role.name,
-                      label: role.name,
-                    }))}
+                    defaultValue={formData.roles}
                     isMulti
                     name="roles"
                     options={adminRole}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     onChange={(selectedOptions) =>
-                      setUserData((prevState) => ({
-                        ...prevState,
-                        roles: selectedOptions,
-                      }))
+                      handleChange({
+                        target: { name: "roles", value: selectedOptions },
+                      })
                     }
                   />
                 </Form.Group>
               </Col>
             </Row>
-
+            {!isUpdate && ( // Render password fields only for add user modal
+              <Row className="mb-4">
+                <Col md={6}>
+                  <Form.Group controlId="password">
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="password"
+                      placeholder="Enter Password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="confirmPassword">
+                    <Form.Label>Confirm Password:</Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Enter Confirm Password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            )}
+            {!isUpdate && passwordError && (
+              <div className="text-danger">{passwordError}</div>
+            )}
             <Button className="mt-4" variant="primary" type="submit">
-              Update
+              {isUpdate ? "Update" : "Submit"}
             </Button>
           </Form>
         </Box>
@@ -150,4 +165,4 @@ const UpdateUserModal = ({
   );
 };
 
-export default UpdateUserModal;
+export default UserFormModal;

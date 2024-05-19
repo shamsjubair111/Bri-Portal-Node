@@ -1,183 +1,110 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { CardBody } from "reactstrap";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
-import { rootUrl } from "../../../constants/constants";
-import AddPermission from "./AddPermission";
-import UpdatePermission from "./UpdatePermission";
+import PermissionForm from "./PermissionForm";
 import permissionServices from "../../../apiServices/PermissionServices/PermissionServices";
 
 const PermissionManagement = () => {
   const [permissions, setPermissions] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [updateOpen, setUpdateOpen] = useState(false);
-
-  const [userId, setUserId] = useState(null);
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "90%",
-    maxWidth: 900,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const initialFormData = {
-    permission: "",
-    description: "",
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
-  const [permissionData, setPermissionData] = useState(initialFormData);
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [formData, setFormData] = useState({ permission: "", description: "" });
+  const [selectedPermissionId, setSelectedPermissionId] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const authToken = "Bearer " + userInfo.token;
-
-  // fetch all user
-  const fetchPermissions = async () => {
-    try {
-      const data = await permissionServices.fetchPermissions();
-      setPermissions(data);
-    } catch (error) {
-      console.error("Error fetching roles:", error);
-    }
-  };
 
   useEffect(() => {
     fetchPermissions();
   }, []);
 
-  // single user data
-  const fetchPermissionData = async (id) => {
+  const fetchPermissions = async () => {
     try {
-      const data = await permissionServices.fetchPermissionById(
-        id,
-        userInfo.token
-      );
-      setPermissionData(data);
+      const data = await permissionServices.fetchPermissions();
+      setPermissions(data);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error fetching permissions:", error);
     }
   };
-  // create User
-  const handleOpen = () => setOpen(true);
 
-  const handleClose = () => {
-    setOpen(false);
-    setFormData(initialFormData);
+  const handleOpenModal = (permissionId = null) => {
+    setSelectedPermissionId(permissionId);
+    setModalOpen(true);
+    if (permissionId) {
+      fetchPermissionData(permissionId);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setFormData({ permission: "", description: "" });
+    setSelectedPermissionId(null);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: name === "permission" ? value.toUpperCase() : value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const permissionData = {
+    const data = {
       name: formData.permission,
-      descrption: formData.description,
+      description: formData.description,
     };
-    console.log(permissionData);
     try {
-      await permissionServices.createPermission(permissionData, userInfo.token);
-      handleClose();
+      if (selectedPermissionId) {
+        await permissionServices.updatePermission(selectedPermissionId, data);
+      } else {
+        await permissionServices.createPermission(data, userInfo.token);
+      }
+      handleCloseModal();
       fetchPermissions();
     } catch (error) {
-      console.log("Error adding user:", error);
+      console.error("Error adding/updating permission:", error);
     }
   };
 
-  // update User
-  const handleUpdateOpen = async (id) => {
-    setUserId(id);
-    setUpdateOpen(true);
-    await fetchPermissionData(id);
+  const fetchPermissionData = async (permissionId) => {
+    try {
+      const data = await permissionServices.fetchPermissionById(
+        permissionId,
+        userInfo.token
+      );
+      setFormData({
+        permission: data.name || "",
+        description: data.description || "",
+      });
+    } catch (error) {
+      console.error("Error fetching permission data:", error);
+    }
   };
 
-  const handleUpdateClose = () => {
-    setUpdateOpen(false);
-    setPermissionData(initialFormData);
-  };
-  const updateHandleChange = (e) => {
-    const { name, value } = e.target;
-    setPermissionData({
-      ...formData,
-      [name]: name === "permission" ? value.toUpperCase() : value,
-    });
-  };
-  // const handleUpdateSubmit = (e, id) => {
-  //   e.preventDefault();
-  //   const updateUserData = {
-  //     role: permissionData.name,
-  //     descrption: permissionData.descrption,
-  //   };
-  //   axios
-  //     .put(`${rootUrl}editUser/${id}`, updateUserData, {
-  //       headers: {
-  //         Authorization: "Bearer " + userInfo.token,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       handleClose();
-  //       fetchPermissions();
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error updating user:", error);
-  //     });
-  // };
-  // delete permissiom
-  const handleDeletePermission = async (id) => {
+  const handleDeletePermission = async (permissionId) => {
     try {
-      await permissionServices.deletePermission(id, userInfo.token);
+      await permissionServices.deletePermission(permissionId);
       fetchPermissions();
     } catch (error) {
-      console.error("Error removing user:", error);
+      console.error("Error removing permission:", error);
     }
   };
 
   return (
     <div>
-      {/* Modal add user*/}
-      <AddPermission
-        open={open}
-        handleChange={handleChange}
+      <PermissionForm
+        open={modalOpen}
+        handleClose={handleCloseModal}
         handleSubmit={handleSubmit}
-        handleClose={handleClose}
         formData={formData}
-        style={style}
-        setFormData={setFormData}
+        handleChange={handleChange}
+        title={selectedPermissionId ? "Update Permission" : "Add Permission"}
+        buttonText={selectedPermissionId ? "Update" : "Add Permission"}
       />
 
-      {/* end */}
-      {/* update modal */}
-      <UpdatePermission
-        updateOpen={updateOpen}
-        handleUpdateClose={handleUpdateClose}
-        style={style}
-        // handleUpdateSubmit={handleUpdateSubmit}
-        permissionData={permissionData}
-        updateHandleChange={updateHandleChange}
-        setPermissionData={setPermissionData}
-      />
-      {/* update modal end */}
       <Card>
         <CardBody>
           <div className="border-bottom mb-4">
@@ -201,54 +128,16 @@ const PermissionManagement = () => {
                 className="col-md-8 d-flex justify-content-end"
                 style={{ marginTop: "23px" }}
               >
-                <Button style={{ padding: "7px 30px" }} onClick={handleOpen}>
+                <Button
+                  style={{ padding: "7px 30px" }}
+                  onClick={() => handleOpenModal()}
+                >
                   Add Permission
                 </Button>
               </div>
             </div>
           </div>
-          {/* <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell align="right">Permissoin</TableCell>
-                  <TableCell align="right">Description</TableCell>
-                  <TableCell align="right">Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {permissions.map((row, i) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell style={{ padding: "2px 16px" }}>
-                      {i + 1}
-                    </TableCell>
 
-                    <TableCell style={{ padding: "2px 16px" }}>
-                      {row.name}
-                    </TableCell>
-                    <TableCell style={{ padding: "2px 16px" }}>
-                      {row.descriptiom}
-                    </TableCell>
-                    <TableCell style={{ padding: "2px 16px" }}>
-                      <Button onClick={() => handleUpdateOpen(row.id)}>
-                        Edit
-                      </Button>{" "}
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDeletePermission(row.id)}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer> */}
           <div
             className="overflow-auto"
             style={{ maxWidth: "100%", overflowX: "scroll" }}
@@ -264,9 +153,8 @@ const PermissionManagement = () => {
               </TableHead>
               <tbody>
                 {permissions.map((row, i) => (
-                  <tr key={row.name}>
+                  <tr key={row.id}>
                     <td style={{ padding: "2px 16px" }}>{i + 1}</td>
-
                     <td style={{ padding: "2px 16px", minWidth: "220px" }}>
                       {row.name}
                     </td>
@@ -274,7 +162,7 @@ const PermissionManagement = () => {
                       {row.description}
                     </td>
                     <td style={{ padding: "2px 16px", minWidth: "220px" }}>
-                      <Button onClick={() => handleUpdateOpen(row.id)}>
+                      <Button onClick={() => handleOpenModal(row.id)}>
                         Edit
                       </Button>{" "}
                       <Button

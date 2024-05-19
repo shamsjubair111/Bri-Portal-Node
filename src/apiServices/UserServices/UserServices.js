@@ -2,22 +2,6 @@ import axios from "axios";
 import { rootUrl } from "../../constants/constants";
 
 const userServices = {
-  // fetchAllUsers: async (token) => {
-  //   try {
-  //     const response = await axios.post(
-  //       `http://localhost:8001/AUTHENTICATION/getUsers`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error("Error fetching users:", error);
-  //     throw error;
-  //   }
-  // },
   fetchAllUsers: async (token) => {
     try {
       const response = await axios.post(
