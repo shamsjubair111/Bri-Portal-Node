@@ -1332,8 +1332,8 @@ const AdmissionOfficerApplication = ({ currentUser }) => {
                         <td style={{ verticalAlign: "middle" }}>
                           <Link
                             style={{
-                              color: "#1e98b0",
-                              textDecorationColor: "#1e98b0",
+                              color: "#164677",
+                              textDecorationColor: "#164677",
                             }}
                             to={`/applicationDetails/${app?.id}/${app?.studentId}`}
                           >
@@ -1347,8 +1347,8 @@ const AdmissionOfficerApplication = ({ currentUser }) => {
                         <td style={{ verticalAlign: "middle" }}>
                           <Link
                             style={{
-                              color: "#1e98b0",
-                              textDecorationColor: "#1e98b0",
+                              color: "#164677",
+                              textDecorationColor: "#164677",
                             }}
                             to={`/applicationDetails/${app?.id}/${app?.studentId}`}
                           >
@@ -1369,8 +1369,8 @@ const AdmissionOfficerApplication = ({ currentUser }) => {
                         <td style={{ verticalAlign: "middle" }}>
                           <Link
                             style={{
-                              color: "#1e98b0",
-                              textDecorationColor: "#1e98b0",
+                              color: "#164677",
+                              textDecorationColor: "#164677",
                             }}
                             to={`/applicationDetails/${app?.id}/${app?.studentId}`}
                           >

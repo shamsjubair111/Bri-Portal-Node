@@ -907,7 +907,7 @@ const Search = () => {
         }}
         className="uapp-modal2"
       >
-        <ModalHeader style={{ backgroundColor: "#1E98B0" }}>
+        <ModalHeader style={{ backgroundColor: "#164677" }}>
           <p style={{ color: "white", fontWeight: "700" }}>Eligibility Check</p>
         </ModalHeader>
 
@@ -942,7 +942,7 @@ const Search = () => {
           toggle={closeModal}
           className="uapp-modal2"
         >
-          <ModalHeader style={{ backgroundColor: "#1e98b0" }}>
+          <ModalHeader style={{ backgroundColor: "#164677" }}>
             <div className="px-3 text-center text-white">
               Are You Sure You Want to Apply for This Program?
             </div>
@@ -1814,7 +1814,7 @@ id="providerTypeId"
                                               <br />
                                               <span
                                                 className="p-style-2"
-                                                style={{ color: "#1e98b0" }}
+                                                style={{ color: "#164677" }}
                                               >
                                                 Application Fee:{" "}
                                                 {subjectInfo?.avarageApplicationFee ==
@@ -1995,7 +1995,7 @@ id="providerTypeId"
                                             <br />
                                             <span
                                               className="p-style-2"
-                                              style={{ color: "#1e98b0" }}
+                                              style={{ color: "#164677" }}
                                             >
                                               Application Fee:{" "}
                                               {subjectInfo?.avarageApplicationFee ==

@@ -952,7 +952,7 @@ const List = () => {
                     <div>
                       <span
                         className="inv-span-styles"
-                        style={{ color: "#1e98b0", fontWeight: "500" }}
+                        style={{ color: "#164677", fontWeight: "500" }}
                       >
                         TC ID 332
                       </span>
@@ -961,7 +961,7 @@ const List = () => {
                     <br />
                     <div>
                       <span>
-                        <Icon.PhoneCall color="#1e98b0" />
+                        <Icon.PhoneCall color="#164677" />
                       </span>
                       <span
                         style={{ marginLeft: "10px" }}
@@ -972,7 +972,7 @@ const List = () => {
                     </div>
                     <div>
                       <span>
-                        <Icon.Search color="#1e98b0" />
+                        <Icon.Search color="#164677" />
                       </span>
                       <span
                         style={{ marginLeft: "10px" }}
@@ -983,7 +983,7 @@ const List = () => {
                     </div>
                     <div>
                       <span>
-                        <Icon.Map color="#1e98b0" />
+                        <Icon.Map color="#164677" />
                       </span>
                       <span
                         style={{ marginLeft: "10px" }}
@@ -1004,7 +1004,7 @@ const List = () => {
                       <div>
                         <span
                           className="inv-span-styles"
-                          style={{ color: "#1e98b0", fontWeight: "500" }}
+                          style={{ color: "#164677", fontWeight: "500" }}
                         >
                           Date : 24/11/2022
                         </span>
@@ -1121,7 +1121,7 @@ const List = () => {
               <div style={{ marginTop: "100px", marginLeft: "100px" }}>
                 <div>
                   <span
-                    style={{ color: "#1e98b0" }}
+                    style={{ color: "#164677" }}
                     className="inv-span-styles"
                   >
                     Bank Details

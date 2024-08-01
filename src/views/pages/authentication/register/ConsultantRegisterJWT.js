@@ -303,7 +303,7 @@ const ConsultantRegisterJWT = () => {
 
           <div
             className="col-md-6 float-right"
-            style={{ color: "#1E98B0", fontSize: "13px", fontWeight: "400" }}
+            style={{ color: "#164677", fontSize: "13px", fontWeight: "400" }}
           >
             UAPP © services Higher Education Group.
           </div>

@@ -31,7 +31,6 @@ import {
 import Axios from "axios";
 
 import { rootUrl } from "../../../../constants/constants";
-import { padding } from "@mui/system";
 import get from "../../../../helpers/get";
 // import PicturesWall from "./UniversityLogo";
 // import CoverPicturesWall from "./UniversityCover";

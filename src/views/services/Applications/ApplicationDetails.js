@@ -336,7 +336,7 @@ const ApplicationDetails = () => {
     size: 15,
     count: 5,
     color: "1e98b0",
-    activeColor: "#1e98b0",
+    activeColor: "#164677",
     value: recommendValue,
     a11y: true,
     isHalf: true,
@@ -356,7 +356,7 @@ const ApplicationDetails = () => {
     size: 15,
     count: 5,
     color: "1e98b0",
-    activeColor: "#1e98b0",
+    activeColor: "#164677",
     value: helpfulValue,
     a11y: true,
     isHalf: true,
@@ -376,7 +376,7 @@ const ApplicationDetails = () => {
     size: 15,
     count: 5,
     color: "1e98b0",
-    activeColor: "#1e98b0",
+    activeColor: "#164677",
     value: communicationValue,
     a11y: true,
     isHalf: true,
@@ -1940,7 +1940,7 @@ const ApplicationDetails = () => {
                               style={{
                                 fontSize: "12px",
                                 fontWeight: "800",
-                                color: "#1e98b0",
+                                color: "#164677",
                               }}
                             >
                               {chat?.createdBy}

@@ -31,7 +31,6 @@ import {
 import Axios from "axios";
 
 import { rootUrl } from "../../../../constants/constants";
-import { padding } from "@mui/system";
 import get from "../../../../helpers/get";
 import PicturesWall from "../UniversityLogo";
 import CoverPicturesWall from "../UniversityCover";
@@ -48,14 +47,14 @@ import { userTypes } from "../../../../constants/userTypeConstant";
 import ButtonLoader from "../../Components/ButtonLoader";
 
 const AddProviderUniversity = () => {
-     // const univerSityCountries = props.univerSityCountryList[0];
+  // const univerSityCountries = props.univerSityCountryList[0];
   const [univerSityCountries, setUniverSityCountries] = useState([]);
   // const universityTypes = props.univerSityTypeList[0];
   const [universityTypes, setUniversitiesType] = useState([]);
   // const universityStates = props.univerSityStateList[0];
   const [universityStates, setUniversityStates] = useState([]);
 
-  const permissions = JSON.parse(localStorage.getItem('permissions'));
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
 
   const [activetab, setActivetab] = useState("1");
   const [description, setDescription] = useState("");
@@ -76,17 +75,19 @@ const AddProviderUniversity = () => {
   const [unistateValue, setUniStateValue] = useState(0);
   const [uniStateError, setUniStateError] = useState(false);
 
-  const [city,setCity] = useState([]);
-  const [cityLabel,setCityLabel] = useState('Select University City');
+  const [city, setCity] = useState([]);
+  const [cityLabel, setCityLabel] = useState("Select University City");
   const [cityValue, setCityValue] = useState(0);
   const [cityError, setCityError] = useState(false);
 
-  const [achome,setAcHome] = useState(false);
-  const [aceu,setAcEu] = useState(false);
-  const [acint,setAcInt] = useState(false);
+  const [achome, setAcHome] = useState(false);
+  const [aceu, setAcEu] = useState(false);
+  const [acint, setAcInt] = useState(false);
 
   const [contractTypeDD, setContractTypeDD] = useState([]);
-  const [contractTypeLabel, setContractTypeLabel] = useState("Select Contract Type...");
+  const [contractTypeLabel, setContractTypeLabel] = useState(
+    "Select Contract Type..."
+  );
   const [contractTypeValue, setContractTypeValue] = useState(0);
   const [contractTypeError, setContractTypeError] = useState(false);
 
@@ -104,14 +105,16 @@ const AddProviderUniversity = () => {
   const [submitData, setSubmitData] = useState(false);
   const [universityId, setUniversityId] = useState(undefined);
 
-  const [buttonStatus,setButtonStatus] = useState(false);
-  const [progress,setProgress] = useState(false);
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [progress, setProgress] = useState(false);
 
   const { addToast } = useToasts();
   const location = useLocation();
-  const {providerProfileId, univerId} = useParams();
+  const { providerProfileId, univerId } = useParams();
 
-  const [providerProId, setProviderProId] = useState(location?.providerProfileId);
+  const [providerProId, setProviderProId] = useState(
+    location?.providerProfileId
+  );
 
   const AuthStr = localStorage.getItem("token");
 
@@ -120,8 +123,6 @@ const AddProviderUniversity = () => {
   const [universityData, setUniversityData] = useState({});
   const [uniId, setUniId] = useState(undefined);
   const [check, setCheck] = useState(true);
-
-  
 
   // For uploading university logo
   const [FileList1, setFileList1] = useState([]);
@@ -134,43 +135,47 @@ const AddProviderUniversity = () => {
   const [previewVisible2, setPreviewVisible2] = useState(false);
   const [previewImage2, setPreviewImage2] = useState("");
   const [previewTitle2, setPreviewTitle2] = useState("");
-  const [error,setError] = useState('');
-  const [error2,setError2] = useState('');
+  const [error, setError] = useState("");
+  const [error2, setError2] = useState("");
 
   const styleLabelBold = {
     // fontWeight: "bold"
   };
 
-//   const [providerValue, setProviderValue] = useState(0);
+  //   const [providerValue, setProviderValue] = useState(0);
 
   const userType = localStorage.getItem("userType");
   const referenceId = localStorage.getItem("referenceId");
 
   const handleChange1 = ({ fileList }) => {
-  
-    
-    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    if (
+      fileList.length > 0 &&
+      fileList[0]?.type !== "image/jpeg" &&
+      fileList[0]?.type !== "image/jpg" &&
+      fileList[0]?.type !== "image/png"
+    ) {
       setFileList1([]);
-      setError('Only jpeg, jpg, png image is allowed');
-    }
-    else{
+      setError("Only jpeg, jpg, png image is allowed");
+    } else {
       setFileList1(fileList);
       setLogoDropzoneError(false);
-      setError('');
+      setError("");
     }
   };
 
   const handleChange2 = ({ fileList }) => {
-   
-    
-    if(fileList.length > 0 && fileList[0]?.type !== 'image/jpeg' && fileList[0]?.type !== 'image/jpg' && fileList[0]?.type !== 'image/png'){
+    if (
+      fileList.length > 0 &&
+      fileList[0]?.type !== "image/jpeg" &&
+      fileList[0]?.type !== "image/jpg" &&
+      fileList[0]?.type !== "image/png"
+    ) {
       setFileList2([]);
-      setError2('Only jpeg, jpg, png image is allowed');
-    }
-    else{
+      setError2("Only jpeg, jpg, png image is allowed");
+    } else {
       setFileList2(fileList);
       setCoverDropzoneError(false);
-      setError2('');
+      setError2("");
     }
   };
 
@@ -215,21 +220,18 @@ const AddProviderUniversity = () => {
     );
   };
 
-//   useEffect(()=>{
-//     get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
+  //   useEffect(()=>{
+  //     get(`ProviderHelper/GetProviderId/${userType}/${referenceId}`).then(res=>{
 
-//         setProviderValue(res != 0 ? res : 0);
-        
-//     })
-//   },[userType, referenceId])
+  //         setProviderValue(res != 0 ? res : 0);
 
-
+  //     })
+  //   },[userType, referenceId])
 
   useEffect(() => {
     get("ProviderDD/Index")
       .then((res) => {
         setProvider(res);
-        
       })
       .catch();
     get("UniversityCountryDD/Index")
@@ -250,13 +252,12 @@ const AddProviderUniversity = () => {
     get("ContractTypeDD/Index")
       .then((res) => {
         setContractTypeDD(res);
-        // 
+        //
       })
       .catch();
 
     if (univerId != undefined) {
       get(`University/get/${univerId}`).then((res) => {
-        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -280,7 +281,6 @@ const AddProviderUniversity = () => {
 
     if (universityId != undefined) {
       get(`University/get/${universityId}`).then((res) => {
-        
         setContractTypeLabel(res?.contractType?.name);
         setContractTypeValue(res?.contractType?.id);
         setUniversityData(res);
@@ -312,19 +312,16 @@ const AddProviderUniversity = () => {
   const [providerTypeError, setProviderTypeError] = useState(false);
 
   const handleHome = (event) => {
-        
     setAcHome(event.target.value);
-}
+  };
 
   const handleEu = (event) => {
-        
     setAcEu(event.target.value);
-}
+  };
 
   const handleInt = (event) => {
-        
     setAcInt(event.target.value);
-}
+  };
 
   const selectProviderType = (label, value) => {
     setProviderTypeError(false);
@@ -341,7 +338,7 @@ const AddProviderUniversity = () => {
     setContractTypeError(false);
     setContractTypeLabel(label);
     setContractTypeValue(value);
-  }
+  };
 
   const contractMenu = contractTypeDD.map((contract) => ({
     label: contract?.name,
@@ -399,11 +396,10 @@ const AddProviderUniversity = () => {
 
   const history = useHistory();
 
-
   // on submit form
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     const subdata = new FormData(event.target);
 
     // subdata.append("UniversityLogoFile", logoResult[0]?.originFileObj);
@@ -422,99 +418,90 @@ const AddProviderUniversity = () => {
     // for (var value of subdata.values()) {
 
     // }
-    
 
     const config = {
       headers: {
         "content-type": "multipart/form-data",
-        'authorization': AuthStr,
+        authorization: AuthStr,
       },
     };
 
-    
-      
-      
-      // if(providerTypeValue === 0){
-      //   
-      // setProviderTypeError(true);
-      // }
-      if (uniTypeValue === 0) {
-        setUniTypeError(true);
-      }
-      else if(contractTypeValue === 0){
-        setContractTypeError(true);
-      }
-      else if (uniCountryValue === 0) {
-        setUniCountryError(true);
-      }
-      else if (unistateValue === 0) {
-        setUniStateError(true);
-      }
-      else if (cityValue === 0) {
-        // setCityError('University city is required');
-        setCityError(true);
-      }
-      else if (FileList1.length < 1 && check) {
-        setLogoDropzoneError(true);
-      }
-      // if(FileList1.length>=1 && uniId != undefined ){
-      //   setLogoDropzoneError(false);
-      // }
-      else if (FileList2.length < 1 && check) {
-        setCoverDropzoneError(true);
-      }
-      // if(FileList2.length>=1 && uniId != undefined)
-      // {
-      //   setCoverDropzoneError(false);
-      // }
-      else {
-        if (uniId != undefined) {
-          setButtonStatus(true);
-          setProgress(true);
-          put("University/Update", subdata, config).then((res) => {
+    // if(providerTypeValue === 0){
+    //
+    // setProviderTypeError(true);
+    // }
+    if (uniTypeValue === 0) {
+      setUniTypeError(true);
+    } else if (contractTypeValue === 0) {
+      setContractTypeError(true);
+    } else if (uniCountryValue === 0) {
+      setUniCountryError(true);
+    } else if (unistateValue === 0) {
+      setUniStateError(true);
+    } else if (cityValue === 0) {
+      // setCityError('University city is required');
+      setCityError(true);
+    } else if (FileList1.length < 1 && check) {
+      setLogoDropzoneError(true);
+    }
+    // if(FileList1.length>=1 && uniId != undefined ){
+    //   setLogoDropzoneError(false);
+    // }
+    else if (FileList2.length < 1 && check) {
+      setCoverDropzoneError(true);
+    }
+    // if(FileList2.length>=1 && uniId != undefined)
+    // {
+    //   setCoverDropzoneError(false);
+    // }
+    else {
+      if (uniId != undefined) {
+        setButtonStatus(true);
+        setProgress(true);
+        put("University/Update", subdata, config).then((res) => {
+          setButtonStatus(false);
+          setProgress(false);
+          if (res?.status == 200 && res?.data?.isSuccess == true) {
+            addToast(res?.data?.message, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+
+            history.push(
+              `/addProviderUniversityCampus/${providerProfileId}/${uniId}`
+            );
+          } else {
+            addToast(res?.data?.message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
+        });
+      } else {
+        setButtonStatus(true);
+        setProgress(true);
+        Axios.post(`${rootUrl}University/Create`, subdata, config).then(
+          (res) => {
             setButtonStatus(false);
             setProgress(false);
-            if (res?.status == 200 && res?.data?.isSuccess == true) {
+            //  .setItem("id", res.data.result.id);
+            const uniID = res.data.result.id;
+            setUniversityId(uniID);
+
+            if (res.status === 200 && res.data.isSuccess === true) {
+              setSubmitData(true);
               addToast(res?.data?.message, {
                 appearance: "success",
                 autoDismiss: true,
               });
-              
-              history.push(`/addProviderUniversityCampus/${providerProfileId}/${uniId}`);
-            }
-            else{
-              addToast(res?.data?.message, {
-                appearance: "error",
-                autoDismiss: true,
+              history.push({
+                pathname: `/addProviderUniversityCampus/${providerProfileId}/${uniID}`,
+                id: uniID,
               });
             }
-          });
-        } else {
-          setButtonStatus(true);
-          setProgress(true);
-          Axios.post(`${rootUrl}University/Create`, subdata, config).then(
-            (res) => {
-              
-              setButtonStatus(false);
-              setProgress(false);
-              //  .setItem("id", res.data.result.id);
-              const uniID = res.data.result.id;
-              setUniversityId(uniID);
-  
-              if (res.status === 200 && res.data.isSuccess === true) {
-                setSubmitData(true);
-                addToast(res?.data?.message, {
-                  appearance: "success",
-                  autoDismiss: true,
-                });
-                history.push({
-                  pathname: `/addProviderUniversityCampus/${providerProfileId}/${uniID}`,
-                  id: uniID,
-                });
-              }
-            }
-          );
-        }
+          }
+        );
+      }
     }
   };
 
@@ -568,59 +555,89 @@ const AddProviderUniversity = () => {
   const toggle = (tab) => {
     setActivetab(tab);
 
-    if(univerId != undefined){
+    if (univerId != undefined) {
       if (tab == "2") {
-        history.push(`/addProviderUniversityCampus/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityCampus/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "3") {
-        history.push(`/addProviderUniversityTestScore/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityTestScore/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "4") {
-        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityFinancial/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "5") {
-        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityFeatures/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "6") {
-        history.push(`/addProviderUniversityGallery/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityGallery/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "7") {
-        history.push(`/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityApplicationDocument/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "8") {
-        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityTemplateDocument/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "9") {
-        history.push(`/addProviderUniversityCommission/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityCommission/${providerProfileId}/${univerId}`
+        );
       }
-    }
-    else{
+    } else {
       if (tab == "2") {
-        history.push(`/addProviderUniversityCampus/${providerProfileId}/${universityId}`);
+        history.push(
+          `/addProviderUniversityCampus/${providerProfileId}/${universityId}`
+        );
       }
       if (tab == "3") {
-        history.push(`/addProviderUniversityTestScore/${providerProfileId}/${univerId}`);
+        history.push(
+          `/addProviderUniversityTestScore/${providerProfileId}/${univerId}`
+        );
       }
       if (tab == "4") {
-        history.push(`/addProviderUniversityFinancial/${providerProfileId}/${universityId}`);
+        history.push(
+          `/addProviderUniversityFinancial/${providerProfileId}/${universityId}`
+        );
       }
       if (tab == "5") {
-        history.push(`/addProviderUniversityFeatures/${providerProfileId}/${universityId}`);
+        history.push(
+          `/addProviderUniversityFeatures/${providerProfileId}/${universityId}`
+        );
       }
       if (tab == "6") {
-        history.push(`/addProviderUniversityGallery/${providerProfileId}/${universityId}`);
+        history.push(
+          `/addProviderUniversityGallery/${providerProfileId}/${universityId}`
+        );
       }
       if (tab == "7") {
-        history.push(`/addProviderUniversityApplicationDocument/${universityId}`);
+        history.push(
+          `/addProviderUniversityApplicationDocument/${universityId}`
+        );
       }
       if (tab == "8") {
-        history.push(`/addProviderUniversityTemplateDocument/${providerProfileId}/${universityId}`);
+        history.push(
+          `/addProviderUniversityTemplateDocument/${providerProfileId}/${universityId}`
+        );
       }
       if (tab == "9") {
-        history.push(`/addProviderUniversityCommission/${providerProfileId}/${universityId}`);
+        history.push(
+          `/addProviderUniversityCommission/${providerProfileId}/${universityId}`
+        );
       }
     }
-
   };
 
   const universityTypeName = universityTypes?.map((uniType) => ({
@@ -644,10 +661,11 @@ const AddProviderUniversity = () => {
   // redirect to Next Page
   const onNextPage = () => {
     const uniID = universityId;
-    if (uniId != undefined){
-      history.push(`/addProviderUniversityCampus/${providerProfileId}/${uniId}`);
-    }
-    else{
+    if (uniId != undefined) {
+      history.push(
+        `/addProviderUniversityCampus/${providerProfileId}/${uniId}`
+      );
+    } else {
       history.push({
         pathname: `/addProviderUniversityCampus/${providerProfileId}/${uniID}`,
         id: uniID,
@@ -655,21 +673,20 @@ const AddProviderUniversity = () => {
     }
   };
 
-
   const handleCancelAdd = () => {
     history.push(`/providerDetails/${providerProfileId}`);
-  }
+  };
 
-
-    return (
-        <div>
+  return (
+    <div>
       <Card className="uapp-card-bg">
         <CardHeader className="page-header">
           <h3 className="text-white">University Information</h3>
           <div className="page-header-back-to-home">
             <span onClick={backToProviderDetails} className="text-white">
               {" "}
-              <i className="fas fa-arrow-circle-left"></i> Back to Provider Details
+              <i className="fas fa-arrow-circle-left"></i> Back to Provider
+              Details
             </span>
           </div>
         </CardHeader>
@@ -707,8 +724,6 @@ const AddProviderUniversity = () => {
               )}
             </NavItem>
 
-         
-
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "4"} onClick={() => toggle("4")}>
@@ -720,8 +735,6 @@ const AddProviderUniversity = () => {
                 </NavLink>
               )}
             </NavItem>
-
-            
 
             <NavItem>
               {submitData || univerId ? (
@@ -735,8 +748,6 @@ const AddProviderUniversity = () => {
               )}
             </NavItem>
 
-           
-
             <NavItem>
               {submitData || univerId ? (
                 <NavLink active={activetab === "6"} onClick={() => toggle("6")}>
@@ -748,8 +759,6 @@ const AddProviderUniversity = () => {
                 </NavLink>
               )}
             </NavItem>
-
-            
 
             <NavItem>
               {submitData || univerId ? (
@@ -786,23 +795,24 @@ const AddProviderUniversity = () => {
                 </NavLink>
               )}
             </NavItem>
-
           </Nav>
 
           <TabContent activeTab={activetab}>
             <TabPane tabId="1">
               <Form ref={myForm} onSubmit={handleSubmit} className="mt-5">
-              <div className="hedding-titel d-flex justify-content-between mb-4">
-                      <div>
-                        <h5> <b>University Information</b> </h5>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>University Information</b>{" "}
+                    </h5>
 
-                        <div className="bg-h"></div>
-                      </div>
-                        {/* <div className="text-right edit-style  p-3" >
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3" >
                         <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                         </div> */}
-
-                    </div>
+                </div>
                 {
                   // method == 'put' ?
                   uniId != undefined ? (
@@ -818,16 +828,14 @@ const AddProviderUniversity = () => {
                     </>
                   ) : null
                 }
-               {
-                 uniId === undefined &&  providerProfileId !== undefined ?
-                 <Input
-                   type="hidden"
-                   name="providerId"
-                   id="providerId"
-                   value={providerProfileId}
-                 />
-                 :null
-               }
+                {uniId === undefined && providerProfileId !== undefined ? (
+                  <Input
+                    type="hidden"
+                    name="providerId"
+                    id="providerId"
+                    value={providerProfileId}
+                  />
+                ) : null}
 
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
@@ -910,8 +918,13 @@ const AddProviderUniversity = () => {
                   <Col md="6">
                     <Select
                       options={contractMenu}
-                      value={{ label: contractTypeLabel, value: contractTypeValue }}
-                      onChange={(opt) => selectContractType(opt.label, opt.value)}
+                      value={{
+                        label: contractTypeLabel,
+                        value: contractTypeValue,
+                      }}
+                      onChange={(opt) =>
+                        selectContractType(opt.label, opt.value)
+                      }
                       name="contractTypeId"
                       id="contractTypeId"
                     />
@@ -972,7 +985,7 @@ const AddProviderUniversity = () => {
 
                     {uniStateError && (
                       <span className="text-danger">
-                      University state is required
+                        University state is required
                       </span>
                     )}
 
@@ -989,7 +1002,7 @@ const AddProviderUniversity = () => {
                     </span>
                   </Col>
                   <Col md="6">
-                  <Select
+                    <Select
                       options={cityOptions}
                       value={{ label: cityLabel, value: cityValue }}
                       onChange={(opt) => selectUniCity(opt.label, opt.value)}
@@ -1121,7 +1134,9 @@ const AddProviderUniversity = () => {
                       placeholder="https://example.com"
                       onChange={(e) => setDescription(e.target.value)}
                     />
-                    <span className="text-danger">Note: Please type the "src" link only from the embed map</span>
+                    <span className="text-danger">
+                      Note: Please type the "src" link only from the embed map
+                    </span>
                     {/* <div className="form-control-position">
                                         <User size={15} />
                                     </div> */}
@@ -1208,11 +1223,8 @@ const AddProviderUniversity = () => {
                       </div>
                     </div>
 
-
                     {logoDropzoneError && (
-                      <span className="text-danger">
-                        Logo is required
-                      </span>
+                      <span className="text-danger">Logo is required</span>
                     )}
                     <span className="text-danger d-block">{error}</span>
                   </Col>
@@ -1221,8 +1233,7 @@ const AddProviderUniversity = () => {
                 <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>
-                      Cover Photo{" "}
-                      <span className="text-danger">*</span>{" "}
+                      Cover Photo <span className="text-danger">*</span>{" "}
                     </span>
                   </Col>
                   <Col md="6">
@@ -1289,35 +1300,64 @@ const AddProviderUniversity = () => {
                   </Col>
                 </FormGroup>
 
-                   <div className="hedding-titel d-flex justify-content-between mb-4">
-                      <div>
-                        <h5> <b>Recruitment Type</b> </h5>
+                <div className="hedding-titel d-flex justify-content-between mb-4">
+                  <div>
+                    <h5>
+                      {" "}
+                      <b>Recruitment Type</b>{" "}
+                    </h5>
 
-                        <div className="bg-h"></div>
-                      </div>
-                        {/* <div className="text-right edit-style  p-3" >
+                    <div className="bg-h"></div>
+                  </div>
+                  {/* <div className="text-right edit-style  p-3" >
                         <span> <i className="fas fa-pencil-alt pencil-style"></i> </span>
                         </div> */}
+                </div>
 
-                    </div>
-
-                    <FormGroup row className="has-icon-left position-relative">
+                <FormGroup row className="has-icon-left position-relative">
                   <Col md="2">
                     <span>Home </span>
                   </Col>
                   <Col md="6">
-                  <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="isAcceptHome" onChange={handleHome} name="isAcceptHome" value='true' checked={achome == 'true'} />
-          <Label className="form-check-label" check htmlFor="isAcceptHome" style={styleLabelBold}>Yes</Label>
+                    <FormGroup check inline>
+                      <Input
+                        className="form-check-input"
+                        type="radio"
+                        id="isAcceptHome"
+                        onChange={handleHome}
+                        name="isAcceptHome"
+                        value="true"
+                        checked={achome == "true"}
+                      />
+                      <Label
+                        className="form-check-label"
+                        check
+                        htmlFor="isAcceptHome"
+                        style={styleLabelBold}
+                      >
+                        Yes
+                      </Label>
+                    </FormGroup>
 
-          </FormGroup>
-
-          <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="isAcceptHome" onChange={handleHome} name="isAcceptHome" value='false' checked={achome == 'false'} />
-          <Label className="form-check-label" check htmlFor="isAcceptHome" style={styleLabelBold}>No</Label>
-
-          </FormGroup>
-                  
+                    <FormGroup check inline>
+                      <Input
+                        className="form-check-input"
+                        type="radio"
+                        id="isAcceptHome"
+                        onChange={handleHome}
+                        name="isAcceptHome"
+                        value="false"
+                        checked={achome == "false"}
+                      />
+                      <Label
+                        className="form-check-label"
+                        check
+                        htmlFor="isAcceptHome"
+                        style={styleLabelBold}
+                      >
+                        No
+                      </Label>
+                    </FormGroup>
                   </Col>
                 </FormGroup>
 
@@ -1326,18 +1366,45 @@ const AddProviderUniversity = () => {
                     <span>EU/UK </span>
                   </Col>
                   <Col md="6">
-                  <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="isAcceptEU_UK" onChange={handleEu} name="isAcceptEU_UK" value='true' checked={aceu == 'true'} />
-          <Label className="form-check-label" check htmlFor="isAcceptEU_UK" style={styleLabelBold}>Yes</Label>
+                    <FormGroup check inline>
+                      <Input
+                        className="form-check-input"
+                        type="radio"
+                        id="isAcceptEU_UK"
+                        onChange={handleEu}
+                        name="isAcceptEU_UK"
+                        value="true"
+                        checked={aceu == "true"}
+                      />
+                      <Label
+                        className="form-check-label"
+                        check
+                        htmlFor="isAcceptEU_UK"
+                        style={styleLabelBold}
+                      >
+                        Yes
+                      </Label>
+                    </FormGroup>
 
-          </FormGroup>
-
-          <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="isAcceptEU_UK" onChange={handleEu} name="isAcceptEU_UK" value='false' checked={aceu == 'false'} />
-          <Label className="form-check-label" check htmlFor="isAcceptEU_UK" style={styleLabelBold}>No</Label>
-
-          </FormGroup>
-                  
+                    <FormGroup check inline>
+                      <Input
+                        className="form-check-input"
+                        type="radio"
+                        id="isAcceptEU_UK"
+                        onChange={handleEu}
+                        name="isAcceptEU_UK"
+                        value="false"
+                        checked={aceu == "false"}
+                      />
+                      <Label
+                        className="form-check-label"
+                        check
+                        htmlFor="isAcceptEU_UK"
+                        style={styleLabelBold}
+                      >
+                        No
+                      </Label>
+                    </FormGroup>
                   </Col>
                 </FormGroup>
 
@@ -1346,18 +1413,45 @@ const AddProviderUniversity = () => {
                     <span>International </span>
                   </Col>
                   <Col md="6">
-                  <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="isAcceptInternational" onChange={handleInt} name="isAcceptInternational" value='true' checked={acint == 'true'} />
-          <Label className="form-check-label" check htmlFor="isAcceptInternational" style={styleLabelBold}>Yes</Label>
+                    <FormGroup check inline>
+                      <Input
+                        className="form-check-input"
+                        type="radio"
+                        id="isAcceptInternational"
+                        onChange={handleInt}
+                        name="isAcceptInternational"
+                        value="true"
+                        checked={acint == "true"}
+                      />
+                      <Label
+                        className="form-check-label"
+                        check
+                        htmlFor="isAcceptInternational"
+                        style={styleLabelBold}
+                      >
+                        Yes
+                      </Label>
+                    </FormGroup>
 
-          </FormGroup>
-
-          <FormGroup check inline>
-          <Input className="form-check-input" type="radio" id="isAcceptInternational" onChange={handleInt} name="isAcceptInternational" value='false' checked={acint == 'false'} />
-          <Label className="form-check-label" check htmlFor="isAcceptInternational" style={styleLabelBold}>No</Label>
-
-          </FormGroup>
-                  
+                    <FormGroup check inline>
+                      <Input
+                        className="form-check-input"
+                        type="radio"
+                        id="isAcceptInternational"
+                        onChange={handleInt}
+                        name="isAcceptInternational"
+                        value="false"
+                        checked={acint == "false"}
+                      />
+                      <Label
+                        className="form-check-label"
+                        check
+                        htmlFor="isAcceptInternational"
+                        style={styleLabelBold}
+                      >
+                        No
+                      </Label>
+                    </FormGroup>
                   </Col>
                 </FormGroup>
 
@@ -1378,7 +1472,7 @@ const AddProviderUniversity = () => {
                   </Button.Ripple> */}
 
                   <Col md="1">
-                  <ButtonForFunction
+                    <ButtonForFunction
                       func={handleCancelAdd}
                       className={"mr-0 mt-3"}
                       name={"Cancel"}
@@ -1387,17 +1481,17 @@ const AddProviderUniversity = () => {
                   </Col>
 
                   <Col md="4">
-                    {
-                      permissions?.includes(permissionList?.Add_New_University || permissionList?.Update_University_info) ?
+                    {permissions?.includes(
+                      permissionList?.Add_New_University ||
+                        permissionList?.Update_University_info
+                    ) ? (
                       <ButtonForFunction
-                      type={"submit"}
-                      className={"mr-0 mt-3 badge-primary"}
-                      name={progress? <ButtonLoader/> : 'Save'}
-                      disable={buttonStatus}
-                    />
-                    :
-                    null
-                    }
+                        type={"submit"}
+                        className={"mr-0 mt-3 badge-primary"}
+                        name={progress ? <ButtonLoader /> : "Save"}
+                        disable={buttonStatus}
+                      />
+                    ) : null}
                   </Col>
                 </FormGroup>
               </Form>
@@ -1417,23 +1511,20 @@ const AddProviderUniversity = () => {
                   permission={6}
                 /> */}
 
-                
-                  <ButtonForFunction
+                <ButtonForFunction
                   func={onNextPage}
-                  disable = {(uniId == undefined) ? true : false}
+                  disable={uniId == undefined ? true : false}
                   color={"warning uapp-form-button float-right"}
                   name={"Next Page"}
                   permission={6}
                 />
-                
               </FormGroup>
-
             </TabPane>
           </TabContent>
         </CardBody>
       </Card>
     </div>
-    );
+  );
 };
 
 export default AddProviderUniversity;

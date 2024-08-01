@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import { Disc, X, Circle, Menu } from "react-feather";
 import classnames from "classnames";
-import Lgimage from "../../../../../src/assets/img/Asset 12Icon.svg";
+import React, { Component } from "react";
+import { Menu } from "react-feather";
+import { NavLink } from "react-router-dom";
+import Lgimage from "../../../../../src/assets/img/CCL_Logo.png";
 import Smimage from "../../../../../src/assets/img/Uapp_fav.png";
 class SidebarHeader extends Component {
   render() {
@@ -22,11 +22,11 @@ class SidebarHeader extends Component {
               <div className="brand-logo">
                 {/* <h2 className="brand-text mb-0">Z-DESK</h2> */}
 
-                <div className="hide-min-678">
-                  <img src={Lgimage} />
+                <div className="hide-min-678" style={{ width: "150px" }}>
+                  <img src={Lgimage} className="img-fluid" alt="site-logo" />
                 </div>
                 <div className="show-max-678">
-                  <img src={Smimage} />
+                  <img src={Smimage} alt="small-site-logo" />
                 </div>
               </div>
             </NavLink>
@@ -41,15 +41,6 @@ class SidebarHeader extends Component {
                   }}
                   className={classnames(
                     "toggle-icon icon-x d-none d-xl-block font-medium-4 1 text-uapp"
-                    // {
-                    //   "text-primary": activeTheme === "primary",
-                    //   "text-success": activeTheme === "success",
-                    //   "text-danger": activeTheme === "danger",
-                    //   "text-info": activeTheme === "info",
-                    //   "text-warning": activeTheme === "warning",
-                    //   "text-dark": activeTheme === "dark",
-                    //   "":activeTheme === "text-uapp",
-                    // }
                   )}
                   size={20}
                   data-tour="toggle-icon"
@@ -62,14 +53,6 @@ class SidebarHeader extends Component {
                   }}
                   className={classnames(
                     "toggle-icon icon-x d-none d-xl-block font-medium-4 2 text-uapp"
-                    // {
-                    //   "text-primary": activeTheme === "primary",
-                    //   "text-success": activeTheme === "success",
-                    //   "text-danger": activeTheme === "danger",
-                    //   "text-info": activeTheme === "info",
-                    //   "text-warning": activeTheme === "warning",
-                    //   "text-dark": activeTheme === "dark"
-                    // }
                   )}
                   size={20}
                 />
@@ -78,14 +61,6 @@ class SidebarHeader extends Component {
                 onClick={sidebarVisibility}
                 className={classnames(
                   "toggle-icon icon-x d-block d-xl-none font-medium-4 3 text-uapp"
-                  // {
-                  //   "text-primary": activeTheme === "primary",
-                  //   "text-success": activeTheme === "success",
-                  //   "text-danger": activeTheme === "danger",
-                  //   "text-info": activeTheme === "info",
-                  //   "text-warning": activeTheme === "warning",
-                  //   "text-dark": activeTheme === "dark"
-                  // }
                 )}
                 size={20}
               />

@@ -668,8 +668,8 @@ const StudentByConsultant = () => {
                                   style={{
                                     cursor: "pointer",
                                     textDecoration: "underLine",
-                                    textDecorationColor: "#1E98B0",
-                                    color: "#1E98B0",
+                                    textDecorationColor: "#164677",
+                                    color: "#164677",
                                   }}
                                 >
                                   Change

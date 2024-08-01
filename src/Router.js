@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { Router, Switch, Route } from "react-router-dom";
-import StudentList from "./views/services/Students/StudentList.js"; ////
+import StudentList from "./views/services/Students/StudentList.js";
+import { jwtDecode } from "jwt-decode"; ////
 import { history } from "./history";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -14,14 +15,30 @@ import AdmissionGetData from "./views/Test/AdmissionGetData";
 
 import { permissionList } from "./constants/AuthorizationConstant";
 import { userTypes } from "./constants/userTypeConstant";
+import PrivateRoute from "./PrivateRoute.js";
 
 // Authentication Checking
 
-const token = localStorage.getItem("userInfo");
+const tokenForRouting = JSON.parse(localStorage.getItem("userInfo"));
+const adminChecking =
+  tokenForRouting && tokenForRouting.roles[0].name !== "TEACHER";
+const token2 = localStorage.getItem("userInfo");
+let isAuth = token2 != null ? true : false;
 
-const permissions = JSON.parse(localStorage.getItem("permissions"));
+// Session Expired check
+if (token2) {
+  const decodedToken = jwtDecode(token2);
+  let tokenExpiredTime = decodedToken.exp;
 
-const isAuth = token != null ? true : false;
+  const currentDate = new Date();
+  const currentTime = Math.floor(currentDate.getTime() / 1000);
+
+  if (currentTime > tokenExpiredTime) {
+    isAuth = false;
+    localStorage.clear();
+  }
+}
+
 const permission = JSON.parse(localStorage.getItem("current_user"));
 const userTypeId = localStorage.getItem("userType");
 
@@ -541,8 +558,8 @@ const AdminProviderForm = lazy(() =>
   import("./views/services/Provider/Admin/AdminProviderForm")
 );
 const loginForm = lazy(() => import("./views/core/auth/pages/loginForm"));
-const StudentLogin = lazy(() =>
-  import("./views/pages/authentication/login/StudentLogin")
+const BTRCLogin = lazy(() =>
+  import("./views/pages/authentication/login/BTRCLogin.js")
 );
 
 const SessionExpired = lazy(() =>
@@ -965,7 +982,8 @@ const StudentTypeDocument = lazy(() =>
 );
 
 // const Users = lazy(() => import("./views/services/Users/Users.jsx"));
-// Emon code
+
+// Emon code ================>
 const Users = lazy(() =>
   import("./views/services/UserManagment/UserManageMent.jsx")
 );
@@ -983,6 +1001,33 @@ const AddPermission = lazy(() =>
 
 const RatePlan = lazy(() => import("./views/services/RatePlan/RatePlan.jsx"));
 const Sales = lazy(() => import("./views/services/Sales/Sales.jsx"));
+
+const RetailClients = lazy(() =>
+  import("./views/services/RetailClients/RetailClients.jsx")
+);
+
+const Gateways = lazy(() => import("./views/services/Gateways/Gateways.jsx"));
+
+const RoutingPlan = lazy(() =>
+  import("./views/services/RoutingPlan/RoutingPlan.jsx")
+);
+
+const Registrars = lazy(() =>
+  import("./views/services/Registrars/Registrars.jsx")
+);
+
+const WholeSaleClinets = lazy(() =>
+  import("./views/services/WholeSaleClients/WholeSaleClients.jsx")
+);
+
+const CallShopClients = lazy(() =>
+  import("./views/services/CallShopClients/CallShopClients.jsx")
+);
+
+const BtrcPortal = lazy(() =>
+  import("./views/services/Dashboard/Pages/BtrcAdmin/BtrcPortal.jsx")
+);
+
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
   <Route
     {...rest}
@@ -1029,18 +1074,71 @@ class AppRouter extends React.Component {
               <ToastProvider autoDismiss={true}>
                 <Switch>
                   <AppRoute exact path="/" component={analyticsDashboard} />
-
                   {/* emon code */}
                   <AppRoute
                     exact
                     path="/addAdmissionManager/:id"
                     component={AdmissionManager}
                   />
-                  <AppRoute path="/siptrunk" component={Siptrunk} />
-                  <AppRoute path="/calls" component={Calls} />
-                  <AppRoute path="/callPackages" component={CallPackeges} />
-                  <AppRoute path="/sales" component={Sales} />
-                  <AppRoute path="/ratePlan" component={RatePlan} />
+                  {adminChecking && (
+                    <AppRoute path="/siptrunk" component={Siptrunk} />
+                  )}
+
+                  {adminChecking && (
+                    <AppRoute path="/calls" component={Calls} />
+                  )}
+
+                  {adminChecking && (
+                    <AppRoute path="/callPackages" component={CallPackeges} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/sales" component={Sales} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/ratePlan" component={RatePlan} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/addRole" component={AddRole} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/permissions" component={AddPermission} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute
+                      path="/rolePermission"
+                      component={RolePermission}
+                    />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/roleMenu" component={RoleMenu} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/users" component={Users} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/retailClients" component={RetailClients} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/gateways" component={Gateways} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/routingPlan" component={RoutingPlan} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute path="/registers" component={Registrars} />
+                  )}
+                  {adminChecking && (
+                    <AppRoute
+                      path="/wholesaleClients"
+                      component={WholeSaleClinets}
+                    />
+                  )}
+                  {adminChecking && (
+                    <AppRoute
+                      path="/callshopClients"
+                      component={CallShopClients}
+                    />
+                  )}
                   <AppRoute
                     exact
                     path="/admissionManagerList"
@@ -1050,52 +1148,42 @@ class AppRouter extends React.Component {
                     path="/updateAdmissionManager/:id/:id2"
                     component={UpdateAdmissionManager}
                   />
-
                   <AppRoute
                     path="/universityAdmissionManagers/:universityId"
                     component={UniversityWiseAdmissionManager}
                   />
-
                   <AppRoute
                     path="/universityAdmissionOfficers/:universityId"
                     component={UniversityWiseAdmissionOfficer}
                   />
-
                   <AppRoute
                     path="/updateAdmissionOfficer/:officerId/:id"
                     component={UpdateAdmissionOfficer}
                   />
-
                   <AppRoute
                     path="/addAdmissionOfficer/:providerId"
                     component={AddAdmissionOfficer}
                   />
-
                   <AppRoute
                     path="/admissionManagerSubjects/:managerId/:universityId"
                     component={AdmissionManagerSubjects}
                   />
-
                   <AppRoute
                     path="/admissionOfficerSubjects/:managerId/:universityId"
                     component={AdmissionOfficerSubjects}
                   />
-
                   <AppRoute
                     path="/admissionOfficerAssignedSubjects/:officerId"
                     component={AdmissionOfficerAssignedSubjects}
                   />
-
                   <AppRoute
                     path="/admissionManagerAssignedSubjects/:managerId"
                     component={AdmissionManagerAssignedSubjects}
                   />
-
                   <AppRoute
                     path="/addAdmissionOfficer"
                     component={AddNewAdmissionOfficerPage}
                   />
-
                   {/* admission officer */}
                   <AppRoute
                     path="/admissionOfficerList"
@@ -1109,23 +1197,7 @@ class AppRouter extends React.Component {
                     path="/admissionOfficerDetails/:officerId"
                     component={AdmissionOfficerDetails}
                   />
-                  <AppRoute path="/addRole" component={AddRole} />
-                  <AppRoute path="/permissions" component={AddPermission} />
-                  {/* <AppRoute  path="/assignAdmissionOfficer/:officerId" component={AssignAdmissionOfficer} /> */}
-                  {/*
-         <AppRoute  path="/demo" component={demo} /> */}
-                  {/* <AppRoute  path="/uni1" component={demo} /> */}
-                  {/* <AppRoute  path="/uni2" component={demo} /> */}
-                  {/* <AppRoute  path="/roles" component={permissions?.includes(3)? Roles} /> */}
-                  {/* <AppRoute  path="/addMenu" component={Menu} /> */}
-                  {/* <AppRoute  path="/menu" component={MenuInfo} /> */}
-
-                  <AppRoute path="/rolePermission" component={RolePermission} />
-                  <AppRoute path="/roleMenu" component={RoleMenu} />
-
                   <AppRoute path="/staffType" component={EmployeeType} />
-                  {/* <AppRoute path="/employeeGeneralInfo/:id" component={EmployeeGeneralInfo} /> */}
-                  {/* <AppRoute path="/employeeContactInfo/:id" component={EmployeeContactInfo} /> */}
                   <AppRoute
                     path="/staffListByType/:type"
                     component={EmployeeList}
@@ -1171,71 +1243,54 @@ class AppRouter extends React.Component {
                     path="/addProviderUniversityTemplateDocument/:providerProfileId/:univerId"
                     component={AddProviderUniversityTemplateDocument}
                   />
-
                   <AppRoute
                     path="/addProviderUniversityCommission/:providerProfileId/:univerId"
                     component={AddProviderUniversityCommission}
                   />
-
-                  {/* <AppRoute  path="/addUniversityRequiredDocument" component={UniversityRecquiredDocument} /> */}
-
                   {/* end code emon */}
-
                   {/* intake */}
                   <AppRoute path="/intake" component={Intake} />
                   <AppRoute path="/addNewIntakes" component={AddNewIntakes} />
                   <AppRoute path="/updateIntake/:id" component={UpdateIntake} />
-
                   {/* university create form */}
                   <AppRoute
                     path="/createUniversity"
                     component={UniversityForm}
                   />
-
                   <AppRoute
                     path="/createUniversityCampus/:univerId"
                     component={UniversityCampusForm}
                   />
-
                   <AppRoute
                     path="/createUniversityFinancial/:univerId"
                     component={UniversityFinancialForm}
                   />
-
                   <AppRoute
                     path="/createUniversityFeatures/:univerId"
                     component={UniversityFeaturesForm}
                   />
-
                   <AppRoute
                     path="/createUniversityTestScore/:univerId"
                     component={UniversityTestScoreForm}
                   />
-
                   <AppRoute
                     path="/createUniversityApplicationDocument/:univerId"
                     component={UniversityApplicationDocumentForm}
                   />
-
                   <AppRoute
                     path="/createUniversityTemplateDocument/:univerId"
                     component={UniversityTemplateDocumentForm}
                   />
-
                   <AppRoute
                     path="/createUniversityCommission/:univerId"
                     component={UniversityCommissionForm}
                   />
-
                   {/* Country */}
                   <AppRoute path="/country" component={AddCountry} />
-
                   {/* State */}
                   <AppRoute path="/state" component={AddState} />
-
                   {/* State also path not implemented yet */}
                   <AppRoute path="/city" component={AddCity} />
-
                   {/* consultant */}
                   <AppRoute path="/consultantList" component={ConsultantList} />
                   <AppRoute
@@ -1248,16 +1303,13 @@ class AppRouter extends React.Component {
                   />
                   <AppRoute path="/addConsultant" component={AddConsultant} />
                   <AppRoute path="/addAssociate" component={AddAssociate} />
-
                   {/* Branch consultant */}
                   <AppRoute
                     path="/addBranchConsultant/:branchId"
                     component={BranchConsultantRegistration}
                   />
-
                   {/* Report */}
                   <AppRoute path="/agentReport" component={AgentReport} />
-
                   {/* permission not added */}
                   <AppRoute
                     path="/consultantType"
@@ -1279,7 +1331,6 @@ class AppRouter extends React.Component {
                     path="/associateCommission/:consultantRegisterId"
                     component={UpdateAssociateCommission}
                   />
-
                   {userTypeId === userTypes.ComplianceManager ? (
                     <AppRoute
                       path="/consultantInformation/:consultantRegisterId"
@@ -1291,21 +1342,16 @@ class AppRouter extends React.Component {
                       component={AddConsultantInformation}
                     />
                   )}
-
                   <AppRoute
                     path="/associateInformation/:consultantRegisterId"
                     component={AssociateInformation}
                   />
-
                   <AppRoute path="/associates/:id" component={AssociateList} />
-
                   <AppRoute path="/associateList" component={AssociateList} />
-
                   <AppRoute
                     path="/associateAddSuccess"
                     component={AssociateAddSuccess}
                   />
-
                   <AppRoute
                     path="/addUniversityCampus/:univerId"
                     component={AddUniversityCampus}
@@ -1393,62 +1439,50 @@ class AppRouter extends React.Component {
                     path="/addUniversitySubjectDocumentRequirement/:id/:subjId"
                     component={AddUniversitySubjectDocumentRequirement}
                   />
-
                   {/* copy and add university subject */}
                   <AppRoute
                     path="/copyAndAddUniversitySubject/:id/:subjId/:newSubId?"
                     component={CopyUniversitySubject}
                   />
-
                   <AppRoute
                     path="/copyAndAddUniversitySubjectFee/:id/:subjId/:newSubId"
                     component={CopyUniversitySubjectFee}
                   />
-
                   <AppRoute
                     path="/copyAndAddUniversitySubjectDeliveryPattern/:id/:subjId/:newSubId"
                     component={CopyUniversitySubjectDeliveryPattern}
                   />
-
                   <AppRoute
                     path="/copyAndAddUniversitySubjectRequirements/:id/:subjId/:newSubId"
                     component={CopyUniversitySubjectRequirements}
                   />
-
                   <AppRoute
                     path="/copyAndAddUniversitySubjectDocumentRequirement/:id/:subjId/:newSubId"
                     component={CopyUniversitySubjectDocumentRequirement}
                   />
-
                   {/* University Subject ends here */}
-
                   {/* university profile subject add starts here */}
                   <AppRoute
                     path="/addUniProfileSubject/:id/:subjId?"
                     component={AddUniProfileSubject}
                   />
-
                   <AppRoute
                     path="/addUniProfileSubjectFee/:id/:subjId"
                     component={AddUniProfileSubjectFee}
                   />
-
                   <AppRoute
                     path="/addUniProfileSubjectDeliveryPattern/:id/:subjId"
                     component={AddUniProfileSubjectDeliveryPattern}
                   />
-
                   <AppRoute
                     path="/addUniProfileSubjectRequirements/:id/:subjId"
                     component={AddUniProfileSubjectRequirements}
                   />
-
                   <AppRoute
                     path="/addUniProfileSubjectDocumentRequirement/:id/:subjId"
                     component={AddUniProfileSubjectDocumentRequirement}
                   />
                   {/* university profile subject add ends here */}
-
                   <AppRoute path="/documentlist" component={DocumentList} />
                   <AppRoute
                     path="/documentCategoryList"
@@ -1458,29 +1492,23 @@ class AppRouter extends React.Component {
                     path="/subjectDocumentGroup"
                     component={DocumentGroup}
                   />
-
                   {/* Student type document group path */}
                   <AppRoute
                     path="/studentTypeDocumentGroup"
                     component={StudentTypeDocument}
                   />
-
                   <AppRoute path="/department" component={AddDepartment} />
                   <AppRoute
                     path="/subDepartment"
                     component={AddSubDepartment}
                   />
                   <AppRoute path="/programLevel" component={AddProgramLevel} />
-                  {/* <AppRoute  path="/addSubject" component={permissions?.includes(permissionList?.Add_subject)? Subject} /> */}
-
-                  {/* <AppRoute  path="/addDepartment" component={permissions?.includes(permissionList?.Add_department)? AddDepartment} /> */}
                   <AppRoute
                     path="/addSubDepartment"
                     component={AddSubDepartment}
                   />
                   <AppRoute path="/programLevel" component={AddProgramLevel} />
                   <AppRoute path="/addSubject/:id?" component={Subject} />
-
                   <AppRoute path="/subjectList" component={SubjectList} />
                   <AppRoute path="/editSubject/:id" component={EditSubject} />
                   <AppRoute
@@ -1527,41 +1555,24 @@ class AppRouter extends React.Component {
                     path="/subjectProfile/:subjId"
                     component={SubjectProfile}
                   />
-
-                  {/* <AppRoute  path="/fileUpload" component={FileUpload} /> */}
-
-                  {/* <AppRoute path="/subjectIntake" component={SubjectIntake} /> */}
-
                   {/* Applications */}
                   <AppRoute path="/applications" component={Applications} />
-
                   <AppRoute
                     path="/applicationsByStatus/:status/:selector"
                     component={Applications}
                   />
-
                   <AppRoute
                     path="/applicationsFromConsultant/:consultantId"
                     component={Applications}
                   />
-
                   <AppRoute
                     path="/applicationsFromUniversity/:universityId"
                     component={Applications}
                   />
-
-                  {/* <AppRoute  path="/applicationsByConsultant/:cId" component={permissions?.includes(permissionList?.View_Application_List)? Applications} /> */}
-
                   <AppRoute
                     path="/applicationDetails/:id/:stdId"
                     component={ApplicationDetails}
                   />
-
-                  {/* <AppRoute  path="/newform" component={Post} /> */}
-                  {/* <AppRoute  path="/showdata" component={Get} /> */}
-                  {/* <AppRoute  path="/update/:id" component={Put} /> */}
-                  {/* <AppRoute  path="/delete/:id" component={Delete} /> */}
-
                   <AppRoute path="/providerForm" component={ProviderForm} />
                   <AppRoute
                     path="/adminProviderForm/:adminProviderHiddenId"
@@ -1583,11 +1594,6 @@ class AppRouter extends React.Component {
                     path="/staffContactInfo/:id"
                     component={EmployeeContactInfo}
                   />
-                  {/* <AppRoute  path="/employeeInformatio" component={EmployeeInformation} /> */}
-                  {/* <AppRoute  path="/siteSetting" component={SiteSetting} />
-         <AppRoute  path="/addSiteSetting" component={AddSiteSetting} />
-         <AppRoute  path="/updateSiteSetting" component={UpdateSiteSetting} /> */}
-                  {/* <AppRoute  path="/country" component={Country} /> */}
                   <AppRoute
                     path="/editDepartment/:id"
                     component={EditDepartment}
@@ -1596,7 +1602,6 @@ class AppRouter extends React.Component {
                     path="/editSubDepartment/:id"
                     component={EditSubDepartment}
                   />
-
                   <AppRoute path="/providerList" component={ProviderList} />
                   <AppRoute
                     path="/providerAdminList"
@@ -1606,12 +1611,10 @@ class AppRouter extends React.Component {
                     path="/providerAdminProfile/:providerAdminId"
                     component={ProviderAdminProfile}
                   />
-
                   <AppRoute
                     path="/providerDetails/:id"
                     component={ProviderDetails}
                   />
-
                   <AppRoute
                     path="/providerDashboard/:id"
                     component={ProviderDashboard}
@@ -1620,17 +1623,14 @@ class AppRouter extends React.Component {
                     path="/consultantDashboard/:consultantId"
                     component={ConsultantDashboard}
                   />
-
                   <AppRoute
                     path="/assignUniversity/:providerId/:managerId"
                     component={AssignUniversity}
                   />
-
                   <AppRoute
                     path="/assignOfficerUniversity/:providerId/:managerId"
                     component={AssignOfficerUniversity}
                   />
-
                   <AppRoute
                     path="/updateProvider/:id"
                     component={UpdateProvider}
@@ -1655,9 +1655,7 @@ class AppRouter extends React.Component {
                     path="/branchEmployeeInformation/:branchId/:employeeId?"
                     component={BranchEmployee}
                   />
-                  {/* <AppRoute path="/updateBranch/:id" component={UpdateBranch} /> */}
                   <AppRoute path="/branchList" component={BranchList} />
-                  {/* <AppRoute path="/updateBranchManager/:id" component={UpdateBranchManager} /> */}
                   <AppRoute
                     path="/branchProfile/:id"
                     component={BranchProfile}
@@ -1684,7 +1682,6 @@ class AppRouter extends React.Component {
                     path="/complianceOfficerProfile/:complianceOfficerId"
                     component={ComplianceOfficerProfile}
                   />
-
                   <AppRoute path="/studentList" component={StudentList} />
                   <AppRoute
                     path="/studentListByType/:type"
@@ -1714,12 +1711,10 @@ class AppRouter extends React.Component {
                     path="/addStudentEducationalInformation/:applicationStudentId/:update?"
                     component={EducationalInformation}
                   />
-
                   <AppRoute
                     path="/addStudentRegister"
                     component={AddStudentRegister}
                   />
-
                   <AppRoute
                     path="/addExperience/:applicationStudentId/:update?"
                     component={AddExperience}
@@ -1740,45 +1735,29 @@ class AppRouter extends React.Component {
                     path="/addTestScore/:applicationStudentId/:update?"
                     component={AddTestScore}
                   />
-
                   <AppRoute
                     path="/studentByConsultant/:id"
                     component={StudentByConsultant}
                   />
-
                   <AppRoute
                     path="/uploadDocument/:applicationStudentId?/:update?"
                     component={UploadDocument}
                   />
-
                   {/* Education Level paths */}
-
                   <AppRoute
                     path="/educationalLevelList"
                     component={EducationLevelList}
                   />
-                  {/* <AppRoute  path="/addEducationLevel/:name?/:description?/:levelValue?/:id?" component={permissions?.includes(permissionList?.Add_Education_Level)? AddEducationLevel} /> */}
-
                   {/* Degree Paths */}
-
                   <AppRoute path="/degreeList" component={DegreeList} />
-                  {/* <AppRoute  path="/addDegree/:degreeName?/:eduLabel?/:educationId?/:id?" component={permissions?.includes(permissionList?.Add_degree)? AddDegree} /> */}
-
                   <AppRoute path="/examTestType" component={ExamTestType} />
-
-                  {/* <AppRoute  path="/examTestTypeAttribute" component={ExamTestTypeAttribute} /> */}
-
                   <AppRoute
                     path="/updateUniversityInformation/:id"
                     component={UpdateUniversityInformation}
                   />
-
                   <AppRoute path="/studentTypeList" component={StudentType} />
-
                   <AppRoute path="/countryList" component={CountryList} />
-
                   {/* Comission paths */}
-
                   <AppRoute
                     path="/accountIntakeList"
                     component={AccountIntake}
@@ -1787,59 +1766,47 @@ class AppRouter extends React.Component {
                     path="/commissionGroupList"
                     component={ComissionGroup}
                   />
-
                   <AppRoute
                     path="/commissionPriceList/:id"
                     component={CommissionPriceList}
                   />
-
                   {/* Consultant Conscent Path */}
-
                   <AppRoute
                     path="/consultantConscent/:consultantRegisterId"
                     component={ConsultantConscent}
                   />
-
                   <AppRoute
                     path="/associateConsent/:consultantRegisterId"
                     component={AssociateConsent}
                   />
-
                   {/* Student Declaration Path */}
                   <AppRoute
                     path="/studentDeclaration/:applicationStudentId/:update?"
                     component={StudentDeclaration}
                   />
-
                   {/* Branch Employee Profile path */}
                   <AppRoute
                     path="/branchEmployeeProfile/:branchId/:employeeId"
                     component={BranchEmployeeProfile}
                   />
-
                   {/* nationality path */}
                   <AppRoute path="/nationality" component={Nationality} />
-
                   <AppRoute
                     path="/providerAdmissionManager/:managerId/:providerId"
                     component={AdmissionManagerProfile}
                   />
-
                   <AppRoute
                     path="/admissionManagerProfile/:managerId"
                     component={AdmissionManagerConditionalProfile}
                   />
-
                   <AppRoute
                     path="/promotionalCommissionList"
                     component={PromotionalCommissionList}
                   />
-
                   <AppRoute
                     path="/distributionLevelSetting"
                     component={DistributionLevelSetting}
                   />
-
                   <AppRoute
                     path="/applicationTransaction"
                     component={ApplicationTransaction}
@@ -1848,12 +1815,10 @@ class AppRouter extends React.Component {
                     path="/applicationTransactionFromConsultant/:consultantId"
                     component={ApplicationTransaction}
                   />
-
                   <AppRoute
                     path="/applicationTransactionDetails/:id"
                     component={ApplicationTransactionDetails}
                   />
-
                   <AppRoute path="/inFlowTransaction" component={InFlow} />
                   <AppRoute
                     path="/inFlow/details/:id"
@@ -1863,17 +1828,14 @@ class AppRouter extends React.Component {
                     path="/inFlow/Update/:id"
                     component={InFlowUpdate}
                   />
-
                   <AppRoute
                     path="/accountTransaction"
                     component={AccountTransactionList}
                   />
-
                   <AppRoute
                     path="/accountTransactionByConsultant/:consultantId"
                     component={AccountTransactionList}
                   />
-
                   <AppRoute
                     path="/createWithdrawRequest"
                     component={CreateWithdrawRequest}
@@ -1882,7 +1844,6 @@ class AppRouter extends React.Component {
                     path="/withdrawRequestList"
                     component={WithdrawRequestList}
                   />
-
                   <AppRoute
                     path="/withdrawTransaction"
                     component={WithdrawTransaction}
@@ -1895,18 +1856,15 @@ class AppRouter extends React.Component {
                     path="/withdrawTransactionDetails/:id"
                     component={WithdrawTransactionDetails}
                   />
-
                   {/* commission transaction details  */}
                   <AppRoute
                     path="/commissionTransactionDetails/:id"
                     component={ComissionTransactionDetails}
                   />
-
                   <AppRoute
                     path="/exportPDF"
                     component={ExportWithdrawRequestPdf}
                   />
-
                   {/* Student Create Form Paths */}
                   <AppRoute
                     path="/studentApplication/:id"
@@ -1948,7 +1906,6 @@ class AppRouter extends React.Component {
                     path="/studentDeclarations/:idVal"
                     component={StudentDeclarationForm}
                   />
-
                   <AppRoute
                     path="/addUniversityCommission/:univerId"
                     component={UniversityCommission}
@@ -1957,64 +1914,46 @@ class AppRouter extends React.Component {
                     path="/addUniversityTestScore/:univerId"
                     component={UniversityTestScore}
                   />
-
                   <AppRoute
                     path="/addProviderUniversityTestScore/:providerProfileId/:univerId"
                     component={AddProviderUniversityTestScore}
                   />
-
                   {/* login history path */}
-
                   <AppRoute path="/loginHistory" component={LoginHistory} />
                   <AppRoute
                     path="/allUsersLoginHistory"
                     component={AllLoginHistory}
                   />
-
                   {/* common profile path */}
-                  <AppRoute path="/users" component={Users} />
-
                   {/* Account Settings Path */}
                   <AppRoute
                     path="/accountSettings/:userId"
                     component={Settings}
                   />
-
                   <AppRoute path="/search" component={Search} />
-
                   {/* Seed Data path */}
                   <AppRoute path="/seedData" component={SeedData} />
-
                   {/* All Notifications Path */}
                   <AppRoute
                     path="/allNotifications"
                     component={Notifications}
                   />
-
                   {/* guideline path */}
                   <AppRoute path="/guideLines" component={GuideLine} />
-
                   <AppRoute path="/500" component={InternalServerError} />
-
                   <AppRoute path="/notAuthorized" component={NotAuthorized} />
-
                   {/* make student a consultant path */}
                   <AppRoute
                     path="/becomeConsultant/:studentId"
                     component={ConvertStudentIntoConsultantForm}
                   />
-
                   {/* trial notification */}
                   <AppRoute
                     path="/notification"
                     component={TrialNotification}
                   />
-
                   <AppRoute path="/400" component={BadRequest} fullLayout />
-
                   {/* Session Expired  */}
-                  {/* <AppRoute path='/sessionExpired' component={SessionExpired} fullLayout /> */}
-
                   <AppRoute component={notFound} fullLayout />
                 </Switch>
               </ToastProvider>
@@ -2025,12 +1964,7 @@ class AppRouter extends React.Component {
             <Router history={history}>
               <ToastProvider autoDismiss={true}>
                 <Switch>
-                  <AppRoute
-                    exact
-                    path="/"
-                    component={StudentLogin}
-                    fullLayout
-                  />
+                  <AppRoute exact path="/" component={BTRCLogin} fullLayout />
 
                   <AppRoute
                     path="/studentRegister"

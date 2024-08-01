@@ -3,6 +3,7 @@ import "../../../assets/scss/pages/dashboard-analytics.scss";
 import { userTypes } from "../../../constants/userTypeConstant";
 import Consultant from "../../services/Dashboard/Pages/Consultant/Index";
 import SuperAdmin from "../../services/Dashboard/Pages/SuperAdmin/Index";
+import BtrcPortal from "../../../views/services/Dashboard/Pages/BtrcAdmin/BtrcPortal.jsx";
 import AdmissionManager from "../../services/Dashboard/Pages/AdmissionManager/Index";
 import Admin from "../../services/Dashboard/Pages/Admin/Index";
 import Provider from "../../services/Dashboard/Pages/Provider/Index";
@@ -28,11 +29,16 @@ const AnalyticsDashboard = () => {
 
   //  });
 
+  const token = JSON.parse(localStorage.getItem("userInfo"));
+  const userRole = token.roles[0];
+
   return (
     <>
-      <SuperAdmin />
+      {userRole.name === "TEACHER" ? <BtrcPortal /> : <SuperAdmin />}
+      {/* <BtrcAdmin /> <SuperAdmin /> */}
       {/* <Users /> */}
     </>
+
     // <div>
     //   {currentUser.userTypeId === userTypes?.AdmissionManager && (
     //     <AdmissionManager />

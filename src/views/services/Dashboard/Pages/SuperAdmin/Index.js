@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { Paper, Typography, IconButton, Box } from "@material-ui/core";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import { Card, CardBody, Table } from "reactstrap";
-import user1 from "../../../../../assets/img/user1.svg";
-import user2 from "../../../../../assets/img/user2.svg";
-import capture from "../../../../../assets/img/capture.PNG";
-import images1 from "../../../../../assets/img/images1.svg";
+
 import "../../../../../assets/scss/pages/dashboard-analytics.scss";
-import { Drawer } from "antd";
-import plusicon from "../../../../../assets/img/plusicon.svg";
-import Vectorbeat from "../../../../../assets/img/Vectorbeat.svg";
-import gift from "../../../../../assets/img/gift.PNG";
-import cuser1 from "../../../../../assets/img/cuser1.svg";
-import user from "../../../../../assets/img/Uapp_fav.png";
-import down from "../../../../../assets/img/down.svg";
-import camera2 from "../../../../../assets/img/camera2.svg";
+
 import Chart from "react-apexcharts";
-import get from "../../../../../helpers/get";
-import { rootUrl } from "../../../../../constants/constants";
+import ReactApexChart from "react-apexcharts";
+import ReactECharts from "echarts-for-react";
+
 import { Link, useHistory } from "react-router-dom";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowAltCircleDown,
-  faArrowRotateRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import {
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@material-ui/core";
+
+import { Col, Row } from "react-bootstrap";
+
 const SuperAdmin = () => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState({});
@@ -96,6 +84,119 @@ const SuperAdmin = () => {
     setSelectedOrder({ label, value });
   };
 
+  const data = [
+    { time: "12:15:00", Success: 10, Failed: 9 },
+    { time: "12:30:00", Success: 10, Failed: 2 },
+    { time: "12:45:00", Success: 5, Failed: 15 },
+    { time: "13:00:00", Success: 0, Failed: 0 },
+    { time: "13:15:00", Success: 1, Failed: 0 },
+    { time: "13:30:00", Success: 0, Failed: 0 },
+    { time: "13:45:00", Success: 8, Failed: 0 },
+    { time: "14:00:00", Success: 0, Failed: 0 },
+    { time: "14:15:00", Success: 0, Failed: 0 },
+    { time: "14:30:00", Success: 0, Failed: 0 },
+  ];
+  const option = {
+    title: {
+      text: "Calls",
+    },
+    tooltip: {
+      trigger: "axis",
+    },
+    legend: {
+      data: ["Failed", "Success"],
+      right: 10,
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: [
+        "12:15:00",
+        "12:30:00",
+        "12:45:00",
+        "13:00:00",
+        "13:15:00",
+        "13:30:00",
+        "13:45:00",
+        "14:00:00",
+        "14:15:00",
+        "14:30:00",
+      ],
+    },
+    yAxis: {
+      type: "value",
+      min: -1,
+    },
+    series: [
+      {
+        name: "Failed",
+        type: "line",
+        stack: "Total",
+        data: [9, 7, 15, 0, 0, 9, 4, 1, 2, 9],
+        itemStyle: {
+          color: "red",
+        },
+      },
+      {
+        name: "Success",
+        type: "line",
+        stack: "Total",
+        data: [10, 12, 5, 22, 1, 4, 6, 3, 19, 7],
+        itemStyle: {
+          color: "green",
+        },
+      },
+    ],
+  };
+
+  // Statistics
+  const chartData = {
+    series: [
+      {
+        data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 123, 89, 60, 30, 20, 10, 5],
+      },
+    ],
+    options: {
+      chart: {
+        type: "area",
+        sparkline: {
+          enabled: true,
+        },
+      },
+      stroke: {
+        curve: "smooth",
+      },
+      fill: {
+        opacity: 1,
+      },
+      tooltip: {
+        enabled: false,
+      },
+      xaxis: {
+        type: "datetime",
+        categories: Array.from(
+          { length: 16 },
+          (_, i) => `2023-07-01T${i}:00:00`
+        ),
+      },
+    },
+  };
+
+  const metrics = [
+    { title: "CPU usage", value: "8%" },
+    { title: "Memory usage", value: "24%" },
+    { title: "Disk usage", value: "37%" },
+    { title: "Registered users", value: "0", extraIcons: true },
+    { title: "Answer Seizure Ratio (ASR)", value: "0%" },
+    { title: "Average Call Duration (ACD)", value: "00:00:18.5" },
+  ];
+
   return (
     <React.Fragment>
       <div className="d-flex justify-content-between flex-wrap">
@@ -104,240 +205,6 @@ const SuperAdmin = () => {
             {/* Hello, {currentUser?.displayName}! */}
           </span>
         </div>
-
-        {/* <div className="d-flex flex-wrap">
-          <div className="mt-2 mr-4">
-            <span style={{ fontWeight: "500" }}>
-              Intake Range: {intake?.intakeName}
-            </span>
-          </div>
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              history.push(`/addStudentRegister`);
-            }}
-          >
-            <div className="std-dashboard-style4"></div>
-
-            <div className="std-dashboard-style5">
-              <img src={plusicon} className="img-fluid dashbard-img-style1" />
-              <span className="std-dashboard-style3">Add Student</span>
-            </div>
-          </div>
-
-          <div style={{ cursor: "pointer" }}>
-            <div className="std-dashboard-style6" onClick={showDrawer}></div>
-
-            <div onClick={function noRefCheck() {}}>
-              <img
-                src={Vectorbeat}
-                className="img-fluid dashbard-img-style2"
-                onClick={showDrawer}
-              />
-
-              <Drawer placement="right" onClose={onClose} open={open}>
-                <div className="">
-                  <Card>
-                    <CardBody>
-                      <span className="consultant-news-feed-style">
-                        NEWS FEED
-                      </span>
-                    </CardBody>
-                  </Card>
-
-                  <Card>
-                    <CardBody>
-                      <div>
-                        <div className="d-flex">
-                          <div className="notice-image-style">
-                            <img src={user1} />
-                          </div>
-                          <div className="ml-2">
-                            <span className="notice-user-name">
-                              MD Shamim (Admin)
-                            </span>
-                            <br />
-                            <span className="notice-user-desc">
-                              We're delighted to introduce you to our new
-                              "Become an Education Consultant...
-                              <br />
-                              <span
-                                style={{
-                                  textDecoration: "underline",
-                                  textDecorationColor: "#878A99",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                read more
-                              </span>
-                            </span>
-
-                            <br />
-                            <span className="notice-time-style">
-                              02:14 PM Today
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </CardBody>
-                  </Card>
-
-                  <Card>
-                    <CardBody>
-                      <div>
-                        <div className="d-flex">
-                          <div className="notice-image-style">
-                            <img src={user2} />
-                          </div>
-                          <div className="ml-2">
-                            <span className="notice-user-name">
-                              MD Shamim (Admin)
-                            </span>
-                            <br />
-                            <span className="notice-user-desc">
-                              We're delighted to introduce you
-                            </span>
-                            <br />
-                            <img src={capture} className="img-fluid" />
-                            <br />
-                            <span className="notice-time-style">
-                              02:14 PM Today
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </CardBody>
-                  </Card>
-
-                  <Card>
-                    <CardBody>
-                      <div>
-                        <div className="d-flex">
-                          <div className="notice-image-style">
-                            <img src={user2} />
-                          </div>
-                          <div className="ml-2">
-                            <span className="notice-user-name">
-                              MD Shamim (Admin)
-                            </span>
-                            <br />
-                            <span className="notice-user-desc">
-                              We're delighted to introduce you
-                            </span>
-                            <br />
-                            <div className="d-flex justify-content-around my-2">
-                              <img src={images1} className="img-fluid" />
-                              <img src={images1} className="img-fluid" />
-                              <img src={images1} className="img-fluid" />
-                            </div>
-
-                            <span className="notice-time-style">
-                              02:14 PM Today
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </CardBody>
-                  </Card>
-
-                  <div>
-                    <Card>
-                      <CardBody>
-                        <span className="consultant-news-feed-style">
-                          NOTICE
-                        </span>
-                      </CardBody>
-                    </Card>
-
-                    <Card>
-                      <CardBody>
-                        <div className="">
-                          <div className="notice-image-stylemb-2">
-                            <span className="notice-user-name">
-                              Super Admin
-                            </span>
-                          </div>
-                          <div className="mt-2">
-                            <span className="notice-user-name">
-                              MD Shamim (Admin)
-                            </span>
-                            <br />
-                            <span className="notice-user-desc">
-                              University of Suffolk admissions open for
-                              September 2022 intake.
-                              <br />
-                              <span
-                                style={{
-                                  textDecoration: "underline",
-                                  textDecorationColor: "#878A99",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                View
-                              </span>
-                            </span>
-                          </div>
-
-                          <div className="mt-2">
-                            <span className="notice-time-style">
-                              02:14 PM 19/07/22
-                            </span>
-                          </div>
-                        </div>
-                      </CardBody>
-                    </Card>
-
-                    <Card>
-                      <CardBody>
-                        <div>
-                          <div className="notice-image-stylemb-2">
-                            <span className="notice-user-name">
-                              Super Admin
-                            </span>
-                          </div>
-                          <div className="mt-2">
-                            <span className="notice-user-name">
-                              MD Shamim (Admin)
-                            </span>
-                            <br />
-                            <span className="notice-user-desc">
-                              University of Suffolk admissions open for
-                              September 2022 intake.
-                              <br />
-                              <span
-                                style={{
-                                  textDecoration: "underline",
-                                  textDecorationColor: "#878A99",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                View
-                              </span>
-                            </span>
-                          </div>
-
-                          <div className="mt-2">
-                            <span className="notice-time-style">
-                              02:14 PM 19/07/22
-                            </span>
-                          </div>
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </div>
-
-                  <Card>
-                    <CardBody>
-                      <div>
-                        <img src={gift} className="img-fluid" />
-                      </div>
-                    </CardBody>
-                  </Card>
-                </div>
-              </Drawer>
-            </div>
-          </div>
-        </div> */}
       </div>
 
       {/* Status */}
@@ -422,63 +289,65 @@ const SuperAdmin = () => {
       <div>
         <Card>
           <CardBody>
-            <p style={{ textAlign: "center", fontWeight: "700" }}>
-              Application
-            </p>
-            <h3 className="mb-4">User Registations</h3>
-
-            <div className="row">
-              <div className="col-md-6">
-                <div className="row">
-                  <div className="col-md-6">
-                    <Select
-                      className="mr-md-2 mr-sm-0"
-                      options={orderName}
-                      value={{
-                        label: selectedOrder.label,
-                        value: selectedOrder.value,
-                      }}
-                      onChange={(opt) => selectOrder(opt.label, opt.value)}
+            {/* <ResponsiveContainer width="100%" height={400}>
+              <LineChart
+                width={500}
+                height={300}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="time" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="Failed" stroke="#ff0000" />
+                <Line type="monotone" dataKey="Success" stroke="#00ff00" />
+              </LineChart>
+            </ResponsiveContainer> */}
+            <Row>
+              {metrics.map((metric, index) => (
+                <Col md={4} key={index} style={{ marginBottom: "20px" }}>
+                  <Paper style={{ padding: "20px", position: "relative" }}>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Typography variant="h6">{metric.title}</Typography>
+                      {metric.extraIcons && (
+                        <Box>
+                          <IconButton size="small">
+                            <FullscreenIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton size="small">
+                            <RefreshIcon fontSize="small" />
+                          </IconButton>
+                        </Box>
+                      )}
+                    </Box>
+                    <Typography variant="h3" style={{ margin: "10px 0" }}>
+                      {metric.value}
+                    </Typography>
+                    <ReactApexChart
+                      options={chartData.options}
+                      series={chartData.series}
+                      type="area"
+                      height={80}
                     />
-                  </div>
-                  <div className="col-md-6">
-                    <Select
-                      className="mr-md-2 mr-sm-0"
-                      options={orderName}
-                      value={{
-                        label: selectedOrder.label,
-                        value: selectedOrder.value,
-                      }}
-                      onChange={(opt) => selectOrder(opt.label, opt.value)}
-                    />
-                  </div>
-                </div>
-                {/* table */}
-                <table class="table mt-5">
-                  <thead class="thead-light">
-                    <tr>
-                      <th scope="col"></th>
-                      <th scope="col">COUNTRY</th>
-                      <th scope="col">REGISTERED</th>
-                      <th scope="col">NOT VARIFIED</th>
-                      <th scope="col">FAIL %</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Bangladesh</td>
-                      <td>2169</td>
-                      <td>909</td>
-                      <td>2.8</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="col-md-6">
-                <h1>hiiiiii</h1>
-              </div>
-            </div>
+                  </Paper>
+                </Col>
+              ))}
+            </Row>
+            <ReactECharts
+              option={option}
+              style={{ height: 400, width: "100%" }}
+            />
           </CardBody>
         </Card>
       </div>

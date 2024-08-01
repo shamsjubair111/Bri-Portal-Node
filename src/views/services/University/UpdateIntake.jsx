@@ -145,7 +145,7 @@ const UpdateIntake = () => {
           <FormGroup row>
             <Col md="4">
               <span>
-                <span style={{ color: "#1e98b0", fontSize: "14px" }}>
+                <span style={{ color: "#164677", fontSize: "14px" }}>
                   Intake Month
                 </span>{" "}
                 <span className="text-danger">*</span>{" "}
@@ -168,7 +168,7 @@ const UpdateIntake = () => {
           <FormGroup row className="mt-3">
             <Col md="4">
               <span>
-                <span style={{ color: "#1e98b0", fontSize: "14px" }}>
+                <span style={{ color: "#164677", fontSize: "14px" }}>
                   Intake Year
                 </span>{" "}
                 <span className="text-danger">*</span>{" "}

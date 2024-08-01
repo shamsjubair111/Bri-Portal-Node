@@ -51,8 +51,8 @@ const ComplianceManager = () => {
 
   const textDecorationStyle = {
     textDecoration: "underline",
-    textDecorationColor: "#1e98b0",
-    color: "#1e98b0",
+    textDecorationColor: "#164677",
+    color: "#164677",
     cursor: "pointer",
   };
 

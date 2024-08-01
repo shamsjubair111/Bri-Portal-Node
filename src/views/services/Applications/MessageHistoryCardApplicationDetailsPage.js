@@ -108,7 +108,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
               style={{
                 fontSize: "15px",
                 fontWeight: "500",
-                color: "#1e98b0",
+                color: "#164677",
                 marginLeft: "5px",
               }}
             >
@@ -139,7 +139,7 @@ const MessageHistoryCardApplicationDetailsPage = (props) => {
                           style={{
                             fontSize: "11px",
                             fontWeight: "500",
-                            color: "#1e98b0",
+                            color: "#164677",
                           }}
                         >
                           {chat?.senderName}
